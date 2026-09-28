@@ -80,23 +80,13 @@ internal static class DependencyGraphValidator
             }
         }
 
-        // Get DependsOnAllModulesInheritingFrom attributes
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        // Get DependsOnAllModulesInheritingFrom attributes, which need no module metadata
+        foreach (var dependency in ModuleDependencyResolver.GetSelectorDependencies(
+                     moduleType,
+                     [.. availableModuleTypes],
+                     dependencyContext: null))
         {
-            foreach (var candidateType in availableModuleTypes)
-            {
-                // Skip self
-                if (candidateType == moduleType)
-                {
-                    continue;
-                }
-
-                // Check if candidate inherits from the specified base type
-                if (candidateType.IsOrInheritsFrom(attribute.Type))
-                {
-                    yield return candidateType;
-                }
-            }
+            yield return dependency.DependencyType;
         }
     }
 }

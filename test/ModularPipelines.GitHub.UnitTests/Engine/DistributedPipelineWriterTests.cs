@@ -450,7 +450,7 @@ public class DistributedPipelineWriterTests : TestBase
         protected override bool Result => true;
     }
 
-    private sealed class LinuxFreeBsdOrManyCiGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class LinuxFreeBsdOrManyCiGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions =>
             [new OnLinux(), new OnFreeBSD(), .. Enumerable.Range(0, 13).Select(static _ => new OnCI())];
@@ -472,7 +472,7 @@ public class DistributedPipelineWriterTests : TestBase
 
     private sealed class WorkerOnlyCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [RunIf<OnFreeBSD>]

@@ -27,15 +27,17 @@ public static class S3DistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the S3-compatible service.</param>
+    /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
-        Action<S3StorageOptions> configure)
+        Action<S3StorageOptions> configure,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
         builder.Services.Configure(ModuleCacheOptionsName, configure);
-        return AddS3ModuleCacheServices(builder);
+        return AddS3ModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -43,17 +45,19 @@ public static class S3DistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section bound to <see cref="S3StorageOptions"/>.</param>
+    /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     [RequiresUnreferencedCode("Configuration binding requires members of S3StorageOptions that cannot be statically discovered.")]
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
-        IConfigurationSection section)
+        IConfigurationSection section,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
         builder.Services.Configure<S3StorageOptions>(ModuleCacheOptionsName, section);
-        return AddS3ModuleCacheServices(builder);
+        return AddS3ModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -105,12 +109,14 @@ public static class S3DistributedExtensions
             .AddDistributedArtifactStoreFactory<S3DistributedArtifactStoreFactory>();
     }
 
-    private static PipelineBuilder AddS3ModuleCacheServices(PipelineBuilder builder)
+    private static PipelineBuilder AddS3ModuleCacheServices(
+        PipelineBuilder builder,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         AddValidation(builder.Services, ModuleCacheOptionsName);
         builder.Services.TryAddSingleton(serviceProvider => new S3ModuleCache(
             serviceProvider.GetRequiredService<IOptionsMonitor<S3StorageOptions>>().Get(ModuleCacheOptionsName),
             serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
-        return builder.AddModuleCache<S3ModuleCache>();
+        return builder.AddModuleCache<S3ModuleCache>(configureCache);
     }
 }

@@ -20,10 +20,10 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnLocal : IPlanningRunCondition
+public sealed class OnLocal : IRunCondition, IPlanningSafe
 {
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         return Task.FromResult(!context.Environment.BuildSystem.IsBuildServer);
     }

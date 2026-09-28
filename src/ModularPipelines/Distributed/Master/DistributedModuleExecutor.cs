@@ -567,7 +567,7 @@ internal class DistributedModuleExecutor(
                && moduleState.Module.Configuration.CacheEnabled
                && moduleState.Module.Configuration.SkipCondition is null
                && !moduleState.SkipResult.ShouldSkip
-               && !moduleState.ModuleType.GetCustomAttributes(true).OfType<IConditionAttribute>().Any();
+               && !moduleState.ModuleType.GetCustomAttributes(true).OfType<RunConditionAttribute>().Any();
     }
 
     internal static void CompleteCancelledModules(

@@ -14,7 +14,7 @@ namespace ModularPipelines;
 /// <para>
 /// <b>Example - Unix platforms group:</b>
 /// <code>
-/// public sealed class OnUnixPlatforms : ConditionGroup, IPlanningRunCondition
+/// public sealed class OnUnixPlatforms : ConditionGroup, IPlanningSafe
 /// {
 ///     public override IReadOnlyList&lt;IRunCondition&gt; Conditions =&gt; [new OnLinux(), new OnMacOS()];
 ///     public override ConditionLogic Logic =&gt; ConditionLogic.Any;
@@ -39,17 +39,15 @@ public abstract class ConditionGroup : IRunCondition
     public abstract ConditionLogic Logic { get; }
 
     /// <summary>
-    /// Evaluates all conditions in the group according to the specified logic.
+    /// Evaluates the group's conditions in order according to <see cref="Logic"/>, stopping at the first
+    /// condition that decides the result. An empty group is satisfied.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
+    /// <param name="cancellationToken">A token used to cancel condition evaluation.</param>
     /// <returns>
     /// For <see cref="ConditionLogic.All"/>: <c>true</c> if all conditions pass.
     /// For <see cref="ConditionLogic.Any"/>: <c>true</c> if any condition passes.
     /// </returns>
-    public Task<bool> EvaluateAsync(IPipelineContext context) =>
-        EvaluateAsync(context, CancellationToken.None);
-
-    /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         if (Conditions.Count == 0)
@@ -61,7 +59,6 @@ public abstract class ConditionGroup : IRunCondition
         {
             ConditionLogic.All => RunConditionEvaluator.EvaluateAllAsync(Conditions, context, cancellationToken),
             ConditionLogic.Any => RunConditionEvaluator.EvaluateAnyAsync(Conditions, context, cancellationToken),
-            ConditionLogic.Skip => RunConditionEvaluator.EvaluateAnyAsync(Conditions, context, cancellationToken),
             _ => throw new ArgumentOutOfRangeException(nameof(Logic), Logic, "Unknown condition logic"),
         };
     }

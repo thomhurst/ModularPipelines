@@ -524,7 +524,7 @@ public class ModuleConfigurationTests
                               && method.GetParameters().Single().ParameterType != typeof(Func<IModuleContext, Exception, bool>));
 
         await Assert.That(asynchronousOverload.GetParameters().Single().ParameterType)
-            .IsEqualTo(typeof(Func<IModuleContext, Exception, ValueTask<bool>>));
+            .IsEqualTo(typeof(Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>));
     }
 
     [Test]
@@ -537,7 +537,7 @@ public class ModuleConfigurationTests
         await Assert.That((object?) config.IgnoreFailuresCondition).IsNotNull();
 
         var context = Mock.Of<IModuleContext>();
-        var result = await config.IgnoreFailuresCondition!(context, new Exception("test"));
+        var result = await config.IgnoreFailuresCondition!(context, new Exception("test"), CancellationToken.None);
 
         await Assert.That(result).IsTrue();
     }
@@ -553,10 +553,10 @@ public class ModuleConfigurationTests
 
         var context = Mock.Of<IModuleContext>();
 
-        var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"));
+        var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"), CancellationToken.None);
         await Assert.That(shouldIgnore).IsTrue();
 
-        var shouldNotIgnore = await config.IgnoreFailuresCondition!(context, new Exception("fail"));
+        var shouldNotIgnore = await config.IgnoreFailuresCondition!(context, new Exception("fail"), CancellationToken.None);
         await Assert.That(shouldNotIgnore).IsFalse();
     }
 
@@ -564,19 +564,19 @@ public class ModuleConfigurationTests
     public async Task WithIgnoreFailuresWhen_AsyncCondition_SetsIgnoreFailuresCondition()
     {
         var config = new ModuleConfigurationBuilder()
-            .WithIgnoreFailuresWhen(async (ctx, ex) =>
+            .WithIgnoreFailuresWhen(async (ctx, ex, cancellationToken) =>
             {
-                await Task.Delay(1).ConfigureAwait(false);
+                await Task.Delay(1, cancellationToken).ConfigureAwait(false);
                 return ex.Message == "ignore";
             })
             .Build();
 
         var context = Mock.Of<IModuleContext>();
 
-        var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"));
+        var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"), CancellationToken.None);
         await Assert.That(shouldIgnore).IsTrue();
 
-        var shouldNotIgnore = await config.IgnoreFailuresCondition!(context, new Exception("fail"));
+        var shouldNotIgnore = await config.IgnoreFailuresCondition!(context, new Exception("fail"), CancellationToken.None);
         await Assert.That(shouldNotIgnore).IsFalse();
     }
 

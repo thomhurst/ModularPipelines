@@ -1,5 +1,5 @@
-using ModularPipelines.Secrets;
 using ModularPipelines.Attributes;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Build.Settings;
 

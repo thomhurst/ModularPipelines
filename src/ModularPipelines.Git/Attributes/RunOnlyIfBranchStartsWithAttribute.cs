@@ -1,31 +1,25 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class RunOnlyIfBranchStartsWithAttribute : Attribute, IConditionAttribute
+public class RunOnlyIfBranchStartsWithAttribute : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.All;
-
-    public string ConditionNames => $"{nameof(RunOnlyIfBranchStartsWithAttribute)}({BranchNamePrefix})";
+    public override string ConditionNames => $"{nameof(RunOnlyIfBranchStartsWithAttribute)}({BranchNamePrefix})";
 
     public string BranchNamePrefix { get; }
 
     public RunOnlyIfBranchStartsWithAttribute(string branchNamePrefix)
+        : base(ConditionIntent.Run)
     {
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
-    {
-        return EvaluateAsync(pipelineContext, default);
-    }
-
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,

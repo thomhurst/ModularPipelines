@@ -29,15 +29,17 @@ public static class RedisDistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
+    /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
-        Action<RedisOptions> configure)
+        Action<RedisOptions> configure,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
         builder.Services.Configure(ModuleCacheOptionsName, configure);
-        return AddRedisModuleCacheServices(builder);
+        return AddRedisModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -45,17 +47,19 @@ public static class RedisDistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section bound to <see cref="RedisOptions"/>.</param>
+    /// <param name="configureCache">Optionally transforms the immutable <see cref="ModuleCacheOptions"/>.</param>
     /// <returns>The same builder instance for chaining.</returns>
     [RequiresUnreferencedCode("Configuration binding requires members of RedisOptions that cannot be statically discovered.")]
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
-        IConfigurationSection section)
+        IConfigurationSection section,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
         builder.Services.Configure<RedisOptions>(ModuleCacheOptionsName, section);
-        return AddRedisModuleCacheServices(builder);
+        return AddRedisModuleCacheServices(builder, configureCache);
     }
 
     /// <summary>
@@ -191,7 +195,9 @@ public static class RedisDistributedExtensions
     private static PipelineBuilder AddRedisDistributedArtifactStoreServices(PipelineBuilder builder) =>
         builder.AddDistributedArtifactStoreFactory<RedisDistributedArtifactStoreFactory>();
 
-    private static PipelineBuilder AddRedisModuleCacheServices(PipelineBuilder builder)
+    private static PipelineBuilder AddRedisModuleCacheServices(
+        PipelineBuilder builder,
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         AddValidation(builder.Services, ModuleCacheOptionsName);
         builder.Services.TryAddKeyedSingleton(
@@ -203,6 +209,6 @@ public static class RedisDistributedExtensions
             serviceProvider.GetRequiredService<IOptionsMonitor<RedisOptions>>().Get(ModuleCacheOptionsName),
             serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
 
-        return builder.AddModuleCache<RedisModuleCache>();
+        return builder.AddModuleCache<RedisModuleCache>(configureCache);
     }
 }

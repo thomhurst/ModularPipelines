@@ -14,16 +14,15 @@ public class BranchConditionLoggingTests
     [Test]
     public async Task Repeatable_Branch_Conditions_Share_An_Alternative_Group()
     {
-        IGroupedConditionAttribute exactBranch = new RunIfBranchAttribute("main");
-        IGroupedConditionAttribute branchPrefix = new RunIfBranchStartsWithAttribute("release/");
+        RunConditionAttribute exactBranch = new RunIfBranchAttribute("main");
+        RunConditionAttribute branchPrefix = new RunIfBranchStartsWithAttribute("release/");
 
         using (Assert.Multiple())
         {
-            await Assert.That(exactBranch.Logic).IsEqualTo(ConditionLogic.Any);
-            await Assert.That(branchPrefix.Logic).IsEqualTo(ConditionLogic.Any);
-            await Assert.That(exactBranch).IsAssignableTo<RunIfAnyAttribute>();
-            await Assert.That(branchPrefix).IsAssignableTo<RunIfAnyAttribute>();
-            await Assert.That(exactBranch.ConditionGroupType).IsEqualTo(branchPrefix.ConditionGroupType);
+            await Assert.That(exactBranch.Intent).IsEqualTo(ConditionIntent.Run);
+            await Assert.That(branchPrefix.Intent).IsEqualTo(ConditionIntent.Run);
+            await Assert.That(exactBranch.GroupKey).IsNotNull();
+            await Assert.That(exactBranch.GroupKey).IsEqualTo(branchPrefix.GroupKey);
         }
     }
 
@@ -42,7 +41,7 @@ public class BranchConditionLoggingTests
             x.Logger == logger.Object &&
             x.Tools == tools);
 
-        var result = await new RunIfBranchAttribute("main").EvaluateAsync(context);
+        var result = await new RunIfBranchAttribute("main").EvaluateAsync(context, CancellationToken.None);
         var logMessage = logger.Invocations
             .Single(x => x.Method.Name == nameof(ILogger.Log))
             .Arguments[2]?

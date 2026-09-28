@@ -56,7 +56,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
     public class AlwaysTrueCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [LogStart]

@@ -190,38 +190,34 @@ public class DistributedModuleExecutorTests
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    private sealed class GroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+    private sealed class GroupedOperatingSystemAttribute<TCondition>() : RunConditionAttribute(ConditionIntent.Run)
         where TCondition : IRunCondition, new()
     {
-        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+        public override Type? GroupKey => typeof(GroupedOperatingSystemAttribute<>);
 
         public override string ConditionNames => typeof(TCondition).Name;
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-            new TCondition().EvaluateAsync(context);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            new TCondition().EvaluateAsync(context, cancellationToken);
     }
 
-    private sealed class GroupedNonPlatformConditionAttribute : RunIfAnyAttribute,
-        IGroupedConditionAttribute,
-        IPlanningConditionAttribute
+    private sealed class GroupedNonPlatformConditionAttribute() : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
     {
-        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+        public override Type? GroupKey => typeof(GroupedOperatingSystemAttribute<>);
 
         public override string ConditionNames => nameof(GroupedNonPlatformConditionAttribute);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             Task.FromResult(false);
     }
 
-    private sealed class GroupedWorkerConditionAttribute : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+    private sealed class GroupedWorkerConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
-        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+        public override Type? GroupKey => typeof(GroupedOperatingSystemAttribute<>);
 
         public override string ConditionNames => nameof(GroupedWorkerConditionAttribute);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             Task.FromResult(true);
     }
 

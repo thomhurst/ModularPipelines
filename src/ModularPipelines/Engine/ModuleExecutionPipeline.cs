@@ -763,7 +763,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             && (executionContext.Status != ModuleStatus.Cancelled
                 || exception is ModuleTimeoutException))
         {
-            if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
+            if (await config.IgnoreFailuresCondition(
+                        moduleContext,
+                        exception,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false))
             {
                 logger.LogDebug("Ignoring failures in this module and continuing...");
                 executionContext.Status = ModuleStatus.FailureIgnored;

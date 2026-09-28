@@ -17,3 +17,12 @@ ModularPipelines.Testing.ModuleTestRun<T>.Result.get -> ModularPipelines.ModuleR
 ModularPipelines.Testing.RecordedCommand.Deconstruct(out ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, out ModularPipelines.CommandResult! Result) -> void
 ModularPipelines.Testing.RecordedCommand.RecordedCommand(ModularPipelines.Context.Domains.Shell.CommandInvocation! Invocation, ModularPipelines.CommandResult! Result) -> void
 ModularPipelines.Testing.RecordedCommand.Result.get -> ModularPipelines.CommandResult!
+ModularPipelines.Testing.InMemoryFileSystemProvider.GetAttributes(string! path) -> System.IO.FileAttributes
+ModularPipelines.Testing.InMemoryFileSystemProvider.GetCreationTimeUtc(string! path) -> System.DateTime
+ModularPipelines.Testing.InMemoryFileSystemProvider.GetFileLength(string! path) -> long
+ModularPipelines.Testing.InMemoryFileSystemProvider.GetLastAccessTimeUtc(string! path) -> System.DateTime
+ModularPipelines.Testing.InMemoryFileSystemProvider.GetLastWriteTimeUtc(string! path) -> System.DateTime
+ModularPipelines.Testing.InMemoryFileSystemProvider.SetAttributes(string! path, System.IO.FileAttributes attributes) -> void
+ModularPipelines.Testing.InMemoryFileSystemProvider.SetCreationTimeUtc(string! path, System.DateTime creationTimeUtc) -> void
+ModularPipelines.Testing.InMemoryFileSystemProvider.SetLastAccessTimeUtc(string! path, System.DateTime lastAccessTimeUtc) -> void
+ModularPipelines.Testing.InMemoryFileSystemProvider.SetLastWriteTimeUtc(string! path, System.DateTime lastWriteTimeUtc) -> void

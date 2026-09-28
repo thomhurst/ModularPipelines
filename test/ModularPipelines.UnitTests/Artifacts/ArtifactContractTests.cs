@@ -227,7 +227,7 @@ public class ArtifactContractTests
 
     private sealed class AlwaysSkipArtifactCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [SkipIf<AlwaysSkipArtifactCondition>]
@@ -3013,8 +3013,9 @@ public class ArtifactContractTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.Services.Configure<ModuleCacheOptions>(options =>
-                options.WorkingDirectory = workingDirectory.FullName);
+            ModuleCacheOptionsConfiguration.Register(
+                builder.Services,
+                options => options with { WorkingDirectory = workingDirectory.FullName });
             builder.AddModule<WorkingDirectoryProducerModule>();
             builder.AddModule<WorkingDirectoryConsumerModule>();
 
@@ -3060,10 +3061,10 @@ public class ArtifactContractTests
         string cacheDirectory)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddModuleCache<FileSystemModuleCache>(options =>
+        builder.AddModuleCache<FileSystemModuleCache>(options => options with
         {
-            options.WorkingDirectory = workingDirectory;
-            options.CacheDirectory = cacheDirectory;
+            WorkingDirectory = workingDirectory,
+            CacheDirectory = cacheDirectory,
         });
         builder.AddModule<CacheKeyArtifactProducerModule>();
         builder.AddModule<CacheKeyArtifactConsumerModule>();

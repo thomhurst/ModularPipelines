@@ -6,27 +6,21 @@ namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class RunIfBranchStartsWithAttribute : RunIfAnyAttribute, IGroupedConditionAttribute
+public class RunIfBranchStartsWithAttribute : RunConditionAttribute
 {
-    public Type ConditionGroupType => typeof(BranchConditionHelper);
+    public override Type? GroupKey => typeof(BranchConditionHelper);
 
     public override string ConditionNames => $"{nameof(RunIfBranchStartsWithAttribute)}({BranchNamePrefix})";
 
     public string BranchNamePrefix { get; }
 
     public RunIfBranchStartsWithAttribute(string branchNamePrefix)
+        : base(ConditionIntent.Run)
     {
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
-    {
-        return EvaluateAsync(pipelineContext, default);
-    }
-
-    public override Task<bool> EvaluateAsync(
-        IPipelineContext pipelineContext,
-        CancellationToken cancellationToken)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,

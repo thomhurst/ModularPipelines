@@ -20,6 +20,6 @@ public sealed class OnMacOS : ICapabilityCondition
     public Capability Capability => Capability.MacOS;
 
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         => Task.FromResult(OperatingSystem.IsMacOS());
 }

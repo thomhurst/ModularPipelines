@@ -34,37 +34,31 @@ public class CapabilityConditionsTests
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    private sealed class GroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute,
-        IPlanningConditionAttribute
+    private sealed class GroupedOperatingSystemAttribute<TCondition>() : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
         where TCondition : IRunCondition, new()
     {
-        public Type ConditionGroupType => typeof(GroupedOperatingSystemAttribute<>);
+        public override Type? GroupKey => typeof(GroupedOperatingSystemAttribute<>);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-            new TCondition().EvaluateAsync(context);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            new TCondition().EvaluateAsync(context, cancellationToken);
     }
 
-    private sealed class FirstGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute,
-        IPlanningConditionAttribute
+    private sealed class FirstGroupedOperatingSystemAttribute<TCondition>() : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
         where TCondition : IRunCondition, new()
     {
-        public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
+        public override Type? GroupKey => typeof(SharedDeclaredGroupModule);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-            new TCondition().EvaluateAsync(context);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            new TCondition().EvaluateAsync(context, cancellationToken);
     }
 
-    private sealed class SecondGroupedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute,
-        IPlanningConditionAttribute
+    private sealed class SecondGroupedOperatingSystemAttribute<TCondition>() : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
         where TCondition : IRunCondition, new()
     {
-        public Type ConditionGroupType => typeof(SharedDeclaredGroupModule);
+        public override Type? GroupKey => typeof(SharedDeclaredGroupModule);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-            new TCondition().EvaluateAsync(context);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            new TCondition().EvaluateAsync(context, cancellationToken);
     }
 
     [RequiresCapability(Capability.Names.Docker)]
@@ -95,7 +89,7 @@ public class CapabilityConditionsTests
 
     private sealed class WorkerOnlyCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [RunIfAny<OnLinux, OnCI>]
@@ -106,28 +100,28 @@ public class CapabilityConditionsTests
             CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
-    private sealed class LinuxAndCiGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class LinuxAndCiGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnCI()];
 
         public override ConditionLogic Logic => ConditionLogic.All;
     }
 
-    private sealed class LinuxOrWindowsSkipGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class LinuxOrWindowsGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnWindows()];
 
-        public override ConditionLogic Logic => ConditionLogic.Skip;
+        public override ConditionLogic Logic => ConditionLogic.Any;
     }
 
-    private sealed class GpuOrCiGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class GpuOrCiGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnGpu(), new OnCI()];
 
         public override ConditionLogic Logic => ConditionLogic.Any;
     }
 
-    private sealed class LinuxOnCiGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class LinuxOnCiGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnCI()];
 
@@ -138,7 +132,7 @@ public class CapabilityConditionsTests
     {
         public Capability Capability => Capability.Gpu;
 
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [RunIfAny<OnLinux, OnMacOS>]
@@ -221,7 +215,7 @@ public class CapabilityConditionsTests
     [Test]
     public async Task Contradictory_Operating_System_Conditions_Are_Not_Routable()
     {
-        var attribute = new RunIfAllAttribute<OnWindows, OnLinux>();
+        var attribute = new RunIfAttribute<OnWindows, OnLinux>();
 
         using (Assert.Multiple())
         {
@@ -233,7 +227,7 @@ public class CapabilityConditionsTests
     [Test]
     public async Task Custom_Capability_Conditions_Combine_With_Operating_Systems()
     {
-        var route = CapabilityConditions.GetRoute(new RunIfAllAttribute<OnLinux, OnGpu>());
+        var route = CapabilityConditions.GetRoute(new RunIfAttribute<OnLinux, OnGpu>());
 
         await Assert.That(route?.Requirement)
             .IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux, Capability.Gpu));
@@ -245,7 +239,7 @@ public class CapabilityConditionsTests
         using (Assert.Multiple())
         {
             // Every AND member must hold, so the GPU requirement stays; the worker evaluates OnCI.
-            var route = CapabilityConditions.GetRoute(new RunIfAllAttribute<OnGpu, OnCI>());
+            var route = CapabilityConditions.GetRoute(new RunIfAttribute<OnGpu, OnCI>());
             await Assert.That(route?.Requirement).IsEqualTo(CapabilityRequirement.AllOf(Capability.Gpu));
             await Assert.That(route?.IsConditional).IsFalse();
 
@@ -336,10 +330,9 @@ public class CapabilityConditionsTests
     }
 
     [Test]
-    public async Task Skip_Logic_Condition_Group_Routes_Like_Any()
+    public async Task Any_Logic_Condition_Group_Routes_To_Any_Capability()
     {
-        // ConditionGroup evaluates Skip logic as any-of.
-        var route = CapabilityConditions.GetRoute(new RunIfAttribute<LinuxOrWindowsSkipGroup>());
+        var route = CapabilityConditions.GetRoute(new RunIfAttribute<LinuxOrWindowsGroup>());
 
         await Assert.That(route?.Requirement)
             .IsEqualTo(CapabilityRequirement.AnyOf(Capability.Linux, Capability.Windows));

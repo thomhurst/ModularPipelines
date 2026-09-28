@@ -1211,10 +1211,10 @@ public class ModuleCacheTests
             if (cacheRegisteredFirst)
             {
                 builder
-                    .AddModuleCache<FileSystemModuleCache>(options =>
+                    .AddModuleCache<FileSystemModuleCache>(options => options with
                     {
-                        options.WorkingDirectory = temporaryDirectory;
-                        options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+                        WorkingDirectory = temporaryDirectory,
+                        CacheDirectory = Path.Combine(temporaryDirectory, "cache"),
                     })
                     .AddResultsRepository<TrackingResultRepository>();
             }
@@ -1222,10 +1222,10 @@ public class ModuleCacheTests
             {
                 builder
                     .AddResultsRepository<TrackingResultRepository>()
-                    .AddModuleCache<FileSystemModuleCache>(options =>
+                    .AddModuleCache<FileSystemModuleCache>(options => options with
                     {
-                        options.WorkingDirectory = temporaryDirectory;
-                        options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+                        WorkingDirectory = temporaryDirectory,
+                        CacheDirectory = Path.Combine(temporaryDirectory, "cache"),
                     });
             }
 
@@ -1329,10 +1329,10 @@ public class ModuleCacheTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.AddModuleCache<FileSystemModuleCache>(options =>
+            builder.AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = temporaryDirectory;
-                options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+                WorkingDirectory = temporaryDirectory,
+                CacheDirectory = Path.Combine(temporaryDirectory, "cache"),
             });
             builder.Services.AddSingleton<ILogger<ModuleCacheResultRepository>>(logger);
             builder.AddModule<StableAssemblyVersionKeyModule>();
@@ -3459,10 +3459,10 @@ public class ModuleCacheTests
         bool disableModuleCache = false)
     {
         var builder = TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = cacheDirectory;
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = cacheDirectory,
             })
             .AddModule<CachedModule>();
         builder.ConfigureOptions(options => options with
@@ -3485,10 +3485,10 @@ public class ModuleCacheTests
     {
         var progressDisplay = new TrackingProgressDisplay();
         var builder = TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = cacheDirectory;
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = cacheDirectory,
             })
             .AddModule<CachedModule>();
         builder.Services.AddSingleton<IProgressDisplay>(progressDisplay);
@@ -3501,10 +3501,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunDependencyPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<DependencyModule>()
             .AddModule<CachedDependentModule>()
@@ -3521,10 +3521,10 @@ public class ModuleCacheTests
         where TModule : Module<string>
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<TModule>()
             .BuildAsync();
@@ -3539,10 +3539,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunInputMutatingPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<InputMutatingModule>()
             .BuildAsync();
@@ -3558,10 +3558,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<RuntimeTypedDependencyModule>()
             .AddModule<RuntimeTypedCachedDependentModule>()
@@ -3578,10 +3578,10 @@ public class ModuleCacheTests
         RunRuntimeTypedResultPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<RuntimeTypedCachedResultModule>()
             .BuildAsync();
@@ -3596,10 +3596,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunEnvironmentPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<EnvironmentCachedModule>()
             .BuildAsync();
@@ -3614,11 +3614,11 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunLookupFailurePipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
-                options.MaximumInputFiles = 1;
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
+                MaximumInputFiles = 1,
             })
             .AddModule<LookupFailureInputMutatingModule>()
             .BuildAsync();
@@ -3633,10 +3633,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunAfterHookArtifactPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<AfterHookArtifactModule>()
             .BuildAsync();
@@ -3652,10 +3652,10 @@ public class ModuleCacheTests
         RunTransformedResultPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<ResultTransformingCachedModule>()
             .AddModule<TransformedResultDependentModule>()
@@ -3727,15 +3727,15 @@ public class ModuleCacheTests
         long maximumResultBytes = 64L * 1024 * 1024)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
-                options.MaximumInputFiles = maximumInputFiles;
-                options.MaximumArtifactEntries = maximumArtifactEntries;
-                options.MaximumArtifactBytes = maximumArtifactBytes;
-                options.MaximumCacheEntryBytes = maximumCacheEntryBytes;
-                options.MaximumResultBytes = maximumResultBytes;
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
+                MaximumInputFiles = maximumInputFiles,
+                MaximumArtifactEntries = maximumArtifactEntries,
+                MaximumArtifactBytes = maximumArtifactBytes,
+                MaximumCacheEntryBytes = maximumCacheEntryBytes,
+                MaximumResultBytes = maximumResultBytes,
             })
             .AddModule<VaryingArtifactSetModule>()
             .BuildAsync();
@@ -3750,12 +3750,12 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunMultipleArtifactFilesPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
-                options.MaximumInputFiles = 1;
-                options.MaximumArtifactEntries = 3;
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
+                MaximumInputFiles = 1,
+                MaximumArtifactEntries = 3,
             })
             .AddModule<MultipleArtifactFilesModule>()
             .BuildAsync();
@@ -3770,10 +3770,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunExecutableArtifactPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<ExecutableArtifactModule>()
             .BuildAsync();
@@ -3789,10 +3789,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<ReadOnlyFileParentArtifactModule>()
             .BuildAsync();
@@ -3807,10 +3807,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunSymbolicLinkArtifactPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<SymbolicLinkArtifactModule>()
             .BuildAsync();
@@ -3826,10 +3826,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<DirectorySymbolicLinkArtifactModule>()
             .BuildAsync();
@@ -3844,10 +3844,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunOptionalArtifactPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<OptionalArtifactModule>()
             .BuildAsync();
@@ -3863,10 +3863,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<NestedOptionalArtifactModule>()
             .BuildAsync();
@@ -3882,10 +3882,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<DanglingSymbolicLinkArtifactModule>()
             .BuildAsync();
@@ -3902,10 +3902,10 @@ public class ModuleCacheTests
     {
         Directory.CreateDirectory(Path.Combine(workingDirectory, "cache"));
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<WorkingDirectoryArtifactModule>()
             .BuildAsync();
@@ -3921,10 +3921,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<DanglingDirectorySymbolicLinkArtifactModule>()
             .BuildAsync();
@@ -3940,10 +3940,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<GlobOptionalArtifactModule>()
             .BuildAsync();
@@ -3959,10 +3959,10 @@ public class ModuleCacheTests
         string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<ShallowGlobArtifactModule>()
             .BuildAsync();
@@ -3977,10 +3977,10 @@ public class ModuleCacheTests
     private static async Task<IModuleResult> RunSkippableCachePipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<SkippableCachedModule>()
             .BuildAsync();
@@ -3994,10 +3994,10 @@ public class ModuleCacheTests
     private static async Task<ModuleStatus> RunEmptyDirectoryArtifactPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineBuilder.Create()
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = workingDirectory;
-                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                WorkingDirectory = workingDirectory,
+                CacheDirectory = Path.Combine(workingDirectory, "cache"),
             })
             .AddModule<EmptyDirectoryArtifactModule>()
             .BuildAsync();

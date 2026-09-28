@@ -18,15 +18,6 @@ public class FilePath : IEquatable<FilePath>
 
     private readonly IFileSystemProvider _provider;
 
-    private FileInfo FileInfo
-    {
-        get
-        {
-            _fileInfo.Refresh();
-            return _fileInfo;
-        }
-    }
-
     public FilePath(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
@@ -176,7 +167,7 @@ public class FilePath : IEquatable<FilePath>
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
     public bool Exists => _provider.FileExists(Path);
 
-    public bool Hidden => (GetPhysicalFileInfo().Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+    public bool Hidden => (Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     /// <inheritdoc cref="FileSystemInfo.Name"/>>
     public string Name => System.IO.Path.GetFileName(Path);
@@ -226,23 +217,23 @@ public class FilePath : IEquatable<FilePath>
     /// <inheritdoc cref="FileSystemInfo.Attributes"/>>
     public FileAttributes Attributes
     {
-        get { return GetPhysicalFileInfo().Attributes; }
-        set { GetPhysicalFileInfo().Attributes = value; }
+        get => _provider.GetAttributes(Path);
+        set => _provider.SetAttributes(Path, value);
     }
 
     /// <inheritdoc cref="FileInfo.IsReadOnly"/>>
-    public bool IsReadOnly => GetPhysicalFileInfo().IsReadOnly;
+    public bool IsReadOnly => (Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
 
     /// <inheritdoc cref="FileSystemInfo.CreationTime"/>>
-    public DateTimeOffset CreationTime => GetPhysicalFileInfo().CreationTime;
+    public DateTimeOffset CreationTime => new DateTimeOffset(_provider.GetCreationTimeUtc(Path)).ToLocalTime();
 
-    public DateTimeOffset LastWriteTimeUtc => GetPhysicalFileInfo().LastWriteTimeUtc;
+    public DateTimeOffset LastWriteTimeUtc => new(_provider.GetLastWriteTimeUtc(Path));
 
     /// <inheritdoc cref="FileSystemInfo.Extension"/>>
     public string Extension => System.IO.Path.GetExtension(Path);
 
     /// <inheritdoc cref="System.IO.FileInfo.Length"/>>
-    public long Length => GetPhysicalFileInfo().Length;
+    public long Length => _provider.GetFileLength(Path);
 
     /// <inheritdoc cref="FileInfo.Delete"/>>
     public void Delete()
@@ -475,17 +466,6 @@ public class FilePath : IEquatable<FilePath>
     public static bool operator !=(FilePath? left, FilePath? right)
     {
         return !Equals(left, right);
-    }
-
-    private FileInfo GetPhysicalFileInfo()
-    {
-        if (!ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
-        {
-            throw new NotSupportedException(
-                "File metadata is unavailable through the configured IFileSystemProvider.");
-        }
-
-        return FileInfo;
     }
 
     /// <summary>

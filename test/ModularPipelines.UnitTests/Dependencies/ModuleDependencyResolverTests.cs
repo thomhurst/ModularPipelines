@@ -17,6 +17,8 @@ public class ModuleDependencyResolverTests
     [ModularPipelines.DependsOn<DependencyModule>]
     private sealed class DirectModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = new ModuleConfigurationBuilder()

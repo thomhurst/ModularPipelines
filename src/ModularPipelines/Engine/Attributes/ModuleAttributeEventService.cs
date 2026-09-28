@@ -50,7 +50,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         var unsafeHandlerTypes = handlerData
             .Select(static data => data.AttributeType)
             .Distinct()
-            .Where(static type => !typeof(IPlanningSafeModuleRegistrationHandler).IsAssignableFrom(type))
+            .Where(static type => !typeof(IPlanningSafe).IsAssignableFrom(type))
             .ToArray();
         if (unsafeHandlerTypes.Length > 0)
         {
@@ -58,7 +58,7 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
                 $"Cannot export a resolved dependency graph because {moduleType.FullName} has "
                 + "registration handlers that are not planning-safe: "
                 + string.Join(", ", unsafeHandlerTypes.Select(static type => type.FullName))
-                + $". Implement {nameof(IPlanningSafeModuleRegistrationHandler)} only when "
+                + $". Implement {nameof(IPlanningSafe)} only when "
                 + "the handler is deterministic, idempotent, and free of external side effects.");
         }
 

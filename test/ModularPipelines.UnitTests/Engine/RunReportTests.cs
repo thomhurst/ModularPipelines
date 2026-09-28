@@ -212,10 +212,11 @@ public class RunReportTests
 
     private sealed class SuccessfulCommandInterceptor : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default) =>
-            ValueTask.FromResult<CommandResult?>(CommandResult.Ok("intercepted"));
+            CommandDelegate next,
+            CancellationToken cancellationToken) =>
+            ValueTask.FromResult(CommandResult.Ok("intercepted"));
     }
 
     private sealed class KnownBuildSystemDetector : IBuildSystemDetector

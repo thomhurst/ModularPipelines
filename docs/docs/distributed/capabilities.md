@@ -47,11 +47,11 @@ Docker and GPU support are not detected automatically, because the presence of a
 
 ### Routing from Run Conditions
 
-`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAll]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
 
 - `[RunIf<OnLinux>]` requires `linux`.
 - `[RunIfAny<OnLinux, OnMacOS>]` and `[RunIf<OnUnix>]` require `linux` **or** `macos`.
-- `[RunIfAll<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
+- `[RunIf<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
 
 Implement `ICapabilityCondition` to make your own conditions routable:
 
@@ -60,7 +60,7 @@ public sealed class OnGpu : ICapabilityCondition
 {
     public Capability Capability => Capability.Gpu;
 
-    public Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         Task.FromResult(File.Exists("/dev/nvidia0"));
 }
 ```

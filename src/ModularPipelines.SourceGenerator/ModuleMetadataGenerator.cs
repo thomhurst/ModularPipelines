@@ -470,12 +470,6 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private static bool IsSelectorDependencyAttribute(AttributeData attribute)
     {
-        if (IsDependsOnAttribute(attribute)
-            && !IsBuiltInDependsOnAttribute(attribute.AttributeClass))
-        {
-            return true;
-        }
-
         for (var current = attribute.AttributeClass; current is not null; current = current.BaseType)
         {
             if (current.ToDisplayString() is
@@ -550,15 +544,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private static bool IsDependsOnAttribute(AttributeData attribute)
     {
-        for (var current = attribute.AttributeClass; current is not null; current = current.BaseType)
-        {
-            if (current.ToDisplayString() == DependsOnAttributeFullName)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return IsBuiltInDependsOnAttribute(attribute.AttributeClass);
     }
 
     private static bool TryGetDependency(

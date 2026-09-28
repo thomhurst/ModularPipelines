@@ -41,7 +41,7 @@ namespace ModularPipelines;
 /// </example>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
-public class DependsOnAttribute : Attribute
+public sealed class DependsOnAttribute : Attribute, IModuleDependencyAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DependsOnAttribute"/> class.
@@ -54,19 +54,12 @@ public class DependsOnAttribute : Attribute
     /// <exception cref="InvalidModuleTypeException">Thrown when the type does not implement <see cref="IModule"/>.</exception>
     public DependsOnAttribute(Type type)
     {
+        ArgumentNullException.ThrowIfNull(type);
         if (!type.IsAssignableTo(typeof(IModule)))
         {
             throw new InvalidModuleTypeException(type);
         }
 
-        Type = type;
-    }
-
-    /// <summary>
-    /// Internal constructor used by the generic DependsOnAttribute to bypass redundant runtime validation.
-    /// </summary>
-    internal DependsOnAttribute(Type type, bool skipValidation)
-    {
         Type = type;
     }
 
@@ -113,7 +106,7 @@ public class DependsOnAttribute : Attribute
 /// if not explicitly added to the pipeline. This ensures all dependencies are always present.
 /// </para>
 /// <para>
-/// Use <see cref="DependsOnAttribute.Optional"/> = <c>true</c> for dependencies that may or may not be present.
+/// Use <see cref="Optional"/> = <c>true</c> for dependencies that may or may not be present.
 /// Optional dependencies are not auto-registered and won't cause validation errors if missing.
 /// </para>
 /// </remarks>
@@ -129,13 +122,24 @@ public class DependsOnAttribute : Attribute
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
-public class DependsOnAttribute<TModule> : DependsOnAttribute
+public sealed class DependsOnAttribute<TModule> : Attribute, IModuleDependencyAttribute
     where TModule : IModule
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DependsOnAttribute{TModule}"/> class.
+    /// Gets the type of module this module depends on.
     /// </summary>
-    public DependsOnAttribute() : base(typeof(TModule), skipValidation: true)
-    {
-    }
+    public Type Type => typeof(TModule);
+
+    /// <inheritdoc cref="DependsOnAttribute.Optional"/>
+    public bool Optional { get; set; }
+}
+
+/// <summary>
+/// Exposes the dependency declared by <see cref="DependsOnAttribute"/> and <see cref="DependsOnAttribute{TModule}"/>.
+/// </summary>
+internal interface IModuleDependencyAttribute
+{
+    Type Type { get; }
+
+    bool Optional { get; }
 }

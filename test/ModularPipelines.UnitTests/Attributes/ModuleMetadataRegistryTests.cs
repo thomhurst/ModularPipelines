@@ -19,6 +19,8 @@ public class ModuleMetadataRegistryTests
 
     private sealed class DirectConfiguredModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = new ModuleConfigurationBuilder()
@@ -31,6 +33,8 @@ public class ModuleMetadataRegistryTests
     [ModuleCategory("attribute-category")]
     private sealed class DirectAttributedModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
@@ -44,6 +48,8 @@ public class ModuleMetadataRegistryTests
     [Cached]
     private sealed class DirectCachedModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
@@ -53,6 +59,8 @@ public class ModuleMetadataRegistryTests
     [Cached]
     private sealed class DirectMultiplyAttributedModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
@@ -60,6 +68,8 @@ public class ModuleMetadataRegistryTests
 
     private sealed class ConfigurationCountingModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public int ConfigurationReadCount { get; private set; }
 
         public Type ResultType => typeof(string);

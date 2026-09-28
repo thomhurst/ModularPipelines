@@ -108,7 +108,7 @@ and continue. `IModuleHookContext` is read-only: hooks observe modules, while re
 skips, and failure policy are configured on the module.
 
 Registration attributes implement `IModuleRegistrationHandler`. Also implement
-`IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers
+`IPlanningSafe` only for deterministic, idempotent handlers
 without external side effects; those handlers may run while exporting a resolved
 dependency graph.
 

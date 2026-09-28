@@ -413,8 +413,9 @@ public sealed class PipelineBuilder
         {
             services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
-            services.Configure<ModuleCacheOptions>(options =>
-                options.WorkingDirectory = _environment.WorkingDirectory);
+            ModuleCacheOptionsConfiguration.Register(
+                services,
+                options => options with { WorkingDirectory = _environment.WorkingDirectory });
 
             foreach (var defaultProvider in _defaultLoggingProviderDescriptors
                          .Where(provider => !_loggingServices.Contains(provider)))

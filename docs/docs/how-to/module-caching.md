@@ -17,6 +17,10 @@ using ModularPipelines.Extensions;
 builder.AddModuleCache<FileSystemModuleCache>();
 ```
 
+A custom backend implements `IModuleCacheStore`: `OpenReadAsync`, `WriteAsync`, and `DeleteAsync`
+(deleting a missing entry does nothing). `ExistsAsync` defaults to opening and disposing the entry;
+override it when the store can check existence more cheaply.
+
 Then declare every file input that can affect a module:
 
 ```csharp
@@ -87,14 +91,17 @@ skip reasons appear only as SHA-256 hashes.
 ## Configure limits and locations
 
 ```csharp
-builder.AddModuleCache<FileSystemModuleCache>(options =>
+builder.AddModuleCache<FileSystemModuleCache>(options => options with
 {
-    options.WorkingDirectory = repositoryRoot;
-    options.CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules");
-    options.MaximumInputFiles = 50_000;
-    options.MaximumHashConcurrency = 8;
+    WorkingDirectory = repositoryRoot,
+    CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules"),
+    MaximumInputFiles = 50_000,
+    MaximumHashConcurrency = 8,
 });
 ```
+
+`ModuleCacheOptions` is immutable, like `PipelineOptions`: the configuration returns updated options, and
+configurations from repeated calls apply in call order. Calling `AddModuleCache` again replaces the store.
 
 The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on
 every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.
@@ -144,11 +151,13 @@ builder.AddRedisModuleCache(redis =>
 });
 ```
 
-Each cache backend takes only its own storage options (`S3StorageOptions` or `RedisOptions`). Configure
-`ModuleCacheOptions`, such as `MaximumCacheEntryBytes`, with the options pattern:
+Each cache backend takes its own storage options (`S3StorageOptions` or `RedisOptions`). `ModuleCacheOptions` is
+immutable, so shared cache settings such as `MaximumCacheEntryBytes` are passed as an optional transform:
 
 ```csharp
-builder.Services.Configure<ModuleCacheOptions>(options => options.MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024);
+builder.AddRedisModuleCache(
+    redis => redis.ConnectionString = "localhost:6379",
+    cache => cache with { MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
 ```
 
 The Redis cache keys every entry with the fingerprint as a Redis Cluster hash tag, so it works against clustered

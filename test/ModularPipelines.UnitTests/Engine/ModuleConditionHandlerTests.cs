@@ -888,7 +888,7 @@ public class ModuleConditionHandlerTests
             : new WindowsMixedGenericAlternativeModule();
     }
 
-    [RunIfAll<OnLinux, PlanningTrueCondition>]
+    [RunIf<OnLinux, PlanningTrueCondition>]
     private sealed class LinuxAndPlanningTrueModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -896,7 +896,7 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    [RunIfAll<OnWindows, PlanningTrueCondition>]
+    [RunIf<OnWindows, PlanningTrueCondition>]
     private sealed class WindowsAndPlanningTrueModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -1010,16 +1010,15 @@ public class ModuleConditionHandlerTests
             Task.FromResult(string.Empty);
     }
 
-    private sealed class DeferredDiscoveryConditionAttribute : Attribute, IConditionAttribute
+    private sealed class DeferredDiscoveryConditionAttribute : RunConditionAttribute
     {
-        public DeferredDiscoveryConditionAttribute() =>
+        public DeferredDiscoveryConditionAttribute()
+            : base(ConditionIntent.Run) =>
             Interlocked.Increment(ref _deferredDiscoveryConditionConstructions);
 
-        public ConditionLogic Logic => ConditionLogic.All;
+        public override string ConditionNames => nameof(DeferredDiscoveryConditionAttribute);
 
-        public string ConditionNames => nameof(DeferredDiscoveryConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [RunIf<WorkerOnlyConditionGroup>]
@@ -1048,16 +1047,17 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class WorkerOnlyGroupedAttribute : RunIfAnyAttribute, IGroupedConditionAttribute
+    private sealed class WorkerOnlyGroupedAttribute : RunConditionAttribute
     {
-        public WorkerOnlyGroupedAttribute() =>
+        public WorkerOnlyGroupedAttribute()
+            : base(ConditionIntent.Run) =>
             throw new InvalidOperationException("Worker-only grouped attribute was constructed on the master");
 
-        public Type ConditionGroupType => typeof(WorkerOnlyGroupedAttribute);
+        public override Type? GroupKey => typeof(WorkerOnlyGroupedAttribute);
 
         public override string ConditionNames => nameof(WorkerOnlyGroupedAttribute);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [RunIf<OnUnix>]
@@ -1100,7 +1100,7 @@ public class ModuleConditionHandlerTests
 
     private sealed class FalseCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [WorkerOnlyCondition]
@@ -1111,13 +1111,11 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class WorkerOnlyConditionAttribute : Attribute, IConditionAttribute
+    private sealed class WorkerOnlyConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
-        public ConditionLogic Logic => ConditionLogic.All;
+        public override string ConditionNames => nameof(WorkerOnlyConditionAttribute);
 
-        public string ConditionNames => nameof(WorkerOnlyConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _workerOnlyEvaluationCount);
             throw new InvalidOperationException("Worker-only condition ran on the master");
@@ -1194,7 +1192,7 @@ public class ModuleConditionHandlerTests
 
     private sealed class WorkerOnlyFalseCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _workerOnlyEvaluationCount);
             return Task.FromResult(false);
@@ -1203,7 +1201,7 @@ public class ModuleConditionHandlerTests
 
     private sealed class WorkerOnlyRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _workerOnlyEvaluationCount);
             throw new InvalidOperationException("Worker-only condition ran on the master");
@@ -1236,29 +1234,29 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class CountingPlanningFalseCondition : IPlanningRunCondition
+    private sealed class CountingPlanningFalseCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _routingEvaluationCount);
             return Task.FromResult(false);
         }
     }
 
-    private sealed class ThrowingPlanningCondition : IPlanningRunCondition
+    private sealed class ThrowingPlanningCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Evaluated past a true alternative.");
     }
 
-    private sealed class PlanningTrueCondition : IPlanningRunCondition
+    private sealed class PlanningTrueCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
-    private sealed class PlanningFalseCondition : IPlanningRunCondition
+    private sealed class PlanningFalseCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [AlternativeCondition(false)]
@@ -1322,43 +1320,35 @@ public class ModuleConditionHandlerTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class MixedOperatingSystemAttribute<TCondition> : RunIfAnyAttribute,
-        IGroupedConditionAttribute
+    private sealed class MixedOperatingSystemAttribute<TCondition>() : RunConditionAttribute(ConditionIntent.Run)
         where TCondition : IRunCondition, new()
     {
-        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+        public override Type? GroupKey => typeof(MixedAlternativeModule);
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
-            new TCondition().EvaluateAsync(context);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            new TCondition().EvaluateAsync(context, cancellationToken);
     }
 
-    private sealed class MixedAlternativeConditionAttribute(bool result) : Attribute,
-        IGroupedConditionAttribute,
-        IPlanningConditionAttribute
+    private sealed class MixedAlternativeConditionAttribute(bool result) : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
     {
-        public ConditionLogic Logic => ConditionLogic.Any;
+        public override Type? GroupKey => typeof(MixedAlternativeModule);
 
-        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+        public override string ConditionNames => nameof(MixedAlternativeConditionAttribute);
 
-        public string ConditionNames => nameof(MixedAlternativeConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _mixedAlternativeEvaluationCount);
             return Task.FromResult(result);
         }
     }
 
-    private sealed class MixedWorkerOnlyConditionAttribute : Attribute,
-        IGroupedConditionAttribute
+    private sealed class MixedWorkerOnlyConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
-        public ConditionLogic Logic => ConditionLogic.Any;
+        public override Type? GroupKey => typeof(MixedAlternativeModule);
 
-        public Type ConditionGroupType => typeof(MixedAlternativeModule);
+        public override string ConditionNames => nameof(MixedWorkerOnlyConditionAttribute);
 
-        public string ConditionNames => nameof(MixedWorkerOnlyConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _workerOnlyEvaluationCount);
             throw new InvalidOperationException("Worker-only grouped condition ran on the master");
@@ -1378,29 +1368,25 @@ public class ModuleConditionHandlerTests
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    private sealed class AlternativeConditionAttribute(bool result) : Attribute, IGroupedConditionAttribute
+    private sealed class AlternativeConditionAttribute(bool result) : RunConditionAttribute(ConditionIntent.Run)
     {
-        public ConditionLogic Logic => ConditionLogic.Any;
+        public override Type? GroupKey => typeof(AlternativeConditionAttribute);
 
-        public Type ConditionGroupType => typeof(AlternativeConditionAttribute);
+        public override string ConditionNames => nameof(AlternativeConditionAttribute);
 
-        public string ConditionNames => nameof(AlternativeConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(result);
     }
 
-    private sealed class MandatoryConditionAttribute(bool result) : Attribute, IConditionAttribute
+    private sealed class MandatoryConditionAttribute(bool result) : RunConditionAttribute(ConditionIntent.Run)
     {
-        public ConditionLogic Logic => ConditionLogic.All;
+        public override string ConditionNames => nameof(MandatoryConditionAttribute);
 
-        public string ConditionNames => nameof(MandatoryConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(result);
     }
 
     private sealed class CountingCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _conditionEvaluationCount);
             return Task.FromResult(true);
