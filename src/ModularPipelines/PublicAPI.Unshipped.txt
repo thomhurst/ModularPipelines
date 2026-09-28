@@ -1759,9 +1759,6 @@ ModularPipelines.Events.IModuleStartHandler.OnModuleStartAsync(ModularPipelines.
 ModularPipelines.Events.IPipelineEventHandler
 ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.IPipelineContext! context, ModularPipelines.Models.PipelineSummary! pipelineSummary, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
-ModularPipelines.Events.IPlanningSafeModuleRegistrationHandler
-ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.IPipelineContext! context, ModularPipelines.Models.PipelineSummary! pipelineSummary) -> System.Threading.Tasks.Task!
-ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task!
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(string! message, ModularPipelines.CommandResult! result) -> void
@@ -2209,8 +2206,6 @@ ModularPipelines.PipelineBuilderSettings.LoadModularPipelinesAssemblies.init -> 
 ModularPipelines.PipelineBuilderSettings.PipelineBuilderSettings() -> void
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.get -> string?
 ModularPipelines.PipelineBuilderSettings.WorkingDirectory.init -> void
-ModularPipelines.PlanningSafeDependsOnBaseAttribute
-ModularPipelines.PlanningSafeDependsOnBaseAttribute.PlanningSafeDependsOnBaseAttribute() -> void
 ModularPipelines.Plugins.IModularPipelinesPlugin.Configure(ModularPipelines.PipelineBuilder! builder) -> void
 ModularPipelines.Reporting.DistributedModuleRunReport
 ModularPipelines.Reporting.DistributedModuleRunReport.<Clone>$() -> ModularPipelines.Reporting.DistributedModuleRunReport!
@@ -2615,8 +2610,6 @@ abstract ModularPipelines.ModuleResult.GetValueOrDefault() -> object?
 abstract ModularPipelines.NonGenericModuleAdapter.ExecuteWithoutResultAsync(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 abstract ModularPipelines.NonGenericSyncModuleAdapter.ExecuteWithoutResult(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.Requirements.PipelineRequirement.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
-abstract ModularPipelines.RunConditionAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
-abstract ModularPipelines.RunConditionAttribute.Logic.get -> ModularPipelines.ConditionLogic
 abstract ModularPipelines.RunConditionAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 abstract ModularPipelines.SyncModule.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.SyncModule<T>.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> T

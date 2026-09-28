@@ -27,8 +27,8 @@ public class CiDetectionTests
     {
         var context = CreateContext(ciValue, buildSystemVariable);
 
-        var onCi = await new OnCI().EvaluateAsync(context);
-        var onLocal = await new OnLocal().EvaluateAsync(context);
+        var onCi = await new OnCI().EvaluateAsync(context, CancellationToken.None);
+        var onLocal = await new OnLocal().EvaluateAsync(context, CancellationToken.None);
         var requireCi = await Require.Ci().EvaluateAsync(context, CancellationToken.None);
         var requireLocal = await Require.LocalEnvironment().EvaluateAsync(context, CancellationToken.None);
 

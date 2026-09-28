@@ -41,10 +41,10 @@ public class RegistrationSemanticsTests
     {
         public bool IsEnabled => false;
 
-        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext) =>
+        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext, CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext) =>
+        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext, CancellationToken cancellationToken) =>
             Task.FromResult<ModuleResult<T>?>(null);
     }
 
@@ -60,14 +60,10 @@ public class RegistrationSemanticsTests
 
     private sealed class EstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) => Task.FromResult(TimeSpan.Zero);
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken = default) =>
+            Task.FromResult(TimeSpan.Zero);
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
-
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
-            Task.FromResult(Enumerable.Empty<SubModuleEstimation>());
-
-        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default) =>
             Task.CompletedTask;
     }
 
@@ -75,7 +71,7 @@ public class RegistrationSemanticsTests
     {
         public int Order => 0;
 
-        public Task<ValidationResult> ValidateAsync(IServiceProvider services) => throw new NotSupportedException();
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken) => throw new NotSupportedException();
     }
 
     private sealed class Enricher : IRunReportEnricher
