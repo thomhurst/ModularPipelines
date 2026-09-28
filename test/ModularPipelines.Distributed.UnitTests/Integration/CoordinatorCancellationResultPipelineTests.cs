@@ -38,9 +38,10 @@ public class CoordinatorCancellationResultPipelineTests
             thrown = exception;
         }
 
-        // The coordinator's result collector stops waiting and records a cancelled result before
-        // the module's local execution finishes stopping. The pipeline must still report the
-        // genuine failure rather than a conflicting-result contract violation.
+        // The failure cancels the coordinator's result collector while the coordinator is still
+        // running the slow module locally. The collector must wait for that local execution and
+        // use its result, so the pipeline reports the genuine failure rather than a
+        // conflicting-result contract violation.
         await Assert.That(thrown).IsNotNull();
         await Assert.That(thrown).IsNotTypeOf<InvalidOperationException>();
         await Assert.That(thrown is ModuleFailedException or PipelineFailedException).IsTrue();
