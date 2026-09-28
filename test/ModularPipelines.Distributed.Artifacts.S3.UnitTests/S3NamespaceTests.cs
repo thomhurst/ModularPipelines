@@ -9,7 +9,7 @@ public class S3NamespaceTests
     {
         await Assert.That(typeof(S3DistributedExtensions).Namespace)
             .IsEqualTo("ModularPipelines.Distributed.Artifacts.S3");
-        await Assert.That(typeof(S3ArtifactOptions).Namespace)
+        await Assert.That(typeof(S3StorageOptions).Namespace)
             .IsEqualTo("ModularPipelines.Distributed.Artifacts.S3");
     }
 }

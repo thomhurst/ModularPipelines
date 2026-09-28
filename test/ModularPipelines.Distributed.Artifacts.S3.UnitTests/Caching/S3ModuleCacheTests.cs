@@ -26,9 +26,8 @@ public class S3ModuleCacheTests
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
-        builder.AddS3DistributedArtifactStore(
-            options => options.BucketName = "artifact-bucket",
-            options => options.CompressionLevel = CompressionLevel.NoCompression);
+        builder.AddS3DistributedArtifactStore(options => options.BucketName = "artifact-bucket");
+        builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
@@ -139,7 +138,7 @@ public class S3ModuleCacheTests
         });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
-        var artifactOptions = serviceProvider.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
+        var artifactOptions = serviceProvider.GetRequiredService<IOptions<S3StorageOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -165,7 +164,7 @@ public class S3ModuleCacheTests
 
         builder.AddS3DistributedArtifactStore(configuration.GetSection("S3"));
         using var services = builder.Services.BuildServiceProvider();
-        var options = services.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
+        var options = services.GetRequiredService<IOptions<S3StorageOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -178,7 +177,7 @@ public class S3ModuleCacheTests
         IAmazonS3 client,
         long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024) =>
         new(
-            new S3ArtifactOptions
+            new S3StorageOptions
             {
                 BucketName = "cache-bucket",
                 KeyPrefix = "custom-prefix",
