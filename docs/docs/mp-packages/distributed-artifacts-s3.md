@@ -41,11 +41,43 @@ await context.Artifacts.DownloadAsync<BuildModule>(
     Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
 ```
 
-Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
+Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional
+service URL when targeting an S3-compatible provider. Options are validated when the pipeline is built; a missing
+`BucketName` fails fast.
+
+### S3StorageOptions
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `BucketName` | `string` | `""` | Bucket to store objects in. **Required.** |
+| `ServiceUrl` | `string?` | `null` | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3. |
+| `AccessKey` / `SecretKey` | `string?` | `null` | Explicit credentials; set both or neither. |
+| `Region` | `string` | `"us-east-1"` | AWS region. |
+| `ForcePathStyle` | `bool` | `false` | Path-style addressing, required by MinIO and some providers. |
+| `KeyPrefix` | `string` | `"modpipe"` | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`. |
+| `MultipartPartSizeBytes` | `int` | 16 MB | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB. |
+| `SetLifecycleRule` | `bool` | `false` | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive`. |
+| `TimeToLive` | `TimeSpan` | 1 day | Artifact lifetime used by the lifecycle rule, rounded up to whole days. |
+
+`SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix,
+into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` and `s3:PutLifecycleConfiguration`
+permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and
+artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring
+the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+
+Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+
+```csharp
+builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+```
+
+Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one
+`IConfigurationSection` overload.
 
 ## Module caching
 
-Use the same package as a shareable, cross-run module cache:
+Use the same package as a shareable, cross-run module cache. The cache has its own `S3StorageOptions`, so it can use
+a different bucket from the artifact store:
 
 ```csharp
 builder.AddS3ModuleCache(options =>

@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Configuration
 
-Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and coordinator-specific options like `RedisDistributedOptions`.
+Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and backend-specific options like `RedisOptions`.
 
 ## Module identity and build compatibility
 
@@ -109,24 +109,65 @@ builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 `Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and
 worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-## RedisDistributedOptions
+Each backend registration has exactly two overloads: one taking an `Action<TOptions>` and one taking an
+`IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered;
+registering a second, different backend throws `InvalidOperationException` instead of silently replacing
+the first. Registering the same backend again is a no-op apart from applying the extra configuration.
 
-Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator connects and manages keys.
+## ArtifactOptions
+
+`ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the
+options pattern, independently of the backend:
 
 ```csharp
-builder.AddRedisDistributedCoordinator(o =>
+builder.Services.Configure<ArtifactOptions>(o => o.CompressionLevel = CompressionLevel.Optimal);
+// or: builder.Services.Configure<ArtifactOptions>(builder.Configuration.GetSection("Artifacts"));
+```
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `CompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory artifacts. |
+
+Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options
+(`RedisOptions`, `S3StorageOptions`).
+
+## RedisOptions
+
+Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and
+`AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact
+store share one `RedisOptions` instance and one connection; the module cache has its own, so it can use a
+different Redis server.
+
+```csharp
+builder.AddRedisDistributed(o =>
 {
-    o.ConnectionString = "redis-host:6379,password=secret";
+    o.ConnectionString = "redis-host:6379";
+    o.ConfigureConnection = connection =>
+    {
+        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+        connection.Ssl = true;
+    };
     o.KeyPrefix = "modpipe";
-    o.KeyExpiration = TimeSpan.FromHours(1);
+    o.TimeToLive = TimeSpan.FromHours(1);
 });
 ```
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
+| `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints. |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
-| `KeyExpiration` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys. Keys are automatically cleaned up after this duration. |
+| `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration. |
+| `ChunkSizeBytes` | `int` | 4 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. |
+
+Each registration owns its connection and connects asynchronously on first use. The package never registers or
+resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not
+adopted and cannot conflict with it.
+
+The options are validated when the pipeline is built. A missing connection, an empty `KeyPrefix`, or a
+non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
+and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
+artifacts cannot expire mid-run.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -137,7 +178,7 @@ All distributed duration properties use `TimeSpan`. When binding them from `apps
     "ModuleResultTimeout": "00:45:00"
   },
   "Redis": {
-    "KeyExpiration": "01:00:00"
+    "TimeToLive": "01:00:00"
   },
   "SignalR": {
     "ConnectionTimeout": "00:02:00",
@@ -187,6 +228,19 @@ Pub/Sub channels (no TTL, ephemeral):
 |---------|---------|
 | `modpipe:{run}:results:{ModuleId}` | Notifies the master when a specific module's result is ready |
 | `modpipe:{run}:cancellation:signal` | Notifies all instances of a cancellation request |
+
+Artifacts are stored under the same run namespace:
+
+| Key | Redis Type | Purpose |
+|-----|-----------|---------|
+| `modpipe:{run}:artifacts:meta:{id}` | String | Artifact metadata (JSON) |
+| `modpipe:{run}:artifacts:data:{id}` | String | Content of an artifact that fits in one chunk (including empty artifacts) |
+| `modpipe:{run}:artifacts:data:{id}:chunk:{n}` | String | Chunks of a larger artifact |
+| `modpipe:{run}:artifacts:index:{ModuleId}` | Set | Artifact ids uploaded by a module |
+
+The braces around the run identifier form a Redis Cluster hash tag, so every key of a run maps to one slot.
+Module cache entries are not run-scoped; they use `{KeyPrefix}:module-cache:v2:{fingerprint}:...`, where the
+braced fingerprint is the hash tag that keeps an entry's metadata and chunks in one slot.
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
 

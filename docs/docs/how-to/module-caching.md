@@ -137,10 +137,22 @@ builder.AddS3ModuleCache(options =>
 Or use Redis:
 
 ```csharp
-builder.AddRedisModuleCache(
-    redis => redis.ConnectionString = "localhost:6379",
-    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
+builder.AddRedisModuleCache(redis =>
+{
+    redis.ConnectionString = "localhost:6379";
+    redis.TimeToLive = TimeSpan.FromDays(1);
+});
 ```
+
+Each cache backend takes only its own storage options (`S3StorageOptions` or `RedisOptions`). Configure
+`ModuleCacheOptions`, such as `MaximumCacheEntryBytes`, with the options pattern:
+
+```csharp
+builder.Services.Configure<ModuleCacheOptions>(options => options.MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024);
+```
+
+The Redis cache keys every entry with the fingerprint as a Redis Cluster hash tag, so it works against clustered
+Redis. Large S3 cache entries are uploaded with multipart uploads, so they are not limited to 5 GB.
 
 ## Correctness rules
 
