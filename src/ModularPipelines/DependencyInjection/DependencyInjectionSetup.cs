@@ -380,6 +380,31 @@ internal static class DependencyInjectionSetup
     }
 
     /// <summary>
+    /// Fails at startup when distributed options are invalid, or when several processes are configured
+    /// but the process-local coordinator is the only backend: workers would otherwise wait forever for
+    /// work the master cannot share.
+    /// </summary>
+    private static void EnsureSharedCoordinatorForMultipleInstances(IServiceProvider serviceProvider)
+    {
+        var options = serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+        var validation = DistributedOptionsValidator.Validate(options);
+        if (validation.Count > 0)
+        {
+            throw new InvalidOperationException(
+                "Distributed options are invalid:" + Environment.NewLine + string.Join(Environment.NewLine, validation));
+        }
+
+        if (options.TotalInstances > 1
+            && serviceProvider.GetRequiredService<IDistributedWorkerCoordinator>() is DefaultInMemoryDistributedCoordinator)
+        {
+            throw new InvalidOperationException(
+                $"Distributed mode is configured for {options.TotalInstances} instances, but no shared coordinator "
+                + "backend is registered. Register one, for example AddRedisDistributedCoordinator or "
+                + "AddSignalRDistributedCoordinator, or set TotalInstances to 1.");
+        }
+    }
+
+    /// <summary>
     /// Registers distributed execution infrastructure with local defaults.
     /// These are always available; when distributed mode is not enabled, they are harmless no-ops.
     /// The actual executor replacement happens in <see cref="PipelineBuilder"/> when distributed mode is enabled.
@@ -402,12 +427,13 @@ internal static class DependencyInjectionSetup
         services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton(serviceProvider =>
             serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);
-        services.TryAddSingleton<InMemoryDistributedCoordinator>();
+        services.TryAddSingleton<DefaultInMemoryDistributedCoordinator>();
         services.TryAddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
-            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
+            serviceProvider.GetRequiredService<DefaultInMemoryDistributedCoordinator>());
         services.TryAddSingleton<IDistributedWorkerCoordinator>(serviceProvider =>
-            serviceProvider.GetRequiredService<InMemoryDistributedCoordinator>());
+            serviceProvider.GetRequiredService<DefaultInMemoryDistributedCoordinator>());
         services.TryAddSingleton<IDistributedArtifactStore, FileSystemDistributedArtifactStore>();
+        services.TryAddSingleton<AcceptedArtifactRegistry>();
         services.TryAddSingleton<IArtifactContext, ArtifactContextImpl>();
 
         // Serialization (always available)
@@ -436,6 +462,7 @@ internal static class DependencyInjectionSetup
                 return serviceProvider.GetRequiredService<ModuleExecutor>();
             }
 
+            EnsureSharedCoordinatorForMultipleInstances(serviceProvider);
             return serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
                 ? serviceProvider.GetRequiredService<DistributedModuleExecutor>()
                 : serviceProvider.GetRequiredService<WorkerModuleExecutor>();

@@ -10,11 +10,11 @@ internal interface ICommandExecutionCounter
 
     void Add(Type? moduleType, int count);
 
-    void AddRemote(Type moduleType, int workerIndex, int count);
+    void AddRemote(Type moduleType, Distributed.WorkerId workerId, int count);
 
     int GetCount(Type moduleType);
 
     IReadOnlyDictionary<Type, int> GetModuleCounts();
 
-    IReadOnlyDictionary<(int WorkerIndex, Type ModuleType), int> GetRemoteModuleCounts();
+    IReadOnlyDictionary<(Distributed.WorkerId WorkerId, Type ModuleType), int> GetRemoteModuleCounts();
 }

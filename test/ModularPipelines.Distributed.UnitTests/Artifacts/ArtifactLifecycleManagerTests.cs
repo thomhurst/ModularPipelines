@@ -62,13 +62,15 @@ public class ArtifactLifecycleManagerTests
 
         ArtifactDescriptor? uploadedDescriptor = null;
         IReadOnlyList<string>? archivedEntries = null;
-        var expectedReference = new ArtifactReference(
-            "id1",
-            "single-file-glob-output",
-            typeof(SingleFileGlobProducerModule).FullName!,
-            100,
-            "application/zip",
-            DateTimeOffset.UtcNow);
+        var expectedReference = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "single-file-glob-output",
+            ModuleId = typeof(SingleFileGlobProducerModule).FullName!,
+            SizeBytes = 100,
+            ContentType = "application/zip",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var mockStore = new Mock<IDistributedArtifactStore>();
         mockStore
             .Setup(store => store.UploadAsync(
@@ -116,13 +118,15 @@ public class ArtifactLifecycleManagerTests
         File.WriteAllText(Path.Combine(matchedDirectory, "output.txt"), "hello");
 
         IReadOnlyList<string>? archivedEntries = null;
-        var expectedReference = new ArtifactReference(
-            "id1",
-            "single-glob-output",
-            typeof(SingleGlobProducerModule).FullName!,
-            100,
-            "application/zip",
-            DateTimeOffset.UtcNow);
+        var expectedReference = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "single-glob-output",
+            ModuleId = typeof(SingleGlobProducerModule).FullName!,
+            SizeBytes = 100,
+            ContentType = "application/zip",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var mockStore = new Mock<IDistributedArtifactStore>();
         mockStore
             .Setup(store => store.UploadAsync(
@@ -172,7 +176,15 @@ public class ArtifactLifecycleManagerTests
         File.WriteAllText(Path.Combine(artifactDirectory, "test.txt"), "hello");
 
         var mockStore = new Mock<IDistributedArtifactStore>();
-        var expectedRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
+        var expectedRef = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "build-output",
+            ModuleId = typeof(ProducerModule).FullName!,
+            SizeBytes = 100,
+            ContentType = "application/octet-stream",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         mockStore
             .Setup(s => s.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedRef);
@@ -222,7 +234,15 @@ public class ArtifactLifecycleManagerTests
             $"artifact-download-test-{Guid.NewGuid():N}");
         Directory.CreateDirectory(workingDirectory);
         var mockStore = new Mock<IDistributedArtifactStore>();
-        var artifactRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
+        var artifactRef = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "build-output",
+            ModuleId = typeof(ProducerModule).FullName!,
+            SizeBytes = 100,
+            ContentType = "application/octet-stream",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         mockStore
             .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
@@ -293,7 +313,15 @@ public class ArtifactLifecycleManagerTests
         try
         {
             var mockStore = new Mock<IDistributedArtifactStore>();
-            var artifactRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
+            var artifactRef = new ArtifactReference
+            {
+                ArtifactId = "id1",
+                Name = "build-output",
+                ModuleId = typeof(ProducerModule).FullName!,
+                SizeBytes = 100,
+                ContentType = "application/octet-stream",
+                UploadedAt = DateTimeOffset.UtcNow,
+            };
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
@@ -330,7 +358,15 @@ public class ArtifactLifecycleManagerTests
         try
         {
             var mockStore = new Mock<IDistributedArtifactStore>();
-            var artifactRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
+            var artifactRef = new ArtifactReference
+            {
+                ArtifactId = "id1",
+                Name = "build-output",
+                ModuleId = typeof(ProducerModule).FullName!,
+                SizeBytes = 100,
+                ContentType = "application/octet-stream",
+                UploadedAt = DateTimeOffset.UtcNow,
+            };
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))
@@ -371,7 +407,15 @@ public class ArtifactLifecycleManagerTests
         try
         {
             var mockStore = new Mock<IDistributedArtifactStore>();
-            var artifactRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
+            var artifactRef = new ArtifactReference
+            {
+                ArtifactId = "id1",
+                Name = "build-output",
+                ModuleId = typeof(ProducerModule).FullName!,
+                SizeBytes = 100,
+                ContentType = "application/octet-stream",
+                UploadedAt = DateTimeOffset.UtcNow,
+            };
 
             mockStore
                 .Setup(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()))

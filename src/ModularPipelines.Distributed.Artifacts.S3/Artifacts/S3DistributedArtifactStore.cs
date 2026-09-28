@@ -61,13 +61,15 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
             sizeBytes = data.Position;
         }
 
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: sizeBytes,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = sizeBytes,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         // Store metadata as a separate JSON object for listing
         var metaKey = BuildMetaKey(descriptor.ModuleId, artifactId);

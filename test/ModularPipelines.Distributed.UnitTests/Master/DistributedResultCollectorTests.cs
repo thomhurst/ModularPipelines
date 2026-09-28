@@ -48,7 +48,7 @@ public class DistributedResultCollectorTests
         };
 
         var serialized = serializer.Serialize(
-            successResult, ModuleId.FromType(typeof(TestModule)), 1);
+            successResult, ModuleId.FromType(typeof(TestModule)), WorkerId.FromInstanceIndex(1));
 
         var coordinatorMock = new Mock<IDistributedMasterCoordinator>();
         coordinatorMock.Setup(c => c.WaitForResultAsync(typeof(TestModule).FullName!, It.IsAny<CancellationToken>()))
@@ -112,7 +112,7 @@ public class DistributedResultCollectorTests
             Status = ModuleStatus.Succeeded,
         };
         var moduleId = ModuleId.FromType(typeof(CustomIdModule));
-        var serialized = serializer.Serialize(success, moduleId, workerIndex: 1) with
+        var serialized = serializer.Serialize(success, moduleId, workerId: WorkerId.FromInstanceIndex(1)) with
         {
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry
             {
@@ -153,7 +153,7 @@ public class DistributedResultCollectorTests
         var serialized = serializer.Serialize(
             result,
             ModuleId.FromType(typeof(TestModule)),
-            workerIndex: 1) with
+            workerId: WorkerId.FromInstanceIndex(1)) with
         {
             CommandCount = 4,
         };
@@ -175,7 +175,7 @@ public class DistributedResultCollectorTests
         {
             await Assert.That(commandExecutionCounter.TotalCount).IsEqualTo(4);
             await Assert.That(commandExecutionCounter.GetCount(typeof(TestModule))).IsEqualTo(4);
-            await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(1, typeof(TestModule))])
+            await Assert.That(commandExecutionCounter.GetRemoteModuleCounts()[(WorkerId.FromInstanceIndex(1), typeof(TestModule))])
                 .IsEqualTo(4);
             await Assert.That(collected!.TypeName).IsEqualTo(ModularPipelines.Engine.ModuleTypeIdentifier.Get(typeof(TestModule)));
         }
@@ -199,7 +199,7 @@ public class DistributedResultCollectorTests
         var serialized = serializer.Serialize(
             result,
             ModuleId.FromType(typeof(TestModule)),
-            workerIndex: 0) with
+            workerId: WorkerId.FromInstanceIndex(0)) with
         {
             CommandCount = 2,
         };

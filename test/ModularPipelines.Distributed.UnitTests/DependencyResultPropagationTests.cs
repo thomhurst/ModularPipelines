@@ -68,7 +68,7 @@ public class DependencyResultPropagationTests
         var serializedDep = serializer.Serialize(
             depResult,
             ModuleId.FromType(typeof(DependencyModule)),
-            workerIndex: -1);
+            workerId: WorkerId.FromInstanceIndex(0));
 
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
@@ -79,15 +79,20 @@ public class DependencyResultPropagationTests
                 return serializedDep;
             });
 
-        var assignment = new ModuleAssignment(
-            ModuleId: typeof(ConsumerModule).FullName!,
-            RequiredCapabilities: CapabilityRequirement.None,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false),
-            DependencyResultReferences:
-            [
-                new DependencyResultReference(typeof(DependencyModule).FullName!, IsAvailable: true),
-            ]);
+        var assignment = new ModuleAssignment
+        {
+            ModuleId = typeof(ConsumerModule).FullName!,
+            RequiredCapabilities = CapabilityRequirement.None,
+            AlwaysRun = false,
+            DependencyResultReferences = [
+                new DependencyResultReference
+                {
+                    ModuleId = typeof(DependencyModule).FullName!,
+                    IsAvailable = true,
+                },
+            ],
+            PipelineSchemaVersion = string.Empty,
+        };
 
         // Create module instances
         var depModule = new DependencyModule();
@@ -180,7 +185,7 @@ public class DependencyResultPropagationTests
             CreateSuccessResult(new DepResult { Value = value }, nameof(DependencyModule)),
             typeof(DependencyModule).FullName!,
 
-            workerIndex: -1);
+            workerId: WorkerId.FromInstanceIndex(0));
 
         DependencyResultCache CreateCache(string value)
         {
@@ -193,7 +198,11 @@ public class DependencyResultPropagationTests
 
         var firstApply = Task.Run(
             () => DependencyResultApplicator.FetchAndApplyAsync(
-                [new DependencyResultReference(typeof(DependencyModule).FullName!, true)],
+                [new DependencyResultReference
+                {
+                    ModuleId = typeof(DependencyModule).FullName!,
+                    IsAvailable = true,
+                }],
                 CreateCache("first"),
                 moduleLookup,
                 serializer,
@@ -203,7 +212,11 @@ public class DependencyResultPropagationTests
         await firstRegisterStarted.Task.WaitAsync(cancellationToken);
         var secondApply = Task.Run(
             () => DependencyResultApplicator.FetchAndApplyAsync(
-                [new DependencyResultReference(typeof(DependencyModule).FullName!, true)],
+                [new DependencyResultReference
+                {
+                    ModuleId = typeof(DependencyModule).FullName!,
+                    IsAvailable = true,
+                }],
                 CreateCache("second"),
                 moduleLookup,
                 serializer,
@@ -241,7 +254,11 @@ public class DependencyResultPropagationTests
         var registry = new ModuleResultRegistry();
 
         await DependencyResultApplicator.FetchAndApplyAsync(
-            [new DependencyResultReference(ModuleId.FromType(typeof(DependencyModule)), true)],
+            [new DependencyResultReference
+            {
+                ModuleId = ModuleId.FromType(typeof(DependencyModule)),
+                IsAvailable = true,
+            }],
             new DependencyResultCache(coordinator.Object, CancellationToken.None),
             DependencyResultApplicator.BuildModuleLookup([module]),
             new ModuleResultSerializer(new ModuleTypeRegistry()),
@@ -259,24 +276,22 @@ public class DependencyResultPropagationTests
         typeRegistry.Register(typeof(IndependentModule));
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
-            .Setup(x => x.PublishResultAsync(It.IsAny<SerializedModuleResult>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.PublishResultAsync(It.IsAny<SerializedModuleResult>(), It.IsAny<ModuleLease?>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Publication failed."));
-        var assignment = new ModuleAssignment(
-            ModuleId: typeof(IndependentModule).FullName!,
-            RequiredCapabilities: CapabilityRequirement.None,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false))
+        var assignment = new ModuleAssignment
         {
+            ModuleId = typeof(IndependentModule).FullName!,
+            RequiredCapabilities = CapabilityRequirement.None,
+            AlwaysRun = false,
             PipelineSchemaVersion = "different-build",
         };
         PipelineSchemaMismatchException? recorded = null;
 
         await Assert.That(() => DependencyResultApplicator.RejectSchemaMismatchAsync(
-                assignment,
+                DistributedTestData.Lease(assignment),
                 typeRegistry,
                 new ModuleResultSerializer(typeRegistry),
                 coordinator.Object,
-                workerIndex: 1,
                 new DistributedModuleExecutionTimer(DateTimeOffset.UtcNow),
                 exception => recorded = exception))
             .Throws<InvalidOperationException>();
@@ -288,15 +303,16 @@ public class DependencyResultPropagationTests
     public async Task Null_Dependency_Result_References_Does_Not_Crash()
     {
         // Arrange — assignment with null DependencyResults (backwards compat)
-        var assignment = new ModuleAssignment(
-            ModuleId: typeof(IndependentModule).FullName!,
-            RequiredCapabilities: CapabilityRequirement.None,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false),
-            DependencyResultReferences: null);
+        var assignment = new ModuleAssignment
+        {
+            ModuleId = typeof(IndependentModule).FullName!,
+            RequiredCapabilities = CapabilityRequirement.None,
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
         // Act & Assert — should not throw
-        await Assert.That(assignment.DependencyResultReferences).IsNull();
+        await Assert.That(assignment.DependencyResultReferences).IsEmpty();
     }
 
     [Test]
@@ -305,7 +321,11 @@ public class DependencyResultPropagationTests
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
 
         await DependencyResultApplicator.FetchAndApplyAsync(
-            [new DependencyResultReference(typeof(DependencyModule).FullName!, IsAvailable: false)],
+            [new DependencyResultReference
+            {
+                ModuleId = typeof(DependencyModule).FullName!,
+                IsAvailable = false,
+            }],
             new DependencyResultCache(coordinator.Object, CancellationToken.None),
             DependencyResultApplicator.BuildModuleLookup([new DependencyModule()]),
             new ModuleResultSerializer(new ModuleTypeRegistry()),
@@ -321,12 +341,13 @@ public class DependencyResultPropagationTests
     public async Task Failed_Dependency_Fetch_Is_Not_Cached()
     {
         var moduleId = typeof(DependencyModule).FullName!;
-        var expected = new SerializedModuleResult(
-            moduleId,
-
-            -1,
-            "{}",
-            DateTimeOffset.UtcNow);
+        var expected = new SerializedModuleResult
+        {
+            ModuleId = moduleId,
+            WorkerId = WorkerId.FromInstanceIndex(0),
+            Payload = "{}",
+            CompletedAt = DateTimeOffset.UtcNow,
+        };
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         coordinator
             .SetupSequence(x => x.WaitForResultAsync(moduleId, It.IsAny<CancellationToken>()))

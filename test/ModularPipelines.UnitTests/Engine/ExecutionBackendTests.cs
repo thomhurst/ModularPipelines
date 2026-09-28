@@ -452,12 +452,10 @@ public partial class ExecutionBackendTests
 
         public bool OwnsEntirePlan => true;
 
-        public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
-            IReadOnlyList<IModule> modules,
-            IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-            IExecutionBackendContext context,
-            CancellationToken cancellationToken)
+        public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(ExecutionBackendRequest request, CancellationToken cancellationToken)
         {
+            var modules = request.Modules;
+            _ = request.Context;
             cancellationToken.ThrowIfCancellationRequested();
             ReceivedModules = modules;
             var result = CreateResult(modules.Single());
@@ -553,10 +551,6 @@ public partial class ExecutionBackendTests
     {
         public bool OwnsEntirePlan => true;
 
-        public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
-            IReadOnlyList<IModule> modules,
-            IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-            IExecutionBackendContext context,
-            CancellationToken cancellationToken) => callback(modules, context, cancellationToken);
+        public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(ExecutionBackendRequest request, CancellationToken cancellationToken) => callback(request.Modules, request.Context, cancellationToken);
     }
 }

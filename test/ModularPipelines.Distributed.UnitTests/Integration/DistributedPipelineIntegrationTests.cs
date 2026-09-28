@@ -63,7 +63,7 @@ public class DistributedPipelineIntegrationTests
 
         // Simulate worker: dequeue the assignment
         var workerAssignment = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability>(), CancellationToken.None);
+            DistributedTestData.Worker, new HashSet<Capability>(), CancellationToken.None);
         await Assert.That(workerAssignment).IsNotNull();
 
         // Simulate worker producing a serialized result
@@ -81,9 +81,9 @@ public class DistributedPipelineIntegrationTests
         var serialized = serializer.Serialize(
             successResult,
             ModuleId.FromType(typeof(ModuleA)),
-            1);
+            WorkerId.FromInstanceIndex(1));
 
-        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await coordinator.PublishResultAsync(serialized, lease: null, CancellationToken.None);
 
         // Collector waits for result
         var result = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);
@@ -152,8 +152,8 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedA = serializer.Serialize(resultA, ModuleId.FromType(typeof(ModuleA)), 1);
-        await coordinator.PublishResultAsync(serializedA, CancellationToken.None);
+        var serializedA = serializer.Serialize(resultA, ModuleId.FromType(typeof(ModuleA)), WorkerId.FromInstanceIndex(1));
+        await coordinator.PublishResultAsync(serializedA, lease: null, CancellationToken.None);
 
         var resultB = new ModuleResult<string>.Success("B")
         {
@@ -164,8 +164,8 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedB = serializer.Serialize(resultB, ModuleId.FromType(typeof(ModuleB)), 1);
-        await coordinator.PublishResultAsync(serializedB, CancellationToken.None);
+        var serializedB = serializer.Serialize(resultB, ModuleId.FromType(typeof(ModuleB)), WorkerId.FromInstanceIndex(1));
+        await coordinator.PublishResultAsync(serializedB, lease: null, CancellationToken.None);
 
         var resultC = new ModuleResult<int>.Success(42)
         {
@@ -176,8 +176,8 @@ public class DistributedPipelineIntegrationTests
             EndTime = now.AddSeconds(1),
             Status = ModuleStatus.Succeeded
         };
-        var serializedC = serializer.Serialize(resultC, ModuleId.FromType(typeof(ModuleC)), 1);
-        await coordinator.PublishResultAsync(serializedC, CancellationToken.None);
+        var serializedC = serializer.Serialize(resultC, ModuleId.FromType(typeof(ModuleC)), WorkerId.FromInstanceIndex(1));
+        await coordinator.PublishResultAsync(serializedC, lease: null, CancellationToken.None);
 
         // Collect all 3
         var collectedA = await collector.WaitForResultAsync(typeof(ModuleA).FullName!, CancellationToken.None);

@@ -1,5 +1,4 @@
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines;
 
@@ -12,7 +11,8 @@ namespace ModularPipelines;
 /// results they produce, or by calling <see cref="IExecutionBackendContext.ExecuteModuleAsync"/>
 /// to execute planned modules through the engine's in-process lifecycle.
 /// A backend that <see cref="OwnsEntirePlan"/> must either return or apply a result for every planned
-/// module before completing.
+/// module before completing. The request is a single object so later versions can add plan data
+/// without changing this signature.
 /// </remarks>
 public interface IExecutionBackend
 {
@@ -29,22 +29,16 @@ public interface IExecutionBackend
     /// <summary>
     /// Executes the planned modules and returns their results.
     /// </summary>
-    /// <param name="modules">The planned modules to execute.</param>
-    /// <param name="estimatedDurations">
-    /// Historical duration estimates keyed by module type, used to prioritise scheduling. Modules
-    /// without history are absent from the dictionary.
-    /// </param>
-    /// <param name="context">Operations for executing planned modules locally and applying remotely produced results.</param>
+    /// <param name="request">The execution plan and the engine operations available to the backend.</param>
     /// <param name="cancellationToken">A token that requests pipeline cancellation.</param>
     /// <returns>
     /// The completed module results. Each returned result must provide its module's fully qualified
     /// type name through <see cref="IModuleResult.TypeName"/>. A backend that
     /// <see cref="OwnsEntirePlan"/> may omit results already applied through
-    /// <paramref name="context"/>; any other backend must return the result of every module it claimed.
+    /// <see cref="ExecutionBackendRequest.Context"/>; any other backend must return the result of every
+    /// module it claimed.
     /// </returns>
     Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
-        IReadOnlyList<IModule> modules,
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-        IExecutionBackendContext context,
+        ExecutionBackendRequest request,
         CancellationToken cancellationToken);
 }

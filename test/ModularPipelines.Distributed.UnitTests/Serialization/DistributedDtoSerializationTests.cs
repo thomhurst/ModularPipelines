@@ -6,15 +6,20 @@ public class DistributedDtoSerializationTests
     [Test]
     public async Task ModuleAssignment_RoundTrips_With_DefaultOptions()
     {
-        var expected = new ModuleAssignment(
-            "BuildModule",
-            CapabilityRequirement.AllOf("Docker"),
-            DateTimeOffset.UtcNow,
-            new ModuleAssignmentOptions(TimeSpan.FromMilliseconds(1234), false),
-            [new DependencyResultReference("DependencyModule", IsAvailable: true)])
+        var expected = new ModuleAssignment
         {
+            ModuleId = "BuildModule",
+            RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("Docker")),
+            AlwaysRun = true,
+            DependencyResultReferences = [new DependencyResultReference
+            {
+                ModuleId = "DependencyModule",
+                IsAvailable = true,
+            }],
             EnqueuedAt = DateTimeOffset.UtcNow,
             SatisfiedConditionGroups = ["Conditions.CrossPlatform"],
+            PipelineSchemaVersion = "schema",
+            RequiredArtifacts = ["package"],
         };
 
         var json = JsonSerializer.Serialize(expected);
@@ -27,22 +32,20 @@ public class DistributedDtoSerializationTests
         await Assert.That(actual!.EnqueuedAt).IsEqualTo(expected.EnqueuedAt);
         await Assert.That(actual.RequiredCapabilities).IsEqualTo(expected.RequiredCapabilities);
         await Assert.That(actual.SatisfiedConditionGroups).Contains("Conditions.CrossPlatform");
-        await Assert.That(actual.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1234));
-        await Assert.That(actual.DependencyResultReferences).IsEquivalentTo(expected.DependencyResultReferences!);
+        await Assert.That(actual.AlwaysRun).IsTrue();
+        await Assert.That(actual.PipelineSchemaVersion).IsEqualTo("schema");
+        await Assert.That(actual.RequiredArtifacts).IsEquivalentTo(expected.RequiredArtifacts);
+        await Assert.That(json).DoesNotContain("AssignedAt");
+        await Assert.That(actual.DependencyResultReferences).IsEquivalentTo(expected.DependencyResultReferences);
     }
 
     [Test]
     public async Task WorkerDtos_RoundTrip_With_DefaultOptions()
     {
-        var registration = new WorkerRegistration(
-            1,
-            ["Docker"],
-            DateTimeOffset.UtcNow)
+        var registration = new WorkerRegistration { WorkerId = WorkerId.FromInstanceIndex(1), Capabilities = [new Capability("Docker")], RegisteredAt = DateTimeOffset.UtcNow, RunId = "run-1" };
+        var status = new WorkerStatus
         {
-            RunId = "run-1",
-        };
-        var status = new WorkerStatus(1)
-        {
+            WorkerId = WorkerId.FromInstanceIndex(1),
             RunId = "run-1",
             UnattributedCommandCount = 3,
         };
@@ -63,11 +66,13 @@ public class DistributedDtoSerializationTests
     [Test]
     public async Task SerializedModuleResult_Uses_Transport_Neutral_Payload_Name()
     {
-        var result = new SerializedModuleResult(
-            "BuildModule",
-            1,
-            "{}",
-            DateTimeOffset.UtcNow);
+        var result = new SerializedModuleResult
+        {
+            ModuleId = "BuildModule",
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Payload = "{}",
+            CompletedAt = DateTimeOffset.UtcNow,
+        };
 
         var json = JsonSerializer.Serialize(result);
 
@@ -81,13 +86,12 @@ public class DistributedDtoSerializationTests
     public async Task SerializedModuleResult_RoundTrips_ExecutionTelemetry()
     {
         var now = DateTimeOffset.UtcNow;
-        var expected = new SerializedModuleResult(
-            "BuildModule",
-
-            1,
-            "{}",
-            now)
+        var expected = new SerializedModuleResult
         {
+            ModuleId = "BuildModule",
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Payload = "{}",
+            CompletedAt = now,
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry
             {
                 ClaimedAt = now.AddSeconds(-4),
@@ -110,10 +114,7 @@ public class DistributedDtoSerializationTests
     [Test]
     public async Task WorkerRegistration_Rejects_Default_Capabilities()
     {
-        var registration = new WorkerRegistration(
-            1,
-            [default],
-            DateTimeOffset.UtcNow);
+        var registration = new WorkerRegistration { WorkerId = WorkerId.FromInstanceIndex(1), Capabilities = [default], RegisteredAt = DateTimeOffset.UtcNow };
 
         await Assert.That(() => JsonSerializer.Serialize(registration))
             .Throws<JsonException>();

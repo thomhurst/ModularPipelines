@@ -377,9 +377,7 @@ public class PipelineExecutorTests
         executionBackend.SetupGet(x => x.OwnsEntirePlan).Returns(ownsEntirePlan);
         executionBackend
             .Setup(x => x.ExecuteAsync(
-                It.IsAny<IReadOnlyList<IModule>>(),
-                It.IsAny<IReadOnlyDictionary<Type, TimeSpan>>(),
-                It.IsAny<IExecutionBackendContext>(),
+                It.IsAny<ExecutionBackendRequest>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(backendResults ?? []);
         executionBackendContext ??= Mock.Of<IExecutionBackendContext>();

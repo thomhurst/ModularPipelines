@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Distributed.Worker;
@@ -23,53 +24,61 @@ internal static class DistributedWorkerPool
         return Math.Min(pipelineLimit, nodeLimit);
     }
 
+    /// <summary>
+    /// Claims and executes leases with at most <paramref name="maxConcurrency"/> in flight. A slot is
+    /// acquired before each claim, so the worker never holds a claimed lease it cannot start.
+    /// </summary>
     public static async Task RunAsync(
-        Func<CancellationToken, Task<ModuleAssignment?>> dequeueAsync,
-        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
+        Func<CancellationToken, Task<ModuleLease?>> dequeueAsync,
+        Func<ModuleLease, DateTimeOffset, CancellationToken, Task> executeAsync,
         int maxConcurrency,
         Action<Exception> onError,
         CancellationToken cancellationToken,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        InFlightLeases? inFlightLeases = null)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(maxConcurrency, 1);
         var clock = timeProvider ?? TimeProvider.System;
 
         using var concurrencyGate = new SemaphoreSlim(maxConcurrency, maxConcurrency);
         var running = new List<Task>();
-        var pendingDequeue = DequeueAsync(dequeueAsync, onError, clock, cancellationToken);
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
-            var (assignment, claimedAt) = await pendingDequeue.ConfigureAwait(false);
-            if (assignment is null)
+            try
+            {
+                await concurrencyGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 break;
             }
 
-            // The coordinator has already transferred ownership. Drain this assignment even
-            // after cancellation so its execution path can publish a terminal result.
-            await concurrencyGate.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+            var (lease, claimedAt) = await DequeueAsync(dequeueAsync, onError, clock, cancellationToken)
+                .ConfigureAwait(false);
+            if (lease is null)
+            {
+                concurrencyGate.Release();
+                break;
+            }
 
+            // The coordinator has transferred ownership. Execute even after cancellation so the
+            // execution path can publish a terminal result for the lease.
             running.RemoveAll(static task => task.IsCompletedSuccessfully);
             running.Add(ExecuteAndReleaseAsync(
-                assignment,
+                lease,
                 claimedAt,
                 executeAsync,
                 onError,
                 concurrencyGate,
+                inFlightLeases,
                 cancellationToken));
-            if (cancellationToken.IsCancellationRequested)
-            {
-                break;
-            }
-
-            pendingDequeue = DequeueAsync(dequeueAsync, onError, clock, cancellationToken);
         }
 
         await Task.WhenAll(running).ConfigureAwait(false);
     }
 
-    private static async Task<(ModuleAssignment? Assignment, DateTimeOffset ClaimedAt)> DequeueAsync(
-        Func<CancellationToken, Task<ModuleAssignment?>> dequeueAsync,
+    private static async Task<(ModuleLease? Lease, DateTimeOffset ClaimedAt)> DequeueAsync(
+        Func<CancellationToken, Task<ModuleLease?>> dequeueAsync,
         Action<Exception> onError,
         TimeProvider clock,
         CancellationToken cancellationToken)
@@ -78,8 +87,8 @@ internal static class DistributedWorkerPool
         {
             try
             {
-                var assignment = await dequeueAsync(cancellationToken).ConfigureAwait(false);
-                return (assignment, clock.GetUtcNow());
+                var lease = await dequeueAsync(cancellationToken).ConfigureAwait(false);
+                return (lease, clock.GetUtcNow());
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -102,16 +111,19 @@ internal static class DistributedWorkerPool
         return (null, default);
     }
 
-    private static async Task ExecuteAsync(
-        ModuleAssignment assignment,
+    private static async Task ExecuteAndReleaseAsync(
+        ModuleLease lease,
         DateTimeOffset claimedAt,
-        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
+        Func<ModuleLease, DateTimeOffset, CancellationToken, Task> executeAsync,
         Action<Exception> onError,
+        SemaphoreSlim concurrencyGate,
+        InFlightLeases? inFlightLeases,
         CancellationToken cancellationToken)
     {
+        inFlightLeases?.Add(lease);
         try
         {
-            await executeAsync(assignment, claimedAt, cancellationToken).ConfigureAwait(false);
+            await executeAsync(lease, claimedAt, cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
             when (cancellationToken.IsCancellationRequested ||
@@ -122,24 +134,25 @@ internal static class DistributedWorkerPool
         {
             onError(exception);
         }
-    }
-
-    private static async Task ExecuteAndReleaseAsync(
-        ModuleAssignment assignment,
-        DateTimeOffset claimedAt,
-        Func<ModuleAssignment, DateTimeOffset, CancellationToken, Task> executeAsync,
-        Action<Exception> onError,
-        SemaphoreSlim concurrencyGate,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            await ExecuteAsync(assignment, claimedAt, executeAsync, onError, cancellationToken)
-                .ConfigureAwait(false);
-        }
         finally
         {
+            inFlightLeases?.Remove(lease);
             concurrencyGate.Release();
         }
     }
+}
+
+/// <summary>
+/// Tracks the leases a process is executing so its heartbeats can renew them.
+/// </summary>
+internal sealed class InFlightLeases
+{
+    private readonly ConcurrentDictionary<string, ModuleLease> _leases = new(StringComparer.Ordinal);
+
+    public void Add(ModuleLease lease) => _leases[lease.LeaseId] = lease;
+
+    public void Remove(ModuleLease lease) => _leases.TryRemove(lease.LeaseId, out _);
+
+    public IReadOnlyList<ModuleId> GetModuleIds() =>
+        [.. _leases.Values.Select(static lease => lease.Assignment.ModuleId).Distinct()];
 }

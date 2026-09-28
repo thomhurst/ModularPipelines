@@ -273,7 +273,7 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Preserves_Module_Timeout()
+    public async Task CreateAssignment_Does_Not_Carry_Worker_Enforced_Timeout()
     {
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(TimedModule));
@@ -283,8 +283,11 @@ public class DistributedWorkPublisherTests
             new ModuleResultRegistry());
 
         var assignment = publisher.CreateAssignment(new TimedModule());
+        var json = System.Text.Json.JsonSerializer.Serialize(assignment);
 
-        await Assert.That(assignment.Configuration.Timeout).IsEqualTo(TimeSpan.FromMilliseconds(1500));
+        // The executing worker applies the module's own per-attempt timeout.
+        await Assert.That(json).DoesNotContain("Timeout");
+        await Assert.That(assignment.AlwaysRun).IsFalse();
     }
 
     [Test]
@@ -325,7 +328,7 @@ public class DistributedWorkPublisherTests
         var resultRegistry = new ModuleResultRegistry();
         var now = DateTimeOffset.UtcNow;
         ModuleResult<DepResult> depResult = new ModuleResult<DepResult>.Failure(
-            new RemoteModuleException("WorkerException", "worker failed", "remote stack", workerIndex: 3))
+            new RemoteModuleException("WorkerException", "worker failed", "remote stack", workerId: WorkerId.FromInstanceIndex(3)))
         {
             Name = nameof(DependencyModule),
             TypeName = typeof(DependencyModule).FullName,
@@ -333,7 +336,7 @@ public class DistributedWorkPublisherTests
             StartTime = now,
             EndTime = now,
             Status = ModuleStatus.Failed,
-            WorkerIndex = 3,
+            WorkerId = WorkerId.FromInstanceIndex(3),
         };
         resultRegistry.RegisterResult(typeof(DependencyModule), depResult);
         var publisher = new DistributedWorkPublisher(
@@ -432,7 +435,7 @@ public class DistributedWorkPublisherTests
         var module = new IndependentModule();
         var assignment = publisher.CreateAssignment(module);
 
-        await Assert.That(assignment.DependencyResultReferences).IsNull();
+        await Assert.That(assignment.DependencyResultReferences).IsEmpty();
     }
 
     [Test]
@@ -457,7 +460,7 @@ public class DistributedWorkPublisherTests
         var assignment = publisher.CreateAssignment(module);
 
         await Assert.That(assignment.SatisfiedConditionGroups)
-            .Contains(typeof(DistributedWorkPublisherTests).AssemblyQualifiedName!);
+            .Contains($"{typeof(DistributedWorkPublisherTests).FullName}, {typeof(DistributedWorkPublisherTests).Assembly.GetName().Name}");
     }
 
     [Test]

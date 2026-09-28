@@ -27,7 +27,12 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task Upload_CallsPutObjectAsync()
     {
-        var descriptor = new ArtifactDescriptor("test-art", "Test.Module", "application/octet-stream");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "test-art",
+            ModuleId = "Test.Module",
+            ContentType = "application/octet-stream",
+        };
         var data = new byte[] { 1, 2, 3, 4, 5 };
 
         _mockS3.Setup(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
@@ -49,7 +54,11 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task Upload_SetsCorrectBucketAndKey()
     {
-        var descriptor = new ArtifactDescriptor("build-output", "My.BuildModule");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "build-output",
+            ModuleId = "My.BuildModule",
+        };
         PutObjectRequest? capturedRequest = null;
 
         _mockS3.Setup(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
@@ -76,7 +85,11 @@ public class S3ArtifactStoreTests
         _mockS3.Setup(instance => instance.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ListObjectsV2Response { S3Objects = [], IsTruncated = false });
         using var stream = new MemoryStream([1]);
-        var reference = await _store.UploadAsync(new ArtifactDescriptor("output", id), stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor
+        {
+            Name = "output",
+            ModuleId = id,
+        }, stream, CancellationToken.None);
         await _store.ListArtifactsAsync(id, CancellationToken.None);
 
         await Assert.That(reference.ModuleId.Value).IsEqualTo(id);
@@ -90,7 +103,11 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task Upload_DisablesPayloadSigning()
     {
-        var descriptor = new ArtifactDescriptor("art1", "Test.Module");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "art1",
+            ModuleId = "Test.Module",
+        };
         PutObjectRequest? capturedRequest = null;
 
         _mockS3.Setup(s => s.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
@@ -107,7 +124,15 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task Download_CallsGetObjectAsync()
     {
-        var reference = new ArtifactReference("art1", "test", "Test.Module", 3, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "art1",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var data = new byte[] { 10, 20, 30 };
 
         _mockS3.Setup(s => s.GetObjectAsync(
@@ -129,7 +154,15 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task Delete_CallsDeleteObjectAsync()
     {
-        var reference = new ArtifactReference("art1", "test", "Test.Module", 3, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "art1",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         _mockS3.Setup(s => s.DeleteObjectAsync(
             It.IsAny<string>(),
@@ -149,7 +182,15 @@ public class S3ArtifactStoreTests
     [Test]
     public async Task ListArtifacts_ReturnsDeserializedReferences()
     {
-        var ref1 = new ArtifactReference("id1", "art1", "Test.Module", 100, null, DateTimeOffset.UtcNow);
+        var ref1 = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "art1",
+            ModuleId = "Test.Module",
+            SizeBytes = 100,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var ref1Json = System.Text.Json.JsonSerializer.Serialize(ref1);
 
         _mockS3.Setup(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))

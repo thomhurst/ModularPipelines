@@ -45,7 +45,7 @@ public class ReadOnlyCollectionResultTests
             Status = ModuleStatus.Succeeded,
         };
 
-        var payload = serializer.Serialize(result, ModuleId.FromType(moduleType), workerIndex: 1);
+        var payload = serializer.Serialize(result, ModuleId.FromType(moduleType), workerId: WorkerId.FromInstanceIndex(1));
         var restored = (ModuleResult<T>) serializer.Deserialize(payload)!;
 
         await Assert.That(restored.Value.Select(static file => file.Path)

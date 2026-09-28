@@ -110,10 +110,11 @@ internal static class DistributedBuildConfiguration
             options.RunId = runId;
             options.Capabilities = index == 0 ? [new Capability(MasterCapability)] : [];
             options.MinimumWorkerCount = count - 1;
-            options.CapabilityTimeout = TimeSpan.FromMinutes(10);
-            // Explicit platform build timeouts take precedence. Keep the default result
-            // failure bounded below the workflow's 90-minute lifetime.
-            options.ModuleResultTimeout = TimeSpan.FromMinutes(80);
+            options.WorkerRegistrationTimeout = TimeSpan.FromMinutes(10);
+            // Workers enforce each module's own timeout; the master's backstop adds this slack
+            // after a worker claims the module, which keeps a stalled worker's failure well
+            // inside the workflow's 90-minute lifetime.
+            options.ModuleResultTimeout = TimeSpan.FromMinutes(15);
             options.MaxParallelism = 2;
         });
         builder.AddRedisDistributed(options =>

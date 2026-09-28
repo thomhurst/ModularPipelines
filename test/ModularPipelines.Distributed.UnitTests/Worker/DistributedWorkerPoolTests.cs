@@ -10,27 +10,23 @@ public class DistributedWorkerPoolTests
 {
     [Test]
     [Timeout(5_000)]
-    public async Task Prefetched_Assignment_Retains_Claim_Time_While_Waiting_For_A_Slot(
-        CancellationToken cancellationToken)
+    public async Task Claim_Time_Is_Recorded_When_The_Lease_Is_Dequeued(CancellationToken cancellationToken)
     {
         var clock = new FakeTimeProvider();
-        var expectedClaimTime = clock.GetUtcNow();
-        var assignments = new Queue<ModuleAssignment>(
-            [CreateAssignment("first"), CreateAssignment("second")]);
+        var leases = new Queue<ModuleLease>([CreateLease("first"), CreateLease("second")]);
         var claimedTimes = new ConcurrentDictionary<string, DateTimeOffset>();
         var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dequeueCount = 0;
 
         var runTask = DistributedWorkerPool.RunAsync(
             _ =>
             {
-                dequeueCount++;
-                return Task.FromResult(assignments.TryDequeue(out var assignment) ? assignment : null);
+                var lease = leases.TryDequeue(out var next) ? next : null;
+                return Task.FromResult(lease);
             },
-            (assignment, claimedAt, token) =>
+            (lease, claimedAt, token) =>
             {
-                claimedTimes[assignment.ModuleId] = claimedAt;
-                return assignment.ModuleId == "first"
+                claimedTimes[lease.Assignment.ModuleId.Value] = claimedAt;
+                return lease.Assignment.ModuleId.Value == "first"
                     ? releaseFirst.Task.WaitAsync(token)
                     : Task.CompletedTask;
             },
@@ -39,49 +35,40 @@ public class DistributedWorkerPoolTests
             cancellationToken,
             clock);
 
-        // Synchronous dequeues reach the occupied concurrency gate before RunAsync returns.
-        await Assert.That(dequeueCount).IsEqualTo(2);
+        var firstClaimTime = clock.GetUtcNow();
         clock.Advance(TimeSpan.FromHours(1));
         releaseFirst.SetResult();
         await runTask.WaitAsync(cancellationToken);
 
-        await Assert.That(claimedTimes["first"]).IsEqualTo(expectedClaimTime);
-        await Assert.That(claimedTimes["second"]).IsEqualTo(expectedClaimTime);
+        await Assert.That(claimedTimes["first"]).IsEqualTo(firstClaimTime);
+        await Assert.That(claimedTimes["second"]).IsEqualTo(firstClaimTime + TimeSpan.FromHours(1));
     }
 
     [Test]
     [Timeout(5_000)]
-    public async Task Executes_In_Parallel_And_Prefetches_One_Assignment(
+    public async Task Executes_In_Parallel_And_Claims_Only_When_A_Slot_Is_Free(
         CancellationToken cancellationToken)
     {
-        var assignments = new ConcurrentQueue<ModuleAssignment>(
+        var leases = new ConcurrentQueue<ModuleLease>(
         [
-            CreateAssignment("first"),
-            CreateAssignment("second"),
-            CreateAssignment("third"),
+            CreateLease("first"),
+            CreateLease("second"),
+            CreateLease("third"),
         ]);
         var twoStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var thirdDequeued = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var dequeueCount = 0;
         var active = 0;
         var peakActive = 0;
         var completed = 0;
 
-        Task<ModuleAssignment?> Dequeue(CancellationToken _)
+        Task<ModuleLease?> Dequeue(CancellationToken _)
         {
-            var currentDequeue = Interlocked.Increment(ref dequeueCount);
-            if (currentDequeue == 3)
-            {
-                thirdDequeued.TrySetResult();
-            }
-
-            return Task.FromResult(assignments.TryDequeue(out var assignment)
-                ? assignment
-                : null);
+            Interlocked.Increment(ref dequeueCount);
+            return Task.FromResult(leases.TryDequeue(out var lease) ? lease : null);
         }
 
-        async Task Execute(ModuleAssignment _, DateTimeOffset _claimedAt, CancellationToken token)
+        async Task Execute(ModuleLease _, DateTimeOffset claimedAt, CancellationToken token)
         {
             var currentActive = Interlocked.Increment(ref active);
             UpdateMaximum(ref peakActive, currentActive);
@@ -103,14 +90,45 @@ public class DistributedWorkerPoolTests
             cancellationToken);
 
         await twoStarted.Task.WaitAsync(cancellationToken);
-        await thirdDequeued.Task.WaitAsync(cancellationToken);
+        await Task.Delay(50, cancellationToken);
 
+        // Both slots are busy, so the worker must not hold a third claimed lease.
+        await Assert.That(Volatile.Read(ref dequeueCount)).IsEqualTo(2);
         await Assert.That(peakActive).IsEqualTo(2);
 
         release.TrySetResult();
         await runTask.WaitAsync(cancellationToken);
 
         await Assert.That(completed).IsEqualTo(3);
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task In_Flight_Leases_Are_Tracked_Until_Execution_Finishes(CancellationToken cancellationToken)
+    {
+        var inFlight = new InFlightLeases();
+        var leases = new Queue<ModuleLease>([CreateLease("tracked")]);
+        var started = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var runTask = DistributedWorkerPool.RunAsync(
+            _ => Task.FromResult(leases.TryDequeue(out var lease) ? lease : null),
+            async (_, _, token) =>
+            {
+                started.TrySetResult();
+                await release.Task.WaitAsync(token);
+            },
+            maxConcurrency: 1,
+            _ => { },
+            cancellationToken,
+            inFlightLeases: inFlight);
+
+        await started.Task.WaitAsync(cancellationToken);
+        await Assert.That(inFlight.GetModuleIds()).Contains(new ModuleId("tracked"));
+
+        release.SetResult();
+        await runTask.WaitAsync(cancellationToken);
+        await Assert.That(inFlight.GetModuleIds()).IsEmpty();
     }
 
     [Test]
@@ -157,23 +175,16 @@ public class DistributedWorkerPoolTests
 
     [Test]
     [Timeout(5_000)]
-    public async Task Cancellation_Drains_Pending_Dequeue(CancellationToken cancellationToken)
+    public async Task Cancellation_Stops_A_Pending_Dequeue(CancellationToken cancellationToken)
     {
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        var secondDequeueStarted = new TaskCompletionSource(
-            TaskCreationOptions.RunContinuationsAsynchronously);
+        var dequeueStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var pendingDequeueObservedCancellation = false;
-        var dequeueCount = 0;
 
-        await DistributedWorkerPool.RunAsync(
+        var runTask = DistributedWorkerPool.RunAsync(
             async token =>
             {
-                if (Interlocked.Increment(ref dequeueCount) == 1)
-                {
-                    return CreateAssignment("first");
-                }
-
-                secondDequeueStarted.TrySetResult();
+                dequeueStarted.TrySetResult();
                 try
                 {
                     await Task.Delay(Timeout.InfiniteTimeSpan, token);
@@ -185,69 +196,42 @@ public class DistributedWorkerPoolTests
                     throw;
                 }
             },
-            async (_, _, _) =>
-            {
-                await secondDequeueStarted.Task;
-                await stop.CancelAsync();
-            },
+            (_, _, _) => Task.CompletedTask,
             maxConcurrency: 1,
             _ => { },
             stop.Token);
+
+        await dequeueStarted.Task.WaitAsync(cancellationToken);
+        await stop.CancelAsync();
+        await runTask.WaitAsync(cancellationToken);
 
         await Assert.That(pendingDequeueObservedCancellation).IsTrue();
     }
 
     [Test]
     [Timeout(5_000)]
-    public async Task Cancellation_Drains_Assignment_Waiting_For_Concurrency(
-        CancellationToken cancellationToken)
+    public async Task Claimed_Lease_Runs_After_Cancellation(CancellationToken cancellationToken)
     {
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        var assignments = new ConcurrentQueue<ModuleAssignment>(
-        [
-            CreateAssignment("first"),
-            CreateAssignment("second"),
-        ]);
-        var firstStarted = new TaskCompletionSource(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var secondDequeued = new TaskCompletionSource(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var releaseFirst = new TaskCompletionSource(
-            TaskCreationOptions.RunContinuationsAsynchronously);
-        var dequeueCount = 0;
-        var executionCount = 0;
+        var executions = 0;
 
-        var runTask = DistributedWorkerPool.RunAsync(
-            _ =>
+        await DistributedWorkerPool.RunAsync(
+            async token =>
             {
-                if (Interlocked.Increment(ref dequeueCount) == 2)
-                {
-                    secondDequeued.TrySetResult();
-                }
-
-                return Task.FromResult(assignments.TryDequeue(out var assignment)
-                    ? assignment
-                    : null);
+                // The coordinator hands over a lease as the worker is being cancelled.
+                await stop.CancelAsync();
+                return CreateLease("claimed");
             },
-            async (_, _, _) =>
+            (_, _, _) =>
             {
-                if (Interlocked.Increment(ref executionCount) == 1)
-                {
-                    firstStarted.TrySetResult();
-                    await releaseFirst.Task;
-                }
+                Interlocked.Increment(ref executions);
+                return Task.CompletedTask;
             },
             maxConcurrency: 1,
             _ => { },
             stop.Token);
 
-        await firstStarted.Task.WaitAsync(cancellationToken);
-        await secondDequeued.Task.WaitAsync(cancellationToken);
-        await stop.CancelAsync();
-        releaseFirst.TrySetResult();
-        await runTask.WaitAsync(cancellationToken);
-
-        await Assert.That(executionCount).IsEqualTo(2);
+        await Assert.That(executions).IsEqualTo(1);
     }
 
     [Test]
@@ -255,14 +239,11 @@ public class DistributedWorkerPoolTests
     {
         using var executionCancellation = new CancellationTokenSource();
         await executionCancellation.CancelAsync();
-        var assignments = new ConcurrentQueue<ModuleAssignment>(
-            [CreateAssignment("cancelled")]);
+        var leases = new ConcurrentQueue<ModuleLease>([CreateLease("cancelled")]);
         var errorCount = 0;
 
         await DistributedWorkerPool.RunAsync(
-            _ => Task.FromResult(assignments.TryDequeue(out var assignment)
-                ? assignment
-                : null),
+            _ => Task.FromResult(leases.TryDequeue(out var lease) ? lease : null),
             (_, _, _) => Task.FromException(
                 new OperationCanceledException(executionCancellation.Token)),
             maxConcurrency: 1,
@@ -272,12 +253,8 @@ public class DistributedWorkerPoolTests
         await Assert.That(errorCount).IsEqualTo(0);
     }
 
-    private static ModuleAssignment CreateAssignment(string name) => new(
-        name,
-
-        CapabilityRequirement.None,
-        DateTimeOffset.UtcNow,
-        new ModuleAssignmentOptions(null, false));
+    private static ModuleLease CreateLease(string name) =>
+        DistributedTestData.Lease(DistributedTestData.Assignment(new ModuleId(name)));
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {

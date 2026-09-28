@@ -30,18 +30,17 @@ public class WorkerModuleExecutorTests
                 It.IsAny<WorkerStatus>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        coordinator.Setup(instance => instance.DequeueModuleAsync(
-                It.IsAny<IReadOnlySet<Capability>>(),
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns<IReadOnlySet<Capability>, CancellationToken>(async (_, cancellationToken) =>
+            .Returns<WorkerId, IReadOnlySet<Capability>, CancellationToken>(async (_, _, cancellationToken) =>
             {
                 await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
                 return null;
             });
         coordinator.Setup(instance => instance.WaitForCancellationAsync(It.IsAny<CancellationToken>()))
             .Returns(() => Interlocked.Increment(ref attempts) == 1
-                ? Task.FromException(new InvalidOperationException("Transient coordinator failure"))
-                : Task.CompletedTask);
+                ? Task.FromException<DistributedCancellationReason>(new InvalidOperationException("Transient coordinator failure"))
+                : Task.FromResult(DistributedCancellationReason.Stopped));
         var typeRegistry = new ModuleTypeRegistry();
         var resultRegistry = new ModuleResultRegistry();
         var executor = new WorkerModuleExecutor(
@@ -65,9 +64,12 @@ public class WorkerModuleExecutorTests
             NullLogger<WorkerModuleExecutor>.Instance);
 
         var result = await executor.ExecuteAsync(
-            [],
-            new Dictionary<Type, TimeSpan>(),
-            new ExecutionBackendContext(resultRegistry),
+            new ExecutionBackendRequest
+            {
+                Modules = [],
+                EstimatedDurations = new Dictionary<ModuleId, TimeSpan>(),
+                Context = new ExecutionBackendContext(resultRegistry),
+            },
             testCancellation).WaitAsync(testCancellation);
 
         await Assert.That(result).IsEmpty();

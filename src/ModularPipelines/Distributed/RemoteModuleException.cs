@@ -14,18 +14,20 @@ public sealed class RemoteModuleException : Exception
     /// <param name="originalExceptionType">The fully qualified type name of the original exception.</param>
     /// <param name="originalMessage">The original exception message.</param>
     /// <param name="remoteStackTrace">The stack trace captured on the remote worker.</param>
-    /// <param name="workerIndex">The distributed worker index, when known.</param>
+    /// <param name="workerId">The distributed worker that threw the exception, when known.</param>
+    /// <param name="innerException">The reconstructed inner exception, when the original had one.</param>
     public RemoteModuleException(
         string originalExceptionType,
         string originalMessage,
         string? remoteStackTrace,
-        int? workerIndex = null)
-        : base(originalMessage)
+        WorkerId? workerId = null,
+        Exception? innerException = null)
+        : base(originalMessage, innerException)
     {
         OriginalExceptionType = originalExceptionType;
         OriginalMessage = originalMessage;
         RemoteStackTrace = remoteStackTrace;
-        WorkerIndex = workerIndex;
+        WorkerId = workerId;
         if (!string.IsNullOrEmpty(remoteStackTrace))
         {
             ExceptionDispatchInfo.SetRemoteStackTrace(this, remoteStackTrace);
@@ -48,20 +50,21 @@ public sealed class RemoteModuleException : Exception
     public string? RemoteStackTrace { get; }
 
     /// <summary>
-    /// Gets the index of the distributed worker that returned the failure, when known.
+    /// Gets the distributed worker that returned the failure, when known.
     /// </summary>
-    public int? WorkerIndex { get; private set; }
+    public WorkerId? WorkerId { get; private set; }
 
     /// <inheritdoc />
-    public override string Message => WorkerIndex is { } workerIndex
-        ? $"Remote worker {workerIndex} threw {OriginalExceptionType}: {OriginalMessage}"
+    public override string Message => WorkerId is { } workerId
+        ? $"Remote worker {workerId} threw {OriginalExceptionType}: {OriginalMessage}"
         : $"Remote execution threw {OriginalExceptionType}: {OriginalMessage}";
 
-    internal void AttachWorkerIndex(int workerIndex)
+    internal void AttachWorkerId(WorkerId workerId)
     {
-        if (workerIndex >= 0)
+        WorkerId ??= workerId;
+        if (InnerException is RemoteModuleException inner)
         {
-            WorkerIndex ??= workerIndex;
+            inner.AttachWorkerId(workerId);
         }
     }
 }

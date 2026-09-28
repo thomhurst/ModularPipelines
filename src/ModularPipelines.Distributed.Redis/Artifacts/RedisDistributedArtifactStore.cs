@@ -61,13 +61,15 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             chunkIndex++;
         }
 
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: totalBytes,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = totalBytes,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         // Store metadata
         var metaKey = _keys.ArtifactMeta(artifactId);

@@ -10,10 +10,12 @@ public class InMemoryArtifactStoreTests
         var store = new InMemoryDistributedArtifactStore();
         var data = new byte[] { 1, 2, 3, 4, 5 };
 
-        var descriptor = new ArtifactDescriptor(
-            Name: "test-artifact",
-            ModuleId: "Test.Module",
-            ContentType: "application/octet-stream");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "test-artifact",
+            ModuleId = "Test.Module",
+            ContentType = "application/octet-stream",
+        };
 
         ArtifactReference reference;
         using (var uploadStream = new MemoryStream(data))
@@ -38,9 +40,21 @@ public class InMemoryArtifactStoreTests
     {
         var store = new InMemoryDistributedArtifactStore();
 
-        var descriptor1 = new ArtifactDescriptor("art1", "Module.A");
-        var descriptor2 = new ArtifactDescriptor("art2", "Module.A");
-        var descriptor3 = new ArtifactDescriptor("art3", "Module.B");
+        var descriptor1 = new ArtifactDescriptor
+        {
+            Name = "art1",
+            ModuleId = "Module.A",
+        };
+        var descriptor2 = new ArtifactDescriptor
+        {
+            Name = "art2",
+            ModuleId = "Module.A",
+        };
+        var descriptor3 = new ArtifactDescriptor
+        {
+            Name = "art3",
+            ModuleId = "Module.B",
+        };
 
         using (var s1 = new MemoryStream([1, 2]))
         {
@@ -71,7 +85,11 @@ public class InMemoryArtifactStoreTests
     {
         var store = new InMemoryDistributedArtifactStore();
 
-        var descriptor = new ArtifactDescriptor("art1", "Module.A");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "art1",
+            ModuleId = "Module.A",
+        };
         ArtifactReference reference;
         using (var stream = new MemoryStream([1, 2, 3]))
         {
@@ -89,13 +107,15 @@ public class InMemoryArtifactStoreTests
     {
         var store = new InMemoryDistributedArtifactStore();
 
-        var fakeRef = new ArtifactReference(
-            ArtifactId: "nonexistent",
-            Name: "fake",
-            ModuleId: "Fake.Module",
-            SizeBytes: 0,
-            ContentType: null,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var fakeRef = new ArtifactReference
+        {
+            ArtifactId = "nonexistent",
+            Name = "fake",
+            ModuleId = "Fake.Module",
+            SizeBytes = 0,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         Assert.Throws<InvalidOperationException>(() => store.DownloadAsync(fakeRef, CancellationToken.None));
     }

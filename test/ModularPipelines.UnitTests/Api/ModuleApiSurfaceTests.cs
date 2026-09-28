@@ -54,11 +54,11 @@ public class ModuleApiSurfaceTests
                 .IsEqualTo(typeof(Task<IReadOnlyList<IModuleResult>>));
             await Assert.That(executeMethod.GetParameters().Select(parameter => parameter.ParameterType))
                 .IsEquivalentTo([
-                    typeof(IReadOnlyList<IModule>),
-                    typeof(IReadOnlyDictionary<Type, TimeSpan>),
-                    typeof(IExecutionBackendContext),
+                    typeof(ExecutionBackendRequest),
                     typeof(CancellationToken),
                 ]);
+            await Assert.That(typeof(ExecutionBackendRequest).GetProperty(nameof(ExecutionBackendRequest.EstimatedDurations))!.PropertyType)
+                .IsEqualTo(typeof(IReadOnlyDictionary<ModularPipelines.Distributed.ModuleId, TimeSpan>));
         }
     }
 

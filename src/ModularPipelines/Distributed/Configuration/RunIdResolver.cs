@@ -11,13 +11,13 @@ internal static class RunIdResolver
     {
         if (!string.IsNullOrWhiteSpace(configuredValue))
         {
-            return configuredValue;
+            return Validate(configuredValue, nameof(DistributedOptions.RunId));
         }
 
         var environmentValue = Environment.GetEnvironmentVariable(EnvironmentVariable);
         if (!string.IsNullOrWhiteSpace(environmentValue))
         {
-            return environmentValue;
+            return Validate(environmentValue, EnvironmentVariable);
         }
 
         if (totalInstances > 1 || requireExplicitRunId)
@@ -29,5 +29,19 @@ internal static class RunIdResolver
         }
 
         return Guid.NewGuid().ToString("N");
+    }
+
+    // Backends embed the run identifier in Redis hash tags, object keys and URLs, where
+    // characters such as '}', '/' or ':' would change slotting or key structure.
+    private static string Validate(string runId, string source)
+    {
+        if (!DistributedIdentifier.IsValid(runId))
+        {
+            throw new InvalidOperationException(
+                $"The run identifier from {source} ('{runId}') is invalid. Run identifiers must contain 1-"
+                + $"{DistributedIdentifier.MaximumLength} {DistributedIdentifier.AllowedCharactersDescription}.");
+        }
+
+        return runId;
     }
 }

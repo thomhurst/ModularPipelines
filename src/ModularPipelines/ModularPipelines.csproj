@@ -130,6 +130,13 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.Distributed.UnitTests</_Parameter1>
     </AssemblyAttribute>
+    <!-- The SignalR master hosts the in-memory lease coordinator behind its hub. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.SignalR</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.SignalR.UnitTests</_Parameter1>
+    </AssemblyAttribute>
 
     <!-- Mocking framework support - required for Castle.Core/Moq -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">

@@ -6,12 +6,13 @@ internal static class DistributedFailurePublisher
 
     public static async Task PublishAsync(
         IDistributedWorkerCoordinator coordinator,
-        SerializedModuleResult result)
+        SerializedModuleResult result,
+        ModuleLease? lease)
     {
         // Claimed work needs a terminal result even when the worker is already cancelled.
         // Bound cleanup independently, including coordinators that ignore cancellation.
         using var publicationCts = new CancellationTokenSource(PublicationTimeout);
-        await coordinator.PublishResultAsync(result, publicationCts.Token)
+        await coordinator.PublishResultAsync(result, lease, publicationCts.Token)
             .WaitAsync(publicationCts.Token)
             .ConfigureAwait(false);
     }
