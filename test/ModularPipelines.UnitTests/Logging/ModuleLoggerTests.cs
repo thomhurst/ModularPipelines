@@ -228,6 +228,9 @@ public class ModuleLoggerTests
 
     private static async Task VerifyDisposeDoesNotWaitForInProgressStateObfuscationAsync()
     {
+        // Generous: a blocked Dispose never completes, so a long timeout still detects the regression
+        // while tolerating dedicated-thread start-up delays on loaded CI runners.
+        var waitTimeout = TimeSpan.FromSeconds(30);
         var logEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var buffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
@@ -259,7 +262,7 @@ public class ModuleLoggerTests
 
         try
         {
-            await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            await logEntered.Task.WaitAsync(waitTimeout);
             var disposeStarted = new TaskCompletionSource(
                 TaskCreationOptions.RunContinuationsAsynchronously);
             disposeTask = Task.Factory.StartNew(
@@ -273,8 +276,8 @@ public class ModuleLoggerTests
                 TaskScheduler.Default);
             disposeScheduled = true;
 
-            await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            await disposeTask.WaitAsync(TimeSpan.FromSeconds(5));
+            await disposeStarted.Task.WaitAsync(waitTimeout);
+            await disposeTask.WaitAsync(waitTimeout);
         }
         finally
         {
