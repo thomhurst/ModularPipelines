@@ -337,7 +337,7 @@ internal sealed class RunReportService(
             return _pathResolver.Resolve(options.ReportPath);
         }
 
-        return options.AutoWriteInCi && buildSystemDetector.IsKnownBuildAgent
+        return options.AutoWriteInCi && buildSystemDetector.IsBuildServer
             ? _pathResolver.Resolve(Path.Combine("artifacts", "run-report.json"))
             : null;
     }

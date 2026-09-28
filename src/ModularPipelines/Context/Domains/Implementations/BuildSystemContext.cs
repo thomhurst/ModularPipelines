@@ -1,5 +1,3 @@
-using ModularPipelines.Context;
-
 using ModularPipelines.Enums;
 
 namespace ModularPipelines.Context.Domains.Implementations;
@@ -13,29 +11,8 @@ internal class BuildSystemContext(IBuildSystemDetector detector) : IBuildSystemC
     public BuildSystem Current => detector.Current;
 
     /// <inheritdoc />
-    public bool IsGitHubActions => detector.IsRunningOnGitHubActions;
+    public bool IsBuildServer => detector.IsBuildServer;
 
     /// <inheritdoc />
-    public bool IsAzurePipelines => detector.IsRunningOnAzurePipelines;
-
-    /// <inheritdoc />
-    public bool IsTeamCity => detector.IsRunningOnTeamCity;
-
-    /// <inheritdoc />
-    public bool IsJenkins => detector.IsRunningOnJenkins;
-
-    /// <inheritdoc />
-    public bool IsGitLab => detector.IsRunningOnGitLab;
-
-    /// <inheritdoc />
-    public bool IsBitbucket => detector.IsRunningOnBitbucket;
-
-    /// <inheritdoc />
-    public bool IsTravisCI => detector.IsRunningOnTravisCI;
-
-    /// <inheritdoc />
-    public bool IsAppVeyor => detector.IsRunningOnAppVeyor;
-
-    /// <inheritdoc />
-    public bool IsBuildServer => detector.IsKnownBuildAgent;
+    public bool Is(BuildSystem buildSystem) => detector.Is(buildSystem);
 }

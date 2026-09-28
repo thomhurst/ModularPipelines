@@ -7,7 +7,8 @@ namespace ModularPipelines;
 /// A condition that returns true when running locally (not in CI).
 /// </summary>
 /// <remarks>
-/// Returns true when the <c>CI</c> environment variable is not set or is "false".
+/// The inverse of <see cref="OnCI"/>: no known build system is detected and the <c>CI</c> environment
+/// variable is unset, <c>false</c> or <c>0</c>. See <see cref="IBuildSystemContext.IsBuildServer"/>.
 /// </remarks>
 /// <example>
 /// <code>
@@ -24,9 +25,6 @@ public sealed class OnLocal : IPlanningRunCondition
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)
     {
-        var ciEnvVar = context.Environment.Variables.Get("CI");
-        var isLocal = string.IsNullOrEmpty(ciEnvVar) ||
-                      string.Equals(ciEnvVar, "false", StringComparison.OrdinalIgnoreCase);
-        return Task.FromResult(isLocal);
+        return Task.FromResult(!context.Environment.BuildSystem.IsBuildServer);
     }
 }
