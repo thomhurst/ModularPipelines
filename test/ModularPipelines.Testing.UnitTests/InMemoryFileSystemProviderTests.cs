@@ -36,6 +36,39 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task TracksMetadataForFilesAndDirectories()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "metadata");
+        var file = Path.Combine(root, "file.txt");
+        var moved = Path.Combine(root, "moved.txt");
+        var timestamp = new DateTime(2020, 1, 2, 3, 4, 5, DateTimeKind.Utc);
+
+        provider.CreateDirectory(root);
+        await provider.WriteAllTextAsync(file, "contents");
+        provider.SetAttributes(file, FileAttributes.ReadOnly | FileAttributes.Hidden);
+        provider.SetCreationTimeUtc(file, timestamp);
+        provider.SetLastWriteTimeUtc(file, timestamp.AddDays(1));
+        provider.SetLastAccessTimeUtc(file, timestamp.AddDays(2));
+        provider.MoveFile(file, moved);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.GetAttributes(root)).IsEqualTo(FileAttributes.Directory);
+            await Assert.That(provider.GetAttributes(moved)).IsEqualTo(FileAttributes.ReadOnly | FileAttributes.Hidden);
+            await Assert.That(provider.GetCreationTimeUtc(moved)).IsEqualTo(timestamp);
+            await Assert.That(provider.GetLastWriteTimeUtc(moved)).IsEqualTo(timestamp.AddDays(1));
+            await Assert.That(provider.GetLastAccessTimeUtc(moved)).IsEqualTo(timestamp.AddDays(2));
+            await Assert.That(provider.GetFileLength(moved)).IsEqualTo(8);
+            await Assert.That(() => provider.GetAttributes(file)).Throws<FileNotFoundException>();
+        }
+
+        await provider.WriteAllTextAsync(moved, "rewritten");
+
+        await Assert.That(provider.GetLastWriteTimeUtc(moved)).IsGreaterThan(timestamp.AddDays(1));
+    }
+
+    [Test]
     public async Task AppendAllTextPreservesExistingBytes()
     {
         var provider = new InMemoryFileSystemProvider();

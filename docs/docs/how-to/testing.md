@@ -131,10 +131,17 @@ var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
 
 `InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and
 directory creation, reads, writes, streams, copies, moves, deletion, enumeration,
-and path helpers. You can also construct and register it directly in other tests.
-Physical metadata such as attributes, timestamps, and file length is not part of
-`IFileSystemProvider`; accessing it through an in-memory-backed `FilePath` or `FolderPath`
-throws `NotSupportedException` rather than reading the real filesystem.
+path helpers, and metadata (attributes, UTC timestamps, and file length). You can also
+construct and register it directly in other tests. `FilePath` and `FolderPath` read and
+write metadata through the provider, so an in-memory-backed path never touches the real
+filesystem, and `FolderPath.CopyTo(target, preserveTimestamps: true)` copies the in-memory
+timestamps.
+
+To write your own provider, implement the primitive members of `IFileSystemProvider`
+(`Open`, file and directory management, existence checks, enumeration, and the metadata
+getters and setters). The text, bytes, lines, append, `OpenRead`, `Create`, `CopyFile`,
+`GetFileLength`, and path-helper members have default implementations built on those
+primitives.
 
 Code under test must obtain `FilePath` and `FolderPath` instances from `context.Files`.
 Direct construction such as `new FilePath("path")` intentionally uses the physical

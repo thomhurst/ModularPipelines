@@ -12,6 +12,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 {
     private readonly ConcurrentDictionary<string, byte[]> _files;
     private readonly ConcurrentDictionary<string, byte> _directories;
+    private readonly ConcurrentDictionary<string, EntryMetadata> _metadata;
     private readonly HashSet<string> _exclusiveOpenFiles;
     private readonly Dictionary<string, int> _openReaders;
     private readonly Lock _sync = new();
@@ -31,6 +32,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             : StringComparison.Ordinal;
         _files = new ConcurrentDictionary<string, byte[]>(_pathComparer);
         _directories = new ConcurrentDictionary<string, byte>(_pathComparer);
+        _metadata = new ConcurrentDictionary<string, EntryMetadata>(_pathComparer);
 #pragma warning disable IDE0028 // Collection expressions cannot retain the platform path comparer.
         _exclusiveOpenFiles = new HashSet<string>(_pathComparer);
         _openReaders = new Dictionary<string, int>(_pathComparer);
@@ -320,6 +322,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             }
 
             _files.TryRemove(normalized, out _);
+            _metadata.TryRemove(normalized, out _);
         }
     }
 
@@ -370,7 +373,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 throw new FileNotFoundException("The in-memory file does not exist.", source);
             }
 
+            _metadata.TryRemove(source, out var metadata);
             SetFile(destination, contents);
+            if (metadata is not null)
+            {
+                _metadata[destination] = metadata;
+            }
         }
     }
 
@@ -415,7 +423,10 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
             foreach (var directory in directoriesToCreate)
             {
-                _directories.TryAdd(directory, 0);
+                if (_directories.TryAdd(directory, 0))
+                {
+                    _metadata[directory] = new EntryMetadata(FileAttributes.Directory, DateTime.UtcNow);
+                }
             }
         }
     }
@@ -443,11 +454,13 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             foreach (var file in files)
             {
                 _files.TryRemove(file, out _);
+                _metadata.TryRemove(file, out _);
             }
 
             foreach (var directory in descendants.Append(normalized))
             {
                 _directories.TryRemove(directory, out _);
+                _metadata.TryRemove(directory, out _);
             }
         }
     }
@@ -504,6 +517,10 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             foreach (var directory in descendants.Append(source))
             {
                 _directories.TryRemove(directory, out _);
+                if (_metadata.TryRemove(directory, out var metadata))
+                {
+                    _metadata[ReplacePrefix(directory, source, destination)] = metadata;
+                }
             }
         }
     }
@@ -535,6 +552,45 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string searchPattern,
         SearchOption searchOption) =>
         EnumerateEntries(_directories.Keys, path, searchPattern, searchOption);
+
+    /// <inheritdoc />
+    public FileAttributes GetAttributes(string path) => GetMetadata(path).Attributes;
+
+    /// <inheritdoc />
+    public void SetAttributes(string path, FileAttributes attributes)
+    {
+        lock (_sync)
+        {
+            var metadata = GetMetadata(path);
+            metadata.Attributes = metadata.IsDirectory
+                ? attributes | FileAttributes.Directory
+                : attributes & ~FileAttributes.Directory;
+        }
+    }
+
+    /// <inheritdoc />
+    public DateTime GetCreationTimeUtc(string path) => GetMetadata(path).CreationTimeUtc;
+
+    /// <inheritdoc />
+    public void SetCreationTimeUtc(string path, DateTime creationTimeUtc) =>
+        GetMetadata(path).CreationTimeUtc = creationTimeUtc.ToUniversalTime();
+
+    /// <inheritdoc />
+    public DateTime GetLastWriteTimeUtc(string path) => GetMetadata(path).LastWriteTimeUtc;
+
+    /// <inheritdoc />
+    public void SetLastWriteTimeUtc(string path, DateTime lastWriteTimeUtc) =>
+        GetMetadata(path).LastWriteTimeUtc = lastWriteTimeUtc.ToUniversalTime();
+
+    /// <inheritdoc />
+    public DateTime GetLastAccessTimeUtc(string path) => GetMetadata(path).LastAccessTimeUtc;
+
+    /// <inheritdoc />
+    public void SetLastAccessTimeUtc(string path, DateTime lastAccessTimeUtc) =>
+        GetMetadata(path).LastAccessTimeUtc = lastAccessTimeUtc.ToUniversalTime();
+
+    /// <inheritdoc />
+    public long GetFileLength(string path) => GetFile(path).LongLength;
 
     /// <inheritdoc />
     public string GetTempPath() =>
@@ -575,6 +631,30 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                     (enumerator.Current ?? string.Empty).AsMemory(),
                     cancellationToken)
                 .ConfigureAwait(false);
+        }
+    }
+
+    private EntryMetadata GetMetadata(string path)
+    {
+        lock (_sync)
+        {
+            var directory = NormalizeDirectoryPath(path);
+            if (_directories.ContainsKey(directory))
+            {
+                return _metadata.GetOrAdd(
+                    directory,
+                    static _ => new EntryMetadata(FileAttributes.Directory, DateTime.UtcNow));
+            }
+
+            var file = NormalizeFilePath(path);
+            if (_files.ContainsKey(file))
+            {
+                return _metadata.GetOrAdd(
+                    file,
+                    static _ => new EntryMetadata(FileAttributes.Normal, DateTime.UtcNow));
+            }
+
+            throw new FileNotFoundException("The in-memory file or directory does not exist.", file);
         }
     }
 
@@ -622,6 +702,17 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
             ValidateFileDestination(normalized);
             _files[normalized] = [.. contents];
+            var now = DateTime.UtcNow;
+            _metadata.AddOrUpdate(
+                normalized,
+                static (_, time) => new EntryMetadata(FileAttributes.Normal, time),
+                static (_, metadata, time) =>
+                {
+                    metadata.LastWriteTimeUtc = time;
+                    metadata.LastAccessTimeUtc = time;
+                    return metadata;
+                },
+                now);
         }
     }
 
@@ -790,6 +881,19 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     private static string ReplacePrefix(string path, string source, string destination) =>
         destination + path[source.Length..];
+
+    private sealed class EntryMetadata(FileAttributes attributes, DateTime createdUtc)
+    {
+        public bool IsDirectory { get; } = (attributes & FileAttributes.Directory) != 0;
+
+        public FileAttributes Attributes { get; set; } = attributes;
+
+        public DateTime CreationTimeUtc { get; set; } = createdUtc;
+
+        public DateTime LastWriteTimeUtc { get; set; } = createdUtc;
+
+        public DateTime LastAccessTimeUtc { get; set; } = createdUtc;
+    }
 
     private sealed class CommittingMemoryStream : MemoryStream
     {
