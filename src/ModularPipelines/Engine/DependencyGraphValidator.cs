@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -61,7 +60,7 @@ internal static class DependencyGraphValidator
     /// <summary>
     /// Gets the dependency types for a module by inspecting its DependsOn attributes.
     /// </summary>
-    private static IEnumerable<Type> GetDependencyTypes([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType, HashSet<Type> availableModuleTypes)
+    private static IEnumerable<Type> GetDependencyTypes(Type moduleType, HashSet<Type> availableModuleTypes)
     {
         // Get direct DependsOn attributes
         foreach (var dependency in ModuleDependencyResolver.GetDependencies(moduleType))

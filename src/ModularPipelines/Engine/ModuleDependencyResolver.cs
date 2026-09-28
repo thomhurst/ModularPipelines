@@ -21,7 +21,7 @@ internal static class ModuleDependencyResolver
     /// Gets all dependencies declared on a module type via DependsOn attributes.
     /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType)
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(Type moduleType)
     {
         foreach (var dependency in GetDeclaredDependencies(moduleType))
         {
@@ -34,7 +34,7 @@ internal static class ModuleDependencyResolver
     /// including DependsOnAllModulesInheritingFromAttribute which requires the list of available modules.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
+        Type moduleType,
         IEnumerable<Type> availableModuleTypes)
     {
         return GetDependencies(moduleType, availableModuleTypes, dependencyContext: null);
@@ -49,7 +49,7 @@ internal static class ModuleDependencyResolver
     /// <param name="dependencyContext">Context providing access to module metadata (tags, categories, attributes).
     /// Required for metadata-based selectors. If null, only <see cref="DependsOnAllModulesInheritingFromAttribute"/> is evaluated.</param>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
+        Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IDependencyContext? dependencyContext)
     {
@@ -132,7 +132,7 @@ internal static class ModuleDependencyResolver
     /// including both static (attribute-based) and dynamic (runtime-added) dependencies.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
+        Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IModuleDependencyRegistry? dynamicRegistry = null)
     {
@@ -200,7 +200,11 @@ internal static class ModuleDependencyResolver
         }
     }
 
-    private static IEnumerable<(Type DependencyType, bool Optional)> GetDeclaredDependencies([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType)
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "This is the documented reflection fallback for dynamically supplied module types.")]
+    private static IEnumerable<(Type DependencyType, bool Optional)> GetDeclaredDependencies(Type moduleType)
     {
         if (GeneratedModuleMetadata.TryGetDependencies(moduleType, out var generatedDependencies))
         {

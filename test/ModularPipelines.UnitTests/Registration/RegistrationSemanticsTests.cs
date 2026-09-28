@@ -102,6 +102,9 @@ public class RegistrationSemanticsTests
 
         public Task WriteAsync(string fingerprint, Stream content, CancellationToken cancellationToken) =>
             Task.CompletedTask;
+
+        public Task DeleteAsync(string fingerprint, CancellationToken cancellationToken) =>
+            Task.CompletedTask;
     }
 
     private sealed class SecondStore : IModuleCacheStore
@@ -110,6 +113,9 @@ public class RegistrationSemanticsTests
             Task.FromResult<Stream?>(null);
 
         public Task WriteAsync(string fingerprint, Stream content, CancellationToken cancellationToken) =>
+            Task.CompletedTask;
+
+        public Task DeleteAsync(string fingerprint, CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 

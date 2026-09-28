@@ -1,5 +1,4 @@
 using System.Collections.Frozen;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
@@ -13,7 +12,7 @@ namespace ModularPipelines.Configuration;
 internal static class ModuleConfigurationAttributeAdapter
 {
     public static ModuleConfiguration Apply(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
+        Type moduleType,
         ModuleConfiguration configured)
     {
         var tags = MergeTags(moduleType, configured.Tags);
@@ -70,7 +69,7 @@ internal static class ModuleConfigurationAttributeAdapter
     }
 
     private static DeclaredDependency[] MergeDependencies(
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
+        Type moduleType,
         IReadOnlyList<DeclaredDependency> configuredDependencies)
     {
         var attributeDependencies = ModuleDependencyResolver
