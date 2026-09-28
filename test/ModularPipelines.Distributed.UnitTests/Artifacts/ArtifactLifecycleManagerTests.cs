@@ -53,6 +53,70 @@ public class DifferentPathConsumerModule : Module<string>
 public class ArtifactLifecycleManagerTests
 {
     [Test]
+    public async Task Consumer_Downloads_The_Reference_From_The_Accepted_Producer_Result()
+    {
+        var accepted = Reference("accepted", DateTimeOffset.UtcNow.AddHours(-1));
+        var newerUpload = Reference("superseded", DateTimeOffset.UtcNow);
+        var registry = new AcceptedArtifactRegistry();
+        registry.Record(ModuleId.FromType(typeof(ProducerModule)), [accepted]);
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(x => x.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([accepted, newerUpload]);
+
+        var resolved = await ArtifactLifecycleManager.ResolveArtifactAsync(
+            store.Object,
+            registry,
+            ModuleId.FromType(typeof(ProducerModule)),
+            "build-output",
+            CancellationToken.None);
+
+        await Assert.That(resolved).IsSameReferenceAs(accepted);
+        store.Verify(x => x.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
+    public async Task Accepted_Result_Without_The_Artifact_Means_It_Is_Missing()
+    {
+        var registry = new AcceptedArtifactRegistry();
+        registry.Record(ModuleId.FromType(typeof(ProducerModule)), []);
+        var store = new Mock<IDistributedArtifactStore>();
+        store.Setup(x => x.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([Reference("stale", DateTimeOffset.UtcNow)]);
+
+        var resolved = await ArtifactLifecycleManager.ResolveArtifactAsync(
+            store.Object,
+            registry,
+            ModuleId.FromType(typeof(ProducerModule)),
+            "build-output",
+            CancellationToken.None);
+
+        await Assert.That(resolved).IsNull();
+    }
+
+    [Test]
+    public async Task Required_Artifact_Check_Reports_Missing_Artifacts()
+    {
+        await Assert.That(() => ArtifactLifecycleManager.EnsureRequiredArtifactsProduced(
+                typeof(ProducerModule),
+                [],
+                ["build-output"]))
+            .Throws<InvalidOperationException>();
+        ArtifactLifecycleManager.EnsureRequiredArtifactsProduced(
+            typeof(ProducerModule),
+            [Reference("id", DateTimeOffset.UtcNow)],
+            ["build-output"]);
+    }
+
+    private static ArtifactReference Reference(string id, DateTimeOffset uploadedAt) => new()
+    {
+        ArtifactId = id,
+        Name = "build-output",
+        ModuleId = ModuleId.FromType(typeof(ProducerModule)),
+        SizeBytes = 1,
+        UploadedAt = uploadedAt,
+    };
+
+    [Test]
     public async Task UploadProducedArtifacts_Preserves_Single_Glob_File_Path()
     {
         var workingDirectory = Directory.CreateTempSubdirectory("artifact-single-file-glob-test-");

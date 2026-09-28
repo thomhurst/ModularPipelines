@@ -1580,6 +1580,12 @@ public class DistributedModuleExecutorTests
         await Assert.That(alwaysRunWaitToken.IsCancellationRequested).IsFalse();
         await Assert.That(executionTask.IsCompleted).IsFalse();
 
+        // Workers learn about the failure immediately, not after AlwaysRun teardown finishes.
+        var reason = await coordinator.WaitForCancellationAsync(CancellationToken.None)
+            .WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await Assert.That(reason).IsEqualTo(DistributedCancellationReason.PipelineFailed);
+        await Assert.That(executionTask.IsCompleted).IsFalse();
+
         await coordinator.PublishResultAsync(serializedAlwaysRunResult, lease: null, CancellationToken.None);
         await alwaysRunStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(executionTask.IsCompleted).IsFalse();
@@ -3324,6 +3330,10 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
         sw.Stop();
 
+        // The route is checked before publishing, so the unroutable module never enters the queue.
+        coordinator.Verify(
+            c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()),
+            Times.Never());
         var result = resultRegistry.GetResult(typeof(GpuOnlyModule));
         using (Assert.Multiple())
         {
