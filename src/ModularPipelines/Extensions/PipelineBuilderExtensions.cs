@@ -191,7 +191,7 @@ public static class PipelineBuilderExtensions
         where THandler : class, IPipelineEventHandler
     {
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPipelineEventHandler, THandler>());
+        builder.Services.AddPipelineEventHandler<THandler>();
         return builder;
     }
 
@@ -208,7 +208,7 @@ public static class PipelineBuilderExtensions
         where THandler : class, IModuleEventHandler
     {
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleEventHandler, THandler>());
+        builder.Services.AddModuleEventHandler<THandler>();
         return builder;
     }
 

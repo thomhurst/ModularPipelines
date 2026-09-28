@@ -237,7 +237,7 @@ public class RedisArtifactStoreTests
         using var stream = new MemoryStream(data);
         ServeWrittenValues();
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor("round-trip", "Test.Module"), stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "round-trip", ModuleId = "Test.Module" }, stream, CancellationToken.None);
         await using var result = await _store.DownloadAsync(reference, CancellationToken.None);
         using var copy = new MemoryStream();
         await result.CopyToAsync(copy);
@@ -254,7 +254,7 @@ public class RedisArtifactStoreTests
     {
         using var stream = new MemoryStream();
 
-        var reference = await _store.UploadAsync(new ArtifactDescriptor("empty", "Test.Module"), stream, CancellationToken.None);
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "empty", ModuleId = "Test.Module" }, stream, CancellationToken.None);
 
         _mockDb.Verify(db => db.StringSetAsync(
             It.Is<RedisKey>(key => key.ToString() == _keys.ArtifactData(reference.ArtifactId)),
@@ -267,7 +267,7 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task Download_SingleKey_Rejects_Size_Mismatch()
     {
-        var reference = new ArtifactReference("short", "test", "Test.Module", 10, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference { ArtifactId = "short", Name = "test", ModuleId = "Test.Module", SizeBytes = 10, UploadedAt = DateTimeOffset.UtcNow };
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("short"), It.IsAny<CommandFlags>()))
             .ReturnsAsync((RedisValue) new byte[] { 1, 2, 3 });
 
@@ -294,7 +294,7 @@ public class RedisArtifactStoreTests
         try
         {
             await Assert.That(async () => await _store
-                    .UploadAsync(new ArtifactDescriptor("pending", "Test.Module"), stream, cancellation.Token)
+                    .UploadAsync(new ArtifactDescriptor { Name = "pending", ModuleId = "Test.Module" }, stream, cancellation.Token)
                     .WaitAsync(TimeSpan.FromSeconds(2)))
                 .Throws<OperationCanceledException>();
         }

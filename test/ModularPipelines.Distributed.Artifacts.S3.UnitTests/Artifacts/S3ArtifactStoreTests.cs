@@ -125,10 +125,10 @@ public class S3ArtifactStoreTests
             .ReturnsAsync(new PutObjectResponse());
 
         await using var nonSeekable = new NonSeekableStream(new MemoryStream([1, 2, 3, 4]));
-        var fromNonSeekable = await _store.UploadAsync(new ArtifactDescriptor("a", "Test.Module"), nonSeekable, CancellationToken.None);
+        var fromNonSeekable = await _store.UploadAsync(new ArtifactDescriptor { Name = "a", ModuleId = "Test.Module" }, nonSeekable, CancellationToken.None);
 
         using var offset = new MemoryStream([1, 2, 3, 4, 5, 6]) { Position = 2 };
-        var fromOffset = await _store.UploadAsync(new ArtifactDescriptor("b", "Test.Module"), offset, CancellationToken.None);
+        var fromOffset = await _store.UploadAsync(new ArtifactDescriptor { Name = "b", ModuleId = "Test.Module" }, offset, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -160,7 +160,7 @@ public class S3ArtifactStoreTests
             .ReturnsAsync(new PutObjectResponse());
 
         await using var source = new NonSeekableStream(new MemoryStream([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
-        var reference = await store.UploadAsync(new ArtifactDescriptor("large", "Test.Module"), source, CancellationToken.None);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = "Test.Module" }, source, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -190,7 +190,7 @@ public class S3ArtifactStoreTests
             .ThrowsAsync(new AmazonS3Exception("boom"));
 
         using var source = new MemoryStream(new byte[12]);
-        await Assert.That(async () => await store.UploadAsync(new ArtifactDescriptor("large", "Test.Module"), source, CancellationToken.None))
+        await Assert.That(async () => await store.UploadAsync(new ArtifactDescriptor { Name = "large", ModuleId = "Test.Module" }, source, CancellationToken.None))
             .Throws<AmazonS3Exception>();
 
         _mockS3.Verify(s => s.AbortMultipartUploadAsync(

@@ -112,8 +112,8 @@ Artifact operations are now available from `context.Artifacts`; the
 cancellation tokens, and `DownloadAsync<TProducerModule>(...)` avoids string-based
 producer module names.
 
-Distributed duration options now use `TimeSpan`: `ArtifactOptions.TimeToLive`,
-`DistributedOptions.CapabilityTimeout`, and `DistributedOptions.ModuleResultTimeout`.
+Distributed duration options now use `TimeSpan`, for example
+`DistributedOptions.WorkerRegistrationTimeout` and `DistributedOptions.ModuleResultTimeout`.
 `DistributedOptions.RunIdentifier` and `WorkerRegistration.RunIdentifier`
 are now `RunId`. `ModuleAssignmentConfig` is now
 `ModuleAssignmentConfiguration`. Custom stores can be
@@ -209,15 +209,15 @@ predicate overload.
 Asynchronous module predicates now consistently use `ValueTask`. The
 `ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous
 `ModuleConfigurationBuilder.WithIgnoreFailuresWhen` overload therefore accept
-`Func<IModuleContext, Exception, ValueTask<bool>>` instead of the previous
+`Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>` instead of the previous
 `Task<bool>` delegate. Explicitly typed callers must migrate inside their module's
 configuration hook for v4:
 
 ```csharp
 protected override void Configure(ModuleConfigurationBuilder module)
 {
-    Func<IModuleContext, Exception, ValueTask<bool>> ignoreFailure =
-        (context, exception) => ValueTask.FromResult(exception is ApiValidationException);
+    Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>> ignoreFailure =
+        (context, exception, cancellationToken) => ValueTask.FromResult(exception is ApiValidationException);
 
     module.WithIgnoreFailuresWhen(ignoreFailure);
 }
@@ -335,3 +335,82 @@ public record ResourceOptions : CommandLineToolOptions
 ```
 
 Use `[CliArgument]` only for positional values that follow the command chain.
+
+## Distributed coordination contract
+
+- Workers claim work as a `ModuleLease` under a `WorkerId`: `DequeueModuleAsync(WorkerId, capabilities, ct)`
+  returns `ModuleLease?`, and `PublishResultAsync(result, lease, ct)` publishes against it. Heartbeats renew
+  leases, and the master requeues work whose lease expired. The first published result is final.
+- `WorkerId` replaces the `int WorkerIndex` on registrations, statuses, results, `RemoteModuleException`,
+  `ModuleResult` and run reports. `WorkerStatus.IsFinal` marks final metrics; `WorkerStatus.IsLive` is internal.
+- `BroadcastCancellationAsync(reason, ct)` takes a `PipelineFailed` or `Stopped` reason, and
+  `WaitForCancellationAsync` returns it. Master coordinators add `WithdrawAssignmentAsync`,
+  `GetActiveLeasesAsync` and `RequeueExpiredLeasesAsync`. After a failure, only AlwaysRun work is handed out.
+- Wire types (`ModuleAssignment`, `SerializedModuleResult`, `WorkerRegistration`, `WorkerStatus`, artifact
+  references) are `required`/`init` records. `ModuleAssignmentOptions` is removed; `AlwaysRun` is on the
+  assignment.
+- `IExecutionBackend.ExecuteAsync` takes an `ExecutionBackendRequest`.
+- `DistributedOptions.CapabilityTimeout` is now `WorkerRegistrationTimeout`. `ModuleResultTimeout` counts from
+  the claim, and the per-attempt module timeout is enforced on the worker.
+- Converting a `string` to `Capability` is explicit. `IMasterDiscovery` exchanges a `MasterEndpoint`.
+- Run ids are restricted to `[A-Za-z0-9._-]`. A multi-instance run without a shared coordinator fails at
+  startup, and registering a second coordinator or artifact store backend throws.
+- A failed artifact upload fails the module, and consumers download the artifacts referenced by the accepted
+  result.
+
+## Distributed packages
+
+- SignalR: `MasterUrl` is split into `ListenUrl` and `AdvertisedUrl`; `MaxReceiveMessageSize` is
+  `MaxMessageSizeBytes`; tunnel settings move to `Tunnel`; `EnableAutoReconnect` and `ReconnectGrace` are
+  removed. The hub requires an `AccessToken` whenever it is reachable beyond the machine; one is generated and
+  shared through discovery when unset. Workers pull leases instead of receiving pushed work.
+- Redis: `RedisDistributedOptions` is `RedisOptions`, `KeyExpiration` is `TimeToLive`, and
+  `ConfigureConnection` adjusts the parsed connection. The package neither registers nor uses an application
+  `IConnectionMultiplexer`. Module cache keys move to `v2` with a cluster hash tag.
+- S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, `SetLifecycleRule`
+  defaults to `false` and merges with existing rules, and large objects use multipart uploads.
+- Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
+- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
+  `IConfigurationSection` registration overload; options are validated at startup.
+- `ArtifactOptions` keeps only `CompressionLevel`; `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and
+  `TimeToLive` move to backend options or are removed.
+
+## Hooks, plugins and requirements
+
+- `IModuleHookContext.RequestRetry`, `SkipDependentModules` and `FailPipeline` are removed; they had no effect.
+- Module, pipeline and registration handler methods take a trailing `CancellationToken`.
+  `IEventHandler.Priority` is `Order` (ascending, default 0), matching requirements and validators.
+- A failing global Ready or Start handler fails the module. End, Failure and Skipped handler failures no longer
+  change the module's outcome and are reported as additional pipeline errors. A failing pipeline-end handler
+  no longer hides an execution failure.
+- `IModuleRegistrationContext.Services` is removed.
+- `PluginRegistry` and `PluginTestHelper` are removed. `IModularPipelinesPlugin` has `Name` and
+  `Configure(PipelineBuilder)`; register plugins with `builder.AddPlugin<T>()` or `AddPlugin(instance)`.
+- `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)` and `IsBuildServer` instead of one flag per CI
+  system. `OnCI`, `OnLocal` and `Require.Ci()` share one CI definition.
+- `ISecretObfuscator` is internal; provide secrets through `ISecretRegistry`, `[SecretValue]` or
+  `SecretMaskingOptions`.
+- `IModuleEstimatedTimeProvider`, `IModuleResultRepository` and `IPipelineValidator` take cancellation tokens.
+  Time estimates are best-effort and never fail a module.
+- `PipelineRequirement.EvaluateAsync` is abstract, `DelegateRequirement` is internal, and all requirement
+  failures are reported together in one `RequirementNotMetException`.
+
+## Conditions and extension seams
+
+- `IRunCondition` has one member, `EvaluateAsync(IPipelineContext, CancellationToken)`. Custom condition
+  attributes derive from `RunConditionAttribute(ConditionIntent)` and may override `GroupKey`.
+  `IConditionAttribute`, `IGroupedConditionAttribute`, the abstract `RunIfAttribute`, `RunIfAllAttribute`,
+  `RunIfAnyAttribute` and `SkipIfAttribute` bases, `RunIfAll<...>` and `ConditionLogic.Skip` are removed.
+- The builder adds `WithRunIf<T>()`, `WithRunIf(IRunCondition)`, `WithSkipIf<T>()` and `WithSkipIf(IRunCondition)`.
+- `IPlanningSafe` replaces `IPlanningRunCondition`, `PlanningSafeDependsOnBaseAttribute`,
+  `IPlanningSafeDependencySelector` and `IPlanningSafeModuleRegistrationHandler`.
+- `ICommandInterceptor` is middleware: `InvokeAsync(invocation, next, ct)`. Register interceptors with
+  `AddCommandInterceptor<T>()` or `AddCommandInterceptor(instance)`.
+- `IModule` cannot be implemented outside ModularPipelines. `DependsOnAttribute`, `DependsOnAttribute<T>`,
+  `DependsOnAllModulesInheritingFromAttribute` and `SecretValueAttribute` are sealed.
+- Custom `IFileSystemProvider` implementations add attribute, timestamp and length members; custom
+  `IModuleCacheStore` implementations add `DeleteAsync`.
+- `ModuleCacheOptions` is an init-only record configured with `Func<ModuleCacheOptions, ModuleCacheOptions>`.
+- `WithTimeout` rejects zero and negative values; use `Timeout.InfiniteTimeSpan` to disable the timeout.
+- Registration helpers for single-instance services replace earlier registrations; multi-instance helpers
+  add each type once.

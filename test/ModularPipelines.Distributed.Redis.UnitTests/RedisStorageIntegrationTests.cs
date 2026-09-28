@@ -37,7 +37,7 @@ public class RedisStorageIntegrationTests
         var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();
 
         using var source = new MemoryStream(data);
-        var reference = await store.UploadAsync(new ArtifactDescriptor("artifact", "Integration.Module"), source, CancellationToken.None);
+        var reference = await store.UploadAsync(new ArtifactDescriptor { Name = "artifact", ModuleId = "Integration.Module" }, source, CancellationToken.None);
         await using var downloaded = await store.DownloadAsync(reference, CancellationToken.None);
         using var copy = new MemoryStream();
         await downloaded.CopyToAsync(copy);

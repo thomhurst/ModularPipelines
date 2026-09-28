@@ -238,7 +238,8 @@ internal class ArtifactContextImpl(
                 var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
                 if (unixAttributes != 0)
                 {
-                    fileOptions.UnixCreateMode = (UnixFileMode) (unixAttributes & 0x1FF);
+                    var permissionBits = unixAttributes & 0x1FF;
+                    fileOptions.UnixCreateMode = (UnixFileMode) permissionBits;
                 }
             }
 

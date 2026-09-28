@@ -285,7 +285,7 @@ public class DistributedOptionsTests
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions { MaxParallelism = maxParallelism }));
         await using var provider = services.BuildServiceProvider();
 
-        var result = await new OptionsValidator().ValidateAsync(provider);
+        var result = await new OptionsValidator().ValidateAsync(provider, CancellationToken.None);
 
         await Assert.That(result.Errors.Any(error =>
             error.Category == ValidationErrorCategory.Options

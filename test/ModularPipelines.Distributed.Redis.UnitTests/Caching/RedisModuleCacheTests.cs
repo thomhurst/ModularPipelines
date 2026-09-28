@@ -128,7 +128,7 @@ public class RedisModuleCacheTests
 
         await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
 
-        var fingerprintPrefix = $"custom-prefix:module-cache:v1:{Fingerprint.ToLowerInvariant()}";
+        var fingerprintPrefix = $"custom-prefix:module-cache:v2:{{{Fingerprint.ToLowerInvariant()}}}";
         await Assert.That(deletedKeys).IsEquivalentTo(new[]
         {
             $"{fingerprintPrefix}:metadata",

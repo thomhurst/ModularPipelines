@@ -1661,12 +1661,12 @@ public class DependencyGraphExporterTests
             Interlocked.Increment(ref _deferredConditionAttributeConstructions);
         }
 
-        public ConditionLogic Logic
+        public override Type? GroupKey
         {
             get
             {
                 Interlocked.Increment(ref _deferredConditionLogicReads);
-                throw new InvalidOperationException("Deferred condition logic must not run during planning.");
+                throw new InvalidOperationException("Deferred condition grouping must not be read during planning.");
             }
         }
 
