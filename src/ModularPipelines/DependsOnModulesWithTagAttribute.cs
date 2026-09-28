@@ -11,8 +11,8 @@ namespace ModularPipelines;
 /// public class AfterDatabaseModule : Module&lt;string&gt; { }
 /// </code>
 /// </example>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class DependsOnModulesWithTagAttribute : PlanningSafeDependsOnBaseAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
+public sealed class DependsOnModulesWithTagAttribute : DependsOnBaseAttribute, IPlanningSafe
 {
     /// <summary>
     /// Gets the tag to match.

@@ -87,14 +87,17 @@ skip reasons appear only as SHA-256 hashes.
 ## Configure limits and locations
 
 ```csharp
-builder.AddModuleCache<FileSystemModuleCache>(options =>
+builder.AddModuleCache<FileSystemModuleCache>(options => options with
 {
-    options.WorkingDirectory = repositoryRoot;
-    options.CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules");
-    options.MaximumInputFiles = 50_000;
-    options.MaximumHashConcurrency = 8;
+    WorkingDirectory = repositoryRoot,
+    CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules"),
+    MaximumInputFiles = 50_000,
+    MaximumHashConcurrency = 8,
 });
 ```
+
+`ModuleCacheOptions` is immutable, like `PipelineOptions`: the configuration returns updated options, and
+configurations from repeated calls apply in call order. Calling `AddModuleCache` again replaces the store.
 
 The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on
 every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.

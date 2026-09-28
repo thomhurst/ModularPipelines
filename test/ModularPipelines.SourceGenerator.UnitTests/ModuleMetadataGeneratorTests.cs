@@ -16,18 +16,21 @@ public class ModuleMetadataGeneratorTests
                 System.AttributeTargets.Class | System.AttributeTargets.Interface,
                 AllowMultiple = true,
                 Inherited = true)]
-            public class DependsOnAttribute : System.Attribute
+            public sealed class DependsOnAttribute : System.Attribute
             {
                 public DependsOnAttribute(System.Type type) => Type = type;
                 public System.Type Type { get; }
                 public bool Optional { get; set; }
             }
 
-            public class DependsOnAttribute<T> : DependsOnAttribute
+            [System.AttributeUsage(
+                System.AttributeTargets.Class | System.AttributeTargets.Interface,
+                AllowMultiple = true,
+                Inherited = true)]
+            public sealed class DependsOnAttribute<T> : System.Attribute
             {
-                public DependsOnAttribute() : base(typeof(T))
-                {
-                }
+                public System.Type Type => typeof(T);
+                public bool Optional { get; set; }
             }
         }
         """;
@@ -558,10 +561,10 @@ public class ModuleMetadataGeneratorTests
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace ModularPipelines
             {
-                public class DependsOnAllModulesInheritingFromAttribute : System.Attribute;
+                public abstract class DependsOnBaseAttribute : System.Attribute;
 
-                public class DependsOnAllModulesInheritingFromAttribute<TModule>
-                    : DependsOnAllModulesInheritingFromAttribute;
+                public sealed class DependsOnAllModulesInheritingFromAttribute<TModule>
+                    : DependsOnBaseAttribute;
             }
 
             namespace Consumer
@@ -638,36 +641,6 @@ public class ModuleMetadataGeneratorTests
                 .And.Contains(message => message.Contains("Consumer.AttributeModule"))
                 .And.Contains(message => message.Contains("Consumer.CustomModule"));
         }
-    }
-
-    [Test]
-    public async Task Custom_DependsOn_Subclass_Reports_Aot_Diagnostic()
-    {
-        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
-            namespace ModularPipelines.Attributes
-            {
-                public sealed class CustomDependsOnAttribute : DependsOnAttribute
-                {
-                    public CustomDependsOnAttribute()
-                        : base(typeof(Consumer.BaseModule))
-                    {
-                    }
-                }
-            }
-
-            namespace Consumer
-            {
-                public sealed class BaseModule : ModularPipelines.Module<string>;
-
-                [ModularPipelines.Attributes.CustomDependsOn]
-                public sealed class BuildModule : ModularPipelines.Module<string>;
-            }
-            """);
-
-        await Assert.That(result.Diagnostics)
-            .Contains(diagnostic => diagnostic.Id == "MPG0016"
-                                    && diagnostic.GetMessage().Contains("Consumer.BuildModule")
-                                    && diagnostic.Descriptor.HelpLinkUri.EndsWith("#mpg0016"));
     }
 
     [Test]
@@ -780,38 +753,6 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).DoesNotContain("new(typeof(string)");
-            await Assert.That(generated).Contains("dependenciesComplete: false");
-        }
-    }
-
-    [Test]
-    public async Task Custom_Generic_Dependency_Attribute_Uses_Reflection_Fallback()
-    {
-        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
-            namespace Consumer
-            {
-                public sealed class DependencyModule : ModularPipelines.Module<string>;
-
-                public sealed class OptionalDependencyAttribute
-                    : ModularPipelines.DependsOnAttribute<DependencyModule>
-                {
-                    public OptionalDependencyAttribute()
-                    {
-                        Optional = true;
-                    }
-                }
-
-                [OptionalDependency]
-                public sealed class BuildModule : ModularPipelines.Module<string>;
-            }
-            """);
-
-        var generated = result.GeneratedTrees.Single().GetText().ToString();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(generated)
-                .DoesNotContain("new(typeof(global::Consumer.DependencyModule)");
             await Assert.That(generated).Contains("dependenciesComplete: false");
         }
     }

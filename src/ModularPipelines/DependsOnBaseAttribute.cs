@@ -14,8 +14,19 @@ namespace ModularPipelines;
 /// <para>
 /// For compile-time type-safe dependencies, use <see cref="DependsOnAttribute{T}"/> instead.
 /// </para>
+/// <para>
+/// Like <see cref="DependsOnAttribute"/>, selectors can be applied to a module class or to an interface the
+/// module implements.
+/// </para>
+/// <para>
+/// Implement <see cref="IPlanningSafe"/> on a selector that is deterministic and free of observable side
+/// effects so dry-run planning and dependency-graph export can evaluate it. During planning, selectors can
+/// inspect tags, categories, and attribute presence; reading values from other custom attributes fails graph
+/// export, because doing so can invoke arbitrary attribute constructors. Other selectors are deferred until
+/// runtime.
+/// </para>
 /// </remarks>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
 public abstract class DependsOnBaseAttribute : Attribute
 {
     /// <summary>

@@ -9,16 +9,30 @@ public class RunConditionApiSurfaceTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(typeof(RunIfAttribute).IsAbstract).IsTrue();
+            await Assert.That(typeof(RunConditionAttribute).IsAbstract).IsTrue();
+            await Assert.That(typeof(IRunCondition).IsAssignableFrom(typeof(RunConditionAttribute))).IsTrue();
             await Assert.That(typeof(RunIfAttribute<>).IsSealed).IsTrue();
-            await Assert.That(assembly.GetType("ModularPipelines.RunIfAllAttribute`1"))
-                .IsNull();
-            await Assert.That(assembly.GetType("ModularPipelines.RunIfAnyAttribute`1"))
-                .IsNull();
-            await Assert.That(assembly.GetType("ModularPipelines.RunIfAllAttribute`2"))
-                .IsNotNull();
-            await Assert.That(assembly.GetType("ModularPipelines.RunIfAnyAttribute`2"))
-                .IsNotNull();
+            await Assert.That(typeof(RunIfAttribute<,>).IsSealed).IsTrue();
+            await Assert.That(typeof(RunIfAttribute<,,,>).IsSealed).IsTrue();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.SkipIfAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAnyAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAllAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAllAttribute`2")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAnyAttribute`1")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.RunIfAnyAttribute`2")).IsNotNull();
+            await Assert.That(assembly.GetType("ModularPipelines.IConditionAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.IGroupedConditionAttribute")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.IPlanningRunCondition")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.IPlanningSafeDependencySelector")).IsNull();
+            await Assert.That(assembly.GetType("ModularPipelines.PlanningSafeDependsOnBaseAttribute")).IsNull();
+            await Assert.That(Enum.GetNames<ConditionLogic>()).IsEquivalentTo(["All", "Any"]);
+            await Assert.That(Enum.GetNames<ConditionIntent>()).IsEquivalentTo(["Run", "Skip"]);
+
+            var evaluateMethods = typeof(IRunCondition).GetMethods();
+            await Assert.That(evaluateMethods.Length).IsEqualTo(1);
+            await Assert.That(evaluateMethods[0].GetParameters().Last().ParameterType)
+                .IsEqualTo(typeof(CancellationToken));
         }
     }
 

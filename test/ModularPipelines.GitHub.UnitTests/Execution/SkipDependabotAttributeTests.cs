@@ -16,7 +16,7 @@ public class SkipDependabotAttributeTests : TestBase
 {
     private class CanRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
@@ -24,7 +24,7 @@ public class SkipDependabotAttributeTests : TestBase
 
     private class CannotRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+        public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(false);
         }

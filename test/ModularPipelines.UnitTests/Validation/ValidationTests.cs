@@ -116,7 +116,7 @@ public class ValidationTests
 
     private class NeverRun : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [RunIf<NeverRun>]

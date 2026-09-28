@@ -1,19 +1,22 @@
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Build.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipOnMainBranch : Attribute, IConditionAttribute
+public class SkipOnMainBranch : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Skip;
-
-    public string ConditionNames => nameof(SkipOnMainBranch);
-
-    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public SkipOnMainBranch()
+        : base(ConditionIntent.Skip)
     {
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync().ConfigureAwait(false);
+    }
+
+    public override string ConditionNames => nameof(SkipOnMainBranch);
+
+    public override async Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
+    {
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         return repositoryInfo?.BranchName == "main";
     }
 }

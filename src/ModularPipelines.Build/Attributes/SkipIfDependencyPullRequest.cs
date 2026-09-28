@@ -1,17 +1,20 @@
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Build.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipIfDependencyPullRequest : Attribute, IConditionAttribute
+public class SkipIfDependencyPullRequest : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Skip;
+    public SkipIfDependencyPullRequest()
+        : base(ConditionIntent.Skip)
+    {
+    }
 
-    public string ConditionNames => nameof(SkipIfDependencyPullRequest);
+    public override string ConditionNames => nameof(SkipIfDependencyPullRequest);
 
-    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override async Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         var gitHubEnvironmentVariables = pipelineContext.Tools.GitHub.EnvironmentVariables;
 
@@ -31,7 +34,7 @@ public class SkipIfDependencyPullRequest : Attribute, IConditionAttribute
             return false;
         }
 
-        var pr = await pipelineContext.Tools.GitHub.Client.PullRequest.Get(repositoryId, prNumber);
+        var pr = await pipelineContext.Tools.GitHub.Client.PullRequest.Get(repositoryId, prNumber).ConfigureAwait(false);
 
         return pr.Labels.Any(x => x.Name == "dependencies");
     }

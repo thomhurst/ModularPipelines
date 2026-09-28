@@ -100,7 +100,7 @@ public class DirectModuleHooksTests : TestBase
 
     private class AlwaysTrueCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [ModularPipelines.SkipIf<AlwaysTrueCondition>]

@@ -1,19 +1,22 @@
 using Microsoft.Extensions.Options;
+using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
-using ModularPipelines;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Build.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipIfNoStandardGitHubToken : Attribute, IConditionAttribute
+public class SkipIfNoStandardGitHubToken : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Skip;
+    public SkipIfNoStandardGitHubToken()
+        : base(ConditionIntent.Skip)
+    {
+    }
 
-    public string ConditionNames => nameof(SkipIfNoStandardGitHubToken);
+    public override string ConditionNames => nameof(SkipIfNoStandardGitHubToken);
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         var options = pipelineContext.Services.GetRequiredService<IOptions<GitHubSettings>>();
 

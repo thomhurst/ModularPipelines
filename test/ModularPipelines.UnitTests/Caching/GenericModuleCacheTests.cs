@@ -557,10 +557,10 @@ public class GenericModuleCacheTests
     {
         var builder = TestPipelineBuilder.Create()
             .AddModules(moduleType)
-            .AddModuleCache<FileSystemModuleCache>(options =>
+            .AddModuleCache<FileSystemModuleCache>(options => options with
             {
-                options.WorkingDirectory = directory;
-                options.CacheDirectory = Path.Combine(directory, "cache");
+                WorkingDirectory = directory,
+                CacheDirectory = Path.Combine(directory, "cache"),
             });
         if (value is not null)
         {

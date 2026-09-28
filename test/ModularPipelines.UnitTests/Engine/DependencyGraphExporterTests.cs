@@ -51,7 +51,6 @@ public class DependencyGraphExporterTests
     private static int _planningCallbackConstructorMutations;
     private static int _customDependencyAttributeConstructions;
     private static int _customDependencyPredicateEvaluations;
-    private static int _customDependencySelectorConstructions;
     private static int _planningTargetAttributeConstructions;
     private static int _singleUseConfigurationCalls;
 
@@ -97,7 +96,7 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -117,7 +116,7 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddDependencyWhenCompanionPresentAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -225,7 +224,7 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class PlanningAttributeValueSelectorAttribute : PlanningSafeDependsOnBaseAttribute
+    private sealed class PlanningAttributeValueSelectorAttribute : DependsOnBaseAttribute, IPlanningSafe
     {
         public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
             context.GetAttribute<StatefulPlanningTargetAttribute>(candidateModule) is not null;
@@ -288,29 +287,10 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class RuntimeDependencySelectorAttribute
-        : DependsOnAllModulesInheritingFromAttribute
+    private sealed class PlanningSafeDependencySelectorAttribute : DependsOnBaseAttribute, IPlanningSafe
     {
-        public RuntimeDependencySelectorAttribute() : base(typeof(DependencyModule)) =>
-            Interlocked.Increment(ref _customDependencySelectorConstructions);
-    }
-
-    [RuntimeDependencySelector]
-    private sealed class RuntimeSelectorConsumerModule : Module<string>
-    {
-        protected internal override Task<string> ExecuteAsync(
-            IModuleContext context,
-            CancellationToken cancellationToken) =>
-            Task.FromResult<string>("runtime-selector-consumer");
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    private sealed class PlanningSafeDependencySelectorAttribute
-        : DependsOnAllModulesInheritingFromAttribute, IPlanningSafeDependencySelector
-    {
-        public PlanningSafeDependencySelectorAttribute() : base(typeof(DependencyModule))
-        {
-        }
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+            candidateModule == typeof(DependencyModule);
     }
 
     [PlanningSafeDependencySelector]
@@ -447,9 +427,9 @@ public class DependencyGraphExporterTests
         }
     }
 
-    private sealed class NeverRunCondition : IPlanningRunCondition
+    private sealed class NeverRunCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     private sealed class ExecutionMutatingModule : Module<string>
@@ -465,14 +445,14 @@ public class DependencyGraphExporterTests
         }
     }
 
-    private sealed class AlwaysSkipCondition : IPlanningRunCondition
+    private sealed class AlwaysSkipCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
-    private sealed class StartupStateCondition : IPlanningRunCondition
+    private sealed class StartupStateCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             Task.FromResult(_startupConditionEnabled);
     }
 
@@ -906,6 +886,8 @@ public class DependencyGraphExporterTests
 
     private sealed class DirectInterfaceModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public DirectInterfaceModule()
         {
             Interlocked.Increment(ref _directModuleActivations);
@@ -960,6 +942,8 @@ public class DependencyGraphExporterTests
 
     private sealed class StatefulDirectInterfaceModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public StatefulDirectInterfaceModule()
         {
             ConfigurationCallCount = InitialConfigurationCallCount;
@@ -989,6 +973,8 @@ public class DependencyGraphExporterTests
     private sealed class ServiceBackedDirectInterfaceModule(DirectModulePlanningState state)
         : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration
@@ -1363,7 +1349,7 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CountPlanningRegistrationAttribute
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -1465,7 +1451,7 @@ public class DependencyGraphExporterTests
     }
 
     private sealed class CancelPlanningRegistrationAttribute
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -1641,11 +1627,11 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class SingleUseConditionAttribute : RunIfAttribute
+    private sealed class SingleUseConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
         private bool _evaluated;
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context)
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             if (_evaluated)
             {
@@ -1677,9 +1663,10 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class DeferredStatefulConditionAttribute : Attribute, IConditionAttribute
+    private sealed class DeferredStatefulConditionAttribute : RunConditionAttribute
     {
         public DeferredStatefulConditionAttribute()
+            : base(ConditionIntent.Run)
         {
             Interlocked.Increment(ref _deferredConditionAttributeConstructions);
         }
@@ -1693,52 +1680,47 @@ public class DependencyGraphExporterTests
             }
         }
 
-        public string ConditionNames => nameof(DeferredStatefulConditionAttribute);
+        public override string ConditionNames => nameof(DeferredStatefulConditionAttribute);
 
-        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Deferred condition must not run during planning.");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class DeferredAnyConditionAttribute : RunIfAnyAttribute
+    private sealed class DeferredAnyConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Deferred condition must not run during planning.");
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    private sealed class PlanningAlternativeConditionAttribute(bool result)
-        : Attribute, IGroupedConditionAttribute, IPlanningConditionAttribute
+    private sealed class PlanningAlternativeConditionAttribute(bool result) : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
     {
-        public ConditionLogic Logic => ConditionLogic.Any;
+        public override Type? GroupKey => typeof(PlanningAlternativeConditionAttribute);
 
-        public Type ConditionGroupType => typeof(PlanningAlternativeConditionAttribute);
+        public override string ConditionNames => nameof(PlanningAlternativeConditionAttribute);
 
-        public string ConditionNames => nameof(PlanningAlternativeConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(result);
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class DeferredPlanningAlternativeConditionAttribute
-        : Attribute, IGroupedConditionAttribute
+    private sealed class DeferredPlanningAlternativeConditionAttribute : RunConditionAttribute
     {
-        public DeferredPlanningAlternativeConditionAttribute() =>
+        public DeferredPlanningAlternativeConditionAttribute()
+            : base(ConditionIntent.Run) =>
             Interlocked.Increment(ref _deferredGroupedConditionAttributeConstructions);
 
-        public ConditionLogic Logic => ConditionLogic.Any;
+        public override Type? GroupKey => typeof(PlanningAlternativeConditionAttribute);
 
-        public Type ConditionGroupType => typeof(PlanningAlternativeConditionAttribute);
+        public override string ConditionNames => nameof(DeferredPlanningAlternativeConditionAttribute);
 
-        public string ConditionNames => nameof(DeferredPlanningAlternativeConditionAttribute);
-
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class AsyncPlanningConditionAttribute : RunIfAttribute
+    private sealed class AsyncPlanningConditionAttribute() : RunConditionAttribute(ConditionIntent.Run)
     {
-        public override async Task<bool> EvaluateAsync(IPipelineContext context)
+        public override async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _asyncSkipConditionEvaluations);
             await Task.Yield();
@@ -1747,10 +1729,10 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
-    private sealed class CustomGenericConditionAttribute<T> : RunIfAttribute
-        where T : IPlanningRunCondition
+    private sealed class CustomGenericConditionAttribute<T>() : RunConditionAttribute(ConditionIntent.Run)
+        where T : IRunCondition, IPlanningSafe
     {
-        public override Task<bool> EvaluateAsync(IPipelineContext context)
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _customPlanningAttributeEvaluations);
             return Task.FromResult(false);
@@ -2929,8 +2911,10 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Safe_False_Any_Group_Remains_Definitive_With_Deferred_Any()
+    public async Task Safe_False_Any_Group_Defers_When_Deferred_Attribute_Could_Join_The_Group()
     {
+        // A deferred custom attribute is not constructed during planning, so its group key is unknown and it
+        // may be another alternative of the false planning-safe group.
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<SafeFalseAnyGroupWithDeferredAnyModule>();
         await using var pipeline = await builder.BuildAsync();
@@ -2940,7 +2924,7 @@ public class DependencyGraphExporterTests
             await exporter.RenderAsync(DependencyGraphFormat.Json));
         var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
 
-        await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+        await Assert.That(node.GetProperty("skipped").ValueKind).IsEqualTo(JsonValueKind.Null);
     }
 
     [Test]
@@ -3136,24 +3120,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Defers_Custom_Inheritance_Selectors()
-    {
-        _customDependencySelectorConstructions = 0;
-        var builder = Pipeline.CreateBuilder();
-        builder.AddModule<DependencyModule>();
-        builder.AddModule<RuntimeSelectorConsumerModule>();
-        await using var pipeline = await builder.BuildAsync();
-        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
-        var constructionsBeforeRender = _customDependencySelectorConstructions;
-
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
-
-        await Assert.That(_customDependencySelectorConstructions)
-            .IsEqualTo(constructionsBeforeRender);
-    }
-
-    [Test]
-    public async Task Render_Uses_Explicitly_Planning_Safe_Inheritance_Selectors()
+    public async Task Render_Uses_Third_Party_Planning_Safe_Dependency_Selectors()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
@@ -3365,7 +3332,7 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(exception!.Message)
-                .Contains(nameof(IPlanningSafeModuleRegistrationHandler));
+                .Contains(nameof(IPlanningSafe));
             await Assert.That(eventsAfterRender).IsEqualTo(0);
             await Assert.That(constructionsAfterRender).IsEqualTo(0);
             await Assert.That(_planningRegistrationEvents).IsEqualTo(1);

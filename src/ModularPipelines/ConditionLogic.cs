@@ -1,7 +1,7 @@
 namespace ModularPipelines;
 
 /// <summary>
-/// Specifies how multiple conditions within a group are combined.
+/// Specifies how the members of a <see cref="ConditionGroup"/> are combined.
 /// </summary>
 public enum ConditionLogic
 {
@@ -14,9 +14,4 @@ public enum ConditionLogic
     /// At least one condition must return true (OR logic).
     /// </summary>
     Any,
-
-    /// <summary>
-    /// Used for skip conditions - if condition returns true, module is skipped.
-    /// </summary>
-    Skip
 }

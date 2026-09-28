@@ -103,7 +103,7 @@ All handlers inherit `IEventHandler`. Set `Priority` to control order (lower val
 first), or `ContinueOnError` to log a handler failure and continue.
 
 Registration attributes implement `IModuleRegistrationHandler`. Also implement
-`IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers
+`IPlanningSafe` only for deterministic, idempotent handlers
 without external side effects; those handlers may run while exporting a resolved
 dependency graph.
 

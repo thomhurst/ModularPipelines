@@ -20,10 +20,10 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnCI : IPlanningRunCondition
+public sealed class OnCI : IRunCondition, IPlanningSafe
 {
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
         var ciEnvVar = context.Environment.Variables.Get("CI");
         var isCI = !string.IsNullOrEmpty(ciEnvVar) &&

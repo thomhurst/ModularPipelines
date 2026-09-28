@@ -15,24 +15,24 @@ public class ParameterizedRunConditionAttributeTests
         protected override bool Result => true;
     }
 
-    private sealed class RunIfValueAttribute(string expectedValue) : RunIfAttribute
+    private sealed class RunIfValueAttribute(string expectedValue) : RunConditionAttribute(ConditionIntent.Run)
     {
         public string ExpectedValue { get; } = expectedValue;
 
         public override string ConditionNames => $"RunIfValue({ExpectedValue})";
 
-        public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+        public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
             Task.FromResult(ExpectedValue == "expected");
     }
 
     private sealed class AlwaysTrue : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     private sealed class AlwaysFalse : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [Test]
@@ -44,15 +44,16 @@ public class ParameterizedRunConditionAttributeTests
         {
             await Assert.That(attribute).IsNotNull();
             await Assert.That(attribute!.ExpectedValue).IsEqualTo("expected");
-            await Assert.That(attribute.Logic).IsEqualTo(ConditionLogic.All);
-            await Assert.That(await attribute.EvaluateAsync(Mock.Of<IPipelineContext>())).IsTrue();
+            await Assert.That(attribute.Intent).IsEqualTo(ConditionIntent.Run);
+            await Assert.That(attribute.GroupKey).IsNull();
+            await Assert.That(await attribute.EvaluateAsync(Mock.Of<IPipelineContext>(), CancellationToken.None)).IsTrue();
         }
     }
 
     [Test]
-    public async Task CustomAttribute_DefaultCancellationOverload_HonorsCancellation()
+    public async Task GenericAttribute_HonorsCancellation()
     {
-        var attribute = new RunIfValueAttribute("expected");
+        var attribute = new RunIfAttribute<AlwaysTrue>();
         using var cancellationTokenSource = new CancellationTokenSource();
         await cancellationTokenSource.CancelAsync();
 
@@ -74,12 +75,12 @@ public class ParameterizedRunConditionAttributeTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI").EvaluateAsync(context)).IsTrue();
-            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI", "true").EvaluateAsync(context)).IsTrue();
-            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI", "false").EvaluateAsync(context)).IsFalse();
-            await Assert.That(await new SkipIfEnvironmentVariableAttribute("CI", "true").EvaluateAsync(context)).IsTrue();
-            await Assert.That(await new RunIfEnvironmentVariableUnsetAttribute("MISSING").EvaluateAsync(context)).IsTrue();
-            await Assert.That(await new SkipIfEnvironmentVariableUnsetAttribute("CI").EvaluateAsync(context)).IsFalse();
+            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI").EvaluateAsync(context, CancellationToken.None)).IsTrue();
+            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI", "true").EvaluateAsync(context, CancellationToken.None)).IsTrue();
+            await Assert.That(await new RunIfEnvironmentVariableAttribute("CI", "false").EvaluateAsync(context, CancellationToken.None)).IsFalse();
+            await Assert.That(await new SkipIfEnvironmentVariableAttribute("CI", "true").EvaluateAsync(context, CancellationToken.None)).IsTrue();
+            await Assert.That(await new RunIfEnvironmentVariableUnsetAttribute("MISSING").EvaluateAsync(context, CancellationToken.None)).IsTrue();
+            await Assert.That(await new SkipIfEnvironmentVariableUnsetAttribute("CI").EvaluateAsync(context, CancellationToken.None)).IsFalse();
         }
     }
 
@@ -91,9 +92,9 @@ public class ParameterizedRunConditionAttributeTests
         using (Assert.Multiple())
         {
             await Assert.That(await new SkipIfAttribute<AlwaysFalse, AlwaysFalse, AlwaysTrue>()
-                .EvaluateAsync(context)).IsTrue();
+                .EvaluateAsync(context, CancellationToken.None)).IsTrue();
             await Assert.That(await new SkipIfAttribute<AlwaysFalse, AlwaysFalse, AlwaysFalse, AlwaysTrue>()
-                .EvaluateAsync(context)).IsTrue();
+                .EvaluateAsync(context, CancellationToken.None)).IsTrue();
         }
     }
 

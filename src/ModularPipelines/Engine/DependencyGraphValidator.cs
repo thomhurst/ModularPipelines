@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -60,7 +61,7 @@ internal static class DependencyGraphValidator
     /// <summary>
     /// Gets the dependency types for a module by inspecting its DependsOn attributes.
     /// </summary>
-    private static IEnumerable<Type> GetDependencyTypes(Type moduleType, HashSet<Type> availableModuleTypes)
+    private static IEnumerable<Type> GetDependencyTypes([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType, HashSet<Type> availableModuleTypes)
     {
         // Get direct DependsOn attributes
         foreach (var dependency in ModuleDependencyResolver.GetDependencies(moduleType))
@@ -80,23 +81,13 @@ internal static class DependencyGraphValidator
             }
         }
 
-        // Get DependsOnAllModulesInheritingFrom attributes
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
+        // Get DependsOnAllModulesInheritingFrom attributes, which need no module metadata
+        foreach (var dependency in ModuleDependencyResolver.GetSelectorDependencies(
+                     moduleType,
+                     [.. availableModuleTypes],
+                     dependencyContext: null))
         {
-            foreach (var candidateType in availableModuleTypes)
-            {
-                // Skip self
-                if (candidateType == moduleType)
-                {
-                    continue;
-                }
-
-                // Check if candidate inherits from the specified base type
-                if (candidateType.IsOrInheritsFrom(attribute.Type))
-                {
-                    yield return candidateType;
-                }
-            }
+            yield return dependency.DependencyType;
         }
     }
 }

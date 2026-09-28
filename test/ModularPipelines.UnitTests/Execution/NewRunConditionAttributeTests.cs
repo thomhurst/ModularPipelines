@@ -53,13 +53,13 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class AlwaysTrue : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
             => Task.FromResult(true);
     }
 
     private class AlwaysFalse : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
             => Task.FromResult(false);
     }
 
@@ -106,7 +106,7 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     // RunIfAll with two conditions, one false - should skip
-    [RunIfAll<AlwaysTrue, AlwaysFalse>]
+    [RunIf<AlwaysTrue, AlwaysFalse>]
     private class RunIfAllMixedModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -181,7 +181,7 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class CancelDuringEvaluation : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             ConditionCancellationTokenSource!.Cancel();
             return Task.FromResult(false);
@@ -190,7 +190,7 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class TrackEvaluation : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             SubsequentConditionWasEvaluated = true;
             return Task.FromResult(true);
@@ -201,7 +201,7 @@ public class NewRunConditionAttributeTests : TestBase
     {
         public ThrowOnConstruction() => throw new InvalidOperationException("Condition should not be constructed");
 
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     private class ConditionDependencyModule : SimpleTestModule<bool>
@@ -218,7 +218,7 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class DependencyCompletedCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
             => Task.FromResult(DependencyWasExecuted);
     }
 
@@ -360,16 +360,16 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task RunIfAny_DoesNotConstructConditionsAfterTrueResult()
     {
         var result = await new RunIfAnyAttribute<AlwaysTrue, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineContext>());
+            .EvaluateAsync(Mock.Of<IPipelineContext>(), CancellationToken.None);
 
         await Assert.That(result).IsTrue();
     }
 
     [Test]
-    public async Task RunIfAll_DoesNotConstructConditionsAfterFalseResult()
+    public async Task RunIf_MultipleConditions_DoesNotConstructConditionsAfterFalseResult()
     {
-        var result = await new RunIfAllAttribute<AlwaysFalse, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineContext>());
+        var result = await new RunIfAttribute<AlwaysFalse, ThrowOnConstruction>()
+            .EvaluateAsync(Mock.Of<IPipelineContext>(), CancellationToken.None);
 
         await Assert.That(result).IsFalse();
     }
@@ -378,7 +378,7 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task SkipIf_DoesNotConstructConditionsAfterTrueResult()
     {
         var result = await new SkipIfAttribute<AlwaysTrue, ThrowOnConstruction>()
-            .EvaluateAsync(Mock.Of<IPipelineContext>());
+            .EvaluateAsync(Mock.Of<IPipelineContext>(), CancellationToken.None);
 
         await Assert.That(result).IsTrue();
     }

@@ -27,7 +27,7 @@ public static class S3DistributedExtensions
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
         Action<S3ArtifactOptions> configureS3,
-        Action<ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         builder.Services.Configure(ModuleCacheOptionsName, configureS3);
         return AddS3ModuleCacheServices(builder, configureCache);
@@ -41,7 +41,7 @@ public static class S3DistributedExtensions
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
         IConfigurationSection section,
-        Action<ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         builder.Services.Configure<S3ArtifactOptions>(ModuleCacheOptionsName, section);
         return AddS3ModuleCacheServices(builder, configureCache);
@@ -108,7 +108,7 @@ public static class S3DistributedExtensions
 
     private static PipelineBuilder AddS3ModuleCacheServices(
         PipelineBuilder builder,
-        Action<ModuleCacheOptions>? configureCache)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         builder.Services.AddSingleton(serviceProvider => new S3ModuleCache(
             serviceProvider.GetRequiredService<IOptionsMonitor<S3ArtifactOptions>>()

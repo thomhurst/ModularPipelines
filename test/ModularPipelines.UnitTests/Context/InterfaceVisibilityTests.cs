@@ -156,7 +156,6 @@ public class InterfaceVisibilityTests
             ("ModularPipelines.Events", "IModuleFailureHandler"),
             ("ModularPipelines.Events", "IModuleSkippedHandler"),
             ("ModularPipelines.Events", "IModuleRegistrationHandler"),
-            ("ModularPipelines.Events", "IPlanningSafeModuleRegistrationHandler"),
             ("ModularPipelines.Events", "IModuleRegistrationContext"),
             ("ModularPipelines.Requirements", "IPipelineRequirement")
         };
@@ -202,8 +201,8 @@ public class InterfaceVisibilityTests
 
         await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.ContinueOnError))).IsNotNull();
         await Assert.That(typeof(IEventHandler).GetProperty(nameof(IEventHandler.Priority))).IsNotNull();
-        await Assert.That(typeof(IModuleRegistrationHandler)
-            .IsAssignableFrom(typeof(IPlanningSafeModuleRegistrationHandler))).IsTrue();
+        await Assert.That(typeof(IModuleContext).Assembly
+            .GetType("ModularPipelines.Events.IPlanningSafeModuleRegistrationHandler")).IsNull();
     }
 
     [Test]

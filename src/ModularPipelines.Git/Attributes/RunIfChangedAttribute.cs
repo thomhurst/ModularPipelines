@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
@@ -10,13 +10,14 @@ namespace ModularPipelines.Git.Attributes;
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 [ExcludeFromCodeCoverage]
-public sealed class RunIfChangedAttribute : Attribute, IGroupedConditionAttribute
+public sealed class RunIfChangedAttribute : RunConditionAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfChangedAttribute"/> class.
     /// </summary>
     /// <param name="pathPatterns">Repository-relative glob patterns. A match against any pattern runs the module.</param>
     public RunIfChangedAttribute(params string[] pathPatterns)
+        : base(ConditionIntent.Run)
     {
         ArgumentNullException.ThrowIfNull(pathPatterns);
         if (pathPatterns.Length == 0)
@@ -42,16 +43,14 @@ public sealed class RunIfChangedAttribute : Attribute, IGroupedConditionAttribut
     /// </summary>
     public string Base { get; set; } = "origin/main";
 
-    public ConditionLogic Logic => ConditionLogic.Any;
+    /// <inheritdoc />
+    public override Type? GroupKey => typeof(RunIfChangedAttribute);
 
-    public Type ConditionGroupType => typeof(RunIfChangedAttribute);
-
-    public string ConditionNames =>
+    /// <inheritdoc />
+    public override string ConditionNames =>
         $"{nameof(RunIfChangedAttribute)}({string.Join(", ", PathPatterns)}; Base={Base})";
 
-    public Task<bool> EvaluateAsync(IPipelineContext context) =>
-        EvaluateAsync(context, default);
-
-    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+    /// <inheritdoc />
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         context.Tools.Git.Changes.HasChangesAsync(PathPatterns, Base, cancellationToken);
 }

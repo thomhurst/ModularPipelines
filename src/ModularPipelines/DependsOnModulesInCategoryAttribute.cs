@@ -11,8 +11,8 @@ namespace ModularPipelines;
 /// public class AfterInfrastructureModule : Module&lt;string&gt; { }
 /// </code>
 /// </example>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class DependsOnModulesInCategoryAttribute : PlanningSafeDependsOnBaseAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
+public sealed class DependsOnModulesInCategoryAttribute : DependsOnBaseAttribute, IPlanningSafe
 {
     /// <summary>
     /// Gets the category to match.

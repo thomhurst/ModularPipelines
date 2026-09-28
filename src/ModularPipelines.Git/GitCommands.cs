@@ -1,5 +1,5 @@
-using ModularPipelines.Context;
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;

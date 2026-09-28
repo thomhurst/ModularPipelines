@@ -1,31 +1,25 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class RunOnlyOnBranchAttribute : Attribute, IConditionAttribute
+public class RunOnlyOnBranchAttribute : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.All;
-
-    public string ConditionNames => $"{nameof(RunOnlyOnBranchAttribute)}({BranchName})";
+    public override string ConditionNames => $"{nameof(RunOnlyOnBranchAttribute)}({BranchName})";
 
     public string BranchName { get; }
 
     public RunOnlyOnBranchAttribute(string branchName)
+        : base(ConditionIntent.Run)
     {
         BranchName = branchName;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
-    {
-        return EvaluateAsync(pipelineContext, default);
-    }
-
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         return BranchConditionHelper.CheckBranchMatches(
             pipelineContext,

@@ -21,7 +21,7 @@ internal static class ModuleDependencyResolver
     /// Gets all dependencies declared on a module type via DependsOn attributes.
     /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(Type moduleType)
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType)
     {
         foreach (var dependency in GetDeclaredDependencies(moduleType))
         {
@@ -34,22 +34,22 @@ internal static class ModuleDependencyResolver
     /// including DependsOnAllModulesInheritingFromAttribute which requires the list of available modules.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
-        Type moduleType,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
         IEnumerable<Type> availableModuleTypes)
     {
         return GetDependencies(moduleType, availableModuleTypes, dependencyContext: null);
     }
 
     /// <summary>
-    /// Gets all dependencies declared on a module type via DependsOn attributes,
-    /// including DependsOnAllModulesInheritingFromAttribute and predicate-based DependsOnBaseAttribute derivatives.
+    /// Gets all dependencies declared on a module type via DependsOn attributes and
+    /// <see cref="DependsOnBaseAttribute"/> selectors.
     /// </summary>
     /// <param name="moduleType">The module type to get dependencies for.</param>
     /// <param name="availableModuleTypes">All available module types in the pipeline.</param>
     /// <param name="dependencyContext">Context providing access to module metadata (tags, categories, attributes).
-    /// Required for predicate-based dependencies. If null, predicate-based dependencies are skipped.</param>
+    /// Required for metadata-based selectors. If null, only <see cref="DependsOnAllModulesInheritingFromAttribute"/> is evaluated.</param>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
-        Type moduleType,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IDependencyContext? dependencyContext)
     {
@@ -68,8 +68,17 @@ internal static class ModuleDependencyResolver
     }
 
     /// <summary>
-    /// Gets dependencies selected from the available module set by base-type or metadata predicates.
+    /// Gets dependencies selected from the available module set by <see cref="DependsOnBaseAttribute"/>
+    /// predicates, such as <see cref="DependsOnAllModulesInheritingFromAttribute"/>.
     /// </summary>
+    /// <param name="moduleType">The module type to get selector dependencies for.</param>
+    /// <param name="availableModuleTypes">All available module types to evaluate against predicates.</param>
+    /// <param name="dependencyContext">
+    /// Context providing access to module metadata. When null, only
+    /// <see cref="DependsOnAllModulesInheritingFromAttribute"/>, which needs no metadata, is evaluated.
+    /// </param>
+    /// <param name="planningSafeOnly">Whether to construct and evaluate only <see cref="IPlanningSafe"/> predicates.</param>
+    /// <returns>Enumerable of dependency tuples (DependencyType, Optional).</returns>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetSelectorDependencies(
         Type moduleType,
         IReadOnlyList<Type> availableModuleTypes,
@@ -78,62 +87,12 @@ internal static class ModuleDependencyResolver
     {
         planningSafeOnly |= dependencyContext is ModuleMetadataRegistry { PlanningSafeOnly: true };
 
-        foreach (var attribute in GetInheritanceSelectorAttributes(moduleType, planningSafeOnly))
-        {
-            foreach (var candidateType in availableModuleTypes)
-            {
-                // Skip self
-                if (candidateType == moduleType)
-                {
-                    continue;
-                }
+        // Without metadata only inheritance selectors can be evaluated, so construct nothing else.
+        var selectors = dependencyContext is null
+            ? GetInheritanceSelectorAttributes(moduleType)
+            : GetSelectorAttributes(moduleType, planningSafeOnly);
 
-                // Check if candidate inherits from the specified base type
-                if (candidateType.IsOrInheritsFrom(attribute.Type))
-                {
-                    yield return (candidateType, false);
-                }
-            }
-        }
-
-        // Handle predicate-based dependencies (DependsOnBaseAttribute derivatives)
-        if (dependencyContext != null)
-        {
-            foreach (var dep in GetPredicateDependencies(
-                         moduleType,
-                         availableModuleTypes,
-                         dependencyContext,
-                         planningSafeOnly))
-            {
-                yield return dep;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets dependencies resolved via predicate-based attributes (DependsOnBaseAttribute derivatives).
-    /// </summary>
-    /// <param name="moduleType">The module type to get predicate dependencies for.</param>
-    /// <param name="availableModuleTypes">All available module types to evaluate against predicates.</param>
-    /// <param name="dependencyContext">Context providing access to module metadata.</param>
-    /// <param name="planningSafeOnly">Whether to evaluate only predicates explicitly safe for planning.</param>
-    /// <returns>Enumerable of dependency tuples (DependencyType, Optional).</returns>
-    public static IEnumerable<(Type DependencyType, bool Optional)> GetPredicateDependencies(
-        Type moduleType,
-        IReadOnlyList<Type> availableModuleTypes,
-        IDependencyContext dependencyContext,
-        bool planningSafeOnly = false)
-    {
-        var predicateAttributes = planningSafeOnly
-            ? moduleType
-                .GetCustomAttributesIncludingBaseInterfaces<PlanningSafeDependsOnBaseAttribute>()
-                .Cast<DependsOnBaseAttribute>()
-                .ToList()
-            : moduleType
-                .GetCustomAttributesIncludingBaseInterfaces<DependsOnBaseAttribute>()
-                .ToList();
-
-        if (predicateAttributes.Count == 0)
+        if (selectors.Count == 0)
         {
             yield break;
         }
@@ -146,13 +105,11 @@ internal static class ModuleDependencyResolver
                 continue;
             }
 
-            foreach (var attr in predicateAttributes)
+            if (selectors.Any(selector => selector is IInheritanceDependencySelector inheritanceSelector
+                    ? candidateType.IsOrInheritsFrom(inheritanceSelector.Type)
+                    : selector.ShouldDependOn(candidateType, dependencyContext!)))
             {
-                if (attr.ShouldDependOn(candidateType, dependencyContext))
-                {
-                    yield return (candidateType, false);
-                    break; // Only add once even if multiple attributes match
-                }
+                yield return (candidateType, false);
             }
         }
     }
@@ -175,7 +132,7 @@ internal static class ModuleDependencyResolver
     /// including both static (attribute-based) and dynamic (runtime-added) dependencies.
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
-        Type moduleType,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IModuleDependencyRegistry? dynamicRegistry = null)
     {
@@ -243,7 +200,7 @@ internal static class ModuleDependencyResolver
         }
     }
 
-    private static IEnumerable<(Type DependencyType, bool Optional)> GetDeclaredDependencies(Type moduleType)
+    private static IEnumerable<(Type DependencyType, bool Optional)> GetDeclaredDependencies([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] Type moduleType)
     {
         if (GeneratedModuleMetadata.TryGetDependencies(moduleType, out var generatedDependencies))
         {
@@ -252,8 +209,11 @@ internal static class ModuleDependencyResolver
                 dependency.Optional));
         }
 
-        return moduleType
-            .GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>()
+        // Filter by the dependency interface before construction so unrelated attributes are never constructed.
+        return moduleType.GetInterfaces()
+            .SelectMany(static type => type.GetCustomAttributes(typeof(IModuleDependencyAttribute), inherit: true))
+            .Concat(moduleType.GetCustomAttributes(typeof(IModuleDependencyAttribute), inherit: true))
+            .Cast<IModuleDependencyAttribute>()
             .Select(static attribute => (attribute.Type, attribute.Optional));
     }
 
@@ -261,29 +221,44 @@ internal static class ModuleDependencyResolver
         "Trimming",
         "IL2070",
         Justification = "This is the documented reflection fallback for dynamically supplied module types.")]
-    private static IEnumerable<DependsOnAllModulesInheritingFromAttribute> GetInheritanceSelectorAttributes(
+    private static IReadOnlyList<DependsOnBaseAttribute> GetSelectorAttributes(
         Type moduleType,
         bool planningSafeOnly)
     {
         if (!planningSafeOnly)
         {
             return moduleType
-                .GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>();
+                .GetCustomAttributesIncludingBaseInterfaces<DependsOnBaseAttribute>()
+                .ToArray();
         }
 
-        var selectorType = typeof(DependsOnAllModulesInheritingFromAttribute);
-        var attributeData = CustomAttributeMetadata.GetApplicable(
-                moduleType,
-                type => type.IsAssignableTo(selectorType))
-            .Concat(moduleType.GetInterfaces()
-                .SelectMany(static type => type.CustomAttributes)
-                .Where(data => data.AttributeType
-                    .IsAssignableTo(typeof(DependsOnAllModulesInheritingFromAttribute))));
+        // During planning, construct only selectors that are marked planning-safe.
+        static bool IsPlanningSafeSelector(Type type) =>
+            type.IsAssignableTo(typeof(DependsOnBaseAttribute))
+            && type.IsAssignableTo(typeof(IPlanningSafe));
 
-        return attributeData
-            .Where(data => data.AttributeType.Assembly == selectorType.Assembly
-                || data.AttributeType.IsAssignableTo(typeof(IPlanningSafeDependencySelector)))
-            .Select(CustomAttributeMetadata.Create<DependsOnAllModulesInheritingFromAttribute>)
-            .ToArray();
+        return CreateSelectors(moduleType, IsPlanningSafeSelector);
     }
+
+    /// <summary>
+    /// Constructs only the selectors that need no module metadata, so selectors that are evaluated at runtime
+    /// are not constructed before the metadata registry exists.
+    /// </summary>
+    private static IReadOnlyList<DependsOnBaseAttribute> GetInheritanceSelectorAttributes(Type moduleType) =>
+        CreateSelectors(
+            moduleType,
+            static type => type.IsAssignableTo(typeof(DependsOnBaseAttribute))
+                           && type.IsAssignableTo(typeof(IInheritanceDependencySelector)));
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "This is the documented reflection fallback for dynamically supplied module types.")]
+    private static IReadOnlyList<DependsOnBaseAttribute> CreateSelectors(Type moduleType, Func<Type, bool> predicate) =>
+        moduleType.GetInterfaces()
+            .SelectMany(static type => type.CustomAttributes)
+            .Where(data => predicate(data.AttributeType))
+            .Concat(CustomAttributeMetadata.GetApplicable(moduleType, predicate))
+            .Select(CustomAttributeMetadata.Create<DependsOnBaseAttribute>)
+            .ToArray();
 }

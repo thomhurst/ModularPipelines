@@ -32,7 +32,7 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configureRedis,
         Action<ArtifactOptions>? configureArtifacts = null,
-        Action<ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         builder.Services.Configure(ModuleCacheOptionsName, configureRedis);
         if (configureArtifacts is not null)
@@ -52,7 +52,7 @@ public static class RedisDistributedExtensions
         this PipelineBuilder builder,
         IConfigurationSection redisSection,
         Action<ArtifactOptions>? configureArtifacts = null,
-        Action<ModuleCacheOptions>? configureCache = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         builder.Services.Configure<RedisDistributedOptions>(ModuleCacheOptionsName, redisSection);
         if (configureArtifacts is not null)
@@ -184,7 +184,7 @@ public static class RedisDistributedExtensions
 
     private static PipelineBuilder AddRedisModuleCacheServices(
         PipelineBuilder builder,
-        Action<ModuleCacheOptions>? configureCache)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache)
     {
         builder.Services.TryAddKeyedSingleton<IConnectionMultiplexer>(
             ModuleCacheConnectionKey,

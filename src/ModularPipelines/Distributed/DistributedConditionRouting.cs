@@ -102,10 +102,8 @@ internal sealed class DistributedConditionRouting(
 
         var groupsByName = module.GetType()
             .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .Select(static attribute => attribute is IGroupedConditionAttribute groupedAttribute
-                ? groupedAttribute.ConditionGroupType
-                : attribute.GetType())
+            .OfType<RunConditionAttribute>()
+            .Select(static attribute => attribute.GroupKey ?? attribute.GetType())
             .Distinct()
             .ToDictionary(GetGroupName, StringComparer.Ordinal);
         foreach (var groupName in groupNames)

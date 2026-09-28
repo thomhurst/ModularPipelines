@@ -54,7 +54,7 @@ public class PipelineCommandLineTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -232,7 +232,7 @@ public class PipelineCommandLineTests
 
     private sealed class TrackingCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _conditionEvaluations);
             return Task.FromResult(true);
@@ -266,7 +266,7 @@ public class PipelineCommandLineTests
 
     private sealed class NeverRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [RunIf<NeverRunCondition>]

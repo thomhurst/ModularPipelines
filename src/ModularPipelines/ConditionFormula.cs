@@ -39,35 +39,33 @@ internal abstract class ConditionFormula
     public abstract Task<FormulaValue> EvaluateAsync(Func<ConditionAtom, Task<bool?>> atomValue);
 
     /// <summary>
-    /// Builds one formula per condition group of a module's non-skip condition attributes, keyed by the
-    /// group type the master marks as satisfied. Ungrouped attributes are their own group.
+    /// Builds one formula per condition group of a module's run condition attributes, keyed by the
+    /// group type the master marks as satisfied. Ungrouped attributes are their own group, keyed by
+    /// their attribute type. Skip attributes are ignored.
     /// </summary>
     public static IEnumerable<(Type ConditionGroupType, ConditionFormula Formula)> ForConditionGroups(
-        IEnumerable<IConditionAttribute> attributes)
+        IEnumerable<RunConditionAttribute> attributes)
     {
-        var attributeArray = attributes.ToArray();
-        foreach (var attribute in attributeArray.Where(static attribute => attribute is not IGroupedConditionAttribute))
+        var attributeArray = attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run).ToArray();
+        foreach (var attribute in attributeArray.Where(static attribute => attribute.GroupKey is null))
         {
-            if (ForAttribute(attribute) is { } formula)
-            {
-                yield return (attribute.GetType(), formula);
-            }
+            yield return (attribute.GetType(), ForAttribute(attribute)!);
         }
 
         foreach (var alternatives in attributeArray
-                     .OfType<IGroupedConditionAttribute>()
-                     .GroupBy(static attribute => attribute.ConditionGroupType))
+                     .Where(static attribute => attribute.GroupKey is not null)
+                     .GroupBy(static attribute => attribute.GroupKey!))
         {
-            yield return (alternatives.Key, new OrFormula([.. alternatives.Select(ForAlternative)]));
+            yield return (alternatives.Key, new OrFormula([.. alternatives.Select(static attribute => ForAttribute(attribute)!)]));
         }
     }
 
     /// <summary>
-    /// Builds the formula of a module's non-skip condition attributes, or <c>null</c> when they impose
+    /// Builds the formula of a module's run condition attributes, or <c>null</c> when they impose
     /// nothing. Groups the master already satisfied are left out.
     /// </summary>
     public static ConditionFormula? ForModule(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         Func<Type, bool>? isConditionGroupSatisfied = null)
     {
         var formulas = ForConditionGroups(attributes)
@@ -78,17 +76,17 @@ internal abstract class ConditionFormula
     }
 
     /// <summary>
-    /// Builds the formula of one condition attribute, or <c>null</c> for skip conditions, which never
+    /// Builds the formula of one condition attribute, or <c>null</c> for skip attributes, which never
     /// require a capability.
     /// </summary>
-    public static ConditionFormula? ForAttribute(IConditionAttribute attribute)
+    public static ConditionFormula? ForAttribute(RunConditionAttribute attribute)
     {
-        if (attribute.Logic is not (ConditionLogic.All or ConditionLogic.Any))
+        if (attribute.Intent != ConditionIntent.Run)
         {
             return null;
         }
 
-        var conditionTypes = attribute.GetType().GetGenericArguments();
+        var conditionTypes = BuiltInConditionAttributes.GetMemberConditionTypes(attribute.GetType());
         if (conditionTypes.Length == 0)
         {
             return AttributeAtom(attribute);
@@ -98,10 +96,7 @@ internal abstract class ConditionFormula
         return attribute.Logic == ConditionLogic.All ? new AndFormula(members) : new OrFormula(members);
     }
 
-    private static ConditionFormula ForAlternative(IConditionAttribute attribute) =>
-        ForAttribute(attribute) ?? AttributeAtom(attribute);
-
-    private static ConditionAtom AttributeAtom(IConditionAttribute attribute) =>
+    private static ConditionAtom AttributeAtom(RunConditionAttribute attribute) =>
         new(
             ModuleConditionHandler.IsPlanningConditionAttribute(attribute),
             attribute.EvaluateAsync);
@@ -109,10 +104,10 @@ internal abstract class ConditionFormula
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2067",
-        Justification = "Condition types come from RunIf<T>, RunIfAll<T...>, or RunIfAny<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
+        Justification = "Condition types come from RunIf<T...>, RunIfAny<T...>, or SkipIf<T...> generic arguments, whose new() constraints preserve a public parameterless constructor.")]
     private static ConditionFormula ForConditionType(Type conditionType)
     {
-        var isPlanning = typeof(IPlanningRunCondition).IsAssignableFrom(conditionType);
+        var isPlanning = typeof(IPlanningSafe).IsAssignableFrom(conditionType);
 
         // Only planning-safe conditions may be constructed on the master.
         if (isPlanning
@@ -139,9 +134,8 @@ internal abstract class ConditionFormula
             return new CapabilityFormula(capabilityCondition.Capability);
         }
 
-        // ConditionGroup evaluates Skip logic as any-of, so only All is an AND.
         if (condition is ConditionGroup { Conditions.Count: > 0 } group
-            && condition is IPlanningRunCondition)
+            && condition is IPlanningSafe)
         {
             // A planning-safe group vouches for evaluating its members during planning.
             var members = group.Conditions.Select(member => ForCondition(member, isPlanning: true)).ToArray();

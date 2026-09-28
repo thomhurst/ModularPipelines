@@ -22,6 +22,7 @@ namespace ModularPipelines;
 /// <example>
 /// <code>
 /// protected override void Configure(ModuleConfigurationBuilder module) => module
+///     .WithRunIf&lt;OnCI&gt;()
 ///     .WithSkipWhen(_ => someCondition, "Configured skip condition returned true")
 ///     .WithTimeout(TimeSpan.FromMinutes(5))
 ///     .WithRetry(3)
@@ -42,7 +43,7 @@ public sealed class ModuleConfigurationBuilder
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
     private Func<IModuleContext, Shield>? _resilienceShieldFactory;
-    private Func<IModuleContext, Exception, ValueTask<bool>>? _ignoreFailuresCondition;
+    private Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
     private bool _hasAsyncSkipCondition;
     private string[]? _parallelConstraintKeys;
@@ -159,6 +160,67 @@ public sealed class ModuleConfigurationBuilder
         _planningSkipConditions.Add(ComposeAllPlanningSkipConditions(conditions));
         _hasAsyncSkipCondition = true;
         return this;
+    }
+
+    #endregion
+
+    #region Run Conditions
+
+    /// <summary>
+    /// Runs the module only when a condition of type <typeparamref name="TCondition"/> is satisfied.
+    /// </summary>
+    /// <typeparam name="TCondition">The condition type. A new instance is created for each evaluation.</typeparam>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Equivalent to <see cref="RunIfAttribute{T}"/>. Run conditions compose with skip conditions using
+    /// OR-to-skip semantics: the module is skipped when any configured condition says so. Conditions that do
+    /// not implement <see cref="IPlanningSafe"/> are left unresolved while building a dry-run plan.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithRunIf<TCondition>()
+        where TCondition : IRunCondition, new()
+        => AddRunCondition(static () => new TCondition(), typeof(TCondition), ConditionIntent.Run);
+
+    /// <summary>
+    /// Runs the module only when <paramref name="condition"/> is satisfied.
+    /// </summary>
+    /// <param name="condition">The condition to evaluate.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Run conditions compose with skip conditions using OR-to-skip semantics. A condition that does not
+    /// implement <see cref="IPlanningSafe"/> is left unresolved while building a dry-run plan.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithRunIf(IRunCondition condition)
+    {
+        ArgumentNullException.ThrowIfNull(condition);
+        return AddRunCondition(() => condition, condition.GetType(), ConditionIntent.Run);
+    }
+
+    /// <summary>
+    /// Skips the module when a condition of type <typeparamref name="TCondition"/> is satisfied.
+    /// </summary>
+    /// <typeparam name="TCondition">The condition type. A new instance is created for each evaluation.</typeparam>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// Equivalent to <see cref="SkipIfAttribute{T}"/>. Conditions that do not implement
+    /// <see cref="IPlanningSafe"/> are left unresolved while building a dry-run plan.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithSkipIf<TCondition>()
+        where TCondition : IRunCondition, new()
+        => AddRunCondition(static () => new TCondition(), typeof(TCondition), ConditionIntent.Skip);
+
+    /// <summary>
+    /// Skips the module when <paramref name="condition"/> is satisfied.
+    /// </summary>
+    /// <param name="condition">The condition to evaluate.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// A condition that does not implement <see cref="IPlanningSafe"/> is left unresolved while building a
+    /// dry-run plan.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithSkipIf(IRunCondition condition)
+    {
+        ArgumentNullException.ThrowIfNull(condition);
+        return AddRunCondition(() => condition, condition.GetType(), ConditionIntent.Skip);
     }
 
     #endregion
@@ -357,9 +419,28 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// When retries are configured, the timeout restarts for every attempt and does not include retry delays.
+    /// Pass <see cref="Timeout.InfiniteTimeSpan"/> to disable the pipeline default timeout for this module.
     /// </remarks>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when <paramref name="timeout"/> is zero or negative and is not <see cref="Timeout.InfiniteTimeSpan"/>.
+    /// </exception>
     public ModuleConfigurationBuilder WithTimeout(TimeSpan timeout)
     {
+        if (timeout == Timeout.InfiniteTimeSpan)
+        {
+            // TimeSpan.Zero is the configuration's representation of "no timeout".
+            _timeout = TimeSpan.Zero;
+            return this;
+        }
+
+        if (timeout <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(timeout),
+                timeout,
+                "The module timeout must be positive, or Timeout.InfiniteTimeSpan to disable the timeout.");
+        }
+
         _timeout = timeout;
         return this;
     }
@@ -434,7 +515,7 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithIgnoreFailures()
     {
-        _ignoreFailuresCondition = (_, _) => ValueTask.FromResult(true);
+        _ignoreFailuresCondition = static (_, _, _) => ValueTask.FromResult(true);
         return this;
     }
 
@@ -445,17 +526,20 @@ public sealed class ModuleConfigurationBuilder
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, bool> condition)
     {
-        _ignoreFailuresCondition = (ctx, ex) => ValueTask.FromResult(condition(ctx, ex));
+        ArgumentNullException.ThrowIfNull(condition);
+        _ignoreFailuresCondition = (ctx, ex, _) => ValueTask.FromResult(condition(ctx, ex));
         return this;
     }
 
     /// <summary>
     /// Configures the module to ignore failures based on an asynchronous condition.
     /// </summary>
-    /// <param name="condition">An async function that takes the module context and exception, returning true if the failure should be ignored.</param>
+    /// <param name="condition">An async function that takes the module context, the exception, and the module's cancellation token, returning true if the failure should be ignored.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, ValueTask<bool>> condition)
+    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(
+        Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>> condition)
     {
+        ArgumentNullException.ThrowIfNull(condition);
         _ignoreFailuresCondition = condition;
         return this;
     }
@@ -502,6 +586,29 @@ public sealed class ModuleConfigurationBuilder
             CacheAssemblyVersionKey = _cacheAssemblyVersionKey,
             Dependencies = [.. _dependencies],
         };
+    }
+
+    private ModuleConfigurationBuilder AddRunCondition(
+        Func<IRunCondition> conditionFactory,
+        Type conditionType,
+        ConditionIntent intent)
+    {
+        var reason = intent == ConditionIntent.Run
+            ? $"RunIf<{conditionType.Name}> not satisfied"
+            : $"SkipIf<{conditionType.Name}> returned true";
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition = async (context, cancellationToken) =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var satisfied = await conditionFactory().EvaluateAsync(context, cancellationToken).ConfigureAwait(false);
+            return SkipDecision.When(satisfied == (intent == ConditionIntent.Skip), reason);
+        };
+
+        _skipConditions.Add(condition);
+        _planningSkipConditions.Add(typeof(IPlanningSafe).IsAssignableFrom(conditionType)
+            ? AdaptPlanningSkipCondition(condition)
+            : static (_, _) => ValueTask.FromResult<SkipDecision?>(null));
+        _hasAsyncSkipCondition = true;
+        return this;
     }
 
     private ModuleConfigurationBuilder SetResilienceShield(Func<IModuleContext, Shield> factory)

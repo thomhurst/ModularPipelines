@@ -1,17 +1,20 @@
-using ModularPipelines.Attributes;
 using ModularPipelines;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.GitHub.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipIfDependabotAttribute : Attribute, IConditionAttribute
+public class SkipIfDependabotAttribute : RunConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Skip;
+    public SkipIfDependabotAttribute()
+        : base(ConditionIntent.Skip)
+    {
+    }
 
-    public string ConditionNames => nameof(SkipIfDependabotAttribute);
+    public override string ConditionNames => nameof(SkipIfDependabotAttribute);
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {
         var isDependabot = pipelineContext.Services.GetRequiredService<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
 

@@ -3,20 +3,28 @@ using ModularPipelines.Context;
 namespace ModularPipelines;
 
 /// <summary>
-/// Defines a condition that determines whether a module should run.
+/// Defines a predicate that decides whether a module should run.
 /// </summary>
 /// <remarks>
-/// Implement this interface to create custom run conditions.
-/// Conditions are evaluated before module execution and can access
-/// the pipeline context for environment checks, HTTP calls, etc.
-/// Conditions may also be evaluated while building a dry-run plan. Implementations must not
-/// mutate state or rely on being evaluated exactly once.
+/// <para>
+/// <see cref="IRunCondition"/> is the single predicate type for run conditions. Apply stateless
+/// conditions with <see cref="RunIfAttribute{T}"/>, <see cref="RunIfAnyAttribute{T1,T2}"/>, or
+/// <see cref="SkipIfAttribute{T}"/>, register them in <c>Configure</c> with
+/// <see cref="ModuleConfigurationBuilder.WithRunIf{TCondition}"/> or
+/// <see cref="ModuleConfigurationBuilder.WithSkipIf{TCondition}"/>, compose them with
+/// <see cref="ConditionGroup"/>, or derive a stateful attribute from <see cref="RunConditionAttribute"/>.
+/// </para>
+/// <para>
+/// Conditions may be evaluated while building a dry-run plan. Implementations must not mutate
+/// state or rely on being evaluated exactly once. Implement <see cref="IPlanningSafe"/> as well when
+/// the condition is also free of blocking work and remote I/O, so planning can resolve it.
+/// </para>
 /// </remarks>
 /// <example>
 /// <code>
-/// public sealed class HasGitHubToken : IRunCondition
+/// public sealed class HasGitHubToken : IRunCondition, IPlanningSafe
 /// {
-///     public Task&lt;bool&gt; EvaluateAsync(IPipelineContext context)
+///     public Task&lt;bool&gt; EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
 ///         =&gt; Task.FromResult(!string.IsNullOrEmpty(
 ///             context.Environment.Variables.Get("GITHUB_TOKEN")));
 /// }
@@ -25,25 +33,14 @@ namespace ModularPipelines;
 public interface IRunCondition
 {
     /// <summary>
-    /// Evaluates the condition asynchronously.
+    /// Evaluates the condition.
     /// </summary>
     /// <param name="context">The pipeline context for accessing environment, HTTP, etc.</param>
+    /// <param name="cancellationToken">A token that is cancelled when the pipeline stops evaluating conditions.</param>
     /// <returns>
     /// A task that returns <c>true</c> if the condition is satisfied; otherwise, <c>false</c>.
     /// </returns>
-    Task<bool> EvaluateAsync(IPipelineContext context);
-
-    /// <summary>
-    /// Evaluates the condition asynchronously with cancellation between composed conditions.
-    /// </summary>
-    /// <param name="context">The pipeline context for accessing environment, HTTP, etc.</param>
-    /// <param name="cancellationToken">A token used to cancel condition evaluation.</param>
-    /// <returns>A task that returns whether the condition is satisfied.</returns>
-    Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return EvaluateAsync(context);
-    }
+    Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken);
 }
 
 internal static class RunConditionEvaluator

@@ -360,8 +360,9 @@ public sealed class PipelineBuilder
         {
             services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
             DependencyInjectionSetup.Initialize(services);
-            services.Configure<ModuleCacheOptions>(options =>
-                options.WorkingDirectory = _environment.WorkingDirectory);
+            ModuleCacheOptionsConfiguration.Register(
+                services,
+                options => options with { WorkingDirectory = _environment.WorkingDirectory });
 
             foreach (var defaultProvider in _defaultLoggingProviderDescriptors
                          .Where(provider => !_loggingServices.Contains(provider)))
@@ -598,17 +599,17 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedMasterCoordinator? _inner;
 
-        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
+        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).EnqueueModuleAsync(a, ct).ConfigureAwait(false);
 
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
 
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
 
         public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(id, ct).ConfigureAwait(false);
 
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
 
-        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
+        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).GetRegisteredWorkersAsync(ct).ConfigureAwait(false);
 
         public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken ct)
         {
@@ -616,7 +617,7 @@ public sealed class PipelineBuilder
             return await coordinator.GetWorkerStatusesAsync(ct).ConfigureAwait(false);
         }
 
-        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
+        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).SignalCompletionAsync(ct).ConfigureAwait(false);
 
         public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
         {
@@ -624,9 +625,9 @@ public sealed class PipelineBuilder
             await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
         }
 
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
 
-        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).BroadcastCancellationAsync(ct);
+        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).BroadcastCancellationAsync(ct).ConfigureAwait(false);
 
         private async ValueTask<IDistributedMasterCoordinator> GetAsync(CancellationToken ct)
         {
@@ -635,10 +636,10 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                return _inner ??= await factory.CreateMasterAsync(ct);
+                return _inner ??= await factory.CreateMasterAsync(ct).ConfigureAwait(false);
             }
             finally
             {
@@ -657,14 +658,14 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedWorkerCoordinator? _inner;
 
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
 
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
 
         public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken ct) =>
             await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(moduleId, ct).ConfigureAwait(false);
 
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
 
         public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
         {
@@ -672,7 +673,7 @@ public sealed class PipelineBuilder
             await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
         }
 
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
 
         private async ValueTask<IDistributedWorkerCoordinator> GetAsync(CancellationToken ct)
         {
@@ -681,10 +682,10 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                return _inner ??= await factory.CreateWorkerAsync(ct);
+                return _inner ??= await factory.CreateWorkerAsync(ct).ConfigureAwait(false);
             }
             finally
             {
@@ -705,13 +706,13 @@ public sealed class PipelineBuilder
         private volatile IDistributedArtifactStore? _inner;
         private int _disposeState;
 
-        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
+        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).UploadAsync(d, s, ct).ConfigureAwait(false);
 
-        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
+        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DownloadAsync(r, ct).ConfigureAwait(false);
 
         public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).ListArtifactsAsync(id, ct).ConfigureAwait(false);
 
-        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
+        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DeleteAsync(r, ct).ConfigureAwait(false);
 
         public void Dispose()
         {
@@ -757,7 +758,7 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
                 ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);

@@ -155,7 +155,7 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class CustomUnixConditionGroup : ConditionGroup, IPlanningRunCondition
+    private sealed class CustomUnixConditionGroup : ConditionGroup, IPlanningSafe
     {
         public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
 
@@ -207,7 +207,7 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    [RunIfAll<OnLinux, OnGpu>]
+    [RunIf<OnLinux, OnGpu>]
     private sealed class CustomCapabilityConditionModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -219,7 +219,7 @@ public class DistributedWorkPublisherTests
     {
         public Capability Capability => Capability.Gpu;
 
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [RequiresCapability(Capability.Names.Linux, Capability.Names.Docker)]
@@ -248,14 +248,14 @@ public class DistributedWorkPublisherTests
             CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
-    private sealed class FalseCondition : IPlanningRunCondition
+    private sealed class FalseCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     private sealed class WorkerOnlyCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     private static ModuleResult<T> CreateSuccessResult<T>(T value, string moduleName) where T : notnull

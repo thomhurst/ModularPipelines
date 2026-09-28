@@ -20,6 +20,16 @@ namespace ModularPipelines;
 /// <summary>
 /// Convenience extension methods for PipelineBuilder that delegate to Services.
 /// </summary>
+/// <remarks>
+/// <para>Registration methods follow two rules, stated on each method:</para>
+/// <list type="bullet">
+/// <item><b>Single-instance services</b> (one active implementation, such as an execution backend or a result
+/// repository): the call <b>replaces</b> every earlier registration of the service, so the last call wins.</item>
+/// <item><b>Multi-instance services</b> (all registrations are used, such as validators, enrichers, requirements,
+/// and event handlers): a type registration is <b>added once</b> per implementation type, and an instance
+/// registration is added once per instance, so repeated calls have no effect.</item>
+/// </list>
+/// </remarks>
 public static class PipelineBuilderExtensions
 {
     /// <summary>
@@ -33,6 +43,7 @@ public static class PipelineBuilderExtensions
         this PipelineBuilder builder)
         where TModule : class, IModule
     {
+        ArgumentNullException.ThrowIfNull(builder);
         builder.Services.AddModule<TModule>();
         return builder;
     }
@@ -47,6 +58,8 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, TModule module)
         where TModule : class, IModule
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(module);
         builder.Services.AddModule(module);
         return builder;
     }
@@ -61,6 +74,8 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
         where TModule : class, IModule
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(factory);
         builder.Services.AddModule(factory);
         return builder;
     }
@@ -77,6 +92,7 @@ public static class PipelineBuilderExtensions
         "Runtime type module registration may require runtime code generation. Use AddModule<TModule>() for Native AOT.")]
     public static PipelineBuilder AddModules(this PipelineBuilder builder, params Type[] moduleTypes)
     {
+        ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(moduleTypes);
 
         foreach (var moduleType in moduleTypes)
@@ -117,6 +133,7 @@ public static class PipelineBuilderExtensions
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     public static PipelineBuilder AddModulesFromAssembly(this PipelineBuilder builder, Assembly assembly)
     {
+        ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(assembly);
         builder.Services.AddModulesFromAssembly(assembly);
         return builder;
@@ -128,12 +145,14 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRequirement">The type of requirement to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same requirement type again has no effect.</remarks>
     public static PipelineBuilder AddRequirement<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRequirement>(
         this PipelineBuilder builder)
         where TRequirement : class, IPipelineRequirement
     {
-        builder.Services.AddRequirement<TRequirement>();
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPipelineRequirement, TRequirement>());
         return builder;
     }
 
@@ -144,11 +163,16 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="factory">The requirement factory.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// Multi-instance service. Factories cannot be compared, so every call adds a requirement.
+    /// </remarks>
     public static PipelineBuilder AddRequirement<TRequirement>(
         this PipelineBuilder builder,
         Func<IServiceProvider, TRequirement> factory)
         where TRequirement : class, IPipelineRequirement
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(factory);
         builder.Services.AddRequirement(factory);
         return builder;
     }
@@ -159,12 +183,14 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same handler type again has no effect.</remarks>
     public static PipelineBuilder AddPipelineEventHandler<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(
         this PipelineBuilder builder)
         where THandler : class, IPipelineEventHandler
     {
-        builder.Services.AddPipelineEventHandler<THandler>();
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPipelineEventHandler, THandler>());
         return builder;
     }
 
@@ -174,12 +200,14 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="THandler">The handler type.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same handler type again has no effect.</remarks>
     public static PipelineBuilder AddModuleEventHandler<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(
         this PipelineBuilder builder)
         where THandler : class, IModuleEventHandler
     {
-        builder.Services.AddModuleEventHandler<THandler>();
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleEventHandler, THandler>());
         return builder;
     }
 
@@ -191,6 +219,8 @@ public static class PipelineBuilderExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder ConfigureServices(this PipelineBuilder builder, Action<IServiceCollection> configureServices)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(configureServices);
         configureServices(builder.Services);
         return builder;
     }
@@ -201,13 +231,14 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TBackend">The execution backend implementation.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Single-instance service: replaces any earlier execution backend registration.</remarks>
     public static PipelineBuilder AddExecutionBackend<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TBackend>(
         this PipelineBuilder builder)
         where TBackend : class, IExecutionBackend
     {
-        builder.Services.RemoveAll<IExecutionBackend>();
-        builder.Services.AddSingleton<IExecutionBackend, TBackend>();
+        ArgumentNullException.ThrowIfNull(builder);
+        ReplaceSingleton<IExecutionBackend, TBackend>(builder.Services);
         return builder;
     }
 
@@ -244,6 +275,7 @@ public static class PipelineBuilderExtensions
     /// <returns>A summary of the pipeline run results.</returns>
     public static async Task<Models.PipelineSummary> RunAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(builder);
         await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
         return await pipeline.RunAsync(cancellationToken).ConfigureAwait(false);
     }
@@ -261,6 +293,8 @@ public static class PipelineBuilderExtensions
         string path,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
         await using var pipeline = await builder.BuildForDependencyGraphExportAsync().ConfigureAwait(false);
         await pipeline.ExportDependencyGraphAsync(format, path, cancellationToken)
             .ConfigureAwait(false);
@@ -272,6 +306,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRepository">The type of result repository to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Single-instance service: replaces the default repository and any earlier registration.</remarks>
     [RequiresUnreferencedCode(
         "Result history resolves module result types through reflection.")]
     [RequiresDynamicCode(
@@ -279,7 +314,8 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddResultsRepository<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(this PipelineBuilder builder)
         where TRepository : class, IModuleResultRepository
     {
-        builder.Services.AddSingleton<IModuleResultRepository, TRepository>();
+        ArgumentNullException.ThrowIfNull(builder);
+        ReplaceSingleton<IModuleResultRepository, TRepository>(builder.Services);
         return builder;
     }
 
@@ -291,25 +327,30 @@ public static class PipelineBuilderExtensions
     /// </summary>
     /// <typeparam name="TStore">The cache storage backend.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configure">Optional cache configuration.</param>
+    /// <param name="configure">
+    /// Optional cache configuration that returns updated options, for example
+    /// <c>options =&gt; options with { MaximumInputFiles = 10_000 }</c>. Configurations from repeated calls apply
+    /// in call order.
+    /// </param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Single-instance service: the store replaces any earlier module cache store.</remarks>
     public static PipelineBuilder AddModuleCache<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
         this PipelineBuilder builder,
-        Action<ModuleCacheOptions>? configure = null)
+        Func<ModuleCacheOptions, ModuleCacheOptions>? configure = null)
         where TStore : class, IModuleCacheStore
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddOptions<ModuleCacheOptions>();
         if (configure is not null)
         {
-            builder.Services.Configure(configure);
+            ModuleCacheOptionsConfiguration.Register(builder.Services, configure);
         }
 
         builder.Services.TryAddSingleton<TStore>();
-        builder.Services.Replace(ServiceDescriptor.Singleton<IModuleCacheStore>(
-            serviceProvider => serviceProvider.GetRequiredService<TStore>()));
+        builder.Services.RemoveAll<IModuleCacheStore>();
+        builder.Services.AddSingleton<IModuleCacheStore>(
+            serviceProvider => serviceProvider.GetRequiredService<TStore>());
         builder.Services.TryAddSingleton<ModuleCacheFileHasher>();
         builder.Services.TryAddSingleton<ModuleCacheResultRepository>();
         builder.Services.TryAddSingleton<IModuleCacheResultRepository>(
@@ -339,13 +380,14 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TStore">The history store implementation type.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Single-instance service: replaces the default store and any earlier registration.</remarks>
     public static PipelineBuilder AddRunHistoryStore<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
         this PipelineBuilder builder)
         where TStore : class, IRunHistoryStore
     {
         ArgumentNullException.ThrowIfNull(builder);
-        builder.Services.Replace(ServiceDescriptor.Singleton<IRunHistoryStore, TStore>());
+        ReplaceSingleton<IRunHistoryStore, TStore>(builder.Services);
         return builder;
     }
 
@@ -355,6 +397,7 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TEnricher">The enricher implementation type.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same enricher type again has no effect.</remarks>
     public static PipelineBuilder AddRunReportEnricher<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TEnricher>(
         this PipelineBuilder builder)
@@ -372,6 +415,7 @@ public static class PipelineBuilderExtensions
     /// <typeparam name="TValidator">The validator implementation type.</typeparam>
     /// <param name="builder">The pipeline builder.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same validator type again has no effect.</remarks>
     public static PipelineBuilder AddValidator<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TValidator>(
         this PipelineBuilder builder)
@@ -389,10 +433,12 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TProvider">The type of estimated time provider to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Single-instance service: replaces the default provider and any earlier registration.</remarks>
     public static PipelineBuilder AddModuleEstimatedTimeProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TProvider>(this PipelineBuilder builder)
         where TProvider : class, IModuleEstimatedTimeProvider
     {
-        builder.Services.AddSingleton<IModuleEstimatedTimeProvider, TProvider>();
+        ArgumentNullException.ThrowIfNull(builder);
+        ReplaceSingleton<IModuleEstimatedTimeProvider, TProvider>(builder.Services);
         return builder;
     }
 
@@ -402,10 +448,35 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="requirement">The requirement instance to add.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>Multi-instance service: adding the same instance again has no effect.</remarks>
     public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirement requirement)
     {
-        builder.Services.AddSingleton(requirement);
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(requirement);
+        AddInstanceOnce(builder.Services, requirement);
         return builder;
+    }
+
+    private static void ReplaceSingleton<
+        TService,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
+        IServiceCollection services)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.RemoveAll<TService>();
+        services.AddSingleton<TService, TImplementation>();
+    }
+
+    private static void AddInstanceOnce<TService>(IServiceCollection services, TService instance)
+        where TService : class
+    {
+        if (!services.Any(descriptor => descriptor.ServiceType == typeof(TService)
+                                        && !descriptor.IsKeyedService
+                                        && ReferenceEquals(descriptor.ImplementationInstance, instance)))
+        {
+            services.AddSingleton(instance);
+        }
     }
 
     private static void ValidateModuleType(Type moduleType)

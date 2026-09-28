@@ -4,8 +4,7 @@ internal static class ModuleExecutionContract
 {
     public static IInternalModule AsInternal(this IModule module)
     {
-        return module as IInternalModule
-               ?? throw CreateException(module.GetType());
+        return module.AsInternalModule();
     }
 
     public static void Validate(Type moduleType)
