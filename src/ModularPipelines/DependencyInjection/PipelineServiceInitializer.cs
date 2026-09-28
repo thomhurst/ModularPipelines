@@ -51,11 +51,24 @@ internal static class PipelineServiceInitializer
         // As in the library, each factory is checked and then resolved before the next check, so
         // assemblies loaded while resolving earlier services are visible to later checks.
         var dynamicAssemblyTypes = new Dictionary<Assembly, Type[]>();
-        initializers.AddRange(descriptors
-            .Where(descriptor => descriptor.ImplementationFactory is { } factory
-                                 && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
-            .Select(descriptor => GetService(serviceProvider, descriptor))
-            .OfType<IInitializer>());
+        foreach (var descriptor in descriptors)
+        {
+            if (descriptor.ImplementationFactory is not { } factory
+                || !CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
+            {
+                continue;
+            }
+
+            var service = GetService(serviceProvider, descriptor);
+
+            // Resolving runs user code, which can emit new types into dynamic assemblies.
+            dynamicAssemblyTypes.Clear();
+
+            if (service is IInitializer initializer)
+            {
+                initializers.Add(initializer);
+            }
+        }
 
         // A singleton forwarded through several service types resolves to the same instance for
         // each registration; initialize it once, in the order it was first discovered.
@@ -119,11 +132,12 @@ internal static class PipelineServiceInitializer
     /// </summary>
     internal sealed class LoadedInitializerTypes(Func<Assembly, Type[]> findInitializerTypes)
     {
-        private readonly ConditionalWeakTable<Assembly, Type[]> _typesByAssembly = [];
+        private readonly ConditionalWeakTable<Assembly, Lazy<Type[]>> _typesByAssembly = [];
 
         /// <param name="dynamicAssemblyTypes">
         /// Per-initialization cache for dynamic assemblies (for example mocking proxies), which can
-        /// gain types between pipeline builds and so cannot be cached for the whole process.
+        /// gain types at any time and so cannot be cached for the whole process. The caller clears it
+        /// after resolving a factory.
         /// </param>
         public IEnumerable<Type> Get(Dictionary<Assembly, Type[]> dynamicAssemblyTypes)
         {
@@ -132,7 +146,11 @@ internal static class PipelineServiceInitializer
                 Type[] types;
                 if (!assembly.IsDynamic)
                 {
-                    types = _typesByAssembly.GetValue(assembly, key => findInitializerTypes(key));
+                    // GetValue can invoke its callback more than once under a race; Lazy ensures the
+                    // assembly is scanned once.
+                    types = _typesByAssembly.GetValue(
+                        assembly,
+                        key => new Lazy<Type[]>(() => findInitializerTypes(key), LazyThreadSafetyMode.ExecutionAndPublication)).Value;
                 }
                 else if (!dynamicAssemblyTypes.TryGetValue(assembly, out types!))
                 {

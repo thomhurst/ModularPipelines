@@ -11,6 +11,8 @@ public class PipelineServiceInitializerTests
 
     public interface IOtherFactoryService;
 
+    public interface ILateFactoryService;
+
     private sealed class InitializationLog
     {
         public List<string> Entries { get; } = [];
@@ -95,6 +97,8 @@ public class PipelineServiceInitializerTests
     }
 
     private sealed class InheritedFactoryInitializer(InitializationLog log) : InitializerBase(log), IFactoryService, IOtherFactoryService;
+
+    private sealed class LateFactoryInitializer(InitializationLog log) : InitializerBase(log), ILateFactoryService;
 
     private sealed class PendingInitializer(Task completion) : IInitializer
     {
@@ -224,6 +228,43 @@ public class PipelineServiceInitializerTests
         await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
 
         await Assert.That(string.Join(",", log.Entries)).IsEqualTo(nameof(FactoryInitializer));
+    }
+
+    [Test]
+    public async Task RereadsDynamicAssembliesAfterResolvingAFactory()
+    {
+        var log = new InitializationLog();
+        var emitted = false;
+        var dynamicAssemblyName = $"InitializerEmit_{Guid.NewGuid():N}";
+        var dynamicAssembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName(dynamicAssemblyName),
+            System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+        dynamicAssembly.DefineDynamicModule(dynamicAssemblyName);
+
+        // Stands in for a factory that emits a new initializer type into a dynamic assembly
+        // which was already scanned earlier in the same initialization.
+        var loadedInitializerTypes = new PipelineServiceInitializer.LoadedInitializerTypes(assembly =>
+            assembly == typeof(PipelineServiceInitializerTests).Assembly
+                ? [typeof(InheritedFactoryInitializer)]
+                : assembly.IsDynamic && assembly.GetName().Name == dynamicAssemblyName && Volatile.Read(ref emitted)
+                    ? [typeof(LateFactoryInitializer)]
+                    : []);
+        var services = CreateServices();
+
+        // Matches nothing, so its check reads (and caches) every assembly before any resolution.
+        services.AddSingleton<IDisposable>(_ => new CancellationTokenSource());
+        services.AddSingleton<IOtherFactoryService>(_ =>
+        {
+            Volatile.Write(ref emitted, true);
+            return new InheritedFactoryInitializer(log);
+        });
+        services.AddSingleton<ILateFactoryService>(_ => new LateFactoryInitializer(log));
+
+        await using var serviceProvider = services.BuildServiceProvider();
+        await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
+
+        await Assert.That(string.Join(",", log.Entries.Order(StringComparer.Ordinal)))
+            .IsEqualTo($"{nameof(InheritedFactoryInitializer)},{nameof(LateFactoryInitializer)}");
     }
 
     [Test]
