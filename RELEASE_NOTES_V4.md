@@ -341,6 +341,8 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - Workers claim work as a `ModuleLease` under a `WorkerId`: `DequeueModuleAsync(WorkerId, capabilities, ct)`
   returns `ModuleLease?`, and `PublishResultAsync(result, lease, ct)` publishes against it. Heartbeats renew
   leases, and the master requeues work whose lease expired. The first published result is final.
+  A module whose lease expires can run more than once (at-least-once execution), so make modules with
+  external side effects idempotent.
 - `WorkerId` replaces the `int WorkerIndex` on registrations, statuses, results, `RemoteModuleException`,
   `ModuleResult` and run reports. `WorkerStatus.IsFinal` marks final metrics; `WorkerStatus.IsLive` is internal.
 - `BroadcastCancellationAsync(reason, ct)` takes a `PipelineFailed` or `Stopped` reason, and
@@ -409,7 +411,8 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `IModule` cannot be implemented outside ModularPipelines. `DependsOnAttribute`, `DependsOnAttribute<T>`,
   `DependsOnAllModulesInheritingFromAttribute` and `SecretValueAttribute` are sealed.
 - Custom `IFileSystemProvider` implementations add attribute, timestamp and length members; custom
-  `IModuleCacheStore` implementations add `DeleteAsync`.
+  `IModuleCacheStore` implementations add `DeleteAsync`. `IModuleCacheStore.ExistsAsync` is new too, with a
+  default implementation that stores can override.
 - `ModuleCacheOptions` is an init-only record configured with `Func<ModuleCacheOptions, ModuleCacheOptions>`.
 - `WithTimeout` rejects zero and negative values; use `Timeout.InfiniteTimeSpan` to disable the timeout.
 - Registration helpers for single-instance services replace earlier registrations; multi-instance helpers
