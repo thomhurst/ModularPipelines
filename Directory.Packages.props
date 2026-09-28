@@ -32,7 +32,7 @@
     <PackageVersion Include="Azure.Security.KeyVault.Keys" Version="4.10.1" />
     <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.11.1" />
     <PackageVersion Include="CliWrap" Version="3.10.5" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="4.0.0" />
     <PackageVersion Include="FluentFTP" Version="55.0.0" />
     <PackageVersion Include="FSharp.Core" Version="10.1.401" />
