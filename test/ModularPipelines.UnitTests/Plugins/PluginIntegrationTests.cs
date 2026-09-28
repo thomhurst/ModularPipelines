@@ -1,125 +1,127 @@
 using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.Plugins;
 
 namespace ModularPipelines.UnitTests.Plugins;
 
-[TUnit.Core.NotInParallel("PluginRegistry")]
 public class PluginIntegrationTests
 {
     [Test]
-    public async Task ApplyPluginServices_CallsConfigureServicesOnAllPlugins()
+    public async Task AddPlugin_Configures_The_Builder_Immediately()
     {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        var plugin1 = new TrackingPlugin("Plugin1");
-        var plugin2 = new TrackingPlugin("Plugin2");
-        PluginRegistry.Register(plugin1);
-        PluginRegistry.Register(plugin2);
-
-        var services = new ServiceCollection();
-        PluginIntegration.ApplyPluginServices(services);
-
-        await Assert.That(plugin1.ConfigureServicesCalled).IsTrue();
-        await Assert.That(plugin2.ConfigureServicesCalled).IsTrue();
-    }
-
-    [Test]
-    public async Task ApplyPluginServices_ThrowsPluginInitializationException_WhenPluginFails()
-    {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        var failingPlugin = new FailingPlugin("FailingPlugin", failOnServices: true);
-        PluginRegistry.Register(failingPlugin);
-
-        var services = new ServiceCollection();
-
-        var exception = await Assert.That(() => PluginIntegration.ApplyPluginServices(services))
-            .Throws<PluginInitializationException>();
-
-        await Assert.That(exception!.PluginName).IsEqualTo("FailingPlugin");
-    }
-
-    [Test]
-    public async Task ApplyPluginConfiguration_CallsConfigurePipelineOnAllPlugins()
-    {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        var plugin1 = new TrackingPlugin("Plugin1");
-        var plugin2 = new TrackingPlugin("Plugin2");
-        PluginRegistry.Register(plugin1);
-        PluginRegistry.Register(plugin2);
-
-        var builder = Pipeline.CreateBuilder();
-        PluginIntegration.ApplyPluginConfiguration(builder);
-
-        await Assert.That(plugin1.ConfigurePipelineCalled).IsTrue();
-        await Assert.That(plugin2.ConfigurePipelineCalled).IsTrue();
-    }
-
-    [Test]
-    public async Task ApplyPluginConfiguration_ThrowsPluginInitializationException_WhenPluginFails()
-    {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        var failingPlugin = new FailingPlugin("FailingPlugin", failOnPipeline: true);
-        PluginRegistry.Register(failingPlugin);
-
+        var plugin = new TrackingPlugin("Tracking");
         var builder = Pipeline.CreateBuilder();
 
-        var exception = await Assert.That(() => PluginIntegration.ApplyPluginConfiguration(builder))
-            .Throws<PluginInitializationException>();
+        builder.AddPlugin(plugin);
 
-        await Assert.That(exception!.PluginName).IsEqualTo("FailingPlugin");
+        await Assert.That(plugin.ConfiguredBuilder).IsSameReferenceAs(builder);
     }
 
     [Test]
-    public async Task ApplyPluginServices_AppliesInPriorityOrder()
+    public async Task AddPlugin_Generic_Creates_And_Applies_The_Plugin()
     {
-        using var _ = PluginRegistry.BeginIsolatedScope();
+        var builder = Pipeline.CreateBuilder()
+            .AddPlugin<ServiceRegisteringPlugin>();
+
+        await Assert.That(builder.Services.Any(descriptor => descriptor.ServiceType == typeof(ITestService)))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Plugins_Apply_In_Registration_Order()
+    {
         var callOrder = new List<string>();
+        Pipeline.CreateBuilder()
+            .AddPlugin(new OrderTrackingPlugin("Second", callOrder))
+            .AddPlugin(new OrderTrackingPlugin("First", callOrder))
+            .AddPlugin(new OrderTrackingPlugin("Third", callOrder));
 
-        var lowPriority = new OrderTrackingPlugin("Low", 100, callOrder);
-        var highPriority = new OrderTrackingPlugin("High", -10, callOrder);
-        var defaultPriority = new OrderTrackingPlugin("Default", 0, callOrder);
+        await Assert.That(callOrder).IsEquivalentTo(new[] { "Second", "First", "Third" });
+    }
 
-        // Register in random order
-        PluginRegistry.Register(lowPriority);
-        PluginRegistry.Register(defaultPriority);
-        PluginRegistry.Register(highPriority);
+    [Test]
+    public async Task Application_Configuration_After_A_Plugin_Wins()
+    {
+        var builder = Pipeline.CreateBuilder()
+            .AddPlugin(new OptionsPlugin(FailureMode.ContinueOnFailure))
+            .ConfigureOptions(options => options with { FailureMode = FailureMode.FailFast });
 
-        var services = new ServiceCollection();
-        PluginIntegration.ApplyPluginServices(services);
+        await Assert.That(builder.Options.FailureMode).IsEqualTo(FailureMode.FailFast);
+    }
 
-        await Assert.That(callOrder).IsEquivalentTo(new[] { "High", "Default", "Low" });
+    [Test]
+    public async Task Plugin_Configuration_After_Application_Configuration_Wins()
+    {
+        var builder = Pipeline.CreateBuilder()
+            .ConfigureOptions(options => options with { FailureMode = FailureMode.FailFast })
+            .AddPlugin(new OptionsPlugin(FailureMode.ContinueOnFailure));
+
+        await Assert.That(builder.Options.FailureMode).IsEqualTo(FailureMode.ContinueOnFailure);
+    }
+
+    [Test]
+    public async Task AddPlugin_Throws_For_Duplicate_Name()
+    {
+        var builder = Pipeline.CreateBuilder()
+            .AddPlugin(new TrackingPlugin("Duplicate"));
+
+        await Assert.That(() => builder.AddPlugin(new TrackingPlugin("Duplicate")))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task AddPlugin_Wraps_Plugin_Failures()
+    {
+        var builder = Pipeline.CreateBuilder();
+
+        var exception = await Assert.That(() => builder.AddPlugin(new FailingPlugin("FailingPlugin")))
+            .Throws<PluginInitializationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.PluginName).IsEqualTo("FailingPlugin");
+            await Assert.That(exception.InnerException).IsTypeOf<InvalidOperationException>();
+        }
     }
 
     [Test]
     public async Task Plugins_CanRegisterServices()
     {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        var plugin = new ServiceRegisteringPlugin();
-        PluginRegistry.Register(plugin);
+        var builder = Pipeline.CreateBuilder()
+            .AddPlugin(new ServiceRegisteringPlugin())
+            .AddModule<PluginLoggingModule>();
 
-        var services = new ServiceCollection();
-        PluginIntegration.ApplyPluginServices(services);
+        await using var pipeline = await builder.BuildAsync();
+        var testService = pipeline.Services.GetService<ITestService>();
 
-        var provider = services.BuildServiceProvider();
-        var testService = provider.GetService<ITestService>();
-
-        await Assert.That(testService).IsNotNull();
         await Assert.That(testService).IsTypeOf<TestService>();
+    }
+
+    [Test]
+    public async Task Plugins_Are_Not_Shared_Between_Builders()
+    {
+        var plugin = new ServiceRegisteringPlugin();
+        Pipeline.CreateBuilder().AddPlugin(plugin);
+
+        await using var pipeline = await Pipeline.CreateBuilder()
+            .AddModule<PluginLoggingModule>()
+            .BuildAsync();
+
+        await Assert.That(pipeline.Services.GetService<ITestService>()).IsNull();
     }
 
     [Test]
     public async Task PluginSpectreLoggingRestoresLoggerControlAfterClearingDefaults()
     {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        PluginRegistry.Register(new SpectreLoggingPlugin());
         var builder = Pipeline.CreateBuilder()
             .AddModule<PluginLoggingModule>();
         builder.Logging.ClearProviders();
+        builder.AddPlugin(new SpectreLoggingPlugin());
 
         await using var pipeline = await builder.BuildAsync();
         var loggerControl = pipeline.Services
@@ -132,9 +134,8 @@ public class PluginIntegrationTests
     [Test]
     public async Task PluginRemovingSpectreLoggingUsesNoopLoggerControl()
     {
-        using var _ = PluginRegistry.BeginIsolatedScope();
-        PluginRegistry.Register(new RemoveLoggingProvidersPlugin());
         var builder = Pipeline.CreateBuilder()
+            .AddPlugin(new RemoveLoggingProvidersPlugin())
             .AddModule<PluginLoggingModule>();
 
         await using var pipeline = await builder.BuildAsync();
@@ -145,81 +146,45 @@ public class PluginIntegrationTests
             .IsTrue();
     }
 
-    private class TrackingPlugin : IModularPipelinesPlugin
+    private sealed class TrackingPlugin(string name) : IModularPipelinesPlugin
     {
-        public TrackingPlugin(string name)
-        {
-            Name = name;
-        }
+        public string Name { get; } = name;
 
-        public string Name { get; }
-        public bool ConfigureServicesCalled { get; private set; }
-        public bool ConfigurePipelineCalled { get; private set; }
+        public PipelineBuilder? ConfiguredBuilder { get; private set; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(PipelineBuilder builder)
         {
-            ConfigureServicesCalled = true;
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
-            ConfigurePipelineCalled = true;
+            ConfiguredBuilder = builder;
         }
     }
 
-    private class FailingPlugin : IModularPipelinesPlugin
+    private sealed class FailingPlugin(string name) : IModularPipelinesPlugin
     {
-        private readonly bool _failOnServices;
-        private readonly bool _failOnPipeline;
+        public string Name { get; } = name;
 
-        public FailingPlugin(string name, bool failOnServices = false, bool failOnPipeline = false)
+        public void Configure(PipelineBuilder builder)
         {
-            Name = name;
-            _failOnServices = failOnServices;
-            _failOnPipeline = failOnPipeline;
-        }
-
-        public string Name { get; }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (_failOnServices)
-            {
-                throw new InvalidOperationException("Simulated failure in ConfigureServices");
-            }
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
-            if (_failOnPipeline)
-            {
-                throw new InvalidOperationException("Simulated failure in ConfigurePipeline");
-            }
+            throw new InvalidOperationException("Simulated failure in Configure");
         }
     }
 
-    private class OrderTrackingPlugin : IModularPipelinesPlugin
+    private sealed class OrderTrackingPlugin(string name, List<string> callOrder) : IModularPipelinesPlugin
     {
-        private readonly int _priority;
-        private readonly List<string> _callOrder;
+        public string Name { get; } = name;
 
-        public OrderTrackingPlugin(string name, int priority, List<string> callOrder)
+        public void Configure(PipelineBuilder builder)
         {
-            Name = name;
-            _priority = priority;
-            _callOrder = callOrder;
+            callOrder.Add(Name);
         }
+    }
 
-        public string Name { get; }
-        public int Priority => _priority;
+    private sealed class OptionsPlugin(FailureMode failureMode) : IModularPipelinesPlugin
+    {
+        public string Name => nameof(OptionsPlugin);
 
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(PipelineBuilder builder)
         {
-            _callOrder.Add(Name);
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
+            builder.ConfigureOptions(options => options with { FailureMode = failureMode });
         }
     }
 
@@ -227,21 +192,17 @@ public class PluginIntegrationTests
     {
     }
 
-    private class TestService : ITestService
+    private sealed class TestService : ITestService
     {
     }
 
-    private class ServiceRegisteringPlugin : IModularPipelinesPlugin
+    private sealed class ServiceRegisteringPlugin : IModularPipelinesPlugin
     {
         public string Name => "ServiceRegistering";
 
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(PipelineBuilder builder)
         {
-            services.AddSingleton<ITestService, TestService>();
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
+            builder.Services.AddSingleton<ITestService, TestService>();
         }
     }
 
@@ -249,13 +210,9 @@ public class PluginIntegrationTests
     {
         public string Name => "SpectreLogging";
 
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(PipelineBuilder builder)
         {
-            services.AddLogging(builder => builder.AddSpectreConsole());
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
+            builder.Logging.AddSpectreConsole();
         }
     }
 
@@ -263,13 +220,9 @@ public class PluginIntegrationTests
     {
         public string Name => "RemoveLoggingProviders";
 
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(PipelineBuilder builder)
         {
-            services.RemoveAll<ILoggerProvider>();
-        }
-
-        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
-        {
+            builder.Logging.ClearProviders();
         }
     }
 

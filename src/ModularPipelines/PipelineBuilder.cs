@@ -52,6 +52,7 @@ public sealed class PipelineBuilder
     private readonly ServiceDescriptor[] _defaultLoggingServiceDescriptors;
     private readonly ServiceDescriptor[] _defaultLoggingProviderDescriptors;
     private readonly HashSet<Type> _defaultLoggingProviderTypes;
+    private readonly HashSet<string> _pluginNames = new(StringComparer.Ordinal);
     private PipelineOptions _options;
 
     internal PipelineBuilder(
@@ -168,6 +169,61 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
+    /// Adds a plugin and applies its configuration immediately.
+    /// </summary>
+    /// <typeparam name="TPlugin">The plugin type.</typeparam>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// Plugins apply in the order they are added. Configuration made on the builder after this call
+    /// takes precedence over the plugin's configuration.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">A plugin with the same name was already added.</exception>
+    /// <exception cref="PluginInitializationException">The plugin's configuration threw.</exception>
+    public PipelineBuilder AddPlugin<TPlugin>()
+        where TPlugin : IModularPipelinesPlugin, new()
+        => AddPlugin(new TPlugin());
+
+    /// <summary>
+    /// Adds a plugin instance and applies its configuration immediately.
+    /// </summary>
+    /// <param name="plugin">The plugin to add.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// Plugins apply in the order they are added. Configuration made on the builder after this call
+    /// takes precedence over the plugin's configuration.
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">A plugin with the same name was already added.</exception>
+    /// <exception cref="PluginInitializationException">The plugin's configuration threw.</exception>
+    public PipelineBuilder AddPlugin(IModularPipelinesPlugin plugin)
+    {
+        ArgumentNullException.ThrowIfNull(plugin);
+        var name = plugin.Name;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("A plugin must have a non-empty name.", nameof(plugin));
+        }
+
+        if (!_pluginNames.Add(name))
+        {
+            throw new InvalidOperationException($"Plugin '{name}' has already been added to this pipeline.");
+        }
+
+        try
+        {
+            plugin.Configure(this);
+        }
+        catch (Exception exception)
+        {
+            throw new PluginInitializationException(
+                $"Plugin '{name}' failed during Configure: {exception.Message}",
+                name,
+                exception);
+        }
+
+        return this;
+    }
+
+    /// <summary>
     /// Gets the host environment information.
     /// </summary>
     public IHostEnvironment Environment => _environment;
@@ -280,7 +336,7 @@ public sealed class PipelineBuilder
     private static Task<ValidationResult> ValidatePipelineAsync(IServiceProvider services)
     {
         var validationService = services.GetService<IPipelineValidationService>();
-        return validationService?.ValidateAsync(services)
+        return validationService?.ValidateAsync(services, CancellationToken.None)
                ?? Task.FromResult(ValidationResult.Success());
     }
 
@@ -346,16 +402,13 @@ public sealed class PipelineBuilder
     {
         LoadModularPipelinesAssembliesIfNotLoadedYet();
 
-        // Apply plugin configuration to the builder (modules, hooks, options)
-        PluginIntegration.ApplyPluginConfiguration(this);
-
         // Configure the host with our collected configuration
         _hostBuilder.ConfigureAppConfiguration((_, config) =>
         {
             config.AddConfiguration(_configuration);
         });
 
-        // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
+        // Configure services: core first, then builder services (plugins and application) in registration order
         _hostBuilder.ConfigureServices((_, services) =>
         {
             services.AddSingleton(new PipelineWorkingDirectory(_environment.WorkingDirectory));
@@ -376,16 +429,13 @@ public sealed class PipelineBuilder
                 }
             }
 
-            // Add user registrations in their original cross-view order before plugins.
+            // Add builder registrations (including plugin registrations) in their original cross-view order.
             foreach (var descriptor in _serviceRegistrationOrder.Entries
                          .Where(entry => !_defaultLoggingServiceDescriptors.Contains(entry.Descriptor))
                          .Select(static entry => entry.Descriptor))
             {
                 services.Add(descriptor);
             }
-
-            // Apply plugin services after user services
-            PluginIntegration.ApplyPluginServices(services);
 
             if (!HasDefaultLoggingProvider(services) || !UsesDefaultLoggerFactory(services))
             {
@@ -479,6 +529,8 @@ public sealed class PipelineBuilder
     {
         var assembly = Assembly.Load(assemblyName);
         PluginVersionValidator.Validate(assembly, coreVersion);
+
+        // Run module initializers so source-generated module and command metadata registers itself.
         RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
         return assembly;
     }
@@ -598,17 +650,17 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedMasterCoordinator? _inner;
 
-        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
+        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).EnqueueModuleAsync(a, ct).ConfigureAwait(false);
 
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
 
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
 
         public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(id, ct).ConfigureAwait(false);
 
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
 
-        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
+        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).GetRegisteredWorkersAsync(ct).ConfigureAwait(false);
 
         public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken ct)
         {
@@ -616,7 +668,7 @@ public sealed class PipelineBuilder
             return await coordinator.GetWorkerStatusesAsync(ct).ConfigureAwait(false);
         }
 
-        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
+        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).SignalCompletionAsync(ct).ConfigureAwait(false);
 
         public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
         {
@@ -624,9 +676,9 @@ public sealed class PipelineBuilder
             await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
         }
 
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
 
-        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).BroadcastCancellationAsync(ct);
+        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).BroadcastCancellationAsync(ct).ConfigureAwait(false);
 
         private async ValueTask<IDistributedMasterCoordinator> GetAsync(CancellationToken ct)
         {
@@ -635,10 +687,10 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                return _inner ??= await factory.CreateMasterAsync(ct);
+                return _inner ??= await factory.CreateMasterAsync(ct).ConfigureAwait(false);
             }
             finally
             {
@@ -657,14 +709,14 @@ public sealed class PipelineBuilder
         private readonly SemaphoreSlim _lock = new(1, 1);
         private volatile IDistributedWorkerCoordinator? _inner;
 
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
 
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
 
         public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken ct) =>
             await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(moduleId, ct).ConfigureAwait(false);
 
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
 
         public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
         {
@@ -672,7 +724,7 @@ public sealed class PipelineBuilder
             await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
         }
 
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct)).WaitForCancellationAsync(ct);
+        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
 
         private async ValueTask<IDistributedWorkerCoordinator> GetAsync(CancellationToken ct)
         {
@@ -681,10 +733,10 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                return _inner ??= await factory.CreateWorkerAsync(ct);
+                return _inner ??= await factory.CreateWorkerAsync(ct).ConfigureAwait(false);
             }
             finally
             {
@@ -705,13 +757,13 @@ public sealed class PipelineBuilder
         private volatile IDistributedArtifactStore? _inner;
         private int _disposeState;
 
-        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
+        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).UploadAsync(d, s, ct).ConfigureAwait(false);
 
-        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
+        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DownloadAsync(r, ct).ConfigureAwait(false);
 
         public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).ListArtifactsAsync(id, ct).ConfigureAwait(false);
 
-        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
+        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DeleteAsync(r, ct).ConfigureAwait(false);
 
         public void Dispose()
         {
@@ -757,7 +809,7 @@ public sealed class PipelineBuilder
                 return _inner;
             }
 
-            await _lock.WaitAsync(ct);
+            await _lock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
                 ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
