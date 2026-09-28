@@ -66,6 +66,8 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
+The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and negative values throw `ArgumentOutOfRangeException`.
+
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 
 Timeouts can be combined with other module behaviors:

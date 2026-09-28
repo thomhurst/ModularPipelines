@@ -40,6 +40,8 @@ builder.MaskConfigurationSection("Secrets");
 
 Nested values such as `Secrets:Database:Password` are included. Missing sections and empty values are ignored. The values are registered during pipeline startup and use the same log and CI-native masking as `[SecretValue]` and `ISecretRegistry`.
 
+Masking itself is not replaceable: console output relies on the built-in masker to hide secrets that are split across separate writes. Supply secrets through `[SecretValue]`, `ISecretRegistry`, or `SecretMaskingOptions` instead.
+
 You can also configure multiple sections through options:
 
 ```

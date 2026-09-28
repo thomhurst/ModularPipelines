@@ -96,7 +96,7 @@ An `AddModule` call uses a non-concrete static module type, such as `IModule` or
 
 ## MPG0016[​](#mpg0016 "Direct link to MPG0016")
 
-A module, base class, or implemented interface uses dependency metadata that requires runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, `DependsOnModulesWithAttribute<T>`, a custom `DependsOnBaseAttribute`, or a custom `DependsOnAttribute` subclass. Trimming can remove this metadata. Replace it with the built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
+A module, base class, or implemented interface uses dependency metadata that requires runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, `DependsOnModulesWithAttribute<T>`, or a custom `DependsOnBaseAttribute`. Trimming can remove this metadata. Replace it with the built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
 
 **Severity:** Warning
 

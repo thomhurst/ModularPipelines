@@ -40,9 +40,9 @@
 - [Distributed Mode](/docs/next/category/distributed-mode.md): Run your pipeline across multiple processes or machines with distributed coordination.
 - [Examples](/docs/next/category/examples.md): View some examples.
 - [How-To](/docs/next/category/how-to.md): Learn how to use Modular Pipelines.
-- [Distributed Architecture](/docs/next/distributed/architecture.md): This page describes the internal architecture of distributed mode for contributors and advanced users.
+- [Distributed Architecture](/docs/next/distributed/architecture.md): This page describes the internal architecture of distributed mode for contributors, coordinator authors,
 - [Capabilities and Routing](/docs/next/distributed/capabilities.md): Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are routed to the right worker.
-- [Configuration](/docs/next/distributed/configuration.md): Distributed mode has two layers of configuration: the core DistributedOptions (shared across all coordinator implementations) and coordinator-specific options like RedisDistributedOptions.
+- [Configuration](/docs/next/distributed/configuration.md): Distributed mode has two layers of configuration: the core DistributedOptions (shared across all coordinator implementations) and backend-specific options like RedisOptions.
 - [Getting Started with Distributed Mode](/docs/next/distributed/getting-started.md): This guide walks you through adding distributed execution to an existing ModularPipelines project using Redis as the coordinator.
 - [CI Example: GitHub Actions](/docs/next/distributed/github-actions.md): This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 - [Distributed Mode](/docs/next/distributed/overview.md): Distributed mode lets you split a ModularPipelines pipeline across multiple processes or machines. Instead of running every module in a single process, work is divided between a master that orchestrates and one or more workers that execute modules.
@@ -77,7 +77,7 @@
 - [Pipeline Failure Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two failure modes:
 - [Requirements](/docs/next/how-to/requirements.md): Requirements fail a pipeline before module execution when an environment prerequisite
 - [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
-- [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
+- [Run conditions](/docs/next/how-to/run-conditions.md): A run condition is an IRunCondition: one asynchronous predicate that receives the pipeline context and
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](/docs/next/how-to/secrets.md): Use IOptions\
 - [Sharing data across modules](/docs/next/how-to/sharing-data.md): Modules have been designed with data and sharing at its core.
@@ -86,7 +86,7 @@
 - [Module History](/docs/next/how-to/storing-and-retrieving-results.md): What is it?
 - [Sub-operations](/docs/next/how-to/sub-modules.md): What are they?
 - [Testing](/docs/next/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
-- [Time Estimator](/docs/next/how-to/time-estimator.md): The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, but without it, estimated times will not be correct.
+- [Time Estimator](/docs/next/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
 - [Timeouts](/docs/next/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
 - [Migrating from V2 to V3](/docs/next/migrating-to-v3.md): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 - [Amazon Web Services Package](/docs/next/mp-packages/amazon-web-services.md): Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
@@ -145,9 +145,9 @@
 - [Command Prompt Package](/docs/next/mp-packages/cmd.md): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](/docs/next/mp-packages/cosign.md): ModularPipelines.Cosign provides strongly typed access to the Sigstore Cosign CLI for
 - [Distributed S3 Artifacts Package](/docs/next/mp-packages/distributed-artifacts-s3.md): ModularPipelines.Distributed.Artifacts.S3 stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
-- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral IMasterDiscovery contract; SignalR can consume that contract when workers need to locate the current master.
+- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint
 - [Distributed Redis Package](/docs/next/mp-packages/distributed-redis.md): ModularPipelines.Distributed.Redis provides Redis-backed coordination and artifact storage for distributed pipelines.
-- [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline workers.
+- [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline
 - [Docker Package](/docs/next/mp-packages/docker.md): Strongly typed Docker container, image, network, volume, and Buildx commands.
 - [.NET Package](/docs/next/mp-packages/dotnet.md): Strongly typed .NET CLI commands, builders, and TRX test-result parsing.
 - [Eksctl Package](/docs/next/mp-packages/eksctl.md): ModularPipelines.Eksctl provides strongly typed access to the eksctl CLI for

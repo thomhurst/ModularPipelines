@@ -16,6 +16,8 @@ using ModularPipelines.Extensions;
 builder.AddModuleCache<FileSystemModuleCache>();
 ```
 
+A custom backend implements `IModuleCacheStore`: `OpenReadAsync`, `WriteAsync`, and `DeleteAsync` (deleting a missing entry does nothing). `ExistsAsync` defaults to opening and disposing the entry; override it when the store can check existence more cheaply.
+
 Then declare every file input that can affect a module:
 
 ```
@@ -91,20 +93,22 @@ You must update this key whenever the module implementation changes. Reusing it 
 ## Configure limits and locations[​](#configure-limits-and-locations "Direct link to Configure limits and locations")
 
 ```
-builder.AddModuleCache<FileSystemModuleCache>(options =>
+builder.AddModuleCache<FileSystemModuleCache>(options => options with
 
 {
 
-    options.WorkingDirectory = repositoryRoot;
+    WorkingDirectory = repositoryRoot,
 
-    options.CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules");
+    CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules"),
 
-    options.MaximumInputFiles = 50_000;
+    MaximumInputFiles = 50_000,
 
-    options.MaximumHashConcurrency = 8;
+    MaximumHashConcurrency = 8,
 
 });
 ```
+
+`ModuleCacheOptions` is immutable, like `PipelineOptions`: the configuration returns updated options, and configurations from repeated calls apply in call order. Calling `AddModuleCache` again replaces the store.
 
 The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.
 
@@ -161,12 +165,28 @@ builder.AddS3ModuleCache(options =>
 Or use Redis:
 
 ```
+builder.AddRedisModuleCache(redis =>
+
+{
+
+    redis.ConnectionString = "localhost:6379";
+
+    redis.TimeToLive = TimeSpan.FromDays(1);
+
+});
+```
+
+Each cache backend takes its own storage options (`S3StorageOptions` or `RedisOptions`). `ModuleCacheOptions` is immutable, so shared cache settings such as `MaximumCacheEntryBytes` are passed as an optional transform:
+
+```
 builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
+    cache => cache with { MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
 ```
+
+The Redis cache keys every entry with the fingerprint as a Redis Cluster hash tag, so it works against clustered Redis. Large S3 cache entries are uploaded with multipart uploads, so they are not limited to 5 GB.
 
 ## Correctness rules[​](#correctness-rules "Direct link to Correctness rules")
 

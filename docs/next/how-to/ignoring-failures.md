@@ -67,7 +67,7 @@ public class MyModule : Module<CommandResult>
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen(async (ctx, exception) =>
+        .WithIgnoreFailuresWhen(async (ctx, exception, cancellationToken) =>
 
         {
 
@@ -77,7 +77,7 @@ public class MyModule : Module<CommandResult>
 
                 // Check if the service is in maintenance mode
 
-                var isMaintenanceMode = await CheckMaintenanceModeAsync();
+                var isMaintenanceMode = await CheckMaintenanceModeAsync(cancellationToken);
 
                 return isMaintenanceMode;
 

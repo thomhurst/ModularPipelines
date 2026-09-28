@@ -4,10 +4,10 @@ Not every worker can execute every module. Some modules need Docker, others need
 
 ## Worker Capabilities[​](#worker-capabilities "Direct link to Worker Capabilities")
 
-Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
+Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names; create custom capabilities explicitly with `new Capability("name")` or an explicit `(Capability) "name"` cast. The conversion is explicit because it validates the name and throws for an empty or whitespace name.
 
 ```
-builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
+builder.AddCapabilities(Capability.Docker, Capability.Gpu, new Capability("high-memory"));
 ```
 
 `AddCapabilities` works with or without distributed mode. `DistributedOptions.Capabilities` is equivalent when you already configure `AddDistributedMode`.
@@ -49,11 +49,11 @@ Docker and GPU support are not detected automatically, because the presence of a
 
 ### Routing from Run Conditions[​](#routing-from-run-conditions "Direct link to Routing from Run Conditions")
 
-`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAll]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
 
 * `[RunIf<OnLinux>]` requires `linux`.
 * `[RunIfAny<OnLinux, OnMacOS>]` and `[RunIf<OnUnix>]` require `linux` **or** `macos`.
-* `[RunIfAll<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
+* `[RunIf<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
 
 Implement `ICapabilityCondition` to make your own conditions routable:
 
@@ -66,7 +66,7 @@ public sealed class OnGpu : ICapabilityCondition
 
 
 
-    public Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
 
         Task.FromResult(File.Exists("/dev/nvidia0"));
 
@@ -195,7 +195,7 @@ The matching logic is straightforward:
 2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
 4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible. This applies whether the conflict comes from run conditions (`[RunIf<OnLinux>]` with `[RunIf<OnWindows>]`) or declared capabilities (`[RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]`).
-5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
+5. If no registered worker has the required capabilities, only that module waits, and it is not queued until a capable worker registers. After `WorkerRegistrationTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline[​](#example-mixed-pipeline "Direct link to Example: Mixed Pipeline")
 

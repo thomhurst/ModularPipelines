@@ -423,6 +423,46 @@ builder.AddRequirement<DotNetSdkRequirement>();
 builder.AddRequirement<GitRequirement>();
 ```
 
+## Plugins[​](#plugins "Direct link to Plugins")
+
+A plugin packages reusable configuration (services, modules, handlers, requirements, options) behind `IModularPipelinesPlugin`. Add plugins explicitly; they are not discovered from loaded assemblies:
+
+```
+public sealed class CompanyDefaultsPlugin : IModularPipelinesPlugin
+
+{
+
+    public string Name => "CompanyDefaults";
+
+
+
+    public void Configure(PipelineBuilder builder)
+
+    {
+
+        builder.AddModuleEventHandler<AuditHandler>();
+
+        builder.ConfigureOptions(options => options with { FailureMode = FailureMode.ContinueOnFailure });
+
+    }
+
+}
+
+
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddPlugin<CompanyDefaultsPlugin>();
+
+
+
+// Configuration after AddPlugin takes precedence over the plugin's.
+
+builder.ConfigureOptions(options => options with { FailureMode = FailureMode.FailFast });
+```
+
+`Configure` runs immediately when the plugin is added, so plugins apply in the order they are added and later builder configuration overrides them. Each plugin name can be added once per builder.
+
 ## Extension Methods[​](#extension-methods "Direct link to Extension Methods")
 
 For a more fluent API, extension methods are available:

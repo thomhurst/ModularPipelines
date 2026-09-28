@@ -40,9 +40,9 @@
 - [Distributed Mode](/docs/next/category/distributed-mode.md): Run your pipeline across multiple processes or machines with distributed coordination.
 - [Examples](/docs/next/category/examples.md): View some examples.
 - [How-To](/docs/next/category/how-to.md): Learn how to use Modular Pipelines.
-- [Distributed Architecture](/docs/next/distributed/architecture.md): This page describes the internal architecture of distributed mode for contributors and advanced users.
+- [Distributed Architecture](/docs/next/distributed/architecture.md): This page describes the internal architecture of distributed mode for contributors, coordinator authors,
 - [Capabilities and Routing](/docs/next/distributed/capabilities.md): Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are routed to the right worker.
-- [Configuration](/docs/next/distributed/configuration.md): Distributed mode has two layers of configuration: the core DistributedOptions (shared across all coordinator implementations) and coordinator-specific options like RedisDistributedOptions.
+- [Configuration](/docs/next/distributed/configuration.md): Distributed mode has two layers of configuration: the core DistributedOptions (shared across all coordinator implementations) and backend-specific options like RedisOptions.
 - [Getting Started with Distributed Mode](/docs/next/distributed/getting-started.md): This guide walks you through adding distributed execution to an existing ModularPipelines project using Redis as the coordinator.
 - [CI Example: GitHub Actions](/docs/next/distributed/github-actions.md): This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 - [Distributed Mode](/docs/next/distributed/overview.md): Distributed mode lets you split a ModularPipelines pipeline across multiple processes or machines. Instead of running every module in a single process, work is divided between a master that orchestrates and one or more workers that execute modules.
@@ -77,7 +77,7 @@
 - [Pipeline Failure Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two failure modes:
 - [Requirements](/docs/next/how-to/requirements.md): Requirements fail a pipeline before module execution when an environment prerequisite
 - [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
-- [Run conditions](/docs/next/how-to/run-conditions.md): Reusable run conditions implement IRunCondition:
+- [Run conditions](/docs/next/how-to/run-conditions.md): A run condition is an IRunCondition: one asynchronous predicate that receives the pipeline context and
 - [Run reports and history](/docs/next/how-to/run-reports.md): ModularPipelines can write a schema-versioned JSON report after every pipeline run. Reports contain
 - [Secrets](/docs/next/how-to/secrets.md): Use IOptions\
 - [Sharing data across modules](/docs/next/how-to/sharing-data.md): Modules have been designed with data and sharing at its core.
@@ -86,7 +86,7 @@
 - [Module History](/docs/next/how-to/storing-and-retrieving-results.md): What is it?
 - [Sub-operations](/docs/next/how-to/sub-modules.md): What are they?
 - [Testing](/docs/next/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
-- [Time Estimator](/docs/next/how-to/time-estimator.md): The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, but without it, estimated times will not be correct.
+- [Time Estimator](/docs/next/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
 - [Timeouts](/docs/next/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
 - [Migrating from V2 to V3](/docs/next/migrating-to-v3.md): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 - [Amazon Web Services Package](/docs/next/mp-packages/amazon-web-services.md): Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
@@ -145,9 +145,9 @@
 - [Command Prompt Package](/docs/next/mp-packages/cmd.md): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](/docs/next/mp-packages/cosign.md): ModularPipelines.Cosign provides strongly typed access to the Sigstore Cosign CLI for
 - [Distributed S3 Artifacts Package](/docs/next/mp-packages/distributed-artifacts-s3.md): ModularPipelines.Distributed.Artifacts.S3 stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
-- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral IMasterDiscovery contract; SignalR can consume that contract when workers need to locate the current master.
+- [Distributed Redis Discovery Package](/docs/next/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint
 - [Distributed Redis Package](/docs/next/mp-packages/distributed-redis.md): ModularPipelines.Distributed.Redis provides Redis-backed coordination and artifact storage for distributed pipelines.
-- [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline workers.
+- [Distributed SignalR Package](/docs/next/mp-packages/distributed-signalr.md): ModularPipelines.Distributed.SignalR provides SignalR-based coordination between distributed pipeline
 - [Docker Package](/docs/next/mp-packages/docker.md): Strongly typed Docker container, image, network, volume, and Buildx commands.
 - [.NET Package](/docs/next/mp-packages/dotnet.md): Strongly typed .NET CLI commands, builders, and TRX test-result parsing.
 - [Eksctl Package](/docs/next/mp-packages/eksctl.md): ModularPipelines.Eksctl provides strongly typed access to the eksctl CLI for
@@ -1297,16 +1297,16 @@ A module combines execution policy, module-owned virtual hooks, opt-in attribute
 For a module that runs successfully, the phases are:
 
 1. Dependencies become ready.
-2. Global `IModuleEventHandler.OnModuleReadyAsync` handlers run sequentially by priority.
-3. Attribute `IModuleReadyHandler` handlers run sequentially by priority.
-4. Global `IModuleEventHandler.OnModuleStartAsync` handlers run sequentially by priority.
-5. Attribute `IModuleStartHandler` handlers run sequentially by priority.
+2. Global `IModuleEventHandler.OnModuleReadyAsync` handlers run sequentially in ascending `Order`.
+3. Attribute `IModuleReadyHandler` handlers run sequentially in ascending `Order`.
+4. Global `IModuleEventHandler.OnModuleStartAsync` handlers run sequentially in ascending `Order`.
+5. Attribute `IModuleStartHandler` handlers run sequentially in ascending `Order`.
 6. The module skip condition is evaluated.
 7. `Module<T>.OnBeforeExecuteAsync` runs once.
 8. `Module<T>.ExecuteAsync` runs through timeout handling and the configured resilience shield, which may compose retries with other resilience strategies.
 9. `Module<T>.OnAfterExecuteAsync` runs once.
-10. Global `IModuleEventHandler.OnModuleEndAsync` handlers run sequentially by priority.
-11. Attribute `IModuleEndHandler` handlers run sequentially by priority.
+10. Global `IModuleEventHandler.OnModuleEndAsync` handlers run sequentially in ascending `Order`.
+11. Attribute `IModuleEndHandler` handlers run sequentially in ascending `Order`.
 12. The module result is published and dependants become eligible.
 
 `OnBeforeExecuteAsync` and `OnAfterExecuteAsync` wrap the complete resilience shield, not each individual attempt.
@@ -1336,7 +1336,11 @@ Retry attempts complete before this failure sequence. If the configured failure 
 
 * An exception from `OnBeforeExecuteAsync` prevents module execution. `OnFailedAsync` and the failure event handlers are notified, but `OnAfterExecuteAsync` does not run.
 * Exceptions from `OnFailedAsync`, `OnSkippedAsync`, and `OnAfterExecuteAsync` are logged and do not replace the module outcome.
-* Attribute and global handlers all run in ascending `Priority` order within their registration family, even after a handler fails. `ContinueOnError` controls failure propagation: `false` rethrows one recorded failure or aggregates multiple failures after dispatch; `true` suppresses that handler's failure.
+* Attribute and global handlers all run in ascending `Order` within their registration family, even after a handler fails. `ContinueOnError` controls failure propagation: `false` records the failure (one exception, or an aggregate when several handlers fail); `true` only logs a warning.
+* Ready and Start handler failures fail the module through the normal failure path: the module does not execute, the failure handlers are notified, and the module status is `Failed`. Global and attribute handlers behave the same way.
+* End, Failure, and Skipped handlers observe the outcome and never change it. Each family runs in isolation, so a failing attribute family does not stop the global family (or the reverse). The failure is logged and recorded as a secondary pipeline error, surfaced with the pipeline's other errors.
+* A failing `OnPipelineEndAsync` handler fails the pipeline, but never replaces an exception thrown by execution; in that case it is recorded as a secondary pipeline error.
+* Estimated-time reads and writes are best-effort: provider exceptions are logged and never change the module outcome.
 
 ## Choosing an extension point[​](#choosing-an-extension-point "Direct link to Choosing an extension point")
 
@@ -1391,41 +1395,25 @@ See [Hooks](/ModularPipelines/docs/next/how-to/hooks.md) for implementation exam
 
 # Distributed Architecture
 
-This page describes the internal architecture of distributed mode for contributors and advanced users.
-
-## Upgrading SignalR configuration for v4[​](#upgrading-signalr-configuration-for-v4 "Direct link to Upgrading SignalR configuration for v4")
-
-`SignalRDistributedOptions.MaximumReceiveMessageSize` is renamed to `SignalRDistributedOptions.MaxReceiveMessageSize`. Update property assignments and configuration keys to the new name. The value remains a byte count, with a default of `1024 * 1024` (1 MB).
-
-```
-// Before
-
-options.MaximumReceiveMessageSize = 4 * 1024 * 1024;
-
-
-
-// v4
-
-options.MaxReceiveMessageSize = 4 * 1024 * 1024;
-```
+This page describes the internal architecture of distributed mode for contributors, coordinator authors, and advanced users.
 
 ## Execution Flow[​](#execution-flow "Direct link to Execution Flow")
 
 ### Master Startup[​](#master-startup "Direct link to Master Startup")
 
 1. `AddDistributedMode` enables distributed services and configures `DistributedOptions`.
-2. While the pipeline is built, `PipelineBuilder` activates distributed mode whenever `AddDistributedMode` was called. `TotalInstances` describes topology; it is not a second activation switch.
-3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto` role, `InstanceIndex == 0` selects master and any other index selects worker. The master selects `DistributedModuleExecutor` as the execution backend.
-4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so `CreateMasterAsync` or `CreateWorkerAsync` runs when that role's coordinator is first used. Directly registered role-specific coordinators are used as-is.
-5. Before scheduling work, the master registers module types for serialization. Dispatch starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a startup barrier. Capability-restricted assignments wait only until a matching worker registers or `CapabilityTimeout` expires.
+2. While the pipeline is built, `PipelineBuilder` activates distributed mode whenever `AddDistributedMode` was called. `TotalInstances` describes topology; it is not a second activation switch. Building fails when more than one coordinator backend is registered.
+3. `RoleDetector` honors an explicit `DistributedOptions.Role`. With the default `Auto` role, `InstanceIndex == 0` selects master and any other index selects worker. The master selects `DistributedModuleExecutor` as the execution backend. Selecting a backend fails when the distributed options are invalid, or when `TotalInstances` is above one but only the built-in process-local coordinator is registered.
+4. A registered `IDistributedCoordinatorFactory` is wrapped in a deferred coordinator, so `CreateMasterAsync` or `CreateWorkerAsync` runs when that role's coordinator is first used. The wrapper forwards every operation and disposes the created coordinator with the host. Directly registered role-specific coordinators are used as-is.
+5. Before scheduling work, the master registers module types for serialization. Dispatch starts immediately by default; `DistributedOptions.MinimumWorkerCount` can opt into a startup barrier. An assignment the master cannot run itself is published only once a matching worker has registered, or fails with a routing error after `WorkerRegistrationTimeout`.
 
 ### Worker Startup[​](#worker-startup "Direct link to Worker Startup")
 
-1. `RoleDetector` selects `Worker` explicitly, or derives it from a non-zero `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers select `WorkerModuleExecutor` as the execution backend. Registration and run-report metrics use `DistributedOptions.InstanceIndex`, so every worker must configure a distinct index.
+1. `RoleDetector` selects `Worker` explicitly, or derives it from a non-zero `DistributedOptions.InstanceIndex` when `Role` is `Auto`. Workers select `WorkerModuleExecutor` as the execution backend. Each process identifies itself with the `WorkerId` `instance-{InstanceIndex}`, so every process must configure a distinct index; a second live registration with the same identifier is rejected.
 2. The worker registers all available module types for serialization.
-3. The worker builds its capability set from configured capabilities and, by default, the auto-detected operating-system capability.
-4. The worker registers its identity, run ID, and capabilities via `RegisterWorkerAsync`. Periodic `SendHeartbeatAsync` calls carry `WorkerStatus`. During run-report finalization, a final status adds command metrics without replacing registration.
-5. The worker starts a bounded execution pool, continuously dequeuing one assignment ahead while up to the configured number of modules execute concurrently.
+3. The worker builds its capability set from configured capabilities and the auto-detected operating-system capability.
+4. The worker registers its identity, run ID, capabilities and maximum parallelism via `RegisterWorkerAsync`. Periodic `SendHeartbeatAsync` calls carry `WorkerStatus` with the modules the worker is executing, which renews their leases. During run-report finalization, a final status (`IsFinal`) adds command metrics without replacing the registration.
+5. The worker starts a bounded execution pool. It acquires an execution slot before it claims an assignment, so it never holds a claimed lease it cannot start.
 
 ### Module Execution (Master Side)[​](#module-execution-master-side "Direct link to Module Execution (Master Side)")
 
@@ -1434,19 +1422,7 @@ Build dependency graph
 
         │
 
-        ├──► Start master worker loop (concurrent)
-
-        │         │
-
-        │    Dequeue from queue
-
-        │    Execute locally
-
-        │    Publish result
-
-        │         │
-
-        │         └──► (loop)
+        ├──► Start master worker loop and lease maintenance (concurrent)
 
         │
 
@@ -1458,7 +1434,7 @@ For each ready module:
 
         ▼
 
-Create ModuleAssignment
+Create ModuleAssignment ──► no capable worker? ──► wait, then routing error
 
         │
 
@@ -1470,20 +1446,22 @@ Enqueue to coordinator
 
         ▼
 
-Wait for result (from any worker, including master)
+Wait for the final result; the backstop deadline starts when a worker claims it
 
         │
 
         ▼
 
-Deserialize result
+Deserialize result, record its artifact references
 
 Mark module complete/failed
 
 Schedule dependents
 ```
 
-The master runs the same bounded worker pool and competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
+The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, returns expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed.
+
+When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as cancelled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
 ### Module Execution (Worker Side)[​](#module-execution-worker-side "Direct link to Module Execution (Worker Side)")
 
@@ -1494,36 +1472,46 @@ Register with coordinator
 
         ▼
 
-   ┌──► Dequeue compatible assignment
+   ┌──► Acquire execution slot
 
    │         │
 
-   │      Execute
+   │    Claim compatible lease
 
    │         │
 
-   │         ▼
+   │    Download consumed artifacts by reference, execute
 
-   │  Serialize result
+   │         │
 
-   │    │
+   │    Upload produced artifacts (a failed upload or missing required artifact fails the module)
 
-   │    ▼
+   │         │
 
-   │  Publish to coordinator
+   │    Publish result and release the lease
 
-   │    │
+   │         │
 
-   └────┘ (loop)
+   └─────────┘ (loop)
 ```
 
-Workers execute up to the pipeline's global `Concurrency.MaxParallelism` setting. Each node can lower its own limit with `DistributedOptions.MaxParallelism`; it cannot raise the global limit. The pool keeps one dequeue pending while all execution slots are busy, avoiding idle time between assignments. Workers stop when `DequeueModuleAsync` returns `null`. Coordinators return `null` after the master calls `SignalCompletionAsync`, or when that worker's local cancellation token is canceled.
+Workers execute up to the pipeline's global `Concurrency.MaxParallelism` setting. Each node can lower its own limit with `DistributedOptions.MaxParallelism`; it cannot raise the global limit. Workers stop when `DequeueModuleAsync` returns `null`, which coordinators do after the master calls `SignalCompletionAsync` or broadcasts `Stopped`.
+
+After a `PipelineFailed` broadcast, a worker cancels the non-AlwaysRun modules it is executing and keeps claiming, because coordinators then return only AlwaysRun leases. After `Stopped`, it cancels everything.
 
 `ExecutionHint` throttles and `[ParallelLimiter]` semaphores remain process-local. They bound concurrency within each node, but do not coordinate a shared limit across nodes.
 
+### Timeouts[​](#timeouts "Direct link to Timeouts")
+
+The worker enforces each module's per-attempt timeout exactly as standalone execution does. The master only keeps a backstop for a stalled worker: when a worker claims the module, the master allows every configured attempt at the module's timeout (or `PipelineOptions.DefaultModuleTimeout`) plus `DistributedOptions.ModuleResultTimeout`. Queued, unclaimed work does not time out; it waits for capacity. On expiry the master withdraws the assignment, records `TimedOut`, and publishes that failure as the final result, so a late worker result is ignored.
+
+### Artifacts[​](#artifacts "Direct link to Artifacts")
+
+A producer's result lists the `ArtifactReference` values it uploaded. The master records the references of every accepted result and includes the producers' references in each consumer's assignment, and workers record the references of the dependency results they fetch. Consumers download exactly those references instead of the newest upload in the store, whose timestamps come from different machines. The master also tells each producer which of its artifacts planned consumers without run conditions require; the worker fails the module when one of them is not produced, matching standalone execution.
+
 ## Custom Execution Backends[​](#custom-execution-backends "Direct link to Custom Execution Backends")
 
-`IExecutionBackend` is the public orchestration seam. It receives the planned modules, their historical duration estimates keyed by module type (used to prioritise scheduling), an `IExecutionBackendContext`, and the pipeline cancellation token. A backend can submit modules to external processes and apply their results, or call `context.ExecuteModuleAsync(module, cancellationToken)` to execute a planned module in this process. The public method uses the same engine runner as the built-in local backend, including dependency waits, concurrency constraints, dependency-injection scopes, hooks, retries, artifact handling, logging, and secret masking.
+`IExecutionBackend` is the public orchestration seam. It receives one `ExecutionBackendRequest` with the planned modules, their historical duration estimates keyed by `ModuleId` (used to prioritise scheduling), and an `IExecutionBackendContext`, plus the pipeline cancellation token. A backend can submit modules to external processes and apply their results, or call `context.ExecuteModuleAsync(module, cancellationToken)` to execute a planned module in this process. The public method uses the same engine runner as the built-in local backend, including dependency waits, concurrency constraints, dependency-injection scopes, hooks, retries, artifact handling, logging, and secret masking.
 
 Set `OwnsEntirePlan` to `true` when the backend is responsible for completing every planned module; before returning, such a backend must supply every result either in its returned result list or through `IExecutionBackendContext.TryApplyResult`. A partial backend sets `OwnsEntirePlan` to `false` and supplies only the results owned by that process. Applying a result through the context immediately completes the local module awaitable, allowing dependent work to observe remotely produced results.
 
@@ -1540,19 +1528,15 @@ public sealed class MyExecutionBackend : IExecutionBackend
 
     public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
 
-        IReadOnlyList<IModule> modules,
-
-        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-
-        IExecutionBackendContext context,
+        ExecutionBackendRequest request,
 
         CancellationToken cancellationToken)
 
     {
 
-        return await Task.WhenAll(modules.Select(module =>
+        return await Task.WhenAll(request.Modules.Select(module =>
 
-            context.ExecuteModuleAsync(module, cancellationToken)));
+            request.Context.ExecuteModuleAsync(module, cancellationToken)));
 
     }
 
@@ -1571,69 +1555,73 @@ builder.AddExecutionBackend<MyExecutionBackend>();
 
 Explicit custom registrations take precedence over automatic local, distributed-master, and distributed-worker backend selection.
 
-Capability-mismatch handling is transport-specific. The in-memory and Redis coordinators scan their lists and leave incompatible assignments in place. The queue-backed SignalR master coordinator dequeues each candidate, re-enqueues an incompatible assignment, and continues scanning for work that the current worker can execute.
+## Coordinator Contract[​](#coordinator-contract "Direct link to Coordinator Contract")
 
-## Coordinator Interfaces[​](#coordinator-interfaces "Direct link to Coordinator Interfaces")
-
-`IDistributedWorkerCoordinator` defines the six operations available to workers. `IDistributedMasterCoordinator` inherits that contract and adds five master operations, so the master can also execute modules locally. Custom coordinator factories supply implementations of these role-specific contracts.
+`IDistributedWorkerCoordinator` defines the six operations available to workers. `IDistributedMasterCoordinator` inherits that contract and adds the master operations, so the master can also execute modules locally. Every built-in backend runs the shared `DistributedCoordinatorContract` tests, and custom coordinators should satisfy the same behaviour.
 
 ### Worker Operations[​](#worker-operations "Direct link to Worker Operations")
 
-| Method                     | Description                                                                                                                                           |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DequeueModuleAsync`       | Claims an assignment compatible with the worker's capabilities, or returns `null` after completion.                                                   |
-| `PublishResultAsync`       | Stores a serialized module result and notifies waiters.                                                                                               |
-| `WaitForResultAsync`       | Waits for a stored module result; workers use it to load dependency results.                                                                          |
-| `RegisterWorkerAsync`      | Registers the worker's index, capabilities, registration time, and run identifier, including re-registration after reconnecting.                      |
-| `SendHeartbeatAsync`       | Reports `WorkerStatus`, including liveness, current assignments, and command metrics; workers send final metrics through this method after execution. |
-| `WaitForCancellationAsync` | Waits for the master to broadcast cancellation.                                                                                                       |
+| Method                     | Contract                                                                                                                                                                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RegisterWorkerAsync`      | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`.                                                                     |
+| `DequeueModuleAsync`       | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when cancelled. |
+| `PublishResultAsync`       | Stores a result and releases its lease. The first result for a module is final; later ones are ignored.                                                                                                                                               |
+| `WaitForResultAsync`       | Waits for a module's final result; workers use it to load dependency results.                                                                                                                                                                         |
+| `SendHeartbeatAsync`       | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                     |
+| `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                   |
 
 ### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 
-| Method                       | Description                                                             |
-| ---------------------------- | ----------------------------------------------------------------------- |
-| `EnqueueModuleAsync`         | Adds a module assignment to the work queue.                             |
-| `GetRegisteredWorkersAsync`  | Returns live registrations for startup barriers and capability routing. |
-| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including command metrics.   |
-| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                     |
-| `BroadcastCancellationAsync` | Requests cancellation of distributed execution.                         |
+| Method                       | Contract                                                                                                    |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `EnqueueModuleAsync`         | Adds an assignment to the queue.                                                                            |
+| `WithdrawAssignmentAsync`    | Removes a queued, unclaimed assignment; returns whether one was removed.                                    |
+| `GetActiveLeasesAsync`       | Returns the leases workers hold.                                                                            |
+| `RequeueExpiredLeasesAsync`  | Queues again every assignment whose lease was not renewed for `WorkerTimeout` and has no result.            |
+| `GetRegisteredWorkersAsync`  | Returns workers with live heartbeats or a final status.                                                     |
+| `GetWorkerStatusesAsync`     | Returns the latest status for each worker, including final command metrics.                                 |
+| `SignalCompletionAsync`      | Tells workers that no more assignments will arrive.                                                         |
+| `BroadcastCancellationAsync` | Broadcasts a cancellation reason. The first reason is durable; workers that start waiting later observe it. |
+
+Claims prefer, in order: higher `ModulePriority`, assignments fewer live workers can run, more specific capability requirements, longer critical paths, and earlier enqueue order.
+
+### Evolution Policy[​](#evolution-policy "Direct link to Evolution Policy")
+
+Coordinator, discovery and artifact-store interfaces evolve through default interface members. A member added in a 4.x minor release ships with a default implementation, so existing implementations keep compiling and working; members are only removed or changed in a major release. Wire types (`ModuleAssignment`, `ModuleLease`, `SerializedModuleResult`, `WorkerRegistration`, `WorkerStatus`, `ArtifactDescriptor`, `ArtifactReference`, `DependencyResultReference`, `MasterEndpoint`) are records with `required` and `init` properties, so later versions can add optional members without breaking payloads or callers.
+
+Coordinators that hold connections should implement `IAsyncDisposable`: the pipeline disposes the coordinator it created, directly or through a factory, when the host shuts down.
 
 ## Redis Implementation Details[​](#redis-implementation-details "Direct link to Redis Implementation Details")
 
-The `RedisDistributedCoordinator` maps each method to Redis operations:
+The `RedisDistributedCoordinator` keeps the queue in a sorted set and leases in a hash, and runs each multi-step operation as one Lua script:
 
-| Method                       | Redis Operations                                                                                                                                                                                           |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EnqueueModuleAsync`         | `LPUSH` to the work queue + `EXPIRE` + `PUBLISH` on the work-available channel                                                                                                                             |
-| `DequeueModuleAsync`         | `GET` completion flag (check first), `SUBSCRIBE` to work/completion channels, atomically scan `LRANGE` and claim a capability-compatible item with `LREM`, then `GET` completion again (close race window) |
-| `PublishResultAsync`         | `HSET` on results hash + `EXPIRE` + `PUBLISH` on the module result channel                                                                                                                                 |
-| `WaitForResultAsync`         | `HGET` results hash (check first), then `SUBSCRIBE` result channel, then `HGET` again (close race window), await message                                                                                   |
-| `RegisterWorkerAsync`        | `HSET` registration and heartbeat in the workers hash + `EXPIRE`                                                                                                                                           |
-| `SendHeartbeatAsync`         | `HSET` status and refresh its expiry; refresh the worker heartbeat using Redis server time                                                                                                                 |
-| `GetWorkerStatusesAsync`     | `HGETALL` on the worker status hash                                                                                                                                                                        |
-| `GetRegisteredWorkersAsync`  | `HGETALL` on workers and status hashes; filters registrations by heartbeat age                                                                                                                             |
-| `SignalCompletionAsync`      | `SET` completion key, separate `EXPIRE`, then `PUBLISH` completion channel                                                                                                                                 |
-| `BroadcastCancellationAsync` | `SET` cancellation key, `EXPIRE`, then `PUBLISH` cancellation channel                                                                                                                                      |
-| `WaitForCancellationAsync`   | Check the cancellation key, subscribe, then check again before waiting                                                                                                                                     |
+| Method                                                 | Redis operations                                                                                                                                                                                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EnqueueModuleAsync`                                   | `ZADD` to the queue, refresh key expiry, `PUBLISH` work-available                                                                                                                                                                         |
+| `DequeueModuleAsync`                                   | Claim script: check completion and cancellation, drop copies that already have a result or lease, pick the best compatible item, `ZREM` it and `HSET` its lease. Waits on per-call pub/sub queues with a two-second bound between claims. |
+| `PublishResultAsync`                                   | `HSETNX` the result and `HDEL` the lease in one script, refresh expiry, `PUBLISH` the result channel                                                                                                                                      |
+| `WaitForResultAsync`                                   | `HGET`, then subscribe and re-read the hash after every notification or two-second poll                                                                                                                                                   |
+| `RegisterWorkerAsync`                                  | Script: reject a live duplicate session, store registration, status and heartbeat                                                                                                                                                         |
+| `SendHeartbeatAsync`                                   | Store status, then a script refreshes the heartbeat and extends the worker's own leases                                                                                                                                                   |
+| `WithdrawAssignmentAsync`                              | Script: `ZREM` queued copies of the module                                                                                                                                                                                                |
+| `RequeueExpiredLeasesAsync`                            | Script: remove expired leases and `ZADD` their assignments unless a result exists, then refresh key expiry                                                                                                                                |
+| `SignalCompletionAsync` / `BroadcastCancellationAsync` | `SET` the flag (the cancellation reason with `NX`) and `PUBLISH`                                                                                                                                                                          |
 
-### WaitForResultAsync Race Condition Handling[​](#waitforresultasync-race-condition-handling "Direct link to WaitForResultAsync Race Condition Handling")
+Every call observes its cancellation token; because Redis cannot cancel a sent command, waits are bounded with `WaitAsync` and later commands are not issued.
 
-The `WaitForResultAsync` method uses a check-subscribe-recheck pattern to avoid a race where a result is published between the initial check and the subscription:
+## SignalR Implementation Details[​](#signalr-implementation-details "Direct link to SignalR Implementation Details")
 
-1. `HGET` the results hash — if the result already exists, return immediately.
-2. `SUBSCRIBE` to the result channel.
-3. `HGET` again — if the result arrived between step 1 and 2, return it.
-4. Await the Pub/Sub message.
+The SignalR master hosts the in-memory coordinator behind `DistributedPipelineHub`. Workers invoke hub methods for every operation: `RegisterWorker`, `Heartbeat`, `DequeueModule`, `PublishResult`, `WaitForResult` and `WaitForCancellation`. The master never pushes to workers, so a worker that reconnects re-registers its session and retries its interrupted invocations; its heartbeats renew the leases it still holds, and leases of a worker that does not come back expire and are requeued. When the connection closes for good, `DequeueModuleAsync` returns `null` and the worker stops.
 
-This guarantees no result is missed regardless of timing.
+Security: when the master is reachable beyond the machine, connections must present the access token as a bearer token (or the `access_token` query parameter used by WebSockets); the master compares it in constant time and rejects the request with `401` otherwise. Registrations must carry the master's `RunId`, and only the registered worker may publish its results and heartbeats.
 
 ## Serialization[​](#serialization "Direct link to Serialization")
 
-Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module type names to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
+Module results are serialized via `ModuleResultSerializer` using `System.Text.Json`. The `ModuleTypeRegistry` maintains a mapping from module identifiers to their concrete .NET types, so results can be deserialized back to the correct `ModuleResult<T>`.
 
-Capability collections on `ModuleAssignment` and `WorkerRegistration` are lists, so the default JSON serializer writes them as plain string arrays on the wire.
+Exceptions carry their type name, message, stack trace, inner exception chain and, for `AggregateException`, every inner exception. Deserialization only activates types from the `System` namespaces and an allowlist of ModularPipelines exceptions whose data travels with them (`ModuleTimeoutException`, `ModuleFailedException`, `PipelineException`, `RequirementNotMetException`, `PipelineCanceledException`); any other type becomes a `RemoteModuleException` that keeps the original diagnostics and the worker's `WorkerId`.
 
-`SerializedModuleResult.Payload` contains the serialized result. Assignments carry `DependencyResultReference` entries; workers fetch those results from the coordinator's result store rather than embedding dependency payloads in each assignment.
+`SerializedModuleResult.Payload` contains the serialized result. Assignments carry `DependencyResultReference` entries; workers fetch those results from the coordinator's result store rather than embedding dependency payloads in each assignment. Condition groups the master already evaluated travel as version-independent type names (`Namespace.Type, AssemblyName`).
 
 ## Implementing a Custom Coordinator[​](#implementing-a-custom-coordinator "Direct link to Implementing a Custom Coordinator")
 
@@ -1656,17 +1644,33 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 {
 
-    public Task EnqueueModuleAsync(
-
-        ModuleAssignment assignment,
-
-        CancellationToken cancellationToken) =>
+    public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
 
 
-    public Task<ModuleAssignment?> DequeueModuleAsync(
+    public Task<bool> WithdrawAssignmentAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<IReadOnlyList<ModuleLease>> GetActiveLeasesAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<IReadOnlyList<ModuleId>> RequeueExpiredLeasesAsync(CancellationToken cancellationToken) =>
+
+        throw new NotImplementedException();
+
+
+
+    public Task<ModuleLease?> DequeueModuleAsync(
+
+        WorkerId workerId,
 
         IReadOnlySet<Capability> workerCapabilities,
 
@@ -1680,15 +1684,7 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
         SerializedModuleResult result,
 
-        CancellationToken cancellationToken) =>
-
-        throw new NotImplementedException();
-
-
-
-    public Task<SerializedModuleResult> WaitForResultAsync(
-
-        ModuleId moduleId,
+        ModuleLease? lease,
 
         CancellationToken cancellationToken) =>
 
@@ -1696,37 +1692,31 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 
 
-    public Task RegisterWorkerAsync(
-
-        WorkerRegistration registration,
-
-        CancellationToken cancellationToken) =>
+    public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
 
 
-    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(
-
-        CancellationToken cancellationToken) =>
+    public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
 
 
-    public Task SendHeartbeatAsync(
-
-        WorkerStatus status,
-
-        CancellationToken cancellationToken) =>
+    public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
 
 
-    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(
+    public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
 
-        CancellationToken cancellationToken) =>
+        throw new NotImplementedException();
+
+
+
+    public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
@@ -1738,13 +1728,17 @@ public sealed class MyCustomCoordinator : IDistributedMasterCoordinator
 
 
 
-    public Task BroadcastCancellationAsync(CancellationToken cancellationToken) =>
+    public Task BroadcastCancellationAsync(
+
+        DistributedCancellationReason reason,
+
+        CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
 
 
-    public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+    public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
 
         throw new NotImplementedException();
 
@@ -1764,17 +1758,13 @@ public sealed class MyCoordinatorFactory : IDistributedCoordinatorFactory
 
 {
 
-    public Task<IDistributedMasterCoordinator> CreateMasterAsync(
-
-        CancellationToken cancellationToken) =>
+    public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
 
         Task.FromResult<IDistributedMasterCoordinator>(new MyCustomCoordinator());
 
 
 
-    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(
-
-        CancellationToken cancellationToken) =>
+    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
 
         Task.FromResult<IDistributedWorkerCoordinator>(new MyCustomCoordinator());
 
@@ -1787,17 +1777,13 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 ## Worker Liveness and Final Metrics[​](#worker-liveness-and-final-metrics "Direct link to Worker Liveness and Final Metrics")
 
-`WorkerRegistration` contains immutable identity, run ID, and capabilities. Liveness and command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the master reads the latest statuses with `GetWorkerStatusesAsync`. Coordinators retain final metrics for post-execution reads, including after a worker disconnects or its heartbeat expires.
-
-`GetRegisteredWorkersAsync` returns workers with live heartbeats or retained final metrics. Scheduling considers live workers when checking capability routes. After `CapabilityTimeout`, the master fails a queued assignment if neither a suitable worker nor the master can execute it. Custom coordinators must keep heartbeat timing separate from the worker's registration timestamp.
-
-If a worker disappears after claiming an assignment, the master can wait until `ModuleResultTimeout` (45 minutes by default) for that assignment's result. SignalR can react to connection state internally, but that behavior is not part of the shared coordinator contract.
+`WorkerRegistration` contains the worker's session identity, run ID, capabilities and parallelism. Liveness and command metrics arrive through `SendHeartbeatAsync(WorkerStatus, ...)`; the master reads the latest statuses with `GetWorkerStatusesAsync`. A status with `IsFinal` carries the worker's final command metrics and keeps its registration visible after its heartbeat expires, so the master can collect metrics from workers that have already stopped. Custom coordinators must keep heartbeat timing separate from the registration timestamp.
 
 ## Cancellation and Completion[​](#cancellation-and-completion "Direct link to Cancellation and Completion")
 
-`BroadcastCancellationAsync` signals cancellation to distributed workers, which observe it through `WaitForCancellationAsync`. Local cancellation tokens still bound individual operations.
+`BroadcastCancellationAsync` signals cancellation to distributed workers, which observe it through `WaitForCancellationAsync`. `PipelineFailed` cancels non-AlwaysRun work only; `Stopped` cancels everything. Local cancellation tokens still bound individual operations.
 
-`SignalCompletionAsync` is different from cancellation. When the master receives at least one runnable module, it calls this method in a `finally` block after distributed execution ends. Coordinators use that signal to wake workers blocked in `DequeueModuleAsync` and let their execution loops exit normally. If the runnable set is empty, the master currently returns before sending the signal, so external workers remain blocked until their local cancellation tokens are canceled.
+`SignalCompletionAsync` is different from cancellation. The master calls it in a `finally` block after distributed execution ends, and coordinators then return `null` from pending and later `DequeueModuleAsync` calls, so workers exit even when they missed a notification. If the runnable set is empty, the master returns before sending the signal, so external workers remain blocked until their local cancellation tokens are canceled.
 
 
 ---
@@ -1808,10 +1794,10 @@ Not every worker can execute every module. Some modules need Docker, others need
 
 ## Worker Capabilities[​](#worker-capabilities "Direct link to Worker Capabilities")
 
-Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
+Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names; create custom capabilities explicitly with `new Capability("name")` or an explicit `(Capability) "name"` cast. The conversion is explicit because it validates the name and throws for an empty or whitespace name.
 
 ```
-builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
+builder.AddCapabilities(Capability.Docker, Capability.Gpu, new Capability("high-memory"));
 ```
 
 `AddCapabilities` works with or without distributed mode. `DistributedOptions.Capabilities` is equivalent when you already configure `AddDistributedMode`.
@@ -1853,11 +1839,11 @@ Docker and GPU support are not detected automatically, because the presence of a
 
 ### Routing from Run Conditions[​](#routing-from-run-conditions "Direct link to Routing from Run Conditions")
 
-`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAll]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
+`OnLinux`, `OnWindows`, `OnMacOS`, and `OnFreeBSD` implement `ICapabilityCondition`. When a module uses one of them in `[RunIf]`, `[RunIfAny]`, or a `ConditionGroup`, the framework translates the condition into a capability requirement instead of evaluating it on the master. This keeps the attribute set DRY — you don't need to add both `[RunIf<OnLinux>]` and `[RequiresCapability(Capability.Names.Linux)]` to the same module.
 
 * `[RunIf<OnLinux>]` requires `linux`.
 * `[RunIfAny<OnLinux, OnMacOS>]` and `[RunIf<OnUnix>]` require `linux` **or** `macos`.
-* `[RunIfAll<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
+* `[RunIf<OnLinux, OnGpu>]` requires `linux` **and** the custom condition's capability.
 
 Implement `ICapabilityCondition` to make your own conditions routable:
 
@@ -1870,7 +1856,7 @@ public sealed class OnGpu : ICapabilityCondition
 
 
 
-    public Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
 
         Task.FromResult(File.Exists("/dev/nvidia0"));
 
@@ -1999,7 +1985,7 @@ The matching logic is straightforward:
 2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
 4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible. This applies whether the conflict comes from run conditions (`[RunIf<OnLinux>]` with `[RunIf<OnWindows>]`) or declared capabilities (`[RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]`).
-5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
+5. If no registered worker has the required capabilities, only that module waits, and it is not queued until a capable worker registers. After `WorkerRegistrationTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline[​](#example-mixed-pipeline "Direct link to Example: Mixed Pipeline")
 
@@ -2050,7 +2036,7 @@ In this pipeline:
 
 # Configuration
 
-Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and coordinator-specific options like `RedisDistributedOptions`.
+Distributed mode has two layers of configuration: the core `DistributedOptions` (shared across all coordinator implementations) and backend-specific options like `RedisOptions`.
 
 ## Module identity and build compatibility[​](#module-identity-and-build-compatibility "Direct link to Module identity and build compatibility")
 
@@ -2103,7 +2089,11 @@ builder.AddDistributedMode(o =>
 
     o.RunId = Environment.GetEnvironmentVariable("MODULARPIPELINES_RUN_ID")!;
 
-    o.CapabilityTimeout = TimeSpan.FromMinutes(5);
+    o.WorkerRegistrationTimeout = TimeSpan.FromMinutes(5);
+
+    o.WorkerHeartbeatInterval = TimeSpan.FromSeconds(5);
+
+    o.WorkerTimeout = TimeSpan.FromSeconds(30);
 
     o.MinimumWorkerCount = 0;
 
@@ -2112,18 +2102,22 @@ builder.AddDistributedMode(o =>
 });
 ```
 
-| Property               | Type                        | Default                                                 | Description                                                                                                                                                                                                                                                                 |
-| ---------------------- | --------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Role`                 | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                           |
-| `InstanceIndex`        | `int`                       | `0`                                                     | This instance's unique index. With `Role == Auto`, `0` selects master and values above `0` select worker.                                                                                                                                                                   |
-| `TotalInstances`       | `int`                       | `1`                                                     | Total number of instances (master + workers).                                                                                                                                                                                                                               |
-| `MaxParallelism`       | `int?`                      | `null`                                                  | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit.                                                                                                                                              |
-| `Capabilities`         | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; strings convert implicitly for custom values.                                  |
-| `RunId`                | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run. Multi-instance runs fail fast when neither source is configured.                                                                                                                                                   |
-| `RequireExplicitRunId` | `bool`                      | `false`                                                 | Reject generated single-instance IDs. Shared Redis backends enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
-| `CapabilityTimeout`    | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`                               | Registration grace period before an assignment with no capable worker fails with an explicit routing error.                                                                                                                                                                 |
-| `MinimumWorkerCount`   | `int`                       | `0`                                                     | Number of external workers required before dispatch starts. Keep zero for immediate dispatch; set `TotalInstances - 1` for the former full-worker barrier.                                                                                                                  |
-| `ModuleResultTimeout`  | `TimeSpan`                  | `TimeSpan.FromMinutes(45)`                              | Default maximum time to wait for a distributed module result. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                                                                                     |
+| Property                    | Type                        | Default                                                 | Description                                                                                                                                                                                                                                                                                                  |
+| --------------------------- | --------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Role`                      | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                                                            |
+| `InstanceIndex`             | `int`                       | `0`                                                     | This instance's unique index, less than `TotalInstances`. With `Role == Auto`, `0` selects master and values above `0` select worker. Each process's `WorkerId` is `instance-{InstanceIndex}`.                                                                                                               |
+| `TotalInstances`            | `int`                       | `1`                                                     | Total number of instances (master + workers). Values above `1` require a shared coordinator backend.                                                                                                                                                                                                         |
+| `MaxParallelism`            | `int?`                      | `null`                                                  | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. Workers advertise it when they register.                                                                                                                                      |
+| `Capabilities`              | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; create custom values with `new Capability("name")`.                                                             |
+| `RunId`                     | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run: 1-128 ASCII letters, digits, `.`, `_` or `-`, because backends embed it in keys and URLs. Multi-instance runs fail fast when neither source is configured.                                                                                          |
+| `RequireExplicitRunId`      | `bool`                      | `false`                                                 | Reject generated single-instance IDs. The Redis and SignalR coordinators and Redis discovery enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`. |
+| `WorkerRegistrationTimeout` | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`                               | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error.                                                                                                          |
+| `WorkerHeartbeatInterval`   | `TimeSpan`                  | `TimeSpan.FromSeconds(5)`                               | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules.                                                                                                                                                                                        |
+| `WorkerTimeout`             | `TimeSpan`                  | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`.                                                                                                                               |
+| `MinimumWorkerCount`        | `int`                       | `0`                                                     | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch.                                                                                                                                                                         |
+| `ModuleResultTimeout`       | `TimeSpan`                  | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely.                                  |
+
+Invalid combinations, such as `InstanceIndex >= TotalInstances` or `WorkerTimeout <= WorkerHeartbeatInterval`, are reported by pipeline validation and stop the distributed backend from starting.
 
 ### Configuration from appsettings.json[​](#configuration-from-appsettingsjson "Direct link to Configuration from appsettings.json")
 
@@ -2142,7 +2136,7 @@ You can also bind from configuration:
 
     "Capabilities": ["docker"],
 
-    "CapabilityTimeout": "00:05:00",
+    "WorkerRegistrationTimeout": "00:05:00",
 
     "MinimumWorkerCount": 0
 
@@ -2167,7 +2161,7 @@ Or call `builder.AddDistributedMode()` to bind the standard environment variable
 
 Configuration binding converts the string array to `Capability` values. Distributed wire payloads also remain plain JSON strings.
 
-Satellite registrations use the same options pattern and accept configuration sections:
+Every satellite package registers through one `Action<TOptions>` overload and one `IConfigurationSection` overload, validates its options at startup, and can be called before or after `AddDistributedMode`:
 
 ```
 builder.AddRedisDistributedCoordinator(builder.Configuration.GetSection("Redis"));
@@ -2181,29 +2175,63 @@ builder.AddS3DistributedArtifactStore(builder.Configuration.GetSection("S3"));
 
 `AddRedisMasterDiscovery` keys the advertised master endpoint by `DistributedOptions.RunId` and enables `RequireExplicitRunId`, so every process in the run must share one explicit `RunId`: set it in the `Distributed` section, assign `options.RunId`, or export `MODULARPIPELINES_RUN_ID` for each master and worker. See [Run Identifier Resolution](#run-identifier-resolution).
 
-## RedisDistributedOptions[​](#redisdistributedoptions "Direct link to RedisDistributedOptions")
+Each backend registration has exactly two overloads: one taking an `Action<TOptions>` and one taking an `IConfigurationSection`. Only one coordinator backend and one artifact store backend can be registered; registering a second, different backend throws `InvalidOperationException` instead of silently replacing the first. Registering the same backend again is a no-op apart from applying the extra configuration.
 
-Passed to `AddRedisDistributedCoordinator()`. Controls how the Redis coordinator connects and manages keys.
+## ArtifactOptions[​](#artifactoptions "Direct link to ArtifactOptions")
+
+`ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the options pattern, independently of the backend:
 
 ```
-builder.AddRedisDistributedCoordinator(o =>
+builder.Services.Configure<ArtifactOptions>(o => o.CompressionLevel = CompressionLevel.Optimal);
+
+// or: builder.Services.Configure<ArtifactOptions>(builder.Configuration.GetSection("Artifacts"));
+```
+
+| Property           | Type               | Default   | Description                                |
+| ------------------ | ------------------ | --------- | ------------------------------------------ |
+| `CompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory artifacts. |
+
+Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options (`RedisOptions`, `S3StorageOptions`).
+
+## RedisOptions[​](#redisoptions "Direct link to RedisOptions")
+
+Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact store share one `RedisOptions` instance and one connection; the module cache has its own, so it can use a different Redis server.
+
+```
+builder.AddRedisDistributed(o =>
 
 {
 
-    o.ConnectionString = "redis-host:6379,password=secret";
+    o.ConnectionString = "redis-host:6379";
+
+    o.ConfigureConnection = connection =>
+
+    {
+
+        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+
+        connection.Ssl = true;
+
+    };
 
     o.KeyPrefix = "modpipe";
 
-    o.KeyExpiration = TimeSpan.FromHours(1);
+    o.TimeToLive = TimeSpan.FromHours(1);
 
 });
 ```
 
-| Property           | Type       | Default                 | Description                                                                                                                   |
-| ------------------ | ---------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `ConnectionString` | `string`   | `""`                    | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required.** |
-| `KeyPrefix`        | `string`   | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                         |
-| `KeyExpiration`    | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys. Keys are automatically cleaned up after this duration.                                                |
+| Property              | Type                            | Default                 | Description                                                                                                                                                                        |
+| --------------------- | ------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConnectionString`    | `string`                        | `""`                    | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints.  |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`                  | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
+| `KeyPrefix`           | `string`                        | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                              |
+| `TimeToLive`          | `TimeSpan`                      | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration.                                                       |
+| `ChunkSizeBytes`      | `int`                           | 4 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key.                                                 |
+
+Each registration owns its connection and connects asynchronously on first use. The package never registers or resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not adopted and cannot conflict with it.
+
+The options are validated when the pipeline is built. A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -2212,7 +2240,11 @@ All distributed duration properties use `TimeSpan`. When binding them from `apps
 
   "Distributed": {
 
-    "CapabilityTimeout": "00:05:00",
+    "WorkerRegistrationTimeout": "00:05:00",
+
+    "WorkerHeartbeatInterval": "00:00:05",
+
+    "WorkerTimeout": "00:00:30",
 
     "ModuleResultTimeout": "00:45:00"
 
@@ -2220,7 +2252,7 @@ All distributed duration properties use `TimeSpan`. When binding them from `apps
 
   "Redis": {
 
-    "KeyExpiration": "01:00:00"
+    "TimeToLive": "01:00:00"
 
   },
 
@@ -2228,19 +2260,21 @@ All distributed duration properties use `TimeSpan`. When binding them from `apps
 
     "ConnectionTimeout": "00:02:00",
 
-    "ReconnectGrace": "00:00:45",
-
     "KeepAliveInterval": "00:00:05",
 
     "PeerTimeout": "00:00:15",
 
-    "TunnelStartupTimeout": "00:00:30"
+    "Tunnel": {
+
+      "StartupTimeout": "00:00:30"
+
+    }
 
   },
 
   "RedisDiscovery": {
 
-    "Ttl": "01:00:00",
+    "TimeToLive": "01:00:00",
 
     "DiscoveryTimeout": "00:02:00",
 
@@ -2265,24 +2299,92 @@ Use an invocation-specific value rather than a stable commit identifier so rerun
 
 ## Redis Key Schema[​](#redis-key-schema "Direct link to Redis Key Schema")
 
-All keys follow the pattern `{KeyPrefix}:{RunId}:{purpose}`. With the defaults, keys look like:
+All coordination keys follow the pattern `{KeyPrefix}:{{RunId}}:{purpose}`. The braces around the run identifier form a Redis Cluster hash tag, so every key of one run lives in one slot and the Lua scripts can touch several keys atomically. With the defaults, keys look like:
 
-| Key                          | Redis Type | Purpose                                                  |
-| ---------------------------- | ---------- | -------------------------------------------------------- |
-| `modpipe:{run}:work:queue`   | List       | FIFO work queue for module assignments                   |
-| `modpipe:{run}:results`      | Hash       | Completed module results (field = module type name)      |
-| `modpipe:{run}:workers`      | Hash       | Registered worker information (field = worker index)     |
-| `modpipe:{run}:heartbeats`   | Hash       | Worker heartbeat timestamps (field = worker index)       |
-| `modpipe:{run}:cancellation` | String     | Cancellation signal (set when cancellation is broadcast) |
+| Key                            | Redis Type | Purpose                                                                                  |
+| ------------------------------ | ---------- | ---------------------------------------------------------------------------------------- |
+| `modpipe:{run}:work:queue`     | Sorted set | Queued assignments, scored by priority and critical-path weight                          |
+| `modpipe:{run}:work:leases`    | Hash       | Active leases (field = module ID; the value holds the lease ID, worker ID and expiry)    |
+| `modpipe:{run}:results`        | Hash       | Final module results (field = module ID), written with `HSETNX` so the first result wins |
+| `modpipe:{run}:workers`        | Hash       | Worker registrations (field = worker ID) and `heartbeat:{worker ID}` timestamps          |
+| `modpipe:{run}:workers:status` | Hash       | Latest `WorkerStatus` per worker                                                         |
+| `modpipe:{run}:completion`     | String     | Set when the master signals completion                                                   |
+| `modpipe:{run}:cancellation`   | String     | Cancellation reason (`PipelineFailed` or `Stopped`)                                      |
 
 Pub/Sub channels (no TTL, ephemeral):
 
-| Channel                             | Purpose                                                      |
-| ----------------------------------- | ------------------------------------------------------------ |
-| `modpipe:{run}:results:{ModuleId}`  | Notifies the master when a specific module's result is ready |
-| `modpipe:{run}:cancellation:signal` | Notifies all instances of a cancellation request             |
+| Channel                             | Purpose                                          |
+| ----------------------------------- | ------------------------------------------------ |
+| `modpipe:{run}:work:available`      | Wakes workers waiting to claim work              |
+| `modpipe:{run}:results:{ModuleId}`  | Wakes waiters for a module's result              |
+| `modpipe:{run}:completion:signal`   | Wakes workers when the master signals completion |
+| `modpipe:{run}:cancellation:signal` | Wakes cancellation observers                     |
+
+Notifications only shorten waits: every wait also re-reads Redis every two seconds, so a message lost while the connection reconnects cannot strand a waiter. Heartbeats and the master's lease sweep refresh the expiry of every coordination key, and `RedisOptions.TimeToLive` must exceed both `WorkerTimeout` and `ModuleResultTimeout`, so keys cannot expire while a run is active.
+
+Artifacts are stored under the same run namespace:
+
+| Key                                           | Redis Type | Purpose                                                                   |
+| --------------------------------------------- | ---------- | ------------------------------------------------------------------------- |
+| `modpipe:{run}:artifacts:meta:{id}`           | String     | Artifact metadata (JSON)                                                  |
+| `modpipe:{run}:artifacts:data:{id}`           | String     | Content of an artifact that fits in one chunk (including empty artifacts) |
+| `modpipe:{run}:artifacts:data:{id}:chunk:{n}` | String     | Chunks of a larger artifact                                               |
+| `modpipe:{run}:artifacts:index:{ModuleId}`    | Set        | Artifact ids uploaded by a module                                         |
+
+The braces around the run identifier form a Redis Cluster hash tag, so every key of a run maps to one slot. Module cache entries are not run-scoped; they use `{KeyPrefix}:module-cache:v2:{fingerprint}:...`, where the braced fingerprint is the hash tag that keeps an entry's metadata and chunks in one slot.
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
+
+## SignalR Coordinator[​](#signalr-coordinator "Direct link to SignalR Coordinator")
+
+`AddSignalRDistributedCoordinator` makes the master host a SignalR hub. Workers connect to it and pull leases, publish results and observe cancellation through hub invocations, so a worker that reconnects invokes again and never misses a broadcast.
+
+```
+builder.AddSignalRDistributedCoordinator(options =>
+
+{
+
+    options.ListenUrl = "http://0.0.0.0:5099";
+
+    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
+
+    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+
+});
+```
+
+| Property                 | Type       | Default                 | Description                                                                                                                                                                                                                                                                                                                |
+| ------------------------ | ---------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ListenUrl`              | `string`   | `http://localhost:5099` | URL the master binds. Port `0` lets the operating system choose a port.                                                                                                                                                                                                                                                    |
+| `AdvertisedUrl`          | `Uri?`     | `null`                  | URL workers connect to. The master advertises it through discovery; workers without discovery connect to it, or to `ListenUrl` when it is unset.                                                                                                                                                                           |
+| `HubPath`                | `string`   | `/pipeline-hub`         | Hub path, starting with `/`.                                                                                                                                                                                                                                                                                               |
+| `AccessToken`            | `string?`  | `null`                  | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel or a non-loopback `ListenUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
+| `ConnectionTimeout`      | `TimeSpan` | `00:02:00`              | How long a worker keeps trying to connect.                                                                                                                                                                                                                                                                                 |
+| `MaxReconnectAttempts`   | `int`      | `5`                     | Automatic reconnect attempts with exponential backoff; `0` disables reconnecting. A worker that stays disconnected for longer than `WorkerTimeout` loses its leases.                                                                                                                                                       |
+| `KeepAliveInterval`      | `TimeSpan` | `00:00:05`              | Ping interval on both sides.                                                                                                                                                                                                                                                                                               |
+| `PeerTimeout`            | `TimeSpan` | `00:00:15`              | Silence after which a side considers its peer gone; at least twice `KeepAliveInterval`.                                                                                                                                                                                                                                    |
+| `MaxMessageSizeBytes`    | `long`     | `1048576`               | Largest SignalR message, such as a module result.                                                                                                                                                                                                                                                                          |
+| `Tunnel.Enabled`         | `bool`     | `false`                 | Start a cloudflared quick tunnel to the bound URL and advertise its public URL.                                                                                                                                                                                                                                            |
+| `Tunnel.CloudflaredPath` | `string`   | `cloudflared`           | Path to the cloudflared binary.                                                                                                                                                                                                                                                                                            |
+| `Tunnel.StartupTimeout`  | `TimeSpan` | `00:00:30`              | How long to wait for the tunnel URL.                                                                                                                                                                                                                                                                                       |
+
+The hub rejects registrations for another `RunId`, a second live worker with the same `WorkerId`, and every call from a connection that has not registered; results and heartbeats must come from the registered worker. Detailed hub errors are disabled, and the tunnel URL is logged only at Debug.
+
+## Redis Master Discovery[​](#redis-master-discovery "Direct link to Redis Master Discovery")
+
+`AddRedisMasterDiscovery` stores the SignalR master's `MasterEndpoint`, its URL and access token, in Redis so workers can find it. Discovery opens its own lazily connected Redis connection; it neither uses nor replaces an `IConnectionMultiplexer` registered by the application.
+
+| Property                | Type                            | Default          | Description                                                                  |
+| ----------------------- | ------------------------------- | ---------------- | ---------------------------------------------------------------------------- |
+| `ConnectionString`      | `string`                        | `localhost:6379` | Redis connection string; required unless `RestUrl` is set.                   |
+| `ConfigureConnection`   | `Action<ConfigurationOptions>?` | `null`           | Adjusts the parsed connection configuration, for example credentials or TLS. |
+| `RestUrl` / `RestToken` | `string?`                       | `null`           | Upstash REST endpoint and token; configure both or neither.                  |
+| `KeyPrefix`             | `string`                        | `modpipe`        | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`.            |
+| `TimeToLive`            | `TimeSpan`                      | `01:00:00`       | How long the advertised endpoint is kept.                                    |
+| `DiscoveryTimeout`      | `TimeSpan`                      | `00:02:00`       | How long workers wait for the endpoint.                                      |
+| `PollInterval`          | `TimeSpan`                      | `00:00:00.500`   | How often workers check for the endpoint.                                    |
+
+Because the stored endpoint includes the access token, only the run's processes should be able to read the discovery Redis database.
 
 ## Connection String Examples[​](#connection-string-examples "Direct link to Connection String Examples")
 
@@ -2969,7 +3071,7 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes[​](#important-notes "Direct link to Important Notes")
 
 * **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpiration` accordingly if you have very long pipelines.
+* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines; it must exceed `DistributedOptions.ModuleResultTimeout`.
 * **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
 * **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 * **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
@@ -3060,10 +3162,17 @@ Every pipeline instance runs in one of two roles:
 
 ### Coordinator[​](#coordinator "Direct link to Coordinator")
 
-The coordinator is the shared communication layer between master and workers. It handles work queuing, result publication, worker registration, heartbeats, and cancellation signals. ModularPipelines ships with two coordinator implementations:
+The coordinator is the shared communication layer between master and workers. It handles work queuing, leases, result publication, worker registration, heartbeats, and cancellation signals. Choose one backend:
 
-* **InMemoryDistributedCoordinator** — for single-process testing only.
-* **RedisDistributedCoordinator** — production-ready, uses Redis for cross-process coordination. Provided by the `ModularPipelines.Distributed.Redis` package.
+* **Redis** — `AddRedisDistributedCoordinator` from the `ModularPipelines.Distributed.Redis` package. Every process talks to a shared Redis server.
+* **SignalR** — `AddSignalRDistributedCoordinator` from the `ModularPipelines.Distributed.SignalR` package. The master hosts a SignalR hub and workers connect to it directly, optionally through a cloudflared tunnel and Redis-based discovery.
+* **Custom** — implement `IDistributedMasterCoordinator` and register it with `AddDistributedCoordinator<T>()` or `AddDistributedCoordinatorFactory<T>()`.
+
+Register exactly one backend; building the pipeline fails when several are registered. A run with `TotalInstances` greater than one fails at startup when no backend is registered, instead of leaving workers waiting forever. Single-process runs use a built-in process-local coordinator automatically.
+
+### Leases[​](#leases "Direct link to Leases")
+
+A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. The first result published for a module is final.
 
 ### Capabilities[​](#capabilities "Direct link to Capabilities")
 
@@ -3118,15 +3227,18 @@ Every instance automatically advertises its operating system through the matchin
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
 2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
-4. Workers send periodic **heartbeats** so the master can detect failures.
-5. Either side can broadcast a **cancellation signal** to stop all instances.
+4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues modules whose leases expire.
+5. When a module fails, the master immediately broadcasts a `PipelineFailed` cancellation: workers cancel non-AlwaysRun modules and only claim AlwaysRun work, and the master withdraws queued non-AlwaysRun assignments. A user stop broadcasts `Stopped`, which cancels everything.
 
 ## Packages[​](#packages "Direct link to Packages")
 
-| Package                              | Purpose                                                                                                                                     |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ModularPipelines.Distributed`       | Core distributed abstractions, master/worker executors, capability system. Referenced automatically by the main `ModularPipelines` package. |
-| `ModularPipelines.Distributed.Redis` | Redis-based coordinator implementation. Add this to your pipeline project.                                                                  |
+| Package                                        | Purpose                                                                            |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `ModularPipelines`                             | Core distributed abstractions, master/worker executors, and the capability system. |
+| `ModularPipelines.Distributed.Redis`           | Redis coordinator, artifact store, and module cache.                               |
+| `ModularPipelines.Distributed.SignalR`         | SignalR coordinator: the master hosts the hub that workers connect to.             |
+| `ModularPipelines.Distributed.Discovery.Redis` | Advertises the SignalR master's endpoint and access token through Redis.           |
+| `ModularPipelines.Distributed.Artifacts.S3`    | S3-compatible artifact store.                                                      |
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
@@ -5032,22 +5144,24 @@ public class MyModule : Module<FileInfo>
 
 ### Available Configuration Options[​](#available-configuration-options "Direct link to Available Configuration Options")
 
-| Method                                               | Description                                                         |
-| ---------------------------------------------------- | ------------------------------------------------------------------- |
-| `.WithTimeout(TimeSpan)`                             | Maximum execution time before module is cancelled                   |
-| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter  |
-| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios              |
-| `.WithSkipWhen(...)`                                 | Condition to skip the module                                        |
-| `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                        |
-| `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                       |
-| `.WithAlwaysRun()`                                   | Run even if the pipeline has failed                                 |
-| `.WithNotInParallel(...)`                            | Prevent parallel execution globally or for matching constraint keys |
-| `.WithPriority(ModulePriority)`                      | Set scheduler priority                                              |
-| `.WithExecutionHint(ExecutionHint)`                  | Select CPU-bound, I/O-bound, or default concurrency limits          |
-| `.WithTags(...)`                                     | Add tags used by metadata-based dependencies                        |
-| `.WithCategory(string)`                              | Set the module category                                             |
-| `.DependsOn<TModule>()`                              | Add a required dependency                                           |
-| `.DependsOnOptional<TModule>()`                      | Add an optional dependency                                          |
+| Method                                               | Description                                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `.WithTimeout(TimeSpan)`                             | Maximum execution time per attempt; must be positive, or `Timeout.InfiniteTimeSpan` to disable the default timeout |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter                                                 |
+| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios                                                             |
+| `.WithSkipWhen(...)`                                 | Condition to skip the module                                                                                       |
+| `.WithRunIf<T>()` / `.WithRunIf(IRunCondition)`      | Run only when an `IRunCondition` is satisfied                                                                      |
+| `.WithSkipIf<T>()` / `.WithSkipIf(IRunCondition)`    | Skip when an `IRunCondition` is satisfied                                                                          |
+| `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                                                                       |
+| `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                                                                      |
+| `.WithAlwaysRun()`                                   | Run even if the pipeline has failed                                                                                |
+| `.WithNotInParallel(...)`                            | Prevent parallel execution globally or for matching constraint keys                                                |
+| `.WithPriority(ModulePriority)`                      | Set scheduler priority                                                                                             |
+| `.WithExecutionHint(ExecutionHint)`                  | Select CPU-bound, I/O-bound, or default concurrency limits                                                         |
+| `.WithTags(...)`                                     | Add tags used by metadata-based dependencies                                                                       |
+| `.WithCategory(string)`                              | Set the module category                                                                                            |
+| `.DependsOn<TModule>()`                              | Add a required dependency                                                                                          |
+| `.DependsOnOptional<TModule>()`                      | Add an optional dependency                                                                                         |
 
 The fluent configuration is the canonical runtime model. Existing attributes such as `[Priority]`, `[ExecutionHint]`, `[NotInParallel]`, `[ModuleTag]`, `[ModuleCategory]`, and `[DependsOn<T>]` remain supported as declarative sugar and are merged into the same model.
 
@@ -5459,6 +5573,27 @@ public class Module2 : Module<string>
         .DependsOnOptional<Module3>()            // Optional
 
         .DependsOnIf<Module4>(someCondition);    // Required when true
+
+}
+```
+
+## Selector Dependencies[​](#selector-dependencies "Direct link to Selector Dependencies")
+
+Selector attributes derive from `DependsOnBaseAttribute` and choose dependencies from the registered modules when the pipeline starts:
+
+* `[DependsOnAllModulesInheritingFrom<TBase>]` depends on every registered module that is, derives from, or implements `TBase` (use `typeof(Base<>)` with the non-generic form for open generic bases);
+* `[DependsOnModulesWithTag("database")]`, `[DependsOnModulesInCategory("infrastructure")]`, and `[DependsOnModulesWithAttribute<TAttribute>]` select by module metadata.
+
+Like `[DependsOn<T>]`, selectors can be placed on a module class or on an interface the module implements. The built-in `DependsOn` and selector attributes are sealed. For custom selection, derive from `DependsOnBaseAttribute` and override `ShouldDependOn`. Also implement `IPlanningSafe` when the selector is deterministic and free of side effects, so dependency-graph export and dry-run planning can evaluate it:
+
+```
+public sealed class DependsOnDeployTargetsAttribute : DependsOnBaseAttribute, IPlanningSafe
+
+{
+
+    public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+
+        context.GetTags(candidateModule).Contains("deploy-target");
 
 }
 ```
@@ -5907,7 +6042,7 @@ public sealed class AuditModuleAttribute : Attribute,
 
 {
 
-    public Task OnModuleStartAsync(IModuleHookContext context)
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
 
     {
 
@@ -5919,7 +6054,13 @@ public sealed class AuditModuleAttribute : Attribute,
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    public Task OnModuleEndAsync(
+
+        IModuleHookContext context,
+
+        IModuleResult result,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -5944,9 +6085,9 @@ public class BuildModule : Module<string>
 }
 ```
 
-Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run first), or `ContinueOnError` to log a handler failure and continue.
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Order` to control the order within a handler family (ascending, default `0`), or `ContinueOnError` to log a handler failure as a warning and continue. `IModuleHookContext` is read-only: hooks observe modules, while retries, skips, and failure policy are configured on the module.
 
-Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
+Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafe` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
 
 ## Global module event handlers[​](#global-module-event-handlers "Direct link to Global module event handlers")
 
@@ -5957,7 +6098,7 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 {
 
-    public Task OnModuleStartAsync(IModuleHookContext context)
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
 
     {
 
@@ -5969,7 +6110,13 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    public Task OnModuleEndAsync(
+
+        IModuleHookContext context,
+
+        IModuleResult result,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -5992,7 +6139,7 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 builder.AddModuleEventHandler<ModuleMetricsHandler>();
 ```
 
-Global and attribute handlers use the same callback signatures and shared error/priority properties. Global handlers run sequentially in priority order for each event.
+Global and attribute handlers use the same callback signatures and shared error/order properties. Global handlers run sequentially in ascending `Order` for each event. A class that implements both `IModuleEventHandler` and `IPipelineEventHandler` and is registered with both `AddModuleEventHandler<T>()` and `AddPipelineEventHandler<T>()` is one shared singleton.
 
 ## Lifecycle ordering[​](#lifecycle-ordering "Direct link to Lifecycle ordering")
 
@@ -6023,6 +6170,16 @@ For a skipped module, the completion portion is:
 
 If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event handlers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
 
+## Handler failures[​](#handler-failures "Direct link to Handler failures")
+
+Ready and Start handlers are gates. When one throws (and `ContinueOnError` is `false`), the module fails with that exception, the module does not execute, and failure handlers are notified. Global and attribute handlers take the same path.
+
+End, Failure, and Skipped handlers are observers. They cannot change the outcome they observe: a handler exception is logged, recorded as a pipeline error, and the next handler family still runs. A module that succeeded stays succeeded, and a failed module keeps its original exception. Recorded handler errors are thrown with the pipeline's other errors when the pipeline throws on failure. A failing `IPipelineEventHandler.OnPipelineEndAsync` fails the pipeline, but never replaces an exception that already failed it; in that case it is recorded as an additional pipeline error.
+
+## Cancellation[​](#cancellation "Direct link to Cancellation")
+
+Every callback receives a `CancellationToken`. Ready and Start handlers receive the module's execution token. End, Failure, Skipped, and pipeline end handlers receive a token that is cancelled only when the user or host cancels the pipeline, so they still run after a module failure. Extension points use `Task` rather than `ValueTask`.
+
 ## Pipeline event handlers[​](#pipeline-event-handlers "Direct link to Pipeline event handlers")
 
 `IPipelineEventHandler` observes the pipeline as a whole rather than individual modules:
@@ -6032,7 +6189,7 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
 {
 
-    public Task OnPipelineStartAsync(IPipelineContext context)
+    public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
 
     {
 
@@ -6048,7 +6205,9 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
         IPipelineContext context,
 
-        PipelineSummary summary)
+        PipelineSummary summary,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -6065,7 +6224,15 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 builder.AddPipelineEventHandler<PipelineLoggingHandler>();
 ```
 
-Pipeline handlers also inherit `IEventHandler` and run in priority order.
+Pipeline handlers also inherit `IEventHandler` and run in ascending `Order`.
+
+## Extension point conventions[​](#extension-point-conventions "Direct link to Extension point conventions")
+
+Handlers, requirements, validators, and providers follow the same conventions:
+
+* **Ordering.** Extension points that run in sequence expose an `Order` property, ascending (lower values run first), defaulting to `0`. This applies to event handlers, requirements (`IPipelineRequirement.Order`), and validators (`IPipelineValidator.Order`). Plugins apply in the order they are added. Module scheduling priority (`ModulePriority`, `[Priority]`) is a different concept: it decides which ready module starts first, and higher priorities start first.
+* **Async shape.** Asynchronous members return `Task` or `Task<T>` (not `ValueTask`) and take a `CancellationToken` as their last parameter.
+* **Evolution.** Interfaces that are likely to grow give new members default implementations when a sensible default exists (for example the sub-module members of `IModuleEstimatedTimeProvider` or `IModuleResultRepository.IsEnabled`); otherwise they are exposed as abstract base classes.
 
 
 ---
@@ -6139,7 +6306,7 @@ public class MyModule : Module<CommandResult>
 
     protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen(async (ctx, exception) =>
+        .WithIgnoreFailuresWhen(async (ctx, exception, cancellationToken) =>
 
         {
 
@@ -6149,7 +6316,7 @@ public class MyModule : Module<CommandResult>
 
                 // Check if the service is in maintenance mode
 
-                var isMaintenanceMode = await CheckMaintenanceModeAsync();
+                var isMaintenanceMode = await CheckMaintenanceModeAsync(cancellationToken);
 
                 return isMaintenanceMode;
 
@@ -6521,6 +6688,8 @@ using ModularPipelines.Extensions;
 builder.AddModuleCache<FileSystemModuleCache>();
 ```
 
+A custom backend implements `IModuleCacheStore`: `OpenReadAsync`, `WriteAsync`, and `DeleteAsync` (deleting a missing entry does nothing). `ExistsAsync` defaults to opening and disposing the entry; override it when the store can check existence more cheaply.
+
 Then declare every file input that can affect a module:
 
 ```
@@ -6596,20 +6765,22 @@ You must update this key whenever the module implementation changes. Reusing it 
 ## Configure limits and locations[​](#configure-limits-and-locations "Direct link to Configure limits and locations")
 
 ```
-builder.AddModuleCache<FileSystemModuleCache>(options =>
+builder.AddModuleCache<FileSystemModuleCache>(options => options with
 
 {
 
-    options.WorkingDirectory = repositoryRoot;
+    WorkingDirectory = repositoryRoot,
 
-    options.CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules");
+    CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules"),
 
-    options.MaximumInputFiles = 50_000;
+    MaximumInputFiles = 50_000,
 
-    options.MaximumHashConcurrency = 8;
+    MaximumHashConcurrency = 8,
 
 });
 ```
+
+`ModuleCacheOptions` is immutable, like `PipelineOptions`: the configuration returns updated options, and configurations from repeated calls apply in call order. Calling `AddModuleCache` again replaces the store.
 
 The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.
 
@@ -6666,12 +6837,28 @@ builder.AddS3ModuleCache(options =>
 Or use Redis:
 
 ```
+builder.AddRedisModuleCache(redis =>
+
+{
+
+    redis.ConnectionString = "localhost:6379";
+
+    redis.TimeToLive = TimeSpan.FromDays(1);
+
+});
+```
+
+Each cache backend takes its own storage options (`S3StorageOptions` or `RedisOptions`). `ModuleCacheOptions` is immutable, so shared cache settings such as `MaximumCacheEntryBytes` are passed as an optional transform:
+
+```
 builder.AddRedisModuleCache(
 
     redis => redis.ConnectionString = "localhost:6379",
 
-    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
+    cache => cache with { MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
 ```
+
+The Redis cache keys every entry with the fingerprint as a Redis Cluster hash tag, so it works against clustered Redis. Large S3 cache entries are uploaded with multipart uploads, so they are not limited to 5 GB.
 
 ## Correctness rules[​](#correctness-rules "Direct link to Correctness rules")
 
@@ -6722,7 +6909,7 @@ Native AOT does not support pipeline shapes introduced only at runtime:
 
 * assembly scanning through `AddModulesFromAssembly` or plugin assembly loading;
 * module or result types supplied dynamically after compilation;
-* selector dependencies such as `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, custom `DependsOnBaseAttribute` implementations, custom `DependsOnAttribute` subclasses, and similar runtime predicates; use built-in explicit `DependsOn<T>` dependencies instead;
+* selector dependencies such as `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, custom `DependsOnBaseAttribute` implementations, and similar runtime predicates; use built-in explicit `DependsOn<T>` dependencies instead;
 * distributed type-erased `ModuleResult` JSON serialization and runtime history repositories;
 * reflection-based XML, YAML, or JSON serialization.
 
@@ -7436,6 +7623,46 @@ builder.AddRequirement<DotNetSdkRequirement>();
 builder.AddRequirement<GitRequirement>();
 ```
 
+## Plugins[​](#plugins "Direct link to Plugins")
+
+A plugin packages reusable configuration (services, modules, handlers, requirements, options) behind `IModularPipelinesPlugin`. Add plugins explicitly; they are not discovered from loaded assemblies:
+
+```
+public sealed class CompanyDefaultsPlugin : IModularPipelinesPlugin
+
+{
+
+    public string Name => "CompanyDefaults";
+
+
+
+    public void Configure(PipelineBuilder builder)
+
+    {
+
+        builder.AddModuleEventHandler<AuditHandler>();
+
+        builder.ConfigureOptions(options => options with { FailureMode = FailureMode.ContinueOnFailure });
+
+    }
+
+}
+
+
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddPlugin<CompanyDefaultsPlugin>();
+
+
+
+// Configuration after AddPlugin takes precedence over the plugin's.
+
+builder.ConfigureOptions(options => options with { FailureMode = FailureMode.FailFast });
+```
+
+`Configure` runs immediately when the plugin is added, so plugins apply in the order they are added and later builder configuration overrides them. Each plugin name can be added once per builder.
+
 ## Extension Methods[​](#extension-methods "Direct link to Extension Methods")
 
 For a more fluent API, extension methods are available:
@@ -7523,7 +7750,9 @@ builder.AddRequirement(Require.Ci("Publishing can only run in CI"));
 
 The platform shortcuts are `Require.Windows()`, `Require.Linux()`, `Require.MacOS()`, and `Require.WindowsAdmin()`. Use `Require.Platform(...)` for another `OSPlatform` value.
 
-For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`. Evaluation receives the pipeline cancellation token:
+`Require.Ci()` and `Require.LocalEnvironment()` use the same CI definition as the `OnCI` and `OnLocal` run conditions: `IBuildSystemContext.IsBuildServer` is `true` when a known build system is detected, or otherwise when the `CI` environment variable is set to a value other than `false` or `0`.
+
+For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`, whose `EvaluateAsync` is abstract. Evaluation receives the pipeline cancellation token:
 
 ```
 public sealed class HasDotNetSdkRequirement : PipelineRequirement
@@ -7582,6 +7811,8 @@ public sealed class Is64BitRequirement : PipelineRequirement
 
 }
 ```
+
+Requirements run in ascending `Order` (default `0`). Every requirement is evaluated, and all failures are reported together in one `RequirementNotMetException`. A requirement that throws is reported as a failure too; its exception is available through `InnerExceptions`.
 
 `RequirementDecision.IsSatisfied` reports the outcome. Construct decisions with `Passed` or `Failed(reason)`; a `bool` can also convert implicitly. A bare string does not imply failure.
 
@@ -7753,7 +7984,7 @@ This applies to all modules that don't override their retry configuration. Modul
 
 # Run conditions
 
-Reusable run conditions implement `IRunCondition`:
+A run condition is an `IRunCondition`: one asynchronous predicate that receives the pipeline context and a cancellation token.
 
 Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`. Keep them side-effect-free: they must not mutate external state or rely on being evaluated exactly once. Fluent conditions that await module results are reported as unknown in a dry-run plan because planning never executes dependencies to produce those results.
 
@@ -7762,11 +7993,15 @@ public class ServiceIsAvailable : IRunCondition
 
 {
 
-    public async Task<bool> EvaluateAsync(IPipelineContext context)
+    public async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
 
     {
 
-        var response = await context.Http.SendAsync("https://www.example.com/ping");
+        var response = await context.Http.SendAsync(
+
+            new HttpOptions(new HttpRequestMessage(HttpMethod.Get, "https://www.example.com/ping")),
+
+            cancellationToken);
 
         return response.StatusCode == HttpStatusCode.OK;
 
@@ -7775,31 +8010,70 @@ public class ServiceIsAvailable : IRunCondition
 }
 ```
 
+Pass the token to asynchronous work: it is cancelled when the pipeline stops evaluating conditions.
+
+## Applying conditions[​](#applying-conditions "Direct link to Applying conditions")
+
 Apply the condition with an attribute that states its intent:
 
 ```
 [RunIf<ServiceIsAvailable>]
 
-public class DeployModule : Module
+public class DeployModule : Module<None>
 ```
 
-* `[RunIf<T>]` runs when its condition is `true`.
-* `[SkipIf<T1, ..., T4>]` skips when any condition is `true`.
-* `[RunIfAll<T1, T2, ..., T4>]` runs only when all two to four conditions are `true`.
+* `[RunIf<T1, ..., T4>]` runs only when all of its one to four conditions are `true`.
 * `[RunIfAny<T1, T2, ..., T4>]` runs when at least one condition is `true`.
+* `[SkipIf<T1, ..., T4>]` skips when any condition is `true`.
 
-When one required condition needs constructor state, derive an attribute from `RunIfAttribute`. Use `SkipIfAttribute`, `RunIfAllAttribute`, or `RunIfAnyAttribute` for the other condition logics:
+Or register the condition in `Configure`, with a type or an instance:
 
 ```
-public sealed class RunIfRegionAttribute(string region) : RunIfAttribute
+protected override void Configure(ModuleConfigurationBuilder module) => module
+
+    .WithRunIf<ServiceIsAvailable>()
+
+    .WithSkipIf(new IsDependabot());
+```
+
+`WithRunIf` and `WithSkipIf` compose with `.WithSkipWhen(...)` using OR-to-skip semantics: the module is skipped when any configured condition says so.
+
+## Reusable groups[​](#reusable-groups "Direct link to Reusable groups")
+
+Combine conditions once with `ConditionGroup`. `Logic` is `ConditionLogic.All` (AND) or `ConditionLogic.Any` (OR):
+
+```
+public sealed class OnUnixPlatforms : ConditionGroup, IPlanningSafe
 
 {
 
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
 
-        Task.FromResult(
 
-            context.Environment.Variables.Get("REGION") == region);
+
+    public override ConditionLogic Logic => ConditionLogic.Any;
+
+}
+```
+
+## Stateful condition attributes[​](#stateful-condition-attributes "Direct link to Stateful condition attributes")
+
+When a condition needs constructor state, derive an attribute from `RunConditionAttribute`. The base constructor takes the intent: `ConditionIntent.Run` runs the module only when the condition is satisfied, and `ConditionIntent.Skip` skips it when the condition is satisfied.
+
+```
+public sealed class RunIfRegionAttribute(string region)
+
+    : RunConditionAttribute(ConditionIntent.Run), IPlanningSafe
+
+{
+
+    public override string ConditionNames => $"RunIfRegion({region})";
+
+
+
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+
+        Task.FromResult(context.Environment.Variables.Get("REGION") == region);
 
 }
 
@@ -7810,18 +8084,60 @@ public sealed class RunIfRegionAttribute(string region) : RunIfAttribute
 public class RegionalDeployModule : Module<None>
 ```
 
-The base class also provides a cancellation-aware overload. Override it when the condition performs cancellable asynchronous work.
+Each run attribute is a requirement of its own. To make several run attributes alternatives, give them the same `GroupKey`: the module runs when any attribute in the group is satisfied, and every group must still hold.
 
-Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIf`/`RunIfAll`, then `RunIfAny`. Attribute conditions and fluent `.WithSkipWhen(...)` conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
+```
+public sealed class RunOnBranchAttribute(string branch) : RunConditionAttribute(ConditionIntent.Run)
+
+{
+
+    public override Type? GroupKey => typeof(RunOnBranchAttribute);
+
+
+
+    public override async Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+
+    {
+
+        var info = await context.Tools.Git.Information.GetInfoAsync(cancellationToken);
+
+        return info?.BranchName == branch;
+
+    }
+
+}
+
+
+
+// Runs on main or on release.
+
+[RunOnBranch("main")]
+
+[RunOnBranch("release")]
+
+public class ReleaseModule : Module<None>
+```
+
+The group key is ignored for skip attributes, because any satisfied skip attribute already skips the module.
+
+## Evaluation order[​](#evaluation-order "Direct link to Evaluation order")
+
+Skip attributes are evaluated first, then required run attributes, then alternative run attributes (`RunIfAny` and grouped attributes). Attribute conditions and fluent conditions run in the same execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle notifications.
 
 Fluent dependencies are validated before execution conditions are evaluated. Every dependency declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition will skip the consuming module on the current platform or environment.
 
-Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`:
+## Planning-safe conditions[​](#planning-safe-conditions "Direct link to Planning-safe conditions")
+
+`PlanAsync()`, `--dry-run`, and dependency-graph export evaluate a condition only when it is marked with `IPlanningSafe`. Implement the marker on conditions, condition attributes, and condition groups that are free of side effects, blocking work, and remote I/O. Other conditions stay unresolved until the pipeline runs. The same marker applies to dependency selectors derived from `DependsOnBaseAttribute` and to module registration handlers.
+
+## Built-in conditions[​](#built-in-conditions "Direct link to Built-in conditions")
+
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`. `OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system (GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI` environment variable set to anything other than `false` or `0` does. All built-in conditions are planning-safe:
 
 ```
 [RunIf<OnLinux>]
 
-public class LinuxModule : Module
+public class LinuxModule : Module<None>
 ```
 
 Parameterized built-ins cover environment variables. Combine platform conditions when a module can run on alternative operating systems:
@@ -7836,7 +8152,7 @@ Parameterized built-ins cover environment variables. Combine platform conditions
 public class PublishModule : Module<None>
 ```
 
-Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse environment-variable check. The `ModularPipelines.Git` package also provides `RunIfBranch`, `RunIfBranchStartsWith`, and `SkipIfBranch`; these stateful attributes use the same base classes.
+Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse environment-variable check. The `ModularPipelines.Git` package also provides `RunIfBranch`, `RunIfBranchStartsWith`, `RunIfChanged`, and `SkipIfBranch`; these stateful attributes derive from `RunConditionAttribute`, and `RunIfBranch` and `RunIfBranchStartsWith` share a group key.
 
 One-off conditions can use `Configure(ModuleConfigurationBuilder).WithSkipWhen(...)`.
 
@@ -8051,7 +8367,7 @@ Implement `IRunHistoryStore` to keep reports in a database, object store, or ano
 builder.AddRunHistoryStore<MyRunHistoryStore>();
 ```
 
-The store returns matching reports newest-first and saves the completed current report. Custom stores own their retention behavior. Module output excerpts are omitted from reports passed to a custom store because user persistence code can register secrets while saving; the built-in file store retains the already-masked excerpts.
+The store returns matching reports newest-first and saves the completed current report. Custom stores own their retention behavior. Members added to `IRunHistoryStore` in future versions will come with default implementations, so existing stores keep compiling. Module output excerpts are omitted from reports passed to a custom store because user persistence code can register secrets while saving; the built-in file store retains the already-masked excerpts.
 
 In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former `GetLatestAsync` interface member is now an extension method, so stores need only implement the query operation and `SaveAsync`.
 
@@ -8099,6 +8415,8 @@ builder.MaskConfigurationSection("Secrets");
 ```
 
 Nested values such as `Secrets:Database:Password` are included. Missing sections and empty values are ignored. The values are registered during pipeline startup and use the same log and CI-native masking as `[SecretValue]` and `ISecretRegistry`.
+
+Masking itself is not replaceable: console output relies on the built-in masker to hide secrets that are split across separate writes. Supply secrets through `[SecretValue]`, `ISecretRegistry`, or `SecretMaskingOptions` instead.
 
 You can also configure multiple sections through options:
 
@@ -8308,7 +8626,7 @@ public class DeployModule : Module<DeployResult>
 
 The recommended way to configure module skipping is through the `Configure(ModuleConfigurationBuilder)` method with the fluent builder API:
 
-Attribute conditions (`[SkipIf<T>]`, `[RunIf<T>]`, `[RunIfAll<T1, ..., T4>]`, and `[RunIfAny<T1, ..., T4>]`) remain supported; the grouped forms accept two to four conditions. Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
+Attribute conditions (`[SkipIf<T1, ..., T4>]`, `[RunIf<T1, ..., T4>]`, and `[RunIfAny<T1, ..., T4>]`) and the equivalent `.WithRunIf<T>()` and `.WithSkipIf<T>()` builder methods remain supported; see [Run conditions](/ModularPipelines/docs/next/how-to/run-conditions.md). Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so both invoke skipped hooks and lifecycle notifications.
 
 `PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be side-effect-free and must not rely on being evaluated exactly once. If a fluent condition reads an awaited module result, that result does not exist during planning; the plan reports the module's skip decision as unknown and continues without executing modules.
 
@@ -8595,7 +8913,7 @@ An `AddModule` call uses a non-concrete static module type, such as `IModule` or
 
 ## MPG0016[​](#mpg0016 "Direct link to MPG0016")
 
-A module, base class, or implemented interface uses dependency metadata that requires runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, `DependsOnModulesWithAttribute<T>`, a custom `DependsOnBaseAttribute`, or a custom `DependsOnAttribute` subclass. Trimming can remove this metadata. Replace it with the built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
+A module, base class, or implemented interface uses dependency metadata that requires runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, `DependsOnModulesWithAttribute<T>`, or a custom `DependsOnBaseAttribute`. Trimming can remove this metadata. Replace it with the built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
 
 **Severity:** Warning
 
@@ -8677,7 +8995,15 @@ public class MyModuleRepository : IModuleResultRepository
 
     
 
-    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
+    public async Task SaveResultAsync<T>(
+
+        Module<T> module,
+
+        ModuleResult<T> moduleResult,
+
+        IPipelineContext pipelineContext,
+
+        CancellationToken cancellationToken = default)
 
     {
 
@@ -8685,13 +9011,25 @@ public class MyModuleRepository : IModuleResultRepository
 
         var commit = repositoryInfo?.LastCommitSha;
 
-        await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
+        await _blobContainerClient.UploadBlobAsync(
+
+            module.GetType().FullName + commit,
+
+            new BinaryData(JsonSerializer.Serialize(moduleResult)),
+
+            cancellationToken);
 
     }
 
 
 
-    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(
+
+        Module<T> module,
+
+        IPipelineContext pipelineContext,
+
+        CancellationToken cancellationToken = default)
 
     {
 
@@ -8699,9 +9037,13 @@ public class MyModuleRepository : IModuleResultRepository
 
         var commit = repositoryInfo?.LastCommitSha;
 
-        
 
-        var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();
+
+        var blobContent = await _blobContainerClient
+
+            .GetBlobClient(module.GetType().FullName + commit)
+
+            .DownloadContentAsync(cancellationToken);
 
 
 
@@ -8711,6 +9053,13 @@ public class MyModuleRepository : IModuleResultRepository
 
 }
 ```
+
+## Behavior[​](#behavior "Direct link to Behavior")
+
+* Restored results have the `RestoredFromHistory` status, so dependent modules can read them.
+* Repository failures are best-effort: exceptions from `SaveResultAsync` and `GetResultAsync` are logged, and the module runs (or is skipped) as if no result was stored.
+* `IsEnabled` defaults to `true`; return `false` to switch the repository off without removing it.
+* Result history is separate from [module caching](/ModularPipelines/docs/next/how-to/module-caching.md), which restores results by input fingerprint, and from the [time estimator](/ModularPipelines/docs/next/how-to/time-estimator.md), which stores durations.
 
 
 ---
@@ -8933,7 +9282,49 @@ await Assert.That(run.Commands[0].CommandLine.Arguments)
 
 Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated `CommandResult`. This avoids assertions against a quoted display string. Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
 
-`ICommandInterceptor` is also a public framework seam. Register an implementation in a normal pipeline when command interception is needed outside `ModularPipelines.Testing`. Return `null` to let the next interceptor or the real process executor handle the command.
+`ICommandInterceptor` is also a public framework seam: middleware that wraps every command after it is parsed and before the process starts. Register one with `builder.AddCommandInterceptor<TInterceptor>()` (adding the same type twice has no effect) or `builder.AddCommandInterceptor(instance)`. Interceptors run in registration order, so the first registered one is outermost.
+
+```
+public sealed class ForceVerbosityInterceptor : ICommandInterceptor
+
+{
+
+    public async ValueTask<CommandResult> InvokeAsync(
+
+        CommandInvocation invocation,
+
+        CommandDelegate next,
+
+        CancellationToken cancellationToken)
+
+    {
+
+        var changed = invocation with
+
+        {
+
+            CommandLine = new CommandLine(
+
+                invocation.CommandLine.Tool,
+
+                [.. invocation.CommandLine.Arguments, "--verbosity", "minimal"]),
+
+        };
+
+
+
+        var result = await next(changed, cancellationToken);
+
+        // Observe or replace the result here.
+
+        return result;
+
+    }
+
+}
+```
+
+Call `next` to continue to the next interceptor or the process executor, optionally with a modified `CommandLine`, `ExecutionOptions`, or `WorkingDirectory`. `CommandInput` and `EnvironmentVariables` are secret-masked views that the framework regenerates; change environment variables through `ExecutionOptions`. Return a result without calling `next` to short-circuit: the framework applies command metadata, logs it, and throws `CommandException` for a nonzero exit code when `ThrowOnNonZeroExitCode` is enabled. The execution timeout starts before the interceptors run and cannot be changed by them.
 
 ## Use the in-memory filesystem[​](#use-the-in-memory-filesystem "Direct link to Use the in-memory filesystem")
 
@@ -8949,7 +9340,9 @@ var run = await ModuleTester.For<ManifestModule, string>()
 var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
 ```
 
-`InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and directory creation, reads, writes, streams, copies, moves, deletion, enumeration, and path helpers. You can also construct and register it directly in other tests. Physical metadata such as attributes, timestamps, and file length is not part of `IFileSystemProvider`; accessing it through an in-memory-backed `FilePath` or `FolderPath` throws `NotSupportedException` rather than reading the real filesystem.
+`InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and directory creation, reads, writes, streams, copies, moves, deletion, enumeration, path helpers, and metadata (attributes, UTC timestamps, and file length). You can also construct and register it directly in other tests. `FilePath` and `FolderPath` read and write metadata through the provider, so an in-memory-backed path never touches the real filesystem, and `FolderPath.CopyTo(target, preserveTimestamps: true)` copies the in-memory timestamps.
+
+To write your own provider, implement the primitive members of `IFileSystemProvider` (`Open`, file and directory management, existence checks, enumeration, and the metadata getters and setters). The text, bytes, lines, append, `OpenRead`, `Create`, `CopyFile`, `GetFileLength`, and path-helper members have default implementations built on those primitives.
 
 Code under test must obtain `FilePath` and `FolderPath` instances from `context.Files`. Direct construction such as `new FilePath("path")` intentionally uses the physical `SystemFileSystemProvider`.
 
@@ -8996,13 +9389,13 @@ Use `Result` when assertions need timing, status, or the discriminated result va
 
 # Time Estimator
 
-The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, but without it, estimated times will not be correct.
+The console progress display and the scheduler's critical-path ordering use estimated module durations. ModularPipelines registers a default provider, so estimates work without any setup: it stores the latest measured duration of each module and sub-module as a small text file under `%APPDATA%/ModularPipelines/EstimatedTimes` (the user's application-data folder on each platform).
 
-The idea is that on every run of a module, it takes note of how long it took to run, and then provides it to this class to save somewhere. That's up to you. A blob storage, a database, wherever.
+Estimates are best-effort. If the provider cannot read or write its storage (for example a read-only profile, or several pipelines saving at once), the failure is logged, a default estimate of two minutes is used, and the module's outcome is unaffected. The default provider replaces entries atomically, so concurrent pipelines never read a partially written value.
 
-Then on subsequent runs, it'll ask you for an estimated time for a module. You go and pull this back out of your database or wherever, and then pass it back to the framework.
+## Custom providers[​](#custom-providers "Direct link to Custom providers")
 
-## Example[​](#example "Direct link to Example")
+Replace the default provider to share estimates between machines, or to derive them from another source such as [run history](/ModularPipelines/docs/next/how-to/run-reports.md):
 
 ```
 var builder = Pipeline.CreateBuilder(args);
@@ -9013,9 +9406,7 @@ builder
 
     .AddModule<Module1>()
 
-    .AddModule<Module2>()
-
-    .AddModule<Module3>();
+    .AddModule<Module2>();
 
 
 
@@ -9026,175 +9417,47 @@ builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
 await builder.RunAsync();
 ```
 
+Implement `GetModuleEstimatedTimeAsync` and `SaveModuleTimeAsync`. The sub-module members have default implementations (no stored estimates, and saving does nothing); override them when the provider should also estimate sub-modules.
+
 ```
-public class MyEstimatedTimeProvider : IModuleEstimatedTimeProvider
+public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEstimatedTimeProvider
 
 {
 
-    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(
 
-        "ModularPipelines", "EstimatedTimes");
+        Type moduleType,
 
-
-
-    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+        CancellationToken cancellationToken = default)
 
     {
 
-        var fileName = $"{moduleType.FullName}.txt";
+        return await store.GetAsync(moduleType.FullName!, cancellationToken)
 
-        return await GetEstimatedTimeAsync(fileName);
+            ?? TimeSpan.FromMinutes(2);
 
     }
 
 
 
-    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+    public Task SaveModuleTimeAsync(
+
+        Type moduleType,
+
+        TimeSpan duration,
+
+        CancellationToken cancellationToken = default)
 
     {
 
-        var fileName = $"{moduleType.FullName}.txt";
-
-
-
-        await SaveModuleTimeAsync(duration, fileName);
-
-    }
-
-
-
-    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
-
-    {
-
-        var directoryInfo = new DirectoryInfo(_directory);
-
-
-
-        if (!directoryInfo.Exists)
-
-        {
-
-            directoryInfo.Create();
-
-        }
-
-
-
-        directoryInfo.Create();
-
-
-
-        var paths = directoryInfo
-
-            .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
-
-            .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
-
-            .ToList();
-
-
-
-        var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
-
-            .SelectAsync(async file =>
-
-            {
-
-                try
-
-                {
-
-                    var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
-
-                    var time = await GetEstimatedTimeAsync(file.FullName);
-
-                    return new SubModuleEstimation(name, time);
-
-                }
-
-                catch
-
-                {
-
-                    File.Delete(file.FullName);
-
-                    return null;
-
-                }
-
-            })
-
-            .ProcessInParallel();
-
-
-
-        return subModuleEstimations.OfType<SubModuleEstimation>();
-
-    }
-
-
-
-    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
-
-    {
-
-        var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
-
-
-
-        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
-
-    }
-
-
-
-    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
-
-    {
-
-        var path = Path.Combine(_directory, fileName);
-
-
-
-        if (File.Exists(path))
-
-        {
-
-            var contents = await File.ReadAllTextAsync(path);
-
-            return TimeSpan.Parse(contents);
-
-        }
-
-
-
-        // Some default fallback. We can't estimate for now so we'll estimate next time.
-
-        return TimeSpan.FromMinutes(2);
-
-    }
-
-
-
-    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
-
-    {
-
-        Directory.CreateDirectory(_directory);
-
-
-
-        var path = Path.Combine(_directory, fileName);
-
-
-
-        await File.WriteAllTextAsync(path, duration.ToString());
+        return store.SaveAsync(moduleType.FullName!, duration, cancellationToken);
 
     }
 
 }
 ```
+
+When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent measured durations for a module, which a custom provider can average instead of keeping its own storage.
 
 
 ---
@@ -9266,6 +9529,8 @@ public class MyModule : Module<CommandResult>
 
 }
 ```
+
+The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and negative values throw `ArgumentOutOfRangeException`.
 
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 
@@ -49321,11 +49586,37 @@ await context.Artifacts.DownloadAsync<BuildModule>(
     Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
 ```
 
-Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
+Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional service URL when targeting an S3-compatible provider. Options are validated when the pipeline is built; a missing `BucketName` fails fast.
+
+### S3StorageOptions[​](#s3storageoptions "Direct link to S3StorageOptions")
+
+| Property                  | Type       | Default       | Description                                                                                                                                  |
+| ------------------------- | ---------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BucketName`              | `string`   | `""`          | Bucket to store objects in. **Required.**                                                                                                    |
+| `ServiceUrl`              | `string?`  | `null`        | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3.                                                                       |
+| `AccessKey` / `SecretKey` | `string?`  | `null`        | Explicit credentials; set both or neither.                                                                                                   |
+| `Region`                  | `string`   | `"us-east-1"` | AWS region.                                                                                                                                  |
+| `ForcePathStyle`          | `bool`     | `false`       | Path-style addressing, required by MinIO and some providers.                                                                                 |
+| `KeyPrefix`               | `string`   | `"modpipe"`   | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`.      |
+| `MultipartPartSizeBytes`  | `int`      | 16 MB         | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB.         |
+| `SetLifecycleRule`        | `bool`     | `false`       | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day. |
+| `TimeToLive`              | `TimeSpan` | 1 day         | Artifact lifetime used by the lifecycle rule, rounded up to whole days.                                                                      |
+
+`SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix, into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` and `s3:PutLifecycleConfiguration` permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+
+A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.
+
+Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+
+```
+builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+```
+
+Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one `IConfigurationSection` overload.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
 
-Use the same package as a shareable, cross-run module cache:
+Use the same package as a shareable, cross-run module cache. The cache has its own `S3StorageOptions`, so it can use a different bucket from the artifact store:
 
 ```
 builder.AddS3ModuleCache(options =>
@@ -49346,7 +49637,7 @@ See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md)
 
 # Distributed Redis Discovery Package
 
-`ModularPipelines.Distributed.Discovery.Redis` advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral `IMasterDiscovery` contract; SignalR can consume that contract when workers need to locate the current master.
+`ModularPipelines.Distributed.Discovery.Redis` advertises and discovers a distributed master's endpoint through Redis. It implements the transport-neutral `IMasterDiscovery` contract, whose `MasterEndpoint` carries the master's URL and access token; SignalR uses it so workers can locate and authenticate to the current master.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -49355,8 +49646,6 @@ dotnet add package ModularPipelines.Distributed.Discovery.Redis
 ```
 
 ## Configuration[​](#configuration "Direct link to Configuration")
-
-Register Redis discovery with a coordinator that supports `IMasterDiscovery`. For SignalR:
 
 ```
 using ModularPipelines.Distributed;
@@ -49373,7 +49662,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 
-builder.AddSignalRDistributedCoordinator();
+builder.AddSignalRDistributedCoordinator(options => options.Tunnel.Enabled = true);
 
 builder.AddRedisMasterDiscovery(options =>
 
@@ -49384,7 +49673,7 @@ builder.AddRedisMasterDiscovery(options =>
 });
 ```
 
-For REST-backed Redis services, configure both `RestUrl` and `RestToken`; they must be supplied together.
+Discovery opens its own Redis connection on first use; use `ConfigureConnection` to adjust credentials or TLS. For REST-backed Redis services, configure both `RestUrl` and `RestToken`; they must be supplied together. Because the stored endpoint includes the access token, only the run's processes should be able to read the discovery database. See [Configuration](/ModularPipelines/docs/next/distributed/configuration.md#redis-master-discovery) for all options.
 
 
 ---
@@ -49416,28 +49705,72 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode();
 
-builder.AddRedisDistributed(
+builder.AddRedisDistributed(redis =>
 
-    redis => redis.ConnectionString = "localhost:6379",
+{
 
-    artifacts => artifacts.TimeToLive = TimeSpan.FromHours(2));
+    redis.ConnectionString = "localhost:6379";
+
+    redis.TimeToLive = TimeSpan.FromHours(2);
+
+});
 ```
+
+`RedisOptions.TimeToLive` applies to every Redis key, including artifacts, and must exceed `DistributedOptions.ModuleResultTimeout`. Options are validated when the pipeline is built.
+
+Set credentials that a connection string cannot carry safely, such as a password containing commas, through `ConfigureConnection`:
+
+```
+builder.AddRedisDistributed(redis =>
+
+{
+
+    redis.ConnectionString = "redis.example.com:6380";
+
+    redis.ConfigureConnection = connection =>
+
+    {
+
+        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+
+        connection.Ssl = true;
+
+        connection.AbortOnConnectFail = false;
+
+    };
+
+});
+```
+
+Each Redis feature owns its connection and connects asynchronously on first use. The package does not register or reuse an `IConnectionMultiplexer` from the service collection.
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
-`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. All Redis registration methods also accept an `IConfigurationSection` and use the .NET options pattern.
+`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+
+```
+builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+```
+
+See [Configuration](/ModularPipelines/docs/next/distributed/configuration.md#redisoptions) for every `RedisOptions` property and the key schema.
 
 ## Module caching[​](#module-caching "Direct link to Module caching")
 
 Redis can provide a shareable, cross-run module cache without enabling distributed execution:
 
 ```
-builder.AddRedisModuleCache(
+builder.AddRedisModuleCache(redis =>
 
-    redis => redis.ConnectionString = "localhost:6379",
+{
 
-    cacheEntries => cacheEntries.TimeToLive = TimeSpan.FromDays(1));
+    redis.ConnectionString = "localhost:6379";
+
+    redis.TimeToLive = TimeSpan.FromDays(1);
+
+});
 ```
+
+The module cache has its own `RedisOptions` and connection, separate from the distributed coordinator and artifact store, so it can point at a different Redis server. Its keys use the fingerprint as a Redis Cluster hash tag.
 
 See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.
 
@@ -49446,7 +49779,7 @@ See [Cache Module Results](/ModularPipelines/docs/next/how-to/module-caching.md)
 
 # Distributed SignalR Package
 
-`ModularPipelines.Distributed.SignalR` provides SignalR-based coordination between distributed pipeline workers.
+`ModularPipelines.Distributed.SignalR` provides SignalR-based coordination between distributed pipeline workers. The master hosts a SignalR hub; workers connect to it and pull work, so they need no shared database.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -49455,8 +49788,6 @@ dotnet add package ModularPipelines.Distributed.SignalR
 ```
 
 ## Configuration[​](#configuration "Direct link to Configuration")
-
-Register the coordinator after enabling distributed mode:
 
 ```
 using ModularPipelines.Distributed;
@@ -49475,12 +49806,16 @@ builder.AddSignalRDistributedCoordinator(options =>
 
 {
 
-    options.MasterUrl = "https://pipeline-master.example.com";
+    options.ListenUrl = "http://0.0.0.0:5099";
+
+    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
+
+    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
 
 });
 ```
 
-Pair this package with a discovery provider when workers cannot receive the master URL through static configuration.
+Every process needs the same `RunId` (set it or export `MODULARPIPELINES_RUN_ID`). A master that is reachable beyond its machine requires an access token: configure `AccessToken` on every process, or pair the package with a discovery provider such as `ModularPipelines.Distributed.Discovery.Redis`, which shares a generated token with the workers. See [Configuration](/ModularPipelines/docs/next/distributed/configuration.md#signalr-coordinator) for all options.
 
 
 ---

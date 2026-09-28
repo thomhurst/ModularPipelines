@@ -1,12 +1,12 @@
 # Time Estimator
 
-The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, but without it, estimated times will not be correct.
+The console progress display and the scheduler's critical-path ordering use estimated module durations. ModularPipelines registers a default provider, so estimates work without any setup: it stores the latest measured duration of each module and sub-module as a small text file under `%APPDATA%/ModularPipelines/EstimatedTimes` (the user's application-data folder on each platform).
 
-The idea is that on every run of a module, it takes note of how long it took to run, and then provides it to this class to save somewhere. That's up to you. A blob storage, a database, wherever.
+Estimates are best-effort. If the provider cannot read or write its storage (for example a read-only profile, or several pipelines saving at once), the failure is logged, a default estimate of two minutes is used, and the module's outcome is unaffected. The default provider replaces entries atomically, so concurrent pipelines never read a partially written value.
 
-Then on subsequent runs, it'll ask you for an estimated time for a module. You go and pull this back out of your database or wherever, and then pass it back to the framework.
+## Custom providers[​](#custom-providers "Direct link to Custom providers")
 
-## Example[​](#example "Direct link to Example")
+Replace the default provider to share estimates between machines, or to derive them from another source such as [run history](/ModularPipelines/docs/next/how-to/run-reports.md):
 
 ```
 var builder = Pipeline.CreateBuilder(args);
@@ -17,9 +17,7 @@ builder
 
     .AddModule<Module1>()
 
-    .AddModule<Module2>()
-
-    .AddModule<Module3>();
+    .AddModule<Module2>();
 
 
 
@@ -30,172 +28,44 @@ builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
 await builder.RunAsync();
 ```
 
+Implement `GetModuleEstimatedTimeAsync` and `SaveModuleTimeAsync`. The sub-module members have default implementations (no stored estimates, and saving does nothing); override them when the provider should also estimate sub-modules.
+
 ```
-public class MyEstimatedTimeProvider : IModuleEstimatedTimeProvider
+public sealed class MyEstimatedTimeProvider(IMyDurationStore store) : IModuleEstimatedTimeProvider
 
 {
 
-    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(
 
-        "ModularPipelines", "EstimatedTimes");
+        Type moduleType,
 
-
-
-    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+        CancellationToken cancellationToken = default)
 
     {
 
-        var fileName = $"{moduleType.FullName}.txt";
+        return await store.GetAsync(moduleType.FullName!, cancellationToken)
 
-        return await GetEstimatedTimeAsync(fileName);
+            ?? TimeSpan.FromMinutes(2);
 
     }
 
 
 
-    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+    public Task SaveModuleTimeAsync(
+
+        Type moduleType,
+
+        TimeSpan duration,
+
+        CancellationToken cancellationToken = default)
 
     {
 
-        var fileName = $"{moduleType.FullName}.txt";
-
-
-
-        await SaveModuleTimeAsync(duration, fileName);
-
-    }
-
-
-
-    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
-
-    {
-
-        var directoryInfo = new DirectoryInfo(_directory);
-
-
-
-        if (!directoryInfo.Exists)
-
-        {
-
-            directoryInfo.Create();
-
-        }
-
-
-
-        directoryInfo.Create();
-
-
-
-        var paths = directoryInfo
-
-            .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
-
-            .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
-
-            .ToList();
-
-
-
-        var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
-
-            .SelectAsync(async file =>
-
-            {
-
-                try
-
-                {
-
-                    var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
-
-                    var time = await GetEstimatedTimeAsync(file.FullName);
-
-                    return new SubModuleEstimation(name, time);
-
-                }
-
-                catch
-
-                {
-
-                    File.Delete(file.FullName);
-
-                    return null;
-
-                }
-
-            })
-
-            .ProcessInParallel();
-
-
-
-        return subModuleEstimations.OfType<SubModuleEstimation>();
-
-    }
-
-
-
-    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
-
-    {
-
-        var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
-
-
-
-        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
-
-    }
-
-
-
-    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
-
-    {
-
-        var path = Path.Combine(_directory, fileName);
-
-
-
-        if (File.Exists(path))
-
-        {
-
-            var contents = await File.ReadAllTextAsync(path);
-
-            return TimeSpan.Parse(contents);
-
-        }
-
-
-
-        // Some default fallback. We can't estimate for now so we'll estimate next time.
-
-        return TimeSpan.FromMinutes(2);
-
-    }
-
-
-
-    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
-
-    {
-
-        Directory.CreateDirectory(_directory);
-
-
-
-        var path = Path.Combine(_directory, fileName);
-
-
-
-        await File.WriteAllTextAsync(path, duration.ToString());
+        return store.SaveAsync(moduleType.FullName!, duration, cancellationToken);
 
     }
 
 }
 ```
+
+When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` returns recent measured durations for a module, which a custom provider can average instead of keeping its own storage.

@@ -126,22 +126,24 @@ public class MyModule : Module<FileInfo>
 
 ### Available Configuration Options[​](#available-configuration-options "Direct link to Available Configuration Options")
 
-| Method                                               | Description                                                         |
-| ---------------------------------------------------- | ------------------------------------------------------------------- |
-| `.WithTimeout(TimeSpan)`                             | Maximum execution time before module is cancelled                   |
-| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter  |
-| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios              |
-| `.WithSkipWhen(...)`                                 | Condition to skip the module                                        |
-| `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                        |
-| `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                       |
-| `.WithAlwaysRun()`                                   | Run even if the pipeline has failed                                 |
-| `.WithNotInParallel(...)`                            | Prevent parallel execution globally or for matching constraint keys |
-| `.WithPriority(ModulePriority)`                      | Set scheduler priority                                              |
-| `.WithExecutionHint(ExecutionHint)`                  | Select CPU-bound, I/O-bound, or default concurrency limits          |
-| `.WithTags(...)`                                     | Add tags used by metadata-based dependencies                        |
-| `.WithCategory(string)`                              | Set the module category                                             |
-| `.DependsOn<TModule>()`                              | Add a required dependency                                           |
-| `.DependsOnOptional<TModule>()`                      | Add an optional dependency                                          |
+| Method                                               | Description                                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `.WithTimeout(TimeSpan)`                             | Maximum execution time per attempt; must be positive, or `Timeout.InfiniteTimeSpan` to disable the default timeout |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter                                                 |
+| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios                                                             |
+| `.WithSkipWhen(...)`                                 | Condition to skip the module                                                                                       |
+| `.WithRunIf<T>()` / `.WithRunIf(IRunCondition)`      | Run only when an `IRunCondition` is satisfied                                                                      |
+| `.WithSkipIf<T>()` / `.WithSkipIf(IRunCondition)`    | Skip when an `IRunCondition` is satisfied                                                                          |
+| `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                                                                       |
+| `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                                                                      |
+| `.WithAlwaysRun()`                                   | Run even if the pipeline has failed                                                                                |
+| `.WithNotInParallel(...)`                            | Prevent parallel execution globally or for matching constraint keys                                                |
+| `.WithPriority(ModulePriority)`                      | Set scheduler priority                                                                                             |
+| `.WithExecutionHint(ExecutionHint)`                  | Select CPU-bound, I/O-bound, or default concurrency limits                                                         |
+| `.WithTags(...)`                                     | Add tags used by metadata-based dependencies                                                                       |
+| `.WithCategory(string)`                              | Set the module category                                                                                            |
+| `.DependsOn<TModule>()`                              | Add a required dependency                                                                                          |
+| `.DependsOnOptional<TModule>()`                      | Add an optional dependency                                                                                         |
 
 The fluent configuration is the canonical runtime model. Existing attributes such as `[Priority]`, `[ExecutionHint]`, `[NotInParallel]`, `[ModuleTag]`, `[ModuleCategory]`, and `[DependsOn<T>]` remain supported as declarative sugar and are merged into the same model.
 

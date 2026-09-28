@@ -12,7 +12,9 @@ builder.AddRequirement(Require.Ci("Publishing can only run in CI"));
 
 The platform shortcuts are `Require.Windows()`, `Require.Linux()`, `Require.MacOS()`, and `Require.WindowsAdmin()`. Use `Require.Platform(...)` for another `OSPlatform` value.
 
-For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`. Evaluation receives the pipeline cancellation token:
+`Require.Ci()` and `Require.LocalEnvironment()` use the same CI definition as the `OnCI` and `OnLocal` run conditions: `IBuildSystemContext.IsBuildServer` is `true` when a known build system is detected, or otherwise when the `CI` environment variable is set to a value other than `false` or `0`.
+
+For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`, whose `EvaluateAsync` is abstract. Evaluation receives the pipeline cancellation token:
 
 ```
 public sealed class HasDotNetSdkRequirement : PipelineRequirement
@@ -71,6 +73,8 @@ public sealed class Is64BitRequirement : PipelineRequirement
 
 }
 ```
+
+Requirements run in ascending `Order` (default `0`). Every requirement is evaluated, and all failures are reported together in one `RequirementNotMetException`. A requirement that throws is reported as a failure too; its exception is available through `InnerExceptions`.
 
 `RequirementDecision.IsSatisfied` reports the outcome. Construct decisions with `Passed` or `Failed(reason)`; a `bool` can also convert implicitly. A bare string does not imply failure.
 

@@ -206,6 +206,6 @@ Implement `IRunHistoryStore` to keep reports in a database, object store, or ano
 builder.AddRunHistoryStore<MyRunHistoryStore>();
 ```
 
-The store returns matching reports newest-first and saves the completed current report. Custom stores own their retention behavior. Module output excerpts are omitted from reports passed to a custom store because user persistence code can register secrets while saving; the built-in file store retains the already-masked excerpts.
+The store returns matching reports newest-first and saves the completed current report. Custom stores own their retention behavior. Members added to `IRunHistoryStore` in future versions will come with default implementations, so existing stores keep compiling. Module output excerpts are omitted from reports passed to a custom store because user persistence code can register secrets while saving; the built-in file store retains the already-masked excerpts.
 
 In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former `GetLatestAsync` interface member is now an extension method, so stores need only implement the query operation and `SaveAsync`.

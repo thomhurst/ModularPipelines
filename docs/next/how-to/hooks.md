@@ -115,7 +115,7 @@ public sealed class AuditModuleAttribute : Attribute,
 
 {
 
-    public Task OnModuleStartAsync(IModuleHookContext context)
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
 
     {
 
@@ -127,7 +127,13 @@ public sealed class AuditModuleAttribute : Attribute,
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    public Task OnModuleEndAsync(
+
+        IModuleHookContext context,
+
+        IModuleResult result,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -152,9 +158,9 @@ public class BuildModule : Module<string>
 }
 ```
 
-Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Priority` to control order (lower values run first), or `ContinueOnError` to log a handler failure and continue.
+Available interfaces are `IModuleReadyHandler`, `IModuleStartHandler`, `IModuleEndHandler`, `IModuleFailureHandler`, and `IModuleSkippedHandler`. All handlers inherit `IEventHandler`. Set `Order` to control the order within a handler family (ascending, default `0`), or `ContinueOnError` to log a handler failure as a warning and continue. `IModuleHookContext` is read-only: hooks observe modules, while retries, skips, and failure policy are configured on the module.
 
-Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafeModuleRegistrationHandler` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
+Registration attributes implement `IModuleRegistrationHandler`. Also implement `IPlanningSafe` only for deterministic, idempotent handlers without external side effects; those handlers may run while exporting a resolved dependency graph.
 
 ## Global module event handlers[​](#global-module-event-handlers "Direct link to Global module event handlers")
 
@@ -165,7 +171,7 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 {
 
-    public Task OnModuleStartAsync(IModuleHookContext context)
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
 
     {
 
@@ -177,7 +183,13 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 
 
 
-    public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+    public Task OnModuleEndAsync(
+
+        IModuleHookContext context,
+
+        IModuleResult result,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -200,7 +212,7 @@ public sealed class ModuleMetricsHandler : IModuleEventHandler
 builder.AddModuleEventHandler<ModuleMetricsHandler>();
 ```
 
-Global and attribute handlers use the same callback signatures and shared error/priority properties. Global handlers run sequentially in priority order for each event.
+Global and attribute handlers use the same callback signatures and shared error/order properties. Global handlers run sequentially in ascending `Order` for each event. A class that implements both `IModuleEventHandler` and `IPipelineEventHandler` and is registered with both `AddModuleEventHandler<T>()` and `AddPipelineEventHandler<T>()` is one shared singleton.
 
 ## Lifecycle ordering[​](#lifecycle-ordering "Direct link to Lifecycle ordering")
 
@@ -231,6 +243,16 @@ For a skipped module, the completion portion is:
 
 If `OnBeforeExecuteAsync` throws, `ExecuteAsync` and `OnAfterExecuteAsync` do not run; `OnFailedAsync` and the failure event handlers are still notified. Exceptions from `OnAfterExecuteAsync`, `OnFailedAsync`, and `OnSkippedAsync` are logged without replacing the module outcome.
 
+## Handler failures[​](#handler-failures "Direct link to Handler failures")
+
+Ready and Start handlers are gates. When one throws (and `ContinueOnError` is `false`), the module fails with that exception, the module does not execute, and failure handlers are notified. Global and attribute handlers take the same path.
+
+End, Failure, and Skipped handlers are observers. They cannot change the outcome they observe: a handler exception is logged, recorded as a pipeline error, and the next handler family still runs. A module that succeeded stays succeeded, and a failed module keeps its original exception. Recorded handler errors are thrown with the pipeline's other errors when the pipeline throws on failure. A failing `IPipelineEventHandler.OnPipelineEndAsync` fails the pipeline, but never replaces an exception that already failed it; in that case it is recorded as an additional pipeline error.
+
+## Cancellation[​](#cancellation "Direct link to Cancellation")
+
+Every callback receives a `CancellationToken`. Ready and Start handlers receive the module's execution token. End, Failure, Skipped, and pipeline end handlers receive a token that is cancelled only when the user or host cancels the pipeline, so they still run after a module failure. Extension points use `Task` rather than `ValueTask`.
+
 ## Pipeline event handlers[​](#pipeline-event-handlers "Direct link to Pipeline event handlers")
 
 `IPipelineEventHandler` observes the pipeline as a whole rather than individual modules:
@@ -240,7 +262,7 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
 {
 
-    public Task OnPipelineStartAsync(IPipelineContext context)
+    public Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)
 
     {
 
@@ -256,7 +278,9 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 
         IPipelineContext context,
 
-        PipelineSummary summary)
+        PipelineSummary summary,
+
+        CancellationToken cancellationToken)
 
     {
 
@@ -273,4 +297,12 @@ public sealed class PipelineLoggingHandler : IPipelineEventHandler
 builder.AddPipelineEventHandler<PipelineLoggingHandler>();
 ```
 
-Pipeline handlers also inherit `IEventHandler` and run in priority order.
+Pipeline handlers also inherit `IEventHandler` and run in ascending `Order`.
+
+## Extension point conventions[​](#extension-point-conventions "Direct link to Extension point conventions")
+
+Handlers, requirements, validators, and providers follow the same conventions:
+
+* **Ordering.** Extension points that run in sequence expose an `Order` property, ascending (lower values run first), defaulting to `0`. This applies to event handlers, requirements (`IPipelineRequirement.Order`), and validators (`IPipelineValidator.Order`). Plugins apply in the order they are added. Module scheduling priority (`ModulePriority`, `[Priority]`) is a different concept: it decides which ready module starts first, and higher priorities start first.
+* **Async shape.** Asynchronous members return `Task` or `Task<T>` (not `ValueTask`) and take a `CancellationToken` as their last parameter.
+* **Evolution.** Interfaces that are likely to grow give new members default implementations when a sensible default exists (for example the sub-module members of `IModuleEstimatedTimeProvider` or `IModuleResultRepository.IsEnabled`); otherwise they are exposed as abstract base classes.
