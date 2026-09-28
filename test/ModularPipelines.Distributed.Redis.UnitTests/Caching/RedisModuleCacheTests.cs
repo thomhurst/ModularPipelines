@@ -120,6 +120,52 @@ public class RedisModuleCacheTests
     }
 
     [Test]
+    public async Task DeleteRemovesMetadataThenCurrentGenerationChunks()
+    {
+        var generation = new string('b', 32);
+        var deletedKeys = new List<string>();
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:2:5");
+        _database.Setup(value => value.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Callback<RedisKey, CommandFlags>((key, _) => deletedKeys.Add(key.ToString()))
+            .ReturnsAsync(true);
+        _database.Setup(value => value.KeyDeleteAsync(It.IsAny<RedisKey[]>(), It.IsAny<CommandFlags>()))
+            .Callback<RedisKey[], CommandFlags>((keys, _) => deletedKeys.AddRange(keys.Select(key => key.ToString())))
+            .ReturnsAsync(2);
+
+        await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
+
+        var fingerprintPrefix = $"custom-prefix:module-cache:v1:{Fingerprint.ToLowerInvariant()}";
+        await Assert.That(deletedKeys).IsEquivalentTo(new[]
+        {
+            $"{fingerprintPrefix}:metadata",
+            $"{fingerprintPrefix}:entry:{generation}:chunk:0",
+            $"{fingerprintPrefix}:entry:{generation}:chunk:1",
+        });
+        await Assert.That(deletedKeys[0]).IsEqualTo($"{fingerprintPrefix}:metadata");
+    }
+
+    [Test]
+    public async Task DeleteIgnoresMissingEntryAndExistsChecksMetadata()
+    {
+        _database.Setup(value => value.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisValue.Null);
+        _database.Setup(value => value.KeyExistsAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
+
+        await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
+
+        _database.Verify(
+            value => value.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()),
+            Times.Never);
+        await Assert.That(await _cache.ExistsAsync(Fingerprint, CancellationToken.None)).IsTrue();
+    }
+
+    [Test]
     public async Task OpenReadReturnsNullWhenMetadataIsMissing()
     {
         _database.Setup(value => value.StringGetAsync(

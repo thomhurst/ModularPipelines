@@ -224,6 +224,44 @@ public sealed class RedisModuleCache : IModuleCacheStore
         }
     }
 
+    /// <inheritdoc />
+    public async Task<bool> ExistsAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        cancellationToken.ThrowIfCancellationRequested();
+        return await _database.KeyExistsAsync(MetadataKey(fingerprint))
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task DeleteAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var metadataKey = MetadataKey(fingerprint);
+        var metadata = await _database.StringGetAsync(metadataKey)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        if (metadata.IsNull)
+        {
+            return;
+        }
+
+        // Delete the metadata first so readers never observe an entry with missing chunks.
+        await _database.KeyDeleteAsync(metadataKey).WaitAsync(cancellationToken).ConfigureAwait(false);
+        var (generation, chunkCount, _) = ParseMetadata(metadata.ToString());
+        if (chunkCount > 0)
+        {
+            await _database.KeyDeleteAsync(
+                    [.. Enumerable.Range(0, chunkCount)
+                        .Select(chunkIndex => (RedisKey) ChunkKey(fingerprint, generation, chunkIndex))])
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
     private static async Task<int> ReadFullBufferAsync(
         Stream stream,
         byte[] buffer,

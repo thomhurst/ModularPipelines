@@ -286,7 +286,7 @@ public class ModuleTesterTests
     }
 
     [Test]
-    public async Task UnsupportedVirtualMetadataFailsLoudly()
+    public async Task VirtualMetadataIsReadThroughTheInMemoryProvider()
     {
         var root = Path.Combine(
             Path.GetTempPath(),
@@ -296,7 +296,12 @@ public class ModuleTesterTests
             .WithService(new FilePath(Path.Combine(root, "artifact.txt")))
             .ExecuteAsync();
 
-        await Assert.That(run.Exception).IsTypeOf<NotSupportedException>();
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Exception).IsNull();
+            await Assert.That(run.Value).IsEqualTo("contents".Length);
+            await Assert.That(Directory.Exists(root)).IsFalse();
+        }
     }
 
     [Test]

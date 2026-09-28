@@ -65,6 +65,88 @@ public class FileSystemModuleCacheTests
         }
     }
 
+    [Test]
+    public async Task ExistsAsync_And_DeleteAsync_Manage_Entries()
+    {
+        var cacheDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-cache-{Guid.NewGuid():N}");
+        var cache = new FileSystemModuleCache(OptionsFactory.Create(new ModuleCacheOptions
+        {
+            CacheDirectory = cacheDirectory,
+        }));
+        var fingerprint = new string('b', 64);
+
+        try
+        {
+            // Deleting before the cache directory exists is a no-op.
+            await cache.DeleteAsync(fingerprint, CancellationToken.None);
+            await Assert.That(await cache.ExistsAsync(fingerprint, CancellationToken.None)).IsFalse();
+
+            await using (var content = CreateStream("entry"))
+            {
+                await cache.WriteAsync(fingerprint, content, CancellationToken.None);
+            }
+
+            await Assert.That(await cache.ExistsAsync(fingerprint, CancellationToken.None)).IsTrue();
+
+            await cache.DeleteAsync(fingerprint, CancellationToken.None);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await cache.ExistsAsync(fingerprint, CancellationToken.None)).IsFalse();
+                await Assert.That(await cache.OpenReadAsync(fingerprint, CancellationToken.None)).IsNull();
+            }
+
+            await cache.DeleteAsync(fingerprint, CancellationToken.None);
+        }
+        finally
+        {
+            if (Directory.Exists(cacheDirectory))
+            {
+                Directory.Delete(cacheDirectory, recursive: true);
+            }
+        }
+    }
+
+    [Test]
+    public async Task Default_ExistsAsync_Opens_And_Disposes_The_Entry()
+    {
+        var entry = new TrackingStream();
+        IModuleCacheStore present = new OpenOnlyStore(entry);
+        IModuleCacheStore missing = new OpenOnlyStore(null);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await present.ExistsAsync(new string('c', 64), CancellationToken.None)).IsTrue();
+            await Assert.That(entry.Disposed).IsTrue();
+            await Assert.That(await missing.ExistsAsync(new string('c', 64), CancellationToken.None)).IsFalse();
+        }
+    }
+
+    private sealed class OpenOnlyStore(Stream? entry) : IModuleCacheStore
+    {
+        public Task<Stream?> OpenReadAsync(string fingerprint, CancellationToken cancellationToken) =>
+            Task.FromResult(entry);
+
+        public Task WriteAsync(string fingerprint, Stream content, CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+
+        public Task DeleteAsync(string fingerprint, CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+    }
+
+    private sealed class TrackingStream : MemoryStream
+    {
+        public bool Disposed { get; private set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            Disposed = true;
+            base.Dispose(disposing);
+        }
+    }
+
     private static MemoryStream CreateStream(string contents) =>
         new(Encoding.UTF8.GetBytes(contents));
 }

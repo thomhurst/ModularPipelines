@@ -3089,3 +3089,25 @@ virtual ModularPipelines.Secrets.SecretMaskingOptions.<Clone>$() -> ModularPipel
 virtual ModularPipelines.Secrets.SecretMaskingOptions.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Secrets.SecretMaskingOptions.Equals(ModularPipelines.Secrets.SecretMaskingOptions? other) -> bool
 virtual ModularPipelines.Secrets.SecretMaskingOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+ModularPipelines.Caching.FileSystemModuleCache.DeleteAsync(string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Caching.FileSystemModuleCache.ExistsAsync(string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.Caching.IModuleCacheStore.DeleteAsync(string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Caching.IModuleCacheStore.ExistsAsync(string! fingerprint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.FileSystem.IFileSystemProvider.GetAttributes(string! path) -> System.IO.FileAttributes
+ModularPipelines.FileSystem.IFileSystemProvider.GetCreationTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.IFileSystemProvider.GetFileLength(string! path) -> long
+ModularPipelines.FileSystem.IFileSystemProvider.GetLastAccessTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.IFileSystemProvider.GetLastWriteTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.IFileSystemProvider.SetAttributes(string! path, System.IO.FileAttributes attributes) -> void
+ModularPipelines.FileSystem.IFileSystemProvider.SetCreationTimeUtc(string! path, System.DateTime creationTimeUtc) -> void
+ModularPipelines.FileSystem.IFileSystemProvider.SetLastAccessTimeUtc(string! path, System.DateTime lastAccessTimeUtc) -> void
+ModularPipelines.FileSystem.IFileSystemProvider.SetLastWriteTimeUtc(string! path, System.DateTime lastWriteTimeUtc) -> void
+ModularPipelines.FileSystem.SystemFileSystemProvider.GetAttributes(string! path) -> System.IO.FileAttributes
+ModularPipelines.FileSystem.SystemFileSystemProvider.GetCreationTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.SystemFileSystemProvider.GetFileLength(string! path) -> long
+ModularPipelines.FileSystem.SystemFileSystemProvider.GetLastAccessTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.SystemFileSystemProvider.GetLastWriteTimeUtc(string! path) -> System.DateTime
+ModularPipelines.FileSystem.SystemFileSystemProvider.SetAttributes(string! path, System.IO.FileAttributes attributes) -> void
+ModularPipelines.FileSystem.SystemFileSystemProvider.SetCreationTimeUtc(string! path, System.DateTime creationTimeUtc) -> void
+ModularPipelines.FileSystem.SystemFileSystemProvider.SetLastAccessTimeUtc(string! path, System.DateTime lastAccessTimeUtc) -> void
+ModularPipelines.FileSystem.SystemFileSystemProvider.SetLastWriteTimeUtc(string! path, System.DateTime lastWriteTimeUtc) -> void
