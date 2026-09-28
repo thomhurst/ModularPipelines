@@ -152,14 +152,21 @@ public static class DistributedPipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Registers a distributed coordinator factory for async initialization.
+    /// Registers a distributed coordinator factory for async initialization. Registering the same
+    /// factory again is a no-op; registering a different coordinator backend throws.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
+    /// <exception cref="InvalidOperationException">Another coordinator factory is already registered.</exception>
     public static PipelineBuilder AddDistributedCoordinatorFactory<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TFactory>(
         this PipelineBuilder builder)
         where TFactory : class, IDistributedCoordinatorFactory
     {
+        if (IsBackendFactoryRegistered<IDistributedCoordinatorFactory, TFactory>(builder.Services, "coordinator"))
+        {
+            return builder;
+        }
+
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, TFactory>();
         return builder;
     }
@@ -179,16 +186,43 @@ public static class DistributedPipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Registers a distributed artifact store factory for async initialization.
+    /// Registers a distributed artifact store factory for async initialization. Registering the same
+    /// factory again is a no-op; registering a different artifact store backend throws.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
+    /// <exception cref="InvalidOperationException">Another artifact store factory is already registered.</exception>
     public static PipelineBuilder AddDistributedArtifactStoreFactory<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TFactory>(
         this PipelineBuilder builder)
         where TFactory : class, IDistributedArtifactStoreFactory
     {
+        if (IsBackendFactoryRegistered<IDistributedArtifactStoreFactory, TFactory>(builder.Services, "artifact store"))
+        {
+            return builder;
+        }
+
         builder.Services.AddSingleton<IDistributedArtifactStoreFactory, TFactory>();
         return builder;
+    }
+
+    private static bool IsBackendFactoryRegistered<TService, TFactory>(IServiceCollection services, string backend)
+    {
+        var existing = services.LastOrDefault(descriptor =>
+            descriptor.ServiceType == typeof(TService) && !descriptor.IsKeyedService);
+        if (existing is null)
+        {
+            return false;
+        }
+
+        if (existing.ImplementationType == typeof(TFactory))
+        {
+            return true;
+        }
+
+        var existingName = existing.ImplementationType?.FullName ?? "a factory delegate or instance";
+        throw new InvalidOperationException(
+            $"A distributed {backend} backend ({existingName}) is already registered, so {typeof(TFactory).FullName} " +
+            $"cannot also be registered. Register exactly one distributed {backend} backend.");
     }
 
     /// <summary>
