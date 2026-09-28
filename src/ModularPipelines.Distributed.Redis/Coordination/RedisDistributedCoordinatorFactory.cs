@@ -6,21 +6,14 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// <summary>
 /// Factory that creates a <see cref="RedisDistributedCoordinator"/> by connecting to Redis asynchronously.
 /// </summary>
-internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinatorFactory
+internal sealed class RedisDistributedCoordinatorFactory(
+    IOptions<RedisDistributedOptions> options,
+    IConnectionMultiplexer connection,
+    IOptions<DistributedOptions> distributedOptions) : IDistributedCoordinatorFactory
 {
-    private readonly RedisDistributedOptions _options;
-    private readonly DistributedOptions _distributedOptions;
-    private readonly IConnectionMultiplexer _connection;
-
-    public RedisDistributedCoordinatorFactory(
-        IOptions<RedisDistributedOptions> options,
-        IConnectionMultiplexer connection,
-        IOptions<DistributedOptions> distributedOptions)
-    {
-        _options = options.Value;
-        _connection = connection;
-        _distributedOptions = distributedOptions.Value;
-    }
+    private readonly RedisDistributedOptions _options = options.Value;
+    private readonly DistributedOptions _distributedOptions = distributedOptions.Value;
+    private readonly IConnectionMultiplexer _connection = connection;
 
     public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
     {
