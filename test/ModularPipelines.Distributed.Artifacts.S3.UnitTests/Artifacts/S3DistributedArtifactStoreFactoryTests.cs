@@ -54,6 +54,7 @@ public class S3DistributedArtifactStoreFactoryTests
             await Assert.That(rules).Contains(unrelated);
             await Assert.That(ours.Status).IsEqualTo(LifecycleRuleStatus.Enabled);
             await Assert.That(ours.Expiration.Days).IsEqualTo(2);
+            await Assert.That(ours.AbortIncompleteMultipartUpload.DaysAfterInitiation).IsEqualTo(1);
             await Assert.That(((LifecyclePrefixPredicate) ours.Filter.LifecycleFilterPredicate).Prefix)
                 .IsEqualTo("modpipe/artifacts/");
         }
@@ -97,6 +98,7 @@ public class S3DistributedArtifactStoreFactoryTests
                                 LifecycleFilterPredicate = new LifecyclePrefixPredicate { Prefix = "modpipe/artifacts/" },
                             },
                             Expiration = new LifecycleRuleExpiration { Days = 1 },
+                            AbortIncompleteMultipartUpload = new LifecycleRuleAbortIncompleteMultipartUpload { DaysAfterInitiation = 1 },
                         },
                     ],
                 },

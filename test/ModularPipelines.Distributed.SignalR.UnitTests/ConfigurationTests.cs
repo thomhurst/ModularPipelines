@@ -133,6 +133,19 @@ public class ConfigurationTests
     }
 
     [Test]
+    public async Task Loopback_Master_With_Remote_Advertised_Url_Needs_Token()
+    {
+        await Assert.That(() => SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
+                new SignalRDistributedOptions
+                {
+                    ListenUrl = "http://127.0.0.1:5099",
+                    AdvertisedUrl = new Uri("https://pipelines.example.com"),
+                },
+                hasDiscovery: false))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
     public async Task Configured_Token_Is_Used()
     {
         var token = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(

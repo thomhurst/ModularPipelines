@@ -41,7 +41,7 @@ public class PipelineRequirementTests
 
         await Assert.That(executePipelineDelegate)
             .Throws<RequirementNotMetException>()
-            .And.HasMessageEqualTo("Requirements failed:\r\nFailingRequirement");
+            .And.HasMessageEqualTo($"Requirements failed:{Environment.NewLine}FailingRequirement");
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class PipelineRequirementTests
         };
         await Assert.That(executePipelineDelegate)
             .Throws<RequirementNotMetException>()
-            .And.HasMessageEqualTo("Requirements failed:\r\n" + TestConstants.RequirementErrorMessage);
+            .And.HasMessageEqualTo($"Requirements failed:{Environment.NewLine}" + TestConstants.RequirementErrorMessage);
     }
 
     private class DummyModule : Module<bool>

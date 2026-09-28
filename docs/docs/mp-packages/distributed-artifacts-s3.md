@@ -56,7 +56,7 @@ service URL when targeting an S3-compatible provider. Options are validated when
 | `ForcePathStyle` | `bool` | `false` | Path-style addressing, required by MinIO and some providers. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`. |
 | `MultipartPartSizeBytes` | `int` | 16 MB | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB. |
-| `SetLifecycleRule` | `bool` | `false` | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive`. |
+| `SetLifecycleRule` | `bool` | `false` | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day. |
 | `TimeToLive` | `TimeSpan` | 1 day | Artifact lifetime used by the lifecycle rule, rounded up to whole days. |
 
 `SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix,
@@ -64,6 +64,10 @@ into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` 
 permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and
 artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring
 the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+
+A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the
+bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that
+action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.
 
 Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
 

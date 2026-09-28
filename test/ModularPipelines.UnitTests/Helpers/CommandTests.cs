@@ -102,6 +102,15 @@ public class CommandTests : TestBase
         }
     }
 
+    private sealed class DropCancellationInterceptor : ICommandInterceptor
+    {
+        public ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken) =>
+            next(invocation, CancellationToken.None);
+    }
+
     private sealed class OrderRecordingInterceptor(string name, List<string> log) : ICommandInterceptor
     {
         public async ValueTask<CommandResult> InvokeAsync(
@@ -937,6 +946,28 @@ public class CommandTests : TestBase
         await Assert.ThrowsAsync<OperationCanceledException>(
             () => fixture.Execution.WaitAsync(cancellationToken));
         await Assert.That(fixture.Execution.IsCompleted).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public async Task Interceptor_Dropping_Its_Token_Still_Honours_ExecutionTimeout()
+    {
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.AddSingleton<ICommandInterceptor>(new DropCancellationInterceptor()));
+
+        var exception = await Assert.ThrowsAsync<TimeoutException>(() =>
+            command.ExecuteCommandLineToolAsync(
+                new CommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-NoProfile", "-Command", "Start-Sleep -Seconds 60"],
+                },
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(100),
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(50),
+                }));
+
+        await Assert.That(exception!.Message).Contains("timed out after");
     }
 
     [Test]

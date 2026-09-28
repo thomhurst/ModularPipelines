@@ -109,7 +109,10 @@ internal sealed class SignalRDistributedCoordinatorFactory(
             return configured;
         }
 
-        if (!options.Tunnel.Enabled && IsLoopback(options.ListenUrl))
+        // A loopback listener behind a reverse proxy is still reachable through its advertised URL.
+        if (!options.Tunnel.Enabled
+            && IsLoopback(options.ListenUrl)
+            && (options.AdvertisedUrl is null || IsLoopback(options.AdvertisedUrl.OriginalString)))
         {
             return null;
         }

@@ -13,6 +13,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
 {
     private const string LifecycleRuleIdPrefix = "modpipe-artifact-expiration:";
     private const string NoLifecycleConfigurationErrorCode = "NoSuchLifecycleConfiguration";
+    private const int AbortIncompleteMultipartUploadDays = 1;
 
     private readonly S3StorageOptions _options;
     private readonly DistributedOptions _distributedOptions;
@@ -125,12 +126,21 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
             {
                 Days = Math.Max(1, (int) Math.Ceiling(_options.TimeToLive.TotalDays)),
             },
+
+            // Expiration does not remove parts of multipart uploads that were never completed or
+            // aborted, such as after a crash or a failed abort.
+            AbortIncompleteMultipartUpload = new LifecycleRuleAbortIncompleteMultipartUpload
+            {
+                DaysAfterInitiation = AbortIncompleteMultipartUploadDays,
+            },
         };
     }
 
     private static bool IsEquivalent(LifecycleRule existing, LifecycleRule desired) =>
         existing.Status == desired.Status
         && existing.Expiration?.Days == desired.Expiration?.Days
+        && existing.AbortIncompleteMultipartUpload?.DaysAfterInitiation
+            == desired.AbortIncompleteMultipartUpload?.DaysAfterInitiation
         && (existing.Filter?.LifecycleFilterPredicate as LifecyclePrefixPredicate)?.Prefix
             == ((LifecyclePrefixPredicate) desired.Filter!.LifecycleFilterPredicate).Prefix;
 }

@@ -386,11 +386,13 @@ internal sealed class Command : ICommandContext
         private CommandInvocation? _publicInvocation;
         private PreparedCommandInvocation _publicPrepared = original;
         private long _publicSecretVersion = long.MinValue;
+        private CancellationToken _executionCancellationToken;
 
         public ValueTask<CommandResult> ExecuteAsync(
             IReadOnlyList<ICommandInterceptor> interceptors,
             CancellationToken cancellationToken)
         {
+            _executionCancellationToken = cancellationToken;
             CommandDelegate pipeline = TerminalAsync;
             for (var index = interceptors.Count - 1; index >= 0; index--)
             {
@@ -433,14 +435,31 @@ internal sealed class Command : ICommandContext
             return nextCalled ? result : owner.CompleteShortCircuitedResult(result, prepared);
         }
 
-        private ValueTask<CommandResult> TerminalAsync(
+        private async ValueTask<CommandResult> TerminalAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken) =>
-            owner.ExecuteInvocationAsync(
-                Resolve(invocation),
-                cancellationToken,
-                callerCancellationToken,
-                timeoutCancellationToken);
+            CancellationToken cancellationToken)
+        {
+            // An interceptor may pass its own token, but it cannot drop the caller and timeout cancellation.
+            if (!cancellationToken.CanBeCanceled || cancellationToken == _executionCancellationToken)
+            {
+                return await owner.ExecuteInvocationAsync(
+                        Resolve(invocation),
+                        _executionCancellationToken,
+                        callerCancellationToken,
+                        timeoutCancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(
+                _executionCancellationToken,
+                cancellationToken);
+            return await owner.ExecuteInvocationAsync(
+                    Resolve(invocation),
+                    linked.Token,
+                    callerCancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
+        }
 
         private PreparedCommandInvocation Resolve(CommandInvocation invocation)
         {

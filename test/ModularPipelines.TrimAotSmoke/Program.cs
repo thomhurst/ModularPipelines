@@ -1,5 +1,3 @@
-using ModularPipelines.Secrets;
-using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
@@ -12,6 +10,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 if (args is [SmokeState.ChildArgument, var childValue])
 {
@@ -145,12 +144,18 @@ internal sealed class VerificationModule : Module<bool>
                 $"Child command exited with {command.ExitCode}: {command.StandardError}");
         }
 
-        // Command results are masked with the [SecretValue] options metadata.
-        var masked = command.StandardOutput;
-        if (masked.Contains(SmokeState.Secret, StringComparison.Ordinal)
-            || !masked.Contains("********", StringComparison.Ordinal))
+        // Successful command output is returned raw; the recorded command input is masked
+        // with the [SecretValue] options metadata, which must survive trimming.
+        if (!command.StandardOutput.Contains(SmokeState.Secret, StringComparison.Ordinal))
         {
-            throw new InvalidOperationException("Secret masking did not redact command output.");
+            throw new InvalidOperationException("Child command did not echo its argument.");
+        }
+
+        var maskedInput = command.CommandInput;
+        if (maskedInput.Contains(SmokeState.Secret, StringComparison.Ordinal)
+            || !maskedInput.Contains("********", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException("Secret masking did not redact the command input.");
         }
 
         return true;

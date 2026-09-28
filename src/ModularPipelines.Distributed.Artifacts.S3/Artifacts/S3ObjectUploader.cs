@@ -147,8 +147,9 @@ internal static class S3ObjectUploader
         catch (Exception)
         {
             // Best effort: an abort failure must not replace the upload failure the caller
-            // rethrows. An incomplete upload that cannot be aborted is removed by the bucket's
-            // incomplete-multipart-upload lifecycle policy.
+            // rethrows. Parts left behind are only removed by a bucket lifecycle rule with an
+            // AbortIncompleteMultipartUpload clause, which S3StorageOptions.SetLifecycleRule
+            // configures for artifact uploads.
         }
     }
 
