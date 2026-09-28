@@ -20,9 +20,10 @@ internal sealed class RecordingCommandInterceptor : ICommandInterceptor
         _handler = handler;
     }
 
-    public async ValueTask<CommandResult?> InterceptAsync(
+    public async ValueTask<CommandResult> InvokeAsync(
         CommandInvocation invocation,
-        CancellationToken cancellationToken = default)
+        CommandDelegate next,
+        CancellationToken cancellationToken)
     {
         var sequence = Interlocked.Increment(ref _nextSequence);
         var result = await _handler(invocation, cancellationToken).ConfigureAwait(false);

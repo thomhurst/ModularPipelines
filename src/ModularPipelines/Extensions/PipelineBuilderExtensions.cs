@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Caching;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Events;
@@ -405,6 +406,47 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirement requirement)
     {
         builder.Services.AddSingleton(requirement);
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds a command interceptor that wraps every command the pipeline executes.
+    /// </summary>
+    /// <typeparam name="TInterceptor">The interceptor implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// Interceptors run in registration order: the first registered interceptor is the outermost.
+    /// Adding the same interceptor type more than once has no effect.
+    /// </remarks>
+    public static PipelineBuilder AddCommandInterceptor<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TInterceptor>(
+        this PipelineBuilder builder)
+        where TInterceptor : class, ICommandInterceptor
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ICommandInterceptor, TInterceptor>());
+        return builder;
+    }
+
+    /// <summary>
+    /// Adds a command interceptor instance that wraps every command the pipeline executes.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="interceptor">The interceptor instance.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <remarks>
+    /// Interceptors run in registration order: the first registered interceptor is the outermost.
+    /// Each call adds the instance, so distinct instances of one type each run.
+    /// </remarks>
+    public static PipelineBuilder AddCommandInterceptor(
+        this PipelineBuilder builder,
+        ICommandInterceptor interceptor)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(interceptor);
+        builder.Services.AddSingleton(interceptor);
         return builder;
     }
 

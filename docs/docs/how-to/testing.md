@@ -113,10 +113,42 @@ Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated
 Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and
 throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
 
-`ICommandInterceptor` is also a public framework seam. Register an implementation
-in a normal pipeline when command interception is needed outside
-`ModularPipelines.Testing`. Return `null` to let the next interceptor or the real
-process executor handle the command.
+`ICommandInterceptor` is also a public framework seam: middleware that wraps every
+command after it is parsed and before the process starts. Register one with
+`builder.AddCommandInterceptor<TInterceptor>()` (adding the same type twice has no
+effect) or `builder.AddCommandInterceptor(instance)`. Interceptors run in
+registration order, so the first registered one is outermost.
+
+```csharp
+public sealed class ForceVerbosityInterceptor : ICommandInterceptor
+{
+    public async ValueTask<CommandResult> InvokeAsync(
+        CommandInvocation invocation,
+        CommandDelegate next,
+        CancellationToken cancellationToken)
+    {
+        var changed = invocation with
+        {
+            CommandLine = new CommandLine(
+                invocation.CommandLine.Tool,
+                [.. invocation.CommandLine.Arguments, "--verbosity", "minimal"]),
+        };
+
+        var result = await next(changed, cancellationToken);
+        // Observe or replace the result here.
+        return result;
+    }
+}
+```
+
+Call `next` to continue to the next interceptor or the process executor, optionally
+with a modified `CommandLine`, `ExecutionOptions`, or `WorkingDirectory`.
+`CommandInput` and `EnvironmentVariables` are secret-masked views that the framework
+regenerates; change environment variables through `ExecutionOptions`. Return a
+result without calling `next` to short-circuit: the framework applies command
+metadata, logs it, and throws `CommandException` for a nonzero exit code when
+`ThrowOnNonZeroExitCode` is enabled. The execution timeout starts before the
+interceptors run and cannot be changed by them.
 
 ## Use the in-memory filesystem
 
