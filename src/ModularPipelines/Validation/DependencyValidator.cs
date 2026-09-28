@@ -16,7 +16,7 @@ internal class DependencyValidator : IDependencyValidator
     public int Order => 200;
 
     /// <inheritdoc />
-    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var result = ValidateDependencies(services, services.GetServices<IModule>());
         if (!result.HasErrors)

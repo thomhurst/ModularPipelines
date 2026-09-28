@@ -17,7 +17,7 @@ internal class OptionsValidator : IOptionsValidator
     public int Order => 100;
 
     /// <inheritdoc />
-    public Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var pipelineOptions = services.GetService<IOptions<PipelineOptions>>()?.Value;
         var result = pipelineOptions is null

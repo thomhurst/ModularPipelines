@@ -18,31 +18,61 @@ internal class RequirementChecker : IRequirementChecker
 
     public async Task CheckRequirementsAsync(CancellationToken cancellationToken)
     {
-        var failedRequirementsNames = new ConcurrentBag<string>();
+        var failures = new ConcurrentBag<RequirementFailure>();
 
         var groupedRequirements = _requirements
-            .GroupBy(x => x.Order)
-            .OrderBy(group => group.Key);
+            .Select(static (requirement, index) => (Requirement: requirement, Index: index))
+            .GroupBy(static entry => entry.Requirement.Order)
+            .OrderBy(static group => group.Key);
 
+        // Every requirement is evaluated, so all failures, including requirements that throw,
+        // are reported together.
         foreach (var pipelineRequirements in groupedRequirements)
         {
             await pipelineRequirements.ToAsyncProcessorBuilder()
-                .ForEachAsync(async requirement =>
+                .ForEachAsync(async entry =>
                 {
-                    var requirementDecision = await requirement
-                        .EvaluateAsync(_moduleContextProvider.GetModuleContext(), cancellationToken)
-                        .ConfigureAwait(false);
-
-                    if (!requirementDecision.IsSatisfied)
+                    var requirement = entry.Requirement;
+                    try
                     {
-                        failedRequirementsNames.Add(requirementDecision.Reason ?? requirement.GetType().Name);
+                        var requirementDecision = await requirement
+                            .EvaluateAsync(_moduleContextProvider.GetModuleContext(), cancellationToken)
+                            .ConfigureAwait(false);
+
+                        if (!requirementDecision.IsSatisfied)
+                        {
+                            failures.Add(new RequirementFailure(
+                                entry.Index,
+                                requirementDecision.Reason ?? requirement.GetType().Name,
+                                Exception: null));
+                        }
                     }
-                }).ProcessInParallel();
+                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (Exception exception)
+                    {
+                        failures.Add(new RequirementFailure(
+                            entry.Index,
+                            $"{requirement.GetType().Name} threw {exception.GetType().Name}: {exception.Message}",
+                            exception));
+                    }
+                })
+                .ProcessInParallel();
         }
 
-        if (!failedRequirementsNames.IsEmpty)
+        if (!failures.IsEmpty)
         {
-            throw new RequirementNotMetException($"Requirements failed:\r\n{string.Join("\r\n", failedRequirementsNames)}");
+            var orderedFailures = failures.OrderBy(static failure => failure.Index).ToArray();
+            throw new RequirementNotMetException(
+                $"Requirements failed:{Environment.NewLine}"
+                + string.Join(Environment.NewLine, orderedFailures.Select(static failure => failure.Reason)),
+                orderedFailures
+                    .Select(static failure => failure.Exception)
+                    .OfType<Exception>());
         }
     }
+
+    private readonly record struct RequirementFailure(int Index, string Reason, Exception? Exception);
 }

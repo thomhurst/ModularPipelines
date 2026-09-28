@@ -13,7 +13,7 @@ public class ValidationInterfaceTests
     {
         public int Order => 0;
 
-        public Task<ValidationResult> ValidateAsync(IServiceProvider services) =>
+        public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken) =>
             Task.FromResult(ValidationResult.Success());
     }
 

@@ -217,6 +217,7 @@ public static class Require
     /// <summary>
     /// Creates a requirement that the pipeline is running in a CI environment.
     /// </summary>
+    /// <remarks>Uses <see cref="IBuildSystemContext.IsBuildServer"/>.</remarks>
     /// <param name="failureReason">Optional custom failure message. Defaults to a standard message.</param>
     /// <param name="order">The evaluation order. Lower values are evaluated first. Default is 0.</param>
     /// <returns>A pipeline requirement that checks for CI environment.</returns>
@@ -230,20 +231,14 @@ public static class Require
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            ctx =>
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("CI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("TF_BUILD")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITHUB_ACTIONS")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITLAB_CI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("CIRCLECI")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("JENKINS_URL")) ||
-                !string.IsNullOrEmpty(ctx.Environment.Variables.Get("TEAMCITY_VERSION")),
+            ctx => ctx.Environment.BuildSystem.IsBuildServer,
             failureReason ?? "This pipeline must run in a CI environment",
             order);
 
     /// <summary>
     /// Creates a requirement that the pipeline is NOT running in a CI environment (i.e., running locally).
     /// </summary>
+    /// <remarks>Uses <see cref="IBuildSystemContext.IsBuildServer"/>.</remarks>
     /// <param name="failureReason">Optional custom failure message. Defaults to a standard message.</param>
     /// <param name="order">The evaluation order. Lower values are evaluated first. Default is 0.</param>
     /// <returns>A pipeline requirement that checks for local environment.</returns>
@@ -257,14 +252,7 @@ public static class Require
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            ctx =>
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("CI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("TF_BUILD")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITHUB_ACTIONS")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("GITLAB_CI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("CIRCLECI")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("JENKINS_URL")) &&
-                string.IsNullOrEmpty(ctx.Environment.Variables.Get("TEAMCITY_VERSION")),
+            ctx => !ctx.Environment.BuildSystem.IsBuildServer,
             failureReason ?? "This pipeline must run locally (not in CI)",
             order);
 

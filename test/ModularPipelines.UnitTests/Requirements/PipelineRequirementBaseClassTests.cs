@@ -167,5 +167,8 @@ public class PipelineRequirementBaseClassTests
     private class CustomOrderRequirement : PipelineRequirement
     {
         public override int Order => 10;
+
+        public override Task<RequirementDecision> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
+            => Task.FromResult(Pass());
     }
 }

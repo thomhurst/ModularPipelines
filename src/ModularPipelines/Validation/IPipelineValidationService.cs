@@ -13,6 +13,7 @@ internal interface IPipelineValidationService
     /// Validates the pipeline configuration using all registered validators.
     /// </summary>
     /// <param name="services">The service provider containing registered services.</param>
+    /// <param name="cancellationToken">A token that cancels validation.</param>
     /// <returns>A validation result containing all errors found.</returns>
-    Task<ValidationResult> ValidateAsync(IServiceProvider services);
+    Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken);
 }
