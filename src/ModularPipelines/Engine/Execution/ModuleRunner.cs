@@ -1263,10 +1263,20 @@ internal class ModuleRunner : IModuleRunner
         if (GeneratedModuleMetadata.TryGetRuntime(moduleState.ModuleType, out var runtime))
         {
             runtime.SetCompletionSource(moduleState.Module, result);
-            return;
+        }
+        else
+        {
+            CompletionSourceSetterCache.GetOrCreate(moduleState.Module.ResultType)(moduleState.Module, result);
         }
 
-        CompletionSourceSetterCache.GetOrCreate(moduleState.Module.ResultType)(moduleState.Module, result);
+        // An execution backend may complete the module's awaitable first, for example when a
+        // distributed coordinator stops collecting a module it is still running locally during
+        // cancellation. The awaitable's first result wins, so keep the registry consistent with it.
+        var resultTask = moduleState.Module.AsInternal().ResultTask;
+        if (resultTask.IsCompletedSuccessfully && !ReferenceEquals(resultTask.Result, result))
+        {
+            _resultRegistry.RegisterResult(moduleState.ModuleType, resultTask.Result);
+        }
     }
 
     private static IModuleResult CreateFailureResult(
