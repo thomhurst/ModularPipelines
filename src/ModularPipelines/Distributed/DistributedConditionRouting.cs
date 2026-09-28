@@ -4,6 +4,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Modules;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.Distributed;
 
@@ -13,9 +14,9 @@ internal sealed class DistributedConditionRouting(
 {
     private readonly DistributedOptions _options = options.Value;
     private readonly RoleDetector _roleDetector = roleDetector;
-    private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = new();
-    private readonly ConditionalWeakTable<IModule, StrongBox<FormulaValue>> _preparedConditionValues = new();
-    private readonly ConditionalWeakTable<IModule, object> _preparedModules = new();
+    private readonly ConditionalWeakTable<IModule, HashSet<Type>> _locallySatisfiedGroups = [];
+    private readonly ConditionalWeakTable<IModule, StrongBox<FormulaValue>> _preparedConditionValues = [];
+    private readonly ConditionalWeakTable<IModule, object> _preparedModules = [];
 
     public bool IsMaster => IsDistributedExecution
                             && _roleDetector.DetectRole() == DistributedRole.Master;
@@ -102,10 +103,8 @@ internal sealed class DistributedConditionRouting(
 
         var groupsByName = module.GetType()
             .GetCustomAttributes(inherit: true)
-            .OfType<IConditionAttribute>()
-            .Select(static attribute => attribute is IGroupedConditionAttribute groupedAttribute
-                ? groupedAttribute.ConditionGroupType
-                : attribute.GetType())
+            .OfType<RunConditionAttribute>()
+            .Select(static attribute => attribute.GroupKey ?? attribute.GetType())
             .Distinct()
             .ToDictionary(GetGroupName, StringComparer.Ordinal);
         foreach (var groupName in groupNames)
@@ -117,6 +116,7 @@ internal sealed class DistributedConditionRouting(
         }
     }
 
-    private static string GetGroupName(Type groupType) =>
-        groupType.AssemblyQualifiedName ?? groupType.FullName ?? groupType.Name;
+    // Version-independent so a master and worker built from different package versions of the
+    // same pipeline still agree on group names.
+    private static string GetGroupName(Type groupType) => StableTypeName.Get(groupType);
 }

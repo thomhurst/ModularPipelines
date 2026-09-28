@@ -11,6 +11,10 @@ public interface IModuleReadyHandler : IEventHandler
     /// Called when the module is ready to execute.
     /// </summary>
     /// <param name="context">The module hook context.</param>
+    /// <param name="cancellationToken">A token cancelled when the module's execution is cancelled.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task OnModuleReadyAsync(IModuleHookContext context);
+    /// <remarks>
+    /// A handler failure fails the module unless <see cref="IEventHandler.ContinueOnError"/> is set.
+    /// </remarks>
+    Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken);
 }

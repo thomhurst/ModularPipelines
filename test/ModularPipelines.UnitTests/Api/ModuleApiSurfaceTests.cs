@@ -8,6 +8,8 @@ public class ModuleApiSurfaceTests
 {
     private sealed class DirectModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration => ModuleConfiguration.Default;
@@ -54,41 +56,40 @@ public class ModuleApiSurfaceTests
                 .IsEqualTo(typeof(Task<IReadOnlyList<IModuleResult>>));
             await Assert.That(executeMethod.GetParameters().Select(parameter => parameter.ParameterType))
                 .IsEquivalentTo([
-                    typeof(IReadOnlyList<IModule>),
-                    typeof(IReadOnlyDictionary<Type, TimeSpan>),
-                    typeof(IExecutionBackendContext),
+                    typeof(ExecutionBackendRequest),
                     typeof(CancellationToken),
                 ]);
+            await Assert.That(typeof(ExecutionBackendRequest).GetProperty(nameof(ExecutionBackendRequest.EstimatedDurations))!.PropertyType)
+                .IsEqualTo(typeof(IReadOnlyDictionary<ModularPipelines.Distributed.ModuleId, TimeSpan>));
         }
     }
 
     [Test]
-    public async Task DirectIModuleImplementationsFailAtRegistrationWithGuidance()
+    public async Task IModuleCannotBeImplementedOutsideTheAssembly()
+    {
+        var hiddenAbstractMembers = typeof(IModule)
+            .GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .Where(method => method.IsAbstract && method.IsAssembly)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(hiddenAbstractMembers).IsNotEmpty();
+            await Assert.That(typeof(IInternalModule).IsAssignableFrom(typeof(Module<string>))).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task RuntimeTypeRegistrationOfNonModuleTypesFailsWithGuidance()
     {
         var builder = Pipeline.CreateBuilder();
 
-        var genericException = Assert.Throws<InvalidOperationException>(
-            () => builder.AddModule<DirectModule>());
-        var instanceException = Assert.Throws<InvalidOperationException>(
-            () => builder.AddModule(new DirectModule()));
-        var factoryException = Assert.Throws<InvalidOperationException>(
-            () => builder.AddModule<DirectModule>(_ => new DirectModule()));
         var runtimeException = Assert.Throws<InvalidOperationException>(
             () => builder.AddModules(typeof(DirectModule)));
         var assemblyScanException = Assert.Throws<InvalidOperationException>(
             () => builder.AddModulesFromAssembly(typeof(DirectModule).Assembly));
-        var executionException = Assert.Throws<InvalidOperationException>(
-            () => new DirectModule().AsInternal());
 
-        foreach (var exception in new[]
-                 {
-                     genericException,
-                     instanceException,
-                     factoryException,
-                     runtimeException,
-                     assemblyScanException,
-                     executionException,
-                 })
+        foreach (var exception in new[] { runtimeException, assemblyScanException })
         {
             await Assert.That(exception.Message).Contains("must derive from Module<T> or SyncModule<T>");
         }

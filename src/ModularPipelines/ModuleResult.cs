@@ -62,10 +62,10 @@ public abstract record ModuleResult : IModuleResult
     public string? TypeName { get; init; }
 
     /// <summary>
-    /// Gets the distributed worker index that produced this result, when known.
+    /// Gets the distributed worker that produced this result, when known.
     /// </summary>
     [JsonIgnore]
-    public int? WorkerIndex { get; internal init; }
+    public Distributed.WorkerId? WorkerId { get; internal init; }
 
     // === Safe accessors (no exceptions) ===
 
@@ -393,7 +393,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = failure.EndTime,
             Status = failure.Status,
             ModuleType = failure.ModuleType,
-            WorkerIndex = failure.WorkerIndex,
+            WorkerId = failure.WorkerId,
         };
 
     /// <summary>
@@ -410,7 +410,7 @@ public abstract record ModuleResult<T> : ModuleResult
             EndTime = skipped.EndTime,
             Status = skipped.Status,
             ModuleType = skipped.ModuleType,
-            WorkerIndex = skipped.WorkerIndex,
+            WorkerId = skipped.WorkerId,
         };
 
     // === Internal factory methods ===
@@ -468,164 +468,6 @@ public abstract record ModuleResult<T> : ModuleResult
     // Prevent external inheritance - only Success, Failure, and Skipped are valid
     private protected ModuleResult()
     {
-    }
-}
-
-/// <summary>
-/// JSON converter for Exception objects. Serializes essential exception data
-/// and deserializes unknown types to a wrapper preserving their diagnostics.
-/// </summary>
-/// <remarks>
-/// <para><strong>Security Considerations:</strong></para>
-/// <para>
-/// This converter intentionally serializes limited exception information:
-/// </para>
-/// <list type="bullet">
-/// <item><description>
-/// <strong>Type:</strong> Only the full type name (not AssemblyQualifiedName) is serialized
-/// to avoid leaking internal assembly version and culture information.
-/// </description></item>
-/// <item><description>
-/// <strong>Message:</strong> Exception messages may contain sensitive data (file paths,
-/// user input, etc.). Consumers should sanitize exception messages before serialization
-/// if they may contain sensitive information.
-/// </description></item>
-/// <item><description>
-/// <strong>StackTrace:</strong> Stack traces may reveal internal file paths and code structure.
-/// Consider whether this is acceptable for your use case. For production logging to external
-/// systems, you may want to omit or truncate stack traces.
-/// </description></item>
-/// </list>
-/// <para>
-/// On deserialization, only well-known exception types from the System namespace are
-/// reconstructed. Unknown types become <see cref="RemoteModuleException"/> instances to
-/// prevent type injection while retaining their original diagnostics.
-/// </para>
-/// </remarks>
-internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
-{
-    public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        if (reader.TokenType == JsonTokenType.Null)
-        {
-            return null;
-        }
-
-        var (typeName, message, stackTrace) = ReadExceptionData(ref reader);
-        return CreateException(typeName, message, stackTrace);
-    }
-
-    private static (string? TypeName, string? Message, string? StackTrace) ReadExceptionData(
-        ref Utf8JsonReader reader)
-    {
-        string? typeName = null;
-        string? message = null;
-        string? stackTrace = null;
-        while (reader.Read())
-        {
-            if (reader.TokenType == JsonTokenType.EndObject)
-            {
-                break;
-            }
-
-            if (reader.TokenType == JsonTokenType.PropertyName)
-            {
-                var propertyName = reader.GetString();
-                reader.Read();
-
-                switch (propertyName)
-                {
-                    case "Type":
-                        typeName = reader.GetString();
-                        break;
-                    case "Message":
-                        message = reader.GetString();
-                        break;
-                    case "StackTrace":
-                        stackTrace = reader.TokenType == JsonTokenType.Null
-                            ? null
-                            : reader.GetString();
-                        break;
-                }
-            }
-        }
-
-        return (typeName, message, stackTrace);
-    }
-
-    private static Exception CreateException(string? typeName, string? message, string? stackTrace)
-    {
-        var systemException = TryCreateSystemException(typeName, message);
-        if (systemException is not null)
-        {
-            return RestoreRemoteStackTrace(systemException, stackTrace);
-        }
-
-        return typeName is null
-            ? RestoreRemoteStackTrace(
-                new Exception(message ?? "Deserialized exception"),
-                stackTrace)
-            : new RemoteModuleException(
-                typeName,
-                message ?? "Deserialized exception",
-                stackTrace);
-    }
-
-    private static Exception RestoreRemoteStackTrace(Exception exception, string? stackTrace)
-    {
-        if (!string.IsNullOrEmpty(stackTrace))
-        {
-            ExceptionDispatchInfo.SetRemoteStackTrace(exception, stackTrace);
-        }
-
-        return exception;
-    }
-
-    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "Exception types are validated against the System namespace before activation.")]
-    private static Exception? TryCreateSystemException(string? typeName, string? message)
-    {
-        // Try to reconstruct the original exception type if possible
-        // Security: Only allow well-known exception types from System namespace
-        if (typeName != null)
-        {
-            var exceptionType = Type.GetType(typeName);
-            if (exceptionType != null &&
-                typeof(Exception).IsAssignableFrom(exceptionType) &&
-                (exceptionType.Namespace?.StartsWith("System", StringComparison.Ordinal) == true))
-            {
-                try
-                {
-                    if (Activator.CreateInstance(exceptionType, message) is Exception ex)
-                    {
-                        return ex;
-                    }
-                }
-                catch
-                {
-                    // Fall through to default
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
-    {
-        writer.WriteStartObject();
-
-        // Security: Use FullName instead of AssemblyQualifiedName to avoid leaking
-        // assembly version, culture, and public key token information
-        var remoteException = value as RemoteModuleException;
-        var typeName = remoteException?.OriginalExceptionType ?? value.GetType().FullName;
-        var message = remoteException?.OriginalMessage ?? value.Message;
-        var stackTrace = remoteException?.RemoteStackTrace ?? value.StackTrace;
-
-        writer.WriteString("Type", typeName);
-        writer.WriteString("Message", message);
-        writer.WriteString("StackTrace", stackTrace);
-
-        writer.WriteEndObject();
     }
 }
 

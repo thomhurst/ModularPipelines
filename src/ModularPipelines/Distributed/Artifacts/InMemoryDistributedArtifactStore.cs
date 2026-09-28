@@ -14,17 +14,19 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
     {
         using var ms = new MemoryStream();
-        await data.CopyToAsync(ms, cancellationToken);
+        await data.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
         var bytes = ms.ToArray();
 
         var artifactId = Guid.NewGuid().ToString("N");
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: bytes.Length,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = bytes.Length,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         _artifacts[artifactId] = (reference, bytes);
 
@@ -65,10 +67,9 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
         List<ArtifactReference> references;
         lock (artifactIds)
         {
-            references = artifactIds
+            references = [.. artifactIds
                 .Where(id => _artifacts.ContainsKey(id))
-                .Select(id => _artifacts[id].Reference)
-                .ToList();
+                .Select(id => _artifacts[id].Reference)];
         }
 
         return Task.FromResult<IReadOnlyList<ArtifactReference>>(references);

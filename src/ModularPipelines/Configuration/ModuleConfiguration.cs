@@ -58,11 +58,11 @@ public sealed class ModuleConfiguration
     /// Gets the condition that determines whether a failure should be ignored.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IModuleContext"/> and an <see cref="Exception"/>,
-    /// returning a <see cref="ValueTask{Boolean}"/> indicating whether to ignore the failure,
-    /// or null if failures should not be ignored.
+    /// A function that takes an <see cref="IModuleContext"/>, an <see cref="Exception"/>, and the module's
+    /// <see cref="CancellationToken"/>, returning a <see cref="ValueTask{Boolean}"/> indicating whether to
+    /// ignore the failure, or null if failures should not be ignored.
     /// </value>
-    public Func<IModuleContext, Exception, ValueTask<bool>>? IgnoreFailuresCondition { get; init; }
+    public Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>? IgnoreFailuresCondition { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether this module should always run,

@@ -51,7 +51,7 @@ public class RedisKeyBuilderTests
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.WorkerHeartbeatField(7)).IsEqualTo("heartbeat:7");
+        await Assert.That(builder.WorkerHeartbeatField(new WorkerId("instance-7"))).IsEqualTo("heartbeat:instance-7");
     }
 
     [Test]
@@ -98,13 +98,14 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
-    public async Task AllStorageKeys_ContainsAllNonChannelKeys()
+    public async Task CoordinationKeys_ContainsAllNonChannelKeys()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        var allKeys = builder.AllStorageKeys.ToList();
+        var allKeys = builder.CoordinationKeys.ToList();
 
         await Assert.That(allKeys).Contains(builder.WorkQueue);
+        await Assert.That(allKeys).Contains(builder.Leases);
         await Assert.That(allKeys).Contains(builder.Results);
         await Assert.That(allKeys).Contains(builder.Workers);
         await Assert.That(allKeys).Contains(builder.WorkerStatuses);
@@ -113,12 +114,12 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
-    public async Task AllStorageKeys_HasExpectedCount()
+    public async Task CoordinationKeys_HasExpectedCount()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        var allKeys = builder.AllStorageKeys.ToList();
+        var allKeys = builder.CoordinationKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(6);
+        await Assert.That(allKeys).Count().IsEqualTo(7);
     }
 }

@@ -21,11 +21,11 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         _logger = scope.ServiceProvider.GetRequiredService<IModuleLoggerAccessor>().Logger;
     }
 
-    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken = default)
     {
         try
         {
-            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
+            return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -34,11 +34,11 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         }
     }
 
-    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default)
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration).ConfigureAwait(false);
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -46,12 +46,14 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         }
     }
 
-    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
+    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(
+        Type moduleType,
+        CancellationToken cancellationToken = default)
     {
         try
         {
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
-            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
+            return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType, cancellationToken).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
@@ -60,11 +62,14 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         }
     }
 
-    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
+    public async Task SaveSubModuleTimeAsync(
+        Type moduleType,
+        SubModuleEstimation subModuleEstimation,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation).ConfigureAwait(false);
+            await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {

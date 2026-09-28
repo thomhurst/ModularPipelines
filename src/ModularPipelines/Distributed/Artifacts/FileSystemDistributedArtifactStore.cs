@@ -22,24 +22,27 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
         var path = Path.Combine(_root.Value, artifactId);
         try
         {
-            await using (var file = new FileStream(
-                             path,
-                             FileMode.CreateNew,
-                             FileAccess.Write,
-                             FileShare.None,
-                             bufferSize: 81920,
-                             FileOptions.Asynchronous | FileOptions.SequentialScan))
+            var file = new FileStream(
+                path,
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.None,
+                bufferSize: 81920,
+                FileOptions.Asynchronous | FileOptions.SequentialScan);
+            await using (file.ConfigureAwait(false))
             {
                 await data.CopyToAsync(file, cancellationToken).ConfigureAwait(false);
             }
 
-            var reference = new ArtifactReference(
-                ArtifactId: artifactId,
-                Name: descriptor.Name,
-                ModuleId: descriptor.ModuleId,
-                SizeBytes: new FileInfo(path).Length,
-                ContentType: descriptor.ContentType,
-                UploadedAt: DateTimeOffset.UtcNow);
+            var reference = new ArtifactReference
+            {
+                ArtifactId = artifactId,
+                Name = descriptor.Name,
+                ModuleId = descriptor.ModuleId,
+                SizeBytes = new FileInfo(path).Length,
+                ContentType = descriptor.ContentType,
+                UploadedAt = DateTimeOffset.UtcNow,
+            };
             _artifacts[artifactId] = (reference, path);
             _moduleIndex.AddOrUpdate(
                 descriptor.ModuleId,

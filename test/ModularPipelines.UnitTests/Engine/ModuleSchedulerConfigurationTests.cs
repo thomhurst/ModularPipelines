@@ -20,6 +20,8 @@ public class ModuleSchedulerConfigurationTests
     [ExecutionHint(ExecutionHint.IoBound)]
     private sealed class DirectAttributedModule : IModule
     {
+        IInternalModule IModule.AsInternalModule() => throw new NotSupportedException();
+
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;

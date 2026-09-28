@@ -17,7 +17,7 @@ internal class OptionsValidator : IOptionsValidator
     public int Order => 100;
 
     /// <inheritdoc />
-    public Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var pipelineOptions = services.GetService<IOptions<PipelineOptions>>()?.Value;
         var result = pipelineOptions is null
@@ -29,6 +29,15 @@ internal class OptionsValidator : IOptionsValidator
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
                 $"Distributed.MaxParallelism must be at least 1. Current value: {distributedOptions.MaxParallelism}"));
+        }
+
+        if (distributedOptions is not null)
+        {
+            foreach (var failure in Distributed.Configuration.DistributedOptionsValidator.Validate(distributedOptions)
+                         .Where(static failure => !failure.StartsWith("Distributed.MaxParallelism", StringComparison.Ordinal)))
+            {
+                result.AddError(new ValidationError(ValidationErrorCategory.Options, failure));
+            }
         }
 
         return Task.FromResult(result);

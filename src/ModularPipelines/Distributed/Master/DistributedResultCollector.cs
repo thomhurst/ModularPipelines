@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
@@ -10,7 +11,8 @@ internal class DistributedResultCollector(
     ModuleResultSerializer serializer,
     ICommandExecutionCounter? commandExecutionCounter = null,
     IOptions<DistributedOptions>? distributedOptions = null,
-    DistributedTelemetryTracker? telemetryTracker = null)
+    DistributedTelemetryTracker? telemetryTracker = null,
+    AcceptedArtifactRegistry? acceptedArtifacts = null)
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleResultSerializer _serializer = serializer;
@@ -23,15 +25,16 @@ internal class DistributedResultCollector(
         var serialized = await _coordinator.WaitForResultAsync(moduleId, cancellationToken)
             .ConfigureAwait(false);
         var receivedAt = DateTimeOffset.UtcNow;
+        acceptedArtifacts?.Record(serialized);
         var result = _serializer.Deserialize(serialized);
         if (result is ModuleResult { ModuleType: { } moduleType })
         {
             _telemetryTracker?.RecordResult(serialized, receivedAt, ModuleTypeIdentifier.Get(moduleType));
-            if (serialized.WorkerIndex != _distributedOptions?.Value.InstanceIndex)
+            if (serialized.WorkerId != _distributedOptions?.Value.LocalWorkerId)
             {
                 _commandExecutionCounter?.AddRemote(
                     moduleType,
-                    serialized.WorkerIndex,
+                    serialized.WorkerId,
                     serialized.CommandCount);
             }
         }

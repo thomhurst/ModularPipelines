@@ -31,7 +31,7 @@ namespace ModularPipelines.Requirements;
 /// </code>
 /// </remarks>
 /// <seealso cref="Require"/>
-public sealed class DelegateRequirement : IPipelineRequirement
+internal sealed class DelegateRequirement : IPipelineRequirement
 {
     private readonly Func<IPipelineContext, CancellationToken, Task<bool>> _evaluator;
     private readonly string _failureReason;

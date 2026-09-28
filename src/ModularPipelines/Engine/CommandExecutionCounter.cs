@@ -5,7 +5,7 @@ namespace ModularPipelines.Engine;
 internal sealed class CommandExecutionCounter : ICommandExecutionCounter
 {
     private readonly ConcurrentDictionary<Type, int> _counts = new();
-    private readonly ConcurrentDictionary<(int WorkerIndex, Type ModuleType), int> _remoteCounts = new();
+    private readonly ConcurrentDictionary<(Distributed.WorkerId WorkerId, Type ModuleType), int> _remoteCounts = new();
     private int _totalCount;
     private int _unattributedCount;
 
@@ -32,7 +32,7 @@ internal sealed class CommandExecutionCounter : ICommandExecutionCounter
         _counts.AddOrUpdate(moduleType, count, (_, currentCount) => currentCount + count);
     }
 
-    public void AddRemote(Type moduleType, int workerIndex, int count)
+    public void AddRemote(Type moduleType, Distributed.WorkerId workerId, int count)
     {
         if (count <= 0)
         {
@@ -41,7 +41,7 @@ internal sealed class CommandExecutionCounter : ICommandExecutionCounter
 
         Add(moduleType, count);
         _remoteCounts.AddOrUpdate(
-            (workerIndex, moduleType),
+            (workerId, moduleType),
             count,
             (_, currentCount) => currentCount + count);
     }
@@ -51,6 +51,6 @@ internal sealed class CommandExecutionCounter : ICommandExecutionCounter
     public IReadOnlyDictionary<Type, int> GetModuleCounts() =>
         _counts.ToDictionary();
 
-    public IReadOnlyDictionary<(int WorkerIndex, Type ModuleType), int> GetRemoteModuleCounts() =>
+    public IReadOnlyDictionary<(Distributed.WorkerId WorkerId, Type ModuleType), int> GetRemoteModuleCounts() =>
         _remoteCounts.ToDictionary();
 }

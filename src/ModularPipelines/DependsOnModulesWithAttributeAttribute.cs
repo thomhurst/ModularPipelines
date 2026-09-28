@@ -12,8 +12,8 @@ namespace ModularPipelines;
 /// public class AfterCriticalModule : Module&lt;string&gt; { }
 /// </code>
 /// </example>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class DependsOnModulesWithAttributeAttribute<TAttribute> : PlanningSafeDependsOnBaseAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
+public sealed class DependsOnModulesWithAttributeAttribute<TAttribute> : DependsOnBaseAttribute, IPlanningSafe
     where TAttribute : Attribute
 {
     /// <inheritdoc />

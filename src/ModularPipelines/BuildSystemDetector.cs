@@ -18,6 +18,8 @@ namespace ModularPipelines;
 /// - Bitbucket: BITBUCKET_BUILD_NUMBER
 /// - Travis CI: TRAVIS
 /// - AppVeyor: APPVEYOR.
+/// When no known build system is detected, a <c>CI</c> environment variable set to any value other than
+/// <c>false</c> or <c>0</c> still marks the pipeline as running on a build server.
 /// </remarks>
 /// <example>
 /// <code>
@@ -57,7 +59,17 @@ internal class BuildSystemDetector : IBuildSystemDetector
 
     public string? MatchedEnvironmentVariable => _detection.Value.EnvironmentVariable;
 
+    public bool IsBuildServer => Current != BuildSystem.Unknown || IsTruthy(_environmentVariables.Get("CI"));
+
     public BuildSystem GetCurrentBuildSystem() => Current;
+
+    internal static bool IsTruthy(string? value)
+    {
+        var trimmed = value?.Trim();
+        return !string.IsNullOrEmpty(trimmed)
+               && !string.Equals(trimmed, "false", StringComparison.OrdinalIgnoreCase)
+               && !string.Equals(trimmed, "0", StringComparison.Ordinal);
+    }
 
     private DetectionResult DetectCurrentBuildSystem()
     {

@@ -34,6 +34,36 @@ public class RequirementCheckerTests
         await Assert.That(actualOrder[2]).IsEqualTo(20);
     }
 
+    [Test]
+    public async Task Throwing_Requirement_Is_Reported_With_Other_Failures()
+    {
+        var thrown = new InvalidOperationException("probe crashed");
+        IPipelineRequirement[] requirements =
+        [
+            Require.That(_ => throw thrown, "unused"),
+            Require.That(_ => false, "tool missing"),
+            Require.That(_ => true, "never reported"),
+        ];
+        var contextProvider = new Mock<IPipelineContextProvider>();
+        contextProvider
+            .Setup(provider => provider.GetModuleContext())
+            .Returns(Mock.Of<IPipelineContext>());
+        var checker = new RequirementChecker(requirements, contextProvider.Object);
+
+        var exception = await Assert.ThrowsAsync<ModularPipelines.Exceptions.RequirementNotMetException>(() =>
+            checker.CheckRequirementsAsync(CancellationToken.None));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("probe crashed");
+            await Assert.That(exception.Message).Contains("tool missing");
+            await Assert.That(exception.Message).DoesNotContain("never reported");
+            await Assert.That(exception.InnerExceptions).HasSingleItem();
+            await Assert.That(exception.InnerExceptions[0]).IsSameReferenceAs(thrown);
+            await Assert.That(exception.InnerException).IsSameReferenceAs(thrown);
+        }
+    }
+
     private sealed class RecordingRequirement(
         int order,
         ConcurrentQueue<int> executionOrder) : IPipelineRequirement

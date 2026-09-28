@@ -184,7 +184,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<bool> CanPrepareSkipConditionRoutingAsync(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
@@ -206,7 +206,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<bool> CanPrepareRequiredConditionRoutingAsync(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
@@ -415,96 +415,71 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static ConditionAttributes CreateConditionAttributes(Type moduleType)
     {
         var attributes = moduleType.GetCustomAttributes(inherit: true);
-        var conditionAttributes = attributes.OfType<IConditionAttribute>().ToArray();
-
-        return new ConditionAttributes(
-            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
-            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
-            conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray());
+        return Partition(attributes.OfType<RunConditionAttribute>().ToArray());
     }
+
+    /// <summary>
+    /// Splits condition attributes into skip attributes, run requirements that must each hold, and run
+    /// attributes evaluated as alternatives: grouped attributes and the built-in any-of attributes.
+    /// </summary>
+    private static ConditionAttributes Partition(
+        RunConditionAttribute[] attributes,
+        bool hasDeferredSkip = false,
+        bool hasDeferredAll = false,
+        bool hasDeferredAny = false,
+        bool hasDeferredGroupedAny = false) =>
+        new(
+            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Skip).ToArray(),
+            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && !IsAlternative(attribute)).ToArray(),
+            attributes.Where(static attribute => attribute.Intent == ConditionIntent.Run && IsAlternative(attribute)).ToArray(),
+            hasDeferredSkip,
+            hasDeferredAll,
+            hasDeferredAny,
+            hasDeferredGroupedAny);
+
+    private static bool IsAlternative(RunConditionAttribute attribute) =>
+        attribute.GroupKey is not null || attribute.Logic == ConditionLogic.Any;
 
     private static ConditionAttributes CreatePlanningConditionAttributes(Type moduleType)
     {
         var conditionData = CustomAttributeMetadata.GetApplicable(
             moduleType,
-            static type => typeof(IConditionAttribute).IsAssignableFrom(type));
+            static type => typeof(RunConditionAttribute).IsAssignableFrom(type));
         var planningAttributes = conditionData
             .Where(data => IsPlanningConditionAttribute(data.AttributeType))
-            .Select(CustomAttributeMetadata.Create<IConditionAttribute>)
+            .Select(CustomAttributeMetadata.Create<RunConditionAttribute>)
             .ToArray();
         var deferredTypes = conditionData
             .Select(static data => data.AttributeType)
             .Where(static type => !IsPlanningConditionAttribute(type))
             .ToArray();
 
-        return new ConditionAttributes(
-            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
-            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
-            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
-            HasDeferredCondition(deferredTypes, ConditionLogic.Skip),
-            HasDeferredCondition(deferredTypes, ConditionLogic.All),
-            HasDeferredCondition(deferredTypes, ConditionLogic.Any),
-            HasDeferredGroupedAnyCondition(deferredTypes));
+        // Deferred attributes are not constructed, so only built-in attributes reveal their intent and
+        // logic. Any other deferred attribute may skip, require, or be a grouped alternative.
+        return Partition(
+            planningAttributes,
+            deferredTypes.Any(static type => BuiltInConditionAttributes.GetIntent(type) is null or ConditionIntent.Skip),
+            deferredTypes.Any(static type => !BuiltInConditionAttributes.IsBuiltIn(type)
+                                             || BuiltInConditionAttributes.GetRunLogic(type) == ConditionLogic.All),
+            deferredTypes.Any(static type => !BuiltInConditionAttributes.IsBuiltIn(type)
+                                             || BuiltInConditionAttributes.GetRunLogic(type) == ConditionLogic.Any),
+            deferredTypes.Any(static type => !BuiltInConditionAttributes.IsBuiltIn(type)));
     }
 
-    private static bool HasDeferredCondition(
-        IEnumerable<Type> attributeTypes,
-        ConditionLogic logic) =>
-        attributeTypes.Any(type => GetConditionLogic(type) is not { } conditionLogic
-                                   || conditionLogic == logic);
-
-    private static bool HasDeferredGroupedAnyCondition(IEnumerable<Type> attributeTypes) =>
-        attributeTypes.Any(type =>
-            typeof(IGroupedConditionAttribute).IsAssignableFrom(type)
-            && (GetConditionLogic(type) is not { } logic || logic == ConditionLogic.Any));
-
-    private static ConditionLogic? GetConditionLogic(Type attributeType)
-    {
-        if (typeof(SkipIfAttribute).IsAssignableFrom(attributeType))
-        {
-            return ConditionLogic.Skip;
-        }
-
-        if (typeof(RunIfAttribute).IsAssignableFrom(attributeType)
-            || typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
-        {
-            return ConditionLogic.All;
-        }
-
-        return typeof(RunIfAnyAttribute).IsAssignableFrom(attributeType)
-            ? ConditionLogic.Any
-            : null;
-    }
-
-    internal static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+    internal static bool IsPlanningConditionAttribute(RunConditionAttribute attribute)
         => IsPlanningConditionAttribute(attribute.GetType());
 
     private static bool IsPlanningConditionAttribute(Type attributeType)
     {
-        if (typeof(IPlanningConditionAttribute).IsAssignableFrom(attributeType))
+        if (typeof(IPlanningSafe).IsAssignableFrom(attributeType))
         {
             return true;
         }
 
-        var conditionTypes = attributeType.GetGenericArguments();
-        return attributeType.IsGenericType
-               && IsBuiltInGenericConditionAttribute(attributeType.GetGenericTypeDefinition())
-               && conditionTypes.All(static type =>
-                   typeof(IPlanningRunCondition).IsAssignableFrom(type));
+        return BuiltInConditionAttributes.IsBuiltIn(attributeType)
+               && BuiltInConditionAttributes.GetConditionTypes(attributeType).All(static type =>
+                   typeof(IPlanningSafe).IsAssignableFrom(type));
     }
-
-    private static bool IsBuiltInGenericConditionAttribute(Type type) =>
-        type == typeof(RunIfAttribute<>)
-        || type == typeof(RunIfAllAttribute<,>)
-        || type == typeof(RunIfAllAttribute<,,>)
-        || type == typeof(RunIfAllAttribute<,,,>)
-        || type == typeof(RunIfAnyAttribute<,>)
-        || type == typeof(RunIfAnyAttribute<,,>)
-        || type == typeof(RunIfAnyAttribute<,,,>)
-        || type == typeof(SkipIfAttribute<>)
-        || type == typeof(SkipIfAttribute<,>)
-        || type == typeof(SkipIfAttribute<,,>)
-        || type == typeof(SkipIfAttribute<,,,>);
 
     private static async Task<PlanningConditionResult> EvaluatePlanningConditions(
         ConditionAttributes attributes,
@@ -552,7 +527,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<PlanningConditionEvaluation> EvaluateSkipPlanningConditions(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool hasDeferredConditions,
         CancellationToken cancellationToken)
@@ -579,7 +554,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<PlanningConditionEvaluation> EvaluateAllPlanningConditions(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
         bool hasDeferredConditions,
@@ -612,7 +587,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return new PlanningConditionEvaluation(
-                    PlanningSkip($"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied"),
+                    PlanningSkip($"RunIf<{attribute.ConditionNames}> not satisfied"),
                     IsResolved: true);
             }
         }
@@ -621,7 +596,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<PlanningConditionEvaluation> EvaluateAnyPlanningConditions(
-        IReadOnlyCollection<IConditionAttribute> attributes,
+        IReadOnlyCollection<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
         bool hasDeferredConditions,
@@ -630,7 +605,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         var isResolved = !hasDeferredConditions;
         foreach (var attribute in attributes.Where(static attribute =>
-                     attribute is not IGroupedConditionAttribute))
+                     attribute.GroupKey is null))
         {
             if (ShouldDeferCapabilityCondition(attribute, shouldDeferCapabilityConditions))
             {
@@ -659,16 +634,16 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         var evaluatedGroups = new HashSet<Type>();
-        foreach (var groupedAttribute in attributes.OfType<IGroupedConditionAttribute>())
+        foreach (var groupKey in attributes.Select(static attribute => attribute.GroupKey).OfType<Type>())
         {
-            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            if (!evaluatedGroups.Add(groupKey))
             {
                 continue;
             }
 
             var evaluation = await EvaluateGroupedPlanningConditions(
                     attributes,
-                    groupedAttribute.ConditionGroupType,
+                    groupKey,
                     pipelineContext,
                     shouldDeferCapabilityConditions,
                     hasDeferredGroupedConditions,
@@ -686,7 +661,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<PlanningConditionEvaluation> EvaluateSingleAnyPlanningCondition(
-        IConditionAttribute attribute,
+        RunConditionAttribute attribute,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
@@ -706,7 +681,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<PlanningConditionEvaluation> EvaluateGroupedPlanningConditions(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         Type groupType,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
@@ -714,8 +689,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         CancellationToken cancellationToken)
     {
         var alternatives = attributes
-            .OfType<IGroupedConditionAttribute>()
-            .Where(candidate => candidate.ConditionGroupType == groupType)
+            .Where(candidate => candidate.GroupKey == groupType)
             .ToArray();
         var planningAlternatives = alternatives
             .Where(attribute => !ShouldDeferCapabilityCondition(attribute, shouldDeferCapabilityConditions))
@@ -778,7 +752,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<SkipDecision?> EvaluateSkipConditions(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
@@ -796,7 +770,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<SkipDecision?> EvaluateAllConditions(
-        IEnumerable<IConditionAttribute> attributes,
+        IEnumerable<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
         CancellationToken cancellationToken)
@@ -818,18 +792,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             if (!await attribute.EvaluateAsync(pipelineContext, cancellationToken).ConfigureAwait(false))
             {
                 return SkipDecision.Skip(
-                    $"{GetRequiredConditionName(attribute)}<{attribute.ConditionNames}> not satisfied");
+                    $"RunIf<{attribute.ConditionNames}> not satisfied");
             }
         }
 
         return null;
     }
 
-    private static string GetRequiredConditionName(IConditionAttribute attribute) =>
-        attribute is RunIfAttribute ? "RunIf" : "RunIfAll";
-
     private static async Task<SkipDecision?> EvaluateAnyConditions(
-        IReadOnlyList<IConditionAttribute> attributes,
+        IReadOnlyList<RunConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
         CancellationToken cancellationToken,
@@ -842,7 +813,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (attribute is not IGroupedConditionAttribute groupedAttribute)
+            if (attribute.GroupKey is not { } groupKey)
             {
                 var skipDecision = await EvaluateUngroupedAnyCondition(
                         attribute,
@@ -860,19 +831,18 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 continue;
             }
 
-            if (!evaluatedGroups.Add(groupedAttribute.ConditionGroupType))
+            if (!evaluatedGroups.Add(groupKey))
             {
                 continue;
             }
 
-            if (isLocallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType) == true)
+            if (isLocallySatisfiedConditionGroup?.Invoke(groupKey) == true)
             {
                 continue;
             }
 
             var alternatives = attributes
-                .OfType<IGroupedConditionAttribute>()
-                .Where(candidate => candidate.ConditionGroupType == groupedAttribute.ConditionGroupType)
+                .Where(candidate => candidate.GroupKey == groupKey)
                 .ToArray();
 
             var localAlternatives = alternatives
@@ -887,7 +857,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             {
                 if (shouldDeferCapabilityConditions && localAlternatives.Length != alternatives.Length)
                 {
-                    locallySatisfiedConditionGroup?.Invoke(groupedAttribute.ConditionGroupType);
+                    locallySatisfiedConditionGroup?.Invoke(groupKey);
                 }
 
                 continue;
@@ -906,7 +876,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static async Task<SkipDecision?> EvaluateUngroupedAnyCondition(
-        IConditionAttribute attribute,
+        RunConditionAttribute attribute,
         IPipelineContext pipelineContext,
         bool shouldDeferCapabilityConditions,
         CancellationToken cancellationToken,
@@ -938,12 +908,12 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private static bool ShouldDeferCapabilityCondition(
-        IConditionAttribute attribute,
+        RunConditionAttribute attribute,
         bool shouldDeferCapabilityConditions) =>
         shouldDeferCapabilityConditions && CapabilityConditions.IsRoutable(attribute);
 
     private static async Task<bool> AnyConditionMatches(
-        IEnumerable<IGroupedConditionAttribute> alternatives,
+        IEnumerable<RunConditionAttribute> alternatives,
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken)
     {
@@ -996,9 +966,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     }
 
     private sealed record ConditionAttributes(
-        IConditionAttribute[] Skip,
-        IConditionAttribute[] All,
-        IConditionAttribute[] Any,
+        RunConditionAttribute[] Skip,
+        RunConditionAttribute[] All,
+        RunConditionAttribute[] Any,
         bool HasDeferredSkip = false,
         bool HasDeferredAll = false,
         bool HasDeferredAny = false,

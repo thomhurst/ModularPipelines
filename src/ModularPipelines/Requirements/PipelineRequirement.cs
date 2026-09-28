@@ -55,13 +55,9 @@ public abstract class PipelineRequirement : IPipelineRequirement
     public virtual int Order => 0;
 
     /// <inheritdoc />
-    public virtual Task<RequirementDecision> EvaluateAsync(
+    public abstract Task<RequirementDecision> EvaluateAsync(
         IPipelineContext context,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(Pass());
-    }
+        CancellationToken cancellationToken);
 
     /// <summary>
     /// Creates a passed requirement decision.

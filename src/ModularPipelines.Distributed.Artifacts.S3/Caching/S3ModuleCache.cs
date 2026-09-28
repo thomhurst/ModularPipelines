@@ -2,7 +2,6 @@ using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed.Artifacts.S3;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Caching;
@@ -11,41 +10,33 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Caching;
 /// Stores shareable module cache entries in S3 or an S3-compatible service.
 /// Cache keys are independent of distributed pipeline run identifiers.
 /// </summary>
-public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
+internal sealed class S3ModuleCache : IModuleCacheStore, IDisposable
 {
-    private readonly S3ArtifactOptions _options;
+    private readonly S3StorageOptions _options;
     private readonly long _maximumCacheEntryBytes;
     private readonly Lazy<IAmazonS3> _client;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="S3ModuleCache"/> class.
-    /// </summary>
-    public S3ModuleCache(S3ArtifactOptions options)
-        : this(options, new ModuleCacheOptions())
+    public S3ModuleCache(S3StorageOptions options, ModuleCacheOptions cacheOptions)
+        : this(options, cacheOptions, () => S3ClientFactory.Create(options))
     {
-    }
-
-    internal S3ModuleCache(S3ArtifactOptions options, ModuleCacheOptions cacheOptions)
-    {
-        ValidateOptions(options);
-        ValidateCacheOptions(cacheOptions);
-        _options = options;
-        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
-        _client = new Lazy<IAmazonS3>(() => S3ClientFactory.Create(options));
     }
 
     internal S3ModuleCache(
-        S3ArtifactOptions options,
+        S3StorageOptions options,
         IAmazonS3 client,
         ModuleCacheOptions? cacheOptions = null)
+        : this(options, cacheOptions ?? new ModuleCacheOptions(), () => client)
+    {
+        ArgumentNullException.ThrowIfNull(client);
+    }
+
+    private S3ModuleCache(S3StorageOptions options, ModuleCacheOptions cacheOptions, Func<IAmazonS3> createClient)
     {
         ValidateOptions(options);
-        ArgumentNullException.ThrowIfNull(client);
-        cacheOptions ??= new ModuleCacheOptions();
         ValidateCacheOptions(cacheOptions);
         _options = options;
         _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
-        _client = new Lazy<IAmazonS3>(() => client);
+        _client = new Lazy<IAmazonS3>(createClient);
     }
 
     /// <inheritdoc />
@@ -101,16 +92,42 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
         ModuleCacheFingerprint.Validate(fingerprint);
         ArgumentNullException.ThrowIfNull(content);
 
-        var request = new PutObjectRequest
-        {
-            BucketName = _options.BucketName,
-            Key = BuildObjectKey(fingerprint),
-            InputStream = content,
-            ContentType = "application/zip",
-            DisablePayloadSigning = true,
-        };
+        await S3ObjectUploader.UploadAsync(
+                _client.Value,
+                _options.BucketName,
+                BuildObjectKey(fingerprint),
+                content,
+                "application/zip",
+                metadata: null,
+                _options.MultipartPartSizeBytes,
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
 
-        await _client.Value.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
+    /// <inheritdoc />
+    public async Task<bool> ExistsAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        try
+        {
+            await _client.Value
+                .GetObjectMetadataAsync(_options.BucketName, BuildObjectKey(fingerprint), cancellationToken)
+                .ConfigureAwait(false);
+            return true;
+        }
+        catch (AmazonS3Exception exception) when (exception.StatusCode == HttpStatusCode.NotFound)
+        {
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task DeleteAsync(string fingerprint, CancellationToken cancellationToken)
+    {
+        ModuleCacheFingerprint.Validate(fingerprint);
+        await _client.Value
+            .DeleteObjectAsync(_options.BucketName, BuildObjectKey(fingerprint), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -123,7 +140,7 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     }
 
     private string BuildObjectKey(string fingerprint) =>
-        $"{_options.KeyPrefix.TrimEnd('/')}/module-cache/v1/{fingerprint.ToLowerInvariant()}.zip";
+        $"{_options.KeyPrefix.Trim('/')}/module-cache/v1/{fingerprint.ToLowerInvariant()}.zip";
 
     private async Task CopyResponseToAsync(
         Stream input,
@@ -155,7 +172,7 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     private InvalidDataException CreateEntryLimitException() =>
         new($"S3 module cache entry exceeded the configured limit of {_maximumCacheEntryBytes:N0} bytes.");
 
-    private static void ValidateOptions(S3ArtifactOptions options)
+    private static void ValidateOptions(S3StorageOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentException.ThrowIfNullOrWhiteSpace(options.BucketName);

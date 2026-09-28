@@ -42,17 +42,7 @@ public class RedisModuleCacheTests
         connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
             .Returns(_database.Object);
         _connection = connection.Object;
-        _cache = new RedisModuleCache(
-            _connection,
-            new RedisDistributedOptions
-            {
-                KeyPrefix = "custom-prefix",
-            },
-            new ArtifactOptions
-            {
-                ChunkSizeBytes = 3,
-                TimeToLive = TimeSpan.FromMinutes(1),
-            });
+        _cache = CreateCache(maximumCacheEntryBytes: new ModuleCacheOptions().MaximumCacheEntryBytes);
     }
 
     [Test]
@@ -72,7 +62,8 @@ public class RedisModuleCacheTests
             .Concat(transactionWrites)
             .Select(invocation => invocation.Arguments[0]!.ToString()!)
             .ToList();
-        var fingerprintPrefix = $"custom-prefix:module-cache:v1:{Fingerprint.ToLowerInvariant()}";
+        // The fingerprint is a hash tag, so all of an entry's keys map to one Redis Cluster slot.
+        var fingerprintPrefix = $"custom-prefix:module-cache:v2:{{{Fingerprint.ToLowerInvariant()}}}";
         var entryKeys = keys
             .Where(key => key.StartsWith($"{fingerprintPrefix}:entry:", StringComparison.Ordinal))
             .ToArray();
@@ -117,6 +108,52 @@ public class RedisModuleCacheTests
         using var destination = new MemoryStream();
         await result!.CopyToAsync(destination);
         await Assert.That(destination.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5 });
+    }
+
+    [Test]
+    public async Task DeleteRemovesMetadataThenCurrentGenerationChunks()
+    {
+        var generation = new string('b', 32);
+        var deletedKeys = new List<string>();
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:2:5");
+        _database.Setup(value => value.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Callback<RedisKey, CommandFlags>((key, _) => deletedKeys.Add(key.ToString()))
+            .ReturnsAsync(true);
+        _database.Setup(value => value.KeyDeleteAsync(It.IsAny<RedisKey[]>(), It.IsAny<CommandFlags>()))
+            .Callback<RedisKey[], CommandFlags>((keys, _) => deletedKeys.AddRange(keys.Select(key => key.ToString())))
+            .ReturnsAsync(2);
+
+        await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
+
+        var fingerprintPrefix = $"custom-prefix:module-cache:v2:{{{Fingerprint.ToLowerInvariant()}}}";
+        await Assert.That(deletedKeys).IsEquivalentTo(new[]
+        {
+            $"{fingerprintPrefix}:metadata",
+            $"{fingerprintPrefix}:entry:{generation}:chunk:0",
+            $"{fingerprintPrefix}:entry:{generation}:chunk:1",
+        });
+        await Assert.That(deletedKeys[0]).IsEqualTo($"{fingerprintPrefix}:metadata");
+    }
+
+    [Test]
+    public async Task DeleteIgnoresMissingEntryAndExistsChecksMetadata()
+    {
+        _database.Setup(value => value.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisValue.Null);
+        _database.Setup(value => value.KeyExistsAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
+
+        await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
+
+        _database.Verify(
+            value => value.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()),
+            Times.Never);
+        await Assert.That(await _cache.ExistsAsync(Fingerprint, CancellationToken.None)).IsTrue();
     }
 
     [Test]
@@ -211,43 +248,51 @@ public class RedisModuleCacheTests
     public async Task CacheRegistrationDoesNotReplaceDistributedOptions()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisDistributed(
-            options =>
-            {
-                options.ConnectionString = "distributed:6379";
-                options.KeyPrefix = "distributed";
-            },
-            options => options.ChunkSizeBytes = 123);
-        builder.AddRedisModuleCache(
-            options =>
-            {
-                options.ConnectionString = "cache:6379";
-                options.KeyPrefix = "cache";
-            },
-            options => options.ChunkSizeBytes = 456);
+        builder.AddRedisDistributed(options =>
+        {
+            options.ConnectionString = "distributed:6379";
+            options.KeyPrefix = "distributed";
+            options.ChunkSizeBytes = 123;
+        });
+        builder.AddRedisModuleCache(options =>
+        {
+            options.ConnectionString = "cache:6379";
+            options.KeyPrefix = "cache";
+            options.ChunkSizeBytes = 456;
+        });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
-        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
-        var artifactOptions = serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value;
 
         using (Assert.Multiple())
         {
             await Assert.That(redisOptions.ConnectionString).IsEqualTo("distributed:6379");
             await Assert.That(redisOptions.KeyPrefix).IsEqualTo("distributed");
-            await Assert.That(artifactOptions.ChunkSizeBytes).IsEqualTo(123);
-            await Assert.That(builder.Services.Count(descriptor =>
-                    descriptor.ServiceType == typeof(IConnectionMultiplexer)
-                    && descriptor.IsKeyedService))
-                .IsEqualTo(1);
+            await Assert.That(redisOptions.ChunkSizeBytes).IsEqualTo(123);
+            // Neither feature registers or adopts an application-visible multiplexer.
+            await Assert.That(builder.Services.Any(descriptor =>
+                    descriptor.ServiceType == typeof(IConnectionMultiplexer)))
+                .IsFalse();
         }
+    }
+
+    [Test]
+    public async Task CacheRejectsMissingConnectionAtStartup()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisModuleCache(options => options.KeyPrefix = "cache");
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<Microsoft.Extensions.Options.OptionsValidationException>()
+            .WithMessageContaining(nameof(RedisOptions.ConnectionString));
     }
 
     private RedisModuleCache CreateCache(long maximumCacheEntryBytes) =>
         new(
-            _connection,
-            new RedisDistributedOptions { KeyPrefix = "custom-prefix" },
-            new ArtifactOptions
+            new RedisConnectionProvider(_connection),
+            new RedisOptions
             {
+                KeyPrefix = "custom-prefix",
                 ChunkSizeBytes = 3,
                 TimeToLive = TimeSpan.FromMinutes(1),
             },

@@ -159,13 +159,19 @@ internal class Zip(
     {
         var destinationPath = Path.GetFullPath(
             Path.Combine(destinationDirectory, entry.FullName));
+        if (destinationPath.Equals(destinationDirectory, StringComparison.Ordinal))
+        {
+            // Return the trusted root rather than the entry-derived path so the
+            // StartsWith check below remains the only guard on entry paths.
+            return destinationDirectory;
+        }
+
         var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
             ? destinationDirectory
             : destinationDirectory + Path.DirectorySeparatorChar;
         if (!destinationPath.StartsWith(
                 destinationPrefix,
-                StringComparison.Ordinal)
-            && !destinationPath.Equals(destinationDirectory, StringComparison.Ordinal))
+                StringComparison.Ordinal))
         {
             throw new InvalidOperationException(
                 $"Zip entry '{entry.FullName}' would extract outside the target directory.");

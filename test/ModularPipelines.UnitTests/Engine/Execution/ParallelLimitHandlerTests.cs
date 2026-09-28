@@ -130,7 +130,7 @@ public class ParallelLimitHandlerTests
             .ReturnsAsync(Mock.Of<IDisposable>());
         var handler = new Mock<IModuleEventHandler>();
         handler
-            .Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
+            .Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
         var builder = TestPipelineBuilder.Create()
@@ -150,7 +150,7 @@ public class ParallelLimitHandlerTests
             CancellationToken.None);
         await limitWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
-        handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
+        handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
         scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Never);
 
@@ -165,7 +165,7 @@ public class ParallelLimitHandlerTests
 
         await moduleRunner.ExecuteAsync(moduleState, CancellationToken.None);
 
-        handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()), Times.Once);
+        handler.Verify(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()), Times.Once);
         await Assert.That(TrackingReadyAttribute.InvocationCount).IsEqualTo(1);
         scheduler.Verify(x => x.MarkModuleStarted(typeof(ReadyTestModule)), Times.Exactly(2));
         await Assert.That(outputBuffer.IsComplete).IsFalse();
@@ -488,11 +488,11 @@ public class ParallelLimitHandlerTests
         IConsoleWriter? readyWriter = null;
         IConsoleWriter? startWriter = null;
         var handler = new Mock<IModuleEventHandler>();
-        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => readyWriter = context.Console)
+        handler.Setup(x => x.OnModuleReadyAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, CancellationToken>((context, _) => readyWriter = context.Console)
             .Returns(Task.CompletedTask);
-        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>()))
-            .Callback<IModuleHookContext>(context => startWriter = context.Console)
+        handler.Setup(x => x.OnModuleStartAsync(It.IsAny<IModuleHookContext>(), It.IsAny<CancellationToken>()))
+            .Callback<IModuleHookContext, CancellationToken>((context, _) => startWriter = context.Console)
             .Returns(Task.CompletedTask);
         var builder = TestPipelineBuilder.Create()
             .AddModule<TestModule>();
@@ -645,7 +645,7 @@ public class ParallelLimitHandlerTests
 
         public static void Reset() => Volatile.Write(ref _invocationCount, 0);
 
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _invocationCount);
             return Task.CompletedTask;
@@ -661,10 +661,10 @@ public class ParallelLimitHandlerTests
 
         public static void Reset() => Volatile.Write(ref _failureInvocationCount, 0);
 
-        public Task OnModuleReadyAsync(IModuleHookContext context) =>
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken) =>
             Task.FromException(new InvalidOperationException("Ready handler failure"));
 
-        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _failureInvocationCount);
             return Task.CompletedTask;
@@ -677,7 +677,7 @@ public class ParallelLimitHandlerTests
 
         public int FailureInvocationCount => Volatile.Read(ref _failureInvocationCount);
 
-        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _failureInvocationCount);
             return Task.CompletedTask;

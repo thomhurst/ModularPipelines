@@ -37,7 +37,9 @@ internal sealed class Command : ICommandContext
         CommandExecutionOptions ExecutionOptions,
         string RawCommandInput,
         string WorkingDirectory,
-        IReadOnlyDictionary<string, string?> RawEnvironmentVariables);
+        IReadOnlyDictionary<string, string?> RawEnvironmentVariables,
+        CliWrap.Command Command,
+        Lazy<string> InputToLog);
 
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;
@@ -103,36 +105,26 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var rawEnvironmentVariables = GetRawEnvironmentVariables(command);
+        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
+        using var linkedCancellationToken =
+            CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
+        var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
+        using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
         var invocation = new PreparedCommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
             execOpts,
             commandInput,
             command.WorkingDirPath,
-            rawEnvironmentVariables);
-
-        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
-        using var linkedCancellationToken =
-            CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
-        var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
-        using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
-        var inputToLog = new Lazy<string>(() =>
-        {
-            var input = GetInputToLog(commandInput, execOpts);
-            RecordTelemetryCommandInput(activity, input, execOpts);
-            return input;
-        });
+            GetRawEnvironmentVariables(command),
+            command,
+            CreateInputToLog(commandInput, execOpts, activity));
 
         try
         {
             var result = await ExecuteCommandCoreAsync(
                     invocation,
-                    command,
-                    commandInput,
-                    options,
-                    execOpts,
-                    inputToLog,
+                    activity,
                     linkedCancellationToken.Token,
                     cancellationToken,
                     timeoutCancellationToken)
@@ -183,6 +175,15 @@ internal sealed class Command : ICommandContext
             tool = "sudo";
         }
 
+        var (command, input) = CreateCliCommand(tool, arguments, executionOptions);
+        return (command, input, tool, arguments);
+    }
+
+    private static (CliWrap.Command Command, string Input) CreateCliCommand(
+        string tool,
+        IEnumerable<string> arguments,
+        CommandExecutionOptions executionOptions)
+    {
         var preparedCommand = CliCommandFactory.Create(tool, arguments, executionOptions);
         var command = preparedCommand.Command;
         if (executionOptions.WorkingDirectory is not null)
@@ -195,49 +196,112 @@ internal sealed class Command : ICommandContext
             command = command.WithCredentials(executionOptions.CommandLineCredentials.ToCliWrapCredentials());
         }
 
-        return (command, preparedCommand.Input, tool, arguments);
+        return (command, preparedCommand.Input);
+    }
+
+    private Lazy<string> CreateInputToLog(
+        string commandInput,
+        CommandExecutionOptions executionOptions,
+        Activity? activity)
+    {
+        return new Lazy<string>(() =>
+        {
+            var input = GetInputToLog(commandInput, executionOptions);
+            RecordTelemetryCommandInput(activity, input, executionOptions);
+            return input;
+        });
+    }
+
+    /// <summary>
+    /// Prepares a command that an interceptor changed before passing it on. The command line is used
+    /// as given, so sudo is not applied again.
+    /// </summary>
+    private PreparedCommandInvocation PrepareChangedInvocation(
+        CommandInvocation invocation,
+        PreparedCommandInvocation received,
+        Activity? activity)
+    {
+        var toolOptions = invocation.ToolOptions ?? received.ToolOptions;
+        var workingDirectory = string.Equals(
+            invocation.WorkingDirectory,
+            received.WorkingDirectory,
+            StringComparison.Ordinal)
+            ? invocation.ExecutionOptions.WorkingDirectory
+            : invocation.WorkingDirectory;
+        var executionOptions = invocation.ExecutionOptions with
+        {
+            WorkingDirectory = workingDirectory is null
+                ? _pipelineWorkingDirectory.Path
+                : _pipelineWorkingDirectory.ResolvePath(workingDirectory),
+        };
+        RegisterSecrets(toolOptions, executionOptions);
+        var (command, commandInput) = CreateCliCommand(
+            invocation.CommandLine.Tool,
+            invocation.CommandLine.Arguments,
+            executionOptions);
+        return new PreparedCommandInvocation(
+            invocation.CommandLine,
+            toolOptions,
+            executionOptions,
+            commandInput,
+            command.WorkingDirPath,
+            GetRawEnvironmentVariables(command),
+            command,
+            CreateInputToLog(commandInput, executionOptions, activity));
     }
 
     private async Task<CommandResult> ExecuteCommandCoreAsync(
         PreparedCommandInvocation invocation,
-        CliWrap.Command command,
-        string commandInput,
-        CommandLineToolOptions options,
-        CommandExecutionOptions executionOptions,
-        Lazy<string> inputToLog,
+        Activity? activity,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
     {
         executionCancellationToken.ThrowIfCancellationRequested();
 
-        var intercepted = await TryInterceptAsync(
-                invocation,
-                command,
-                options,
-                executionOptions,
-                inputToLog,
-                executionCancellationToken)
-            .ConfigureAwait(false);
-        if (intercepted is not null)
+        var interceptors = _commandInterceptors as ICommandInterceptor[] ?? _commandInterceptors.ToArray();
+        if (interceptors.Length == 0)
         {
-            return intercepted;
+            return await ExecuteInvocationAsync(
+                    invocation,
+                    executionCancellationToken,
+                    callerCancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
         }
 
-        return executionOptions.InternalDryRun
+        return await new InterceptionPipeline(
+                this,
+                invocation,
+                activity,
+                callerCancellationToken,
+                timeoutCancellationToken)
+            .ExecuteAsync(interceptors, executionCancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private async ValueTask<CommandResult> ExecuteInvocationAsync(
+        PreparedCommandInvocation invocation,
+        CancellationToken executionCancellationToken,
+        CancellationToken callerCancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        executionCancellationToken.ThrowIfCancellationRequested();
+
+        return invocation.ExecutionOptions.InternalDryRun
             ? ExecuteDryRun(
-                command,
-                commandInput,
-                options,
-                executionOptions,
-                inputToLog,
+                invocation.Command,
+                invocation.RawCommandInput,
+                invocation.ToolOptions,
+                invocation.ExecutionOptions,
+                invocation.InputToLog,
                 invocation.RawEnvironmentVariables)
             : await Of(
-                    command,
-                    commandInput,
-                    options,
-                    executionOptions,
-                    inputToLog,
+                    invocation.Command,
+                    invocation.RawCommandInput,
+                    invocation.ToolOptions,
+                    invocation.ExecutionOptions,
+                    invocation.InputToLog,
                     invocation.RawEnvironmentVariables,
                     executionCancellationToken,
                     callerCancellationToken,
@@ -260,59 +324,36 @@ internal sealed class Command : ICommandContext
             GetTelemetryCommandInput(inputToLog, executionOptions));
     }
 
-    private async Task<CommandResult?> TryInterceptAsync(
-        PreparedCommandInvocation invocation,
-        CliWrap.Command command,
-        CommandLineToolOptions options,
-        CommandExecutionOptions executionOptions,
-        Lazy<string> inputToLog,
-        CancellationToken cancellationToken)
+    /// <summary>
+    /// Completes a result returned by an interceptor that did not call the rest of the pipeline.
+    /// </summary>
+    private CommandResult CompleteShortCircuitedResult(
+        CommandResult intercepted,
+        PreparedCommandInvocation invocation)
     {
-        CommandInvocation? publicInvocation = null;
-        var publicInvocationSecretVersion = long.MinValue;
-        foreach (var interceptor in _commandInterceptors)
+        var executionOptions = invocation.ExecutionOptions;
+        var result = ApplyCommandMetadata(
+            intercepted,
+            invocation.Command,
+            invocation,
+            executionOptions);
+        LogInterceptedCommand(invocation.ToolOptions, executionOptions, invocation.InputToLog.Value, result);
+        if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
         {
-            if (publicInvocation is null
-                || publicInvocationSecretVersion != _secretProvider.Version)
-            {
-                (publicInvocation, publicInvocationSecretVersion) =
-                    CreatePublicInvocation(invocation, executionOptions);
-            }
-
-            var intercepted = await interceptor
-                .InterceptAsync(publicInvocation, cancellationToken)
-                .ConfigureAwait(false);
-            cancellationToken.ThrowIfCancellationRequested();
-            if (intercepted is null)
-            {
-                continue;
-            }
-
-            var result = ApplyCommandMetadata(
-                intercepted,
-                command,
-                invocation,
-                executionOptions);
-            LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
-            if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
-            {
-                throw CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
-                    command,
-                    executionOptions,
-                    result.CommandInput,
-                    result.ExitCode,
-                    result.Duration,
-                    result.StandardOutput,
-                    result.StandardError,
-                    invocation.RawEnvironmentVariables,
-                    result.StartTime,
-                    result.EndTime));
-            }
-
-            return result;
+            throw CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
+                invocation.Command,
+                executionOptions,
+                result.CommandInput,
+                result.ExitCode,
+                result.Duration,
+                result.StandardOutput,
+                result.StandardError,
+                invocation.RawEnvironmentVariables,
+                result.StartTime,
+                result.EndTime));
         }
 
-        return null;
+        return result;
     }
 
     private (CommandInvocation Invocation, long SecretVersion) CreatePublicInvocation(
@@ -329,6 +370,125 @@ internal sealed class Command : ICommandContext
             commandInput,
             invocation.WorkingDirectory,
             environmentVariables), secretVersion);
+    }
+
+    /// <summary>
+    /// Runs the registered interceptors as middleware around process execution. The first registered
+    /// interceptor is outermost.
+    /// </summary>
+    private sealed class InterceptionPipeline(
+        Command owner,
+        PreparedCommandInvocation original,
+        Activity? activity,
+        CancellationToken callerCancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        private CommandInvocation? _publicInvocation;
+        private PreparedCommandInvocation _publicPrepared = original;
+        private long _publicSecretVersion = long.MinValue;
+        private CancellationToken _executionCancellationToken;
+
+        public ValueTask<CommandResult> ExecuteAsync(
+            IReadOnlyList<ICommandInterceptor> interceptors,
+            CancellationToken cancellationToken)
+        {
+            _executionCancellationToken = cancellationToken;
+            CommandDelegate pipeline = TerminalAsync;
+            for (var index = interceptors.Count - 1; index >= 0; index--)
+            {
+                var interceptor = interceptors[index];
+                var next = pipeline;
+                pipeline = (invocation, token) => InvokeInterceptorAsync(interceptor, invocation, next, token);
+            }
+
+            return pipeline(Publish(_publicPrepared), cancellationToken);
+        }
+
+        private async ValueTask<CommandResult> InvokeInterceptorAsync(
+            ICommandInterceptor interceptor,
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var prepared = Resolve(invocation);
+            var publicInvocation = ReferenceEquals(invocation, _publicInvocation)
+                                   && _publicSecretVersion == owner._secretProvider.Version
+                ? invocation
+                : Publish(prepared);
+
+            var nextCalled = false;
+            var result = await interceptor
+                             .InvokeAsync(
+                                 publicInvocation,
+                                 (nextInvocation, nextToken) =>
+                                 {
+                                     nextCalled = true;
+                                     return next(nextInvocation, nextToken);
+                                 },
+                                 cancellationToken)
+                             .ConfigureAwait(false)
+                         ?? throw new InvalidOperationException(
+                             $"Command interceptor '{interceptor.GetType().FullName}' returned a null result.");
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return nextCalled ? result : owner.CompleteShortCircuitedResult(result, prepared);
+        }
+
+        private async ValueTask<CommandResult> TerminalAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken)
+        {
+            // An interceptor may pass its own token, but it cannot drop the caller and timeout cancellation.
+            if (!cancellationToken.CanBeCanceled || cancellationToken == _executionCancellationToken)
+            {
+                return await owner.ExecuteInvocationAsync(
+                        Resolve(invocation),
+                        _executionCancellationToken,
+                        callerCancellationToken,
+                        timeoutCancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(
+                _executionCancellationToken,
+                cancellationToken);
+            return await owner.ExecuteInvocationAsync(
+                    Resolve(invocation),
+                    linked.Token,
+                    callerCancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        private PreparedCommandInvocation Resolve(CommandInvocation invocation)
+        {
+            if (ReferenceEquals(invocation, _publicInvocation))
+            {
+                return _publicPrepared;
+            }
+
+            var received = _publicPrepared;
+            if (Equals(invocation.CommandLine, received.CommandLine)
+                && Equals(invocation.ExecutionOptions, received.ExecutionOptions)
+                && string.Equals(invocation.WorkingDirectory, received.WorkingDirectory, StringComparison.Ordinal))
+            {
+                return invocation.ToolOptions is null || ReferenceEquals(invocation.ToolOptions, received.ToolOptions)
+                    ? received
+                    : received with { ToolOptions = invocation.ToolOptions };
+            }
+
+            return owner.PrepareChangedInvocation(invocation, received, activity);
+        }
+
+        private CommandInvocation Publish(PreparedCommandInvocation prepared)
+        {
+            var (invocation, secretVersion) = owner.CreatePublicInvocation(prepared, prepared.ExecutionOptions);
+            _publicInvocation = invocation;
+            _publicPrepared = prepared;
+            _publicSecretVersion = secretVersion;
+            return invocation;
+        }
     }
 
     private (string CommandInput, IReadOnlyDictionary<string, string?> EnvironmentVariables, long SecretVersion)

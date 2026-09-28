@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
@@ -344,7 +345,12 @@ internal static class ServiceCollectionExtensions
     internal static IServiceCollection AddPipelineEventHandler<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] THandler>(this IServiceCollection services)
         where THandler : class, IPipelineEventHandler
     {
-        return services.AddSingleton<IPipelineEventHandler, THandler>();
+        // One instance per handler type: a class implementing both handler interfaces is shared.
+        services.TryAddSingleton<THandler>();
+        // Add once per handler type; the factory's THandler return type lets TryAddEnumerable detect duplicates.
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IPipelineEventHandler, THandler>(static provider => provider.GetRequiredService<THandler>()));
+        return services;
     }
 
     /// <summary>
@@ -358,7 +364,12 @@ internal static class ServiceCollectionExtensions
         this IServiceCollection services)
         where THandler : class, IModuleEventHandler
     {
-        return services.AddSingleton<IModuleEventHandler, THandler>();
+        // One instance per handler type: a class implementing both handler interfaces is shared.
+        services.TryAddSingleton<THandler>();
+        // Add once per handler type; the factory's THandler return type lets TryAddEnumerable detect duplicates.
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IModuleEventHandler, THandler>(static provider => provider.GetRequiredService<THandler>()));
+        return services;
     }
 
     internal static IServiceCollection AddServiceCollection(this IServiceCollection serviceCollection)

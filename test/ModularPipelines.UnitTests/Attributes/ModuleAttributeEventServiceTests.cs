@@ -11,14 +11,14 @@ public class ModuleAttributeEventServiceTests
     {
         public bool ContinueOnError => false;
 
-        public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     public class TestFailureAttribute : Attribute, IModuleFailureHandler
     {
         public bool ContinueOnError => false;
 
-        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception) => Task.CompletedTask;
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     private sealed class CountingAttribute : Attribute
@@ -42,9 +42,9 @@ public class ModuleAttributeEventServiceTests
     public class LowPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
-        public int Priority => 100;
+        public int Order => 100;
 
-        public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     /// <summary>
@@ -54,9 +54,9 @@ public class ModuleAttributeEventServiceTests
     public class MediumPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
-        public int Priority => 10;
+        public int Order => 10;
 
-        public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     /// <summary>
@@ -66,9 +66,9 @@ public class ModuleAttributeEventServiceTests
     public class HighPriorityStartAttribute : Attribute, IModuleStartHandler
     {
         public bool ContinueOnError => false;
-        public int Priority => 1;
+        public int Order => 1;
 
-        public Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) => Task.CompletedTask;
     }
 
     [TestStart]
@@ -93,9 +93,9 @@ public class ModuleAttributeEventServiceTests
     }
 
     // Attributes are applied in reverse order of priority to test that sorting works
-    [LowPriorityStart]   // Priority 100 - should be last
-    [MediumPriorityStart] // Priority 10 - should be second
-    [HighPriorityStart]  // Priority 1 - should be first
+    [LowPriorityStart]   // Order 100 - should be last
+    [MediumPriorityStart] // Order 10 - should be second
+    [HighPriorityStart]  // Order 1 - should be first
     private class ModuleWithPrioritizedHandlers : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -103,9 +103,9 @@ public class ModuleAttributeEventServiceTests
     }
 
     // Mix of prioritized and non-prioritized handlers
-    [LowPriorityStart]   // Priority 100 - should be last
+    [LowPriorityStart]   // Order 100 - should be last
     [TestStart]          // No priority (defaults to 0) - should be first
-    [HighPriorityStart]  // Priority 1 - should be second
+    [HighPriorityStart]  // Order 1 - should be second
     private class ModuleWithMixedPriorityHandlers : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -195,9 +195,9 @@ public class ModuleAttributeEventServiceTests
 
         await Assert.That(handlers.Count).IsEqualTo(3);
         // Lower priority values run first
-        await Assert.That(handlers[0]).IsTypeOf<HighPriorityStartAttribute>();   // Priority 1
-        await Assert.That(handlers[1]).IsTypeOf<MediumPriorityStartAttribute>(); // Priority 10
-        await Assert.That(handlers[2]).IsTypeOf<LowPriorityStartAttribute>();    // Priority 100
+        await Assert.That(handlers[0]).IsTypeOf<HighPriorityStartAttribute>();   // Order 1
+        await Assert.That(handlers[1]).IsTypeOf<MediumPriorityStartAttribute>(); // Order 10
+        await Assert.That(handlers[2]).IsTypeOf<LowPriorityStartAttribute>();    // Order 100
     }
 
     [Test]
@@ -210,8 +210,8 @@ public class ModuleAttributeEventServiceTests
         await Assert.That(handlers.Count).IsEqualTo(3);
         // Non-prioritized handler (defaults to 0) should be first
         await Assert.That(handlers[0]).IsTypeOf<TestStartAttribute>();          // No priority (0)
-        await Assert.That(handlers[1]).IsTypeOf<HighPriorityStartAttribute>();  // Priority 1
-        await Assert.That(handlers[2]).IsTypeOf<LowPriorityStartAttribute>();   // Priority 100
+        await Assert.That(handlers[1]).IsTypeOf<HighPriorityStartAttribute>();  // Order 1
+        await Assert.That(handlers[2]).IsTypeOf<LowPriorityStartAttribute>();   // Order 100
     }
 
     [Test]

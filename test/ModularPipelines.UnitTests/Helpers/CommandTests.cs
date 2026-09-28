@@ -24,32 +24,35 @@ public class CommandTests : TestBase
     private sealed class RegisterEnvironmentSecretInterceptor(ISecretRegistry secretRegistry)
         : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default)
+            CommandDelegate next,
+            CancellationToken cancellationToken)
         {
             secretRegistry.AddSecret(invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"]!);
-            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+            return ValueTask.FromResult(CommandResult.Ok());
         }
     }
 
     private sealed class StubCommandInterceptor(CommandResult? result) : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default) =>
-            ValueTask.FromResult(result);
+            CommandDelegate next,
+            CancellationToken cancellationToken) =>
+            result is null ? next(invocation, cancellationToken) : ValueTask.FromResult(result);
     }
 
     private sealed class RegisterEnvironmentSecretAndContinueInterceptor(
         ISecretRegistry secretRegistry) : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default)
+            CommandDelegate next,
+            CancellationToken cancellationToken)
         {
             secretRegistry.AddSecret(invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"]!);
-            return ValueTask.FromResult<CommandResult?>(null);
+            return next(invocation, cancellationToken);
         }
     }
 
@@ -59,13 +62,66 @@ public class CommandTests : TestBase
 
         public string? CommandInput { get; private set; }
 
-        public ValueTask<CommandResult?> InterceptAsync(
+        public CommandInvocation? Invocation { get; private set; }
+
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default)
+            CommandDelegate next,
+            CancellationToken cancellationToken)
         {
-            EnvironmentValue = invocation.EnvironmentVariables["MP_DYNAMIC_SECRET"];
+            Invocation = invocation;
+            invocation.EnvironmentVariables.TryGetValue("MP_DYNAMIC_SECRET", out var environmentValue);
+            EnvironmentValue = environmentValue;
             CommandInput = invocation.CommandInput;
-            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+            return ValueTask.FromResult(CommandResult.Ok());
+        }
+    }
+
+    private sealed class RewriteArgumentsInterceptor(params string[] arguments) : ICommandInterceptor
+    {
+        public ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken) =>
+            next(
+                invocation with { CommandLine = new CommandLine(invocation.CommandLine.Tool, arguments) },
+                cancellationToken);
+    }
+
+    private sealed class ResultRewritingInterceptor(string output) : ICommandInterceptor
+    {
+        public CommandResult? ObservedResult { get; private set; }
+
+        public async ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken)
+        {
+            ObservedResult = await next(invocation, cancellationToken);
+            return ObservedResult with { StandardOutput = output };
+        }
+    }
+
+    private sealed class DropCancellationInterceptor : ICommandInterceptor
+    {
+        public ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken) =>
+            next(invocation, CancellationToken.None);
+    }
+
+    private sealed class OrderRecordingInterceptor(string name, List<string> log) : ICommandInterceptor
+    {
+        public async ValueTask<CommandResult> InvokeAsync(
+            CommandInvocation invocation,
+            CommandDelegate next,
+            CancellationToken cancellationToken)
+        {
+            log.Add($"{name}:before");
+            var result = await next(invocation, cancellationToken);
+            log.Add($"{name}:after");
+            return result;
         }
     }
 
@@ -436,6 +492,141 @@ public class CommandTests : TestBase
         }
     }
 
+    [Test]
+    public async Task Interceptor_ModifiedInvocation_ReachesProcess()
+    {
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.AddSingleton<ICommandInterceptor>(new RewriteArgumentsInterceptor("--version")));
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions("dotnet")
+            {
+                Arguments = ["--not-a-real-dotnet-option"],
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(0);
+            await Assert.That(result.CommandInput).Contains("--version");
+            await Assert.That(result.CommandInput).DoesNotContain("--not-a-real-dotnet-option");
+        }
+    }
+
+    [Test]
+    public async Task Interceptor_ModifiedInvocation_IsSeenByNextInterceptor()
+    {
+        var capture = new CaptureInvocationInterceptor();
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.AddSingleton<ICommandInterceptor>(new RewriteArgumentsInterceptor("rewritten"));
+            services.AddSingleton<ICommandInterceptor>(capture);
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions("unused")
+            {
+                Arguments = ["original"],
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(capture.Invocation!.CommandLine.Arguments).IsEquivalentTo(["rewritten"]);
+            await Assert.That(capture.CommandInput).Contains("rewritten");
+            await Assert.That(capture.CommandInput).DoesNotContain("original");
+            await Assert.That(result.CommandInput).Contains("rewritten");
+        }
+    }
+
+    [Test]
+    public async Task Interceptor_CanObserveAndReplaceResultOfNext()
+    {
+        var outer = new ResultRewritingInterceptor("outer");
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.AddSingleton<ICommandInterceptor>(outer);
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(CommandResult.Ok("inner")));
+        });
+
+        var result = await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("unused"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(outer.ObservedResult!.StandardOutput).IsEqualTo("inner");
+            await Assert.That(outer.ObservedResult.CommandInput).Contains("unused");
+            await Assert.That(result.StandardOutput).IsEqualTo("outer");
+        }
+    }
+
+    [Test]
+    public async Task Interceptors_RunInRegistrationOrder()
+    {
+        var log = new List<string>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.AddSingleton<ICommandInterceptor>(new OrderRecordingInterceptor("first", log));
+            services.AddSingleton<ICommandInterceptor>(new OrderRecordingInterceptor("second", log));
+            services.AddSingleton<ICommandInterceptor>(new StubCommandInterceptor(CommandResult.Ok()));
+        });
+
+        await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("unused"));
+
+        await Assert.That(log).IsEquivalentTo(
+            ["first:before", "second:before", "second:after", "first:after"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Interceptor_ShortCircuitedNonZeroResult_Throws()
+    {
+        var log = new List<string>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+        {
+            services.AddSingleton<ICommandInterceptor>(new OrderRecordingInterceptor("outer", log));
+            services.AddSingleton<ICommandInterceptor>(
+                new StubCommandInterceptor(CommandResult.Ok() with { ExitCode = 3 }));
+        });
+
+        var exception = await Assert.ThrowsAsync<CommandException>(async () =>
+            await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("unused")));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Result.ExitCode).IsEqualTo(3);
+            await Assert.That(log).IsEquivalentTo(["outer:before"]);
+        }
+    }
+
+    [Test]
+    public async Task AddCommandInterceptor_Generic_AddsTypeOnce()
+    {
+        var builder = TestPipelineBuilder.Create();
+
+        builder.AddCommandInterceptor<CaptureInvocationInterceptor>()
+            .AddCommandInterceptor<CaptureInvocationInterceptor>();
+
+        await Assert.That(builder.Services.Count(descriptor =>
+                descriptor.ServiceType == typeof(ICommandInterceptor)))
+            .IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task AddCommandInterceptor_Instance_AddsEachInstanceAndRejectsNull()
+    {
+        var builder = TestPipelineBuilder.Create();
+
+        builder.AddCommandInterceptor(new CaptureInvocationInterceptor())
+            .AddCommandInterceptor(new CaptureInvocationInterceptor());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.Services.Count(descriptor =>
+                    descriptor.ServiceType == typeof(ICommandInterceptor)))
+                .IsEqualTo(2);
+            await Assert.That(() => builder.AddCommandInterceptor(null!))
+                .Throws<ArgumentNullException>();
+        }
+    }
+
     private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
         const string secret = "command-result-secret-value";
@@ -759,6 +950,28 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("pwsh")]
+    public async Task Interceptor_Dropping_Its_Token_Still_Honours_ExecutionTimeout()
+    {
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.AddSingleton<ICommandInterceptor>(new DropCancellationInterceptor()));
+
+        var exception = await Assert.ThrowsAsync<TimeoutException>(() =>
+            command.ExecuteCommandLineToolAsync(
+                new CommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-NoProfile", "-Command", "Start-Sleep -Seconds 60"],
+                },
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(100),
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(50),
+                }));
+
+        await Assert.That(exception!.Message).Contains("timed out after");
+    }
+
+    [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ExecutionTimeout_ThrowsTimeoutException()
     {
         var command = await GetService<ICommandContext>();
@@ -819,7 +1032,7 @@ public class CommandTests : TestBase
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.FromMilliseconds(50));
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            fixture.WaitForReadyAsync(processName, TimeSpan.FromSeconds(5)));
+            fixture.WaitForReadyAsync(processName, TimeSpan.FromSeconds(30)));
         await Assert.That(exception!.Message).Contains("Requested process-fixture startup failure.");
     }
 

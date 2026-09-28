@@ -1,10 +1,10 @@
-using ModularPipelines.Reporting;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Git.Extensions;
 

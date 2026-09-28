@@ -27,9 +27,9 @@ public class SkippedDependencyPipelineTests
                 options.RunId = runId;
                 options.TotalInstances = 2;
                 options.MinimumWorkerCount = 1;
-                options.CapabilityTimeout = TimeSpan.FromSeconds(10);
+                options.WorkerRegistrationTimeout = TimeSpan.FromSeconds(10);
                 options.ModuleResultTimeout = TimeSpan.FromSeconds(10);
-                options.Capabilities = [index == 0 ? "test-master" : "test-worker"];
+                options.Capabilities = [index == 0 ? new Capability("test-master") : new Capability("test-worker")];
             });
             builder.Services.AddSingleton(coordinator);
             builder.Services.AddSingleton<IDistributedMasterCoordinator>(coordinator);

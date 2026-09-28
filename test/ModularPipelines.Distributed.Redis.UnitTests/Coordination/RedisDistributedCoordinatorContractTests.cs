@@ -6,77 +6,148 @@ using TUnit.Core.Exceptions;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Coordination;
 
+/// <summary>
+/// Runs the shared coordinator contract against a real Redis server. Set
+/// <c>MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING</c> to run them.
+/// </summary>
 public class RedisDistributedCoordinatorContractTests
 {
     private const string ConnectionStringVariable = "MODULAR_PIPELINES_REDIS_TEST_CONNECTION_STRING";
 
     [Test]
-    public Task Enqueue_And_Dequeue_RoundTrips()
-    {
-        return RunContractAsync(DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync);
-    }
+    public Task Enqueue_And_Dequeue_RoundTrips() =>
+        RunContractAsync(DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync);
 
     [Test]
-    public Task Publish_Unblocks_Wait_And_RoundTrips_Result()
-    {
-        return RunContractAsync(DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync);
-    }
+    public Task Publish_Unblocks_Wait_And_RoundTrips_Result() =>
+        RunContractAsync(DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync);
 
     [Test]
-    public Task Completion_Signal_Unblocks_Pending_Dequeue()
-    {
-        return RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
-    }
+    public Task First_Published_Result_Is_Final() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.FirstPublishedResultIsFinalAsync(coordinator));
 
     [Test]
-    public Task Cancellation_Signal_Unblocks_Worker_Observer()
-    {
-        return RunContractAsync(DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync);
-    }
+    public Task Completion_Signal_Unblocks_Pending_Dequeue() =>
+        RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
 
     [Test]
-    public Task Heartbeat_Keeps_Worker_Registration_Live()
-    {
-        return RunContractAsync((coordinator, _) =>
-            DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator));
-    }
+    public Task Cancelled_Dequeue_Throws() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CancelledDequeueThrowsAsync(coordinator));
 
     [Test]
-    public Task Claim_Prefers_Scarce_Capability_Work()
-    {
-        return RunContractAsync((coordinator, _) =>
-            DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(coordinator));
-    }
+    public Task Cancellation_Signal_Unblocks_Worker_Observer() =>
+        RunContractAsync(DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync);
 
     [Test]
-    public Task Claim_Matches_Alternative_Capabilities()
-    {
-        return RunContractAsync((coordinator, _) =>
-            DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator));
-    }
+    public Task Pipeline_Failure_Only_Releases_AlwaysRun_Work() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.PipelineFailureOnlyReleasesAlwaysRunWorkAsync(coordinator));
 
     [Test]
-    public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
-    {
-        return RunContractAsync((coordinator, _) =>
-            DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+    public Task Stop_Closes_Dequeue() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.StopClosesDequeueAsync(coordinator));
+
+    [Test]
+    public Task Withdraw_Removes_Queued_Assignment() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.WithdrawRemovesQueuedAssignmentAsync(coordinator));
+
+    [Test]
+    public Task Expired_Lease_Is_Requeued() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.ExpiredLeaseIsRequeuedAsync(coordinator));
+
+    [Test]
+    public Task Heartbeat_Renews_Lease() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.HeartbeatRenewsLeaseAsync(coordinator));
+
+    [Test]
+    public Task Publishing_Releases_Lease() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.PublishingReleasesLeaseAsync(coordinator));
+
+    [Test]
+    public Task Heartbeat_Keeps_Worker_Registration_Live() =>
+        RunContractAsync(
+            (coordinator, _) => DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator),
+            workerTimeout: TimeSpan.FromSeconds(30));
+
+    [Test]
+    public Task Duplicate_Live_Worker_Is_Rejected() =>
+        RunContractAsync(
+            (coordinator, _) => DistributedCoordinatorContract.DuplicateLiveWorkerIsRejectedAsync(coordinator),
+            workerTimeout: TimeSpan.FromSeconds(30));
+
+    [Test]
+    public Task Claim_Prefers_Scarce_Capability_Work() =>
+        RunContractAsync(
+            (coordinator, _) => DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(coordinator),
+            workerTimeout: TimeSpan.FromSeconds(30));
+
+    [Test]
+    public Task Claim_Prefers_Priority_Then_Critical_Path() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.ClaimPrefersPriorityThenCriticalPathAsync(coordinator));
+
+    [Test]
+    public Task Claim_Matches_Alternative_Capabilities() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator));
+
+    [Test]
+    public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires() =>
+        RunContractAsync(
+            (coordinator, _) => DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
                 coordinator,
                 TimeSpan.FromMilliseconds(250)),
             workerTimeout: TimeSpan.FromMilliseconds(100));
-    }
 
     [Test]
-    public Task Cancelling_One_Observer_Leaves_Concurrent_Observer_Subscribed()
-    {
-        return RunContractAsync(
+    public Task Cancelling_One_Observer_Leaves_Concurrent_Observer_Subscribed() =>
+        RunContractAsync(
             DistributedCoordinatorContract.CancellationKeepsConcurrentObserverSubscribedAsync,
             readySignalCount: 2);
-    }
 
-    private static async Task RunContractAsync(
+    [Test]
+    public Task Heartbeat_Refreshes_Run_Key_Expiry() =>
+        RunAsync(async (coordinator, database, keys) =>
+        {
+            await coordinator.EnqueueModuleAsync(
+                DistributedCoordinatorContract.CreateAssignment("Contract.Ttl"),
+                CancellationToken.None);
+            await database.KeyExpireAsync(keys.WorkQueue, TimeSpan.FromSeconds(5));
+
+            await coordinator.SendHeartbeatAsync(
+                new WorkerStatus { WorkerId = new WorkerId("contract-worker") },
+                CancellationToken.None);
+
+            var ttl = await database.KeyTimeToLiveAsync(keys.WorkQueue);
+            await Assert.That(ttl!.Value).IsGreaterThan(TimeSpan.FromSeconds(30));
+        });
+
+    [Test]
+    public Task Wait_Recovers_A_Result_Whose_Notification_Was_Missed() =>
+        RunAsync(async (coordinator, database, keys) =>
+        {
+            var moduleId = new ModuleId("Contract.MissedNotification");
+            var wait = coordinator.WaitForResultAsync(moduleId, CancellationToken.None);
+            await Task.Delay(200);
+
+            // Write the result without publishing a notification, as if it was lost in a reconnect.
+            var result = DistributedCoordinatorContract.CreateResult(moduleId.Value, "stored");
+            await database.HashSetAsync(keys.Results, moduleId.Value, System.Text.Json.JsonSerializer.Serialize(result));
+
+            var received = await wait.WaitAsync(RedisDistributedCoordinator.PollInterval * 3);
+            await Assert.That(received.Payload).IsEqualTo(result.Payload);
+        });
+
+    private static Task RunContractAsync(
         Func<IDistributedMasterCoordinator, Task, Task> contract,
         int readySignalCount = 1,
-        TimeSpan? workerTimeout = null)
+        TimeSpan? workerTimeout = null) =>
+        RunAsync((coordinator, _, _, ready) => contract(coordinator, ready), readySignalCount, workerTimeout);
+
+    private static Task RunAsync(Func<IDistributedMasterCoordinator, IDatabase, RedisKeyBuilder, Task> test) =>
+        RunAsync((coordinator, database, keys, _) => test(coordinator, database, keys), 1, null);
+
+    private static async Task RunAsync(
+        Func<IDistributedMasterCoordinator, IDatabase, RedisKeyBuilder, Task, Task> test,
+        int readySignalCount,
+        TimeSpan? workerTimeout)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -86,10 +157,10 @@ public class RedisDistributedCoordinatorContractTests
 
         using var connection = await ConnectionMultiplexer.ConnectAsync(connectionString);
         var runId = Guid.NewGuid().ToString("N");
-        var options = new RedisDistributedOptions
+        var options = new RedisOptions
         {
             ConnectionString = connectionString,
-            KeyExpiration = TimeSpan.FromMinutes(1),
+            TimeToLive = TimeSpan.FromMinutes(1),
             KeyPrefix = "modpipe-contract",
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
@@ -109,9 +180,10 @@ public class RedisDistributedCoordinatorContractTests
             },
             new DistributedOptions
             {
-                WorkerTimeout = workerTimeout ?? TimeSpan.FromSeconds(30),
+                WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
+                ModuleResultTimeout = TimeSpan.FromSeconds(30),
             });
 
-        await contract(coordinator, ready.Task);
+        await test(coordinator, connection.GetDatabase(), keys, ready.Task);
     }
 }

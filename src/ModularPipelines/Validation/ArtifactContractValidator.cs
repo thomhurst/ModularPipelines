@@ -17,7 +17,7 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
     public int Order => 250;
 
     /// <inheritdoc />
-    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var result = ValidateModules(services, services.GetServices<IModule>());
         if (!result.HasErrors)

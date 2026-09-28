@@ -20,6 +20,6 @@ public sealed class OnLinux : ICapabilityCondition
     public Capability Capability => Capability.Linux;
 
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         => Task.FromResult(OperatingSystem.IsLinux());
 }

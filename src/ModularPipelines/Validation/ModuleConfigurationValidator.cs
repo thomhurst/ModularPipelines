@@ -12,7 +12,7 @@ internal class ModuleConfigurationValidator : IModuleConfigurationValidator
     public int Order => 300;
 
     /// <inheritdoc />
-    public Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var modules = services.GetServices<IModule>();
         return Task.FromResult(ValidateModules(modules));

@@ -1,12 +1,11 @@
 using Amazon;
 using Amazon.S3;
-using ModularPipelines.Distributed.Artifacts.S3;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 internal static class S3ClientFactory
 {
-    public static IAmazonS3 Create(S3ArtifactOptions options)
+    public static IAmazonS3 Create(S3StorageOptions options)
     {
         var config = new AmazonS3Config
         {

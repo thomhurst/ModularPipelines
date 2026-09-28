@@ -111,7 +111,7 @@ public class PipelineWorkingDirectoryTests
                 WorkingDirectory = pipelineDirectory.FullName,
             });
             builder.AddModuleCache<FileSystemModuleCache>(options =>
-                options.WorkingDirectory = cacheWorkingDirectory.FullName);
+                options with { WorkingDirectory = cacheWorkingDirectory.FullName });
             builder.AddModule<ObserveWorkingDirectoryModule>();
 
             var summary = await builder.RunAsync();

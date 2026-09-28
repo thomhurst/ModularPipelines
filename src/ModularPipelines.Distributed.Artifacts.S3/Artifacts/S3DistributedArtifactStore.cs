@@ -6,139 +6,132 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
-/// Objects are keyed as {prefix}/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}.
+/// Objects are keyed as {prefix}/artifacts/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}.
 /// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO.
 /// </summary>
 internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDisposable
 {
     private readonly IAmazonS3 _s3;
     private readonly string _bucketName;
-    private readonly string _keyPrefix;
-    private readonly string _runId;
+    private readonly string _runPrefix;
+    private readonly int _partSizeBytes;
 
     public S3DistributedArtifactStore(
         IAmazonS3 s3,
-        string bucketName,
-        string keyPrefix,
+        S3StorageOptions options,
         string runId)
     {
+        ArgumentNullException.ThrowIfNull(s3);
+        ArgumentNullException.ThrowIfNull(options);
         _s3 = s3;
-        _bucketName = bucketName;
-        _keyPrefix = keyPrefix;
-        _runId = runId;
+        _bucketName = options.BucketName;
+        _runPrefix = $"{GetArtifactPrefix(options)}{runId}";
+        _partSizeBytes = options.MultipartPartSizeBytes;
     }
+
+    /// <summary>
+    /// Gets the object key prefix under which every run's artifacts are stored.
+    /// </summary>
+    internal static string GetArtifactPrefix(S3StorageOptions options) =>
+        $"{options.KeyPrefix.Trim('/')}/artifacts/";
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
     {
-        var artifactId = Guid.NewGuid().ToString("N");
-        var objectKey = BuildObjectKey(descriptor.ModuleId, descriptor.Name, artifactId);
+        ArgumentNullException.ThrowIfNull(descriptor);
+        ArgumentNullException.ThrowIfNull(data);
 
-        var request = new PutObjectRequest
+        var artifactId = Guid.NewGuid().ToString("N");
+        var sizeBytes = await S3ObjectUploader.UploadAsync(
+                _s3,
+                _bucketName,
+                BuildObjectKey(descriptor.ModuleId, descriptor.Name, artifactId),
+                data,
+                descriptor.ContentType ?? "application/octet-stream",
+                descriptor.Metadata,
+                _partSizeBytes,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        var reference = new ArtifactReference
         {
-            BucketName = _bucketName,
-            Key = objectKey,
-            InputStream = data,
-            ContentType = descriptor.ContentType ?? "application/octet-stream",
-            DisablePayloadSigning = true,
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = sizeBytes,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
         };
 
-        if (descriptor.Metadata is not null)
-        {
-            foreach (var kvp in descriptor.Metadata)
-            {
-                request.Metadata.Add(kvp.Key, kvp.Value);
-            }
-        }
-
-        // Capture size before upload (stream may be consumed)
-        var sizeBytes = data.CanSeek ? data.Length : 0;
-
-        await _s3.PutObjectAsync(request, cancellationToken);
-
-        // If we couldn't get size before, try position after
-        if (sizeBytes == 0 && data.CanSeek)
-        {
-            sizeBytes = data.Position;
-        }
-
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: sizeBytes,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
-
         // Store metadata as a separate JSON object for listing
-        var metaKey = BuildMetaKey(descriptor.ModuleId, artifactId);
-        var metaJson = JsonSerializer.Serialize(reference);
         var metaRequest = new PutObjectRequest
         {
             BucketName = _bucketName,
-            Key = metaKey,
-            ContentBody = metaJson,
+            Key = BuildMetaKey(descriptor.ModuleId, artifactId),
+            ContentBody = JsonSerializer.Serialize(reference),
             ContentType = "application/json",
             DisablePayloadSigning = true,
         };
-        await _s3.PutObjectAsync(metaRequest, cancellationToken);
+        await _s3.PutObjectAsync(metaRequest, cancellationToken).ConfigureAwait(false);
 
         return reference;
     }
 
     public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(reference);
+
         var objectKey = BuildObjectKey(reference.ModuleId, reference.Name, reference.ArtifactId);
-        var response = await _s3.GetObjectAsync(_bucketName, objectKey, cancellationToken);
+        using var response = await _s3.GetObjectAsync(_bucketName, objectKey, cancellationToken).ConfigureAwait(false);
 
         // Stream to a temp file instead of MemoryStream to avoid OOM on large artifacts
         var tempFile = Path.GetTempFileName();
         var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.ReadWrite, FileShare.None,
-            bufferSize: 81920, FileOptions.DeleteOnClose);
+            bufferSize: 81920, FileOptions.Asynchronous | FileOptions.DeleteOnClose);
 
         try
         {
-            await response.ResponseStream.CopyToAsync(fileStream, cancellationToken);
+            await response.ResponseStream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
             fileStream.Position = 0;
             return fileStream;
         }
         catch
         {
-            await fileStream.DisposeAsync();
+            await fileStream.DisposeAsync().ConfigureAwait(false);
             throw;
         }
     }
 
     public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken)
     {
-        var prefix = $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/meta/";
         var request = new ListObjectsV2Request
         {
             BucketName = _bucketName,
-            Prefix = prefix,
+            Prefix = $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/meta/",
         };
 
         var references = new List<ArtifactReference>();
         ListObjectsV2Response response;
         do
         {
-            response = await _s3.ListObjectsV2Async(request, cancellationToken);
+            response = await _s3.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
 
             foreach (var s3Object in response.S3Objects ?? [])
             {
+                using var getResponse = await _s3.GetObjectAsync(_bucketName, s3Object.Key, cancellationToken)
+                    .ConfigureAwait(false);
+                using var reader = new StreamReader(getResponse.ResponseStream);
+                var json = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
-                    var getResponse = await _s3.GetObjectAsync(_bucketName, s3Object.Key, cancellationToken);
-                    using var reader = new StreamReader(getResponse.ResponseStream);
-                    var json = await reader.ReadToEndAsync(cancellationToken);
                     var reference = JsonSerializer.Deserialize<ArtifactReference>(json);
                     if (reference is not null)
                     {
                         references.Add(reference);
                     }
                 }
-                catch (Exception ex) when (ex is not OperationCanceledException)
+                catch (JsonException)
                 {
-                    // Skip invalid metadata objects
+                    // Skip malformed metadata objects; storage and access failures propagate.
                 }
             }
 
@@ -151,18 +144,20 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
     public async Task DeleteAsync(ArtifactReference reference, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(reference);
+
         var objectKey = BuildObjectKey(reference.ModuleId, reference.Name, reference.ArtifactId);
         var metaKey = BuildMetaKey(reference.ModuleId, reference.ArtifactId);
 
-        await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken);
-        await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken);
+        await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken).ConfigureAwait(false);
+        await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken).ConfigureAwait(false);
     }
 
     public void Dispose() => _s3.Dispose();
 
     private string BuildObjectKey(ModuleId moduleId, string artifactName, string artifactId)
-        => $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}";
+        => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}";
 
     private string BuildMetaKey(ModuleId moduleId, string artifactId)
-        => $"{_keyPrefix}/{_runId}/{Uri.EscapeDataString(moduleId.Value)}/meta/{artifactId}.json";
+        => $"{_runPrefix}/{Uri.EscapeDataString(moduleId.Value)}/meta/{artifactId}.json";
 }

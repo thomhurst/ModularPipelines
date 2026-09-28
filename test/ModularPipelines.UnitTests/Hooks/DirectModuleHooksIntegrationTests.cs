@@ -90,19 +90,19 @@ public class DirectModuleHooksIntegrationTests : TestBase
 
     private sealed class RecordingModuleEventHandler : IModuleEventHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             AddLogEntry("Global:Ready");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             AddLogEntry("Global:Start");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             AddLogEntry("Global:End");
             return Task.CompletedTask;
@@ -115,19 +115,19 @@ public class DirectModuleHooksIntegrationTests : TestBase
         IModuleStartHandler,
         IModuleEndHandler
     {
-        public Task OnModuleReadyAsync(IModuleHookContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             AddLogEntry("Attribute:Ready");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleStartAsync(IModuleHookContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             AddLogEntry("Attribute:Start");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             AddLogEntry("Attribute:End");
             return Task.CompletedTask;

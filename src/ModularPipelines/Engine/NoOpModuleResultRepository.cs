@@ -12,12 +12,19 @@ internal class NoOpModuleResultRepository : IModuleResultRepository
     /// <inheritdoc />
     public bool IsEnabled => false;
 
-    public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
+    public Task SaveResultAsync<T>(
+        Module<T> module,
+        ModuleResult<T> moduleResult,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken = default)
     {
         return Task.CompletedTask;
     }
 
-    public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext)
+    public Task<ModuleResult<T>?> GetResultAsync<T>(
+        Module<T> module,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken = default)
     {
         return Task.FromResult<ModuleResult<T>?>(null);
     }

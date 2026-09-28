@@ -7,8 +7,8 @@ namespace ModularPipelines;
 /// A condition that returns true when running in a CI environment.
 /// </summary>
 /// <remarks>
-/// Checks for the presence of the <c>CI</c> environment variable, which is
-/// set by most CI providers (GitHub Actions, Azure Pipelines, GitLab CI, etc.).
+/// Uses <see cref="IBuildSystemContext.IsBuildServer"/>: a known build system is detected, or the
+/// <c>CI</c> environment variable is set to a value other than <c>false</c> or <c>0</c>.
 /// </remarks>
 /// <example>
 /// <code>
@@ -20,14 +20,11 @@ namespace ModularPipelines;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnCI : IPlanningRunCondition
+public sealed class OnCI : IRunCondition, IPlanningSafe
 {
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        var ciEnvVar = context.Environment.Variables.Get("CI");
-        var isCI = !string.IsNullOrEmpty(ciEnvVar) &&
-                   !string.Equals(ciEnvVar, "false", StringComparison.OrdinalIgnoreCase);
-        return Task.FromResult(isCI);
+        return Task.FromResult(context.Environment.BuildSystem.IsBuildServer);
     }
 }

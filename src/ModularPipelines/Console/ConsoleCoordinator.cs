@@ -471,7 +471,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
 
         Uninstall();
-        await Task.CompletedTask;
     }
 
     #region IProgressDisplay Implementation

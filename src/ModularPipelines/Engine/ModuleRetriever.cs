@@ -152,7 +152,9 @@ internal class ModuleRetriever
         var runnableModulesWithEstimatatedDuration = await discoveredModules.RunnableModules.ToAsyncProcessorBuilder()
             .SelectAsync(async module =>
             {
-                var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
+                var estimatedTime = await _estimatedTimeProvider
+                    .GetModuleEstimatedTimeAsync(module.GetType(), cancellationToken)
+                    .ConfigureAwait(false);
 
                 return new RunnableModule(module, estimatedTime);
             })

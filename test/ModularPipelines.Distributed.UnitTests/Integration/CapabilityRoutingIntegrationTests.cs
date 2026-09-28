@@ -10,20 +10,24 @@ public class CapabilityRoutingIntegrationTests
     {
         var coordinator = new InMemoryDistributedCoordinator();
 
-        var assignment = new ModuleAssignment(
-            ModuleId: "Docker.Module",
-            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
+        var assignment = new ModuleAssignment
+        {
+            ModuleId = "Docker.Module",
+            RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
         // Worker with docker capability
         var result = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability> { "linux", "docker" }, CancellationToken.None);
+            DistributedTestData.Worker,
+            new HashSet<Capability> { new("linux"), new("docker") },
+            CancellationToken.None);
 
         await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleId).IsEqualTo("Docker.Module");
+        await Assert.That(result!.Assignment.ModuleId).IsEqualTo("Docker.Module");
     }
 
     [Test]
@@ -31,46 +35,57 @@ public class CapabilityRoutingIntegrationTests
     {
         var coordinator = new InMemoryDistributedCoordinator();
 
-        var assignment = new ModuleAssignment(
-            ModuleId: "Docker.Module",
-            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
+        var assignment = new ModuleAssignment
+        {
+            ModuleId = "Docker.Module",
+            RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
         // Worker without docker capability - should timeout
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
-        var result = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability> { "linux" }, cts.Token);
-
-        await Assert.That(result).IsNull();
+        await Assert.That(async () => await coordinator.DequeueModuleAsync(
+                DistributedTestData.Worker,
+                new HashSet<Capability> { new("linux") },
+                cts.Token))
+            .Throws<OperationCanceledException>();
     }
 
     [Test]
     public async Task Requirement_Validates_Worker_Assignments()
     {
-        var dockerWorker = new WorkerRegistration(
-            WorkerIndex: 1,
-            Capabilities: ["linux", "docker"],
-            RegisteredAt: DateTimeOffset.UtcNow);
+        var dockerWorker = new WorkerRegistration
+        {
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Capabilities = [new Capability("linux"), new Capability("docker")],
+            RegisteredAt = DateTimeOffset.UtcNow,
+        };
 
-        var plainWorker = new WorkerRegistration(
-            WorkerIndex: 2,
-            Capabilities: ["linux"],
-            RegisteredAt: DateTimeOffset.UtcNow);
+        var plainWorker = new WorkerRegistration
+        {
+            WorkerId = WorkerId.FromInstanceIndex(2),
+            Capabilities = [new Capability("linux")],
+            RegisteredAt = DateTimeOffset.UtcNow,
+        };
 
-        var dockerAssignment = new ModuleAssignment(
-            ModuleId: "Docker.Module",
-            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
+        var dockerAssignment = new ModuleAssignment
+        {
+            ModuleId = "Docker.Module",
+            RequiredCapabilities = CapabilityRequirement.AllOf(new Capability("docker")),
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
-        var plainAssignment = new ModuleAssignment(
-            ModuleId: "Plain.Module",
-            RequiredCapabilities: CapabilityRequirement.None,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
+        var plainAssignment = new ModuleAssignment
+        {
+            ModuleId = "Plain.Module",
+            RequiredCapabilities = CapabilityRequirement.None,
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
         // Docker worker can execute both
         await Assert.That(dockerAssignment.RequiredCapabilities.IsSatisfiedBy(dockerWorker.Capabilities)).IsTrue();
@@ -86,24 +101,27 @@ public class CapabilityRoutingIntegrationTests
     {
         var coordinator = new InMemoryDistributedCoordinator();
 
-        var assignment = new ModuleAssignment(
-            ModuleId: "Unix.Module",
-            RequiredCapabilities: CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
+        var assignment = new ModuleAssignment
+        {
+            ModuleId = "Unix.Module",
+            RequiredCapabilities = CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS),
+            AlwaysRun = false,
+            PipelineSchemaVersion = string.Empty,
+        };
 
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
-        var windowsResult = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability> { Capability.Windows }, cts.Token);
+        await Assert.That(async () => await coordinator.DequeueModuleAsync(
+                DistributedTestData.Worker,
+                new HashSet<Capability> { Capability.Windows },
+                cts.Token))
+            .Throws<OperationCanceledException>();
         var macResult = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability> { Capability.MacOS }, CancellationToken.None);
+            DistributedTestData.Worker,
+            new HashSet<Capability> { Capability.MacOS },
+            CancellationToken.None);
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(windowsResult).IsNull();
-            await Assert.That(macResult?.ModuleId).IsEqualTo("Unix.Module");
-        }
+        await Assert.That(macResult?.Assignment.ModuleId).IsEqualTo("Unix.Module");
     }
 }

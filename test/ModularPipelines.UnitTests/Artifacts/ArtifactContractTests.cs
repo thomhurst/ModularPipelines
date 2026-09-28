@@ -129,8 +129,24 @@ public class ArtifactContractTests
     {
         var restoreDirectory = Path.Combine(Path.GetTempPath(), $"artifact-restore-{Guid.NewGuid():N}");
         var uploadedAt = DateTimeOffset.UtcNow;
-        var older = new ArtifactReference("older", "output", "producer", 3, null, uploadedAt.AddMinutes(-1));
-        var newer = new ArtifactReference("newer", "output", "producer", 3, null, uploadedAt);
+        var older = new ArtifactReference
+        {
+            ArtifactId = "older",
+            Name = "output",
+            ModuleId = "producer",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = uploadedAt.AddMinutes(-1),
+        };
+        var newer = new ArtifactReference
+        {
+            ArtifactId = "newer",
+            Name = "output",
+            ModuleId = "producer",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = uploadedAt,
+        };
         ArtifactReference? downloadedArtifact = null;
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(x => x.ListArtifactsAsync("producer", It.IsAny<CancellationToken>()))
@@ -227,7 +243,7 @@ public class ArtifactContractTests
 
     private sealed class AlwaysSkipArtifactCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(true);
     }
 
     [SkipIf<AlwaysSkipArtifactCondition>]
@@ -290,12 +306,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module is not SkippedArtifactValidationDependencyModule)
             {
@@ -453,7 +471,7 @@ public class ArtifactContractTests
 
     private sealed class EndHookArtifactHandler : IModuleEventHandler
     {
-        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result) =>
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken) =>
             context.ModuleType == typeof(AfterHookArtifactProducerModule)
                 ? File.WriteAllTextAsync(AfterHookProducedFile, "end-hook")
                 : Task.CompletedTask;
@@ -463,7 +481,7 @@ public class ArtifactContractTests
     {
         public static ModularPipelines.ModuleStatus? ObservedStatus { get; set; }
 
-        public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
+        public async Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result, CancellationToken cancellationToken)
         {
             if (context.ModuleType != typeof(LocalProducerModule))
             {
@@ -1146,12 +1164,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module is not SkippedArtifactProducerModule
                 and not DependencyOrderedSkippedArtifactProducerModule
@@ -1199,7 +1219,8 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             SaveCount++;
             return Task.CompletedTask;
@@ -1207,7 +1228,8 @@ public class ArtifactContractTests
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.FromResult<ModuleResult<T>?>(null);
     }
 
@@ -1218,12 +1240,14 @@ public class ArtifactContractTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) =>
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) =>
             Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             var executionContext = new ModuleExecutionContext(module, module.GetType());
             return Task.FromResult<ModuleResult<T>?>(
@@ -3005,8 +3029,9 @@ public class ArtifactContractTests
         try
         {
             var builder = Pipeline.CreateBuilder();
-            builder.Services.Configure<ModuleCacheOptions>(options =>
-                options.WorkingDirectory = workingDirectory.FullName);
+            ModuleCacheOptionsConfiguration.Register(
+                builder.Services,
+                options => options with { WorkingDirectory = workingDirectory.FullName });
             builder.AddModule<WorkingDirectoryProducerModule>();
             builder.AddModule<WorkingDirectoryConsumerModule>();
 
@@ -3052,10 +3077,10 @@ public class ArtifactContractTests
         string cacheDirectory)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddModuleCache<FileSystemModuleCache>(options =>
+        builder.AddModuleCache<FileSystemModuleCache>(options => options with
         {
-            options.WorkingDirectory = workingDirectory;
-            options.CacheDirectory = cacheDirectory;
+            WorkingDirectory = workingDirectory,
+            CacheDirectory = cacheDirectory,
         });
         builder.AddModule<CacheKeyArtifactProducerModule>();
         builder.AddModule<CacheKeyArtifactConsumerModule>();

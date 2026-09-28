@@ -46,16 +46,19 @@ public class FailedModuleNotificationTests
                 It.IsAny<CancellationToken>()))
             .Returns(ValueTask.CompletedTask);
 
-        await Assert.That(async () =>
-                await TestPipelineBuilder.Create()
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingleton(mediator.Object);
-                        services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
-                    })
-                    .AddModule<FailingModule>()
-                    .RunAsync())
-            .Throws<InvalidOperationException>();
+        // The module failure is preserved; the handler failure is surfaced alongside it.
+        var exception = await Assert.ThrowsAsync<AggregateException>(async () =>
+            await TestPipelineBuilder.Create()
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton(mediator.Object);
+                    services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
+                })
+                .AddModule<FailingModule>()
+                .RunAsync());
+        var inner = exception!.Flatten().InnerExceptions;
+        await Assert.That(inner.OfType<ModuleFailedException>().Any()).IsTrue();
+        await Assert.That(inner.Any(e => e.Message == "Expected handler failure")).IsTrue();
 
         mediator.Verify(x => x.Publish(
             It.Is<ModuleCompletedNotification>(notification =>
@@ -76,7 +79,7 @@ public class FailedModuleNotificationTests
 
     private sealed class ThrowingFailureHandler : IModuleEventHandler
     {
-        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception, CancellationToken cancellationToken)
         {
             return Task.FromException(new InvalidOperationException("Expected handler failure"));
         }

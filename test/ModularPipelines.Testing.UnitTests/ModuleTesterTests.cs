@@ -95,7 +95,6 @@ public class ModuleTesterTests
     public async Task InterceptedCommandFailureObfuscatesExceptionResult()
     {
         var run = await ModuleTester.For<SecretCommandModule, string>()
-            .WithService<ISecretObfuscator>(new TestSecretObfuscator())
             .InterceptCommands(_ => CommandResult.Ok(InterceptedSecret, InterceptedSecret) with
             {
                 ExitCode = 1,
@@ -286,7 +285,7 @@ public class ModuleTesterTests
     }
 
     [Test]
-    public async Task UnsupportedVirtualMetadataFailsLoudly()
+    public async Task VirtualMetadataIsReadThroughTheInMemoryProvider()
     {
         var root = Path.Combine(
             Path.GetTempPath(),
@@ -296,7 +295,12 @@ public class ModuleTesterTests
             .WithService(new FilePath(Path.Combine(root, "artifact.txt")))
             .ExecuteAsync();
 
-        await Assert.That(run.Exception).IsTypeOf<NotSupportedException>();
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Exception).IsNull();
+            await Assert.That(run.Value).IsEqualTo("contents".Length);
+            await Assert.That(Directory.Exists(root)).IsFalse();
+        }
     }
 
     [Test]
@@ -655,12 +659,13 @@ public class ModuleTesterTests
         }
     }
 
-    public sealed class SecretCommandModule : Module<string>
+    public sealed class SecretCommandModule(ISecretRegistry secretRegistry) : Module<string>
     {
         protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
+            secretRegistry.AddSecret(InterceptedSecret);
             var result = await context.Shell.RunAsync(
                 new CommandLineToolOptions("imaginary-tool")
                 {
@@ -677,13 +682,6 @@ public class ModuleTesterTests
 
             return result.StandardOutput;
         }
-    }
-
-    private sealed class TestSecretObfuscator : ISecretObfuscator
-    {
-        public string Obfuscate(string? input, object? optionsObject) =>
-            input?.Replace(InterceptedSecret, "********", StringComparison.Ordinal)
-            ?? string.Empty;
     }
 
     public sealed class ConcurrentCommandModule : Module<string>

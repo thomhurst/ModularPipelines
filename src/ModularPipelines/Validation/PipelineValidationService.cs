@@ -11,8 +11,9 @@ internal class PipelineValidationService : IPipelineValidationService
     /// Validates the pipeline configuration using all registered validators.
     /// </summary>
     /// <param name="services">The service provider containing registered services.</param>
+    /// <param name="cancellationToken">A token that cancels validation.</param>
     /// <returns>A validation result containing all errors found.</returns>
-    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         var result = new ValidationResult();
 
@@ -23,7 +24,7 @@ internal class PipelineValidationService : IPipelineValidationService
 
         foreach (var validator in validators)
         {
-            var validatorResult = await validator.ValidateAsync(services).ConfigureAwait(false);
+            var validatorResult = await validator.ValidateAsync(services, cancellationToken).ConfigureAwait(false);
             result.Merge(validatorResult);
         }
 

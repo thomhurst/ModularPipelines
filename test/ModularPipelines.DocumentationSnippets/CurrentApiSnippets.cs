@@ -322,7 +322,7 @@ public static class CurrentApiSnippets
 
     public sealed class HasGitHubToken : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
             => Task.FromResult(!string.IsNullOrEmpty(
                 context.Environment.Variables.Get("GITHUB_TOKEN")));
     }

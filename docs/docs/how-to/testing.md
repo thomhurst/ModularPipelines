@@ -113,10 +113,42 @@ Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated
 Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and
 throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
 
-`ICommandInterceptor` is also a public framework seam. Register an implementation
-in a normal pipeline when command interception is needed outside
-`ModularPipelines.Testing`. Return `null` to let the next interceptor or the real
-process executor handle the command.
+`ICommandInterceptor` is also a public framework seam: middleware that wraps every
+command after it is parsed and before the process starts. Register one with
+`builder.AddCommandInterceptor<TInterceptor>()` (adding the same type twice has no
+effect) or `builder.AddCommandInterceptor(instance)`. Interceptors run in
+registration order, so the first registered one is outermost.
+
+```csharp
+public sealed class ForceVerbosityInterceptor : ICommandInterceptor
+{
+    public async ValueTask<CommandResult> InvokeAsync(
+        CommandInvocation invocation,
+        CommandDelegate next,
+        CancellationToken cancellationToken)
+    {
+        var changed = invocation with
+        {
+            CommandLine = new CommandLine(
+                invocation.CommandLine.Tool,
+                [.. invocation.CommandLine.Arguments, "--verbosity", "minimal"]),
+        };
+
+        var result = await next(changed, cancellationToken);
+        // Observe or replace the result here.
+        return result;
+    }
+}
+```
+
+Call `next` to continue to the next interceptor or the process executor, optionally
+with a modified `CommandLine`, `ExecutionOptions`, or `WorkingDirectory`.
+`CommandInput` and `EnvironmentVariables` are secret-masked views that the framework
+regenerates; change environment variables through `ExecutionOptions`. Return a
+result without calling `next` to short-circuit: the framework applies command
+metadata, logs it, and throws `CommandException` for a nonzero exit code when
+`ThrowOnNonZeroExitCode` is enabled. The execution timeout starts before the
+interceptors run and cannot be changed by them.
 
 ## Use the in-memory filesystem
 
@@ -131,10 +163,17 @@ var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
 
 `InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and
 directory creation, reads, writes, streams, copies, moves, deletion, enumeration,
-and path helpers. You can also construct and register it directly in other tests.
-Physical metadata such as attributes, timestamps, and file length is not part of
-`IFileSystemProvider`; accessing it through an in-memory-backed `FilePath` or `FolderPath`
-throws `NotSupportedException` rather than reading the real filesystem.
+path helpers, and metadata (attributes, UTC timestamps, and file length). You can also
+construct and register it directly in other tests. `FilePath` and `FolderPath` read and
+write metadata through the provider, so an in-memory-backed path never touches the real
+filesystem, and `FolderPath.CopyTo(target, preserveTimestamps: true)` copies the in-memory
+timestamps.
+
+To write your own provider, implement the primitive members of `IFileSystemProvider`
+(`Open`, file and directory management, existence checks, enumeration, and the metadata
+getters and setters). The text, bytes, lines, append, `OpenRead`, `Create`, `CopyFile`,
+`GetFileLength`, and path-helper members have default implementations built on those
+primitives.
 
 Code under test must obtain `FilePath` and `FolderPath` instances from `context.Files`.
 Direct construction such as `new FilePath("path")` intentionally uses the physical

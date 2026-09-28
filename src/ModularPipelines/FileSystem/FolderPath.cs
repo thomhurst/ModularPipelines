@@ -21,15 +21,6 @@ public class FolderPath : IEquatable<FolderPath>
 
     private readonly IFileSystemProvider _provider;
 
-    private DirectoryInfo DirectoryInfo
-    {
-        get
-        {
-            _directoryInfo.Refresh();
-            return _directoryInfo;
-        }
-    }
-
     public FolderPath(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
@@ -51,7 +42,7 @@ public class FolderPath : IEquatable<FolderPath>
 
     public bool Exists => _provider.DirectoryExists(Path);
 
-    public bool Hidden => (GetPhysicalDirectoryInfo().Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+    public bool Hidden => (Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
     public string Name => _directoryInfo.Name;
 
@@ -76,8 +67,8 @@ public class FolderPath : IEquatable<FolderPath>
 
     public FileAttributes Attributes
     {
-        get => GetPhysicalDirectoryInfo().Attributes;
-        set => GetPhysicalDirectoryInfo().Attributes = value;
+        get => _provider.GetAttributes(Path);
+        set => _provider.SetAttributes(Path, value);
     }
 
     [JsonConverter(typeof(FolderPathJsonConverter))]
@@ -95,9 +86,9 @@ public class FolderPath : IEquatable<FolderPath>
         }
     }
 
-    public DateTimeOffset CreationTime => GetPhysicalDirectoryInfo().CreationTime;
+    public DateTimeOffset CreationTime => new DateTimeOffset(_provider.GetCreationTimeUtc(Path)).ToLocalTime();
 
-    public DateTimeOffset LastWriteTimeUtc => GetPhysicalDirectoryInfo().LastWriteTimeUtc;
+    public DateTimeOffset LastWriteTimeUtc => new(_provider.GetLastWriteTimeUtc(Path));
 
     public string Extension => System.IO.Path.GetExtension(Path);
 
@@ -194,11 +185,6 @@ public class FolderPath : IEquatable<FolderPath>
     {
         LogFolderOperation("Cleaning Folder: {Path}", this);
 
-        if (removeReadOnlyAttribute)
-        {
-            EnsurePhysicalMetadataSupported();
-        }
-
         var errors = new List<Exception>();
 
         foreach (var directoryPath in _provider
@@ -209,7 +195,7 @@ public class FolderPath : IEquatable<FolderPath>
             {
                 if (removeReadOnlyAttribute)
                 {
-                    RemoveReadOnlyAttributeRecursively(new DirectoryInfo(directoryPath));
+                    RemoveReadOnlyAttributeRecursively(directoryPath);
                 }
 
                 _provider.DeleteDirectory(directoryPath, recursive: true);
@@ -227,10 +213,9 @@ public class FolderPath : IEquatable<FolderPath>
         {
             try
             {
-                var file = new FileInfo(filePath);
                 if (removeReadOnlyAttribute)
                 {
-                    RemoveReadOnlyAttribute(file);
+                    RemoveReadOnlyAttribute(filePath);
                 }
 
                 _provider.DeleteFile(filePath);
@@ -270,12 +255,6 @@ public class FolderPath : IEquatable<FolderPath>
     public FolderPath CopyTo(string targetPath, bool preserveTimestamps)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
-        var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
-        if (preserveTimestamps && !copyPhysicalMetadata)
-        {
-            EnsurePhysicalMetadataSupported();
-        }
-
         _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
@@ -284,11 +263,7 @@ public class FolderPath : IEquatable<FolderPath>
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
-
-            if (copyPhysicalMetadata)
-            {
-                CopyDirectoryMetadata(dirPath, newPath, preserveTimestamps);
-            }
+            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         // Copy all files
@@ -297,17 +272,10 @@ public class FolderPath : IEquatable<FolderPath>
             var relativePath = _provider.GetRelativePath(this, filePath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CopyFile(filePath, newPath, overwrite: true);
-
-            if (copyPhysicalMetadata)
-            {
-                CopyFileMetadata(filePath, newPath, preserveTimestamps);
-            }
+            CopyMetadata(filePath, newPath, preserveTimestamps);
         }
 
-        if (copyPhysicalMetadata)
-        {
-            CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
-        }
+        CopyMetadata(Path, targetPath, preserveTimestamps);
 
         return new FolderPath(targetPath, _provider);
     }
@@ -337,12 +305,6 @@ public class FolderPath : IEquatable<FolderPath>
     public async Task<FolderPath> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
-        var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
-        if (preserveTimestamps && !copyPhysicalMetadata)
-        {
-            EnsurePhysicalMetadataSupported();
-        }
-
         _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
@@ -353,11 +315,7 @@ public class FolderPath : IEquatable<FolderPath>
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
-
-            if (copyPhysicalMetadata)
-            {
-                CopyDirectoryMetadata(dirPath, newPath, preserveTimestamps);
-            }
+            CopyMetadata(dirPath, newPath, preserveTimestamps);
         }
 
         // Copy all files using async stream copying
@@ -377,17 +335,10 @@ public class FolderPath : IEquatable<FolderPath>
                     await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
                 }
             }
-
-            if (copyPhysicalMetadata)
-            {
-                CopyFileMetadata(filePath, newPath, preserveTimestamps);
-            }
+            CopyMetadata(filePath, newPath, preserveTimestamps);
         }
 
-        if (copyPhysicalMetadata)
-        {
-            CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
-        }
+        CopyMetadata(Path, targetPath, preserveTimestamps);
 
         return new FolderPath(targetPath, _provider);
     }
@@ -637,41 +588,18 @@ public class FolderPath : IEquatable<FolderPath>
             .Select(path => new FilePath(path, _provider));
     }
 
-    private static void CopyDirectoryMetadata(
+    private void CopyMetadata(
         string sourcePath,
         string targetPath,
         bool preserveTimestamps)
     {
-        var source = new DirectoryInfo(sourcePath);
-        var target = new DirectoryInfo(targetPath)
-        {
-            Attributes = source.Attributes,
-        };
+        _provider.SetAttributes(targetPath, _provider.GetAttributes(sourcePath));
 
         if (preserveTimestamps)
         {
-            target.CreationTimeUtc = source.CreationTimeUtc;
-            target.LastWriteTimeUtc = source.LastWriteTimeUtc;
-            target.LastAccessTimeUtc = source.LastAccessTimeUtc;
-        }
-    }
-
-    private static void CopyFileMetadata(
-        string sourcePath,
-        string targetPath,
-        bool preserveTimestamps)
-    {
-        var source = new FileInfo(sourcePath);
-        var target = new FileInfo(targetPath)
-        {
-            Attributes = source.Attributes,
-        };
-
-        if (preserveTimestamps)
-        {
-            target.CreationTimeUtc = source.CreationTimeUtc;
-            target.LastWriteTimeUtc = source.LastWriteTimeUtc;
-            target.LastAccessTimeUtc = source.LastAccessTimeUtc;
+            _provider.SetCreationTimeUtc(targetPath, _provider.GetCreationTimeUtc(sourcePath));
+            _provider.SetLastWriteTimeUtc(targetPath, _provider.GetLastWriteTimeUtc(sourcePath));
+            _provider.SetLastAccessTimeUtc(targetPath, _provider.GetLastAccessTimeUtc(sourcePath));
         }
     }
 
@@ -704,56 +632,42 @@ public class FolderPath : IEquatable<FolderPath>
         return false;
     }
 
-    private DirectoryInfo GetPhysicalDirectoryInfo()
+    private void RemoveReadOnlyAttributeRecursively(string directoryPath)
     {
-        EnsurePhysicalMetadataSupported();
-        return DirectoryInfo;
-    }
-
-    private void EnsurePhysicalMetadataSupported()
-    {
-        if (!ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
-        {
-            throw new NotSupportedException(
-                "Folder metadata is unavailable through the configured IFileSystemProvider.");
-        }
-    }
-
-    private static void RemoveReadOnlyAttributeRecursively(DirectoryInfo directory)
-    {
-        if ((directory.Attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+        if (!RemoveReadOnlyAttribute(directoryPath))
         {
             return;
         }
 
-        if ((directory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+        foreach (var filePath in _provider.EnumerateFiles(directoryPath, "*", SearchOption.TopDirectoryOnly))
         {
-            directory.Attributes &= ~FileAttributes.ReadOnly;
+            RemoveReadOnlyAttribute(filePath);
         }
 
-        foreach (var file in directory.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
+        foreach (var subDirectoryPath in _provider.EnumerateDirectories(directoryPath, "*", SearchOption.TopDirectoryOnly))
         {
-            RemoveReadOnlyAttribute(file);
-        }
-
-        foreach (var subDirectory in directory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
-        {
-            RemoveReadOnlyAttributeRecursively(subDirectory);
+            RemoveReadOnlyAttributeRecursively(subDirectoryPath);
         }
     }
 
-    private static void RemoveReadOnlyAttribute(FileInfo file)
+    /// <summary>
+    /// Clears the read-only attribute of an entry. Returns <see langword="false"/> for reparse points,
+    /// whose targets are left untouched.
+    /// </summary>
+    private bool RemoveReadOnlyAttribute(string path)
     {
-        var attributes = file.Attributes;
+        var attributes = _provider.GetAttributes(path);
         if ((attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
         {
-            return;
+            return false;
         }
 
         if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
         {
-            file.Attributes = attributes & ~FileAttributes.ReadOnly;
+            _provider.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
         }
+
+        return true;
     }
 
     /// <summary>

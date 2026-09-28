@@ -70,6 +70,9 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
         _configuration = CreateConfigurationLazy();
     }
 
+    /// <inheritdoc />
+    IInternalModule IModule.AsInternalModule() => this;
+
     internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; private set; } =
         CreateCompletionSource();
 

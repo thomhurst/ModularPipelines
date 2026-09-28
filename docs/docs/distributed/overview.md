@@ -26,10 +26,17 @@ Every pipeline instance runs in one of two roles:
 
 ### Coordinator
 
-The coordinator is the shared communication layer between master and workers. It handles work queuing, result publication, worker registration, heartbeats, and cancellation signals. ModularPipelines ships with two coordinator implementations:
+The coordinator is the shared communication layer between master and workers. It handles work queuing, leases, result publication, worker registration, heartbeats, and cancellation signals. Choose one backend:
 
-- **InMemoryDistributedCoordinator** — for single-process testing only.
-- **RedisDistributedCoordinator** — production-ready, uses Redis for cross-process coordination. Provided by the `ModularPipelines.Distributed.Redis` package.
+- **Redis** — `AddRedisDistributedCoordinator` from the `ModularPipelines.Distributed.Redis` package. Every process talks to a shared Redis server.
+- **SignalR** — `AddSignalRDistributedCoordinator` from the `ModularPipelines.Distributed.SignalR` package. The master hosts a SignalR hub and workers connect to it directly, optionally through a cloudflared tunnel and Redis-based discovery.
+- **Custom** — implement `IDistributedMasterCoordinator` and register it with `AddDistributedCoordinator<T>()` or `AddDistributedCoordinatorFactory<T>()`.
+
+Register exactly one backend; building the pipeline fails when several are registered. A run with `TotalInstances` greater than one fails at startup when no backend is registered, instead of leaving workers waiting forever. Single-process runs use a built-in process-local coordinator automatically.
+
+### Leases
+
+A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. The first result published for a module is final.
 
 ### Capabilities
 
@@ -65,15 +72,18 @@ Every instance automatically advertises its operating system through the matchin
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
 2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
-4. Workers send periodic **heartbeats** so the master can detect failures.
-5. Either side can broadcast a **cancellation signal** to stop all instances.
+4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues modules whose leases expire.
+5. When a module fails, the master immediately broadcasts a `PipelineFailed` cancellation: workers cancel non-AlwaysRun modules and only claim AlwaysRun work, and the master withdraws queued non-AlwaysRun assignments. A user stop broadcasts `Stopped`, which cancels everything.
 
 ## Packages
 
 | Package | Purpose |
 |---------|---------|
-| `ModularPipelines.Distributed` | Core distributed abstractions, master/worker executors, capability system. Referenced automatically by the main `ModularPipelines` package. |
-| `ModularPipelines.Distributed.Redis` | Redis-based coordinator implementation. Add this to your pipeline project. |
+| `ModularPipelines` | Core distributed abstractions, master/worker executors, and the capability system. |
+| `ModularPipelines.Distributed.Redis` | Redis coordinator, artifact store, and module cache. |
+| `ModularPipelines.Distributed.SignalR` | SignalR coordinator: the master hosts the hub that workers connect to. |
+| `ModularPipelines.Distributed.Discovery.Redis` | Advertises the SignalR master's endpoint and access token through Redis. |
+| `ModularPipelines.Distributed.Artifacts.S3` | S3-compatible artifact store. |
 
 ## Next Steps
 

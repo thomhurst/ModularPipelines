@@ -19,6 +19,7 @@ internal class ArtifactLifecycleManager
     private readonly ArtifactOptions _options;
     private readonly ILogger<ArtifactLifecycleManager> _logger;
     private readonly string _workingDirectory;
+    private readonly AcceptedArtifactRegistry? _acceptedArtifacts;
 
     private ILogger Logger =>
         (ILogger?) AmbientModuleOutputContext.Current?.Logger ?? _logger;
@@ -32,8 +33,9 @@ internal class ArtifactLifecycleManager
     public ArtifactLifecycleManager(
         IDistributedArtifactStore store,
         IOptions<ArtifactOptions> options,
-        ILogger<ArtifactLifecycleManager> logger)
-        : this(store, options, logger, Directory.GetCurrentDirectory())
+        ILogger<ArtifactLifecycleManager> logger,
+        AcceptedArtifactRegistry? acceptedArtifacts = null)
+        : this(store, options, logger, Directory.GetCurrentDirectory(), acceptedArtifacts)
     {
     }
 
@@ -41,8 +43,9 @@ internal class ArtifactLifecycleManager
         IDistributedArtifactStore store,
         IOptions<ArtifactOptions> options,
         ILogger<ArtifactLifecycleManager> logger,
-        IOptions<ModuleCacheOptions> cacheOptions)
-        : this(store, options, logger, cacheOptions.Value.WorkingDirectory)
+        IOptions<ModuleCacheOptions> cacheOptions,
+        AcceptedArtifactRegistry? acceptedArtifacts = null)
+        : this(store, options, logger, cacheOptions.Value.WorkingDirectory, acceptedArtifacts)
     {
     }
 
@@ -50,12 +53,14 @@ internal class ArtifactLifecycleManager
         IDistributedArtifactStore store,
         IOptions<ArtifactOptions> options,
         ILogger<ArtifactLifecycleManager> logger,
-        string workingDirectory)
+        string workingDirectory,
+        AcceptedArtifactRegistry? acceptedArtifacts = null)
     {
         _store = store;
         _options = options.Value;
         _logger = logger;
         _workingDirectory = Path.GetFullPath(workingDirectory);
+        _acceptedArtifacts = acceptedArtifacts;
     }
 
     /// <summary>
@@ -124,9 +129,11 @@ internal class ArtifactLifecycleManager
             return null;
         }
 
-        var descriptor = new ArtifactDescriptor(
-            Name: attribute.Name,
-            ModuleId: ModuleId.FromType(moduleType));
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = attribute.Name,
+            ModuleId = ModuleId.FromType(moduleType),
+        };
         var reference = await UploadResolvedPathsAsync(
                 descriptor,
                 attribute.PathPattern,
@@ -278,7 +285,8 @@ internal class ArtifactLifecycleManager
         string filePath,
         CancellationToken cancellationToken)
     {
-        await using var stream = File.OpenRead(filePath);
+        var stream = File.OpenRead(filePath);
+        await using var streamScope = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
 
@@ -315,8 +323,44 @@ internal class ArtifactLifecycleManager
                 moduleType,
                 failIfMissing,
                 attr.ProducerModule,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Throws when a distributed producer did not upload an artifact that a planned consumer requires,
+    /// matching the check standalone execution applies after uploading.
+    /// </summary>
+    internal static void EnsureRequiredArtifactsProduced(
+        Type moduleType,
+        IReadOnlyCollection<ArtifactReference> uploadedArtifacts,
+        IReadOnlyCollection<string> requiredArtifactNames)
+    {
+        if (requiredArtifactNames.Count == 0)
+        {
+            return;
+        }
+
+        var uploadedNames = uploadedArtifacts
+            .Select(static artifact => artifact.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        var missing = moduleType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Where(attribute => requiredArtifactNames.Contains(attribute.Name, StringComparer.Ordinal)
+                                && !uploadedNames.Contains(attribute.Name))
+            .OrderBy(static attribute => attribute.Name, StringComparer.Ordinal)
+            .Select(static attribute =>
+                $"Artifact '{attribute.Name}' matched no files for pattern '{attribute.PathPattern}'.")
+            .ToArray();
+        if (missing.Length == 0)
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            $"Module '{moduleType.Name}' did not produce required artifacts:{Environment.NewLine}"
+            + string.Join(Environment.NewLine, missing));
     }
 
     /// <summary>
@@ -367,7 +411,7 @@ internal class ArtifactLifecycleManager
         try
         {
             // WaitAsync respects the caller's token without affecting the shared download
-            await lazyTask.Value.WaitAsync(cancellationToken);
+            await lazyTask.Value.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -393,11 +437,13 @@ internal class ArtifactLifecycleManager
         Type? producerModuleType,
         CancellationToken cancellationToken)
     {
-        var artifacts = await _store.ListArtifactsAsync(producerModuleId, cancellationToken).ConfigureAwait(false);
-        var artifact = artifacts
-            .Where(a => a.Name == artifactName)
-            .OrderByDescending(static a => a.UploadedAt)
-            .FirstOrDefault();
+        var artifact = await ResolveArtifactAsync(
+                _store,
+                _acceptedArtifacts,
+                producerModuleId,
+                artifactName,
+                cancellationToken)
+            .ConfigureAwait(false);
 
         if (artifact is null)
         {
@@ -422,7 +468,8 @@ internal class ArtifactLifecycleManager
             return;
         }
 
-        await using var stream = await _store.DownloadAsync(artifact, cancellationToken);
+        var stream = await _store.DownloadAsync(artifact, cancellationToken).ConfigureAwait(false);
+        await using var streamScope = stream.ConfigureAwait(false);
 
         if (artifact.ContentType == "application/zip")
         {
@@ -434,8 +481,9 @@ internal class ArtifactLifecycleManager
         {
             var destFile = Path.Combine(restorePath, artifact.Name);
             Directory.CreateDirectory(Path.GetDirectoryName(destFile)!);
-            await using var fileStream = File.Create(destFile);
-            await stream.CopyToAsync(fileStream, cancellationToken);
+            var fileStream = File.Create(destFile);
+            await using var fileStreamScope = fileStream.ConfigureAwait(false);
+            await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         }
 
         if (Logger.IsEnabled(LogLevel.Information))
@@ -444,6 +492,29 @@ internal class ArtifactLifecycleManager
                 "Restored artifact '{Name}' from module '{Producer}' to '{Path}'",
                 artifactName, producerModuleId, restorePath);
         }
+    }
+
+    /// <summary>
+    /// Resolves the artifact to download: the reference listed by the producer's accepted distributed
+    /// result when one is known, otherwise the newest matching upload in the store.
+    /// </summary>
+    internal static async Task<ArtifactReference?> ResolveArtifactAsync(
+        IDistributedArtifactStore store,
+        AcceptedArtifactRegistry? acceptedArtifacts,
+        ModuleId producerModuleId,
+        string artifactName,
+        CancellationToken cancellationToken)
+    {
+        if (acceptedArtifacts?.TryGet(producerModuleId, out var accepted) == true)
+        {
+            return accepted.FirstOrDefault(artifact => artifact.Name == artifactName);
+        }
+
+        var artifacts = await store.ListArtifactsAsync(producerModuleId, cancellationToken).ConfigureAwait(false);
+        return artifacts
+            .Where(artifact => artifact.Name == artifactName)
+            .OrderByDescending(static artifact => artifact.UploadedAt)
+            .FirstOrDefault();
     }
 
     /// <summary>

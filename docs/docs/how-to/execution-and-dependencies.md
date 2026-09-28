@@ -185,3 +185,26 @@ public class Module2 : Module<string>
         .DependsOnIf<Module4>(someCondition);    // Required when true
 }
 ```
+
+## Selector Dependencies
+
+Selector attributes derive from `DependsOnBaseAttribute` and choose dependencies from the registered modules
+when the pipeline starts:
+
+- `[DependsOnAllModulesInheritingFrom<TBase>]` depends on every registered module that is, derives from, or
+  implements `TBase` (use `typeof(Base<>)` with the non-generic form for open generic bases);
+- `[DependsOnModulesWithTag("database")]`, `[DependsOnModulesInCategory("infrastructure")]`, and
+  `[DependsOnModulesWithAttribute<TAttribute>]` select by module metadata.
+
+Like `[DependsOn<T>]`, selectors can be placed on a module class or on an interface the module implements.
+The built-in `DependsOn` and selector attributes are sealed. For custom selection, derive from
+`DependsOnBaseAttribute` and override `ShouldDependOn`. Also implement `IPlanningSafe` when the selector is
+deterministic and free of side effects, so dependency-graph export and dry-run planning can evaluate it:
+
+```csharp
+public sealed class DependsOnDeployTargetsAttribute : DependsOnBaseAttribute, IPlanningSafe
+{
+    public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+        context.GetTags(candidateModule).Contains("deploy-target");
+}
+```

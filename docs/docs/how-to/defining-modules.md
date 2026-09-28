@@ -87,10 +87,12 @@ public class MyModule : Module<FileInfo>
 
 | Method | Description |
 |--------|-------------|
-| `.WithTimeout(TimeSpan)` | Maximum execution time before module is cancelled |
+| `.WithTimeout(TimeSpan)` | Maximum execution time per attempt; must be positive, or `Timeout.InfiniteTimeSpan` to disable the default timeout |
 | `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter |
 | `.WithShield(Shield)` | Custom Kevlar resilience shield for advanced scenarios |
 | `.WithSkipWhen(...)` | Condition to skip the module |
+| `.WithRunIf<T>()` / `.WithRunIf(IRunCondition)` | Run only when an `IRunCondition` is satisfied |
+| `.WithSkipIf<T>()` / `.WithSkipIf(IRunCondition)` | Skip when an `IRunCondition` is satisfied |
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |
 | `.WithAlwaysRun()` | Run even if the pipeline has failed |

@@ -33,19 +33,21 @@ public class TelemetryIntegrationTests
 
     private sealed class SuccessfulCommandInterceptor : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default)
+            CommandDelegate next,
+            CancellationToken cancellationToken)
         {
-            return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+            return ValueTask.FromResult(CommandResult.Ok());
         }
     }
 
     private sealed class ThrowingCommandInterceptor : ICommandInterceptor
     {
-        public ValueTask<CommandResult?> InterceptAsync(
+        public ValueTask<CommandResult> InvokeAsync(
             CommandInvocation invocation,
-            CancellationToken cancellationToken = default)
+            CommandDelegate next,
+            CancellationToken cancellationToken)
         {
             throw new InvalidOperationException($"Telemetry failure contains {Secret}");
         }

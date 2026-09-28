@@ -8,25 +8,27 @@ public class DistributedTelemetryTrackerTests
         var pipelineStart = new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero);
         var tracker = new DistributedTelemetryTracker();
         tracker.RecordAssignment(
-            new ModuleAssignment(
-                "Example.BuildModule",
-
-                CapabilityRequirement.None,
-                pipelineStart,
-                new ModuleAssignmentOptions(null, false),
-                [new DependencyResultReference("Example.DependencyModule", IsAvailable: true)])
+            new ModuleAssignment
             {
+                ModuleId = "Example.BuildModule",
+                RequiredCapabilities = CapabilityRequirement.None,
+                AlwaysRun = false,
+                DependencyResultReferences = [new DependencyResultReference
+                {
+                    ModuleId = "Example.DependencyModule",
+                    IsAvailable = true,
+                }],
                 EnqueuedAt = pipelineStart.AddSeconds(1),
+                PipelineSchemaVersion = string.Empty,
             },
             TimeSpan.FromMilliseconds(100));
         tracker.RecordResult(
-            new SerializedModuleResult(
-                "Example.BuildModule",
-
-                0,
-                "{}",
-                pipelineStart.AddSeconds(8.5))
+            new SerializedModuleResult
             {
+                ModuleId = "Example.BuildModule",
+                WorkerId = WorkerId.FromInstanceIndex(0),
+                Payload = "{}",
+                CompletedAt = pipelineStart.AddSeconds(8.5),
                 ExecutionTelemetry = new DistributedModuleExecutionTelemetry
                 {
                     ClaimedAt = pipelineStart.AddSeconds(3),
@@ -52,7 +54,7 @@ public class DistributedTelemetryTrackerTests
         {
             await Assert.That(report.WorkerCount).IsEqualTo(2);
             await Assert.That(report.FleetUtilizationPercentage).IsEqualTo(27.5);
-            await Assert.That(module.WorkerIndex).IsEqualTo(0);
+            await Assert.That(module.WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(0));
             await Assert.That(module.ModuleTypeName).IsEqualTo("Example.BuildModule");
             await Assert.That(module.QueueWaitDuration).IsEqualTo(TimeSpan.FromSeconds(2));
             await Assert.That(module.ExecutionDuration).IsEqualTo(TimeSpan.FromSeconds(4));
@@ -75,7 +77,13 @@ public class DistributedTelemetryTrackerTests
         var now = DateTimeOffset.UtcNow;
         var tracker = new DistributedTelemetryTracker();
         tracker.RecordResult(
-            new SerializedModuleResult("Module", 0, "{}", now),
+            new SerializedModuleResult
+            {
+                ModuleId = "Module",
+                WorkerId = WorkerId.FromInstanceIndex(0),
+                Payload = "{}",
+                CompletedAt = now,
+            },
             now,
             "Module");
 
@@ -87,12 +95,20 @@ public class DistributedTelemetryTrackerTests
     {
         var start = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
         var tracker = new DistributedTelemetryTracker();
-        tracker.RecordResult(new SerializedModuleResult("First", 0, "{}", start.AddSeconds(6))
+        tracker.RecordResult(new SerializedModuleResult
         {
+            ModuleId = "First",
+            WorkerId = WorkerId.FromInstanceIndex(0),
+            Payload = "{}",
+            CompletedAt = start.AddSeconds(6),
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(-1) },
         }, start.AddSeconds(6), "First");
-        tracker.RecordResult(new SerializedModuleResult("Second", 0, "{}", start.AddSeconds(12))
+        tracker.RecordResult(new SerializedModuleResult
         {
+            ModuleId = "Second",
+            WorkerId = WorkerId.FromInstanceIndex(0),
+            Payload = "{}",
+            CompletedAt = start.AddSeconds(12),
             ExecutionTelemetry = new DistributedModuleExecutionTelemetry { ClaimedAt = start.AddSeconds(4) },
         }, start.AddSeconds(12), "Second");
 

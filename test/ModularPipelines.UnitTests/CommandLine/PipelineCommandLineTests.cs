@@ -54,9 +54,9 @@ public class PipelineCommandLineTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IPlanningSafeModuleRegistrationHandler
+        : Attribute, IModuleRegistrationHandler, IPlanningSafe
     {
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             context.AddDependency(dependencyType);
             return Task.CompletedTask;
@@ -232,7 +232,7 @@ public class PipelineCommandLineTests
 
     private sealed class TrackingCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context)
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _conditionEvaluations);
             return Task.FromResult(true);
@@ -266,7 +266,7 @@ public class PipelineCommandLineTests
 
     private sealed class NeverRunCondition : IRunCondition
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 
     [RunIf<NeverRunCondition>]
@@ -345,7 +345,7 @@ public class PipelineCommandLineTests
 
     private sealed class PlanEstimatedTimeProvider : IModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) => Task.FromResult(moduleType.Name switch
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken) => Task.FromResult(moduleType.Name switch
         {
             nameof(DependencyModule) => TimeSpan.FromMinutes(2),
             nameof(UnrelatedModule) => TimeSpan.FromMinutes(5),
@@ -382,12 +382,12 @@ public class PipelineCommandLineTests
             _ => TimeSpan.Zero,
         });
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation, CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
@@ -398,11 +398,13 @@ public class PipelineCommandLineTests
         public Task SaveResultAsync<T>(
             Module<T> module,
             ModuleResult<T> moduleResult,
-            IPipelineContext pipelineContext) => Task.CompletedTask;
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken) => Task.CompletedTask;
 
         public Task<ModuleResult<T>?> GetResultAsync<T>(
             Module<T> module,
-            IPipelineContext pipelineContext)
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
         {
             if (module is not SkippedDependencyModule and not ExcludedSkippedDependencyModule)
             {

@@ -102,6 +102,12 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
                     return;
                 }
 
+                // A loaded runner can resume this loop after the deadline, when a failure was already published.
+                if (Directory.EnumerateFiles(DirectoryPath, "*.error").Any())
+                {
+                    throw new InvalidOperationException($"Process fixture failed before publishing {name}. {DescribeState()}");
+                }
+
                 throw new TimeoutException($"Process fixture did not publish {name} within {timeout}. Execution: {Execution.Status}. {DescribeState()}", exception);
             }
         }

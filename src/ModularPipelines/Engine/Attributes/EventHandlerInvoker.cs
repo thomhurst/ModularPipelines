@@ -20,47 +20,55 @@ internal class EventHandlerInvoker : IEventHandlerInvoker
 
     public Task InvokePipelineStartHandlersAsync(
         IEnumerable<IPipelineEventHandler> handlers,
-        IPipelineContext context) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnPipelineStartAsync(context), "Pipeline start");
+        IPipelineContext context,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnPipelineStartAsync(context, cancellationToken), "Pipeline start");
 
     public Task InvokePipelineEndHandlersAsync(
         IEnumerable<IPipelineEventHandler> handlers,
         IPipelineContext context,
-        PipelineSummary summary) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnPipelineEndAsync(context, summary), "Pipeline end");
+        PipelineSummary summary,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnPipelineEndAsync(context, summary, cancellationToken), "Pipeline end");
 
     public Task InvokeRegistrationHandlersAsync(
         IEnumerable<IModuleRegistrationHandler> handlers,
-        IModuleRegistrationContext context) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnRegistrationAsync(context), "Registration");
+        IModuleRegistrationContext context,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnRegistrationAsync(context, cancellationToken), "Registration");
 
     public Task InvokeReadyHandlersAsync(
         IEnumerable<IModuleReadyHandler> handlers,
-        IModuleHookContext context) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnModuleReadyAsync(context), "Ready");
+        IModuleHookContext context,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnModuleReadyAsync(context, cancellationToken), "Ready");
 
     public Task InvokeStartHandlersAsync(
         IEnumerable<IModuleStartHandler> handlers,
-        IModuleHookContext context) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnModuleStartAsync(context), "Start");
+        IModuleHookContext context,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnModuleStartAsync(context, cancellationToken), "Start");
 
     public Task InvokeEndHandlersAsync(
         IEnumerable<IModuleEndHandler> handlers,
         IModuleHookContext context,
-        IModuleResult result) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnModuleEndAsync(context, result), "End");
+        IModuleResult result,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnModuleEndAsync(context, result, cancellationToken), "End");
 
     public Task InvokeFailureHandlersAsync(
         IEnumerable<IModuleFailureHandler> handlers,
         IModuleHookContext context,
-        Exception exception) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnModuleFailureAsync(context, exception), "Failure");
+        Exception exception,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnModuleFailureAsync(context, exception, cancellationToken), "Failure");
 
     public Task InvokeSkippedHandlersAsync(
         IEnumerable<IModuleSkippedHandler> handlers,
         IModuleHookContext context,
-        SkipDecision reason) =>
-        InvokeHandlersAsync(handlers, handler => handler.OnModuleSkippedAsync(context, reason), "Skipped");
+        SkipDecision reason,
+        CancellationToken cancellationToken) =>
+        InvokeHandlersAsync(handlers, handler => handler.OnModuleSkippedAsync(context, reason, cancellationToken), "Skipped");
 
     private async Task InvokeHandlersAsync<THandler>(
         IEnumerable<THandler> handlers,

@@ -3,19 +3,35 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
 
+/// <summary>
+/// Invokes globally registered pipeline and module event handlers.
+/// </summary>
 internal interface IPipelineSetupExecutor
 {
-    Task OnPipelineStartAsync();
+    Task OnPipelineStartAsync(CancellationToken cancellationToken);
 
-    Task OnPipelineEndAsync(PipelineSummary pipelineSummary);
+    Task OnPipelineEndAsync(PipelineSummary pipelineSummary, CancellationToken cancellationToken);
 
-    Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter);
+    Task OnModuleReadyAsync(ModuleState moduleState, IConsoleWriter consoleWriter, CancellationToken cancellationToken);
 
-    Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter);
+    Task OnModuleStartAsync(ModuleState moduleState, IConsoleWriter consoleWriter, CancellationToken cancellationToken);
 
-    Task OnModuleEndAsync(ModuleState moduleState, IModuleResult result, IConsoleWriter consoleWriter);
+    Task OnModuleEndAsync(
+        ModuleState moduleState,
+        IModuleResult result,
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken);
 
-    Task OnModuleFailureAsync(ModuleState moduleState, Exception exception, IConsoleWriter consoleWriter);
+    Task OnModuleFailureAsync(
+        ModuleState moduleState,
+        Exception exception,
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken);
 
-    Task OnModuleSkippedAsync(ModuleState moduleState, SkipDecision reason, IConsoleWriter consoleWriter);
+    Task OnModuleSkippedAsync(
+        ModuleState moduleState,
+        IModuleResult result,
+        SkipDecision reason,
+        IConsoleWriter consoleWriter,
+        CancellationToken cancellationToken);
 }

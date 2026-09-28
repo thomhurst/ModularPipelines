@@ -63,6 +63,12 @@ internal interface IBuildSystemDetector
     bool IsKnownBuildAgent => !Is(BuildSystem.Unknown);
 
     /// <summary>
+    /// Gets a value indicating whether the pipeline runs on a CI/CD build server: a known build agent
+    /// was detected, or the <c>CI</c> environment variable is set to a value other than <c>false</c> or <c>0</c>.
+    /// </summary>
+    bool IsBuildServer => IsKnownBuildAgent;
+
+    /// <summary>
     /// Gets the current build agent type, if known.
     /// </summary>
     /// <returns>The build system type.</returns>

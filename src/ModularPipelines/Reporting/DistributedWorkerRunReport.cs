@@ -5,8 +5,8 @@ namespace ModularPipelines.Reporting;
 /// </summary>
 public sealed record DistributedWorkerRunReport
 {
-    /// <summary>Gets the worker index.</summary>
-    public int WorkerIndex { get; init; }
+    /// <summary>Gets the reported worker.</summary>
+    public Distributed.WorkerId WorkerId { get; init; }
 
     /// <summary>Gets the number of modules executed by the worker.</summary>
     public int ModuleCount { get; init; }

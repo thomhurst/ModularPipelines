@@ -66,10 +66,12 @@ public class ArtifactContextApiTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLive")!.PropertyType)
-                .IsEqualTo(typeof(TimeSpan));
+            // Expiry and chunking are storage-specific and live on each backend's options.
+            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLive")).IsNull();
             await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLiveSeconds")).IsNull();
-            await Assert.That(typeof(DistributedOptions).GetProperty("CapabilityTimeout")!.PropertyType)
+            await Assert.That(typeof(ArtifactOptions).GetProperty("ChunkSizeBytes")).IsNull();
+            await Assert.That(typeof(ArtifactOptions).GetProperty("AutoCleanup")).IsNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("WorkerRegistrationTimeout")!.PropertyType)
                 .IsEqualTo(typeof(TimeSpan));
             await Assert.That(typeof(DistributedOptions).GetProperty("ModuleResultTimeout")!.PropertyType)
                 .IsEqualTo(typeof(TimeSpan));
@@ -82,7 +84,8 @@ public class ArtifactContextApiTests
                 .IsNull();
             await Assert.That(assembly.GetType(
                     "ModularPipelines.Distributed.ModuleAssignmentOptions"))
-                .IsNotNull();
+                .IsNull();
+            await Assert.That(typeof(ModuleAssignment).GetProperty("AlwaysRun")).IsNotNull();
             await Assert.That(typedDownload.GetGenericArguments()).HasSingleItem();
         }
     }
@@ -736,7 +739,7 @@ public class ArtifactContextApiTests
 
     private sealed class PublishArtifactOnReadyAttribute : Attribute, IModuleReadyHandler
     {
-        public async Task OnModuleReadyAsync(IModuleHookContext context)
+        public async Task OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken)
         {
             var path = Path.GetTempFileName();
             try
@@ -760,13 +763,15 @@ public class ArtifactContextApiTests
             CancellationToken cancellationToken)
         {
             UploadedDescriptor = descriptor;
-            return Task.FromResult(new ArtifactReference(
-                Guid.NewGuid().ToString("N"),
-                descriptor.Name,
-                descriptor.ModuleId,
-                data.Length,
-                descriptor.ContentType,
-                DateTimeOffset.UtcNow));
+            return Task.FromResult(new ArtifactReference
+            {
+                ArtifactId = Guid.NewGuid().ToString("N"),
+                Name = descriptor.Name,
+                ModuleId = descriptor.ModuleId,
+                SizeBytes = data.Length,
+                ContentType = descriptor.ContentType,
+                UploadedAt = DateTimeOffset.UtcNow,
+            });
         }
 
         public Task<Stream> DownloadAsync(

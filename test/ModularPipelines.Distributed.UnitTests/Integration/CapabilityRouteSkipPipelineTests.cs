@@ -24,7 +24,7 @@ public class CapabilityRouteSkipPipelineTests
                 options.RunId = runId;
                 options.TotalInstances = 2;
                 options.MinimumWorkerCount = 1;
-                options.CapabilityTimeout = TimeSpan.FromSeconds(10);
+                options.WorkerRegistrationTimeout = TimeSpan.FromSeconds(10);
                 options.ModuleResultTimeout = TimeSpan.FromSeconds(10);
             });
             builder.Services.AddSingleton(coordinator);
@@ -52,8 +52,8 @@ public class CapabilityRouteSkipPipelineTests
             throw new InvalidOperationException("No worker can satisfy this module's conditions.");
     }
 
-    private sealed class PlanningFalseCondition : IPlanningRunCondition
+    private sealed class PlanningFalseCondition : IRunCondition, IPlanningSafe
     {
-        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.FromResult(false);
     }
 }

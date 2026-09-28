@@ -20,6 +20,6 @@ public sealed class OnWindows : ICapabilityCondition
     public Capability Capability => Capability.Windows;
 
     /// <inheritdoc />
-    public Task<bool> EvaluateAsync(IPipelineContext context)
+    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
         => Task.FromResult(OperatingSystem.IsWindows());
 }

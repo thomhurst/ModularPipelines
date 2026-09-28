@@ -57,10 +57,23 @@ internal class ModuleExecutor(
 
     public bool OwnsEntirePlan => true;
 
+    /// <inheritdoc />
+    public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        ExecutionBackendRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        return ExecuteAsync(
+            request.Modules,
+            request.GetEstimatedDurationsByType(),
+            request.Context,
+            cancellationToken);
+    }
+
     /// <summary>
     /// Executes a collection of modules using eager parallel scheduling.
     /// </summary>
-    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+    internal async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
         IExecutionBackendContext context,

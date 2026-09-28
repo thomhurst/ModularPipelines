@@ -6,7 +6,7 @@ namespace ModularPipelines;
 /// Runs a module when an environment variable is set or equals an expected value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableAttribute : RunIfAttribute, IPlanningConditionAttribute
+public sealed class RunIfEnvironmentVariableAttribute : RunConditionAttribute, IPlanningSafe
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableAttribute"/> class.
@@ -16,6 +16,7 @@ public sealed class RunIfEnvironmentVariableAttribute : RunIfAttribute, IPlannin
     /// Optional required value. When omitted, any set value, including an empty value, satisfies the condition.
     /// </param>
     public RunIfEnvironmentVariableAttribute(string variableName, string? expectedValue = null)
+        : base(ConditionIntent.Run)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
         VariableName = variableName;
@@ -36,7 +37,7 @@ public sealed class RunIfEnvironmentVariableAttribute : RunIfAttribute, IPlannin
     public override string ConditionNames => $"RunIfEnvironmentVariable({VariableName})";
 
     /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         Task.FromResult(EnvironmentVariableCondition.Matches(context, VariableName, ExpectedValue));
 }
 
@@ -44,7 +45,7 @@ public sealed class RunIfEnvironmentVariableAttribute : RunIfAttribute, IPlannin
 /// Skips a module when an environment variable is set or equals an expected value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlanningConditionAttribute
+public sealed class SkipIfEnvironmentVariableAttribute : RunConditionAttribute, IPlanningSafe
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SkipIfEnvironmentVariableAttribute"/> class.
@@ -54,6 +55,7 @@ public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlann
     /// Optional required value. When omitted, any set value, including an empty value, satisfies the condition.
     /// </param>
     public SkipIfEnvironmentVariableAttribute(string variableName, string? expectedValue = null)
+        : base(ConditionIntent.Skip)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
         VariableName = variableName;
@@ -74,7 +76,7 @@ public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlann
     public override string ConditionNames => $"SkipIfEnvironmentVariable({VariableName})";
 
     /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         Task.FromResult(EnvironmentVariableCondition.Matches(context, VariableName, ExpectedValue));
 }
 
@@ -82,13 +84,14 @@ public sealed class SkipIfEnvironmentVariableAttribute : SkipIfAttribute, IPlann
 /// Runs a module when an environment variable is not set.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAttribute, IPlanningConditionAttribute
+public sealed class RunIfEnvironmentVariableUnsetAttribute : RunConditionAttribute, IPlanningSafe
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RunIfEnvironmentVariableUnsetAttribute"/> class.
     /// </summary>
     /// <param name="variableName">The environment variable name.</param>
     public RunIfEnvironmentVariableUnsetAttribute(string variableName)
+        : base(ConditionIntent.Run)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
         VariableName = variableName;
@@ -103,7 +106,7 @@ public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAttribute, IPl
     public override string ConditionNames => $"RunIfEnvironmentVariableUnset({VariableName})";
 
     /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         Task.FromResult(!EnvironmentVariableCondition.IsSet(context, VariableName));
 }
 
@@ -111,13 +114,14 @@ public sealed class RunIfEnvironmentVariableUnsetAttribute : RunIfAttribute, IPl
 /// Skips a module when an environment variable is not set.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public sealed class SkipIfEnvironmentVariableUnsetAttribute : SkipIfAttribute, IPlanningConditionAttribute
+public sealed class SkipIfEnvironmentVariableUnsetAttribute : RunConditionAttribute, IPlanningSafe
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SkipIfEnvironmentVariableUnsetAttribute"/> class.
     /// </summary>
     /// <param name="variableName">The environment variable name.</param>
     public SkipIfEnvironmentVariableUnsetAttribute(string variableName)
+        : base(ConditionIntent.Skip)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
         VariableName = variableName;
@@ -132,7 +136,7 @@ public sealed class SkipIfEnvironmentVariableUnsetAttribute : SkipIfAttribute, I
     public override string ConditionNames => $"SkipIfEnvironmentVariableUnset({VariableName})";
 
     /// <inheritdoc />
-    public override Task<bool> EvaluateAsync(IPipelineContext context) =>
+    public override Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
         Task.FromResult(!EnvironmentVariableCondition.IsSet(context, VariableName));
 }
 

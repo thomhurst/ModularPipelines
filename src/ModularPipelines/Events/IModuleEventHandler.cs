@@ -17,13 +17,24 @@ public interface IModuleEventHandler :
     IModuleFailureHandler,
     IModuleSkippedHandler
 {
-    Task IModuleReadyHandler.OnModuleReadyAsync(IModuleHookContext context) => Task.CompletedTask;
+    Task IModuleReadyHandler.OnModuleReadyAsync(IModuleHookContext context, CancellationToken cancellationToken) =>
+        Task.CompletedTask;
 
-    Task IModuleStartHandler.OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+    Task IModuleStartHandler.OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken) =>
+        Task.CompletedTask;
 
-    Task IModuleEndHandler.OnModuleEndAsync(IModuleHookContext context, IModuleResult result) => Task.CompletedTask;
+    Task IModuleEndHandler.OnModuleEndAsync(
+        IModuleHookContext context,
+        IModuleResult result,
+        CancellationToken cancellationToken) => Task.CompletedTask;
 
-    Task IModuleFailureHandler.OnModuleFailureAsync(IModuleHookContext context, Exception exception) => Task.CompletedTask;
+    Task IModuleFailureHandler.OnModuleFailureAsync(
+        IModuleHookContext context,
+        Exception exception,
+        CancellationToken cancellationToken) => Task.CompletedTask;
 
-    Task IModuleSkippedHandler.OnModuleSkippedAsync(IModuleHookContext context, SkipDecision reason) => Task.CompletedTask;
+    Task IModuleSkippedHandler.OnModuleSkippedAsync(
+        IModuleHookContext context,
+        SkipDecision reason,
+        CancellationToken cancellationToken) => Task.CompletedTask;
 }

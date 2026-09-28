@@ -58,6 +58,7 @@ internal class PipelineExecutor : IPipelineExecutor
         PipelineSummary pipelineSummary;
         List<IModule> executedModules = [];
         IReadOnlyList<IModuleResult> backendResults = [];
+        var executionFailed = true;
         try
         {
             var estimatedDurations = organizedModules.RunnableModules.ToDictionary(
@@ -70,9 +71,12 @@ internal class PipelineExecutor : IPipelineExecutor
             try
             {
                 var results = await _executionBackend.ExecuteAsync(
-                        runnableModules,
-                        estimatedDurations,
-                        context ?? _executionBackendContext,
+                        new ExecutionBackendRequest
+                        {
+                            Modules = runnableModules,
+                            EstimatedDurations = ToModuleIdDurations(estimatedDurations),
+                            Context = context ?? _executionBackendContext,
+                        },
                         _engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 executedModules = ApplyBackendResults(runnableModules, results);
@@ -85,6 +89,8 @@ internal class PipelineExecutor : IPipelineExecutor
                     await contextLifetime.DisposeAsync().ConfigureAwait(false);
                 }
             }
+
+            executionFailed = false;
         }
         finally
         {
@@ -96,7 +102,7 @@ internal class PipelineExecutor : IPipelineExecutor
                 ? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end)
                 : _pipelineSummaryFactory.Create(executedModules, backendResults, stopWatch.Elapsed, start, end);
 
-            await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
+            await InvokePipelineEndHandlersAsync(pipelineSummary, executionFailed).ConfigureAwait(false);
         }
 
         // Wait-for-all may return a failed summary when configured not to throw.
@@ -109,6 +115,41 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         return pipelineSummary;
+    }
+
+    /// <summary>
+    /// Runs pipeline end handlers. A handler failure never replaces an exception already thrown by
+    /// execution: in that case it is logged and recorded as a secondary pipeline error. When execution
+    /// completed, a handler failure fails the pipeline as before.
+    /// </summary>
+    private async Task InvokePipelineEndHandlersAsync(PipelineSummary pipelineSummary, bool executionFailed)
+    {
+        var cancellationToken = _engineCancellationToken.NonFailureCancellationToken;
+        try
+        {
+            await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogDebug("Pipeline end handlers were cancelled");
+        }
+        catch (Exception exception) when (executionFailed)
+        {
+            // The handler invoker has already logged the individual handler failures.
+            _secondaryExceptionContainer.RegisterException(exception);
+        }
+    }
+
+    private static Dictionary<Distributed.ModuleId, TimeSpan> ToModuleIdDurations(
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
+    {
+        var durations = new Dictionary<Distributed.ModuleId, TimeSpan>(estimatedDurations.Count);
+        foreach (var (moduleType, duration) in estimatedDurations)
+        {
+            durations[Distributed.ModuleId.FromType(moduleType)] = duration;
+        }
+
+        return durations;
     }
 
     private List<IModule> ApplyBackendResults(

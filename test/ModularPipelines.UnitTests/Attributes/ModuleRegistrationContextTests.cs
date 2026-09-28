@@ -84,15 +84,12 @@ public class ModuleRegistrationContextTests
     {
         var configuration = Mock.Of<IConfiguration>();
         var environment = Mock.Of<IHostEnvironment>();
-        var services = new ServiceCollection();
-
         return new ModuleRegistrationContext(
             moduleType,
             moduleType.GetCustomAttributes(true).OfType<Attribute>().ToList(),
             configuration,
             environment,
             registeredModules ?? new List<Type> { moduleType },
-            services,
             dependencyRegistry ?? new ModuleDependencyRegistry(),
             metadataRegistry ?? new ModuleMetadataRegistry(new ModuleAttributeEventService()));
     }

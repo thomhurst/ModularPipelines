@@ -10,7 +10,7 @@ internal sealed class ModuleSelectionValidator(IOptions<PipelineOptions> options
 {
     public int Order => 250;
 
-    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services, CancellationToken cancellationToken)
     {
         if (options.Value.TargetModules?.Count is not > 0
             && options.Value.SkippedModules?.Count is not > 0)

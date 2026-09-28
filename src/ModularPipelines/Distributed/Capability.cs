@@ -58,8 +58,6 @@ public readonly struct Capability : IEquatable<Capability>
     {
         get
         {
-            // Return explicitly: a bare null in a conditional would bind to the implicit string
-            // conversion and throw on an unrecognized platform.
             if (OperatingSystem.IsWindows())
             {
                 return Windows;
@@ -101,8 +99,15 @@ public readonly struct Capability : IEquatable<Capability>
 
     public static bool operator !=(Capability left, Capability right) => !left.Equals(right);
 
-    public static implicit operator Capability(string name) => new(name);
+    /// <summary>
+    /// Converts a capability name to a <see cref="Capability"/>. The conversion is explicit because
+    /// it validates the name and throws <see cref="ArgumentException"/> for an empty or whitespace name.
+    /// </summary>
+    public static explicit operator Capability(string name) => new(name);
 
+    /// <summary>
+    /// Returns the capability's wire-format name.
+    /// </summary>
     public static implicit operator string(Capability capability) => capability.Name;
 
     /// <summary>

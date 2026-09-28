@@ -1,5 +1,3 @@
-using ModularPipelines.Secrets;
-using ModularPipelines.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines;
@@ -12,6 +10,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 
 if (args is [SmokeState.ChildArgument, var childValue])
 {
@@ -89,7 +88,7 @@ internal sealed class SmokePipelineOptions
 [AttributeUsage(AttributeTargets.Class)]
 internal sealed class SmokeHookAttribute : Attribute, IModuleStartHandler
 {
-    public Task OnModuleStartAsync(IModuleHookContext context)
+    public Task OnModuleStartAsync(IModuleHookContext context, CancellationToken cancellationToken)
     {
         SmokeState.RecordHookInvocation();
         return Task.CompletedTask;
@@ -129,8 +128,7 @@ internal sealed class CommandModule : Module<CommandResult>
 
 [DependsOn<CommandModule>]
 [DependsOn<ClosedGenericModule<int>>]
-internal sealed class VerificationModule(
-    ISecretObfuscator secretObfuscator) : Module<bool>
+internal sealed class VerificationModule : Module<bool>
 {
     protected override async Task<bool> ExecuteAsync(
         IModuleContext context,
@@ -146,11 +144,18 @@ internal sealed class VerificationModule(
                 $"Child command exited with {command.ExitCode}: {command.StandardError}");
         }
 
-        var masked = secretObfuscator.Obfuscate(command.StandardOutput, null);
-        if (masked.Contains(SmokeState.Secret, StringComparison.Ordinal)
-            || !masked.Contains("********", StringComparison.Ordinal))
+        // Successful command output is returned raw; the recorded command input is masked
+        // with the [SecretValue] options metadata, which must survive trimming.
+        if (!command.StandardOutput.Contains(SmokeState.Secret, StringComparison.Ordinal))
         {
-            throw new InvalidOperationException("Secret masking did not redact command output.");
+            throw new InvalidOperationException("Child command did not echo its argument.");
+        }
+
+        var maskedInput = command.CommandInput;
+        if (maskedInput.Contains(SmokeState.Secret, StringComparison.Ordinal)
+            || !maskedInput.Contains("********", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException("Secret masking did not redact the command input.");
         }
 
         return true;

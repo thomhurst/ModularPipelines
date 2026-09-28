@@ -211,7 +211,8 @@ builder.AddRunHistoryStore<MyRunHistoryStore>();
 ```
 
 The store returns matching reports newest-first and saves the completed current report. Custom
-stores own their retention behavior. Module output excerpts are omitted from reports passed to a
+stores own their retention behavior. Members added to `IRunHistoryStore` in future versions will
+come with default implementations, so existing stores keep compiling. Module output excerpts are omitted from reports passed to a
 custom store because user persistence code can register secrets while saving; the built-in file
 store retains the already-masked excerpts.
 

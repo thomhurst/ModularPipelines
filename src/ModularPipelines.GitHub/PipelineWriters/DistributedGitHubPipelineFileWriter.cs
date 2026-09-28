@@ -227,7 +227,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     {
         yield return [GetAllowedOperatingSystems(CapabilityConditions.GetDeclaredRequirement(moduleType).Clauses)];
 
-        var attributes = moduleType.GetCustomAttributes(inherit: true).OfType<IConditionAttribute>();
+        var attributes = moduleType.GetCustomAttributes(inherit: true).OfType<RunConditionAttribute>();
         var groups = ConditionFormula.ForConditionGroups(attributes)
             .Select(static group => group.Formula)
             .Where(static formula => formula.Capabilities.Any())

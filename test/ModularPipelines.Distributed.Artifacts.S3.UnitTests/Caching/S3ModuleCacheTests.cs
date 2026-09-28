@@ -26,9 +26,8 @@ public class S3ModuleCacheTests
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
-        builder.AddS3DistributedArtifactStore(
-            options => options.BucketName = "artifact-bucket",
-            options => options.CompressionLevel = CompressionLevel.NoCompression);
+        builder.AddS3DistributedArtifactStore(options => options.BucketName = "artifact-bucket");
+        builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
 
         var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
@@ -61,6 +60,37 @@ public class S3ModuleCacheTests
         await Assert.That(request!.BucketName).IsEqualTo("cache-bucket");
         await Assert.That(request.Key).IsEqualTo(
             "custom-prefix/module-cache/v1/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.zip");
+    }
+
+    [Test]
+    public async Task DeleteAndExistsUseStableCrossRunKey()
+    {
+        const string key =
+            "custom-prefix/module-cache/v1/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.zip";
+        var s3 = new Mock<IAmazonS3>();
+        s3.Setup(client => client.DeleteObjectAsync("cache-bucket", key, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new DeleteObjectResponse());
+        s3.SetupSequence(client => client.GetObjectMetadataAsync(
+                "cache-bucket",
+                key,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new GetObjectMetadataResponse())
+            .ThrowsAsync(new AmazonS3Exception("missing") { StatusCode = HttpStatusCode.NotFound });
+        using var cache = CreateCache(s3.Object);
+
+        var existedBefore = await cache.ExistsAsync(Fingerprint, CancellationToken.None);
+        await cache.DeleteAsync(Fingerprint, CancellationToken.None);
+        var existsAfter = await cache.ExistsAsync(Fingerprint, CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(existedBefore).IsTrue();
+            await Assert.That(existsAfter).IsFalse();
+        }
+
+        s3.Verify(
+            client => client.DeleteObjectAsync("cache-bucket", key, It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Test]
@@ -139,7 +169,7 @@ public class S3ModuleCacheTests
         });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
-        var artifactOptions = serviceProvider.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
+        var artifactOptions = serviceProvider.GetRequiredService<IOptions<S3StorageOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -165,7 +195,7 @@ public class S3ModuleCacheTests
 
         builder.AddS3DistributedArtifactStore(configuration.GetSection("S3"));
         using var services = builder.Services.BuildServiceProvider();
-        var options = services.GetRequiredService<IOptions<S3ArtifactOptions>>().Value;
+        var options = services.GetRequiredService<IOptions<S3StorageOptions>>().Value;
 
         using (Assert.Multiple())
         {
@@ -178,7 +208,7 @@ public class S3ModuleCacheTests
         IAmazonS3 client,
         long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024) =>
         new(
-            new S3ArtifactOptions
+            new S3StorageOptions
             {
                 BucketName = "cache-bucket",
                 KeyPrefix = "custom-prefix",

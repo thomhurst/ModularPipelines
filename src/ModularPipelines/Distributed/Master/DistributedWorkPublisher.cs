@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -16,7 +17,8 @@ internal class DistributedWorkPublisher(
     IModuleMetadataRegistry? metadataRegistry = null,
     IExecutionLocationContext? executionLocationContext = null,
     IModuleConditionHandler? conditionHandler = null,
-    DistributedTelemetryTracker? telemetryTracker = null)
+    DistributedTelemetryTracker? telemetryTracker = null,
+    AcceptedArtifactRegistry? acceptedArtifacts = null)
 {
     private readonly IDistributedMasterCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
@@ -25,12 +27,14 @@ internal class DistributedWorkPublisher(
     private readonly IModuleMetadataRegistry? _metadataRegistry = metadataRegistry;
     private readonly IExecutionLocationContext? _executionLocationContext = executionLocationContext;
     private readonly IModuleConditionHandler? _conditionHandler = conditionHandler;
+    private readonly AcceptedArtifactRegistry? _acceptedArtifacts = acceptedArtifacts;
 
     public async Task<ModuleAssignment> CreateAssignmentAsync(
         IModule module,
         CancellationToken cancellationToken,
         ModulePriority? priority = null,
-        TimeSpan criticalPathWeight = default)
+        TimeSpan criticalPathWeight = default,
+        IReadOnlyCollection<IModule>? plannedModules = null)
     {
         if (_conditionHandler is not null)
         {
@@ -38,44 +42,38 @@ internal class DistributedWorkPublisher(
                 .ConfigureAwait(false);
         }
 
-        return CreateAssignment(module, priority, criticalPathWeight);
+        return CreateAssignment(module, priority, criticalPathWeight, plannedModules);
     }
 
     public ModuleAssignment CreateAssignment(
         IModule module,
         ModulePriority? priority = null,
-        TimeSpan criticalPathWeight = default)
+        TimeSpan criticalPathWeight = default,
+        IReadOnlyCollection<IModule>? plannedModules = null)
     {
         var moduleType = module.GetType();
         var moduleId = ModuleId.FromType(moduleType);
 
         // Prefer the requirement the master derived from its own condition values while preparing
         // routing; without preparation, require only what the conditions need whatever they return.
-        var requiredCapabilities = _executionLocationContext?.TryGetPreparedConditionValue(module, out var preparedValue) == true
+        var requiredCapabilities = (_executionLocationContext?.TryGetPreparedConditionValue(module, out var preparedValue) == true
             ? CapabilityConditions.Combine(moduleType, preparedValue)
             : CapabilityConditions.GetModuleRequirement(
                 moduleType,
                 conditionGroupType =>
-                    _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true);
-        if (requiredCapabilities is null)
-        {
-            throw new UnsatisfiableModuleRequirementException(moduleType);
-        }
-
+                    _executionLocationContext?.IsConditionGroupSatisfied(module, conditionGroupType) == true)) ?? throw new UnsatisfiableModuleRequirementException(moduleType);
         var config = module.Configuration;
 
         var dependencyResultReferences = GatherDependencyResultReferences(module);
 
-        return new ModuleAssignment(
-            ModuleId: moduleId,
-            RequiredCapabilities: requiredCapabilities,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(
-                Timeout: config.Timeout,
-                AlwaysRun: config.AlwaysRun
-            ),
-            DependencyResultReferences: dependencyResultReferences)
+        return new ModuleAssignment
         {
+            ModuleId = moduleId,
+            RequiredCapabilities = requiredCapabilities,
+            AlwaysRun = config.AlwaysRun,
+            DependencyResultReferences = dependencyResultReferences,
+            RequiredArtifacts = GetRequiredArtifacts(moduleType, plannedModules),
+            ConsumedArtifacts = GetConsumedArtifacts(moduleType),
             Priority = priority
                        ?? config.Priority
                        ?? moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true)?.Priority
@@ -97,7 +95,7 @@ internal class DistributedWorkPublisher(
     /// <summary>
     /// Gathers result-store references for all dependencies resolved by the canonical dependency resolver.
     /// </summary>
-    private IReadOnlyList<DependencyResultReference>? GatherDependencyResultReferences(IModule module)
+    private IReadOnlyList<DependencyResultReference> GatherDependencyResultReferences(IModule module)
     {
         var dependencies = ModuleDependencyResolver
             .GetAllDependencies(
@@ -109,18 +107,84 @@ internal class DistributedWorkPublisher(
             .ToList();
         if (dependencies.Count == 0)
         {
-            return null;
+            return [];
         }
 
         var references = new List<DependencyResultReference>(dependencies.Count);
         foreach (var (depType, _) in dependencies)
         {
-            references.Add(new DependencyResultReference(
-                ModuleId.FromType(depType),
-                _resultRegistry.GetResult(depType) is not null));
+            references.Add(new DependencyResultReference
+            {
+                ModuleId = ModuleId.FromType(depType),
+                IsAvailable = _resultRegistry.GetResult(depType) is not null,
+            });
         }
 
         return references;
+    }
+
+    /// <summary>
+    /// Gets the artifacts of this producer that planned, not-yet-completed consumers need. Only
+    /// consumers without run conditions count, because conditions evaluated on workers could still
+    /// skip them; standalone execution applies the same rule to runnable consumers.
+    /// </summary>
+    private IReadOnlyList<string> GetRequiredArtifacts(
+        Type producerType,
+        IReadOnlyCollection<IModule>? plannedModules)
+    {
+        if (plannedModules is null)
+        {
+            return [];
+        }
+
+        var producedNames = producerType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Select(static attribute => attribute.Name)
+            .ToHashSet(StringComparer.Ordinal);
+        if (producedNames.Count == 0)
+        {
+            return [];
+        }
+
+        return plannedModules
+            .Where(consumer => _resultRegistry.GetResult(consumer.GetType()) is null
+                               && consumer.Configuration.SkipCondition is null
+                               && !consumer.GetType().GetCustomAttributes(inherit: true).OfType<RunConditionAttribute>().Any())
+            .SelectMany(consumer => consumer.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>())
+            .Where(consumed => consumed.ProducerModule == producerType && producedNames.Contains(consumed.ArtifactName))
+            .Select(static consumed => consumed.ArtifactName)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Gets the accepted artifact references of every producer this module consumes from.
+    /// </summary>
+    private IReadOnlyList<ArtifactReference> GetConsumedArtifacts(Type consumerType)
+    {
+        if (_acceptedArtifacts is null)
+        {
+            return [];
+        }
+
+        var consumed = new List<ArtifactReference>();
+        foreach (var producer in consumerType
+                     .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                     .Cast<ConsumesArtifactAttribute>()
+                     .Select(static attribute => ModuleId.FromType(attribute.ProducerModule))
+                     .Distinct())
+        {
+            if (_acceptedArtifacts.TryGet(producer, out var artifacts))
+            {
+                consumed.AddRange(artifacts);
+            }
+        }
+
+        return consumed;
     }
 }
 

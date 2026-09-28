@@ -20,7 +20,7 @@ public class DynamicDependencyIntegrationTests : TestBase
             _dependencyType = dependencyType;
         }
 
-        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        public Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)
         {
             context.AddDependency(_dependencyType);
             return Task.CompletedTask;
