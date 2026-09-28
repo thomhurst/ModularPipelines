@@ -9,10 +9,10 @@ Not every worker can execute every module. Some modules need Docker, others need
 
 ## Worker Capabilities
 
-Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names, while implicit string conversion still supports custom capabilities.
+Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names; create custom capabilities explicitly with `new Capability("name")` or an explicit `(Capability) "name"` cast. The conversion is explicit because it validates the name and throws for an empty or whitespace name.
 
 ```csharp
-builder.AddCapabilities(Capability.Docker, Capability.Gpu, "high-memory");
+builder.AddCapabilities(Capability.Docker, Capability.Gpu, new Capability("high-memory"));
 ```
 
 `AddCapabilities` works with or without distributed mode. `DistributedOptions.Capabilities` is equivalent when you already configure `AddDistributedMode`.
@@ -150,7 +150,7 @@ The matching logic is straightforward:
 2. A module's requirement is a `CapabilityRequirement`: a list of clauses. Every clause must be satisfied, and a worker satisfies a clause when it advertises **at least one** of the clause's capabilities. For example, `docker & (linux | macos)`.
 3. Capability matching is **case-insensitive**.
 4. A worker runs one operating system, so a module whose requirements need two different operating systems is skipped as impossible. This applies whether the conflict comes from run conditions (`[RunIf<OnLinux>]` with `[RunIf<OnWindows>]`) or declared capabilities (`[RequiresCapability(Capability.Names.Linux, Capability.Names.Windows)]`).
-5. If no worker with the required capabilities is available, only that module waits in the queue. After `CapabilityTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
+5. If no registered worker has the required capabilities, only that module waits, and it is not queued until a capable worker registers. After `WorkerRegistrationTimeout`, it fails with a routing error that lists the missing route instead of waiting for the module-result timeout.
 
 ## Example: Mixed Pipeline
 
