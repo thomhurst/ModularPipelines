@@ -129,8 +129,24 @@ public class ArtifactContractTests
     {
         var restoreDirectory = Path.Combine(Path.GetTempPath(), $"artifact-restore-{Guid.NewGuid():N}");
         var uploadedAt = DateTimeOffset.UtcNow;
-        var older = new ArtifactReference("older", "output", "producer", 3, null, uploadedAt.AddMinutes(-1));
-        var newer = new ArtifactReference("newer", "output", "producer", 3, null, uploadedAt);
+        var older = new ArtifactReference
+        {
+            ArtifactId = "older",
+            Name = "output",
+            ModuleId = "producer",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = uploadedAt.AddMinutes(-1),
+        };
+        var newer = new ArtifactReference
+        {
+            ArtifactId = "newer",
+            Name = "output",
+            ModuleId = "producer",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = uploadedAt,
+        };
         ArtifactReference? downloadedArtifact = null;
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(x => x.ListArtifactsAsync("producer", It.IsAny<CancellationToken>()))

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Distributed.SignalR;
 
 namespace ModularPipelines.Distributed.SignalR.Server;
 
@@ -17,11 +16,11 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
     /// The public HTTPS URL provided by cloudflared.
     /// Available after <see cref="StartAsync"/> completes.
     /// </summary>
-    public string? PublicUrl { get; private set; }
+    public Uri? PublicUrl { get; private set; }
 
     public async Task StartAsync(
-        string localUrl,
-        SignalRDistributedOptions options,
+        Uri localUrl,
+        SignalRTunnelOptions options,
         ILogger logger,
         CancellationToken cancellationToken)
     {
@@ -35,7 +34,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
             CreateNoWindow = true,
         };
 
-        logger.LogInformation("Starting cloudflared tunnel for {Url}...", localUrl);
+        logger.LogInformation("Starting cloudflared tunnel for the SignalR master");
 
         _process = Process.Start(startInfo)
             ?? throw new InvalidOperationException("Failed to start cloudflared process.");
@@ -49,7 +48,8 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
                 return;
             }
 
-            logger.LogDebug("Cloudflared: {Line}", e.Data);
+            // cloudflared output contains the public tunnel URL, so it is only logged at Trace.
+            logger.LogTrace("Cloudflared: {Line}", e.Data);
 
             // cloudflared quick tunnels output the URL in a box like:
             // |  https://random-words.trycloudflare.com  |
@@ -64,7 +64,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         {
             if (e.Data is not null)
             {
-                logger.LogDebug("Cloudflared: {Line}", e.Data);
+                logger.LogTrace("Cloudflared: {Line}", e.Data);
             }
         };
 
@@ -72,25 +72,29 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         _process.BeginOutputReadLine();
 
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(options.TunnelStartupTimeout);
+        timeoutCts.CancelAfter(options.StartupTimeout);
 
-        await using var reg = timeoutCts.Token.Register(() =>
+        var registration = timeoutCts.Token.Register(() =>
             urlTcs.TrySetCanceled(timeoutCts.Token));
+        await using var registrationScope = registration.ConfigureAwait(false);
 
         try
         {
-            PublicUrl = await urlTcs.Task;
-            logger.LogInformation("Cloudflared tunnel established: {TunnelUrl}", PublicUrl);
+            PublicUrl = new Uri(await urlTcs.Task.ConfigureAwait(false), UriKind.Absolute);
+
+            // The public URL admits anyone who knows it, so keep it out of ordinary logs.
+            logger.LogInformation("Cloudflared tunnel established");
+            logger.LogDebug("Cloudflared tunnel URL: {TunnelUrl}", PublicUrl);
         }
         catch (OperationCanceledException)
         {
             logger.LogWarning(
                 "Cloudflared tunnel URL was not detected within {Timeout}. " +
                 "If using a named tunnel with a custom domain, the URL regex may need updating.",
-                options.TunnelStartupTimeout);
-            await DisposeAsync();
+                options.StartupTimeout);
+            await DisposeAsync().ConfigureAwait(false);
             throw new TimeoutException(
-                $"Cloudflared did not provide a tunnel URL within {options.TunnelStartupTimeout}. " +
+                $"Cloudflared did not provide a tunnel URL within {options.StartupTimeout}. " +
                 "Ensure 'cloudflared' is installed and accessible on PATH.");
         }
     }
@@ -102,7 +106,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
             try
             {
                 _process.Kill(entireProcessTree: true);
-                await _process.WaitForExitAsync();
+                await _process.WaitForExitAsync().ConfigureAwait(false);
             }
             catch
             {

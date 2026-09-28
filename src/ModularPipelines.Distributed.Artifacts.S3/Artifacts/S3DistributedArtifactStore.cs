@@ -52,13 +52,15 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
                 cancellationToken)
             .ConfigureAwait(false);
 
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: sizeBytes,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = sizeBytes,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         // Store metadata as a separate JSON object for listing
         var metaRequest = new PutObjectRequest

@@ -133,7 +133,10 @@ public static class DistributedPipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Registers a custom distributed coordinator implementation.
+    /// Registers a custom distributed coordinator implementation. Register exactly one coordinator
+    /// backend; building the pipeline fails when several are registered. The coordinator is created
+    /// by dependency injection and disposed with the host when it implements <see cref="IAsyncDisposable"/>
+    /// or <see cref="IDisposable"/>.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
     public static PipelineBuilder AddDistributedCoordinator<
@@ -141,6 +144,7 @@ public static class DistributedPipelineBuilderExtensions
         this PipelineBuilder builder)
         where TCoordinator : class, IDistributedMasterCoordinator
     {
+        builder.Services.AddSingleton(new DistributedCoordinatorBackendRegistration(typeof(TCoordinator)));
         builder.Services.RemoveAll<IDistributedMasterCoordinator>();
         builder.Services.RemoveAll<IDistributedWorkerCoordinator>();
         builder.Services.AddSingleton<TCoordinator>();
@@ -152,8 +156,10 @@ public static class DistributedPipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Registers a distributed coordinator factory for async initialization. Registering the same
-    /// factory again is a no-op; registering a different coordinator backend throws.
+    /// Registers a distributed coordinator factory for coordinators that need asynchronous setup.
+    /// Registering the same factory again is a no-op; registering a different coordinator backend throws.
+    /// Coordinators created by the factory are disposed with the host when they implement
+    /// <see cref="IAsyncDisposable"/> or <see cref="IDisposable"/>.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
     /// <exception cref="InvalidOperationException">Another coordinator factory is already registered.</exception>
@@ -252,3 +258,8 @@ public static class DistributedPipelineBuilderExtensions
 internal sealed class DistributedModeRegistration
 {
 }
+
+/// <summary>
+/// Records a coordinator backend registered with <see cref="DistributedPipelineBuilderExtensions.AddDistributedCoordinator{TCoordinator}"/>.
+/// </summary>
+internal sealed record DistributedCoordinatorBackendRegistration(Type BackendType);

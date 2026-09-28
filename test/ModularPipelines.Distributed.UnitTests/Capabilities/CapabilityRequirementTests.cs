@@ -43,9 +43,9 @@ public class CapabilityRequirementTests
     [Test]
     public async Task Matching_Is_Case_Insensitive()
     {
-        var requirement = CapabilityRequirement.AllOf("Docker");
+        var requirement = CapabilityRequirement.AllOf(new Capability("Docker"));
 
-        await Assert.That(requirement.IsSatisfiedBy(["docker"])).IsTrue();
+        await Assert.That(requirement.IsSatisfiedBy([new Capability("docker")])).IsTrue();
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class CapabilityRequirementTests
         [
             [Capability.MacOS, Capability.Linux, Capability.Linux],
             [Capability.Linux],
-            ["LINUX"],
+            [new Capability("LINUX")],
             [Capability.Docker],
         ]);
 
@@ -101,13 +101,13 @@ public class CapabilityRequirementTests
     public async Task Clauses_Are_Compared_By_Capability_Not_Display_Text()
     {
         // Both clauses display as "a | b", but one needs the custom "a | b" capability.
-        var requirement = CapabilityRequirement.Create([["a | b"], ["a", "b"]]);
+        var requirement = CapabilityRequirement.Create([[new Capability("a | b")], [new Capability("a"), new Capability("b")]]);
 
         using (Assert.Multiple())
         {
             await Assert.That(requirement.Clauses.Count).IsEqualTo(2);
-            await Assert.That(requirement.IsSatisfiedBy(["a"])).IsFalse();
-            await Assert.That(requirement.IsSatisfiedBy(["a | b", "a"])).IsTrue();
+            await Assert.That(requirement.IsSatisfiedBy([new Capability("a")])).IsFalse();
+            await Assert.That(requirement.IsSatisfiedBy([new Capability("a | b"), new Capability("a")])).IsTrue();
         }
     }
 

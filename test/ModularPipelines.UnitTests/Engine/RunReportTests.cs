@@ -2539,10 +2539,11 @@ public class RunReportTests
                     Times.Never);
                 coordinator.Verify(x => x.SendHeartbeatAsync(
                     It.Is<WorkerStatus>(status =>
-                        status.WorkerIndex == 1
+                        status.WorkerId == WorkerId.FromInstanceIndex(1)
                         && status.RunId == "current-run"
+                        && status.IsFinal
                         && status.UnattributedCommandCount == 3
-                        && status.ModuleCommandCounts![ModuleId.FromType(typeof(SuccessfulModule))] == 2),
+                        && status.ModuleCommandCounts[ModuleId.FromType(typeof(SuccessfulModule))] == 2),
                     It.IsAny<CancellationToken>()), Times.Once);
             }
         }
@@ -3027,30 +3028,46 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
-                new WorkerRegistration(2, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
+                new WorkerRegistration
+                {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt,
+                    RunId = distributedOptions.Value.RunId,
+                },
+                new WorkerRegistration
+                {
+                    WorkerId = WorkerId.FromInstanceIndex(2),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt,
+                    RunId = distributedOptions.Value.RunId,
+                },
             ]);
         coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerStatus(1)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = distributedOptions.Value.RunId,
+                    IsFinal = true,
                     UnattributedCommandCount = 3,
                     ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
-                        [moduleTypeIdentifier] = 3,
+                    [moduleTypeIdentifier] = 3,
                     },
                 },
-                new WorkerStatus(2)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(2),
                     RunId = distributedOptions.Value.RunId,
+                    IsFinal = true,
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<ModuleId, int>(),
                 },
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.Add(null, 1);
-        commandExecutionCounter.AddRemote(typeof(SuccessfulModule), workerIndex: 1, count: 1);
+        commandExecutionCounter.AddRemote(typeof(SuccessfulModule), workerId: WorkerId.FromInstanceIndex(1), count: 1);
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
 
@@ -3240,28 +3257,42 @@ public class RunReportTests
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             [
-                new WorkerRegistration(1, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
+                new WorkerRegistration
+                {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt,
+                    RunId = distributedOptions.Value.RunId,
+                },
                 .. collectedRemoteWorkerIndex == 1
                     ? Array.Empty<WorkerRegistration>()
-                    : [new WorkerRegistration(2, [], runStartedAt) { RunId = distributedOptions.Value.RunId }],
+                    : [new WorkerRegistration
+                    {
+                        WorkerId = WorkerId.FromInstanceIndex(2),
+                        Capabilities = [],
+                        RegisteredAt = runStartedAt,
+                        RunId = distributedOptions.Value.RunId,
+                    }],
             ]);
         coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             [
-                new WorkerStatus(1)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = distributedOptions.Value.RunId,
+                    IsFinal = true,
                     UnattributedCommandCount = 0,
                     ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
-                        ["worker-load-context-identifier"] = 3,
+                    ["worker-load-context-identifier"] = 3,
                     },
                 },
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.AddRemote(
             typeof(SuccessfulModule),
-            collectedRemoteWorkerIndex,
+            WorkerId.FromInstanceIndex(collectedRemoteWorkerIndex),
             collectedRemoteCount);
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
@@ -3331,24 +3362,38 @@ public class RunReportTests
             var coordinator = new Mock<IDistributedMasterCoordinator>();
             coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync([
-                    new WorkerRegistration(1, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
-                    new WorkerRegistration(2, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
+                    new WorkerRegistration
+                    {
+                        WorkerId = WorkerId.FromInstanceIndex(1),
+                        Capabilities = [],
+                        RegisteredAt = runStartedAt,
+                        RunId = distributedOptions.Value.RunId,
+                    },
+                    new WorkerRegistration
+                    {
+                        WorkerId = WorkerId.FromInstanceIndex(2),
+                        Capabilities = [],
+                        RegisteredAt = runStartedAt,
+                        RunId = distributedOptions.Value.RunId,
+                    },
                 ]);
             coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync([
-                    new WorkerStatus(1)
+                    new WorkerStatus
                     {
+                        WorkerId = WorkerId.FromInstanceIndex(1),
                         RunId = distributedOptions.Value.RunId,
+                        IsFinal = true,
                         UnattributedCommandCount = 0,
                         ModuleCommandCounts = new Dictionary<ModuleId, int>()
                         {
-                            [moduleTypeIdentifier] = 3,
+                        [moduleTypeIdentifier] = 3,
                         },
                     },
                 ]);
             var commandExecutionCounter = new CommandExecutionCounter();
             commandExecutionCounter.Add(firstType, count: 5);
-            commandExecutionCounter.AddRemote(secondType, workerIndex: 2, count: 5);
+            commandExecutionCounter.AddRemote(secondType, workerId: WorkerId.FromInstanceIndex(2), count: 5);
             var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
             Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
 
@@ -3408,11 +3453,11 @@ public class RunReportTests
             InstanceIndex = 0,
             TotalInstances = 2,
         });
-        var incompleteRegistration = new WorkerRegistration(
-            1,
-            [],
-            runStartedAt)
+        var incompleteRegistration = new WorkerRegistration
         {
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Capabilities = [],
+            RegisteredAt = runStartedAt,
             RunId = distributedOptions.Value.RunId,
         };
         var pollingCount = 0;
@@ -3422,12 +3467,12 @@ public class RunReportTests
         coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() =>
             {
-                var status = new WorkerStatus(1)
+                var status = new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = distributedOptions.Value.RunId,
-                    UnattributedCommandCount = Interlocked.Increment(ref pollingCount) <= 12
-                        ? null
-                        : 3,
+                    IsFinal = Interlocked.Increment(ref pollingCount) > 12,
+                    UnattributedCommandCount = 3,
                 };
                 return [status];
             });
@@ -3535,13 +3580,21 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, [], runStartedAt) { RunId = distributedOptions.Value.RunId },
+                new WorkerRegistration
+                {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt,
+                    RunId = distributedOptions.Value.RunId,
+                },
             ]);
         coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerStatus(1)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = distributedOptions.Value.RunId,
+                    IsFinal = true,
                     UnattributedCommandCount = 3,
                 },
             ]);
@@ -3595,25 +3648,35 @@ public class RunReportTests
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerRegistration(1, [], runStartedAt.AddMinutes(-5))
+                new WorkerRegistration
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt.AddMinutes(-5),
                     RunId = runIdentifier,
                 },
-                new WorkerRegistration(2, [], runStartedAt.AddMinutes(5))
+                new WorkerRegistration
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(2),
+                    Capabilities = [],
+                    RegisteredAt = runStartedAt.AddMinutes(5),
                     RunId = "previous-run",
                 },
             ]);
         coordinator.Setup(x => x.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new WorkerStatus(1)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = "previous-run",
+                    IsFinal = true,
                     UnattributedCommandCount = 99,
                 },
-                new WorkerStatus(1)
+                new WorkerStatus
                 {
+                    WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = runIdentifier,
+                    IsFinal = true,
                     UnattributedCommandCount = 3,
                 },
             ]);
@@ -3726,7 +3789,7 @@ public class RunReportTests
                 [
                     new DistributedWorkerRunReport
                     {
-                        WorkerIndex = 1,
+                        WorkerId = WorkerId.FromInstanceIndex(1),
                         ModuleCount = 3,
                         BusyDuration = TimeSpan.FromSeconds(5),
                         IdleDuration = TimeSpan.FromSeconds(3),
@@ -3738,7 +3801,7 @@ public class RunReportTests
                     new DistributedModuleRunReport
                     {
                         ModuleTypeName = "Example.BuildModule",
-                        WorkerIndex = 1,
+                        WorkerId = WorkerId.FromInstanceIndex(1),
                         QueueWaitDuration = TimeSpan.FromSeconds(2),
                         TotalOverheadDuration = TimeSpan.FromMilliseconds(750),
                     },
@@ -3754,7 +3817,7 @@ public class RunReportTests
             await Assert.That(deserialized!.Distributed).IsNotNull();
             await Assert.That(deserialized.Distributed!.WorkerCount).IsEqualTo(2);
             await Assert.That(deserialized.Distributed.FleetUtilizationPercentage).IsEqualTo(62.5);
-            await Assert.That(deserialized.Distributed.Workers.Single().WorkerIndex).IsEqualTo(1);
+            await Assert.That(deserialized.Distributed.Workers.Single().WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(1));
             await Assert.That(deserialized.Distributed.Modules.Single().QueueWaitDuration)
                 .IsEqualTo(TimeSpan.FromSeconds(2));
         }

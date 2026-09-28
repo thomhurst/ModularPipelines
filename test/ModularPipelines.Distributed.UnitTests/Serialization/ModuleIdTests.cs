@@ -81,7 +81,7 @@ public class ModuleIdTests
             Status = ModuleStatus.Succeeded,
         };
         var serialized = new ModuleResultSerializer(producer).Serialize(result,
-            ModuleId.FromType(typeof(OriginalModule)), 1);
+            ModuleId.FromType(typeof(OriginalModule)), WorkerId.FromInstanceIndex(1));
         var received = new ModuleResultSerializer(consumer).Deserialize(serialized);
 
         await Assert.That(received!.ValueOrDefault).IsEqualTo("output");
@@ -96,7 +96,7 @@ public class ModuleIdTests
         var consumer = new ModuleTypeRegistry();
         consumer.Register(typeof(RenamedModule));
         var failure = new ModuleResultSerializer(new ModuleTypeRegistry()).SerializeFailure("build",
-            new InvalidOperationException("Pipeline schema mismatch"), 2);
+            new InvalidOperationException("Pipeline schema mismatch"), WorkerId.FromInstanceIndex(2));
         var received = new ModuleResultSerializer(consumer).Deserialize(failure);
         await Assert.That(received!.Status).IsEqualTo(ModuleStatus.Failed);
         await Assert.That(received.ExceptionOrDefault!.Message).Contains("schema mismatch");

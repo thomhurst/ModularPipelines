@@ -31,6 +31,15 @@ internal class OptionsValidator : IOptionsValidator
                 $"Distributed.MaxParallelism must be at least 1. Current value: {distributedOptions.MaxParallelism}"));
         }
 
+        if (distributedOptions is not null)
+        {
+            foreach (var failure in Distributed.Configuration.DistributedOptionsValidator.Validate(distributedOptions)
+                         .Where(static failure => !failure.StartsWith("Distributed.MaxParallelism", StringComparison.Ordinal)))
+            {
+                result.AddError(new ValidationError(ValidationErrorCategory.Options, failure));
+            }
+        }
+
         return Task.FromResult(result);
     }
 

@@ -21,13 +21,15 @@ public class ArtifactContextTests
                 It.IsAny<CancellationToken>()))
             .Callback<ArtifactDescriptor, Stream, CancellationToken>(
                 (descriptor, _, _) => observedDescriptor = descriptor)
-            .ReturnsAsync(new ArtifactReference(
-                ArtifactId: "artifact-id",
-                Name: "output",
-                ModuleId: typeof(ProducerModule).FullName!,
-                SizeBytes: 0,
-                ContentType: "application/octet-stream",
-                UploadedAt: DateTimeOffset.UtcNow));
+            .ReturnsAsync(new ArtifactReference
+            {
+                ArtifactId = "artifact-id",
+                Name = "output",
+                ModuleId = typeof(ProducerModule).FullName!,
+                SizeBytes = 0,
+                ContentType = "application/octet-stream",
+                UploadedAt = DateTimeOffset.UtcNow,
+            });
         var file = Path.GetTempFileName();
 
         try
@@ -52,13 +54,15 @@ public class ArtifactContextTests
     [Test]
     public async Task Typed_Download_Uses_Producer_Module_Name()
     {
-        var artifact = new ArtifactReference(
-            ArtifactId: "artifact-id",
-            Name: "output",
-            ModuleId: typeof(ProducerModule).FullName!,
-            SizeBytes: 7,
-            ContentType: "application/octet-stream",
-            UploadedAt: DateTimeOffset.UtcNow);
+        var artifact = new ArtifactReference
+        {
+            ArtifactId = "artifact-id",
+            Name = "output",
+            ModuleId = typeof(ProducerModule).FullName!,
+            SizeBytes = 7,
+            ContentType = "application/octet-stream",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
                 typeof(ProducerModule).FullName!,
@@ -108,13 +112,15 @@ public class ArtifactContextTests
                 using var copy = new MemoryStream();
                 await stream.CopyToAsync(copy, cancellationToken);
                 uploadedContent = copy.ToArray();
-                return new ArtifactReference(
-                    ArtifactId: "artifact-id",
-                    Name: descriptor.Name,
-                    ModuleId: descriptor.ModuleId,
-                    SizeBytes: copy.Length,
-                    ContentType: descriptor.ContentType,
-                    UploadedAt: DateTimeOffset.UtcNow);
+                return new ArtifactReference
+                {
+                    ArtifactId = "artifact-id",
+                    Name = descriptor.Name,
+                    ModuleId = descriptor.ModuleId,
+                    SizeBytes = copy.Length,
+                    ContentType = descriptor.ContentType,
+                    UploadedAt = DateTimeOffset.UtcNow,
+                };
             });
         var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-context-source-");
@@ -142,13 +148,15 @@ public class ArtifactContextTests
     [Test]
     public async Task Download_Supports_Bare_Relative_File_Name()
     {
-        var artifact = new ArtifactReference(
-            ArtifactId: "artifact-id",
-            Name: "output",
-            ModuleId: typeof(ProducerModule).FullName!,
-            SizeBytes: 7,
-            ContentType: "application/octet-stream",
-            UploadedAt: DateTimeOffset.UtcNow);
+        var artifact = new ArtifactReference
+        {
+            ArtifactId = "artifact-id",
+            Name = "output",
+            ModuleId = typeof(ProducerModule).FullName!,
+            SizeBytes = 7,
+            ContentType = "application/octet-stream",
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(artifactStore => artifactStore.ListArtifactsAsync(
                 typeof(ProducerModule).FullName!,
@@ -207,13 +215,15 @@ public class ArtifactContextTests
     }
 
     private static ArtifactReference CreateArtifact(string id, DateTimeOffset uploadedAt) =>
-        new(
-            ArtifactId: id,
-            Name: "output",
-            ModuleId: typeof(ProducerModule).FullName!,
-            SizeBytes: 7,
-            ContentType: "application/octet-stream",
-            UploadedAt: uploadedAt);
+        new()
+        {
+            ArtifactId = id,
+            Name = "output",
+            ModuleId = typeof(ProducerModule).FullName!,
+            SizeBytes = 7,
+            ContentType = "application/octet-stream",
+            UploadedAt = uploadedAt,
+        };
 
     private sealed class ProducerModule : Module<string>
     {

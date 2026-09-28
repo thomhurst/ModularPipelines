@@ -18,8 +18,9 @@ public class RedisDiscoveryOptionsTests
         var options = new RedisDiscoveryOptions();
 
         await Assert.That(options.ConnectionString).IsEqualTo("localhost:6379");
-        await Assert.That(options.KeyPrefix).IsEqualTo("modular-pipelines");
-        await Assert.That(options.Ttl).IsEqualTo(TimeSpan.FromHours(1));
+        await Assert.That(options.KeyPrefix).IsEqualTo("modpipe");
+        await Assert.That(options.ConfigureConnection).IsNull();
+        await Assert.That(options.TimeToLive).IsEqualTo(TimeSpan.FromHours(1));
         await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMinutes(2));
         await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(500));
     }
@@ -31,14 +32,14 @@ public class RedisDiscoveryOptionsTests
         {
             ConnectionString = "redis.internal:6380",
             KeyPrefix = "my-pipeline",
-            Ttl = TimeSpan.FromHours(2),
+            TimeToLive = TimeSpan.FromHours(2),
             DiscoveryTimeout = TimeSpan.FromMinutes(1),
             PollInterval = TimeSpan.FromMilliseconds(250),
         };
 
         await Assert.That(options.ConnectionString).IsEqualTo("redis.internal:6380");
         await Assert.That(options.KeyPrefix).IsEqualTo("my-pipeline");
-        await Assert.That(options.Ttl).IsEqualTo(TimeSpan.FromHours(2));
+        await Assert.That(options.TimeToLive).IsEqualTo(TimeSpan.FromHours(2));
         await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMinutes(1));
         await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(250));
     }
@@ -51,7 +52,7 @@ public class RedisDiscoveryOptionsTests
             {
                 ["Discovery:ConnectionString"] = "redis.example:6380",
                 ["Discovery:KeyPrefix"] = "configured",
-                ["Discovery:Ttl"] = "00:30:00",
+                ["Discovery:TimeToLive"] = "00:30:00",
                 ["Discovery:DiscoveryTimeout"] = "00:00:07.500",
                 ["Discovery:PollInterval"] = "00:00:00.125",
             })
@@ -66,7 +67,7 @@ public class RedisDiscoveryOptionsTests
         {
             await Assert.That(options.ConnectionString).IsEqualTo("redis.example:6380");
             await Assert.That(options.KeyPrefix).IsEqualTo("configured");
-            await Assert.That(options.Ttl).IsEqualTo(TimeSpan.FromMinutes(30));
+            await Assert.That(options.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(30));
             await Assert.That(options.DiscoveryTimeout).IsEqualTo(TimeSpan.FromMilliseconds(7500));
             await Assert.That(options.PollInterval).IsEqualTo(TimeSpan.FromMilliseconds(125));
         }
@@ -120,6 +121,33 @@ public class RedisDiscoveryOptionsTests
         var options = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
 
         await Assert.That(options.RunId).IsEqualTo("configured-after-discovery");
+    }
+
+    [Test]
+    public async Task HostBuildRejectsInvalidTimings()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisMasterDiscovery(options =>
+        {
+            options.TimeToLive = TimeSpan.Zero;
+            options.PollInterval = TimeSpan.Zero;
+        });
+        builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures.Count()).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Discovery_Does_Not_Register_An_Application_Connection()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisMasterDiscovery(options => options.ConfigureConnection = configuration => configuration.Ssl = true);
+
+        await Assert.That(builder.Services.Any(descriptor =>
+                descriptor.ServiceType == typeof(StackExchange.Redis.IConnectionMultiplexer)))
+            .IsFalse();
     }
 
     private sealed class NoOpModule : Module<int>

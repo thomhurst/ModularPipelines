@@ -130,7 +130,7 @@ public class WorkerModuleExecutorTests
             StartTime = now,
             EndTime = now,
             Duration = TimeSpan.Zero,
-        }, ModuleId.FromType(typeof(PolymorphicDependencyModule)), 0);
+        }, ModuleId.FromType(typeof(PolymorphicDependencyModule)), WorkerId.FromInstanceIndex(0));
         var payload = JsonNode.Parse(dependency.Payload)!;
         payload["$valueTypeBuild"] = "different-build";
         dependency = dependency with { Payload = invalidPayload == "build" ? payload.ToJsonString() : invalidPayload };
@@ -181,13 +181,16 @@ public class WorkerModuleExecutorTests
     {
         private int _publications;
 
-        public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken) =>
+        public Task PublishResultAsync(SerializedModuleResult result, ModuleLease? lease, CancellationToken cancellationToken) =>
             Interlocked.Increment(ref _publications) == 1
                 ? Task.FromException(new InvalidOperationException("Publication was rejected."))
-                : inner.PublishResultAsync(result, cancellationToken);
+                : inner.PublishResultAsync(result, lease, cancellationToken);
 
-        public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> capabilities, CancellationToken cancellationToken) =>
-            inner.DequeueModuleAsync(capabilities, cancellationToken);
+        public Task<ModuleLease?> DequeueModuleAsync(
+            WorkerId workerId,
+            IReadOnlySet<Capability> capabilities,
+            CancellationToken cancellationToken) =>
+            inner.DequeueModuleAsync(workerId, capabilities, cancellationToken);
 
         public Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken cancellationToken) =>
             inner.WaitForResultAsync(moduleId, cancellationToken);
@@ -198,7 +201,7 @@ public class WorkerModuleExecutorTests
         public Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken) =>
             inner.SendHeartbeatAsync(status, cancellationToken);
 
-        public Task WaitForCancellationAsync(CancellationToken cancellationToken) =>
+        public Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
             inner.WaitForCancellationAsync(cancellationToken);
     }
 
@@ -261,7 +264,7 @@ public class WorkerModuleExecutorTests
 
         foreach (var module in modules)
         {
-            await coordinator.EnqueueModuleAsync(CreateAssignment(module, typeRegistry), cancellationToken);
+            await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(module, typeRegistry), cancellationToken);
         }
 
         var executor = new WorkerModuleExecutor(
@@ -316,14 +319,18 @@ public class WorkerModuleExecutorTests
             typeRegistry.Register(module.GetType());
         }
 
-        var assignments = new ConcurrentQueue<ModuleAssignment>(modules.Select(module => CreateAssignment(module, typeRegistry)));
+        var assignments = new ConcurrentQueue<ModuleLease>(
+            modules.Select(module => DistributedTestData.Lease(DistributedTestData.Assignment(module, typeRegistry))));
         var published = new ConcurrentQueue<SerializedModuleResult>();
         var secondDequeued = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var stop = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var coordinator = new Mock<IDistributedWorkerCoordinator>();
         var dequeueCount = 0;
-        coordinator.Setup(x => x.DequeueModuleAsync(It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
+        coordinator.Setup(x => x.DequeueModuleAsync(
+                It.IsAny<WorkerId>(),
+                It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
             .Returns(() =>
             {
                 assignments.TryDequeue(out var assignment);
@@ -335,9 +342,16 @@ public class WorkerModuleExecutorTests
                 return Task.FromResult(assignment);
             });
         coordinator.Setup(x => x.WaitForCancellationAsync(It.IsAny<CancellationToken>()))
-            .Returns<CancellationToken>(token => Task.Delay(Timeout.InfiniteTimeSpan, token));
-        coordinator.Setup(x => x.PublishResultAsync(It.IsAny<SerializedModuleResult>(), It.IsAny<CancellationToken>()))
-            .Returns<SerializedModuleResult, CancellationToken>((result, token) =>
+            .Returns<CancellationToken>(async token =>
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return DistributedCancellationReason.Stopped;
+            });
+        coordinator.Setup(x => x.PublishResultAsync(
+                It.IsAny<SerializedModuleResult>(),
+                It.IsAny<ModuleLease?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<SerializedModuleResult, ModuleLease?, CancellationToken>((result, _, token) =>
             {
                 token.ThrowIfCancellationRequested();
                 published.Enqueue(result);
@@ -348,14 +362,15 @@ public class WorkerModuleExecutorTests
         runner.Setup(x => x.ExecuteWithoutDependencyWaitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
             .Returns<ModuleState, CancellationToken>(async (_, token) =>
             {
+                if (cancelled)
+                {
+                    // Both claimed assignments are running when the worker is cancelled.
+                    await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                }
+
                 if (Interlocked.Increment(ref executionCount) == 1)
                 {
                     await releaseFirst.Task.WaitAsync(cancellationToken);
-                }
-
-                if (cancelled)
-                {
-                    token.ThrowIfCancellationRequested();
                 }
 
                 throw new InvalidOperationException("Worker execution failed.");
@@ -367,12 +382,18 @@ public class WorkerModuleExecutorTests
             modules, typeRegistry, serializer, runner.Object, registry,
             pipeline.Services.GetRequiredService<IModuleDependencyRegistry>(),
             pipeline.Services.GetRequiredService<IModuleMetadataRegistry>(),
-            MsOptions.Create(new DistributedOptions { InstanceIndex = 1, MaxParallelism = 1 }),
+            MsOptions.Create(new DistributedOptions { InstanceIndex = 1, MaxParallelism = 2 }),
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
             pipeline.Services.GetRequiredService<IServiceScopeFactory>(), null,
             NullLogger<WorkerModuleExecutor>.Instance);
-        var run = executor.ExecuteAsync(modules, new Dictionary<Type, TimeSpan>(),
-            new ExecutionBackendContext(registry), stop.Token);
+        var run = executor.ExecuteAsync(
+            new ExecutionBackendRequest
+            {
+                Modules = modules,
+                EstimatedDurations = new Dictionary<ModuleId, TimeSpan>(),
+                Context = new ExecutionBackendContext(registry),
+            },
+            stop.Token);
         try
         {
             await secondDequeued.Task.WaitAsync(cancellationToken);
@@ -446,19 +467,16 @@ public class WorkerModuleExecutorTests
         var serializer = new ModuleResultSerializer(typeRegistry);
         if (dependencyResult is not null)
         {
-            await coordinator.PublishResultAsync(dependencyResult, cancellationToken);
+            await coordinator.PublishResultAsync(dependencyResult, lease: null, cancellationToken);
         }
-        var assignment = new ModuleAssignment(
-            ModuleId.FromType(typeof(TModule)),
 
-            CapabilityRequirement.None,
-            DateTimeOffset.UtcNow,
-            new ModuleAssignmentOptions(null, false))
+        var assignment = DistributedTestData.Assignment(
+            ModuleId.FromType(typeof(TModule)),
+            schemaVersion ?? typeRegistry.GetPipelineSchemaVersion()) with
         {
-            PipelineSchemaVersion = schemaVersion ?? typeRegistry.GetPipelineSchemaVersion(),
             DependencyResultReferences = dependencyResult is null
-                ? null
-                : [new DependencyResultReference(dependencyResult.ModuleId, true)],
+                ? []
+                : [DistributedTestData.Dependency(dependencyResult.ModuleId)],
         };
         await coordinator.EnqueueModuleAsync(assignment, cancellationToken);
         var executor = new WorkerModuleExecutor(
@@ -496,15 +514,6 @@ public class WorkerModuleExecutorTests
             await executionTask.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
         }
     }
-
-    private static ModuleAssignment CreateAssignment(IModule module, ModuleTypeRegistry registry) => new(
-        ModuleId.FromType(module.GetType()),
-        CapabilityRequirement.None,
-        DateTimeOffset.UtcNow,
-        new ModuleAssignmentOptions(null, false))
-    {
-        PipelineSchemaVersion = registry.GetPipelineSchemaVersion(),
-    };
 
     private static void UpdateMaximum(ref int maximum, int candidate)
     {

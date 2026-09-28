@@ -80,13 +80,15 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             }
         }
 
-        var reference = new ArtifactReference(
-            ArtifactId: artifactId,
-            Name: descriptor.Name,
-            ModuleId: descriptor.ModuleId,
-            SizeBytes: totalBytes,
-            ContentType: descriptor.ContentType,
-            UploadedAt: DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = artifactId,
+            Name = descriptor.Name,
+            ModuleId = descriptor.ModuleId,
+            SizeBytes = totalBytes,
+            ContentType = descriptor.ContentType,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         var metaJson = JsonSerializer.Serialize(reference);
         await _database.StringSetAsync(_keys.ArtifactMeta(artifactId), metaJson, _timeToLive)

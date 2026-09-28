@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
-using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis;
 
@@ -15,7 +14,7 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 public static class RedisDiscoveryExtensions
 {
     /// <summary>
-    /// Registers Redis-based master endpoint discovery.
+    /// Registers Redis-based master endpoint discovery. Options are validated at startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configuration action for Redis discovery options.</param>
@@ -24,12 +23,13 @@ public static class RedisDiscoveryExtensions
         this PipelineBuilder builder,
         Action<RedisDiscoveryOptions> configure)
     {
+        ArgumentNullException.ThrowIfNull(configure);
         builder.Services.Configure(configure);
         return AddRedisMasterDiscoveryServices(builder);
     }
 
     /// <summary>
-    /// Registers Redis-based master endpoint discovery from configuration.
+    /// Registers Redis-based master endpoint discovery from configuration. Options are validated at startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section containing Redis discovery options.</param>
@@ -47,26 +47,20 @@ public static class RedisDiscoveryExtensions
     private static PipelineBuilder AddRedisMasterDiscoveryServices(PipelineBuilder builder)
     {
         builder.RequireExplicitRunId();
-        builder.Services.AddOptions<RedisDiscoveryOptions>()
-            .Validate(
-                options => string.IsNullOrWhiteSpace(options.RestUrl)
-                           == string.IsNullOrWhiteSpace(options.RestToken),
-                "RestUrl and RestToken must be configured together.")
-            .ValidateOnStart();
+        builder.Services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IValidateOptions<RedisDiscoveryOptions>, RedisDiscoveryOptionsValidator>());
+        builder.Services.AddOptions<RedisDiscoveryOptions>().ValidateOnStart();
 
-        builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
+        // Discovery owns its connection so it neither replaces nor depends on an application
+        // IConnectionMultiplexer, and connects lazily without blocking service-provider construction.
+        builder.Services.TryAddSingleton<IRedisDiscoveryStore>(sp =>
         {
-            var opts = sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
-            return ConnectionMultiplexer.Connect(opts.ConnectionString);
+            var options = sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
+            return !string.IsNullOrWhiteSpace(options.RestUrl)
+                ? new RestRedisDiscoveryStore(options.RestUrl!, options.RestToken!)
+                : new StackExchangeRedisDiscoveryStore(options);
         });
-        builder.Services.AddSingleton<IRedisDiscoveryStore>(sp =>
-        {
-            var opts = sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
-            return !string.IsNullOrWhiteSpace(opts.RestUrl)
-                ? new RestRedisDiscoveryStore(opts.RestUrl!, opts.RestToken!)
-                : new StackExchangeRedisDiscoveryStore(sp.GetRequiredService<IConnectionMultiplexer>());
-        });
-        builder.Services.AddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(
+        builder.Services.TryAddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(
             sp.GetRequiredService<IRedisDiscoveryStore>(),
             sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value,
             sp.GetRequiredService<IOptions<DistributedOptions>>().Value,

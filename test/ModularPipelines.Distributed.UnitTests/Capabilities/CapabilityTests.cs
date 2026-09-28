@@ -6,10 +6,16 @@ namespace ModularPipelines.Distributed.UnitTests.Capabilities;
 public class CapabilityTests
 {
     [Test]
+    public async Task Explicit_String_Conversion_Rejects_Whitespace()
+    {
+        await Assert.That(() => (Capability) " ").Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task Equality_Is_Case_Insensitive()
     {
-        Capability upper = "Docker";
-        Capability lower = "docker";
+        var upper = new Capability("Docker");
+        var lower = new Capability("docker");
 
         using (Assert.Multiple())
         {
@@ -62,9 +68,9 @@ public class CapabilityTests
     }
 
     [Test]
-    public async Task Implicit_String_Conversions_Preserve_Custom_Names()
+    public async Task String_Conversions_Preserve_Custom_Names()
     {
-        Capability capability = "high-memory";
+        var capability = (Capability) "high-memory";
         string name = capability;
 
         using (Assert.Multiple())

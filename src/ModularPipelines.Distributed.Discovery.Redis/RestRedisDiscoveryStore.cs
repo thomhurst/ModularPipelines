@@ -29,17 +29,18 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
     {
         var path = $"set/{Encode(key)}/{Encode(value)}/ex/{(long) ttl.TotalSeconds}";
         using var request = new HttpRequestMessage(HttpMethod.Post, path);
-        using var response = await _httpClient.SendAsync(request, cancellationToken);
+        using var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
     }
 
     public async Task<string?> GetAsync(string key, CancellationToken cancellationToken)
     {
-        using var response = await _httpClient.GetAsync($"get/{Encode(key)}", cancellationToken);
+        using var response = await _httpClient.GetAsync($"get/{Encode(key)}", cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 
-        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        using var document = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
+        var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        await using var streamScope = stream.ConfigureAwait(false);
+        using var document = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken).ConfigureAwait(false);
         var result = document.RootElement.GetProperty("result");
 
         return result.ValueKind == JsonValueKind.Null ? null : result.GetString();

@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Text.Json;
-using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Models;
 
@@ -15,7 +14,7 @@ internal class ModuleResultSerializer(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ICommandExecutionCounter? _commandExecutionCounter = commandExecutionCounter;
     private readonly JsonSerializerOptions _options = CreateOptions();
-    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = new();
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _deserializationOptions = [];
 
     internal static JsonSerializerOptions CreateOptions(AssemblyLoadContext? loadContext = null)
     {
@@ -47,7 +46,7 @@ internal class ModuleResultSerializer(
         "Trimming",
         "IL2026",
         Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
-    public ModularPipelines.Distributed.SerializedModuleResult Serialize(IModuleResult result, ModuleId moduleId, int workerIndex)
+    public SerializedModuleResult Serialize(IModuleResult result, ModuleId moduleId, WorkerId workerId)
     {
         // Serialize as the ModuleResult<T> base type so the custom converter writes the $type discriminator.
         // Using the concrete type (e.g. Success) would bypass the converter since it's registered for ModuleResult<T>.
@@ -56,12 +55,12 @@ internal class ModuleResultSerializer(
             ? typeof(ModuleResult<>).MakeGenericType(resolved.Value.ResultType)
             : result.GetType();
         var json = JsonSerializer.Serialize(result, serializeAsType, _options);
-        return new ModularPipelines.Distributed.SerializedModuleResult(
-            ModuleId: moduleId,
-            WorkerIndex: workerIndex,
-            Payload: json,
-            CompletedAt: DateTimeOffset.UtcNow)
+        return new SerializedModuleResult
         {
+            ModuleId = moduleId,
+            WorkerId = workerId,
+            Payload = json,
+            CompletedAt = DateTimeOffset.UtcNow,
             CommandCount = resolved is null
                 ? 0
                 : _commandExecutionCounter?.GetCount(resolved.Value.ModuleType) ?? 0,
@@ -76,7 +75,7 @@ internal class ModuleResultSerializer(
         "Trimming",
         "IL2026",
         Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
-    public IModuleResult? Deserialize(ModularPipelines.Distributed.SerializedModuleResult serialized)
+    public IModuleResult? Deserialize(SerializedModuleResult serialized)
     {
         var (moduleType, valueType) = _typeRegistry.Resolve(serialized.ModuleId) ?? throw new InvalidOperationException(
                 $"Cannot deserialize result for module '{serialized.ModuleId}': type not found in registry.");
@@ -84,10 +83,9 @@ internal class ModuleResultSerializer(
         var options = _deserializationOptions.GetValue(moduleType, type =>
             CreateOptions(ModuleResultJsonConverterFactory.GetLoadContext(type, valueType)));
         var result = JsonSerializer.Deserialize(serialized.Payload, resultType, options) as ModuleResult;
-        int? workerIndex = serialized.WorkerIndex >= 0 ? serialized.WorkerIndex : null;
         if (result?.ExceptionOrDefault is RemoteModuleException remoteException)
         {
-            remoteException.AttachWorkerIndex(serialized.WorkerIndex);
+            remoteException.AttachWorkerId(serialized.WorkerId);
         }
 
         return result is null
@@ -96,13 +94,13 @@ internal class ModuleResultSerializer(
             {
                 ModuleType = moduleType,
                 TypeName = ModuleTypeIdentifier.Get(moduleType),
-                WorkerIndex = workerIndex,
+                WorkerId = serialized.WorkerId,
             };
     }
 
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Distributed result serialization is unsupported in Native AOT.")]
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Distributed result serialization is unsupported in trimmed applications.")]
-    public SerializedModuleResult SerializeFailure(ModuleId moduleId, Exception exception, int workerIndex)
+    public SerializedModuleResult SerializeFailure(ModuleId moduleId, Exception exception, WorkerId workerId)
     {
         var now = DateTimeOffset.UtcNow;
         ModuleResult failure = new ModuleResult.Failure(exception)
@@ -114,7 +112,12 @@ internal class ModuleResultSerializer(
             Status = ModuleStatus.Failed,
         };
         // Failure payloads contain no result value and do not require the remote module's type.
-        return new SerializedModuleResult(moduleId, workerIndex,
-            JsonSerializer.Serialize(failure, _options), now);
+        return new SerializedModuleResult
+        {
+            ModuleId = moduleId,
+            WorkerId = workerId,
+            Payload = JsonSerializer.Serialize(failure, _options),
+            CompletedAt = now,
+        };
     }
 }

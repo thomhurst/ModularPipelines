@@ -16,7 +16,7 @@ internal sealed class DistributedTelemetryTracker
     public void RecordResult(SerializedModuleResult result, DateTimeOffset receivedAt, string moduleTypeName) =>
         _results[result.ModuleId] = new ResultTiming(
             moduleTypeName,
-            result.WorkerIndex,
+            result.WorkerId,
             result.CompletedAt,
             receivedAt,
             result.ExecutionTelemetry);
@@ -36,13 +36,23 @@ internal sealed class DistributedTelemetryTracker
             return null;
         }
 
-        var workerCount = Math.Max(
-            Math.Max(1, configuredWorkerCount),
-            modules.Max(static module => module.WorkerIndex) + 1);
+        // Report every configured instance, including idle ones, plus any other worker that
+        // produced a result.
+        var configuredWorkerIds = Enumerable.Range(0, Math.Max(1, configuredWorkerCount))
+            .Select(WorkerId.FromInstanceIndex)
+            .ToArray();
+        var workerIds = configuredWorkerIds
+            .Concat(modules
+                .Select(static module => module.WorkerId)
+                .Where(workerId => !configuredWorkerIds.Contains(workerId))
+                .Distinct()
+                .OrderBy(static workerId => workerId.Value, StringComparer.Ordinal))
+            .ToArray();
+        var workerCount = workerIds.Length;
         var runDuration = NonNegative(pipelineEnd - pipelineStart);
-        var workers = Enumerable.Range(0, workerCount)
-            .Select(workerIndex => CreateWorkerReport(
-                workerIndex,
+        var workers = workerIds
+            .Select(workerId => CreateWorkerReport(
+                workerId,
                 modules,
                 pipelineStart,
                 pipelineEnd,
@@ -87,7 +97,7 @@ internal sealed class DistributedTelemetryTracker
         return new DistributedModuleRunReport
         {
             ModuleTypeName = result.ModuleTypeName,
-            WorkerIndex = result.WorkerIndex,
+            WorkerId = result.WorkerId,
             EnqueuedAt = enqueuedAt,
             ClaimedAt = execution.ClaimedAt,
             ExecutionStartedAt = execution.ExecutionStartedAt,
@@ -106,18 +116,18 @@ internal sealed class DistributedTelemetryTracker
     }
 
     private static DistributedWorkerRunReport CreateWorkerReport(
-        int workerIndex,
+        WorkerId workerId,
         IReadOnlyCollection<DistributedModuleRunReport> modules,
         DateTimeOffset pipelineStart,
         DateTimeOffset pipelineEnd,
         TimeSpan runDuration)
     {
-        var workerModules = modules.Where(module => module.WorkerIndex == workerIndex).ToArray();
+        var workerModules = modules.Where(module => module.WorkerId == workerId).ToArray();
         var busy = CalculateBusyDuration(workerModules, pipelineStart, pipelineEnd);
         var idle = NonNegative(runDuration - busy);
         return new DistributedWorkerRunReport
         {
-            WorkerIndex = workerIndex,
+            WorkerId = workerId,
             ModuleCount = workerModules.Length,
             BusyDuration = busy,
             IdleDuration = idle,
@@ -173,7 +183,7 @@ internal sealed class DistributedTelemetryTracker
 
     private sealed record ResultTiming(
         string ModuleTypeName,
-        int WorkerIndex,
+        WorkerId WorkerId,
         DateTimeOffset CompletedAt,
         DateTimeOffset ReceivedAt,
         DistributedModuleExecutionTelemetry? ExecutionTelemetry);

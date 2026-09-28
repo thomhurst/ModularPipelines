@@ -24,7 +24,7 @@ public class DistributedOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
+            await Assert.That(options.WorkerRegistrationTimeout).IsEqualTo(TimeSpan.FromMinutes(5));
             await Assert.That(options.MinimumWorkerCount).IsEqualTo(0);
             await Assert.That(options.ModuleResultTimeout).IsEqualTo(TimeSpan.FromMinutes(45));
             await Assert.That(options.RequireExplicitRunId).IsFalse();
@@ -39,7 +39,7 @@ public class DistributedOptionsTests
             {
                 ["Distributed:Capabilities:0"] = "docker",
                 ["Distributed:Capabilities:1"] = "gpu",
-                ["Distributed:CapabilityTimeout"] = "00:00:30",
+                ["Distributed:WorkerRegistrationTimeout"] = "00:00:30",
                 ["Distributed:MinimumWorkerCount"] = "2",
             })
             .Build();
@@ -51,7 +51,7 @@ public class DistributedOptionsTests
         {
             await Assert.That(options.Capabilities)
                 .IsEquivalentTo([Capability.Docker, Capability.Gpu]);
-            await Assert.That(options.CapabilityTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
+            await Assert.That(options.WorkerRegistrationTimeout).IsEqualTo(TimeSpan.FromSeconds(30));
             await Assert.That(options.MinimumWorkerCount).IsEqualTo(2);
         }
     }
@@ -180,6 +180,71 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task Multiple_Instances_Without_A_Shared_Coordinator_Fail_At_Startup()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options =>
+        {
+            options.TotalInstances = 2;
+            options.InstanceIndex = 1;
+            options.RunId = "shared-run";
+        });
+        builder.AddModule<NoOpModule>();
+
+        var exception = await Assert.That(async () =>
+            {
+                await using var pipeline = await builder.BuildAsync();
+                _ = pipeline.Services.GetRequiredService<IExecutionBackend>();
+            })
+            .Throws<InvalidOperationException>();
+        await Assert.That(exception!.Message).Contains("no shared coordinator");
+    }
+
+    [Test]
+    public async Task Instance_Index_Must_Be_Less_Than_Total_Instances()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options =>
+        {
+            options.TotalInstances = 2;
+            options.InstanceIndex = 2;
+            options.RunId = "shared-run";
+        });
+        builder.AddModule<NoOpModule>();
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(error => error.Message.Contains("Distributed.InstanceIndex"))).IsTrue();
+    }
+
+    [Test]
+    public async Task Worker_Timeout_Must_Exceed_The_Heartbeat_Interval()
+    {
+        var failures = DistributedOptionsValidator.Validate(new DistributedOptions
+        {
+            WorkerHeartbeatInterval = TimeSpan.FromSeconds(10),
+            WorkerTimeout = TimeSpan.FromSeconds(10),
+        }.EnableForTest());
+
+        await Assert.That(failures.Any(failure => failure.StartsWith("Distributed.WorkerTimeout", StringComparison.Ordinal)))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Registering_Two_Coordinator_Backends_Fails()
+    {
+        var builder = TestPipelineBuilder.Create();
+        builder.AddDistributedMode(options => options.RunId = "run");
+        builder.AddDistributedCoordinator<ModularPipelines.Distributed.Coordination.InMemoryDistributedCoordinator>();
+        builder.AddDistributedCoordinatorFactory<UnusedCoordinatorFactory>();
+        builder.AddModule<NoOpModule>();
+
+        var exception = await Assert.That(async () => await builder.BuildAsync())
+            .Throws<InvalidOperationException>();
+        await Assert.That(exception!.Message).Contains("More than one distributed coordinator backend");
+    }
+
+    [Test]
     public async Task DependencyBasedPostConfigure_Selects_Worker_Backend()
     {
         var builder = TestPipelineBuilder.Create();
@@ -269,6 +334,15 @@ public class DistributedOptionsTests
         }
     }
 
+    private sealed class UnusedCoordinatorFactory : IDistributedCoordinatorFactory
+    {
+        public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+
+        public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+    }
+
     private sealed class NoOpModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
@@ -277,4 +351,13 @@ public class DistributedOptionsTests
     }
 
     private sealed record RoleSelection(DistributedRole Role);
+}
+
+internal static class DistributedOptionsTestExtensions
+{
+    public static DistributedOptions EnableForTest(this DistributedOptions options)
+    {
+        options.Enabled = true;
+        return options;
+    }
 }

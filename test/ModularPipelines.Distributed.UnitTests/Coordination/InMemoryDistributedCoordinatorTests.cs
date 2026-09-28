@@ -1,224 +1,193 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.TestHelpers.Distributed;
+using MsOptions = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Coordination;
 
 public class InMemoryDistributedCoordinatorTests
 {
-    [Test]
-    public async Task Enqueue_And_Dequeue_Returns_Assignment()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(coordinator);
-    }
+    private static InMemoryDistributedCoordinator Create(TimeSpan? workerTimeout = null) =>
+        new(MsOptions.Create(new DistributedOptions
+        {
+            WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
+        }));
 
     [Test]
-    public async Task Publish_And_Wait_For_Result()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync(coordinator);
-    }
+    public Task Enqueue_And_Dequeue_RoundTrips() =>
+        DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(Create());
+
+    [Test]
+    public Task Publish_Unblocks_Wait_And_RoundTrips_Result() =>
+        DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync(Create());
+
+    [Test]
+    public Task First_Published_Result_Is_Final() =>
+        DistributedCoordinatorContract.FirstPublishedResultIsFinalAsync(Create());
+
+    [Test]
+    public Task Completion_Signal_Unblocks_Pending_Dequeue() =>
+        DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(Create());
+
+    [Test]
+    public Task Cancelled_Dequeue_Throws() =>
+        DistributedCoordinatorContract.CancelledDequeueThrowsAsync(Create());
+
+    [Test]
+    public Task Cancellation_Signal_Unblocks_Worker_Observer() =>
+        DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync(Create());
+
+    [Test]
+    public Task Pipeline_Failure_Only_Releases_AlwaysRun_Work() =>
+        DistributedCoordinatorContract.PipelineFailureOnlyReleasesAlwaysRunWorkAsync(Create());
+
+    [Test]
+    public Task Stop_Closes_Dequeue() =>
+        DistributedCoordinatorContract.StopClosesDequeueAsync(Create());
+
+    [Test]
+    public Task Withdraw_Removes_Queued_Assignment() =>
+        DistributedCoordinatorContract.WithdrawRemovesQueuedAssignmentAsync(Create());
+
+    [Test]
+    public Task Expired_Lease_Is_Requeued() =>
+        DistributedCoordinatorContract.ExpiredLeaseIsRequeuedAsync(Create());
+
+    [Test]
+    public Task Heartbeat_Renews_Lease() =>
+        DistributedCoordinatorContract.HeartbeatRenewsLeaseAsync(Create());
+
+    [Test]
+    public Task Publishing_Releases_Lease() =>
+        DistributedCoordinatorContract.PublishingReleasesLeaseAsync(Create());
+
+    [Test]
+    public Task Heartbeat_Keeps_Worker_Registration_Live() =>
+        DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(Create(TimeSpan.FromSeconds(30)));
+
+    [Test]
+    public Task Duplicate_Live_Worker_Is_Rejected() =>
+        DistributedCoordinatorContract.DuplicateLiveWorkerIsRejectedAsync(Create(TimeSpan.FromSeconds(30)));
+
+    [Test]
+    public Task Claim_Prefers_Scarce_Capability_Work() =>
+        DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(Create(TimeSpan.FromSeconds(30)));
+
+    [Test]
+    public Task Claim_Prefers_Priority_Then_Critical_Path() =>
+        DistributedCoordinatorContract.ClaimPrefersPriorityThenCriticalPathAsync(Create());
+
+    [Test]
+    public Task Claim_Matches_Alternative_Capabilities() =>
+        DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(Create());
+
+    [Test]
+    public Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires() =>
+        DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
+            Create(TimeSpan.FromMilliseconds(100)),
+            TimeSpan.FromMilliseconds(250));
+
+    [Test]
+    public Task Cancelling_One_Observer_Leaves_Concurrent_Observer_Subscribed() =>
+        DistributedCoordinatorContract.CancellationKeepsConcurrentObserverSubscribedAsync(Create());
 
     [Test]
     public async Task Cancelling_One_Result_Waiter_Preserves_Other_And_Late_Waiters()
     {
-        var coordinator = new InMemoryDistributedCoordinator();
+        var coordinator = Create();
+        var moduleId = new ModuleId("Module");
         using var cancellation = new CancellationTokenSource();
-        var cancelledWait = coordinator.WaitForResultAsync("Module", cancellation.Token);
-        var survivingWait = coordinator.WaitForResultAsync("Module", CancellationToken.None);
+        var cancelledWait = coordinator.WaitForResultAsync(moduleId, cancellation.Token);
+        var survivingWait = coordinator.WaitForResultAsync(moduleId, CancellationToken.None);
 
         await cancellation.CancelAsync();
         await Assert.That(async () => await cancelledWait).Throws<OperationCanceledException>();
-        var published = new SerializedModuleResult("Module", 1, "{}", DateTimeOffset.UtcNow);
-        await coordinator.PublishResultAsync(published, CancellationToken.None);
+        var published = DistributedTestData.Result(moduleId);
+        await coordinator.PublishResultAsync(published, lease: null, CancellationToken.None);
 
         await Assert.That(await survivingWait.WaitAsync(TimeSpan.FromSeconds(10))).IsSameReferenceAs(published);
-        var lateResult = await coordinator.WaitForResultAsync("Module", CancellationToken.None)
+        var lateResult = await coordinator.WaitForResultAsync(moduleId, CancellationToken.None)
             .WaitAsync(TimeSpan.FromSeconds(10));
         await Assert.That(lateResult).IsSameReferenceAs(published);
     }
 
     [Test]
-    public async Task RegisterWorker_And_GetRegisteredWorkers()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-
-        var registration = new WorkerRegistration(
-            WorkerIndex: 1,
-            Capabilities: ["linux"],
-            RegisteredAt: DateTimeOffset.UtcNow);
-
-        await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
-
-        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
-
-        await Assert.That(workers.Count).IsEqualTo(1);
-        await Assert.That(workers[0].WorkerIndex).IsEqualTo(1);
-    }
-
-    [Test]
-    public async Task Claim_Matches_Alternative_Capabilities()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator);
-    }
-
-    [Test]
-    public async Task SignalCompletion_CausesDequeueToReturnNull()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(coordinator);
-    }
-
-    [Test]
-    public async Task Cancellation_Unblocks_Worker_Observer()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync(coordinator);
-    }
-
-    [Test]
-    public async Task Heartbeat_Keeps_Worker_Registration_Live()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(coordinator);
-    }
-
-    [Test]
-    public async Task Claim_Prefers_Scarce_Capability_Work()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(coordinator);
-    }
-
-    [Test]
     public async Task Stale_Worker_Is_Excluded_From_Live_Registrations()
     {
+        var clock = new FakeTimeProvider();
         var coordinator = new InMemoryDistributedCoordinator(
-            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
-            {
-                WorkerTimeout = TimeSpan.FromMilliseconds(10),
-            }));
-        await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
-            CancellationToken.None);
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }),
+            clock);
+        await coordinator.RegisterWorkerAsync(DistributedTestData.Registration(DistributedTestData.Worker), CancellationToken.None);
 
-        await Task.Delay(30);
+        clock.Advance(TimeSpan.FromSeconds(11));
         var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
 
         await Assert.That(workers).IsEmpty();
     }
 
     [Test]
-    public async Task Final_Metrics_Keep_Worker_Registration_After_Heartbeat_Expires()
+    public async Task Dead_Worker_Can_Be_Replaced_By_A_New_Process()
     {
+        var clock = new FakeTimeProvider();
         var coordinator = new InMemoryDistributedCoordinator(
-            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }),
+            clock);
+        var first = DistributedTestData.Registration(DistributedTestData.Worker);
+        await coordinator.RegisterWorkerAsync(first, CancellationToken.None);
+
+        clock.Advance(TimeSpan.FromSeconds(11));
+        var replacement = first with { RegisteredAt = first.RegisteredAt.AddMinutes(1) };
+        await coordinator.RegisterWorkerAsync(replacement, CancellationToken.None);
+        var workers = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+
+        await Assert.That(workers.Single().RegisteredAt).IsEqualTo(replacement.RegisteredAt);
+    }
+
+    [Test]
+    public async Task Unmatched_Work_Does_Not_Spin_Until_State_Changes()
+    {
+        var coordinator = Create(TimeSpan.FromSeconds(30));
+        await coordinator.EnqueueModuleAsync(
+            DistributedTestData.Assignment(new ModuleId("Gpu")) with
             {
-                WorkerTimeout = TimeSpan.FromMilliseconds(10),
-            }));
-
-        await DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(
-            coordinator,
-            TimeSpan.FromMilliseconds(30));
-    }
-
-    [Test]
-    public async Task Dequeue_With_Capability_Filtering()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-
-        var dockerAssignment = new ModuleAssignment(
-            ModuleId: "Docker.Module",
-            RequiredCapabilities: CapabilityRequirement.AllOf("docker"),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false));
-
-        await coordinator.EnqueueModuleAsync(dockerAssignment, CancellationToken.None);
-
-        // Worker without docker capability should not get the assignment
-        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
-        var result = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability> { "linux" }, cts.Token);
-
-        await Assert.That(result).IsNull();
-    }
-
-    [Test]
-    public async Task Dequeue_Prefers_Higher_User_Priority()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await coordinator.EnqueueModuleAsync(
-            CreateAssignment("Low", ModulePriority.Low),
-            CancellationToken.None);
-        await coordinator.EnqueueModuleAsync(
-            CreateAssignment("Critical", ModulePriority.Critical),
+                RequiredCapabilities = CapabilityRequirement.AllOf(Capability.Gpu),
+            },
             CancellationToken.None);
 
-        var result = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability>(),
-            CancellationToken.None);
-
-        await Assert.That(result!.ModuleId).IsEqualTo("Critical");
-    }
-
-    [Test]
-    public async Task Dequeue_Prefers_Longer_Critical_Path_At_Equal_Priority()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await coordinator.EnqueueModuleAsync(
-            CreateAssignment("Short", criticalPathWeight: TimeSpan.FromMinutes(1)),
-            CancellationToken.None);
-        await coordinator.EnqueueModuleAsync(
-            CreateAssignment("Long", criticalPathWeight: TimeSpan.FromMinutes(10)),
-            CancellationToken.None);
-
-        var result = await coordinator.DequeueModuleAsync(
-            new HashSet<Capability>(),
-            CancellationToken.None);
-
-        await Assert.That(result!.ModuleId).IsEqualTo("Long");
-    }
-
-    [Test]
-    public async Task Dequeue_Prefers_Work_Eligible_On_Fewer_Workers()
-    {
-        var coordinator = new InMemoryDistributedCoordinator();
-        await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(1, [Capability.Linux], DateTimeOffset.UtcNow),
-            CancellationToken.None);
-        await coordinator.RegisterWorkerAsync(
-            new WorkerRegistration(2, [Capability.Windows], DateTimeOffset.UtcNow),
-            CancellationToken.None);
-        await coordinator.EnqueueModuleAsync(CreateAssignment("Generic"), CancellationToken.None);
-        await coordinator.EnqueueModuleAsync(
-            CreateAssignment(
-                "LinuxOnly",
-                requiredCapabilities: new HashSet<Capability> { Capability.Linux }),
-            CancellationToken.None);
-
-        var result = await coordinator.DequeueModuleAsync(
+        var dequeue = coordinator.DequeueModuleAsync(
+            DistributedTestData.Worker,
             new HashSet<Capability> { Capability.Linux },
             CancellationToken.None);
+        await Task.Delay(100);
+        await Assert.That(dequeue.IsCompleted).IsFalse();
 
-        await Assert.That(result!.ModuleId).IsEqualTo("LinuxOnly");
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(new ModuleId("Any")), CancellationToken.None);
+        var lease = await dequeue.WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(lease!.Assignment.ModuleId).IsEqualTo(new ModuleId("Any"));
     }
 
-    private static ModuleAssignment CreateAssignment(
-        ModuleId moduleId,
-        ModulePriority priority = ModulePriority.Normal,
-        TimeSpan criticalPathWeight = default,
-        IReadOnlySet<Capability>? requiredCapabilities = null)
+    [Test]
+    public async Task Late_Result_For_Requeued_Lease_Drops_The_Requeued_Copy()
     {
-        return new ModuleAssignment(
-            ModuleId: moduleId,
+        var clock = new FakeTimeProvider();
+        var coordinator = new InMemoryDistributedCoordinator(
+            MsOptions.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(10) }),
+            clock);
+        var moduleId = new ModuleId("Late");
+        await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(moduleId), CancellationToken.None);
+        var lease = await coordinator.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability>(), CancellationToken.None);
 
-            RequiredCapabilities: requiredCapabilities is null ? CapabilityRequirement.None : CapabilityRequirement.AllOf([.. requiredCapabilities]),
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentOptions(null, false))
-        {
-            Priority = priority,
-            CriticalPathWeight = criticalPathWeight,
-        };
+        clock.Advance(TimeSpan.FromSeconds(11));
+        await Assert.That(await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None)).Contains(moduleId);
+        await coordinator.PublishResultAsync(DistributedTestData.Result(moduleId), lease, CancellationToken.None);
+        using var noMoreWork = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        await Assert.That(async () => await coordinator.DequeueModuleAsync(
+                new WorkerId("other"),
+                new HashSet<Capability>(),
+                noMoreWork.Token))
+            .Throws<OperationCanceledException>();
     }
 }

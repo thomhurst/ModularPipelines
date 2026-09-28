@@ -8,8 +8,8 @@ public sealed record DistributedModuleRunReport
     /// <summary>Gets the full module type name.</summary>
     public string ModuleTypeName { get; init; } = string.Empty;
 
-    /// <summary>Gets the index of the worker that executed the module.</summary>
-    public int WorkerIndex { get; init; }
+    /// <summary>Gets the worker that executed the module.</summary>
+    public Distributed.WorkerId WorkerId { get; init; }
 
     /// <summary>Gets when the assignment was enqueued.</summary>
     public DateTimeOffset EnqueuedAt { get; init; }

@@ -10,43 +10,51 @@ namespace ModularPipelines.Distributed.Artifacts;
 /// </summary>
 internal class ArtifactContextImpl(
     IDistributedArtifactStore store,
-    ArtifactOptions options) : IArtifactContext, IModuleScopedArtifactContext
+    ArtifactOptions options,
+    AcceptedArtifactRegistry? acceptedArtifacts = null) : IArtifactContext, IModuleScopedArtifactContext
 {
     private readonly IDistributedArtifactStore _store = store;
     private readonly ArtifactOptions _options = options;
+    private readonly AcceptedArtifactRegistry? _acceptedArtifacts = acceptedArtifacts;
     private readonly ModuleId? _moduleId;
 
     private ArtifactContextImpl(
         IDistributedArtifactStore store,
         ArtifactOptions options,
+        AcceptedArtifactRegistry? acceptedArtifacts,
         ModuleId moduleId)
-        : this(store, options)
+        : this(store, options, acceptedArtifacts)
     {
         _moduleId = moduleId;
     }
 
     public IArtifactContext ForModule(Type moduleType)
-        => new ArtifactContextImpl(_store, _options, ModuleId.FromType(moduleType));
+        => new ArtifactContextImpl(_store, _options, _acceptedArtifacts, ModuleId.FromType(moduleType));
 
     public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var descriptor = new ArtifactDescriptor(
-            Name: artifactName,
-            ModuleId: GetCurrentModuleId(),
-            ContentType: "application/octet-stream");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = artifactName,
+            ModuleId = GetCurrentModuleId(),
+            ContentType = "application/octet-stream",
+        };
 
-        await using var stream = File.OpenRead(filePath);
-        return await _store.UploadAsync(descriptor, stream, cancellationToken);
+        var stream = File.OpenRead(filePath);
+        await using var streamLifetime = stream.ConfigureAwait(false);
+        return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var descriptor = new ArtifactDescriptor(
-            Name: artifactName,
-            ModuleId: GetCurrentModuleId(),
-            ContentType: "application/zip");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = artifactName,
+            ModuleId = GetCurrentModuleId(),
+            ContentType = "application/zip",
+        };
 
         var temporaryArchivePath = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
         try
@@ -55,9 +63,10 @@ internal class ArtifactContextImpl(
                 directoryPath,
                 temporaryArchivePath,
                 _options.CompressionLevel,
-                cancellationToken);
-            await using var stream = File.OpenRead(temporaryArchivePath);
-            return await _store.UploadAsync(descriptor, stream, cancellationToken);
+                cancellationToken).ConfigureAwait(false);
+            var stream = File.OpenRead(temporaryArchivePath);
+            await using var streamLifetime = stream.ConfigureAwait(false);
+            return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
         }
         finally
         {
@@ -119,7 +128,7 @@ internal class ArtifactContextImpl(
                 entry.ExternalAttributes = (0x8000 | (int) File.GetUnixFileMode(file)) << 16;
             }
 
-            await using var sourceStream = new FileStream(
+            var sourceStream = new FileStream(
                 file,
                 new FileStreamOptions
                 {
@@ -127,8 +136,10 @@ internal class ArtifactContextImpl(
                     Mode = FileMode.Open,
                     Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
                 });
-            await using var entryStream = entry.Open();
-            await sourceStream.CopyToAsync(entryStream, cancellationToken);
+            await using var sourceStreamLifetime = sourceStream.ConfigureAwait(false);
+            var entryStream = entry.Open();
+            await using var entryStreamLifetime = entryStream.ConfigureAwait(false);
+            await sourceStream.CopyToAsync(entryStream, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -140,20 +151,23 @@ internal class ArtifactContextImpl(
     public async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var artifacts = await _store.ListArtifactsAsync(producerModuleId, cancellationToken).ConfigureAwait(false);
-        var artifact = artifacts
-            .Where(a => a.Name == artifactName)
-            .OrderByDescending(static a => a.UploadedAt)
-            .FirstOrDefault()
+        var artifact = await ArtifactLifecycleManager.ResolveArtifactAsync(
+                _store,
+                _acceptedArtifacts,
+                producerModuleId,
+                artifactName,
+                cancellationToken)
+            .ConfigureAwait(false)
             ?? throw new InvalidOperationException(
                 $"Artifact '{artifactName}' from module '{producerModuleId}' not found.");
 
-        await using var stream = await _store.DownloadAsync(artifact, cancellationToken);
+        var stream = await _store.DownloadAsync(artifact, cancellationToken).ConfigureAwait(false);
+        await using var streamLifetime = stream.ConfigureAwait(false);
 
         if (artifact.ContentType == "application/zip")
         {
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken);
+            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken).ConfigureAwait(false);
             return destinationPath;
         }
 
@@ -163,8 +177,9 @@ internal class ArtifactContextImpl(
             Directory.CreateDirectory(destinationDirectory);
         }
 
-        await using var fileStream = File.Create(destinationPath);
-        await stream.CopyToAsync(fileStream, cancellationToken);
+        var fileStream = File.Create(destinationPath);
+        await using var fileStreamLifetime = fileStream.ConfigureAwait(false);
+        await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         return destinationPath;
     }
 
@@ -223,7 +238,7 @@ internal class ArtifactContextImpl(
                 var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
                 if (unixAttributes != 0)
                 {
-                    fileOptions.UnixCreateMode = (UnixFileMode)(unixAttributes & 0x1FF);
+                    fileOptions.UnixCreateMode = (UnixFileMode) (unixAttributes & 0x1FF);
                 }
             }
 
@@ -239,9 +254,12 @@ internal class ArtifactContextImpl(
             try
             {
                 await using (destinationStream.ConfigureAwait(false))
-                await using (var entryStream = entry.Open())
                 {
-                    await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                    var entryStream = entry.Open();
+                    await using (entryStream.ConfigureAwait(false))
+                    {
+                        await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                    }
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();

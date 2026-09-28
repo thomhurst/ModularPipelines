@@ -71,9 +71,12 @@ internal class PipelineExecutor : IPipelineExecutor
             try
             {
                 var results = await _executionBackend.ExecuteAsync(
-                        runnableModules,
-                        estimatedDurations,
-                        context ?? _executionBackendContext,
+                        new ExecutionBackendRequest
+                        {
+                            Modules = runnableModules,
+                            EstimatedDurations = ToModuleIdDurations(estimatedDurations),
+                            Context = context ?? _executionBackendContext,
+                        },
                         _engineCancellationToken.Token)
                     .ConfigureAwait(false);
                 executedModules = ApplyBackendResults(runnableModules, results);
@@ -135,6 +138,18 @@ internal class PipelineExecutor : IPipelineExecutor
             // The handler invoker has already logged the individual handler failures.
             _secondaryExceptionContainer.RegisterException(exception);
         }
+    }
+
+    private static Dictionary<Distributed.ModuleId, TimeSpan> ToModuleIdDurations(
+        IReadOnlyDictionary<Type, TimeSpan> estimatedDurations)
+    {
+        var durations = new Dictionary<Distributed.ModuleId, TimeSpan>(estimatedDurations.Count);
+        foreach (var (moduleType, duration) in estimatedDurations)
+        {
+            durations[Distributed.ModuleId.FromType(moduleType)] = duration;
+        }
+
+        return durations;
     }
 
     private List<IModule> ApplyBackendResults(

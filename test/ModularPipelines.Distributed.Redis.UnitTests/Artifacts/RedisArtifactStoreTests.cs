@@ -27,7 +27,12 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task Upload_SmallArtifact_ReturnsCorrectReference()
     {
-        var descriptor = new ArtifactDescriptor("test-art", "Test.Module", "application/octet-stream");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "test-art",
+            ModuleId = "Test.Module",
+            ContentType = "application/octet-stream",
+        };
         var data = new byte[] { 1, 2, 3, 4, 5 };
 
         using var stream = new MemoryStream(data);
@@ -43,7 +48,11 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task Upload_LargeArtifact_ReturnsCorrectSize()
     {
-        var descriptor = new ArtifactDescriptor("big-art", "Test.Module");
+        var descriptor = new ArtifactDescriptor
+        {
+            Name = "big-art",
+            ModuleId = "Test.Module",
+        };
         var data = new byte[150]; // Larger than ChunkSizeBytes (50)
 
         using var stream = new MemoryStream(data);
@@ -57,7 +66,15 @@ public class RedisArtifactStoreTests
     public async Task Download_SmallArtifact_RetrievesData()
     {
         var data = new byte[] { 10, 20, 30 };
-        var reference = new ArtifactReference("art1", "test", "Test.Module", 3, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "art1",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         _mockDb.Setup(db => db.StringGetAsync(
             It.Is<RedisKey>(k => k.ToString().Contains("artifacts:data:art1") && !k.ToString().Contains("chunk")),
@@ -75,7 +92,15 @@ public class RedisArtifactStoreTests
     public async Task Download_ChunkedArtifact_UsesSeekableTemporaryStorage()
     {
         var data = Enumerable.Range(0, 150).Select(value => (byte) value).ToArray();
-        var reference = new ArtifactReference("chunked", "test", "Test.Module", data.Length, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "chunked",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = data.Length,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         for (var index = 0; index < 3; index++)
         {
             var chunkKey = _keys.ArtifactChunk("chunked", index);
@@ -105,7 +130,15 @@ public class RedisArtifactStoreTests
     public async Task Download_ObservesCancellationWhileRedisReadIsPending()
     {
         var pendingRead = new TaskCompletionSource<RedisValue>();
-        var reference = new ArtifactReference("pending", "test", "Test.Module", 50, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "pending",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = 50,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         using var cancellation = new CancellationTokenSource();
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactChunk("pending", 0), It.IsAny<CommandFlags>()))
             .Callback(() => cancellation.Cancel())
@@ -134,7 +167,15 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task ListArtifacts_ReturnsStoredReferences()
     {
-        var ref1 = new ArtifactReference("id1", "art1", "Test.Module", 100, null, DateTimeOffset.UtcNow);
+        var ref1 = new ArtifactReference
+        {
+            ArtifactId = "id1",
+            Name = "art1",
+            ModuleId = "Test.Module",
+            SizeBytes = 100,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
         var ref1Json = System.Text.Json.JsonSerializer.Serialize(ref1);
 
         _mockDb.Setup(db => db.SetMembersAsync(
@@ -156,7 +197,15 @@ public class RedisArtifactStoreTests
     [Test]
     public async Task Delete_CallsKeyDeleteAndSetRemove()
     {
-        var reference = new ArtifactReference("art1", "test", "Test.Module", 3, null, DateTimeOffset.UtcNow);
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "art1",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = 3,
+            ContentType = null,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
 
         await _store.DeleteAsync(reference, CancellationToken.None);
 

@@ -570,6 +570,7 @@ public sealed class PipelineBuilder
             });
         }
 
+        EnsureSingleCoordinatorBackend(services);
         if (!services.Any(descriptor => descriptor.ServiceType == typeof(DistributedModeRegistration)))
         {
             return;
@@ -598,6 +599,31 @@ public sealed class PipelineBuilder
                 serviceProvider.GetRequiredService<RoleDetector>().DetectRole() == DistributedRole.Master
                     ? serviceProvider.GetRequiredService<IDistributedMasterCoordinator>()
                     : serviceProvider.GetRequiredService<DeferredWorkerCoordinator>());
+        }
+    }
+
+    /// <summary>
+    /// Rejects configurations that register more than one coordinator backend, which previously
+    /// resolved silently to whichever was registered last.
+    /// </summary>
+    private static void EnsureSingleCoordinatorBackend(IServiceCollection services)
+    {
+        var backends = services
+            .Where(static descriptor => descriptor.ServiceType == typeof(DistributedCoordinatorBackendRegistration))
+            .Select(static descriptor => ((DistributedCoordinatorBackendRegistration) descriptor.ImplementationInstance!).BackendType)
+            .Concat(services
+                .Where(static descriptor => descriptor.ServiceType == typeof(IDistributedCoordinatorFactory))
+                .Select(static descriptor => descriptor.ImplementationType
+                                             ?? descriptor.ImplementationInstance?.GetType()
+                                             ?? typeof(IDistributedCoordinatorFactory)))
+            .Distinct()
+            .ToArray();
+        if (backends.Length > 1)
+        {
+            throw new InvalidOperationException(
+                "More than one distributed coordinator backend is registered ("
+                + string.Join(", ", backends.Select(static backend => backend.Name))
+                + "). Register exactly one coordinator backend.");
         }
     }
 
@@ -639,110 +665,6 @@ public sealed class PipelineBuilder
         {
             get => Resources.ContentRootFileProvider;
             set => Resources.ContentRootFileProvider = value;
-        }
-    }
-
-    /// <summary>
-    /// Defers <see cref="IDistributedCoordinatorFactory.CreateMasterAsync"/> to first use.
-    /// </summary>
-    private sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory factory) :
-        IDistributedMasterCoordinator
-    {
-        private readonly SemaphoreSlim _lock = new(1, 1);
-        private volatile IDistributedMasterCoordinator? _inner;
-
-        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).EnqueueModuleAsync(a, ct).ConfigureAwait(false);
-
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
-
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
-
-        public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(id, ct).ConfigureAwait(false);
-
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
-
-        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).GetRegisteredWorkersAsync(ct).ConfigureAwait(false);
-
-        public async Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken ct)
-        {
-            var coordinator = await GetAsync(ct).ConfigureAwait(false);
-            return await coordinator.GetWorkerStatusesAsync(ct).ConfigureAwait(false);
-        }
-
-        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).SignalCompletionAsync(ct).ConfigureAwait(false);
-
-        public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
-        {
-            var coordinator = await GetAsync(ct).ConfigureAwait(false);
-            await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
-        }
-
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
-
-        public async Task BroadcastCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).BroadcastCancellationAsync(ct).ConfigureAwait(false);
-
-        private async ValueTask<IDistributedMasterCoordinator> GetAsync(CancellationToken ct)
-        {
-            if (_inner is not null)
-            {
-                return _inner;
-            }
-
-            await _lock.WaitAsync(ct).ConfigureAwait(false);
-            try
-            {
-                return _inner ??= await factory.CreateMasterAsync(ct).ConfigureAwait(false);
-            }
-            finally
-            {
-                _lock.Release();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Defers <see cref="IDistributedCoordinatorFactory.CreateWorkerAsync"/> to first use so that
-    /// workers do not block during DI build waiting for master discovery.
-    /// </summary>
-    private sealed class DeferredWorkerCoordinator(IDistributedCoordinatorFactory factory) :
-        IDistributedWorkerCoordinator
-    {
-        private readonly SemaphoreSlim _lock = new(1, 1);
-        private volatile IDistributedWorkerCoordinator? _inner;
-
-        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<Capability> c, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DequeueModuleAsync(c, ct).ConfigureAwait(false);
-
-        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).PublishResultAsync(r, ct).ConfigureAwait(false);
-
-        public async Task<SerializedModuleResult> WaitForResultAsync(ModuleId moduleId, CancellationToken ct) =>
-            await (await GetAsync(ct).ConfigureAwait(false)).WaitForResultAsync(moduleId, ct).ConfigureAwait(false);
-
-        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).RegisterWorkerAsync(r, ct).ConfigureAwait(false);
-
-        public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken ct)
-        {
-            var coordinator = await GetAsync(ct).ConfigureAwait(false);
-            await coordinator.SendHeartbeatAsync(status, ct).ConfigureAwait(false);
-        }
-
-        public async Task WaitForCancellationAsync(CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).WaitForCancellationAsync(ct).ConfigureAwait(false);
-
-        private async ValueTask<IDistributedWorkerCoordinator> GetAsync(CancellationToken ct)
-        {
-            if (_inner is not null)
-            {
-                return _inner;
-            }
-
-            await _lock.WaitAsync(ct).ConfigureAwait(false);
-            try
-            {
-                return _inner ??= await factory.CreateWorkerAsync(ct).ConfigureAwait(false);
-            }
-            finally
-            {
-                _lock.Release();
-            }
         }
     }
 

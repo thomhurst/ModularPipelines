@@ -6,6 +6,40 @@ namespace ModularPipelines.Distributed.UnitTests.Configuration;
 public class RunIdResolverTests
 {
     [Test]
+    [Arguments("run/1")]
+    [Arguments("run}1")]
+    [Arguments("run 1")]
+    [Arguments("run:1")]
+    public async Task Resolve_Rejects_Characters_That_Change_Backend_Keys(string runId)
+    {
+        await Assert.That(() => RunIdResolver.Resolve(runId, totalInstances: 2))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task Resolve_Rejects_Invalid_Environment_Value()
+    {
+        var original = Environment.GetEnvironmentVariable(RunIdResolver.EnvironmentVariable);
+        try
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, "{run}");
+
+            await Assert.That(() => RunIdResolver.Resolve(null, totalInstances: 2))
+                .Throws<InvalidOperationException>();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(RunIdResolver.EnvironmentVariable, original);
+        }
+    }
+
+    [Test]
+    public async Task Resolve_Accepts_Letters_Digits_Dots_Underscores_And_Dashes()
+    {
+        await Assert.That(RunIdResolver.Resolve("Run_1.2-3", totalInstances: 2)).IsEqualTo("Run_1.2-3");
+    }
+
+    [Test]
     public async Task Resolve_Returns_Explicit_Value()
     {
         var result = RunIdResolver.Resolve("explicit-run", totalInstances: 2);

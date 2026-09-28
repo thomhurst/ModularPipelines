@@ -349,9 +349,11 @@ internal sealed class RunReportService(
                 async token =>
                 {
                     await distributedCoordinator.SendHeartbeatAsync(
-                            new WorkerStatus(options.InstanceIndex)
+                            new WorkerStatus
                             {
+                                WorkerId = options.LocalWorkerId,
                                 RunId = options.RunId,
+                                IsFinal = true,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
@@ -421,7 +423,7 @@ internal sealed class RunReportService(
         {
             var options = distributedOptions.Value;
             var waitResult = await WaitForFinalWorkerMetricsAsync(
-                    options.InstanceIndex,
+                    options.LocalWorkerId,
                     options.RunId,
                     timeout.Token)
                 .ConfigureAwait(false);
@@ -437,11 +439,11 @@ internal sealed class RunReportService(
 
             var workerStatuses = waitResult.Statuses;
             var completedWorkers = workerStatuses
-                .Where(worker => worker.UnattributedCommandCount.HasValue)
+                .Where(static worker => worker.IsFinal)
                 .ToArray();
             foreach (var worker in completedWorkers)
             {
-                commandExecutionCounter.Add(null, worker.UnattributedCommandCount.GetValueOrDefault());
+                commandExecutionCounter.Add(null, worker.UnattributedCommandCount);
             }
 
             ReconcileWorkerModuleCommandCounts(summary, completedWorkers);
@@ -468,10 +470,9 @@ internal sealed class RunReportService(
     {
         var remoteCounts = commandExecutionCounter.GetRemoteModuleCounts();
         var finalModuleIdentifiersByWorker = completedWorkers
-            .Where(static worker => worker.ModuleCommandCounts is not null)
             .ToDictionary(
-                static worker => worker.WorkerIndex,
-                static worker => worker.ModuleCommandCounts!.Keys.ToHashSet());
+                static worker => worker.WorkerId,
+                static worker => worker.ModuleCommandCounts.Keys.ToHashSet());
         var moduleTypesByIdentifier = summary.Modules
             .Select(static module => module.GetType())
             .Distinct()
@@ -480,8 +481,7 @@ internal sealed class RunReportService(
                 static group => group.Key,
                 static group => group.ToArray());
         var finalCounts = completedWorkers
-            .Where(static worker => worker.ModuleCommandCounts is not null)
-            .SelectMany(static worker => worker.ModuleCommandCounts!)
+            .SelectMany(static worker => worker.ModuleCommandCounts)
             .GroupBy(static count => count.Key)
             .ToDictionary(
                 static group => group.Key,
@@ -514,7 +514,7 @@ internal sealed class RunReportService(
 
         var unmatchedRecordedRemoteCount = remoteCounts
             .Where(count => finalModuleIdentifiersByWorker.TryGetValue(
-                                count.Key.WorkerIndex,
+                                count.Key.WorkerId,
                                 out var finalModuleIdentifiers)
                             && !finalModuleIdentifiers.Contains(
                                 ModuleId.FromType(count.Key.ModuleType)))
@@ -527,21 +527,21 @@ internal sealed class RunReportService(
     private static int GetRecordedRemoteCountForCompletedWorkers(
         ModuleId moduleId,
         IReadOnlyCollection<Type> moduleTypes,
-        IReadOnlyDictionary<(int WorkerIndex, Type ModuleType), int> remoteCounts,
-        IReadOnlyDictionary<int, HashSet<ModuleId>> finalModuleIdentifiersByWorker)
+        IReadOnlyDictionary<(WorkerId WorkerId, Type ModuleType), int> remoteCounts,
+        IReadOnlyDictionary<WorkerId, HashSet<ModuleId>> finalModuleIdentifiersByWorker)
     {
         var moduleTypeSet = moduleTypes.ToHashSet();
         return remoteCounts
             .Where(count => moduleTypeSet.Contains(count.Key.ModuleType)
                             && finalModuleIdentifiersByWorker.TryGetValue(
-                                count.Key.WorkerIndex,
+                                count.Key.WorkerId,
                                 out var finalModuleIdentifiers)
                             && finalModuleIdentifiers.Contains(moduleId))
             .Sum(static count => count.Value);
     }
 
     private async Task<WorkerMetricsWaitResult> WaitForFinalWorkerMetricsAsync(
-        int masterInstanceIndex,
+        WorkerId masterWorkerId,
         string? executionIdentifier,
         CancellationToken cancellationToken)
     {
@@ -558,27 +558,27 @@ internal sealed class RunReportService(
             return new WorkerMetricsWaitResult([], ParticipantCount: 0, Completed: false);
         }
 
-        var expectedWorkerIndexes = initialWorkers
-            .Where(worker => worker.WorkerIndex != masterInstanceIndex
+        var expectedWorkerIds = initialWorkers
+            .Where(worker => worker.WorkerId != masterWorkerId
                              && IsCurrentExecution(worker, executionIdentifier))
-            .Select(worker => worker.WorkerIndex)
+            .Select(worker => worker.WorkerId)
             .ToHashSet();
         var workerStatuses = await GetWorkerStatusesAsync(
-                expectedWorkerIndexes,
+                expectedWorkerIds,
                 executionIdentifier,
                 cancellationToken)
             .ConfigureAwait(false);
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            if (expectedWorkerIndexes.All(workerIndex =>
+            if (expectedWorkerIds.All(workerId =>
                     workerStatuses.Any(worker =>
-                        worker.WorkerIndex == workerIndex
-                        && worker.UnattributedCommandCount.HasValue)))
+                        worker.WorkerId == workerId
+                        && worker.IsFinal)))
             {
                 return new WorkerMetricsWaitResult(
                     workerStatuses,
-                    expectedWorkerIndexes.Count,
+                    expectedWorkerIds.Count,
                     Completed: true);
             }
 
@@ -594,7 +594,7 @@ internal sealed class RunReportService(
             try
             {
                 workerStatuses = await GetWorkerStatusesAsync(
-                        expectedWorkerIndexes,
+                        expectedWorkerIds,
                         executionIdentifier,
                         cancellationToken)
                     .ConfigureAwait(false);
@@ -607,19 +607,19 @@ internal sealed class RunReportService(
 
         return new WorkerMetricsWaitResult(
             workerStatuses,
-            expectedWorkerIndexes.Count,
+            expectedWorkerIds.Count,
             Completed: false);
     }
 
     private async Task<WorkerStatus[]> GetWorkerStatusesAsync(
-        HashSet<int> expectedWorkerIndexes,
+        HashSet<WorkerId> expectedWorkerIds,
         string? executionIdentifier,
         CancellationToken cancellationToken) =>
         [.. (await GetMasterCoordinator()
                 .GetWorkerStatusesAsync(cancellationToken)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false))
-            .Where(status => expectedWorkerIndexes.Contains(status.WorkerIndex)
+            .Where(status => expectedWorkerIds.Contains(status.WorkerId)
                              && IsCurrentExecution(status.RunId, executionIdentifier))];
 
     private IDistributedMasterCoordinator GetMasterCoordinator() =>

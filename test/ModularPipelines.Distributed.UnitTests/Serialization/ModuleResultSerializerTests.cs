@@ -51,10 +51,10 @@ public class ModuleResultSerializerTests
             Status = ModuleStatus.Succeeded
         };
 
-        var serialized = serializer.Serialize(result, ModuleId.FromType(typeof(SimpleModule)), 1);
+        var serialized = serializer.Serialize(result, ModuleId.FromType(typeof(SimpleModule)), WorkerId.FromInstanceIndex(1));
 
         await Assert.That(serialized.ModuleId).IsEqualTo(typeof(SimpleModule).FullName!);
-        await Assert.That(serialized.WorkerIndex).IsEqualTo(1);
+        await Assert.That(serialized.WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(1));
         await Assert.That(serialized.CommandCount).IsEqualTo(3);
         await Assert.That(serialized.Payload).IsNotNull();
 
@@ -70,11 +70,13 @@ public class ModuleResultSerializerTests
         var registry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(registry);
 
-        var serialized = new SerializedModuleResult(
-            ModuleId: "Unknown.Module",
-            WorkerIndex: 1,
-            Payload: "{}",
-            CompletedAt: DateTimeOffset.UtcNow);
+        var serialized = new SerializedModuleResult
+        {
+            ModuleId = "Unknown.Module",
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Payload = "{}",
+            CompletedAt = DateTimeOffset.UtcNow,
+        };
 
         Assert.Throws<InvalidOperationException>(() => serializer.Deserialize(serialized));
     }
@@ -95,7 +97,7 @@ public class ModuleResultSerializerTests
             Status = ModuleStatus.Succeeded,
         };
 
-        var deserialized = serializer.Deserialize(serializer.Serialize(result, "stable.simple", workerIndex: 1));
+        var deserialized = serializer.Deserialize(serializer.Serialize(result, "stable.simple", workerId: WorkerId.FromInstanceIndex(1)));
 
         await Assert.That(deserialized!.TypeName)
             .IsEqualTo(ModuleTypeIdentifier.Get(typeof(CustomIdModule)));
@@ -121,7 +123,7 @@ public class ModuleResultSerializerTests
         var serialized = serializer.Serialize(
             result,
             ModuleId.FromType(typeof(SimpleModule)),
-            workerIndex: 7);
+            workerId: WorkerId.FromInstanceIndex(7));
 
         var deserialized = serializer.Deserialize(serialized);
         var remoteException = deserialized!.ExceptionOrDefault as RemoteModuleException;
@@ -132,14 +134,14 @@ public class ModuleResultSerializerTests
             await Assert.That(remoteException!.OriginalExceptionType)
                 .IsEqualTo(typeof(WorkerException).FullName);
             await Assert.That(remoteException.OriginalMessage).IsEqualTo("worker failed");
-            await Assert.That(remoteException.WorkerIndex).IsEqualTo(7);
-            await Assert.That(((ModuleResult) deserialized).WorkerIndex).IsEqualTo(7);
+            await Assert.That(remoteException.WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(7));
+            await Assert.That(((ModuleResult) deserialized).WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(7));
             await Assert.That(remoteException.RemoteStackTrace)
                 .Contains(nameof(CaptureWorkerException));
             await Assert.That(remoteException.StackTrace)
                 .Contains(remoteException.RemoteStackTrace!);
             await Assert.That(remoteException.Message)
-                .IsEqualTo($"Remote worker 7 threw {typeof(WorkerException).FullName}: worker failed");
+                .IsEqualTo($"Remote worker instance-7 threw {typeof(WorkerException).FullName}: worker failed");
         }
     }
 
@@ -163,7 +165,7 @@ public class ModuleResultSerializerTests
         var serialized = serializer.Serialize(
             result,
             ModuleId.FromType(typeof(SimpleModule)),
-            workerIndex: 7);
+            workerId: WorkerId.FromInstanceIndex(7));
 
         var deserialized = serializer.Deserialize(serialized);
 
@@ -173,22 +175,7 @@ public class ModuleResultSerializerTests
             .IsEqualTo("worker failed");
         await Assert.That(deserialized.ExceptionOrDefault.StackTrace)
             .Contains(nameof(CaptureSystemException));
-        await Assert.That(((ModuleResult) deserialized).WorkerIndex).IsEqualTo(7);
-    }
-
-    [Test]
-    public async Task Serialized_Result_Preserves_Five_Parameter_Constructor()
-    {
-        var constructor = typeof(SerializedModuleResult).GetConstructor(
-        [
-            typeof(ModuleId),
-            typeof(int),
-            typeof(string),
-            typeof(DateTimeOffset),
-            typeof(IReadOnlyList<ArtifactReference>),
-        ]);
-
-        await Assert.That(constructor).IsNotNull();
+        await Assert.That(((ModuleResult) deserialized).WorkerId).IsEqualTo(WorkerId.FromInstanceIndex(7));
     }
 
     private static WorkerException CaptureWorkerException()

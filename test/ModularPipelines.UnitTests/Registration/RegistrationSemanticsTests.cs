@@ -20,9 +20,7 @@ public class RegistrationSemanticsTests
         public bool OwnsEntirePlan => true;
 
         public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
-            IReadOnlyList<IModule> modules,
-            IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-            IExecutionBackendContext context,
+            ExecutionBackendRequest request,
             CancellationToken cancellationToken) => throw new NotSupportedException();
     }
 
@@ -31,9 +29,7 @@ public class RegistrationSemanticsTests
         public bool OwnsEntirePlan => true;
 
         public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
-            IReadOnlyList<IModule> modules,
-            IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
-            IExecutionBackendContext context,
+            ExecutionBackendRequest request,
             CancellationToken cancellationToken) => throw new NotSupportedException();
     }
 

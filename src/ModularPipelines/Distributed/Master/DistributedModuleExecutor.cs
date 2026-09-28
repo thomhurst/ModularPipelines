@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.Collections.Concurrent;
 using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +14,6 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Helpers;
-using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -47,7 +46,9 @@ internal class DistributedModuleExecutor(
     DistributedCacheHitTracker? cacheHitTracker = null,
     IEnumerable<IModule>? registeredModules = null,
     LocalCapabilityRegistry? localCapabilities = null,
-    IMetricsCollector? metricsCollector = null) : IExecutionBackend
+    IMetricsCollector? metricsCollector = null,
+    AcceptedArtifactRegistry? acceptedArtifacts = null,
+    IExecutionLocationContext? executionLocationContext = null) : IExecutionBackend
 {
     private readonly IReadOnlyList<IModule> _registeredModules = registeredModules?.ToArray() ?? [];
 
@@ -55,7 +56,6 @@ internal class DistributedModuleExecutor(
 
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
-    private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IAlwaysRunHandler _alwaysRunHandler = alwaysRunHandler;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
     private readonly IDistributedMasterCoordinator _masterCoordinator = masterCoordinator;
@@ -77,10 +77,39 @@ internal class DistributedModuleExecutor(
     private readonly IOptions<PipelineOptions>? _pipelineOptions = pipelineOptions;
     private readonly DistributedCacheHitTracker _cacheHitTracker = cacheHitTracker ?? new();
     private readonly IMetricsCollector? _metricsCollector = metricsCollector;
+    private readonly AcceptedArtifactRegistry? _acceptedArtifacts = acceptedArtifacts;
+    private readonly ConcurrentDictionary<ModuleId, ResultDeadline> _resultDeadlines = new();
+    private readonly DistributedAssignmentExecutor _assignmentExecutor = new(
+        workerCoordinator,
+        typeRegistry,
+        serializer,
+        moduleRunner,
+        resultRegistry,
+        dependencyRegistry,
+        metadataRegistry,
+        serviceScopeFactory,
+        artifactLifecycleManager,
+        acceptedArtifacts,
+        executionLocationContext,
+        logger);
 
     public bool OwnsEntirePlan => true;
 
-    public async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+    private WorkerId MasterWorkerId => _options.Value.LocalWorkerId;
+
+    public Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
+        ExecutionBackendRequest request,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        return ExecuteAsync(
+            request.Modules,
+            request.GetEstimatedDurationsByType(),
+            request.Context,
+            cancellationToken);
+    }
+
+    internal async Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IReadOnlyList<IModule> modules,
         IReadOnlyDictionary<Type, TimeSpan> estimatedDurations,
         IExecutionBackendContext context,
@@ -124,15 +153,13 @@ internal class DistributedModuleExecutor(
             _lifetime.ApplicationStopping,
             cancellationToken);
         IModuleScheduler? scheduler = null;
-        var failureCancellationRequested = 0;
-        void RequestFailureCancellation() =>
-            Interlocked.Exchange(ref failureCancellationRequested, 1);
+        var failureBroadcast = new FailureBroadcast(this);
         try
         {
             // Wait for workers to register before distributing work. Keep this inside the
             // shutdown scope so cancellation or coordinator failure still notifies workers.
             var options = _options.Value;
-            var registrationDeadline = DateTimeOffset.UtcNow + options.CapabilityTimeout;
+            var registrationDeadline = DateTimeOffset.UtcNow + options.WorkerRegistrationTimeout;
             await WaitForMinimumWorkersAsync(registrationDeadline, executionCts.Token)
                 .ConfigureAwait(false);
             var masterCapabilities = await LocalCapabilities.GetAsync(
@@ -159,48 +186,45 @@ internal class DistributedModuleExecutor(
 
             var schedulerTask = scheduler.RunSchedulerAsync(executionToken);
 
-            // Start the master worker loop — the master participates as a worker,
-            // dequeuing and executing modules from the same queue as external workers.
+            // The master participates as a worker, claiming leases from the same queue as external
+            // workers, and maintains leases for the whole run.
+            var inFlightLeases = new InFlightLeases();
             var masterWorkerTask = RunMasterWorkerLoopAsync(
                 modules,
                 moduleLookup,
                 masterCapabilities,
                 workerMaxConcurrency,
+                inFlightLeases,
                 executionToken,
                 masterWorkerCts.Token);
+            var maintenanceTask = RunLeaseMaintenanceAsync(inFlightLeases, masterWorkerCts.Token);
 
-            var resultTasks = await PublishReadyModulesAsync(
-                    scheduler,
-                    cts,
-                    context,
-                    RequestFailureCancellation,
-                    masterCapabilities)
-                .ConfigureAwait(false);
+            var plan = new DistributedPlan(scheduler, cts, context, failureBroadcast.Request, masterCapabilities, modules);
+            var resultTasks = await PublishReadyModulesAsync(plan).ConfigureAwait(false);
             await IgnoreCancellationAsync(Task.WhenAll(resultTasks)).ConfigureAwait(false);
             await FinalizeExecutionAsync(
-                    scheduler,
-                    modules,
-                    cts,
+                    plan,
                     masterWorkerCts,
                     masterWorkerTask,
-                    schedulerTask,
-                    context,
-                    RequestFailureCancellation,
-                    masterCapabilities)
+                    maintenanceTask,
+                    schedulerTask)
                 .ConfigureAwait(false);
         }
         catch
         {
-            RequestFailureCancellation();
+            failureBroadcast.Request();
             throw;
         }
         finally
         {
-            await SignalWorkerShutdownAsync(
-                    _lifetime.ApplicationStopping.IsCancellationRequested
-                    || Volatile.Read(ref failureCancellationRequested) != 0)
-                .ConfigureAwait(false);
+            await SignalWorkerShutdownAsync(failureBroadcast).ConfigureAwait(false);
             scheduler?.Dispose();
+            foreach (var deadline in _resultDeadlines.Values)
+            {
+                deadline.Dispose();
+            }
+
+            _resultDeadlines.Clear();
         }
 
         return _resultRegistry.GetCompletedResults(modules);
@@ -236,31 +260,21 @@ internal class DistributedModuleExecutor(
             var serialized = _serializer.Serialize(
                 result,
                 ModuleId.FromType(moduleType),
-                _options.Value.InstanceIndex);
-            await _masterCoordinator.PublishResultAsync(serialized, cancellationToken)
+                MasterWorkerId);
+            await _masterCoordinator.PublishResultAsync(serialized, lease: null, cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
-    private async Task<IReadOnlyList<Task>> PublishReadyModulesAsync(
-        IModuleScheduler scheduler,
-        CancellationTokenSource pipelineCts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+    private async Task<IReadOnlyList<Task>> PublishReadyModulesAsync(DistributedPlan plan)
     {
         var resultTasks = new List<Task>();
         try
         {
-            await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(pipelineCts.Token))
+            await foreach (var moduleState in plan.Scheduler.ReadyModules.ReadAllAsync(plan.PipelineCts.Token)
+                               .ConfigureAwait(false))
             {
-                resultTasks.Add(RestoreOrExecuteDistributedModuleAsync(
-                    moduleState,
-                    scheduler,
-                    pipelineCts,
-                    context,
-                    requestFailureCancellation,
-                    masterCapabilities));
+                resultTasks.Add(RestoreOrExecuteDistributedModuleAsync(moduleState, plan));
             }
         }
         catch (OperationCanceledException)
@@ -271,37 +285,23 @@ internal class DistributedModuleExecutor(
         return resultTasks;
     }
 
-    private async Task RestoreOrExecuteDistributedModuleAsync(
-        ModuleState moduleState,
-        IModuleScheduler scheduler,
-        CancellationTokenSource pipelineCts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+    private async Task RestoreOrExecuteDistributedModuleAsync(ModuleState moduleState, DistributedPlan plan)
     {
-        pipelineCts.Token.ThrowIfCancellationRequested();
+        plan.PipelineCts.Token.ThrowIfCancellationRequested();
 
-        if (await TryRestoreCachedResultAsync(moduleState, scheduler, context, pipelineCts.Token)
+        if (await TryRestoreCachedResultAsync(moduleState, plan.Scheduler, plan.Context, plan.PipelineCts.Token)
                 .ConfigureAwait(false))
         {
             if (moduleState.Result?.ExceptionOrDefault is not null)
             {
-                requestFailureCancellation();
-                await pipelineCts.CancelAsync().ConfigureAwait(false);
+                plan.RequestFailureCancellation();
+                await plan.PipelineCts.CancelAsync().ConfigureAwait(false);
             }
 
             return;
         }
 
-        var module = moduleState.Module;
-        var collectTask = await TryStartDistributedExecutionAsync(
-                moduleState,
-                scheduler,
-                pipelineCts,
-                context,
-                requestFailureCancellation,
-                masterCapabilities)
-            .ConfigureAwait(false);
+        var collectTask = await TryStartDistributedExecutionAsync(moduleState, plan).ConfigureAwait(false);
         if (collectTask is not null)
         {
             await collectTask.ConfigureAwait(false);
@@ -309,41 +309,30 @@ internal class DistributedModuleExecutor(
     }
 
     private async Task FinalizeExecutionAsync(
-        IModuleScheduler scheduler,
-        IReadOnlyList<IModule> modules,
-        CancellationTokenSource pipelineCts,
+        DistributedPlan plan,
         CancellationTokenSource masterWorkerCts,
         Task masterWorkerTask,
-        Task schedulerTask,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+        Task maintenanceTask,
+        Task schedulerTask)
     {
         Exception? alwaysRunException = null;
         try
         {
-            await CompleteAlwaysRunModulesAsync(
-                    scheduler,
-                    modules,
-                    pipelineCts,
-                    masterWorkerCts,
-                    context,
-                    requestFailureCancellation,
-                    masterCapabilities)
-                .ConfigureAwait(false);
+            await CompleteAlwaysRunModulesAsync(plan, masterWorkerCts).ConfigureAwait(false);
         }
         catch (Exception exception)
         {
-            requestFailureCancellation();
+            plan.RequestFailureCancellation();
             alwaysRunException = exception;
         }
 
-        if (!pipelineCts.IsCancellationRequested)
+        if (!plan.PipelineCts.IsCancellationRequested)
         {
-            await pipelineCts.CancelAsync();
+            await plan.PipelineCts.CancelAsync().ConfigureAwait(false);
         }
 
         await IgnoreCancellationAsync(masterWorkerTask).ConfigureAwait(false);
+        await IgnoreCancellationAsync(maintenanceTask).ConfigureAwait(false);
         await IgnoreCancellationAsync(schedulerTask).ConfigureAwait(false);
 
         if (alwaysRunException is not null)
@@ -364,22 +353,16 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task SignalWorkerShutdownAsync(bool broadcastCancellation)
+    private async Task SignalWorkerShutdownAsync(FailureBroadcast failureBroadcast)
     {
-        // Always signal workers to stop — whether the master succeeded or crashed.
-        // Without this, workers hang forever waiting for work that will never come.
-        if (broadcastCancellation)
+        // Always signal workers to stop, whether the master succeeded or crashed.
+        // Without this, workers wait for work that will never come.
+        if (_lifetime.ApplicationStopping.IsCancellationRequested)
         {
-            try
-            {
-                await _masterCoordinator.BroadcastCancellationAsync(CancellationToken.None)
-                    .ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to broadcast cancellation to workers during shutdown");
-            }
+            await BroadcastCancellationAsync(DistributedCancellationReason.Stopped).ConfigureAwait(false);
         }
+
+        await failureBroadcast.WaitAsync().ConfigureAwait(false);
 
         try
         {
@@ -391,13 +374,20 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task<Task?> TryStartDistributedExecutionAsync(
-        ModuleState moduleState,
-        IModuleScheduler scheduler,
-        CancellationTokenSource cts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+    private async Task BroadcastCancellationAsync(DistributedCancellationReason reason)
+    {
+        try
+        {
+            await _masterCoordinator.BroadcastCancellationAsync(reason, CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to broadcast {Reason} cancellation to workers", reason);
+        }
+    }
+
+    private async Task<Task?> TryStartDistributedExecutionAsync(ModuleState moduleState, DistributedPlan plan)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -406,33 +396,26 @@ internal class DistributedModuleExecutor(
         {
             var assignment = await _publisher.CreateAssignmentAsync(
                     module,
-                    cts.Token,
+                    plan.PipelineCts.Token,
                     moduleState.Priority,
-                    moduleState.CriticalPathWeight)
+                    moduleState.CriticalPathWeight,
+                    plan.Modules)
                 .ConfigureAwait(false);
-            if (!scheduler.MarkModuleStarted(moduleType))
+            if (!plan.Scheduler.MarkModuleStarted(moduleType))
             {
                 return null;
             }
 
             cleanupDeferredToResultTask = true;
-            return PublishAndCollectDistributedResultAsync(
-                assignment,
-                module,
-                moduleType,
-                scheduler,
-                cts,
-                context,
-                requestFailureCancellation,
-                masterCapabilities);
+            return PublishAndCollectDistributedResultAsync(assignment, module, moduleType, plan);
         }
-        catch (OperationCanceledException) when (cts.IsCancellationRequested)
+        catch (OperationCanceledException) when (plan.PipelineCts.IsCancellationRequested)
         {
             return null;
         }
         catch (UnsatisfiableModuleRequirementException exception)
         {
-            CompleteUnroutableModule(moduleState, scheduler, exception, context);
+            CompleteUnroutableModule(moduleState, plan.Scheduler, exception, plan.Context);
             return null;
         }
         catch (Exception exception)
@@ -441,9 +424,9 @@ internal class DistributedModuleExecutor(
                 exception,
                 "Failed to create a distributed assignment for module {Module}",
                 moduleType.Name);
-            var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed, context);
-            await CompleteCollectedResultAsync(result, moduleType, scheduler, cts, requestFailureCancellation,
-                result?.ExceptionOrDefault ?? exception).ConfigureAwait(false);
+            var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Failed, plan.Context);
+            await CompleteCollectedResultAsync(result, moduleType, plan, result?.ExceptionOrDefault ?? exception)
+                .ConfigureAwait(false);
             return null;
         }
         finally
@@ -472,7 +455,8 @@ internal class DistributedModuleExecutor(
         IModuleResult cachedResult;
         try
         {
-            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var scope = _serviceScopeFactory.CreateAsyncScope();
+            await using var scopeLifetime = scope.ConfigureAwait(false);
             var pipelineContext = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
             var candidate = await ModuleCacheResultAccessor.GetResultAsync(
                     cacheResultRepository,
@@ -545,8 +529,9 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken)
+            var artifacts = await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken)
                 .ConfigureAwait(false);
+            _acceptedArtifacts?.Record(ModuleId.FromType(moduleType), artifacts);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -599,28 +584,17 @@ internal class DistributedModuleExecutor(
     }
 
     private async Task CompleteAlwaysRunModulesAsync(
-        IModuleScheduler scheduler,
-        IReadOnlyList<IModule> modules,
-        CancellationTokenSource pipelineCts,
-        CancellationTokenSource masterWorkerCts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+        DistributedPlan plan,
+        CancellationTokenSource masterWorkerCts)
     {
         try
         {
-            if (pipelineCts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
+            if (plan.PipelineCts.IsCancellationRequested && !_lifetime.ApplicationStopping.IsCancellationRequested)
             {
                 await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(
-                        scheduler,
-                        modules,
-                        moduleState => PublishAndCollectLateAlwaysRunModuleAsync(
-                            moduleState,
-                            scheduler,
-                            pipelineCts,
-                            context,
-                            requestFailureCancellation,
-                            masterCapabilities))
+                        plan.Scheduler,
+                        plan.Modules,
+                        moduleState => PublishAndCollectLateAlwaysRunModuleAsync(moduleState, plan))
                     .ConfigureAwait(false);
             }
         }
@@ -633,13 +607,7 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task PublishAndCollectLateAlwaysRunModuleAsync(
-        ModuleState moduleState,
-        IModuleScheduler scheduler,
-        CancellationTokenSource pipelineCts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+    private async Task PublishAndCollectLateAlwaysRunModuleAsync(ModuleState moduleState, DistributedPlan plan)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -650,30 +618,22 @@ internal class DistributedModuleExecutor(
                     module,
                     _lifetime.ApplicationStopping,
                     moduleState.Priority,
-                    moduleState.CriticalPathWeight)
+                    moduleState.CriticalPathWeight,
+                    plan.Modules)
                 .ConfigureAwait(false);
         }
         catch (UnsatisfiableModuleRequirementException exception)
         {
-            CompleteUnroutableModule(moduleState, scheduler, exception, context);
+            CompleteUnroutableModule(moduleState, plan.Scheduler, exception, plan.Context);
             return;
         }
 
-        if (!scheduler.MarkModuleStarted(moduleType))
+        if (!plan.Scheduler.MarkModuleStarted(moduleType))
         {
             return;
         }
 
-        await PublishAndCollectDistributedResultAsync(
-                assignment,
-                module,
-                moduleType,
-                scheduler,
-                pipelineCts,
-                context,
-                requestFailureCancellation,
-                masterCapabilities)
-            .ConfigureAwait(false);
+        await PublishAndCollectDistributedResultAsync(assignment, module, moduleType, plan).ConfigureAwait(false);
     }
 
     private async Task WaitForMinimumWorkersAsync(
@@ -698,7 +658,7 @@ internal class DistributedModuleExecutor(
             "Waiting for at least {Minimum} of {Expected} worker(s) to register (timeout: {Timeout})...",
             minimumWorkers,
             expectedWorkers,
-            _options.Value.CapabilityTimeout);
+            _options.Value.WorkerRegistrationTimeout);
 
         var lastCount = 0;
         while (DateTimeOffset.UtcNow < registrationDeadline)
@@ -726,7 +686,7 @@ internal class DistributedModuleExecutor(
 
         _logger.LogWarning(
             "Worker registration timeout ({Timeout} expired). {Count}/{Minimum} required worker(s) registered — proceeding with available workers",
-            _options.Value.CapabilityTimeout,
+            _options.Value.WorkerRegistrationTimeout,
             lastCount,
             minimumWorkers);
     }
@@ -736,297 +696,156 @@ internal class DistributedModuleExecutor(
         Dictionary<ModuleId, IModule> moduleLookup,
         IReadOnlySet<Capability> capabilities,
         int maxConcurrency,
+        InFlightLeases inFlightLeases,
         CancellationToken pipelineCancellationToken,
         CancellationToken workerCancellationToken)
     {
         _logger.LogInformation("Coordinator worker loop started with capabilities: {Capabilities}",
             string.Join(", ", capabilities));
 
-        using var dequeueCancellationCts = CancellationTokenSource.CreateLinkedTokenSource(
-            pipelineCancellationToken,
-            workerCancellationToken);
         var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
         _logger.LogDebug(
             "Coordinator worker loop starting {MaxConcurrency} concurrent execution slot(s)",
             maxConcurrency);
+
         await DistributedWorkerPool.RunAsync(
             DequeueForMasterAsync,
-            (assignment, claimedAt, _) => ExecuteMasterAssignmentAsync(
-                assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
-                pipelineCancellationToken, workerCancellationToken),
+            (lease, claimedAt, _) =>
+            {
+                ArmResultDeadline(lease.Assignment.ModuleId);
+                return ExecuteMasterAssignmentAsync(
+                    lease,
+                    claimedAt,
+                    moduleLookup,
+                    dependencyResultCache,
+                    pipelineCancellationToken,
+                    workerCancellationToken);
+            },
             maxConcurrency,
             exception => _logger.LogError(exception, "Coordinator worker loop encountered an error"),
-            workerCancellationToken).ConfigureAwait(false);
+            workerCancellationToken,
+            inFlightLeases: inFlightLeases).ConfigureAwait(false);
 
-        async Task<ModuleAssignment?> DequeueForMasterAsync(CancellationToken token)
+        // Stop waiting for new work as soon as the pipeline is cancelled, then keep dequeuing on
+        // the worker lifetime: after a failure broadcast the coordinator only returns AlwaysRun
+        // leases, which must still run while AlwaysRun teardown completes.
+        async Task<ModuleLease?> DequeueForMasterAsync(CancellationToken token)
         {
             while (true)
             {
                 var observePipelineCancellation = !pipelineCancellationToken.IsCancellationRequested;
-                var dequeueToken = observePipelineCancellation ? dequeueCancellationCts.Token : token;
+                using var dequeueCts = observePipelineCancellation
+                    ? CancellationTokenSource.CreateLinkedTokenSource(pipelineCancellationToken, token)
+                    : null;
                 try
                 {
-                    var assignment = await _workerCoordinator.DequeueModuleAsync(capabilities, dequeueToken)
+                    var lease = await _workerCoordinator.DequeueModuleAsync(
+                            MasterWorkerId,
+                            capabilities,
+                            dequeueCts?.Token ?? token)
                         .ConfigureAwait(false);
-                    if (assignment is null && PipelineCancelledDuringDequeue(
-                            observePipelineCancellation, pipelineCancellationToken, token))
+                    if (lease is null && PipelineCancelledDuringDequeue(observePipelineCancellation, token))
                     {
                         continue;
                     }
 
-                    return assignment;
+                    return lease;
                 }
-                catch (OperationCanceledException) when (PipelineCancelledDuringDequeue(
-                    observePipelineCancellation, pipelineCancellationToken, token))
+                catch (OperationCanceledException) when (PipelineCancelledDuringDequeue(observePipelineCancellation, token))
                 {
                     // Retry on the worker lifetime so late AlwaysRun assignments still run.
                 }
             }
         }
+
+        bool PipelineCancelledDuringDequeue(bool observedPipelineCancellation, CancellationToken token) =>
+            observedPipelineCancellation
+            && pipelineCancellationToken.IsCancellationRequested
+            && !token.IsCancellationRequested;
     }
 
-    private static bool PipelineCancelledDuringDequeue(
-        bool observePipelineCancellation,
-        CancellationToken pipelineCancellationToken,
-        CancellationToken workerCancellationToken) =>
-        observePipelineCancellation
-        && pipelineCancellationToken.IsCancellationRequested
-        && !workerCancellationToken.IsCancellationRequested;
-
     private async Task ExecuteMasterAssignmentAsync(
-        ModuleAssignment assignment,
+        ModuleLease lease,
         DateTimeOffset claimedAt,
-        IReadOnlyList<IModule> modules,
         Dictionary<ModuleId, IModule> moduleLookup,
         DependencyResultCache dependencyResultCache,
         CancellationToken pipelineCancellationToken,
         CancellationToken workerCancellationToken)
     {
-        if (pipelineCancellationToken.IsCancellationRequested && !assignment.Configuration.AlwaysRun)
-        {
-            _logger.LogInformation(
-                "Coordinator skipping cancelled module {Module}",
-                assignment.ModuleId);
-            await ExecuteAssignmentAsync(assignment, claimedAt, modules, moduleLookup, dependencyResultCache,
-                pipelineCancellationToken).ConfigureAwait(false);
-            return;
-        }
-
-        _logger.LogDebug("Coordinator executing module {Module} locally",
-            assignment.ModuleId);
-
-        var executionCancellationToken = assignment.Configuration.AlwaysRun
+        var assignment = lease.Assignment;
+        var executionCancellationToken = assignment.AlwaysRun
             ? workerCancellationToken
             : pipelineCancellationToken;
-        await ExecuteAssignmentAsync(
-            assignment,
-            claimedAt,
-            modules,
-            moduleLookup,
-            dependencyResultCache,
-            executionCancellationToken).ConfigureAwait(false);
+        if (executionCancellationToken.IsCancellationRequested)
+        {
+            _logger.LogInformation("Coordinator skipping cancelled module {Module}", assignment.ModuleId);
+        }
+        else
+        {
+            _logger.LogDebug("Coordinator executing module {Module} locally", assignment.ModuleId);
+        }
+
+        await _assignmentExecutor.ExecuteAsync(
+                lease,
+                claimedAt,
+                moduleLookup,
+                dependencyResultCache,
+                executionCancellationToken)
+            .ConfigureAwait(false);
     }
 
-    private async Task ExecuteAssignmentAsync(
-        ModuleAssignment assignment,
-        DateTimeOffset claimedAt,
-        IReadOnlyList<IModule> modules,
-        Dictionary<ModuleId, IModule> moduleLookup,
-        DependencyResultCache dependencyResultCache,
-        CancellationToken cancellationToken)
+    /// <summary>
+    /// Renews the master's own leases, returns expired worker leases to the queue and starts result
+    /// deadlines for modules workers have claimed.
+    /// </summary>
+    private async Task RunLeaseMaintenanceAsync(InFlightLeases inFlightLeases, CancellationToken cancellationToken)
     {
-        var executionTimer = new DistributedModuleExecutionTimer(claimedAt);
-        if (await DependencyResultApplicator.RejectSchemaMismatchAsync(assignment, _typeRegistry, _serializer,
-                _workerCoordinator, _options.Value.InstanceIndex, executionTimer).ConfigureAwait(false))
+        var options = _options.Value;
+        while (!cancellationToken.IsCancellationRequested)
         {
-            return;
-        }
-        var resolved = _typeRegistry.Resolve(assignment.ModuleId);
-        if (resolved is null)
-        {
-            _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, executionTimer).ConfigureAwait(false);
-            return;
-        }
-
-        if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
-        {
-            _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent coordinator hang.", assignment.ModuleId);
-            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _workerCoordinator, _logger, executionTimer).ConfigureAwait(false);
-            return;
-        }
-
-        try
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (assignment.DependencyResultReferences is { Count: > 0 })
-            {
-                await DependencyResultApplicator.FetchAndApplyAsync(
-                    assignment.DependencyResultReferences,
-                    dependencyResultCache,
-                    moduleLookup,
-                    _serializer,
-                    _resultRegistry,
-                    _logger,
-                    executionTimer).ConfigureAwait(false);
-            }
-
-            await ExecuteAndPublishAsync(assignment, module, executionTimer, cancellationToken).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException ex) when (WorkerCancellationClassifier.IsExpected(ex, cancellationToken))
-        {
-            _logger.LogDebug(ex, "Module {Module} execution cancelled on coordinator", assignment.ModuleId);
-            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, executionTimer).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Module {Module} execution failed on coordinator", assignment.ModuleId);
-            await PublishFailureAsync(assignment, resolved.Value.ResultType, module, ex, executionTimer).ConfigureAwait(false);
-        }
-    }
-
-    private async Task ExecuteAndPublishAsync(
-        ModuleAssignment assignment,
-        IModule module,
-        DistributedModuleExecutionTimer executionTimer,
-        CancellationToken cancellationToken)
-    {
-        var moduleType = module.GetType();
-        await using var serviceScope = _serviceScopeFactory.CreateAsyncScope();
-        var moduleLogger = serviceScope.ServiceProvider
-            .GetRequiredService<IInternalModuleLoggerAccessor>()
-            .GetLogger(moduleType) as IInternalModuleLogger
-            ?? throw new InvalidOperationException($"No internal module logger is available for {moduleType.Name}.");
-        using var outputScope = new ModuleOutputContextScope(moduleType, moduleLogger);
-
-        try
-        {
-            if (_artifactLifecycleManager is not null)
-            {
-                var downloadStartedAt = Stopwatch.GetTimestamp();
-                try
-                {
-                    await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
-                }
-                finally
-                {
-                    executionTimer.ArtifactDownloadDuration = Stopwatch.GetElapsedTime(downloadStartedAt);
-                }
-            }
-
-            var moduleState = new ModuleState(module, moduleType);
-            ModuleStateDependencyInitializer.Populate(
-                moduleState,
-                _typeRegistry.GetRegisteredModuleTypes(),
-                _dependencyRegistry,
-                _metadataRegistry);
-            IModuleResult? result;
-            executionTimer.StartExecution();
             try
             {
-                using (DistributedAssignmentExecutionScope.Enter())
+                await Task.Delay(options.WorkerHeartbeatInterval, cancellationToken).ConfigureAwait(false);
+                await _masterCoordinator.SendHeartbeatAsync(
+                        new WorkerStatus
+                        {
+                            WorkerId = MasterWorkerId,
+                            RunId = options.RunId,
+                            InFlightModules = inFlightLeases.GetModuleIds(),
+                        },
+                        cancellationToken)
+                    .ConfigureAwait(false);
+
+                foreach (var moduleId in await _masterCoordinator.RequeueExpiredLeasesAsync(cancellationToken)
+                             .ConfigureAwait(false))
                 {
-                    await _moduleRunner.ExecuteWithoutDependencyWaitAsync(
-                        moduleState,
-                        cancellationToken).ConfigureAwait(false);
+                    _logger.LogWarning(
+                        "The lease on distributed module {Module} expired without a result; returned it to the queue",
+                        moduleId);
                 }
 
-                result = await module.AsInternal().ResultTask.ConfigureAwait(false);
+                foreach (var lease in await _masterCoordinator.GetActiveLeasesAsync(cancellationToken)
+                             .ConfigureAwait(false))
+                {
+                    ArmResultDeadline(lease.Assignment.ModuleId);
+                }
             }
-            finally
-            {
-                executionTimer.FinishExecution();
-            }
-
-            IReadOnlyList<ArtifactReference>? artifactReferences;
-            var uploadStartedAt = Stopwatch.GetTimestamp();
-            try
-            {
-                artifactReferences = await TryUploadArtifactsAsync(
-                    module,
-                    assignment.ModuleId,
-                    moduleLogger,
-                    cancellationToken).ConfigureAwait(false);
-            }
-            finally
-            {
-                executionTimer.ArtifactUploadDuration = Stopwatch.GetElapsedTime(uploadStartedAt);
-            }
-
-            if (result is null)
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
-
-            var serialized = _serializer.Serialize(
-                result,
-                assignment.ModuleId,
-                _options.Value.InstanceIndex);
-            if (artifactReferences is not null)
+            catch (Exception exception)
             {
-                serialized = serialized with { Artifacts = artifactReferences };
+                _logger.LogWarning(exception, "Distributed lease maintenance failed; retrying");
             }
-
-            serialized = serialized with { ExecutionTelemetry = executionTimer.CreateTelemetry() };
-            await _workerCoordinator.PublishResultAsync(serialized, cancellationToken).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            moduleLogger.SetException(ex);
-            throw;
         }
     }
 
-    private async Task<IReadOnlyList<ArtifactReference>?> TryUploadArtifactsAsync(
-        IModule module,
-        ModuleId moduleId,
-        IModuleLogger moduleLogger,
-        CancellationToken cancellationToken)
+    private void ArmResultDeadline(ModuleId moduleId)
     {
-        if (_artifactLifecycleManager is null)
+        if (_resultDeadlines.TryGetValue(moduleId, out var deadline))
         {
-            return null;
-        }
-
-        try
-        {
-            var artifactReferences = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
-            return artifactReferences.Count == 0 ? null : artifactReferences;
-        }
-        catch (Exception ex)
-        {
-            moduleLogger.LogError(ex, "Failed to upload artifacts for {Module}", moduleId);
-            return null;
-        }
-    }
-
-    private async Task PublishFailureAsync(
-        ModuleAssignment assignment,
-        Type resultType,
-        IModule module,
-        Exception exception,
-        DistributedModuleExecutionTimer executionTimer)
-    {
-        try
-        {
-            var failureResult = GetCompletedResult(module) ?? ModuleResultFactory.CreateException(
-                resultType,
-                exception,
-                new ModuleExecutionContext(module, module.GetType())
-                {
-                    Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
-                    Exception = exception,
-                });
-            var serialized = _serializer.Serialize(
-                failureResult,
-                assignment.ModuleId,
-                _options.Value.InstanceIndex);
-            serialized = serialized with { ExecutionTelemetry = executionTimer.CreateTelemetry() };
-            await DistributedFailurePublisher.PublishAsync(_workerCoordinator, serialized).ConfigureAwait(false);
-        }
-        catch (Exception publishException)
-        {
-            _logger.LogCritical(publishException, "Failed to publish failure result for {Module}", assignment.ModuleId);
+            deadline.Arm();
         }
     }
 
@@ -1034,73 +853,122 @@ internal class DistributedModuleExecutor(
         ModuleAssignment assignment,
         IModule module,
         Type moduleType,
-        IModuleScheduler scheduler,
-        CancellationTokenSource cts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
-        IReadOnlySet<Capability> masterCapabilities)
+        DistributedPlan plan)
     {
         var pipelineToken = module.Configuration.AlwaysRun
             ? _lifetime.ApplicationStopping
-            : cts.Token;
-        using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, pipelineToken);
-        var lifecycleToken = timeoutCts?.Token ?? pipelineToken;
+            : plan.PipelineCts.Token;
+        using var deadline = new ResultDeadline(GetResultDeadline(module));
+        _resultDeadlines[assignment.ModuleId] = deadline;
+        using var lifecycleCts = CancellationTokenSource.CreateLinkedTokenSource(pipelineToken, deadline.Token);
+
+        // A coordinator that never accepts the assignment gets the same backstop.
+        using var publishCts = CancellationTokenSource.CreateLinkedTokenSource(pipelineToken);
+        if (deadline.Backstop is { } publishBackstop)
+        {
+            publishCts.CancelAfter(publishBackstop);
+        }
+
+        var published = false;
 
         try
         {
-            _logger.LogDebug("Distributing module {Module} to workers", moduleType.Name);
-            await _publisher.PublishAsync(assignment, lifecycleToken).ConfigureAwait(false);
-            await EnsureAssignmentHasExecutionRouteAsync(
-                    assignment,
-                    masterCapabilities,
-                    pipelineToken)
+            // Check the route before publishing, so an unroutable module never sits in the queue.
+            await EnsureAssignmentHasExecutionRouteAsync(assignment, plan.MasterCapabilities, pipelineToken)
                 .ConfigureAwait(false);
-            await CollectResultAsync(
-                module,
-                moduleType,
-                scheduler,
-                cts,
-                context,
-                requestFailureCancellation,
-                lifecycleToken).ConfigureAwait(false);
+            _logger.LogDebug("Distributing module {Module} to workers", moduleType.Name);
+            await _publisher.PublishAsync(assignment, publishCts.Token).ConfigureAwait(false);
+            publishCts.CancelAfter(Timeout.InfiniteTimeSpan);
+            published = true;
+            await CollectResultAsync(module, moduleType, plan, lifecycleCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (
-            timeoutCts?.IsCancellationRequested == true
+            (deadline.Token.IsCancellationRequested || publishCts.IsCancellationRequested)
             && !pipelineToken.IsCancellationRequested)
         {
-            // Timeout expired (not pipeline cancellation)
-            _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
+            // The claimed module outlived every configured attempt plus the result timeout.
+            await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
+            _logger.LogError(
+                "Distributed module {Module} produced no result within {Timeout} of being claimed; the worker may have stalled",
+                moduleType.Name,
+                deadline.Backstop);
             var failureResult = RegisterFailureResult(
                 module,
                 moduleType,
                 new TimeoutException(
-                    $"Module {moduleType.Name} did not produce a result within the configured timeout"),
+                    $"Module {moduleType.Name} did not produce a result within {deadline.Backstop} of being claimed."),
                 ModuleStatus.TimedOut,
-                context);
-            await CompleteCollectedResultAsync(failureResult, moduleType, scheduler, cts,
-                requestFailureCancellation).ConfigureAwait(false);
+                plan.Context);
+            await CompleteCollectedResultAsync(failureResult, moduleType, plan).ConfigureAwait(false);
             await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception)
         {
-            var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, context);
-            scheduler.MarkModuleCompleted(
+            if (published)
+            {
+                // Withdraw queued work the pipeline no longer needs; a claimed copy is cancelled by
+                // the failure broadcast and its late result is ignored.
+                await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
+            }
+
+            var result = RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, plan.Context);
+            plan.Scheduler.MarkModuleCompleted(
                 moduleType,
                 result is not null && result.ExceptionOrDefault is null,
                 statusOverride: GetTerminalStatus(result));
         }
         catch (Exception ex)
         {
+            if (published)
+            {
+                await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
+            }
+
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            var failureResult = RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed, context);
-            await CompleteCollectedResultAsync(failureResult, moduleType, scheduler, cts,
-                requestFailureCancellation, failureResult?.ExceptionOrDefault ?? ex).ConfigureAwait(false);
+            var failureResult = RegisterFailureResult(module, moduleType, ex, ModuleStatus.Failed, plan.Context);
+            await CompleteCollectedResultAsync(failureResult, moduleType, plan, failureResult?.ExceptionOrDefault ?? ex)
+                .ConfigureAwait(false);
             await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         finally
         {
+            _resultDeadlines.TryRemove(new KeyValuePair<ModuleId, ResultDeadline>(assignment.ModuleId, deadline));
             _cacheResultRepository?.DiscardFingerprint(module);
         }
+    }
+
+    private async Task WithdrawAsync(ModuleId moduleId)
+    {
+        try
+        {
+            await _masterCoordinator.WithdrawAssignmentAsync(moduleId, CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogWarning(exception, "Failed to withdraw queued distributed module {Module}", moduleId);
+        }
+    }
+
+    /// <summary>
+    /// Gets how long the master waits for a result after a worker claims the module: every
+    /// configured attempt at the module's per-attempt timeout plus <see cref="DistributedOptions.ModuleResultTimeout"/>.
+    /// The worker enforces the per-attempt timeout itself; this is only a backstop for a stalled worker.
+    /// </summary>
+    private TimeSpan? GetResultDeadline(IModule module)
+    {
+        var resultTimeout = _options.Value.ModuleResultTimeout;
+        if (resultTimeout <= TimeSpan.Zero)
+        {
+            return null;
+        }
+
+        var pipelineOptions = _pipelineOptions?.Value;
+        var configuration = module.Configuration;
+        var perAttempt = configuration.Timeout ?? pipelineOptions?.DefaultModuleTimeout ?? TimeSpan.Zero;
+        var attempts = 1 + (configuration.RetryConfiguration?.Count ?? pipelineOptions?.DefaultRetryCount ?? 0);
+        return perAttempt > TimeSpan.Zero
+            ? (perAttempt * attempts) + resultTimeout
+            : resultTimeout;
     }
 
     private async Task EnsureAssignmentHasExecutionRouteAsync(
@@ -1113,7 +981,7 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        var registrationDeadline = DateTimeOffset.UtcNow + _options.Value.CapabilityTimeout;
+        var registrationDeadline = DateTimeOffset.UtcNow + _options.Value.WorkerRegistrationTimeout;
         var expectedWorkers = Math.Max(0, _options.Value.TotalInstances - 1);
         IReadOnlyList<WorkerRegistration> workers;
         do
@@ -1147,7 +1015,7 @@ internal class DistributedModuleExecutor(
         var schema = _typeRegistry.GetPipelineSchemaVersion();
         foreach (var worker in workers)
         {
-            PipelineSchemaVersionValidator.Validate(schema, worker.PipelineSchemaVersion, $"worker {worker.WorkerIndex}");
+            PipelineSchemaVersionValidator.Validate(schema, worker.PipelineSchemaVersion, $"worker {worker.WorkerId}");
         }
     }
 
@@ -1169,64 +1037,40 @@ internal class DistributedModuleExecutor(
             .ConfigureAwait(false);
     }
 
-    private CancellationTokenSource? CreateResultTimeoutSource(TimeSpan? moduleTimeout, CancellationToken cancellationToken)
-    {
-        var timeout = moduleTimeout;
-        if (timeout is null && _options.Value.ModuleResultTimeout > TimeSpan.Zero)
-        {
-            timeout = _options.Value.ModuleResultTimeout;
-        }
-
-        if (timeout is null)
-        {
-            return null;
-        }
-
-        var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeoutCts.CancelAfter(timeout.Value);
-        return timeoutCts;
-    }
-
     private async Task CollectResultAsync(
         IModule module,
         Type moduleType,
-        IModuleScheduler scheduler,
-        CancellationTokenSource pipelineCts,
-        IExecutionBackendContext context,
-        Action requestFailureCancellation,
+        DistributedPlan plan,
         CancellationToken cancellationToken)
     {
         var result = await _resultCollector.WaitForResultAsync(ModuleId.FromType(moduleType), cancellationToken)
             .ConfigureAwait(false);
         if (result is not null)
         {
-            result = ApplyResult(module, result, context);
+            result = ApplyResult(module, result, plan.Context);
         }
 
-        await CompleteCollectedResultAsync(result, moduleType, scheduler, pipelineCts,
-            requestFailureCancellation).ConfigureAwait(false);
+        await CompleteCollectedResultAsync(result, moduleType, plan).ConfigureAwait(false);
         RecordReportedExecutionWindow(moduleType, result);
     }
 
     private async Task CompleteCollectedResultAsync(
         IModuleResult? result,
         Type moduleType,
-        IModuleScheduler scheduler,
-        CancellationTokenSource pipelineCts,
-        Action requestFailureCancellation,
+        DistributedPlan plan,
         Exception? schedulerException = null)
     {
         var success = result is not null && result.ExceptionOrDefault is null;
-        scheduler.MarkModuleCompleted(
+        plan.Scheduler.MarkModuleCompleted(
             moduleType,
             success,
             success ? null : schedulerException,
             GetTerminalStatus(result));
         if (!success)
         {
-            _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
-            requestFailureCancellation();
-            await pipelineCts.CancelAsync().ConfigureAwait(false);
+            _logger.LogError("Distributed module {Module} failed — cancelling pipeline", moduleType.Name);
+            plan.RequestFailureCancellation();
+            await plan.PipelineCts.CancelAsync().ConfigureAwait(false);
         }
     }
 
@@ -1340,8 +1184,8 @@ internal class DistributedModuleExecutor(
             var serialized = _serializer.Serialize(
                 failureResult,
                 ModuleId.FromType(moduleType),
-                _options.Value.InstanceIndex);
-            await _masterCoordinator.PublishResultAsync(serialized, CancellationToken.None)
+                MasterWorkerId);
+            await _masterCoordinator.PublishResultAsync(serialized, lease: null, CancellationToken.None)
                 .ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -1351,6 +1195,85 @@ internal class DistributedModuleExecutor(
                 "Failed to publish failure result for module {Module}; pipeline cancellation has already been requested",
                 moduleType.Name);
         }
+    }
+
+    /// <summary>
+    /// The per-run state shared by the dispatch paths.
+    /// </summary>
+    private sealed record DistributedPlan(
+        IModuleScheduler Scheduler,
+        CancellationTokenSource PipelineCts,
+        IExecutionBackendContext Context,
+        Action RequestFailureCancellation,
+        IReadOnlySet<Capability> MasterCapabilities,
+        IReadOnlyList<IModule> Modules);
+
+    /// <summary>
+    /// Broadcasts <see cref="DistributedCancellationReason.PipelineFailed"/> the first time a failure
+    /// is requested, so workers stop non-AlwaysRun work immediately rather than at shutdown.
+    /// </summary>
+    private sealed class FailureBroadcast(DistributedModuleExecutor executor)
+    {
+        private readonly TaskCompletionSource _broadcast = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _requested;
+
+        public void Request()
+        {
+            if (Interlocked.Exchange(ref _requested, 1) != 0)
+            {
+                return;
+            }
+
+            _ = BroadcastAsync();
+        }
+
+        public Task WaitAsync() => Volatile.Read(ref _requested) == 0 ? Task.CompletedTask : _broadcast.Task;
+
+        private async Task BroadcastAsync()
+        {
+            try
+            {
+                await executor.BroadcastCancellationAsync(DistributedCancellationReason.PipelineFailed)
+                    .ConfigureAwait(false);
+            }
+            finally
+            {
+                _broadcast.TrySetResult();
+            }
+        }
+    }
+
+    /// <summary>
+    /// The master's backstop deadline for one module's result. It starts when a worker is first
+    /// seen holding the module's lease, not when the module is queued.
+    /// </summary>
+    private sealed class ResultDeadline(TimeSpan? backstop) : IDisposable
+    {
+        private readonly CancellationTokenSource _cts = new();
+        private int _armed;
+
+        public TimeSpan? Backstop { get; } = backstop;
+
+        public CancellationToken Token => _cts.Token;
+
+        public void Arm()
+        {
+            if (Backstop is not { } backstop || Interlocked.Exchange(ref _armed, 1) != 0)
+            {
+                return;
+            }
+
+            try
+            {
+                _cts.CancelAfter(backstop);
+            }
+            catch (ObjectDisposedException)
+            {
+                // The result arrived while the lease was being observed.
+            }
+        }
+
+        public void Dispose() => _cts.Dispose();
     }
 }
 

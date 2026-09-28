@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -13,14 +14,14 @@ namespace ModularPipelines.Distributed;
 internal static class DependencyResultApplicator
 {
     public static async Task<bool> RejectSchemaMismatchAsync(
-        ModuleAssignment assignment,
+        ModuleLease lease,
         ModuleTypeRegistry registry,
         ModuleResultSerializer serializer,
         IDistributedWorkerCoordinator coordinator,
-        int workerIndex,
         DistributedModuleExecutionTimer executionTimer,
         Action<PipelineSchemaMismatchException>? recordRejection = null)
     {
+        var assignment = lease.Assignment;
         try
         {
             PipelineSchemaVersionValidator.Validate(
@@ -31,11 +32,11 @@ internal static class DependencyResultApplicator
         {
             // Record the rejection before publishing, which can fail or time out.
             recordRejection?.Invoke(exception);
-            var failure = serializer.SerializeFailure(assignment.ModuleId, exception, workerIndex) with
+            var failure = serializer.SerializeFailure(assignment.ModuleId, exception, lease.WorkerId) with
             {
                 ExecutionTelemetry = executionTimer.CreateTelemetry(),
             };
-            await DistributedFailurePublisher.PublishAsync(coordinator, failure).ConfigureAwait(false);
+            await DistributedFailurePublisher.PublishAsync(coordinator, failure, lease).ConfigureAwait(false);
             return true;
         }
     }
@@ -68,7 +69,8 @@ internal static class DependencyResultApplicator
         IModuleResultRegistry resultRegistry,
         ILogger logger,
         DistributedModuleExecutionTimer? executionTimer = null,
-        TimeProvider? timeProvider = null)
+        TimeProvider? timeProvider = null,
+        AcceptedArtifactRegistry? acceptedArtifacts = null)
     {
         var clock = timeProvider ?? TimeProvider.System;
         foreach (var reference in dependencyResultReferences)
@@ -117,6 +119,7 @@ internal static class DependencyResultApplicator
                 executionTimer?.DependencyResultTransferDuration += clock.GetElapsedTime(transferStartedAt);
             }
 
+            acceptedArtifacts?.Record(serializedResult);
             var processingStartedAt = clock.GetTimestamp();
             try
             {
@@ -137,34 +140,35 @@ internal static class DependencyResultApplicator
     }
 
     /// <summary>
-    /// Publishes a failure result when a module cannot be resolved, preventing the master from hanging.
+    /// Publishes a failure result when a claimed module cannot be resolved, so the master records a
+    /// descriptive failure instead of waiting or reporting a missing result.
     /// </summary>
     public static async Task PublishResolutionFailureAsync(
-        ModuleAssignment assignment,
-        int workerIndex,
+        ModuleLease lease,
+        string reason,
         IDistributedWorkerCoordinator coordinator,
+        ModuleResultSerializer serializer,
         ILogger logger,
         DistributedModuleExecutionTimer? executionTimer = null)
     {
+        var moduleId = lease.Assignment.ModuleId;
         try
         {
-            var failureResult = new SerializedModuleResult(
-                ModuleId: assignment.ModuleId,
-                WorkerIndex: workerIndex,
-                Payload: "null",
-                CompletedAt: DateTimeOffset.UtcNow)
+            var exception = new InvalidOperationException(
+                $"Worker {lease.WorkerId} cannot execute distributed module '{moduleId}': {reason}");
+            var failureResult = serializer.SerializeFailure(moduleId, exception, lease.WorkerId) with
             {
                 ExecutionTelemetry = executionTimer?.CreateTelemetry(),
             };
-            await DistributedFailurePublisher.PublishAsync(coordinator, failureResult).ConfigureAwait(false);
+            await DistributedFailurePublisher.PublishAsync(coordinator, failureResult, lease).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             if (logger.IsEnabled(LogLevel.Critical))
             {
                 logger.LogCritical(ex,
-                    "Failed to publish resolution failure for {Module} — coordinator may hang waiting for this result",
-                    assignment.ModuleId);
+                    "Failed to publish resolution failure for {Module}; the coordinator requeues it when its lease expires",
+                    moduleId);
             }
         }
     }

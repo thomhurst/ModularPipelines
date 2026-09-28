@@ -99,6 +99,6 @@ public class ModuleResultLoadContextTests
             StartTime = now,
             EndTime = now,
             Status = ModuleStatus.Succeeded,
-        }, moduleId, 1);
+        }, moduleId, WorkerId.FromInstanceIndex(1));
     }
 }
