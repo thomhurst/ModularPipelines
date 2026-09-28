@@ -33,11 +33,11 @@ public class ModuleContextSubModuleTests
             .Callback<SubModuleCompletedNotification, CancellationToken>((notification, _) => completed = notification)
             .Returns(ValueTask.CompletedTask);
         estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType()))
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([new SubModuleEstimation("Compile", expectedEstimate)]);
         estimatedTimeProvider
-            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>()))
-            .Callback<Type, SubModuleEstimation>((_, estimation) => saved = estimation)
+            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()))
+            .Callback<Type, SubModuleEstimation, CancellationToken>((_, estimation, _) => saved = estimation)
             .Returns(Task.CompletedTask);
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
@@ -76,7 +76,7 @@ public class ModuleContextSubModuleTests
             .Callback<SubModuleCompletedNotification, CancellationToken>((notification, _) => completed = notification)
             .Returns(ValueTask.CompletedTask);
         estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType()))
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
@@ -89,7 +89,7 @@ public class ModuleContextSubModuleTests
         await Assert.That(completed).IsNotNull();
         await Assert.That(completed!.IsSuccessful).IsFalse();
         estimatedTimeProvider.Verify(
-            x => x.SaveSubModuleTimeAsync(It.IsAny<Type>(), It.IsAny<SubModuleEstimation>()),
+            x => x.SaveSubModuleTimeAsync(It.IsAny<Type>(), It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -108,10 +108,10 @@ public class ModuleContextSubModuleTests
             .Setup(x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), It.IsAny<CancellationToken>()))
             .Returns(ValueTask.CompletedTask);
         estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType()))
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         estimatedTimeProvider
-            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>()))
+            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
@@ -120,7 +120,7 @@ public class ModuleContextSubModuleTests
             context.RunSubModuleAsync("Second", _ => Task.CompletedTask));
 
         estimatedTimeProvider.Verify(
-            x => x.GetSubModuleEstimatedTimesAsync(module.GetType()),
+            x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -165,10 +165,10 @@ public class ModuleContextSubModuleTests
             .Returns(ValueTask.CompletedTask);
         var estimatedTimeProvider = new Mock<ISafeModuleEstimatedTimeProvider>();
         estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType()))
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         estimatedTimeProvider
-            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>()))
+            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var context = CreateContext(
             module,

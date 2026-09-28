@@ -28,7 +28,7 @@ public class ModuleRetrieverTests
         var allLookupsStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var startedLookupCount = 0;
         estimatedTimeProvider
-            .Setup(x => x.GetModuleEstimatedTimeAsync(It.IsAny<Type>()))
+            .Setup(x => x.GetModuleEstimatedTimeAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()))
             .Returns(async () =>
             {
                 if (Interlocked.Increment(ref startedLookupCount) == modules.Length)
@@ -40,7 +40,7 @@ public class ModuleRetrieverTests
                 return TimeSpan.Zero;
             });
         estimatedTimeProvider
-            .Setup(x => x.GetSubModuleEstimatedTimesAsync(It.IsAny<Type>()))
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         var retriever = new ModuleRetriever(
             conditionHandler.Object,

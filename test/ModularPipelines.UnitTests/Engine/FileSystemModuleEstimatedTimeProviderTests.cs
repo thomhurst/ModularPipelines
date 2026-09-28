@@ -133,6 +133,56 @@ public class FileSystemModuleEstimatedTimeProviderTests
         });
     }
 
+    [Test]
+    public async Task GetModuleEstimatedTime_Falls_Back_When_Entry_Cannot_Be_Read()
+    {
+        await RunWithTemporaryDirectoryAsync(async directory =>
+        {
+            // A directory where the entry file should be makes the read fail with an access error.
+            Directory.CreateDirectory(Path.Combine(directory, $"{typeof(PrefixModule).FullName}.txt"));
+            var provider = CreateProvider(directory);
+
+            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+
+            await Assert.That(estimate).IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
+        });
+    }
+
+    [Test]
+    public async Task GetModuleEstimatedTime_Falls_Back_For_Malformed_Entry()
+    {
+        await RunWithTemporaryDirectoryAsync(async directory =>
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(directory, $"{typeof(PrefixModule).FullName}.txt"),
+                "not a duration");
+            var provider = CreateProvider(directory);
+
+            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+
+            await Assert.That(estimate).IsEqualTo(FileSystemModuleEstimatedTimeProvider.DefaultEstimate);
+        });
+    }
+
+    [Test]
+    public async Task SaveModuleTime_Replaces_Entry_Without_Leaving_Temporary_Files()
+    {
+        await RunWithTemporaryDirectoryAsync(async directory =>
+        {
+            var provider = CreateProvider(directory);
+
+            await Task.WhenAll(Enumerable.Range(1, 20).Select(seconds =>
+                provider.SaveModuleTimeAsync(typeof(PrefixModule), TimeSpan.FromSeconds(seconds))));
+            var estimate = await provider.GetModuleEstimatedTimeAsync(typeof(PrefixModule));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(estimate).IsBetween(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(20));
+                await Assert.That(Directory.EnumerateFiles(directory, "*.tmp")).IsEmpty();
+            }
+        });
+    }
+
     private static FileSystemModuleEstimatedTimeProvider CreateProvider(string directory)
     {
         return new FileSystemModuleEstimatedTimeProvider(directory, new FakeTimeProvider(CurrentTime));

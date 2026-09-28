@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Models;
@@ -5,8 +6,19 @@ using ModularPipelines.Reporting;
 
 namespace ModularPipelines.Engine;
 
+/// <summary>
+/// Default estimated-time provider. Stores the latest measured duration of each module and
+/// sub-module as a text file under the user's application-data folder.
+/// </summary>
+/// <remarks>
+/// Storage is best-effort: unreadable or malformed entries fall back to <see cref="DefaultEstimate"/>,
+/// and writes go to a unique temporary file that atomically replaces the entry, so concurrent
+/// pipelines never observe partially written values.
+/// </remarks>
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
 {
+    internal static readonly TimeSpan DefaultEstimate = TimeSpan.FromMinutes(2);
+
     private const string EncodedSubModuleNamePrefix = "B64-";
 
     private static readonly TimeSpan CacheRetention = TimeSpan.FromDays(90);
@@ -33,20 +45,22 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         _timeProvider = timeProvider;
     }
 
-    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken = default)
     {
         var fileName = $"{GetModuleName(moduleType)}.txt";
-        return await GetEstimatedTimeAsync(fileName).ConfigureAwait(false);
+        return await GetEstimatedTimeAsync(fileName, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default)
     {
         var fileName = $"{GetModuleName(moduleType)}.txt";
 
-        await SaveModuleTimeAsync(duration, fileName).ConfigureAwait(false);
+        await SaveModuleTimeAsync(duration, fileName, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
+    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(
+        Type moduleType,
+        CancellationToken cancellationToken = default)
     {
         var filesByModule = GetSubModuleFilesByModule();
         var moduleName = GetModuleName(moduleType);
@@ -68,10 +82,10 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
                     var encodedName = fileNameWithoutExtension[(subIndex + 5)..]; // 5 = length of "-Sub-"
                     var name = DecodeSubModuleName(encodedName);
-                    var time = await GetEstimatedTimeAsync(file.FullName).ConfigureAwait(false);
+                    var time = await GetEstimatedTimeAsync(file.FullName, cancellationToken).ConfigureAwait(false);
                     return new SubModuleEstimation(name, time);
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+                catch (Exception ex) when (IsFileAccessException(ex))
                 {
                     // File access error (locked, permissions, etc.) - skip gracefully without deleting
                     return null;
@@ -82,13 +96,16 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         return subModuleEstimations.OfType<SubModuleEstimation>();
     }
 
-    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
+    public async Task SaveSubModuleTimeAsync(
+        Type moduleType,
+        SubModuleEstimation subModuleEstimation,
+        CancellationToken cancellationToken = default)
     {
         var moduleName = GetModuleName(moduleType);
         var encodedSubModuleName = EncodeSubModuleName(subModuleEstimation.SubModuleName);
         var fileName = $"Mod-{moduleName}-Sub-{encodedSubModuleName}.txt";
 
-        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName).ConfigureAwait(false);
+        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName, cancellationToken).ConfigureAwait(false);
 
         lock (_subModuleIndexLock)
         {
@@ -214,41 +231,68 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
         {
             file.Delete();
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        catch (Exception ex) when (IsFileAccessException(ex))
         {
             // Best-effort pruning. A locked cache entry can be retried on the next process run.
         }
     }
 
-    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
+    private static bool IsFileAccessException(Exception exception) =>
+        exception is IOException or UnauthorizedAccessException or System.Security.SecurityException;
+
+    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName, CancellationToken cancellationToken)
     {
         var path = Path.Combine(_directory, fileName);
 
-        if (File.Exists(path))
+        try
         {
-            try
+            if (!File.Exists(path))
             {
-                var contents = await File.ReadAllTextAsync(path).ConfigureAwait(false);
-                return TimeSpan.Parse(contents);
+                // We can't estimate for now, so we'll estimate next time.
+                return DefaultEstimate;
             }
-            catch (FormatException)
-            {
-                // File contains malformed content - return default fallback
-                return TimeSpan.FromMinutes(2);
-            }
-        }
 
-        // Some default fallback. We can't estimate for now so we'll estimate next time.
-        return TimeSpan.FromMinutes(2);
+            var contents = await File.ReadAllTextAsync(path, cancellationToken).ConfigureAwait(false);
+            return TimeSpan.TryParse(contents, CultureInfo.InvariantCulture, out var estimate)
+                ? estimate
+                : DefaultEstimate;
+        }
+        catch (Exception ex) when (IsFileAccessException(ex))
+        {
+            // Locked, removed or unreadable entry - fall back rather than fail the module.
+            return DefaultEstimate;
+        }
     }
 
-    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
+    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName, CancellationToken cancellationToken)
     {
         Directory.CreateDirectory(_directory);
 
         var path = Path.Combine(_directory, fileName);
+        var temporaryPath = Path.Combine(_directory, $".{Guid.NewGuid():N}.tmp");
 
-        await File.WriteAllTextAsync(path, duration.ToString()).ConfigureAwait(false);
+        try
+        {
+            await File.WriteAllTextAsync(
+                    temporaryPath,
+                    duration.ToString("c", CultureInfo.InvariantCulture),
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            // Replace atomically so concurrent pipelines never read a partially written entry.
+            File.Move(temporaryPath, path, overwrite: true);
+        }
+        catch (Exception ex) when (IsFileAccessException(ex) && File.Exists(path))
+        {
+            // Another pipeline replaced the entry at the same time; its measurement is equally valid.
+        }
+        finally
+        {
+            if (File.Exists(temporaryPath))
+            {
+                TryDelete(new FileInfo(temporaryPath));
+            }
+        }
     }
 
     private sealed record SubModuleFileIndex(

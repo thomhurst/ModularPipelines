@@ -42,21 +42,42 @@ public class MyModuleRepository : IModuleResultRepository
         _blobContainerClient = blobContainerClient;
     }
     
-    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
+    public async Task SaveResultAsync<T>(
+        Module<T> module,
+        ModuleResult<T> moduleResult,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken = default)
     {
         var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
         var commit = repositoryInfo?.LastCommitSha;
-        await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
+        await _blobContainerClient.UploadBlobAsync(
+            module.GetType().FullName + commit,
+            new BinaryData(JsonSerializer.Serialize(moduleResult)),
+            cancellationToken);
     }
 
-    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(
+        Module<T> module,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken = default)
     {
         var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
         var commit = repositoryInfo?.LastCommitSha;
-        
-        var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();
+
+        var blobContent = await _blobContainerClient
+            .GetBlobClient(module.GetType().FullName + commit)
+            .DownloadContentAsync(cancellationToken);
 
         return JsonSerializer.Deserialize<ModuleResult<T>>(blobContent.Value.Content.ToString());
     }
 }
 ```
+
+## Behavior
+
+- Restored results have the `RestoredFromHistory` status, so dependent modules can read them.
+- Repository failures are best-effort: exceptions from `SaveResultAsync` and `GetResultAsync` are
+  logged, and the module runs (or is skipped) as if no result was stored.
+- `IsEnabled` defaults to `true`; return `false` to switch the repository off without removing it.
+- Result history is separate from [module caching](module-caching.md), which restores results by
+  input fingerprint, and from the [time estimator](time-estimator.md), which stores durations.

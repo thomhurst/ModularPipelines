@@ -86,7 +86,7 @@ public class ModuleSchedulerCriticalPathTests
 
         await Assert.That(ready.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(7));
         provider.Verify(
-            instance => instance.GetModuleEstimatedTimeAsync(It.IsAny<Type>()),
+            instance => instance.GetModuleEstimatedTimeAsync(It.IsAny<Type>(), It.IsAny<CancellationToken>()),
             Times.Never());
 
         cancellation.Cancel();
@@ -141,15 +141,15 @@ public class ModuleSchedulerCriticalPathTests
     private sealed class FixedEstimatedTimeProvider(IReadOnlyDictionary<Type, TimeSpan> estimates)
         : ISafeModuleEstimatedTimeProvider
     {
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) =>
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult(estimates[moduleType]);
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation, CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
@@ -157,18 +157,18 @@ public class ModuleSchedulerCriticalPathTests
     {
         public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType, CancellationToken cancellationToken)
         {
             Started.TrySetResult();
             return new TaskCompletionSource<TimeSpan>(TaskCreationOptions.RunContinuationsAsynchronously).Task;
         }
 
-        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType, CancellationToken cancellationToken) =>
             Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
-        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation, CancellationToken cancellationToken) =>
             Task.CompletedTask;
     }
 
