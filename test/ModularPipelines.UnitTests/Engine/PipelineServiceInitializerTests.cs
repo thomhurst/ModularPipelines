@@ -9,6 +9,8 @@ public class PipelineServiceInitializerTests
 {
     public interface IFactoryService;
 
+    public interface IOtherFactoryService;
+
     private sealed class InitializationLog
     {
         public List<string> Entries { get; } = [];
@@ -92,7 +94,7 @@ public class PipelineServiceInitializerTests
         }
     }
 
-    private sealed class InheritedFactoryInitializer(InitializationLog log) : InitializerBase(log), IFactoryService;
+    private sealed class InheritedFactoryInitializer(InitializationLog log) : InitializerBase(log), IFactoryService, IOtherFactoryService;
 
     private sealed class PendingInitializer(Task completion) : IInitializer
     {
@@ -170,6 +172,11 @@ public class PipelineServiceInitializerTests
     public async Task ReadsEachLoadedAssemblyOnceForSeveralFactoryRegistrations()
     {
         var log = new InitializationLog();
+        var dynamicAssemblyName = $"InitializerScan_{Guid.NewGuid():N}";
+        var dynamicAssembly = System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName(dynamicAssemblyName),
+            System.Reflection.Emit.AssemblyBuilderAccess.RunAndCollect);
+        dynamicAssembly.DefineDynamicModule(dynamicAssemblyName);
         var reads = new Dictionary<Assembly, int>();
         var loadedInitializerTypes = new PipelineServiceInitializer.LoadedInitializerTypes(assembly =>
         {
@@ -184,15 +191,18 @@ public class PipelineServiceInitializerTests
         });
         var services = CreateServices();
         services.AddSingleton<IFactoryService>(_ => new FactoryInitializer(log));
-        services.AddSingleton<IFactoryService>(_ => new InheritedFactoryInitializer(log));
+        services.AddSingleton<IOtherFactoryService>(_ => new InheritedFactoryInitializer(log));
         services.AddSingleton<IDisposable>(_ => new CancellationTokenSource());
+        services.AddSingleton<IAsyncDisposable>(_ => new MemoryStream());
 
         await using var serviceProvider = services.BuildServiceProvider();
         await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
 
         using (Assert.Multiple())
         {
-            await Assert.That(reads.Where(read => !read.Key.IsDynamic).All(read => read.Value == 1)).IsTrue();
+            await Assert.That(reads.All(read => read.Value == 1)).IsTrue();
+            await Assert.That(reads.Keys.Any(assembly => assembly.IsDynamic
+                                                         && assembly.GetName().Name == dynamicAssemblyName)).IsTrue();
             await Assert.That(reads.ContainsKey(typeof(PipelineServiceInitializerTests).Assembly)).IsTrue();
             await Assert.That(log.Entries.Count).IsEqualTo(2);
         }
@@ -214,6 +224,21 @@ public class PipelineServiceInitializerTests
         await PipelineServiceInitializer.InitializeAsync(serviceProvider, loadedInitializerTypes);
 
         await Assert.That(string.Join(",", log.Entries)).IsEqualTo(nameof(FactoryInitializer));
+    }
+
+    [Test]
+    public async Task InitializesForwardedSingletonOnce()
+    {
+        var log = new InitializationLog();
+        var services = CreateServices();
+        services.AddSingleton(log);
+        services.AddSingleton<TypeInitializer>();
+        services.AddSingleton<IInitializer>(serviceProvider => serviceProvider.GetRequiredService<TypeInitializer>());
+
+        await using var serviceProvider = services.BuildServiceProvider();
+        await PipelineServiceInitializer.InitializeAsync(serviceProvider);
+
+        await Assert.That(string.Join(",", log.Entries)).IsEqualTo(nameof(TypeInitializer));
     }
 
     [Test]

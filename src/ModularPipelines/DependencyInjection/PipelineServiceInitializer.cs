@@ -50,13 +50,18 @@ internal static class PipelineServiceInitializer
 
         // As in the library, each factory is checked and then resolved before the next check, so
         // assemblies loaded while resolving earlier services are visible to later checks.
+        var dynamicAssemblyTypes = new Dictionary<Assembly, Type[]>();
         initializers.AddRange(descriptors
             .Where(descriptor => descriptor.ImplementationFactory is { } factory
-                                 && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes))
+                                 && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
             .Select(descriptor => GetService(serviceProvider, descriptor))
             .OfType<IInitializer>());
 
-        foreach (var batch in initializers.GroupBy(initializer => initializer.Order).OrderBy(batch => batch.Key))
+        // A singleton forwarded through several service types resolves to the same instance for
+        // each registration; initialize it once, in the order it was first discovered.
+        var distinctInitializers = initializers.Distinct<IInitializer>(ReferenceEqualityComparer.Instance);
+
+        foreach (var batch in distinctInitializers.GroupBy(initializer => initializer.Order).OrderBy(batch => batch.Key))
         {
             // Start every initializer in the batch before awaiting, so a synchronous throw
             // cannot leave already-started initializers running unobserved.
@@ -90,10 +95,13 @@ internal static class PipelineServiceInitializer
         }
     }
 
-    private static bool CanProduceInitializer(Type factoryReturnType, LoadedInitializerTypes loadedInitializerTypes)
+    private static bool CanProduceInitializer(
+        Type factoryReturnType,
+        LoadedInitializerTypes loadedInitializerTypes,
+        Dictionary<Assembly, Type[]> dynamicAssemblyTypes)
     {
         return IsInitializer(factoryReturnType)
-               || loadedInitializerTypes.Get().Any(factoryReturnType.IsAssignableFrom);
+               || loadedInitializerTypes.Get(dynamicAssemblyTypes).Any(factoryReturnType.IsAssignableFrom);
     }
 
     private static bool IsInitializer(Type type) => typeof(IInitializer).IsAssignableFrom(type);
@@ -106,20 +114,32 @@ internal static class PipelineServiceInitializer
         [.. AssemblyTypeLoader.GetLoadableTypes(assembly).Where(IsInitializer)];
 
     /// <summary>
-    /// Lists the loaded <see cref="IInitializer"/> types, reading each non-dynamic assembly's types once.
+    /// Lists the loaded <see cref="IInitializer"/> types, reading each non-dynamic assembly's types once
+    /// per process and each dynamic assembly's types once per initialization.
     /// </summary>
     internal sealed class LoadedInitializerTypes(Func<Assembly, Type[]> findInitializerTypes)
     {
         private readonly ConditionalWeakTable<Assembly, Type[]> _typesByAssembly = [];
 
-        public IEnumerable<Type> Get()
+        /// <param name="dynamicAssemblyTypes">
+        /// Per-initialization cache for dynamic assemblies (for example mocking proxies), which can
+        /// gain types between pipeline builds and so cannot be cached for the whole process.
+        /// </param>
+        public IEnumerable<Type> Get(Dictionary<Assembly, Type[]> dynamicAssemblyTypes)
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                // Dynamic assemblies (for example mocking proxies) can gain types after a scan.
-                var types = assembly.IsDynamic
-                    ? findInitializerTypes(assembly)
-                    : _typesByAssembly.GetValue(assembly, key => findInitializerTypes(key));
+                Type[] types;
+                if (!assembly.IsDynamic)
+                {
+                    types = _typesByAssembly.GetValue(assembly, key => findInitializerTypes(key));
+                }
+                else if (!dynamicAssemblyTypes.TryGetValue(assembly, out types!))
+                {
+                    types = findInitializerTypes(assembly);
+                    dynamicAssemblyTypes[assembly] = types;
+                }
+
                 foreach (var type in types)
                 {
                     yield return type;
