@@ -114,6 +114,7 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Attributes.DependsOn*` | `ModularPipelines` |
 | Run-condition types in `Attributes` / `Conditions` | `ModularPipelines` |
 | `ModularPipelines.Enums.ModulePriority` | `ModularPipelines.ModulePriority` |
+| `ModularPipelines.Attributes.ModuleCategoryAttribute` | `ModularPipelines` |
 | Capability interfaces under `Context.Domains` and its subnamespaces | `ModularPipelines.Context` |
 | `Attributes.Events` handler interfaces and `Context.IModuleHookContext` | `ModularPipelines.Events` |
 | `Attributes.SecretValueAttribute`, `Options.SecretMaskingOptions`, secret services in `Engine` | `ModularPipelines.Secrets` |
@@ -122,8 +123,9 @@ Most module-authoring types now live directly in `ModularPipelines`:
 
 Start ordinary modules with `using ModularPipelines;`. Keep imports such as
 `ModularPipelines.Options`, `ModularPipelines.Extensions`, `ModularPipelines.FileSystem`, and tool
-option namespaces where needed. Do not replace entire namespaces indiscriminately:
-`ModuleCategoryAttribute` and CLI attributes still live in `ModularPipelines.Attributes`, and
+option namespaces where needed. Do not replace entire namespaces indiscriminately: CLI
+attributes such as `CliOptionAttribute` still live in `ModularPipelines.Attributes`, while
+`ModuleCategoryAttribute` moved to `ModularPipelines` with the other module-authoring types, and
 `PipelineSummary`, `IModuleResult`, and `RequirementDecision` still live in `ModularPipelines.Models`.
 Keep `using ModularPipelines.Context;` when using generated `context.Tools.<Tool>` extension properties.
 
