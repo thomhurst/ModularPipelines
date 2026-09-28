@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
@@ -10,86 +11,147 @@ namespace ModularPipelines.DependencyInjection;
 /// Runs the <see cref="IInitializer"/> services registered in a pipeline container.
 /// </summary>
 /// <remarks>
-/// This preserves the discovery rules and batch ordering of
+/// This keeps the discovery rules and batch ordering of
 /// <c>Initialization.Microsoft.Extensions.DependencyInjection</c>'s <c>InitializeAsync</c>,
-/// but scans loaded types once per pipeline instead of once per factory registration.
+/// but scans loaded types at most once per pipeline instead of once per factory registration,
+/// and caches the initializer types of each non-dynamic assembly for the life of the process.
 /// The library's per-factory scan made every pipeline build CPU-bound in proportion to
 /// (factory registrations x loaded types).
 /// </remarks>
 internal static class PipelineServiceInitializer
 {
-    private static readonly Assembly InitializerAssembly = typeof(IInitializer).Assembly;
-    private static readonly string InitializerAssemblyName = InitializerAssembly.GetName().Name!;
+    private static readonly ConditionalWeakTable<Assembly, Type[]> InitializerTypesByAssembly = [];
 
-    public static async Task InitializeAsync(IServiceProvider serviceProvider)
+    public static Task InitializeAsync(IServiceProvider serviceProvider) =>
+        InitializeAsync(serviceProvider, GetLoadedInitializerTypes);
+
+    /// <param name="serviceProvider">The pipeline service provider.</param>
+    /// <param name="getLoadedInitializerTypes">
+    /// Returns every loaded type that implements <see cref="IInitializer"/>. Called at most once,
+    /// and only when a factory registration's return type is not itself an initializer.
+    /// </param>
+    internal static async Task InitializeAsync(
+        IServiceProvider serviceProvider,
+        Func<IReadOnlyList<Type>> getLoadedInitializerTypes)
     {
         ArgumentNullException.ThrowIfNull(serviceProvider);
+        ArgumentNullException.ThrowIfNull(getLoadedInitializerTypes);
 
         var descriptors = serviceProvider
             .GetRequiredService<IPipelineServiceContainerWrapper>()
             .ServiceCollection
-            .Where(descriptor => !descriptor.IsKeyedService)
+            .Where(descriptor => !descriptor.IsKeyedService
+                                 && !descriptor.ServiceType.ContainsGenericParameters)
             .ToArray();
 
-        var initializers = new List<IInitializer>();
-        AddInitializers(
-            initializers,
-            serviceProvider,
-            descriptors.Where(descriptor => descriptor.ImplementationInstance is IInitializer));
-        AddInitializers(
-            initializers,
-            serviceProvider,
-            descriptors.Where(descriptor => descriptor.ImplementationType is { } implementationType
-                && IsInitializer(implementationType)));
-
-        var factoryDescriptors = descriptors
-            .Where(descriptor => descriptor.ImplementationFactory is not null)
+        var loadedInitializerTypes = new Lazy<IReadOnlyList<Type>>(getLoadedInitializerTypes);
+        var initializerDescriptors = descriptors
+            .Where(descriptor => descriptor.ImplementationInstance is IInitializer)
+            .Concat(descriptors.Where(descriptor => descriptor.ImplementationType is { } implementationType
+                                                    && IsInitializer(implementationType)))
+            .Concat(descriptors.Where(descriptor => descriptor.ImplementationFactory is { } factory
+                                                    && CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes)))
             .ToArray();
-        if (factoryDescriptors.Length > 0)
-        {
-            var loadedInitializerTypes = new Lazy<Type[]>(GetLoadedInitializerTypes);
-            AddInitializers(
-                initializers,
-                serviceProvider,
-                factoryDescriptors.Where(descriptor =>
-                    CanProduceInitializer(descriptor.ImplementationFactory!.Method.ReturnType, loadedInitializerTypes)));
-        }
+
+        var initializers = ResolveInitializers(serviceProvider, descriptors, initializerDescriptors);
 
         foreach (var batch in initializers.GroupBy(initializer => initializer.Order).OrderBy(batch => batch.Key))
         {
-            await Task.WhenAll(batch.Select(initializer => initializer.InitializeAsync())).ConfigureAwait(false);
+            // Start every initializer in the batch before awaiting, so a synchronous throw
+            // cannot leave already-started initializers running unobserved.
+            await Task.WhenAll([.. batch.Select(StartInitializer)]).ConfigureAwait(false);
         }
     }
 
-    private static void AddInitializers(
-        List<IInitializer> initializers,
+    private static List<IInitializer> ResolveInitializers(
         IServiceProvider serviceProvider,
-        IEnumerable<ServiceDescriptor> descriptors)
+        ServiceDescriptor[] descriptors,
+        ServiceDescriptor[] initializerDescriptors)
     {
+        // Each descriptor's position among registrations of the same service type, so duplicate
+        // service types resolve to their own implementation rather than the last registration.
+        var registrationIndexes = new Dictionary<ServiceDescriptor, int>(ReferenceEqualityComparer.Instance);
+        var registrationCounts = new Dictionary<Type, int>();
         foreach (var descriptor in descriptors)
         {
-            if (GetService(serviceProvider, descriptor) is IInitializer initializer)
+            registrationCounts.TryGetValue(descriptor.ServiceType, out var index);
+            registrationIndexes[descriptor] = index;
+            registrationCounts[descriptor.ServiceType] = index + 1;
+        }
+
+        var resolvedServices = new Dictionary<Type, object?[]>();
+        var initializers = new List<IInitializer>();
+        var seen = new HashSet<IInitializer>(ReferenceEqualityComparer.Instance);
+        foreach (var descriptor in initializerDescriptors)
+        {
+            EnsureSingleton(descriptor);
+
+            var service = registrationCounts[descriptor.ServiceType] == 1
+                ? serviceProvider.GetService(descriptor.ServiceType)
+                : ResolveRegistration(serviceProvider, descriptor, registrationIndexes[descriptor], resolvedServices);
+
+            // Forwarding registrations commonly expose one singleton through several service types;
+            // initialize each instance once.
+            if (service is IInitializer initializer && seen.Add(initializer))
             {
                 initializers.Add(initializer);
             }
         }
+
+        return initializers;
     }
 
-    private static object? GetService(IServiceProvider serviceProvider, ServiceDescriptor descriptor)
+    private static object? ResolveRegistration(
+        IServiceProvider serviceProvider,
+        ServiceDescriptor descriptor,
+        int registrationIndex,
+        Dictionary<Type, object?[]> resolvedServices)
     {
-        if (descriptor.Lifetime != ServiceLifetime.Singleton)
+        if (!RuntimeFeature.IsDynamicCodeSupported)
         {
-            var implementationType = descriptor.ImplementationType
-                                     ?? descriptor.ImplementationInstance?.GetType()
-                                     ?? descriptor.ServiceType;
-            throw new InvalidOperationException(
-                $"Service Provider Initializers are only supported for Singletons. {implementationType.Name} is {descriptor.Lifetime}");
+            // Resolving IEnumerable<T> for a runtime type needs dynamic code; Native AOT keeps the
+            // library's behavior of resolving the last registration.
+            return serviceProvider.GetService(descriptor.ServiceType);
         }
 
-        return serviceProvider.GetService(descriptor.ServiceType);
+        if (!resolvedServices.TryGetValue(descriptor.ServiceType, out var services))
+        {
+            services = [.. serviceProvider.GetServices(descriptor.ServiceType)];
+            resolvedServices[descriptor.ServiceType] = services;
+        }
+
+        return registrationIndex < services.Length
+            ? services[registrationIndex]
+            : serviceProvider.GetService(descriptor.ServiceType);
     }
 
-    private static bool CanProduceInitializer(Type factoryReturnType, Lazy<Type[]> loadedInitializerTypes)
+    private static Task StartInitializer(IInitializer initializer)
+    {
+        try
+        {
+            return initializer.InitializeAsync();
+        }
+        catch (Exception exception)
+        {
+            return Task.FromException(exception);
+        }
+    }
+
+    private static void EnsureSingleton(ServiceDescriptor descriptor)
+    {
+        if (descriptor.Lifetime == ServiceLifetime.Singleton)
+        {
+            return;
+        }
+
+        var implementationType = descriptor.ImplementationType
+                                 ?? descriptor.ImplementationInstance?.GetType()
+                                 ?? descriptor.ServiceType;
+        throw new InvalidOperationException(
+            $"Service Provider Initializers are only supported for Singletons. {implementationType.Name} is {descriptor.Lifetime}");
+    }
+
+    private static bool CanProduceInitializer(Type factoryReturnType, Lazy<IReadOnlyList<Type>> loadedInitializerTypes)
     {
         return IsInitializer(factoryReturnType)
                || loadedInitializerTypes.Value.Any(factoryReturnType.IsAssignableFrom);
@@ -97,32 +159,24 @@ internal static class PipelineServiceInitializer
 
     private static bool IsInitializer(Type type) => typeof(IInitializer).IsAssignableFrom(type);
 
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "Factory initializer discovery only inspects types that remain loaded; trimmed types cannot be produced by factories.")]
-    private static Type[] GetLoadedInitializerTypes()
+    private static IReadOnlyList<Type> GetLoadedInitializerTypes()
     {
-        return
-        [
-            .. AppDomain.CurrentDomain.GetAssemblies()
-                .Where(CanDeclareInitializers)
-                .SelectMany(AssemblyTypeLoader.GetLoadableTypes)
-                .Where(IsInitializer),
-        ];
+        var initializerTypes = new List<Type>();
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            // Dynamic assemblies (for example mocking proxies) can gain types after the first scan.
+            initializerTypes.AddRange(assembly.IsDynamic
+                ? FindInitializerTypes(assembly)
+                : InitializerTypesByAssembly.GetValue(assembly, FindInitializerTypes));
+        }
+
+        return initializerTypes;
     }
 
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Assembly references are only used to skip assemblies that cannot implement IInitializer.")]
-    private static bool CanDeclareInitializers(Assembly assembly)
-    {
-        // An IInitializer implementation must reference the assembly that declares the interface.
-        // Dynamic assemblies (for example mocking proxies) do not expose reliable references, so keep them.
-        return assembly == InitializerAssembly
-               || assembly.IsDynamic
-               || assembly.GetReferencedAssemblies().Any(reference =>
-                   string.Equals(reference.Name, InitializerAssemblyName, StringComparison.Ordinal));
-    }
+        Justification = "Matches the Initialization library's loaded-type scan. A factory can only return a type the trimmer kept, so types removed by trimming cannot affect which factories produce initializers.")]
+    private static Type[] FindInitializerTypes(Assembly assembly) =>
+        [.. AssemblyTypeLoader.GetLoadableTypes(assembly).Where(IsInitializer)];
 }
