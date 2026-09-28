@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
@@ -92,17 +91,6 @@ internal static class DistributedBuildConfiguration
             runId = $"{githubRunId}-{githubRunAttempt}";
         }
 
-        var connection = ConfigurationOptions.Parse(endpoint);
-        connection.Password = password;
-        connection.Ssl = true;
-        connection.AbortOnConnectFail = false;
-
-        // Keep credentials as typed options: connection-string serialization does not
-        // escape commas in passwords. Both Redis services share this one connection.
-        builder.Services.AddSingleton(connection);
-        builder.Services.AddSingleton<IConnectionMultiplexer>(services =>
-            ConnectionMultiplexer.Connect(services.GetRequiredService<ConfigurationOptions>()));
-
         builder.AddDistributedMode(options =>
         {
             options.InstanceIndex = index;
@@ -118,9 +106,18 @@ internal static class DistributedBuildConfiguration
         });
         builder.AddRedisDistributed(options =>
         {
+            options.ConnectionString = endpoint;
+            // Keep credentials as typed options: connection-string serialization does not
+            // escape commas in passwords.
+            options.ConfigureConnection = connection =>
+            {
+                connection.Password = password;
+                connection.Ssl = true;
+                connection.AbortOnConnectFail = false;
+            };
             options.KeyPrefix = "modularpipelines-ci";
-            options.KeyExpiration = TimeSpan.FromHours(2);
-        }, options => options.TimeToLive = TimeSpan.FromHours(2));
+            options.TimeToLive = TimeSpan.FromHours(2);
+        });
         return true;
     }
 

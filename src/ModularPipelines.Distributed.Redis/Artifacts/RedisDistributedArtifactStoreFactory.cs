@@ -1,37 +1,22 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Redis.Coordination;
-using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Artifacts;
 
 /// <summary>
 /// Factory that creates a <see cref="RedisDistributedArtifactStore"/> by connecting to Redis asynchronously.
-/// Shares connection configuration with the coordinator when possible.
+/// Shares the package's distributed connection with the coordinator.
 /// </summary>
-internal sealed class RedisDistributedArtifactStoreFactory : IDistributedArtifactStoreFactory
+internal sealed class RedisDistributedArtifactStoreFactory(
+    IOptions<RedisOptions> redisOptions,
+    IOptions<DistributedOptions> distributedOptions,
+    RedisConnectionProvider connections) : IDistributedArtifactStoreFactory
 {
-    private readonly RedisDistributedOptions _redisOptions;
-    private readonly ArtifactOptions _artifactOptions;
-    private readonly DistributedOptions _distributedOptions;
-    private readonly IConnectionMultiplexer _connection;
-
-    public RedisDistributedArtifactStoreFactory(
-        IOptions<RedisDistributedOptions> redisOptions,
-        IOptions<ArtifactOptions> artifactOptions,
-        IOptions<DistributedOptions> distributedOptions,
-        IConnectionMultiplexer connection)
+    public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
     {
-        _redisOptions = redisOptions.Value;
-        _artifactOptions = artifactOptions.Value;
-        _distributedOptions = distributedOptions.Value;
-        _connection = connection;
-    }
-
-    public Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
-    {
-        var database = _connection.GetDatabase();
-        var keys = new RedisKeyBuilder(_redisOptions.KeyPrefix, _distributedOptions.RunId);
-        IDistributedArtifactStore store = new RedisDistributedArtifactStore(database, keys, _artifactOptions);
-        return Task.FromResult(store);
+        var connection = await connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        var options = redisOptions.Value;
+        var keys = new RedisKeyBuilder(options.KeyPrefix, distributedOptions.Value.RunId);
+        return new RedisDistributedArtifactStore(connection.GetDatabase(), keys, options);
     }
 }

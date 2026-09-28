@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Options;
-using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
 
@@ -8,36 +7,31 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// </summary>
 internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinatorFactory
 {
-    private readonly RedisDistributedOptions _options;
+    private readonly RedisOptions _options;
     private readonly DistributedOptions _distributedOptions;
-    private readonly IConnectionMultiplexer _connection;
+    private readonly RedisConnectionProvider _connections;
 
     public RedisDistributedCoordinatorFactory(
-        IOptions<RedisDistributedOptions> options,
-        IConnectionMultiplexer connection,
+        IOptions<RedisOptions> options,
+        RedisConnectionProvider connections,
         IOptions<DistributedOptions> distributedOptions)
     {
         _options = options.Value;
-        _connection = connection;
+        _connections = connections;
         _distributedOptions = distributedOptions.Value;
     }
 
-    public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
-    {
-        IDistributedMasterCoordinator coordinator = CreateCoordinator();
-        return Task.FromResult(coordinator);
-    }
+    public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
+        await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
 
-    public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken)
-    {
-        IDistributedWorkerCoordinator coordinator = CreateCoordinator();
-        return Task.FromResult(coordinator);
-    }
+    public async Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
+        await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
 
-    private RedisDistributedCoordinator CreateCoordinator()
+    private async Task<RedisDistributedCoordinator> CreateCoordinatorAsync(CancellationToken cancellationToken)
     {
-        var database = _connection.GetDatabase();
-        var subscriber = _connection.GetSubscriber();
+        var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        var database = connection.GetDatabase();
+        var subscriber = connection.GetSubscriber();
         var keys = new RedisKeyBuilder(_options.KeyPrefix, _distributedOptions.RunId);
         return new RedisDistributedCoordinator(
             database,

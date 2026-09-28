@@ -1,53 +1,40 @@
 using System.Globalization;
 using ModularPipelines.Caching;
-using ModularPipelines.Distributed.Redis;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Caching;
 
 /// <summary>
 /// Stores shareable, chunked module cache entries in Redis.
-/// Cache keys are independent of distributed pipeline run identifiers.
+/// Cache keys are independent of distributed pipeline run identifiers. Every key of one entry
+/// carries the fingerprint as a Redis Cluster hash tag, so the publishing transaction and
+/// cleanup deletes stay within one slot.
 /// </summary>
-public sealed class RedisModuleCache : IModuleCacheStore
+internal sealed class RedisModuleCache : IModuleCacheStore
 {
     private static readonly TimeSpan MinimumProvisionalExpiration = TimeSpan.FromHours(1);
-    private readonly IDatabase _database;
+    private readonly RedisConnectionProvider _connections;
     private readonly string _keyPrefix;
     private readonly int _chunkSize;
     private readonly long _maximumCacheEntryBytes;
     private readonly TimeSpan _expiration;
     private readonly TimeSpan _provisionalExpiration;
 
-    /// <summary>
-    /// Initialises a new instance of the <see cref="RedisModuleCache"/> class.
-    /// Initializes a new instance of the <see cref="RedisModuleCache"/> class.
-    /// </summary>
     public RedisModuleCache(
-        IConnectionMultiplexer connection,
-        RedisDistributedOptions redisOptions,
-        ArtifactOptions artifactOptions)
-        : this(connection, redisOptions, artifactOptions, new ModuleCacheOptions())
-    {
-    }
-
-    internal RedisModuleCache(
-        IConnectionMultiplexer connection,
-        RedisDistributedOptions redisOptions,
-        ArtifactOptions artifactOptions,
+        RedisConnectionProvider connections,
+        RedisOptions redisOptions,
         ModuleCacheOptions cacheOptions)
     {
-        ArgumentNullException.ThrowIfNull(connection);
+        ArgumentNullException.ThrowIfNull(connections);
         ArgumentNullException.ThrowIfNull(redisOptions);
-        ArgumentNullException.ThrowIfNull(artifactOptions);
         ArgumentNullException.ThrowIfNull(cacheOptions);
         ArgumentException.ThrowIfNullOrWhiteSpace(redisOptions.KeyPrefix);
 
-        _database = connection.GetDatabase();
-        _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v1";
-        _chunkSize = artifactOptions.ChunkSizeBytes;
+        _connections = connections;
+        _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v2";
+        _chunkSize = redisOptions.ChunkSizeBytes;
         _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
-        _expiration = artifactOptions.TimeToLive;
+        _expiration = redisOptions.TimeToLive;
         _provisionalExpiration = _expiration > MinimumProvisionalExpiration
             ? _expiration
             : MinimumProvisionalExpiration;
@@ -55,15 +42,15 @@ public sealed class RedisModuleCache : IModuleCacheStore
         if (_chunkSize <= 0)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(artifactOptions),
-                "ArtifactOptions.ChunkSizeBytes must be positive.");
+                nameof(redisOptions),
+                "RedisOptions.ChunkSizeBytes must be positive.");
         }
 
         if (_expiration <= TimeSpan.Zero)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(artifactOptions),
-                "ArtifactOptions.TimeToLive must be positive.");
+                nameof(redisOptions),
+                "RedisOptions.TimeToLive must be positive.");
         }
 
         if (_maximumCacheEntryBytes <= 0)
@@ -80,7 +67,8 @@ public sealed class RedisModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var metadata = await _database.StringGetAsync(MetadataKey(fingerprint))
+        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
+        var metadata = await database.StringGetAsync(MetadataKey(fingerprint))
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
         if (metadata.IsNull)
@@ -118,7 +106,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
             for (var chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var chunk = await _database.StringGetAsync(ChunkKey(fingerprint, generation, chunkIndex))
+                var chunk = await database.StringGetAsync(ChunkKey(fingerprint, generation, chunkIndex))
                     .WaitAsync(cancellationToken)
                     .ConfigureAwait(false);
                 if (chunk.IsNull)
@@ -158,6 +146,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
         ArgumentNullException.ThrowIfNull(content);
 
+        var database = await GetDatabaseAsync(cancellationToken).ConfigureAwait(false);
         var buffer = new byte[_chunkSize];
         var generation = Guid.NewGuid().ToString("N");
         var chunkCount = 0;
@@ -175,7 +164,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
 
                 cancellationToken.ThrowIfCancellationRequested();
                 var chunkKey = ChunkKey(fingerprint, generation, chunkCount);
-                await _database.StringSetAsync(
+                await database.StringSetAsync(
                         chunkKey,
                         new ReadOnlyMemory<byte>(buffer, 0, length),
                         _provisionalExpiration)
@@ -189,7 +178,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
             var metadata = string.Create(
                 CultureInfo.InvariantCulture,
                 $"{generation}:{chunkCount}:{totalLength}");
-            var transaction = _database.CreateTransaction();
+            var transaction = database.CreateTransaction();
             var expirationTasks = chunkKeys
                 .Select(chunkKey => transaction.KeyExpireAsync(chunkKey, _expiration))
                 .ToArray();
@@ -217,11 +206,17 @@ public sealed class RedisModuleCache : IModuleCacheStore
         {
             if (chunkKeys.Count > 0)
             {
-                await _database.KeyDeleteAsync([.. chunkKeys]).ConfigureAwait(false);
+                await database.KeyDeleteAsync([.. chunkKeys]).ConfigureAwait(false);
             }
 
             throw;
         }
+    }
+
+    private async Task<IDatabase> GetDatabaseAsync(CancellationToken cancellationToken)
+    {
+        var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        return connection.GetDatabase();
     }
 
     private static async Task<int> ReadFullBufferAsync(
@@ -269,11 +264,12 @@ public sealed class RedisModuleCache : IModuleCacheStore
         return (generation, chunks, length);
     }
 
+    // The braces form a Redis Cluster hash tag: an entry's metadata and chunks share one slot.
     private string MetadataKey(string fingerprint) =>
-        $"{_keyPrefix}:{fingerprint.ToLowerInvariant()}:metadata";
+        $"{_keyPrefix}:{{{fingerprint.ToLowerInvariant()}}}:metadata";
 
     private string ChunkKey(string fingerprint, string generation, int chunkIndex) =>
-        $"{_keyPrefix}:{fingerprint.ToLowerInvariant()}:entry:{generation}:chunk:{chunkIndex}";
+        $"{_keyPrefix}:{{{fingerprint.ToLowerInvariant()}}}:entry:{generation}:chunk:{chunkIndex}";
 
     private InvalidDataException CreateEntryLimitException() =>
         new($"Redis module cache entry exceeded the configured limit of {_maximumCacheEntryBytes:N0} bytes.");

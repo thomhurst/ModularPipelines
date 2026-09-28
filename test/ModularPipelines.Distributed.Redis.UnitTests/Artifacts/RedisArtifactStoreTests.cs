@@ -16,9 +16,8 @@ public class RedisArtifactStoreTests
     {
         _mockDb = new Mock<IDatabase>(MockBehavior.Loose);
         _keys = new RedisKeyBuilder("modpipe", "run123");
-        var options = new ArtifactOptions
+        var options = new RedisOptions
         {
-            MaxSingleUploadBytes = 100,
             ChunkSizeBytes = 50,
             TimeToLive = TimeSpan.FromHours(1),
         };
@@ -45,7 +44,7 @@ public class RedisArtifactStoreTests
     public async Task Upload_LargeArtifact_ReturnsCorrectSize()
     {
         var descriptor = new ArtifactDescriptor("big-art", "Test.Module");
-        var data = new byte[150]; // Larger than MaxSingleUploadBytes (100)
+        var data = new byte[150]; // Larger than ChunkSizeBytes (50)
 
         using var stream = new MemoryStream(data);
         var reference = await _store.UploadAsync(descriptor, stream, CancellationToken.None);
@@ -176,6 +175,124 @@ public class RedisArtifactStoreTests
             It.Is<RedisKey>(k => k.ToString().Contains("artifacts:index:Test.Module")),
             It.Is<RedisValue>(v => v.ToString() == "art1"),
             It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(5)]
+    [Arguments(50)]
+    [Arguments(120)]
+    public async Task Upload_Then_Download_RoundTrips(int length)
+    {
+        var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();
+        using var stream = new MemoryStream(data);
+        ServeWrittenValues();
+
+        var reference = await _store.UploadAsync(new ArtifactDescriptor("round-trip", "Test.Module"), stream, CancellationToken.None);
+        await using var result = await _store.DownloadAsync(reference, CancellationToken.None);
+        using var copy = new MemoryStream();
+        await result.CopyToAsync(copy);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(reference.SizeBytes).IsEqualTo(length);
+            await Assert.That(copy.ToArray()).IsEquivalentTo(data);
+        }
+    }
+
+    [Test]
+    public async Task Upload_EmptyArtifact_WritesSingleKey()
+    {
+        using var stream = new MemoryStream();
+
+        var reference = await _store.UploadAsync(new ArtifactDescriptor("empty", "Test.Module"), stream, CancellationToken.None);
+
+        _mockDb.Verify(db => db.StringSetAsync(
+            It.Is<RedisKey>(key => key.ToString() == _keys.ArtifactData(reference.ArtifactId)),
+            It.IsAny<RedisValue>(),
+            It.IsAny<Expiration>(),
+            It.IsAny<ValueCondition>(),
+            It.IsAny<CommandFlags>()), Times.Once);
+    }
+
+    [Test]
+    public async Task Download_SingleKey_Rejects_Size_Mismatch()
+    {
+        var reference = new ArtifactReference("short", "test", "Test.Module", 10, null, DateTimeOffset.UtcNow);
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("short"), It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) new byte[] { 1, 2, 3 });
+
+        await Assert.That(async () => await _store.DownloadAsync(reference, CancellationToken.None))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining("size mismatch");
+    }
+
+    [Test]
+    public async Task Upload_ObservesCancellationWhileRedisWriteIsPending()
+    {
+        var pendingWrite = new TaskCompletionSource<bool>();
+        using var cancellation = new CancellationTokenSource();
+        _mockDb.Setup(db => db.StringSetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
+            .Callback(() => cancellation.Cancel())
+            .Returns(pendingWrite.Task);
+        using var stream = new MemoryStream([1, 2, 3]);
+
+        try
+        {
+            await Assert.That(async () => await _store
+                    .UploadAsync(new ArtifactDescriptor("pending", "Test.Module"), stream, cancellation.Token)
+                    .WaitAsync(TimeSpan.FromSeconds(2)))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            pendingWrite.TrySetResult(true);
+        }
+    }
+
+    [Test]
+    public async Task ListArtifacts_ObservesCancellationWhileRedisReadIsPending()
+    {
+        var pendingRead = new TaskCompletionSource<RedisValue[]>();
+        using var cancellation = new CancellationTokenSource();
+        _mockDb.Setup(db => db.SetMembersAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .Callback(() => cancellation.Cancel())
+            .Returns(pendingRead.Task);
+
+        try
+        {
+            await Assert.That(async () => await _store
+                    .ListArtifactsAsync("Test.Module", cancellation.Token)
+                    .WaitAsync(TimeSpan.FromSeconds(2)))
+                .Throws<OperationCanceledException>();
+        }
+        finally
+        {
+            pendingRead.TrySetResult([]);
+        }
+    }
+
+    private void ServeWrittenValues()
+    {
+        // The store reuses its chunk buffer, so copy each value when it is written, as Redis does.
+        var values = new Dictionary<string, byte[]>();
+        _mockDb.Setup(db => db.StringSetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
+            .Callback((RedisKey key, RedisValue value, Expiration _, ValueCondition _, CommandFlags _) =>
+                values[key.ToString()] = [.. (byte[]?) value ?? []])
+            .ReturnsAsync(true);
+        _mockDb.Setup(db => db.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisKey key, CommandFlags _) =>
+                values.TryGetValue(key.ToString(), out var value) ? (RedisValue) value : RedisValue.Null);
     }
 
     [Test]

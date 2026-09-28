@@ -16,7 +16,7 @@ public class RedisDistributedCoordinatorTests
     private Mock<IDatabase> _dbMock = null!;
     private Mock<ISubscriber> _subscriberMock = null!;
     private RedisKeyBuilder _keys = null!;
-    private RedisDistributedOptions _options = null!;
+    private RedisOptions _options = null!;
     private RedisDistributedCoordinator _coordinator = null!;
 
     [Before(Test)]
@@ -25,9 +25,9 @@ public class RedisDistributedCoordinatorTests
         _dbMock = new Mock<IDatabase>();
         _subscriberMock = new Mock<ISubscriber>();
         _keys = new RedisKeyBuilder("modpipe", "test-run");
-        _options = new RedisDistributedOptions
+        _options = new RedisOptions
         {
-            KeyExpiration = TimeSpan.FromHours(1),
+            TimeToLive = TimeSpan.FromHours(1),
         };
         _dbMock.Setup(db => db.ExecuteAsync(
                 "TIME",
@@ -268,7 +268,7 @@ public class RedisDistributedCoordinatorTests
                 It.IsAny<When>(), It.IsAny<CommandFlags>()))
             .Callback(() => stages.Add(0))
             .Returns(() => blockedStage == 0 ? blocked.Task : Task.FromResult(true));
-        _dbMock.Setup(db => db.KeyExpireAsync(_keys.Results, _options.KeyExpiration,
+        _dbMock.Setup(db => db.KeyExpireAsync(_keys.Results, _options.TimeToLive,
                 It.IsAny<ExpireWhen>(), It.IsAny<CommandFlags>()))
             .Callback(() => stages.Add(1))
             .Returns(() => blockedStage == 1 ? blocked.Task : Task.FromResult(true));

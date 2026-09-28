@@ -27,14 +27,14 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         IDatabase database,
         ISubscriber subscriber,
         RedisKeyBuilder keys,
-        RedisDistributedOptions options,
+        RedisOptions options,
         Action? onWaitReady = null,
         DistributedOptions? distributedOptions = null)
     {
         _database = database;
         _subscriber = subscriber;
         _keys = keys;
-        _keyExpiration = options.KeyExpiration;
+        _keyExpiration = options.TimeToLive;
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         _onWaitReady = onWaitReady;
     }

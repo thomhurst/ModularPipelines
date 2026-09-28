@@ -354,6 +354,12 @@
 *REMOVED*ModularPipelines.Distributed.ArtifactDescriptor.Deconstruct(out string! Name, out string! ModuleTypeName, out string? ContentType, out System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Metadata) -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactDescriptor.ModuleTypeName.get -> string!
 *REMOVED*ModularPipelines.Distributed.ArtifactDescriptor.ModuleTypeName.init -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.AutoCleanup.get -> bool
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.AutoCleanup.set -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.ChunkSizeBytes.get -> int
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.ChunkSizeBytes.set -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.MaxSingleUploadBytes.get -> long
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.MaxSingleUploadBytes.set -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.RunIdentifier.get -> string?
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.RunIdentifier.set -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.TimeToLiveSeconds.get -> int
@@ -1517,8 +1523,6 @@ ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(string! Name,
 ModularPipelines.Distributed.ArtifactDescriptor.Deconstruct(out string! Name, out ModularPipelines.Distributed.ModuleId ModuleId, out string? ContentType, out System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Metadata) -> void
 ModularPipelines.Distributed.ArtifactDescriptor.ModuleId.get -> ModularPipelines.Distributed.ModuleId
 ModularPipelines.Distributed.ArtifactDescriptor.ModuleId.init -> void
-ModularPipelines.Distributed.ArtifactOptions.TimeToLive.get -> System.TimeSpan
-ModularPipelines.Distributed.ArtifactOptions.TimeToLive.set -> void
 ModularPipelines.Distributed.ArtifactReference.ArtifactReference(string! ArtifactId, string! Name, ModularPipelines.Distributed.ModuleId ModuleId, long SizeBytes, string? ContentType, System.DateTimeOffset UploadedAt) -> void
 ModularPipelines.Distributed.ArtifactReference.Deconstruct(out string! ArtifactId, out string! Name, out ModularPipelines.Distributed.ModuleId ModuleId, out long SizeBytes, out string? ContentType, out System.DateTimeOffset UploadedAt) -> void
 ModularPipelines.Distributed.ArtifactReference.ModuleId.get -> ModularPipelines.Distributed.ModuleId

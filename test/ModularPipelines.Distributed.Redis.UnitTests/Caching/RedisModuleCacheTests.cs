@@ -42,17 +42,7 @@ public class RedisModuleCacheTests
         connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
             .Returns(_database.Object);
         _connection = connection.Object;
-        _cache = new RedisModuleCache(
-            _connection,
-            new RedisDistributedOptions
-            {
-                KeyPrefix = "custom-prefix",
-            },
-            new ArtifactOptions
-            {
-                ChunkSizeBytes = 3,
-                TimeToLive = TimeSpan.FromMinutes(1),
-            });
+        _cache = CreateCache(maximumCacheEntryBytes: new ModuleCacheOptions().MaximumCacheEntryBytes);
     }
 
     [Test]
@@ -72,7 +62,8 @@ public class RedisModuleCacheTests
             .Concat(transactionWrites)
             .Select(invocation => invocation.Arguments[0]!.ToString()!)
             .ToList();
-        var fingerprintPrefix = $"custom-prefix:module-cache:v1:{Fingerprint.ToLowerInvariant()}";
+        // The fingerprint is a hash tag, so all of an entry's keys map to one Redis Cluster slot.
+        var fingerprintPrefix = $"custom-prefix:module-cache:v2:{{{Fingerprint.ToLowerInvariant()}}}";
         var entryKeys = keys
             .Where(key => key.StartsWith($"{fingerprintPrefix}:entry:", StringComparison.Ordinal))
             .ToArray();
@@ -211,43 +202,51 @@ public class RedisModuleCacheTests
     public async Task CacheRegistrationDoesNotReplaceDistributedOptions()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisDistributed(
-            options =>
-            {
-                options.ConnectionString = "distributed:6379";
-                options.KeyPrefix = "distributed";
-            },
-            options => options.ChunkSizeBytes = 123);
-        builder.AddRedisModuleCache(
-            options =>
-            {
-                options.ConnectionString = "cache:6379";
-                options.KeyPrefix = "cache";
-            },
-            options => options.ChunkSizeBytes = 456);
+        builder.AddRedisDistributed(options =>
+        {
+            options.ConnectionString = "distributed:6379";
+            options.KeyPrefix = "distributed";
+            options.ChunkSizeBytes = 123;
+        });
+        builder.AddRedisModuleCache(options =>
+        {
+            options.ConnectionString = "cache:6379";
+            options.KeyPrefix = "cache";
+            options.ChunkSizeBytes = 456;
+        });
 
         using var serviceProvider = builder.Services.BuildServiceProvider();
-        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
-        var artifactOptions = serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value;
+        var redisOptions = serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value;
 
         using (Assert.Multiple())
         {
             await Assert.That(redisOptions.ConnectionString).IsEqualTo("distributed:6379");
             await Assert.That(redisOptions.KeyPrefix).IsEqualTo("distributed");
-            await Assert.That(artifactOptions.ChunkSizeBytes).IsEqualTo(123);
-            await Assert.That(builder.Services.Count(descriptor =>
-                    descriptor.ServiceType == typeof(IConnectionMultiplexer)
-                    && descriptor.IsKeyedService))
-                .IsEqualTo(1);
+            await Assert.That(redisOptions.ChunkSizeBytes).IsEqualTo(123);
+            // Neither feature registers or adopts an application-visible multiplexer.
+            await Assert.That(builder.Services.Any(descriptor =>
+                    descriptor.ServiceType == typeof(IConnectionMultiplexer)))
+                .IsFalse();
         }
+    }
+
+    [Test]
+    public async Task CacheRejectsMissingConnectionAtStartup()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddRedisModuleCache(options => options.KeyPrefix = "cache");
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<Microsoft.Extensions.Options.OptionsValidationException>()
+            .WithMessageContaining(nameof(RedisOptions.ConnectionString));
     }
 
     private RedisModuleCache CreateCache(long maximumCacheEntryBytes) =>
         new(
-            _connection,
-            new RedisDistributedOptions { KeyPrefix = "custom-prefix" },
-            new ArtifactOptions
+            new RedisConnectionProvider(_connection),
+            new RedisOptions
             {
+                KeyPrefix = "custom-prefix",
                 ChunkSizeBytes = 3,
                 TimeToLive = TimeSpan.FromMinutes(1),
             },

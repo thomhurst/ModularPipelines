@@ -66,9 +66,11 @@ public class ArtifactContextApiTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLive")!.PropertyType)
-                .IsEqualTo(typeof(TimeSpan));
+            // Expiry and chunking are storage-specific and live on each backend's options.
+            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLive")).IsNull();
             await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLiveSeconds")).IsNull();
+            await Assert.That(typeof(ArtifactOptions).GetProperty("ChunkSizeBytes")).IsNull();
+            await Assert.That(typeof(ArtifactOptions).GetProperty("AutoCleanup")).IsNull();
             await Assert.That(typeof(DistributedOptions).GetProperty("CapabilityTimeout")!.PropertyType)
                 .IsEqualTo(typeof(TimeSpan));
             await Assert.That(typeof(DistributedOptions).GetProperty("ModuleResultTimeout")!.PropertyType)

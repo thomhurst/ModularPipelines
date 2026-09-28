@@ -16,7 +16,7 @@ public class DistributedBuildConfigurationTests
         var environment = CreateEnvironment(index, count);
 
         await Assert.That(DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault)).IsTrue();
-        await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(IConnectionMultiplexer))).IsFalse();
+        await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(RedisConnectionProvider))).IsFalse();
         await Assert.That(await GetProvidedCapabilitiesAsync(builder)).Contains(new Capability("ci-master"));
     }
 
@@ -33,7 +33,7 @@ public class DistributedBuildConfigurationTests
             environment[missing] = null;
 
             await Assert.That(DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault)).IsEqualTo(shouldRun);
-            await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(IConnectionMultiplexer))).IsFalse();
+            await Assert.That(builder.Services.Any(service => service.ServiceType == typeof(RedisConnectionProvider))).IsFalse();
             await Assert.That((await GetProvidedCapabilitiesAsync(builder)).Contains(new Capability("ci-master")))
                 .IsEqualTo(shouldRun);
         }
@@ -49,9 +49,8 @@ public class DistributedBuildConfigurationTests
         await Assert.That(DistributedBuildConfiguration.Configure(builder, environment.GetValueOrDefault)).IsTrue();
         await using var services = builder.Services.BuildServiceProvider();
         var distributed = services.GetRequiredService<IOptions<DistributedOptions>>().Value;
-        var redis = services.GetRequiredService<IOptions<RedisDistributedOptions>>().Value;
-        var artifacts = services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
-        var connection = services.GetRequiredService<ConfigurationOptions>();
+        var redis = services.GetRequiredService<IOptions<RedisOptions>>().Value;
+        var connection = RedisConnectionProvider.CreateConfiguration(redis);
 
         await Assert.That(distributed.RunId).IsEqualTo("123-2");
         await Assert.That(distributed.TotalInstances).IsEqualTo(4);
@@ -59,8 +58,8 @@ public class DistributedBuildConfigurationTests
         await Assert.That(distributed.MinimumWorkerCount).IsEqualTo(3);
         await Assert.That(distributed.Capabilities.Contains(new Capability("ci-master"))).IsEqualTo(index == "0");
         await Assert.That(distributed.ModuleResultTimeout < TimeSpan.FromMinutes(90)).IsTrue();
-        await Assert.That(redis.KeyExpiration > distributed.ModuleResultTimeout).IsTrue();
-        await Assert.That(artifacts.TimeToLive > distributed.ModuleResultTimeout).IsTrue();
+        await Assert.That(redis.TimeToLive > distributed.ModuleResultTimeout).IsTrue();
+        await Assert.That(connection.EndPoints.Count).IsEqualTo(1);
         await Assert.That(connection.Ssl).IsTrue();
         await Assert.That(connection.AbortOnConnectFail).IsFalse();
         await Assert.That(connection.Password).IsEqualTo("key,with=special;characters");

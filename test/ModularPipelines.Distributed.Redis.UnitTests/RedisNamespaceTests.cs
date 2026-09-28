@@ -9,7 +9,7 @@ public class RedisNamespaceTests
     {
         await Assert.That(typeof(RedisDistributedExtensions).Namespace)
             .IsEqualTo("ModularPipelines.Distributed.Redis");
-        await Assert.That(typeof(RedisDistributedOptions).Namespace)
+        await Assert.That(typeof(RedisOptions).Namespace)
             .IsEqualTo("ModularPipelines.Distributed.Redis");
     }
 }
