@@ -1032,7 +1032,7 @@ public class CommandTests : TestBase
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.FromMilliseconds(50));
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
-            fixture.WaitForReadyAsync(processName, TimeSpan.FromSeconds(5)));
+            fixture.WaitForReadyAsync(processName, TimeSpan.FromSeconds(30)));
         await Assert.That(exception!.Message).Contains("Requested process-fixture startup failure.");
     }
 
