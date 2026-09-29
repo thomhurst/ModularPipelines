@@ -1096,11 +1096,27 @@ public static partial class GeneratorUtils
                                   && (char.IsLower(propertyName[start - 1]) || char.IsDigit(propertyName[start - 1]))));
     }
 
-    private static bool DescriptionIdentifiesSecretValue(string? description) =>
-        !string.IsNullOrWhiteSpace(description)
-        && (SecretMaterialDescriptionPattern().IsMatch(description)
-            || (InlineFileContentDescriptionPattern().IsMatch(description)
-                && SecretKeywordDescriptionPattern().IsMatch(description)));
+    private static bool DescriptionIdentifiesSecretValue(string? description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return false;
+        }
+
+        // "Description of the secret contents" names metadata about the secret, not the secret itself.
+        description = SecretMetadataPhrasePattern().Replace(description, " ");
+        return SecretMaterialDescriptionPattern().IsMatch(description)
+               || (InlineFileContentDescriptionPattern().IsMatch(description)
+                   && SecretKeywordDescriptionPattern().IsMatch(description));
+    }
+
+    [GeneratedRegex(
+        @"\b(?:description|summary|type|kind|format|encoding|content[\s-]*type|mime[\s-]*type|label|name|tags?|metadata|size|length|version)"
+        + @"\s+(?:of|for)\s+(?:the\s+|a\s+|an\s+)?(?:"
+        + @"(?:" + SecretDescriptionKeywordPattern + @")\s+(?:" + SecretMaterialTermPattern + @")"
+        + @"|(?:" + SecretMaterialTermPattern + @")\s+(?:for|of)\s+(?:the\s+)?(?:" + SecretDescriptionKeywordPattern + @"))\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretMetadataPhrasePattern();
 
     [GeneratedRegex(
         @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum)\s+)?(?:total\s+)?(?:number|count)\s+of\b",
