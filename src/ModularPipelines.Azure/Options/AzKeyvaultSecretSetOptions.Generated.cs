@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,6 +58,7 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     /// <summary>
     /// Description of the secret contents (e.g. password, connection string, etc).
     /// </summary>
+    [SecretValue]
     [CliOption("--content-type", ShortForm = "--description")]
     public string? ContentType { get; set; }
 
