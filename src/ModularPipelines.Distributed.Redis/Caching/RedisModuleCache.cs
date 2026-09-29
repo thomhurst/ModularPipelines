@@ -82,13 +82,9 @@ internal sealed class RedisModuleCache : IModuleCacheStore
             throw CreateEntryLimitException();
         }
 
-        var expectedChunkCount = expectedLength / _chunkSize;
-        if (expectedLength % _chunkSize != 0)
-        {
-            expectedChunkCount++;
-        }
-
-        if (chunkCount != expectedChunkCount)
+        // Entries keep the chunking they were written with, so validate against the stored length
+        // rather than the current ChunkSizeBytes: every chunk holds at least one byte.
+        if (expectedLength == 0 ? chunkCount != 0 : chunkCount < 1 || chunkCount > expectedLength)
         {
             throw new InvalidDataException("Redis module cache metadata has an inconsistent chunk count.");
         }

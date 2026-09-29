@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
+using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Moq;
@@ -261,6 +262,24 @@ public class RedisDistributedExtensionsTests
             await Assert.That(builder.Services.Count(descriptor =>
                 descriptor.ServiceType == typeof(IConnectionMultiplexer))).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Artifact_Store_Uses_Its_Own_Connection()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options.RunId = "separate-connections");
+        builder.AddRedisDistributed(options => options.ConnectionString = "unused");
+
+        await using var pipeline = await builder.BuildAsync();
+
+        var coordinatorConnection = pipeline.Services.GetRequiredService<RedisConnectionProvider>();
+        var artifactConnection = pipeline.Services.GetRequiredKeyedService<RedisConnectionProvider>(
+            RedisDistributedExtensions.ArtifactConnectionKey);
+        await Assert.That(artifactConnection).IsNotSameReferenceAs(coordinatorConnection);
+        await Assert.That(pipeline.Services.GetRequiredService<IDistributedArtifactStoreFactory>())
+            .IsTypeOf<RedisDistributedArtifactStoreFactory>();
     }
 
     [Test]

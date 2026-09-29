@@ -209,13 +209,38 @@ public class RedisModuleCacheTests
     }
 
     [Test]
-    public async Task OpenReadRejectsInconsistentChunkCount()
+    public async Task OpenReadAcceptsEntriesWrittenWithALargerChunkSize()
+    {
+        // Written before ChunkSizeBytes was lowered: one five-byte chunk, read with three-byte chunks.
+        var generation = new string('b', 32);
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:1:5");
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":chunk:0", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) new byte[] { 1, 2, 3, 4, 5 });
+
+        await using var result = await _cache.OpenReadAsync(Fingerprint, CancellationToken.None);
+
+        await Assert.That(result).IsNotNull();
+        using var destination = new MemoryStream();
+        await result!.CopyToAsync(destination);
+        await Assert.That(destination.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5 });
+    }
+
+    [Test]
+    [Arguments("1000:1")]
+    [Arguments("0:5")]
+    [Arguments("1:0")]
+    public async Task OpenReadRejectsInconsistentChunkCount(string countAndLength)
     {
         var generation = new string('b', 32);
         _database.Setup(value => value.StringGetAsync(
                 It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
                 It.IsAny<CommandFlags>()))
-            .ReturnsAsync((RedisValue) $"{generation}:1000:1");
+            .ReturnsAsync((RedisValue) $"{generation}:{countAndLength}");
 
         await Assert.That(async () =>
                 await _cache.OpenReadAsync(Fingerprint, CancellationToken.None))
