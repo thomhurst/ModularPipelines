@@ -199,14 +199,12 @@ public record AzAmsContentKeyPolicyCreateOptions : AzOptions
     /// <summary>
     /// The type of the token key to be used for the primary verification key. Allowed values: Symmetric, RSA, X509.
     /// </summary>
-    [SecretValue]
     [CliOption("--token-key-type")]
     public string? TokenKeyType { get; set; }
 
     /// <summary>
     /// The type of token. Allowed values: Jwt, Swt.
     /// </summary>
-    [SecretValue]
     [CliOption("--token-type")]
     public string? TokenType { get; set; }
 

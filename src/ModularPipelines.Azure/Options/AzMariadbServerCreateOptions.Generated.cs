@@ -119,7 +119,7 @@ public record AzMariadbServerCreateOptions : AzOptions
     public string? AdminPassword { get; set; }
 
     /// <summary>
-    /// Administrator username for the server. Once set, it cannot be changed.  Default: crushedopossum7.
+    /// Administrator username for the server. Once set, it cannot be changed.  Default: computed at run time.
     /// </summary>
     [CliOption("--admin-user", ShortForm = "-u")]
     public string? AdminUser { get; set; }
