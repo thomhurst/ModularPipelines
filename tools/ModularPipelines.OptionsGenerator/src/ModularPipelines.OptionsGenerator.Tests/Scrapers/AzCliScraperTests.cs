@@ -935,7 +935,7 @@ public class AzCliScraperTests
     [Test]
     public async Task Defaults_That_Change_Between_Help_Runs_Are_Normalized()
     {
-        var help = new Queue<string>([GeneratedNameHelp("hatefulmagpie9"), GeneratedNameHelp("morallapwing4")]);
+        var help = new Queue<string?>([GeneratedNameHelp("hatefulmagpie9"), GeneratedNameHelp("morallapwing4")]);
         var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
 
         var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
@@ -980,9 +980,57 @@ public class AzCliScraperTests
     }
 
     [Test]
+    [Arguments("Default: 2026-09-22 11:26:01.325198.", 0)]
+    [Arguments("Default: 2026-09-21T12:42:56+00:00.", 1100)]
+    [Arguments("Default: 2026-09-21 12:42.", 60100)]
+    [Arguments("Default: hatefulmagpie9.", 0)]
+    public async Task Repeat_Waits_For_The_Displayed_Timestamp_Precision(string helpText, int expectedMilliseconds)
+    {
+        await Assert.That(AzCliScraper.GetRepeatDelay(helpText))
+            .IsEqualTo(TimeSpan.FromMilliseconds(expectedMilliseconds));
+    }
+
+    [Test]
+    public async Task Second_Precision_Timestamps_Wait_Before_The_Repeat()
+    {
+        const string firstRun = "Arguments\n    --start-time : Start.  Default: 2026-09-21T12:42:56+00:00.\n";
+        const string secondRun = "Arguments\n    --start-time : Start.  Default: 2026-09-21T12:42:58+00:00.\n";
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(new Queue<string?>([firstRun, secondRun])));
+
+        var helpText = await scraper.FetchHelp(["az", "maintenance", "reschedule"]);
+
+        await Assert.That(helpText).IsEqualTo("Arguments\n    --start-time : Start.  Default: computed at run time.\n");
+        await Assert.That(scraper.Delays).IsEquivalentTo([TimeSpan.FromMilliseconds(1100)]);
+    }
+
+    [Test]
+    public async Task A_Failed_Repeat_Is_Retried()
+    {
+        var help = new Queue<string?>([GeneratedNameHelp("hatefulmagpie9"), null, GeneratedNameHelp("morallapwing4")]);
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
+
+        var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
+
+        await Assert.That(helpText).Contains("Default: computed at run time.");
+        await Assert.That(help).IsEmpty();
+    }
+
+    [Test]
+    public async Task Unconfirmed_Defaults_Are_Kept_When_Every_Repeat_Fails()
+    {
+        var help = new Queue<string?>([GeneratedNameHelp("hatefulmagpie9"), null, null]);
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
+
+        var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
+
+        await Assert.That(helpText).IsEqualTo(GeneratedNameHelp("hatefulmagpie9"));
+        await Assert.That(help).IsEmpty();
+    }
+
+    [Test]
     public async Task Fixed_Name_Shaped_Defaults_Are_Kept()
     {
-        var help = new Queue<string>([GeneratedNameHelp("support1"), GeneratedNameHelp("support1")]);
+        var help = new Queue<string?>([GeneratedNameHelp("support1"), GeneratedNameHelp("support1")]);
         var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
 
         var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
@@ -1000,7 +1048,7 @@ public class AzCliScraperTests
             Arguments
                 --name -n : Name of the new resource group.  Default: admin.
             """;
-        var help = new Queue<string>([helpText, "unexpected second run"]);
+        var help = new Queue<string?>([helpText, "unexpected second run"]);
         var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
 
         await Assert.That(await scraper.FetchHelp(["az", "group", "create"])).IsEqualTo(helpText);
@@ -1050,26 +1098,38 @@ public class AzCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<AzCliScraper>.Instance)
     {
+        public List<TimeSpan> Delays { get; } = [];
+
         public Task<string?> FetchHelp(string[] commandPath) =>
             GetHelpTextAsync(commandPath, CancellationToken.None);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+
+        protected override Task DelayBeforeRepeatAsync(TimeSpan delay, CancellationToken cancellationToken)
+        {
+            Delays.Add(delay);
+            return Task.CompletedTask;
+        }
     }
 
-    private sealed class SequenceExecutor(Queue<string> helpTexts) : ICliCommandExecutor
+    // A null entry is a failed help run.
+    private sealed class SequenceExecutor(Queue<string?> helpTexts) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(
             string command,
             string arguments,
             CancellationToken cancellationToken = default,
-            string? workingDirectory = null) =>
-            Task.FromResult(new CliCommandResult
+            string? workingDirectory = null)
+        {
+            var helpText = helpTexts.Dequeue();
+            return Task.FromResult(new CliCommandResult
             {
-                ExitCode = 0,
-                StandardOutput = helpTexts.Dequeue(),
-                StandardError = string.Empty,
+                ExitCode = helpText is null ? 1 : 0,
+                StandardOutput = helpText ?? string.Empty,
+                StandardError = helpText is null ? "error: help failed" : string.Empty,
             });
+        }
 
         public Task<bool> IsAvailableAsync(
             string command,
