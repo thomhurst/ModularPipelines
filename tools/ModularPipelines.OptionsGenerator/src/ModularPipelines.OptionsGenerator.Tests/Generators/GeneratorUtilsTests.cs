@@ -1005,6 +1005,8 @@ public class GeneratorUtilsTests
     [Arguments("TokenUrl", "The token value to send as a URL.", true)]
     [Arguments("TokenOverride", "The token value to send.", true)]
     [Arguments("Token", "The token used to query the target cost per million tokens.", true)]
+    [Arguments("Oauth2ProviderConfigInput", "The configuration settings for the OAuth2 provider, including client ID, client secret, and other vendor-specific settings. clientSecret -> (string) The client secret for the custom OAuth2 provider. clientSecretConfig -> (structure) A reference to the Amazon Web Services Secrets Manager secret that stores the client secret. jsonKey -> (string) The JSON key used to extract the client secret value from the secret. resourceConfigurationIdentifier -> (string) The ARN or ID of the VPC Lattice resource configuration.", true)]
+    [Arguments("TargetConfig", "The target settings. clientSecret -> (string) The client secret value. location -> (string) The location id of the endpoint resource.", true)]
     public async Task IsSecretOption_Distinguishes_Material_From_Resource_Identifiers_And_Paths(
         string propertyName, string description, bool secret)
     {
