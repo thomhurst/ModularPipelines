@@ -7,7 +7,8 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// <summary>
 /// Factory that creates a <see cref="RedisDistributedArtifactStore"/> by connecting to Redis asynchronously.
 /// Uses the same <see cref="RedisOptions"/> as the coordinator but its own connection, so large
-/// artifact transfers cannot delay coordination commands.
+/// artifact transfers do not queue ahead of coordinator commands on the client. Both connections
+/// still share the network link and the Redis server.
 /// </summary>
 internal sealed class RedisDistributedArtifactStoreFactory(
     IOptions<RedisOptions> redisOptions,

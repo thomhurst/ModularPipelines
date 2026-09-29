@@ -24,6 +24,11 @@ internal static class RedisTransientRetry
     /// Creates a shield that retries only transient Redis failures. Build it once and reuse it;
     /// cancellation stops both the command and any pending backoff.
     /// </summary>
+    /// <remarks>
+    /// A command that keeps timing out surfaces after <see cref="MaxAttempts"/> times the connection's
+    /// <see cref="ConfigurationOptions.AsyncTimeout"/> plus the backoff, about 3.5 seconds with the
+    /// default base delay: roughly 63 seconds with a 15-second timeout.
+    /// </remarks>
     internal static Shield Create(TimeSpan baseDelay) =>
         Shield
             .When(IsTransient)

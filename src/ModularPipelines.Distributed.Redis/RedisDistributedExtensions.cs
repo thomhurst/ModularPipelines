@@ -16,7 +16,8 @@ namespace ModularPipelines.Distributed.Redis;
 /// </summary>
 /// <remarks>
 /// The coordinator and artifact store share the unnamed <see cref="RedisOptions"/> but each opens its own
-/// connection, so large artifact transfers cannot delay coordinator heartbeats.
+/// connection, so large artifact transfers do not queue ahead of coordinator commands on the client.
+/// Both connections still share the network link and the Redis server, so size them for the combined load.
 /// The module cache has its own <see cref="RedisOptions"/> and connection, so it can target another
 /// Redis instance. Artifact settings that apply to every backend are configured through
 /// <see cref="ArtifactOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
@@ -27,7 +28,7 @@ public static class RedisDistributedExtensions
 
     /// <summary>
     /// Keys the artifact store's connection. Artifact chunks are large, so they get their own
-    /// multiplexer and cannot delay the coordinator's heartbeats and lease renewals.
+    /// multiplexer and do not queue ahead of the coordinator's heartbeats and lease renewals on the client.
     /// </summary>
     internal const string ArtifactConnectionKey = "ModularPipelines.Distributed.Redis.Artifacts";
 
@@ -131,7 +132,7 @@ public static class RedisDistributedExtensions
 
     /// <summary>
     /// Registers both the Redis-based coordinator and artifact store with shared options. The artifact
-    /// store opens its own connection so large transfers cannot delay coordination.
+    /// store opens its own connection so large transfers do not queue ahead of coordinator commands.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
@@ -147,7 +148,8 @@ public static class RedisDistributedExtensions
 
     /// <summary>
     /// Registers both the Redis-based coordinator and artifact store from configuration with shared
-    /// options. The artifact store opens its own connection so large transfers cannot delay coordination.
+    /// options. The artifact store opens its own connection so large transfers do not queue ahead of
+    /// coordinator commands.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section bound to <see cref="RedisOptions"/>.</param>
