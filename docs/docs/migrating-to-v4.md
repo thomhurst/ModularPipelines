@@ -15,10 +15,10 @@ This guide compares the latest published GitHub release,
 [V3.2.8](https://github.com/thomhurst/ModularPipelines/releases/tag/v3.2.8), released on April 17, 2026,
 at commit [`e20b8c854e`](https://github.com/thomhurst/ModularPipelines/commit/e20b8c854e0113a0e3810fc6a3285b955e2c2178),
 with the V4 development code at
-[`0186f3eb66`](https://github.com/thomhurst/ModularPipelines/commit/0186f3eb66490e22f07a431bc1beab826d13e795)
-(the latest `main` commit when reviewed on September 27, 2026).
-The [full comparison](https://github.com/thomhurst/ModularPipelines/compare/e20b8c854e0113a0e3810fc6a3285b955e2c2178...0186f3eb66490e22f07a431bc1beab826d13e795)
-contains 1,897 commits, including generated CLI updates, fixes, and new features.
+[`3e0fd0a776`](https://github.com/thomhurst/ModularPipelines/commit/3e0fd0a77664d353531fbc9375221adbd2e5c37a)
+(the latest `main` commit when reviewed on September 29, 2026).
+The [full comparison](https://github.com/thomhurst/ModularPipelines/compare/e20b8c854e0113a0e3810fc6a3285b955e2c2178...3e0fd0a77664d353531fbc9375221adbd2e5c37a)
+contains 1,918 commits, including generated CLI updates, fixes, and new features.
 
 The examples below use the released V3 source as their starting point. Historical documentation
 and intermediate development builds can contain APIs that differ from that release. V4 was not
@@ -43,7 +43,7 @@ explicitly when upgrading.
 - [ ] Replace mutable pipeline options with `ConfigureOptions` and the grouped console, command, and HTTP settings.
 - [ ] Rewrite `Configure()`, `DeclareDependencies()`, metadata overrides, retries, and fluent lifecycle hooks.
 - [ ] Make module result nullability explicit; update result metadata, status checks, and summary consumers.
-- [ ] Migrate hook interfaces, requirements, run conditions, and sub-operations.
+- [ ] Migrate hook interfaces, plugins, requirements, run conditions, build-system checks, and sub-operations.
 - [ ] Update tool access, command method names, named cancellation parameters, logging options, and generated arguments.
 - [ ] Review timeouts, output capture limits, working directories, skip propagation, and failure handling.
 - [ ] Rebuild custom integrations with the V4 source generator and update analyzer suppressions.
@@ -475,15 +475,57 @@ from the after hook. Its main `Execute` method remains synchronous.
 | `IPipelineGlobalHooks` | `IPipelineEventHandler` |
 | `IPipelineModuleHooks` | `IModuleEventHandler` |
 | `IPipelineHookContext` | `IPipelineContext` |
-| `IEventHandlerPriority` | `IEventHandler`, with `Priority` and `ContinueOnError` |
+| `IEventHandlerPriority.Priority` | `IEventHandler.Order` (ascending, default `0`), plus `ContinueOnError` |
 | `IModuleRegistrationEventReceiver` | `IModuleRegistrationHandler` |
-| Global `OnModuleEndAsync(context)` | `OnModuleEndAsync(context, IModuleResult result)` |
-| Global `OnModuleFailureAsync(context)` | `OnModuleFailureAsync(context, Exception exception)` |
-| Global `OnModuleSkippedAsync(context)` | `OnModuleSkippedAsync(context, SkipDecision reason)` |
+| Global `OnModuleEndAsync(context)` | `OnModuleEndAsync(context, IModuleResult result, cancellationToken)` |
+| Global `OnModuleFailureAsync(context)` | `OnModuleFailureAsync(context, Exception exception, cancellationToken)` |
+| Global `OnModuleSkippedAsync(context)` | `OnModuleSkippedAsync(context, SkipDecision reason, cancellationToken)` |
+| `IModuleHookContext.RequestRetry`, `SkipDependentModules`, `FailPipeline` | Removed; they had no effect. Use `WithRetry`, dependency declarations, or throw from the handler |
+| `IModuleRegistrationContext.Services` | Removed; register services on `builder.Services` |
+
+Every module, pipeline, and registration handler method now takes a trailing `CancellationToken`,
+for example `OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken)` and
+`OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken)`.
 
 Register the new contracts with `builder.AddPipelineEventHandler<T>()` and
 `builder.AddModuleEventHandler<T>()`. Attribute handlers and global handlers share the
 interfaces in `ModularPipelines.Events`. See [Hooks](./how-to/hooks.md) for signatures and ordering.
+
+Handler failures have defined outcomes. Unless `ContinueOnError` is `true`, a failing Ready, Start,
+registration, or pipeline handler fails the module or pipeline. A failing End, Failure, or Skipped
+handler no longer changes the module outcome it observed; it is reported as an additional pipeline
+error. A failing pipeline-end handler never hides an earlier execution failure.
+
+### Plugins
+
+`PluginRegistry` and `PluginTestHelper` are removed. `IModularPipelinesPlugin` keeps `Name` and
+replaces `Priority`, `ConfigureServices`, and `ConfigurePipeline` with one
+`Configure(PipelineBuilder builder)` method. Register plugins on the builder instead of in a static
+registry:
+
+```csharp
+// V3
+PluginRegistry.Register(new MyPlugin());
+
+// V4
+public sealed class MyPlugin : IModularPipelinesPlugin
+{
+    public string Name => "My plugin";
+
+    public void Configure(PipelineBuilder builder)
+    {
+        builder.Services.AddSingleton<IMyService, MyService>();
+        builder.AddModule<MyModule>();
+    }
+}
+
+builder.AddPlugin<MyPlugin>(); // or builder.AddPlugin(new MyPlugin())
+```
+
+Plugins apply immediately, in the order they are added, so order `AddPlugin` calls where the V3
+`Priority` mattered. Builder configuration after the call overrides the plugin's configuration, and
+adding two plugins with the same `Name` throws. Remove `PluginTestHelper.IsolatedRegistry()` from
+tests; each builder now owns its plugins.
 
 ## Run Conditions and Requirements
 
@@ -493,12 +535,17 @@ Use the condition attribute that expresses the intended logic:
 
 | V3 pattern | V4 replacement |
 | --- | --- |
-| `[RunIfAll<T>]` / `[RunIfAny<T>]` with one condition | `[RunIf<T>]` |
+| `[RunIfAll<T1, ..., T4>]` | `[RunIf<T1, ..., T4>]` (all conditions must be true) |
+| `[RunIfAny<T>]` with one condition | `[RunIf<T>]`; `[RunIfAny<T1, T2, ...>]` still takes two to four conditions |
+| `[SkipIf<T1, ..., T4>]` | Unchanged: skips when any condition is true |
 | `IsCI` / `IsLocal` condition classes | `OnCI` / `OnLocal` |
 | `[RunOnLinuxOnly]` and similar single-platform conditions | `[RunIf<OnLinux>]`, `[RunIf<OnWindows>]`, or `[RunIf<OnMacOS>]` |
 | Multiple alternative `RunOn*` attributes | One `[RunIfAny<OnLinux, OnMacOS>]`, preserving the original OR intent |
-| `MandatoryRunConditionAttribute` subclass | `RunIfAttribute` subclass for a required condition |
-| `IRunCondition.EvaluateAsync(IPipelineHookContext)` | `EvaluateAsync(IPipelineContext)` |
+| `MandatoryRunConditionAttribute` subclass | `RunConditionAttribute` subclass calling `base(ConditionIntent.Run)` |
+| Non-mandatory `RunConditionAttribute` subclass (OR-ed alternatives) | `RunConditionAttribute` subclass with `ConditionIntent.Run` that overrides `GroupKey` with a shared key |
+| `RunConditionAttribute.Condition(IPipelineHookContext)` | `EvaluateAsync(IPipelineContext, CancellationToken)` |
+| Custom `IConditionAttribute` implementations, `ConditionLogic.Skip` | `RunConditionAttribute` subclass; use `ConditionIntent.Skip` for skip semantics |
+| `IRunCondition.EvaluateAsync(IPipelineHookContext)` | `EvaluateAsync(IPipelineContext, CancellationToken)` |
 | `SkipDecision.Of(condition, reason)` | `SkipDecision.When(condition, reason)` |
 | Implicit bool/string/task skip decisions | Explicit `SkipDecision.Skip(reason)`, `.DoNotSkip`, or `.When(...)` |
 
@@ -522,8 +569,11 @@ An `async` lambda can target the new overload directly:
 
 For an existing check without a cancellation parameter, adapt it with
 `async (context, _) => await CheckAsync(context)`; add cancellation support when practical.
-Asynchronous `WithIgnoreFailuresWhen` callbacks also now return `ValueTask<bool>`, but still
-take `(context, exception)`, not the skip callback's token parameter.
+Asynchronous `WithIgnoreFailuresWhen` callbacks now take `(context, exception, cancellationToken)`
+and return `ValueTask<bool>`; the synchronous `(context, exception)` overload is unchanged.
+
+Fluent registration also accepts condition types and instances directly: `.WithRunIf<T>()`,
+`.WithRunIf(IRunCondition)`, `.WithSkipIf<T>()`, and `.WithSkipIf(IRunCondition)`.
 
 Repeated `WithSkipWhen` calls compose with OR semantics; use `WithSkipWhenAll` for an AND group.
 Keep conditions free of external side effects because planning can evaluate them.
@@ -558,6 +608,10 @@ receive a cancellation token: change `Require.ThatAsync(async context => ...)` t
 Built-in requirement classes are replaced by factories: for example,
 `builder.AddRequirement(Require.Windows())` replaces registration of `WindowsRequirement`.
 The other shortcuts are `Require.Linux()`, `Require.MacOS()`, and `Require.WindowsAdmin()`.
+`DelegateRequirement` is now internal; keep creating delegate requirements with `Require.That(...)`
+or `Require.ThatAsync(...)` and type them as `IPipelineRequirement`. `PipelineRequirement.EvaluateAsync`
+is abstract, so every subclass must override it. Unmet requirements are reported together in one
+`RequirementNotMetException`.
 See [Requirements](./how-to/requirements.md).
 
 ## Context Services and Sub-operations
@@ -572,6 +626,23 @@ See [Requirements](./how-to/requirements.md).
 
 Choose based on whether absence is allowed. Required and optional lookups deliberately have
 different names; a blanket `Get` replacement can change runtime behavior.
+
+### Build system detection
+
+`IBuildSystemContext` (`context.Environment.BuildSystem`) replaces one flag per CI system with
+`Current`, `Is(BuildSystem)`, and `IsBuildServer`:
+
+```csharp
+// V3
+if (context.Environment.BuildSystem.IsGitHubActions) { ... }
+
+// V4
+if (context.Environment.BuildSystem.Is(BuildSystem.GitHubActions)) { ... }
+```
+
+The same pattern applies to `IsAzurePipelines`, `IsTeamCity`, `IsJenkins`, `IsGitLab`,
+`IsBitbucket`, `IsTravisCI`, and `IsAppVeyor`. `BuildSystem` is in `ModularPipelines.Enums`.
+`OnCI`, `OnLocal`, and `Require.Ci()` now share one CI definition, so they always agree.
 
 ### Sub-operations
 
@@ -663,6 +734,43 @@ For handwritten command options, see [Custom Commands](./how-to/custom-commands.
 `CliTool` / `CliSubCommand` identity attributes and argument-ordering rules. For missing generated
 commands or incorrect models, fix or report the scraper/generator rather than working around it
 in the generated source.
+
+### Handwritten argument attributes
+
+`CliArgumentAttribute.Placement` and the `ArgumentPlacement` enum are replaced by
+`CliArgumentAttribute.Phase` (`CommandLinePhase`):
+
+| V3 | V4 |
+| --- | --- |
+| `Placement = ArgumentPlacement.AfterOptions` (the V3 default) | `Phase = CommandLinePhase.Passthrough` (the V4 default) |
+| `Placement = ArgumentPlacement.BeforeOptions` | `Phase = CommandLinePhase.EarlyOperand` |
+| `Placement = ArgumentPlacement.ImmediatelyAfterCommand` | `Phase = CommandLinePhase.EarlyOperand`; it renders after the final subcommand |
+
+`CliArgumentAttribute.Name` and `<PLACEHOLDER>` substitution in command parts are removed. Every
+`[CliArgument]` value renders as a positional argument. When a command chain depends on constructor
+input, set `CommandParts` in the constructor instead:
+
+```csharp
+// V3: the argument replaced <ACTION>, or disappeared if it did not match.
+[CliCommand("tool", "resource", "<ACTION>")]
+public record ResourceOptions(
+    [property: CliArgument(0, Name = "<ACTION>")] string Action)
+    : CommandLineToolOptions;
+
+// V4
+[CliTool("tool")]
+public record ResourceOptions : CommandLineToolOptions
+{
+    public ResourceOptions(string action)
+    {
+        CommandParts = ["resource", action];
+    }
+}
+```
+
+Generated key-value options are now typed `IReadOnlyList<KeyValue>?`; collection expressions and
+tuple conversions still compile, but code that depends on `KeyValue[]` or `IEnumerable<KeyValue>`
+must change. Two-value options use `CliValuePair`, which only supports the space separator.
 
 ### Source generation and private integrations
 
@@ -842,6 +950,18 @@ result types, and the new result metadata consistent when updating stored data. 
 test helpers should move to `ModularPipelines.Testing`; use command interception to supply
 `CommandResult.Ok(...)` without launching real tools.
 
+Other custom extension points changed shape:
+
+| V3 contract | V4 contract |
+| --- | --- |
+| `IModuleEstimatedTimeProvider` methods | Same methods with a trailing `CancellationToken`; estimates are best-effort and never fail a module |
+| `IModuleResultRepository.SaveResultAsync` / `GetResultAsync` | Take a `CancellationToken`; `IsEnabled` defaults to `true` |
+| `IPipelineValidator.Validate(IServiceProvider)` | `ValidateAsync(IServiceProvider, CancellationToken)`; `Order` defaults to `0` |
+| `ISecretObfuscator` | Internal; supply secrets through `ISecretRegistry`, `[SecretValue]`, or `PipelineOptions.Secrets` |
+| Custom `IFileSystemProvider` | Also implement `GetAttributes`/`SetAttributes` and the `Get`/`Set` creation, last-access, and last-write UTC time members |
+| Custom `IModule` implementations | Not supported; derive from `Module<T>` or `SyncModule<T>` |
+| Subclasses of `DependsOnAttribute`, `DependsOnAttribute<T>`, `DependsOnAllModulesInheritingFromAttribute`, or `SecretValueAttribute` | These attributes are sealed; declare dependencies in `Configure(module)` or use a registration handler |
+
 Analyzer IDs are consolidated under `MP####`. Update `.editorconfig`, `NoWarn`, and `#pragma`
 entries using the [analyzer ID migration table](./how-to/analyzers.md#id-migration). Source-generator
 diagnostics use the separate `MPG####` family; fix missing/incompatible metadata rather than suppressing it.
@@ -857,6 +977,9 @@ These changes need behavioral checks even after the code compiles:
 | Dependencies are validated even when a condition would skip a module | Register required dependencies or use the intended conditional/optional declaration |
 | Module and command execution default to a 30-minute timeout | Set `DefaultModuleTimeout` / `WithTimeout` and per-command `ExecutionTimeout` for longer work; command `ExecutionTimeout = null` removes only the command's own limit |
 | Module timeouts apply to each retry attempt | Include attempts and backoff in the total runtime budget; forward cancellation into work |
+| `WithTimeout` rejects zero and negative values | Use `Timeout.InfiniteTimeSpan` to disable a module timeout |
+| Registration helpers for single-instance services replace earlier registrations; multi-instance helpers add each type once | Check that repeated `Add*` calls, such as a results repository or time estimator, register the implementation you expect |
+| Event handler failures follow fixed rules (see [Lifecycle Hooks](#lifecycle-hooks-and-event-handlers)) | Set `ContinueOnError` on handlers that must not fail the module or pipeline |
 | Command results capture at most 1,048,576 characters per output stream by default | If parsing complete large output, set `MaxCapturedOutputLength` appropriately; `0` or a negative value requests unlimited capture |
 | Cancelled commands terminate descendant processes after graceful cancellation | Remove assumptions that child processes survive a cancelled pipeline |
 | Always-run cleanup is scheduled after failures/cancellation, with bounded progress waits | Test teardown under failure and cancellation; keep cleanup bounded and idempotent |
@@ -879,11 +1002,42 @@ These are additions since the release baseline; adopting all of them is not requ
 - [Distributed execution](./distributed/architecture.md), artifact contracts, worker capabilities, and execution backends.
 - Additional CLI integrations and substantially expanded command coverage in existing integrations.
 
+- Command interceptors: `ICommandInterceptor` wraps command execution as middleware through
+  `InvokeAsync(invocation, next, cancellationToken)`. Register one with
+  `builder.AddCommandInterceptor<T>()` or `AddCommandInterceptor(instance)`; see [Testing](./how-to/testing.md).
+- Planning-safe conditions: mark a condition or attribute with the `IPlanningSafe` marker interface
+  when dry-run planning may evaluate it; see [Run conditions](./how-to/run-conditions.md).
+
 Distributed packages were not present in the V3.2.8 baseline. If migrating an **intermediate
 development build** that used them, upgrade masters, workers, serializers, and custom coordinators
 together. Follow the [distributed configuration guide](./distributed/configuration.md) for stable
-module identities and schema validation, and the
-[SignalR option rename](./distributed/architecture.md#upgrading-signalr-configuration-for-v4).
+module identities and schema validation, and its [SignalR section](./distributed/configuration.md#signalr-coordinator).
+The main contract changes since those builds are:
+
+- Workers claim work as a `ModuleLease` under a `WorkerId`, which replaces `int WorkerIndex` on
+  registrations, statuses, results, `RemoteModuleException`, `ModuleResult`, and run reports. An
+  expired lease is requeued, so a module can run more than once; make modules with external side
+  effects idempotent.
+- Custom coordinators implement `DequeueModuleAsync(WorkerId, capabilities, cancellationToken)`
+  returning `ModuleLease?`, `PublishResultAsync(result, lease, cancellationToken)`, and a
+  `BroadcastCancellationAsync(reason, cancellationToken)` that takes a `PipelineFailed` or `Stopped`
+  reason. Master coordinators add `WithdrawAssignmentAsync`, `GetActiveLeasesAsync`, and
+  `RequeueExpiredLeasesAsync`.
+- Wire types (`ModuleAssignment`, `SerializedModuleResult`, `WorkerRegistration`, `WorkerStatus`) are
+  `required`/`init` records. `ModuleAssignmentOptions` is removed; `AlwaysRun` is on the assignment.
+  `IExecutionBackend.ExecuteAsync` takes an `ExecutionBackendRequest`.
+- `DistributedOptions.CapabilityTimeout` is `WorkerRegistrationTimeout`, and string-to-`Capability`
+  conversion is explicit. Capability needs are expressed as a `CapabilityRequirement` (an AND of
+  OR clauses built with `AllOf`, `AnyOf`, or `Create`).
+- SignalR: `MasterUrl` is split into `ListenUrl` and `AdvertisedUrl`, `MaxReceiveMessageSize` is
+  `MaxMessageSizeBytes`, tunnel settings move to `Tunnel`, and the hub requires an `AccessToken`
+  when reachable beyond the machine (one is generated when unset).
+- Redis: `RedisDistributedOptions` is `RedisOptions`, `KeyExpiration` is `TimeToLive`, and the
+  package no longer uses an application `IConnectionMultiplexer`; use `ConfigureConnection`.
+- S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, and
+  `SetLifecycleRule` defaults to `false`. `ArtifactOptions` keeps only `CompressionLevel`.
+
+The full list is in the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/RELEASE_NOTES_V4.md).
 These are not extra changes required of an ordinary released-V3 pipeline.
 
 ## Complete Migration Example
@@ -997,6 +1151,13 @@ public class BuildModule : Module<CommandResult>
 | `LogSettings` | `Logging` | Command and HTTP execution options |
 | Framework `File` / `Folder` | `FilePath` / `FolderPath` | Keep `System.IO` symbols intact |
 | `PipelineCancelledException` | `PipelineCanceledException` | Enum value remains spelled `ModuleStatus.Cancelled` |
+| `IEventHandlerPriority.Priority` | `IEventHandler.Order` | Ascending order; add the trailing `CancellationToken` to handler methods |
+| `PluginRegistry.Register(plugin)` | `builder.AddPlugin(plugin)` | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)` |
+| `[RunIfAll<...>]` | `[RunIf<...>]` | Same AND semantics |
+| `MandatoryRunConditionAttribute` / `RunConditionAttribute.Condition` | `RunConditionAttribute(ConditionIntent.Run)` / `EvaluateAsync` | Use `GroupKey` for OR-ed alternatives |
+| `BuildSystem.IsGitHubActions`, etc. | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc. | `IsBuildServer` is unchanged |
+| `[CliArgument(Placement = ...)]` | `[CliArgument(Phase = ...)]` | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough` |
+| `IPipelineValidator.Validate` | `ValidateAsync(services, cancellationToken)` | Return `Task<ValidationResult>` |
 
 ## Agents / LLM Migration Reference
 
@@ -1031,7 +1192,7 @@ These are **symbol-scoped** transformations, not global string substitutions:
 
 ```yaml
 baseline: v3.2.8
-target_commit: 0186f3eb66490e22f07a431bc1beab826d13e795
+target_commit: 3e0fd0a77664d353531fbc9375221adbd2e5c37a
 transformations:
   - old: PipelineBuilderOptions
     new: PipelineBuilderSettings
@@ -1082,6 +1243,23 @@ transformations:
   - old: summary.GetModuleResultsAsync()
     new: summary.Results
     follow_up: Remove the await for this access only
+  - old: IEventHandlerPriority.Priority
+    new: IEventHandler.Order
+    follow_up: Add a trailing CancellationToken to every handler method
+  - old: PluginRegistry.Register(plugin)
+    new: builder.AddPlugin(plugin)
+    follow_up: Merge ConfigureServices and ConfigurePipeline into Configure(PipelineBuilder builder)
+  - old: RunIfAllAttribute<T1, ..., T4>
+    new: RunIfAttribute<T1, ..., T4>
+  - old: MandatoryRunConditionAttribute
+    new: RunConditionAttribute with base(ConditionIntent.Run)
+    follow_up: Rename Condition(IPipelineHookContext) to EvaluateAsync(IPipelineContext, CancellationToken)
+  - old: context.Environment.BuildSystem.IsGitHubActions
+    new: context.Environment.BuildSystem.Is(BuildSystem.GitHubActions)
+    scope: Repeat for each per-system flag; IsBuildServer is unchanged
+  - old: CliArgument Placement = ArgumentPlacement.BeforeOptions
+    new: CliArgument Phase = CommandLinePhase.EarlyOperand
+    scope: Handwritten option types only; AfterOptions becomes the default Passthrough
 ```
 
 ### Common compiler errors and fixes
@@ -1099,6 +1277,9 @@ transformations:
 | A command rejects named argument `token` | Use `cancellationToken` on that framework call |
 | `MPG0018` or missing command metadata at runtime | Rebuild the declaring assembly with the V4 generator; retain analyzer assets |
 | Missing generated option or incompatible property type | Inspect the current options type and tool grammar; update the call site |
+| Handler method does not implement the interface member | Add the trailing `CancellationToken` parameter; rename `Priority` to `Order` |
+| `IModularPipelinesPlugin` members not implemented | Replace `ConfigureServices`/`ConfigurePipeline` with `Configure(PipelineBuilder builder)` |
+| Cannot derive from a sealed `DependsOnAttribute` or implement `IModule` | Declare dependencies in `Configure(module)`; derive modules from `Module<T>` |
 
 ### Searches for migration candidates
 
@@ -1112,6 +1293,8 @@ rg -n 'IPipelineGlobalHooks|IPipelineModuleHooks|IPipelineHookContext|MustAsync|
 rg -n '\.SubModule\(|\.DotNet\(\)|\.Git\(\)|ExecuteCommandLineTool|LogSettings|token:' --glob '*.cs'
 rg -n 'ModuleResultType|IsSuccess|IsFailure|IsSkipped|GetModuleResultsAsync|GetFailedModuleResults|PipelineTerminated' --glob '*.cs'
 rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDecision\.Of' --glob '*.cs'
+rg -n 'IEventHandlerPriority|PluginRegistry|PluginTestHelper|RequestRetry|SkipDependentModules|FailPipeline|ISecretObfuscator' --glob '*.cs'
+rg -n 'RunIfAll|MandatoryRunConditionAttribute|IConditionAttribute|BuildSystem\.Is[A-Z]|ArgumentPlacement|CliArgument\([^)]*Name' --glob '*.cs'
 ```
 
 ### Automation guardrails
