@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Kevlar;
 using ModularPipelines.Distributed.Redis.Coordination;
 using StackExchange.Redis;
 
@@ -16,7 +17,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _timeToLive;
     private readonly int _chunkSize;
-    private readonly TimeSpan _retryBaseDelay;
+    private readonly Shield _transientRetry;
 
     public RedisDistributedArtifactStore(
         IDatabase database,
@@ -36,7 +37,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         _keys = keys;
         _timeToLive = options.TimeToLive;
         _chunkSize = options.ChunkSizeBytes;
-        _retryBaseDelay = retryBaseDelay ?? RedisTransientRetry.DefaultBaseDelay;
+        _transientRetry = RedisTransientRetry.Create(retryBaseDelay ?? RedisTransientRetry.DefaultBaseDelay);
     }
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
@@ -222,20 +223,18 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             .ConfigureAwait(false);
     }
 
-    private Task<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>
-        RedisTransientRetry.ExecuteAsync(
-            () => _database.StringGetAsync(key).WaitAsync(cancellationToken),
-            _retryBaseDelay,
+    private ValueTask<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>
+        _transientRetry.ExecuteAsync(
+            async token => await _database.StringGetAsync(key).WaitAsync(token).ConfigureAwait(false),
             cancellationToken);
 
-    private Task<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken)
+    private ValueTask<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken)
     {
         // StackExchange.Redis keeps a reference to the memory, and a timed-out attempt can still be
         // sent after the upload reuses its buffer for the next chunk. Every attempt writes this copy.
         var stableValue = value.ToArray();
-        return RedisTransientRetry.ExecuteAsync(
-            () => _database.StringSetAsync(key, stableValue, _timeToLive).WaitAsync(cancellationToken),
-            _retryBaseDelay,
+        return _transientRetry.ExecuteAsync(
+            async token => await _database.StringSetAsync(key, stableValue, _timeToLive).WaitAsync(token).ConfigureAwait(false),
             cancellationToken);
     }
 

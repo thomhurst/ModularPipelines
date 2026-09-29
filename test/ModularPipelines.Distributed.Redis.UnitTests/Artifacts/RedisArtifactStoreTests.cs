@@ -141,8 +141,8 @@ public class RedisArtifactStoreTests
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactChunk("flaky", 0), It.IsAny<CommandFlags>()))
             .ReturnsAsync((RedisValue) data.Take(50).ToArray());
         _mockDb.SetupSequence(db => db.StringGetAsync(_keys.ArtifactChunk("flaky", 1), It.IsAny<CommandFlags>()))
-            .ThrowsAsync(new RedisTimeoutException("Timeout awaiting response", CommandStatus.Sent))
-            .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.SocketFailure, "socket closed"))
+            .ThrowsAsync(new RedisTimeoutException(CommandFlags.None, "Timeout awaiting response", CommandStatus.Sent))
+            .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.SocketFailure, CommandFlags.None, "socket closed", null, CommandStatus.Sent))
             .ReturnsAsync((RedisValue) data.Skip(50).ToArray());
 
         await using var result = await _store.DownloadAsync(reference, CancellationToken.None);
@@ -158,7 +158,7 @@ public class RedisArtifactStoreTests
     {
         var reference = new ArtifactReference { ArtifactId = "down", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("down"), It.IsAny<CommandFlags>()))
-            .ThrowsAsync(new RedisTimeoutException("Timeout awaiting response", CommandStatus.Sent));
+            .ThrowsAsync(new RedisTimeoutException(CommandFlags.None, "Timeout awaiting response", CommandStatus.Sent));
 
         await Assert.That(async () => await _store.DownloadAsync(reference, CancellationToken.None))
             .Throws<RedisTimeoutException>();
@@ -172,12 +172,35 @@ public class RedisArtifactStoreTests
     {
         var reference = new ArtifactReference { ArtifactId = "denied", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("denied"), It.IsAny<CommandFlags>()))
-            .ThrowsAsync(new RedisServerException("NOAUTH Authentication required."));
+            .ThrowsAsync(new RedisServerException(RedisErrorKind.NoAuth, CommandFlags.None, "NOAUTH Authentication required."));
 
         await Assert.That(async () => await _store.DownloadAsync(reference, CancellationToken.None))
             .Throws<RedisServerException>();
         _mockDb.Verify(
             db => db.StringGetAsync(_keys.ArtifactData("denied"), It.IsAny<CommandFlags>()),
+            Times.Once);
+    }
+
+    [Test]
+    public async Task Download_Cancellation_Stops_Pending_Retry_Backoff()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var store = new RedisDistributedArtifactStore(
+            _mockDb.Object,
+            _keys,
+            new RedisOptions { ChunkSizeBytes = 50 },
+            retryBaseDelay: TimeSpan.FromMinutes(5));
+        var reference = new ArtifactReference { ArtifactId = "slow", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("slow"), It.IsAny<CommandFlags>()))
+            .Callback(() => cancellation.CancelAfter(TimeSpan.FromMilliseconds(50)))
+            .ThrowsAsync(new RedisTimeoutException(CommandFlags.None, "Timeout awaiting response", CommandStatus.Sent));
+
+        // The first retry would wait minutes; cancellation must end that wait instead.
+        await Assert.That(async () => await store.DownloadAsync(reference, cancellation.Token)
+                .WaitAsync(TimeSpan.FromSeconds(10)))
+            .Throws<OperationCanceledException>();
+        _mockDb.Verify(
+            db => db.StringGetAsync(_keys.ArtifactData("slow"), It.IsAny<CommandFlags>()),
             Times.Once);
     }
 
@@ -192,7 +215,7 @@ public class RedisArtifactStoreTests
                 It.IsAny<ValueCondition>(),
                 It.IsAny<CommandFlags>()))
             .Returns(() => Interlocked.Increment(ref writes) == 1
-                ? Task.FromException<bool>(new RedisTimeoutException("Timeout performing SET", CommandStatus.Sent))
+                ? Task.FromException<bool>(new RedisTimeoutException(CommandFlags.None, "Timeout performing SET", CommandStatus.Sent))
                 : Task.FromResult(true));
         using var stream = new MemoryStream(new byte[120]);
 
@@ -218,7 +241,7 @@ public class RedisArtifactStoreTests
             {
                 firstChunkAttempts.Add(value);
                 return firstChunkAttempts.Count == 1
-                    ? Task.FromException<bool>(new RedisTimeoutException("Timeout performing SET", CommandStatus.WaitingToBeSent))
+                    ? Task.FromException<bool>(new RedisTimeoutException(CommandFlags.None, "Timeout performing SET", CommandStatus.WaitingToBeSent))
                     : Task.FromResult(true);
             });
         var data = Enumerable.Range(0, 100).Select(value => (byte) value).ToArray();

@@ -1,11 +1,12 @@
+using Kevlar;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis;
 
 /// <summary>
-/// Retries idempotent Redis commands that failed with a timeout or a dropped connection.
-/// A large value is one command on a multiplexed connection, so its transfer can time out while
-/// other processes saturate the link even though the server is healthy.
+/// Builds the Kevlar shield that retries idempotent Redis commands after a timeout or a dropped
+/// connection. A large value is one command on a multiplexed connection, so its transfer can time
+/// out while other processes saturate the link even though the server is healthy.
 /// </summary>
 internal static class RedisTransientRetry
 {
@@ -13,33 +14,20 @@ internal static class RedisTransientRetry
     internal const int MaxAttempts = 4;
 
     /// <summary>
-    /// The nominal delay before the first retry; each later retry doubles it. Each delay is jittered
-    /// between half and one and a half times its nominal value so runners that failed together do
-    /// not retry together.
+    /// The nominal delay before the first retry; each later retry doubles it. Equal jitter scales
+    /// each delay by a random factor in [0.5, 1.5) so runners that failed together do not retry
+    /// together.
     /// </summary>
     internal static readonly TimeSpan DefaultBaseDelay = TimeSpan.FromMilliseconds(500);
 
-    public static async Task<T> ExecuteAsync<T>(
-        Func<Task<T>> operation,
-        TimeSpan baseDelay,
-        CancellationToken cancellationToken)
-    {
-        for (var attempt = 1; ; attempt++)
-        {
-            try
-            {
-                return await operation().ConfigureAwait(false);
-            }
-            catch (Exception exception) when (
-                attempt < MaxAttempts
-                && IsTransient(exception)
-                && !cancellationToken.IsCancellationRequested)
-            {
-                var delay = baseDelay * (1 << (attempt - 1)) * (0.5 + Random.Shared.NextDouble());
-                await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
-            }
-        }
-    }
+    /// <summary>
+    /// Creates a shield that retries only transient Redis failures. Build it once and reuse it;
+    /// cancellation stops both the command and any pending backoff.
+    /// </summary>
+    internal static Shield Create(TimeSpan baseDelay) =>
+        Shield
+            .When(IsTransient)
+            .Retry(MaxAttempts - 1, Backoff.Exponential(baseDelay, 2, null, Jitter.Equal));
 
     internal static bool IsTransient(Exception exception) =>
         exception is RedisTimeoutException or RedisConnectionException;
