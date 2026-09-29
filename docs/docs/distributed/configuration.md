@@ -143,8 +143,8 @@ Storage-specific settings such as expiry, chunk size and multipart part size liv
 
 Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and
 `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact
-store share one `RedisOptions` instance and one connection; the module cache has its own, so it can use a
-different Redis server.
+store share one `RedisOptions` instance but open separate connections, so large artifact transfers cannot delay
+coordinator heartbeats. The module cache has its own options and connection, so it can use a different Redis server.
 
 ```csharp
 builder.AddRedisDistributed(o =>

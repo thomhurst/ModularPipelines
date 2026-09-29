@@ -228,11 +228,16 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             _retryBaseDelay,
             cancellationToken);
 
-    private Task<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken) =>
-        RedisTransientRetry.ExecuteAsync(
-            () => _database.StringSetAsync(key, value, _timeToLive).WaitAsync(cancellationToken),
+    private Task<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken)
+    {
+        // StackExchange.Redis keeps a reference to the memory, and a timed-out attempt can still be
+        // sent after the upload reuses its buffer for the next chunk. Every attempt writes this copy.
+        var stableValue = value.ToArray();
+        return RedisTransientRetry.ExecuteAsync(
+            () => _database.StringSetAsync(key, stableValue, _timeToLive).WaitAsync(cancellationToken),
             _retryBaseDelay,
             cancellationToken);
+    }
 
     private static void ThrowIfSizeMismatch(ArtifactReference reference, long actualBytes)
     {

@@ -203,6 +203,37 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task Upload_Retry_Keeps_Timed_Out_Attempt_Bytes_Stable()
+    {
+        // A timed-out SET can still reach Redis later, so the bytes it references must not change
+        // when the upload refills its buffer with the next chunk.
+        var firstChunkAttempts = new List<RedisValue>();
+        _mockDb.Setup(db => db.StringSetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":chunk:0", StringComparison.Ordinal)),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
+            .Returns((RedisKey _, RedisValue value, Expiration _, ValueCondition _, CommandFlags _) =>
+            {
+                firstChunkAttempts.Add(value);
+                return firstChunkAttempts.Count == 1
+                    ? Task.FromException<bool>(new RedisTimeoutException("Timeout performing SET", CommandStatus.WaitingToBeSent))
+                    : Task.FromResult(true);
+            });
+        var data = Enumerable.Range(0, 100).Select(value => (byte) value).ToArray();
+        using var stream = new MemoryStream(data);
+
+        await _store.UploadAsync(new ArtifactDescriptor { Name = "stable", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+
+        await Assert.That(firstChunkAttempts).Count().IsEqualTo(2);
+        foreach (var attempt in firstChunkAttempts)
+        {
+            await Assert.That(((byte[]) attempt!).ToArray()).IsEquivalentTo(data.Take(50).ToArray());
+        }
+    }
+
+    [Test]
     public async Task Download_ObservesCancellationWhileRedisReadIsPending()
     {
         var pendingRead = new TaskCompletionSource<RedisValue>();

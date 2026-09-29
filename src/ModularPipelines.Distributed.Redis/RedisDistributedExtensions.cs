@@ -25,6 +25,12 @@ public static class RedisDistributedExtensions
     private const string ModuleCacheOptionsName = "ModularPipelines.RedisModuleCache";
 
     /// <summary>
+    /// Keys the artifact store's connection. Artifact chunks are large, so they get their own
+    /// multiplexer and cannot delay the coordinator's heartbeats and lease renewals.
+    /// </summary>
+    internal const string ArtifactConnectionKey = "ModularPipelines.Distributed.Redis.Artifacts";
+
+    /// <summary>
     /// Enables a shareable Redis-backed module cache without enabling distributed execution.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
@@ -123,7 +129,8 @@ public static class RedisDistributedExtensions
     }
 
     /// <summary>
-    /// Registers both the Redis-based coordinator and artifact store, sharing one connection.
+    /// Registers both the Redis-based coordinator and artifact store with shared options. The artifact
+    /// store opens its own connection so large transfers cannot delay coordination.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
@@ -138,7 +145,8 @@ public static class RedisDistributedExtensions
     }
 
     /// <summary>
-    /// Registers both the Redis-based coordinator and artifact store from configuration, sharing one connection.
+    /// Registers both the Redis-based coordinator and artifact store from configuration with shared
+    /// options. The artifact store opens its own connection so large transfers cannot delay coordination.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section bound to <see cref="RedisOptions"/>.</param>
@@ -181,6 +189,10 @@ public static class RedisDistributedExtensions
         // accidentally share this connection. It connects on first use, asynchronously.
         builder.Services.TryAddSingleton(serviceProvider =>
             new RedisConnectionProvider(serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value));
+        builder.Services.TryAddKeyedSingleton(
+            ArtifactConnectionKey,
+            (serviceProvider, _) =>
+                new RedisConnectionProvider(serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value));
     }
 
     private static void AddValidation(IServiceCollection services, string name)

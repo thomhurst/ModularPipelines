@@ -12,7 +12,11 @@ internal static class RedisTransientRetry
     /// <summary>The number of times a command is sent before its failure is surfaced.</summary>
     internal const int MaxAttempts = 4;
 
-    /// <summary>The delay before the first retry; each later retry doubles it.</summary>
+    /// <summary>
+    /// The nominal delay before the first retry; each later retry doubles it. Each delay is jittered
+    /// between half and one and a half times its nominal value so runners that failed together do
+    /// not retry together.
+    /// </summary>
     internal static readonly TimeSpan DefaultBaseDelay = TimeSpan.FromMilliseconds(500);
 
     public static async Task<T> ExecuteAsync<T>(
@@ -31,7 +35,8 @@ internal static class RedisTransientRetry
                 && IsTransient(exception)
                 && !cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(baseDelay * (1 << (attempt - 1)), cancellationToken).ConfigureAwait(false);
+                var delay = baseDelay * (1 << (attempt - 1)) * (0.5 + Random.Shared.NextDouble());
+                await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
             }
         }
     }

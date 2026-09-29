@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Redis.Coordination;
 
@@ -5,12 +6,14 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 
 /// <summary>
 /// Factory that creates a <see cref="RedisDistributedArtifactStore"/> by connecting to Redis asynchronously.
-/// Shares the package's distributed connection with the coordinator.
+/// Uses the same <see cref="RedisOptions"/> as the coordinator but its own connection, so large
+/// artifact transfers cannot delay coordination commands.
 /// </summary>
 internal sealed class RedisDistributedArtifactStoreFactory(
     IOptions<RedisOptions> redisOptions,
     IOptions<DistributedOptions> distributedOptions,
-    RedisConnectionProvider connections) : IDistributedArtifactStoreFactory
+    [FromKeyedServices(RedisDistributedExtensions.ArtifactConnectionKey)] RedisConnectionProvider connections)
+    : IDistributedArtifactStoreFactory
 {
     public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
     {
