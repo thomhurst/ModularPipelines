@@ -945,11 +945,38 @@ public class AzCliScraperTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(Description("--admin-user")).EndsWith("Default: generated at run time.");
+            await Assert.That(Description("--admin-user")).EndsWith("Default: computed at run time.");
             await Assert.That(Description("--http-user")).EndsWith("Default: admin.");
             await Assert.That(Description("--nodepool-name")).EndsWith("Default: nodepool1.");
             await Assert.That(help).IsEmpty();
         }
+    }
+
+    [Test]
+    public async Task Timestamp_Defaults_That_Change_Between_Help_Runs_Are_Normalized()
+    {
+        const string firstRun = """
+            Arguments
+                --expiry     : The SAS expiry.  Default: 2026-09-22
+                               11:26:01.325198.
+                --start-time : The new start time.  Default: 2026-09-21T12:42:56+00:00.
+                --epoch      : Epoch sentinel.  Default: 1970-01-01T00:00:00Z.
+            """;
+        const string secondRun = """
+            Arguments
+                --expiry     : The SAS expiry.  Default: 2026-09-22 11:26:03.018823.
+                --start-time : The new start time.  Default: 2026-09-21T12:42:58+00:00.
+                --epoch      : Epoch sentinel.  Default: 1970-01-01T00:00:00Z.
+            """;
+
+        var normalized = AzCliScraper.ReplaceRunVaryingDefaults(firstRun, secondRun);
+
+        await Assert.That(normalized).IsEqualTo("""
+            Arguments
+                --expiry     : The SAS expiry.  Default: computed at run time.
+                --start-time : The new start time.  Default: computed at run time.
+                --epoch      : Epoch sentinel.  Default: 1970-01-01T00:00:00Z.
+            """);
     }
 
     [Test]

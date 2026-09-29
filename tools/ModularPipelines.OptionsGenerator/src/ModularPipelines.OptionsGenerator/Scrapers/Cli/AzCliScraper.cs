@@ -558,18 +558,18 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static partial Regex AzListValueDescriptionPattern();
 
     /// <summary>
-    /// Azure CLI fills some defaults with a random name each time help runs, for example the
-    /// adjective-noun-digit administrator usernames of the database server commands
-    /// ("hatefulmagpie9"). When help shows a name-shaped default, run help again and replace
+    /// Azure CLI computes some defaults each time help runs: timestamps such as "now" or
+    /// "now plus one hour", and random adjective-noun-digit administrator usernames such as
+    /// "hatefulmagpie9". When help shows a default of either shape, run help again and replace
     /// only the defaults that changed, so regeneration stays deterministic while fixed
-    /// defaults such as "nodepool1" or "key1" stay visible.
+    /// defaults such as "nodepool1" or an epoch sentinel stay visible.
     /// </summary>
     protected override async Task<string?> GetHelpTextAsync(
         string[] commandPath,
         CancellationToken cancellationToken)
     {
         var helpText = await base.GetHelpTextAsync(commandPath, cancellationToken);
-        if (helpText is null || !NameShapedDefaultPattern().IsMatch(helpText))
+        if (helpText is null || !RunVaryingDefaultCandidatePattern().IsMatch(helpText))
         {
             return helpText;
         }
@@ -586,8 +586,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     internal static string ReplaceRunVaryingDefaults(string helpText, string? repeatHelpText)
     {
-        var first = NameShapedDefaultPattern().Matches(helpText);
-        var second = NameShapedDefaultPattern().Matches(repeatHelpText ?? string.Empty);
+        var first = RunVaryingDefaultCandidatePattern().Matches(helpText);
+        var second = RunVaryingDefaultCandidatePattern().Matches(repeatHelpText ?? string.Empty);
         if (first.Count != second.Count)
         {
             // Without aligned defaults there is no evidence that any value varies.
@@ -595,14 +595,23 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         }
 
         var index = 0;
-        return NameShapedDefaultPattern().Replace(helpText, match =>
-            match.Groups["value"].Value == second[index++].Groups["value"].Value
+        return RunVaryingDefaultCandidatePattern().Replace(helpText, match =>
+            CollapseWhitespace(match.Groups["value"].Value)
+            == CollapseWhitespace(second[index++].Groups["value"].Value)
                 ? match.Value
-                : match.Groups["lead"].Value + "generated at run time");
+                : match.Groups["lead"].Value + "computed at run time");
     }
 
-    [GeneratedRegex(@"(?<lead>\bDefault:\s*)(?<value>[a-z]{3,}[0-9]+)\b", RegexOptions.CultureInvariant)]
-    private static partial Regex NameShapedDefaultPattern();
+    // Help wrapping can split a timestamp between its date and time.
+    private static string CollapseWhitespace(string value) => WhitespacePattern().Replace(value, " ");
+
+    [GeneratedRegex(
+        @"(?<lead>\bDefault:\s*)(?<value>\d{4}-\d{2}-\d{2}(?:T|\s+)\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?|[a-z]{3,}[0-9]+\b)",
+        RegexOptions.CultureInvariant)]
+    private static partial Regex RunVaryingDefaultCandidatePattern();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex WhitespacePattern();
 
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
