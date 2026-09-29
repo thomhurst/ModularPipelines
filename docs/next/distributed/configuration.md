@@ -159,7 +159,7 @@ Storage-specific settings such as expiry, chunk size and multipart part size liv
 
 ## RedisOptions[​](#redisoptions "Direct link to RedisOptions")
 
-Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact store share one `RedisOptions` instance and one connection; the module cache has its own, so it can use a different Redis server.
+Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact store share one `RedisOptions` instance but open separate connections, so large artifact transfers do not queue ahead of coordinator heartbeats on the client. Both connections still share the network link and the Redis server, so size them for the combined load. The module cache has its own options and connection, so it can use a different Redis server.
 
 ```
 builder.AddRedisDistributed(o =>
@@ -185,13 +185,13 @@ builder.AddRedisDistributed(o =>
 });
 ```
 
-| Property              | Type                            | Default                 | Description                                                                                                                                                                        |
-| --------------------- | ------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ConnectionString`    | `string`                        | `""`                    | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints.  |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`                  | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
-| `KeyPrefix`           | `string`                        | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                              |
-| `TimeToLive`          | `TimeSpan`                      | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration.                                                       |
-| `ChunkSizeBytes`      | `int`                           | 4 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key.                                                 |
+| Property              | Type                            | Default                 | Description                                                                                                                                                                                                                                                    |
+| --------------------- | ------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConnectionString`    | `string`                        | `""`                    | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints.                                                                              |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`                  | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings.                                                                             |
+| `KeyPrefix`           | `string`                        | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                                                                                                          |
+| `TimeToLive`          | `TimeSpan`                      | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration.                                                                                                                                   |
+| `ChunkSizeBytes`      | `int`                           | 1 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `AsyncTimeout`, so lower it or raise the timeout for slow or shared links. |
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not adopted and cannot conflict with it.
 
