@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -25,6 +24,7 @@ public class GcloudDataplex : IGcloudDataplex
     private GcloudDataplexAssets? _assets;
     private GcloudDataplexContext? _context;
     private GcloudDataplexDatascans? _datascans;
+    private GcloudDataplexDbt? _dbt;
     private GcloudDataplexEncryptionConfig? _encryptionConfig;
     private GcloudDataplexEntries? _entries;
     private GcloudDataplexEntryGroups? _entryGroups;
@@ -64,6 +64,11 @@ public class GcloudDataplex : IGcloudDataplex
     /// gcloud datascans sub-commands.
     /// </summary>
     public GcloudDataplexDatascans Datascans => _datascans ??= new GcloudDataplexDatascans(_command);
+
+    /// <summary>
+    /// gcloud dbt sub-commands.
+    /// </summary>
+    public GcloudDataplexDbt Dbt => _dbt ??= new GcloudDataplexDbt(_command);
 
     /// <summary>
     /// gcloud encryption-config sub-commands.

@@ -336,40 +336,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? WorkerMinCpuPlatform { get; set; }
 
     /// <summary>
-    /// At most one of these can be specified: A comma-separated list of compute zones (such as us-central1-a) to exclude when Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) picks the zone for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
-    /// </summary>
-    [CliOption("--auto-zone-exclude-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<string>? AutoZoneExcludeZones
-    {
-        get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoZoneExcludeZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
-    }
-
-    private sealed class __AutoZoneExcludeZonesSnapshotKeyValue(
-        IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
-    {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
-
-        global::System.Collections.Generic.IEnumerator<string>
-            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
-
-        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
-            ((global::System.Collections.IEnumerable)source).GetEnumerator();
-
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
-    }
-
-    /// <summary>
-    /// At most one of these can be specified: The compute zone (such as us-central1-a) for the cluster. If empty and --region is set to a value other than global, Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
-    /// </summary>
-    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
-    public string? Zone { get; set; }
-
-    /// <summary>
     /// At most one of these can be specified: (DEPRECATED) Enables Confidential VM. See https://cloud.google.com/confidential-computing/confidential-vm/docs/ for more information. This flag uses AMD SEV confidential compute technology, which is only supported on N2D, C2D, C3D, and C4D machine types (https://cloud.google.com/compute/docs/machine-types). The --confidential-compute flag is deprecated. Please use --confidential-compute-type=SEV instead.
     /// </summary>
     [CliFlag("--confidential-compute")]
@@ -696,6 +662,46 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     public string? WorkerMachineTypes { get; set; }
 
     /// <summary>
+    /// At most one of these can be specified: The compute zone (such as us-central1-a) for the cluster. If empty and --region is set to a value other than global, Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) will pick a zone in the region. Overrides the default compute/zone property value for this command invocation.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: A comma-separated list of compute zones (such as us-central1-a) to exclude when Dataproc Auto Zone placement (https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone) picks the zone for the cluster. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
+    /// </summary>
+    [CliOption("--auto-zone-exclude-zones", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
+    public IEnumerable<string>? AutoZoneExcludeZones
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __AutoZoneExcludeZonesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __AutoZoneExcludeZonesSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Create a multi-zonal cluster where instances can be created across multiple zones within the region.
+    /// </summary>
+    [CliFlag("--multizone")]
+    public bool? Multizone { get; set; }
+
+    /// <summary>
     /// Template resource - The name of the workflow template to set managed cluster. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument template on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the template or fully qualified identifier for the template. To set the template attribute: ▸ provide the argument template on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
@@ -704,10 +710,6 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoZoneExcludeZones is not string || !string.IsNullOrWhiteSpace(AutoZoneExcludeZones?.ToString()) : ((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoZoneExcludeZones, static item => item is not null) : (AutoZoneExcludeZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoZoneExcludeZones), static item => item is not null)))) ? 1 : 0) + (!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) > 1)
-        {
-            yield return new ValidationResult("At most one of AutoZoneExcludeZones or Zone may be specified.", [nameof(AutoZoneExcludeZones), nameof(Zone)]);
-        }
         if ((ConfidentialCompute == true ? 1 : 0) + ((object?)ConfidentialComputeType is not null ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of ConfidentialCompute or ConfidentialComputeType may be specified.", [nameof(ConfidentialCompute), nameof(ConfidentialComputeType)]);
@@ -759,6 +761,10 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
         if ((!string.IsNullOrWhiteSpace(WorkerInstanceFlexibilityPolicyFile) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerInstanceSelection) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerMachineType) ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerMachineTypes) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of WorkerInstanceFlexibilityPolicyFile, WorkerInstanceSelection, WorkerMachineType, or WorkerMachineTypes may be specified.", [nameof(WorkerInstanceFlexibilityPolicyFile), nameof(WorkerInstanceSelection), nameof(WorkerMachineType), nameof(WorkerMachineTypes)]);
+        }
+        if ((!string.IsNullOrWhiteSpace(Zone) ? 1 : 0) + ((((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<char> ? (object?)AutoZoneExcludeZones is not string || !string.IsNullOrWhiteSpace(AutoZoneExcludeZones?.ToString()) : ((object?)AutoZoneExcludeZones is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)AutoZoneExcludeZones, static item => item is not null) : (AutoZoneExcludeZones is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)AutoZoneExcludeZones), static item => item is not null)))) || Multizone == true) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of Zone or (AutoZoneExcludeZones or Multizone) may be specified.", [nameof(Zone), nameof(AutoZoneExcludeZones), nameof(Multizone)]);
         }
         yield break;
     }

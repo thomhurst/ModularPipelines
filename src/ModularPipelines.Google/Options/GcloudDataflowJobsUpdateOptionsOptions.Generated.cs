@@ -40,6 +40,48 @@ public record GcloudDataflowJobsUpdateOptionsOptions : GcloudOptions, IValidatab
     }
 
     /// <summary>
+    /// Maximum worker count when schedule is active.
+    /// </summary>
+    [CliOption("--autoscaling-max-num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMaxNumWorkers { get; set; }
+
+    /// <summary>
+    /// Minimum worker count when schedule is active.
+    /// </summary>
+    [CliOption("--autoscaling-min-num-workers", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingMinNumWorkers { get; set; }
+
+    /// <summary>
+    /// Crontab expression specifying when the schedule starts.
+    /// </summary>
+    [CliOption("--autoscaling-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingSchedule { get; set; }
+
+    /// <summary>
+    /// Duration in seconds for which the schedule will be active.
+    /// </summary>
+    [CliOption("--autoscaling-schedule-duration-seconds", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingScheduleDurationSeconds { get; set; }
+
+    /// <summary>
+    /// Priority of the schedule. If two schedules overlap, the one with the higher priority will be used.
+    /// </summary>
+    [CliOption("--autoscaling-schedule-priority", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingSchedulePriority { get; set; }
+
+    /// <summary>
+    /// Time zone for the schedule from tz database (e.g., America/Los_Angeles).
+    /// </summary>
+    [CliOption("--autoscaling-schedule-timezone", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingScheduleTimezone { get; set; }
+
+    /// <summary>
+    /// Target worker utilization hint when schedule is active.
+    /// </summary>
+    [CliOption("--autoscaling-worker-utilization-hint", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalingWorkerUtilizationHint { get; set; }
+
+    /// <summary>
     /// Upper-bound for autoscaling, between 1-1000. Only supported for streaming-engine jobs.
     /// </summary>
     [CliOption("--max-num-workers", Format = OptionFormat.EqualsSeparated)]
@@ -56,6 +98,24 @@ public record GcloudDataflowJobsUpdateOptionsOptions : GcloudOptions, IValidatab
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Unique identifier for the autoscaling schedule to create or update.
+    /// </summary>
+    [CliOption("--set-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? SetSchedule { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Unique identifier of the autoscaling schedule to remove.
+    /// </summary>
+    [CliOption("--unset-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? UnsetSchedule { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Remove all autoscaling schedules from the job.
+    /// </summary>
+    [CliFlag("--unset-schedules")]
+    public bool? UnsetSchedules { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Unset --worker-utilization-hint. This causes the job autoscaling to fall back to internal tunings if they exist, or otherwise use the default hint value.
@@ -78,6 +138,10 @@ public record GcloudDataflowJobsUpdateOptionsOptions : GcloudOptions, IValidatab
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
+        if ((!string.IsNullOrWhiteSpace(SetSchedule) ? 1 : 0) + (!string.IsNullOrWhiteSpace(UnsetSchedule) ? 1 : 0) + (UnsetSchedules == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of SetSchedule, UnsetSchedule, or UnsetSchedules may be specified.", [nameof(SetSchedule), nameof(UnsetSchedule), nameof(UnsetSchedules)]);
+        }
         if ((UnsetWorkerUtilizationHint == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(WorkerUtilizationHint) ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of UnsetWorkerUtilizationHint or WorkerUtilizationHint may be specified.", [nameof(UnsetWorkerUtilizationHint), nameof(WorkerUtilizationHint)]);

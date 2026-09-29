@@ -25,35 +25,24 @@ public record GcloudAgentRegistryBindingsCreateOptions : GcloudOptions, IValidat
     /// <summary>
     /// create a new binding
     /// </summary>
-    /// <param name="SourceIdentifier">The source of the Binding. This must be specified. Arguments for the source type. The identifier of the source Agent. Format: ▸ urn:agent:{publisher}:{namespace}:{name}</param>
     /// <param name="TargetIdentifier">The target of the Binding. This must be specified. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ▸ urn:agent:{publisher}:{namespace}:{name} ▸ urn:mcp:{publisher}:{namespace}:{name} ▸ urn:endpoint:{publisher}:{namespace}:{name}</param>
     /// <param name="Binding">Binding resource - Identifier. The resource name of the Binding. Format: projects/{project}/locations/{location}/bindings/{binding}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument binding on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the binding or fully qualified identifier for the binding. To set the binding attribute: ▸ provide the argument binding on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
     public GcloudAgentRegistryBindingsCreateOptions(
-        string SourceIdentifier,
         string TargetIdentifier,
         string Binding
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(SourceIdentifier);
-        this.SourceIdentifier = SourceIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(TargetIdentifier);
         this.TargetIdentifier = TargetIdentifier;
         global::System.ArgumentNullException.ThrowIfNull(Binding);
         this.Binding = Binding;
     }
 
-    public void Deconstruct(out string SourceIdentifier, out string TargetIdentifier, out string Binding)
+    public void Deconstruct(out string TargetIdentifier, out string Binding)
     {
-        SourceIdentifier = this.SourceIdentifier;
         TargetIdentifier = this.TargetIdentifier;
         Binding = this.Binding;
     }
-
-    /// <summary>
-    /// The source of the Binding. This must be specified. Arguments for the source type. The identifier of the source Agent. Format: ▸ urn:agent:{publisher}:{namespace}:{name}
-    /// </summary>
-    [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
-    public string SourceIdentifier { get; private init; }
 
     /// <summary>
     /// The target of the Binding. This must be specified. Arguments for the target type. The identifier of the target Agent, MCP Server, or Endpoint. Format: ▸ urn:agent:{publisher}:{namespace}:{name} ▸ urn:mcp:{publisher}:{namespace}:{name} ▸ urn:endpoint:{publisher}:{namespace}:{name}
@@ -90,6 +79,12 @@ public record GcloudAgentRegistryBindingsCreateOptions : GcloudOptions, IValidat
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// The source of the Binding. Arguments for the source type. The identifier of the source Agent. Format: ◆ urn:agent:{publisher}:{namespace}:{name}
+    /// </summary>
+    [CliOption("--source-identifier", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceIdentifier { get; set; }
 
     /// <summary>
     /// Arguments for the binding. The AuthProvider of the Binding. The resource name of the target AuthProvider. Format: ◆ projects/{project}/locations/{location}/authProviders/{auth_provider} This flag argument must be specified if any of the other arguments in this group are specified.

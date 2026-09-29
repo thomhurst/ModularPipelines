@@ -42,6 +42,11 @@ public interface IGcloudDataplex
     GcloudDataplexDatascans Datascans => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud dbt sub-commands.
+    /// </summary>
+    GcloudDataplexDbt Dbt => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud encryption-config sub-commands.
     /// </summary>
     GcloudDataplexEncryptionConfig EncryptionConfig => throw new System.NotSupportedException();

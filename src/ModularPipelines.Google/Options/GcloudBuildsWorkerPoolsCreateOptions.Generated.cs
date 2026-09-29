@@ -64,6 +64,12 @@ public record GcloudBuildsWorkerPoolsCreateOptions : GcloudOptions, IValidatable
     public string? WorkerMachineType { get; set; }
 
     /// <summary>
+    /// At most one of these can be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: Configuration to be used for creating workers in the worker pool: Specifies the release channel or version to use for builds in this worker pool. Accepts release channel names (rapid, regular, stable) or specific release versions (for example, 2026.09, legacy). See https://docs.cloud.google.com/build/docs/release-channels.
+    /// </summary>
+    [CliOption("--worker-release", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRelease { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Network configuration for Service Networking: Existing network to which workers are peered. The network is specified in resource URL format projects/{network_project}/global/networks/{network_name}. If not specified, the workers are not peered to any network.
     /// </summary>
     [CliOption("--peered-network", Format = OptionFormat.EqualsSeparated)]
@@ -90,9 +96,9 @@ public record GcloudBuildsWorkerPoolsCreateOptions : GcloudOptions, IValidatable
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + (((object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(PeeredNetwork) || !string.IsNullOrWhiteSpace(PeeredNetworkIpRange) || NoPublicEgress == true) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + (((object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease) || !string.IsNullOrWhiteSpace(PeeredNetwork) || !string.IsNullOrWhiteSpace(PeeredNetworkIpRange) || NoPublicEgress == true) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of ConfigFromFile or (WorkerDiskSize, WorkerMachineType, PeeredNetwork, PeeredNetworkIpRange, or NoPublicEgress) may be specified.", [nameof(ConfigFromFile), nameof(WorkerDiskSize), nameof(WorkerMachineType), nameof(PeeredNetwork), nameof(PeeredNetworkIpRange), nameof(NoPublicEgress)]);
+            yield return new ValidationResult("At most one of ConfigFromFile or (WorkerDiskSize, WorkerMachineType, WorkerRelease, PeeredNetwork, PeeredNetworkIpRange, or NoPublicEgress) may be specified.", [nameof(ConfigFromFile), nameof(WorkerDiskSize), nameof(WorkerMachineType), nameof(WorkerRelease), nameof(PeeredNetwork), nameof(PeeredNetworkIpRange), nameof(NoPublicEgress)]);
         }
         yield break;
     }

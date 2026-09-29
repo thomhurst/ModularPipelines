@@ -22,9 +22,51 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeImageViewsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Region resource - The region of the image-view resources to list. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property compute/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the region or fully qualified identifier for the region. To set the region attribute: ◆ provide the argument --region on the command line; ◆ set the property compute/region.
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
+    /// Show image views that are in limited preview. The preview image projects are: (none)
+    /// </summary>
+    [CliFlag("--preview-images")]
+    public bool? PreviewImages { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) Regular expression to filter the names of the results on. Any names that do not match the entire regular expression will be filtered out. Flag --regexp is deprecated. Use --filter="name~'REGEXP'" instead.
+    /// </summary>
+    [CliOption("--regexp", Format = OptionFormat.EqualsSeparated)]
+    public string? Regexp { get; set; }
+
+    /// <summary>
+    /// The region of the image-view resources to list. Overrides the default compute/region property value for this command invocation.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// If provided, deprecated images are shown.
+    /// </summary>
+    [CliFlag("--show-deprecated")]
+    public bool? ShowDeprecated { get; set; }
+
+    /// <summary>
+    /// List image views from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
+    /// </summary>
+    [CliFlag("--standard-images")]
+    public bool? StandardImages { get; set; }
+
+    /// <summary>
+    /// Negates --standard-images. List image views from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
+    /// </summary>
+    [CliFlag("--no-standard-images")]
+    public bool? NoStandardImages { get; set; }
+
+    /// <summary>
+    /// (DEPRECATED) If provided, show details for the specified names and/or URIs of resources. Argument NAME is deprecated. Use --filter="name=( 'NAME' ... )" instead.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? Name { get; set; }
 
 }

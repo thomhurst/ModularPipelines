@@ -70,6 +70,12 @@ public record GcloudBuildsWorkerPoolsUpdateOptions : GcloudOptions, IValidatable
     public string? WorkerMachineType { get; set; }
 
     /// <summary>
+    /// Exactly one of these must be specified: Or at least one of these can be specified: Configuration to be used for creating workers in the worker pool: Specifies the release channel or version to use for builds in this worker pool. Accepts release channel names (rapid, regular, stable) or specific release versions (for example, 2026.09, legacy). See https://docs.cloud.google.com/build/docs/release-channels.
+    /// </summary>
+    [CliOption("--worker-release", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRelease { get; set; }
+
+    /// <summary>
     /// Cloud region where the worker pool is updated. See https://cloud.google.com/build/docs/locations for available locations.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
@@ -84,11 +90,11 @@ public record GcloudBuildsWorkerPoolsUpdateOptions : GcloudOptions, IValidatable
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) ? 1 : 0) != 1)
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) ? 1 : 0) != 1)
         {
-            yield return new ValidationResult("Exactly one of ConfigFromFile or (PublicEgress, NoPublicEgress, WorkerDiskSize, or WorkerMachineType) must be specified.", [nameof(ConfigFromFile), nameof(PublicEgress), nameof(NoPublicEgress), nameof(WorkerDiskSize), nameof(WorkerMachineType)]);
+            yield return new ValidationResult("Exactly one of ConfigFromFile or (PublicEgress, NoPublicEgress, WorkerDiskSize, WorkerMachineType, or WorkerRelease) must be specified.", [nameof(ConfigFromFile), nameof(PublicEgress), nameof(NoPublicEgress), nameof(WorkerDiskSize), nameof(WorkerMachineType), nameof(WorkerRelease)]);
         }
-        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType)) && (PublicEgress == true || NoPublicEgress == true) && ((PublicEgress == true ? 1 : 0) + (NoPublicEgress == true ? 1 : 0) > 1))
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) && (PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) && (PublicEgress == true || NoPublicEgress == true) && ((PublicEgress == true ? 1 : 0) + (NoPublicEgress == true ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of PublicEgress or NoPublicEgress may be specified.", [nameof(PublicEgress), nameof(NoPublicEgress)]);
         }
