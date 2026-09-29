@@ -558,6 +558,113 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static partial Regex AzListValueDescriptionPattern();
 
     /// <summary>
+    /// Azure CLI computes some defaults each time help runs: timestamps such as "now" or
+    /// "now plus one hour", and random adjective-noun-digit administrator usernames such as
+    /// "hatefulmagpie9". When help shows a default of either shape, run help again and replace
+    /// only the defaults that changed, so regeneration stays deterministic while fixed
+    /// defaults such as "nodepool1" or an epoch sentinel stay visible.
+    /// </summary>
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
+    {
+        var helpText = await base.GetHelpTextAsync(commandPath, cancellationToken);
+        if (helpText is null || !RunVaryingDefaultCandidatePattern().IsMatch(helpText))
+        {
+            return helpText;
+        }
+
+        // A current-time default only differs between runs once its displayed precision
+        // has elapsed, so wait that long before sampling help again.
+        var delay = GetRepeatDelay(helpText);
+        if (delay > TimeSpan.Zero)
+        {
+            await DelayBeforeRepeatAsync(delay, cancellationToken);
+        }
+
+        for (var attempt = 1; attempt <= RepeatHelpAttempts; attempt++)
+        {
+            var repeat = await Executor.ExecuteAsync(
+                ExecutablePath,
+                GetHelpArguments(commandPath),
+                cancellationToken);
+            var repeatText = !string.IsNullOrEmpty(repeat.StandardOutput)
+                ? repeat.StandardOutput
+                : repeat.StandardError;
+            if (!repeat.Unavailable && repeat.Success && CandidatesAlign(helpText, repeatText))
+            {
+                return ReplaceRunVaryingDefaults(helpText, repeatText);
+            }
+        }
+
+        Logger.LogWarning(
+            "Repeated help for {Command} did not match the first run; its run-time defaults could not be confirmed and are kept as scraped",
+            string.Join(' ', commandPath));
+        return helpText;
+    }
+
+    private const int RepeatHelpAttempts = 2;
+
+    /// <summary>
+    /// Waits before the repeated help run. Tests override this to avoid real delays.
+    /// </summary>
+    protected virtual Task DelayBeforeRepeatAsync(TimeSpan delay, CancellationToken cancellationToken) =>
+        Task.Delay(delay, cancellationToken);
+
+    internal static TimeSpan GetRepeatDelay(string helpText)
+    {
+        var delay = TimeSpan.Zero;
+        foreach (Match match in RunVaryingDefaultCandidatePattern().Matches(helpText))
+        {
+            if (!match.Groups["timestamp"].Success || match.Groups["fraction"].Success)
+            {
+                continue;
+            }
+
+            var precision = match.Groups["seconds"].Success ? TimeSpan.FromSeconds(1) : TimeSpan.FromMinutes(1);
+            var required = precision + TimeSpan.FromMilliseconds(100);
+            if (required > delay)
+            {
+                delay = required;
+            }
+        }
+
+        return delay;
+    }
+
+    internal static bool CandidatesAlign(string helpText, string? repeatHelpText) =>
+        RunVaryingDefaultCandidatePattern().Count(helpText)
+        == RunVaryingDefaultCandidatePattern().Count(repeatHelpText ?? string.Empty);
+
+    internal static string ReplaceRunVaryingDefaults(string helpText, string? repeatHelpText)
+    {
+        if (!CandidatesAlign(helpText, repeatHelpText))
+        {
+            // Without aligned defaults there is no evidence that any value varies.
+            return helpText;
+        }
+
+        var second = RunVaryingDefaultCandidatePattern().Matches(repeatHelpText!);
+        var index = 0;
+        return RunVaryingDefaultCandidatePattern().Replace(helpText, match =>
+            CollapseWhitespace(match.Groups["value"].Value)
+            == CollapseWhitespace(second[index++].Groups["value"].Value)
+                ? match.Value
+                : match.Groups["lead"].Value + "computed at run time");
+    }
+
+    // Help wrapping can split a timestamp between its date and time.
+    private static string CollapseWhitespace(string value) => WhitespacePattern().Replace(value, " ");
+
+    [GeneratedRegex(
+        @"(?<lead>\bDefault:\s*)(?<value>(?<timestamp>\d{4}-\d{2}-\d{2}(?:T|\s+)\d{2}:\d{2}(?<seconds>:\d{2}(?<fraction>\.\d+)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?)|[a-z]{3,}[0-9]+\b)",
+        RegexOptions.CultureInvariant)]
+    private static partial Regex RunVaryingDefaultCandidatePattern();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex WhitespacePattern();
+
+    /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.
     /// </summary>
     [GeneratedRegex(@"^(?<name>[A-Z][\w \t]*:?)[ \t]*\r?$", RegexOptions.Multiline)]

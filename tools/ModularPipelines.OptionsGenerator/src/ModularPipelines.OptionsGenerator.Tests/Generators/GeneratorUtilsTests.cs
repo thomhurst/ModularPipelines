@@ -878,6 +878,25 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("ContentType", "Description of the secret contents (e.g. password, connection string, etc).")]
+    [Arguments("Tags", "Tags for the secret value.")]
+    [Arguments("Encoding", "The encoding of the password value.")]
+    [Arguments("Label", "A label for the value of the secret.")]
+    public async Task IsSecretOption_Does_Not_Mask_Metadata_About_Secret_Values(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Value", "The secret value. Set the type of the secret value with --content-type.")]
+    [Arguments("Payload", "The secret contents to upload. The name of the secret value is taken from --name.")]
+    [Arguments("Body", "Named secret value.")]
+    public async Task IsSecretOption_Keeps_Secret_Values_Alongside_Metadata_Phrases(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsTrue();
+    }
+
+    [Test]
     [Arguments("Code", "The one-time password value.")]
     [Arguments("Custom", "The authentication token value. The maximum number of uses is one.")]
     [Arguments("Token", "The maximum number of uses of this token value is one.")]

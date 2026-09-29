@@ -849,7 +849,13 @@ internal class DistributedModuleExecutor(
                     _logger.LogWarning(
                         "The lease on distributed module {Module} expired without a result; returned it to the queue",
                         moduleId);
+                    if (_resultDeadlines.TryGetValue(moduleId, out var deadline))
+                    {
+                        deadline.MarkRequeued(DateTimeOffset.UtcNow);
+                    }
                 }
+
+                await FailStrandedAssignmentsAsync(cancellationToken).ConfigureAwait(false);
 
                 foreach (var lease in await _masterCoordinator.GetActiveLeasesAsync(cancellationToken)
                              .ConfigureAwait(false))
@@ -868,11 +874,61 @@ internal class DistributedModuleExecutor(
         }
     }
 
+    /// <summary>
+    /// Fails requeued assignments that only a lost worker could run. A worker that dies mid-module
+    /// leaves its lease to expire; when no live worker can claim the requeued assignment for
+    /// <see cref="DistributedOptions.WorkerRegistrationTimeout"/>, waiting for the result backstop
+    /// would only hold the pipeline open. Tracking continues until a worker claims the assignment,
+    /// so a capable worker that disappears before claiming it restarts the grace period.
+    /// </summary>
+    private async Task FailStrandedAssignmentsAsync(CancellationToken cancellationToken)
+    {
+        var requeued = _resultDeadlines
+            .Where(static entry => entry.Value.RequeuedAt is not null)
+            .ToArray();
+        if (requeued.Length == 0)
+        {
+            return;
+        }
+
+        var workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken).ConfigureAwait(false);
+        var finishedWorkers = (await _masterCoordinator.GetWorkerStatusesAsync(cancellationToken).ConfigureAwait(false))
+            .Where(static status => status.IsFinal)
+            .Select(static status => status.WorkerId)
+            .ToHashSet();
+        var claimingWorkers = workers.Where(worker => !finishedWorkers.Contains(worker.WorkerId)).ToArray();
+        var now = DateTimeOffset.UtcNow;
+        foreach (var (moduleId, deadline) in requeued)
+        {
+            if (claimingWorkers.Any(worker => deadline.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
+            {
+                deadline.RestartGrace(now);
+            }
+            else if (now - deadline.RequeuedAt >= _options.Value.WorkerRegistrationTimeout)
+            {
+                // A worker that registered after the snapshot may already hold the assignment, so
+                // only fail it once the queued copy is removed. A claimed copy has a live lease again.
+                if (await _masterCoordinator.WithdrawAssignmentAsync(moduleId, cancellationToken).ConfigureAwait(false))
+                {
+                    deadline.Strand(new DistributedRoutingException(
+                        moduleId,
+                        deadline.RequiredCapabilities,
+                        claimingWorkers.Length));
+                }
+                else
+                {
+                    deadline.ClearRequeued();
+                }
+            }
+        }
+    }
+
     private void ArmResultDeadline(ModuleId moduleId)
     {
         if (_resultDeadlines.TryGetValue(moduleId, out var deadline))
         {
             deadline.Arm();
+            deadline.ClearRequeued();
         }
     }
 
@@ -885,7 +941,12 @@ internal class DistributedModuleExecutor(
         var pipelineToken = module.Configuration.AlwaysRun
             ? _lifetime.ApplicationStopping
             : plan.PipelineCts.Token;
-        using var deadline = new ResultDeadline(GetResultDeadline(module));
+        // The master claims requeued work it can run itself, so only worker-only assignments can strand.
+        using var deadline = new ResultDeadline(
+            GetResultDeadline(module),
+            assignment.RequiredCapabilities.IsSatisfiedBy(plan.MasterCapabilities)
+                ? null
+                : assignment.RequiredCapabilities);
         _resultDeadlines[assignment.ModuleId] = deadline;
         using var lifecycleCts = CancellationTokenSource.CreateLinkedTokenSource(pipelineToken, deadline.Token);
 
@@ -908,6 +969,24 @@ internal class DistributedModuleExecutor(
             publishCts.CancelAfter(Timeout.InfiniteTimeSpan);
             published = true;
             await CollectResultAsync(module, moduleType, plan, lifecycleCts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (
+            deadline.StrandReason is not null && !pipelineToken.IsCancellationRequested)
+        {
+            // The worker holding the module was lost and no live worker can run it.
+            await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
+            _logger.LogError(
+                deadline.StrandReason,
+                "Distributed module {Module} was requeued after its worker was lost, and no live worker can run it",
+                moduleType.Name);
+            var failureResult = RegisterFailureResult(
+                module,
+                moduleType,
+                deadline.StrandReason,
+                ModuleStatus.Failed,
+                plan.Context);
+            await CompleteCollectedResultAsync(failureResult, moduleType, plan).ConfigureAwait(false);
+            await PublishFailureResultAsync(failureResult, moduleType).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (
             (deadline.Token.IsCancellationRequested || publishCts.IsCancellationRequested)
@@ -1299,12 +1378,104 @@ internal class DistributedModuleExecutor(
     /// The master's backstop deadline for one module's result. It starts when a worker is first
     /// seen holding the module's lease, not when the module is queued.
     /// </summary>
-    private sealed class ResultDeadline(TimeSpan? backstop) : IDisposable
+    private sealed class ResultDeadline(TimeSpan? backstop, CapabilityRequirement? workerOnlyCapabilities) : IDisposable
     {
         private readonly CancellationTokenSource _cts = new();
+        private readonly Lock _lock = new();
         private int _armed;
+        private DateTimeOffset? _requeuedAt;
+        private Exception? _strandReason;
 
         public TimeSpan? Backstop { get; } = backstop;
+
+        /// <summary>
+        /// Gets the capabilities a worker needs to claim this module; unused when the master can run it.
+        /// </summary>
+        public CapabilityRequirement RequiredCapabilities { get; } =
+            workerOnlyCapabilities ?? CapabilityRequirement.None;
+
+        /// <summary>
+        /// Gets when the grace period began for this worker-only module: when an expired lease
+        /// returned it to the queue, or when the last live worker able to claim it was last seen.
+        /// </summary>
+        public DateTimeOffset? RequeuedAt
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _requeuedAt;
+                }
+            }
+        }
+
+        /// <summary>Gets why the module was failed without waiting for the backstop.</summary>
+        public Exception? StrandReason
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _strandReason;
+                }
+            }
+        }
+
+        public void MarkRequeued(DateTimeOffset now)
+        {
+            if (workerOnlyCapabilities is null)
+            {
+                return;
+            }
+
+            lock (_lock)
+            {
+                _requeuedAt ??= now;
+            }
+        }
+
+        public void RestartGrace(DateTimeOffset now)
+        {
+            lock (_lock)
+            {
+                if (_requeuedAt is not null)
+                {
+                    _requeuedAt = now;
+                }
+            }
+        }
+
+        /// <summary>Stops tracking once a worker holds the module's lease again.</summary>
+        public void ClearRequeued()
+        {
+            lock (_lock)
+            {
+                _requeuedAt = null;
+            }
+        }
+
+        public void Strand(Exception reason)
+        {
+            lock (_lock)
+            {
+                if (_strandReason is not null)
+                {
+                    return;
+                }
+
+                _strandReason = reason;
+                _requeuedAt = null;
+            }
+
+            try
+            {
+                _cts.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+                // The result arrived while the workers were being checked.
+            }
+        }
 
         public CancellationToken Token => _cts.Token;
 

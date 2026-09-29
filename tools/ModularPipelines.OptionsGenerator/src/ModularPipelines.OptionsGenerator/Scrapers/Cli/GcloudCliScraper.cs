@@ -18,6 +18,32 @@ public partial class GcloudCliScraper : CliScraperBase
     private static readonly string[] StructuredExampleEndMarkers =
         ["JSON Example:", "YAML Example:", "File Example:"];
 
+    private const string EdgeCloudVpnConnectionsRemovalReason =
+        "Removed upstream in Google Cloud SDK 587.0.0: \"(Distributed Cloud Edge) Removed deprecated "
+        + "gcloud edge-cloud container vpn-connections command group.\"";
+
+    private static readonly CliCommandCoverageExclusion[] UpstreamRemovedCommands =
+    [
+        .. new[]
+        {
+            "gcloud edge-cloud container vpn-connections",
+            "gcloud edge-cloud container vpn-connections create",
+            "gcloud edge-cloud container vpn-connections delete",
+            "gcloud edge-cloud container vpn-connections describe",
+            "gcloud edge-cloud container vpn-connections list",
+        }.Select(command => new CliCommandCoverageExclusion
+        {
+            Command = command,
+            Reason = EdgeCloudVpnConnectionsRemovalReason,
+        }),
+        new CliCommandCoverageExclusion
+        {
+            Command = "gcloud storage buckets anywhere-caches pause",
+            Reason = "Removed upstream in Google Cloud SDK 587.0.0: \"(Cloud Storage) Removed "
+                     + "gcloud storage buckets anywhere-caches pause command.\"",
+        },
+    ];
+
     #region Required Abstract Properties
 
     public override string ToolName => "gcloud";
@@ -39,6 +65,19 @@ public partial class GcloudCliScraper : CliScraperBase
     // ParseUsageSynopsis distinguishes documented operands from dispatch selectors,
     // including SDK command groups that currently expose no child commands.
     protected override bool PreserveCommandGroupPlaceholders => true;
+
+    /// <summary>
+    /// Scheduled generation cannot use blanket shrinkage approval, so each reviewed
+    /// upstream removal is recorded as an explicit coverage exclusion.
+    /// </summary>
+    public override CliToolDefinition CreateToolDefinition() =>
+        base.CreateToolDefinition() with
+        {
+            CommandCoverage = new CliCommandCoveragePolicy
+            {
+                Exclusions = UpstreamRemovedCommands,
+            },
+        };
 
     #endregion
 
