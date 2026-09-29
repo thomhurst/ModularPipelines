@@ -1031,9 +1031,9 @@ The main contract changes since those builds are:
   OR clauses built with `AllOf`, `AnyOf`, or `Create`).
 - SignalR: `MasterUrl` is split into `ListenUrl` and `AdvertisedUrl`, `MaxReceiveMessageSize` is
   `MaxMessageSizeBytes`, tunnel settings move to `Tunnel`, and the hub requires an `AccessToken`
-  when reachable beyond the machine. When `AccessToken` is unset, one is generated and shared only
-  if master discovery is configured; without discovery, startup fails, so set `AccessToken` on the
-  master and every worker.
+  when reachable beyond the machine. For such a master with `AccessToken` unset, a token is generated
+  and shared only if master discovery is configured; without discovery, startup fails, so set
+  `AccessToken` on the master and every worker. A loopback-only master needs neither.
 - Redis: `RedisDistributedOptions` is `RedisOptions`, `KeyExpiration` is `TimeToLive`, and the
   package no longer uses an application `IConnectionMultiplexer`; use `ConfigureConnection`.
 - S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, and
