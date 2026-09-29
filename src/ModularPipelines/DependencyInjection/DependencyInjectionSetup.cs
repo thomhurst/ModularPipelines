@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Configuration;

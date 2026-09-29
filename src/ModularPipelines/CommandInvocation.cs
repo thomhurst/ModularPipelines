@@ -1,7 +1,7 @@
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
-namespace ModularPipelines.Context.Domains.Shell;
+namespace ModularPipelines;
 
 /// <summary>
 /// Describes a command after its tool and arguments have been parsed, but before execution.

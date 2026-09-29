@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Services;

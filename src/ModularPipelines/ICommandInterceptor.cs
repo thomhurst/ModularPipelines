@@ -1,4 +1,4 @@
-namespace ModularPipelines.Context.Domains.Shell;
+namespace ModularPipelines;
 
 /// <summary>
 /// Represents the remainder of the command execution pipeline: the next interceptor, or the

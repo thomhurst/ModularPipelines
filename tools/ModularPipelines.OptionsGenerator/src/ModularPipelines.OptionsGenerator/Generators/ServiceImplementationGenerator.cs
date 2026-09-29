@@ -40,7 +40,6 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using ModularPipelines.Context;");
-        sb.AppendLine("using ModularPipelines.Context.Domains.Shell;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");

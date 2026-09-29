@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;

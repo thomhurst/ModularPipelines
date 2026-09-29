@@ -1,6 +1,5 @@
 using System.Text.Json;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Kubernetes.Options;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
