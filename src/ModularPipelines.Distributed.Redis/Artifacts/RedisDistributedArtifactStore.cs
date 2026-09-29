@@ -7,7 +7,8 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// <summary>
 /// Redis-based implementation of <see cref="IDistributedArtifactStore"/>.
 /// Artifacts that fit in one chunk are stored under a single key; larger artifacts are chunked.
-/// All keys are isolated by run identifier and expire via TTL.
+/// All keys are isolated by run identifier and expire via TTL. Data and chunk reads and writes are
+/// idempotent, so they are retried after transient timeouts and connection failures.
 /// </summary>
 internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
 {
@@ -15,11 +16,13 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _timeToLive;
     private readonly int _chunkSize;
+    private readonly TimeSpan _retryBaseDelay;
 
     public RedisDistributedArtifactStore(
         IDatabase database,
         RedisKeyBuilder keys,
-        RedisOptions options)
+        RedisOptions options,
+        TimeSpan? retryBaseDelay = null)
     {
         ArgumentNullException.ThrowIfNull(options);
         if (options.ChunkSizeBytes <= 0)
@@ -33,6 +36,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         _keys = keys;
         _timeToLive = options.TimeToLive;
         _chunkSize = options.ChunkSizeBytes;
+        _retryBaseDelay = retryBaseDelay ?? RedisTransientRetry.DefaultBaseDelay;
     }
 
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
@@ -49,11 +53,10 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         {
             // Fits in one value, including empty artifacts: always write the key so an empty
             // artifact round-trips instead of looking missing.
-            await _database.StringSetAsync(
+            await SetValueAsync(
                     _keys.ArtifactData(artifactId),
                     new ReadOnlyMemory<byte>(buffer, 0, bytesRead),
-                    _timeToLive)
-                .WaitAsync(cancellationToken)
+                    cancellationToken)
                 .ConfigureAwait(false);
             totalBytes = bytesRead;
         }
@@ -62,11 +65,10 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             var chunkIndex = 0;
             while (bytesRead > 0)
             {
-                await _database.StringSetAsync(
+                await SetValueAsync(
                         _keys.ArtifactChunk(artifactId, chunkIndex),
                         new ReadOnlyMemory<byte>(buffer, 0, bytesRead),
-                        _timeToLive)
-                    .WaitAsync(cancellationToken)
+                        cancellationToken)
                     .ConfigureAwait(false);
                 totalBytes += bytesRead;
                 chunkIndex++;
@@ -111,8 +113,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         ArgumentNullException.ThrowIfNull(reference);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var data = await _database.StringGetAsync(_keys.ArtifactData(reference.ArtifactId))
-            .WaitAsync(cancellationToken)
+        var data = await GetValueAsync(_keys.ArtifactData(reference.ArtifactId), cancellationToken)
             .ConfigureAwait(false);
 
         if (!data.IsNull)
@@ -133,8 +134,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var chunk = await _database.StringGetAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex))
-                    .WaitAsync(cancellationToken)
+                var chunk = await GetValueAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex), cancellationToken)
                     .ConfigureAwait(false);
                 if (chunk.IsNull)
                 {
@@ -221,6 +221,18 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
     }
+
+    private Task<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>
+        RedisTransientRetry.ExecuteAsync(
+            () => _database.StringGetAsync(key).WaitAsync(cancellationToken),
+            _retryBaseDelay,
+            cancellationToken);
+
+    private Task<bool> SetValueAsync(RedisKey key, ReadOnlyMemory<byte> value, CancellationToken cancellationToken) =>
+        RedisTransientRetry.ExecuteAsync(
+            () => _database.StringSetAsync(key, value, _timeToLive).WaitAsync(cancellationToken),
+            _retryBaseDelay,
+            cancellationToken);
 
     private static void ThrowIfSizeMismatch(ArtifactReference reference, long actualBytes)
     {

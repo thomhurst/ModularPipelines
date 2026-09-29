@@ -115,6 +115,9 @@ internal static class DistributedBuildConfiguration
                 connection.Password = password;
                 connection.Ssl = true;
                 connection.AbortOnConnectFail = false;
+                // Six runners share the managed Redis link; build-output chunks queued behind each
+                // other exceeded the 5-second default while downloading.
+                connection.AsyncTimeout = 30_000;
             };
             options.KeyPrefix = "modularpipelines-ci";
             options.TimeToLive = TimeSpan.FromHours(2);

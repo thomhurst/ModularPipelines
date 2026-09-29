@@ -166,7 +166,7 @@ builder.AddRedisDistributed(o =>
 | `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration. |
-| `ChunkSizeBytes` | `int` | 4 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. |
+| `ChunkSizeBytes` | `int` | 1 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `AsyncTimeout`, so lower it or raise the timeout for slow or shared links. |
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or
 resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not

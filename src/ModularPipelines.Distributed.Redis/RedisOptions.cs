@@ -37,7 +37,9 @@ public class RedisOptions
 
     /// <summary>
     /// Gets or sets the size of each Redis value used to store artifacts and module cache entries.
-    /// Content that fits in one chunk is stored under a single key. Default: 4 MB.
+    /// Content that fits in one chunk is stored under a single key. Each chunk is one command, so it
+    /// must transfer within the connection's <see cref="ConfigurationOptions.AsyncTimeout"/> even when
+    /// several processes share the link. Default: 1 MB.
     /// </summary>
-    public int ChunkSizeBytes { get; set; } = 4 * 1024 * 1024;
+    public int ChunkSizeBytes { get; set; } = 1024 * 1024;
 }

@@ -21,7 +21,7 @@ public class RedisArtifactStoreTests
             ChunkSizeBytes = 50,
             TimeToLive = TimeSpan.FromHours(1),
         };
-        _store = new RedisDistributedArtifactStore(_mockDb.Object, _keys, options);
+        _store = new RedisDistributedArtifactStore(_mockDb.Object, _keys, options, retryBaseDelay: TimeSpan.Zero);
     }
 
     [Test]
@@ -124,6 +124,82 @@ public class RedisArtifactStoreTests
         }
 
         await Assert.That(File.Exists(temporaryPath)).IsFalse();
+    }
+
+    [Test]
+    public async Task Download_ChunkedArtifact_Retries_Transient_Timeout()
+    {
+        var data = Enumerable.Range(0, 100).Select(value => (byte) value).ToArray();
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "flaky",
+            Name = "test",
+            ModuleId = "Test.Module",
+            SizeBytes = data.Length,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactChunk("flaky", 0), It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) data.Take(50).ToArray());
+        _mockDb.SetupSequence(db => db.StringGetAsync(_keys.ArtifactChunk("flaky", 1), It.IsAny<CommandFlags>()))
+            .ThrowsAsync(new RedisTimeoutException("Timeout awaiting response", CommandStatus.Sent))
+            .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.SocketFailure, "socket closed"))
+            .ReturnsAsync((RedisValue) data.Skip(50).ToArray());
+
+        await using var result = await _store.DownloadAsync(reference, CancellationToken.None);
+        using var copy = new MemoryStream();
+        await result.CopyToAsync(copy);
+
+        await Assert.That(copy.ToArray()).IsEquivalentTo(data);
+        _mockDb.Verify(db => db.StringGetAsync(_keys.ArtifactChunk("flaky", 1), It.IsAny<CommandFlags>()), Times.Exactly(3));
+    }
+
+    [Test]
+    public async Task Download_Surfaces_Timeout_After_Every_Attempt_Fails()
+    {
+        var reference = new ArtifactReference { ArtifactId = "down", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("down"), It.IsAny<CommandFlags>()))
+            .ThrowsAsync(new RedisTimeoutException("Timeout awaiting response", CommandStatus.Sent));
+
+        await Assert.That(async () => await _store.DownloadAsync(reference, CancellationToken.None))
+            .Throws<RedisTimeoutException>();
+        _mockDb.Verify(
+            db => db.StringGetAsync(_keys.ArtifactData("down"), It.IsAny<CommandFlags>()),
+            Times.Exactly(RedisTransientRetry.MaxAttempts));
+    }
+
+    [Test]
+    public async Task Download_Does_Not_Retry_Server_Errors()
+    {
+        var reference = new ArtifactReference { ArtifactId = "denied", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
+        _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("denied"), It.IsAny<CommandFlags>()))
+            .ThrowsAsync(new RedisServerException("NOAUTH Authentication required."));
+
+        await Assert.That(async () => await _store.DownloadAsync(reference, CancellationToken.None))
+            .Throws<RedisServerException>();
+        _mockDb.Verify(
+            db => db.StringGetAsync(_keys.ArtifactData("denied"), It.IsAny<CommandFlags>()),
+            Times.Once);
+    }
+
+    [Test]
+    public async Task Upload_Chunk_Retries_Transient_Timeout()
+    {
+        var writes = 0;
+        _mockDb.Setup(db => db.StringSetAsync(
+                It.Is<RedisKey>(key => key.ToString().Contains(":chunk:1")),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
+            .Returns(() => Interlocked.Increment(ref writes) == 1
+                ? Task.FromException<bool>(new RedisTimeoutException("Timeout performing SET", CommandStatus.Sent))
+                : Task.FromResult(true));
+        using var stream = new MemoryStream(new byte[120]);
+
+        var reference = await _store.UploadAsync(new ArtifactDescriptor { Name = "chunked", ModuleId = "Test.Module" }, stream, CancellationToken.None);
+
+        await Assert.That(reference.SizeBytes).IsEqualTo(120);
+        await Assert.That(writes).IsEqualTo(2);
     }
 
     [Test]
