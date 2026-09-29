@@ -53,6 +53,18 @@ public record PnpmRemoveOptions : PnpmOptions
     public string? LockfileDir { get; set; }
 
     /// <summary>
+    /// Skip verifying the lockfile against supply-chain policies
+    /// </summary>
+    [CliFlag("--trust-lockfile")]
+    public bool? TrustLockfile { get; set; }
+
+    /// <summary>
+    /// Verify the lockfile against supply-chain policies even when the configuration trusts it
+    /// </summary>
+    [CliFlag("--no-trust-lockfile")]
+    public bool? NoTrustLockfile { get; set; }
+
+    /// <summary>
     /// Remove the package from the global packages directory and unlink its bins
     /// </summary>
     [CliFlag("--global", ShortForm = "-g")]
@@ -131,7 +143,7 @@ public record PnpmRemoveOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmRemoveReporter? Reporter { get; set; }

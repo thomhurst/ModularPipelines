@@ -269,6 +269,12 @@ public record PnpmCiOptions : PnpmOptions
     public bool? NoFrozenStore { get; set; }
 
     /// <summary>
+    /// Package names allowed to run lifecycle (build) scripts during this install, appended to `allowBuilds`. Prefix a name with `!` to deny its scripts instead. May be repeated
+    /// </summary>
+    [CliOption("--allow-build")]
+    public IEnumerable<string>? AllowBuild { get; set; }
+
+    /// <summary>
     /// Also remove `pnpm-lock.yaml` files
     /// </summary>
     [CliFlag("--lockfile", ShortForm = "-l")]
@@ -347,7 +353,7 @@ public record PnpmCiOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmCiReporter? Reporter { get; set; }

@@ -103,7 +103,7 @@ public record PnpmUndeprecateOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmUndeprecateReporter? Reporter { get; set; }

@@ -73,6 +73,12 @@ public record PnpmPublishOptions : PnpmOptions
     public string? Otp { get; set; }
 
     /// <summary>
+    /// Wait up to this many milliseconds per package for registry availability. A batch upload uses one timeout per registry group. Zero disables waiting (default)
+    /// </summary>
+    [CliOption("--publish-wait-timeout")]
+    public string? PublishWaitTimeout { get; set; }
+
+    /// <summary>
     /// Embed the README contents in the published manifest
     /// </summary>
     [CliFlag("--embed-readme")]
@@ -181,7 +187,7 @@ public record PnpmPublishOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmPublishReporter? Reporter { get; set; }

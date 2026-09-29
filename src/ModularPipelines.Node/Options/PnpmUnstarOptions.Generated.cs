@@ -112,7 +112,7 @@ public record PnpmUnstarOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmUnstarReporter? Reporter { get; set; }

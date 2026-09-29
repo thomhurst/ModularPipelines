@@ -107,7 +107,7 @@ public record PnpmSearchOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmSearchReporter? Reporter { get; set; }

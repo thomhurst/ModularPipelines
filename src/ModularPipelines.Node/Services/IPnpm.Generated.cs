@@ -121,7 +121,7 @@ public partial interface IPnpm
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes registry metadata cache directories that this version of pnpm can no longer read
+    /// Deletes registry metadata cache directories that this version of pnpm can no longer read. pnpm 11.26 and earlier, and pnpm 12.3 and earlier, depend on these directories. Projects that use those versions refetch registry metadata after a prune, and their offline installs fail until they do.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -521,7 +521,7 @@ public partial interface IPnpm
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Create a tarball from a package
+    /// Create a tarball from a package. Use --silent to suppress the tarball contents and summary. With --json, lifecycle output and the final JSON result remain visible.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -741,7 +741,7 @@ public partial interface IPnpm
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Restarts a package. Runs "stop", "restart", and "start" scripts, and associated pre- and post- scripts
+    /// Restarts a package. Runs "stop", "restart" (if present), and "start" scripts, and associated pre- and post- scripts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
