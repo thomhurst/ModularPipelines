@@ -269,6 +269,12 @@ public record PnpmInstallTestOptions : PnpmOptions
     public bool? NoFrozenStore { get; set; }
 
     /// <summary>
+    /// Package names allowed to run lifecycle (build) scripts during this install, appended to `allowBuilds`. Prefix a name with `!` to deny its scripts instead. May be repeated
+    /// </summary>
+    [CliOption("--allow-build")]
+    public IEnumerable<string>? AllowBuild { get; set; }
+
+    /// <summary>
     /// Automatically answer yes to prompts
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
@@ -341,7 +347,7 @@ public record PnpmInstallTestOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmInstallTestReporter? Reporter { get; set; }

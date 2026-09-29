@@ -95,7 +95,7 @@ public record PnpmProfileOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmProfileReporter? Reporter { get; set; }

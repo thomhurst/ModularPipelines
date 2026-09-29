@@ -15,7 +15,7 @@ using ModularPipelines.Node.Enums;
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Deletes registry metadata cache directories that this version of pnpm can no longer read
+/// Deletes registry metadata cache directories that this version of pnpm can no longer read. pnpm 11.26 and earlier, and pnpm 12.3 and earlier, depend on these directories. Projects that use those versions refetch registry metadata after a prune, and their offline installs fail until they do.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -101,7 +101,7 @@ public record PnpmCachePruneOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmCachePruneReporter? Reporter { get; set; }

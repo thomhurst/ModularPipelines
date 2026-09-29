@@ -15,7 +15,7 @@ using ModularPipelines.Node.Enums;
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Create a tarball from a package
+/// Create a tarball from a package. Use --silent to suppress the tarball contents and summary. With --json, lifecycle output and the final JSON result remain visible.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -131,7 +131,7 @@ public record PnpmPackOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmPackReporter? Reporter { get; set; }
