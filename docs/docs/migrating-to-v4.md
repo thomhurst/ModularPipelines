@@ -508,6 +508,8 @@ registry:
 PluginRegistry.Register(new MyPlugin());
 
 // V4
+builder.AddPlugin<MyPlugin>(); // or builder.AddPlugin(new MyPlugin())
+
 public sealed class MyPlugin : IModularPipelinesPlugin
 {
     public string Name => "My plugin";
@@ -518,8 +520,6 @@ public sealed class MyPlugin : IModularPipelinesPlugin
         builder.AddModule<MyModule>();
     }
 }
-
-builder.AddPlugin<MyPlugin>(); // or builder.AddPlugin(new MyPlugin())
 ```
 
 Plugins apply immediately, in the order they are added, so order `AddPlugin` calls where the V3
