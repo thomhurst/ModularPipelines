@@ -906,10 +906,19 @@ internal class DistributedModuleExecutor(
             }
             else if (now - deadline.RequeuedAt >= _options.Value.WorkerRegistrationTimeout)
             {
-                deadline.Strand(new DistributedRoutingException(
-                    moduleId,
-                    deadline.RequiredCapabilities,
-                    claimingWorkers.Length));
+                // A worker that registered after the snapshot may already hold the assignment, so
+                // only fail it once the queued copy is removed. A claimed copy has a live lease again.
+                if (await _masterCoordinator.WithdrawAssignmentAsync(moduleId, cancellationToken).ConfigureAwait(false))
+                {
+                    deadline.Strand(new DistributedRoutingException(
+                        moduleId,
+                        deadline.RequiredCapabilities,
+                        claimingWorkers.Length));
+                }
+                else
+                {
+                    deadline.ClearRequeued();
+                }
             }
         }
     }
