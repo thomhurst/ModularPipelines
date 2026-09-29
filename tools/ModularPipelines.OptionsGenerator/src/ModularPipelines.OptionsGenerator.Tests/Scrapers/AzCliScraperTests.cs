@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -929,6 +930,60 @@ public class AzCliScraperTests
         await Assert.That(option.IsFlag).IsFalse();
         await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(option.GroupValues).IsTrue();
+    }
+
+    [Test]
+    public async Task Generated_Username_Defaults_Are_Normalized()
+    {
+        const string helpText = """
+            Command
+                az mysql flexible-server create : Create a MySQL flexible server.
+
+            Optional Arguments
+                --admin-user -u : Administrator username for the server. Once set, it
+                                  cannot be changed.  Default: hatefulmagpie9.
+                --http-user     : HTTP username for the cluster.  Default: admin.
+                --nodepool-name : Node pool name, up to 12 alphanumeric characters.
+                                  Default: nodepool1.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "mysql", "flexible-server", "create"],
+            helpText);
+        string Description(string switchName) =>
+            command!.Options.Single(option => option.SwitchName == switchName).Description!;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(Description("--admin-user")).EndsWith("Default: generated at run time.");
+            await Assert.That(Description("--http-user")).EndsWith("Default: admin.");
+            await Assert.That(Description("--nodepool-name")).EndsWith("Default: nodepool1.");
+        }
+    }
+
+    [Test]
+    public async Task Secret_Content_Type_Description_Is_Not_A_Secret()
+    {
+        const string helpText = """
+            Command
+                az keyvault secret set : Create a secret.
+
+            Arguments
+                --content-type --description : Description of the secret contents (e.g.
+                                               password, connection string, etc).
+                --value                      : Value of the secret.
+            """;
+
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "keyvault", "secret", "set"],
+            helpText);
+        var contentType = command!.Options.Single(option => option.SwitchName == "--content-type");
+
+        await Assert.That(contentType.IsSecret).IsFalse();
+        await Assert.That(GeneratorUtils.IsSecretOption(
+            contentType.PropertyName,
+            contentType.IsFlag,
+            contentType.Description)).IsFalse();
     }
 
     private sealed class TestAzCliScraper()

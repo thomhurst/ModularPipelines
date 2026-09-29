@@ -168,6 +168,25 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("The SAS expiry.  Default: 2026-09-22 11:26:01.325198.", "The SAS expiry.  Default: computed at run time.")]
+    [Arguments("Restore point.  Default: 2026-09-21T12:31:50+00:00.", "Restore point.  Default: computed at run time.")]
+    [Arguments("Start time (default \"2026-09-21T12:31:50Z\")", "Start time (default computed at run time)")]
+    [Arguments("Start time [default: 2026-09-21 12:31]", "Start time [default: computed at run time]")]
+    public async Task EscapeXmlComment_Normalizes_Timestamp_Defaults(string description, string expected)
+    {
+        await Assert.That(GeneratorUtils.EscapeXmlComment(description)).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("The API version.  Default: 2022-03-01.")]
+    [Arguments("Defaults to the max value \"9999-12-31T23:59:59.999999+00:00\".")]
+    [Arguments("Only changes after 2026-09-21T12:31:50Z are returned.")]
+    public async Task EscapeXmlComment_Keeps_Stable_Dates(string description)
+    {
+        await Assert.That(GeneratorUtils.EscapeXmlComment(description)).IsEqualTo(description);
+    }
+
+    [Test]
     public async Task EscapeXmlComment_Trims_Whitespace()
     {
         var result = GeneratorUtils.EscapeXmlComment("  test  ");
@@ -875,6 +894,25 @@ public class GeneratorUtilsTests
     public async Task IsSecretOption_Does_Not_Mask_Count_Descriptions(string propertyName, string description)
     {
         await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("ContentType", "Description of the secret contents (e.g. password, connection string, etc).")]
+    [Arguments("Tags", "Tags for the secret value.")]
+    [Arguments("Encoding", "The encoding of the password value.")]
+    [Arguments("Label", "A label for the value of the secret.")]
+    public async Task IsSecretOption_Does_Not_Mask_Metadata_About_Secret_Values(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("Value", "The secret value. Set the type of the secret value with --content-type.")]
+    [Arguments("Payload", "The secret contents to upload. The name of the secret value is taken from --name.")]
+    [Arguments("Body", "Named secret value.")]
+    public async Task IsSecretOption_Keeps_Secret_Values_Alongside_Metadata_Phrases(string propertyName, string description)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsTrue();
     }
 
     [Test]

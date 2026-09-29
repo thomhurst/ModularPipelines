@@ -306,7 +306,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         var alias = match.Groups["alias"].Value.Trim();
         var valueHint = match.Groups["value"].Value.Trim();
-        var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
+        var description = NormalizeGeneratedUsernameDefault(
+            AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow));
 
         var propertyName = NormalizePropertyName(longFlag);
         if (propertyName is null)
@@ -556,6 +557,22 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     // exposed elsewhere still describe available choices, not multiple input values.
     [GeneratedRegex(@"(?:^|(?<=[.!?])\s+)(?:(?:specify|specifies|accepts?|provide|provides|set|sets)\s+)?(?:(?:a|an|the)\s+)?(?:configuration\s+settings\s+of\s+(?:(?:a|an|the)\s+)?)?(?:(?:json|ordered|allowed|comma-separated|space-separ[ae]ted)\s+)?list\s+of\b(?![^.!?]*\b(?:is|are)\s+(?:available|documented|exposed|listed|published|shown)\b)", RegexOptions.IgnoreCase)]
     private static partial Regex AzListValueDescriptionPattern();
+
+    /// <summary>
+    /// Azure CLI fills some username defaults with a random adjective-noun-digit name each
+    /// time help runs (for example "hatefulmagpie9"). Replace the name so regeneration stays
+    /// deterministic; fixed defaults such as "admin" or "sshuser" have no trailing digit.
+    /// </summary>
+    internal static string NormalizeGeneratedUsernameDefault(string description) =>
+        UsernameDescriptionPattern().IsMatch(description)
+            ? GeneratedUsernameDefaultPattern().Replace(description, "${lead}generated at run time")
+            : description;
+
+    [GeneratedRegex(@"\buser\s*name\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex UsernameDescriptionPattern();
+
+    [GeneratedRegex(@"(?<lead>\bDefault:\s*)[a-z]{3,}[0-9](?=\.?\s*$)", RegexOptions.CultureInvariant)]
+    private static partial Regex GeneratedUsernameDefaultPattern();
 
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.

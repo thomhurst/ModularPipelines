@@ -160,6 +160,7 @@ public static partial class GeneratorUtils
         // default and normalize user-home paths before shipping docs.
         text = RemoveCurrentDirectoryDefault(text);
         text = NormalizeRunnerHomePaths(text);
+        text = NormalizeTimestampDefaults(text);
         text = text
             .Replace("\r\n", " ")
             .Replace("\n", " ")
@@ -192,6 +193,17 @@ public static partial class GeneratorUtils
 
         return text;
     }
+
+    // A default with a time of day is computed when the help runs (for example "now" or
+    // "now plus one hour"), so every regeneration would ship a different timestamp.
+    // Date-only defaults such as API versions are stable and stay visible.
+    internal static string NormalizeTimestampDefaults(string text) =>
+        TimestampDefaultPattern().Replace(text, "${lead}computed at run time");
+
+    [GeneratedRegex(
+        @"(?<lead>\bdefault(?:\s+value)?(?:\s+is\b|\s*[:=])?\s*)(?<quote>[""']?)\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?\k<quote>",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex TimestampDefaultPattern();
 
     private static string RemoveCurrentDirectoryDefault(string text)
     {
@@ -1096,11 +1108,27 @@ public static partial class GeneratorUtils
                                   && (char.IsLower(propertyName[start - 1]) || char.IsDigit(propertyName[start - 1]))));
     }
 
-    private static bool DescriptionIdentifiesSecretValue(string? description) =>
-        !string.IsNullOrWhiteSpace(description)
-        && (SecretMaterialDescriptionPattern().IsMatch(description)
-            || (InlineFileContentDescriptionPattern().IsMatch(description)
-                && SecretKeywordDescriptionPattern().IsMatch(description)));
+    private static bool DescriptionIdentifiesSecretValue(string? description)
+    {
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return false;
+        }
+
+        // "Description of the secret contents" names metadata about the secret, not the secret itself.
+        description = SecretMetadataPhrasePattern().Replace(description, " ");
+        return SecretMaterialDescriptionPattern().IsMatch(description)
+               || (InlineFileContentDescriptionPattern().IsMatch(description)
+                   && SecretKeywordDescriptionPattern().IsMatch(description));
+    }
+
+    [GeneratedRegex(
+        @"\b(?:description|summary|type|kind|format|encoding|content[\s-]*type|mime[\s-]*type|label|name|tags?|metadata|size|length|version)"
+        + @"\s+(?:of|for)\s+(?:the\s+|a\s+|an\s+)?(?:"
+        + @"(?:" + SecretDescriptionKeywordPattern + @")\s+(?:" + SecretMaterialTermPattern + @")"
+        + @"|(?:" + SecretMaterialTermPattern + @")\s+(?:for|of)\s+(?:the\s+)?(?:" + SecretDescriptionKeywordPattern + @"))\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex SecretMetadataPhrasePattern();
 
     [GeneratedRegex(
         @"\A\s*(?:(?:sets?|specifies?|controls?)\s+)?(?:the\s+)?(?:(?:maximum|minimum)\s+)?(?:total\s+)?(?:number|count)\s+of\b",
