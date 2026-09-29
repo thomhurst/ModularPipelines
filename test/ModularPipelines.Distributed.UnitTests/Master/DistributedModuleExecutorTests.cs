@@ -1432,6 +1432,117 @@ public class DistributedModuleExecutorTests
 
     [Test]
     [Timeout(30_000)]
+    public async Task Lost_Worker_Fails_Module_No_Live_Worker_Can_Claim(CancellationToken testCancellation)
+    {
+        var module = new GpuOnlyModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(GpuOnlyModule)));
+        var resultRegistry = new ModuleResultRegistry();
+        var options = new DistributedOptions
+        {
+            TotalInstances = 2,
+            ModuleResultTimeout = TimeSpan.FromMinutes(10),
+            WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(50),
+            WorkerTimeout = TimeSpan.FromMilliseconds(200),
+            WorkerRegistrationTimeout = TimeSpan.FromMilliseconds(300),
+        };
+        var inner = new InMemoryDistributedCoordinator(Microsoft.Extensions.Options.Options.Create(options));
+        var coordinator = new ResultTrackingCoordinator(inner);
+        coordinator.ReleaseWorkerQuery();
+        await inner.RegisterWorkerAsync(
+            new WorkerRegistration { WorkerId = DistributedTestData.Worker, Capabilities = [Capability.Gpu], RegisteredAt = DateTimeOffset.UtcNow, PipelineSchemaVersion = CreateSchema(typeof(GpuOnlyModule)) },
+            testCancellation);
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        var execution = executor.ExecuteAsync([module]);
+        await coordinator.WaitForResultStartedAsync(typeof(GpuOnlyModule)).WaitAsync(testCancellation);
+
+        // The only GPU worker claims the module and then disappears without renewing its lease.
+        await inner.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability> { Capability.Gpu }, testCancellation);
+        var claimedAt = System.Diagnostics.Stopwatch.StartNew();
+        await execution.WaitAsync(testCancellation);
+
+        // Failing well before the ten-minute result backstop.
+        await Assert.That(claimedAt.Elapsed).IsLessThan(TimeSpan.FromSeconds(10));
+        var registeredResult = resultRegistry.GetResult(typeof(GpuOnlyModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsTypeOf<DistributedRoutingException>();
+        await Assert.That(registeredResult.Status).IsEqualTo(ModuleStatus.Failed);
+        scheduler.Verify(
+            instance => instance.MarkModuleCompleted(typeof(GpuOnlyModule), false, null, ModuleStatus.Failed),
+            Times.Once());
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Lost_Worker_Module_Waits_For_Another_Live_Capable_Worker(CancellationToken testCancellation)
+    {
+        var module = new GpuOnlyModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(GpuOnlyModule)));
+        var resultRegistry = new ModuleResultRegistry();
+        var options = new DistributedOptions
+        {
+            TotalInstances = 3,
+            ModuleResultTimeout = TimeSpan.FromMinutes(10),
+            WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(50),
+            WorkerTimeout = TimeSpan.FromMilliseconds(200),
+            WorkerRegistrationTimeout = TimeSpan.FromMilliseconds(300),
+        };
+        var inner = new InMemoryDistributedCoordinator(Microsoft.Extensions.Options.Options.Create(options));
+        var coordinator = new ResultTrackingCoordinator(inner);
+        coordinator.ReleaseWorkerQuery();
+        var schema = CreateSchema(typeof(GpuOnlyModule));
+        var survivor = WorkerId.FromInstanceIndex(2);
+        await inner.RegisterWorkerAsync(
+            new WorkerRegistration { WorkerId = DistributedTestData.Worker, Capabilities = [Capability.Gpu], RegisteredAt = DateTimeOffset.UtcNow, PipelineSchemaVersion = schema },
+            testCancellation);
+        await inner.RegisterWorkerAsync(
+            new WorkerRegistration { WorkerId = survivor, Capabilities = [Capability.Gpu], RegisteredAt = DateTimeOffset.UtcNow, PipelineSchemaVersion = schema },
+            testCancellation);
+        using var heartbeatCts = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        var heartbeats = Task.Run(async () =>
+        {
+            while (!heartbeatCts.IsCancellationRequested)
+            {
+                await inner.SendHeartbeatAsync(new WorkerStatus { WorkerId = survivor }, CancellationToken.None);
+                await Task.Delay(50, CancellationToken.None);
+            }
+        }, CancellationToken.None);
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        var execution = executor.ExecuteAsync([module]);
+        await coordinator.WaitForResultStartedAsync(typeof(GpuOnlyModule)).WaitAsync(testCancellation);
+        await inner.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability> { Capability.Gpu }, testCancellation);
+
+        // The lease expires, but the surviving GPU worker can still claim the requeued module.
+        await Task.Delay(1500, testCancellation);
+        await Assert.That(execution.IsCompleted).IsFalse();
+
+        var serializer = new ModuleResultSerializer(new ModuleTypeRegistry());
+        await inner.PublishResultAsync(
+            serializer.Serialize(
+                CreateSuccessResult("gpu done", nameof(GpuOnlyModule)),
+                typeof(GpuOnlyModule).FullName!,
+                workerId: survivor),
+            lease: null,
+            testCancellation);
+        await execution.WaitAsync(testCancellation);
+        await heartbeatCts.CancelAsync();
+        await heartbeats;
+
+        await Assert.That(resultRegistry.GetResult(typeof(GpuOnlyModule))?.Status)
+            .IsEqualTo(ModuleStatus.Succeeded);
+    }
+
+    [Test]
+    [Timeout(30_000)]
     public async Task Zero_Result_Timeout_Waits_Until_Result_Is_Published(CancellationToken testCancellation)
     {
         var module = new DistributedModule();

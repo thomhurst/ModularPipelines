@@ -100,8 +100,8 @@ internal static class DistributedBuildConfiguration
             options.MinimumWorkerCount = count - 1;
             options.WorkerRegistrationTimeout = TimeSpan.FromMinutes(10);
             // Workers enforce each module's own timeout; the master's backstop adds this slack
-            // after a worker claims the module, which keeps a stalled worker's failure well
-            // inside the workflow's 90-minute lifetime.
+            // after a worker claims the module. A lost runner is detected sooner: its lease expires,
+            // and a module no live worker can claim fails after WorkerRegistrationTimeout.
             options.ModuleResultTimeout = TimeSpan.FromMinutes(15);
             options.MaxParallelism = 2;
         });
