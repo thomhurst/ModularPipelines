@@ -15,7 +15,8 @@ namespace ModularPipelines.Distributed.Redis;
 /// Extension methods for registering the Redis distributed coordinator, artifact store and module cache.
 /// </summary>
 /// <remarks>
-/// The coordinator and artifact store share the unnamed <see cref="RedisOptions"/> and one connection.
+/// The coordinator and artifact store share the unnamed <see cref="RedisOptions"/> but each opens its own
+/// connection, so large artifact transfers cannot delay coordinator heartbeats.
 /// The module cache has its own <see cref="RedisOptions"/> and connection, so it can target another
 /// Redis instance. Artifact settings that apply to every backend are configured through
 /// <see cref="ArtifactOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.

@@ -4,8 +4,8 @@ namespace ModularPipelines.Distributed.Redis;
 
 /// <summary>
 /// Retries idempotent Redis commands that failed with a timeout or a dropped connection.
-/// Large values share one multiplexed connection, so a transfer can time out while other
-/// processes saturate the link even though the server is healthy.
+/// A large value is one command on a multiplexed connection, so its transfer can time out while
+/// other processes saturate the link even though the server is healthy.
 /// </summary>
 internal static class RedisTransientRetry
 {
