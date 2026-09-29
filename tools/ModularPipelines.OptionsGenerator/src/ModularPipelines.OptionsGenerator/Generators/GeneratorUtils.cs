@@ -194,14 +194,28 @@ public static partial class GeneratorUtils
         return text;
     }
 
-    // A default with a time of day is computed when the help runs (for example "now" or
-    // "now plus one hour"), so every regeneration would ship a different timestamp.
-    // Date-only defaults such as API versions are stable and stay visible.
+    // Some CLIs compute a timestamp default when help runs ("now", or "now plus one hour"),
+    // so every regeneration would ship a different value. A default that includes a time of
+    // day and falls within a year of the scrape is that kind of value. Fixed sentinels such
+    // as the Unix epoch or 9999-12-31, and date-only defaults such as API versions, stay.
     internal static string NormalizeTimestampDefaults(string text) =>
-        TimestampDefaultPattern().Replace(text, "${lead}computed at run time");
+        NormalizeTimestampDefaults(text, DateTimeOffset.UtcNow);
+
+    internal static string NormalizeTimestampDefaults(string text, DateTimeOffset scrapedAt) =>
+        TimestampDefaultPattern().Replace(text, match =>
+            DateTimeOffset.TryParse(
+                match.Groups["timestamp"].Value,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal,
+                out var timestamp)
+            && (timestamp - scrapedAt).Duration() <= RunTimeTimestampWindow
+                ? match.Groups["lead"].Value + "computed at run time"
+                : match.Value);
+
+    private static readonly TimeSpan RunTimeTimestampWindow = TimeSpan.FromDays(366);
 
     [GeneratedRegex(
-        @"(?<lead>\bdefault(?:\s+value)?(?:\s+is\b|\s*[:=])?\s*)(?<quote>[""']?)\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?\k<quote>",
+        @"(?<lead>\bdefault(?:\s+value)?(?:\s+is\b|\s*[:=])?\s*)(?<quote>[""']?)(?<timestamp>\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?)\k<quote>",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex TimestampDefaultPattern();
 

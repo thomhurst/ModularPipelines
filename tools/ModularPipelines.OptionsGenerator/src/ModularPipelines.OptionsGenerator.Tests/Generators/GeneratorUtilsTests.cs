@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -172,18 +173,33 @@ public class GeneratorUtilsTests
     [Arguments("Restore point.  Default: 2026-09-21T12:31:50+00:00.", "Restore point.  Default: computed at run time.")]
     [Arguments("Start time (default \"2026-09-21T12:31:50Z\")", "Start time (default computed at run time)")]
     [Arguments("Start time [default: 2026-09-21 12:31]", "Start time [default: computed at run time]")]
-    public async Task EscapeXmlComment_Normalizes_Timestamp_Defaults(string description, string expected)
+    public async Task NormalizeTimestampDefaults_Replaces_Defaults_Computed_When_Help_Ran(string description, string expected)
     {
-        await Assert.That(GeneratorUtils.EscapeXmlComment(description)).IsEqualTo(expected);
+        var scrapedAt = new DateTimeOffset(2026, 9, 22, 11, 26, 5, TimeSpan.Zero);
+
+        await Assert.That(GeneratorUtils.NormalizeTimestampDefaults(description, scrapedAt)).IsEqualTo(expected);
     }
 
     [Test]
     [Arguments("The API version.  Default: 2022-03-01.")]
+    [Arguments("Epoch sentinel.  Default: 1970-01-01T00:00:00Z.")]
+    [Arguments("Far future.  Default: 9999-12-31T23:59:59.999999+00:00.")]
     [Arguments("Defaults to the max value \"9999-12-31T23:59:59.999999+00:00\".")]
     [Arguments("Only changes after 2026-09-21T12:31:50Z are returned.")]
-    public async Task EscapeXmlComment_Keeps_Stable_Dates(string description)
+    public async Task NormalizeTimestampDefaults_Keeps_Fixed_Dates(string description)
     {
-        await Assert.That(GeneratorUtils.EscapeXmlComment(description)).IsEqualTo(description);
+        var scrapedAt = new DateTimeOffset(2026, 9, 22, 11, 26, 5, TimeSpan.Zero);
+
+        await Assert.That(GeneratorUtils.NormalizeTimestampDefaults(description, scrapedAt)).IsEqualTo(description);
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Normalizes_Timestamp_Defaults_Near_Now()
+    {
+        var now = DateTimeOffset.UtcNow.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
+
+        await Assert.That(GeneratorUtils.EscapeXmlComment($"Restore point.  Default: {now}."))
+            .IsEqualTo("Restore point.  Default: computed at run time.");
     }
 
     [Test]

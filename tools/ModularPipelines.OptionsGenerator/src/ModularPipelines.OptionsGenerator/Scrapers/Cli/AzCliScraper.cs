@@ -306,8 +306,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         var alias = match.Groups["alias"].Value.Trim();
         var valueHint = match.Groups["value"].Value.Trim();
-        var description = NormalizeGeneratedUsernameDefault(
-            AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow));
+        var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
         var propertyName = NormalizePropertyName(longFlag);
         if (propertyName is null)
@@ -559,20 +558,51 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static partial Regex AzListValueDescriptionPattern();
 
     /// <summary>
-    /// Azure CLI fills some username defaults with a random adjective-noun-digit name each
-    /// time help runs (for example "hatefulmagpie9"). Replace the name so regeneration stays
-    /// deterministic; fixed defaults such as "admin" or "sshuser" have no trailing digit.
+    /// Azure CLI fills some defaults with a random name each time help runs, for example the
+    /// adjective-noun-digit administrator usernames of the database server commands
+    /// ("hatefulmagpie9"). When help shows a name-shaped default, run help again and replace
+    /// only the defaults that changed, so regeneration stays deterministic while fixed
+    /// defaults such as "nodepool1" or "key1" stay visible.
     /// </summary>
-    internal static string NormalizeGeneratedUsernameDefault(string description) =>
-        UsernameDescriptionPattern().IsMatch(description)
-            ? GeneratedUsernameDefaultPattern().Replace(description, "${lead}generated at run time")
-            : description;
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
+    {
+        var helpText = await base.GetHelpTextAsync(commandPath, cancellationToken);
+        if (helpText is null || !NameShapedDefaultPattern().IsMatch(helpText))
+        {
+            return helpText;
+        }
 
-    [GeneratedRegex(@"\buser\s*name\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex UsernameDescriptionPattern();
+        var repeat = await Executor.ExecuteAsync(
+            ExecutablePath,
+            GetHelpArguments(commandPath),
+            cancellationToken);
+        var repeatText = !string.IsNullOrEmpty(repeat.StandardOutput)
+            ? repeat.StandardOutput
+            : repeat.StandardError;
+        return ReplaceRunVaryingDefaults(helpText, repeatText);
+    }
 
-    [GeneratedRegex(@"(?<lead>\bDefault:\s*)[a-z]{3,}[0-9](?=\.?\s*$)", RegexOptions.CultureInvariant)]
-    private static partial Regex GeneratedUsernameDefaultPattern();
+    internal static string ReplaceRunVaryingDefaults(string helpText, string? repeatHelpText)
+    {
+        var first = NameShapedDefaultPattern().Matches(helpText);
+        var second = NameShapedDefaultPattern().Matches(repeatHelpText ?? string.Empty);
+        if (first.Count != second.Count)
+        {
+            // Without aligned defaults there is no evidence that any value varies.
+            return helpText;
+        }
+
+        var index = 0;
+        return NameShapedDefaultPattern().Replace(helpText, match =>
+            match.Groups["value"].Value == second[index++].Groups["value"].Value
+                ? match.Value
+                : match.Groups["lead"].Value + "generated at run time");
+    }
+
+    [GeneratedRegex(@"(?<lead>\bDefault:\s*)(?<value>[a-z]{3,}[0-9]+)\b", RegexOptions.CultureInvariant)]
+    private static partial Regex NameShapedDefaultPattern();
 
     /// <summary>
     /// Matches section headers like "Arguments", "Global Arguments", "Subgroups:", etc.

@@ -933,23 +933,13 @@ public class AzCliScraperTests
     }
 
     [Test]
-    public async Task Generated_Username_Defaults_Are_Normalized()
+    public async Task Defaults_That_Change_Between_Help_Runs_Are_Normalized()
     {
-        const string helpText = """
-            Command
-                az mysql flexible-server create : Create a MySQL flexible server.
+        var help = new Queue<string>([GeneratedNameHelp("hatefulmagpie9"), GeneratedNameHelp("morallapwing4")]);
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
 
-            Optional Arguments
-                --admin-user -u : Administrator username for the server. Once set, it
-                                  cannot be changed.  Default: hatefulmagpie9.
-                --http-user     : HTTP username for the cluster.  Default: admin.
-                --nodepool-name : Node pool name, up to 12 alphanumeric characters.
-                                  Default: nodepool1.
-            """;
-
-        var command = await new TestAzCliScraper().Parse(
-            ["az", "mysql", "flexible-server", "create"],
-            helpText);
+        var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
+        var command = await scraper.Parse(["az", "mysql", "flexible-server", "create"], helpText!);
         string Description(string switchName) =>
             command!.Options.Single(option => option.SwitchName == switchName).Description!;
 
@@ -958,8 +948,49 @@ public class AzCliScraperTests
             await Assert.That(Description("--admin-user")).EndsWith("Default: generated at run time.");
             await Assert.That(Description("--http-user")).EndsWith("Default: admin.");
             await Assert.That(Description("--nodepool-name")).EndsWith("Default: nodepool1.");
+            await Assert.That(help).IsEmpty();
         }
     }
+
+    [Test]
+    public async Task Fixed_Name_Shaped_Defaults_Are_Kept()
+    {
+        var help = new Queue<string>([GeneratedNameHelp("support1"), GeneratedNameHelp("support1")]);
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
+
+        var helpText = await scraper.FetchHelp(["az", "mysql", "flexible-server", "create"]);
+
+        await Assert.That(helpText).IsEqualTo(GeneratedNameHelp("support1"));
+    }
+
+    [Test]
+    public async Task Help_Without_Name_Shaped_Defaults_Runs_Once()
+    {
+        const string helpText = """
+            Command
+                az group create : Create a new resource group.
+
+            Arguments
+                --name -n : Name of the new resource group.  Default: admin.
+            """;
+        var help = new Queue<string>([helpText, "unexpected second run"]);
+        var scraper = new HelpFetchingAzCliScraper(new SequenceExecutor(help));
+
+        await Assert.That(await scraper.FetchHelp(["az", "group", "create"])).IsEqualTo(helpText);
+        await Assert.That(help.Count).IsEqualTo(1);
+    }
+
+    private static string GeneratedNameHelp(string adminUser) => $"""
+        Command
+            az mysql flexible-server create : Create a MySQL flexible server.
+
+        Optional Arguments
+            --admin-user -u : Administrator username for the server. Once set, it
+                              cannot be changed.  Default: {adminUser}.
+            --http-user     : HTTP username for the cluster.  Default: admin.
+            --nodepool-name : Node pool name, up to 12 alphanumeric characters.
+                              Default: nodepool1.
+        """;
 
     [Test]
     public async Task Secret_Content_Type_Description_Is_Not_A_Secret()
@@ -984,6 +1015,39 @@ public class AzCliScraperTests
             contentType.PropertyName,
             contentType.IsFlag,
             contentType.Description)).IsFalse();
+    }
+
+    private sealed class HelpFetchingAzCliScraper(ICliCommandExecutor executor)
+        : AzCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AzCliScraper>.Instance)
+    {
+        public Task<string?> FetchHelp(string[] commandPath) =>
+            GetHelpTextAsync(commandPath, CancellationToken.None);
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
+            ParseCommandAsync(commandPath, helpText, CancellationToken.None);
+    }
+
+    private sealed class SequenceExecutor(Queue<string> helpTexts) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpTexts.Dequeue(),
+                StandardError = string.Empty,
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class TestAzCliScraper()
