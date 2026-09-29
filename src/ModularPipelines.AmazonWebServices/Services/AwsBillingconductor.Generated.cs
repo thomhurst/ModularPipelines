@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -258,6 +257,21 @@ public class AwsBillingconductor : IAwsBillingconductor
     }
 
     /// <summary>
+    /// Retrieves the auto billing group creation preference for a billing transfer. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetBillingTransferPreferenceAsync(
+        AwsBillingconductorGetBillingTransferPreferenceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is pro- vided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account. See also: AWS API Documentation list-account-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -461,6 +475,21 @@ public class AwsBillingconductor : IAwsBillingconductor
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBillingGroupAsync(
         AwsBillingconductorUpdateBillingGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference ap- plies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole per- missio...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateBillingTransferPreferenceAsync(
+        AwsBillingconductorUpdateBillingTransferPreferenceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

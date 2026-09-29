@@ -89,7 +89,6 @@ public record AwsApigatewayv2CreateApiOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This property is part of quick create. It specifies the credentials required for the integration, if any. For a Lambda integration, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, spec- ify arn:aws:iam:::user/. To use resource-based permissions on sup- ported AWS services, specify null. Currently, this property is not used for HTTP integrations. Supported only for HTTP APIs.
     /// </summary>
-    [SecretValue]
     [CliOption("--credentials-arn")]
     public string? CredentialsArn { get; set; }
 

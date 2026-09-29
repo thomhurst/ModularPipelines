@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -2091,6 +2090,21 @@ public class AwsBedrockAgentcoreControl : IAwsBedrockAgentcoreControl
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PutResourcePolicyAsync(
         AwsBedrockAgentcoreControlPutResourcePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one ro- tation runs at a time for a given payment connector. When it succeeds, the new cred...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RotatePaymentConnectorCredentialsAsync(
+        AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an infrastructure configuration. See also: AWS API Documentation
+/// Deletes an infrastructure configuration. You can't delete a configura- tion that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteInfrastructureConfigurationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an infrastructure configuration. See also: AWS API Documentation
+    /// Deletes an infrastructure configuration. You can't delete a configura- tion that an image pipeline still references. The request fails with ResourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
     /// </summary>
     /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteInfrastructureConfigurationOptions(

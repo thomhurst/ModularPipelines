@@ -31,7 +31,7 @@ public record AwsQconnectCreateQuickResponseOptions : AwsOptions, IValidatableOb
     /// </summary>
     /// <param name="KnowledgeBaseId">The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
     /// <param name="Name">The name of the quick response. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Content">The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }</param>
+    /// <param name="Content">The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 4000 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }</param>
     public AwsQconnectCreateQuickResponseOptions(
         string KnowledgeBaseId,
         string Name,
@@ -78,7 +78,7 @@ public record AwsQconnectCreateQuickResponseOptions : AwsOptions, IValidatableOb
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
+    /// The content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 4000 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }

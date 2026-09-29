@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified lifecycle policy resource. See also: AWS API Documentation
+/// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that pol- icy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy al- ready applied to your resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteLifecyclePolicyOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified lifecycle policy resource. See also: AWS API Documentation
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes its schedule, so no further lifecycle runs occur for that pol- icy. If a lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion doesn't revert actions that the policy al- ready applied to your resources. See also: AWS API Documentation
     /// </summary>
     /// <param name="LifecyclePolicyArn">The Amazon Resource Name (ARN) of the lifecycle policy resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws):lifecy- cle-policy/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteLifecyclePolicyOptions(

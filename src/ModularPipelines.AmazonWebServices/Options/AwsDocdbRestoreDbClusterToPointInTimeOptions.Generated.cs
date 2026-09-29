@@ -149,6 +149,12 @@ public record AwsDocdbRestoreDbClusterToPointInTimeOptions : AwsOptions, IValida
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
 
+    /// <summary>
+    /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
+    public bool? CopyTagsToSnapshot { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

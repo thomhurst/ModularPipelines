@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsConnectDescribeInstanceAttributeAttributeType
 {
+    [EnumValue("AUTO_MUTE_AGENT_ON_HOLD")]
+    AutoMuteAgentOnHold,
+
     [EnumValue("AUTO_RESOLVE_BEST_VOICES")]
     AutoResolveBestVoices,
 

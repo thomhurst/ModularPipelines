@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -76,7 +75,6 @@ public record AwsM2StartBatchJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The Amazon Web Services Secrets Manager containing user's creden- tials for authentication and authorization for Start Batch Job exe- cution operation. Constraints: o min: 20 o max: 2048
     /// </summary>
-    [SecretValue]
     [CliOption("--auth-secrets-manager-arn")]
     public string? AuthSecretsManagerArn { get; set; }
 

@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -45,6 +44,21 @@ public class AwsAgentToolkit : IAwsAgentToolkit
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit up- date-skill to apply an update. By default it checks skills for all de- tected agents, use --agent to check only a specific tool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CheckSkillUpdatesAsync(
+        AwsAgentToolkitCheckSkillUpdatesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAgentToolkitCheckSkillUpdatesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -138,18 +152,18 @@ public class AwsAgentToolkit : IAwsAgentToolkit
     }
 
     /// <summary>
-    /// Update an installed AWS skill to the latest version. Compares the lo- cally installed version against the available skills and downloads the newer version if available. By default the skill is updated for all de- tected agents, use --agent to update the skill for only a specific tool.
+    /// Update installed AWS skills to the latest version. Compares the locally installed version against the available skills and downloads the newer version if available. Pass --skill-name to update a single skill or --all to update every installed skill that is out of date. By default skills are updated for all detected agents, use --agent to update for only a specific tool.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSkillAsync(
-        AwsAgentToolkitUpdateSkillOptions options,
+        AwsAgentToolkitUpdateSkillOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAgentToolkitUpdateSkillOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

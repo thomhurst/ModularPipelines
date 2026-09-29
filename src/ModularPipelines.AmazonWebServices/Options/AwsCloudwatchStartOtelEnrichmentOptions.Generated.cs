@@ -21,6 +21,18 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("cloudwatch", "start-otel-enrichment")]
 public record AwsCloudwatchStartOtelEnrichmentOptions : AwsOptions
 {
+    /// <summary>
+    /// The metric namespaces, and the metric names, to enrich. If this pa- rameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and Ex- cludeFilters combined. Constraints: o min: 0 o max: 100 (structure) Selects the metrics in one namespace, for use in the Include- Filters or ExcludeFilters parameter of StartOTelEnrichment or UpdateOTelEnrichment . A maximum of 100 selectors is allowed across IncludeFilters and ExcludeFilters combined. Namespace -&gt; (string) [required] The namespace of the metrics to select. Namespaces are matched exactly and are case-sensitive. Constraints: o min: 1 o max: 255 o pattern: [^:].* MetricNames -&gt; (list) The names of the metrics to select within the namespace. Met- ric names are matched exactly and are case-sensitive. If this parameter is omitted, every metric in the namespace is se- lected. A maximum of 100 metric names is allowed for each selector. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: Namespace=string,MetricNames=string,string ... JSON Syntax: [ { "Namespace": "string", "MetricNames": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--include-filters", GroupValues = true)]
+    public IEnumerable<string>? IncludeFilters { get; set; }
+
+    /// <summary>
+    /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters , so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and Ex- cludeFilters combined. Constraints: o min: 0 o max: 100 (structure) Selects the metrics in one namespace, for use in the Include- Filters or ExcludeFilters parameter of StartOTelEnrichment or UpdateOTelEnrichment . A maximum of 100 selectors is allowed across IncludeFilters and ExcludeFilters combined. Namespace -&gt; (string) [required] The namespace of the metrics to select. Namespaces are matched exactly and are case-sensitive. Constraints: o min: 1 o max: 255 o pattern: [^:].* MetricNames -&gt; (list) The names of the metrics to select within the namespace. Met- ric names are matched exactly and are case-sensitive. If this parameter is omitted, every metric in the namespace is se- lected. A maximum of 100 metric names is allowed for each selector. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: Namespace=string,MetricNames=string,string ... JSON Syntax: [ { "Namespace": "string", "MetricNames": ["string", ...] } ... ]
+    /// </summary>
+    [CliOption("--exclude-filters", GroupValues = true)]
+    public IEnumerable<string>? ExcludeFilters { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

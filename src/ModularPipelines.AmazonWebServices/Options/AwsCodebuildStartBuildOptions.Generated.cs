@@ -237,7 +237,6 @@ public record AwsCodebuildStartBuildOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The type of credentials CodeBuild uses to pull images in your build. There are two valid values: CODEBUILD Specifies that CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust CodeBuild's ser- vice principal. SERVICE_ROLE Specifies that CodeBuild uses your build project's service role. When using a cross-account or private registry image, you must use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use CODEBUILD credentials. Possible values: o CODEBUILD o SERVICE_ROLE
     /// </summary>
-    [SecretValue]
     [CliOption("--image-pull-credentials-type-override")]
     public string? ImagePullCredentialsTypeOverride { get; set; }
 

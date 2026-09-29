@@ -193,7 +193,6 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     /// </summary>
-    [SecretValue]
     [CliOption("--tde-credential-arn")]
     public string? TdeCredentialArn { get; set; }
 
@@ -231,7 +230,6 @@ public record AwsRdsModifyDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myself- managedADtestsecret-123456
     /// </summary>
-    [SecretValue]
     [CliOption("--domain-auth-secret-arn")]
     public string? DomainAuthSecretArn { get; set; }
 

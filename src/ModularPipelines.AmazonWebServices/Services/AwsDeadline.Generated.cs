@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -1708,7 +1707,7 @@ public class AwsDeadline : IAwsDeadline
     }
 
     /// <summary>
-    /// Updates a fleet. See also: AWS API Documentation
+    /// Updates a fleet. NOTE: Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take ef- fect immediately. To make sure that all workers use the new configu- ration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorker- Co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -132,6 +132,16 @@ public interface IAwsBilling
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Lists the segments of a billing view over a given time period. Each segment identifies the billing domain (PRO_FORMA or BILLABLE ) and the account relationships that apply during its time range. If you don't provide an arn , the response includes segments for the caller's PRIMARY billing view. If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested tim...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBillingViewSegmentsAsync(AwsBillingListBillingViewSegmentsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views represent- ing pro forma costs associated with each created billing group. See also: AWS API Documentation list-billing-views is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You ca...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -139,6 +149,26 @@ public interface IAwsBilling
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListBillingViewsAsync(AwsBillingListBillingViewsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Returns Business Support charges broken down at the linked account level for a given billing month. See also: AWS API Documentation list-business-support-account-charges is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the follow...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBusinessSupportAccountChargesAsync(AwsBillingListBusinessSupportAccountChargesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Returns the history of Business Support subscription contracts across accounts. See also: AWS API Documentation list-business-support-subscription-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query express...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListBusinessSupportSubscriptionHistoryAsync(AwsBillingListBusinessSupportSubscriptionHistoryOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

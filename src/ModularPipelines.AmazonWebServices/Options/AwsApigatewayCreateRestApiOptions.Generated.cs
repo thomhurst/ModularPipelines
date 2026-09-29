@@ -118,7 +118,7 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions, IValidatableObject
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>
-    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi. Possible values: o TLS_1_0 o TLS_1_2 o SecurityPolicy_TLS13_1_3_2025_09 o SecurityPolicy_TLS13_1_3_FIPS_2025_09 o SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_2021_06 o SecurityPolicy_TLS13_2025_EDGE o SecurityPolicy_TLS12_PFS_2025_EDGE o SecurityPolicy_TLS12_2018_EDGE
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi. Possible values: o TLS_1_0 o TLS_1_2 o SecurityPolicy_TLS13_1_3_2025_09 o SecurityPolicy_TLS13_1_3_FIPS_2025_09 o SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_2021_06 o SecurityPolicy_TLS13_2025_EDGE o SecurityPolicy_TLS12_PFS_2025_EDGE o SecurityPolicy_TLS12_2018_EDGE
     /// </summary>
     [CliOption("--security-policy")]
     public AwsApigatewayCreateRestApiSecurityPolicy? SecurityPolicy { get; set; }

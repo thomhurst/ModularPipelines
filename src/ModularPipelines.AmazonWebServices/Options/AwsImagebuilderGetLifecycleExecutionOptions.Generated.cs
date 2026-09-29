@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the runtime information for a specific runtime instance of the lifecycle policy. See also: AWS API Documentation
+/// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceState- Update request started. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderGetLifecycleExecutionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the runtime information for a specific runtime instance of the lifecycle policy. See also: AWS API Documentation
+    /// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceState- Update request started. See also: AWS API Documentation
     /// </summary>
     /// <param name="LifecycleExecutionId">The unique identifier for a runtime instance of the lifecycle pol- icy. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     public AwsImagebuilderGetLifecycleExecutionOptions(

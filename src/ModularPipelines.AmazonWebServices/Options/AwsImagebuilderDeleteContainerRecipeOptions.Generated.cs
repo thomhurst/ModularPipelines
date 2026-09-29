@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a container recipe. See also: AWS API Documentation
+/// Deletes a container recipe. The request fails with ResourceDependen- cyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteContainerRecipeOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a container recipe. See also: AWS API Documentation
+    /// Deletes a container recipe. The request fails with ResourceDependen- cyException if the recipe is shared with other accounts, or if an image pipeline references it. See also: AWS API Documentation
     /// </summary>
     /// <param name="ContainerRecipeArn">The Amazon Resource Name (ARN) of the container recipe to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):con- tainer-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
     public AwsImagebuilderDeleteContainerRecipeOptions(

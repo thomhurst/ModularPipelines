@@ -27,7 +27,7 @@ public record AwsImagebuilderGetWorkflowOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a workflow resource object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowBuildVersionArn">The Amazon Resource Name (ARN) of the workflow resource that you want to get. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
+    /// <param name="WorkflowBuildVersionArn">The Amazon Resource Name (ARN) of the workflow resource that you want to get. You can specify a build version ARN, or a version ARN with or without wildcards (x ) in its version segments. Image Builder resolves version and wildcard ARNs to the most recent match- ing build version. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
     public AwsImagebuilderGetWorkflowOptions(
         string WorkflowBuildVersionArn
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderGetWorkflowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow resource that you want to get. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
+    /// The Amazon Resource Name (ARN) of the workflow resource that you want to get. You can specify a build version ARN, or a version ARN with or without wildcards (x ) in its version segments. Image Builder resolves version and wildcard ARNs to the most recent match- ing build version. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
     /// </summary>
     [CliOption("--workflow-build-version-arn")]
     public string? WorkflowBuildVersionArn { get; private init; }

@@ -27,7 +27,7 @@ public record AwsImagebuilderGetComponentOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves a component object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ComponentBuildVersionArn">The Amazon Resource Name (ARN) of the component that you want to get. Regex requires the suffix /\d+$ . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
+    /// <param name="ComponentBuildVersionArn">The Amazon Resource Name (ARN) of the component that you want to get. You can specify a build version ARN, or a component version ARN. The version can use the x wildcard in trailing positions, for example 1.0.x or 1.x.x . Version ARNs resolve to the latest avail- able matching component build version. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
     public AwsImagebuilderGetComponentOptions(
         string ComponentBuildVersionArn
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderGetComponentOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the component that you want to get. Regex requires the suffix /\d+$ . Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
+    /// The Amazon Resource Name (ARN) of the component that you want to get. You can specify a build version ARN, or a component version ARN. The version can use the x wildcard in trailing positions, for example 1.0.x or 1.x.x . Version ARNs resolve to the latest avail- able matching component build version. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):compo- nent/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
     /// </summary>
     [CliOption("--component-build-version-arn")]
     public string? ComponentBuildVersionArn { get; private init; }

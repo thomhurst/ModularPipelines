@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListImageBuildVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+$
+    /// The Amazon Resource Name (ARN) of the image version whose build ver- sions you want to retrieve. The ARN must specify an exact version (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt; ) - wildcards aren't allowed. This parame- ter is optional. If you don't specify it, Image Builder returns build versions for all of the images in your account. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+$
     /// </summary>
     [CliOption("--image-version-arn")]
     public string? ImageVersionArn { get; set; }

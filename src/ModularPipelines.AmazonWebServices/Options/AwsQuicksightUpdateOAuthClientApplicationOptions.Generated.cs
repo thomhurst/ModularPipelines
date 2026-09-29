@@ -98,7 +98,6 @@ public record AwsQuicksightUpdateOAuthClientApplicationOptions : AwsOptions, IVa
     /// <summary>
     /// The token endpoint URL of the identity provider that is used to ob- tain access tokens. Constraints: o min: 1 o max: 2048 o pattern: ^https://[^\p{Cc}]+
     /// </summary>
-    [SecretValue]
     [CliOption("--o-auth-token-endpoint-url")]
     public string? OAuthTokenEndpointUrl { get; set; }
 

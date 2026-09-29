@@ -27,7 +27,7 @@ public record AwsImagebuilderListTagsForResourceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Returns the list of tags for the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
     public AwsImagebuilderListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderListTagsForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

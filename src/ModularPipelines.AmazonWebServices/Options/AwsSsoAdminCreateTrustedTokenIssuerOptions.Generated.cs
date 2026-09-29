@@ -83,7 +83,6 @@ public record AwsSsoAdminCreateTrustedTokenIssuerOptions : AwsOptions, IValidata
     /// <summary>
     /// Specifies the type of the new trusted token issuer. Possible values: o OIDC_JWT
     /// </summary>
-    [SecretValue]
     [CliOption("--trusted-token-issuer-type")]
     public string? TrustedTokenIssuerType { get; private init; }
 

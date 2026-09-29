@@ -24,4 +24,7 @@ public record AwsLoginOptions : AwsOptions
     [CliFlag("--remote")]
     public bool? Remote { get; set; }
 
+    [CliOption("--redirect-port")]
+    public int? RedirectPort { get; set; }
+
 }

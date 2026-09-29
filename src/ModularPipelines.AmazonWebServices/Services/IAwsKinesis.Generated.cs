@@ -67,7 +67,7 @@ public interface IAwsKinesis
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use ListChannels with a stream filter. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException ....
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. Use ListChan- nels with a stream filter to find the channels attached to a stream be- fore deleting it. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitEx- ceededException . See also: AW...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -444,6 +444,16 @@ public interface IAwsKinesis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UpdateStreamModeAsync(AwsKinesisUpdateStreamModeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Updates the record distribution strategy for the specified Amazon Kine- sis Data Streams on-demand data stream. The record distribution strat- egy determines how Amazon Kinesis Data Streams distributes records across the shards in a stream. NOTE: You must specify the stream using the StreamARN parameter. The record distribution strategy is a stream-level setting. You can switch between the following strategies at any time, and the change takes effect immediately without downtime, data loss, or d...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> UpdateStreamRecordDistributionStrategyAsync(AwsKinesisUpdateStreamRecordDistributionStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

@@ -27,7 +27,7 @@ public record AwsImagebuilderGetImageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves an image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image that you want to get. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
+    /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image that you want to get. You can specify a full build version ARN, or a version ARN with or without wildcards (x.x.x , 1.x.x , or 1.0.x ). A version or wildcard ARN resolves to the latest matching build version that has reached AVAILABLE status. Builds that were later deprecated, disabled, or deleted don't resolve. To get an image in any other state, such as a failed or in-progress build, specify the full build version ARN. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$</param>
     public AwsImagebuilderGetImageOptions(
         string ImageBuildVersionArn
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderGetImageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image that you want to get. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
+    /// The Amazon Resource Name (ARN) of the image that you want to get. You can specify a full build version ARN, or a version ARN with or without wildcards (x.x.x , 1.x.x , or 1.0.x ). A version or wildcard ARN resolves to the latest matching build version that has reached AVAILABLE status. Builds that were later deprecated, disabled, or deleted don't resolve. To get an image in any other state, such as a failed or in-progress build, specify the full build version ARN. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/(?:(?:([0-9]+|x)\.([0-9]+|x)\.([0-9]+|x))|(?:[0-9]+\.[0-9]+\.[0-9]+/[0-9]+))$
     /// </summary>
     [CliOption("--image-build-version-arn")]
     public string? ImageBuildVersionArn { get; private init; }

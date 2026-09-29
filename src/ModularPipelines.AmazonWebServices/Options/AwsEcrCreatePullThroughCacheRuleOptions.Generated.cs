@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -88,7 +87,6 @@ public record AwsEcrCreatePullThroughCacheRuleOptions : AwsOptions, IValidatable
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry. Constraints: o min: 50 o max: 612 o pattern: ^arn:aws(-\w+)*:secretsmanager:[a-zA-Z0-9-:]+:se- cret:ecr\-pullthroughcache\/[a-zA-Z0-9\/_+=.@-]+$
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-arn")]
     public string? CredentialArn { get; set; }
 

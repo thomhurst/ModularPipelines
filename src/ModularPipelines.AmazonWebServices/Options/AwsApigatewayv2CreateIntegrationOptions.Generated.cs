@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -94,7 +93,6 @@ public record AwsApigatewayv2CreateIntegrationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam:::user/. To use re- source-based permissions on supported AWS services, specify null.
     /// </summary>
-    [SecretValue]
     [CliOption("--credentials-arn")]
     public string? CredentialsArn { get; set; }
 

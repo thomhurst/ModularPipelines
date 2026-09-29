@@ -22,6 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("neptune-graph", "list-import-tasks")]
 public record AwsNeptuneGraphListImportTasksOptions : AwsOptions
 {
+    /// <summary>
+    /// The unique identifier of the Neptune Analytics graph. When provided, the service returns only import tasks associated with this graph. If not specified, the service returns all import tasks. Constraints: o pattern: g-[a-z0-9]{10}
+    /// </summary>
+    [CliOption("--graph-identifier")]
+    public string? GraphIdentifier { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

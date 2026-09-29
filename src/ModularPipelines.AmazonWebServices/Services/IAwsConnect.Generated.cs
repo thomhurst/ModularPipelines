@@ -2122,7 +2122,7 @@ public interface IAwsConnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Lists the available AI versions for evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation
+    /// Lists the available AI versions for evaluation forms in the specified Connect Customer instance. See also: AWS API Documentation list-evaluation-form-ai-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -3032,7 +3032,7 @@ public interface IAwsConnect
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. A 429 error occurs in the following situations: ...
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. To receive connection information directly in th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

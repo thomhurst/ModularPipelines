@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListContainerRecipesOptions : AwsOptions
 {
     /// <summary>
-    /// Returns container recipes belonging to the specified owner, that have been shared with you. You can omit this field to return con- tainer recipes belonging to your account. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Returns container recipes belonging to the specified owner, that have been shared with you. You can omit this field to return con- tainer recipes belonging to your account. For container recipes, the valid owner values are Self , Shared , and Amazon . Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListContainerRecipesOwner? Owner { get; set; }

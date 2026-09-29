@@ -416,6 +416,11 @@ public partial interface IAws
     IAwsCloudwatch Cloudwatch => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the cloudwatchomni sub-domain service.
+    /// </summary>
+    IAwsCloudwatchomni Cloudwatchomni => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the codeartifact sub-domain service.
     /// </summary>
     IAwsCodeartifact Codeartifact => throw new System.NotSupportedException();
@@ -794,6 +799,11 @@ public partial interface IAws
     /// Gets the events sub-domain service.
     /// </summary>
     IAwsEvents Events => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the eventsv2 sub-domain service.
+    /// </summary>
+    IAwsEventsv2 Eventsv2 => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the evs sub-domain service.
@@ -1414,6 +1424,11 @@ public partial interface IAws
     /// Gets the networkmonitor sub-domain service.
     /// </summary>
     IAwsNetworkmonitor Networkmonitor => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the networksecuritymanager sub-domain service.
+    /// </summary>
+    IAwsNetworkSecurityManager NetworkSecurityManager => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the notifications sub-domain service.

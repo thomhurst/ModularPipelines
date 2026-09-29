@@ -234,7 +234,6 @@ public record AwsNeptuneCreateDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The ARN from the key store with which to associate the instance for TDE encryption.
     /// </summary>
-    [SecretValue]
     [CliOption("--tde-credential-arn")]
     public string? TdeCredentialArn { get; set; }
 

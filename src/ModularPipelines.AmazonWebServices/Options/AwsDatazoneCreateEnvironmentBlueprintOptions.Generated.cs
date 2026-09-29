@@ -93,6 +93,12 @@ public record AwsDatazoneCreateEnvironmentBlueprintOptions : AwsOptions, IValida
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
+    /// <summary>
+    /// The category of the Amazon DataZone blueprint. The only valid value is TOOLING , which creates a blueprint that provisions the tooling resources of a project. Possible values: o TOOLING
+    /// </summary>
+    [CliOption("--blueprint-category")]
+    public string? BlueprintCategory { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
