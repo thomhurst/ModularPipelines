@@ -1478,6 +1478,65 @@ public class DistributedModuleExecutorTests
 
     [Test]
     [Timeout(30_000)]
+    public async Task Lost_Worker_Module_Fails_When_Remaining_Capable_Worker_Disappears_Without_Claiming(
+        CancellationToken testCancellation)
+    {
+        var module = new GpuOnlyModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(GpuOnlyModule)));
+        var resultRegistry = new ModuleResultRegistry();
+        var options = new DistributedOptions
+        {
+            TotalInstances = 3,
+            ModuleResultTimeout = TimeSpan.FromMinutes(10),
+            WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(50),
+            WorkerTimeout = TimeSpan.FromMilliseconds(200),
+            WorkerRegistrationTimeout = TimeSpan.FromMilliseconds(300),
+        };
+        var inner = new InMemoryDistributedCoordinator(Microsoft.Extensions.Options.Options.Create(options));
+        var coordinator = new ResultTrackingCoordinator(inner);
+        coordinator.ReleaseWorkerQuery();
+        var schema = CreateSchema(typeof(GpuOnlyModule));
+        var survivor = WorkerId.FromInstanceIndex(2);
+        await inner.RegisterWorkerAsync(
+            new WorkerRegistration { WorkerId = DistributedTestData.Worker, Capabilities = [Capability.Gpu], RegisteredAt = DateTimeOffset.UtcNow, PipelineSchemaVersion = schema },
+            testCancellation);
+        await inner.RegisterWorkerAsync(
+            new WorkerRegistration { WorkerId = survivor, Capabilities = [Capability.Gpu], RegisteredAt = DateTimeOffset.UtcNow, PipelineSchemaVersion = schema },
+            testCancellation);
+        using var heartbeatCts = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        var heartbeats = Task.Run(async () =>
+        {
+            while (!heartbeatCts.IsCancellationRequested)
+            {
+                await inner.SendHeartbeatAsync(new WorkerStatus { WorkerId = survivor }, CancellationToken.None);
+                await Task.Delay(50, CancellationToken.None);
+            }
+        }, CancellationToken.None);
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        var execution = executor.ExecuteAsync([module]);
+        await coordinator.WaitForResultStartedAsync(typeof(GpuOnlyModule)).WaitAsync(testCancellation);
+        await inner.DequeueModuleAsync(DistributedTestData.Worker, new HashSet<Capability> { Capability.Gpu }, testCancellation);
+
+        // The surviving worker stays visible past the lease expiry, then disappears without claiming.
+        await Task.Delay(1000, testCancellation);
+        await Assert.That(execution.IsCompleted).IsFalse();
+        await heartbeatCts.CancelAsync();
+        await heartbeats;
+        await execution.WaitAsync(testCancellation);
+
+        var registeredResult = resultRegistry.GetResult(typeof(GpuOnlyModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsTypeOf<DistributedRoutingException>();
+        await Assert.That(registeredResult.Status).IsEqualTo(ModuleStatus.Failed);
+    }
+
+    [Test]
+    [Timeout(30_000)]
     public async Task Lost_Worker_Module_Waits_For_Another_Live_Capable_Worker(CancellationToken testCancellation)
     {
         var module = new GpuOnlyModule();

@@ -876,9 +876,10 @@ internal class DistributedModuleExecutor(
 
     /// <summary>
     /// Fails requeued assignments that only a lost worker could run. A worker that dies mid-module
-    /// leaves its lease to expire; when no live worker can claim the requeued assignment within
+    /// leaves its lease to expire; when no live worker can claim the requeued assignment for
     /// <see cref="DistributedOptions.WorkerRegistrationTimeout"/>, waiting for the result backstop
-    /// would only hold the pipeline open.
+    /// would only hold the pipeline open. Tracking continues until a worker claims the assignment,
+    /// so a capable worker that disappears before claiming it restarts the grace period.
     /// </summary>
     private async Task FailStrandedAssignmentsAsync(CancellationToken cancellationToken)
     {
@@ -901,7 +902,7 @@ internal class DistributedModuleExecutor(
         {
             if (claimingWorkers.Any(worker => deadline.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
             {
-                deadline.ClearRequeued();
+                deadline.RestartGrace(now);
             }
             else if (now - deadline.RequeuedAt >= _options.Value.WorkerRegistrationTimeout)
             {
@@ -918,6 +919,7 @@ internal class DistributedModuleExecutor(
         if (_resultDeadlines.TryGetValue(moduleId, out var deadline))
         {
             deadline.Arm();
+            deadline.ClearRequeued();
         }
     }
 
@@ -1384,8 +1386,8 @@ internal class DistributedModuleExecutor(
             workerOnlyCapabilities ?? CapabilityRequirement.None;
 
         /// <summary>
-        /// Gets when an expired lease returned this worker-only module to the queue while no live
-        /// worker could claim it.
+        /// Gets when the grace period began for this worker-only module: when an expired lease
+        /// returned it to the queue, or when the last live worker able to claim it was last seen.
         /// </summary>
         public DateTimeOffset? RequeuedAt
         {
@@ -1423,6 +1425,18 @@ internal class DistributedModuleExecutor(
             }
         }
 
+        public void RestartGrace(DateTimeOffset now)
+        {
+            lock (_lock)
+            {
+                if (_requeuedAt is not null)
+                {
+                    _requeuedAt = now;
+                }
+            }
+        }
+
+        /// <summary>Stops tracking once a worker holds the module's lease again.</summary>
         public void ClearRequeued()
         {
             lock (_lock)
