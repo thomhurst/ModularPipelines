@@ -19,7 +19,7 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetTrafficManagerProfiles()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<LoadBalancerResource>> LoadBalancerAsync(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties, CancellationToken cancellationToken = default)
@@ -29,7 +29,7 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetLoadBalancers()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties, CancellationToken cancellationToken = default)
@@ -39,6 +39,6 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 }

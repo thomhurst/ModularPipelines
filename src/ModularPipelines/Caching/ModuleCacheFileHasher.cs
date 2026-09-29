@@ -48,13 +48,14 @@ internal sealed class ModuleCacheFileHasher
 
     private static async Task<string> HashFileAsync(string path, CancellationToken cancellationToken)
     {
-        await using var stream = new FileStream(
+        var stream = new FileStream(
             path,
             FileMode.Open,
             FileAccess.Read,
             FileShare.Read,
             64 * 1024,
             FileOptions.Asynchronous | FileOptions.SequentialScan);
+        await using var streamLifetime = stream.ConfigureAwait(false);
         var hash = await SHA256.HashDataAsync(stream, cancellationToken).ConfigureAwait(false);
         return Convert.ToHexString(hash);
     }

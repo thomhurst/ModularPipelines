@@ -23,6 +23,6 @@ public class AzureCosmosProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetCosmosDBAccounts()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 }

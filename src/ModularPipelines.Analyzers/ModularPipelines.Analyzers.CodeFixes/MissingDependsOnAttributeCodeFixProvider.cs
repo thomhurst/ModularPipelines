@@ -68,9 +68,9 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
     {
         var document = context.Document;
 
-        var syntaxTree = await context.Document.GetSyntaxTreeAsync(cancellationToken);
+        var syntaxTree = await context.Document.GetSyntaxTreeAsync(cancellationToken).ConfigureAwait(false);
 
-        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
+        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false))!;
 
         var diagnostic = context.Diagnostics.First();
         var name = diagnostic.Properties["Name"]!;

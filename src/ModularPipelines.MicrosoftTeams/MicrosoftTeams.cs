@@ -29,6 +29,6 @@ internal class MicrosoftTeams : IMicrosoftTeams
             RequestUri = options.WebHookUri,
         };
 
-        return await _http.SendAsync(cardsRequest, cancellationToken);
+        return await _http.SendAsync(cardsRequest, cancellationToken).ConfigureAwait(false);
     }
 }

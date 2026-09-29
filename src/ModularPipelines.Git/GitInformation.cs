@@ -71,7 +71,8 @@ internal class GitInformation : IGitInformation
         GitOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var scope = _serviceScopeFactory.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
         await foreach (var commit in GitCommitPager
@@ -89,7 +90,8 @@ internal class GitInformation : IGitInformation
 
     private async Task<GitRepositoryInfo?> LoadInfoAsync(CancellationToken cancellationToken)
     {
-        await using var scope = _serviceScopeFactory.CreateAsyncScope();
+        var scope = _serviceScopeFactory.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<GitInformation>>();
         var command = scope.ServiceProvider.GetRequiredService<ICommandContext>();
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();

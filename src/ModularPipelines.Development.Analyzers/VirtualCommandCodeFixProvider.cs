@@ -76,7 +76,7 @@ public class VirtualCommandCodeFixProvider : CodeFixProvider
         var newMethodDeclarationSyntax = methodDeclarationSyntax.WithModifiers(
             SyntaxFactory.TokenList(methodDeclarationSyntax.Modifiers.Insert(index, SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
 
-        var root = await document.GetSyntaxRootAsync(cancellationToken);
+        var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
 
         if (root is null)
         {

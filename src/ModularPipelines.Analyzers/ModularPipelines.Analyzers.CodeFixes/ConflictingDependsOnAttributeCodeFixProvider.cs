@@ -66,7 +66,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
     private static async Task<Document> RemoveAttribute(CodeFixContext context, AttributeSyntax attributeSyntax, CancellationToken cancellationToken)
     {
         var document = context.Document;
-        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
+        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false))!;
 
         // Get the attribute list that contains this attribute
         var attributeList = (AttributeListSyntax) attributeSyntax.Parent!;

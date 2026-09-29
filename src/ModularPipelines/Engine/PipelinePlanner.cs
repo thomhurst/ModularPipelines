@@ -211,7 +211,8 @@ internal sealed class PipelinePlanner
         ModuleConfiguration configuration,
         CancellationToken cancellationToken)
     {
-        await using var scope = _serviceProvider.CreateAsyncScope();
+        var scope = _serviceProvider.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
         var scopedServices = scope.ServiceProvider;
         var executionContext = ExecutionContextFactory.Create(module, module.GetType());
 

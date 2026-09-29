@@ -68,7 +68,8 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 return cacheEntry.Snapshot;
             }
 
-            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var scope = _serviceScopeFactory.CreateAsyncScope();
+            await using var scopeLifetime = scope.ConfigureAwait(false);
             var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
             var mergeBase = await gitCommandRunner.RunCommandsOrNull(
                     null,

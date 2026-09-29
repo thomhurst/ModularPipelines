@@ -276,7 +276,8 @@ public static class PipelineBuilderExtensions
     public static async Task<Models.PipelineSummary> RunAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(builder);
-        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        await using var pipelineLifetime = pipeline.ConfigureAwait(false);
         return await pipeline.RunAsync(cancellationToken).ConfigureAwait(false);
     }
 
@@ -295,7 +296,8 @@ public static class PipelineBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
-        await using var pipeline = await builder.BuildForDependencyGraphExportAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildForDependencyGraphExportAsync().ConfigureAwait(false);
+        await using var pipelineLifetime = pipeline.ConfigureAwait(false);
         await pipeline.ExportDependencyGraphAsync(format, path, cancellationToken)
             .ConfigureAwait(false);
     }

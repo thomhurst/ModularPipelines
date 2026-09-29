@@ -481,7 +481,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// </summary>
     async Task IProgressDisplay.RunAsync(OrganizedModules organizedModules, CancellationToken cancellationToken)
     {
-        await using var session = await BeginProgressAsync(organizedModules, cancellationToken).ConfigureAwait(false);
+        var session = await BeginProgressAsync(organizedModules, cancellationToken).ConfigureAwait(false);
+        await using var sessionLifetime = session.ConfigureAwait(false);
 
         if (session is NoOpProgressSession)
         {

@@ -100,7 +100,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        await using var stream = Open(path, FileMode.Create, FileAccess.Write);
+        var stream = Open(path, FileMode.Create, FileAccess.Write);
+        await using var streamLifetime = stream.ConfigureAwait(false);
         await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
     }
 
@@ -131,7 +132,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        await using var stream = Open(path, FileMode.Append, FileAccess.Write);
+        var stream = Open(path, FileMode.Append, FileAccess.Write);
+        await using var streamLifetime = stream.ConfigureAwait(false);
         await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
     }
 
@@ -612,10 +614,11 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         IEnumerable<string> contents,
         CancellationToken cancellationToken)
     {
-        await using var writer = new StreamWriter(
+        var writer = new StreamWriter(
             stream,
             new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
             leaveOpen: true);
+        await using var writerLifetime = writer.ConfigureAwait(false);
         using var enumerator = contents.GetEnumerator();
         while (true)
         {

@@ -198,7 +198,8 @@ public class ModuleTestBuilder<TModule>
             registration(builder);
         }
 
-        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         foreach (var dependencySeed in _dependencySeeds)
         {

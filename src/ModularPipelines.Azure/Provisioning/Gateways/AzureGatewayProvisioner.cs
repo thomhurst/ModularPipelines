@@ -18,7 +18,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<VirtualNetworkGatewayResource>> VirtualNetworkGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkGatewayData properties, CancellationToken cancellationToken = default)
@@ -28,7 +28,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetVirtualNetworkGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<NatGatewayResource>> NatGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, NatGatewayData properties, CancellationToken cancellationToken = default)
@@ -38,7 +38,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetNatGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<VpnGatewayResource>> VpnGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, VpnGatewayData properties, CancellationToken cancellationToken = default)
@@ -48,7 +48,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetVpnGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<VirtualNetworkGatewayConnectionResource>> VpnGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkGatewayConnectionData properties, CancellationToken cancellationToken = default)
@@ -58,7 +58,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetVirtualNetworkGatewayConnections()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<ExpressRouteGatewayResource>> GetExpressRouteGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, ExpressRouteGatewayData properties, CancellationToken cancellationToken = default)
@@ -68,7 +68,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetExpressRouteGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<P2SVpnGatewayResource>> P2SVpnGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, P2SVpnGatewayData properties, CancellationToken cancellationToken = default)
@@ -78,7 +78,7 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetP2SVpnGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<LocalNetworkGatewayResource>> LocalNetworkGatewayAsync(AzureResourceIdentifier azureResourceIdentifier, LocalNetworkGatewayData properties, CancellationToken cancellationToken = default)
@@ -88,6 +88,6 @@ public class AzureGatewayProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetLocalNetworkGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 }

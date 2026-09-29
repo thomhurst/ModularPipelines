@@ -69,7 +69,8 @@ internal sealed class ModulePlanningSkipEvaluator(
         Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>> planningSkipCondition,
         CancellationToken cancellationToken)
     {
-        await using var scope = serviceProvider.CreateAsyncScope();
+        var scope = serviceProvider.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
         var scopedServices = scope.ServiceProvider;
         var executionContext = ExecutionContextFactory.Create(module, module.GetType());
         try
