@@ -409,7 +409,8 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `ICommandInterceptor` is middleware: `InvokeAsync(invocation, next, ct)`. Register interceptors with
   `AddCommandInterceptor<T>()` or `AddCommandInterceptor(instance)`.
   `ICommandInterceptor`, `CommandDelegate` and `CommandInvocation` moved from `ModularPipelines.Context.Domains.Shell`
-  to the root `ModularPipelines` namespace, next to the other extension seams; remove the old `using`.
+  to the root `ModularPipelines` namespace, next to the other extension seams. Replace
+  `using ModularPipelines.Context.Domains.Shell;` with `using ModularPipelines;`.
 - `IModule` cannot be implemented outside ModularPipelines. `DependsOnAttribute`, `DependsOnAttribute<T>`,
   `DependsOnAllModulesInheritingFromAttribute` and `SecretValueAttribute` are sealed.
 - Custom `IFileSystemProvider` implementations add attribute, timestamp and length members; custom
