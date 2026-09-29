@@ -1162,7 +1162,9 @@ public static partial class GeneratorUtils
     [GeneratedRegex(@"\bpath\s+to\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex FilePathDescriptionPattern();
 
-    [GeneratedRegex(@"\bID\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+or\s+fully\s+qualified\s+identifier\b|\bthe\s+[\w-]+(?:\s+[\w-]+)*?\s+id\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+resource\b"
+    // The ID phrasings must open the description. Structured-value help can document a nested
+    // field ("The ARN or ID of the VPC Lattice resource") inside a value that carries credentials.
+    [GeneratedRegex(@"\A\s*(?:ID\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+or\s+fully\s+qualified\s+identifier\b|the\s+[\w-]+(?:\s+[\w-]+)*?\s+id\s+of\s+the\s+[\w-]+(?:\s+[\w-]+)*?\s+resource\b)"
         + @"|^(?:the\s+)?name of (?:the\s+)?[\w -]+?\s+to (?:create|update|delete)\b"
         + @"|\A\s*(?:the\s+)?(?:(?:full\s+)?resource\s+name\s+of\b|(?:full\s+)?path\s+of\s+(?:the\s+)?secret\s+version\b|(?:Google\s+Cloud\s+Storage\s+)?URI\s+of\b|secret\s+manager\s+key\s+storing\b)"
         + @"|\bprovides\s+fallback\s+value\s+for\s+resource\s+[\w-]+\s+attribute\b"
