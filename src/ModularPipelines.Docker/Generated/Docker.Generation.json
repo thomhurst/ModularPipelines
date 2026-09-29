@@ -3,5 +3,5 @@
   "toolName": "docker",
   "toolVersion": "Docker version 28.0.4, build b8034c0",
   "commandTreeSha256": "aa61e74921c1dbff2d43176d940dd6700962c0a41c51db2662fe01e04de0cde2",
-  "generatorSourceSha256": "104dc9c13cf5935034567e2a8ad39932b14878b1a44b21553757cdf8d2577431"
+  "generatorSourceSha256": "b9e2eb70474c259973587adae09fba2734e875bb95b88e0eb82a8fb292ffa681"
 }
