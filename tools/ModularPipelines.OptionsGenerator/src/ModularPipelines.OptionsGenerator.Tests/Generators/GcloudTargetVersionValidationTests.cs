@@ -19,9 +19,12 @@ public partial class RequiredConstructorValidationTests
         await ValidateCapturedGroups(command, groups,
         [
             ("", true),
+            ("TargetVersion", true),
+            ("TargetVersion,DefaultSquashMode", true),
+            ("TargetVersion,DefaultSquashGid", false),
             ("DefaultSquashMode", true),
             ("DefaultSquashMode,DefaultSquashGid", true),
             ("DefaultSquashGid", false),
-        ]);
+        ], additionalProperties: ["TargetVersion"]);
     }
 }
