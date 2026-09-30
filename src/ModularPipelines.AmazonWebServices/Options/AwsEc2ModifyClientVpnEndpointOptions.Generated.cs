@@ -69,7 +69,7 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     public string? ServerCertificateArn { get; set; }
 
     /// <summary>
-    /// Information about the client connection logging options. If you enable client connection logging, data about client connec- tions is sent to a Cloudwatch Logs log stream. The following infor- mation is logged: o Client connection requests o Client connection results (successful and unsuccessful) o Reasons for unsuccessful client connection requests o Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connec- tion logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connec- tion data is published. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string" }
+    /// Information about the client connection logging options. If you enable client connection logging, data about client connec- tions is sent to a Cloudwatch Logs log stream. The following infor- mation is logged: o Client connection requests o Client connection results (successful and unsuccessful) o Reasons for unsuccessful client connection requests o Client connection termination time Enabled -&gt; (boolean) Indicates whether connection logging is enabled. CloudwatchLogGroup -&gt; (string) The name of the CloudWatch Logs log group. Required if connec- tion logging is enabled. CloudwatchLogStream -&gt; (string) The name of the CloudWatch Logs log stream to which the connec- tion data is published. IncludeAuthorizationPolicyContext -&gt; (boolean) Specifies whether to include the authorization policy evaluation context in the connection logs for the Client VPN endpoint. Shorthand Syntax: Enabled=boolean,CloudwatchLogGroup=string,CloudwatchLogStream=string,IncludeAuthorizationPolicyContext=boolean JSON Syntax: { "Enabled": true|false, "CloudwatchLogGroup": "string", "CloudwatchLogStream": "string", "IncludeAuthorizationPolicyContext": true|false }
     /// </summary>
     [CliOption("--connection-log-options")]
     public string? ConnectionLogOptions { get; set; }
@@ -157,6 +157,12 @@ public record AwsEc2ModifyClientVpnEndpointOptions : AwsOptions, IValidatableObj
     /// </summary>
     [CliOption("--transit-gateway-configuration")]
     public string? TransitGatewayConfiguration { get; set; }
+
+    /// <summary>
+    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list. TrustProviders -&gt; (list) The device trust providers to configure for the Client VPN end- point. (structure) Describes a device trust provider to configure for a Client VPN endpoint. TrustProviderType -&gt; (string) The type of the device trust provider. Possible values include: o crowdstrike - CrowdStrike device trust provider. o jamf - Jamf device trust provider. o jumpcloud - JumpCloud device trust provider. Possible values: o crowdstrike o jamf o jumpcloud TenantId -&gt; (string) The tenant ID associated with your device trust provider account. PublicSigningKeyUrl -&gt; (string) The URL of the public signing key that is used to verify the identity token issued by the device trust provider. Enabled -&gt; (boolean) Indicates whether device posture evaluation is enabled for the Client VPN endpoint. Specify false to disable device posture, which clears the configured device trust providers. Shorthand Syntax: TrustProviders=[{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string},{TrustProviderType=string,TenantId=string,PublicSigningKeyUrl=string}],Enabled=boolean JSON Syntax: { "TrustProviders": [ { "TrustProviderType": "crowdstrike"|"jamf"|"jumpcloud", "TenantId": "string", "PublicSigningKeyUrl": "string" } ... ], "Enabled": true|false }
+    /// </summary>
+    [CliOption("--device-posture-options")]
+    public string? DevicePostureOptions { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

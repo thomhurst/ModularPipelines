@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Route 53 Resolver on an Outpost. See also: AWS API Documentation
+/// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsRoute53resolverCreateOutpostResolverOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Route 53 Resolver on an Outpost. See also: AWS API Documentation
+    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
     /// </summary>
     /// <param name="CreatorRequestId">A unique string that identifies the request and that allows failed requests to be retried without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 255</param>
     /// <param name="Name">A friendly name that lets you easily find a configuration in the Re- solver dashboard in the Route 53 console. Constraints: o min: 1 o max: 255</param>

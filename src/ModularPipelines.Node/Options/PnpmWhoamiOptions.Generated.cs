@@ -95,7 +95,7 @@ public record PnpmWhoamiOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmWhoamiReporter? Reporter { get; set; }

@@ -27,7 +27,7 @@ public record AwsImagebuilderGetImageRecipeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Retrieves an image recipe. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageRecipeArn">The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
+    /// <param name="ImageRecipeArn">The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. You can use the x wildcard in trailing version positions to retrieve the latest matching version, for example x.x.x or 1.x.x . Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
     public AwsImagebuilderGetImageRecipeOptions(
         string ImageRecipeArn
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderGetImageRecipeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. You can use the x wildcard in trailing version positions to retrieve the latest matching version, for example x.x.x or 1.x.x . Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--image-recipe-arn")]
     public string? ImageRecipeArn { get; private init; }

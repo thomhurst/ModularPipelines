@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsRekognitionGetMediaAnalysisJobOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId">Unique identifier for the media analysis job for which you want to retrieve results. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetMediaAnalysisJobOptions(

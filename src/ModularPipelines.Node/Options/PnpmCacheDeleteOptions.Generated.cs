@@ -95,7 +95,7 @@ public record PnpmCacheDeleteOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmCacheDeleteReporter? Reporter { get; set; }

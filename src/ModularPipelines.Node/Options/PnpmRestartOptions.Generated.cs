@@ -15,7 +15,7 @@ using ModularPipelines.Node.Enums;
 namespace ModularPipelines.Node.Options;
 
 /// <summary>
-/// Restarts a package. Runs "stop", "restart", and "start" scripts, and associated pre- and post- scripts
+/// Restarts a package. Runs "stop", "restart" (if present), and "start" scripts, and associated pre- and post- scripts
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -101,7 +101,7 @@ public record PnpmRestartOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmRestartReporter? Reporter { get; set; }

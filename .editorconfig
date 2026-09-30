@@ -145,3 +145,11 @@ dotnet_style_qualification_for_field = false:error
 dotnet_style_qualification_for_property = false:error
 dotnet_style_qualification_for_method = false:error
 dotnet_style_qualification_for_event = false:error
+
+# Library code must not capture the caller's synchronization context.
+[src/**.cs]
+dotnet_diagnostic.CA2007.severity = error
+
+# Applications, samples, templates, and test projects own their context.
+[src/{ModularPipelines.Build,ModularPipelines.Examples,ModularPipelines.Templates,ModularPipelines.Analyzers/ModularPipelines.Analyzers.Test}/**.cs]
+dotnet_diagnostic.CA2007.severity = none

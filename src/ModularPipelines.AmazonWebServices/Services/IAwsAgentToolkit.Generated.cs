@@ -32,6 +32,16 @@ public interface IAwsAgentToolkit
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Check installed AWS skills for available updates. Lists the version currently on disk alongside the latest version available. Only skills with an update available are listed, pass --all to list every installed skill. Nothing is downloaded or modified, run aws agent-toolkit up- date-skill to apply an update. By default it checks skills for all de- tected agents, use --agent to check only a specific tool.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> CheckSkillUpdatesAsync(AwsAgentToolkitCheckSkillUpdatesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Retrieve the contents of a single file from a skill. Use aws agent-toolkit get-skill-metadata to discover available file names for each skill. By default the latest version is retrieved, use --skill-version for a specific skill version.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -92,13 +102,13 @@ public interface IAwsAgentToolkit
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Update an installed AWS skill to the latest version. Compares the lo- cally installed version against the available skills and downloads the newer version if available. By default the skill is updated for all de- tected agents, use --agent to update the skill for only a specific tool.
+    /// Update installed AWS skills to the latest version. Compares the locally installed version against the available skills and downloads the newer version if available. Pass --skill-name to update a single skill or --all to update every installed skill that is out of date. By default skills are updated for all detected agents, use --agent to update for only a specific tool.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateSkillAsync(AwsAgentToolkitUpdateSkillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> UpdateSkillAsync(AwsAgentToolkitUpdateSkillOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }

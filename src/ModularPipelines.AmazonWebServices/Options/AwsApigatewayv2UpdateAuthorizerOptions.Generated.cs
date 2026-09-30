@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -76,7 +75,6 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to as- sume, use the role's Amazon Resource Name (ARN). To use re- source-based permissions on the Lambda function, don't specify this parameter.
     /// </summary>
-    [SecretValue]
     [CliOption("--authorizer-credentials-arn")]
     public string? AuthorizerCredentialsArn { get; set; }
 

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -74,7 +73,6 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclama- tion mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: o min: 11 o max: 570
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 

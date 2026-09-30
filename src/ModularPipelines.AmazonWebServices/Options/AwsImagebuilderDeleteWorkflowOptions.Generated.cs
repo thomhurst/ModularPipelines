@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a specific workflow resource. See also: AWS API Documentation
+/// Deletes a specific workflow resource. You can't delete a workflow build version while an image pipeline references it. The request fails with ResourceDependencyException . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteWorkflowOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a specific workflow resource. See also: AWS API Documentation
+    /// Deletes a specific workflow resource. You can't delete a workflow build version while an image pipeline references it. The request fails with ResourceDependencyException . See also: AWS API Documentation
     /// </summary>
     /// <param name="WorkflowBuildVersionArn">The Amazon Resource Name (ARN) of the workflow resource to delete. Constraints: o max: 1024 o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
     public AwsImagebuilderDeleteWorkflowOptions(

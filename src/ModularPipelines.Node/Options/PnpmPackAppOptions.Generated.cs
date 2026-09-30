@@ -125,7 +125,7 @@ public record PnpmPackAppOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmPackAppReporter? Reporter { get; set; }

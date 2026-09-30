@@ -123,13 +123,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var serializedResult = Path.GetTempFileName();
             try
             {
-                await using (var resultStream = new FileStream(
-                                 serializedResult,
-                                 FileMode.Create,
-                                 FileAccess.ReadWrite,
-                                 FileShare.None,
-                                 64 * 1024,
-                                 FileOptions.Asynchronous))
+                var resultStream = new FileStream(
+                    serializedResult,
+                    FileMode.Create,
+                    FileAccess.ReadWrite,
+                    FileShare.None,
+                    64 * 1024,
+                    FileOptions.Asynchronous);
+                await using (resultStream.ConfigureAwait(false))
                 {
                     await JsonSerializer.SerializeAsync<ModuleResult<T>>(
                             resultStream,
@@ -212,7 +213,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
 
         var fingerprint = computedFingerprint.Value;
-        await using var cachedStream = await _store.OpenReadAsync(fingerprint, cancellationToken)
+        var cachedStream = await _store.OpenReadAsync(fingerprint, cancellationToken)
             .ConfigureAwait(false);
         if (cachedStream is null)
         {
@@ -228,16 +229,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             return null;
         }
 
+        await using var cachedStreamLifetime = cachedStream.ConfigureAwait(false);
+
         var temporary = Path.GetTempFileName();
         try
         {
-            await using (var output = new FileStream(
-                             temporary,
-                             FileMode.Create,
-                             FileAccess.Write,
-                             FileShare.None,
-                             64 * 1024,
-                             FileOptions.Asynchronous))
+            var output = new FileStream(
+                temporary,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                64 * 1024,
+                FileOptions.Asynchronous);
+            await using (output.ConfigureAwait(false))
             {
                 await CopyCacheEntryToAsync(cachedStream, output, cancellationToken)
                     .ConfigureAwait(false);
@@ -281,13 +285,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         string fingerprint,
         CancellationToken cancellationToken)
     {
-        await using var stream = new FileStream(
+        var stream = new FileStream(
             path,
             FileMode.Create,
             FileAccess.ReadWrite,
             FileShare.None,
             64 * 1024,
             FileOptions.Asynchronous);
+        await using var streamLifetime = stream.ConfigureAwait(false);
         try
         {
             var limitedStream = new MaximumLengthWriteStream(
@@ -295,7 +300,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 _options.MaximumCacheEntryBytes);
             using var archive = new ZipArchive(limitedStream, ZipArchiveMode.Create, leaveOpen: true);
             var resultEntry = archive.CreateEntry(ResultEntryName, CompressionLevel.Fastest);
-            await using (var resultEntryStream = resultEntry.Open())
+            var resultEntryStream = resultEntry.Open();
+            await using (resultEntryStream.ConfigureAwait(false))
             {
                 await CopyWithLimitAsync(
                         serializedResult,
@@ -601,7 +607,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 (UnixFileTypeSymbolicLink << 16) | (int) FileAttributes.Directory;
             var linkTargetBytes = Encoding.UTF8.GetBytes(linkTarget);
             byteBudget.Consume(linkTargetBytes.Length);
-            await using var linkOutput = entry.Open();
+            var linkOutput = entry.Open();
+            await using var linkOutputLifetime = linkOutput.ConfigureAwait(false);
             await linkOutput.WriteAsync(
                     linkTargetBytes,
                     cancellationToken)
@@ -620,7 +627,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 entry.ExternalAttributes = UnixFileTypeSymbolicLink << 16;
                 var linkTargetBytes = Encoding.UTF8.GetBytes(linkTarget);
                 byteBudget.Consume(linkTargetBytes.Length);
-                await using var linkOutput = entry.Open();
+                var linkOutput = entry.Open();
+                await using var linkOutputLifetime = linkOutput.ConfigureAwait(false);
                 await linkOutput.WriteAsync(
                         linkTargetBytes,
                         cancellationToken)
@@ -634,14 +642,16 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     (UnixFileTypeRegular | (int) File.GetUnixFileMode(file)) << 16;
             }
 
-            await using var input = new FileStream(
+            var input = new FileStream(
                 file,
                 FileMode.Open,
                 FileAccess.Read,
                 FileShare.Read,
                 64 * 1024,
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
-            await using var output = entry.Open();
+            await using var inputLifetime = input.ConfigureAwait(false);
+            var output = entry.Open();
+            await using var outputLifetime = output.ConfigureAwait(false);
             await byteBudget.CopyToAsync(input, output, cancellationToken).ConfigureAwait(false);
         }
     }
@@ -696,7 +706,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         foreach (var symbolicLink in artifactEntries
                      .Where(artifact => artifact.IsSymbolicLink))
         {
-            await using (var input = symbolicLink.Entry.Open())
+            var input = symbolicLink.Entry.Open();
+            await using (input.ConfigureAwait(false))
             {
                 var linkTarget = await byteBudget.ReadSymbolicLinkTargetAsync(
                         input,
@@ -761,17 +772,21 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 }
 
                 Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-                await using (var input = entry.Open())
-                await using (var output = new FileStream(
-                                 destination,
-                                 FileMode.Create,
-                                 FileAccess.Write,
-                                 FileShare.None,
-                                 64 * 1024,
-                                 FileOptions.Asynchronous))
+                var input = entry.Open();
+                await using (input.ConfigureAwait(false))
                 {
-                    await byteBudget.CopyToAsync(input, output, cancellationToken)
-                        .ConfigureAwait(false);
+                    var output = new FileStream(
+                        destination,
+                        FileMode.Create,
+                        FileAccess.Write,
+                        FileShare.None,
+                        64 * 1024,
+                        FileOptions.Asynchronous);
+                    await using (output.ConfigureAwait(false))
+                    {
+                        await byteBudget.CopyToAsync(input, output, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
                 }
 
                 RestoreUnixMode(entry, destination, UnixFileTypeRegular);
@@ -1188,31 +1203,36 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var temporaryResult = Path.GetTempFileName();
         try
         {
-            await using (var input = resultEntry.Open())
-            await using (var output = new FileStream(
-                             temporaryResult,
-                             FileMode.Create,
-                             FileAccess.Write,
-                             FileShare.None,
-                             64 * 1024,
-                             FileOptions.Asynchronous))
+            var input = resultEntry.Open();
+            await using (input.ConfigureAwait(false))
             {
-                await CopyWithLimitAsync(
-                        input,
-                        output,
-                        _options.MaximumResultBytes,
-                        "Cache result",
-                        cancellationToken)
-                    .ConfigureAwait(false);
+                var output = new FileStream(
+                    temporaryResult,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    64 * 1024,
+                    FileOptions.Asynchronous);
+                await using (output.ConfigureAwait(false))
+                {
+                    await CopyWithLimitAsync(
+                            input,
+                            output,
+                            _options.MaximumResultBytes,
+                            "Cache result",
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                }
             }
 
-            await using var validatedResult = new FileStream(
+            var validatedResult = new FileStream(
                 temporaryResult,
                 FileMode.Open,
                 FileAccess.Read,
                 FileShare.Read,
                 64 * 1024,
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
+            await using var validatedResultLifetime = validatedResult.ConfigureAwait(false);
             return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
                     validatedResult,
                     GetSerializerOptions<T>(moduleType),

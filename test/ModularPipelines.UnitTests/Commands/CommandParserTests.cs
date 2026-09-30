@@ -1,6 +1,5 @@
 using ModularPipelines.Context;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;

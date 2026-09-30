@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
@@ -199,7 +198,8 @@ public class ModuleTestBuilder<TModule>
             registration(builder);
         }
 
-        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         foreach (var dependencySeed in _dependencySeeds)
         {

@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsRekognitionUpdateStreamProcessorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">Name of the stream processor that you want to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionUpdateStreamProcessorOptions(

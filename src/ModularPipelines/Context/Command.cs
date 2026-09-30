@@ -9,7 +9,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.Win32.SafeHandles;
 using ModularPipelines.Constants;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;

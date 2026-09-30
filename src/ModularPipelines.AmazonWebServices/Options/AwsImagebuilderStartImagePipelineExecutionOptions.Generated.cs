@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Manually triggers a pipeline to create an image. See also: AWS API Documentation
+/// Manually triggers a pipeline to create an image. You can start a build this way whether the pipeline is enabled or disabled. The response re- turns as soon as Image Builder creates the new image resource and queues the build. Use the returned imageBuildVersionArn with GetImage to track build progress. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +27,7 @@ public record AwsImagebuilderStartImagePipelineExecutionOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Manually triggers a pipeline to create an image. See also: AWS API Documentation
+    /// Manually triggers a pipeline to create an image. You can start a build this way whether the pipeline is enabled or disabled. The response re- turns as soon as Image Builder creates the new image resource and queues the build. Use the returned imageBuildVersionArn with GetImage to track build progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
     public AwsImagebuilderStartImagePipelineExecutionOptions(
@@ -64,7 +64,7 @@ public record AwsImagebuilderStartImagePipelineExecutionOptions : AwsOptions, IV
     public string? ImagePipelineArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

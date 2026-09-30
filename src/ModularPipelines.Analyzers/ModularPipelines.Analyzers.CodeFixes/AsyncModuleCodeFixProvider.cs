@@ -57,7 +57,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
 
     private async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
-        var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken);
+        var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken).ConfigureAwait(false);
 
         editor.SetModifiers(methodDeclarationSyntax, DeclarationModifiers.Override | DeclarationModifiers.Async);
 

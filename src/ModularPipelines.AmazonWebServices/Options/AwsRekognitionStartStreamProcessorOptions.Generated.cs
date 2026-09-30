@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor . If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time. See also: AWS API Documentation
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsRekognitionStartStreamProcessorOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor . If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateS...
     /// </summary>
     /// <param name="Name">The name of the stream processor to start processing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionStartStreamProcessorOptions(

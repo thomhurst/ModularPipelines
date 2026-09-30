@@ -407,7 +407,14 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `IPlanningSafe` replaces `IPlanningRunCondition`, `PlanningSafeDependsOnBaseAttribute`,
   `IPlanningSafeDependencySelector` and `IPlanningSafeModuleRegistrationHandler`.
 - `ICommandInterceptor` is middleware: `InvokeAsync(invocation, next, ct)`. Register interceptors with
-  `AddCommandInterceptor<T>()` or `AddCommandInterceptor(instance)`.
+  `AddCommandInterceptor<T>()` or `AddCommandInterceptor(instance)`. Interceptors run in registration order,
+  outermost first. Call `next` to continue to the next interceptor and then the process. Return without calling
+  `next` to short-circuit; the framework still applies command metadata, logging and the nonzero-exit-code check
+  to that result. An interceptor must return a non-null `CommandResult`; a null result throws
+  `InvalidOperationException`.
+  `ICommandInterceptor`, `CommandDelegate` and `CommandInvocation` moved from `ModularPipelines.Context.Domains.Shell`
+  to the root `ModularPipelines` namespace, next to the other extension seams. Replace
+  `using ModularPipelines.Context.Domains.Shell;` with `using ModularPipelines;`.
 - `IModule` cannot be implemented outside ModularPipelines. `DependsOnAttribute`, `DependsOnAttribute<T>`,
   `DependsOnAllModulesInheritingFromAttribute` and `SecretValueAttribute` are sealed.
 - Custom `IFileSystemProvider` implementations add attribute, timestamp and length members; custom

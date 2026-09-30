@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, reso- lution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make deci- sions while automating your transcoding workflow. See also: AWS API Documentation
+/// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, reso- lution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make deci- sions while automating your transcoding workflow. Probe supports the following input container formats: MP4, QuickTime (MOV), 3GP, 3G2, Ma- troska (MKV), WebM, MXF, MPEG-TS, MPEG-PS, AVI, WAV, MP3, FLAC, Ogg, and A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

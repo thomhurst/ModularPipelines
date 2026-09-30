@@ -29,7 +29,7 @@ public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidata
     /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AttributeType">The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
+    /// <param name="AttributeType">The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
     public AwsConnectDescribeInstanceAttributeOptions(
         string InstanceId,
         AwsConnectDescribeInstanceAttributeAttributeType AttributeType
@@ -66,7 +66,7 @@ public record AwsConnectDescribeInstanceAttributeOptions : AwsOptions, IValidata
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
+    /// The type of attribute. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
     /// </summary>
     [CliOption("--attribute-type")]
     public AwsConnectDescribeInstanceAttributeAttributeType? AttributeType { get; private init; }

@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of a registry record See also: AWS API Documentation
+/// Retrieves the details of a registry record See also: AWS API Documentation get-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsAgentRegistryControlGetRegistryRecordOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of a registry record See also: AWS API Documentation
+    /// Retrieves the details of a registry record See also: AWS API Documentation get-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="RegistryId">The identifier of the registry containing the record (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
     /// <param name="RecordId">The identifier of the registry record to retrieve (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>

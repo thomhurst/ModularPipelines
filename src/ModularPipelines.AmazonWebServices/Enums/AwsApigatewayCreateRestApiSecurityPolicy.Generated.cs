@@ -25,6 +25,12 @@ public enum AwsApigatewayCreateRestApiSecurityPolicy
     [EnumValue("SecurityPolicy_TLS13_1_2_2021_06")]
     SecurityPolicyTls1312202106,
 
+    [EnumValue("SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09")]
+    SecurityPolicyTls1312Ext2FipsPq202509,
+
+    [EnumValue("SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09")]
+    SecurityPolicyTls1312Ext2Pq202509,
+
     [EnumValue("SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09")]
     SecurityPolicyTls1312FipsPfsPq202509,
 

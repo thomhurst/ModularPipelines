@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Configuration;
 using ModularPipelines.Console;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;

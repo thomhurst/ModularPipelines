@@ -68,7 +68,7 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
         var newPropertyDeclarationSyntax = propertyDeclarationSyntax.WithModifiers(
             SyntaxFactory.TokenList(propertyDeclarationSyntax.Modifiers.Add(SyntaxFactory.Token(SyntaxKind.VirtualKeyword))));
 
-        var root = await document.GetSyntaxRootAsync(cancellationToken);
+        var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
 
         if (root is null)
         {

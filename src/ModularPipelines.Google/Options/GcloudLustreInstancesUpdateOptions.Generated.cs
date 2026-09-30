@@ -25,7 +25,7 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// updates the parameters of a single Managed     Lustre instance
     /// </summary>
-    /// <param name="Instance">Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>
+    /// <param name="Instance">Instance resource - Identifier. The name of the instance. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.</param>
     public GcloudLustreInstancesUpdateOptions(
         string Instance
     )
@@ -38,12 +38,6 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     {
         Instance = this.Instance;
     }
-
-    /// <summary>
-    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. The location id of the instance resource. To set the location attribute: ▸ provide the argument instance on the command line with a fully specified name; ▸ provide the argument --location on the command line.
-    /// </summary>
-    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
-    public string? Location { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
@@ -76,16 +70,16 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     public bool? NoGkeSupportEnabled { get; set; }
 
     /// <summary>
+    /// For resources [instance, placement-policy], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// The throughput of the instance in MBps per TiB. Valid values are 0, 125, 250, 500, 1000. See Performance tiers (https://docs.cloud.google.com/managed-lustre/docs/performance-tiers) for more information. If the instance is using the Dynamic tier, this field must not be set or must be set to zero.
     /// </summary>
     [CliOption("--per-unit-storage-throughput", Format = OptionFormat.EqualsSeparated)]
     public string? PerUnitStorageThroughput { get; set; }
-
-    /// <summary>
-    /// The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy}
-    /// </summary>
-    [CliOption("--placement-policy", Format = OptionFormat.EqualsSeparated)]
-    public string? PlacementPolicy { get; set; }
 
     /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
@@ -94,25 +88,31 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Set instance.accessRulesOptions back to default value.
+    /// Arguments for the target version. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The target version of the instance. Setting this field triggers a self-service update to the specified version. Format: Lustre_YYYYMMDD.NN_pXX or latest
+    /// </summary>
+    [CliOption("--target-version", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetVersion { get; set; }
+
+    /// <summary>
+    /// Arguments for the target version. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. Set instance.accessRulesOptions back to default value.
     /// </summary>
     [CliFlag("--clear-")]
     public bool? Clear { get; set; }
 
     /// <summary>
-    /// The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
+    /// Arguments for the target version. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash GID for the default access rule. This user squash GID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no GID squash).
     /// </summary>
     [CliOption("--default-squash-gid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashGid { get; set; }
 
     /// <summary>
-    /// The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
+    /// Arguments for the target version. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The squash mode for the default access rule. DEFAULT_SQUASH_MODE must be one of: no-squash Squash is disabled. If set inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule], root users matching the [ip_ranges][AccessRule.ip_ranges] are not squashed. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root squash is disabled for this instance. If the default squash mode is NO_SQUASH, do not set the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] or [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid], or an invalid argument error is returned. root-squash Root user squash is enabled. Not supported inside an [AccessRule][google.cloud.lustre.v1.AccessRulesOptions.AccessRule]. If set as the [default_squash_mode][google.cloud.lustre.v1.AccessRulesOptions.default_squash_mode], root users not matching any of the [access_rules][google.cloud.lustre.v1.AccessRulesOptions.access_rules] are squashed to the [default_squash_uid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_uid] and [default_squash_gid][google.cloud.lustre.v1.AccessRulesOptions.default_squash_gid].
     /// </summary>
     [CliOption("--default-squash-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashMode { get; set; }
 
     /// <summary>
-    /// The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
+    /// Arguments for the target version. IP-based access rules for the Managed Lustre instance. These options define the root user squash configuration. The user squash UID for the default access rule. This user squash UID applies to all root users connecting from clients that are not matched by any of the access rules. If not set, the default is 0 (no UID squash).
     /// </summary>
     [CliOption("--default-squash-uid", Format = OptionFormat.EqualsSeparated)]
     public string? DefaultSquashUid { get; set; }
@@ -660,7 +660,25 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     public string? RemoveLabels { get; set; }
 
     /// <summary>
-    /// Instance resource - Identifier. The name of the instance. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
+    /// All arguments needed to update placement_policy. The region id of the resourcePolicy resource. To set the region attribute: ◆ provide the argument --current on the command line with a fully specified name; ◆ provide the argument --region on the command line. Must be specified for resource of type [lustre.projects.regions.resourcePolicies].
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
+    /// <summary>
+    /// Update placement_policy. At most one of these can be specified: Clear placement_policy value and set to null.
+    /// </summary>
+    [CliFlag("--clear-placement-policy")]
+    public bool? ClearPlacementPolicy { get; set; }
+
+    /// <summary>
+    /// Update placement_policy. At most one of these can be specified: ResourcePolicy resource - Set placement_policy to new value. The placement policy name for the instance in the format of projects/{project}/locations/{location}/resourcePolicies/{resource_policy} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --placement-policy on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --placement-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line. To set the region attribute: ▸ provide the argument --placement-policy on the command line with a fully specified name; ▸ provide the argument --region on the command line. This resource can be one of the following types: [lustre.projects.locations.resourcePolicies, lustre.projects.regions.resourcePolicies]. ID of the resourcePolicy or fully qualified identifier for the resourcePolicy. To set the resource_policy attribute: ▸ provide the argument --placement-policy on the command line.
+    /// </summary>
+    [CliOption("--placement-policy", Format = OptionFormat.EqualsSeparated)]
+    public string? PlacementPolicy { get; set; }
+
+    /// <summary>
+    /// Instance resource - Identifier. The name of the instance. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --location on the command line. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public string Instance { get; private init; }
@@ -699,6 +717,10 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
         if ((((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Labels, static item => item is not null) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<char> ? (object?)Labels is not string || !string.IsNullOrWhiteSpace(Labels?.ToString()) : ((object?)Labels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Labels, static item => item is not null) : (Labels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Labels), static item => item is not null))))) || ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && (((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)UpdateLabels, static item => item is not null) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<char> ? (object?)UpdateLabels is not string || !string.IsNullOrWhiteSpace(UpdateLabels?.ToString()) : ((object?)UpdateLabels is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)UpdateLabels, static item => item is not null) : (UpdateLabels is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)UpdateLabels), static item => item is not null))))) || ClearLabels == true || !string.IsNullOrWhiteSpace(RemoveLabels)) && ((ClearLabels == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(RemoveLabels) ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
+        }
+        if ((ClearPlacementPolicy == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(PlacementPolicy)) ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of ClearPlacementPolicy or (PlacementPolicy) may be specified.", [nameof(ClearPlacementPolicy), nameof(PlacementPolicy)]);
         }
         yield break;
     }

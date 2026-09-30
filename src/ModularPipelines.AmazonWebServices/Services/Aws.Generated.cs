@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -105,6 +104,7 @@ internal partial class Aws : IAws
         IAwsCloudtrail cloudtrail,
         IAwsCloudtrailData cloudtrailData,
         IAwsCloudwatch cloudwatch,
+        IAwsCloudwatchomni cloudwatchomni,
         IAwsCodeartifact codeartifact,
         IAwsCodebuild codebuild,
         IAwsCodecatalyst codecatalyst,
@@ -181,6 +181,7 @@ internal partial class Aws : IAws
         IAwsEntityresolution entityresolution,
         IAwsEs es,
         IAwsEvents events,
+        IAwsEventsv2 eventsv2,
         IAwsEvs evs,
         IAwsFinspace finspace,
         IAwsFirehose firehose,
@@ -305,6 +306,7 @@ internal partial class Aws : IAws
         IAwsNetworkflowmonitor networkflowmonitor,
         IAwsNetworkmanager networkmanager,
         IAwsNetworkmonitor networkmonitor,
+        IAwsNetworkSecurityManager networkSecurityManager,
         IAwsNotifications notifications,
         IAwsNotificationscontacts notificationscontacts,
         IAwsNovaAct novaAct,
@@ -539,6 +541,7 @@ internal partial class Aws : IAws
         Cloudtrail = cloudtrail;
         CloudtrailData = cloudtrailData;
         Cloudwatch = cloudwatch;
+        Cloudwatchomni = cloudwatchomni;
         Codeartifact = codeartifact;
         Codebuild = codebuild;
         Codecatalyst = codecatalyst;
@@ -615,6 +618,7 @@ internal partial class Aws : IAws
         Entityresolution = entityresolution;
         Es = es;
         Events = events;
+        Eventsv2 = eventsv2;
         Evs = evs;
         Finspace = finspace;
         Firehose = firehose;
@@ -739,6 +743,7 @@ internal partial class Aws : IAws
         Networkflowmonitor = networkflowmonitor;
         Networkmanager = networkmanager;
         Networkmonitor = networkmonitor;
+        NetworkSecurityManager = networkSecurityManager;
         Notifications = notifications;
         Notificationscontacts = notificationscontacts;
         NovaAct = novaAct;
@@ -1134,6 +1139,9 @@ internal partial class Aws : IAws
     public IAwsCloudwatch Cloudwatch { get; }
 
     /// <inheritdoc />
+    public IAwsCloudwatchomni Cloudwatchomni { get; }
+
+    /// <inheritdoc />
     public IAwsCodeartifact Codeartifact { get; }
 
     /// <inheritdoc />
@@ -1360,6 +1368,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsEvents Events { get; }
+
+    /// <inheritdoc />
+    public IAwsEventsv2 Eventsv2 { get; }
 
     /// <inheritdoc />
     public IAwsEvs Evs { get; }
@@ -1732,6 +1743,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsNetworkmonitor Networkmonitor { get; }
+
+    /// <inheritdoc />
+    public IAwsNetworkSecurityManager NetworkSecurityManager { get; }
 
     /// <inheritdoc />
     public IAwsNotifications Notifications { get; }

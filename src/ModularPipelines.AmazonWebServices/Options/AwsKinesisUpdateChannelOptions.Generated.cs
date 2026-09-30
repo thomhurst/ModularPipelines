@@ -62,19 +62,19 @@ public record AwsKinesisUpdateChannelOptions : AwsOptions, IValidatableObject
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The updated configuration for a general purpose Amazon S3 destina- tion. Only DataFreshnessInSeconds can be updated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
+    /// The updated configuration for a general purpose Amazon S3 destina- tion. Specify this parameter when the channel delivers to a general purpose Amazon S3 bucket. Only DataFreshnessInSeconds can be up- dated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
     /// </summary>
     [CliOption("--s3-destination-configuration")]
     public string? S3DestinationConfiguration { get; set; }
 
     /// <summary>
-    /// The updated configuration for a streaming table destination. Only DataFreshnessInSeconds can be updated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
+    /// The updated configuration for a streaming table destination. Specify this parameter when the channel delivers to streaming tables on Apache Iceberg in Amazon S3 Tables. Only DataFreshnessInSeconds can be updated. DataFreshnessInSeconds -&gt; (integer) [required] The maximum age, in seconds, of undelivered data before the channel delivers it to the destination. Shorthand Syntax: DataFreshnessInSeconds=integer JSON Syntax: { "DataFreshnessInSeconds": integer }
     /// </summary>
     [CliOption("--s3-tables-destination-configuration")]
     public string? S3TablesDestinationConfiguration { get; set; }
 
     /// <summary>
-    /// The updated Amazon CloudWatch Logs configuration for the channel. CloudWatchLogs -&gt; (structure) [required] The updated Amazon CloudWatch Logs settings for the channel. Enabled -&gt; (boolean) [required] Specifies whether logging to Amazon CloudWatch Logs is en- abled. LogGroupName -&gt; (string) The name of the Amazon CloudWatch Logs log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ LogStreamName -&gt; (string) The name of the Amazon CloudWatch Logs log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: CloudWatchLogs={Enabled=boolean,LogGroupName=string,LogStreamName=string} JSON Syntax: { "CloudWatchLogs": { "Enabled": true|false, "LogGroupName": "string", "LogStreamName": "string" } }
+    /// The updated Amazon CloudWatch Logs configuration for the channel. CloudWatchLogs -&gt; (structure) [required] The updated Amazon CloudWatch Logs settings, including whether logging is enabled and the target log group and log stream. Enabled -&gt; (boolean) [required] Specifies whether logging to Amazon CloudWatch Logs is en- abled. LogGroupName -&gt; (string) The name of the Amazon CloudWatch Logs log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+ LogStreamName -&gt; (string) The name of the Amazon CloudWatch Logs log stream. Constraints: o min: 1 o max: 512 o pattern: [^:*]* Shorthand Syntax: CloudWatchLogs={Enabled=boolean,LogGroupName=string,LogStreamName=string} JSON Syntax: { "CloudWatchLogs": { "Enabled": true|false, "LogGroupName": "string", "LogStreamName": "string" } }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }

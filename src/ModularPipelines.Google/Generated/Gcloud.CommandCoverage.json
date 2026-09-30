@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "gcloud",
-  "toolVersion": "Google Cloud SDK 586.0.0 alpha 2026.09.20 beta 2026.09.20 bq 2.1.38 bundled-python3-unix 3.14.7 core 2026.09.20 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.09.20",
-  "commandCount": 7991,
-  "commandTreeSha256": "985a1d8d575cc738116295fc3bd58ca4d10bcabc5ccb490154c421ed9a662c27",
+  "toolVersion": "Google Cloud SDK 587.0.0 alpha 2026.09.25 beta 2026.09.25 bq 2.1.39 bundled-python3-unix 3.14.7 core 2026.09.25 gcloud-crc32c 1.0.0 gsutil 5.37 preview 2026.09.25",
+  "commandCount": 8000,
+  "commandTreeSha256": "21f664061720d265597aefbcb804efddb7c2ff5ab3471640aca86b962b1dfd1a",
   "commands": [
     "gcloud access-approval",
     "gcloud access-approval requests",
@@ -1819,6 +1819,7 @@
     "gcloud compute interconnects remote-locations",
     "gcloud compute interconnects remote-locations describe",
     "gcloud compute interconnects remote-locations list",
+    "gcloud compute interconnects set-name",
     "gcloud compute interconnects update",
     "gcloud compute interconnects wire-groups",
     "gcloud compute interconnects wire-groups add-endpoint",
@@ -1844,6 +1845,9 @@
     "gcloud compute machine-types",
     "gcloud compute machine-types describe",
     "gcloud compute machine-types list",
+    "gcloud compute managed-rulesets",
+    "gcloud compute managed-rulesets describe",
+    "gcloud compute managed-rulesets list",
     "gcloud compute migration",
     "gcloud compute migration image-imports",
     "gcloud compute migration image-imports create",
@@ -1882,6 +1886,7 @@
     "gcloud compute network-firewall-policies associations",
     "gcloud compute network-firewall-policies associations create",
     "gcloud compute network-firewall-policies associations delete",
+    "gcloud compute network-firewall-policies associations update",
     "gcloud compute network-firewall-policies clone-rules",
     "gcloud compute network-firewall-policies create",
     "gcloud compute network-firewall-policies delete",
@@ -3169,6 +3174,9 @@
     "gcloud dataplex datascans update data-documentation",
     "gcloud dataplex datascans update data-profile",
     "gcloud dataplex datascans update data-quality",
+    "gcloud dataplex dbt",
+    "gcloud dataplex dbt metadata-jobs",
+    "gcloud dataplex dbt metadata-jobs create",
     "gcloud dataplex encryption-config",
     "gcloud dataplex encryption-config create",
     "gcloud dataplex encryption-config describe",
@@ -3772,11 +3780,6 @@
     "gcloud edge-cloud container regions",
     "gcloud edge-cloud container regions describe",
     "gcloud edge-cloud container regions list",
-    "gcloud edge-cloud container vpn-connections",
-    "gcloud edge-cloud container vpn-connections create",
-    "gcloud edge-cloud container vpn-connections delete",
-    "gcloud edge-cloud container vpn-connections describe",
-    "gcloud edge-cloud container vpn-connections list",
     "gcloud edge-cloud container zones",
     "gcloud edge-cloud container zones describe",
     "gcloud edge-cloud container zones list",
@@ -4731,6 +4734,11 @@
     "gcloud lustre instances create",
     "gcloud lustre instances delete",
     "gcloud lustre instances describe",
+    "gcloud lustre instances directory-policies",
+    "gcloud lustre instances directory-policies create",
+    "gcloud lustre instances directory-policies delete",
+    "gcloud lustre instances directory-policies describe",
+    "gcloud lustre instances directory-policies list",
     "gcloud lustre instances export-data",
     "gcloud lustre instances import-data",
     "gcloud lustre instances list",
@@ -6225,6 +6233,7 @@
     "gcloud preview compute interconnects remote-locations",
     "gcloud preview compute interconnects remote-locations describe",
     "gcloud preview compute interconnects remote-locations list",
+    "gcloud preview compute interconnects set-name",
     "gcloud preview compute interconnects update",
     "gcloud preview compute interconnects wire-groups",
     "gcloud preview compute interconnects wire-groups add-endpoint",
@@ -6275,6 +6284,7 @@
     "gcloud preview compute network-firewall-policies associations",
     "gcloud preview compute network-firewall-policies associations create",
     "gcloud preview compute network-firewall-policies associations delete",
+    "gcloud preview compute network-firewall-policies associations update",
     "gcloud preview compute network-firewall-policies clone-rules",
     "gcloud preview compute network-firewall-policies create",
     "gcloud preview compute network-firewall-policies delete",
@@ -7587,7 +7597,6 @@
     "gcloud storage buckets anywhere-caches describe",
     "gcloud storage buckets anywhere-caches disable",
     "gcloud storage buckets anywhere-caches list",
-    "gcloud storage buckets anywhere-caches pause",
     "gcloud storage buckets anywhere-caches resume",
     "gcloud storage buckets anywhere-caches update",
     "gcloud storage buckets create",
@@ -8336,6 +8345,7 @@
     "gcloud compute interconnects wire-groups",
     "gcloud compute machine-images",
     "gcloud compute machine-types",
+    "gcloud compute managed-rulesets",
     "gcloud compute migration",
     "gcloud compute migration image-imports",
     "gcloud compute migration machine-image-imports",
@@ -8582,6 +8592,8 @@
     "gcloud dataplex datascans create",
     "gcloud dataplex datascans jobs",
     "gcloud dataplex datascans update",
+    "gcloud dataplex dbt",
+    "gcloud dataplex dbt metadata-jobs",
     "gcloud dataplex encryption-config",
     "gcloud dataplex entries",
     "gcloud dataplex entry-groups",
@@ -8689,7 +8701,6 @@
     "gcloud edge-cloud container machines",
     "gcloud edge-cloud container operations",
     "gcloud edge-cloud container regions",
-    "gcloud edge-cloud container vpn-connections",
     "gcloud edge-cloud container zones",
     "gcloud edge-cloud networking",
     "gcloud edge-cloud networking interconnects",
@@ -8883,6 +8894,7 @@
     "gcloud looker regions",
     "gcloud lustre",
     "gcloud lustre instances",
+    "gcloud lustre instances directory-policies",
     "gcloud lustre operations",
     "gcloud managed-kafka",
     "gcloud managed-kafka acls",
@@ -9464,5 +9476,30 @@
     "gcloud workstations clusters",
     "gcloud workstations configs"
   ],
-  "exclusions": []
+  "exclusions": [
+    {
+      "command": "gcloud edge-cloud container vpn-connections",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group.\u0022"
+    },
+    {
+      "command": "gcloud edge-cloud container vpn-connections create",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group.\u0022"
+    },
+    {
+      "command": "gcloud edge-cloud container vpn-connections delete",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group.\u0022"
+    },
+    {
+      "command": "gcloud edge-cloud container vpn-connections describe",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group.\u0022"
+    },
+    {
+      "command": "gcloud edge-cloud container vpn-connections list",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group.\u0022"
+    },
+    {
+      "command": "gcloud storage buckets anywhere-caches pause",
+      "reason": "Removed upstream in Google Cloud SDK 587.0.0: \u0022(Cloud Storage) Removed gcloud storage buckets anywhere-caches pause command.\u0022"
+    }
+  ]
 }

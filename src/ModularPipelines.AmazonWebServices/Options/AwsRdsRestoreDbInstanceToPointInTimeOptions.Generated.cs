@@ -180,7 +180,6 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions, IValidat
     /// <summary>
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
     /// </summary>
-    [SecretValue]
     [CliOption("--tde-credential-arn")]
     public string? TdeCredentialArn { get; set; }
 
@@ -224,7 +223,6 @@ public record AwsRdsRestoreDbInstanceToPointInTimeOptions : AwsOptions, IValidat
     /// <summary>
     /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints: o Can't be longer than 64 characters. Example: arn:aws:secretsmanager:region:account-number:secret:myself- managedADtestsecret-123456
     /// </summary>
-    [SecretValue]
     [CliOption("--domain-auth-secret-arn")]
     public string? DomainAuthSecretArn { get; set; }
 

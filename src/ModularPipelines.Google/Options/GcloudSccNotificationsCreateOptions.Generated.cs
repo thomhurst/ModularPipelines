@@ -51,6 +51,18 @@ public record GcloudSccNotificationsCreateOptions : GcloudOptions, IValidatableO
     public string PubsubTopic { get; private init; }
 
     /// <summary>
+    /// Indicates whether the notifications will be sent for deleted findings. Use --deletion-notifications-enabled to enable and --no-deletion-notifications-enabled to disable.
+    /// </summary>
+    [CliFlag("--deletion-notifications-enabled")]
+    public bool? DeletionNotificationsEnabled { get; set; }
+
+    /// <summary>
+    /// Negates --deletion-notifications-enabled. Indicates whether the notifications will be sent for deleted findings. Use --deletion-notifications-enabled to enable and --no-deletion-notifications-enabled to disable.
+    /// </summary>
+    [CliFlag("--no-deletion-notifications-enabled")]
+    public bool? NoDeletionNotificationsEnabled { get; set; }
+
+    /// <summary>
     /// The text that will be used to describe a notification configuration.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]

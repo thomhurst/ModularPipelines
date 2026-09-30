@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. There are two different settings for stream proces- sors in Amazon Rekognition: detecting faces and detecting labels. o If you are creating a stream processor for detecting faces, you pro- vide as input a Kinesis video stream (Input ) and a Kinesis data stream (Output ) s...
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. T...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsRekognitionCreateStreamProcessorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. There are two different settings for stream proces- sors in Amazon Rekognition: detecting faces and detecting labels. o If you are creating a stream processor for detecting faces, you pro- vide as input a Kinesis video stream (Input ) and a Kinesis data stream (Output ) s...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. T...
     /// </summary>
     /// <param name="Input">Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is Stream- ProcessorInput . This is required for both face search and label de- tection stream processors. KinesisVideoStream -&gt; (structure) The Kinesis video stream input stream for the source streaming video. Arn -&gt; (string) ARN of the Kinesis video stream stream that streams the source video. Constraints: o pattern: (^arn:([a-z\d-]+):kine- sisvideo:([a-z\d-]+):\d{12}:.+$) Shorthand Syntax: KinesisVideoStream={Arn=string} JSON Syntax: { "KinesisVideoStream": { "Arn": "string" } }</param>
     /// <param name="Name">An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor . Name is idempotent. This is required for both face search and label detection stream processors. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>

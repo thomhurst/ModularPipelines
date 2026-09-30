@@ -1,7 +1,6 @@
 using ModularPipelines.Secrets;
 using ModularPipelines.Context;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Liquibase.Enums;
 using ModularPipelines.Liquibase.Options;
 using ModularPipelines.Models;

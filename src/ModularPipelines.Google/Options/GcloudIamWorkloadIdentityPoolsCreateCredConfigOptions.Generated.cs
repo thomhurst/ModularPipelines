@@ -189,7 +189,7 @@ public record GcloudIamWorkloadIdentityPoolsCreateCredConfigOptions : GcloudOpti
         {
             yield return new ValidationResult("CredentialCertPrivateKeyPath must be specified when other arguments in this group are specified.", [nameof(CredentialCertPrivateKeyPath)]);
         }
-        if ((!string.IsNullOrWhiteSpace(ExecutableOutputFile) || !string.IsNullOrWhiteSpace(ExecutableTimeoutMillis) || !string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(ServiceAccountTokenLifetimeSeconds)) && (!(!string.IsNullOrWhiteSpace(ServiceAccount))))
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(ServiceAccountTokenLifetimeSeconds)) && (!(!string.IsNullOrWhiteSpace(ServiceAccount))))
         {
             yield return new ValidationResult("ServiceAccount must be specified when other arguments in this group are specified.", [nameof(ServiceAccount)]);
         }

@@ -104,6 +104,24 @@ public record AwsEc2ModifyCapacityReservationOptions : AwsOptions, IValidatableO
     [CliOption("--instance-match-criteria")]
     public AwsEc2ModifyCapacityReservationInstanceMatchCriteria? InstanceMatchCriteria { get; set; }
 
+    /// <summary>
+    /// Indicates that you accept the modification terms of the quote iden- tified by QuoteId . To apply a quoted modification, set this parame- ter to true .
+    /// </summary>
+    [CliFlag("--accept-modification-terms", NegatedName = "--no-accept-modification-terms")]
+    public bool? AcceptModificationTerms { get; set; }
+
+    /// <summary>
+    /// The new start date for the Capacity Reservation, in the ISO8601 for- mat in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ ). Applies to fu- ture-dated Capacity Reservations only. Requires a quote from Create- CapacityReservationDateChangeQuote ; pass the quote ID in QuoteId with AcceptModificationTerms set to true .
+    /// </summary>
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
+
+    /// <summary>
+    /// The ID of the quote that describes the modification you want to ap- ply. Generate a quote by using CreateCapacityReservationDateChange- Quote . The quote must be in the active state, and each quote can be used only once.
+    /// </summary>
+    [CliOption("--quote-id")]
+    public string? QuoteId { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

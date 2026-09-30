@@ -78,7 +78,7 @@ public record AwsQconnectUpdateQuickResponseOptions : AwsOptions, IValidatableOb
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 1024 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
+    /// The updated content of the quick response. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content. content -&gt; (string) The content of the quick response. Constraints: o min: 1 o max: 4000 Shorthand Syntax: content=string JSON Syntax: { "content": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }

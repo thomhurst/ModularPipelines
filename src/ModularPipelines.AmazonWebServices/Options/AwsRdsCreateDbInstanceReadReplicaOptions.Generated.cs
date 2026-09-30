@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -264,7 +263,6 @@ public record AwsRdsCreateDbInstanceReadReplicaOptions : AwsOptions, IValidatabl
     /// <summary>
     /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myself- managedADtestsecret-123456
     /// </summary>
-    [SecretValue]
     [CliOption("--domain-auth-secret-arn")]
     public string? DomainAuthSecretArn { get; set; }
 

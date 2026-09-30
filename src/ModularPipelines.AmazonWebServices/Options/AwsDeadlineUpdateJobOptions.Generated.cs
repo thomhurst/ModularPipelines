@@ -127,7 +127,7 @@ public record AwsDeadlineUpdateJobOptions : AwsOptions, IValidatableObject
     public int? MaxWorkerCount { get; set; }
 
     /// <summary>
-    /// The updated job name. Constraints: o min: 1 o max: 128
+    /// The updated job name. Constraints: o min: 1 o max: 512
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }

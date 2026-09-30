@@ -1478,6 +1478,29 @@ static ModularPipelines.Distributed.WorkerId.operator ==(ModularPipelines.Distri
 *REMOVED*virtual ModularPipelines.Options.SecretMaskingOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
 *REMOVED*virtual ModularPipelines.Requirements.PipelineRequirement.Must(ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Models.RequirementDecision!
 *REMOVED*virtual ModularPipelines.Requirements.PipelineRequirement.MustAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<ModularPipelines.Models.RequirementDecision!>!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.<Clone>$() -> ModularPipelines.Context.Domains.Shell.CommandInvocation!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandInput.get -> string!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandInput.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandInvocation(ModularPipelines.Models.CommandLine! CommandLine, ModularPipelines.Options.CommandLineToolOptions? ToolOptions, ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, string! CommandInput, string! WorkingDirectory, System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandLine.get -> ModularPipelines.Models.CommandLine!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.CommandLine.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.Deconstruct(out ModularPipelines.Models.CommandLine! CommandLine, out ModularPipelines.Options.CommandLineToolOptions? ToolOptions, out ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, out string! CommandInput, out string! WorkingDirectory, out System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.EnvironmentVariables.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string?>!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.EnvironmentVariables.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.Equals(ModularPipelines.Context.Domains.Shell.CommandInvocation? other) -> bool
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.ExecutionOptions.get -> ModularPipelines.Options.CommandExecutionOptions!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.ExecutionOptions.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.ToolOptions.get -> ModularPipelines.Options.CommandLineToolOptions?
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.ToolOptions.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.WorkingDirectory.get -> string!
+*REMOVED*ModularPipelines.Context.Domains.Shell.CommandInvocation.WorkingDirectory.init -> void
+*REMOVED*ModularPipelines.Context.Domains.Shell.ICommandInterceptor
+*REMOVED*override ModularPipelines.Context.Domains.Shell.CommandInvocation.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Context.Domains.Shell.CommandInvocation.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Context.Domains.Shell.CommandInvocation.ToString() -> string!
+*REMOVED*static ModularPipelines.Context.Domains.Shell.CommandInvocation.operator !=(ModularPipelines.Context.Domains.Shell.CommandInvocation? left, ModularPipelines.Context.Domains.Shell.CommandInvocation? right) -> bool
+*REMOVED*static ModularPipelines.Context.Domains.Shell.CommandInvocation.operator ==(ModularPipelines.Context.Domains.Shell.CommandInvocation? left, ModularPipelines.Context.Domains.Shell.CommandInvocation? right) -> bool
 ModularPipelines.Attributes.CliFlagAttribute.NegatedName.get -> string?
 ModularPipelines.Attributes.CliFlagAttribute.NegatedName.set -> void
 ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.get -> string?
@@ -1540,10 +1563,33 @@ ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.init -> void
 ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Exception!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>?
 ModularPipelines.Configuration.ModuleConfiguration.Priority.get -> ModularPipelines.ModulePriority?
 ModularPipelines.Configuration.ModuleConfiguration.SkipCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.SkipDecision!>>?
-ModularPipelines.Context.Domains.Shell.CommandDelegate
-ModularPipelines.Context.Domains.Shell.ICommandInterceptor.InvokeAsync(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, ModularPipelines.Context.Domains.Shell.CommandDelegate! next, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
-virtual ModularPipelines.Context.Domains.Shell.CommandDelegate.Invoke(ModularPipelines.Context.Domains.Shell.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
-static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.Context.Domains.Shell.ICommandInterceptor! interceptor) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.CommandInvocation
+ModularPipelines.CommandInvocation.<Clone>$() -> ModularPipelines.CommandInvocation!
+ModularPipelines.CommandInvocation.CommandInput.get -> string!
+ModularPipelines.CommandInvocation.CommandInput.init -> void
+ModularPipelines.CommandInvocation.CommandInvocation(ModularPipelines.Models.CommandLine! CommandLine, ModularPipelines.Options.CommandLineToolOptions? ToolOptions, ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, string! CommandInput, string! WorkingDirectory, System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+ModularPipelines.CommandInvocation.CommandLine.get -> ModularPipelines.Models.CommandLine!
+ModularPipelines.CommandInvocation.CommandLine.init -> void
+ModularPipelines.CommandInvocation.Deconstruct(out ModularPipelines.Models.CommandLine! CommandLine, out ModularPipelines.Options.CommandLineToolOptions? ToolOptions, out ModularPipelines.Options.CommandExecutionOptions! ExecutionOptions, out string! CommandInput, out string! WorkingDirectory, out System.Collections.Generic.IReadOnlyDictionary<string!, string?>! EnvironmentVariables) -> void
+ModularPipelines.CommandInvocation.EnvironmentVariables.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string?>!
+ModularPipelines.CommandInvocation.EnvironmentVariables.init -> void
+ModularPipelines.CommandInvocation.Equals(ModularPipelines.CommandInvocation? other) -> bool
+ModularPipelines.CommandInvocation.ExecutionOptions.get -> ModularPipelines.Options.CommandExecutionOptions!
+ModularPipelines.CommandInvocation.ExecutionOptions.init -> void
+ModularPipelines.CommandInvocation.ToolOptions.get -> ModularPipelines.Options.CommandLineToolOptions?
+ModularPipelines.CommandInvocation.ToolOptions.init -> void
+ModularPipelines.CommandInvocation.WorkingDirectory.get -> string!
+ModularPipelines.CommandInvocation.WorkingDirectory.init -> void
+override ModularPipelines.CommandInvocation.Equals(object? obj) -> bool
+override ModularPipelines.CommandInvocation.GetHashCode() -> int
+override ModularPipelines.CommandInvocation.ToString() -> string!
+static ModularPipelines.CommandInvocation.operator !=(ModularPipelines.CommandInvocation? left, ModularPipelines.CommandInvocation? right) -> bool
+static ModularPipelines.CommandInvocation.operator ==(ModularPipelines.CommandInvocation? left, ModularPipelines.CommandInvocation? right) -> bool
+ModularPipelines.ICommandInterceptor
+ModularPipelines.CommandDelegate
+ModularPipelines.ICommandInterceptor.InvokeAsync(ModularPipelines.CommandInvocation! invocation, ModularPipelines.CommandDelegate! next, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
+virtual ModularPipelines.CommandDelegate.Invoke(ModularPipelines.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
+static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.ICommandInterceptor! interceptor) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor<TInterceptor>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.Context.HashEncoding
 ModularPipelines.Context.HashEncoding.Base64 = 1 -> ModularPipelines.Context.HashEncoding

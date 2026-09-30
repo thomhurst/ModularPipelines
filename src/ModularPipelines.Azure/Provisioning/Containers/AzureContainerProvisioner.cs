@@ -18,6 +18,6 @@ public class AzureContainerProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetContainerRegistries()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 }

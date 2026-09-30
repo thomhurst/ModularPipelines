@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. See also: AWS API Documentation
+/// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is dis- abled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsCloudwatchGetDashboardOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. See also: AWS API Documentation
+    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is dis- abled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data p...
     /// </summary>
     /// <param name="DashboardName">The name of the dashboard to be described.</param>
     public AwsCloudwatchGetDashboardOptions(

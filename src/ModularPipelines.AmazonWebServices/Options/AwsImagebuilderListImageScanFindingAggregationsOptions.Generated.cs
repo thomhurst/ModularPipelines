@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the im- agePipelineArn filter. If you don't specify a filter, Image Builder re- turns an aggregation for your account. To streamline results, you can use the following filters in your re- quest: o accountId o imageBuildVersionArn o...
+/// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the im- agePipelineArn filter. If you don't specify a filter, Image Builder re- turns an aggregation for your account. To streamline results, you can use the following filters in your re- quest: o imageBuildVersionArn o imagePipeli...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListImageScanFindingAggregationsOptions : AwsOptions
 {
     /// <summary>
-    /// A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "string", "values": ["string", ...] }
+    /// A filter name and value pair that determines the type of aggregation that Image Builder returns. Use one of the following filter names: o imageBuildVersionArn o imagePipelineArn o vulnerabilityId If you don't specify a filter, Image Builder returns an aggregation for your account. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "string", "values": ["string", ...] }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }

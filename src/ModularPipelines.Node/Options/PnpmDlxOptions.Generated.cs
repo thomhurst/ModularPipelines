@@ -23,6 +23,12 @@ namespace ModularPipelines.Node.Options;
 public record PnpmDlxOptions : PnpmOptions
 {
     /// <summary>
+    /// Print the pnpm version
+    /// </summary>
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
+
+    /// <summary>
     /// The package to install before running the command. May be repeated. When omitted, the command name is the package
     /// </summary>
     [CliOption("--package")]
@@ -131,7 +137,7 @@ public record PnpmDlxOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmDlxReporter? Reporter { get; set; }

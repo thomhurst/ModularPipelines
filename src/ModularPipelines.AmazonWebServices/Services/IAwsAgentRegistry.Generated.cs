@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsAgentRegistry
 {
     /// <summary>
-    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation
+    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation batch-get-discoverable-registry-record uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

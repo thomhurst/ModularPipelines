@@ -432,7 +432,8 @@ internal sealed class DependencyGraphExporter(
         IModule module,
         CancellationToken cancellationToken)
     {
-        await using var scope = serviceProvider.CreateAsyncScope();
+        var scope = serviceProvider.CreateAsyncScope();
+        await using var scopeLifetime = scope.ConfigureAwait(false);
         var scopedServices = scope.ServiceProvider;
         var configuration = module.Configuration;
         var executionContext = ExecutionContextFactory.Create(module, module.GetType());

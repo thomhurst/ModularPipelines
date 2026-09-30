@@ -54,13 +54,14 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
         var temporary = Path.Combine(_cacheDirectory, $".{fingerprint}.{Guid.NewGuid():N}.tmp");
         try
         {
-            await using (var output = new FileStream(
-                             temporary,
-                             FileMode.CreateNew,
-                             FileAccess.Write,
-                             FileShare.None,
-                             64 * 1024,
-                             FileOptions.Asynchronous))
+            var output = new FileStream(
+                temporary,
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.None,
+                64 * 1024,
+                FileOptions.Asynchronous);
+            await using (output.ConfigureAwait(false))
             {
                 await content.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
                 await output.FlushAsync(cancellationToken).ConfigureAwait(false);

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -80,6 +81,12 @@ public record AwsSsmDeleteResourcePolicyOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--policy-hash")]
     public string? PolicyHash { get; private init; }
+
+    /// <summary>
+    /// Specifies the intended outcome of the operation. Applies only to the Document resource type. The operation ignores this parameter for other resource types. Optional. Defaults to RemoveSharing . o RemoveSharing Deletes the resource policy and removes sharing of the document. o RollbackMigration Reverts the document to Custom sharing, pre- serving existing consumer access, instead of removing the policy. Possible values: o RemoveSharing o RollbackMigration
+    /// </summary>
+    [CliOption("--deletion-mode")]
+    public AwsSsmDeleteResourcePolicyDeletionMode? DeletionMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

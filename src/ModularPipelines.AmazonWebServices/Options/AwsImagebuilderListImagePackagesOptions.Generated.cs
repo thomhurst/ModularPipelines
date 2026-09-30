@@ -28,7 +28,7 @@ public record AwsImagebuilderListImagePackagesOptions : AwsOptions, IValidatable
     /// <summary>
     /// Lists the packages that are associated with an image build version, as determined by Amazon Web Services Systems Manager Inventory at build time. See also: AWS API Documentation list-image-packages is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
     /// </summary>
-    /// <param name="ImageBuildVersionArn">Filter results for the ListImagePackages request by the Image Build Version ARN Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The value must be a full build version ARN. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
     public AwsImagebuilderListImagePackagesOptions(
         string ImageBuildVersionArn
     )
@@ -57,7 +57,7 @@ public record AwsImagebuilderListImagePackagesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Filter results for the ListImagePackages request by the Image Build Version ARN Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The value must be a full build version ARN. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--image-build-version-arn")]
     public string? ImageBuildVersionArn { get; private init; }

@@ -27,6 +27,9 @@ public record AwsSsoLoginOptions : AwsOptions
     [CliFlag("--use-device-code")]
     public bool? UseDeviceCode { get; set; }
 
+    [CliOption("--redirect-port")]
+    public int? RedirectPort { get; set; }
+
     [CliOption("--sso-session")]
     public string? SsoSession { get; set; }
 

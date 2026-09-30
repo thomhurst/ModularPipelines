@@ -109,7 +109,7 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidata
     public IEnumerable<string>? SnapshotArnsToRestore { get; set; }
 
     /// <summary>
-    /// The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -143,6 +143,12 @@ public record AwsElasticacheCreateServerlessCacheOptions : AwsOptions, IValidata
     /// </summary>
     [CliOption("--network-type")]
     public AwsElasticacheCreateServerlessCacheNetworkType? NetworkType { get; set; }
+
+    /// <summary>
+    /// The connection type for the serverless cache. Must be either vpc | public . Use vpc to access the cache through a VPC endpoint, or pub- lic to access the cache over the internet. If not specified, de- faults to vpc . This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above. Possible values: o vpc o public
+    /// </summary>
+    [CliOption("--connection-type")]
+    public AwsElasticacheCreateServerlessCacheConnectionType? ConnectionType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

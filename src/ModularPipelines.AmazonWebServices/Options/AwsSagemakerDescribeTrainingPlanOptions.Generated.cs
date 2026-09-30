@@ -27,7 +27,7 @@ public record AwsSagemakerDescribeTrainingPlanOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves detailed information about a specific training plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrainingPlanName">The name of the training plan to describe. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="TrainingPlanName">The name of the training plan to describe. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:train- ing-plan/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
     public AwsSagemakerDescribeTrainingPlanOptions(
         string TrainingPlanName
     )
@@ -56,7 +56,7 @@ public record AwsSagemakerDescribeTrainingPlanOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the training plan to describe. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// The name of the training plan to describe. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:train- ing-plan/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--training-plan-name")]
     public string? TrainingPlanName { get; private init; }

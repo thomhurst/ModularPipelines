@@ -18,7 +18,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetAppServicePlans()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<WebSiteResource>> WebSiteAsync(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
@@ -28,7 +28,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetWebSites()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<WebSiteSlotResource>> WebSiteSlotAsync(AzureResourceIdentifier azureResourceIdentifier, WebSiteData properties, CancellationToken cancellationToken = default)
@@ -37,10 +37,10 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var website = await GetResourceGroup(azureResourceIdentifier).GetWebSiteAsync(azureResourceIdentifier.ResourceName, cancellationToken);
+        var website = await GetResourceGroup(azureResourceIdentifier).GetWebSiteAsync(azureResourceIdentifier.ResourceName, cancellationToken).ConfigureAwait(false);
 
         return await website.Value.GetWebSiteSlots()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<SiteFunctionResource>> WebSiteDeploymentAsync(AzureResourceIdentifier azureResourceIdentifier, FunctionEnvelopeData properties, CancellationToken cancellationToken = default)
@@ -49,10 +49,10 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        var website = await GetResourceGroup(azureResourceIdentifier).GetWebSiteAsync(azureResourceIdentifier.ResourceName, cancellationToken);
+        var website = await GetResourceGroup(azureResourceIdentifier).GetWebSiteAsync(azureResourceIdentifier.ResourceName, cancellationToken).ConfigureAwait(false);
 
         return await website.Value.GetSiteFunctions()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<StaticSiteResource>> StaticSiteAsync(AzureResourceIdentifier azureResourceIdentifier, StaticSiteData properties, CancellationToken cancellationToken = default)
@@ -62,7 +62,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetStaticSites()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<AppServiceDomainResource>> AppServiceDomainAsync(AzureResourceIdentifier azureResourceIdentifier, AppServiceDomainData properties, CancellationToken cancellationToken = default)
@@ -72,7 +72,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetAppServiceDomains()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ArmOperation<AppServiceEnvironmentResource>> AppServiceEnvironmentAsync(AzureResourceIdentifier azureResourceIdentifier, AppServiceEnvironmentData properties, CancellationToken cancellationToken = default)
@@ -82,6 +82,6 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
         return await GetResourceGroup(azureResourceIdentifier).GetAppServiceEnvironments()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken).ConfigureAwait(false);
     }
 }

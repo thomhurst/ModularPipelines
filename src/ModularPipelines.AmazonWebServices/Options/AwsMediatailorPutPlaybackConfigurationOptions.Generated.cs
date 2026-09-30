@@ -183,6 +183,12 @@ public record AwsMediatailorPutPlaybackConfigurationOptions : AwsOptions, IValid
     [CliOption("--ads-personalization-concurrency")]
     public string? AdsPersonalizationConcurrency { get; set; }
 
+    /// <summary>
+    /// The beaconing configuration for this playback configuration, which controls whether MediaTailor includes beacons of its own in the ad tracking response. If you omit this setting, MediaTailor uses IN- SIGHTS . ClientSide -&gt; (structure) The beaconing settings for client-side reporting sessions. If you omit this object, MediaTailor uses INSIGHTS reporting mode. ReportingMode -&gt; (string) [required] Specifies whether MediaTailor includes its beacons in the ad tracking response. Valid values, which are case-sensitive: o INSIGHTS MediaTailor includes its beacons in the ad track- ing response. o DISABLED MediaTailor doesn't include its beacons in the ad tracking response. If you send a ClientSide object, this setting is required. If you omit BeaconingConfiguration or ClientSide entirely, Medi- aTailor uses INSIGHTS . PutPlaybackConfiguration replaces the whole playback con- figuration. To keep beaconing off, include DISABLED in every subsequent write. Possible values: o DISABLED o INSIGHTS AdditionalEventTypes -&gt; (list) The player operation events to report on, in addition to the ad progress events that MediaTailor always reports on. The default is an empty list. This parameter is valid only when ReportingMode is INSIGHTS . MediaTailor rejects the request if you specify a value while ReportingMode is DISABLED , or if you specify duplicate values. (string) A player operation event that MediaTailor can report on. Only the player can detect when a viewer performs this action, so MediaTailor doesn't send these beacons itself. Possible values: o MUTE o UNMUTE o PAUSE o SKIP Shorthand Syntax: ClientSide={ReportingMode=string,AdditionalEventTypes=[string,string]} JSON Syntax: { "ClientSide": { "ReportingMode": "DISABLED"|"INSIGHTS", "AdditionalEventTypes": ["MUTE"|"UNMUTE"|"PAUSE"|"SKIP", ...] } }
+    /// </summary>
+    [CliOption("--beaconing-configuration")]
+    public string? BeaconingConfiguration { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

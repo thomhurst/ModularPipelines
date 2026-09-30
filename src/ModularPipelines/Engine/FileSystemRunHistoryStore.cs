@@ -77,7 +77,7 @@ internal sealed class FileSystemRunHistoryStore(
     {
         try
         {
-            await using var stream = new FileStream(
+            var stream = new FileStream(
                 file,
                 new FileStreamOptions
                 {
@@ -86,6 +86,7 @@ internal sealed class FileSystemRunHistoryStore(
                     Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
                     Share = FileShare.Read | FileShare.Delete,
                 });
+            await using var streamLifetime = stream.ConfigureAwait(false);
             var (report, incompatibleSchemaVersion) = await ReadReportAsync(stream, cancellationToken)
                 .ConfigureAwait(false);
             if (incompatibleSchemaVersion is not { } schemaVersion)

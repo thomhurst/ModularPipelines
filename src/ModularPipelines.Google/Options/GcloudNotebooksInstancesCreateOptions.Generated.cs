@@ -322,7 +322,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions, IValidatabl
         {
             yield return new ValidationResult("KmsKey must be specified when other arguments in this group are specified.", [nameof(KmsKey)]);
         }
-        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion) || !string.IsNullOrWhiteSpace(Reservation) || (object?)ReservationAffinity is not null) && (!(!string.IsNullOrWhiteSpace(Subnet))))
+        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion)) && (!(!string.IsNullOrWhiteSpace(Subnet))))
         {
             yield return new ValidationResult("Subnet must be specified when other arguments in this group are specified.", [nameof(Subnet)]);
         }

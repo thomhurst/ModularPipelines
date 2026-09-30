@@ -29,7 +29,7 @@ public record AwsWellarchitectedTagResourceOptions : AwsOptions, IValidatableObj
     /// Adds one or more tags to the specified resource. NOTE: The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. See also: AWS API Documentation
     /// </summary>
     /// <param name="WorkloadArn">The ARN for the workload.</param>
-    /// <param name="Tags">The tags for the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="Tags">The tags for the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsWellarchitectedTagResourceOptions(
         string WorkloadArn,
         IReadOnlyList<KeyValue> Tags
@@ -78,7 +78,7 @@ public record AwsWellarchitectedTagResourceOptions : AwsOptions, IValidatableObj
     public string? WorkloadArn { get; private init; }
 
     /// <summary>
-    /// The tags for the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags for the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }

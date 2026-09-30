@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotListV2LoggingLevelsOptions : AwsOptions
 {
     /// <summary>
-    /// The type of resource for which you are configuring logging. Must be THING_Group . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID
+    /// The type of resource for which you are configuring logging. Must be DEFAULT , THING_GROUP , CLIENT_ID , SOURCE_IP , or PRINCIPAL_ID . Possible values: o DEFAULT o THING_GROUP o CLIENT_ID o SOURCE_IP o PRINCIPAL_ID
     /// </summary>
     [CliOption("--target-type")]
     public AwsIotListV2LoggingLevelsTargetType? TargetType { get; set; }

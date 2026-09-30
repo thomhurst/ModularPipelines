@@ -29,7 +29,7 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Distributes an existing AMI to target Regions and accounts without run- ning the full image build process. This operation only runs the distri- bution phase on an image that has already been built. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceImage">The source image to distribute. Specify an AMI identifier, SSM para- meter path, or Image Builder image Amazon Resource Name (ARN). When you specify an Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE state. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="SourceImage">The source image to distribute. You can specify the source in any of the following formats: o An AMI ID. o An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. o An Image Builder image Amazon Resource Name (ARN). An image ver- sion ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: o min: 1 o max: 1024</param>
     /// <param name="DistributionConfigurationArn">The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI set- tings. The distribution configuration must be in the same Region as this operation. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$</param>
     /// <param name="ExecutionRole">The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image. Constraints: o min: 1 o max: 2048 o pattern: ^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\-_/]+$</param>
     public AwsImagebuilderDistributeImageOptions(
@@ -66,7 +66,7 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source image to distribute. Specify an AMI identifier, SSM para- meter path, or Image Builder image Amazon Resource Name (ARN). When you specify an Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE state. Constraints: o min: 1 o max: 1024
+    /// The source image to distribute. You can specify the source in any of the following formats: o An AMI ID. o An Amazon Web Services Systems Manager Parameter Store reference, prefixed by ssm: , followed by the parameter name or ARN. o An Image Builder image Amazon Resource Name (ARN). An image ver- sion ARN resolves to the latest available build version. Whichever format you use, the source must resolve to an AMI in the current Amazon Web Services Region. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--source-image")]
     public string? SourceImage { get; private init; }
@@ -84,13 +84,13 @@ public record AwsImagebuilderDistributeImageOptions : AwsOptions, IValidatableOb
     public string? ExecutionRole { get; private init; }
 
     /// <summary>
-    /// The tags to apply to the distributed image. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the new Image Builder image resource that this operation creates. To tag the output AMIs, use amiTags in the dis- tribution configuration. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

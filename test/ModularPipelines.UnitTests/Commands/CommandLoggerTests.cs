@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -28,7 +29,7 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
     /// <summary>
     /// Initiates the OAuth registration flow with a third-party provider. Re- turns a redirect URL and CSRF state token for completing the authoriza- tion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Provider">The provider to initiate registration with. Currently, only GITHUB is supported. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE</param>
+    /// <param name="Provider">The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS</param>
     public AwsSecurityagentInitiateProviderRegistrationOptions(
         AwsSecurityagentInitiateProviderRegistrationProvider Provider
     )
@@ -56,10 +57,35 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provider to initiate registration with. Currently, only GITHUB is supported. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE
+    /// The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS
     /// </summary>
     [CliOption("--provider")]
     public AwsSecurityagentInitiateProviderRegistrationProvider? Provider { get; private init; }
+
+    /// <summary>
+    /// The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
+    /// </summary>
+    [CliOption("--target-url")]
+    public string? TargetUrl { get; set; }
+
+    /// <summary>
+    /// The name of the organization to connect.
+    /// </summary>
+    [CliOption("--organization-name")]
+    public string? OrganizationName { get; set; }
+
+    /// <summary>
+    /// The client ID of the OAuth application registered on your self-man- aged provider instance.
+    /// </summary>
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
+
+    /// <summary>
+    /// The client secret of the OAuth application registered on your self-managed provider instance.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

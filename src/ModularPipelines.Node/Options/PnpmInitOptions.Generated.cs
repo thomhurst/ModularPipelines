@@ -23,6 +23,12 @@ namespace ModularPipelines.Node.Options;
 public record PnpmInitOptions : PnpmOptions
 {
     /// <summary>
+    /// Create a package.json file with the bare minimum of required fields
+    /// </summary>
+    [CliFlag("--bare")]
+    public bool? Bare { get; set; }
+
+    /// <summary>
     /// Set the module system for the package. Defaults to "module"
     /// </summary>
     [CliOption("--init-type")]
@@ -113,7 +119,7 @@ public record PnpmInitOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmInitReporter? Reporter { get; set; }

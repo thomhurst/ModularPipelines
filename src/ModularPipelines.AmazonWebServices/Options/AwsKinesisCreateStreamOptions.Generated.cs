@@ -12,6 +12,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Models;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -91,6 +92,12 @@ public record AwsKinesisCreateStreamOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--max-record-size-in-ki-b")]
     public int? MaxRecordSizeInKiB { get; set; }
+
+    /// <summary>
+    /// The record distribution strategy for the stream, which determines how Amazon Kinesis Data Streams distributes records across shards. Specify one of the following values: o AUTO Amazon Kinesis Data Streams distributes records evenly across shards and ignores any partition key and ExplicitHashKey that producers supply. Use this value for stateless workloads that do not require partition-key ordering. o USER_PARTITION_KEY Producers must supply a partition key, which Amazon Kinesis Data Streams uses to determine shard placement. This is the default. The record distribution strategy is only supported for streams that use the on-demand capacity mode. If you do not specify this parame- ter, the stream uses USER_PARTITION_KEY . Possible values: o AUTO o USER_PARTITION_KEY
+    /// </summary>
+    [CliOption("--record-distribution-strategy")]
+    public AwsKinesisCreateStreamRecordDistributionStrategy? RecordDistributionStrategy { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

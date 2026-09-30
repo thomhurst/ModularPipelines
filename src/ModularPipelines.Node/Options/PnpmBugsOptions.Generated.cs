@@ -92,7 +92,7 @@ public record PnpmBugsOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmBugsReporter? Reporter { get; set; }

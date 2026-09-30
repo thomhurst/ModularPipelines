@@ -41,7 +41,8 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
         try
         {
-            await using var scope = _serviceProvider.CreateAsyncScope();
+            var scope = _serviceProvider.CreateAsyncScope();
+            await using var scopeLifetime = scope.ConfigureAwait(false);
             var git = scope.ServiceProvider.GetRequiredService<IGit>();
 
             var options = new GitRemoteOptions
@@ -60,7 +61,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
                 : CommandLoggingOptions.Silent,
             };
 
-            var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions);
+            var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions).ConfigureAwait(false);
             var remoteUrl = remote.StandardOutput;
 
             if (string.IsNullOrEmpty(remoteUrl))

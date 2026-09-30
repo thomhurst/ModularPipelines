@@ -1,6 +1,5 @@
-using ModularPipelines.Context;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Node.Models;
 
@@ -18,6 +17,6 @@ internal class Npx : INpx
 
     public virtual async Task<CommandResult> ExecuteAsync(NpxOptions npxOptions, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(npxOptions, null, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(npxOptions, null, cancellationToken).ConfigureAwait(false);
     }
 }

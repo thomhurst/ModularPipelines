@@ -145,6 +145,12 @@ public record GcloudBuildsSubmitOptions : GcloudOptions, IValidatableObject
     public string? WorkerPool { get; set; }
 
     /// <summary>
+    /// Specifies the release channel or version to use for the build worker image. Accepts release channel names (rapid, regular, stable) or specific release versions (for example, 2026.09, legacy). See https://docs.cloud.google.com/build/docs/release-channels.
+    /// </summary>
+    [CliOption("--worker-release", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerRelease { get; set; }
+
+    /// <summary>
     /// At most one of these can be specified: The YAML or JSON file to use as the build configuration file.
     /// </summary>
     [CliOption("--config", Format = OptionFormat.EqualsSeparated)]

@@ -31,7 +31,8 @@ public static class ArmClientExtensions
                     await foreach (var page in armClient
                                        .GetResourceGroupResource(azureResourceIdentifier.ToResourceGroupIdentifier())
                                        .GetGenericResourcesAsync()
-                                       .AsPages())
+                                       .AsPages()
+                                       .ConfigureAwait(false))
                     {
                         foreach (var genericResource in page.Values)
                         {

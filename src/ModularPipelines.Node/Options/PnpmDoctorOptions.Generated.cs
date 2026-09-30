@@ -113,7 +113,7 @@ public record PnpmDoctorOptions : PnpmOptions
     public CliOptionValue? Color { get; set; }
 
     /// <summary>
-    /// Reporter output format [default: default]
+    /// Reporter output format
     /// </summary>
     [CliOption("--reporter")]
     public PnpmDoctorReporter? Reporter { get; set; }

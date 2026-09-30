@@ -35,7 +35,7 @@ run conditions now receive `IPipelineContext` directly.
 | `Services` | `IServicesContext` | Dependency injection and configuration |
 
 Modules execute general commands directly through `IShellContext.RunAsync`. Generated
-tool services use `ModularPipelines.Context.Domains.Shell.ICommandContext` as their DI
+tool services use `ModularPipelines.Context.ICommandContext` as their DI
 seam.
 
 ## Modules

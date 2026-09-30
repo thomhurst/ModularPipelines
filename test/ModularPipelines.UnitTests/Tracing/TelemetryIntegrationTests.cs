@@ -7,7 +7,6 @@ using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Constants;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;

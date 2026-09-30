@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -81,7 +80,6 @@ public record AzSignalrCustomCertificateUpdateOptions : AzOptions
     /// <summary>
     /// Key vault secret version where certificate is stored. If empty, will use latest version.
     /// </summary>
-    [SecretValue]
     [CliOption("--keyvault-secret-version")]
     public string? KeyvaultSecretVersion { get; set; }
 

@@ -89,6 +89,12 @@ public record AwsDatazoneUpdateEnvironmentBlueprintOptions : AwsOptions, IValida
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
 
+    /// <summary>
+    /// The category to update. The only valid value is TOOLING . Possible values: o TOOLING
+    /// </summary>
+    [CliOption("--blueprint-category")]
+    public string? BlueprintCategory { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

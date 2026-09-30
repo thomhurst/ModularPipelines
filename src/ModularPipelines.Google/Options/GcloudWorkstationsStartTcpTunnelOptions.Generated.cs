@@ -62,6 +62,12 @@ public record GcloudWorkstationsStartTcpTunnelOptions : GcloudOptions
     public string? Region { get; set; }
 
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// LOCAL_HOST:LOCAL_PORT on which gcloud should bind and listen for connections that should be tunneled. LOCAL_PORT may be omitted, in which case it is treated as 0 and an arbitrary unused local port is chosen. The colon also may be omitted in that case. If LOCAL_PORT is 0, an arbitrary unused local port is chosen.
     /// </summary>
     [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]

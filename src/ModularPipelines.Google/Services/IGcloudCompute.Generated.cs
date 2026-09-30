@@ -182,6 +182,11 @@ public interface IGcloudCompute
     GcloudComputeMachineTypes MachineTypes => throw new System.NotSupportedException();
 
     /// <summary>
+    /// gcloud managed-rulesets sub-commands.
+    /// </summary>
+    GcloudComputeManagedRulesets ManagedRulesets => throw new System.NotSupportedException();
+
+    /// <summary>
     /// gcloud migration sub-commands.
     /// </summary>
     GcloudComputeMigration Migration => throw new System.NotSupportedException();

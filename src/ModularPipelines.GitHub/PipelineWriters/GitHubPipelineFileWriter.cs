@@ -8,7 +8,7 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
 {
     public async Task WriteAsync(IPipelineContext pipelineHookContext)
     {
-        var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext);
+        var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext).ConfigureAwait(false);
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
         {
@@ -70,7 +70,7 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
             },
         }, HyphenatedNamingConvention.Instance);
 
-        await options.OutputPath.WriteAsync(yaml);
+        await options.OutputPath.WriteAsync(yaml).ConfigureAwait(false);
     }
 
     internal abstract Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(IPipelineContext pipelineHookContext);

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -73,7 +72,6 @@ public record AwsRdsDataCommitTransactionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// The name or ARN of the secret that enables access to the DB cluster. Constraints: o min: 11 o max: 570
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
