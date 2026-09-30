@@ -130,10 +130,11 @@ public partial class RequiredConstructorValidationTests
         (string Properties, bool Valid)[] cases) => ValidateCapturedGroups(command, [group], cases);
 
     private static async Task ValidateCapturedGroups(CliCommandDefinition command, IReadOnlyList<CliRequiredAlternativeGroup> groups,
-        (string Properties, bool Valid)[] cases)
+        (string Properties, bool Valid)[] cases, IEnumerable<string>? additionalProperties = null)
     {
         var names = groups.SelectMany(group => group.PropertyNames)
-            .Concat(groups.SelectMany(EnumerateGroups).Select(group => group.RequiredWhen?.PropertyName).OfType<string>()).ToHashSet(StringComparer.Ordinal);
+            .Concat(groups.SelectMany(EnumerateGroups).Select(group => group.RequiredWhen?.PropertyName).OfType<string>())
+            .Concat(additionalProperties ?? []).ToHashSet(StringComparer.Ordinal);
         var options = command.Options.Where(option => names.Contains(option.PropertyName)).ToList();
         var generated = await Generate(options, alternativeGroups: groups);
         var enums = await new EnumGenerator().GenerateAsync(new CliToolDefinition

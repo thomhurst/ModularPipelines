@@ -35,6 +35,16 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
         _ownsConnection = false;
     }
 
+    /// <summary>
+    /// Connects with a caller-supplied function, for tests that simulate failed connection attempts.
+    /// </summary>
+    internal RedisConnectionProvider(Func<Task<IConnectionMultiplexer>> connect, bool ownsConnection)
+    {
+        ArgumentNullException.ThrowIfNull(connect);
+        _connect = connect;
+        _ownsConnection = ownsConnection;
+    }
+
     public async Task<IConnectionMultiplexer> GetConnectionAsync(CancellationToken cancellationToken)
     {
         if (Volatile.Read(ref _connection) is { } existing)

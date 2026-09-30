@@ -11,7 +11,11 @@ internal static class GcloudSynopsisGroupReconciler
         group = group with { Groups = [.. group.Groups.Select(child => Reconcile(child, synopsisChoices, synopsisBundles))] };
         if ((group.Kind & (CliArgumentGroupKind.AtMostOne | CliArgumentGroupKind.AtLeastOne)) == 0)
         {
-            return group;
+            // Help can print a nested optional bundle at its parent's indentation. Scope the
+            // bundle's conditional requirement to its own members, not to the parent's peers.
+            return group.Arguments.Any(GcloudCliScraper.ArgumentIsConditionallyRequired)
+                ? RestoreOptionalBundles(group, synopsisBundles)
+                : group;
         }
 
         var switches = group.FlattenArguments().Select(argument => argument.SwitchName).ToHashSet(StringComparer.Ordinal);

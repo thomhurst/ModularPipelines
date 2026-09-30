@@ -15,7 +15,9 @@ namespace ModularPipelines.Distributed.Redis;
 /// Extension methods for registering the Redis distributed coordinator, artifact store and module cache.
 /// </summary>
 /// <remarks>
-/// The coordinator and artifact store share the unnamed <see cref="RedisOptions"/> and one connection.
+/// The coordinator and artifact store share the unnamed <see cref="RedisOptions"/> but each opens its own
+/// connection, so large artifact transfers do not queue ahead of coordinator commands on the client.
+/// Both connections still share the network link and the Redis server, so size them for the combined load.
 /// The module cache has its own <see cref="RedisOptions"/> and connection, so it can target another
 /// Redis instance. Artifact settings that apply to every backend are configured through
 /// <see cref="ArtifactOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
@@ -23,6 +25,12 @@ namespace ModularPipelines.Distributed.Redis;
 public static class RedisDistributedExtensions
 {
     private const string ModuleCacheOptionsName = "ModularPipelines.RedisModuleCache";
+
+    /// <summary>
+    /// Keys the artifact store's connection. Artifact chunks are large, so they get their own
+    /// multiplexer and do not queue ahead of the coordinator's heartbeats and lease renewals on the client.
+    /// </summary>
+    internal const string ArtifactConnectionKey = "ModularPipelines.Distributed.Redis.Artifacts";
 
     /// <summary>
     /// Enables a shareable Redis-backed module cache without enabling distributed execution.
@@ -123,7 +131,8 @@ public static class RedisDistributedExtensions
     }
 
     /// <summary>
-    /// Registers both the Redis-based coordinator and artifact store, sharing one connection.
+    /// Registers both the Redis-based coordinator and artifact store with shared options. The artifact
+    /// store opens its own connection so large transfers do not queue ahead of coordinator commands.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">Configures the Redis connection, key prefix, chunking and expiry.</param>
@@ -138,7 +147,9 @@ public static class RedisDistributedExtensions
     }
 
     /// <summary>
-    /// Registers both the Redis-based coordinator and artifact store from configuration, sharing one connection.
+    /// Registers both the Redis-based coordinator and artifact store from configuration with shared
+    /// options. The artifact store opens its own connection so large transfers do not queue ahead of
+    /// coordinator commands.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="section">The configuration section bound to <see cref="RedisOptions"/>.</param>
@@ -181,6 +192,10 @@ public static class RedisDistributedExtensions
         // accidentally share this connection. It connects on first use, asynchronously.
         builder.Services.TryAddSingleton(serviceProvider =>
             new RedisConnectionProvider(serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value));
+        builder.Services.TryAddKeyedSingleton(
+            ArtifactConnectionKey,
+            (serviceProvider, _) =>
+                new RedisConnectionProvider(serviceProvider.GetRequiredService<IOptions<RedisOptions>>().Value));
     }
 
     private static void AddValidation(IServiceCollection services, string name)

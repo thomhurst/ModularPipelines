@@ -63,6 +63,8 @@ public class DistributedBuildConfigurationTests
         await Assert.That(connection.Ssl).IsTrue();
         await Assert.That(connection.AbortOnConnectFail).IsFalse();
         await Assert.That(connection.Password).IsEqualTo("key,with=special;characters");
+        // A stalled heartbeat must fail before the worker's lease expires.
+        await Assert.That(TimeSpan.FromMilliseconds(connection.AsyncTimeout) < distributed.WorkerTimeout).IsTrue();
     }
 
     [Test]
