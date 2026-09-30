@@ -63,7 +63,7 @@ public record AwsImagebuilderListLifecycleExecutionResourcesOptions : AwsOptions
     public string? LifecycleExecutionId { get; private init; }
 
     /// <summary>
-    /// You can leave this empty to get a list of Image Builder resources that were identified for lifecycle actions. To get a list of associated resources that are impacted for an indi- vidual resource (the parent), specify its Amazon Resource Name (ARN). Associated resources are produced from your image and dis- tributed when you run a build, such as AMIs or container images stored in ECR repositories. Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) of an image build version to get the output resources for, such as AMIs or container images in Amazon ECR. You can get this value from the resourceId in the top-level re- sponse. If you leave this property empty, the response lists the Im- age Builder resources that the lifecycle execution identified for lifecycle actions. If the image build version that you specify in parentResourceId wasn't part of this lifecycle execution, the re- sponse contains an empty list. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--parent-resource-id")]
     public string? ParentResourceId { get; set; }

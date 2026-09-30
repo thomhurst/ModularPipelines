@@ -23,6 +23,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMarketplaceDiscoverySearchFacetsOptions : AwsOptions
 {
     /// <summary>
+    /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale. Constraints: o min: 1 o max: 256 o pattern: [^;,]+(\s*,\s*[^;,]+){0,1}
+    /// </summary>
+    [CliOption("--locale")]
+    public string? Locale { get; set; }
+
+    /// <summary>
     /// The search query text to filter listings before retrieving facets. Constraints: o min: 1 o max: 512 o pattern: .*[^ ]*.*
     /// </summary>
     [CliOption("--search-text")]

@@ -108,7 +108,7 @@ public record AwsNeptuneGraphCreateGraphUsingImportTaskOptions : AwsOptions, IVa
     public string? VectorSearchConfiguration { get; set; }
 
     /// <summary>
-    /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: o min: 0 o max: 2
+    /// The number of replicas in other AZs to provision on the new graph after import. Default = 1, Min = 0, Max = 2. WARNING: Additional charges equivalent to the m-NCUs selected for the graph apply for each replica. Constraints: o min: 0 o max: 2
     /// </summary>
     [CliOption("--replica-count")]
     public int? ReplicaCount { get; set; }

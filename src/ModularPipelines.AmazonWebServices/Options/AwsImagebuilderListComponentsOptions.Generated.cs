@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of components that can be filtered by name, or by us- ing the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your...
+/// Returns the list of components that you have access to. By default, the response doesn't include components in the DEPRECATED state. To list deprecated components, use the status filter with the value DEPRECATED . NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Filtering: You can use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListComponentsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters results based on the type of owner for the component. By de- fault, this request returns a list of components that your account owns. To see results for other types of owners, you can specify com- ponents that Amazon manages, third party components, or components that other accounts have shared with you. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Filters results based on the type of owner for the component. By de- fault, this request returns a list of components that your account owns. To see results for other types of owners, you can specify com- ponents that Amazon manages, components from the Amazon Web Services Marketplace, third party components, or components that other ac- counts have shared with you. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListComponentsOwner? Owner { get; set; }
 
     /// <summary>
-    /// Use the following filters to streamline results: o description o name o platform o supportedOsVersion o type o version Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// Use the following filters to streamline results: o description o name o platform o productCodes o status o supportedOsVersion o type o version Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Returns the list of components for the specified name.
+    /// Specifies whether to return one entry per component name, with all versions of each component aggregated. Defaults to false , which re- turns one entry per component version. You can't combine this option with the version filter.
     /// </summary>
     [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }

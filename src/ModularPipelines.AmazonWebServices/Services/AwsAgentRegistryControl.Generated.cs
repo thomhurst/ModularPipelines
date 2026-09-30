@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -58,7 +57,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Creates a registry record within a registry. A registry record de- scribes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed. See also: AWS API Documentation
+    /// Creates a registry record within a registry. A registry record de- scribes a discoverable resource, such as an MCP server, an agent, an agent skill, or a custom resource. Creation is asynchronous: the record is returned with the CREATING status while it is processed. See also: AWS API Documentation create-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options an...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -118,7 +117,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Retrieves the details of a registry record See also: AWS API Documentation
+    /// Retrieves the details of a registry record See also: AWS API Documentation get-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -238,7 +237,7 @@ public class AwsAgentRegistryControl : IAwsAgentRegistryControl
     }
 
     /// <summary>
-    /// Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged. See also: AWS API Documentation
+    /// Updates a registry record. The update is asynchronous: the record is returned with the UPDATING status while it is processed. Fields that use update wrappers follow PATCH semantics: omit the field to leave it unchanged. See also: AWS API Documentation update-registry-record uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of images that you have access to. Newly created im- ages can take up to two minutes to appear in the ListImages API Re- sults. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the result...
+/// Returns the list of images that you have access to. See also: AWS API Documentation list-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: imageVersionList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -36,13 +36,13 @@ public record AwsImagebuilderListImagesOptions : AwsOptions
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Requests a list of images with a specific recipe name.
+    /// Specifies whether to return one entry per image name, with all ver- sions of each image aggregated. Defaults to false , which returns one entry per image version. You can't combine this option with the version filter.
     /// </summary>
     [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }
 
     /// <summary>
-    /// Includes deprecated images in the response list.
+    /// Specifies whether to include deprecated Amazon-managed images in the results. Deprecated images that you own are always returned. De- faults to false .
     /// </summary>
     [CliFlag("--include-deprecated", NegatedName = "--no-include-deprecated")]
     public bool? IncludeDeprecated { get; set; }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,6 +23,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "list-email-identities")]
 public record AwsSesv2ListEmailIdentitiesOptions : AwsOptions
 {
+    /// <summary>
+    /// An object that contains filters to apply when listing email identi- ties. You can filter by identity name, identity type, or verifica- tion status. key -&gt; (string) The filter key to use when listing email identities. This can be one of the following: o IDENTITY_NAME_CONTAINS Filter by a substring of the identity name. o IDENTITY_TYPE Filter by identity type. o VERIFICATION_STATUS Filter by verification status. Possible values: o IDENTITY_NAME_CONTAINS o IDENTITY_TYPE o VERIFICATION_STATUS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: IDENTITY_NAME_CONTAINS IDENTITY_TYPE VERIFICATION_STATUS JSON Syntax: {"IDENTITY_NAME_CONTAINS"|"IDENTITY_TYPE"|"VERIFICATION_STATUS": "string" ...}
+    /// </summary>
+    [CliOption("--filter", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Filter { get; set; }
+
     /// <summary>
     /// A token returned from a previous call to ListEmailIdentities to in- dicate the position in the list of identities.
     /// </summary>

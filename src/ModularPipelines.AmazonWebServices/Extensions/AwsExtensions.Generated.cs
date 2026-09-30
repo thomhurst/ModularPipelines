@@ -107,6 +107,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsCloudtrail, AwsCloudtrail>();
         services.TryAddScoped<IAwsCloudtrailData, AwsCloudtrailData>();
         services.TryAddScoped<IAwsCloudwatch, AwsCloudwatch>();
+        services.TryAddScoped<IAwsCloudwatchomni, AwsCloudwatchomni>();
         services.TryAddScoped<IAwsCodeartifact, AwsCodeartifact>();
         services.TryAddScoped<IAwsCodebuild, AwsCodebuild>();
         services.TryAddScoped<IAwsCodecatalyst, AwsCodecatalyst>();
@@ -183,6 +184,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsEntityresolution, AwsEntityresolution>();
         services.TryAddScoped<IAwsEs, AwsEs>();
         services.TryAddScoped<IAwsEvents, AwsEvents>();
+        services.TryAddScoped<IAwsEventsv2, AwsEventsv2>();
         services.TryAddScoped<IAwsEvs, AwsEvs>();
         services.TryAddScoped<IAwsFinspace, AwsFinspace>();
         services.TryAddScoped<IAwsFirehose, AwsFirehose>();
@@ -307,6 +309,7 @@ public static class AwsExtensions
         services.TryAddScoped<IAwsNetworkflowmonitor, AwsNetworkflowmonitor>();
         services.TryAddScoped<IAwsNetworkmanager, AwsNetworkmanager>();
         services.TryAddScoped<IAwsNetworkmonitor, AwsNetworkmonitor>();
+        services.TryAddScoped<IAwsNetworkSecurityManager, AwsNetworkSecurityManager>();
         services.TryAddScoped<IAwsNotifications, AwsNotifications>();
         services.TryAddScoped<IAwsNotificationscontacts, AwsNotificationscontacts>();
         services.TryAddScoped<IAwsNovaAct, AwsNovaAct>();

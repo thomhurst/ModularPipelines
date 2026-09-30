@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. A 429 error occurs in the following situations: ...
+/// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. To receive connection information directly in th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +27,7 @@ public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. A 429 error occurs in the following situations: ...
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participants connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. To receive connection information directly in th...
     /// </summary>
     /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
     /// <param name="ContactFlowId">The identifier of the flow for initiating the chat. To see the Con- tactFlowId in the Connect Customer admin website, on the navigation menu go to Routing , Flows . Choose the flow. On the flow page, un- der the name of the flow, choose Show additional flow information . The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:in- stance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/con- tact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx Constraints: o max: 500</param>
@@ -149,6 +149,18 @@ public record AwsConnectStartChatContactOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--disconnect-on-customer-exit", GroupValues = true)]
     public IEnumerable<string>? DisconnectOnCustomerExit { get; set; }
+
+    /// <summary>
+    /// The types of connection information to return in the response. This parameter is optional. Specify CONNECTION_CREDENTIALS to receive a connection token. Spec- ify WEBSOCKET to receive a websocket URL. You can specify both. No other value returns connection information. Request WEBSOCKET to get a URL the participant connects to directly. You do not need to call CreateParticipantConnection for it. Request CONNECTION_CREDENTIALS on its own and the response returns a connec- tion token but no websocket URL. If you omit this parameter, the response has no connection informa- tion. NOTE: If the information you request cannot be returned, StartChatCon- tact returns an error rather than a response that omits it. Constraints: o min: 1 o max: 2 (string) Possible values: o WEBSOCKET o CONNECTION_CREDENTIALS o AUTHENTICATION_SESSION o WEBRTC_CONNECTION Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--connection-types", GroupValues = true)]
+    public IEnumerable<string>? ConnectionTypes { get; set; }
+
+    /// <summary>
+    /// The streaming configuration, such as the Amazon SNS streaming end- point. Use it to initiate real-time message streaming when the chat is created. This parameter is optional. When you set this parameter, the response includes StreamingId . You do not need to call StartContactStreaming . NOTE: This parameter starts message streaming only. The response does not include connection information, and setting this parameter does not remove the need to call CreateParticipantConnection . StreamingEndpointArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversa- tions. Constraints: o min: 1 o max: 350 Shorthand Syntax: StreamingEndpointArn=string JSON Syntax: { "StreamingEndpointArn": "string" }
+    /// </summary>
+    [CliOption("--chat-streaming-configuration")]
+    public string? ChatStreamingConfiguration { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

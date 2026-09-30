@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists workflow build versions based on filtering parameters. See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: workflowVersionList
+/// Lists workflow versions based on filtering parameters. To list the build versions of a specific workflow version, call ListWorkflowBuild- Versions . See also: AWS API Documentation list-workflows is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListWorkflowsOptions : AwsOptions
 {
     /// <summary>
-    /// Used to get a list of workflow build version filtered by the iden- tity of the creator. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
+    /// Filters results based on the workflow owner. By default, this re- quest returns the workflows that your account owns (Self ). Specify Amazon to list the workflows that Image Builder manages. Image Builder rejects the Shared and ThirdParty owner values for work- flows, and AWSMarketplace returns no results. Possible values: o Self o Shared o Amazon o ThirdParty o AWSMarketplace
     /// </summary>
     [CliOption("--owner")]
     public AwsImagebuilderListWorkflowsOwner? Owner { get; set; }
 
     /// <summary>
-    /// Used to streamline search results. Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// Filters to narrow the list of workflows. You can filter on name , version , description , and type . Constraints: o min: 1 o max: 10 (structure) A filter name and value pair that is used to return a more spe- cific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. name -&gt; (string) The name of the filter. Filter names are case-sensitive. Constraints: o pattern: ^[a-zA-Z]{1,1024}$ values -&gt; (list) The filter values. Filter values are case-sensitive. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: ^[0-9a-zA-Z./_ :,{}"-]{1,1024}$ Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// Specify all or part of the workflow name to streamline results.
+    /// Specifies whether to return one entry per workflow name, with all versions of each workflow aggregated. Defaults to false , which re- turns one entry per workflow version. You can't combine this option with the version filter.
     /// </summary>
     [CliFlag("--by-name", NegatedName = "--no-by-name")]
     public bool? ByName { get; set; }

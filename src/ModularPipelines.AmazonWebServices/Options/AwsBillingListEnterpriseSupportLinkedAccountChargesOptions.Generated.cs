@@ -63,7 +63,7 @@ public record AwsBillingListEnterpriseSupportLinkedAccountChargesOptions : AwsOp
     public string? BillingMonth { get; private init; }
 
     /// <summary>
-    /// An optional linked account ID to filter results to a specific ac- count. Constraints: o pattern: [0-9]{12}
+    /// The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts. Constraints: o pattern: [0-9]{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }

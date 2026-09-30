@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels a specific image lifecycle policy runtime instance. See also: AWS API Documentation
+/// Cancels a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. You can only cancel an execution that hasn't reached a terminal state. Can- cellation is asynchronous and doesn't undo completed lifecycle actions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsImagebuilderCancelLifecycleExecutionOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels a specific image lifecycle policy runtime instance. See also: AWS API Documentation
+    /// Cancels a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. You can only cancel an execution that hasn't reached a terminal state. Can- cellation is asynchronous and doesn't undo completed lifecycle actions. See also: AWS API Documentation
     /// </summary>
     /// <param name="LifecycleExecutionId">Identifies the specific runtime instance of the image lifecycle to cancel. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     public AwsImagebuilderCancelLifecycleExecutionOptions(
@@ -63,7 +63,7 @@ public record AwsImagebuilderCancelLifecycleExecutionOptions : AwsOptions, IVali
     public string? LifecycleExecutionId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

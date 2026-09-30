@@ -97,7 +97,7 @@ public record AwsSsmUpdateDocumentOptions : AwsOptions, IValidatableObject
     public string? DocumentVersion { get; set; }
 
     /// <summary>
-    /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default for- mat. Possible values: o YAML o JSON o TEXT
+    /// Specify the document format for the new document version. The docu- ment format can be JSON, YAML, or TEXT. JSON is the default format. Possible values: o YAML o JSON o TEXT
     /// </summary>
     [CliOption("--document-format")]
     public AwsSsmUpdateDocumentDocumentFormat? DocumentFormat { get; set; }

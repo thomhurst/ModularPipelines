@@ -71,7 +71,6 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Man- ager.
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
 
@@ -94,7 +93,7 @@ public record AwsRedshiftDataListSchemasOptions : AwsOptions, IValidatableObject
     public string? SchemaPattern { get; set; }
 
     /// <summary>
-    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary creden- tials. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
+    /// The serverless workgroup name or Amazon Resource Name (ARN). This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary creden- tials. Constraints: o min: 3 o max: 128 o pattern: ([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-server- less:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\d{1}:\d{12}:work- group/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))
     /// </summary>
     [CliOption("--workgroup-name")]
     public string? WorkgroupName { get; set; }

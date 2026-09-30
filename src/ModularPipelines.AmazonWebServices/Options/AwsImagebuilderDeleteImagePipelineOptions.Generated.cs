@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an image pipeline. See also: AWS API Documentation
+/// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build con- tinues independently. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteImagePipelineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an image pipeline. See also: AWS API Documentation
+    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build con- tinues independently. See also: AWS API Documentation
     /// </summary>
     /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteImagePipelineOptions(

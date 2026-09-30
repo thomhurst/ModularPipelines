@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Ama- zon EC2 or Amazon ECR console actions, or API or CLI commands. o To deregister an EC2 Linux AMI, see Deregister your Linux AMI in the * Amazon EC2 User Guide * . o To deregister an EC2 Windows AMI, see Deregister your Windows AMI in the * Amazon EC2 Windows Guide * . o To delete a contain...
+/// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Ama- zon EC2 or Amazon ECR console actions, or API or CLI commands. The request fails with ResourceDependencyException if the image is shared with other accounts, or if other resources depend on it. It also fails while the image build is still running. Cancel an in-progress build with CancelIm...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteImageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Ama- zon EC2 or Amazon ECR console actions, or API or CLI commands. o To deregister an EC2 Linux AMI, see Deregister your Linux AMI in the * Amazon EC2 User Guide * . o To deregister an EC2 Windows AMI, see Deregister your Windows AMI in the * Amazon EC2 Windows Guide * . o To delete a contain...
+    /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container images that are created during the image build process. You must clean those up separately, using the appropriate Ama- zon EC2 or Amazon ECR console actions, or API or CLI commands. The request fails with ResourceDependencyException if the image is shared with other accounts, or if other resources depend on it. It also fails while the image build is still running. Cancel an in-progress build with CancelIm...
     /// </summary>
     /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the Image Builder image resource to delete. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
     public AwsImagebuilderDeleteImageOptions(

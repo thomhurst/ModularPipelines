@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the dashboards for your account. If you include Dash- boardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and in- clude the value you received for NextToken in the first call, to re- ceive the next 1000 results. See also: AWS API Documentation list-dashboards is ...
+/// Returns a list of the dashboards for your account. If you include Dash- boardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and in- clude the value you received for NextToken in the first call, to re- ceive the next 1000 results. You might have recently enabled an opt-in Region (R...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

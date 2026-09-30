@@ -135,7 +135,7 @@ public record AwsDeadlineStartSessionsStatisticsAggregationOptions : AwsOptions,
     public IEnumerable<string>? Statistics { get; private init; }
 
     /// <summary>
-    /// The timezone to use for the statistics. Use UTC notation such as "UTC+8." Constraints: o min: 9 o max: 9 o pattern: UTC[-+][01][0-9]:(30|00)
+    /// The time zone to use for the statistics. Use UTC notation such as "UTC+8." Constraints: o min: 9 o max: 9 o pattern: UTC[-+][01][0-9]:(30|00)
     /// </summary>
     [CliOption("--timezone")]
     public string? Timezone { get; set; }

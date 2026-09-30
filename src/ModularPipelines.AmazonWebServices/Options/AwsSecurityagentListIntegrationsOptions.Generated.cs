@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSecurityagentListIntegrationsOptions : AwsOptions
 {
     /// <summary>
-    /// A filter to apply to the list of integrations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: provider, providerType. provider -&gt; (string) Filter integrations by provider. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE providerType -&gt; (string) Filter integrations by provider type. Possible values: o SOURCE_CODE o DOCUMENTATION Shorthand Syntax: provider=string,providerType=string JSON Syntax: { "provider": "GITHUB"|"GITLAB"|"BITBUCKET"|"CONFLUENCE", "providerType": "SOURCE_CODE"|"DOCUMENTATION" }
+    /// A filter to apply to the list of integrations. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: provider, providerType. provider -&gt; (string) Filter integrations by provider. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS providerType -&gt; (string) Filter integrations by provider type. Possible values: o SOURCE_CODE o DOCUMENTATION Shorthand Syntax: provider=string,providerType=string JSON Syntax: { "provider": "GITHUB"|"GITLAB"|"BITBUCKET"|"CONFLUENCE"|"AZURE_DEVOPS", "providerType": "SOURCE_CODE"|"DOCUMENTATION" }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }

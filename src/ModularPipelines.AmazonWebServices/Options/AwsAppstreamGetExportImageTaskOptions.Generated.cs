@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppstreamGetExportImageTaskOptions : AwsOptions
 {
     /// <summary>
-    /// The unique identifier of the export image task to retrieve informa- tion about. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The unique identifier of the export image task to retrieve informa- tion about. Constraints: o pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; set; }

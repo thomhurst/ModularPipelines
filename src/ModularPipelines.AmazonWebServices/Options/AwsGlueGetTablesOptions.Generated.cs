@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -91,6 +92,12 @@ public record AwsGlueGetTablesOptions : AwsOptions, IValidatableObject
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
+
+    /// <summary>
+    /// Specifies which tables the GetTables call returns. The allowable values are FEDERATED or ALL . o If set to FEDERATED , returns only federated tables, which refer- ence an entity outside the Glue Data Catalog. o If set to ALL , returns all tables in the database, both federated and non-federated. Possible values: o FEDERATED o ALL
+    /// </summary>
+    [CliOption("--resource-share-type")]
+    public AwsGlueGetTablesResourceShareType? ResourceShareType { get; set; }
 
     /// <summary>
     /// Specifies whether to include status details related to a request to create or update an Glue Data Catalog view.

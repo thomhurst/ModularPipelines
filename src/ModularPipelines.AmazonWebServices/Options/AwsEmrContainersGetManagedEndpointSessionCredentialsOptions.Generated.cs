@@ -89,7 +89,6 @@ public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsO
     /// <summary>
     /// Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: o min: 1 o max: 64 o pattern: ^.*\S.*$
     /// </summary>
-    [SecretValue]
     [CliOption("--credential-type")]
     public string? CredentialType { get; private init; }
 

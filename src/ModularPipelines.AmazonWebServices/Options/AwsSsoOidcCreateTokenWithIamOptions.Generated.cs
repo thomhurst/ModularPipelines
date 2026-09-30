@@ -113,14 +113,12 @@ public record AwsSsoOidcCreateTokenWithIamOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that is passed as the subject of the exchange. The following value is supported: o Access Token - urn:ietf:params:oauth:token-type:access_token
     /// </summary>
-    [SecretValue]
     [CliOption("--subject-token-type")]
     public string? SubjectTokenType { get; set; }
 
     /// <summary>
     /// Used only when calling this API for the Token Exchange grant type. This value specifies the type of token that the requester can re- ceive. The following values are supported: o Access Token - urn:ietf:params:oauth:token-type:access_token o Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
     /// </summary>
-    [SecretValue]
     [CliOption("--requested-token-type")]
     public string? RequestedTokenType { get; set; }
 

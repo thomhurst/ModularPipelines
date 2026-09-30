@@ -28,16 +28,12 @@ public record AwsKinesisPutRecordOptions : AwsOptions, IValidatableObject
     /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and sub- sequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. You must sp...
     /// </summary>
     /// <param name="Data">The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB). Constraints: o min: 0 o max: 10485760</param>
-    /// <param name="PartitionKey">Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer val- ues and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. Constraints: o min: 1 o max: 256</param>
     public AwsKinesisPutRecordOptions(
-        string Data,
-        string PartitionKey
+        string Data
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Data);
         this.Data = Data;
-        global::System.ArgumentNullException.ThrowIfNull(PartitionKey);
-        this.PartitionKey = PartitionKey;
     }
 
     private AwsKinesisPutRecordOptions()
@@ -66,16 +62,16 @@ public record AwsKinesisPutRecordOptions : AwsOptions, IValidatableObject
     public string? Data { get; private init; }
 
     /// <summary>
-    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer val- ues and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. Constraints: o min: 1 o max: 256
-    /// </summary>
-    [CliOption("--partition-key")]
-    public string? PartitionKey { get; private init; }
-
-    /// <summary>
     /// The name of the stream to put the data record into. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
+
+    /// <summary>
+    /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer val- ues and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. If the stream uses the USER_PARTITION_KEY record distribution strat- egy (the default), a partition key is required. If the stream uses the AUTO record distribution strategy, the partition key is optional and any value you provide is ignored, along with any ExplicitHashKey you provide. In that case, Amazon Kinesis Data Streams distributes the record across shards using service-managed algorithms. For more information, see UpdateStreamRecordDistributionStrategy . Constraints: o min: 1 o max: 256
+    /// </summary>
+    [CliOption("--partition-key")]
+    public string? PartitionKey { get; set; }
 
     /// <summary>
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash. Constraints: o pattern: ^(0|([1-9]\d{0,38}))$

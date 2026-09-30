@@ -93,7 +93,6 @@ public record AwsSecretsmanagerRotateSecretOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// The Amazon Resource Name (ARN) of the role that allows Secrets Man- ager to rotate a secret held by a third-party partner. For more in- formation, see Security and permissions . Constraints: o min: 20 o max: 2048
     /// </summary>
-    [SecretValue]
     [CliOption("--external-secret-rotation-role-arn")]
     public string? ExternalSecretRotationRoleArn { get; set; }
 

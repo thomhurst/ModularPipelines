@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,6 +23,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliSubCommand("sesv2", "list-configuration-sets")]
 public record AwsSesv2ListConfigurationSetsOptions : AwsOptions
 {
+    /// <summary>
+    /// An object that contains filters to apply when listing configuration sets. You can filter by configuration set name. key -&gt; (string) The filter key to use when listing configuration sets. This can be one of the following: o CONFIGURATION_SET_NAME_CONTAINS Filter by a substring of the configuration set name. Possible values: o CONFIGURATION_SET_NAME_CONTAINS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: CONFIGURATION_SET_NAME_CONTAINS JSON Syntax: {"CONFIGURATION_SET_NAME_CONTAINS": "string" ...}
+    /// </summary>
+    [CliOption("--filter", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? Filter { get; set; }
+
     /// <summary>
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
     /// </summary>

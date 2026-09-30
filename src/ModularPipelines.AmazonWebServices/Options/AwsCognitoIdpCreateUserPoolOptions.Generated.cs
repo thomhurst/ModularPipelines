@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -126,6 +127,7 @@ public record AwsCognitoIdpCreateUserPoolOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// The contents of the SMS message that your user pool sends to users in SMS OTP and MFA authentication. Constraints: o min: 6 o max: 140 o pattern: .*\{####\}.*
     /// </summary>
+    [SecretValue]
     [CliOption("--sms-authentication-message")]
     public string? SmsAuthenticationMessage { get; set; }
 

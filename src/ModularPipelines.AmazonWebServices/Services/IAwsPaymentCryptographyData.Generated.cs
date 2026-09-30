@@ -102,7 +102,7 @@ public interface IAwsPaymentCryptographyData
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Re-encrypt ciphertext using DUKPT or Symmetric data encryption keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling CreateKey or import your own encryption key by calling ImportKey . The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt . This operation also supports dynamic keys, allowing you to pass a dy- namic encryption key as a TR-31 WrappedKeyBlock. This can be used when key material ...
+    /// Re-encrypts ciphertext using DUKPT, symmetric, or asymmetric data en- cryption keys. You can either generate an encryption key within Amazon Web Services Payment Cryptography by calling CreateKey or import your own encryption key by calling ImportKey . The KeyArn for use with this operation must be in a compatible key state with KeyModesOfUse set to Encrypt . This operation also supports dynamic keys, allowing you to pass a dy- namic encryption key as a TR-31 WrappedKeyBlock. This can be used wh...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -85,7 +84,6 @@ public record AwsCognitoIdpCreateUserImportJobOptions : AwsOptions, IValidatable
     /// <summary>
     /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256 Possible values: o BCRYPT o SCRYPT o ARGON2ID o PBKDF2_SHA256
     /// </summary>
-    [SecretValue]
     [CliOption("--password-hashing-algorithm")]
     public string? PasswordHashingAlgorithm { get; set; }
 
