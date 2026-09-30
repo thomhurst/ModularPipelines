@@ -187,6 +187,7 @@ var aws = context.Tools.Aws;
 | `aws agent-registry-control wait registry-ready`                                     | `AwsAgentRegistryControlWaitRegistryReadyOptions`                                   |
 | `aws agent-registry-control wait registry-record-approved`                           | `AwsAgentRegistryControlWaitRegistryRecordApprovedOptions`                          |
 | `aws agent-toolkit add-skill`                                                        | `AwsAgentToolkitAddSkillOptions`                                                    |
+| `aws agent-toolkit check-skill-updates`                                              | `AwsAgentToolkitCheckSkillUpdatesOptions`                                           |
 | `aws agent-toolkit get-skill-file`                                                   | `AwsAgentToolkitGetSkillFileOptions`                                                |
 | `aws agent-toolkit get-skill-metadata`                                               | `AwsAgentToolkitGetSkillMetadataOptions`                                            |
 | `aws agent-toolkit list-available-skills`                                            | `AwsAgentToolkitListAvailableSkillsOptions`                                         |
@@ -1051,6 +1052,7 @@ var aws = context.Tools.Aws;
 | `aws arc-region-switch list-plans-in-region`                                         | `AwsArcRegionSwitchListPlansInRegionOptions`                                        |
 | `aws arc-region-switch list-route53-health-checks`                                   | `AwsArcRegionSwitchListRoute53HealthChecksOptions`                                  |
 | `aws arc-region-switch list-route53-health-checks-in-region`                         | `AwsArcRegionSwitchListRoute53HealthChecksInRegionOptions`                          |
+| `aws arc-region-switch list-service-quota-warnings`                                  | `AwsArcRegionSwitchListServiceQuotaWarningsOptions`                                 |
 | `aws arc-region-switch list-tags-for-resource`                                       | `AwsArcRegionSwitchListTagsForResourceOptions`                                      |
 | `aws arc-region-switch start-plan-execution`                                         | `AwsArcRegionSwitchStartPlanExecutionOptions`                                       |
 | `aws arc-region-switch tag-resource`                                                 | `AwsArcRegionSwitchTagResourceOptions`                                              |
@@ -1711,6 +1713,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent create-knowledge-base`                                            | `AwsBedrockAgentCreateKnowledgeBaseOptions`                                         |
 | `aws bedrock-agent create-prompt`                                                    | `AwsBedrockAgentCreatePromptOptions`                                                |
 | `aws bedrock-agent create-prompt-version`                                            | `AwsBedrockAgentCreatePromptVersionOptions`                                         |
+| `aws bedrock-agent create-vpc-configuration`                                         | `AwsBedrockAgentCreateVpcConfigurationOptions`                                      |
 | `aws bedrock-agent delete-agent`                                                     | `AwsBedrockAgentDeleteAgentOptions`                                                 |
 | `aws bedrock-agent delete-agent-action-group`                                        | `AwsBedrockAgentDeleteAgentActionGroupOptions`                                      |
 | `aws bedrock-agent delete-agent-alias`                                               | `AwsBedrockAgentDeleteAgentAliasOptions`                                            |
@@ -1723,6 +1726,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent delete-knowledge-base-documents`                                  | `AwsBedrockAgentDeleteKnowledgeBaseDocumentsOptions`                                |
 | `aws bedrock-agent delete-prompt`                                                    | `AwsBedrockAgentDeletePromptOptions`                                                |
 | `aws bedrock-agent delete-resource-policy`                                           | `AwsBedrockAgentDeleteResourcePolicyOptions`                                        |
+| `aws bedrock-agent delete-vpc-configuration`                                         | `AwsBedrockAgentDeleteVpcConfigurationOptions`                                      |
 | `aws bedrock-agent disassociate-agent-collaborator`                                  | `AwsBedrockAgentDisassociateAgentCollaboratorOptions`                               |
 | `aws bedrock-agent disassociate-agent-knowledge-base`                                | `AwsBedrockAgentDisassociateAgentKnowledgeBaseOptions`                              |
 | `aws bedrock-agent get-agent`                                                        | `AwsBedrockAgentGetAgentOptions`                                                    |
@@ -1740,6 +1744,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent get-knowledge-base-documents`                                     | `AwsBedrockAgentGetKnowledgeBaseDocumentsOptions`                                   |
 | `aws bedrock-agent get-prompt`                                                       | `AwsBedrockAgentGetPromptOptions`                                                   |
 | `aws bedrock-agent get-resource-policy`                                              | `AwsBedrockAgentGetResourcePolicyOptions`                                           |
+| `aws bedrock-agent get-vpc-configuration`                                            | `AwsBedrockAgentGetVpcConfigurationOptions`                                         |
 | `aws bedrock-agent ingest-knowledge-base-documents`                                  | `AwsBedrockAgentIngestKnowledgeBaseDocumentsOptions`                                |
 | `aws bedrock-agent list-agent-action-groups`                                         | `AwsBedrockAgentListAgentActionGroupsOptions`                                       |
 | `aws bedrock-agent list-agent-aliases`                                               | `AwsBedrockAgentListAgentAliasesOptions`                                            |
@@ -1756,6 +1761,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agent list-knowledge-bases`                                             | `AwsBedrockAgentListKnowledgeBasesOptions`                                          |
 | `aws bedrock-agent list-prompts`                                                     | `AwsBedrockAgentListPromptsOptions`                                                 |
 | `aws bedrock-agent list-tags-for-resource`                                           | `AwsBedrockAgentListTagsForResourceOptions`                                         |
+| `aws bedrock-agent list-vpc-configurations`                                          | `AwsBedrockAgentListVpcConfigurationsOptions`                                       |
 | `aws bedrock-agent prepare-agent`                                                    | `AwsBedrockAgentPrepareAgentOptions`                                                |
 | `aws bedrock-agent prepare-flow`                                                     | `AwsBedrockAgentPrepareFlowOptions`                                                 |
 | `aws bedrock-agent put-resource-policy`                                              | `AwsBedrockAgentPutResourcePolicyOptions`                                           |
@@ -2004,6 +2010,7 @@ var aws = context.Tools.Aws;
 | `aws bedrock-agentcore-control list-tags-for-resource`                               | `AwsBedrockAgentcoreControlListTagsForResourceOptions`                              |
 | `aws bedrock-agentcore-control list-workload-identities`                             | `AwsBedrockAgentcoreControlListWorkloadIdentitiesOptions`                           |
 | `aws bedrock-agentcore-control put-resource-policy`                                  | `AwsBedrockAgentcoreControlPutResourcePolicyOptions`                                |
+| `aws bedrock-agentcore-control rotate-payment-connector-credentials`                 | `AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions`                |
 | `aws bedrock-agentcore-control set-token-vault-cmk`                                  | `AwsBedrockAgentcoreControlSetTokenVaultCmkOptions`                                 |
 | `aws bedrock-agentcore-control start-policy-generation`                              | `AwsBedrockAgentcoreControlStartPolicyGenerationOptions`                            |
 | `aws bedrock-agentcore-control submit-registry-record-for-approval`                  | `AwsBedrockAgentcoreControlSubmitRegistryRecordForApprovalOptions`                  |
@@ -2095,7 +2102,10 @@ var aws = context.Tools.Aws;
 | `aws billing get-enterprise-support-charge-summary`                                  | `AwsBillingGetEnterpriseSupportChargeSummaryOptions`                                |
 | `aws billing get-enterprise-support-contract-details`                                | `AwsBillingGetEnterpriseSupportContractDetailsOptions`                              |
 | `aws billing get-resource-policy`                                                    | `AwsBillingGetResourcePolicyOptions`                                                |
+| `aws billing list-billing-view-segments`                                             | `AwsBillingListBillingViewSegmentsOptions`                                          |
 | `aws billing list-billing-views`                                                     | `AwsBillingListBillingViewsOptions`                                                 |
+| `aws billing list-business-support-account-charges`                                  | `AwsBillingListBusinessSupportAccountChargesOptions`                                |
+| `aws billing list-business-support-subscription-history`                             | `AwsBillingListBusinessSupportSubscriptionHistoryOptions`                           |
 | `aws billing list-enterprise-support-linked-account-charges`                         | `AwsBillingListEnterpriseSupportLinkedAccountChargesOptions`                        |
 | `aws billing list-source-views-for-billing-view`                                     | `AwsBillingListSourceViewsForBillingViewOptions`                                    |
 | `aws billing list-tags-for-resource`                                                 | `AwsBillingListTagsForResourceOptions`                                              |
@@ -2119,6 +2129,7 @@ var aws = context.Tools.Aws;
 | `aws billingconductor disassociate-accounts`                                         | `AwsBillingconductorDisassociateAccountsOptions`                                    |
 | `aws billingconductor disassociate-pricing-rules`                                    | `AwsBillingconductorDisassociatePricingRulesOptions`                                |
 | `aws billingconductor get-billing-group-cost-report`                                 | `AwsBillingconductorGetBillingGroupCostReportOptions`                               |
+| `aws billingconductor get-billing-transfer-preference`                               | `AwsBillingconductorGetBillingTransferPreferenceOptions`                            |
 | `aws billingconductor list-account-associations`                                     | `AwsBillingconductorListAccountAssociationsOptions`                                 |
 | `aws billingconductor list-billing-group-cost-reports`                               | `AwsBillingconductorListBillingGroupCostReportsOptions`                             |
 | `aws billingconductor list-billing-groups`                                           | `AwsBillingconductorListBillingGroupsOptions`                                       |
@@ -2133,6 +2144,7 @@ var aws = context.Tools.Aws;
 | `aws billingconductor tag-resource`                                                  | `AwsBillingconductorTagResourceOptions`                                             |
 | `aws billingconductor untag-resource`                                                | `AwsBillingconductorUntagResourceOptions`                                           |
 | `aws billingconductor update-billing-group`                                          | `AwsBillingconductorUpdateBillingGroupOptions`                                      |
+| `aws billingconductor update-billing-transfer-preference`                            | `AwsBillingconductorUpdateBillingTransferPreferenceOptions`                         |
 | `aws billingconductor update-custom-line-item`                                       | `AwsBillingconductorUpdateCustomLineItemOptions`                                    |
 | `aws billingconductor update-pricing-plan`                                           | `AwsBillingconductorUpdatePricingPlanOptions`                                       |
 | `aws billingconductor update-pricing-rule`                                           | `AwsBillingconductorUpdatePricingRuleOptions`                                       |
@@ -3177,12 +3189,14 @@ var aws = context.Tools.Aws;
 | `aws cloudtrail verify-query-results`                                                | `AwsCloudtrailVerifyQueryResultsOptions`                                            |
 | `aws cloudtrail-data put-audit-events`                                               | `AwsCloudtrailDataPutAuditEventsOptions`                                            |
 | `aws cloudwatch associate-dataset-kms-key`                                           | `AwsCloudwatchAssociateDataSetKmsKeyOptions`                                        |
+| `aws cloudwatch create-resource-metrics-configuration`                               | `AwsCloudwatchCreateResourceMetricsConfigurationOptions`                            |
 | `aws cloudwatch delete-alarm-mute-rule`                                              | `AwsCloudwatchDeleteAlarmMuteRuleOptions`                                           |
 | `aws cloudwatch delete-alarms`                                                       | `AwsCloudwatchDeleteAlarmsOptions`                                                  |
 | `aws cloudwatch delete-anomaly-detector`                                             | `AwsCloudwatchDeleteAnomalyDetectorOptions`                                         |
 | `aws cloudwatch delete-dashboards`                                                   | `AwsCloudwatchDeleteDashboardsOptions`                                              |
 | `aws cloudwatch delete-insight-rules`                                                | `AwsCloudwatchDeleteInsightRulesOptions`                                            |
 | `aws cloudwatch delete-metric-stream`                                                | `AwsCloudwatchDeleteMetricStreamOptions`                                            |
+| `aws cloudwatch delete-resource-metrics-configuration`                               | `AwsCloudwatchDeleteResourceMetricsConfigurationOptions`                            |
 | `aws cloudwatch describe-alarm-contributors`                                         | `AwsCloudwatchDescribeAlarmContributorsOptions`                                     |
 | `aws cloudwatch describe-alarm-history`                                              | `AwsCloudwatchDescribeAlarmHistoryOptions`                                          |
 | `aws cloudwatch describe-alarms`                                                     | `AwsCloudwatchDescribeAlarmsOptions`                                                |
@@ -3203,6 +3217,7 @@ var aws = context.Tools.Aws;
 | `aws cloudwatch get-metric-stream`                                                   | `AwsCloudwatchGetMetricStreamOptions`                                               |
 | `aws cloudwatch get-metric-widget-image`                                             | `AwsCloudwatchGetMetricWidgetImageOptions`                                          |
 | `aws cloudwatch get-otel-enrichment`                                                 | `AwsCloudwatchGetOtelEnrichmentOptions`                                             |
+| `aws cloudwatch get-resource-metrics-configuration`                                  | `AwsCloudwatchGetResourceMetricsConfigurationOptions`                               |
 | `aws cloudwatch list-alarm-mute-rules`                                               | `AwsCloudwatchListAlarmMuteRulesOptions`                                            |
 | `aws cloudwatch list-dashboards`                                                     | `AwsCloudwatchListDashboardsOptions`                                                |
 | `aws cloudwatch list-managed-insight-rules`                                          | `AwsCloudwatchListManagedInsightRulesOptions`                                       |
@@ -3226,10 +3241,73 @@ var aws = context.Tools.Aws;
 | `aws cloudwatch stop-otel-enrichment`                                                | `AwsCloudwatchStopOtelEnrichmentOptions`                                            |
 | `aws cloudwatch tag-resource`                                                        | `AwsCloudwatchTagResourceOptions`                                                   |
 | `aws cloudwatch untag-resource`                                                      | `AwsCloudwatchUntagResourceOptions`                                                 |
+| `aws cloudwatch update-otel-enrichment`                                              | `AwsCloudwatchUpdateOtelEnrichmentOptions`                                          |
+| `aws cloudwatch update-resource-metrics-configuration`                               | `AwsCloudwatchUpdateResourceMetricsConfigurationOptions`                            |
 | `aws cloudwatch wait alarm-exists`                                                   | `AwsCloudwatchWaitAlarmExistsOptions`                                               |
 | `aws cloudwatch wait alarm-mute-rule-exists`                                         | `AwsCloudwatchWaitAlarmMuteRuleExistsOptions`                                       |
 | `aws cloudwatch wait composite-alarm-exists`                                         | `AwsCloudwatchWaitCompositeAlarmExistsOptions`                                      |
 | `aws cloudwatch wait log-alarm-exists`                                               | `AwsCloudwatchWaitLogAlarmExistsOptions`                                            |
+| `aws cloudwatchomni create-access-grant`                                             | `AwsCloudwatchomniCreateAccessGrantOptions`                                         |
+| `aws cloudwatchomni create-access-profile`                                           | `AwsCloudwatchomniCreateAccessProfileOptions`                                       |
+| `aws cloudwatchomni create-alert`                                                    | `AwsCloudwatchomniCreateAlertOptions`                                               |
+| `aws cloudwatchomni create-domain`                                                   | `AwsCloudwatchomniCreateDomainOptions`                                              |
+| `aws cloudwatchomni create-domain-access-grant-for-organization`                     | `AwsCloudwatchomniCreateDomainAccessGrantForOrganizationOptions`                    |
+| `aws cloudwatchomni create-domain-for-organization`                                  | `AwsCloudwatchomniCreateDomainForOrganizationOptions`                               |
+| `aws cloudwatchomni create-integration`                                              | `AwsCloudwatchomniCreateIntegrationOptions`                                         |
+| `aws cloudwatchomni create-omni-dashboard`                                           | `AwsCloudwatchomniCreateOmniDashboardOptions`                                       |
+| `aws cloudwatchomni create-one-time-deep-link-code`                                  | `AwsCloudwatchomniCreateOneTimeDeepLinkCodeOptions`                                 |
+| `aws cloudwatchomni create-space`                                                    | `AwsCloudwatchomniCreateSpaceOptions`                                               |
+| `aws cloudwatchomni create-view`                                                     | `AwsCloudwatchomniCreateViewOptions`                                                |
+| `aws cloudwatchomni delete-access-grant`                                             | `AwsCloudwatchomniDeleteAccessGrantOptions`                                         |
+| `aws cloudwatchomni delete-access-profile`                                           | `AwsCloudwatchomniDeleteAccessProfileOptions`                                       |
+| `aws cloudwatchomni delete-alert`                                                    | `AwsCloudwatchomniDeleteAlertOptions`                                               |
+| `aws cloudwatchomni delete-domain`                                                   | `AwsCloudwatchomniDeleteDomainOptions`                                              |
+| `aws cloudwatchomni delete-domain-access-grant-for-organization`                     | `AwsCloudwatchomniDeleteDomainAccessGrantForOrganizationOptions`                    |
+| `aws cloudwatchomni delete-domain-for-organization`                                  | `AwsCloudwatchomniDeleteDomainForOrganizationOptions`                               |
+| `aws cloudwatchomni delete-integration`                                              | `AwsCloudwatchomniDeleteIntegrationOptions`                                         |
+| `aws cloudwatchomni delete-omni-dashboard`                                           | `AwsCloudwatchomniDeleteOmniDashboardOptions`                                       |
+| `aws cloudwatchomni delete-space`                                                    | `AwsCloudwatchomniDeleteSpaceOptions`                                               |
+| `aws cloudwatchomni delete-view`                                                     | `AwsCloudwatchomniDeleteViewOptions`                                                |
+| `aws cloudwatchomni get-access-grant`                                                | `AwsCloudwatchomniGetAccessGrantOptions`                                            |
+| `aws cloudwatchomni get-access-profile`                                              | `AwsCloudwatchomniGetAccessProfileOptions`                                          |
+| `aws cloudwatchomni get-alert`                                                       | `AwsCloudwatchomniGetAlertOptions`                                                  |
+| `aws cloudwatchomni get-context-graph`                                               | `AwsCloudwatchomniGetContextGraphOptions`                                           |
+| `aws cloudwatchomni get-domain`                                                      | `AwsCloudwatchomniGetDomainOptions`                                                 |
+| `aws cloudwatchomni get-domain-access-grant-for-organization`                        | `AwsCloudwatchomniGetDomainAccessGrantForOrganizationOptions`                       |
+| `aws cloudwatchomni get-domain-for-organization`                                     | `AwsCloudwatchomniGetDomainForOrganizationOptions`                                  |
+| `aws cloudwatchomni get-integration`                                                 | `AwsCloudwatchomniGetIntegrationOptions`                                            |
+| `aws cloudwatchomni get-intelligence-configuration`                                  | `AwsCloudwatchomniGetIntelligenceConfigurationOptions`                              |
+| `aws cloudwatchomni get-omni-dashboard`                                              | `AwsCloudwatchomniGetOmniDashboardOptions`                                          |
+| `aws cloudwatchomni get-space`                                                       | `AwsCloudwatchomniGetSpaceOptions`                                                  |
+| `aws cloudwatchomni get-space-credentials-for-organization`                          | `AwsCloudwatchomniGetSpaceCredentialsForOrganizationOptions`                        |
+| `aws cloudwatchomni get-telemetry-query-results`                                     | `AwsCloudwatchomniGetTelemetryQueryResultsOptions`                                  |
+| `aws cloudwatchomni get-view`                                                        | `AwsCloudwatchomniGetViewOptions`                                                   |
+| `aws cloudwatchomni list-access-grants`                                              | `AwsCloudwatchomniListAccessGrantsOptions`                                          |
+| `aws cloudwatchomni list-access-profiles`                                            | `AwsCloudwatchomniListAccessProfilesOptions`                                        |
+| `aws cloudwatchomni list-alerts`                                                     | `AwsCloudwatchomniListAlertsOptions`                                                |
+| `aws cloudwatchomni list-domain-access-grants-for-organization`                      | `AwsCloudwatchomniListDomainAccessGrantsForOrganizationOptions`                     |
+| `aws cloudwatchomni list-domains`                                                    | `AwsCloudwatchomniListDomainsOptions`                                               |
+| `aws cloudwatchomni list-integrations`                                               | `AwsCloudwatchomniListIntegrationsOptions`                                          |
+| `aws cloudwatchomni list-omni-dashboards`                                            | `AwsCloudwatchomniListOmniDashboardsOptions`                                        |
+| `aws cloudwatchomni list-spaces`                                                     | `AwsCloudwatchomniListSpacesOptions`                                                |
+| `aws cloudwatchomni list-spaces-for-organization`                                    | `AwsCloudwatchomniListSpacesForOrganizationOptions`                                 |
+| `aws cloudwatchomni list-telemetry-fields`                                           | `AwsCloudwatchomniListTelemetryFieldsOptions`                                       |
+| `aws cloudwatchomni list-telemetry-query-sessions`                                   | `AwsCloudwatchomniListTelemetryQuerySessionsOptions`                                |
+| `aws cloudwatchomni list-views`                                                      | `AwsCloudwatchomniListViewsOptions`                                                 |
+| `aws cloudwatchomni put-intelligence-configuration`                                  | `AwsCloudwatchomniPutIntelligenceConfigurationOptions`                              |
+| `aws cloudwatchomni search-principals`                                               | `AwsCloudwatchomniSearchPrincipalsOptions`                                          |
+| `aws cloudwatchomni start-telemetry-query`                                           | `AwsCloudwatchomniStartTelemetryQueryOptions`                                       |
+| `aws cloudwatchomni start-telemetry-query-session`                                   | `AwsCloudwatchomniStartTelemetryQuerySessionOptions`                                |
+| `aws cloudwatchomni stop-telemetry-query`                                            | `AwsCloudwatchomniStopTelemetryQueryOptions`                                        |
+| `aws cloudwatchomni stop-telemetry-query-session`                                    | `AwsCloudwatchomniStopTelemetryQuerySessionOptions`                                 |
+| `aws cloudwatchomni update-access-profile`                                           | `AwsCloudwatchomniUpdateAccessProfileOptions`                                       |
+| `aws cloudwatchomni update-alert`                                                    | `AwsCloudwatchomniUpdateAlertOptions`                                               |
+| `aws cloudwatchomni update-domain`                                                   | `AwsCloudwatchomniUpdateDomainOptions`                                              |
+| `aws cloudwatchomni update-domain-for-organization`                                  | `AwsCloudwatchomniUpdateDomainForOrganizationOptions`                               |
+| `aws cloudwatchomni update-integration`                                              | `AwsCloudwatchomniUpdateIntegrationOptions`                                         |
+| `aws cloudwatchomni update-omni-dashboard`                                           | `AwsCloudwatchomniUpdateOmniDashboardOptions`                                       |
+| `aws cloudwatchomni update-space`                                                    | `AwsCloudwatchomniUpdateSpaceOptions`                                               |
+| `aws cloudwatchomni update-view`                                                     | `AwsCloudwatchomniUpdateViewOptions`                                                |
 | `aws codeartifact associate-external-connection`                                     | `AwsCodeartifactAssociateExternalConnectionOptions`                                 |
 | `aws codeartifact copy-package-versions`                                             | `AwsCodeartifactCopyPackageVersionsOptions`                                         |
 | `aws codeartifact create-domain`                                                     | `AwsCodeartifactCreateDomainOptions`                                                |
@@ -6150,6 +6228,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 create-capacity-reservation`                                                | `AwsEc2CreateCapacityReservationOptions`                                            |
 | `aws ec2 create-capacity-reservation-by-splitting`                                   | `AwsEc2CreateCapacityReservationBySplittingOptions`                                 |
 | `aws ec2 create-capacity-reservation-cancellation-quote`                             | `AwsEc2CreateCapacityReservationCancellationQuoteOptions`                           |
+| `aws ec2 create-capacity-reservation-date-change-quote`                              | `AwsEc2CreateCapacityReservationDateChangeQuoteOptions`                             |
 | `aws ec2 create-capacity-reservation-fleet`                                          | `AwsEc2CreateCapacityReservationFleetOptions`                                       |
 | `aws ec2 create-carrier-gateway`                                                     | `AwsEc2CreateCarrierGatewayOptions`                                                 |
 | `aws ec2 create-client-vpn-endpoint`                                                 | `AwsEc2CreateClientVpnEndpointOptions`                                              |
@@ -6258,6 +6337,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 delete-capacity-manager-data-export`                                        | `AwsEc2DeleteCapacityManagerDataExportOptions`                                      |
 | `aws ec2 delete-carrier-gateway`                                                     | `AwsEc2DeleteCarrierGatewayOptions`                                                 |
 | `aws ec2 delete-client-vpn-endpoint`                                                 | `AwsEc2DeleteClientVpnEndpointOptions`                                              |
+| `aws ec2 delete-client-vpn-endpoint-authorization-policy`                            | `AwsEc2DeleteClientVpnEndpointAuthorizationPolicyOptions`                           |
 | `aws ec2 delete-client-vpn-route`                                                    | `AwsEc2DeleteClientVpnRouteOptions`                                                 |
 | `aws ec2 delete-coip-cidr`                                                           | `AwsEc2DeleteCoipCidrOptions`                                                       |
 | `aws ec2 delete-coip-pool`                                                           | `AwsEc2DeleteCoipPoolOptions`                                                       |
@@ -6380,6 +6460,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 describe-capacity-manager-data-exports`                                     | `AwsEc2DescribeCapacityManagerDataExportsOptions`                                   |
 | `aws ec2 describe-capacity-reservation-billing-requests`                             | `AwsEc2DescribeCapacityReservationBillingRequestsOptions`                           |
 | `aws ec2 describe-capacity-reservation-cancellation-quotes`                          | `AwsEc2DescribeCapacityReservationCancellationQuotesOptions`                        |
+| `aws ec2 describe-capacity-reservation-date-change-quotes`                           | `AwsEc2DescribeCapacityReservationDateChangeQuotesOptions`                          |
 | `aws ec2 describe-capacity-reservation-fleets`                                       | `AwsEc2DescribeCapacityReservationFleetsOptions`                                    |
 | `aws ec2 describe-capacity-reservation-topology`                                     | `AwsEc2DescribeCapacityReservationTopologyOptions`                                  |
 | `aws ec2 describe-capacity-reservations`                                             | `AwsEc2DescribeCapacityReservationsOptions`                                         |
@@ -6638,6 +6719,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 get-capacity-manager-metric-dimensions`                                     | `AwsEc2GetCapacityManagerMetricDimensionsOptions`                                   |
 | `aws ec2 get-capacity-manager-monitored-tag-keys`                                    | `AwsEc2GetCapacityManagerMonitoredTagKeysOptions`                                   |
 | `aws ec2 get-capacity-reservation-usage`                                             | `AwsEc2GetCapacityReservationUsageOptions`                                          |
+| `aws ec2 get-client-vpn-endpoint-authorization-policy`                               | `AwsEc2GetClientVpnEndpointAuthorizationPolicyOptions`                              |
 | `aws ec2 get-coip-pool-usage`                                                        | `AwsEc2GetCoipPoolUsageOptions`                                                     |
 | `aws ec2 get-console-output`                                                         | `AwsEc2GetConsoleOutputOptions`                                                     |
 | `aws ec2 get-console-screenshot`                                                     | `AwsEc2GetConsoleScreenshotOptions`                                                 |
@@ -6720,6 +6802,7 @@ var aws = context.Tools.Aws;
 | `aws ec2 modify-capacity-reservation`                                                | `AwsEc2ModifyCapacityReservationOptions`                                            |
 | `aws ec2 modify-capacity-reservation-fleet`                                          | `AwsEc2ModifyCapacityReservationFleetOptions`                                       |
 | `aws ec2 modify-client-vpn-endpoint`                                                 | `AwsEc2ModifyClientVpnEndpointOptions`                                              |
+| `aws ec2 modify-client-vpn-endpoint-authorization-policy`                            | `AwsEc2ModifyClientVpnEndpointAuthorizationPolicyOptions`                           |
 | `aws ec2 modify-default-credit-specification`                                        | `AwsEc2ModifyDefaultCreditSpecificationOptions`                                     |
 | `aws ec2 modify-ebs-default-kms-key-id`                                              | `AwsEc2ModifyEbsDefaultKmsKeyIdOptions`                                             |
 | `aws ec2 modify-fleet`                                                               | `AwsEc2ModifyFleetOptions`                                                          |
@@ -7720,6 +7803,33 @@ var aws = context.Tools.Aws;
 | `aws events update-event-bus`                                                        | `AwsEventsUpdateEventBusOptions`                                                    |
 | `aws events wizard`                                                                  | `AwsEventsWizardOptions`                                                            |
 | `aws events wizard new-rule`                                                         | `AwsEventsWizardNewRuleOptions`                                                     |
+| `aws eventsv2 create-event-bus`                                                      | `AwsEventsv2CreateEventBusOptions`                                                  |
+| `aws eventsv2 create-event-source`                                                   | `AwsEventsv2CreateEventSourceOptions`                                               |
+| `aws eventsv2 create-subscriber`                                                     | `AwsEventsv2CreateSubscriberOptions`                                                |
+| `aws eventsv2 delete-event-bus`                                                      | `AwsEventsv2DeleteEventBusOptions`                                                  |
+| `aws eventsv2 delete-event-source`                                                   | `AwsEventsv2DeleteEventSourceOptions`                                               |
+| `aws eventsv2 delete-resource-policy`                                                | `AwsEventsv2DeleteResourcePolicyOptions`                                            |
+| `aws eventsv2 delete-subscriber`                                                     | `AwsEventsv2DeleteSubscriberOptions`                                                |
+| `aws eventsv2 describe-event-bus`                                                    | `AwsEventsv2DescribeEventBusOptions`                                                |
+| `aws eventsv2 describe-event-source`                                                 | `AwsEventsv2DescribeEventSourceOptions`                                             |
+| `aws eventsv2 describe-subscriber`                                                   | `AwsEventsv2DescribeSubscriberOptions`                                              |
+| `aws eventsv2 get-resource-policy`                                                   | `AwsEventsv2GetResourcePolicyOptions`                                               |
+| `aws eventsv2 list-event-buses`                                                      | `AwsEventsv2ListEventBusesOptions`                                                  |
+| `aws eventsv2 list-event-sources`                                                    | `AwsEventsv2ListEventSourcesOptions`                                                |
+| `aws eventsv2 list-resource-policies`                                                | `AwsEventsv2ListResourcePoliciesOptions`                                            |
+| `aws eventsv2 list-subscribers`                                                      | `AwsEventsv2ListSubscribersOptions`                                                 |
+| `aws eventsv2 list-tags-for-resource`                                                | `AwsEventsv2ListTagsForResourceOptions`                                             |
+| `aws eventsv2 put-events`                                                            | `AwsEventsv2PutEventsOptions`                                                       |
+| `aws eventsv2 put-raw-events`                                                        | `AwsEventsv2PutRawEventsOptions`                                                    |
+| `aws eventsv2 put-resource-policy`                                                   | `AwsEventsv2PutResourcePolicyOptions`                                               |
+| `aws eventsv2 revoke-resource`                                                       | `AwsEventsv2RevokeResourceOptions`                                                  |
+| `aws eventsv2 tag-resource`                                                          | `AwsEventsv2TagResourceOptions`                                                     |
+| `aws eventsv2 untag-resource`                                                        | `AwsEventsv2UntagResourceOptions`                                                   |
+| `aws eventsv2 update-event-bus`                                                      | `AwsEventsv2UpdateEventBusOptions`                                                  |
+| `aws eventsv2 update-event-source`                                                   | `AwsEventsv2UpdateEventSourceOptions`                                               |
+| `aws eventsv2 update-subscriber`                                                     | `AwsEventsv2UpdateSubscriberOptions`                                                |
+| `aws eventsv2 wait event-bus-active`                                                 | `AwsEventsv2WaitEventBusActiveOptions`                                              |
+| `aws eventsv2 wait event-bus-deleted`                                                | `AwsEventsv2WaitEventBusDeletedOptions`                                             |
 | `aws evs associate-eip-to-vlan`                                                      | `AwsEvsAssociateEipToVlanOptions`                                                   |
 | `aws evs create-entitlement`                                                         | `AwsEvsCreateEntitlementOptions`                                                    |
 | `aws evs create-environment`                                                         | `AwsEvsCreateEnvironmentOptions`                                                    |
@@ -9152,6 +9262,7 @@ var aws = context.Tools.Aws;
 | `aws identitystore delete-user`                                                      | `AwsIdentitystoreDeleteUserOptions`                                                 |
 | `aws identitystore describe-group`                                                   | `AwsIdentitystoreDescribeGroupOptions`                                              |
 | `aws identitystore describe-group-membership`                                        | `AwsIdentitystoreDescribeGroupMembershipOptions`                                    |
+| `aws identitystore describe-identity-store`                                          | `AwsIdentitystoreDescribeIdentityStoreOptions`                                      |
 | `aws identitystore describe-user`                                                    | `AwsIdentitystoreDescribeUserOptions`                                               |
 | `aws identitystore get-group-id`                                                     | `AwsIdentitystoreGetGroupIdOptions`                                                 |
 | `aws identitystore get-group-membership-id`                                          | `AwsIdentitystoreGetGroupMembershipIdOptions`                                       |
@@ -9160,8 +9271,10 @@ var aws = context.Tools.Aws;
 | `aws identitystore list-group-memberships`                                           | `AwsIdentitystoreListGroupMembershipsOptions`                                       |
 | `aws identitystore list-group-memberships-for-member`                                | `AwsIdentitystoreListGroupMembershipsForMemberOptions`                              |
 | `aws identitystore list-groups`                                                      | `AwsIdentitystoreListGroupsOptions`                                                 |
+| `aws identitystore list-identity-stores`                                             | `AwsIdentitystoreListIdentityStoresOptions`                                         |
 | `aws identitystore list-users`                                                       | `AwsIdentitystoreListUsersOptions`                                                  |
 | `aws identitystore update-group`                                                     | `AwsIdentitystoreUpdateGroupOptions`                                                |
+| `aws identitystore update-identity-store`                                            | `AwsIdentitystoreUpdateIdentityStoreOptions`                                        |
 | `aws identitystore update-user`                                                      | `AwsIdentitystoreUpdateUserOptions`                                                 |
 | `aws imagebuilder cancel-image-creation`                                             | `AwsImagebuilderCancelImageCreationOptions`                                         |
 | `aws imagebuilder cancel-lifecycle-execution`                                        | `AwsImagebuilderCancelLifecycleExecutionOptions`                                    |
@@ -10487,6 +10600,7 @@ var aws = context.Tools.Aws;
 | `aws kinesis update-max-record-size`                                                 | `AwsKinesisUpdateMaxRecordSizeOptions`                                              |
 | `aws kinesis update-shard-count`                                                     | `AwsKinesisUpdateShardCountOptions`                                                 |
 | `aws kinesis update-stream-mode`                                                     | `AwsKinesisUpdateStreamModeOptions`                                                 |
+| `aws kinesis update-stream-record-distribution-strategy`                             | `AwsKinesisUpdateStreamRecordDistributionStrategyOptions`                           |
 | `aws kinesis update-stream-warm-throughput`                                          | `AwsKinesisUpdateStreamWarmThroughputOptions`                                       |
 | `aws kinesis wait channel-active`                                                    | `AwsKinesisWaitChannelActiveOptions`                                                |
 | `aws kinesis wait stream-exists`                                                     | `AwsKinesisWaitStreamExistsOptions`                                                 |
@@ -12784,6 +12898,52 @@ var aws = context.Tools.Aws;
 | `aws network-firewall update-rule-group`                                             | `AwsNetworkFirewallUpdateRuleGroupOptions`                                          |
 | `aws network-firewall update-subnet-change-protection`                               | `AwsNetworkFirewallUpdateSubnetChangeProtectionOptions`                             |
 | `aws network-firewall update-tls-inspection-configuration`                           | `AwsNetworkFirewallUpdateTlsInspectionConfigurationOptions`                         |
+| `aws network-security-manager create-deployment`                                     | `AwsNetworkSecurityManagerCreateDeploymentOptions`                                  |
+| `aws network-security-manager create-deployment-snapshot`                            | `AwsNetworkSecurityManagerCreateDeploymentSnapshotOptions`                          |
+| `aws network-security-manager create-policy`                                         | `AwsNetworkSecurityManagerCreatePolicyOptions`                                      |
+| `aws network-security-manager create-policy-snapshot`                                | `AwsNetworkSecurityManagerCreatePolicySnapshotOptions`                              |
+| `aws network-security-manager create-rule`                                           | `AwsNetworkSecurityManagerCreateRuleOptions`                                        |
+| `aws network-security-manager create-rule-snapshot`                                  | `AwsNetworkSecurityManagerCreateRuleSnapshotOptions`                                |
+| `aws network-security-manager create-scope`                                          | `AwsNetworkSecurityManagerCreateScopeOptions`                                       |
+| `aws network-security-manager create-scope-snapshot`                                 | `AwsNetworkSecurityManagerCreateScopeSnapshotOptions`                               |
+| `aws network-security-manager create-template`                                       | `AwsNetworkSecurityManagerCreateTemplateOptions`                                    |
+| `aws network-security-manager create-template-snapshot`                              | `AwsNetworkSecurityManagerCreateTemplateSnapshotOptions`                            |
+| `aws network-security-manager delete-admin-account`                                  | `AwsNetworkSecurityManagerDeleteAdminAccountOptions`                                |
+| `aws network-security-manager delete-deployment`                                     | `AwsNetworkSecurityManagerDeleteDeploymentOptions`                                  |
+| `aws network-security-manager delete-policy`                                         | `AwsNetworkSecurityManagerDeletePolicyOptions`                                      |
+| `aws network-security-manager delete-rule`                                           | `AwsNetworkSecurityManagerDeleteRuleOptions`                                        |
+| `aws network-security-manager delete-scope`                                          | `AwsNetworkSecurityManagerDeleteScopeOptions`                                       |
+| `aws network-security-manager delete-template`                                       | `AwsNetworkSecurityManagerDeleteTemplateOptions`                                    |
+| `aws network-security-manager generate-rule-configuration`                           | `AwsNetworkSecurityManagerGenerateRuleConfigurationOptions`                         |
+| `aws network-security-manager get-admin-account`                                     | `AwsNetworkSecurityManagerGetAdminAccountOptions`                                   |
+| `aws network-security-manager get-deployment`                                        | `AwsNetworkSecurityManagerGetDeploymentOptions`                                     |
+| `aws network-security-manager get-policy`                                            | `AwsNetworkSecurityManagerGetPolicyOptions`                                         |
+| `aws network-security-manager get-rule`                                              | `AwsNetworkSecurityManagerGetRuleOptions`                                           |
+| `aws network-security-manager get-scope`                                             | `AwsNetworkSecurityManagerGetScopeOptions`                                          |
+| `aws network-security-manager get-template`                                          | `AwsNetworkSecurityManagerGetTemplateOptions`                                       |
+| `aws network-security-manager list-admin-accounts`                                   | `AwsNetworkSecurityManagerListAdminAccountsOptions`                                 |
+| `aws network-security-manager list-aggregate-resource-synchronization-statuses`      | `AwsNetworkSecurityManagerListAggregateResourceSynchronizationStatusesOptions`      |
+| `aws network-security-manager list-deployment-snapshots`                             | `AwsNetworkSecurityManagerListDeploymentSnapshotsOptions`                           |
+| `aws network-security-manager list-deployments`                                      | `AwsNetworkSecurityManagerListDeploymentsOptions`                                   |
+| `aws network-security-manager list-policies`                                         | `AwsNetworkSecurityManagerListPoliciesOptions`                                      |
+| `aws network-security-manager list-policy-snapshots`                                 | `AwsNetworkSecurityManagerListPolicySnapshotsOptions`                               |
+| `aws network-security-manager list-resource-associations`                            | `AwsNetworkSecurityManagerListResourceAssociationsOptions`                          |
+| `aws network-security-manager list-resource-synchronization-statuses`                | `AwsNetworkSecurityManagerListResourceSynchronizationStatusesOptions`               |
+| `aws network-security-manager list-rule-snapshots`                                   | `AwsNetworkSecurityManagerListRuleSnapshotsOptions`                                 |
+| `aws network-security-manager list-rules`                                            | `AwsNetworkSecurityManagerListRulesOptions`                                         |
+| `aws network-security-manager list-scope-snapshots`                                  | `AwsNetworkSecurityManagerListScopeSnapshotsOptions`                                |
+| `aws network-security-manager list-scopes`                                           | `AwsNetworkSecurityManagerListScopesOptions`                                        |
+| `aws network-security-manager list-tags-for-resource`                                | `AwsNetworkSecurityManagerListTagsForResourceOptions`                               |
+| `aws network-security-manager list-template-snapshots`                               | `AwsNetworkSecurityManagerListTemplateSnapshotsOptions`                             |
+| `aws network-security-manager list-templates`                                        | `AwsNetworkSecurityManagerListTemplatesOptions`                                     |
+| `aws network-security-manager put-admin-account`                                     | `AwsNetworkSecurityManagerPutAdminAccountOptions`                                   |
+| `aws network-security-manager tag-resource`                                          | `AwsNetworkSecurityManagerTagResourceOptions`                                       |
+| `aws network-security-manager untag-resource`                                        | `AwsNetworkSecurityManagerUntagResourceOptions`                                     |
+| `aws network-security-manager update-deployment`                                     | `AwsNetworkSecurityManagerUpdateDeploymentOptions`                                  |
+| `aws network-security-manager update-policy`                                         | `AwsNetworkSecurityManagerUpdatePolicyOptions`                                      |
+| `aws network-security-manager update-rule`                                           | `AwsNetworkSecurityManagerUpdateRuleOptions`                                        |
+| `aws network-security-manager update-scope`                                          | `AwsNetworkSecurityManagerUpdateScopeOptions`                                       |
+| `aws network-security-manager update-template`                                       | `AwsNetworkSecurityManagerUpdateTemplateOptions`                                    |
 | `aws networkflowmonitor create-monitor`                                              | `AwsNetworkflowmonitorCreateMonitorOptions`                                         |
 | `aws networkflowmonitor create-scope`                                                | `AwsNetworkflowmonitorCreateScopeOptions`                                           |
 | `aws networkflowmonitor delete-monitor`                                              | `AwsNetworkflowmonitorDeleteMonitorOptions`                                         |
@@ -12997,16 +13157,19 @@ var aws = context.Tools.Aws;
 | `aws oam untag-resource`                                                             | `AwsOamUntagResourceOptions`                                                        |
 | `aws oam update-link`                                                                | `AwsOamUpdateLinkOptions`                                                           |
 | `aws observabilityadmin create-centralization-rule-for-organization`                 | `AwsObservabilityadminCreateCentralizationRuleForOrganizationOptions`               |
+| `aws observabilityadmin create-dataset-integration`                                  | `AwsObservabilityadminCreateDataSetIntegrationOptions`                              |
 | `aws observabilityadmin create-s3-table-integration`                                 | `AwsObservabilityadminCreateS3TableIntegrationOptions`                              |
 | `aws observabilityadmin create-telemetry-pipeline`                                   | `AwsObservabilityadminCreateTelemetryPipelineOptions`                               |
 | `aws observabilityadmin create-telemetry-rule`                                       | `AwsObservabilityadminCreateTelemetryRuleOptions`                                   |
 | `aws observabilityadmin create-telemetry-rule-for-organization`                      | `AwsObservabilityadminCreateTelemetryRuleForOrganizationOptions`                    |
 | `aws observabilityadmin delete-centralization-rule-for-organization`                 | `AwsObservabilityadminDeleteCentralizationRuleForOrganizationOptions`               |
+| `aws observabilityadmin delete-dataset-integration`                                  | `AwsObservabilityadminDeleteDataSetIntegrationOptions`                              |
 | `aws observabilityadmin delete-s3-table-integration`                                 | `AwsObservabilityadminDeleteS3TableIntegrationOptions`                              |
 | `aws observabilityadmin delete-telemetry-pipeline`                                   | `AwsObservabilityadminDeleteTelemetryPipelineOptions`                               |
 | `aws observabilityadmin delete-telemetry-rule`                                       | `AwsObservabilityadminDeleteTelemetryRuleOptions`                                   |
 | `aws observabilityadmin delete-telemetry-rule-for-organization`                      | `AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions`                    |
 | `aws observabilityadmin get-centralization-rule-for-organization`                    | `AwsObservabilityadminGetCentralizationRuleForOrganizationOptions`                  |
+| `aws observabilityadmin get-dataset-integration`                                     | `AwsObservabilityadminGetDataSetIntegrationOptions`                                 |
 | `aws observabilityadmin get-s3-table-integration`                                    | `AwsObservabilityadminGetS3TableIntegrationOptions`                                 |
 | `aws observabilityadmin get-telemetry-enrichment-status`                             | `AwsObservabilityadminGetTelemetryEnrichmentStatusOptions`                          |
 | `aws observabilityadmin get-telemetry-evaluation-status`                             | `AwsObservabilityadminGetTelemetryEvaluationStatusOptions`                          |
@@ -13015,6 +13178,7 @@ var aws = context.Tools.Aws;
 | `aws observabilityadmin get-telemetry-rule`                                          | `AwsObservabilityadminGetTelemetryRuleOptions`                                      |
 | `aws observabilityadmin get-telemetry-rule-for-organization`                         | `AwsObservabilityadminGetTelemetryRuleForOrganizationOptions`                       |
 | `aws observabilityadmin list-centralization-rules-for-organization`                  | `AwsObservabilityadminListCentralizationRulesForOrganizationOptions`                |
+| `aws observabilityadmin list-dataset-integrations`                                   | `AwsObservabilityadminListDataSetIntegrationsOptions`                               |
 | `aws observabilityadmin list-resource-telemetry`                                     | `AwsObservabilityadminListResourceTelemetryOptions`                                 |
 | `aws observabilityadmin list-resource-telemetry-for-organization`                    | `AwsObservabilityadminListResourceTelemetryForOrganizationOptions`                  |
 | `aws observabilityadmin list-s3-table-integrations`                                  | `AwsObservabilityadminListS3TableIntegrationsOptions`                               |
@@ -13032,6 +13196,7 @@ var aws = context.Tools.Aws;
 | `aws observabilityadmin test-telemetry-pipeline`                                     | `AwsObservabilityadminTestTelemetryPipelineOptions`                                 |
 | `aws observabilityadmin untag-resource`                                              | `AwsObservabilityadminUntagResourceOptions`                                         |
 | `aws observabilityadmin update-centralization-rule-for-organization`                 | `AwsObservabilityadminUpdateCentralizationRuleForOrganizationOptions`               |
+| `aws observabilityadmin update-dataset-integration`                                  | `AwsObservabilityadminUpdateDataSetIntegrationOptions`                              |
 | `aws observabilityadmin update-telemetry-pipeline`                                   | `AwsObservabilityadminUpdateTelemetryPipelineOptions`                               |
 | `aws observabilityadmin update-telemetry-rule`                                       | `AwsObservabilityadminUpdateTelemetryRuleOptions`                                   |
 | `aws observabilityadmin update-telemetry-rule-for-organization`                      | `AwsObservabilityadminUpdateTelemetryRuleForOrganizationOptions`                    |
@@ -16765,6 +16930,7 @@ var aws = context.Tools.Aws;
 | `aws securityagent get-security-requirement-pack`                                    | `AwsSecurityagentGetSecurityRequirementPackOptions`                                 |
 | `aws securityagent import-security-requirements`                                     | `AwsSecurityagentImportSecurityRequirementsOptions`                                 |
 | `aws securityagent initiate-provider-registration`                                   | `AwsSecurityagentInitiateProviderRegistrationOptions`                               |
+| `aws securityagent list-actor-messages`                                              | `AwsSecurityagentListActorMessagesOptions`                                          |
 | `aws securityagent list-agent-spaces`                                                | `AwsSecurityagentListAgentSpacesOptions`                                            |
 | `aws securityagent list-applications`                                                | `AwsSecurityagentListApplicationsOptions`                                           |
 | `aws securityagent list-artifacts`                                                   | `AwsSecurityagentListArtifactsOptions`                                              |
@@ -16802,6 +16968,7 @@ var aws = context.Tools.Aws;
 | `aws securityagent update-code-review`                                               | `AwsSecurityagentUpdateCodeReviewOptions`                                           |
 | `aws securityagent update-finding`                                                   | `AwsSecurityagentUpdateFindingOptions`                                              |
 | `aws securityagent update-integrated-resources`                                      | `AwsSecurityagentUpdateIntegratedResourcesOptions`                                  |
+| `aws securityagent update-integration`                                               | `AwsSecurityagentUpdateIntegrationOptions`                                          |
 | `aws securityagent update-pentest`                                                   | `AwsSecurityagentUpdatePentestOptions`                                              |
 | `aws securityagent update-private-connection-certificate`                            | `AwsSecurityagentUpdatePrivateConnectionCertificateOptions`                         |
 | `aws securityagent update-security-requirement-pack`                                 | `AwsSecurityagentUpdateSecurityRequirementPackOptions`                              |
