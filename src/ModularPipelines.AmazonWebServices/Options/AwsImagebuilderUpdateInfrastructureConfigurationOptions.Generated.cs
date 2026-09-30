@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an infrastructure configuration. An infrastructure configura- tion defines the environment in which Image Builder builds and tests your image. See also: AWS API Documentation
+/// Updates an infrastructure configuration. An infrastructure configura- tion defines the environment in which Image Builder builds and tests your image. NOTE: This operation doesn't support selective updates. The request re- places the configuration, so include every setting that you want to keep. Omitted optional properties are cleared. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an infrastructure configuration. An infrastructure configura- tion defines the environment in which Image Builder builds and tests your image. See also: AWS API Documentation
+    /// Updates an infrastructure configuration. An infrastructure configura- tion defines the environment in which Image Builder builds and tests your image. NOTE: This operation doesn't support selective updates. The request re- places the configuration, so include every setting that you want to keep. Omitted optional properties are cleared. See also: AWS API Documentation
     /// </summary>
     /// <param name="InfrastructureConfigurationArn">The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infra- structure-configuration/[a-z0-9-_]+$</param>
-    /// <param name="InstanceProfileName">The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$</param>
+    /// <param name="InstanceProfileName">The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. The instance profile must exist in your account. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$</param>
     public AwsImagebuilderUpdateInfrastructureConfigurationOptions(
         string InfrastructureConfigurationArn,
         string InstanceProfileName
@@ -68,7 +68,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     public string? InfrastructureConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$
+    /// The instance profile to associate with the instance used to cus- tomize your Amazon EC2 AMI. The instance profile must exist in your account. Constraints: o min: 1 o max: 256 o pattern: ^[\w+=,.@-]+$
     /// </summary>
     [CliOption("--instance-profile-name")]
     public string? InstanceProfileName { get; private init; }
@@ -80,7 +80,7 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     public string? Description { get; set; }
 
     /// <summary>
-    /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. Image Builder picks one of these instance types based on availability. (string) Syntax: "string" "string" ...
+    /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. Image Builder picks one of these instance types based on availability. If you don't specify instance types, Image Builder selects compatible instance types automatically. If you specify a Dedicated Host, Image Builder uses only instance types that the host supports. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-types", GroupValues = true)]
     public IEnumerable<string>? InstanceTypes { get; set; }
@@ -92,13 +92,13 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The subnet ID to place the instance used to customize your Amazon EC2 AMI in. Constraints: o min: 1 o max: 1024
+    /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI. If you specify subnetId , you must also specify one or more security group IDs in securityGroupIds . Otherwise, the re- quest fails. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; set; }
 
     /// <summary>
-    /// The logging configuration of the infrastructure configuration. s3Logs -&gt; (structure) The Amazon S3 logging configuration. s3BucketName -&gt; (string) The S3 bucket in which to store the logs. Constraints: o min: 1 o max: 1024 s3KeyPrefix -&gt; (string) The Amazon S3 path to the bucket where the logs are stored. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Logs={s3BucketName=string,s3KeyPrefix=string} JSON Syntax: { "s3Logs": { "s3BucketName": "string", "s3KeyPrefix": "string" } }
+    /// The logging configuration of the infrastructure configuration. When you configure S3 logs, Image Builder writes logs from the build and test process to the specified bucket under the key prefix. s3Logs -&gt; (structure) The Amazon S3 logging configuration. s3BucketName -&gt; (string) The name of an existing Amazon S3 bucket where Image Builder saves build logs. The bucket isn't validated when you create or update the configuration, and Image Builder doesn't create it. The instance profile associated with this infrastructure configuration must have permission to write to the bucket. Constraints: o min: 1 o max: 1024 s3KeyPrefix -&gt; (string) The Amazon S3 key prefix under which Image Builder writes build and test logs in the bucket. Constraints: o min: 1 o max: 1024 Shorthand Syntax: s3Logs={s3BucketName=string,s3KeyPrefix=string} JSON Syntax: { "s3Logs": { "s3BucketName": "string", "s3KeyPrefix": "string" } }
     /// </summary>
     [CliOption("--logging")]
     public string? Logging { get; set; }
@@ -116,31 +116,31 @@ public record AwsImagebuilderUpdateInfrastructureConfigurationOptions : AwsOptio
     public bool? TerminateInstanceOnFailure { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications. NOTE: EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys from other accounts. The key that is used to encrypt the SNS topic must reside in the account that the Image Builder service runs under. Constraints: o pattern: ^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$
+    /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications. Specify a standard topic. Image Builder doesn't support FIFO topics. Image Builder val- idates the topic when you create or update the configuration. You must have permission to publish to the topic. NOTE: EC2 Image Builder can't send notifications to SNS topics that are encrypted using keys from other accounts. If your SNS topic is encrypted, the key must be owned by the same account that owns your Image Builder resources. Constraints: o pattern: ^arn:aws[^:]*:sns:[^:]+:[0-9]{12}:[a-zA-Z0-9-_]{1,256}$
     /// </summary>
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
     /// <summary>
-    /// The tags attached to the resource created by Image Builder. Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process. Tags are formatted as key value pairs. Tag keys can't begin with aws: or match one of the fol- lowing reserved keys: CreatedBy , Ec2ImageBuilderArn , Name , or Tags . Constraints: o min: 1 o max: 30 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>
-    /// The instance metadata options that you can set for the HTTP requests that pipeline builds use to launch EC2 build and test instances. For more information about instance metadata options, see one of the following links: o Configure the instance metadata options in the * Amazon EC2 User Guide * for Linux instances. o Configure the instance metadata options in the * Amazon EC2 Win- dows Guide * for Windows instances. httpTokens -&gt; (string) Indicates whether a signed token header is required for instance metadata retrieval requests. The values affect the response as follows: o required When you retrieve the IAM role credentials, version 2.0 credentials are returned in all cases. o optional You can include a signed token header in your re- quest to retrieve instance metadata, or you can leave it out. If you include it, version 2.0 credentials are returned for the IAM role. Otherwise, version 1.0 credentials are returned. The default setting is optional . Constraints: o pattern: optional|required httpPutResponseHopLimit -&gt; (integer) Limit the number of hops that an instance metadata request can traverse to reach its destination. The default is one hop. How- ever, if HTTP tokens are required, container image builds need a minimum of two hops. Constraints: o min: 1 o max: 64 Shorthand Syntax: httpTokens=string,httpPutResponseHopLimit=integer JSON Syntax: { "httpTokens": "string", "httpPutResponseHopLimit": integer }
+    /// The instance metadata service (IMDS) settings that Image Builder ap- plies to the EC2 build and test instances it launches during image creation. If you don't set these options, the EC2 launch defaults for the instance apply. For more information about instance metadata options, see one of the following links: o Configure the instance metadata options in the * Amazon EC2 User Guide * for Linux instances. o Configure the instance metadata options in the * Amazon EC2 Win- dows Guide * for Windows instances. httpTokens -&gt; (string) Indicates whether a signed token header is required for instance metadata retrieval requests. The values affect the response as follows: o required When you retrieve the IAM role credentials, version 2.0 credentials are returned in all cases. o optional You can include a signed token header in your re- quest to retrieve instance metadata, or you can leave it out. If you include it, version 2.0 credentials are returned for the IAM role. Otherwise, version 1.0 credentials are returned. If you don't set a value, the EC2 launch default applies to the build and test instances. That default depends on the base AMI and any account-level instance metadata defaults. For more in- formation, see Configure the instance metadata options in the * Amazon EC2 User Guide * . Constraints: o pattern: optional|required httpPutResponseHopLimit -&gt; (integer) Limit the number of hops that an instance metadata request can traverse to reach its destination. If you don't set a value, the EC2 launch default for the instance applies. If HTTP tokens are required, container image builds need a minimum of two hops. Constraints: o min: 1 o max: 64 Shorthand Syntax: httpTokens=string,httpPutResponseHopLimit=integer JSON Syntax: { "httpTokens": "string", "httpPutResponseHopLimit": integer }
     /// </summary>
     [CliOption("--instance-metadata-options")]
     public string? InstanceMetadataOptions { get; set; }
 
     /// <summary>
-    /// The instance placement settings that define where the instances that are launched from your image run. availabilityZone -&gt; (string) The Availability Zone where your build and test instances will launch. Constraints: o min: 1 o max: 1024 tenancy -&gt; (string) The tenancy of the instance. An instance with a tenancy of dedi- cated runs on single-tenant hardware. An instance with a tenancy of host runs on a Dedicated Host. If tenancy is set to host , then you can optionally specify one target for placement either host ID or host resource group ARN. If automatic placement is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to find an available host for your build and test instances. Possible values: o default o dedicated o host hostId -&gt; (string) The ID of the Dedicated Host on which build and test instances run. This only applies if tenancy is host . If you specify the host ID, you must not specify the resource group ARN. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 hostResourceGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances. This only applies if tenancy is host . If you specify the resource group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error. Constraints: o min: 1 o max: 1024 Shorthand Syntax: availabilityZone=string,tenancy=string,hostId=string,hostResourceGroupArn=string JSON Syntax: { "availabilityZone": "string", "tenancy": "default"|"dedicated"|"host", "hostId": "string", "hostResourceGroupArn": "string" }
+    /// The instance placement settings that define where the build and test instances that Image Builder launches during image creation run. These settings don't affect instances that you launch from the out- put image. availabilityZone -&gt; (string) The Availability Zone where your build and test instances will launch. Constraints: o min: 1 o max: 1024 tenancy -&gt; (string) The tenancy of the instance. An instance with a tenancy of dedi- cated runs on single-tenant hardware. An instance with a tenancy of host runs on a Dedicated Host. If tenancy is set to host , then you can optionally specify one target for placement either host ID or host resource group ARN. If automatic placement is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to find an available host for your build and test instances. Possible values: o default o dedicated o host hostId -&gt; (string) The ID of the Dedicated Host on which build and test instances run. This only applies if tenancy is host . Constraints: o min: 1 o max: 1024 hostResourceGroupArn -&gt; (string) The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances. This only applies if tenancy is host . Constraints: o min: 1 o max: 1024 Shorthand Syntax: availabilityZone=string,tenancy=string,hostId=string,hostResourceGroupArn=string JSON Syntax: { "availabilityZone": "string", "tenancy": "default"|"dedicated"|"host", "hostId": "string", "hostResourceGroupArn": "string" }
     /// </summary>
     [CliOption("--placement")]
     public string? Placement { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

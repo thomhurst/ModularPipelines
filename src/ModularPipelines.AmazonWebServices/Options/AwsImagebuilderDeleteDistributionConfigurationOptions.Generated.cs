@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a distribution configuration. See also: AWS API Documentation
+/// Deletes a distribution configuration. You can't delete a configuration that an image pipeline still references. The request fails with Re- sourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderDeleteDistributionConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a distribution configuration. See also: AWS API Documentation
+    /// Deletes a distribution configuration. You can't delete a configuration that an image pipeline still references. The request fails with Re- sourceDependencyException . Update or delete the referencing pipelines first. See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionConfigurationArn">The Amazon Resource Name (ARN) of the distribution configuration to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):dis- tribution-configuration/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteDistributionConfigurationOptions(

@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -69,7 +68,6 @@ public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOp
     /// <summary>
     /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: o min: 1 o max: 1024 o pattern: arn:.+
     /// </summary>
-    [SecretValue]
     [CliOption("--request-token-arn")]
     public string? RequestTokenArn { get; private init; }
 

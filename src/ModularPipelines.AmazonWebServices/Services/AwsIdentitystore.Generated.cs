@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -153,6 +152,21 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
+    /// Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeIdentityStoreAsync(
+        AwsIdentitystoreDescribeIdentityStoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves the user metadata and attributes from the UserId in an iden- tity store. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation describe-user uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and o...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -273,6 +287,21 @@ public class AwsIdentitystore : IAwsIdentitystore
     }
 
     /// <summary>
+    /// Lists the identity stores that you have access to. This operation re- turns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call DescribeIdentityStore . This operation returns results in paginated form. Use the NextToken pa- rameter to retrieve additional pages of results. See also: AWS API Documentation list-identity-stores is a paginated operation. Multiple API calls may be issued in order to retrieve t...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListIdentityStoresAsync(
+        AwsIdentitystoreListIdentityStoresOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsIdentitystoreListIdentityStoresOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists all users in the identity store. Returns a paginated list of com- plete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-users uses document type values. Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -296,6 +325,21 @@ public class AwsIdentitystore : IAwsIdentitystore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateGroupAsync(
         AwsIdentitystoreUpdateGroupOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the configuration of the specified identity store, including its network configuration. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateIdentityStoreAsync(
+        AwsIdentitystoreUpdateIdentityStoreOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

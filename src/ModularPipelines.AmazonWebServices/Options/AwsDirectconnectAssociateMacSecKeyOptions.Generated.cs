@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -65,7 +64,6 @@ public record AwsDirectconnectAssociateMacSecKeyOptions : AwsOptions, IValidatab
     /// <summary>
     /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use DescribeConnections or DescribeLags to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; set; }
 

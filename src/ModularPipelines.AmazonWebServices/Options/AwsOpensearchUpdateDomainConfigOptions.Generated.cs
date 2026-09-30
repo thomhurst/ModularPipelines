@@ -207,6 +207,12 @@ public record AwsOpensearchUpdateDomainConfigOptions : AwsOptions, IValidatableO
     [CliOption("--engine-mode")]
     public AwsOpensearchUpdateDomainConfigEngineMode? EngineMode { get; set; }
 
+    /// <summary>
+    /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can pro- ceed. You can find warning codes in the``ValidationFailures`` list returned by DescribeDomainChangeProgress and DescribeDryRunProgress . Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see Validating a domain update . Constraints: o max: 25 (string) Syntax: "string" "string" ...
+    /// </summary>
+    [CliOption("--accepted-warnings", GroupValues = true)]
+    public IEnumerable<string>? AcceptedWarnings { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

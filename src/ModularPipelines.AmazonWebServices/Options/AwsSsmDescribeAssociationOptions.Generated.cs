@@ -40,7 +40,7 @@ public record AwsSsmDescribeAssociationOptions : AwsOptions
     public string? AssociationId { get; set; }
 
     /// <summary>
-    /// Specify the association version to retrieve. To view the latest ver- sion, either specify $LATEST for this parameter, or omit this para- meter. To view a list of all associations for a managed node, use ListAssociations . To get a list of versions for a specific associa- tion, use ListAssociationVersions . Constraints: o pattern: ([$]LATEST)|([1-9][0-9]*)
+    /// Specify the association version to retrieve. To view the latest ver- sion, either specify $LATEST for this parameter, or omit this para- meter. To view a list of all associations for a managed node, use ListAssociations . To get a list of versions for a specific associa- tion, use ListAssociationVersions . Constraints: o pattern: ^(([$]LATEST)|([1-9][0-9]*))$
     /// </summary>
     [CliOption("--association-version")]
     public string? AssociationVersion { get; set; }

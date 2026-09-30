@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation
+/// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation batch-get-discoverable-registry-record uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation
+    /// Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the errors list rather than failing the entire request. See also: AWS API Documentation batch-get-discoverable-registry-record uses document type values. Docu- ment types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, op- tions and nested parameters that are labeled with the type ...
     /// </summary>
     /// <param name="Entries">The registry-scoped groups of record IDs to retrieve. Currently, you can specify exactly one entry. Constraints: o min: 1 o max: 1 (structure) Binds one registry to the record IDs requested from it. registryId -&gt; (string) [required] The identifier of the registry to retrieve the records from. You can provide either the full Amazon Resource Name (ARN) or the registry ID. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16} recordIds -&gt; (list) [required] The record IDs to retrieve from the registry. You can specify 1 through 100 record IDs. Constraints: o min: 1 o max: 100 (string) Record identifier that accepts either ARN or ID format Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12} Shorthand Syntax: registryId=string,recordIds=string,string ... JSON Syntax: [ { "registryId": "string", "recordIds": ["string", ...] } ... ]</param>
     public AwsAgentRegistryBatchGetDiscoverableRegistryRecordOptions(

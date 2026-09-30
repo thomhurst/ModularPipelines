@@ -167,6 +167,16 @@ public interface IAwsArcRegionSwitch
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Lists the service quota warnings for the plans that you can access. Re- gion switch creates a warning when the applied quota value in one Re- gion of a plan is lower than the value required for the matching re- source in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Regio...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListServiceQuotaWarningsAsync(AwsArcRegionSwitchListServiceQuotaWarningsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Lists the tags attached to a Region switch resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

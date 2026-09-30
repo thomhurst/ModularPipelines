@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -64,7 +63,6 @@ public record AwsLicenseManagerLinuxSubscriptionsRegisterSubscriptionProviderOpt
     /// <summary>
     /// The Amazon Resource Name (ARN) of the secret where you've stored your subscription provider's access token. For RHEL subscriptions managed through the Red Hat Subscription Manager (RHSM), the secret contains your Red Hat Offline token. Constraints: o pattern: ^arn:[a-z0-9-\.]{1,63}:secretsman- ager:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:secret:[^/]{1,1023}$
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 

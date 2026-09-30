@@ -27,7 +27,7 @@ public record AwsImagebuilderGetWorkflowStepExecutionOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves runtime information for a specific runtime instance of the workflow step. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StepExecutionId">Use the unique identifier for a specific runtime instance of the workflow step to get runtime details for that step. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    /// <param name="StepExecutionId">The unique identifier for the runtime instance of the workflow step that you want to get runtime details for. To get the identifiers for the steps that ran in a workflow, call ListWorkflowStepExecutions . Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     public AwsImagebuilderGetWorkflowStepExecutionOptions(
         string StepExecutionId
     )
@@ -56,7 +56,7 @@ public record AwsImagebuilderGetWorkflowStepExecutionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Use the unique identifier for a specific runtime instance of the workflow step to get runtime details for that step. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// The unique identifier for the runtime instance of the workflow step that you want to get runtime details for. To get the identifiers for the steps that ran in a workflow, call ListWorkflowStepExecutions . Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--step-execution-id")]
     public string? StepExecutionId { get; private init; }

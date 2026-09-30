@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -163,7 +162,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. There are two different settings for stream proces- sors in Amazon Rekognition: detecting faces and detecting labels. o If you are creating a stream processor for detecting faces, you pro- vide as input a Kinesis video stream (Input ) and a Kinesis data stream (Output ) s...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Creates an Amazon Rekognition stream processor that you can use to de- tect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kine- sis Video Streams. T...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -283,7 +282,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProces- sor . You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor . See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProces- sor . You might not be able to use the same name for a stream processor for a few secon...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -373,7 +372,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Provides information about a stream processor created by CreateStream- Processor . You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Provides information about a stream processor created by CreateStream- Processor . You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -613,7 +612,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Retrieves the results for a given media analysis job. Takes a JobId re- turned by StartMediaAnalysisJob. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -748,7 +747,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Returns a list of media analysis jobs. Results are sorted by Creation- Timestamp in descending order. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Returns a list of media analysis jobs. Results are sorted by Creation- Timestamp in descending order. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -778,7 +777,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Gets a list of stream processors that you have created with Creat- eStreamProcessor . See also: AWS API Documentation list-stream-processors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: StreamProces...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Gets a list of stream processors that you have created with Creat- eStreamProcessor . See also: AWS API Documentation list-stream-processors is a paginated operation. Multiple API calls may be issued in order to retrieve the enti...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -988,7 +987,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Initiates a new media analysis job. Accepts a manifest file in an Ama- zon S3 bucket. The output is a manifest file and a summary of the mani- fest stored in the Amazon S3 bucket. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Initiates a new media analysis job. Accepts a manifest file in an Ama- zon S3 bucket. The output is a manifest file and a summary of the mani- fest stored in the Amazon S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1048,7 +1047,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor . If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor . To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1093,7 +1092,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Stops a running stream processor that was created by CreateStream- Processor . See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Stops a running stream processor that was created by CreateStream- Processor . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1153,7 +1152,7 @@ public class AwsRekognition : IAwsRekognition
     }
 
     /// <summary>
-    /// Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

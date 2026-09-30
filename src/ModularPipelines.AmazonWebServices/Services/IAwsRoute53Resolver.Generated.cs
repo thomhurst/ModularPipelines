@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsRoute53Resolver
 {
     /// <summary>
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active AWS Mar- ketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -112,7 +112,7 @@ public interface IAwsRoute53Resolver
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or AWS-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants returned by ListFirewall...
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field they are mutually exclusive: o FirewallDomainListId match a customer-managed or Amazon Web Ser- vices-managed domain list. o DnsThreatProtection match a built-in DNS Firewall Advanced threat detector (DGA , DNS_TUNNELING , or DICTIONARY_DGA ). o FirewallRuleType match one of the rule-type variants return...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public interface IAwsRoute53Resolver
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Creates a Route 53 Resolver on an Outpost. See also: AWS API Documentation
+    /// Creates a Route 53 Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is enabled by default and managed automatically by Amazon Web Services, so you don't need to create it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public interface IAwsRoute53Resolver
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Deletes a Resolver on the Outpost. See also: AWS API Documentation
+    /// Deletes a Resolver on the Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be deleted directly. To opt out of Resolver on second-generation Outposts, contact Amazon Web Services Support. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public interface IAwsRoute53Resolver
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. See also: AWS API Documentation
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

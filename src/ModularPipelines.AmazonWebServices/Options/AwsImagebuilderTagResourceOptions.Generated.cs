@@ -28,7 +28,7 @@ public record AwsImagebuilderTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds a tag to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
     /// <param name="Tags">The tags to apply to the resource. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsImagebuilderTagResourceOptions(
         string ResourceArn,
@@ -72,7 +72,7 @@ public record AwsImagebuilderTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// The Amazon Resource Name (ARN) of the resource that you want to tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

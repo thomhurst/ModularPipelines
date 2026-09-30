@@ -27,7 +27,7 @@ public record AwsImagebuilderUntagResourceOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Removes a tag from a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
     /// <param name="TagKeys">The tag keys to remove from the resource. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z0-9\s_.:/=+\-@]*$ Syntax: "string" "string" ...</param>
     public AwsImagebuilderUntagResourceOptions(
         string ResourceArn,
@@ -71,7 +71,7 @@ public record AwsImagebuilderUntagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// The Amazon Resource Name (ARN) of the resource that you want to un- tag. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

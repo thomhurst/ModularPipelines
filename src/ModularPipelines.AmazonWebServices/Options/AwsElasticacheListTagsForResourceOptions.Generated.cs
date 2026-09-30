@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an erro...
+/// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsElasticacheListTagsForResourceOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an erro...
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceName">The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasti- cache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasti- cache:us-west-2:0123456789:snapshot:mySnapshot . For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces .</param>
     public AwsElasticacheListTagsForResourceOptions(

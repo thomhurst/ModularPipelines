@@ -28,8 +28,8 @@ public record AwsIdentitystoreListGroupMembershipsOptions : AwsOptions, IValidat
     /// <summary>
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. NOTE: If you have access to a member account, you can use this API opera- tion from the member account. For more information, see Limiting ac- cess to the identity store from member accounts in the IAM Identity Center User Guide . See also: AWS API Documentation list-group-memberships is a paginated operation. Multiple API calls may be issued in order to...
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="GroupId">The identifier for a group in the identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="GroupId">The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsIdentitystoreListGroupMembershipsOptions(
         string IdentityStoreId,
         string GroupId
@@ -61,13 +61,13 @@ public record AwsIdentitystoreListGroupMembershipsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// The identifier for a group in the identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAM- PLE22222 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }

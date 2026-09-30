@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -59,7 +58,6 @@ public record AwsSsoAdminDeleteTrustedTokenIssuerOptions : AwsOptions, IValidata
     /// <summary>
     /// Specifies the ARN of the trusted token issuer configuration to delete. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::\d{12}:trustedTokenIs- suer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
-    [SecretValue]
     [CliOption("--trusted-token-issuer-arn")]
     public string? TrustedTokenIssuerArn { get; private init; }
 

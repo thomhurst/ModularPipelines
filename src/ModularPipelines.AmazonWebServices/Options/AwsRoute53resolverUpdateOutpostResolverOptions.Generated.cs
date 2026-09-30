@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. See also: AWS API Documentation
+/// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsRoute53resolverUpdateOutpostResolverOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. See also: AWS API Documentation
+    /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost. NOTE: This operation applies to first-generation Outposts only. On sec- ond-generation Outposts, Resolver is managed automatically by Amazon Web Services and can't be updated directly. See also: AWS API Documentation
     /// </summary>
     /// <param name="Id">A unique string that identifies Resolver on an Outpost. Constraints: o min: 1 o max: 64</param>
     public AwsRoute53resolverUpdateOutpostResolverOptions(

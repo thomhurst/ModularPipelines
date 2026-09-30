@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active AWS Mar- ketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
+/// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,7 @@ public record AwsRoute53resolverAssociateFirewallRuleGroupOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active AWS Mar- ketplace subscription to the named partner. If the subscription is missing, the association request is rejected. See also: AWS API Documentation
+    /// Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreat- Protection rule type, the calling account must hold an active Amazon Web Services Marketplace subscription to the named partner. If the sub- scription is missing, the association request is rejected. See also: AWS API Documentation
     /// </summary>
     /// <param name="FirewallRuleGroupId">The unique identifier of the firewall rule group. Constraints: o min: 1 o max: 64</param>
     /// <param name="VpcId">The unique identifier of the VPC that you want to associate with the rule group. Constraints: o min: 1 o max: 64</param>

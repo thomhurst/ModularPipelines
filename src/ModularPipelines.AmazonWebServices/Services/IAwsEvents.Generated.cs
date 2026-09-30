@@ -437,7 +437,7 @@ public interface IAwsEvents
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency. However, the total entry size must be less than 256KB. You can calcu- late the entry size before you send the events. For more information, see Calculating PutEvents event entry size in the * Amazon EventBridge User Guide * . PutEvents accepts the data in JSON format. For the JSON number (inte- ger) data type, the constraints are: a minimum value o...
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency. However, the total entry size must be less than 1MB. You can calculate the entry size before you send the events. For more information, see Calculating PutEvents event entry size in the * Amazon EventBridge User Guide * . PutEvents accepts the data in JSON format. For the JSON number (inte- ger) data type, the constraints are: a minimum value of -9...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

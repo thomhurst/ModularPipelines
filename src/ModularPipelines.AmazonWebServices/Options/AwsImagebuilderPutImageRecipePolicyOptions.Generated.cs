@@ -15,7 +15,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies a policy to an image recipe. To share resources, call the RAM API CreateResourceShare . If you call this API, you must also call the RAM API PromoteResourceShareCreatedFromPolicy so that the resource is visible to all principals with whom the resource is shared. See also: AWS API Documentation
+/// Applies a policy to an image recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the PutIm- ageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +25,7 @@ public record AwsImagebuilderPutImageRecipePolicyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies a policy to an image recipe. To share resources, call the RAM API CreateResourceShare . If you call this API, you must also call the RAM API PromoteResourceShareCreatedFromPolicy so that the resource is visible to all principals with whom the resource is shared. See also: AWS API Documentation
+    /// Applies a policy to an image recipe. The preferred way to share re- sources is with the RAM API CreateResourceShare . If you use the PutIm- ageRecipePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
     /// <param name="ImageRecipeArn">The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$</param>
     /// <param name="Policy">The policy to apply. Constraints: o min: 1 o max: 30000</param>

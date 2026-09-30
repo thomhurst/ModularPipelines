@@ -28,7 +28,7 @@ public record AwsImagebuilderListLifecycleExecutionsOptions : AwsOptions, IValid
     /// <summary>
     /// Retrieves the lifecycle runtime history for the specified resource. See also: AWS API Documentation list-lifecycle-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: lifecycleExecutions
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource for which to list lifecycle executions. Specify a lifecycle policy ARN to list its ex- ecutions, or an image build version ARN to list the executions that StartResourceStateUpdate started for that image. Other ARN types aren't valid for this request. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$</param>
     public AwsImagebuilderListLifecycleExecutionsOptions(
         string ResourceArn
     )
@@ -57,7 +57,7 @@ public record AwsImagebuilderListLifecycleExecutionsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|con- tainer-recipe|infrastructure-configuration|distribution-configura- tion|component|image|image-pipeline|lifecycle-policy|work- flow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
+    /// The Amazon Resource Name (ARN) of the resource for which to list lifecycle executions. Specify a lifecycle policy ARN to list its ex- ecutions, or an image build version ARN to list the executions that StartResourceStateUpdate started for that image. Other ARN types aren't valid for this request. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:im- age-recipe|container-recipe|infrastructure-configuration|distribu- tion-configuration|component|image|image-pipeline|lifecycle-pol- icy|workflow\/(?:build|test|distribu- tion))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\.(?:x|[0-9]+)\.(?:x|[0-9]+))(?:/[0-9]+)?)?$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }

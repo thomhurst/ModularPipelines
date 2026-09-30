@@ -1397,6 +1397,16 @@ public interface IAwsBedrockAgentcoreControl
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE . For payment connectors with a provisionMode of MANUAL , call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one ro- tation runs at a time for a given payment connector. When it succeeds, the new cred...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> RotatePaymentConnectorCredentialsAsync(AwsBedrockAgentcoreControlRotatePaymentConnectorCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Sets the customer master key (CMK) for a token vault. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>

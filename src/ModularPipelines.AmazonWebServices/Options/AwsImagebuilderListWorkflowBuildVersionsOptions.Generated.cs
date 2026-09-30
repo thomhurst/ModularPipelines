@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsImagebuilderListWorkflowBuildVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
+    /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions. The version segments can contain wild- cards (x ) to match multiple versions of the workflow. If you don't specify an ARN, the response lists build versions for all of the workflows in your account. Constraints: o pattern: ^arn:aws(?:-[a-z]+)*:image- builder:[a-z]{2,}(?:-[a-z]+)+-[0-9]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):work- flow/(build|test|distribu- tion)/[a-z0-9-_]+/(?:[0-9]+|x)\.(?:[0-9]+|x)\.(?:[0-9]+|x)$
     /// </summary>
     [CliOption("--workflow-version-arn")]
     public string? WorkflowVersionArn { get; set; }

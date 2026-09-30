@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -51,6 +50,21 @@ public class AwsCloudwatch : IAwsCloudwatch
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AssociateDataSetKmsKeyAsync(
         AwsCloudwatchAssociateDataSetKmsKeyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a resource metrics configuration for an Amazon Web Services re- source. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified re- source ARN, this operation returns a ConflictException . To modify an existing configuration, use UpdateResourceMetricsConfiguration . If the Amazon Web Services resource that you spe...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateResourceMetricsConfigurationAsync(
+        AwsCloudwatchCreateResourceMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -141,6 +155,21 @@ public class AwsCloudwatch : IAwsCloudwatch
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteMetricStreamAsync(
         AwsCloudwatchDeleteMetricStreamOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the resource metrics configuration for an Amazon Web Services resource. After you delete the configuration, Amazon CloudWatch stops collecting detailed metrics for the resource. Metric data that Amazon CloudWatch already collected for the resource is not deleted. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. Verify that the resource ARN is correct. To delete a resource metrics configuration, you must have ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteResourceMetricsConfigurationAsync(
+        AwsCloudwatchDeleteResourceMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -328,7 +357,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. See also: AWS API Documentation
+    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard , and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is dis- abled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -448,6 +477,21 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
+    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration . To retrieve a resource metrics configuration, you must have the cloud- watch:Ge...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetResourceMetricsConfigurationAsync(
+        AwsCloudwatchGetResourceMetricsConfigurationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules target- ing a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in mul- tiple calls. Permissions To list mute rules, you need the cloudwatch:ListAlarmMuteRules permis- sion. See also: AWS API Docume...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -463,7 +507,7 @@ public class AwsCloudwatch : IAwsCloudwatch
     }
 
     /// <summary>
-    /// Returns a list of the dashboards for your account. If you include Dash- boardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and in- clude the value you received for NextToken in the first call, to re- ceive the next 1000 results. See also: AWS API Documentation list-dashboards is ...
+    /// Returns a list of the dashboards for your account. If you include Dash- boardNamePrefix , only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and in- clude the value you received for NextToken in the first call, to re- ceive the next 1000 results. You might have recently enabled an opt-in Region (R...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -786,6 +830,36 @@ public class AwsCloudwatch : IAwsCloudwatch
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UntagResourceAsync(
         AwsCloudwatchUntagResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Replaces the filters that determine which CloudWatch vended metrics are enriched with resource ARN and resource tag labels for the account. En- richment must already be running for the account. If it is not, this operation returns a ResourceNotFoundException . To start enrichment, use StartOTelEnrichment . The filters in the request completely replace the stored filters; they are not merged with them. IncludeFilters and ExcludeFilters are re- placed as a pair, so a request that specifies only In...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateOtelEnrichmentAsync(
+        AwsCloudwatchUpdateOtelEnrichmentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsCloudwatchUpdateOtelEnrichmentOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any ex- isting metric selections for the resource; it is not merged with them. If you omit MetricSelections , Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource met- rics configuration exists for the specified resource ARN. To ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateResourceMetricsConfigurationAsync(
+        AwsCloudwatchUpdateResourceMetricsConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

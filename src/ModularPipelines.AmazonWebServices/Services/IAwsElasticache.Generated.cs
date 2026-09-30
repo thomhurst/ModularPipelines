@@ -27,7 +27,7 @@ public interface IAwsElasticache
     AwsElasticacheWait Wait => throw new System.NotSupportedException();
 
     /// <summary>
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache re- sources, Amazon generates a cost allocation report as a com...
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . For example, you can use cost-allocation tags to your ElastiCache re- sources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public interface IAwsElasticache
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an erro...
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache re- sources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . If the cluster is not in the available state, ListTagsForResource re- turns an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public interface IAwsElasticache
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
+    /// Removes the tags identified by the TagKeys list from the named re- source. A tag is a key-value pair where the key and value are case-sen- sitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those ac- tions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

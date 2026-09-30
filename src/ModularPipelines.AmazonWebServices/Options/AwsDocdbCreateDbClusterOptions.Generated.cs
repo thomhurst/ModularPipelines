@@ -212,6 +212,12 @@ public record AwsDocdbCreateDbClusterOptions : AwsOptions, IValidatableObject
     public string? NetworkType { get; set; }
 
     /// <summary>
+    /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+    /// </summary>
+    [CliFlag("--copy-tags-to-snapshot", NegatedName = "--no-copy-tags-to-snapshot")]
+    public bool? CopyTagsToSnapshot { get; set; }
+
+    /// <summary>
     /// The ID of the region that contains the source for the db cluster.
     /// </summary>
     [CliOption("--source-region")]

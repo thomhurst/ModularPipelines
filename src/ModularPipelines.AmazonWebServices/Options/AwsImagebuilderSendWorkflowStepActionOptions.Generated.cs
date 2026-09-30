@@ -17,7 +17,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Pauses or resumes image creation when the associated workflow runs a WaitForAction step. See also: AWS API Documentation
+/// Sends an action to a workflow step that has paused at a WaitForAction step, so that image creation can continue. To find the steps that are waiting for an action, call ListWaitingWorkflowSteps . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step. See also: AWS API Documentation
+    /// Sends an action to a workflow step that has paused at a WaitForAction step, so that image creation can continue. To find the steps that are waiting for an action, call ListWaitingWorkflowSteps . See also: AWS API Documentation
     /// </summary>
-    /// <param name="StepExecutionId">Uniquely identifies the workflow step that sent the step action. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    /// <param name="StepExecutionId">Uniquely identifies the waiting workflow step that you send the ac- tion to. To get this identifier, call ListWaitingWorkflowSteps . Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     /// <param name="ImageBuildVersionArn">The Amazon Resource Name (ARN) of the image build version associated with the workflow step execution. This value must match the image that owns the waiting step. If the ARN does not correspond to the image running the workflow, then the request fails with a validation error. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
-    /// <param name="Action">The action to perform on the paused workflow step. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP</param>
+    /// <param name="Action">The action to perform on the paused workflow step. RESUME completes the waiting step, and the workflow continues. STOP fails the step, and the step's onFailure setting determines whether the workflow continues or aborts. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP</param>
     public AwsImagebuilderSendWorkflowStepActionOptions(
         string StepExecutionId,
         string ImageBuildVersionArn,
@@ -65,7 +65,7 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Uniquely identifies the workflow step that sent the step action. Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// Uniquely identifies the waiting workflow step that you send the ac- tion to. To get this identifier, call ListWaitingWorkflowSteps . Constraints: o pattern: ^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--step-execution-id")]
     public string? StepExecutionId { get; private init; }
@@ -77,7 +77,7 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValida
     public string? ImageBuildVersionArn { get; private init; }
 
     /// <summary>
-    /// The action to perform on the paused workflow step. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP
+    /// The action to perform on the paused workflow step. RESUME completes the waiting step, and the workflow continues. STOP fails the step, and the step's onFailure setting determines whether the workflow continues or aborts. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned. Possible values: o RESUME o STOP
     /// </summary>
     [CliOption("--action")]
     public AwsImagebuilderSendWorkflowStepActionAction? Action { get; private init; }
@@ -89,7 +89,7 @@ public record AwsImagebuilderSendWorkflowStepActionOptions : AwsOptions, IValida
     public string? Reason { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]

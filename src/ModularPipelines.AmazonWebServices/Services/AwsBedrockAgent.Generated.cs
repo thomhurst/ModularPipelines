@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
@@ -213,6 +212,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
+    /// Creates a VPC configuration that lets a knowledge base connect to a re- source in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING . Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> CreateVpcConfigurationAsync(
+        AwsBedrockAgentCreateVpcConfigurationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Deletes an action group in an agent. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -386,6 +400,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteResourcePolicyAsync(
         AwsBedrockAgentDeleteResourcePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING . Poll GetVpcConfiguration until it returns a Re- sourceNotFoundException , indicating the configuration is deleted. Delete requests are idempotent and safe to retry. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteVpcConfigurationAsync(
+        AwsBedrockAgentDeleteVpcConfigurationOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -648,6 +677,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     }
 
     /// <summary>
+    /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetVpcConfigurationAsync(
+        AwsBedrockAgentGetVpcConfigurationOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowl- edge base in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -881,6 +925,21 @@ public class AwsBedrockAgent : IAwsBedrockAgent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTagsForResourceAsync(
         AwsBedrockAgentListTagsForResourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a paginated list of the VPC configurations for a knowledge base. You can optionally filter by status. Use the nextToken parameter to retrieve additional results. See also: AWS API Documentation list-vpc-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argumen...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListVpcConfigurationsAsync(
+        AwsBedrockAgentListVpcConfigurationsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

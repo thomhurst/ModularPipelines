@@ -27,8 +27,8 @@ public record AwsIdentitystoreDeleteGroupMembershipOptions : AwsOptions, IValida
     /// <summary>
     /// Delete a membership within a group given MembershipId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="MembershipId">The identifier for a GroupMembership in an identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="IdentityStoreId">The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})</param>
+    /// <param name="MembershipId">The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAM- PLE33333 or membership ARN arn:aws:identitystore:::member- ship/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsIdentitystoreDeleteGroupMembershipOptions(
         string IdentityStoreId,
         string MembershipId
@@ -60,13 +60,13 @@ public record AwsIdentitystoreDeleteGroupMembershipOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique identifier for the identity store. Constraints: o min: 1 o max: 36 o pattern: d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890 . Constraints: o min: 1 o max: 93 o pattern: (arn:aws[a-z-]*:identitystore::\d{12}:identitys- tore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})
     /// </summary>
     [CliOption("--identity-store-id")]
     public string? IdentityStoreId { get; private init; }
 
     /// <summary>
-    /// The identifier for a GroupMembership in an identity store. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAM- PLE33333 or membership ARN arn:aws:identitystore:::member- ship/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 . Constraints: o min: 1 o max: 100 o pattern: (arn:aws[a-z-]*:identitystore:::(user|group|member- ship)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--membership-id")]
     public string? MembershipId { get; private init; }

@@ -16,6 +16,9 @@ namespace ModularPipelines.AmazonWebServices.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum AwsSecurityagentCreateIntegrationProvider
 {
+    [EnumValue("AZURE_DEVOPS")]
+    AzureDevops,
+
     [EnumValue("BITBUCKET")]
     Bitbucket,
 

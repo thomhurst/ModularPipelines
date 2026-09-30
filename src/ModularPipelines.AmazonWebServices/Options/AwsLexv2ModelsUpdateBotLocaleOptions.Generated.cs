@@ -116,7 +116,7 @@ public record AwsLexv2ModelsUpdateBotLocaleOptions : AwsOptions, IValidatableObj
     public string? AudioFillerSettings { get; set; }
 
     /// <summary>
-    /// Updated speech-to-text settings to apply to the bot locale. speechModelPreference -&gt; (string) The speech-to-text model to use. Possible values: o Standard o Neural o Deepgram speechModelConfig -&gt; (structure) Configuration settings for the selected speech-to-text model. deepgramConfig -&gt; (structure) Configuration settings for using Deepgram as the speech-to-text provider. apiTokenSecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager se- cret that contains the Deepgram API token. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[A-Za-z-]*:secretsman- ager:[a-z0-9-]{1,20}:[0-9]{12}:se- cret:[A-Za-z0-9/_+=.@-]{1,512}-[A-Za-z0-9]{6}$ modelId -&gt; (string) The identifier of the Deepgram speech-to-text model to use for processing speech input. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9-_]+ Shorthand Syntax: speechModelPreference=string,speechModelConfig={deepgramConfig={apiTokenSecretArn=string,modelId=string}} JSON Syntax: { "speechModelPreference": "Standard"|"Neural"|"Deepgram", "speechModelConfig": { "deepgramConfig": { "apiTokenSecretArn": "string", "modelId": "string" } } }
+    /// Updated speech-to-text settings to apply to the bot locale. speechModelPreference -&gt; (string) The speech-to-text model to use. Possible values: o Standard o Neural o Deepgram o Advanced speechModelConfig -&gt; (structure) Configuration settings for the selected speech-to-text model. deepgramConfig -&gt; (structure) Configuration settings for using Deepgram as the speech-to-text provider. apiTokenSecretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Secrets Manager se- cret that contains the Deepgram API token. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[A-Za-z-]*:secretsman- ager:[a-z0-9-]{1,20}:[0-9]{12}:se- cret:[A-Za-z0-9/_+=.@-]{1,512}-[A-Za-z0-9]{6}$ modelId -&gt; (string) The identifier of the Deepgram speech-to-text model to use for processing speech input. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9-_]+ Shorthand Syntax: speechModelPreference=string,speechModelConfig={deepgramConfig={apiTokenSecretArn=string,modelId=string}} JSON Syntax: { "speechModelPreference": "Standard"|"Neural"|"Deepgram"|"Advanced", "speechModelConfig": { "deepgramConfig": { "apiTokenSecretArn": "string", "modelId": "string" } } }
     /// </summary>
     [CliOption("--speech-recognition-settings")]
     public string? SpeechRecognitionSettings { get; set; }
@@ -132,6 +132,12 @@ public record AwsLexv2ModelsUpdateBotLocaleOptions : AwsOptions, IValidatableObj
     /// </summary>
     [CliOption("--speech-detection-sensitivity")]
     public AwsLexv2ModelsUpdateBotLocaleSpeechDetectionSensitivity? SpeechDetectionSensitivity { get; set; }
+
+    /// <summary>
+    /// The updated speaker diarization settings to apply to the bot locale. If you omit this field, Amazon Lex keeps the setting currently stored on the bot locale. To turn speaker diarization off, set en- abled to false explicitly. enabled -&gt; (boolean) [required] Specifies whether speaker diarization is enabled for the bot lo- cale. Set to true to have Amazon Lex treat speech from speakers other than the primary speaker as non-speech. Set to false to disable speaker diarization and rely on voice activity detection alone. Shorthand Syntax: enabled=boolean JSON Syntax: { "enabled": true|false }
+    /// </summary>
+    [CliOption("--speaker-diarization-settings")]
+    public string? SpeakerDiarizationSettings { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }

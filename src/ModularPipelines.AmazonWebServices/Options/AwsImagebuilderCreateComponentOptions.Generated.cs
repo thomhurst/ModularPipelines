@@ -18,7 +18,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. See also: AWS API Documentation
+/// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +28,9 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. See also: AWS API Documentation
+    /// Creates a new component that can be used to build, validate, test, and assess your image. The component is based on a YAML document that you specify using exactly one of the following methods: o Inline, using the data property in the request body. o A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body. Image Builder determines the component type from the document. If the document contains a single phase named test , the component type is TEST ...
     /// </summary>
-    /// <param name="Name">The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
+    /// <param name="Name">The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$</param>
     /// <param name="SemanticVersion">The semantic version of the component. This version follows the se- mantic version syntax. NOTE: The semantic version has four nodes: &lt;major&gt;.&lt;mi- nor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes, you can assign any positive integer value, including zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automati- cally assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Constraints: o pattern: ^[0-9]+\.[0-9]+\.[0-9]+$</param>
     /// <param name="Platform">The operating system platform of the component. Possible values: o Windows o Linux o macOS</param>
     public AwsImagebuilderCreateComponentOptions(
@@ -66,7 +66,7 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
+    /// The name of the component. Image Builder generates the component ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name. If a component with the same name and semantic version already exists in your ac- count in the same Amazon Web Services Region, the request creates a new build version for it. If the content is also identical to the latest build version, the request fails because the component al- ready exists. Constraints: o pattern: ^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -108,13 +108,13 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
     public string? Data { get; set; }
 
     /// <summary>
-    /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key ), and you must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
+    /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key ), and you must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota for component size, which is 64 KB by default. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
     /// </summary>
     [CliOption("--uri")]
     public string? Uri { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide . If you don't specify a key, Image Builder encrypts the component data with a KMS key that Image Builder owns. Constraints: o min: 1 o max: 1024
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -126,14 +126,14 @@ public record AwsImagebuilderCreateComponentOptions : AwsOptions, IValidatableOb
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not re- turn an error. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client token, Image Builder returns the original response without running the operation again. For more information, see Ensuring idempotency in the Amazon EC2 API Reference . Constraints: o min: 1 o max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Validates the required permissions and request parameters without making the request. If validation succeeds, the operation returns a DryRunOperationException error response.
+    /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation re- turns a DryRunOperationException error response.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }

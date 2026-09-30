@@ -6,7 +6,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -63,7 +62,6 @@ public record AwsDsCreateHybridAdOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD do- main. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customer- AdAdminDomainUsername and customerAdAdminDomainPassword . For exam- ple: {"customerAdAdminDomainUsername":"carlos_salazar","customer- AdAdminDomainPassword":"ExamplePassword123!"} . Constraints: o pattern: ^arn:aws:secretsmanager:[a-z0-9-]+:\d{12}:se- cret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$
     /// </summary>
-    [SecretValue]
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
