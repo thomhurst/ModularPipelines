@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -21,6 +20,7 @@ namespace ModularPipelines.Google.Services;
 public class GcloudLustreInstances
 {
     private readonly ICommandContext _command;
+    private GcloudLustreInstancesDirectoryPolicies? _directoryPolicies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLustreInstances"/> class.
@@ -30,10 +30,19 @@ public class GcloudLustreInstances
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gcloud directory-policies sub-commands.
+    /// </summary>
+    public GcloudLustreInstancesDirectoryPolicies DirectoryPolicies => _directoryPolicies ??= new GcloudLustreInstancesDirectoryPolicies(_command);
+
+    #endregion
+
     #region Commands
 
     /// <summary>
-    /// manage Instance resources
+    /// manage Lustre instance resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -138,7 +147,7 @@ public class GcloudLustreInstances
     }
 
     /// <summary>
-    /// reschedule instances
+    /// reschedule a planned     maintenance window for a Managed Lustre instance
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

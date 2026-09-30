@@ -61,11 +61,7 @@ public record GcloudFirestoreDatabasesRestoreOptions : GcloudOptions, IValidatab
     /// Tags to attach to the destination database. Example: --tags=key1=value1,key2=value2 For example, to attach tags to a database: $ --tags=key1=value1,key2=value2 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IReadOnlyList<KeyValue>? Tags
-    {
-        get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : (default(global::System.Collections.Immutable.ImmutableArray<KeyValue>).Equals((object)values) ? global::System.Array.Empty<KeyValue>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<KeyValue>(values)))) : default;
-    }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The encryption configuration of the new database being created from the backup. If not specified, the same encryption settings as the backup will be used. To create a CMEK-enabled database: $ gcloud firestore databases restore \
@@ -82,7 +78,7 @@ public record GcloudFirestoreDatabasesRestoreOptions : GcloudOptions, IValidatab
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((((object?)Tags is global::System.Collections.Generic.IEnumerable<char> ? (object?)Tags is not string || !string.IsNullOrWhiteSpace(Tags?.ToString()) : ((object?)Tags is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Tags, static item => item is not null) : (Tags is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Tags), static item => item is not null)))) || !string.IsNullOrWhiteSpace(EncryptionType) || !string.IsNullOrWhiteSpace(KmsKeyName)) && (!(!string.IsNullOrWhiteSpace(EncryptionType))))
+        if ((!string.IsNullOrWhiteSpace(EncryptionType) || !string.IsNullOrWhiteSpace(KmsKeyName)) && (!(!string.IsNullOrWhiteSpace(EncryptionType))))
         {
             yield return new ValidationResult("EncryptionType must be specified when other arguments in this group are specified.", [nameof(EncryptionType)]);
         }

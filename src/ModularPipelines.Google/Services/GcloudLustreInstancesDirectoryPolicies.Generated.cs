@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -15,17 +14,17 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Services;
 
 /// <summary>
-/// gcloud vpn-connections commands.
+/// gcloud directory-policies commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class GcloudEdgeCloudContainerVpnConnections
+public class GcloudLustreInstancesDirectoryPolicies
 {
     private readonly ICommandContext _command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GcloudEdgeCloudContainerVpnConnections"/> class.
+    /// Initializes a new instance of the <see cref="GcloudLustreInstancesDirectoryPolicies"/> class.
     /// </summary>
-    public GcloudEdgeCloudContainerVpnConnections(ICommandContext command)
+    public GcloudLustreInstancesDirectoryPolicies(ICommandContext command)
     {
         _command = command;
     }
@@ -33,29 +32,29 @@ public class GcloudEdgeCloudContainerVpnConnections
     #region Commands
 
     /// <summary>
-    /// manage Edge VPN connections     between an Edge Container cluster and a VPC network
+    /// manage Directory Policy     resources
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExecuteAsync(
-        GcloudEdgeCloudContainerVpnConnectionsOptions? options = null,
+        GcloudLustreInstancesDirectoryPoliciesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudContainerVpnConnectionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudLustreInstancesDirectoryPoliciesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// create a VPN     connection between an Edge Container cluster and a VPC network
+    /// create     directoryPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        GcloudEdgeCloudContainerVpnConnectionsCreateOptions options,
+        GcloudLustreInstancesDirectoryPoliciesCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -63,14 +62,14 @@ public class GcloudEdgeCloudContainerVpnConnections
     }
 
     /// <summary>
-    /// delete a VPN     connection between an Edge Container cluster and a VPC network
+    /// delete     directoryPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAsync(
-        GcloudEdgeCloudContainerVpnConnectionsDeleteOptions options,
+        GcloudLustreInstancesDirectoryPoliciesDeleteOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -78,14 +77,14 @@ public class GcloudEdgeCloudContainerVpnConnections
     }
 
     /// <summary>
-    /// show details about a     VPN connection
+    /// describe     directoryPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeAsync(
-        GcloudEdgeCloudContainerVpnConnectionsDescribeOptions options,
+        GcloudLustreInstancesDirectoryPoliciesDescribeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -93,18 +92,18 @@ public class GcloudEdgeCloudContainerVpnConnections
     }
 
     /// <summary>
-    /// list VPN connections
+    /// list directoryPolicies
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        GcloudEdgeCloudContainerVpnConnectionsListOptions? options = null,
+        GcloudLustreInstancesDirectoryPoliciesListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudEdgeCloudContainerVpnConnectionsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

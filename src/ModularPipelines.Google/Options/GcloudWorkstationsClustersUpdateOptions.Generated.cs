@@ -65,6 +65,12 @@ public record GcloudWorkstationsClustersUpdateOptions : GcloudOptions, IValidata
     public bool? EnableHttp2 { get; set; }
 
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]

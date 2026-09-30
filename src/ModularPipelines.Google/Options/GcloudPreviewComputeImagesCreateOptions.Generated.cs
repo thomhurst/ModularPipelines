@@ -108,10 +108,10 @@ public record GcloudPreviewComputeImagesCreateOptions : GcloudOptions, IValidata
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS.
+    /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE, BMSAI_CAPABLE, CCA_CAPABLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE, SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE, SNP_SVSM_CAPABLE, SUSPEND_SAFE_FPR, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE, WINDOWS. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<GcloudPreviewComputeImagesCreateGuestOsFeatures>? GuestOsFeatures { get; set; }
+    public IEnumerable<string>? GuestOsFeatures { get; set; }
 
     /// <summary>
     /// Comma-separated list of file paths that point to X.509 certificates in DER format or raw binary files. When you create a Shielded VM instance from this image, these certificates or files are used as key exchange keys (KEK). Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

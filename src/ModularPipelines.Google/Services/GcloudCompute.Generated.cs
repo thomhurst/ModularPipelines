@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -53,6 +52,7 @@ public class GcloudCompute : IGcloudCompute
     private GcloudComputeInterconnects? _interconnects;
     private GcloudComputeMachineImages? _machineImages;
     private GcloudComputeMachineTypes? _machineTypes;
+    private GcloudComputeManagedRulesets? _managedRulesets;
     private GcloudComputeMigration? _migration;
     private GcloudComputeNetworkAttachments? _networkAttachments;
     private GcloudComputeNetworkEdgeSecurityServices? _networkEdgeSecurityServices;
@@ -272,6 +272,11 @@ public class GcloudCompute : IGcloudCompute
     /// gcloud machine-types sub-commands.
     /// </summary>
     public GcloudComputeMachineTypes MachineTypes => _machineTypes ??= new GcloudComputeMachineTypes(_command);
+
+    /// <summary>
+    /// gcloud managed-rulesets sub-commands.
+    /// </summary>
+    public GcloudComputeManagedRulesets ManagedRulesets => _managedRulesets ??= new GcloudComputeManagedRulesets(_command);
 
     /// <summary>
     /// gcloud migration sub-commands.

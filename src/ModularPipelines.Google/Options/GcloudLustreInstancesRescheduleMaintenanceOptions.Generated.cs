@@ -14,7 +14,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// reschedule instances
+/// reschedule a planned     maintenance window for a Managed Lustre instance
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudLustreInstancesRescheduleMaintenanceOptions : GcloudOptions
 {
     /// <summary>
-    /// reschedule instances
+    /// reschedule a planned     maintenance window for a Managed Lustre instance
     /// </summary>
     /// <param name="RescheduleType">The type of rescheduling. RESCHEDULE_TYPE must be one of: by-time Reschedule to a specific time. immediate Apply update immediately next-available-window Reschedule to the next available window.</param>
     /// <param name="Instance">Instance resource - Format: projects/{project}/locations/{location}/instances/{instance} The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument instance on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the instance or fully qualified identifier for the instance. To set the instance attribute: ▸ provide the argument instance on the command line. This positional argument must be specified if any of the other arguments in this group are specified.</param>

@@ -118,7 +118,7 @@ public record GcloudArtifactsRepositoriesCreateOptions : GcloudOptions, IValidat
     public string? RemoteAptRepoPath { get; set; }
 
     /// <summary>
-    /// (Docker only) Repo upstream for docker remote repository. REMOTE_DOCKER_REPO can be either: ◆ one of the following enums: [docker-hub]. ◆ an http/https custom registry uri (ex: https://my.docker.registry)
+    /// (Docker only) Repo upstream for docker remote repository. REMOTE_DOCKER_REPO can be either: ◆ one of the following enums: [docker-hub]. ◆ an https custom registry uri (ex: https://my.docker.registry)
     /// </summary>
     [CliOption("--remote-docker-repo", Format = OptionFormat.EqualsSeparated)]
     public string? RemoteDockerRepo { get; set; }
@@ -130,13 +130,13 @@ public record GcloudArtifactsRepositoriesCreateOptions : GcloudOptions, IValidat
     public string? RemoteGoRepo { get; set; }
 
     /// <summary>
-    /// (Maven only) Repo upstream for maven remote repository. REMOTE_MVN_REPO can be either: ◆ one of the following enums: [maven-central]. ◆ an http/https custom registry uri (ex: https://my.maven.registry)
+    /// (Maven only) Repo upstream for maven remote repository. REMOTE_MVN_REPO can be either: ◆ one of the following enums: [maven-central]. ◆ an https custom registry uri (ex: https://my.maven.registry)
     /// </summary>
     [CliOption("--remote-mvn-repo", Format = OptionFormat.EqualsSeparated)]
     public string? RemoteMvnRepo { get; set; }
 
     /// <summary>
-    /// (Npm only) Repo upstream for npm remote repository. REMOTE_NPM_REPO can be either: ◆ one of the following enums: [npmjs]. ◆ an http/https custom registry uri (ex: https://my.npm.registry)
+    /// (Npm only) Repo upstream for npm remote repository. REMOTE_NPM_REPO can be either: ◆ one of the following enums: [npmjs]. ◆ an https custom registry uri (ex: https://my.npm.registry)
     /// </summary>
     [CliOption("--remote-npm-repo", Format = OptionFormat.EqualsSeparated)]
     public string? RemoteNpmRepo { get; set; }
@@ -148,7 +148,7 @@ public record GcloudArtifactsRepositoriesCreateOptions : GcloudOptions, IValidat
     public string? RemotePasswordSecretVersion { get; set; }
 
     /// <summary>
-    /// (Python only) Repo upstream for python remote repository. REMOTE_PYTHON_REPO can be either: ◆ one of the following enums: [pypi]. ◆ an http/https custom registry uri (ex: https://my.python.registry)
+    /// (Python only) Repo upstream for python remote repository. REMOTE_PYTHON_REPO can be either: ◆ one of the following enums: [pypi]. ◆ an https custom registry uri (ex: https://my.python.registry)
     /// </summary>
     [CliOption("--remote-python-repo", Format = OptionFormat.EqualsSeparated)]
     public string? RemotePythonRepo { get; set; }

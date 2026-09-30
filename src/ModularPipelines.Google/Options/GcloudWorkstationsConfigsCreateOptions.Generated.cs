@@ -143,6 +143,12 @@ public record GcloudWorkstationsConfigsCreateOptions : GcloudOptions, IValidatab
     public bool? EnableSshToVm { get; set; }
 
     /// <summary>
+    /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.
+    /// </summary>
+    [CliOption("--endpoint-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? EndpointMode { get; set; }
+
+    /// <summary>
     /// Ephemeral directory which won't persist across workstation sessions. An ephemeral directory is backed by a Compute Engine persistent disk whose mount-path, source-snapshot, source-image, and read-only are configurable. mount-path Location of this directory in the running workstation. source-snapshot Name of the snapshot to use as the source for the disk. Must be empty if [source_image][] is set. Must be empty if [read_only][] is false. Updating [source_snapshot][] will update content in the ephemeral directory after the workstation is restarted. source-image Name of the disk image to use as the source for the disk. Must be empty if [source_snapshot][] is set. Updating [source_image][] will update content in the ephemeral directory after the workstation is restarted. read-only Whether the disk is read only. If true, the disk may be shared by multiple VMs and [source_snapshot][] must be set. Set to false when not specified and true when specified. Example: $ gcloud workstations configs create \ --ephemeral-directory="mount-path=/home2,disk-type=pd-balanced,s\ ource-snapshot=projects/my-project/global/snapshots/snapshot,read-on\ ly=true" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--ephemeral-directory", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]

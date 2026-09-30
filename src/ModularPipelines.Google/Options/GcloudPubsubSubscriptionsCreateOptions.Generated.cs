@@ -406,15 +406,15 @@ public record GcloudPubsubSubscriptionsCreateOptions : GcloudOptions, IValidatab
         {
             yield return new ValidationResult("At most one of CloudStorageWriteMetadata or NoCloudStorageWriteMetadata may be specified.", [nameof(CloudStorageWriteMetadata), nameof(NoCloudStorageWriteMetadata)]);
         }
-        if ((!string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject) || !string.IsNullOrWhiteSpace(MaxRetryDelay) || !string.IsNullOrWhiteSpace(MinRetryDelay) || !string.IsNullOrWhiteSpace(PushAuthServiceAccount) || !string.IsNullOrWhiteSpace(PushAuthTokenAudience) || !string.IsNullOrWhiteSpace(PushEndpoint) || PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && (!(!string.IsNullOrWhiteSpace(DeadLetterTopic))))
+        if ((!string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject)) && (!(!string.IsNullOrWhiteSpace(DeadLetterTopic))))
         {
             yield return new ValidationResult("DeadLetterTopic must be specified when other arguments in this group are specified.", [nameof(DeadLetterTopic)]);
         }
-        if ((!string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject) || !string.IsNullOrWhiteSpace(MaxRetryDelay) || !string.IsNullOrWhiteSpace(MinRetryDelay) || !string.IsNullOrWhiteSpace(PushAuthServiceAccount) || !string.IsNullOrWhiteSpace(PushAuthTokenAudience) || !string.IsNullOrWhiteSpace(PushEndpoint) || PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapper == true ? 1 : 0) + (NoPushNoWrapper == true ? 1 : 0) != 1))
+        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapper == true ? 1 : 0) + (NoPushNoWrapper == true ? 1 : 0) != 1))
         {
             yield return new ValidationResult("Exactly one of PushNoWrapper or NoPushNoWrapper must be specified.", [nameof(PushNoWrapper), nameof(NoPushNoWrapper)]);
         }
-        if ((!string.IsNullOrWhiteSpace(DeadLetterTopic) || !string.IsNullOrWhiteSpace(DeadLetterTopicProject) || !string.IsNullOrWhiteSpace(MaxRetryDelay) || !string.IsNullOrWhiteSpace(MinRetryDelay) || !string.IsNullOrWhiteSpace(PushAuthServiceAccount) || !string.IsNullOrWhiteSpace(PushAuthTokenAudience) || !string.IsNullOrWhiteSpace(PushEndpoint) || PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapperWriteMetadata == true ? 1 : 0) + (NoPushNoWrapperWriteMetadata == true ? 1 : 0) > 1))
+        if ((PushNoWrapper == true || NoPushNoWrapper == true || PushNoWrapperWriteMetadata == true || NoPushNoWrapperWriteMetadata == true) && ((PushNoWrapperWriteMetadata == true ? 1 : 0) + (NoPushNoWrapperWriteMetadata == true ? 1 : 0) > 1))
         {
             yield return new ValidationResult("At most one of PushNoWrapperWriteMetadata or NoPushNoWrapperWriteMetadata may be specified.", [nameof(PushNoWrapperWriteMetadata), nameof(NoPushNoWrapperWriteMetadata)]);
         }
