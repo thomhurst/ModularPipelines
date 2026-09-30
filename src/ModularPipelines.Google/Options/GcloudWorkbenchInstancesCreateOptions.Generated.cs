@@ -315,29 +315,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatabl
     /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. The label value of a reservation resource. To target a specific reservation by name, use compute.googleapis.com/reservation-name as the key and specify the name of your reservation as its value. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
     /// </summary>
     [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated, CollectionSeparator = ",")]
-    public IEnumerable<string>? ReservationValues
-    {
-        get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __ReservationValuesSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
-    }
-
-    private sealed class __ReservationValuesSnapshotKeyValue(
-        IEnumerable<string> source,
-        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
-        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
-    {
-        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
-
-        global::System.Collections.Generic.IEnumerator<string>
-            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
-
-        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
-            ((global::System.Collections.IEnumerable)source).GetEnumerator();
-
-        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
-            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
-                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
-    }
+    public IEnumerable<string>? ReservationValues { get; set; }
 
     /// <summary>
     /// Subnetwork resource - The name of the subnet that this instance is in. Format: projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --subnet on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Reservation configs. Shielded VM configurations. Boolean. Enable monitoring of the boot integrity of the instance. Supported values: true, false.
@@ -382,7 +360,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions, IValidatabl
         {
             yield return new ValidationResult("DataDiskKmsKey must be specified when other arguments in this group are specified.", [nameof(DataDiskKmsKey)]);
         }
-        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion) || !string.IsNullOrWhiteSpace(ReservationKey) || (object?)ReservationType is not null || ((object?)ReservationValues is global::System.Collections.Generic.IEnumerable<char> ? (object?)ReservationValues is not string || !string.IsNullOrWhiteSpace(ReservationValues?.ToString()) : ((object?)ReservationValues is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ReservationValues, static item => item is not null) : (ReservationValues is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ReservationValues), static item => item is not null)))) || !string.IsNullOrWhiteSpace(ShieldedIntegrityMonitoring) || !string.IsNullOrWhiteSpace(ShieldedSecureBoot) || !string.IsNullOrWhiteSpace(ShieldedVtpm)) && (!(!string.IsNullOrWhiteSpace(Subnet))))
+        if ((!string.IsNullOrWhiteSpace(Subnet) || !string.IsNullOrWhiteSpace(SubnetRegion)) && (!(!string.IsNullOrWhiteSpace(Subnet))))
         {
             yield return new ValidationResult("Subnet must be specified when other arguments in this group are specified.", [nameof(Subnet)]);
         }

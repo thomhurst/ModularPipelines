@@ -644,7 +644,7 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions, IValidata
         {
             yield return new ValidationResult("MaintenanceWindowStart must be specified when other arguments in this group are specified.", [nameof(MaintenanceWindowStart)]);
         }
-        if ((!string.IsNullOrWhiteSpace(MaxWorkers) || !string.IsNullOrWhiteSpace(MinWorkers) || (object?)SchedulerCount is not null || !string.IsNullOrWhiteSpace(SchedulerCpu) || !string.IsNullOrWhiteSpace(SchedulerMemory) || !string.IsNullOrWhiteSpace(SchedulerStorage) || !string.IsNullOrWhiteSpace(WebServerCpu) || !string.IsNullOrWhiteSpace(WebServerMemory) || !string.IsNullOrWhiteSpace(WebServerStorage) || !string.IsNullOrWhiteSpace(WorkerCpu) || !string.IsNullOrWhiteSpace(WorkerMemory) || !string.IsNullOrWhiteSpace(WorkerStorage) || !string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnetwork)) && (!(!string.IsNullOrWhiteSpace(Network))))
+        if ((!string.IsNullOrWhiteSpace(Network) || !string.IsNullOrWhiteSpace(Subnetwork)) && (!(!string.IsNullOrWhiteSpace(Network))))
         {
             yield return new ValidationResult("Network must be specified when other arguments in this group are specified.", [nameof(Network)]);
         }

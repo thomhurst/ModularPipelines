@@ -110,7 +110,7 @@ public record GcloudContainerBinauthzAttestationsCreateOptions : GcloudOptions, 
         {
             yield return new ValidationResult("At most one of (Note or NoteProject) or (Validate, Attestor, or AttestorProject) may be specified.", [nameof(Note), nameof(NoteProject), nameof(Validate), nameof(Attestor), nameof(AttestorProject)]);
         }
-        if ((!string.IsNullOrWhiteSpace(Note) || !string.IsNullOrWhiteSpace(NoteProject) || Validate == true || !string.IsNullOrWhiteSpace(Attestor) || !string.IsNullOrWhiteSpace(AttestorProject)) && (!string.IsNullOrWhiteSpace(Note) || !string.IsNullOrWhiteSpace(NoteProject)) && (!(!string.IsNullOrWhiteSpace(Note))))
+        if ((!string.IsNullOrWhiteSpace(Note) || !string.IsNullOrWhiteSpace(NoteProject) || Validate == true || !string.IsNullOrWhiteSpace(Attestor) || !string.IsNullOrWhiteSpace(AttestorProject)) && (!string.IsNullOrWhiteSpace(Note) || !string.IsNullOrWhiteSpace(NoteProject)) && (!string.IsNullOrWhiteSpace(Note) || !string.IsNullOrWhiteSpace(NoteProject)) && (!(!string.IsNullOrWhiteSpace(Note))))
         {
             yield return new ValidationResult("Note must be specified when other arguments in this group are specified.", [nameof(Note)]);
         }

@@ -7,7 +7,6 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context;
-using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Google.Options;
@@ -25,7 +24,6 @@ public class GcloudEdgeCloudContainer
     private GcloudEdgeCloudContainerMachines? _machines;
     private GcloudEdgeCloudContainerOperations? _operations;
     private GcloudEdgeCloudContainerRegions? _regions;
-    private GcloudEdgeCloudContainerVpnConnections? _vpnConnections;
     private GcloudEdgeCloudContainerZones? _zones;
 
     /// <summary>
@@ -57,11 +55,6 @@ public class GcloudEdgeCloudContainer
     /// gcloud regions sub-commands.
     /// </summary>
     public GcloudEdgeCloudContainerRegions Regions => _regions ??= new GcloudEdgeCloudContainerRegions(_command);
-
-    /// <summary>
-    /// gcloud vpn-connections sub-commands.
-    /// </summary>
-    public GcloudEdgeCloudContainerVpnConnections VpnConnections => _vpnConnections ??= new GcloudEdgeCloudContainerVpnConnections(_command);
 
     /// <summary>
     /// gcloud zones sub-commands.

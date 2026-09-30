@@ -78,6 +78,12 @@ public record GcloudAiSemanticGovernancePoliciesCreateOptions : GcloudOptions
     public string? Location { get; set; }
 
     /// <summary>
+    /// Sets agent_response_customization.denial_message on the policy: a custom message shown to the end user when the policy denies a request. Max 1000 characters.
+    /// </summary>
+    [CliOption("--agent-response-denial-message", Format = OptionFormat.EqualsSeparated)]
+    public string? AgentResponseDenialMessage { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
     /// </summary>
     [CliFlag("--async")]

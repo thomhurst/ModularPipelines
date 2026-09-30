@@ -148,7 +148,7 @@ public record GcloudIamWorkforcePoolsCreateCredConfigOptions : GcloudOptions, IV
         {
             yield return new ValidationResult("Exactly one of CredentialSourceFile, CredentialSourceUrl, or ExecutableCommand must be specified.", [nameof(CredentialSourceFile), nameof(CredentialSourceUrl), nameof(ExecutableCommand)]);
         }
-        if ((!string.IsNullOrWhiteSpace(ExecutableInteractiveTimeoutMillis) || !string.IsNullOrWhiteSpace(ExecutableOutputFile) || !string.IsNullOrWhiteSpace(ExecutableTimeoutMillis) || !string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(ServiceAccountTokenLifetimeSeconds)) && (!(!string.IsNullOrWhiteSpace(ServiceAccount))))
+        if ((!string.IsNullOrWhiteSpace(ServiceAccount) || !string.IsNullOrWhiteSpace(ServiceAccountTokenLifetimeSeconds)) && (!(!string.IsNullOrWhiteSpace(ServiceAccount))))
         {
             yield return new ValidationResult("ServiceAccount must be specified when other arguments in this group are specified.", [nameof(ServiceAccount)]);
         }

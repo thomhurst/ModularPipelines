@@ -119,7 +119,7 @@ public record GcloudSqlInstancesCloneOptions : GcloudOptions, IValidatableObject
         {
             yield return new ValidationResult("BinLogPosition must be specified when other arguments in this group are specified.", [nameof(BinLogPosition)]);
         }
-        if ((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!(!string.IsNullOrWhiteSpace(PointInTime))))
+        if ((!string.IsNullOrWhiteSpace(BinLogFileName) || !string.IsNullOrWhiteSpace(BinLogPosition) || !string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!string.IsNullOrWhiteSpace(PointInTime) || !string.IsNullOrWhiteSpace(RestoreDatabaseName)) && (!(!string.IsNullOrWhiteSpace(PointInTime))))
         {
             yield return new ValidationResult("PointInTime must be specified when other arguments in this group are specified.", [nameof(PointInTime)]);
         }

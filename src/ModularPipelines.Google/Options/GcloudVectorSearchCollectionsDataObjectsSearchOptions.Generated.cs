@@ -157,16 +157,22 @@ public record GcloudVectorSearchCollectionsDataObjectsSearchOptions : GcloudOpti
     public IEnumerable<string>? OutputVectorFields { get; set; }
 
     /// <summary>
-    /// Search Hint At most one of these can be specified: Use Index Options Full resource name or ID of the index to use for the search. This flag is compatible only with Semantic Search and Vector Search.
+    /// Search Hint At most one of these can be specified: If set to true, the search will use the system's default K-Nearest Neighbor (KNN) index engine. This flag is compatible only with Semantic Search and Vector Search.
+    /// </summary>
+    [CliFlag("--use-knn")]
+    public bool? UseKnn { get; set; }
+
+    /// <summary>
+    /// Search Hint At most one of these can be specified: Or at least one of these can be specified: Use Index Options Full resource name or ID of the index to use for the search. This flag is compatible only with Semantic Search and Vector Search. This flag argument must be specified if any of the other arguments in this group are specified.
     /// </summary>
     [CliOption("--use-index", Format = OptionFormat.EqualsSeparated)]
     public string? UseIndex { get; set; }
 
     /// <summary>
-    /// Search Hint At most one of these can be specified: If set to true, the search will use the system's default K-Nearest Neighbor (KNN) index engine. This flag is compatible only with Semantic Search and Vector Search.
+    /// Search Hint At most one of these can be specified: Or at least one of these can be specified: Dense ScaNN Tuning Optional advanced tuning parameter: the query-time target recall for dense ScaNN search, a value in [0, 1]. Cannot be combined with --dense-scann-search-leaves-pct or --dense-scann-initial-candidate-count.
     /// </summary>
-    [CliFlag("--use-knn")]
-    public bool? UseKnn { get; set; }
+    [CliOption("--dense-scann-target-recall", Format = OptionFormat.EqualsSeparated)]
+    public string? DenseScannTargetRecall { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -203,9 +209,9 @@ public record GcloudVectorSearchCollectionsDataObjectsSearchOptions : GcloudOpti
         {
             yield return new ValidationResult("VectorSearchField must be specified when other arguments in this group are specified.", [nameof(VectorSearchField)]);
         }
-        if (((!string.IsNullOrWhiteSpace(UseIndex)) ? 1 : 0) + ((UseKnn == true) ? 1 : 0) > 1)
+        if ((UseKnn == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(UseIndex) || !string.IsNullOrWhiteSpace(DenseScannTargetRecall)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of (UseIndex) or (UseKnn) may be specified.", [nameof(UseIndex), nameof(UseKnn)]);
+            yield return new ValidationResult("At most one of UseKnn or (UseIndex or DenseScannTargetRecall) may be specified.", [nameof(UseKnn), nameof(UseIndex), nameof(DenseScannTargetRecall)]);
         }
         yield break;
     }

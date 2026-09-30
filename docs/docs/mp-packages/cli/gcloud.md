@@ -44,6 +44,17 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Intentionally excluded commands
+
+| CLI command | Reason |
+| --- | --- |
+| `gcloud edge-cloud container vpn-connections` | Removed upstream in Google Cloud SDK 587.0.0: "(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group." |
+| `gcloud edge-cloud container vpn-connections create` | Removed upstream in Google Cloud SDK 587.0.0: "(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group." |
+| `gcloud edge-cloud container vpn-connections delete` | Removed upstream in Google Cloud SDK 587.0.0: "(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group." |
+| `gcloud edge-cloud container vpn-connections describe` | Removed upstream in Google Cloud SDK 587.0.0: "(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group." |
+| `gcloud edge-cloud container vpn-connections list` | Removed upstream in Google Cloud SDK 587.0.0: "(Distributed Cloud Edge) Removed deprecated gcloud edge-cloud container vpn-connections command group." |
+| `gcloud storage buckets anywhere-caches pause` | Removed upstream in Google Cloud SDK 587.0.0: "(Cloud Storage) Removed gcloud storage buckets anywhere-caches pause command." |
+
 ## Commands
 
 | CLI command | Options record |
@@ -1862,6 +1873,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute interconnects remote-locations` | `GcloudComputeInterconnectsRemoteLocationsOptions` |
 | `gcloud compute interconnects remote-locations describe` | `GcloudComputeInterconnectsRemoteLocationsDescribeOptions` |
 | `gcloud compute interconnects remote-locations list` | `GcloudComputeInterconnectsRemoteLocationsListOptions` |
+| `gcloud compute interconnects set-name` | `GcloudComputeInterconnectsSetNameOptions` |
 | `gcloud compute interconnects update` | `GcloudComputeInterconnectsUpdateOptions` |
 | `gcloud compute interconnects wire-groups` | `GcloudComputeInterconnectsWireGroupsOptions` |
 | `gcloud compute interconnects wire-groups add-endpoint` | `GcloudComputeInterconnectsWireGroupsAddEndpointOptions` |
@@ -1887,6 +1899,9 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute machine-types` | `GcloudComputeMachineTypesOptions` |
 | `gcloud compute machine-types describe` | `GcloudComputeMachineTypesDescribeOptions` |
 | `gcloud compute machine-types list` | `GcloudComputeMachineTypesListOptions` |
+| `gcloud compute managed-rulesets` | `GcloudComputeManagedRulesetsOptions` |
+| `gcloud compute managed-rulesets describe` | `GcloudComputeManagedRulesetsDescribeOptions` |
+| `gcloud compute managed-rulesets list` | `GcloudComputeManagedRulesetsListOptions` |
 | `gcloud compute migration` | `GcloudComputeMigrationOptions` |
 | `gcloud compute migration image-imports` | `GcloudComputeMigrationImageImportsOptions` |
 | `gcloud compute migration image-imports create` | `GcloudComputeMigrationImageImportsCreateOptions` |
@@ -1925,6 +1940,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud compute network-firewall-policies associations` | `GcloudComputeNetworkFirewallPoliciesAssociationsOptions` |
 | `gcloud compute network-firewall-policies associations create` | `GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions` |
 | `gcloud compute network-firewall-policies associations delete` | `GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions` |
+| `gcloud compute network-firewall-policies associations update` | `GcloudComputeNetworkFirewallPoliciesAssociationsUpdateOptions` |
 | `gcloud compute network-firewall-policies clone-rules` | `GcloudComputeNetworkFirewallPoliciesCloneRulesOptions` |
 | `gcloud compute network-firewall-policies create` | `GcloudComputeNetworkFirewallPoliciesCreateOptions` |
 | `gcloud compute network-firewall-policies delete` | `GcloudComputeNetworkFirewallPoliciesDeleteOptions` |
@@ -3212,6 +3228,9 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud dataplex datascans update data-documentation` | `GcloudDataplexDatascansUpdateDataDocumentationOptions` |
 | `gcloud dataplex datascans update data-profile` | `GcloudDataplexDatascansUpdateDataProfileOptions` |
 | `gcloud dataplex datascans update data-quality` | `GcloudDataplexDatascansUpdateDataQualityOptions` |
+| `gcloud dataplex dbt` | `GcloudDataplexDbtOptions` |
+| `gcloud dataplex dbt metadata-jobs` | `GcloudDataplexDbtMetadataJobsOptions` |
+| `gcloud dataplex dbt metadata-jobs create` | `GcloudDataplexDbtMetadataJobsCreateOptions` |
 | `gcloud dataplex encryption-config` | `GcloudDataplexEncryptionConfigOptions` |
 | `gcloud dataplex encryption-config create` | `GcloudDataplexEncryptionConfigCreateOptions` |
 | `gcloud dataplex encryption-config describe` | `GcloudDataplexEncryptionConfigDescribeOptions` |
@@ -3815,11 +3834,6 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud edge-cloud container regions` | `GcloudEdgeCloudContainerRegionsOptions` |
 | `gcloud edge-cloud container regions describe` | `GcloudEdgeCloudContainerRegionsDescribeOptions` |
 | `gcloud edge-cloud container regions list` | `GcloudEdgeCloudContainerRegionsListOptions` |
-| `gcloud edge-cloud container vpn-connections` | `GcloudEdgeCloudContainerVpnConnectionsOptions` |
-| `gcloud edge-cloud container vpn-connections create` | `GcloudEdgeCloudContainerVpnConnectionsCreateOptions` |
-| `gcloud edge-cloud container vpn-connections delete` | `GcloudEdgeCloudContainerVpnConnectionsDeleteOptions` |
-| `gcloud edge-cloud container vpn-connections describe` | `GcloudEdgeCloudContainerVpnConnectionsDescribeOptions` |
-| `gcloud edge-cloud container vpn-connections list` | `GcloudEdgeCloudContainerVpnConnectionsListOptions` |
 | `gcloud edge-cloud container zones` | `GcloudEdgeCloudContainerZonesOptions` |
 | `gcloud edge-cloud container zones describe` | `GcloudEdgeCloudContainerZonesDescribeOptions` |
 | `gcloud edge-cloud container zones list` | `GcloudEdgeCloudContainerZonesListOptions` |
@@ -4774,6 +4788,11 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud lustre instances create` | `GcloudLustreInstancesCreateOptions` |
 | `gcloud lustre instances delete` | `GcloudLustreInstancesDeleteOptions` |
 | `gcloud lustre instances describe` | `GcloudLustreInstancesDescribeOptions` |
+| `gcloud lustre instances directory-policies` | `GcloudLustreInstancesDirectoryPoliciesOptions` |
+| `gcloud lustre instances directory-policies create` | `GcloudLustreInstancesDirectoryPoliciesCreateOptions` |
+| `gcloud lustre instances directory-policies delete` | `GcloudLustreInstancesDirectoryPoliciesDeleteOptions` |
+| `gcloud lustre instances directory-policies describe` | `GcloudLustreInstancesDirectoryPoliciesDescribeOptions` |
+| `gcloud lustre instances directory-policies list` | `GcloudLustreInstancesDirectoryPoliciesListOptions` |
 | `gcloud lustre instances export-data` | `GcloudLustreInstancesExportDataOptions` |
 | `gcloud lustre instances import-data` | `GcloudLustreInstancesImportDataOptions` |
 | `gcloud lustre instances list` | `GcloudLustreInstancesListOptions` |
@@ -6268,6 +6287,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute interconnects remote-locations` | `GcloudPreviewComputeInterconnectsRemoteLocationsOptions` |
 | `gcloud preview compute interconnects remote-locations describe` | `GcloudPreviewComputeInterconnectsRemoteLocationsDescribeOptions` |
 | `gcloud preview compute interconnects remote-locations list` | `GcloudPreviewComputeInterconnectsRemoteLocationsListOptions` |
+| `gcloud preview compute interconnects set-name` | `GcloudPreviewComputeInterconnectsSetNameOptions` |
 | `gcloud preview compute interconnects update` | `GcloudPreviewComputeInterconnectsUpdateOptions` |
 | `gcloud preview compute interconnects wire-groups` | `GcloudPreviewComputeInterconnectsWireGroupsOptions` |
 | `gcloud preview compute interconnects wire-groups add-endpoint` | `GcloudPreviewComputeInterconnectsWireGroupsAddEndpointOptions` |
@@ -6318,6 +6338,7 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud preview compute network-firewall-policies associations` | `GcloudPreviewComputeNetworkFirewallPoliciesAssociationsOptions` |
 | `gcloud preview compute network-firewall-policies associations create` | `GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptions` |
 | `gcloud preview compute network-firewall-policies associations delete` | `GcloudPreviewComputeNetworkFirewallPoliciesAssociationsDeleteOptions` |
+| `gcloud preview compute network-firewall-policies associations update` | `GcloudPreviewComputeNetworkFirewallPoliciesAssociationsUpdateOptions` |
 | `gcloud preview compute network-firewall-policies clone-rules` | `GcloudPreviewComputeNetworkFirewallPoliciesCloneRulesOptions` |
 | `gcloud preview compute network-firewall-policies create` | `GcloudPreviewComputeNetworkFirewallPoliciesCreateOptions` |
 | `gcloud preview compute network-firewall-policies delete` | `GcloudPreviewComputeNetworkFirewallPoliciesDeleteOptions` |
@@ -7630,7 +7651,6 @@ public class RunCommandModule : Module<CommandResult>
 | `gcloud storage buckets anywhere-caches describe` | `GcloudStorageBucketsAnywhereCachesDescribeOptions` |
 | `gcloud storage buckets anywhere-caches disable` | `GcloudStorageBucketsAnywhereCachesDisableOptions` |
 | `gcloud storage buckets anywhere-caches list` | `GcloudStorageBucketsAnywhereCachesListOptions` |
-| `gcloud storage buckets anywhere-caches pause` | `GcloudStorageBucketsAnywhereCachesPauseOptions` |
 | `gcloud storage buckets anywhere-caches resume` | `GcloudStorageBucketsAnywhereCachesResumeOptions` |
 | `gcloud storage buckets anywhere-caches update` | `GcloudStorageBucketsAnywhereCachesUpdateOptions` |
 | `gcloud storage buckets create` | `GcloudStorageBucketsCreateOptions` |

@@ -75,6 +75,18 @@ public record GcloudPreviewComputeReservationsUpdateOptions : GcloudOptions
     public IEnumerable<string>? RemoveShareWith { get; set; }
 
     /// <summary>
+    /// Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
+    /// </summary>
+    [CliFlag("--require-specific-reservation")]
+    public bool? RequireSpecificReservation { get; set; }
+
+    /// <summary>
+    /// Negates --require-specific-reservation. Indicates whether the reservation can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target this reservation by name using --reservation-affinity=specific can consume from this reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
+    /// </summary>
+    [CliFlag("--no-require-specific-reservation")]
+    public bool? NoRequireSpecificReservation { get; set; }
+
+    /// <summary>
     /// The reservation sharing policy to use for this reservation. RESERVATION_SHARING_POLICY must be one of: ALLOW_ALL The reservation can be shared with Google Cloud services. DISALLOW_ALL The reservation won't be shared with Google Cloud services. If you omit this flag during creation, the default value is DISALLOW_ALL.
     /// </summary>
     [CliOption("--reservation-sharing-policy", Format = OptionFormat.EqualsSeparated)]

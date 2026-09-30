@@ -63,7 +63,19 @@ public record GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptio
     public string? Name { get; set; }
 
     /// <summary>
-    /// By default, if you attempt to insert an association to a network that is already associated with a firewall policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
+    /// Priority of the association.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: Name of an already associated firewall policy to replace.
+    /// </summary>
+    [CliOption("--associated-policy-to-be-replaced", Format = OptionFormat.EqualsSeparated)]
+    public string? AssociatedPolicyToBeReplaced { get; set; }
+
+    /// <summary>
+    /// At most one of these can be specified: By default, if you attempt to insert an association to a network that is already associated with a firewall policy the method will fail. If this is set, the existing association will be deleted at the same time that the new association is created.
     /// </summary>
     [CliFlag("--replace-association-on-target")]
     public bool? ReplaceAssociationOnTarget { get; set; }
@@ -83,6 +95,10 @@ public record GcloudPreviewComputeNetworkFirewallPoliciesAssociationsCreateOptio
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
+        if ((!string.IsNullOrWhiteSpace(AssociatedPolicyToBeReplaced) ? 1 : 0) + (ReplaceAssociationOnTarget == true ? 1 : 0) > 1)
+        {
+            yield return new ValidationResult("At most one of AssociatedPolicyToBeReplaced or ReplaceAssociationOnTarget may be specified.", [nameof(AssociatedPolicyToBeReplaced), nameof(ReplaceAssociationOnTarget)]);
+        }
         if ((!string.IsNullOrWhiteSpace(FirewallPolicyRegion) ? 1 : 0) + (GlobalFirewallPolicy == true ? 1 : 0) > 1)
         {
             yield return new ValidationResult("At most one of FirewallPolicyRegion or GlobalFirewallPolicy may be specified.", [nameof(FirewallPolicyRegion), nameof(GlobalFirewallPolicy)]);
