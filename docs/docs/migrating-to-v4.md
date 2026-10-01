@@ -456,7 +456,7 @@ var unignoredFailures = summary.Results.Where(result =>
 `summary.Modules` and `summary.GetModule<T>()` are removed. Retrieve dependencies inside a
 module, or inspect `summary.Results` after execution. If the old code needs a particular output,
 select the appropriate typed result, disambiguating by `Name` when several modules return the same
-type. `TypeName` is only on `ModuleResult`, not `IModuleResult`, and can be null. Update custom serialization and result repositories for the new metadata.
+type. `TypeName` is available on `IModuleResult` and can be null. Update custom serialization and result repositories for the new metadata.
 
 ## Lifecycle Hooks and Event Handlers
 
@@ -647,10 +647,11 @@ See [Requirements](./how-to/requirements.md).
 | --- | --- |
 | `context.Services.Get<T>()` | `context.Services.GetRequiredService<T>()` |
 | `context.GetService<T>()` (required lookup extension) | `context.Services.GetRequiredService<T>()` |
-| `context.TryGetService<T>()` | `context.Services.GetService<T>()`, which can return `null` |
+| `context.TryGetService<T>()` | `context.Services.GetRequiredService<T>()` to keep V3 behavior, or `context.Services.GetService<T>()` if absence is allowed |
 
-Despite its name, V3's `TryGetService` threw when the service was missing. V4's `GetService`
-really returns `null`, so add null handling where you migrate it. Choose based on whether absence is allowed. Required and optional lookups deliberately have
+Despite its name, V3's `TryGetService` threw when the service was missing, because it called
+`GetRequiredService`. `GetRequiredService` preserves that behavior. V4's `GetService` really returns
+`null`; use it only where absence is allowed, and add null handling. Required and optional lookups deliberately have
 different names; a blanket `Get` replacement can change runtime behavior.
 
 ### Build system detection
@@ -1103,6 +1104,8 @@ These are additions in V4; adopting them is not required to migrate:
 - [Testing helpers](./how-to/testing.md) and [F# module support](./how-to/fsharp.md).
 - [Trimming and Native AOT support](./how-to/native-aot.md) for supported statically described C# pipelines.
 - [Distributed execution](./distributed/architecture.md), artifact contracts, worker capabilities, and execution backends.
+  Distributed packages are not in V3.2.8; if you used them from an intermediate development build, see the
+  distributed sections of the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/RELEASE_NOTES_V4.md).
 - Additional CLI integrations and substantially expanded command coverage in existing integrations.
 - Command interceptors: `ModularPipelines.ICommandInterceptor` wraps command execution as middleware through
   `InvokeAsync(invocation, next, cancellationToken)`. Register one with
@@ -1302,7 +1305,8 @@ transformations:
   - old: context.Services.Get<T>()
     new: context.Services.GetRequiredService<T>()
   - old: context.TryGetService<T>()
-    new: context.Services.GetService<T>()
+    new: context.Services.GetRequiredService<T>()
+    review: Use context.Services.GetService<T>() with null handling only where absence is allowed
   - old: context.SubModule(name, body)
     new: context.RunSubModuleAsync(name, token => bodyUsing(token), cancellationToken)
   - old: context.DotNet().Build(options, executionOptions, token)
