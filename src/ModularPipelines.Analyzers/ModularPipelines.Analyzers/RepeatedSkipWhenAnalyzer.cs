@@ -81,7 +81,8 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
                             continue;
                         }
 
-                        var ordered = calls.OrderBy(call => call.Syntax.SpanStart).ToList();
+                        // Every call in a fluent chain starts at the receiver, so order by the method name instead.
+                        var ordered = calls.OrderBy(call => GetMethodNameLocation(call).SourceSpan.Start).ToList();
                         for (var i = 1; i < ordered.Count; i++)
                         {
                             var repeatedCall = ordered[i];
@@ -323,8 +324,8 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     }
 
     /// <summary>
-    /// Returns whether two calls sit in different sections of a switch statement and neither section can reach the
-    /// other through <c>goto case</c>, <c>goto default</c>, or a labeled <c>goto</c>.
+    /// Returns whether two calls sit in different sections of a switch statement and neither call can reach the
+    /// other's section through <c>goto case</c>, <c>goto default</c>, or a labeled <c>goto</c>.
     /// </summary>
     private static bool AreInExclusiveSections(
         SwitchStatementSyntax switchStatement,
@@ -340,22 +341,29 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        return !CanReach(switchStatement, firstSection, secondSection, semanticModel)
-            && !CanReach(switchStatement, secondSection, firstSection, semanticModel);
+        return !CanReach(switchStatement, firstSection, first, secondSection, semanticModel)
+            && !CanReach(switchStatement, secondSection, second, firstSection, semanticModel);
     }
 
+    /// <summary>
+    /// Returns whether control can move from <paramref name="call"/> in <paramref name="source"/> to
+    /// <paramref name="target"/>. In the source section only jumps that can run after the call count; sections
+    /// reached on the way count every jump they contain.
+    /// </summary>
     private static bool CanReach(
         SwitchStatementSyntax switchStatement,
         SwitchSectionSyntax source,
+        SyntaxNode call,
         SwitchSectionSyntax target,
         SemanticModel semanticModel)
     {
         var visited = new HashSet<SwitchSectionSyntax> { source };
-        var pending = new Stack<SwitchSectionSyntax>();
-        pending.Push(source);
+        var pending = new Stack<(SwitchSectionSyntax Section, SyntaxNode? After)>();
+        pending.Push((source, call));
         while (pending.Count > 0)
         {
-            foreach (var next in GetGotoTargets(switchStatement, pending.Pop(), semanticModel))
+            var (section, after) = pending.Pop();
+            foreach (var next in GetGotoTargets(switchStatement, section, semanticModel, after))
             {
                 if (next == target)
                 {
@@ -364,7 +372,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
                 if (visited.Add(next))
                 {
-                    pending.Push(next);
+                    pending.Push((next, null));
                 }
             }
         }
@@ -375,20 +383,45 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// <summary>
     /// Returns the sections of <paramref name="switchStatement"/> that a <c>goto</c> in <paramref name="section"/> can
     /// transfer control to. <c>goto case</c> and <c>goto default</c> owned by a nested switch are ignored. A
-    /// <c>goto case</c> whose value cannot be matched to a section is treated as reaching every section.
+    /// <c>goto case</c> whose value cannot be matched to a section is treated as reaching every section. When
+    /// <paramref name="after"/> is set, jumps that can only run before it are ignored.
     /// </summary>
     private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
         SwitchStatementSyntax switchStatement,
         SwitchSectionSyntax section,
-        SemanticModel semanticModel)
+        SemanticModel semanticModel,
+        SyntaxNode? after)
     {
         foreach (var gotoStatement in section.DescendantNodes().OfType<GotoStatementSyntax>())
         {
+            if (after is not null && !CanRunAfter(gotoStatement, after, section))
+            {
+                continue;
+            }
+
             foreach (var target in GetGotoTargets(switchStatement, gotoStatement, semanticModel))
             {
                 yield return target;
             }
         }
+    }
+
+    /// <summary>
+    /// Returns whether <paramref name="gotoStatement"/> can run after <paramref name="node"/> in the same section:
+    /// it follows the node in source order, or a loop or label in the section can bring control back to it.
+    /// </summary>
+    private static bool CanRunAfter(GotoStatementSyntax gotoStatement, SyntaxNode node, SwitchSectionSyntax section)
+    {
+        if (gotoStatement.SpanStart > node.SpanStart
+            || section.DescendantNodes().OfType<LabeledStatementSyntax>().Any())
+        {
+            return true;
+        }
+
+        return gotoStatement.Ancestors()
+            .TakeWhile(ancestor => ancestor != section)
+            .Any(ancestor => ancestor is WhileStatementSyntax or DoStatementSyntax or ForStatementSyntax or CommonForEachStatementSyntax
+                && ancestor.Span.Contains(node.Span));
     }
 
     private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
