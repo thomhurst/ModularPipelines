@@ -59,7 +59,7 @@ public class MyModule : Module<CommandResult>
 
     {
 
-        // Do something - will be cancelled after 120 seconds
+        // Do something - will be canceled after 120 seconds
 
     }
 
@@ -104,7 +104,7 @@ Timeouts apply to each execution attempt. With retries enabled, every attempt re
 
 When a timeout occurs:
 
-* The `CancellationToken` passed to `ExecuteAsync` will be cancelled
+* The `CancellationToken` passed to `ExecuteAsync` will be canceled
 * The module will fail with a `ModuleTimeoutException`
 * If retry policies are configured and the attempt stops within the cancellation grace period, the module may be retried. An attempt that remains active after the grace period is never retried, preventing concurrent executions of the same module instance.
 * If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout

@@ -1,18 +1,18 @@
-# Sub-operations
+# Sub-modules
 
 ## What are they?[​](#what-are-they "Direct link to What are they?")
 
-Sub-operations track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
+Sub-modules track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
 
 For instance, you have 10 .NET projects to package into NuGet packages.
 
-By declaring each package operation as a sub-operation, you can track failures and see each duration in the console progress display.
+By declaring each package operation as a sub-module, you can track failures and see each duration in the console progress display.
 
-A sub-operation takes a name and a token-aware body to execute.
+A sub-module takes a name and a token-aware body to execute.
 
-If a sub-operation fails, its original exception propagates while its name remains visible in progress output.
+If a sub-module fails, its original exception propagates while its name remains visible in progress output.
 
-In the example below, the `.csproj` filename identifies each sub-operation.
+In the example below, the `.csproj` filename identifies each sub-module.
 
 ## Example[​](#example "Direct link to Example")
 
@@ -43,13 +43,13 @@ public class PackProjectsModule : Module<CommandResult[]>
 
 
 
-        return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+        return await PackProjectsAsync(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
 
     }
 
 
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjectsAsync(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
 
     {
 

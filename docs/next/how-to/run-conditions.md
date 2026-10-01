@@ -26,7 +26,7 @@ public class ServiceIsAvailable : IRunCondition
 }
 ```
 
-Pass the token to asynchronous work: it is cancelled when the pipeline stops evaluating conditions.
+Pass the token to asynchronous work: it is canceled when the pipeline stops evaluating conditions.
 
 ## Applying conditions[​](#applying-conditions "Direct link to Applying conditions")
 

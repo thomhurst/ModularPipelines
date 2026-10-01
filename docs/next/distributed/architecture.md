@@ -66,7 +66,7 @@ Schedule dependents
 
 The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, returns expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed.
 
-When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as cancelled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
+When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as canceled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
 ### Module Execution (Worker Side)[​](#module-execution-worker-side "Direct link to Module Execution (Worker Side)")
 
@@ -166,14 +166,14 @@ Explicit custom registrations take precedence over automatic local, distributed-
 
 ### Worker Operations[​](#worker-operations "Direct link to Worker Operations")
 
-| Method                     | Contract                                                                                                                                                                                                                                              |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RegisterWorkerAsync`      | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`.                                                                     |
-| `DequeueModuleAsync`       | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when cancelled. |
-| `PublishResultAsync`       | Stores a result and releases its lease. The first result for a module is final; later ones are ignored.                                                                                                                                               |
-| `WaitForResultAsync`       | Waits for a module's final result; workers use it to load dependency results.                                                                                                                                                                         |
-| `SendHeartbeatAsync`       | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                     |
-| `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                   |
+| Method                     | Contract                                                                                                                                                                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RegisterWorkerAsync`      | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`.                                                                    |
+| `DequeueModuleAsync`       | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when canceled. |
+| `PublishResultAsync`       | Stores a result and releases its lease. The first result for a module is final; later ones are ignored.                                                                                                                                              |
+| `WaitForResultAsync`       | Waits for a module's final result; workers use it to load dependency results.                                                                                                                                                                        |
+| `SendHeartbeatAsync`       | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                    |
+| `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                  |
 
 ### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 

@@ -84,7 +84,7 @@
 - [Skipping Modules](/docs/next/how-to/skipping.md): Using ModuleConfiguration
 - [Source generator diagnostics](/docs/next/how-to/source-generator-diagnostics.md): Modular Pipelines generates registration metadata at compile time. A generator
 - [Module History](/docs/next/how-to/storing-and-retrieving-results.md): What is it?
-- [Sub-operations](/docs/next/how-to/sub-modules.md): What are they?
+- [Sub-modules](/docs/next/how-to/sub-modules.md): What are they?
 - [Testing](/docs/next/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
 - [Time Estimator](/docs/next/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
 - [Timeouts](/docs/next/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
@@ -1461,7 +1461,7 @@ Schedule dependents
 
 The master runs the same bounded worker pool and competes with external workers for assignments. Its lease maintenance loop runs every `WorkerHeartbeatInterval`: it renews the master's own leases, returns expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the result deadline of every module that `GetActiveLeasesAsync` reports as claimed.
 
-When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as cancelled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
+When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`, withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as canceled. AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
 ### Module Execution (Worker Side)[​](#module-execution-worker-side "Direct link to Module Execution (Worker Side)")
 
@@ -1561,14 +1561,14 @@ Explicit custom registrations take precedence over automatic local, distributed-
 
 ### Worker Operations[​](#worker-operations "Direct link to Worker Operations")
 
-| Method                     | Contract                                                                                                                                                                                                                                              |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RegisterWorkerAsync`      | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`.                                                                     |
-| `DequeueModuleAsync`       | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when cancelled. |
-| `PublishResultAsync`       | Stores a result and releases its lease. The first result for a module is final; later ones are ignored.                                                                                                                                               |
-| `WaitForResultAsync`       | Waits for a module's final result; workers use it to load dependency results.                                                                                                                                                                         |
-| `SendHeartbeatAsync`       | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                     |
-| `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                   |
+| Method                     | Contract                                                                                                                                                                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RegisterWorkerAsync`      | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`.                                                                    |
+| `DequeueModuleAsync`       | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when canceled. |
+| `PublishResultAsync`       | Stores a result and releases its lease. The first result for a module is final; later ones are ignored.                                                                                                                                              |
+| `WaitForResultAsync`       | Waits for a module's final result; workers use it to load dependency results.                                                                                                                                                                        |
+| `SendHeartbeatAsync`       | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker.                                                                                                                                                    |
+| `WaitForCancellationAsync` | Waits for a cancellation broadcast and returns its `DistributedCancellationReason`.                                                                                                                                                                  |
 
 ### Additional Master Operations[​](#additional-master-operations "Direct link to Additional Master Operations")
 
@@ -4624,7 +4624,7 @@ Remove `ModularPipelinesBuildSystem` after committing the generated file if no f
 
 When you override a Module's `ExecuteAsync` method, you are provided a `CancellationToken` by the framework.
 
-It is recommended to use this token, and pass it in everywhere applicable. This token will be cancelled if the pipeline fails for any reason, and it'll help cancel any pending operations that haven't yet completed.
+It is recommended to use this token, and pass it in everywhere applicable. This token will be canceled if the pipeline fails for any reason, and it'll help cancel any pending operations that haven't yet completed.
 
 ## Example[​](#example "Direct link to Example")
 
@@ -6178,7 +6178,7 @@ End, Failure, and Skipped handlers are observers. They cannot change the outcome
 
 ## Cancellation[​](#cancellation "Direct link to Cancellation")
 
-Every callback receives a `CancellationToken`. Ready and Start handlers receive the module's execution token. End, Failure, Skipped, and pipeline end handlers receive a token that is cancelled only when the user or host cancels the pipeline, so they still run after a module failure. Extension points use `Task` rather than `ValueTask`.
+Every callback receives a `CancellationToken`. Ready and Start handlers receive the module's execution token. End, Failure, Skipped, and pipeline end handlers receive a token that is canceled only when the user or host cancels the pipeline, so they still run after a module failure. Extension points use `Task` rather than `ValueTask`.
 
 ## Pipeline event handlers[​](#pipeline-event-handlers "Direct link to Pipeline event handlers")
 
@@ -8010,7 +8010,7 @@ public class ServiceIsAvailable : IRunCondition
 }
 ```
 
-Pass the token to asynchronous work: it is cancelled when the pipeline stops evaluating conditions.
+Pass the token to asynchronous work: it is canceled when the pipeline stops evaluating conditions.
 
 ## Applying conditions[​](#applying-conditions "Direct link to Applying conditions")
 
@@ -9064,21 +9064,21 @@ public class MyModuleRepository : IModuleResultRepository
 
 ---
 
-# Sub-operations
+# Sub-modules
 
 ## What are they?[​](#what-are-they "Direct link to What are they?")
 
-Sub-operations track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
+Sub-modules track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
 
 For instance, you have 10 .NET projects to package into NuGet packages.
 
-By declaring each package operation as a sub-operation, you can track failures and see each duration in the console progress display.
+By declaring each package operation as a sub-module, you can track failures and see each duration in the console progress display.
 
-A sub-operation takes a name and a token-aware body to execute.
+A sub-module takes a name and a token-aware body to execute.
 
-If a sub-operation fails, its original exception propagates while its name remains visible in progress output.
+If a sub-module fails, its original exception propagates while its name remains visible in progress output.
 
-In the example below, the `.csproj` filename identifies each sub-operation.
+In the example below, the `.csproj` filename identifies each sub-module.
 
 ## Example[​](#example "Direct link to Example")
 
@@ -9109,13 +9109,13 @@ public class PackProjectsModule : Module<CommandResult[]>
 
 
 
-        return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+        return await PackProjectsAsync(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
 
     }
 
 
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjectsAsync(IModuleContext context, List<FilePath> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
 
     {
 
@@ -9523,7 +9523,7 @@ public class MyModule : Module<CommandResult>
 
     {
 
-        // Do something - will be cancelled after 120 seconds
+        // Do something - will be canceled after 120 seconds
 
     }
 
@@ -9568,7 +9568,7 @@ Timeouts apply to each execution attempt. With retries enabled, every attempt re
 
 When a timeout occurs:
 
-* The `CancellationToken` passed to `ExecuteAsync` will be cancelled
+* The `CancellationToken` passed to `ExecuteAsync` will be canceled
 * The module will fail with a `ModuleTimeoutException`
 * If retry policies are configured and the attempt stops within the cancellation grace period, the module may be retried. An attempt that remains active after the grace period is never retried, preventing concurrent executions of the same module instance.
 * If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout

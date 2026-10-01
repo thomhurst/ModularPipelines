@@ -84,7 +84,7 @@
 - [Skipping Modules](/docs/next/how-to/skipping.md): Using ModuleConfiguration
 - [Source generator diagnostics](/docs/next/how-to/source-generator-diagnostics.md): Modular Pipelines generates registration metadata at compile time. A generator
 - [Module History](/docs/next/how-to/storing-and-retrieving-results.md): What is it?
-- [Sub-operations](/docs/next/how-to/sub-modules.md): What are they?
+- [Sub-modules](/docs/next/how-to/sub-modules.md): What are they?
 - [Testing](/docs/next/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
 - [Time Estimator](/docs/next/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
 - [Timeouts](/docs/next/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
