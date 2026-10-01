@@ -91,7 +91,7 @@ public class WorkerFailureHandlingTests
         await harness.Coordinator.SignalCompletionAsync(CancellationToken.None);
         await run.WaitAsync(TestTimeout);
 
-        // The normal module stopped because its token was cancelled, and the worker published it.
+        // The normal module stopped because its token was canceled, and the worker published it.
         await Assert.That(normal.ExceptionOrDefault).IsNotNull();
         await Assert.That(normal.Status).IsNotEqualTo(ModuleStatus.Succeeded);
         await Assert.That(alwaysRunStillRunning).IsTrue();

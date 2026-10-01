@@ -71,6 +71,12 @@ public record AwsGlueDeleteColumnStatisticsTaskSettingsOptions : AwsOptions, IVa
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
+    /// <summary>
+    /// The ID of the Data Catalog where the table resides. If none is sup- plied, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--catalog-id")]
+    public string? CatalogId { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

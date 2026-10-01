@@ -70,7 +70,7 @@ internal static class HttpContentPreviewReader
                   && exception is ObjectDisposedException or IOException)
         {
             throw new OperationCanceledException(
-                "The HTTP content preview read was cancelled.",
+                "The HTTP content preview read was canceled.",
                 exception,
                 cancellationToken);
         }
@@ -143,7 +143,7 @@ internal static class HttpContentPreviewReader
                   && exception is ObjectDisposedException or IOException)
         {
             throw new OperationCanceledException(
-                "The HTTP content read was cancelled.",
+                "The HTTP content read was canceled.",
                 exception,
                 cancellationToken);
         }

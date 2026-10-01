@@ -257,6 +257,21 @@ public class AwsAccount : IAwsAccount
     }
 
     /// <summary>
+    /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> SendPhoneNumberVerificationAsync(
+        AwsAccountSendPhoneNumberVerificationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAccountSendPhoneNumberVerificationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -265,6 +280,21 @@ public class AwsAccount : IAwsAccount
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartPrimaryEmailUpdateAsync(
         AwsAccountStartPrimaryEmailUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Verifies the phone number in the primary contact information of an Ama- zon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> VerifyPhoneNumberAsync(
+        AwsAccountVerifyPhoneNumberOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

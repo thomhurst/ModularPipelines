@@ -78,7 +78,7 @@ expired leases to the queue with `RequeueExpiredLeasesAsync`, and starts the res
 that `GetActiveLeasesAsync` reports as claimed.
 
 When a module fails, the master immediately broadcasts `DistributedCancellationReason.PipelineFailed`,
-withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as cancelled.
+withdraws queued non-AlwaysRun assignments with `WithdrawAssignmentAsync`, and records them as canceled.
 AlwaysRun modules keep running on the workers that hold them, and late AlwaysRun modules are still
 dispatched. When the host stops, the master broadcasts `Stopped`. It always signals completion last.
 
@@ -202,7 +202,7 @@ so the master can also execute modules locally. Every built-in backend runs the 
 | Method | Contract |
 |--------|----------|
 | `RegisterWorkerAsync` | Registers a worker session. Repeating the same `WorkerId` and `RegisteredAt` is a reconnect; a different `RegisteredAt` for a live `WorkerId` throws `InvalidOperationException`. |
-| `DequeueModuleAsync` | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when cancelled. |
+| `DequeueModuleAsync` | Claims the best compatible assignment for a `WorkerId` and returns its `ModuleLease`. Returns `null` after completion or a `Stopped` broadcast, only AlwaysRun leases after `PipelineFailed`, and throws `OperationCanceledException` when canceled. |
 | `PublishResultAsync` | Stores a result and releases its lease. The first result for a module is final; later ones are ignored. |
 | `WaitForResultAsync` | Waits for a module's final result; workers use it to load dependency results. |
 | `SendHeartbeatAsync` | Records `WorkerStatus` and renews the leases on its `InFlightModules` that belong to that worker. |

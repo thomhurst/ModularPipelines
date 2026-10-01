@@ -121,6 +121,16 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
+To change a single option group, use the matching shortcut. `ConfigureConsole`,
+`ConfigureConcurrency`, `ConfigureCommands`, `ConfigureHttp`, and `ConfigureSecrets` each replace
+one group and leave the rest of the options unchanged:
+
+```csharp
+builder
+    .ConfigureConsole(console => console with { PrintLogo = false })
+    .ConfigureConcurrency(concurrency => concurrency with { MaxParallelism = 4 });
+```
+
 ## Building and Running
 
 The pipeline follows a two-step build-then-run pattern:
@@ -143,12 +153,20 @@ var summary = await pipeline.RunAsync();
 // Check results
 if (summary.Status == ModularPipelines.ModuleStatus.Failed)
 {
+    foreach (var failure in summary.Failures)
+    {
+        Console.Error.WriteLine($"{failure.Name} failed: {failure.ExceptionOrDefault?.Message}");
+    }
+
     Environment.Exit(1);
 }
 ```
 
 Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect
 the returned summary after a module fails. Fail-fast mode rethrows the module exception.
+
+`summary.Failures` contains the results that failed the pipeline. Results whose failures were
+ignored, for example through `WithIgnoreFailuresWhen`, are in `summary.IgnoredFailures` instead.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 

@@ -163,6 +163,33 @@ The custom JSON converters use the same new property names. Consumers of persist
 distributed `ModuleResult` JSON must migrate those five field names together with the
 .NET API.
 
+`PipelineSummary.Failures` returns the results that failed the pipeline: results with an
+exception whose status is not `FailureIgnored`. `PipelineSummary.IgnoredFailures` returns
+the results whose failures were ignored. Use them instead of filtering `Results` by hand.
+
+## Git repository information
+
+`context.Tools.Git.Information.GetInfoAsync(cancellationToken)` returns `null` when Git
+information is unavailable. Pipelines that always run inside a repository can call
+`GetRequiredInfoAsync(cancellationToken)` instead; it returns a non-null
+`GitRepositoryInfo` or throws an `InvalidOperationException` that explains Git information
+is unavailable. Individual `GitRepositoryInfo` properties such as `BranchName` remain
+nullable, for example on a detached HEAD.
+
+Git commands stay grouped by area under `context.Tools.Git.Commands`, for example
+`Branches.CommitAsync`, `WorkingTree.StatusAsync`, and `Remotes.PushAsync`.
+
+## Naming consistency
+
+- ModuleStatus.Cancelled is now ModuleStatus.Canceled, matching OperationCanceledException and
+  PipelineCanceledException. The numeric value is unchanged. Persisted run history and module results that
+  contain "Cancelled" or the V3 "PipelineTerminated" still deserialize as Canceled; writers and the
+  OpenTelemetry status tag emit Canceled.
+- IGitInformation.Commits(...) is now IGitInformation.CommitsAsync(...). Public methods that return
+  IAsyncEnumerable<T> use the Async suffix. Update existing callers to the new name.
+- Documentation and log messages call nested work started with RunSubModuleAsync "sub-modules" instead of
+  "sub-operations".
+
 ## File-system path types
 
 `ModularPipelines.FileSystem.File` and `Folder` have been renamed to `FilePath`
@@ -195,6 +222,9 @@ explicit or aliased usings instead.
 
 Pipeline settings now use one configuration path:
 `builder.ConfigureOptions(options => options with { ... })`.
+`ConfigureConsole`, `ConfigureConcurrency`, `ConfigureCommands`, `ConfigureHttp`, and
+`ConfigureSecrets` are shortcuts over `ConfigureOptions` that replace one nested option
+group, for example `builder.ConfigureConsole(console => console with { PrintLogo = false })`.
 `ConfigurePipelineOptions`, `RunOnlyCategories`, `IgnoreCategories`, and `SetLogLevel`
 have been removed. Configure logging through `builder.Logging`; category filters remain
 available on `PipelineOptions`.
@@ -207,7 +237,9 @@ have also been deleted.
 
 ## Module condition predicates
 
-`WithSkipWhen` now has boolean predicate overloads that accept a skip reason. Use
+`WithSkipWhen` now has boolean predicate overloads that accept an optional skip reason.
+When the reason is omitted, a skipped module reports `Skip condition was met`; an
+explicitly passed reason must not be blank. Use
 `SkipDecision.When(bool, string?)` when constructing a decision directly.
 `SkipDecision.Of(bool, string?)` has been removed; use `When` or a `WithSkipWhen`
 predicate overload.
@@ -216,6 +248,12 @@ Repeated `WithSkipWhen` calls are OR-ed: the module is skipped when any conditio
 returns skip. In V3 a later call replaced an earlier one. Analyzer `MP0020` reports
 repeated calls on the same builder; use `WithSkipWhenAll` to skip only when every
 condition applies.
+
+Because a reason-less `WithSkipWhen` call now matches both the boolean and the
+`SkipDecision` overloads, a lambda whose body only throws (for example
+`_ => throw new InvalidOperationException()`) no longer compiles (CS0121). Give the
+lambda an explicit return type, such as `SkipDecision (_) => throw ...`, to select an
+overload.
 
 Asynchronous module predicates now consistently use `ValueTask`. The
 `ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous

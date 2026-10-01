@@ -2150,6 +2150,8 @@ ModularPipelines.Models.IModuleResult.StartTime.get -> System.DateTimeOffset
 ModularPipelines.Models.IModuleResult.Status.get -> ModularPipelines.ModuleStatus
 ModularPipelines.Models.IModuleResult.TypeName.get -> string?
 ModularPipelines.Models.PipelinePlanModule.SkipDecision.get -> ModularPipelines.SkipDecision?
+ModularPipelines.Models.PipelineSummary.Failures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
+ModularPipelines.Models.PipelineSummary.IgnoredFailures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
 ModularPipelines.Models.PipelineSummary.Metrics.get -> ModularPipelines.Reporting.PipelineMetrics?
 ModularPipelines.Models.PipelineSummary.ModuleTimelines.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.ModuleTimeline!>?
 ModularPipelines.Models.PipelineSummary.RunReport.get -> ModularPipelines.Reporting.PipelineRunReport?
@@ -2193,7 +2195,9 @@ ModularPipelines.ModuleConfigurationBuilder.WithSkipIf<TCondition>() -> ModularP
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, ModularPipelines.SkipDecision!>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.SkipDecision!>>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! condition, string! reason) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, bool>! condition, string! reason) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.ModuleConfigurationBuilder.WithSkipWhen(System.Func<ModularPipelines.IModuleContext!, bool>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhenAll(params System.Func<ModularPipelines.IModuleContext!, ModularPipelines.SkipDecision!>![]! conditions) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithSkipWhenAll(params System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.SkipDecision!>>![]! conditions) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithTags(params string![]! tags) -> ModularPipelines.ModuleConfigurationBuilder!
@@ -2257,7 +2261,7 @@ ModularPipelines.ModuleResult<T>.TryGetValue(out T value) -> bool
 ModularPipelines.ModuleResult<T>.Value.get -> T
 ModularPipelines.ModuleResult<T>.ValueOrDefault.get -> T?
 ModularPipelines.ModuleStatus
-ModularPipelines.ModuleStatus.Cancelled = 7 -> ModularPipelines.ModuleStatus
+ModularPipelines.ModuleStatus.Canceled = 7 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.DependencyFailed = 8 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.Failed = 3 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.FailureIgnored = 4 -> ModularPipelines.ModuleStatus
@@ -2340,7 +2344,12 @@ ModularPipelines.Options.PowerShellScriptOptions.Script.get -> string!
 ModularPipelines.Options.PowerShellScriptOptions.Script.init -> void
 ModularPipelines.PipelineBuilder.AddPlugin(ModularPipelines.Plugins.IModularPipelinesPlugin! plugin) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.PipelineBuilder.AddPlugin<TPlugin>() -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.ConfigureCommands(System.Func<ModularPipelines.Options.PipelineCommandOptions!, ModularPipelines.Options.PipelineCommandOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.ConfigureConcurrency(System.Func<ModularPipelines.Options.ConcurrencyOptions!, ModularPipelines.Options.ConcurrencyOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.ConfigureConsole(System.Func<ModularPipelines.Options.PipelineConsoleOptions!, ModularPipelines.Options.PipelineConsoleOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.ConfigureHttp(System.Func<ModularPipelines.Options.PipelineHttpOptions!, ModularPipelines.Options.PipelineHttpOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.PipelineBuilder.ConfigureOptions(System.Func<ModularPipelines.Options.PipelineOptions!, ModularPipelines.Options.PipelineOptions!>! configureOptions) -> ModularPipelines.PipelineBuilder!
+ModularPipelines.PipelineBuilder.ConfigureSecrets(System.Func<ModularPipelines.Secrets.SecretMaskingOptions!, ModularPipelines.Secrets.SecretMaskingOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.PipelineBuilder.Logging.get -> Microsoft.Extensions.Logging.ILoggingBuilder!
 ModularPipelines.PipelineBuilderSettings
 ModularPipelines.PipelineBuilderSettings.<Clone>$() -> ModularPipelines.PipelineBuilderSettings!

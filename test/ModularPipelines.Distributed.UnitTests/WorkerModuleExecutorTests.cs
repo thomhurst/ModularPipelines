@@ -305,7 +305,7 @@ public class WorkerModuleExecutorTests
     [Timeout(10_000)]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task Failures_Publish_Results_For_All_Claimed_Assignments(bool cancelled, CancellationToken cancellationToken)
+    public async Task Failures_Publish_Results_For_All_Claimed_Assignments(bool canceled, CancellationToken cancellationToken)
     {
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(new WorkerConcurrencyProbe());
@@ -362,9 +362,9 @@ public class WorkerModuleExecutorTests
         runner.Setup(x => x.ExecuteWithoutDependencyWaitAsync(It.IsAny<ModuleState>(), It.IsAny<CancellationToken>()))
             .Returns<ModuleState, CancellationToken>(async (_, token) =>
             {
-                if (cancelled)
+                if (canceled)
                 {
-                    // Both claimed assignments are running when the worker is cancelled.
+                    // Both claimed assignments are running when the worker is canceled.
                     await Task.Delay(Timeout.InfiniteTimeSpan, token);
                 }
 
@@ -397,7 +397,7 @@ public class WorkerModuleExecutorTests
         try
         {
             await secondDequeued.Task.WaitAsync(cancellationToken);
-            if (cancelled)
+            if (canceled)
             {
                 await stop.CancelAsync();
             }
@@ -421,7 +421,7 @@ public class WorkerModuleExecutorTests
         {
             var failure = serializer.Deserialize(result)!;
             await Assert.That(failure.ExceptionOrDefault).IsNotNull();
-            await Assert.That(failure.Status).IsEqualTo(cancelled ? ModuleStatus.Cancelled : ModuleStatus.Failed);
+            await Assert.That(failure.Status).IsEqualTo(canceled ? ModuleStatus.Canceled : ModuleStatus.Failed);
         }
     }
 

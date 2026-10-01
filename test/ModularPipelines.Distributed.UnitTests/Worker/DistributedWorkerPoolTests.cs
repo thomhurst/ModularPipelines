@@ -218,7 +218,7 @@ public class DistributedWorkerPoolTests
         await DistributedWorkerPool.RunAsync(
             async token =>
             {
-                // The coordinator hands over a lease as the worker is being cancelled.
+                // The coordinator hands over a lease as the worker is being canceled.
                 await stop.CancelAsync();
                 return CreateLease("claimed");
             },
@@ -239,7 +239,7 @@ public class DistributedWorkerPoolTests
     {
         using var executionCancellation = new CancellationTokenSource();
         await executionCancellation.CancelAsync();
-        var leases = new ConcurrentQueue<ModuleLease>([CreateLease("cancelled")]);
+        var leases = new ConcurrentQueue<ModuleLease>([CreateLease("canceled")]);
         var errorCount = 0;
 
         await DistributedWorkerPool.RunAsync(

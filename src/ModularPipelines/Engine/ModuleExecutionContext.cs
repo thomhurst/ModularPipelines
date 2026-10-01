@@ -136,9 +136,9 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     }
 
     /// <summary>
-    /// Sets the module result as cancelled.
+    /// Sets the module result as canceled.
     /// </summary>
-    public void SetCancelled()
+    public void SetCanceled()
     {
         _resultSource.TrySetCanceled();
     }
@@ -222,12 +222,12 @@ internal class ModuleExecutionContext<T> : ModuleExecutionContext
     }
 
     /// <summary>
-    /// Sets the result as cancelled.
+    /// Sets the result as canceled.
     /// </summary>
-    public new void SetCancelled()
+    public new void SetCanceled()
     {
         _typedResultSource.TrySetCanceled();
-        base.SetCancelled();
+        base.SetCanceled();
     }
 }
 
@@ -268,5 +268,5 @@ internal interface IModuleExecutionContext
 
     void SetException(Exception exception);
 
-    void SetCancelled();
+    void SetCanceled();
 }

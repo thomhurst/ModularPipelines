@@ -260,7 +260,7 @@ public class RunConditionSeamTests
     }
 
     [Test]
-    public async Task WithRunIf_Throws_When_Token_Is_Already_Cancelled()
+    public async Task WithRunIf_Throws_When_Token_Is_Already_Canceled()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         await cancellationTokenSource.CancelAsync();

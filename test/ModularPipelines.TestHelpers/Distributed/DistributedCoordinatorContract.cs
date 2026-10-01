@@ -85,7 +85,7 @@ public static class DistributedCoordinatorContract
         await Assert.That(later).IsNull();
     }
 
-    public static async Task CancelledDequeueThrowsAsync(IDistributedMasterCoordinator coordinator)
+    public static async Task CanceledDequeueThrowsAsync(IDistributedMasterCoordinator coordinator)
     {
         using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
 

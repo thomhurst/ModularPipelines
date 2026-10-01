@@ -33,8 +33,8 @@ public class SignalRMasterCoordinatorContractTests
         DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(Create());
 
     [Test]
-    public Task Cancelled_Dequeue_Throws() =>
-        DistributedCoordinatorContract.CancelledDequeueThrowsAsync(Create());
+    public Task Canceled_Dequeue_Throws() =>
+        DistributedCoordinatorContract.CanceledDequeueThrowsAsync(Create());
 
     [Test]
     public Task Cancellation_Signal_Unblocks_Worker_Observer() =>

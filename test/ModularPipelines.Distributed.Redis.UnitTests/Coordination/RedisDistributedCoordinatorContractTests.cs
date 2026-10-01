@@ -31,8 +31,8 @@ public class RedisDistributedCoordinatorContractTests
         RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
 
     [Test]
-    public Task Cancelled_Dequeue_Throws() =>
-        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CancelledDequeueThrowsAsync(coordinator));
+    public Task Canceled_Dequeue_Throws() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CanceledDequeueThrowsAsync(coordinator));
 
     [Test]
     public Task Cancellation_Signal_Unblocks_Worker_Observer() =>

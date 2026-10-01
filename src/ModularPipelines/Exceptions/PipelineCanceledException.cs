@@ -3,7 +3,7 @@
 namespace ModularPipelines.Exceptions;
 
 /// <summary>
-/// Thrown when the pipeline execution is cancelled.
+/// Thrown when the pipeline execution is canceled.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -25,7 +25,7 @@ namespace ModularPipelines.Exceptions;
 /// }
 /// catch (PipelineCanceledException ex)
 /// {
-///     Console.WriteLine($"Pipeline was cancelled: {ex.Message}");
+///     Console.WriteLine($"Pipeline was canceled: {ex.Message}");
 ///     // The message may contain the cancellation reason
 /// }
 /// </code>

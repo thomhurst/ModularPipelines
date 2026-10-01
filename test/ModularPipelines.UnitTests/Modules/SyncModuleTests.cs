@@ -443,7 +443,7 @@ public class SyncModuleTests : TestBase
         protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return "not cancelled";
+            return "not canceled";
         }
     }
 
@@ -454,7 +454,7 @@ public class SyncModuleTests : TestBase
 
         var result = await module;
 
-        await Assert.That(result.ValueOrDefault).IsEqualTo("not cancelled");
+        await Assert.That(result.ValueOrDefault).IsEqualTo("not canceled");
     }
 
     #endregion

@@ -497,7 +497,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
         catch (OperationCanceledException)
         {
-            // Expected - progress ends when cancelled
+            // Expected - progress ends when canceled
         }
     }
 

@@ -39,12 +39,12 @@ public interface IModuleEstimatedTimeProvider
     Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the estimated execution times for sub-operations of a module type.
+    /// Gets the estimated execution times for sub-modules of a module type.
     /// </summary>
-    /// <param name="moduleType">The type of module to get sub-operation estimates for.</param>
+    /// <param name="moduleType">The type of module to get sub-module estimates for.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>
-    /// A task that represents the asynchronous operation. The value contains the sub-operation estimations.
+    /// A task that represents the asynchronous operation. The value contains the sub-module estimations.
     /// The default implementation returns no estimations.
     /// </returns>
     Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(
@@ -53,10 +53,10 @@ public interface IModuleEstimatedTimeProvider
         Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
 
     /// <summary>
-    /// Saves the actual execution time for a sub-operation to improve future estimates.
+    /// Saves the actual execution time for a sub-module to improve future estimates.
     /// </summary>
-    /// <param name="moduleType">The type of module containing the sub-operation.</param>
-    /// <param name="subModuleEstimation">The sub-operation estimation data.</param>
+    /// <param name="moduleType">The type of module containing the sub-module.</param>
+    /// <param name="subModuleEstimation">The sub-module estimation data.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>A task that represents the asynchronous save operation. The default implementation does nothing.</returns>
     Task SaveSubModuleTimeAsync(

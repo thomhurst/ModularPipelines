@@ -367,7 +367,7 @@ public partial class ExecutionBackendTests
     [Test]
     [Arguments(ModuleStatus.Failed)]
     [Arguments(ModuleStatus.TimedOut)]
-    [Arguments(ModuleStatus.Cancelled)]
+    [Arguments(ModuleStatus.Canceled)]
     [Arguments(ModuleStatus.DependencyFailed)]
     [Timeout(30_000)]
     public async Task RemoteFailurePreventsLocalExecution(ModuleStatus status, CancellationToken cancellationToken)

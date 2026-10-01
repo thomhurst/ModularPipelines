@@ -125,7 +125,7 @@ public class ModuleContextSubModuleTests
     }
 
     [Test]
-    public async Task RunSubModuleAsync_CancelledToken_DoesNotRunBody()
+    public async Task RunSubModuleAsync_CanceledToken_DoesNotRunBody()
     {
         var module = Mock.Of<IModule>();
         var bodyWasRun = false;
@@ -139,7 +139,7 @@ public class ModuleContextSubModuleTests
 
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             context.RunSubModuleAsync(
-                "Cancelled",
+                "Canceled",
                 _ =>
                 {
                     bodyWasRun = true;

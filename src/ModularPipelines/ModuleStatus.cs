@@ -44,9 +44,9 @@ public enum ModuleStatus
     TimedOut,
 
     /// <summary>
-    /// The module was cancelled.
+    /// The module was canceled.
     /// </summary>
-    Cancelled,
+    Canceled,
 
     /// <summary>
     /// The module did not run because a required dependency failed.

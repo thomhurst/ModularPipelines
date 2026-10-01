@@ -25,7 +25,7 @@ public class TelemetryStreamModule : Module<TelemetryData>
         context.Logger.LogDebug("Telemetry rate: 1 Mbps");
         context.Logger.LogDebug("Frame sync acquired");
 
-        // Simulate telemetry updates with sub-operations
+        // Simulate telemetry updates with sub-modules
         await context.RunSubModuleAsync("Telemetry T+30s", async token =>
         {
             context.Logger.LogInformation("T+30s: First stage powered flight");

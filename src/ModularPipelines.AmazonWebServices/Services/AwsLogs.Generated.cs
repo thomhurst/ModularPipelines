@@ -1262,7 +1262,7 @@ public class AwsLogs : IAwsLogs
     }
 
     /// <summary>
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups, a subset of log groups, or a data source name and type combination in the account. WARNING: PutAccountPolicy is an account-wide administrative operation in- tended for CloudWatch Logs administrators. Because it affects all log groups (or a broad subset) in the account, you should grant logs:PutAccountPolicy permissions on...
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups, a subset of log groups, or a data source name and type combination in the account. Account-level policies are Region-specific: a policy applies only to log groups in the Region where you create it. To apply a policy across multiple Re- gions, create the policy separately in each Region. WARNING: PutAccountPolicy is an acc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

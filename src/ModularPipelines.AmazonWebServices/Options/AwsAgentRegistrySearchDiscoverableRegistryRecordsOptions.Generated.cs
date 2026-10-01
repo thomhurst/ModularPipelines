@@ -89,7 +89,7 @@ public record AwsAgentRegistrySearchDiscoverableRegistryRecordsOptions : AwsOpti
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq , $ne , and $in , and the logical operators $and and $or on filterable fields. You can also filter on custom metadata fields using the customMeta- data.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}} . Fil- ter values must be strings, so match a boolean field on its string form: {"customMetadata.requiresApproval": {"$eq": "true"}} . JSON Syntax: {...}
+    /// An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq , $ne , and $in , and the logical operators $and and $or on filterable fields. Specifies additional filtering on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "produc- tion"}} . For a Boolean field, you can also use a native JSON boolean value, for example: {"customMetadata.requiresApproval": {"$eq": true}} . JSON Syntax: {...}
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }

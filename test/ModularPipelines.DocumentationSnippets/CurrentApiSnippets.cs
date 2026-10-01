@@ -30,14 +30,11 @@ public static class CurrentApiSnippets
             .AddModule<ArtifactPathResolver>()
             .AddRequirement<HasDotNetSdkRequirement>();
 
-        builder.ConfigureOptions(options => options with
+        builder.ConfigureSecrets(secrets => secrets with
         {
-            Secrets = options.Secrets with
-            {
-                CaseInsensitive = true,
-                MinimumSecretLength = 4,
-                MaskValue = "[REDACTED]",
-            },
+            CaseInsensitive = true,
+            MinimumSecretLength = 4,
+            MaskValue = "[REDACTED]",
         });
 
         return builder.RunAsync();
@@ -205,9 +202,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-                             ?? throw new InvalidOperationException(
-                                 "Git repository information is unavailable.");
+            var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
             var testProjects = repository.Root
                 .GetFiles(file => file.Name.EndsWith(
                     ".UnitTests.csproj",
@@ -239,9 +234,7 @@ public static class CurrentApiSnippets
             CancellationToken cancellationToken)
         {
             var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
-            var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-                             ?? throw new InvalidOperationException(
-                                 "Git repository information is unavailable.");
+            var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
             var projects = repository.Root
                 .GetFiles(file => file.Extension == ".csproj"
                                   && !file.Name.EndsWith(
@@ -280,9 +273,7 @@ public static class CurrentApiSnippets
             var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
             ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
-            var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-                             ?? throw new InvalidOperationException(
-                                 "Git repository information is unavailable.");
+            var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
             var packages = repository.Root
                 .GetFolder("artifacts")
                 .GetFolder("packages")
