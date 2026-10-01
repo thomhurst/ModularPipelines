@@ -1,3 +1,5 @@
+using System.Net.Sockets;
+using System.Net.WebSockets;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -19,7 +21,6 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
-    private static readonly TimeSpan ConnectionChangeGracePeriod = TimeSpan.FromSeconds(5);
 
     private readonly Lock _stateLock = new();
     private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
@@ -35,6 +36,12 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
     }
+
+    /// <summary>
+    /// Gets or sets how long a transport failure waits for the connection-change callback that
+    /// usually follows it.
+    /// </summary>
+    internal TimeSpan ConnectionChangeGracePeriod { get; set; } = TimeSpan.FromSeconds(5);
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
@@ -108,7 +115,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
                 cancellationToken)
             .ConfigureAwait(false);
 
-    private async Task<T> InvokeAsync<T>(Func<CancellationToken, Task<T>> invoke, CancellationToken cancellationToken)
+    internal async Task<T> InvokeAsync<T>(Func<CancellationToken, Task<T>> invoke, CancellationToken cancellationToken)
     {
         while (true)
         {
@@ -119,7 +126,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             }
             catch (Exception exception) when (exception is not HubException && !cancellationToken.IsCancellationRequested)
             {
-                if (!await ConnectionChangesAsync(generation, cancellationToken).ConfigureAwait(false))
+                if (!await ConnectionChangesAsync(generation, exception, cancellationToken).ConfigureAwait(false))
                 {
                     throw;
                 }
@@ -153,10 +160,12 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     /// </summary>
     /// <remarks>
     /// The transport can fail a pending invocation before <see cref="HubConnection"/> raises
-    /// <see cref="HubConnection.Closed"/> or <see cref="HubConnection.Reconnecting"/>, so a failure
-    /// seen while the connection still looks unchanged waits briefly for one of those callbacks.
+    /// <see cref="HubConnection.Closed"/> or <see cref="HubConnection.Reconnecting"/>, so a transport
+    /// failure seen while the connection still looks unchanged waits briefly for one of those callbacks.
+    /// Any other failure cannot be explained by a connection change that has not happened yet, so it
+    /// surfaces immediately.
     /// </remarks>
-    private async Task<bool> ConnectionChangesAsync(long generation, CancellationToken cancellationToken)
+    private async Task<bool> ConnectionChangesAsync(long generation, Exception exception, CancellationToken cancellationToken)
     {
         Task changed;
         lock (_stateLock)
@@ -166,6 +175,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
                 || _connection.State != HubConnectionState.Connected)
             {
                 return true;
+            }
+
+            if (!IsTransportFailure(exception))
+            {
+                return false;
             }
 
             changed = _changed.Task;
@@ -180,6 +194,32 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         {
             return false;
         }
+    }
+
+    /// <summary>
+    /// Determines whether an invocation failure can come from the underlying connection failing.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="HubConnection"/> fails pending invocations with the transport error that closed the
+    /// connection, or cancels them when it closed without one.
+    /// </remarks>
+    private static bool IsTransportFailure(Exception exception)
+    {
+        for (var current = exception; current is not null; current = current.InnerException)
+        {
+            if (current is OperationCanceledException
+                or IOException
+                or WebSocketException
+                or SocketException
+                or HttpRequestException
+                or ObjectDisposedException
+                or TimeoutException)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void SignalConnectionChanged()
@@ -262,6 +302,6 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return signal;
     }
 
-    private sealed class MasterConnectionClosedException()
+    internal sealed class MasterConnectionClosedException()
         : InvalidOperationException("The connection to the distributed master is closed.");
 }
