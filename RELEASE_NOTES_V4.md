@@ -53,7 +53,13 @@ Per-call command and HTTP options now use `Logging`, matching the global
 
 `HttpLoggingType` and `HttpOptions.LoggingType` were removed. Configure request,
 response, status-code, duration, header, and body logging through
-`HttpLoggingOptions`. `CommandLogVerbosity.Minimal` means command input only.
+`HttpLoggingOptions`. `CommandLogVerbosity.Minimal` is renamed to
+`CommandLogVerbosity.InputOnly` (command input only), so code that relied on the V3
+meaning fails to compile instead of silently logging differently.
+
+`CommandExecutionOptions.ExecutionTimeout` defaults to 30 minutes. A command that
+exceeds it throws a `TimeoutException` whose message names the timeout and the option;
+raise `ExecutionTimeout` for long-running commands or set it to `null` to disable it.
 
 The unused `PipelineCommandOptions.Execution` property was removed. Continue to pass
 execution behavior through `CommandExecutionOptions` on each command call.
@@ -237,6 +243,11 @@ explicitly passed reason must not be blank. Use
 `SkipDecision.When(bool, string?)` when constructing a decision directly.
 `SkipDecision.Of(bool, string?)` has been removed; use `When` or a `WithSkipWhen`
 predicate overload.
+
+Repeated `WithSkipWhen` calls are OR-ed: the module is skipped when any condition
+returns skip. In V3 a later call replaced an earlier one. Analyzer `MP0020` reports
+repeated calls on the same builder; use `WithSkipWhenAll` to skip only when every
+condition applies.
 
 Because a reason-less `WithSkipWhen` call now matches both the boolean and the
 `SkipDecision` overloads, a lambda whose body only throws (for example
@@ -427,7 +438,8 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `PluginRegistry` and `PluginTestHelper` are removed. `IModularPipelinesPlugin` has `Name` and
   `Configure(PipelineBuilder)`; register plugins with `builder.AddPlugin<T>()` or `AddPlugin(instance)`.
 - `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)` and `IsBuildServer` instead of one flag per CI
-  system. `OnCI`, `OnLocal` and `Require.Ci()` share one CI definition.
+  system. `OnCI`, `OnLocal` and `Require.Ci()` share one CI definition. A truthy `CI` variable marks the run as
+  CI even when no known build agent is detected; the pipeline logs this once at startup.
 - `ISecretObfuscator` is internal; provide secrets through `ISecretRegistry`, `[SecretValue]` or
   `SecretMaskingOptions`.
 - `IModuleEstimatedTimeProvider`, `IModuleResultRepository` and `IPipelineValidator` take cancellation tokens.

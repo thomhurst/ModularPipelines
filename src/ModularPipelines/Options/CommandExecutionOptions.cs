@@ -53,8 +53,12 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets the maximum time allowed for the command to complete.
-    /// Defaults to 30 minutes.
+    /// Defaults to 30 minutes. Set to <see langword="null"/> to disable the timeout.
     /// </summary>
+    /// <remarks>
+    /// When the timeout elapses, the command is stopped and a <see cref="TimeoutException"/> naming this
+    /// option is thrown. Raise it for long-running builds, test runs, or publishes.
+    /// </remarks>
     public TimeSpan? ExecutionTimeout { get; init; } = DefaultExecutionTimeout;
 
     /// <summary>

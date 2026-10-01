@@ -988,6 +988,33 @@ public class CommandTests : TestBase
                 }));
 
         await Assert.That(exception!.Message).Contains("timed out after");
+        await Assert.That(exception.Message).Contains("Raise CommandExecutionOptions.ExecutionTimeout");
+    }
+
+    [Test]
+    public async Task TimeoutException_For_Default_ExecutionTimeout_Names_The_Option()
+    {
+        var innerException = new OperationCanceledException();
+
+        var exception = Command.CreateTimeoutException(new CommandExecutionOptions(), innerException);
+
+        await Assert.That(exception.Message).Contains("timed out after 00:30:00");
+        await Assert.That(exception.Message).Contains("the default CommandExecutionOptions.ExecutionTimeout");
+        await Assert.That(exception.Message).Contains("Raise CommandExecutionOptions.ExecutionTimeout");
+        await Assert.That(exception.Message).Contains("set it to null");
+        await Assert.That(exception.InnerException).IsSameReferenceAs(innerException);
+    }
+
+    [Test]
+    public async Task TimeoutException_For_Custom_ExecutionTimeout_Names_The_Value_And_Option()
+    {
+        var exception = Command.CreateTimeoutException(
+            new CommandExecutionOptions { ExecutionTimeout = TimeSpan.FromMinutes(5) },
+            new OperationCanceledException());
+
+        await Assert.That(exception.Message).Contains("timed out after 00:05:00 (CommandExecutionOptions.ExecutionTimeout)");
+        await Assert.That(exception.Message).DoesNotContain("default");
+        await Assert.That(exception.Message).Contains("Raise CommandExecutionOptions.ExecutionTimeout");
     }
 
     [Test]

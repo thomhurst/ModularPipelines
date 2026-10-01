@@ -8,7 +8,7 @@ namespace ModularPipelines.Options;
 /// <para>Verbosity levels control what is logged automatically:</para>
 /// <list type="bullet">
 /// <item><description><see cref="CommandLogVerbosity.Silent"/> - No logging</description></item>
-/// <item><description><see cref="CommandLogVerbosity.Minimal"/> - Command input only</description></item>
+/// <item><description><see cref="CommandLogVerbosity.InputOnly"/> - Command input only</description></item>
 /// <item><description><see cref="CommandLogVerbosity.Normal"/> - Input, output, and errors on failure</description></item>
 /// <item><description><see cref="CommandLogVerbosity.Detailed"/> - Above plus exit code and duration</description></item>
 /// <item><description><see cref="CommandLogVerbosity.Diagnostic"/> - Everything including working directory and timestamps</description></item>

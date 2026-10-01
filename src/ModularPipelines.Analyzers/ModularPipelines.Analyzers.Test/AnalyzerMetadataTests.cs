@@ -31,11 +31,12 @@ public class AnalyzerMetadataTests
             ModuleAsyncSafetyAnalyzer.ThreadSleepRule,
             ModuleRegistrationAnalyzer.NonPublicModuleRule,
             DuplicateDependsOnAnalyzer.Rule,
+            RepeatedSkipWhenAnalyzer.Rule,
         };
 
         Assert.AreSequenceEqual(
             Enumerable.Range(1, 10)
-                .Concat(Enumerable.Range(13, 7))
+                .Concat(Enumerable.Range(13, 8))
                 .Select(index => $"MP{index:0000}"),
             rules.Select(rule => rule.Id));
 
