@@ -12678,7 +12678,9 @@ var aws = context.Tools.Aws;
 | `aws account put-account-name`                                                       | `AwsAccountPutAccountNameOptions`                                                   |
 | `aws account put-alternate-contact`                                                  | `AwsAccountPutAlternateContactOptions`                                              |
 | `aws account put-contact-information`                                                | `AwsAccountPutContactInformationOptions`                                            |
+| `aws account send-phone-number-verification`                                         | `AwsAccountSendPhoneNumberVerificationOptions`                                      |
 | `aws account start-primary-email-update`                                             | `AwsAccountStartPrimaryEmailUpdateOptions`                                          |
+| `aws account verify-phone-number`                                                    | `AwsAccountVerifyPhoneNumberOptions`                                                |
 | `aws account-access create-application`                                              | `AwsAccountAccessCreateApplicationOptions`                                          |
 | `aws account-access create-entitlement`                                              | `AwsAccountAccessCreateEntitlementOptions`                                          |
 | `aws account-access delete-application`                                              | `AwsAccountAccessDeleteApplicationOptions`                                          |
@@ -28903,11 +28905,13 @@ var aws = context.Tools.Aws;
 | `aws s3vectors list-tags-for-resource`                                               | `AwsS3vectorsListTagsForResourceOptions`                                            |
 | `aws s3vectors list-vector-buckets`                                                  | `AwsS3vectorsListVectorBucketsOptions`                                              |
 | `aws s3vectors list-vectors`                                                         | `AwsS3vectorsListVectorsOptions`                                                    |
+| `aws s3vectors put-vector-bucket-default-index-mode`                                 | `AwsS3vectorsPutVectorBucketDefaultIndexModeOptions`                                |
 | `aws s3vectors put-vector-bucket-policy`                                             | `AwsS3vectorsPutVectorBucketPolicyOptions`                                          |
 | `aws s3vectors put-vectors`                                                          | `AwsS3vectorsPutVectorsOptions`                                                     |
 | `aws s3vectors query-vectors`                                                        | `AwsS3vectorsQueryVectorsOptions`                                                   |
 | `aws s3vectors tag-resource`                                                         | `AwsS3vectorsTagResourceOptions`                                                    |
 | `aws s3vectors untag-resource`                                                       | `AwsS3vectorsUntagResourceOptions`                                                  |
+| `aws s3vectors update-index-mode`                                                    | `AwsS3vectorsUpdateIndexModeOptions`                                                |
 | `aws sagemaker add-association`                                                      | `AwsSagemakerAddAssociationOptions`                                                 |
 | `aws sagemaker add-tags`                                                             | `AwsSagemakerAddTagsOptions`                                                        |
 | `aws sagemaker associate-trial-component`                                            | `AwsSagemakerAssociateTrialComponentOptions`                                        |
