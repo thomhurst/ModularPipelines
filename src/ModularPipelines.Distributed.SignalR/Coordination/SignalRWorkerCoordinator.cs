@@ -19,8 +19,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
+    private static readonly TimeSpan ConnectionChangeGracePeriod = TimeSpan.FromSeconds(5);
+
     private readonly Lock _stateLock = new();
     private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
+    private TaskCompletionSource _changed = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private WorkerRegistration? _registration;
     private long _generation;
 
@@ -91,6 +94,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         lock (_stateLock)
         {
             _ready.TrySetResult(false);
+            SignalConnectionChanged();
         }
     }
 
@@ -113,11 +117,13 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             {
                 return await invoke(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception exception) when (
-                exception is not HubException
-                && !cancellationToken.IsCancellationRequested
-                && ConnectionChangedSince(generation))
+            catch (Exception exception) when (exception is not HubException && !cancellationToken.IsCancellationRequested)
             {
+                if (!await ConnectionChangesAsync(generation, cancellationToken).ConfigureAwait(false))
+                {
+                    throw;
+                }
+
                 // The connection dropped mid-invocation; wait for re-registration and retry.
                 _logger.LogDebug(exception, "Master invocation interrupted by a reconnect; retrying");
             }
@@ -142,21 +148,52 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return generation;
     }
 
-    private bool ConnectionChangedSince(long generation)
+    /// <summary>
+    /// Decides whether a failed invocation was caused by the connection changing.
+    /// </summary>
+    /// <remarks>
+    /// The transport can fail a pending invocation before <see cref="HubConnection"/> raises
+    /// <see cref="HubConnection.Closed"/> or <see cref="HubConnection.Reconnecting"/>, so a failure
+    /// seen while the connection still looks unchanged waits briefly for one of those callbacks.
+    /// </remarks>
+    private async Task<bool> ConnectionChangesAsync(long generation, CancellationToken cancellationToken)
     {
+        Task changed;
         lock (_stateLock)
         {
-            return generation != _generation
-                   || !_ready.Task.IsCompleted
-                   || _connection.State != HubConnectionState.Connected;
+            if (generation != _generation
+                || !_ready.Task.IsCompleted
+                || _connection.State != HubConnectionState.Connected)
+            {
+                return true;
+            }
+
+            changed = _changed.Task;
         }
+
+        try
+        {
+            await changed.WaitAsync(ConnectionChangeGracePeriod, cancellationToken).ConfigureAwait(false);
+            return true;
+        }
+        catch (TimeoutException)
+        {
+            return false;
+        }
+    }
+
+    private void SignalConnectionChanged()
+    {
+        _generation++;
+        _changed.TrySetResult();
+        _changed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     }
 
     private Task OnReconnectingAsync(Exception? exception)
     {
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             if (_ready.Task.IsCompleted)
             {
                 _ready = CreateReadySignal(completed: false);
@@ -188,7 +225,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             _ready.TrySetResult(registered);
         }
 
@@ -202,7 +239,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     {
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             if (_ready.Task.IsCompleted)
             {
                 _ready = CreateReadySignal(completed: false);
