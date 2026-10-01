@@ -33,6 +33,8 @@ Register exactly one backend; building the pipeline fails when several are regis
 
 A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. The first result published for a module is final.
 
+Workers also watch the master. Once the master finishes, whether it succeeded or failed, nothing collects further results, so each worker cancels any modules it is still running, including AlwaysRun modules. When the master exits or crashes without signalling completion, or a worker cannot reach it for `MasterTimeout`, the worker also fails. SignalR workers notice a lost master when their connection closes for good, and a master that finished waits briefly for its workers to acknowledge completion before it shuts down, so a normal shutdown is never reported as a lost master; Redis workers notice when the master's heartbeat is older than `MasterTimeout` or has expired. Modules that ignore cancellation are abandoned after 30 seconds, so they cannot keep a worker alive.
+
 ### Capabilities[​](#capabilities "Direct link to Capabilities")
 
 Workers advertise what they can do through typed values such as `Capability.Linux`, `Capability.Docker`, and `Capability.Gpu`. Modules declare what they need via `[RequiresCapability]` and `[RequiresAnyCapability]` attributes using compile-time `Capability.Names` constants, or through run conditions such as `[RunIf<OnLinux>]`. The coordinator only assigns a module to a worker that satisfies its `CapabilityRequirement`.
