@@ -238,6 +238,12 @@ explicitly passed reason must not be blank. Use
 `SkipDecision.Of(bool, string?)` has been removed; use `When` or a `WithSkipWhen`
 predicate overload.
 
+Because a reason-less `WithSkipWhen` call now matches both the boolean and the
+`SkipDecision` overloads, a lambda whose body only throws (for example
+`_ => throw new InvalidOperationException()`) no longer compiles (CS0121). Give the
+lambda an explicit return type, such as `SkipDecision (_) => throw ...`, to select an
+overload.
+
 Asynchronous module predicates now consistently use `ValueTask`. The
 `ModuleConfiguration.IgnoreFailuresCondition` property and the asynchronous
 `ModuleConfigurationBuilder.WithIgnoreFailuresWhen` overload therefore accept

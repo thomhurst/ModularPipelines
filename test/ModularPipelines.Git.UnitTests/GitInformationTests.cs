@@ -112,6 +112,7 @@ public class GitInformationTests : TestBase
         var info = await gitInformation.GetInfoAsync();
         var requiredInfo = await gitInformation.GetRequiredInfoAsync();
 
+        await Assert.That(info).IsNotNull();
         await Assert.That(ReferenceEquals(info, requiredInfo)).IsTrue();
     }
 

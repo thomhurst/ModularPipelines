@@ -32,6 +32,11 @@ Result history resolves type-erased module results at runtime and is not support
 trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the
 corresponding trim and dynamic-code warnings.
 
+The example below keys each result by commit SHA, so it requires a Git checkout.
+Outside one, `GetRequiredInfoAsync` throws, so the example neither stores nor restores
+history there. To keep history outside Git, call `GetInfoAsync` instead and choose a
+fallback key when it returns `null`.
+
 ```csharp
 public class MyModuleRepository : IModuleResultRepository
 {

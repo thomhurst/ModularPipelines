@@ -172,6 +172,17 @@ public class ModuleConfigurationTests
     }
 
     [Test]
+    public async Task WithSkipWhen_ThrowingLambdaWithExplicitReturnType_SelectsOverload()
+    {
+        var config = new ModuleConfigurationBuilder()
+            .WithSkipWhen(SkipDecision (_) => throw new InvalidOperationException("Unavailable"))
+            .Build();
+
+        await Assert.That(async () => await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None))
+            .Throws<InvalidOperationException>();
+    }
+
+    [Test]
     [Arguments("")]
     [Arguments("   ")]
     public async Task WithSkipWhen_BooleanCondition_RejectsBlankExplicitReason(string reason)
