@@ -31,9 +31,11 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     /// </summary>
     /// <param name="BundleId">The unique identifier of the configuration bundle to update. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     /// <param name="ParentVersionIds">A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch al- ready exists, the first parent must be the latest version on that branch. (string) Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="CommitMessage">A commit message describing the changes in this version. Constraints: o min: 1 o max: 500</param>
     public AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions(
         string BundleId,
-        IEnumerable<string> ParentVersionIds
+        IEnumerable<string> ParentVersionIds,
+        string CommitMessage
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(BundleId);
@@ -51,6 +53,8 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
             ParentVersionIds = materialized;
         }
         this.ParentVersionIds = ParentVersionIds;
+        global::System.ArgumentNullException.ThrowIfNull(CommitMessage);
+        this.CommitMessage = CommitMessage;
     }
 
     private AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions()
@@ -85,6 +89,12 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     public IEnumerable<string>? ParentVersionIds { get; private init; }
 
     /// <summary>
+    /// A commit message describing the changes in this version. Constraints: o min: 1 o max: 500
+    /// </summary>
+    [CliOption("--commit-message")]
+    public string? CommitMessage { get; private init; }
+
+    /// <summary>
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
@@ -114,12 +124,6 @@ public record AwsBedrockAgentcoreControlUpdateConfigurationBundleOptions : AwsOp
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; set; }
-
-    /// <summary>
-    /// A commit message describing the changes in this version. Constraints: o min: 1 o max: 500
-    /// </summary>
-    [CliOption("--commit-message")]
-    public string? CommitMessage { get; set; }
 
     /// <summary>
     /// The source that created this version, including the source name and optional ARN. name -&gt; (string) [required] The name of the source (for example, user , optimization-job , or system ). arn -&gt; (string) The Amazon Resource Name (ARN) of the source, if applicable (for example, a user ARN or optimization job ARN). Shorthand Syntax: name=string,arn=string JSON Syntax: { "name": "string", "arn": "string" }

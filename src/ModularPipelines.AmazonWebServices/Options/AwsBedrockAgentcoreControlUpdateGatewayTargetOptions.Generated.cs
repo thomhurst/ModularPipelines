@@ -113,6 +113,12 @@ public record AwsBedrockAgentcoreControlUpdateGatewayTargetOptions : AwsOptions,
     [CliOption("--private-endpoint")]
     public string? PrivateEndpoint { get; set; }
 
+    /// <summary>
+    /// The private certificate authority (CA) configurations for the gate- way target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certifi- cate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update. Constraints: o min: 1 o max: 1 (tagged union structure) A reference to a private certificate authority (CA) certificate that the gateway uses to verify TLS connections to the target endpoint. Use this when the target presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: s3, secretsManager. s3 -&gt; (structure) The Amazon S3 location of the PEM-encoded private CA certifi- cate. uri -&gt; (string) [required] The URI of the Amazon S3 object that contains the PEM-en- coded certificate. Constraints: o pattern: s3://.{1,2043} bucketOwnerAccountId -&gt; (string) The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket. Constraints: o pattern: [0-9]{12} secretsManager -&gt; (structure) The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate. secretArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded cer- tificate. Constraints: o pattern: arn:aws(-[^:]+)?:secretsman- ager:[a-z0-9-]+:[0-9]{12}:secret:.+ Shorthand Syntax: s3={uri=string,bucketOwnerAccountId=string},secretsManager={secretArn=string} ... JSON Syntax: [ { "s3": { "uri": "string", "bucketOwnerAccountId": "string" }, "secretsManager": { "secretArn": "string" } } ... ]
+    /// </summary>
+    [CliOption("--certificate-configurations", GroupValues = true)]
+    public IEnumerable<string>? CertificateConfigurations { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
