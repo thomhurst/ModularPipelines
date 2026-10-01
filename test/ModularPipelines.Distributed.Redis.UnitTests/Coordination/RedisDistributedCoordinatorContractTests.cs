@@ -150,9 +150,7 @@ public class RedisDistributedCoordinatorContractTests
                 await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
                     .IsEqualTo(DistributedMasterState.Running);
 
-                await Task.Delay(TimeSpan.FromMilliseconds(500));
-                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
-                    .IsEqualTo(DistributedMasterState.Lost);
+                await WaitForMasterStateAsync(redis, DistributedMasterState.Lost);
 
                 // A master that signalled completion finished normally, however long ago.
                 await redis.SignalCompletionAsync(CancellationToken.None);
@@ -164,24 +162,52 @@ public class RedisDistributedCoordinatorContractTests
             masterTimeout: TimeSpan.FromMilliseconds(200));
 
     [Test]
-    public Task Master_Heartbeat_Loop_Stops_When_The_Coordinator_Is_Disposed() =>
+    public Task Master_Whose_Heartbeat_Expired_Is_Lost() =>
         RunAsync(
-            async (coordinator, _, _, _) =>
+            async (coordinator, database, keys, _) =>
             {
                 var redis = (RedisDistributedCoordinator) coordinator;
-                redis.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
-                await Task.Delay(TimeSpan.FromMilliseconds(400));
-                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
-                    .IsEqualTo(DistributedMasterState.Running);
+                await redis.SendMasterHeartbeatAsync(CancellationToken.None);
 
-                await redis.DisposeAsync();
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                // The heartbeat expires once the master stops renewing it; the started marker remains.
+                await database.KeyDeleteAsync(keys.MasterHeartbeat);
+
+                await Assert.That(await database.KeyExistsAsync(keys.MasterStarted)).IsTrue();
                 await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
                     .IsEqualTo(DistributedMasterState.Lost);
             },
             readySignalCount: 1,
+            workerTimeout: null);
+
+    [Test]
+    public Task Master_Heartbeat_Loop_Stops_When_The_Coordinator_Is_Disposed() =>
+        RunAsync(
+            async (coordinator, database, keys, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+                redis.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
+                await WaitUntilAsync(async () => await database.KeyExistsAsync(keys.MasterHeartbeat));
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Running);
+
+                await redis.DisposeAsync();
+                await WaitForMasterStateAsync(redis, DistributedMasterState.Lost);
+            },
+            readySignalCount: 1,
             workerTimeout: null,
-            masterTimeout: TimeSpan.FromSeconds(2));
+            masterTimeout: TimeSpan.FromMilliseconds(500));
+
+    private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
+        WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
+
+    private static async Task WaitUntilAsync(Func<Task<bool>> condition)
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        while (!await condition())
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(50), timeout.Token);
+        }
+    }
 
     private static Task RunContractAsync(
         Func<IDistributedMasterCoordinator, Task, Task> contract,
@@ -231,7 +257,7 @@ public class RedisDistributedCoordinatorContractTests
             {
                 WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
                 ModuleResultTimeout = TimeSpan.FromSeconds(30),
-                MasterTimeout = masterTimeout ?? TimeSpan.FromMinutes(1),
+                MasterTimeout = masterTimeout ?? TimeSpan.FromSeconds(30),
             });
 
         await test(coordinator, connection.GetDatabase(), keys, ready.Task);

@@ -144,19 +144,25 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    // KEYS[1] is the heartbeat and KEYS[2] the durable marker that the master started.
     public const string MasterHeartbeat = ServerTimeLua + """
         redis.call('SET', KEYS[1], string.format('%d', now), 'PX', ARGV[1])
+        redis.call('SET', KEYS[2], '1', 'PX', ARGV[1])
         return 1
         """;
 
-    // Returns 0 while the master runs, 1 once it signalled completion and 2 once its heartbeat is
-    // stale. A master that never sent a heartbeat has not started yet.
+    // Returns 0 while the master runs, 1 once it signalled completion and 2 once it is lost. A
+    // master that started is lost once its heartbeat is stale or has expired; a master that never
+    // sent a heartbeat has not started yet.
     public const string GetMasterState = ServerTimeLua + """
         if redis.call('EXISTS', KEYS[2]) == 1 then
             return 1
         end
         local heartbeat = redis.call('GET', KEYS[1])
         if not heartbeat then
+            if redis.call('EXISTS', KEYS[3]) == 1 then
+                return 2
+            end
             return 0
         end
         if now - tonumber(heartbeat) > tonumber(ARGV[1]) then

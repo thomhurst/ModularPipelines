@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;
@@ -10,15 +11,18 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
     private readonly RedisOptions _options;
     private readonly DistributedOptions _distributedOptions;
     private readonly RedisConnectionProvider _connections;
+    private readonly ILogger<RedisDistributedCoordinator>? _logger;
 
     public RedisDistributedCoordinatorFactory(
         IOptions<RedisOptions> options,
         RedisConnectionProvider connections,
-        IOptions<DistributedOptions> distributedOptions)
+        IOptions<DistributedOptions> distributedOptions,
+        ILogger<RedisDistributedCoordinator>? logger = null)
     {
         _options = options.Value;
         _connections = connections;
         _distributedOptions = distributedOptions.Value;
+        _logger = logger;
     }
 
     public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
@@ -42,6 +46,7 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
             subscriber,
             keys,
             _options,
-            distributedOptions: _distributedOptions);
+            distributedOptions: _distributedOptions,
+            logger: _logger);
     }
 }

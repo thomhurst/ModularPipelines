@@ -111,7 +111,7 @@ public class RedisKeyBuilderTests
         await Assert.That(allKeys).Contains(builder.WorkerStatuses);
         await Assert.That(allKeys).Contains(builder.CompletionFlag);
         await Assert.That(allKeys).Contains(builder.CancellationFlag);
-        await Assert.That(allKeys).Contains(builder.MasterHeartbeat);
+        await Assert.That(allKeys).Contains(builder.MasterStarted);
     }
 
     [Test]

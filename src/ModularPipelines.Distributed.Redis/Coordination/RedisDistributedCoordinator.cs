@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Redis;
 using StackExchange.Redis;
 
@@ -36,6 +37,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private Task _masterHeartbeatTask = Task.CompletedTask;
     // Lets real-backend contract tests synchronize after the race-closing reads complete.
     private readonly Action? _onWaitReady;
+    private readonly ILogger<RedisDistributedCoordinator>? _logger;
 
     public RedisDistributedCoordinator(
         IDatabase database,
@@ -43,7 +45,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         RedisKeyBuilder keys,
         RedisOptions options,
         Action? onWaitReady = null,
-        DistributedOptions? distributedOptions = null)
+        DistributedOptions? distributedOptions = null,
+        ILogger<RedisDistributedCoordinator>? logger = null)
     {
         _database = database;
         _subscriber = subscriber;
@@ -52,6 +55,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         _masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
         _onWaitReady = onWaitReady;
+        _logger = logger;
         ValidateKeyExpiration(options, distributedOptions);
     }
 
@@ -62,12 +66,19 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         var workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
         var resultTimeout = distributedOptions?.ModuleResultTimeout ?? TimeSpan.Zero;
-        if (options.TimeToLive <= workerTimeout || options.TimeToLive <= resultTimeout)
+        var masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
+
+        // The master heartbeat must stay readable for longer than MasterTimeout, or a stale
+        // heartbeat could expire before workers see it as stale.
+        if (options.TimeToLive <= workerTimeout
+            || options.TimeToLive <= resultTimeout
+            || options.TimeToLive <= masterTimeout)
         {
             throw new InvalidOperationException(
                 $"{nameof(RedisOptions)}.{nameof(RedisOptions.TimeToLive)} ({options.TimeToLive}) "
-                + $"must exceed {nameof(DistributedOptions.WorkerTimeout)} ({workerTimeout}) and "
-                + $"{nameof(DistributedOptions.ModuleResultTimeout)} ({resultTimeout}).");
+                + $"must exceed {nameof(DistributedOptions.WorkerTimeout)} ({workerTimeout}), "
+                + $"{nameof(DistributedOptions.ModuleResultTimeout)} ({resultTimeout}) and "
+                + $"{nameof(DistributedOptions.MasterTimeout)} ({masterTimeout}).");
         }
     }
 
@@ -358,7 +369,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         cancellationToken.ThrowIfCancellationRequested();
         var result = await _database.ScriptEvaluateAsync(
                 RedisCoordinationScripts.GetMasterState,
-                [(RedisKey) _keys.MasterHeartbeat, (RedisKey) _keys.CompletionFlag],
+                [(RedisKey) _keys.MasterHeartbeat, (RedisKey) _keys.CompletionFlag, (RedisKey) _keys.MasterStarted],
                 [(long) _masterTimeout.TotalMilliseconds])
             .WaitAsync(cancellationToken).ConfigureAwait(false);
         var state = (long) result;
@@ -377,7 +388,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         cancellationToken.ThrowIfCancellationRequested();
         await _database.ScriptEvaluateAsync(
                 RedisCoordinationScripts.MasterHeartbeat,
-                [(RedisKey) _keys.MasterHeartbeat],
+                [(RedisKey) _keys.MasterHeartbeat, (RedisKey) _keys.MasterStarted],
                 [(long) _keyExpiration.TotalMilliseconds])
             .WaitAsync(cancellationToken).ConfigureAwait(false);
     }
@@ -401,23 +412,24 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             try
             {
                 await SendMasterHeartbeatAsync(cancellationToken).ConfigureAwait(false);
-                await Task.Delay(interval, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 return;
             }
-            catch (Exception exception) when (exception is RedisException or TimeoutException)
+            catch (Exception exception)
             {
                 // Workers tolerate missed heartbeats for MasterTimeout; retry on the next interval.
-                try
-                {
-                    await Task.Delay(interval, cancellationToken).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-                {
-                    return;
-                }
+                _logger?.LogWarning(exception, "Could not record the distributed master heartbeat; retrying");
+            }
+
+            try
+            {
+                await Task.Delay(interval, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                return;
             }
         }
     }

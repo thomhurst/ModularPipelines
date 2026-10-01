@@ -178,7 +178,8 @@ adopted and cannot conflict with it.
 The options are validated when the pipeline is built. A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
 and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
-artifacts cannot expire mid-run.
+artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's
+heartbeat go stale before it expires.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -252,8 +253,10 @@ Pub/Sub channels (no TTL, ephemeral):
 
 Notifications only shorten waits: every wait also re-reads Redis every two seconds, so a message lost while
 the connection reconnects cannot strand a waiter. Heartbeats and the master's lease sweep refresh the expiry
-of every coordination key, and `RedisOptions.TimeToLive` must exceed both `WorkerTimeout` and `ModuleResultTimeout`,
-so keys cannot expire while a run is active.
+of every coordination key, and `RedisOptions.TimeToLive` must exceed `WorkerTimeout`, `ModuleResultTimeout` and
+`MasterTimeout`, so keys cannot expire while a run is active. Only the master renews its own heartbeat, while a
+marker that the master started is renewed with the other run keys, so a master whose heartbeat went stale or
+expired is reported as lost rather than as not started yet.
 
 Artifacts are stored under the same run namespace:
 
