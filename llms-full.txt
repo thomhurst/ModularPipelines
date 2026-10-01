@@ -27,6 +27,7 @@
 - [MP0017](/docs/next/analyzers/MP0017.md): Thread.Sleep in ExecuteAsync.
 - [MP0018](/docs/next/analyzers/MP0018.md): Module class is not public.
 - [MP0019](/docs/next/analyzers/MP0019.md): Duplicate DependsOn declaration.
+- [MP0020](/docs/next/analyzers/MP0020.md): Repeated WithSkipWhen calls on one module configuration builder are OR-ed.
 - [MPCLI001](/docs/next/analyzers/MPCLI001.md): CliFlag property must be bool? or int?
 - [MPCLI002](/docs/next/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/next/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.
@@ -453,6 +454,7 @@ Modular Pipelines is a framework for writing your pipeline in C#. Giving you str
 | [`MP0017`](/ModularPipelines/docs/next/analyzers/MP0017.md)     | Usage    | Warning          | Public analyzer package     | Thread.Sleep in ExecuteAsync.                                                   |
 | [`MP0018`](/ModularPipelines/docs/next/analyzers/MP0018.md)     | Usage    | Warning          | Public analyzer package     | Module class is not public.                                                     |
 | [`MP0019`](/ModularPipelines/docs/next/analyzers/MP0019.md)     | Usage    | Warning          | Public analyzer package     | Duplicate DependsOn declaration.                                                |
+| [`MP0020`](/ModularPipelines/docs/next/analyzers/MP0020.md)     | Usage    | Info             | Public analyzer package     | Repeated WithSkipWhen calls on one module configuration builder are OR-ed.      |
 | [`MPCLI001`](/ModularPipelines/docs/next/analyzers/MPCLI001.md) | Usage    | Error            | Public analyzer package     | CliFlag property must be bool? or int?                                          |
 | [`MPCLI002`](/ModularPipelines/docs/next/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                  |
 | [`MPCLI003`](/ModularPipelines/docs/next/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                |
@@ -1085,6 +1087,39 @@ Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error`
 // Code that intentionally violates MP0019.
 
 #pragma warning restore MP0019
+```
+
+
+---
+
+# MP0020
+
+Repeated WithSkipWhen calls on one module configuration builder are OR-ed.
+
+| Property         | Value                   |
+| ---------------- | ----------------------- |
+| Category         | Usage                   |
+| Default severity | Info                    |
+| Availability     | Public analyzer package |
+
+## Configure severity[​](#configure-severity "Direct link to Configure severity")
+
+.editorconfig
+
+```
+dotnet_diagnostic.MP0020.severity = suggestion
+```
+
+Use `none` to disable the rule, or `silent`, `suggestion`, `warning`, or `error` to change its severity.
+
+## Suppress a specific occurrence[​](#suppress-a-specific-occurrence "Direct link to Suppress a specific occurrence")
+
+```
+#pragma warning disable MP0020
+
+// Code that intentionally violates MP0020.
+
+#pragma warning restore MP0020
 ```
 
 
@@ -6459,7 +6494,7 @@ Command output is logged one line at a time, each prefixed with `↳`, whether i
 | Level        | Description                                           |
 | ------------ | ----------------------------------------------------- |
 | `Silent`     | No output at all                                      |
-| `Minimal`    | Only command input (no output/errors)                 |
+| `InputOnly`  | Only command input (no output/errors)                 |
 | `Normal`     | Input, output, and errors on failure (default)        |
 | `Detailed`   | Above plus exit code and duration                     |
 | `Diagnostic` | Everything including working directory and timestamps |
@@ -8125,7 +8160,7 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 
 ## Built-in conditions[​](#built-in-conditions "Direct link to Built-in conditions")
 
-Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`. `OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system (GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI` environment variable set to anything other than `false` or `0` does. All built-in conditions are planning-safe:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`. `OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system (GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI` environment variable set to anything other than `false` or `0` does. When only the `CI` variable makes the run count as CI, the pipeline logs this once at startup. All built-in conditions are planning-safe:
 
 ```
 [RunIf<OnLinux>]
@@ -8794,6 +8829,8 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
 ```
 
 Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons. The group composes with other skip conditions using OR-to-skip semantics.
+
+In V3, a later `WithSkipWhen` call replaced an earlier one. Analyzer [`MP0020`](/ModularPipelines/docs/next/analyzers/MP0020.md) reports repeated `WithSkipWhen` calls on the same builder as a suggestion; suppress it when OR-to-skip is intended, or switch to `WithSkipWhenAll` when every condition must match.
 
 ## History[​](#history "Direct link to History")
 

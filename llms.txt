@@ -27,6 +27,7 @@
 - [MP0017](/docs/next/analyzers/MP0017.md): Thread.Sleep in ExecuteAsync.
 - [MP0018](/docs/next/analyzers/MP0018.md): Module class is not public.
 - [MP0019](/docs/next/analyzers/MP0019.md): Duplicate DependsOn declaration.
+- [MP0020](/docs/next/analyzers/MP0020.md): Repeated WithSkipWhen calls on one module configuration builder are OR-ed.
 - [MPCLI001](/docs/next/analyzers/MPCLI001.md): CliFlag property must be bool? or int?
 - [MPCLI002](/docs/next/analyzers/MPCLI002.md): Value-less bool? CliOption should use CliFlag.
 - [MPCLI003](/docs/next/analyzers/MPCLI003.md): Multiple CLI attributes applied to one property.

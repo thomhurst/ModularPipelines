@@ -21,6 +21,7 @@
 | [`MP0017`](/ModularPipelines/docs/next/analyzers/MP0017.md)     | Usage    | Warning          | Public analyzer package     | Thread.Sleep in ExecuteAsync.                                                   |
 | [`MP0018`](/ModularPipelines/docs/next/analyzers/MP0018.md)     | Usage    | Warning          | Public analyzer package     | Module class is not public.                                                     |
 | [`MP0019`](/ModularPipelines/docs/next/analyzers/MP0019.md)     | Usage    | Warning          | Public analyzer package     | Duplicate DependsOn declaration.                                                |
+| [`MP0020`](/ModularPipelines/docs/next/analyzers/MP0020.md)     | Usage    | Info             | Public analyzer package     | Repeated WithSkipWhen calls on one module configuration builder are OR-ed.      |
 | [`MPCLI001`](/ModularPipelines/docs/next/analyzers/MPCLI001.md) | Usage    | Error            | Public analyzer package     | CliFlag property must be bool? or int?                                          |
 | [`MPCLI002`](/ModularPipelines/docs/next/analyzers/MPCLI002.md) | Usage    | Error            | Public analyzer package     | Value-less bool? CliOption should use CliFlag.                                  |
 | [`MPCLI003`](/ModularPipelines/docs/next/analyzers/MPCLI003.md) | Usage    | Error            | Public analyzer package     | Multiple CLI attributes applied to one property.                                |

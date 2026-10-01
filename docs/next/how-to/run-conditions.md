@@ -148,7 +148,7 @@ Fluent dependencies are validated before execution conditions are evaluated. Eve
 
 ## Built-in conditions[​](#built-in-conditions "Direct link to Built-in conditions")
 
-Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`. `OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system (GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI` environment variable set to anything other than `false` or `0` does. All built-in conditions are planning-safe:
+Built-in conditions include `OnCI`, `OnLocal`, `OnLinux`, `OnWindows`, `OnMacOS`, `OnFreeBSD`, and `OnUnix`. `OnCI` and `OnLocal` use `context.Environment.BuildSystem.IsBuildServer`: a detected build system (GitHub Actions, Azure Pipelines, TeamCity, and others) counts as CI, and otherwise a `CI` environment variable set to anything other than `false` or `0` does. When only the `CI` variable makes the run count as CI, the pipeline logs this once at startup. All built-in conditions are planning-safe:
 
 ```
 [RunIf<OnLinux>]
