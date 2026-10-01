@@ -49,6 +49,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             compilationContext.RegisterOperationBlockStartAction(blockContext =>
             {
                 var callsByBuilder = new ConcurrentDictionary<object, ConcurrentBag<IInvocationOperation>>();
+                var reassignedLocals = new ConcurrentDictionary<ILocalSymbol, bool>(SymbolEqualityComparer.Default);
 
                 blockContext.RegisterOperationAction(
                     operationContext =>
@@ -61,8 +62,11 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
                             return;
                         }
 
-                        var builderKey = GetBuilderKey(invocation.Instance, builderType);
-                        callsByBuilder.GetOrAdd(builderKey, _ => []).Add(invocation);
+                        // A null key means the builder cannot be identified statically, so the call is not grouped.
+                        if (GetBuilderKey(invocation.Instance, builderType, reassignedLocals) is { } builderKey)
+                        {
+                            callsByBuilder.GetOrAdd(builderKey, _ => []).Add(invocation);
+                        }
                     },
                     OperationKind.Invocation);
 
@@ -94,8 +98,13 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// Follows a fluent chain of builder calls back to the builder it started from, so calls on the same
     /// parameter, local, field, or chain share one key. Locals that are initialized from a builder and never
     /// reassigned are followed to their initializer, so an alias shares the key of the builder it aliases.
+    /// Returns <see langword="null"/> for a local that is written after its declaration, because which builder
+    /// such a local holds at each call depends on control flow.
     /// </summary>
-    private static object GetBuilderKey(IOperation instance, INamedTypeSymbol builderType)
+    private static object? GetBuilderKey(
+        IOperation instance,
+        INamedTypeSymbol builderType,
+        ConcurrentDictionary<ILocalSymbol, bool> reassignedLocals)
     {
         var current = instance;
         var aliasDepth = 0;
@@ -110,13 +119,19 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
                 continue;
             }
 
-            if (current is ILocalReferenceOperation localReference
-                && aliasDepth < MaxAliasDepth
-                && TryGetAliasedBuilder(localReference, builderType) is { } aliased)
+            if (current is ILocalReferenceOperation localReference)
             {
-                aliasDepth++;
-                current = aliased;
-                continue;
+                if (IsReassigned(localReference, reassignedLocals))
+                {
+                    return null;
+                }
+
+                if (aliasDepth < MaxAliasDepth && TryGetAliasedBuilder(localReference, builderType) is { } aliased)
+                {
+                    aliasDepth++;
+                    current = aliased;
+                    continue;
+                }
             }
 
             break;
@@ -137,15 +152,9 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         var local = localReference.Local;
         if (!SymbolEqualityComparer.Default.Equals(local.Type, builderType)
             || local.DeclaringSyntaxReferences.Length != 1
-            || local.DeclaringSyntaxReferences[0].GetSyntax() is not VariableDeclaratorSyntax { Initializer.Value: { } initializer } declarator
+            || local.DeclaringSyntaxReferences[0].GetSyntax() is not VariableDeclaratorSyntax { Initializer.Value: { } initializer }
             || localReference.SemanticModel is not { } semanticModel
             || initializer.SyntaxTree != semanticModel.SyntaxTree)
-        {
-            return null;
-        }
-
-        var scope = declarator.FirstAncestorOrSelf<BlockSyntax>();
-        if (scope is null || IsReassigned(scope, local, semanticModel))
         {
             return null;
         }
@@ -153,26 +162,99 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         return semanticModel.GetOperation(initializer);
     }
 
-    private static bool IsReassigned(SyntaxNode scope, ILocalSymbol local, SemanticModel semanticModel)
-    {
-        foreach (var node in scope.DescendantNodes())
-        {
-            var target = node switch
-            {
-                AssignmentExpressionSyntax assignment => assignment.Left,
-                ArgumentSyntax { RefKindKeyword.RawKind: not 0 } argument => argument.Expression,
-                _ => null,
-            };
+    private static bool IsReassigned(
+        ILocalReferenceOperation localReference,
+        ConcurrentDictionary<ILocalSymbol, bool> reassignedLocals) =>
+        reassignedLocals.GetOrAdd(localReference.Local, local => IsWrittenAfterDeclaration(local, localReference.SemanticModel));
 
-            if (target is IdentifierNameSyntax identifier
-                && identifier.Identifier.ValueText == local.Name
-                && SymbolEqualityComparer.Default.Equals(semanticModel.GetSymbolInfo(identifier).Symbol, local))
+    /// <summary>
+    /// Uses data-flow analysis to find any write to <paramref name="local"/> other than its declaration, including
+    /// assignments, deconstruction, <c>ref</c>/<c>out</c> arguments, and writes inside lambdas or local functions.
+    /// Locals whose declaration cannot be analyzed are treated as reassigned.
+    /// </summary>
+    private static bool IsWrittenAfterDeclaration(ILocalSymbol local, SemanticModel? semanticModel)
+    {
+        if (semanticModel is null
+            || local.DeclaringSyntaxReferences.Length != 1
+            || local.DeclaringSyntaxReferences[0].GetSyntax() is not { } declaration
+            || declaration.SyntaxTree != semanticModel.SyntaxTree
+            || declaration.FirstAncestorOrSelf<StatementSyntax>() is not { } declaringStatement)
+        {
+            return true;
+        }
+
+        foreach (var region in GetRegionsAfterDeclaration(declaringStatement))
+        {
+            var dataFlow = region is StatementSyntax statement
+                ? semanticModel.AnalyzeDataFlow(statement)
+                : semanticModel.AnalyzeDataFlow((ExpressionSyntax) region);
+
+            if (dataFlow is null || !dataFlow.Succeeded)
+            {
+                return true;
+            }
+
+            if (dataFlow.WrittenInside.Contains(local, SymbolEqualityComparer.Default))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Returns the statements and expressions within the local's scope that run after its declaration: the
+    /// statements following the declaring statement, statements nested inside it, and a <c>for</c> loop's condition
+    /// and incrementors. None of these regions contain the declaration's own write.
+    /// </summary>
+    private static IEnumerable<SyntaxNode> GetRegionsAfterDeclaration(StatementSyntax declaringStatement)
+    {
+        var siblings = declaringStatement.Parent switch
+        {
+            BlockSyntax block => block.Statements,
+            SwitchSectionSyntax section => section.Statements,
+            _ => default(SyntaxList<StatementSyntax>?),
+        };
+
+        if (siblings is { } statements)
+        {
+            foreach (var statement in statements.Skip(statements.IndexOf(declaringStatement) + 1))
+            {
+                yield return statement;
+            }
+        }
+        else if (declaringStatement.Parent is GlobalStatementSyntax { Parent: CompilationUnitSyntax compilationUnit } global)
+        {
+            foreach (var member in compilationUnit.Members.Skip(compilationUnit.Members.IndexOf(global) + 1))
+            {
+                if (member is GlobalStatementSyntax following)
+                {
+                    yield return following.Statement;
+                }
+            }
+        }
+
+        var nestedStatements = declaringStatement
+            .DescendantNodes(node => node == declaringStatement || node is not StatementSyntax)
+            .OfType<StatementSyntax>();
+        foreach (var nested in nestedStatements)
+        {
+            yield return nested;
+        }
+
+        if (declaringStatement is ForStatementSyntax forStatement)
+        {
+            if (forStatement.Condition is { } condition)
+            {
+                yield return condition;
+            }
+
+            foreach (var incrementor in forStatement.Incrementors)
+            {
+                yield return incrementor;
+            }
+        }
     }
 
     /// <summary>
@@ -191,12 +273,20 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             ConditionalExpressionSyntax conditional =>
                 IsWithinBranches(first, second, conditional.WhenTrue, conditional.WhenFalse),
             SwitchStatementSyntax switchStatement =>
-                IsWithinDifferentBranches(first, second, switchStatement.Sections),
+                !ContainsGoto(switchStatement)
+                && IsWithinDifferentBranches(first, second, switchStatement.Sections),
             SwitchExpressionSyntax switchExpression =>
                 IsWithinDifferentBranches(first, second, switchExpression.Arms),
             _ => false,
         };
     }
+
+    /// <summary>
+    /// A <c>goto case</c>, <c>goto default</c>, or labeled <c>goto</c> can transfer control from one switch section
+    /// into another, so sections of a switch that contains any <c>goto</c> are not treated as mutually exclusive.
+    /// </summary>
+    private static bool ContainsGoto(SwitchStatementSyntax switchStatement) =>
+        switchStatement.DescendantNodes().OfType<GotoStatementSyntax>().Any();
 
     private static bool IsWithinBranches(SyntaxNode first, SyntaxNode second, SyntaxNode whenTrue, SyntaxNode whenFalse) =>
         (whenTrue.Span.Contains(first.Span) && whenFalse.Span.Contains(second.Span))
