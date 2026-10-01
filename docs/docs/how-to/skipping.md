@@ -133,6 +133,10 @@ protected override void Configure(ModuleConfigurationBuilder module) => module
 Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons.
 The group composes with other skip conditions using OR-to-skip semantics.
 
+In V3, a later `WithSkipWhen` call replaced an earlier one. Analyzer [`MP0020`](../analyzers/MP0020.md)
+reports repeated `WithSkipWhen` calls on the same builder as a suggestion; suppress it when OR-to-skip
+is intended, or switch to `WithSkipWhenAll` when every condition must match.
+
 ## History
 If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results)
 

@@ -410,6 +410,24 @@ namespace ModularPipelines.Analyzers {
             }
         }
 
+        internal static string RepeatedSkipWhenAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("RepeatedSkipWhenAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        internal static string RepeatedSkipWhenAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("RepeatedSkipWhenAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        internal static string RepeatedSkipWhenAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("RepeatedSkipWhenAnalyzerTitle", resourceCulture);
+            }
+        }
+
         internal static string NonPublicModuleAnalyzerDescription {
             get {
                 return ResourceManager.GetString("NonPublicModuleAnalyzerDescription", resourceCulture);
