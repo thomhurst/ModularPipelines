@@ -231,6 +231,19 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task Master_Timeout_Must_Exceed_The_Heartbeat_Interval()
+    {
+        var failures = DistributedOptionsValidator.Validate(new DistributedOptions
+        {
+            WorkerHeartbeatInterval = TimeSpan.FromSeconds(10),
+            MasterTimeout = TimeSpan.FromSeconds(10),
+        }.EnableForTest());
+
+        await Assert.That(failures.Any(failure => failure.StartsWith("Distributed.MasterTimeout", StringComparison.Ordinal)))
+            .IsTrue();
+    }
+
+    [Test]
     public async Task Registering_Two_Coordinator_Backends_Fails()
     {
         var builder = TestPipelineBuilder.Create();

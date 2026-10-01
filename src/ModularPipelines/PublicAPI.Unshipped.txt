@@ -429,6 +429,11 @@ ModularPipelines.Distributed.IDistributedMasterCoordinator.WithdrawAssignmentAsy
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.DequeueModuleAsync(ModularPipelines.Distributed.WorkerId workerId, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! workerCapabilities, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ModuleLease?>!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.PublishResultAsync(ModularPipelines.Distributed.SerializedModuleResult! result, ModularPipelines.Distributed.ModuleLease? lease, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.WaitForCancellationAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.DistributedCancellationReason>!
+ModularPipelines.Distributed.IDistributedWorkerCoordinator.GetMasterStateAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.DistributedMasterState>!
+ModularPipelines.Distributed.DistributedMasterState
+ModularPipelines.Distributed.DistributedMasterState.Completed = 1 -> ModularPipelines.Distributed.DistributedMasterState
+ModularPipelines.Distributed.DistributedMasterState.Lost = 2 -> ModularPipelines.Distributed.DistributedMasterState
+ModularPipelines.Distributed.DistributedMasterState.Running = 0 -> ModularPipelines.Distributed.DistributedMasterState
 ModularPipelines.Distributed.IMasterDiscovery.AdvertiseMasterEndpointAsync(ModularPipelines.Distributed.MasterEndpoint! endpoint, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IMasterDiscovery.DiscoverMasterEndpointAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.MasterEndpoint!>!
 ModularPipelines.Distributed.MasterEndpoint
@@ -1801,6 +1806,8 @@ ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.get -> S
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.get -> System.TimeSpan
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.MasterTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.DistributedOptions.MasterTimeout.set -> void
 ModularPipelines.Distributed.DistributedPipelineBuilderExtensions
 ModularPipelines.Distributed.DistributedRole
 ModularPipelines.Distributed.DistributedRole.Auto = 0 -> ModularPipelines.Distributed.DistributedRole

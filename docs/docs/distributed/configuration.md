@@ -46,6 +46,7 @@ builder.AddDistributedMode(o =>
     o.WorkerRegistrationTimeout = TimeSpan.FromMinutes(5);
     o.WorkerHeartbeatInterval = TimeSpan.FromSeconds(5);
     o.WorkerTimeout = TimeSpan.FromSeconds(30);
+    o.MasterTimeout = TimeSpan.FromMinutes(1);
     o.MinimumWorkerCount = 0;
     o.ModuleResultTimeout = TimeSpan.FromMinutes(45);
 });
@@ -63,10 +64,11 @@ builder.AddDistributedMode(o =>
 | `WorkerRegistrationTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(5)` | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error. |
 | `WorkerHeartbeatInterval` | `TimeSpan` | `TimeSpan.FromSeconds(5)` | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules. |
 | `WorkerTimeout` | `TimeSpan` | `TimeSpan.FromSeconds(30)` | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`. |
+| `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely. |
 
-Invalid combinations, such as `InstanceIndex >= TotalInstances` or `WorkerTimeout <= WorkerHeartbeatInterval`,
+Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`,
 are reported by pipeline validation and stop the distributed backend from starting.
 
 ### Configuration from appsettings.json
@@ -176,7 +178,8 @@ adopted and cannot conflict with it.
 The options are validated when the pipeline is built. A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
 and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
-artifacts cannot expire mid-run.
+artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's
+heartbeat go stale before it expires.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -186,6 +189,7 @@ All distributed duration properties use `TimeSpan`. When binding them from `apps
     "WorkerRegistrationTimeout": "00:05:00",
     "WorkerHeartbeatInterval": "00:00:05",
     "WorkerTimeout": "00:00:30",
+    "MasterTimeout": "00:01:00",
     "ModuleResultTimeout": "00:45:00"
   },
   "Redis": {
@@ -249,8 +253,10 @@ Pub/Sub channels (no TTL, ephemeral):
 
 Notifications only shorten waits: every wait also re-reads Redis every two seconds, so a message lost while
 the connection reconnects cannot strand a waiter. Heartbeats and the master's lease sweep refresh the expiry
-of every coordination key, and `RedisOptions.TimeToLive` must exceed both `WorkerTimeout` and `ModuleResultTimeout`,
-so keys cannot expire while a run is active.
+of every coordination key, and `RedisOptions.TimeToLive` must exceed `WorkerTimeout`, `ModuleResultTimeout` and
+`MasterTimeout`, so keys cannot expire while a run is active. Only the master renews its own heartbeat, while a
+marker that the master started is renewed with the other run keys, so a master whose heartbeat went stale or
+expired is reported as lost rather than as not started yet.
 
 Artifacts are stored under the same run namespace:
 

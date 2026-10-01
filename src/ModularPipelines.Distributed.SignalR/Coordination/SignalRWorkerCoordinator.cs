@@ -12,21 +12,28 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 /// </summary>
 /// <remarks>
 /// Every operation is a worker-to-master invocation, so nothing the master sends can be missed while
-/// the worker is disconnected. After an automatic reconnect the worker registers again under the
+/// the worker is disconnected. The one exception is the master's completion notice, which the worker
+/// records and acknowledges; the master pushes it again when a worker registers after completing and
+/// waits for acknowledgements before it stops, so a normal shutdown is never mistaken for a lost
+/// master. After an automatic reconnect the worker registers again under the
 /// same session and retries interrupted invocations; its heartbeats then renew the leases it still
 /// holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
-/// <see langword="null"/> so the worker stops, and other operations fail.
+/// <see langword="null"/> so the worker stops, other operations fail, and
+/// <see cref="GetMasterStateAsync"/> reports the master as lost unless it had signalled completion.
 /// </remarks>
 internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, IAsyncDisposable
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
+    private readonly IDisposable _masterCompletedSubscription;
 
     private readonly Lock _stateLock = new();
     private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
     private TaskCompletionSource _changed = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private WorkerRegistration? _registration;
     private long _generation;
+    private bool _masterCompleted;
+    private bool _connectionClosed;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
     {
@@ -35,6 +42,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
+        _masterCompletedSubscription = _connection.On(HubMethodNames.MasterCompleted, OnMasterCompletedAsync);
         RegisterAgainAsync = registration => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
     }
 
@@ -65,10 +73,17 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     {
         try
         {
-            return await InvokeAsync(
+            var lease = await InvokeAsync(
                     token => _connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, token),
                     cancellationToken)
                 .ConfigureAwait(false);
+            if (lease is null)
+            {
+                // The master signalled completion, so closing the connection afterwards is expected.
+                Volatile.Write(ref _masterCompleted, true);
+            }
+
+            return lease;
         }
         catch (MasterConnectionClosedException)
         {
@@ -98,11 +113,18 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             token => _connection.InvokeAsync<DistributedCancellationReason>(HubMethodNames.WaitForCancellation, token),
             cancellationToken);
 
+    public Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        Task.FromResult(
+            Volatile.Read(ref _masterCompleted) ? DistributedMasterState.Completed
+            : Volatile.Read(ref _connectionClosed) ? DistributedMasterState.Lost
+            : DistributedMasterState.Running);
+
     public async ValueTask DisposeAsync()
     {
         _connection.Reconnecting -= OnReconnectingAsync;
         _connection.Reconnected -= OnReconnectedAsync;
         _connection.Closed -= OnClosedAsync;
+        _masterCompletedSubscription.Dispose();
         await _connection.DisposeAsync().ConfigureAwait(false);
         lock (_stateLock)
         {
@@ -317,8 +339,25 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         }
     }
 
+    internal async Task OnMasterCompletedAsync()
+    {
+        Volatile.Write(ref _masterCompleted, true);
+        _logger.LogDebug("The distributed master signalled completion");
+        try
+        {
+            // Sending does not wait for a reply, so it cannot deadlock the connection's receive loop.
+            await _connection.SendAsync(HubMethodNames.AcknowledgeCompletion).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // The master stops its server after a bounded wait, and completion is already recorded.
+            _logger.LogDebug(exception, "Could not acknowledge the distributed master's completion");
+        }
+    }
+
     private Task OnClosedAsync(Exception? exception)
     {
+        Volatile.Write(ref _connectionClosed, true);
         lock (_stateLock)
         {
             SignalConnectionChanged();

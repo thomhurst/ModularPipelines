@@ -31,8 +31,14 @@ internal sealed class SignalRMasterCoordinator(
     public Task<IReadOnlyList<WorkerStatus>> GetWorkerStatusesAsync(CancellationToken cancellationToken) =>
         coordinator.GetWorkerStatusesAsync(cancellationToken);
 
-    public Task SignalCompletionAsync(CancellationToken cancellationToken) =>
-        coordinator.SignalCompletionAsync(cancellationToken);
+    public async Task SignalCompletionAsync(CancellationToken cancellationToken)
+    {
+        await coordinator.SignalCompletionAsync(cancellationToken).ConfigureAwait(false);
+        if (serverHost is not null)
+        {
+            await serverHost.NotifyCompletionAsync(cancellationToken).ConfigureAwait(false);
+        }
+    }
 
     public Task BroadcastCancellationAsync(DistributedCancellationReason reason, CancellationToken cancellationToken) =>
         coordinator.BroadcastCancellationAsync(reason, cancellationToken);

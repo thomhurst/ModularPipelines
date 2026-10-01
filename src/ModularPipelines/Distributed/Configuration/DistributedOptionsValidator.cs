@@ -50,6 +50,12 @@ internal static class DistributedOptionsValidator
                 $"Distributed.WorkerTimeout must exceed {nameof(DistributedOptions.WorkerHeartbeatInterval)}.");
         }
 
+        if (options.MasterTimeout <= options.WorkerHeartbeatInterval)
+        {
+            failures.Add(
+                $"Distributed.MasterTimeout must exceed {nameof(DistributedOptions.WorkerHeartbeatInterval)}.");
+        }
+
         if (options.WorkerRegistrationTimeout < TimeSpan.Zero)
         {
             failures.Add("Distributed.WorkerRegistrationTimeout cannot be negative.");

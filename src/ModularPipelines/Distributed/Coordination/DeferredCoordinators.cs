@@ -132,6 +132,10 @@ internal sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory f
     public async Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .WaitForCancellationAsync(cancellationToken).ConfigureAwait(false);
+
+    public async Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        await (await GetAsync(cancellationToken).ConfigureAwait(false))
+            .GetMasterStateAsync(cancellationToken).ConfigureAwait(false);
 }
 
 /// <summary>
@@ -170,4 +174,8 @@ internal sealed class DeferredWorkerCoordinator(IDistributedCoordinatorFactory f
     public async Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .WaitForCancellationAsync(cancellationToken).ConfigureAwait(false);
+
+    public async Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        await (await GetAsync(cancellationToken).ConfigureAwait(false))
+            .GetMasterStateAsync(cancellationToken).ConfigureAwait(false);
 }

@@ -37,6 +37,18 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     public string CancellationChannel => $"{_runPrefix}:cancellation:signal";
 
+    /// <summary>
+    /// Gets the key holding the Redis server time of the master's latest heartbeat. Only the master's
+    /// heartbeats renew it, so it expires once the master stops.
+    /// </summary>
+    public string MasterHeartbeat => $"{_runPrefix}:master:heartbeat";
+
+    /// <summary>
+    /// Gets the key marking that the master started. It is renewed with the other run keys, so it
+    /// outlives an expired heartbeat and a stopped master is reported as lost rather than not started.
+    /// </summary>
+    public string MasterStarted => $"{_runPrefix}:master:started";
+
     // Artifact keys
     public string ArtifactMeta(string artifactId) => $"{_runPrefix}:artifacts:meta:{artifactId}";
 
@@ -58,5 +70,6 @@ internal class RedisKeyBuilder(string prefix, string runId)
         WorkerStatuses,
         CompletionFlag,
         CancellationFlag,
+        MasterStarted,
     ];
 }
