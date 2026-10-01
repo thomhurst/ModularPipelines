@@ -340,6 +340,28 @@ public class RedisDistributedExtensionsTests
     }
 
     [Test]
+    public async Task TimeToLive_Must_Exceed_MasterTimeout()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options =>
+        {
+            options.RunId = "ttl-master-run";
+            options.ModuleResultTimeout = TimeSpan.FromMinutes(1);
+            options.MasterTimeout = TimeSpan.FromHours(2);
+        });
+        builder.AddRedisDistributedCoordinator(options =>
+        {
+            options.ConnectionString = "unused";
+            options.TimeToLive = TimeSpan.FromHours(1);
+        });
+
+        await Assert.That(async () => await builder.BuildAsync())
+            .Throws<OptionsValidationException>()
+            .WithMessageContaining(nameof(DistributedOptions.MasterTimeout));
+    }
+
+    [Test]
     public async Task Registering_Redis_Twice_Is_Idempotent()
     {
         var builder = Pipeline.CreateBuilder();

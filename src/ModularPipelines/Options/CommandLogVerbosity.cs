@@ -13,7 +13,7 @@ public enum CommandLogVerbosity
     /// <summary>
     /// Command input only.
     /// </summary>
-    Minimal = 1,
+    InputOnly = 1,
 
     /// <summary>
     /// Standard output (default).

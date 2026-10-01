@@ -52,8 +52,30 @@ public class RedisDistributedCoordinatorTests
 
         await Assert.That(() => RedisDistributedCoordinator.ValidateKeyExpiration(
                 options,
-                new DistributedOptions { ModuleResultTimeout = TimeSpan.Zero, WorkerTimeout = TimeSpan.FromSeconds(30) }))
+                new DistributedOptions
+                {
+                    ModuleResultTimeout = TimeSpan.Zero,
+                    WorkerTimeout = TimeSpan.FromSeconds(30),
+                    MasterTimeout = TimeSpan.FromSeconds(5),
+                }))
             .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task Key_Expiration_Must_Outlast_The_Master_Timeout()
+    {
+        var options = new RedisOptions { TimeToLive = TimeSpan.FromMinutes(1) };
+
+        await Assert.That(() => RedisDistributedCoordinator.ValidateKeyExpiration(
+                options,
+                new DistributedOptions
+                {
+                    ModuleResultTimeout = TimeSpan.Zero,
+                    WorkerTimeout = TimeSpan.FromSeconds(10),
+                    MasterTimeout = TimeSpan.FromMinutes(1),
+                }))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining(nameof(DistributedOptions.MasterTimeout));
     }
 
     [Test]

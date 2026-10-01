@@ -35,7 +35,7 @@ public class FinalCountdownModule : Module<CountdownStatus>
         context.Logger.LogDebug("Transferring to internal power...");
         context.Logger.LogDebug("Ground power disconnect confirmed");
 
-        // Simulate countdown with sub-operations for visibility
+        // Simulate countdown with sub-modules for visibility
         await context.RunSubModuleAsync("T-10 seconds", async token =>
         {
             context.Logger.LogInformation("T-10... Main engine start sequence initiated");

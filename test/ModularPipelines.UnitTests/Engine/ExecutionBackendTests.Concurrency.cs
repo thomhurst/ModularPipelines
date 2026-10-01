@@ -92,7 +92,7 @@ public partial class ExecutionBackendTests
                 await requestCancellation.CancelAsync();
                 await Assert.That(executionToken.IsCancellationRequested).IsTrue();
                 var result = await execution.WaitAsync(cancellationToken);
-                await Assert.That(result.Status).IsEqualTo(ModuleStatus.Cancelled);
+                await Assert.That(result.Status).IsEqualTo(ModuleStatus.Canceled);
                 await Assert.ThrowsAsync<DependencyFailedException>(() => dependent.WaitAsync(cancellationToken));
                 return [result];
             }

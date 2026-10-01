@@ -273,6 +273,15 @@
   <data name="DuplicateDependsOnAnalyzerDescription" xml:space="preserve">
     <value>A module should declare each DependsOn dependency only once.</value>
   </data>
+  <data name="RepeatedSkipWhenAnalyzerTitle" xml:space="preserve">
+    <value>Repeated WithSkipWhen calls are OR-ed</value>
+  </data>
+  <data name="RepeatedSkipWhenAnalyzerMessageFormat" xml:space="preserve">
+    <value>WithSkipWhen is called more than once on the same module configuration builder; the conditions are OR-ed, so the module is skipped when any of them returns skip. Use WithSkipWhenAll to skip only when all conditions apply.</value>
+  </data>
+  <data name="RepeatedSkipWhenAnalyzerDescription" xml:space="preserve">
+    <value>Each WithSkipWhen call adds a skip condition, and the module is skipped when any condition returns skip. In V3, a later WithSkipWhen call replaced an earlier one. Use WithSkipWhenAll to require every condition before skipping, or suppress this diagnostic when OR semantics are intended.</value>
+  </data>
   <data name="CliFlagInvalidTypeTitle" xml:space="preserve"><value>Invalid CLI flag property type</value></data>
   <data name="CliFlagInvalidTypeMessageFormat" xml:space="preserve"><value>CLI flag property '{0}' has type '{1}'; use bool? or int?</value></data>
   <data name="CliFlagInvalidTypeDescription" xml:space="preserve"><value>CLI flags represent an optional boolean switch or an optional repetition count.</value></data>

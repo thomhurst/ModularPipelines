@@ -47,7 +47,7 @@ public class MyModule : Module<CommandResult>
 
     protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        // Do something - will be cancelled after 120 seconds
+        // Do something - will be canceled after 120 seconds
     }
 }
 ```
@@ -83,7 +83,7 @@ delays.
 
 When a timeout occurs:
 
-- The `CancellationToken` passed to `ExecuteAsync` will be cancelled
+- The `CancellationToken` passed to `ExecuteAsync` will be canceled
 - The module will fail with a `ModuleTimeoutException`
 - If retry policies are configured and the attempt stops within the cancellation grace period,
   the module may be retried. An attempt that remains active after the grace period is never retried,

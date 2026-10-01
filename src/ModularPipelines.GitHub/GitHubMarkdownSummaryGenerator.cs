@@ -209,7 +209,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
                 $$$"""${\textsf{\color{lightgreen}{{{status}}}}}$""",
             ModuleStatus.NotStarted or ModuleStatus.FailureIgnored or ModuleStatus.Running or ModuleStatus.Skipped =>
                 $$$"""${\textsf{\color{orange}{{{status}}}}}$""",
-            ModuleStatus.Cancelled or ModuleStatus.TimedOut or ModuleStatus.Failed or ModuleStatus.DependencyFailed or ModuleStatus.Unknown =>
+            ModuleStatus.Canceled or ModuleStatus.TimedOut or ModuleStatus.Failed or ModuleStatus.DependencyFailed or ModuleStatus.Unknown =>
                 $$$"""${\textsf{\color{red}{{{status}}}}}$""",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };

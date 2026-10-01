@@ -29,7 +29,7 @@ public abstract class SyncModule : NonGenericSyncModuleAdapter
     /// Executes the module's core logic synchronously.
     /// </summary>
     /// <param name="context">The module context providing access to pipeline services.</param>
-    /// <param name="cancellationToken">A token that is cancelled if the pipeline fails or the module times out.</param>
+    /// <param name="cancellationToken">A token that is canceled if the pipeline fails or the module times out.</param>
     protected abstract new void Execute(
         IModuleContext context,
         CancellationToken cancellationToken);

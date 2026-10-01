@@ -232,11 +232,11 @@ internal class ModuleExecutor(
         }
         catch (Exception exception)
         {
-            var cancelledModules =
+            var canceledModules =
                 scheduler.CancelPendingModules();
-            RegisterCancelledModuleResults(
+            RegisterCanceledModuleResults(
                 scheduler,
-                cancelledModules,
+                canceledModules,
                 exception);
             throw;
         }
@@ -254,16 +254,16 @@ internal class ModuleExecutor(
         {
             // Expected when cancellation was triggered due to module failure.
             // The scheduler throws OperationCanceledException from WaitForNextSchedulingOpportunity
-            // when the cancellation token is cancelled.
-            _logger.LogDebug("Scheduler cancelled due to module failure");
+            // when the cancellation token is canceled.
+            _logger.LogDebug("Scheduler canceled due to module failure");
         }
 
         _logger.LogDebug("All modules completed");
 
-        // Register PipelineTerminated results for modules that were cancelled before they started
+        // Register PipelineTerminated results for modules that were canceled before they started
         if (firstFailure != null)
         {
-            RegisterCancelledModuleResults(
+            RegisterCanceledModuleResults(
                 scheduler,
                 modules,
                 firstFailure.Exception,
@@ -349,11 +349,11 @@ internal class ModuleExecutor(
 
                         if (isFirstFailure)
                         {
-                            var cancelledModules =
+                            var canceledModules =
                                 scheduler.CancelPendingModules();
-                            RegisterCancelledModuleResults(
+                            RegisterCanceledModuleResults(
                                 scheduler,
-                                cancelledModules,
+                                canceledModules,
                                 pipelineException,
                                 firstFailure!.ModuleType);
                         }
@@ -368,7 +368,7 @@ internal class ModuleExecutor(
         }
         catch (OperationCanceledException) when (firstFailure != null)
         {
-            // Expected when we cancelled due to FailFast
+            // Expected when we canceled due to FailFast
         }
 
         return firstFailure;
@@ -397,7 +397,7 @@ internal class ModuleExecutor(
         return exception;
     }
 
-    private void RegisterCancelledModuleResults(
+    private void RegisterCanceledModuleResults(
         IModuleScheduler scheduler,
         IReadOnlyList<IModule> modules,
         Exception exception,
@@ -407,7 +407,7 @@ internal class ModuleExecutor(
         if (failedModuleType is null
             || scheduler.GetModuleState(failedModuleType)?.Module is not { } failedModule)
         {
-            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(modules, exception);
+            _resultRegistrar.RegisterTerminatedResultsForCanceledModules(modules, exception);
             return;
         }
 

@@ -14,9 +14,23 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
             ["Successful"] = ModuleStatus.Succeeded,
             ["UsedHistory"] = ModuleStatus.RestoredFromHistory,
             ["IgnoredFailure"] = ModuleStatus.FailureIgnored,
-            ["PipelineTerminated"] = ModuleStatus.Cancelled,
+            ["PipelineTerminated"] = ModuleStatus.Canceled,
             ["CachedResult"] = ModuleStatus.RestoredFromCache,
+
+            // V4 previews wrote the British spelling before the status was renamed to Canceled.
+            ["Cancelled"] = ModuleStatus.Canceled,
         };
+
+    internal static bool TryGetLegacyStatus(string? name, out ModuleStatus status)
+    {
+        if (name is not null && LegacyNames.TryGetValue(name, out status))
+        {
+            return true;
+        }
+
+        status = default;
+        return false;
+    }
 
     public override ModuleStatus Read(
         ref Utf8JsonReader reader,
@@ -29,7 +43,7 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
         }
 
         var name = reader.GetString();
-        if (name is not null && LegacyNames.TryGetValue(name, out var legacyStatus))
+        if (TryGetLegacyStatus(name, out var legacyStatus))
         {
             return legacyStatus;
         }

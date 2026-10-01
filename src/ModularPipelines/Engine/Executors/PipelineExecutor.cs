@@ -131,7 +131,7 @@ internal class PipelineExecutor : IPipelineExecutor
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            _logger.LogDebug("Pipeline end handlers were cancelled");
+            _logger.LogDebug("Pipeline end handlers were canceled");
         }
         catch (Exception exception) when (executionFailed)
         {

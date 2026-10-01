@@ -69,6 +69,13 @@ internal interface IBuildSystemDetector
     bool IsBuildServer => IsKnownBuildAgent;
 
     /// <summary>
+    /// Gets the value of the <c>CI</c> environment variable when it is the only reason
+    /// <see cref="IsBuildServer"/> is <see langword="true"/> (no known build agent was detected);
+    /// otherwise, <see langword="null"/>.
+    /// </summary>
+    string? CiVariableOnlyValue => null;
+
+    /// <summary>
     /// Gets the current build agent type, if known.
     /// </summary>
     /// <returns>The build system type.</returns>

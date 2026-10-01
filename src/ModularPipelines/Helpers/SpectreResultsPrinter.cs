@@ -78,7 +78,7 @@ internal class SpectreResultsPrinter(
         var failedCount = metrics?.FailedModules
             ?? CountModules(pipelineSummary, static timeline => timeline.Status is ModuleStatus.Failed
                 or ModuleStatus.TimedOut
-                or ModuleStatus.Cancelled
+                or ModuleStatus.Canceled
                 or ModuleStatus.DependencyFailed);
         var skippedCount = metrics?.SkippedModules
             ?? CountModules(pipelineSummary, static timeline => timeline.WasSkipped);
@@ -193,7 +193,7 @@ internal class SpectreResultsPrinter(
                     {
                         ModuleStatus.Failed => 0,
                         ModuleStatus.TimedOut => 0,
-                        ModuleStatus.Cancelled => 0,
+                        ModuleStatus.Canceled => 0,
                         ModuleStatus.DependencyFailed => 0,
                         ModuleStatus.FailureIgnored => 1,
                         ModuleStatus.Skipped => 2,
@@ -292,7 +292,7 @@ internal class SpectreResultsPrinter(
         {
             ModuleStatus.Failed => $"[red]{moduleName}[/]",
             ModuleStatus.TimedOut => $"[red]{moduleName}[/]",
-            ModuleStatus.Cancelled => $"[red]{moduleName}[/]",
+            ModuleStatus.Canceled => $"[red]{moduleName}[/]",
             ModuleStatus.DependencyFailed => $"[red]{moduleName}[/]",
             ModuleStatus.FailureIgnored => $"[yellow]{moduleName}[/]",
             ModuleStatus.Skipped => $"[dim]{moduleName}[/]",
@@ -310,7 +310,7 @@ internal class SpectreResultsPrinter(
             ModuleStatus.Succeeded => "[green]Passed[/]",
             ModuleStatus.Failed => "[red]Failed[/]",
             ModuleStatus.TimedOut => "[red]Timeout[/]",
-            ModuleStatus.Cancelled => "[red]Terminated[/]",
+            ModuleStatus.Canceled => "[red]Terminated[/]",
             ModuleStatus.DependencyFailed => "[red]Dependency Failed[/]",
             ModuleStatus.FailureIgnored => "[yellow]Ignored[/]",
             ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
@@ -506,7 +506,7 @@ internal class SpectreResultsPrinter(
 
     private static void PrintFailedModules(PipelineSummary pipelineSummary)
     {
-        // Only show modules that actually failed, not cascaded failures (Cancelled)
+        // Only show modules that actually failed, not cascaded failures (Canceled)
         // Cascaded failures are modules that never started because their dependencies failed
         var failedResults = pipelineSummary.Results
             .Where(result => result.ExceptionOrDefault is not null)

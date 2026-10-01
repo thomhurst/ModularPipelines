@@ -96,6 +96,12 @@ public record AwsS3vectorsQueryVectorsOptions : AwsOptions, IValidatableObject
     public string? Filter { get; set; }
 
     /// <summary>
+    /// The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values: o CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index. o ENHANCED - Applies metadata filters before the vector search. Possible values: o CLASSIC o ENHANCED
+    /// </summary>
+    [CliOption("--query-mode")]
+    public string? QueryMode { get; set; }
+
+    /// <summary>
     /// Indicates whether to include metadata in the response. The default value is false .
     /// </summary>
     [CliFlag("--return-metadata", NegatedName = "--no-return-metadata")]

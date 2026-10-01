@@ -241,16 +241,16 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
-    public async Task Minimal_Verbosity_Logs_Only_Input()
+    public async Task InputOnly_Verbosity_Logs_Only_Input()
     {
         var file = await RunPowerShellCommandWithLoggingOptions(
             "echo Hello",
-            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Minimal });
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.InputOnly });
 
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Minimal doesn't show output, exit code, or duration
+        // InputOnly doesn't show output, exit code, or duration
         await Assert.That(logFile).DoesNotContain("↳");
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();

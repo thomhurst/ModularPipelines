@@ -52,7 +52,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         }
         catch (ObjectDisposedException)
         {
-            // Linked CancellationTokenSource may already be disposed if the engine token was cancelled
+            // Linked CancellationTokenSource may already be disposed if the engine token was canceled
         }
 
         await SafelyAwaitProgressPrinter().ConfigureAwait(false);

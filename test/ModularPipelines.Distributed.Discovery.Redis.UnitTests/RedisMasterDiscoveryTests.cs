@@ -83,7 +83,7 @@ public class RedisMasterDiscoveryTests
     [Test]
     public async Task Discovery_Does_Not_Translate_A_Store_Cancellation_Into_A_Timeout()
     {
-        var discovery = Create(new FakeStore { ThrowOnRead = new OperationCanceledException("store cancelled") });
+        var discovery = Create(new FakeStore { ThrowOnRead = new OperationCanceledException("store canceled") });
 
         await Assert.That(async () => await discovery.DiscoverMasterEndpointAsync(CancellationToken.None))
             .ThrowsExactly<OperationCanceledException>();

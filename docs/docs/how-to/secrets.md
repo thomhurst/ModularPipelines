@@ -50,11 +50,8 @@ or `SecretMaskingOptions` instead.
 You can also configure multiple sections through options:
 
 ```csharp
-builder.ConfigureOptions(options => options with
+builder.ConfigureSecrets(secrets => secrets with
 {
-    Secrets = options.Secrets with
-    {
-        MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
-    },
+    MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
 });
 ```

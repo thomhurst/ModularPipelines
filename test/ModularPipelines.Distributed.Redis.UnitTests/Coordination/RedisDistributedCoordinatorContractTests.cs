@@ -31,8 +31,8 @@ public class RedisDistributedCoordinatorContractTests
         RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
 
     [Test]
-    public Task Cancelled_Dequeue_Throws() =>
-        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CancelledDequeueThrowsAsync(coordinator));
+    public Task Canceled_Dequeue_Throws() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CanceledDequeueThrowsAsync(coordinator));
 
     [Test]
     public Task Cancellation_Signal_Unblocks_Worker_Observer() =>
@@ -135,6 +135,80 @@ public class RedisDistributedCoordinatorContractTests
             await Assert.That(received.Payload).IsEqualTo(result.Payload);
         });
 
+    [Test]
+    public Task Master_State_Follows_Heartbeat_And_Completion() =>
+        RunAsync(
+            async (coordinator, _, _, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+
+                // A master that has not sent a heartbeat yet has not started; it is not lost.
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Running);
+
+                await redis.SendMasterHeartbeatAsync(CancellationToken.None);
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Running);
+
+                await WaitForMasterStateAsync(redis, DistributedMasterState.Lost);
+
+                // A master that signalled completion finished normally, however long ago.
+                await redis.SignalCompletionAsync(CancellationToken.None);
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Completed);
+            },
+            readySignalCount: 1,
+            workerTimeout: null,
+            masterTimeout: TimeSpan.FromMilliseconds(200));
+
+    [Test]
+    public Task Master_Whose_Heartbeat_Expired_Is_Lost() =>
+        RunAsync(
+            async (coordinator, database, keys, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+                await redis.SendMasterHeartbeatAsync(CancellationToken.None);
+
+                // The heartbeat expires once the master stops renewing it; the started marker remains.
+                await database.KeyDeleteAsync(keys.MasterHeartbeat);
+
+                await Assert.That(await database.KeyExistsAsync(keys.MasterStarted)).IsTrue();
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Lost);
+            },
+            readySignalCount: 1,
+            workerTimeout: null);
+
+    [Test]
+    public Task Master_Heartbeat_Loop_Stops_When_The_Coordinator_Is_Disposed() =>
+        RunAsync(
+            async (coordinator, database, keys, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+                redis.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
+                await WaitUntilAsync(async () => await database.KeyExistsAsync(keys.MasterHeartbeat));
+                await Assert.That(await redis.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Running);
+
+                await redis.DisposeAsync();
+                await WaitForMasterStateAsync(redis, DistributedMasterState.Lost);
+            },
+            readySignalCount: 1,
+            workerTimeout: null,
+            masterTimeout: TimeSpan.FromMilliseconds(500));
+
+    private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
+        WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
+
+    private static async Task WaitUntilAsync(Func<Task<bool>> condition)
+    {
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        while (!await condition())
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(50), timeout.Token);
+        }
+    }
+
     private static Task RunContractAsync(
         Func<IDistributedMasterCoordinator, Task, Task> contract,
         int readySignalCount = 1,
@@ -147,7 +221,8 @@ public class RedisDistributedCoordinatorContractTests
     private static async Task RunAsync(
         Func<IDistributedMasterCoordinator, IDatabase, RedisKeyBuilder, Task, Task> test,
         int readySignalCount,
-        TimeSpan? workerTimeout)
+        TimeSpan? workerTimeout,
+        TimeSpan? masterTimeout = null)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -182,6 +257,7 @@ public class RedisDistributedCoordinatorContractTests
             {
                 WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
                 ModuleResultTimeout = TimeSpan.FromSeconds(30),
+                MasterTimeout = masterTimeout ?? TimeSpan.FromSeconds(30),
             });
 
         await test(coordinator, connection.GetDatabase(), keys, ready.Task);

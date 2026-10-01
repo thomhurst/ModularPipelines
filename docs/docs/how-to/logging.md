@@ -99,7 +99,7 @@ Command output is logged one line at a time, each prefixed with `↳`, whether i
 | Level | Description |
 |-------|-------------|
 | `Silent` | No output at all |
-| `Minimal` | Only command input (no output/errors) |
+| `InputOnly` | Only command input (no output/errors) |
 | `Normal` | Input, output, and errors on failure (default) |
 | `Detailed` | Above plus exit code and duration |
 | `Diagnostic` | Everything including working directory and timestamps |
@@ -126,21 +126,15 @@ Set default logging for all commands at the pipeline level:
 var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 {
-    Commands = options.Commands with
-    {
-        Logging = CommandLoggingOptions.Silent,
-    },
+    Logging = CommandLoggingOptions.Silent,
 });
 
 // Or use Diagnostic for debugging
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 {
-    Commands = options.Commands with
-    {
-        Logging = CommandLoggingOptions.Diagnostic,
-    },
+    Logging = CommandLoggingOptions.Diagnostic,
 });
 
 await builder.RunAsync();
@@ -221,12 +215,9 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
     Logging = HttpLoggingOptions.Minimal,
 });
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureHttp(http => http with
 {
-    Http = options.Http with
-    {
-        Logging = HttpLoggingOptions.None,
-    },
+    Logging = HttpLoggingOptions.None,
 });
 ```
 

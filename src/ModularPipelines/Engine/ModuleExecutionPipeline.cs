@@ -760,7 +760,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         // Check if we should ignore failures
         if (config.IgnoreFailuresCondition != null
-            && (executionContext.Status != ModuleStatus.Cancelled
+            && (executionContext.Status != ModuleStatus.Canceled
                 || exception is ModuleTimeoutException))
         {
             if (await config.IgnoreFailuresCondition(
@@ -786,14 +786,14 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        if (executionContext.Status == ModuleStatus.Cancelled)
+        if (executionContext.Status == ModuleStatus.Canceled)
         {
             logger.LogInformation("Pipeline has been canceled");
 
-            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
-            preserveResult(cancelledResult);
-            executionContext.SetTypedResult(cancelledResult);
-            return cancelledResult;
+            var canceledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
+            preserveResult(canceledResult);
+            executionContext.SetTypedResult(canceledResult);
+            return canceledResult;
         }
 
         // Create a failed result before cancelling and throwing
@@ -820,7 +820,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         if (executionContext.HonorCallerCancellation
             && WorkerCancellationClassifier.IsExpected(exception, executionContext.ModuleCancellationTokenSource.Token))
         {
-            return ModuleStatus.Cancelled;
+            return ModuleStatus.Canceled;
         }
 
         return ClassifyException(config, exception);
@@ -833,9 +833,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Exception exception)
     {
         if (!config.AlwaysRun
-            && IsPipelineCancelled(exception))
+            && IsPipelineCanceled(exception))
         {
-            return ModuleStatus.Cancelled;
+            return ModuleStatus.Canceled;
         }
 
         return exception is ModuleTimeoutException
@@ -843,10 +843,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             : ModuleStatus.Failed;
     }
 
-    private bool IsPipelineCancelled(Exception exception)
+    private bool IsPipelineCanceled(Exception exception)
     {
         return exception is OperationCanceledException or ModuleTimeoutException
-               && _engineCancellationToken.IsCancelled;
+               && _engineCancellationToken.IsCanceled;
     }
 
     private void CancelPipelineAndThrow(
@@ -945,7 +945,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             ModuleStatus.Skipped => LogLevel.Information,
             ModuleStatus.Unknown => LogLevel.Error,
             ModuleStatus.FailureIgnored => LogLevel.Warning,
-            ModuleStatus.Cancelled => LogLevel.Error,
+            ModuleStatus.Canceled => LogLevel.Error,
             ModuleStatus.DependencyFailed => LogLevel.Error,
             ModuleStatus.RestoredFromHistory => LogLevel.Information,
             ModuleStatus.RestoredFromCache => LogLevel.Information,

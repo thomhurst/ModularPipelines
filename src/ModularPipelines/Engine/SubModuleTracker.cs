@@ -5,7 +5,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Lightweight tracker for sub-operations within a module.
+/// Lightweight tracker for sub-modules within a module.
 /// </summary>
 /// <remarks>
 /// SubModuleTracker provides progress tracking for nested operations without the

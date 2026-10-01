@@ -96,7 +96,7 @@ public class OutputCoordinatorTests
     [Test]
     public async Task DeferredFlush_ProviderCancellationRequeuesCurrentAndUnstartedOutputs()
     {
-        var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider cancelled"));
+        var firstBuffer = new FailingOnceOutputBuffer(new OperationCanceledException("provider canceled"));
         var secondBuffer = new CancellingOutputBuffer();
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
         coordinator.SetProgressActive(true);

@@ -30,11 +30,11 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     /// Gets or sets the maximum time allowed for the HTTP request to complete.
     /// </summary>
     /// <remarks>
-    /// <para>When set, the request will be cancelled if it exceeds this duration.</para>
+    /// <para>When set, the request will be canceled if it exceeds this duration.</para>
     /// <para>If the request does not complete within the timeout, a <see cref="System.OperationCanceledException"/> or
     /// <see cref="System.Threading.Tasks.TaskCanceledException"/> will be thrown.</para>
     /// <para>If not set (null), the request will use the default HttpClient timeout or run until completion
-    /// or until the passed cancellation token is cancelled.</para>
+    /// or until the passed cancellation token is canceled.</para>
     /// </remarks>
     public TimeSpan? Timeout { get; init; }
 

@@ -132,7 +132,7 @@ internal static class ModuleActivityTracing
         var status = exception switch
         {
             PipelineFailedException pipelineFailedException => pipelineFailedException.Summary.Status,
-            OperationCanceledException => ModuleStatus.Cancelled,
+            OperationCanceledException => ModuleStatus.Canceled,
             _ => ModuleStatus.Failed,
         };
         activity?.SetTag(PipelineStatusTag, status.ToString());
@@ -267,9 +267,9 @@ internal static class ModuleActivityTracing
         activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from fingerprint cache");
     }
 
-    internal static void RecordCancelled(Activity? activity)
+    internal static void RecordCanceled(Activity? activity)
     {
-        activity?.SetTag(ModuleStatusTag, ModuleStatus.Cancelled.ToString());
+        activity?.SetTag(ModuleStatusTag, ModuleStatus.Canceled.ToString());
         activity?.SetStatus(ActivityStatusCode.Error, "Module terminated because the pipeline failed");
     }
 

@@ -74,7 +74,7 @@ internal static class Disposer
         }
         catch (OperationCanceledException)
         {
-            // Expected - operations may be cancelled during shutdown
+            // Expected - operations may be canceled during shutdown
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {

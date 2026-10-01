@@ -9,7 +9,7 @@ internal static class DistributedFailurePublisher
         SerializedModuleResult result,
         ModuleLease? lease)
     {
-        // Claimed work needs a terminal result even when the worker is already cancelled.
+        // Claimed work needs a terminal result even when the worker is already canceled.
         // Bound cleanup independently, including coordinators that ignore cancellation.
         using var publicationCts = new CancellationTokenSource(PublicationTimeout);
         await coordinator.PublishResultAsync(result, lease, publicationCts.Token)

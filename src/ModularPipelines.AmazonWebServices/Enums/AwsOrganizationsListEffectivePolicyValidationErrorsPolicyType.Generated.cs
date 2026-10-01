@@ -31,6 +31,9 @@ public enum AwsOrganizationsListEffectivePolicyValidationErrorsPolicyType
     [EnumValue("DECLARATIVE_POLICY_EC2")]
     DeclarativePolicyEc2,
 
+    [EnumValue("GUARDDUTY_POLICY")]
+    GuarddutyPolicy,
+
     [EnumValue("INSPECTOR_POLICY")]
     InspectorPolicy,
 

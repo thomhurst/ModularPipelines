@@ -138,4 +138,34 @@ public class BuildSystemDetectorTests : TestBase
         await Assert.That(_buildSystemDetector.Current).IsEqualTo(BuildSystem.AzurePipelines);
         await Assert.That(_buildSystemDetector.MatchedEnvironmentVariable).IsEqualTo("TF_BUILD");
     }
+
+    [Test]
+    [Arguments("1", "1")]
+    [Arguments(" true ", "true")]
+    [Arguments("false", null)]
+    [Arguments("0", null)]
+    [Arguments(null, null)]
+    public async Task CiVariableOnlyValue_Reports_Truthy_CI_Without_Known_Agent(string? ciValue, string? expected)
+    {
+        _environmentVariables
+            .Setup(variables => variables.Get("CI", It.IsAny<EnvironmentVariableTarget>()))
+            .Returns(ciValue);
+
+        await Assert.That(_buildSystemDetector.CiVariableOnlyValue).IsEqualTo(expected);
+        await Assert.That(_buildSystemDetector.IsBuildServer).IsEqualTo(expected is not null);
+    }
+
+    [Test]
+    public async Task CiVariableOnlyValue_Is_Null_When_Known_Agent_Detected()
+    {
+        _environmentVariables
+            .Setup(variables => variables.Get("CI", It.IsAny<EnvironmentVariableTarget>()))
+            .Returns("true");
+        _environmentVariables
+            .Setup(variables => variables.Get("GITHUB_ACTIONS", It.IsAny<EnvironmentVariableTarget>()))
+            .Returns("true");
+
+        await Assert.That(_buildSystemDetector.CiVariableOnlyValue).IsNull();
+        await Assert.That(_buildSystemDetector.IsBuildServer).IsTrue();
+    }
 }

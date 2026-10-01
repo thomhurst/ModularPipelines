@@ -1,3 +1,5 @@
+using System.Net.Sockets;
+using System.Net.WebSockets;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -10,19 +12,28 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 /// </summary>
 /// <remarks>
 /// Every operation is a worker-to-master invocation, so nothing the master sends can be missed while
-/// the worker is disconnected. After an automatic reconnect the worker registers again under the
+/// the worker is disconnected. The one exception is the master's completion notice, which the worker
+/// records and acknowledges; the master pushes it again when a worker registers after completing and
+/// waits for acknowledgements before it stops, so a normal shutdown is never mistaken for a lost
+/// master. After an automatic reconnect the worker registers again under the
 /// same session and retries interrupted invocations; its heartbeats then renew the leases it still
 /// holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
-/// <see langword="null"/> so the worker stops, and other operations fail.
+/// <see langword="null"/> so the worker stops, other operations fail, and
+/// <see cref="GetMasterStateAsync"/> reports the master as lost unless it had signalled completion.
 /// </remarks>
 internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, IAsyncDisposable
 {
     private readonly HubConnection _connection;
     private readonly ILogger<SignalRWorkerCoordinator> _logger;
+    private readonly IDisposable _masterCompletedSubscription;
+
     private readonly Lock _stateLock = new();
     private TaskCompletionSource<bool> _ready = CreateReadySignal(completed: true);
+    private TaskCompletionSource _changed = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private WorkerRegistration? _registration;
     private long _generation;
+    private bool _masterCompleted;
+    private bool _connectionClosed;
 
     public SignalRWorkerCoordinator(HubConnection connection, ILogger<SignalRWorkerCoordinator> logger)
     {
@@ -31,7 +42,20 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
+        _masterCompletedSubscription = _connection.On(HubMethodNames.MasterCompleted, OnMasterCompletedAsync);
+        RegisterAgainAsync = registration => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
     }
+
+    /// <summary>
+    /// Gets or sets how long a transport failure waits for the connection-change callback that
+    /// usually follows it.
+    /// </summary>
+    internal TimeSpan ConnectionChangeGracePeriod { get; set; } = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// Gets or sets how the worker registers again after an automatic reconnect.
+    /// </summary>
+    internal Func<WorkerRegistration, Task> RegisterAgainAsync { get; set; }
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
@@ -49,10 +73,17 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     {
         try
         {
-            return await InvokeAsync(
+            var lease = await InvokeAsync(
                     token => _connection.InvokeAsync<ModuleLease?>(HubMethodNames.DequeueModule, token),
                     cancellationToken)
                 .ConfigureAwait(false);
+            if (lease is null)
+            {
+                // The master signalled completion, so closing the connection afterwards is expected.
+                Volatile.Write(ref _masterCompleted, true);
+            }
+
+            return lease;
         }
         catch (MasterConnectionClosedException)
         {
@@ -82,15 +113,23 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             token => _connection.InvokeAsync<DistributedCancellationReason>(HubMethodNames.WaitForCancellation, token),
             cancellationToken);
 
+    public Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        Task.FromResult(
+            Volatile.Read(ref _masterCompleted) ? DistributedMasterState.Completed
+            : Volatile.Read(ref _connectionClosed) ? DistributedMasterState.Lost
+            : DistributedMasterState.Running);
+
     public async ValueTask DisposeAsync()
     {
         _connection.Reconnecting -= OnReconnectingAsync;
         _connection.Reconnected -= OnReconnectedAsync;
         _connection.Closed -= OnClosedAsync;
+        _masterCompletedSubscription.Dispose();
         await _connection.DisposeAsync().ConfigureAwait(false);
         lock (_stateLock)
         {
             _ready.TrySetResult(false);
+            SignalConnectionChanged();
         }
     }
 
@@ -104,7 +143,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
                 cancellationToken)
             .ConfigureAwait(false);
 
-    private async Task<T> InvokeAsync<T>(Func<CancellationToken, Task<T>> invoke, CancellationToken cancellationToken)
+    internal async Task<T> InvokeAsync<T>(Func<CancellationToken, Task<T>> invoke, CancellationToken cancellationToken)
     {
         while (true)
         {
@@ -113,11 +152,13 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             {
                 return await invoke(cancellationToken).ConfigureAwait(false);
             }
-            catch (Exception exception) when (
-                exception is not HubException
-                && !cancellationToken.IsCancellationRequested
-                && ConnectionChangedSince(generation))
+            catch (Exception exception) when (exception is not HubException && !cancellationToken.IsCancellationRequested)
             {
+                if (!await ConnectionChangesAsync(generation, exception, cancellationToken).ConfigureAwait(false))
+                {
+                    throw;
+                }
+
                 // The connection dropped mid-invocation; wait for re-registration and retry.
                 _logger.LogDebug(exception, "Master invocation interrupted by a reconnect; retrying");
             }
@@ -142,21 +183,100 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return generation;
     }
 
-    private bool ConnectionChangedSince(long generation)
+    /// <summary>
+    /// Decides whether a failed invocation was caused by the connection changing.
+    /// </summary>
+    /// <remarks>
+    /// The transport can fail a pending invocation before <see cref="HubConnection"/> raises
+    /// <see cref="HubConnection.Closed"/> or <see cref="HubConnection.Reconnecting"/>, so a transport
+    /// failure seen while the connection still looks unchanged waits briefly for one of those callbacks.
+    /// Any other failure cannot be explained by a connection change that has not happened yet, so it
+    /// surfaces immediately.
+    /// </remarks>
+    private async Task<bool> ConnectionChangesAsync(long generation, Exception exception, CancellationToken cancellationToken)
     {
         lock (_stateLock)
         {
-            return generation != _generation
-                   || !_ready.Task.IsCompleted
-                   || _connection.State != HubConnectionState.Connected;
+            if (!_ready.Task.IsCompleted)
+            {
+                return true;
+            }
+        }
+
+        return await ConnectionChangesSinceAsync(generation, exception, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Decides whether a failure was caused by the connection changing after <paramref name="generation"/>,
+    /// waiting briefly for the callback that follows a transport failure.
+    /// </summary>
+    private async Task<bool> ConnectionChangesSinceAsync(long generation, Exception exception, CancellationToken cancellationToken)
+    {
+        Task changed;
+        lock (_stateLock)
+        {
+            if (generation != _generation || _connection.State != HubConnectionState.Connected)
+            {
+                return true;
+            }
+
+            if (!IsTransportFailure(exception))
+            {
+                return false;
+            }
+
+            changed = _changed.Task;
+        }
+
+        try
+        {
+            await changed.WaitAsync(ConnectionChangeGracePeriod, cancellationToken).ConfigureAwait(false);
+            return true;
+        }
+        catch (TimeoutException)
+        {
+            return false;
         }
     }
 
-    private Task OnReconnectingAsync(Exception? exception)
+    /// <summary>
+    /// Determines whether an invocation failure can come from the underlying connection failing.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="HubConnection"/> fails pending invocations with the transport error that closed the
+    /// connection, or cancels them when it closed without one.
+    /// </remarks>
+    private static bool IsTransportFailure(Exception exception)
+    {
+        for (var current = exception; current is not null; current = current.InnerException)
+        {
+            if (current is OperationCanceledException
+                or IOException
+                or WebSocketException
+                or SocketException
+                or HttpRequestException
+                or ObjectDisposedException
+                or TimeoutException)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void SignalConnectionChanged()
+    {
+        _generation++;
+        _changed.TrySetResult();
+        _changed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    internal Task OnReconnectingAsync(Exception? exception)
     {
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             if (_ready.Task.IsCompleted)
             {
                 _ready = CreateReadySignal(completed: false);
@@ -167,8 +287,14 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return Task.CompletedTask;
     }
 
-    private async Task OnReconnectedAsync(string? connectionId)
+    internal async Task OnReconnectedAsync(string? connectionId)
     {
+        long generation;
+        lock (_stateLock)
+        {
+            generation = _generation;
+        }
+
         var registration = Volatile.Read(ref _registration);
         var registered = true;
         if (registration is not null)
@@ -176,11 +302,26 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             try
             {
                 // Same registration, same session: the master treats it as a reconnect.
-                await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration).ConfigureAwait(false);
-                _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
+                await RegisterAgainAsync(registration).ConfigureAwait(false);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
+                }
             }
             catch (Exception exception)
             {
+                if (exception is not HubException
+                    && await ConnectionChangesSinceAsync(generation, exception, CancellationToken.None).ConfigureAwait(false))
+                {
+                    // The connection dropped again while registering. The next Reconnected or Closed
+                    // callback settles readiness; stopping here would abandon the remaining reconnect attempts.
+                    _logger.LogWarning(
+                        exception,
+                        "Connection to the master dropped again while worker {WorkerId} registered again",
+                        registration.WorkerId);
+                    return;
+                }
+
                 registered = false;
                 _logger.LogError(exception, "Worker {WorkerId} could not register again after reconnecting", registration.WorkerId);
             }
@@ -188,7 +329,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
 
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             _ready.TrySetResult(registered);
         }
 
@@ -198,11 +339,28 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         }
     }
 
+    internal async Task OnMasterCompletedAsync()
+    {
+        Volatile.Write(ref _masterCompleted, true);
+        _logger.LogDebug("The distributed master signalled completion");
+        try
+        {
+            // Sending does not wait for a reply, so it cannot deadlock the connection's receive loop.
+            await _connection.SendAsync(HubMethodNames.AcknowledgeCompletion).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // The master stops its server after a bounded wait, and completion is already recorded.
+            _logger.LogDebug(exception, "Could not acknowledge the distributed master's completion");
+        }
+    }
+
     private Task OnClosedAsync(Exception? exception)
     {
+        Volatile.Write(ref _connectionClosed, true);
         lock (_stateLock)
         {
-            _generation++;
+            SignalConnectionChanged();
             if (_ready.Task.IsCompleted)
             {
                 _ready = CreateReadySignal(completed: false);
@@ -225,6 +383,6 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return signal;
     }
 
-    private sealed class MasterConnectionClosedException()
+    internal sealed class MasterConnectionClosedException()
         : InvalidOperationException("The connection to the distributed master is closed.");
 }

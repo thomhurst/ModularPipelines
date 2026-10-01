@@ -286,7 +286,7 @@ public class HttpTests : TestBase
             Mock.Of<IHttpLogger>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
         using var response = await http.SendAsync(new HttpOptions(
-            new HttpRequestMessage(HttpMethod.Get, "https://example.test/cancelled-eof"))
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/canceled-eof"))
         {
             HttpClient = httpClient,
             Logging = HttpLoggingOptions.None,

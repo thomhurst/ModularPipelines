@@ -29,6 +29,7 @@ sidebar_position: 1
 | [`MP0017`](./MP0017.md) | Usage | Warning | Public analyzer package | Thread.Sleep in ExecuteAsync. |
 | [`MP0018`](./MP0018.md) | Usage | Warning | Public analyzer package | Module class is not public. |
 | [`MP0019`](./MP0019.md) | Usage | Warning | Public analyzer package | Duplicate DependsOn declaration. |
+| [`MP0020`](./MP0020.md) | Usage | Info | Public analyzer package | Repeated WithSkipWhen calls on one module configuration builder are OR-ed. |
 | [`MPCLI001`](./MPCLI001.md) | Usage | Error | Public analyzer package | CliFlag property must be bool? or int? |
 | [`MPCLI002`](./MPCLI002.md) | Usage | Error | Public analyzer package | Value-less bool? CliOption should use CliFlag. |
 | [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |

@@ -44,6 +44,15 @@ internal sealed class RedisOptionsValidator(IOptions<DistributedOptions> distrib
                     $"{nameof(DistributedOptions)}.{nameof(DistributedOptions.ModuleResultTimeout)} ({moduleResultTimeout}) " +
                     "so run keys and artifacts do not expire mid-run.");
             }
+
+            var masterTimeout = distributedOptions.Value.MasterTimeout;
+            if (options.TimeToLive <= masterTimeout)
+            {
+                failures.Add(
+                    $"{nameof(RedisOptions)}.{nameof(RedisOptions.TimeToLive)} ({options.TimeToLive}) must exceed " +
+                    $"{nameof(DistributedOptions)}.{nameof(DistributedOptions.MasterTimeout)} ({masterTimeout}) " +
+                    "so workers see a stopped master's heartbeat go stale before it expires.");
+            }
         }
 
         return failures.Count == 0

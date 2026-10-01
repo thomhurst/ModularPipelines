@@ -13,7 +13,7 @@ public interface IModuleSkippedHandler : IEventHandler
     /// </summary>
     /// <param name="context">The module hook context.</param>
     /// <param name="reason">The decision that caused the module to be skipped.</param>
-    /// <param name="cancellationToken">A token cancelled when the pipeline is cancelled by the user or host.</param>
+    /// <param name="cancellationToken">A token canceled when the pipeline is canceled by the user or host.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>
     /// Skipped handlers observe the outcome and cannot change it. A handler failure is logged and

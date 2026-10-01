@@ -56,7 +56,7 @@ public record TestHostSettings
     public bool ShowProgressInConsole { get; init; }
 
     /// <summary>
-    /// Maximum time allowed for pipeline execution before the test is cancelled.
+    /// Maximum time allowed for pipeline execution before the test is canceled.
     /// Defaults to 30 seconds. Set to <see cref="Timeout.InfiniteTimeSpan"/> to disable.
     /// </summary>
     public TimeSpan TestTimeout { get; init; } = DefaultTestTimeout;

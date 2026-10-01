@@ -139,6 +139,12 @@ public record AwsGlueUpdateCrawlerOptions : AwsOptions, IValidatableObject
     [CliOption("--crawler-security-configuration")]
     public string? CrawlerSecurityConfiguration { get; set; }
 
+    /// <summary>
+    /// The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is pre- served. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// </summary>
+    [CliOption("--catalog-id")]
+    public string? CatalogId { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

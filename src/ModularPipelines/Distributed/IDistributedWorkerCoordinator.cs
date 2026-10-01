@@ -42,7 +42,7 @@ public interface IDistributedWorkerCoordinator
     /// <param name="workerCapabilities">The capabilities the claiming worker offers.</param>
     /// <param name="cancellationToken">Cancels the wait.</param>
     /// <returns>The claimed lease, or <see langword="null"/> once the master has signalled completion.</returns>
-    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was canceled.</exception>
     Task<ModuleLease?> DequeueModuleAsync(
         WorkerId workerId,
         IReadOnlySet<Capability> workerCapabilities,
@@ -78,6 +78,21 @@ public interface IDistributedWorkerCoordinator
     /// <summary>
     /// Waits until the master broadcasts distributed cancellation.
     /// </summary>
-    /// <returns>Why the master cancelled execution.</returns>
+    /// <returns>Why the master canceled execution.</returns>
     Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Reports whether the master is still running, has signalled completion, or was lost.
+    /// </summary>
+    /// <remarks>
+    /// Workers poll this every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>. Once the
+    /// master is no longer <see cref="DistributedMasterState.Running"/>, nothing will collect results,
+    /// so the worker cancels its in-flight modules, including AlwaysRun modules. A
+    /// <see cref="DistributedMasterState.Lost"/> master also fails the worker. A worker that cannot
+    /// get an answer for <see cref="DistributedOptions.MasterTimeout"/> treats the master as lost.
+    /// The default implementation cannot observe the master and always reports
+    /// <see cref="DistributedMasterState.Running"/>.
+    /// </remarks>
+    Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        Task.FromResult(DistributedMasterState.Running);
 }

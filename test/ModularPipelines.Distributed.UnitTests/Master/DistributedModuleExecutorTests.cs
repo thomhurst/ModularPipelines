@@ -1214,7 +1214,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Cancelled_Distributed_Module_Registers_Failure_Result()
+    public async Task Canceled_Distributed_Module_Registers_Failure_Result()
     {
         // Arrange: coordinator throws OperationCanceledException on WaitForResult
         var module = new DistributedModule();
@@ -1226,7 +1226,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new OperationCanceledException("Cancelled by test"));
+            .ThrowsAsync(new OperationCanceledException("Canceled by test"));
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -1678,7 +1678,7 @@ public class DistributedModuleExecutorTests
     [Test]
     public async Task Failed_Module_Cancels_Pipeline_For_Remaining_Modules()
     {
-        // Arrange: two modules — first fails, second should be cancelled
+        // Arrange: two modules — first fails, second should be canceled
         var moduleA = new DistributedModule();
         var moduleB = new AnotherDistributedModule();
         var stateA = new ModuleState(moduleA, typeof(DistributedModule));
@@ -1709,10 +1709,10 @@ public class DistributedModuleExecutorTests
         var executionTask = executor.ExecuteAsync([moduleA, moduleB]);
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, lease: null, CancellationToken.None);
-        // Don't publish moduleB result — it should be cancelled
+        // Don't publish moduleB result — it should be canceled
         await executionTask;
 
-        // Assert — module A has failure, module B also gets a failure (cancelled)
+        // Assert — module A has failure, module B also gets a failure (canceled)
         var resultA = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(resultA).IsNotNull();
         await Assert.That(resultA!.ExceptionOrDefault).IsNotNull();
@@ -1730,10 +1730,10 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(
             new ModuleState(failedModule, typeof(DistributedModule)),
             new ModuleState(alwaysRunModule, typeof(AlwaysRunDistributedModule)));
-        var pipelineCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var pipelineCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         scheduler
             .Setup(x => x.CancelPendingModules())
-            .Callback(() => pipelineCancelled.TrySetResult())
+            .Callback(() => pipelineCanceled.TrySetResult())
             .Returns([]);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
@@ -1774,7 +1774,7 @@ public class DistributedModuleExecutorTests
         await noDequeue.WaitForResultStartedAsync(typeof(DistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         await noDequeue.WaitForResultStartedAsync(typeof(AlwaysRunDistributedModule)).WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, lease: null, CancellationToken.None);
-        await pipelineCancelled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await pipelineCanceled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         var alwaysRunWaitToken = noDequeue.ResultWaitTokens[typeof(AlwaysRunDistributedModule).FullName!];
         await Assert.That(alwaysRunWaitToken.IsCancellationRequested).IsFalse();
@@ -2015,13 +2015,13 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(
             new ModuleState(failedModule, typeof(DistributedModule)),
             new ModuleState(queuedModule, typeof(AnotherDistributedModule)));
-        var pipelineCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var pipelineCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         scheduler
             .Setup(x => x.CancelPendingModules())
             .Callback(() =>
             {
                 noDequeue.ReleaseWorkerQuery();
-                pipelineCancelled.TrySetResult();
+                pipelineCanceled.TrySetResult();
             })
             .Returns([]);
         var typeRegistry = new ModuleTypeRegistry();
@@ -2059,7 +2059,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(externalWorkerAssignment?.Assignment.ModuleId)
             .IsEqualTo(typeof(DistributedModule).FullName!);
         await coordinator.PublishResultAsync(serializedFailure, lease: null, CancellationToken.None);
-        await pipelineCancelled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await pipelineCanceled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
 
         await executionTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await Assert.That(noDequeue.DequeueCount).IsEqualTo(0);
@@ -2531,7 +2531,7 @@ public class DistributedModuleExecutorTests
 
     [Test]
     [Timeout(15_000)]
-    public async Task Executor_Signals_Completion_When_Worker_Readiness_Is_Cancelled(
+    public async Task Executor_Signals_Completion_When_Worker_Readiness_Is_Canceled(
         CancellationToken testCancellation)
     {
         var workerQueryStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -2579,7 +2579,7 @@ public class DistributedModuleExecutorTests
         CancellationToken testCancellation)
     {
         var dequeueStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dequeueCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var dequeueCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var publishRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
@@ -2593,7 +2593,7 @@ public class DistributedModuleExecutorTests
                 }
                 catch (OperationCanceledException)
                 {
-                    dequeueCancelled.TrySetResult();
+                    dequeueCanceled.TrySetResult();
                 }
 
                 return null;
@@ -2622,7 +2622,7 @@ public class DistributedModuleExecutorTests
         await dequeueStarted.Task.WaitAsync(testCancellation);
         await executionCancellation.CancelAsync();
 
-        await dequeueCancelled.Task.WaitAsync(testCancellation);
+        await dequeueCanceled.Task.WaitAsync(testCancellation);
         publishRelease.TrySetResult();
         await execution.WaitAsync(testCancellation);
     }
@@ -3109,7 +3109,7 @@ public class DistributedModuleExecutorTests
         await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
             .IsSameReferenceAs(moduleResult);
         scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, ModuleStatus.Cancelled),
+            s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, ModuleStatus.Canceled),
             Times.Once());
     }
 
