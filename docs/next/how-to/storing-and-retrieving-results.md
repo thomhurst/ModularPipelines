@@ -36,6 +36,8 @@ await builder.RunAsync();
 
 Result history resolves type-erased module results at runtime and is not supported for trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the corresponding trim and dynamic-code warnings.
 
+The example below keys each result by commit SHA, so it requires a Git checkout. Outside one, `GetRequiredInfoAsync` throws, so the example neither stores nor restores history there. To keep history outside Git, call `GetInfoAsync` instead and choose a fallback key when it returns `null`.
+
 ```
 public class MyModuleRepository : IModuleResultRepository
 
@@ -67,9 +69,9 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
-        var commit = repositoryInfo?.LastCommitSha;
+        var commit = repositoryInfo.LastCommitSha;
 
         await _blobContainerClient.UploadBlobAsync(
 
@@ -93,9 +95,9 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
-        var commit = repositoryInfo?.LastCommitSha;
+        var commit = repositoryInfo.LastCommitSha;
 
 
 

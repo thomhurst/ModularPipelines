@@ -87,9 +87,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
 
     {
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var testProjects = repository.Root
 
@@ -153,9 +151,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var projects = repository.Root
 
@@ -233,9 +229,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
 
 
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var packages = repository.Root
 

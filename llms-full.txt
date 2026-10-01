@@ -3591,9 +3591,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
 
     {
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var testProjects = repository.Root
 
@@ -3657,9 +3655,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var projects = repository.Root
 
@@ -3737,9 +3733,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
 
 
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var packages = repository.Root
 
@@ -4884,17 +4878,11 @@ Buffered output from modules that are still running is flushed once per minute b
 Configure the interval globally. Setting it to zero disables time-based flushing, but the entry threshold still protects against unbounded buffering:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 
 {
 
-    Console = options.Console with
-
-    {
-
-        ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
-
-    },
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
 
 });
 ```
@@ -4902,19 +4890,13 @@ builder.ConfigureOptions(options => options with
 To keep all output buffered until each module completes, disable both triggers:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 
 {
 
-    Console = options.Console with
+    ModuleOutputFlushInterval = TimeSpan.Zero,
 
-    {
-
-        ModuleOutputFlushInterval = TimeSpan.Zero,
-
-        ModuleOutputFlushThreshold = 0,
-
-    },
+    ModuleOutputFlushThreshold = 0,
 
 });
 ```
@@ -6508,17 +6490,11 @@ var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 
 {
 
-    Commands = options.Commands with
-
-    {
-
-        Logging = CommandLoggingOptions.Silent,
-
-    },
+    Logging = CommandLoggingOptions.Silent,
 
 });
 
@@ -6526,17 +6502,11 @@ builder.ConfigureOptions(options => options with
 
 // Or use Diagnostic for debugging
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 
 {
 
-    Commands = options.Commands with
-
-    {
-
-        Logging = CommandLoggingOptions.Diagnostic,
-
-    },
+    Logging = CommandLoggingOptions.Diagnostic,
 
 });
 
@@ -6650,17 +6620,11 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
 
 
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureHttp(http => http with
 
 {
 
-    Http = options.Http with
-
-    {
-
-        Logging = HttpLoggingOptions.None,
-
-    },
+    Logging = HttpLoggingOptions.None,
 
 });
 ```
@@ -7381,6 +7345,16 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
+To change a single option group, use the matching shortcut. `ConfigureConsole`, `ConfigureConcurrency`, `ConfigureCommands`, `ConfigureHttp`, and `ConfigureSecrets` each replace one group and leave the rest of the options unchanged:
+
+```
+builder
+
+    .ConfigureConsole(console => console with { PrintLogo = false })
+
+    .ConfigureConcurrency(concurrency => concurrency with { MaxParallelism = 4 });
+```
+
 ## Building and Running[​](#building-and-running "Direct link to Building and Running")
 
 The pipeline follows a two-step build-then-run pattern:
@@ -7420,12 +7394,24 @@ if (summary.Status == ModularPipelines.ModuleStatus.Failed)
 
 {
 
+    foreach (var failure in summary.Failures)
+
+    {
+
+        Console.Error.WriteLine($"{failure.Name} failed: {failure.ExceptionOrDefault?.Message}");
+
+    }
+
+
+
     Environment.Exit(1);
 
 }
 ```
 
 Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect the returned summary after a module fails. Fail-fast mode rethrows the module exception.
+
+`summary.Failures` contains the results that failed the pipeline. Results whose failures were ignored, for example through `WithIgnoreFailuresWhen`, are in `summary.IgnoredFailures` instead.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 
@@ -8421,17 +8407,11 @@ Masking itself is not replaceable: console output relies on the built-in masker 
 You can also configure multiple sections through options:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureSecrets(secrets => secrets with
 
 {
 
-    Secrets = options.Secrets with
-
-    {
-
-        MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
-
-    },
+    MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
 
 });
 ```
@@ -8689,6 +8669,14 @@ public class MyModule : Module<CommandResult>
 ```
 
 ### With Skip Reason[​](#with-skip-reason "Direct link to With Skip Reason")
+
+The reason is optional. When it is omitted, a skipped module reports `Skip condition was met`:
+
+```
+protected override void Configure(ModuleConfigurationBuilder module) => module
+
+    .WithSkipWhen(_ => Environment.GetEnvironmentVariable("SKIP_DEPLOY") == "true");
+```
 
 For better reporting, pass the reason alongside the boolean condition:
 
@@ -8976,6 +8964,8 @@ await builder.RunAsync();
 
 Result history resolves type-erased module results at runtime and is not supported for trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the corresponding trim and dynamic-code warnings.
 
+The example below keys each result by commit SHA, so it requires a Git checkout. Outside one, `GetRequiredInfoAsync` throws, so the example neither stores nor restores history there. To keep history outside Git, call `GetInfoAsync` instead and choose a fallback key when it returns `null`.
+
 ```
 public class MyModuleRepository : IModuleResultRepository
 
@@ -9007,9 +8997,9 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
-        var commit = repositoryInfo?.LastCommitSha;
+        var commit = repositoryInfo.LastCommitSha;
 
         await _blobContainerClient.UploadBlobAsync(
 
@@ -9033,9 +9023,9 @@ public class MyModuleRepository : IModuleResultRepository
 
     {
 
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
-        var commit = repositoryInfo?.LastCommitSha;
+        var commit = repositoryInfo.LastCommitSha;
 
 
 
@@ -9095,9 +9085,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
 
 
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repositoryInfo = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var projects = repositoryInfo.Root
 
@@ -50474,6 +50462,20 @@ public class UseGitModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Repository information[​](#repository-information "Direct link to Repository information")
+
+When the pipeline always runs inside a repository, use `GetRequiredInfoAsync`. It throws an `InvalidOperationException` when Git information is unavailable, for example outside a repository or when `git` is not installed:
+
+```
+var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+
+var branch = repository.BranchName;
+
+var commit = repository.LastCommitSha;
+```
+
+Properties such as `BranchName` and `LastCommitSha` remain nullable, for example on a detached HEAD or in a repository without commits. Use `GetInfoAsync` when the pipeline must handle running outside a repository; it returns `null` instead of throwing.
 
 ## Run only when paths change[​](#run-only-when-paths-change "Direct link to Run only when paths change")
 

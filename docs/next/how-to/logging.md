@@ -123,17 +123,11 @@ var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 
 {
 
-    Commands = options.Commands with
-
-    {
-
-        Logging = CommandLoggingOptions.Silent,
-
-    },
+    Logging = CommandLoggingOptions.Silent,
 
 });
 
@@ -141,17 +135,11 @@ builder.ConfigureOptions(options => options with
 
 // Or use Diagnostic for debugging
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureCommands(commands => commands with
 
 {
 
-    Commands = options.Commands with
-
-    {
-
-        Logging = CommandLoggingOptions.Diagnostic,
-
-    },
+    Logging = CommandLoggingOptions.Diagnostic,
 
 });
 
@@ -265,17 +253,11 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
 
 
 
-builder.ConfigureOptions(options => options with
+builder.ConfigureHttp(http => http with
 
 {
 
-    Http = options.Http with
-
-    {
-
-        Logging = HttpLoggingOptions.None,
-
-    },
+    Logging = HttpLoggingOptions.None,
 
 });
 ```

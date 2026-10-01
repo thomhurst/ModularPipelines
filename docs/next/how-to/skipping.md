@@ -68,6 +68,14 @@ public class MyModule : Module<CommandResult>
 
 ### With Skip Reason[​](#with-skip-reason "Direct link to With Skip Reason")
 
+The reason is optional. When it is omitted, a skipped module reports `Skip condition was met`:
+
+```
+protected override void Configure(ModuleConfigurationBuilder module) => module
+
+    .WithSkipWhen(_ => Environment.GetEnvironmentVariable("SKIP_DEPLOY") == "true");
+```
+
 For better reporting, pass the reason alongside the boolean condition:
 
 ```

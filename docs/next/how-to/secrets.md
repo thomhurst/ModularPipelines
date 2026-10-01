@@ -45,17 +45,11 @@ Masking itself is not replaceable: console output relies on the built-in masker 
 You can also configure multiple sections through options:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureSecrets(secrets => secrets with
 
 {
 
-    Secrets = options.Secrets with
-
-    {
-
-        MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
-
-    },
+    MaskedConfigurationSections = ["Secrets", "ConnectionStrings"],
 
 });
 ```

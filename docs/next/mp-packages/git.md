@@ -56,6 +56,20 @@ public class UseGitModule : Module<CommandResult>
 
 The package exposes generated options records for its supported CLI commands.
 
+## Repository information[​](#repository-information "Direct link to Repository information")
+
+When the pipeline always runs inside a repository, use `GetRequiredInfoAsync`. It throws an `InvalidOperationException` when Git information is unavailable, for example outside a repository or when `git` is not installed:
+
+```
+var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+
+var branch = repository.BranchName;
+
+var commit = repository.LastCommitSha;
+```
+
+Properties such as `BranchName` and `LastCommitSha` remain nullable, for example on a detached HEAD or in a repository without commits. Use `GetInfoAsync` when the pipeline must handle running outside a repository; it returns `null` instead of throwing.
+
 ## Run only when paths change[​](#run-only-when-paths-change "Direct link to Run only when paths change")
 
 Use `RunIfChangedAttribute` to run a module when at least one repository-relative glob matches a path changed since the merge base with `origin/main`:

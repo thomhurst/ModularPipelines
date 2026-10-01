@@ -29,9 +29,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
 
 
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repositoryInfo = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
         var projects = repositoryInfo.Root
 

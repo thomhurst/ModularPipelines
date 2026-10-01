@@ -11,17 +11,11 @@ Buffered output from modules that are still running is flushed once per minute b
 Configure the interval globally. Setting it to zero disables time-based flushing, but the entry threshold still protects against unbounded buffering:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 
 {
 
-    Console = options.Console with
-
-    {
-
-        ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
-
-    },
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
 
 });
 ```
@@ -29,19 +23,13 @@ builder.ConfigureOptions(options => options with
 To keep all output buffered until each module completes, disable both triggers:
 
 ```
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 
 {
 
-    Console = options.Console with
+    ModuleOutputFlushInterval = TimeSpan.Zero,
 
-    {
-
-        ModuleOutputFlushInterval = TimeSpan.Zero,
-
-        ModuleOutputFlushThreshold = 0,
-
-    },
+    ModuleOutputFlushThreshold = 0,
 
 });
 ```
