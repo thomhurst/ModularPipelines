@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -19,8 +21,12 @@ internal sealed class MasterServerHost : IAsyncDisposable
     // heartbeats, so one connection must be able to run many invocations at once.
     private const int MaximumParallelInvocationsPerWorker = 1024;
 
+    private static readonly TimeSpan CompletionAcknowledgementPollInterval = TimeSpan.FromMilliseconds(20);
+
     private WebApplication? _app;
     private CloudflaredTunnel? _tunnel;
+    private SignalRMasterState? _masterState;
+    private ILogger? _logger;
 
     /// <summary>
     /// Gets the URL workers should connect to: the configured advertised URL, the tunnel URL, or
@@ -30,6 +36,12 @@ internal sealed class MasterServerHost : IAsyncDisposable
 
     /// <summary>Gets the URL the server bound, including an OS-assigned port.</summary>
     public Uri BoundUrl { get; private set; } = null!;
+
+    /// <summary>
+    /// Gets or sets how long disposal waits for connected workers to acknowledge completion before
+    /// the server stops.
+    /// </summary>
+    internal TimeSpan CompletionAcknowledgementTimeout { get; set; } = TimeSpan.FromSeconds(5);
 
     public async Task StartAsync(
         SignalRDistributedOptions options,
@@ -82,6 +94,8 @@ internal sealed class MasterServerHost : IAsyncDisposable
         _app.MapHub<DistributedPipelineHub>(options.HubPath);
 
         var logger = loggerFactory.CreateLogger<MasterServerHost>();
+        _logger = logger;
+        _masterState = masterState;
 
         // StartAsync completes only once Kestrel has bound to the port.
         await _app.StartAsync(cancellationToken).ConfigureAwait(false);
@@ -106,8 +120,28 @@ internal sealed class MasterServerHost : IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Tells every connected worker that the master has completed. Workers acknowledge it, and
+    /// <see cref="DisposeAsync"/> waits for those acknowledgements so a worker never mistakes the
+    /// server stopping after a normal run for a lost master.
+    /// </summary>
+    public async Task NotifyCompletionAsync(CancellationToken cancellationToken)
+    {
+        if (_app is null || _masterState is null)
+        {
+            return;
+        }
+
+        _masterState.MarkCompleted();
+        await _app.Services.GetRequiredService<IHubContext<DistributedPipelineHub>>()
+            .Clients.All.SendAsync(HubMethodNames.MasterCompleted, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     public async ValueTask DisposeAsync()
     {
+        await WaitForCompletionAcknowledgementsAsync().ConfigureAwait(false);
+
         if (_tunnel is not null)
         {
             await _tunnel.DisposeAsync().ConfigureAwait(false);
@@ -117,6 +151,28 @@ internal sealed class MasterServerHost : IAsyncDisposable
         {
             await _app.StopAsync().ConfigureAwait(false);
             await _app.DisposeAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task WaitForCompletionAcknowledgementsAsync()
+    {
+        if (_masterState is not { IsCompleted: true } masterState)
+        {
+            return;
+        }
+
+        var started = Stopwatch.GetTimestamp();
+        while (!masterState.AllWorkersAcknowledgedCompletion())
+        {
+            if (Stopwatch.GetElapsedTime(started) >= CompletionAcknowledgementTimeout)
+            {
+                _logger?.LogWarning(
+                    "Not every worker acknowledged completion within {Timeout}; stopping the master server anyway",
+                    CompletionAcknowledgementTimeout);
+                return;
+            }
+
+            await Task.Delay(CompletionAcknowledgementPollInterval).ConfigureAwait(false);
         }
     }
 

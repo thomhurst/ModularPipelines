@@ -223,6 +223,48 @@ public class SignalRHubTests
     }
 
     [Test]
+    public async Task Master_That_Exits_During_A_Pending_Dequeue_After_Completing_Is_Not_Lost()
+    {
+        var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+        var dequeue = worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None);
+
+        // The master shuts down straight after completing, without waiting for the dequeue reply.
+        await test.Master.SignalCompletionAsync(CancellationToken.None);
+        await ((IAsyncDisposable) test.Master).DisposeAsync();
+        var lease = await dequeue.WaitAsync(Timeout);
+
+        await Assert.That(lease).IsNull();
+        await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None)).IsEqualTo(DistributedMasterState.Completed);
+        await test.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Busy_Worker_Learns_Of_Completion_Without_Dequeuing()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        await worker.RegisterWorkerAsync(SignalRTestMaster.Registration("worker-a"), CancellationToken.None);
+
+        await test.Master.SignalCompletionAsync(CancellationToken.None);
+
+        await WaitForMasterStateAsync(worker, DistributedMasterState.Completed);
+    }
+
+    [Test]
+    public async Task Worker_That_Registers_After_Completion_Learns_Of_It()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        await test.Master.SignalCompletionAsync(CancellationToken.None);
+        var worker = await test.ConnectWorkerAsync();
+        await worker.RegisterWorkerAsync(SignalRTestMaster.Registration("worker-a"), CancellationToken.None);
+
+        await WaitForMasterStateAsync(worker, DistributedMasterState.Completed);
+    }
+
+    [Test]
     public async Task Unauthorized_Requests_Get_401()
     {
         var request = new Microsoft.AspNetCore.Http.DefaultHttpContext().Request;
@@ -235,6 +277,15 @@ public class SignalRHubTests
         await Assert.That(Server.MasterServerHost.IsAuthorized(request, expected)).IsFalse();
         request.Headers.Authorization = "Bearer token";
         await Assert.That(Server.MasterServerHost.IsAuthorized(request, expected)).IsTrue();
+    }
+
+    private static async Task WaitForMasterStateAsync(IDistributedWorkerCoordinator worker, DistributedMasterState expected)
+    {
+        using var timeout = new CancellationTokenSource(Timeout);
+        while (await worker.GetMasterStateAsync(CancellationToken.None) != expected)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(20), timeout.Token);
+        }
     }
 
     private static ModuleAssignment Assignment(string moduleId) => new()

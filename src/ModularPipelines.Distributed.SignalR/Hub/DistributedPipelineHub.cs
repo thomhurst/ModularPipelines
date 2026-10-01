@@ -9,7 +9,7 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// </summary>
 /// <remarks>
 /// Connections are authenticated by the access token middleware before they reach the hub. Every
-/// method except <see cref="RegisterWorker"/> requires the connection to hold the current
+/// method except <see cref="RegisterWorker"/> and <see cref="AcknowledgeCompletion"/> requires the connection to hold the current
 /// registration for its worker, and results and heartbeats must come from that worker.
 /// </remarks>
 internal sealed class DistributedPipelineHub(
@@ -36,6 +36,13 @@ internal sealed class DistributedPipelineHub(
         }
 
         masterState.Sessions[Context.ConnectionId] = registration;
+        if (masterState.IsCompleted)
+        {
+            // A worker that was disconnected when the master completed still needs to learn it.
+            await Clients.Caller.SendAsync(HubMethodNames.MasterCompleted, Context.ConnectionAborted)
+                .ConfigureAwait(false);
+        }
+
         if (logger.IsEnabled(LogLevel.Information))
         {
             logger.LogInformation(
@@ -97,6 +104,13 @@ internal sealed class DistributedPipelineHub(
         return masterState.Coordinator.WaitForCancellationAsync(Context.ConnectionAborted);
     }
 
+    /// <summary>
+    /// Records that this connection's worker learned the master completed, so the master can stop
+    /// its server without the worker mistaking the closed connection for a lost master.
+    /// </summary>
+    public void AcknowledgeCompletion() =>
+        masterState.CompletionAcknowledgements[Context.ConnectionId] = true;
+
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         // Leases outlive the connection: a worker that reconnects renews them with its heartbeats,
@@ -105,6 +119,8 @@ internal sealed class DistributedPipelineHub(
         {
             logger.LogWarning("Worker {WorkerId} disconnected", registration.WorkerId);
         }
+
+        masterState.CompletionAcknowledgements.TryRemove(Context.ConnectionId, out _);
 
         await base.OnDisconnectedAsync(exception).ConfigureAwait(false);
     }
