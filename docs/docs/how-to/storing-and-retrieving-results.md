@@ -48,8 +48,8 @@ public class MyModuleRepository : IModuleResultRepository
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
-        var commit = repositoryInfo?.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+        var commit = repositoryInfo.LastCommitSha;
         await _blobContainerClient.UploadBlobAsync(
             module.GetType().FullName + commit,
             new BinaryData(JsonSerializer.Serialize(moduleResult)),
@@ -61,8 +61,8 @@ public class MyModuleRepository : IModuleResultRepository
         IPipelineContext pipelineContext,
         CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetInfoAsync();
-        var commit = repositoryInfo?.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+        var commit = repositoryInfo.LastCommitSha;
 
         var blobContent = await _blobContainerClient
             .GetBlobClient(module.GetType().FullName + commit)

@@ -26,8 +26,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repositoryInfo = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
         var projects = repositoryInfo.Root
             .GetFiles(x =>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
