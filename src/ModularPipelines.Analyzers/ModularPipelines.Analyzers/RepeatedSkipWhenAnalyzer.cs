@@ -100,7 +100,8 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     private static bool CanRunOnSameBuilder(object builderKey, IInvocationOperation earlier, IInvocationOperation later)
     {
         if (earlier.SemanticModel is not { } semanticModel
-            || AreMutuallyExclusive(earlier.Syntax, later.Syntax, semanticModel))
+            || (AreMutuallyExclusive(earlier.Syntax, later.Syntax, semanticModel)
+                && !CanRepeatAcrossIterations(builderKey, earlier.Syntax, later.Syntax)))
         {
             return false;
         }
@@ -108,6 +109,33 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         return builderKey is not ReassignedLocalKey reassigned
             || !IsWrittenBetween(reassigned.Local, earlier.Syntax, later.Syntax, semanticModel);
     }
+
+    /// <summary>
+    /// Returns whether a loop in the same member encloses both calls but not the builder's declaration, so branches
+    /// that exclude each other within one iteration can both configure the builder across iterations. Reassigned
+    /// locals are excluded, because each iteration may assign a different builder.
+    /// </summary>
+    private static bool CanRepeatAcrossIterations(object builderKey, SyntaxNode first, SyntaxNode second)
+    {
+        if (builderKey is ReassignedLocalKey)
+        {
+            return false;
+        }
+
+        var declaration = builderKey is ILocalSymbol { DeclaringSyntaxReferences.Length: 1 } local
+            ? local.DeclaringSyntaxReferences[0].GetSyntax()
+            : null;
+        var firstAncestors = new HashSet<SyntaxNode>(first.Ancestors());
+
+        return second.Ancestors()
+            .TakeWhile(ancestor => ancestor is not (AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax or MemberDeclarationSyntax))
+            .Any(ancestor => IsLoop(ancestor)
+                && firstAncestors.Contains(ancestor)
+                && (declaration is null || !ancestor.Span.Contains(declaration.Span)));
+    }
+
+    private static bool IsLoop(SyntaxNode node) =>
+        node is WhileStatementSyntax or DoStatementSyntax or ForStatementSyntax or CommonForEachStatementSyntax;
 
     /// <summary>
     /// Follows a fluent chain of builder calls back to the builder it started from, so calls on the same
@@ -394,7 +422,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     {
         foreach (var gotoStatement in section.DescendantNodes().OfType<GotoStatementSyntax>())
         {
-            if (after is not null && !CanRunAfter(gotoStatement, after, section))
+            if (after is not null && !CanRunAfter(gotoStatement, after, section, switchStatement))
             {
                 continue;
             }
@@ -408,20 +436,37 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
     /// <summary>
     /// Returns whether <paramref name="gotoStatement"/> can run after <paramref name="node"/> in the same section:
-    /// it follows the node in source order, or a loop or label in the section can bring control back to it.
+    /// it follows the node in source order, a loop in the section encloses both, or a label at or before it is the
+    /// target of a jump that can run after the node.
     /// </summary>
-    private static bool CanRunAfter(GotoStatementSyntax gotoStatement, SyntaxNode node, SwitchSectionSyntax section)
+    private static bool CanRunAfter(
+        GotoStatementSyntax gotoStatement,
+        SyntaxNode node,
+        SwitchSectionSyntax section,
+        SwitchStatementSyntax switchStatement)
     {
-        if (gotoStatement.SpanStart > node.SpanStart
-            || section.DescendantNodes().OfType<LabeledStatementSyntax>().Any())
+        if (gotoStatement.SpanStart > node.SpanStart)
         {
             return true;
         }
 
-        return gotoStatement.Ancestors()
+        if (gotoStatement.Ancestors()
             .TakeWhile(ancestor => ancestor != section)
-            .Any(ancestor => ancestor is WhileStatementSyntax or DoStatementSyntax or ForStatementSyntax or CommonForEachStatementSyntax
-                && ancestor.Span.Contains(node.Span));
+            .Any(ancestor => IsLoop(ancestor) && ancestor.Span.Contains(node.Span)))
+        {
+            return true;
+        }
+
+        // A jump in another section counts regardless of position, because that section may run after the node.
+        return section.DescendantNodes()
+            .OfType<LabeledStatementSyntax>()
+            .Where(label => label.SpanStart <= gotoStatement.SpanStart)
+            .Any(label => switchStatement.DescendantNodes()
+                .OfType<GotoStatementSyntax>()
+                .Any(jump => jump.Expression is IdentifierNameSyntax target
+                    && jump.IsKind(SyntaxKind.GotoStatement)
+                    && target.Identifier.ValueText == label.Identifier.ValueText
+                    && (!section.Span.Contains(jump.Span) || jump.SpanStart > node.SpanStart)));
     }
 
     private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
