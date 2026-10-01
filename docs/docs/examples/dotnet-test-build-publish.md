@@ -53,8 +53,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
         var testProjects = repository.Root
             .GetFiles(file => file.Name.EndsWith(
                 ".UnitTests.csproj",
@@ -86,8 +85,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
         var projects = repository.Root
             .GetFiles(file => file.Extension == ".csproj"
                               && !file.Name.EndsWith(
@@ -126,8 +124,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         var apiKey = context.Environment.Variables.Get("NUGET_API_KEY");
         ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
 
-        var repository = await context.Tools.Git.Information.GetInfoAsync(cancellationToken)
-            ?? throw new InvalidOperationException("Git repository information is unavailable.");
+        var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
         var packages = repository.Root
             .GetFolder("artifacts")
             .GetFolder("packages")

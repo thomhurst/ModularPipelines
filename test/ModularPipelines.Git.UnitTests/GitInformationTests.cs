@@ -85,6 +85,38 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
+    public async Task Required_Info_Throws_When_Git_Is_Unavailable()
+    {
+        var command = new Mock<ICommandContext>();
+        command.Setup(x => x.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("git unavailable"));
+        var result = await GetService<IGitInformation>(services =>
+            services.AddSingleton<ICommandContext>(command.Object));
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            () => result.T.GetRequiredInfoAsync());
+
+        await Assert.That(exception!.Message).Contains("Git information is unavailable");
+        await result.Pipeline.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Required_Info_Returns_Cached_Repository_Info()
+    {
+        var context = await GetService<IPipelineContext>();
+        var gitInformation = context.Tools.Git.Information;
+
+        var info = await gitInformation.GetInfoAsync();
+        var requiredInfo = await gitInformation.GetRequiredInfoAsync();
+
+        await Assert.That(info).IsNotNull();
+        await Assert.That(ReferenceEquals(info, requiredInfo)).IsTrue();
+    }
+
+    [Test]
     public async Task Default_Branch_Uses_Local_Origin_Head_Without_Remote_Query()
     {
         var command = CreateRepositoryCommand((options, _) => options switch

@@ -32,6 +32,8 @@ namespace ModularPipelines;
 /// </example>
 public sealed class ModuleConfigurationBuilder
 {
+    private const string DefaultSkipReason = "Skip condition was met";
+
     private readonly HashSet<string> _tags = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
@@ -73,10 +75,22 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
+    /// Adds a synchronous boolean skip condition that reports a generic skip reason.
+    /// </summary>
+    /// <param name="condition">A side-effect-free function that receives the module context and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// A skipped module reports <c>Skip condition was met</c>. Use
+    /// <see cref="WithSkipWhen(Func{IModuleContext, bool}, string)"/> to report a specific reason.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, bool> condition)
+        => WithSkipWhen(condition, DefaultSkipReason);
+
+    /// <summary>
     /// Adds a synchronous boolean skip condition with a reason.
     /// </summary>
     /// <param name="condition">A side-effect-free function that receives the module context and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
-    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>.</param>
+    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>. It must not be blank.</param>
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, bool> condition, string reason)
     {
@@ -105,10 +119,24 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
+    /// Adds an asynchronous boolean skip condition that reports a generic skip reason.
+    /// </summary>
+    /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>
+    /// A skipped module reports <c>Skip condition was met</c>. Use
+    /// <see cref="WithSkipWhen(Func{IModuleContext, CancellationToken, ValueTask{bool}}, string)"/> to report a
+    /// specific reason.
+    /// </remarks>
+    public ModuleConfigurationBuilder WithSkipWhen(
+        Func<IModuleContext, CancellationToken, ValueTask<bool>> condition)
+        => WithSkipWhen(condition, DefaultSkipReason);
+
+    /// <summary>
     /// Adds an asynchronous boolean skip condition with a reason.
     /// </summary>
     /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns <see langword="true"/> to skip. It may be evaluated while building a dry-run plan.</param>
-    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>.</param>
+    /// <param name="reason">The reason reported when <paramref name="condition"/> returns <see langword="true"/>. It must not be blank.</param>
     /// <returns>This builder instance for method chaining.</returns>
     public ModuleConfigurationBuilder WithSkipWhen(
         Func<IModuleContext, CancellationToken, ValueTask<bool>> condition,

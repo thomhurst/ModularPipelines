@@ -23,14 +23,11 @@ namespace ModularPipelines.Secrets;
 /// <example>
 /// <code>
 /// var builder = Pipeline.CreateBuilder();
-/// builder.ConfigureOptions(options => options with
+/// builder.ConfigureSecrets(secrets => secrets with
 /// {
-///     Secrets = options.Secrets with
-///     {
-///         CaseInsensitive = true,
-///         MinimumSecretLength = 4,
-///         MaskValue = "[REDACTED]",
-///     },
+///     CaseInsensitive = true,
+///     MinimumSecretLength = 4,
+///     MaskValue = "[REDACTED]",
 /// });
 ///
 /// await builder.RunAsync();

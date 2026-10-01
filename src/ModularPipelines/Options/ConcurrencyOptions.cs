@@ -17,16 +17,13 @@ public record ConcurrencyOptions
     /// <example>
     /// <code>
     /// // Limit to processor count (conservative)
-    /// options with
+    /// builder.ConfigureConcurrency(concurrency => concurrency with
     /// {
-    ///     Concurrency = options.Concurrency with { MaxParallelism = Environment.ProcessorCount },
-    /// };
+    ///     MaxParallelism = Environment.ProcessorCount,
+    /// });
     ///
     /// // Unlimited parallelism
-    /// options with
-    /// {
-    ///     Concurrency = options.Concurrency with { MaxParallelism = int.MaxValue },
-    /// };
+    /// builder.ConfigureConcurrency(concurrency => concurrency with { MaxParallelism = int.MaxValue });
     /// </code>
     /// </example>
     public int MaxParallelism { get; init; } = Environment.ProcessorCount * ConcurrencyConstants.ParallelismMultiplier;

@@ -18,25 +18,19 @@ Configure the interval globally. Setting it to zero disables time-based flushing
 entry threshold still protects against unbounded buffering:
 
 ```csharp
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 {
-    Console = options.Console with
-    {
-        ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
-    },
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
 });
 ```
 
 To keep all output buffered until each module completes, disable both triggers:
 
 ```csharp
-builder.ConfigureOptions(options => options with
+builder.ConfigureConsole(console => console with
 {
-    Console = options.Console with
-    {
-        ModuleOutputFlushInterval = TimeSpan.Zero,
-        ModuleOutputFlushThreshold = 0,
-    },
+    ModuleOutputFlushInterval = TimeSpan.Zero,
+    ModuleOutputFlushThreshold = 0,
 });
 ```
 

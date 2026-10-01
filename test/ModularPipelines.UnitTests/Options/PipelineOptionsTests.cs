@@ -292,6 +292,66 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task OptionGroupHelpersReplaceOnlyTheirGroup()
+    {
+        var builder = Pipeline.CreateBuilder();
+        var original = builder.Options;
+        var timeout = TimeSpan.FromSeconds(42);
+        var commandLogging = CommandLoggingOptions.Silent;
+
+        var returned = builder
+            .ConfigureConsole(console => console with { PrintLogo = false })
+            .ConfigureConcurrency(concurrency => concurrency with { MaxParallelism = 3 })
+            .ConfigureCommands(commands => commands with { Logging = commandLogging })
+            .ConfigureHttp(http => http with { Timeout = timeout })
+            .ConfigureSecrets(secrets => secrets with { MinimumSecretLength = 5 });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(returned).IsSameReferenceAs(builder);
+            await Assert.That(builder.Options.Console.PrintLogo).IsFalse();
+            await Assert.That(builder.Options.Console.PrintResults).IsEqualTo(original.Console.PrintResults);
+            await Assert.That(builder.Options.Concurrency.MaxParallelism).IsEqualTo(3);
+            await Assert.That(builder.Options.Commands.Logging).IsSameReferenceAs(commandLogging);
+            await Assert.That(builder.Options.Http.Timeout).IsEqualTo(timeout);
+            await Assert.That(builder.Options.Secrets.MinimumSecretLength).IsEqualTo(5);
+            await Assert.That(builder.Options.FailureMode).IsEqualTo(original.FailureMode);
+        }
+    }
+
+    [Test]
+    public async Task OptionGroupHelpersRejectNullArguments()
+    {
+        var builder = Pipeline.CreateBuilder();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => builder.ConfigureConsole(null!)).Throws<ArgumentNullException>();
+            await Assert.That(() => builder.ConfigureConcurrency(null!)).Throws<ArgumentNullException>();
+            await Assert.That(() => builder.ConfigureCommands(null!)).Throws<ArgumentNullException>();
+            await Assert.That(() => builder.ConfigureHttp(null!)).Throws<ArgumentNullException>();
+            await Assert.That(() => builder.ConfigureSecrets(null!)).Throws<ArgumentNullException>();
+        }
+    }
+
+    [Test]
+    public async Task OptionGroupHelpersRejectNullResult()
+    {
+        var builder = Pipeline.CreateBuilder();
+        var original = builder.Options;
+
+        var exception = Assert.Throws<InvalidOperationException>(
+            () => builder.ConfigureConsole(_ => null!));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.Message)
+                .IsEqualTo("The pipeline Console options configuration returned null.");
+            await Assert.That(builder.Options).IsSameReferenceAs(original);
+        }
+    }
+
+    [Test]
     public async Task PipelineBuilderExposesLoggingBuilder()
     {
         var builder = TestPipelineBuilder.Create()

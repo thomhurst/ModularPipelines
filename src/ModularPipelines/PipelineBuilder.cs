@@ -169,6 +169,91 @@ public sealed class PipelineBuilder
     }
 
     /// <summary>
+    /// Replaces the console options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured console options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    /// <example>
+    /// <code>
+    /// builder.ConfigureConsole(console => console with { PrintLogo = false });
+    /// </code>
+    /// </example>
+    public PipelineBuilder ConfigureConsole(Func<PipelineConsoleOptions, PipelineConsoleOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            Console = ConfigureGroup(options.Console, configure, nameof(PipelineOptions.Console)),
+        });
+    }
+
+    /// <summary>
+    /// Replaces the concurrency options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured concurrency options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureConcurrency(Func<ConcurrencyOptions, ConcurrencyOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            Concurrency = ConfigureGroup(options.Concurrency, configure, nameof(PipelineOptions.Concurrency)),
+        });
+    }
+
+    /// <summary>
+    /// Replaces the command execution options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured command options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureCommands(Func<PipelineCommandOptions, PipelineCommandOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            Commands = ConfigureGroup(options.Commands, configure, nameof(PipelineOptions.Commands)),
+        });
+    }
+
+    /// <summary>
+    /// Replaces the HTTP options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured HTTP options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureHttp(Func<PipelineHttpOptions, PipelineHttpOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            Http = ConfigureGroup(options.Http, configure, nameof(PipelineOptions.Http)),
+        });
+    }
+
+    /// <summary>
+    /// Replaces the secret masking options in the current pipeline options snapshot.
+    /// </summary>
+    /// <param name="configure">A function that returns the configured secret masking options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public PipelineBuilder ConfigureSecrets(Func<SecretMaskingOptions, SecretMaskingOptions> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        return ConfigureOptions(options => options with
+        {
+            Secrets = ConfigureGroup(options.Secrets, configure, nameof(PipelineOptions.Secrets)),
+        });
+    }
+
+    private static TOptions ConfigureGroup<TOptions>(
+        TOptions current,
+        Func<TOptions, TOptions> configure,
+        string groupName)
+        where TOptions : class
+    {
+        return configure(current)
+            ?? throw new InvalidOperationException($"The pipeline {groupName} options configuration returned null.");
+    }
+
+    /// <summary>
     /// Adds a plugin and applies its configuration immediately.
     /// </summary>
     /// <typeparam name="TPlugin">The plugin type.</typeparam>

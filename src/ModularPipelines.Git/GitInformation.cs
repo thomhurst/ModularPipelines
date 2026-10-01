@@ -59,6 +59,13 @@ internal class GitInformation : IGitInformation
         }
     }
 
+    public async Task<GitRepositoryInfo> GetRequiredInfoAsync(CancellationToken cancellationToken = default)
+    {
+        return await GetInfoAsync(cancellationToken).ConfigureAwait(false)
+            ?? throw new InvalidOperationException(
+                "Git information is unavailable. Ensure the pipeline runs inside a Git repository and that Git is installed and available on the PATH.");
+    }
+
     public IAsyncEnumerable<GitCommit> CommitsAsync(
         GitOptions? options = null,
         CancellationToken cancellationToken = default)
