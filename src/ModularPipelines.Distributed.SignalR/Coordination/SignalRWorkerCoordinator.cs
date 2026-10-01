@@ -35,6 +35,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _connection.Reconnecting += OnReconnectingAsync;
         _connection.Reconnected += OnReconnectedAsync;
         _connection.Closed += OnClosedAsync;
+        RegisterAgainAsync = registration => _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration);
     }
 
     /// <summary>
@@ -42,6 +43,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     /// usually follows it.
     /// </summary>
     internal TimeSpan ConnectionChangeGracePeriod { get; set; } = TimeSpan.FromSeconds(5);
+
+    /// <summary>
+    /// Gets or sets how the worker registers again after an automatic reconnect.
+    /// </summary>
+    internal Func<WorkerRegistration, Task> RegisterAgainAsync { get; set; }
 
     public async Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
     {
@@ -167,12 +173,27 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
     /// </remarks>
     private async Task<bool> ConnectionChangesAsync(long generation, Exception exception, CancellationToken cancellationToken)
     {
+        lock (_stateLock)
+        {
+            if (!_ready.Task.IsCompleted)
+            {
+                return true;
+            }
+        }
+
+        return await ConnectionChangesSinceAsync(generation, exception, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Decides whether a failure was caused by the connection changing after <paramref name="generation"/>,
+    /// waiting briefly for the callback that follows a transport failure.
+    /// </summary>
+    private async Task<bool> ConnectionChangesSinceAsync(long generation, Exception exception, CancellationToken cancellationToken)
+    {
         Task changed;
         lock (_stateLock)
         {
-            if (generation != _generation
-                || !_ready.Task.IsCompleted
-                || _connection.State != HubConnectionState.Connected)
+            if (generation != _generation || _connection.State != HubConnectionState.Connected)
             {
                 return true;
             }
@@ -229,7 +250,7 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         _changed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     }
 
-    private Task OnReconnectingAsync(Exception? exception)
+    internal Task OnReconnectingAsync(Exception? exception)
     {
         lock (_stateLock)
         {
@@ -244,8 +265,14 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
         return Task.CompletedTask;
     }
 
-    private async Task OnReconnectedAsync(string? connectionId)
+    internal async Task OnReconnectedAsync(string? connectionId)
     {
+        long generation;
+        lock (_stateLock)
+        {
+            generation = _generation;
+        }
+
         var registration = Volatile.Read(ref _registration);
         var registered = true;
         if (registration is not null)
@@ -253,11 +280,26 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             try
             {
                 // Same registration, same session: the master treats it as a reconnect.
-                await _connection.InvokeAsync(HubMethodNames.RegisterWorker, registration).ConfigureAwait(false);
-                _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
+                await RegisterAgainAsync(registration).ConfigureAwait(false);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Reconnected to the master; worker {WorkerId} registered again", registration.WorkerId);
+                }
             }
             catch (Exception exception)
             {
+                if (exception is not HubException
+                    && await ConnectionChangesSinceAsync(generation, exception, CancellationToken.None).ConfigureAwait(false))
+                {
+                    // The connection dropped again while registering. The next Reconnected or Closed
+                    // callback settles readiness; stopping here would abandon the remaining reconnect attempts.
+                    _logger.LogWarning(
+                        exception,
+                        "Connection to the master dropped again while worker {WorkerId} registered again",
+                        registration.WorkerId);
+                    return;
+                }
+
                 registered = false;
                 _logger.LogError(exception, "Worker {WorkerId} could not register again after reconnecting", registration.WorkerId);
             }

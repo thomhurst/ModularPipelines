@@ -1,10 +1,11 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
 using ModularPipelines.Distributed.SignalR.Coordination;
 
 namespace ModularPipelines.Distributed.SignalR.UnitTests;
 
 /// <summary>
-/// Covers how the worker classifies an invocation failure that the connection callbacks have not explained yet.
+/// Covers how the worker classifies failures that the connection callbacks have not explained yet.
 /// </summary>
 public class SignalRWorkerCoordinatorTests
 {
@@ -67,4 +68,58 @@ public class SignalRWorkerCoordinatorTests
             .Throws<JsonException>()
             .WithMessage("bad payload");
     }
+
+    [Test]
+    public async Task Drop_During_Reregistration_Waits_For_The_Next_Reconnect()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+        worker.ConnectionChangeGracePeriod = TimeSpan.FromMinutes(1);
+        var registerAgain = worker.RegisterAgainAsync;
+        worker.RegisterAgainAsync = _ => Task.FromException(new IOException("Connection reset by peer"));
+
+        // First reconnect: registering again fails because the connection drops a second time.
+        await worker.OnReconnectingAsync(null);
+        var firstReconnect = worker.OnReconnectedAsync("first");
+        await Task.Delay(TimeSpan.FromMilliseconds(100));
+        await Assert.That(firstReconnect.IsCompleted).IsFalse();
+        await worker.OnReconnectingAsync(null);
+        await firstReconnect.WaitAsync(Timeout);
+
+        // Second reconnect succeeds, so the worker keeps claiming work.
+        worker.RegisterAgainAsync = registerAgain;
+        await worker.OnReconnectedAsync("second").WaitAsync(Timeout);
+        await test.Master.EnqueueModuleAsync(Assignment("Signal.AfterReconnect"), CancellationToken.None);
+        var lease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None)
+            .WaitAsync(Timeout);
+
+        await Assert.That(lease?.Assignment.ModuleId).IsEqualTo(new ModuleId("Signal.AfterReconnect"));
+    }
+
+    [Test]
+    public async Task Rejected_Reregistration_Stops_The_Worker()
+    {
+        await using var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+        worker.ConnectionChangeGracePeriod = TimeSpan.FromMinutes(1);
+        worker.RegisterAgainAsync = _ => Task.FromException(new HubException("rejected"));
+
+        await worker.OnReconnectingAsync(null);
+        await worker.OnReconnectedAsync("rejected").WaitAsync(Timeout);
+        var lease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None)
+            .WaitAsync(Timeout);
+
+        await Assert.That(lease).IsNull();
+    }
+
+    private static ModuleAssignment Assignment(string moduleId) => new()
+    {
+        ModuleId = new ModuleId(moduleId),
+        RequiredCapabilities = CapabilityRequirement.None,
+        PipelineSchemaVersion = "schema",
+    };
 }
