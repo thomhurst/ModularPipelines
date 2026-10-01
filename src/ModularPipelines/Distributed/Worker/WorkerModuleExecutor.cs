@@ -68,7 +68,7 @@ internal class WorkerModuleExecutor(
         var options = _options.Value;
         var workerId = options.LocalWorkerId;
 
-        // The worker token stops everything (host shutdown, a Stopped broadcast or completion).
+        // The worker token stops everything (host shutdown, a Stopped broadcast, a lost master or completion).
         // The pipeline token additionally stops non-AlwaysRun work after a PipelineFailed broadcast.
         using var workerCts = CancellationTokenSource.CreateLinkedTokenSource(
             _lifetime.ApplicationStopping,
@@ -105,8 +105,10 @@ internal class WorkerModuleExecutor(
             workerCts,
             pipelineCts,
             options.WorkerHeartbeatInterval);
+        var masterLossTask = ObserveMasterLossAsync(workerCts, options.WorkerHeartbeatInterval);
 
         var executedModules = new ConcurrentQueue<IModule>();
+        var masterLost = false;
         try
         {
             _logger.LogDebug(
@@ -143,11 +145,22 @@ internal class WorkerModuleExecutor(
                     workerId),
                 workerToken,
                 inFlightLeases: inFlightLeases).ConfigureAwait(false);
+
+            // A master that disappears can also end the claim loop, for example when its
+            // connection closes, so the worker checks once more before reporting success.
+            masterLost = !workerToken.IsCancellationRequested
+                && await IsMasterLostAsync(options.WorkerHeartbeatInterval).ConfigureAwait(false);
         }
         finally
         {
             await workerCts.CancelAsync().ConfigureAwait(false);
             await AwaitBackgroundTasksAsync(heartbeatTask, cancellationTask).ConfigureAwait(false);
+            masterLost |= await masterLossTask.ConfigureAwait(false);
+        }
+
+        if (masterLost)
+        {
+            throw new DistributedMasterLostException(workerId);
         }
 
         return _resultRegistry.GetCompletedResults(executedModules);
@@ -240,6 +253,56 @@ internal class WorkerModuleExecutor(
             {
                 return;
             }
+        }
+    }
+
+    /// <summary>
+    /// Polls whether the master stopped without signalling completion, and when it has, cancels all
+    /// work on this worker because no master remains to collect results.
+    /// </summary>
+    /// <returns>Whether the master was lost.</returns>
+    private async Task<bool> ObserveMasterLossAsync(CancellationTokenSource workerCts, TimeSpan interval)
+    {
+        while (!workerCts.IsCancellationRequested)
+        {
+            try
+            {
+                await Task.Delay(interval, workerCts.Token).ConfigureAwait(false);
+                if (await _coordinator.IsMasterLostAsync(workerCts.Token).ConfigureAwait(false))
+                {
+                    _logger.LogError(
+                        "The distributed master stopped without signalling completion; cancelling all work on this worker");
+                    await workerCts.CancelAsync().ConfigureAwait(false);
+                    return true;
+                }
+            }
+            catch (OperationCanceledException) when (workerCts.IsCancellationRequested)
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Could not check whether the distributed master is still running; retrying");
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks once whether the master was lost, bounded by <paramref name="timeout"/>.
+    /// </summary>
+    private async Task<bool> IsMasterLostAsync(TimeSpan timeout)
+    {
+        using var timeoutCts = new CancellationTokenSource(timeout);
+        try
+        {
+            return await _coordinator.IsMasterLostAsync(timeoutCts.Token).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not check whether the distributed master is still running");
+            return false;
         }
     }
 

@@ -195,6 +195,30 @@ public class SignalRHubTests
         var lease = await dequeue.WaitAsync(Timeout);
 
         await Assert.That(lease).IsNull();
+        await Assert.That(await worker.IsMasterLostAsync(CancellationToken.None)).IsTrue();
+        await test.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Master_That_Signalled_Completion_Is_Not_Lost_When_It_Exits()
+    {
+        var test = await SignalRTestMaster.StartAsync();
+        var worker = await test.ConnectWorkerAsync();
+        var registration = SignalRTestMaster.Registration("worker-a");
+        await worker.RegisterWorkerAsync(registration, CancellationToken.None);
+
+        await test.Master.SignalCompletionAsync(CancellationToken.None);
+        var lease = await worker.DequeueModuleAsync(registration.WorkerId, new HashSet<Capability>(), CancellationToken.None)
+            .WaitAsync(Timeout);
+        await Assert.That(lease).IsNull();
+
+        await ((IAsyncDisposable) test.Master).DisposeAsync();
+        await Assert.That(async () => await worker.SendHeartbeatAsync(
+                new WorkerStatus { WorkerId = registration.WorkerId },
+                CancellationToken.None).WaitAsync(Timeout))
+            .Throws<Exception>();
+
+        await Assert.That(await worker.IsMasterLostAsync(CancellationToken.None)).IsFalse();
         await test.DisposeAsync();
     }
 

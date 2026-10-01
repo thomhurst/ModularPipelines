@@ -80,4 +80,18 @@ public interface IDistributedWorkerCoordinator
     /// </summary>
     /// <returns>Why the master canceled execution.</returns>
     Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Determines whether the master stopped without signalling completion, for example because its
+    /// process exited, failed or crashed, or because the worker can no longer reach it.
+    /// </summary>
+    /// <remarks>
+    /// Workers poll this every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>. When it
+    /// returns <see langword="true"/> the worker cancels its in-flight modules, including AlwaysRun
+    /// modules, and fails, because no master remains to collect their results. Once the master has
+    /// signalled completion this returns <see langword="false"/>, even after the master exits. The
+    /// default implementation cannot observe the master and always returns <see langword="false"/>.
+    /// </remarks>
+    /// <returns><see langword="true"/> when the master is gone without having signalled completion.</returns>
+    Task<bool> IsMasterLostAsync(CancellationToken cancellationToken) => Task.FromResult(false);
 }

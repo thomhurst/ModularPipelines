@@ -37,6 +37,9 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     public string CancellationChannel => $"{_runPrefix}:cancellation:signal";
 
+    /// <summary>Gets the key holding the Redis server time of the master's latest heartbeat.</summary>
+    public string MasterHeartbeat => $"{_runPrefix}:master:heartbeat";
+
     // Artifact keys
     public string ArtifactMeta(string artifactId) => $"{_runPrefix}:artifacts:meta:{artifactId}";
 
@@ -58,5 +61,6 @@ internal class RedisKeyBuilder(string prefix, string runId)
         WorkerStatuses,
         CompletionFlag,
         CancellationFlag,
+        MasterHeartbeat,
     ];
 }

@@ -111,6 +111,7 @@ public class RedisKeyBuilderTests
         await Assert.That(allKeys).Contains(builder.WorkerStatuses);
         await Assert.That(allKeys).Contains(builder.CompletionFlag);
         await Assert.That(allKeys).Contains(builder.CancellationFlag);
+        await Assert.That(allKeys).Contains(builder.MasterHeartbeat);
     }
 
     [Test]
@@ -120,6 +121,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.CoordinationKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(7);
+        await Assert.That(allKeys).Count().IsEqualTo(8);
     }
 }

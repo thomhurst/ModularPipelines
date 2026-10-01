@@ -77,6 +77,18 @@ public class DistributedOptions
     public TimeSpan WorkerTimeout { get; set; } = TimeSpan.FromSeconds(30);
 
     /// <summary>
+    /// Gets or sets how long workers keep running without a sign of life from a master that has not
+    /// signalled completion. After this period the worker cancels its in-flight modules and fails,
+    /// so a master that exited, failed or crashed does not leave workers running. Must exceed
+    /// <see cref="WorkerHeartbeatInterval"/>. Defaults to 1 minute.
+    /// </summary>
+    /// <remarks>
+    /// Backends that hold a connection to the master, such as SignalR, detect a lost master when
+    /// that connection closes for good and do not wait for this period.
+    /// </remarks>
+    public TimeSpan MasterTimeout { get; set; } = TimeSpan.FromMinutes(1);
+
+    /// <summary>
     /// Gets or sets the minimum number of external workers that must register before
     /// the master starts dispatching work. The default is zero, which starts dispatching immediately.
     /// Waiting stops when <see cref="WorkerRegistrationTimeout"/> expires, after which dispatch proceeds

@@ -144,6 +144,27 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
+    public const string MasterHeartbeat = ServerTimeLua + """
+        redis.call('SET', KEYS[1], string.format('%d', now), 'PX', ARGV[1])
+        return 1
+        """;
+
+    // A master that never sent a heartbeat has not started yet, and one that signalled completion
+    // finished normally; neither counts as lost.
+    public const string IsMasterLost = ServerTimeLua + """
+        if redis.call('EXISTS', KEYS[2]) == 1 then
+            return 0
+        end
+        local heartbeat = redis.call('GET', KEYS[1])
+        if not heartbeat then
+            return 0
+        end
+        if now - tonumber(heartbeat) > tonumber(ARGV[1]) then
+            return 1
+        end
+        return 0
+        """;
+
     public const string RegisterWorker = ServerTimeLua + """
         local existing = redis.call('HGET', KEYS[1], ARGV[1])
         local same_session = false

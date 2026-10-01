@@ -21,8 +21,12 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
         _distributedOptions = distributedOptions.Value;
     }
 
-    public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
-        await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
+    public async Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken)
+    {
+        var coordinator = await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
+        coordinator.StartMasterHeartbeat(_distributedOptions.WorkerHeartbeatInterval);
+        return coordinator;
+    }
 
     public async Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
         await CreateCoordinatorAsync(cancellationToken).ConfigureAwait(false);
