@@ -1730,9 +1730,9 @@ public class ModuleOutputBufferTests
                 OutputFlushKind.Complete,
                 cancellationToken: cancellationTokenSource.Token));
 
-        var cancelledOutput = writer.ToString();
-        await Assert.That(cancelledOutput.IndexOf("::endgroup::", StringComparison.Ordinal))
-            .IsGreaterThan(cancelledOutput.IndexOf("structured log", StringComparison.Ordinal));
+        var canceledOutput = writer.ToString();
+        await Assert.That(canceledOutput.IndexOf("::endgroup::", StringComparison.Ordinal))
+            .IsGreaterThan(canceledOutput.IndexOf("structured log", StringComparison.Ordinal));
         await Assert.That(buffer.HasOutput).IsTrue();
 
         await buffer.FlushToAsync(
@@ -1862,7 +1862,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task IncrementalFlush_CancelledRenderGateWait_DoesNotMarkRetryAsContinued()
+    public async Task IncrementalFlush_CanceledRenderGateWait_DoesNotMarkRetryAsContinued()
     {
         var writer = new StringWriter();
         var renderGateWaitStarted = new TaskCompletionSource(

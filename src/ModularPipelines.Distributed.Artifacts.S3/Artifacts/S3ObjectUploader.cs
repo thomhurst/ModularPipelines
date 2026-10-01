@@ -132,7 +132,7 @@ internal static class S3ObjectUploader
     {
         try
         {
-            // Not cancellable: the caller may already be cancelled, and the abort is what frees
+            // Not cancellable: the caller may already be canceled, and the abort is what frees
             // the uploaded parts.
             await s3.AbortMultipartUploadAsync(
                     new AbortMultipartUploadRequest

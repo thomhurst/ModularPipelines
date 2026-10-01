@@ -262,13 +262,13 @@ internal class ModuleStateTracker : IModuleStateTracker
     /// <inheritdoc />
     public IReadOnlyList<IModule> CancelPendingModules()
     {
-        List<(ModuleState State, ModuleExecutionState OriginalState)> cancelledModules;
+        List<(ModuleState State, ModuleExecutionState OriginalState)> canceledModules;
 
         _stateLock.EnterWriteLock();
         try
         {
             var pendingModules = _stateQueries.GetCancellablePendingModules().ToList();
-            cancelledModules = [];
+            canceledModules = [];
 
             foreach (var moduleState in pendingModules)
             {
@@ -280,7 +280,7 @@ internal class ModuleStateTracker : IModuleStateTracker
                     _pendingReadyModules.Remove(moduleState);
                     _stateCounters.Transition(originalState, ModuleExecutionState.Completed);
                     moduleState.State = ModuleExecutionState.Completed;
-                    cancelledModules.Add((moduleState, originalState));
+                    canceledModules.Add((moduleState, originalState));
                 }
             }
         }
@@ -289,18 +289,18 @@ internal class ModuleStateTracker : IModuleStateTracker
             _stateLock.ExitWriteLock();
         }
 
-        foreach (var (moduleState, _) in cancelledModules)
+        foreach (var (moduleState, _) in canceledModules)
         {
             moduleState.CompletionSource.TrySetCanceled();
         }
 
         // Logging outside lock
-        if (cancelledModules.Count > 0)
+        if (canceledModules.Count > 0)
         {
-            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
+            _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", canceledModules.Count);
         }
 
-        foreach (var (moduleState, originalState) in cancelledModules)
+        foreach (var (moduleState, originalState) in canceledModules)
         {
             _logger.LogDebug(
                 "Cancelling pending module {ModuleName} (State={State})",
@@ -308,7 +308,7 @@ internal class ModuleStateTracker : IModuleStateTracker
                 originalState);
         }
 
-        return [.. cancelledModules.Select(x => x.State.Module)];
+        return [.. canceledModules.Select(x => x.State.Module)];
     }
 
     /// <inheritdoc />

@@ -103,7 +103,7 @@ internal sealed class DistributedAssignmentExecutor(
         {
             if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
             {
-                logger.LogDebug(exception, "Distributed module {Module} was cancelled", assignment.ModuleId);
+                logger.LogDebug(exception, "Distributed module {Module} was canceled", assignment.ModuleId);
             }
             else
             {
@@ -246,7 +246,7 @@ internal sealed class DistributedAssignmentExecutor(
                     exception,
                     new ModuleExecutionContext(module, module.GetType())
                     {
-                        Status = exception is OperationCanceledException ? ModuleStatus.Cancelled : ModuleStatus.Failed,
+                        Status = exception is OperationCanceledException ? ModuleStatus.Canceled : ModuleStatus.Failed,
                         Exception = exception,
                     });
 

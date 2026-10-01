@@ -16,7 +16,7 @@ public class ModuleStatusCompatibilityTests
     [Arguments(ModuleStatus.FailureIgnored, 4)]
     [Arguments(ModuleStatus.Skipped, 5)]
     [Arguments(ModuleStatus.TimedOut, 6)]
-    [Arguments(ModuleStatus.Cancelled, 7)]
+    [Arguments(ModuleStatus.Canceled, 7)]
     [Arguments(ModuleStatus.DependencyFailed, 8)]
     [Arguments(ModuleStatus.RestoredFromHistory, 9)]
     [Arguments(ModuleStatus.RestoredFromCache, 10)]
@@ -24,6 +24,12 @@ public class ModuleStatusCompatibilityTests
     public async Task V4ValuesAreSequential(ModuleStatus status, int expectedValue)
     {
         await Assert.That((int) status).IsEqualTo(expectedValue);
+    }
+
+    [Test]
+    public async Task CanceledStatusUsesUsSpelling()
+    {
+        await Assert.That(Enum.GetNames<ModuleStatus>()).DoesNotContain("Cancelled");
     }
 
     [Test]
@@ -40,7 +46,9 @@ public class ModuleStatusCompatibilityTests
     [Arguments("UsedHistory", ModuleStatus.RestoredFromHistory)]
     [Arguments("Failed", ModuleStatus.Failed)]
     [Arguments("IgnoredFailure", ModuleStatus.FailureIgnored)]
-    [Arguments("PipelineTerminated", ModuleStatus.Cancelled)]
+    [Arguments("PipelineTerminated", ModuleStatus.Canceled)]
+    [Arguments("Cancelled", ModuleStatus.Canceled)]
+    [Arguments("Canceled", ModuleStatus.Canceled)]
     [Arguments("TimedOut", ModuleStatus.TimedOut)]
     [Arguments("Skipped", ModuleStatus.Skipped)]
     [Arguments("Unknown", ModuleStatus.Unknown)]
@@ -126,6 +134,47 @@ public class ModuleStatusCompatibilityTests
         var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(legacyJson);
 
         await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Succeeded);
+    }
+
+    [Test]
+    [Arguments("Cancelled")]
+    [Arguments("PipelineTerminated")]
+    public async Task ModuleResultReadsPreviousCanceledStatusNames(string persistedName)
+    {
+        ModuleResult result = new ModuleResult.Failure(new OperationCanceledException("Canceled"))
+        {
+            Name = "PersistedModule",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Canceled,
+        };
+        var json = JsonSerializer.Serialize(result)
+            .Replace("\"Status\":\"Canceled\"", $"\"Status\":\"{persistedName}\"", StringComparison.Ordinal);
+
+        await Assert.That(json).Contains(persistedName);
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult>(json);
+
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Canceled);
+    }
+
+    [Test]
+    public async Task ModuleResultWritesCanceledStatusName()
+    {
+        ModuleResult result = new ModuleResult.Failure(new OperationCanceledException("Stopped"))
+        {
+            Name = "Module",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Canceled,
+        };
+
+        var json = JsonSerializer.Serialize(result);
+
+        await Assert.That(json).Contains("\"Status\":\"Canceled\"");
+        await Assert.That(json).DoesNotContain("Cancelled");
     }
 
     private static string RenameStatusProperty(string json)

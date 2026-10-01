@@ -185,7 +185,7 @@ internal class DistributedModuleExecutor(
                 _lifetime.ApplicationStopping);
             var executionToken = cts.Token;
             using var cancellationRegistration = executionToken.Register(
-                () => CompleteCancelledModules(scheduler, _resultRegistrar, executionToken));
+                () => CompleteCanceledModules(scheduler, _resultRegistrar, executionToken));
 
             var schedulerTask = scheduler.RunSchedulerAsync(executionToken);
 
@@ -558,14 +558,14 @@ internal class DistributedModuleExecutor(
                && !moduleState.ModuleType.GetCustomAttributes(true).OfType<RunConditionAttribute>().Any();
     }
 
-    internal static void CompleteCancelledModules(
+    internal static void CompleteCanceledModules(
         IModuleScheduler scheduler,
         IModuleResultRegistrar resultRegistrar,
         CancellationToken cancellationToken)
     {
-        var cancelledModules = scheduler.CancelPendingModules();
-        resultRegistrar.RegisterTerminatedResultsForCancelledModules(
-            cancelledModules,
+        var canceledModules = scheduler.CancelPendingModules();
+        resultRegistrar.RegisterTerminatedResultsForCanceledModules(
+            canceledModules,
             new OperationCanceledException(cancellationToken));
     }
 
@@ -729,7 +729,7 @@ internal class DistributedModuleExecutor(
             workerCancellationToken,
             inFlightLeases: inFlightLeases).ConfigureAwait(false);
 
-        // Stop waiting for new work as soon as the pipeline is cancelled, then keep dequeuing on
+        // Stop waiting for new work as soon as the pipeline is canceled, then keep dequeuing on
         // the worker lifetime: after a failure broadcast the coordinator only returns AlwaysRun
         // leases, which must still run while AlwaysRun teardown completes.
         async Task<ModuleLease?> DequeueForMasterAsync(CancellationToken token)
@@ -747,21 +747,21 @@ internal class DistributedModuleExecutor(
                             capabilities,
                             dequeueCts?.Token ?? token)
                         .ConfigureAwait(false);
-                    if (lease is null && PipelineCancelledDuringDequeue(observePipelineCancellation, token))
+                    if (lease is null && PipelineCanceledDuringDequeue(observePipelineCancellation, token))
                     {
                         continue;
                     }
 
                     return lease;
                 }
-                catch (OperationCanceledException) when (PipelineCancelledDuringDequeue(observePipelineCancellation, token))
+                catch (OperationCanceledException) when (PipelineCanceledDuringDequeue(observePipelineCancellation, token))
                 {
                     // Retry on the worker lifetime so late AlwaysRun assignments still run.
                 }
             }
         }
 
-        bool PipelineCancelledDuringDequeue(bool observedPipelineCancellation, CancellationToken token) =>
+        bool PipelineCanceledDuringDequeue(bool observedPipelineCancellation, CancellationToken token) =>
             observedPipelineCancellation
             && pipelineCancellationToken.IsCancellationRequested
             && !token.IsCancellationRequested;
@@ -781,7 +781,7 @@ internal class DistributedModuleExecutor(
             : pipelineCancellationToken;
         if (executionCancellationToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Coordinator skipping cancelled module {Module}", assignment.ModuleId);
+            _logger.LogInformation("Coordinator skipping canceled module {Module}", assignment.ModuleId);
         }
         else
         {
@@ -1012,13 +1012,13 @@ internal class DistributedModuleExecutor(
         {
             if (published)
             {
-                // Withdraw queued work the pipeline no longer needs; a claimed copy is cancelled by
+                // Withdraw queued work the pipeline no longer needs; a claimed copy is canceled by
                 // the failure broadcast and its late result is ignored.
                 await WithdrawAsync(assignment.ModuleId).ConfigureAwait(false);
             }
 
             var result = await GetLocalExecutionResultAsync(module).ConfigureAwait(false)
-                ?? RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled, plan.Context);
+                ?? RegisterFailureResult(module, moduleType, exception, ModuleStatus.Canceled, plan.Context);
             plan.Scheduler.MarkModuleCompleted(
                 moduleType,
                 result is not null && result.ExceptionOrDefault is null,
@@ -1214,7 +1214,7 @@ internal class DistributedModuleExecutor(
     /// <summary>
     /// Waits for the coordinator's own execution of <paramref name="module"/>, if one is running,
     /// and returns the result it produced. That result is authoritative: it may be the failure
-    /// that cancelled the pipeline, which a synthesised cancellation result must not replace.
+    /// that canceled the pipeline, which a synthesised cancellation result must not replace.
     /// </summary>
     private async Task<IModuleResult?> GetLocalExecutionResultAsync(IModule module)
     {

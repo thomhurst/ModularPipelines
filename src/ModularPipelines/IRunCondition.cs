@@ -36,7 +36,7 @@ public interface IRunCondition
     /// Evaluates the condition.
     /// </summary>
     /// <param name="context">The pipeline context for accessing environment, HTTP, etc.</param>
-    /// <param name="cancellationToken">A token that is cancelled when the pipeline stops evaluating conditions.</param>
+    /// <param name="cancellationToken">A token that is canceled when the pipeline stops evaluating conditions.</param>
     /// <returns>
     /// A task that returns <c>true</c> if the condition is satisfied; otherwise, <c>false</c>.
     /// </returns>

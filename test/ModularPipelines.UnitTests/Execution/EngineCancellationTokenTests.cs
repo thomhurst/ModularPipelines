@@ -163,7 +163,7 @@ public class EngineCancellationTokenTests : TestBase
             CancellationToken cancellationToken)
         {
             AwaitingPendingModuleStarted.TrySetResult();
-            var result = await context.GetModule<CancelledBeforeStartModule>();
+            var result = await context.GetModule<CanceledBeforeStartModule>();
             return result.ValueOrDefault == true;
         }
     }
@@ -180,7 +180,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [ModularPipelines.DependsOn<CoordinatedFailingModule>]
-    private class CancelledBeforeStartModule : Module<bool>
+    private class CanceledBeforeStartModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -287,11 +287,11 @@ public class EngineCancellationTokenTests : TestBase
             RecordDependent(moduleType);
         }
 
-        public void RegisterTerminatedResultsForCancelledModules(
+        public void RegisterTerminatedResultsForCanceledModules(
             IReadOnlyList<IModule> modules,
             Exception exception)
         {
-            _inner.RegisterTerminatedResultsForCancelledModules(modules, exception);
+            _inner.RegisterTerminatedResultsForCanceledModules(modules, exception);
 
             foreach (var module in modules)
             {
@@ -416,7 +416,7 @@ public class EngineCancellationTokenTests : TestBase
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
         engineCancellationToken.CancelWithException(new InvalidOperationException("module failed"));
 
-        engineCancellationToken.CancelWithReason("user cancelled");
+        engineCancellationToken.CancelWithReason("user canceled");
 
         await Assert.That(engineCancellationToken.NonFailureCancellationToken.IsCancellationRequested).IsTrue();
     }
@@ -530,7 +530,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task Uncancelled_Worker_Token_Is_Not_Expected_Cancellation()
+    public async Task Uncanceled_Worker_Token_Is_Not_Expected_Cancellation()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         var exception = new OperationCanceledException(cancellationTokenSource.Token);
@@ -577,7 +577,7 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(ModuleRunner.IsPipelineCancellation(
                 normalizedCancellation,
                 workerCancellationTokenSource.Token,
-                isEngineCancelled: false))
+                isEngineCanceled: false))
             .IsTrue();
     }
 
@@ -645,7 +645,7 @@ public class EngineCancellationTokenTests : TestBase
             await Assert.That(alwaysRunResult).IsNotNull();
             await Assert.That(alwaysRunResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
             await Assert.That(downstreamResult).IsNotNull();
-            await Assert.That(downstreamResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
+            await Assert.That(downstreamResult!.Status).IsEqualTo(ModuleStatus.Canceled);
         }
     }
 
@@ -705,7 +705,7 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule));
         await Assert.That(exception).IsNotNull();
         await Assert.That(longRunningModuleResult).IsNotNull();
-        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Canceled);
         await Assert.That(longRunningModuleResult.Duration).IsLessThan(TimeSpan.FromSeconds(5));
     }
 
@@ -733,7 +733,7 @@ public class EngineCancellationTokenTests : TestBase
 
             var commandResult = resultRegistry.GetResult(typeof(RunningCommandModule));
             await Assert.That(commandResult).IsNotNull();
-            await Assert.That(commandResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
+            await Assert.That(commandResult!.Status).IsEqualTo(ModuleStatus.Canceled);
         }
         finally
         {
@@ -766,11 +766,11 @@ public class EngineCancellationTokenTests : TestBase
 
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation));
         await Assert.That(longRunningModuleResult).IsNotNull();
-        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        await Assert.That(longRunningModuleResult!.Status).IsEqualTo(ModuleStatus.Canceled);
     }
 
     [Test]
-    public async Task CancelledBeforeStartModule_UnblocksRuntimeAwaiter()
+    public async Task CanceledBeforeStartModule_UnblocksRuntimeAwaiter()
     {
         AwaitingPendingModuleStarted =
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -787,7 +787,7 @@ public class EngineCancellationTokenTests : TestBase
             })
             .AddModule<AwaitingPendingModule>()
             .AddModule<CoordinatedFailingModule>()
-            .AddModule<CancelledBeforeStartModule>();
+            .AddModule<CanceledBeforeStartModule>();
 
         var host = await builder.BuildAsync();
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
@@ -865,7 +865,7 @@ public class EngineCancellationTokenTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(awaitedResult).IsSameReferenceAs(registeredResult);
-            await Assert.That(awaitedResult.Status).IsEqualTo(ModuleStatus.Cancelled);
+            await Assert.That(awaitedResult.Status).IsEqualTo(ModuleStatus.Canceled);
             await Assert.That(awaitedResult.ExceptionOrDefault)
                 .IsSameReferenceAs(exception);
         }

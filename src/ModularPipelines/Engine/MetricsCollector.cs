@@ -116,7 +116,7 @@ internal class MetricsCollector : IMetricsCollector
                     successfulCount++;
                     break;
                 case ModuleStatus.Failed:
-                case ModuleStatus.Cancelled:
+                case ModuleStatus.Canceled:
                 case ModuleStatus.TimedOut:
                 case ModuleStatus.DependencyFailed:
                     failedCount++;

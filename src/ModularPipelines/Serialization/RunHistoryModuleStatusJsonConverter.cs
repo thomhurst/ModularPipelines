@@ -14,8 +14,11 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
             ["Successful"] = ModuleStatus.Succeeded,
             ["UsedHistory"] = ModuleStatus.RestoredFromHistory,
             ["IgnoredFailure"] = ModuleStatus.FailureIgnored,
-            ["PipelineTerminated"] = ModuleStatus.Cancelled,
+            ["PipelineTerminated"] = ModuleStatus.Canceled,
             ["CachedResult"] = ModuleStatus.RestoredFromCache,
+
+            // V4 previews wrote the British spelling before the status was renamed to Canceled.
+            ["Cancelled"] = ModuleStatus.Canceled,
         };
 
     public override ModuleStatus Read(

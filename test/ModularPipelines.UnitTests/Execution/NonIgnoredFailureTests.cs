@@ -15,7 +15,7 @@ public class NonIgnoredFailureTests : TestBase
     }
 
     [Test]
-    public async Task Has_Thrown_And_Cancelled_Pipeline()
+    public async Task Has_Thrown_And_Canceled_Pipeline()
     {
         var host = await TestPipelineBuilder.Create()
             .AddModule<NonIgnoredFailureModule>()

@@ -12,7 +12,7 @@ public interface IPipelineEventHandler : IEventHandler
     /// Called before any modules start.
     /// </summary>
     /// <param name="context">The pipeline hook context.</param>
-    /// <param name="cancellationToken">A token cancelled when the pipeline is cancelled.</param>
+    /// <param name="cancellationToken">A token canceled when the pipeline is canceled.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task OnPipelineStartAsync(IPipelineContext context, CancellationToken cancellationToken) => Task.CompletedTask;
 
@@ -22,7 +22,7 @@ public interface IPipelineEventHandler : IEventHandler
     /// <param name="context">The pipeline hook context.</param>
     /// <param name="pipelineSummary">The summary of all registered module results.</param>
     /// <param name="cancellationToken">
-    /// A token cancelled when the pipeline is cancelled by the user or host. Module failures do not cancel it.
+    /// A token canceled when the pipeline is canceled by the user or host. Module failures do not cancel it.
     /// </param>
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>

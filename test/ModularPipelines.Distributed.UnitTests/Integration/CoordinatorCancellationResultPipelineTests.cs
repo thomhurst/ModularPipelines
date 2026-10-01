@@ -58,7 +58,7 @@ public class CoordinatorCancellationResultPipelineTests
         var registeredResult = resultRegistry.GetResult(typeof(SlowToStopModule));
         await Assert.That(resultTask.IsCompletedSuccessfully).IsTrue();
         await Assert.That(registeredResult).IsSameReferenceAs(resultTask.Result);
-        await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        await Assert.That(registeredResult!.Status).IsEqualTo(ModuleStatus.Canceled);
     }
 
     private static bool ContainsSimulatedFailure(Exception? exception)

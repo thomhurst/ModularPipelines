@@ -2256,7 +2256,7 @@ ModularPipelines.ModuleResult<T>.TryGetValue(out T value) -> bool
 ModularPipelines.ModuleResult<T>.Value.get -> T
 ModularPipelines.ModuleResult<T>.ValueOrDefault.get -> T?
 ModularPipelines.ModuleStatus
-ModularPipelines.ModuleStatus.Cancelled = 7 -> ModularPipelines.ModuleStatus
+ModularPipelines.ModuleStatus.Canceled = 7 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.DependencyFailed = 8 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.Failed = 3 -> ModularPipelines.ModuleStatus
 ModularPipelines.ModuleStatus.FailureIgnored = 4 -> ModularPipelines.ModuleStatus

@@ -91,7 +91,7 @@ public class RequirementApiSurfaceTests
     }
 
     [Test]
-    public async Task Cancelled_Evaluation_Does_Not_Run_Delegate()
+    public async Task Canceled_Evaluation_Does_Not_Run_Delegate()
     {
         var evaluated = false;
         using var cancellationTokenSource = new CancellationTokenSource();

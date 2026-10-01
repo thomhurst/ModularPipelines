@@ -515,7 +515,7 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
-    public async Task Canceled_Pipeline_Failures_Are_Tagged_As_Cancelled()
+    public async Task Canceled_Pipeline_Failures_Are_Tagged_As_Canceled()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
@@ -538,7 +538,7 @@ public class TelemetryIntegrationTests
         foreach (var activity in stoppedActivities)
         {
             await Assert.That(activity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
-                .IsEqualTo("Cancelled");
+                .IsEqualTo("Canceled");
             await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Error);
         }
     }
@@ -561,19 +561,19 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
-    public async Task Cancelled_Is_Preserved_In_Module_Activity()
+    public async Task Canceled_Is_Preserved_In_Module_Activity()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
         using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
         {
-            ModuleActivityTracing.RecordCancelled(activity);
+            ModuleActivityTracing.RecordCanceled(activity);
         }
 
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("Cancelled");
+            .IsEqualTo("Canceled");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 

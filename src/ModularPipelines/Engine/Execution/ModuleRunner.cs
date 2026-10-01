@@ -276,7 +276,7 @@ internal class ModuleRunner : IModuleRunner
     {
         scheduler?.MarkModuleCompleted(
             moduleState.ModuleType,
-            moduleState.Result?.Status != ModuleStatus.Cancelled,
+            moduleState.Result?.Status != ModuleStatus.Canceled,
             statusOverride: moduleState.Result?.Status);
     }
 
@@ -403,7 +403,7 @@ internal class ModuleRunner : IModuleRunner
         catch (Exception exception) when (!IsPipelineCancellation(
                                               exception,
                                               lifecycleContext.CancellationToken,
-                                              _engineCancellationToken.IsCancelled))
+                                              _engineCancellationToken.IsCanceled))
         {
             var executionContext = CreateExecutionContext(moduleState.Module, moduleState.ModuleType);
             ApplyDependencySkip(moduleState, executionContext);
@@ -434,7 +434,7 @@ internal class ModuleRunner : IModuleRunner
         var isPipelineCancellation = IsPipelineCancellation(
             exception,
             workerCancellationToken,
-            _engineCancellationToken.IsCancelled);
+            _engineCancellationToken.IsCanceled);
         var registeredResult = _resultRegistry.GetResult(moduleType);
         var completionException = GetCompletionException(
             exception,
@@ -479,9 +479,9 @@ internal class ModuleRunner : IModuleRunner
     internal static bool IsPipelineCancellation(
         Exception exception,
         CancellationToken workerCancellationToken,
-        bool isEngineCancelled) =>
+        bool isEngineCanceled) =>
         exception is OperationCanceledException
-        && (isEngineCancelled
+        && (isEngineCanceled
             || WorkerCancellationClassifier.IsExpected(exception, workerCancellationToken));
 
     private Exception GetCompletionException(
@@ -503,7 +503,7 @@ internal class ModuleRunner : IModuleRunner
         }
 
         return isPipelineCancellation
-            ? registeredStatus ?? ModuleStatus.Cancelled
+            ? registeredStatus ?? ModuleStatus.Canceled
             : null;
     }
 
@@ -1004,10 +1004,10 @@ internal class ModuleRunner : IModuleRunner
                 telemetryStatus = ModuleStatus.RestoredFromCache.ToString();
                 ModuleActivityTracing.RecordRestoredFromCache(activity);
             }
-            else if (executionContext.Status == ModuleStatus.Cancelled)
+            else if (executionContext.Status == ModuleStatus.Canceled)
             {
-                telemetryStatus = ModuleStatus.Cancelled.ToString();
-                ModuleActivityTracing.RecordCancelled(activity);
+                telemetryStatus = ModuleStatus.Canceled.ToString();
+                ModuleActivityTracing.RecordCanceled(activity);
             }
             else
             {
@@ -1311,7 +1311,7 @@ internal class ModuleRunner : IModuleRunner
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            _logger.LogDebug("Module event handlers were cancelled");
+            _logger.LogDebug("Module event handlers were canceled");
         }
         catch (Exception exception)
         {

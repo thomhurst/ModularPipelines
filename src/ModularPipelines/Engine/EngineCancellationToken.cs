@@ -31,7 +31,7 @@ internal class EngineCancellationToken : IDisposable
     public CancellationToken Token => _token;
 
     /// <summary>
-    /// Gets a token that is cancelled for user, console, and process-exit cancellation,
+    /// Gets a token that is canceled for user, console, and process-exit cancellation,
     /// but not for pipeline failure cancellation.
     /// </summary>
     public CancellationToken NonFailureCancellationToken => _nonFailureCancellationToken;
@@ -53,10 +53,10 @@ internal class EngineCancellationToken : IDisposable
     /// </summary>
     public ExceptionDispatchInfo? OriginalExceptionDispatchInfo => _primaryExceptionContainer.OriginalExceptionDispatchInfo;
 
-    private bool _isCancelled;
+    private bool _isCanceled;
 
-    public bool IsCancelled =>
-        _isCancelled || IsCancellationRequested || Token.IsCancellationRequested || Reason != null;
+    public bool IsCanceled =>
+        _isCanceled || IsCancellationRequested || Token.IsCancellationRequested || Reason != null;
 
     private bool _disposed;
 
@@ -75,7 +75,7 @@ internal class EngineCancellationToken : IDisposable
     public void CancelWithReason(string? reason)
     {
         Reason = reason;
-        _isCancelled = true;
+        _isCanceled = true;
         Cancel(_nonFailureCancellationTokenSource);
     }
 
@@ -84,7 +84,7 @@ internal class EngineCancellationToken : IDisposable
         RecordException(exception);
 
         Reason = reason ?? exception.Message;
-        _isCancelled = true;
+        _isCanceled = true;
         Cancel(_cts);
     }
 
@@ -179,7 +179,7 @@ internal class EngineCancellationToken : IDisposable
 
         try
         {
-            _isCancelled = true;
+            _isCanceled = true;
             _nonFailureCancellationTokenSource.Cancel();
             return true;
         }

@@ -60,7 +60,7 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
                 return _connection;
             }
 
-            // A cancelled caller leaves the attempt running so the next caller reuses it
+            // A canceled caller leaves the attempt running so the next caller reuses it
             // instead of opening (and leaking) a second multiplexer.
             var pending = _pendingConnect ??= _connect();
             try
