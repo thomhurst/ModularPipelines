@@ -16,7 +16,7 @@ namespace ModularPipelines.Distributed.SignalR.Coordination;
 /// same session and retries interrupted invocations; its heartbeats then renew the leases it still
 /// holds. When the connection closes for good, <see cref="DequeueModuleAsync"/> returns
 /// <see langword="null"/> so the worker stops, other operations fail, and
-/// <see cref="IsMasterLostAsync"/> reports the master as lost unless it had signalled completion.
+/// <see cref="GetMasterStateAsync"/> reports the master as lost unless it had signalled completion.
 /// </remarks>
 internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, IAsyncDisposable
 {
@@ -108,8 +108,11 @@ internal sealed class SignalRWorkerCoordinator : IDistributedWorkerCoordinator, 
             token => _connection.InvokeAsync<DistributedCancellationReason>(HubMethodNames.WaitForCancellation, token),
             cancellationToken);
 
-    public Task<bool> IsMasterLostAsync(CancellationToken cancellationToken) =>
-        Task.FromResult(Volatile.Read(ref _connectionClosed) && !Volatile.Read(ref _masterCompleted));
+    public Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        Task.FromResult(
+            Volatile.Read(ref _masterCompleted) ? DistributedMasterState.Completed
+            : Volatile.Read(ref _connectionClosed) ? DistributedMasterState.Lost
+            : DistributedMasterState.Running);
 
     public async ValueTask DisposeAsync()
     {

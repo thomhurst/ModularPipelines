@@ -149,18 +149,18 @@ internal static class RedisCoordinationScripts
         return 1
         """;
 
-    // A master that never sent a heartbeat has not started yet, and one that signalled completion
-    // finished normally; neither counts as lost.
-    public const string IsMasterLost = ServerTimeLua + """
+    // Returns 0 while the master runs, 1 once it signalled completion and 2 once its heartbeat is
+    // stale. A master that never sent a heartbeat has not started yet.
+    public const string GetMasterState = ServerTimeLua + """
         if redis.call('EXISTS', KEYS[2]) == 1 then
-            return 0
+            return 1
         end
         local heartbeat = redis.call('GET', KEYS[1])
         if not heartbeat then
             return 0
         end
         if now - tonumber(heartbeat) > tonumber(ARGV[1]) then
-            return 1
+            return 2
         end
         return 0
         """;

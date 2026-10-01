@@ -100,8 +100,8 @@ public class WorkerModuleExecutorTests
 
                 return null;
             });
-        coordinator.Setup(instance => instance.IsMasterLostAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(DistributedMasterState.Lost);
 
         await Assert.That(async () => await ExecuteAsync(coordinator.Object, testCancellation))
             .Throws<DistributedMasterLostException>();
@@ -117,8 +117,8 @@ public class WorkerModuleExecutorTests
         coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleLease?) null);
-        coordinator.Setup(instance => instance.IsMasterLostAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(DistributedMasterState.Lost);
 
         await Assert.That(async () => await ExecuteAsync(coordinator.Object, testCancellation, TimeSpan.FromMinutes(1)))
             .Throws<DistributedMasterLostException>();
@@ -133,12 +133,87 @@ public class WorkerModuleExecutorTests
         coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ModuleLease?) null);
-        coordinator.Setup(instance => instance.IsMasterLostAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(DistributedMasterState.Completed);
 
         var result = await ExecuteAsync(coordinator.Object, testCancellation);
 
         await Assert.That(result).IsEmpty();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Completed_Master_Cancels_Remaining_Work_Without_Failing(
+        CancellationToken testCancellation)
+    {
+        var dequeueCanceled = false;
+        var coordinator = CreateCoordinator();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<WorkerId, IReadOnlySet<Capability>, CancellationToken>(async (_, _, cancellationToken) =>
+            {
+                try
+                {
+                    await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    dequeueCanceled = true;
+                    throw;
+                }
+
+                return null;
+            });
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(DistributedMasterState.Completed);
+
+        var result = await ExecuteAsync(coordinator.Object, testCancellation);
+
+        await Assert.That(result).IsEmpty();
+        await Assert.That(dequeueCanceled).IsTrue();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Unreachable_Master_Fails_The_Worker_After_The_Master_Timeout(
+        CancellationToken testCancellation)
+    {
+        var coordinator = CreateCoordinator();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<WorkerId, IReadOnlySet<Capability>, CancellationToken>(async (_, _, cancellationToken) =>
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                return null;
+            });
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new TimeoutException("Coordinator unreachable"));
+
+        await Assert.That(async () => await ExecuteAsync(
+                coordinator.Object,
+                testCancellation,
+                masterTimeout: TimeSpan.FromMilliseconds(200)))
+            .Throws<DistributedMasterLostException>();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Work_That_Ignores_Cancellation_Does_Not_Keep_A_Worker_Alive_After_Its_Master_Is_Lost(
+        CancellationToken testCancellation)
+    {
+        var coordinator = CreateCoordinator();
+        var neverCompletes = new TaskCompletionSource<ModuleLease?>();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(neverCompletes.Task);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(DistributedMasterState.Lost);
+
+        await Assert.That(async () => await ExecuteAsync(
+                coordinator.Object,
+                testCancellation,
+                canceledWorkGracePeriod: TimeSpan.FromMilliseconds(100)))
+            .Throws<DistributedMasterLostException>();
     }
 
     private static Mock<IDistributedWorkerCoordinator> CreateCoordinator()
@@ -164,7 +239,9 @@ public class WorkerModuleExecutorTests
     private static Task<IReadOnlyList<IModuleResult>> ExecuteAsync(
         IDistributedWorkerCoordinator coordinator,
         CancellationToken cancellationToken,
-        TimeSpan? heartbeatInterval = null)
+        TimeSpan? heartbeatInterval = null,
+        TimeSpan? masterTimeout = null,
+        TimeSpan? canceledWorkGracePeriod = null)
     {
         var typeRegistry = new ModuleTypeRegistry();
         var resultRegistry = new ModuleResultRegistry();
@@ -181,12 +258,17 @@ public class WorkerModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions
             {
                 WorkerHeartbeatInterval = heartbeatInterval ?? TimeSpan.FromMilliseconds(10),
+                MasterTimeout = masterTimeout ?? TimeSpan.FromMinutes(1),
             }),
             Mock.Of<IParallelLimitProvider>(
                 provider => provider.GetMaxDegreeOfParallelism() == 2),
             Mock.Of<IServiceScopeFactory>(),
             artifactLifecycleManager: null,
             NullLogger<WorkerModuleExecutor>.Instance);
+        if (canceledWorkGracePeriod is { } gracePeriod)
+        {
+            executor.CanceledWorkGracePeriod = gracePeriod;
+        }
 
         return executor.ExecuteAsync(
             new ExecutionBackendRequest

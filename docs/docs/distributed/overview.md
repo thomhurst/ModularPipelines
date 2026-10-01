@@ -38,7 +38,7 @@ Register exactly one backend; building the pipeline fails when several are regis
 
 A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. The first result published for a module is final.
 
-Workers also watch the master. When the master exits, fails or crashes without signalling completion, each worker cancels its in-flight modules and fails rather than waiting for work that will never come. SignalR workers react when their connection to the master closes for good; Redis workers react when the master's heartbeat is older than `MasterTimeout`.
+Workers also watch the master. Once the master finishes, whether it succeeded or failed, nothing collects further results, so each worker cancels any modules it is still running, including AlwaysRun modules. When the master exits or crashes without signalling completion, or a worker cannot reach it for `MasterTimeout`, the worker also fails. SignalR workers notice a lost master when their connection closes for good; Redis workers notice when the master's heartbeat is older than `MasterTimeout`. Modules that ignore cancellation are abandoned after 30 seconds, so they cannot keep a worker alive.
 
 ### Capabilities
 

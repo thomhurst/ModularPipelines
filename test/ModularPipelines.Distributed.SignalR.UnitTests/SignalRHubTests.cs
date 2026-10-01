@@ -195,7 +195,7 @@ public class SignalRHubTests
         var lease = await dequeue.WaitAsync(Timeout);
 
         await Assert.That(lease).IsNull();
-        await Assert.That(await worker.IsMasterLostAsync(CancellationToken.None)).IsTrue();
+        await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None)).IsEqualTo(DistributedMasterState.Lost);
         await test.DisposeAsync();
     }
 
@@ -218,7 +218,7 @@ public class SignalRHubTests
                 CancellationToken.None).WaitAsync(Timeout))
             .Throws<Exception>();
 
-        await Assert.That(await worker.IsMasterLostAsync(CancellationToken.None)).IsFalse();
+        await Assert.That(await worker.GetMasterStateAsync(CancellationToken.None)).IsEqualTo(DistributedMasterState.Completed);
         await test.DisposeAsync();
     }
 

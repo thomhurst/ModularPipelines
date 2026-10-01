@@ -82,16 +82,17 @@ public interface IDistributedWorkerCoordinator
     Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken);
 
     /// <summary>
-    /// Determines whether the master stopped without signalling completion, for example because its
-    /// process exited, failed or crashed, or because the worker can no longer reach it.
+    /// Reports whether the master is still running, has signalled completion, or was lost.
     /// </summary>
     /// <remarks>
-    /// Workers poll this every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>. When it
-    /// returns <see langword="true"/> the worker cancels its in-flight modules, including AlwaysRun
-    /// modules, and fails, because no master remains to collect their results. Once the master has
-    /// signalled completion this returns <see langword="false"/>, even after the master exits. The
-    /// default implementation cannot observe the master and always returns <see langword="false"/>.
+    /// Workers poll this every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>. Once the
+    /// master is no longer <see cref="DistributedMasterState.Running"/>, nothing will collect results,
+    /// so the worker cancels its in-flight modules, including AlwaysRun modules. A
+    /// <see cref="DistributedMasterState.Lost"/> master also fails the worker. A worker that cannot
+    /// get an answer for <see cref="DistributedOptions.MasterTimeout"/> treats the master as lost.
+    /// The default implementation cannot observe the master and always reports
+    /// <see cref="DistributedMasterState.Running"/>.
     /// </remarks>
-    /// <returns><see langword="true"/> when the master is gone without having signalled completion.</returns>
-    Task<bool> IsMasterLostAsync(CancellationToken cancellationToken) => Task.FromResult(false);
+    Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken) =>
+        Task.FromResult(DistributedMasterState.Running);
 }

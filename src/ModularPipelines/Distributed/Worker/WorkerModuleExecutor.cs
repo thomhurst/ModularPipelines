@@ -31,8 +31,10 @@ internal class WorkerModuleExecutor(
     ILogger<WorkerModuleExecutor> logger,
     IExecutionLocationContext? executionLocationContext = null,
     LocalCapabilityRegistry? localCapabilities = null,
-    AcceptedArtifactRegistry? acceptedArtifacts = null) : IExecutionBackend
+    AcceptedArtifactRegistry? acceptedArtifacts = null,
+    TimeProvider? timeProvider = null) : IExecutionBackend
 {
+    private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
     private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedWorkerCoordinator _coordinator = coordinator;
     private readonly IReadOnlyList<IModule> _registeredModules = [.. registeredModules.Distinct<IModule>(ReferenceEqualityComparer.Instance)];
@@ -54,6 +56,12 @@ internal class WorkerModuleExecutor(
         acceptedArtifacts,
         executionLocationContext,
         logger);
+
+    /// <summary>
+    /// Gets or sets how long a worker waits for canceled modules to stop after its master completed
+    /// or was lost, before it abandons them.
+    /// </summary>
+    internal TimeSpan CanceledWorkGracePeriod { get; set; } = TimeSpan.FromSeconds(30);
 
     public bool OwnsEntirePlan => false;
 
@@ -105,17 +113,17 @@ internal class WorkerModuleExecutor(
             workerCts,
             pipelineCts,
             options.WorkerHeartbeatInterval);
-        var masterLossTask = ObserveMasterLossAsync(workerCts, options.WorkerHeartbeatInterval);
+        var masterWatchTask = WatchMasterAsync(workerCts, options);
 
         var executedModules = new ConcurrentQueue<IModule>();
-        var masterLost = false;
+        var masterState = DistributedMasterState.Running;
         try
         {
             _logger.LogDebug(
                 "Worker {WorkerId} starting {MaxConcurrency} concurrent execution slot(s)",
                 workerId,
                 maxConcurrency);
-            await DistributedWorkerPool.RunAsync(
+            var poolTask = DistributedWorkerPool.RunAsync(
                 token => _coordinator.DequeueModuleAsync(workerId, capabilities, token),
                 async (lease, claimedAt, _) =>
                 {
@@ -144,21 +152,40 @@ internal class WorkerModuleExecutor(
                     "Worker {WorkerId} encountered an error in execution loop",
                     workerId),
                 workerToken,
-                inFlightLeases: inFlightLeases).ConfigureAwait(false);
+                inFlightLeases: inFlightLeases);
 
-            // A master that disappears can also end the claim loop, for example when its
-            // connection closes, so the worker checks once more before reporting success.
-            masterLost = !workerToken.IsCancellationRequested
-                && await IsMasterLostAsync(options.WorkerHeartbeatInterval).ConfigureAwait(false);
+            await Task.WhenAny(poolTask, masterWatchTask).ConfigureAwait(false);
+            if (!poolTask.IsCompleted
+                && await masterWatchTask.ConfigureAwait(false) is not DistributedMasterState.Running and var stoppedBy)
+            {
+                // The watch already canceled all work. A module that ignores cancellation must not
+                // keep the worker alive after its master has gone.
+                masterState = stoppedBy;
+                await WaitForCanceledWorkAsync(poolTask, workerId).ConfigureAwait(false);
+            }
+            else
+            {
+                await poolTask.ConfigureAwait(false);
+
+                // A master that disappears can also end the claim loop, for example when its
+                // connection closes, so the worker checks once more before reporting success.
+                if (!workerToken.IsCancellationRequested)
+                {
+                    masterState = await GetMasterStateAsync(options.WorkerHeartbeatInterval).ConfigureAwait(false);
+                }
+            }
         }
         finally
         {
             await workerCts.CancelAsync().ConfigureAwait(false);
             await AwaitBackgroundTasksAsync(heartbeatTask, cancellationTask).ConfigureAwait(false);
-            masterLost |= await masterLossTask.ConfigureAwait(false);
+            if (masterState == DistributedMasterState.Running)
+            {
+                masterState = await masterWatchTask.ConfigureAwait(false);
+            }
         }
 
-        if (masterLost)
+        if (masterState == DistributedMasterState.Lost)
         {
             throw new DistributedMasterLostException(workerId);
         }
@@ -257,52 +284,104 @@ internal class WorkerModuleExecutor(
     }
 
     /// <summary>
-    /// Polls whether the master stopped without signalling completion, and when it has, cancels all
-    /// work on this worker because no master remains to collect results.
+    /// Polls the master's state. Once the master has completed or was lost, nothing will collect
+    /// results, so the watch cancels all work on this worker.
     /// </summary>
-    /// <returns>Whether the master was lost.</returns>
-    private async Task<bool> ObserveMasterLossAsync(CancellationTokenSource workerCts, TimeSpan interval)
+    /// <remarks>
+    /// A worker that cannot learn the master's state for <see cref="DistributedOptions.MasterTimeout"/>,
+    /// for example because the coordinator is unreachable, treats the master as lost.
+    /// </remarks>
+    /// <returns>The state that stopped the worker, or <see cref="DistributedMasterState.Running"/> when something else did.</returns>
+    private async Task<DistributedMasterState> WatchMasterAsync(
+        CancellationTokenSource workerCts,
+        DistributedOptions options)
     {
+        var lastAnswer = _timeProvider.GetTimestamp();
         while (!workerCts.IsCancellationRequested)
         {
+            DistributedMasterState state;
             try
             {
-                await Task.Delay(interval, workerCts.Token).ConfigureAwait(false);
-                if (await _coordinator.IsMasterLostAsync(workerCts.Token).ConfigureAwait(false))
-                {
-                    _logger.LogError(
-                        "The distributed master stopped without signalling completion; cancelling all work on this worker");
-                    await workerCts.CancelAsync().ConfigureAwait(false);
-                    return true;
-                }
+                await Task.Delay(options.WorkerHeartbeatInterval, _timeProvider, workerCts.Token).ConfigureAwait(false);
+                using var callCts = CancellationTokenSource.CreateLinkedTokenSource(workerCts.Token);
+                callCts.CancelAfter(options.MasterTimeout);
+                state = await _coordinator.GetMasterStateAsync(callCts.Token).ConfigureAwait(false);
+                lastAnswer = _timeProvider.GetTimestamp();
             }
             catch (OperationCanceledException) when (workerCts.IsCancellationRequested)
             {
-                return false;
+                return DistributedMasterState.Running;
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Could not check whether the distributed master is still running; retrying");
+                if (_timeProvider.GetElapsedTime(lastAnswer) < options.MasterTimeout)
+                {
+                    _logger.LogWarning(ex, "Could not check whether the distributed master is still running; retrying");
+                    continue;
+                }
+
+                _logger.LogError(
+                    ex,
+                    "Could not reach the distributed master for {MasterTimeout}; cancelling all work on this worker",
+                    options.MasterTimeout);
+                await workerCts.CancelAsync().ConfigureAwait(false);
+                return DistributedMasterState.Lost;
+            }
+
+            switch (state)
+            {
+                case DistributedMasterState.Completed:
+                    _logger.LogInformation(
+                        "The distributed master has finished; cancelling any remaining work on this worker");
+                    await workerCts.CancelAsync().ConfigureAwait(false);
+                    return state;
+                case DistributedMasterState.Lost:
+                    _logger.LogError(
+                        "The distributed master stopped without signalling completion; cancelling all work on this worker");
+                    await workerCts.CancelAsync().ConfigureAwait(false);
+                    return state;
             }
         }
 
-        return false;
+        return DistributedMasterState.Running;
     }
 
     /// <summary>
-    /// Checks once whether the master was lost, bounded by <paramref name="timeout"/>.
+    /// Checks the master's state once, bounded by <paramref name="timeout"/>.
     /// </summary>
-    private async Task<bool> IsMasterLostAsync(TimeSpan timeout)
+    private async Task<DistributedMasterState> GetMasterStateAsync(TimeSpan timeout)
     {
         using var timeoutCts = new CancellationTokenSource(timeout);
         try
         {
-            return await _coordinator.IsMasterLostAsync(timeoutCts.Token).ConfigureAwait(false);
+            return await _coordinator.GetMasterStateAsync(timeoutCts.Token).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Could not check whether the distributed master is still running");
-            return false;
+            return DistributedMasterState.Running;
+        }
+    }
+
+    /// <summary>
+    /// Waits up to <see cref="CanceledWorkGracePeriod"/> for canceled modules to stop, then abandons them.
+    /// </summary>
+    private async Task WaitForCanceledWorkAsync(Task poolTask, WorkerId workerId)
+    {
+        try
+        {
+            await poolTask.WaitAsync(CanceledWorkGracePeriod, _timeProvider).ConfigureAwait(false);
+        }
+        catch (TimeoutException)
+        {
+            _logger.LogWarning(
+                "Worker {WorkerId} abandoned modules that did not stop within {GracePeriod} of cancellation",
+                workerId,
+                CanceledWorkGracePeriod);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Worker {WorkerId} execution loop failed while stopping", workerId);
         }
     }
 

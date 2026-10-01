@@ -353,15 +353,16 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         }
     }
 
-    public async Task<bool> IsMasterLostAsync(CancellationToken cancellationToken)
+    public async Task<DistributedMasterState> GetMasterStateAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var result = await _database.ScriptEvaluateAsync(
-                RedisCoordinationScripts.IsMasterLost,
+                RedisCoordinationScripts.GetMasterState,
                 [(RedisKey) _keys.MasterHeartbeat, (RedisKey) _keys.CompletionFlag],
                 [(long) _masterTimeout.TotalMilliseconds])
             .WaitAsync(cancellationToken).ConfigureAwait(false);
-        return (long) result == 1;
+        var state = (long) result;
+        return (DistributedMasterState) state;
     }
 
     /// <summary>
