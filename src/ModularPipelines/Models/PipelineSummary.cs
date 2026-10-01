@@ -64,6 +64,28 @@ public record PipelineSummary
     [JsonInclude]
     public PipelineRunReport? RunReport { get; internal init; }
 
+    /// <summary>
+    /// Gets the module results that failed the pipeline.
+    /// </summary>
+    /// <remarks>
+    /// Includes every result with an exception, except results whose status is
+    /// <see cref="ModuleStatus.FailureIgnored"/>. Excluded from JSON serialization for the same reason as
+    /// <see cref="Results"/>.
+    /// </remarks>
+    [JsonIgnore]
+    public IReadOnlyList<IModuleResult> Failures => [.. Results.Where(IsFailure)];
+
+    /// <summary>
+    /// Gets the module results that failed but whose failures were ignored.
+    /// </summary>
+    /// <remarks>
+    /// Includes every result whose status is <see cref="ModuleStatus.FailureIgnored"/>. Excluded from JSON
+    /// serialization for the same reason as <see cref="Results"/>.
+    /// </remarks>
+    [JsonIgnore]
+    public IReadOnlyList<IModuleResult> IgnoredFailures =>
+        [.. Results.Where(result => result.Status == ModuleStatus.FailureIgnored)];
+
     [JsonIgnore]
     internal ModuleStatus? StatusOverride { get; init; }
 
@@ -109,9 +131,7 @@ public record PipelineSummary
                 return statusOverride;
             }
 
-            if (Results.Any(result =>
-                    result.ExceptionOrDefault is not null
-                    && result.Status != ModuleStatus.FailureIgnored))
+            if (Results.Any(IsFailure))
             {
                 return ModuleStatus.Failed;
             }
@@ -130,4 +150,7 @@ public record PipelineSummary
     internal T GetModule<T>()
         where T : IModule
         => Modules.OfType<T>().Single();
+
+    private static bool IsFailure(IModuleResult result)
+        => result.ExceptionOrDefault is not null && result.Status != ModuleStatus.FailureIgnored;
 }
