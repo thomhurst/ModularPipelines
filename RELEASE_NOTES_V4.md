@@ -157,6 +157,16 @@ The custom JSON converters use the same new property names. Consumers of persist
 distributed `ModuleResult` JSON must migrate those five field names together with the
 .NET API.
 
+## Naming consistency
+
+- ModuleStatus.Cancelled is now ModuleStatus.Canceled, matching OperationCanceledException and
+  PipelineCanceledException. The numeric value is unchanged. Persisted run history and module results that
+  contain "Cancelled" or the V3 "PipelineTerminated" still deserialize as Canceled; writers and the
+  OpenTelemetry status tag emit Canceled.
+- IGitInformation.Commits(...) is now IGitInformation.CommitsAsync(...). Public methods that return
+  IAsyncEnumerable<T> use the Async suffix. Update existing callers to the new name.
+- Documentation and log messages call nested work started with RunSubModuleAsync "sub-modules" instead of
+  "sub-operations".
 ## File-system path types
 
 `ModularPipelines.FileSystem.File` and `Folder` have been renamed to `FilePath`

@@ -21,6 +21,17 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
             ["Cancelled"] = ModuleStatus.Canceled,
         };
 
+    internal static bool TryGetLegacyStatus(string? name, out ModuleStatus status)
+    {
+        if (name is not null && LegacyNames.TryGetValue(name, out status))
+        {
+            return true;
+        }
+
+        status = default;
+        return false;
+    }
+
     public override ModuleStatus Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
@@ -32,7 +43,7 @@ internal sealed class RunHistoryModuleStatusJsonConverter : JsonConverter<Module
         }
 
         var name = reader.GetString();
-        if (name is not null && LegacyNames.TryGetValue(name, out var legacyStatus))
+        if (TryGetLegacyStatus(name, out var legacyStatus))
         {
             return legacyStatus;
         }

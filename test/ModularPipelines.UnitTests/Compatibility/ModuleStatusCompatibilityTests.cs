@@ -1,5 +1,6 @@
 using ModularPipelines.Reporting;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
@@ -157,6 +158,52 @@ public class ModuleStatusCompatibilityTests
         var deserialized = JsonSerializer.Deserialize<ModuleResult>(json);
 
         await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Canceled);
+    }
+
+    [Test]
+    public async Task ModuleResultRoundTripsStatusWithConfiguredEnumConverter()
+    {
+        ModuleResult result = new ModuleResult.Failure(new OperationCanceledException("Canceled"))
+        {
+            Name = "Module",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Canceled,
+        };
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+        };
+
+        var json = JsonSerializer.Serialize(result, options);
+
+        await Assert.That(json).Contains("\"Status\":\"canceled\"");
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult>(json, options);
+
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Canceled);
+    }
+
+    [Test]
+    public async Task ModuleResultReadsDifferentlyCasedStatusName()
+    {
+        ModuleResult result = new ModuleResult.Failure(new InvalidOperationException("Failed"))
+        {
+            Name = "Module",
+            Duration = TimeSpan.Zero,
+            StartTime = DateTimeOffset.MinValue,
+            EndTime = DateTimeOffset.MinValue,
+            Status = ModuleStatus.Failed,
+        };
+        var json = JsonSerializer.Serialize(result)
+            .Replace("\"Status\":\"Failed\"", "\"Status\":\"failed\"", StringComparison.Ordinal);
+
+        await Assert.That(json).Contains("\"Status\":\"failed\"");
+
+        var deserialized = JsonSerializer.Deserialize<ModuleResult>(json);
+
+        await Assert.That(deserialized!.Status).IsEqualTo(ModuleStatus.Failed);
     }
 
     [Test]

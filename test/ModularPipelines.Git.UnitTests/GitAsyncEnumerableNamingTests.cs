@@ -34,7 +34,11 @@ public class GitAsyncEnumerableNamingTests
         }
     }
 
+    // Covers concrete types and derived interfaces as well as IAsyncEnumerable<T> itself.
     private static bool ReturnsAsyncEnumerable(Type returnType) =>
-        returnType.IsGenericType
-        && returnType.GetGenericTypeDefinition() == typeof(IAsyncEnumerable<>);
+        IsAsyncEnumerable(returnType) || returnType.GetInterfaces().Any(IsAsyncEnumerable);
+
+    private static bool IsAsyncEnumerable(Type type) =>
+        type.IsGenericType
+        && type.GetGenericTypeDefinition() == typeof(IAsyncEnumerable<>);
 }

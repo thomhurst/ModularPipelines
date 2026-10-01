@@ -551,9 +551,6 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
 
 internal class ModuleResultReadState
 {
-    // Persisted results may carry V3 or V4-preview status names (for example "PipelineTerminated" or "Cancelled").
-    private static readonly RunHistoryModuleStatusJsonConverter StatusConverter = new();
-
     public string? Discriminator { get; set; }
 
     public string? Name { get; set; }
@@ -607,8 +604,11 @@ internal class ModuleResultReadState
                 break;
             case "Status":
             case "ModuleStatus":
+                // Persisted results may carry V3 or V4-preview status names (for example "PipelineTerminated" or "Cancelled").
+                // Current names still go through the configured options, so custom enum converters keep round-tripping.
                 Status = reader.TokenType == JsonTokenType.String
-                    ? StatusConverter.Read(ref reader, typeof(ModuleStatus), options)
+                    && RunHistoryModuleStatusJsonConverter.TryGetLegacyStatus(reader.GetString(), out var legacyStatus)
+                    ? legacyStatus
                     : JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                 break;
             case "Exception":
