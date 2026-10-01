@@ -112,6 +112,13 @@ internal class PipelineInitializer(
             new EventId(2, nameof(LogBuildSystem)),
             "Build System: {BuildSystem}");
 
+    private static readonly Action<ILogger, string, Exception?> LogCiVariableOnly =
+        LoggerMessage.Define<string>(
+            LogLevel.Information,
+            new EventId(3, nameof(LogCiVariableOnly)),
+            "Treating this run as CI because CI={CiValue} and no known build agent was detected. "
+            + "OnCI, OnLocal, Require.Ci() and IsBuildServer follow this decision; unset CI or set it to false or 0 to run as local.");
+
     private readonly IDependencyDetector _dependencyDetector = dependencyDetector;
     private readonly IRequirementChecker _requirementsChecker = requirementsChecker;
     private readonly ModuleRetriever _moduleRetriever = moduleRetriever;
@@ -320,15 +327,7 @@ internal class PipelineInitializer(
 
         PrintEnvironmentVariables();
 
-        var buildSystem = _buildSystemDetector.Current;
-        if (_buildSystemDetector.MatchedEnvironmentVariable is { } variable)
-        {
-            LogDetectedBuildSystem(_logger, buildSystem, variable, null);
-        }
-        else
-        {
-            LogBuildSystem(_logger, buildSystem, null);
-        }
+        LogBuildSystemDetection(_logger, _buildSystemDetector);
 
         await _pipelineFileWriter.WritePipelineFiles().ConfigureAwait(false);
 
@@ -341,6 +340,24 @@ internal class PipelineInitializer(
         _dependencyDetector.Check();
 
         return organizedModules;
+    }
+
+    internal static void LogBuildSystemDetection(ILogger logger, IBuildSystemDetector buildSystemDetector)
+    {
+        var buildSystem = buildSystemDetector.Current;
+        if (buildSystemDetector.MatchedEnvironmentVariable is { } variable)
+        {
+            LogDetectedBuildSystem(logger, buildSystem, variable, null);
+        }
+        else
+        {
+            LogBuildSystem(logger, buildSystem, null);
+        }
+
+        if (buildSystemDetector.CiVariableOnlyValue is { } ciValue)
+        {
+            LogCiVariableOnly(logger, ciValue, null);
+        }
     }
 
     private void PrintEnvironmentVariables()
