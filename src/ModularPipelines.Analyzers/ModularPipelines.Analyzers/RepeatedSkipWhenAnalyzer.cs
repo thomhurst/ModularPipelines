@@ -127,13 +127,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// </summary>
     private static (SyntaxNode First, SyntaxNode Last)? GetSequentialRange(SyntaxNode earlier, SyntaxNode later)
     {
-        var earlierAncestors = new HashSet<SyntaxNode>(earlier.Ancestors());
-        var container = later.Ancestors().FirstOrDefault(earlierAncestors.Contains);
-        while (container is not (null or BlockSyntax or SwitchSectionSyntax or CompilationUnitSyntax or ArrowExpressionClauseSyntax))
-        {
-            container = container is MemberDeclarationSyntax ? null : container.Parent;
-        }
-
+        var container = GetCommonStatementContainer(earlier, later);
         if (container is null)
         {
             return null;
@@ -141,9 +135,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
         if (container is ArrowExpressionClauseSyntax arrow)
         {
-            return GetUnconditionalAnchor(earlier) == arrow && GetUnconditionalAnchor(later) == arrow
-                ? (arrow, arrow)
-                : null;
+            return BothRunUnconditionallyIn(arrow, earlier, later) ? (arrow, arrow) : null;
         }
 
         var first = GetStatementIn(container, earlier);
@@ -155,13 +147,30 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
         if (first == last)
         {
-            return GetUnconditionalAnchor(earlier) == first && GetUnconditionalAnchor(later) == first
-                ? (first, last)
-                : null;
+            return BothRunUnconditionallyIn(first, earlier, later) ? (first, last) : null;
         }
 
         return IsInsideDeferredCode(earlier, first) || IsInsideDeferredCode(later, last) ? null : (first, last);
     }
+
+    /// <summary>
+    /// Returns the innermost statement list or expression body that contains both calls, or <see langword="null"/>
+    /// when the calls only share a member declaration or nothing at all.
+    /// </summary>
+    private static SyntaxNode? GetCommonStatementContainer(SyntaxNode earlier, SyntaxNode later)
+    {
+        var earlierAncestors = new HashSet<SyntaxNode>(earlier.Ancestors());
+        var container = later.Ancestors().FirstOrDefault(earlierAncestors.Contains);
+        while (container is not (null or BlockSyntax or SwitchSectionSyntax or CompilationUnitSyntax or ArrowExpressionClauseSyntax))
+        {
+            container = container is MemberDeclarationSyntax ? null : container.Parent;
+        }
+
+        return container;
+    }
+
+    private static bool BothRunUnconditionallyIn(SyntaxNode anchor, SyntaxNode earlier, SyntaxNode later) =>
+        GetUnconditionalAnchor(earlier) == anchor && GetUnconditionalAnchor(later) == anchor;
 
     private static StatementSyntax? GetStatementIn(SyntaxNode list, SyntaxNode call) =>
         call.Ancestors()
