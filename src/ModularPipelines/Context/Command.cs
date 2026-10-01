@@ -873,12 +873,20 @@ internal sealed class Command : ICommandContext
                && IsExecutableNotFound(exception.InnerException);
     }
 
-    private static TimeoutException CreateTimeoutException(
+    internal static TimeoutException CreateTimeoutException(
         CommandExecutionOptions executionOptions,
-        Exception innerException) =>
-        new(
-            $"Command execution timed out after {executionOptions.ExecutionTimeout!.Value}.",
+        Exception innerException)
+    {
+        var timeout = executionOptions.ExecutionTimeout!.Value;
+        var source = timeout == CommandExecutionOptions.DefaultExecutionTimeout
+            ? "the default CommandExecutionOptions.ExecutionTimeout"
+            : "CommandExecutionOptions.ExecutionTimeout";
+        return new TimeoutException(
+            $"Command execution timed out after {timeout} ({source}). "
+            + "Raise CommandExecutionOptions.ExecutionTimeout for long-running commands, "
+            + "or set it to null to disable the timeout.",
             innerException);
+    }
 
     private CommandResult CreateFailureResult(
         CliWrap.Command command,
