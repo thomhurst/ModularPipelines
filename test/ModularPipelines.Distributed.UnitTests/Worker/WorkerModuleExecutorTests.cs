@@ -143,6 +143,50 @@ public class WorkerModuleExecutorTests
 
     [Test]
     [Timeout(30_000)]
+    public async Task Claim_Loop_Ended_While_The_Master_Is_Unreachable_Fails_The_Worker(
+        CancellationToken testCancellation)
+    {
+        var coordinator = CreateCoordinator();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleLease?) null);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new TimeoutException("Coordinator unreachable"));
+
+        await Assert.That(async () => await ExecuteAsync(
+                coordinator.Object,
+                testCancellation,
+                masterTimeout: TimeSpan.FromMilliseconds(200)))
+            .Throws<DistributedMasterLostException>();
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task Final_Master_State_Check_Retries_After_A_Transient_Failure(
+        CancellationToken testCancellation)
+    {
+        var attempts = 0;
+        var coordinator = CreateCoordinator();
+        coordinator.Setup(instance => instance.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleLease?) null);
+        coordinator.Setup(instance => instance.GetMasterStateAsync(It.IsAny<CancellationToken>()))
+            .Returns(() => Interlocked.Increment(ref attempts) == 1
+                ? Task.FromException<DistributedMasterState>(new TimeoutException("Transient coordinator failure"))
+                : Task.FromResult(DistributedMasterState.Running));
+
+        var result = await ExecuteAsync(
+            coordinator.Object,
+            testCancellation,
+            heartbeatInterval: TimeSpan.FromMilliseconds(10),
+            masterTimeout: TimeSpan.FromSeconds(10));
+
+        await Assert.That(result).IsEmpty();
+        await Assert.That(attempts).IsGreaterThanOrEqualTo(2);
+    }
+
+    [Test]
+    [Timeout(30_000)]
     public async Task Completed_Master_Cancels_Remaining_Work_Without_Failing(
         CancellationToken testCancellation)
     {
