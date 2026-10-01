@@ -116,7 +116,7 @@ public record AwsEcsCreateExpressGatewayServiceOptions : AwsOptions, IValidatabl
     public string? Memory { get; set; }
 
     /// <summary>
-    /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the de- fault is X86_64 . Valid values: o X86_64 - The x86 64-bit architecture. o ARM64 - The 64-bit ARM architecture. Make sure that the container image that you specify supports the ar- chitecture that you choose. The operating system family for an Ex- press service is always LINUX . You can't specify cpuArchitecture when you also specify taskDefini- tionArn , because this value applies only to a task definition that Amazon ECS registers on your behalf. Possible values: o X86_64 o ARM64
+    /// The CPU architecture that the task runs on. If you don't specify a value, the default is X86_64 . Valid values: o X86_64 - The x86 64-bit architecture. o ARM64 - The 64-bit ARM architecture. Ensure that the container image you specify supports the architec- ture you choose. The operating system family for an Express service is always LINUX . You can't specify cpuArchitecture together with taskDefinitionArn . Possible values: o X86_64 o ARM64
     /// </summary>
     [CliOption("--cpu-architecture")]
     public string? CpuArchitecture { get; set; }

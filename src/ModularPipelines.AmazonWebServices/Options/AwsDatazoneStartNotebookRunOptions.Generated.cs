@@ -108,6 +108,12 @@ public record AwsDatazoneStartNotebookRunOptions : AwsOptions, IValidatableObjec
     public string? TimeoutConfiguration { get; set; }
 
     /// <summary>
+    /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications. notifyOn -&gt; (list) [required] Notebook run states that trigger notifications. Ordering is not significant. Constraints: o min: 0 o max: 7 (string) A notebook run state that triggers a notification in Amazon SageMaker Unified Studio. Possible values: o SUCCEEDED o FAILED o STOPPED o QUEUED o STARTING o RUNNING o STOPPING Shorthand Syntax: notifyOn=string,string JSON Syntax: { "notifyOn": ["SUCCEEDED"|"FAILED"|"STOPPED"|"QUEUED"|"STARTING"|"RUNNING"|"STOPPING", ...] }
+    /// </summary>
+    [CliOption("--notification-configuration")]
+    public string? NotificationConfiguration { get; set; }
+
+    /// <summary>
     /// The source that triggered the notebook run. type -&gt; (string) The type of the trigger source. Valid values are MANUAL , SCHED- ULED , and WORKFLOW . Possible values: o MANUAL o SCHEDULED o WORKFLOW name -&gt; (string) The name of the trigger source. Shorthand Syntax: type=string,name=string JSON Syntax: { "type": "MANUAL"|"SCHEDULED"|"WORKFLOW", "name": "string" }
     /// </summary>
     [CliOption("--trigger-source")]

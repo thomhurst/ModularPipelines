@@ -172,6 +172,16 @@ public interface IAwsAccount
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> SendPhoneNumberVerificationAsync(AwsAccountSendPhoneNumberVerificationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Starts the process to update the primary email address for the speci- fied account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -179,6 +189,16 @@ public interface IAwsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> StartPrimaryEmailUpdateAsync(AwsAccountStartPrimaryEmailUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Verifies the phone number in the primary contact information of an Ama- zon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number. For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VerifyPhoneNumberAsync(AwsAccountVerifyPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
 }
