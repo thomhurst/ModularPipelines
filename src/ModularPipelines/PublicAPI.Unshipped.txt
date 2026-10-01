@@ -1019,6 +1019,7 @@ ModularPipelines.ModuleResult.WorkerId.get -> ModularPipelines.Distributed.Worke
 *REMOVED*ModularPipelines.OperatingSystemIdentifier.Windows = 0 -> ModularPipelines.OperatingSystemIdentifier
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.get -> ModularPipelines.Options.CommandLoggingOptions?
 *REMOVED*ModularPipelines.Options.CommandExecutionOptions.LogSettings.init -> void
+*REMOVED*ModularPipelines.Options.CommandLogVerbosity.Minimal = 1 -> ModularPipelines.Options.CommandLogVerbosity
 *REMOVED*ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.get -> bool
 *REMOVED*ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.init -> void
 *REMOVED*ModularPipelines.Options.DownloadOptions.LoggingType.get -> ModularPipelines.Http.HttpLoggingType
@@ -2305,6 +2306,7 @@ ModularPipelines.OnWindows.EvaluateAsync(ModularPipelines.IPipelineContext! cont
 ModularPipelines.OnWindows.OnWindows() -> void
 ModularPipelines.Options.CommandExecutionOptions.Logging.get -> ModularPipelines.Options.CommandLoggingOptions?
 ModularPipelines.Options.CommandExecutionOptions.Logging.init -> void
+ModularPipelines.Options.CommandLogVerbosity.InputOnly = 1 -> ModularPipelines.Options.CommandLogVerbosity
 ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.init -> void
 ModularPipelines.Options.ConcurrencyOptions.NotificationTimeout.get -> System.TimeSpan

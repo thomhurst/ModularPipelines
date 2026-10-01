@@ -99,7 +99,7 @@ Command output is logged one line at a time, each prefixed with `↳`, whether i
 | Level | Description |
 |-------|-------------|
 | `Silent` | No output at all |
-| `Minimal` | Only command input (no output/errors) |
+| `InputOnly` | Only command input (no output/errors) |
 | `Normal` | Input, output, and errors on failure (default) |
 | `Detailed` | Above plus exit code and duration |
 | `Diagnostic` | Everything including working directory and timestamps |
