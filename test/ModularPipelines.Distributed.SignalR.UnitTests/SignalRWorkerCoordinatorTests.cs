@@ -13,7 +13,7 @@ public class SignalRWorkerCoordinatorTests
     [Test]
     public async Task Transport_Failure_Before_The_Close_Callback_Stops_The_Worker()
     {
-        var test = await SignalRTestMaster.StartAsync();
+        await using var test = await SignalRTestMaster.StartAsync();
         var worker = await test.ConnectWorkerAsync();
         await worker.RegisterWorkerAsync(SignalRTestMaster.Registration("worker-a"), CancellationToken.None);
         worker.ConnectionChangeGracePeriod = TimeSpan.FromMinutes(1);
@@ -30,7 +30,6 @@ public class SignalRWorkerCoordinatorTests
 
         await Assert.That(async () => await invocation.WaitAsync(Timeout))
             .Throws<SignalRWorkerCoordinator.MasterConnectionClosedException>();
-        await test.DisposeAsync();
     }
 
     [Test]
