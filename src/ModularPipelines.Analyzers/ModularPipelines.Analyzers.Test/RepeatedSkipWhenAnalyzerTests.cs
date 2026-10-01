@@ -146,6 +146,68 @@ public class RepeatedSkipWhenAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Repeated_WithSkipWhen_On_Reassigned_Local_Between_Writes()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder first, ModuleConfigurationBuilder second)
+                {
+                    var builder = first;
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("first a"));
+                    builder.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("first b"));
+                    builder = second;
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("second a"));
+                    if (Environment.ProcessorCount > 1)
+                    {
+                        builder.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("second b"));
+                    }
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            source,
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1));
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_WithSkipWhen_In_Switch_Sections_Not_Joined_By_Goto()
+    {
+        var source = ModuleSource("""
+            protected override void Configure(ModuleConfigurationBuilder module)
+                {
+                    switch (Environment.ProcessorCount)
+                    {
+                        case 1:
+                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
+                            switch (Environment.TickCount)
+                            {
+                                case 0:
+                                    goto default;
+                                default:
+                                    break;
+                            }
+
+                            break;
+                        case 2:
+                            module.WithSkipWhen(_ => SkipDecision.Skip("two"));
+                            break;
+                        case 3:
+                            goto case 2;
+                        default:
+                            break;
+                    }
+                }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Follow_Local_Written_By_Deconstruction_Or_Lambda()
     {
         var source = $$"""

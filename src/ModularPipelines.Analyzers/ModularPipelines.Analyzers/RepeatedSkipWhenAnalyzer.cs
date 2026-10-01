@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -72,8 +73,9 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
                 blockContext.RegisterOperationBlockEndAction(endContext =>
                 {
-                    foreach (var calls in callsByBuilder.Values)
+                    foreach (var entry in callsByBuilder)
                     {
+                        var calls = entry.Value;
                         if (calls.Count < 2)
                         {
                             continue;
@@ -83,7 +85,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
                         for (var i = 1; i < ordered.Count; i++)
                         {
                             var repeatedCall = ordered[i];
-                            if (ordered.Take(i).Any(earlier => !AreMutuallyExclusive(earlier.Syntax, repeatedCall.Syntax)))
+                            if (ordered.Take(i).Any(earlier => CanRunOnSameBuilder(entry.Key, earlier, repeatedCall)))
                             {
                                 endContext.ReportDiagnostic(Diagnostic.Create(Rule, GetMethodNameLocation(repeatedCall)));
                             }
@@ -94,12 +96,25 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         });
     }
 
+    private static bool CanRunOnSameBuilder(object builderKey, IInvocationOperation earlier, IInvocationOperation later)
+    {
+        if (earlier.SemanticModel is not { } semanticModel
+            || AreMutuallyExclusive(earlier.Syntax, later.Syntax, semanticModel))
+        {
+            return false;
+        }
+
+        return builderKey is not ReassignedLocalKey reassigned
+            || !IsWrittenBetween(reassigned.Local, earlier.Syntax, later.Syntax, semanticModel);
+    }
+
     /// <summary>
     /// Follows a fluent chain of builder calls back to the builder it started from, so calls on the same
     /// parameter, local, field, or chain share one key. Locals that are initialized from a builder and never
     /// reassigned are followed to their initializer, so an alias shares the key of the builder it aliases.
-    /// Returns <see langword="null"/> for a local that is written after its declaration, because which builder
-    /// such a local holds at each call depends on control flow.
+    /// A local that is written after its declaration gets a <see cref="ReassignedLocalKey"/>, so its calls are
+    /// compared only when no write to the local can happen between them. Returns <see langword="null"/> when such a
+    /// local is reached through an alias, because the alias captured whichever builder the local held at that point.
     /// </summary>
     private static object? GetBuilderKey(
         IOperation instance,
@@ -123,7 +138,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             {
                 if (IsReassigned(localReference, reassignedLocals))
                 {
-                    return null;
+                    return aliasDepth == 0 ? new ReassignedLocalKey(localReference.Local) : null;
                 }
 
                 if (aliasDepth < MaxAliasDepth && TryGetAliasedBuilder(localReference, builderType) is { } aliased)
@@ -204,6 +219,47 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     }
 
     /// <summary>
+    /// Returns whether <paramref name="local"/> may be written between two calls. The analyzed region spans the
+    /// statements, within the innermost statement list containing both calls, from the one holding the first call to
+    /// the one holding the second. Writes in that range but off the path between the calls also count, which keeps
+    /// the check conservative. Calls that cannot be placed in one statement list are treated as separated by a write.
+    /// </summary>
+    private static bool IsWrittenBetween(ILocalSymbol local, SyntaxNode first, SyntaxNode second, SemanticModel semanticModel)
+    {
+        var firstAncestors = new HashSet<SyntaxNode>(first.AncestorsAndSelf());
+        var common = second.AncestorsAndSelf().First(firstAncestors.Contains);
+
+        var statements = common switch
+        {
+            BlockSyntax block => block.Statements,
+            SwitchSectionSyntax section => section.Statements,
+            _ => default(SyntaxList<StatementSyntax>?),
+        };
+
+        StatementSyntax? firstStatement;
+        StatementSyntax? lastStatement;
+        if (statements is { } list)
+        {
+            firstStatement = list.FirstOrDefault(statement => statement.Span.Contains(first.Span));
+            lastStatement = list.FirstOrDefault(statement => statement.Span.Contains(second.Span));
+        }
+        else
+        {
+            firstStatement = lastStatement = common.FirstAncestorOrSelf<StatementSyntax>();
+        }
+
+        if (firstStatement is null || lastStatement is null)
+        {
+            return true;
+        }
+
+        var dataFlow = semanticModel.AnalyzeDataFlow(firstStatement, lastStatement);
+        return dataFlow is null
+            || !dataFlow.Succeeded
+            || dataFlow.WrittenInside.Contains(local, SymbolEqualityComparer.Default);
+    }
+
+    /// <summary>
     /// Returns the statements and expressions within the local's scope that run after its declaration: the
     /// statements following the declaring statement, statements nested inside it, and a <c>for</c> loop's condition
     /// and incrementors. None of these regions contain the declaration's own write.
@@ -261,7 +317,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// Returns whether two calls sit in different branches of the same <c>if</c>/<c>else</c>, switch statement,
     /// switch expression, or conditional expression, so at most one of them runs.
     /// </summary>
-    private static bool AreMutuallyExclusive(SyntaxNode first, SyntaxNode second)
+    private static bool AreMutuallyExclusive(SyntaxNode first, SyntaxNode second, SemanticModel semanticModel)
     {
         var firstAncestors = new HashSet<SyntaxNode>(first.AncestorsAndSelf());
         var common = second.AncestorsAndSelf().FirstOrDefault(firstAncestors.Contains);
@@ -273,8 +329,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             ConditionalExpressionSyntax conditional =>
                 IsWithinBranches(first, second, conditional.WhenTrue, conditional.WhenFalse),
             SwitchStatementSyntax switchStatement =>
-                !ContainsGoto(switchStatement)
-                && IsWithinDifferentBranches(first, second, switchStatement.Sections),
+                AreInExclusiveSections(switchStatement, first, second, semanticModel),
             SwitchExpressionSyntax switchExpression =>
                 IsWithinDifferentBranches(first, second, switchExpression.Arms),
             _ => false,
@@ -282,11 +337,123 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     }
 
     /// <summary>
-    /// A <c>goto case</c>, <c>goto default</c>, or labeled <c>goto</c> can transfer control from one switch section
-    /// into another, so sections of a switch that contains any <c>goto</c> are not treated as mutually exclusive.
+    /// Returns whether two calls sit in different sections of a switch statement and neither section can reach the
+    /// other through <c>goto case</c>, <c>goto default</c>, or a labeled <c>goto</c>.
     /// </summary>
-    private static bool ContainsGoto(SwitchStatementSyntax switchStatement) =>
-        switchStatement.DescendantNodes().OfType<GotoStatementSyntax>().Any();
+    private static bool AreInExclusiveSections(
+        SwitchStatementSyntax switchStatement,
+        SyntaxNode first,
+        SyntaxNode second,
+        SemanticModel semanticModel)
+    {
+        var sections = switchStatement.Sections;
+        var firstSection = sections.FirstOrDefault(section => section.Span.Contains(first.Span));
+        var secondSection = sections.FirstOrDefault(section => section.Span.Contains(second.Span));
+        if (firstSection is null || secondSection is null || firstSection == secondSection)
+        {
+            return false;
+        }
+
+        return !CanReach(switchStatement, firstSection, secondSection, semanticModel)
+            && !CanReach(switchStatement, secondSection, firstSection, semanticModel);
+    }
+
+    private static bool CanReach(
+        SwitchStatementSyntax switchStatement,
+        SwitchSectionSyntax source,
+        SwitchSectionSyntax target,
+        SemanticModel semanticModel)
+    {
+        var visited = new HashSet<SwitchSectionSyntax> { source };
+        var pending = new Stack<SwitchSectionSyntax>();
+        pending.Push(source);
+        while (pending.Count > 0)
+        {
+            foreach (var next in GetGotoTargets(switchStatement, pending.Pop(), semanticModel))
+            {
+                if (next == target)
+                {
+                    return true;
+                }
+
+                if (visited.Add(next))
+                {
+                    pending.Push(next);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Returns the sections of <paramref name="switchStatement"/> that a <c>goto</c> in <paramref name="section"/> can
+    /// transfer control to. <c>goto case</c> and <c>goto default</c> owned by a nested switch are ignored. A
+    /// <c>goto case</c> whose value cannot be matched to a section is treated as reaching every section.
+    /// </summary>
+    private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
+        SwitchStatementSyntax switchStatement,
+        SwitchSectionSyntax section,
+        SemanticModel semanticModel)
+    {
+        foreach (var gotoStatement in section.DescendantNodes().OfType<GotoStatementSyntax>())
+        {
+            foreach (var target in GetGotoTargets(switchStatement, gotoStatement, semanticModel))
+            {
+                yield return target;
+            }
+        }
+    }
+
+    private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
+        SwitchStatementSyntax switchStatement,
+        GotoStatementSyntax gotoStatement,
+        SemanticModel semanticModel)
+    {
+        if (gotoStatement.IsKind(SyntaxKind.GotoStatement))
+        {
+            return gotoStatement.Expression is IdentifierNameSyntax label
+                ? switchStatement.Sections.Where(candidate => candidate.DescendantNodes()
+                    .OfType<LabeledStatementSyntax>()
+                    .Any(labeled => labeled.Identifier.ValueText == label.Identifier.ValueText))
+                : [];
+        }
+
+        if (gotoStatement.FirstAncestorOrSelf<SwitchStatementSyntax>() != switchStatement)
+        {
+            return [];
+        }
+
+        if (gotoStatement.IsKind(SyntaxKind.GotoDefaultStatement))
+        {
+            return switchStatement.Sections.Where(candidate => candidate.Labels.Any(label => label is DefaultSwitchLabelSyntax));
+        }
+
+        return gotoStatement.Expression is { } value
+            ? GetCaseTargets(switchStatement, value, semanticModel)
+            : switchStatement.Sections;
+    }
+
+    private static IEnumerable<SwitchSectionSyntax> GetCaseTargets(
+        SwitchStatementSyntax switchStatement,
+        ExpressionSyntax value,
+        SemanticModel semanticModel)
+    {
+        var constant = semanticModel.GetConstantValue(value);
+        if (!constant.HasValue)
+        {
+            return switchStatement.Sections;
+        }
+
+        var matches = switchStatement.Sections
+            .Where(candidate => candidate.Labels
+                .OfType<CaseSwitchLabelSyntax>()
+                .Any(label => semanticModel.GetConstantValue(label.Value) is { HasValue: true } labelValue
+                    && Equals(labelValue.Value, constant.Value)))
+            .ToList();
+
+        return matches.Count > 0 ? matches : switchStatement.Sections;
+    }
 
     private static bool IsWithinBranches(SyntaxNode first, SyntaxNode second, SyntaxNode whenTrue, SyntaxNode whenFalse) =>
         (whenTrue.Span.Contains(first.Span) && whenFalse.Span.Contains(second.Span))
@@ -312,6 +479,22 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         }
 
         return operation;
+    }
+
+    /// <summary>
+    /// Groups calls on a local that is written after its declaration. Two such calls share a builder only when no
+    /// write to the local can happen between them.
+    /// </summary>
+    private sealed class ReassignedLocalKey(ILocalSymbol local) : IEquatable<ReassignedLocalKey>
+    {
+        public ILocalSymbol Local { get; } = local;
+
+        public bool Equals(ReassignedLocalKey? other) =>
+            other is not null && SymbolEqualityComparer.Default.Equals(Local, other.Local);
+
+        public override bool Equals(object? obj) => Equals(obj as ReassignedLocalKey);
+
+        public override int GetHashCode() => SymbolEqualityComparer.Default.GetHashCode(Local);
     }
 
     private static Location GetMethodNameLocation(IInvocationOperation invocation)
