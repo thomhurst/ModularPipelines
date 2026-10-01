@@ -121,38 +121,40 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol builderType,
         ConcurrentDictionary<ILocalSymbol, bool> reassignedLocals)
     {
-        var current = instance;
-        var aliasDepth = 0;
-        while (true)
+        var current = UnwrapChain(instance, builderType);
+        for (var aliasDepth = 0; current is ILocalReferenceOperation localReference; aliasDepth++)
         {
-            current = Unwrap(current);
-            if (current is IInvocationOperation { Instance: not null } chainedCall
-                && SymbolEqualityComparer.Default.Equals(chainedCall.TargetMethod.ContainingType, builderType)
-                && SymbolEqualityComparer.Default.Equals(chainedCall.Type, builderType))
+            if (IsReassigned(localReference, reassignedLocals))
             {
-                current = chainedCall.Instance;
-                continue;
+                return aliasDepth == 0 ? new ReassignedLocalKey(localReference.Local) : null;
             }
 
-            if (current is ILocalReferenceOperation localReference)
+            if (aliasDepth >= MaxAliasDepth || TryGetAliasedBuilder(localReference, builderType) is not { } aliased)
             {
-                if (IsReassigned(localReference, reassignedLocals))
-                {
-                    return aliasDepth == 0 ? new ReassignedLocalKey(localReference.Local) : null;
-                }
-
-                if (aliasDepth < MaxAliasDepth && TryGetAliasedBuilder(localReference, builderType) is { } aliased)
-                {
-                    aliasDepth++;
-                    current = aliased;
-                    continue;
-                }
+                break;
             }
 
-            break;
+            current = UnwrapChain(aliased, builderType);
         }
 
-        return current switch
+        return ToKey(current);
+    }
+
+    private static IOperation UnwrapChain(IOperation operation, INamedTypeSymbol builderType)
+    {
+        var current = Unwrap(operation);
+        while (current is IInvocationOperation { Instance: { } chainedInstance } chainedCall
+            && SymbolEqualityComparer.Default.Equals(chainedCall.TargetMethod.ContainingType, builderType)
+            && SymbolEqualityComparer.Default.Equals(chainedCall.Type, builderType))
+        {
+            current = Unwrap(chainedInstance);
+        }
+
+        return current;
+    }
+
+    private static object ToKey(IOperation current) =>
+        current switch
         {
             IParameterReferenceOperation parameter => parameter.Parameter,
             ILocalReferenceOperation local => local.Local,
@@ -160,7 +162,6 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             IPropertyReferenceOperation { Instance: null or IInstanceReferenceOperation } property => property.Property,
             _ => current,
         };
-    }
 
     private static IOperation? TryGetAliasedBuilder(ILocalReferenceOperation localReference, INamedTypeSymbol builderType)
     {
@@ -264,53 +265,38 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// statements following the declaring statement, statements nested inside it, and a <c>for</c> loop's condition
     /// and incrementors. None of these regions contain the declaration's own write.
     /// </summary>
-    private static IEnumerable<SyntaxNode> GetRegionsAfterDeclaration(StatementSyntax declaringStatement)
-    {
-        var siblings = declaringStatement.Parent switch
+    private static IEnumerable<SyntaxNode> GetRegionsAfterDeclaration(StatementSyntax declaringStatement) =>
+        GetFollowingStatements(declaringStatement)
+            .Concat(GetNestedStatements(declaringStatement))
+            .Concat(GetForLoopExpressions(declaringStatement));
+
+    private static IEnumerable<SyntaxNode> GetFollowingStatements(StatementSyntax declaringStatement) =>
+        declaringStatement.Parent switch
         {
-            BlockSyntax block => block.Statements,
-            SwitchSectionSyntax section => section.Statements,
-            _ => default(SyntaxList<StatementSyntax>?),
+            BlockSyntax block => block.Statements.Skip(block.Statements.IndexOf(declaringStatement) + 1),
+            SwitchSectionSyntax section => section.Statements.Skip(section.Statements.IndexOf(declaringStatement) + 1),
+            GlobalStatementSyntax { Parent: CompilationUnitSyntax compilationUnit } global => compilationUnit.Members
+                .Skip(compilationUnit.Members.IndexOf(global) + 1)
+                .OfType<GlobalStatementSyntax>()
+                .Select(following => following.Statement),
+            _ => [],
         };
 
-        if (siblings is { } statements)
-        {
-            foreach (var statement in statements.Skip(statements.IndexOf(declaringStatement) + 1))
-            {
-                yield return statement;
-            }
-        }
-        else if (declaringStatement.Parent is GlobalStatementSyntax { Parent: CompilationUnitSyntax compilationUnit } global)
-        {
-            foreach (var member in compilationUnit.Members.Skip(compilationUnit.Members.IndexOf(global) + 1))
-            {
-                if (member is GlobalStatementSyntax following)
-                {
-                    yield return following.Statement;
-                }
-            }
-        }
-
-        var nestedStatements = declaringStatement
+    private static IEnumerable<SyntaxNode> GetNestedStatements(StatementSyntax declaringStatement) =>
+        declaringStatement
             .DescendantNodes(node => node == declaringStatement || node is not StatementSyntax)
             .OfType<StatementSyntax>();
-        foreach (var nested in nestedStatements)
+
+    private static IEnumerable<SyntaxNode> GetForLoopExpressions(StatementSyntax declaringStatement)
+    {
+        if (declaringStatement is not ForStatementSyntax forStatement)
         {
-            yield return nested;
+            return [];
         }
 
-        if (declaringStatement is ForStatementSyntax forStatement)
-        {
-            if (forStatement.Condition is { } condition)
-            {
-                yield return condition;
-            }
-
-            foreach (var incrementor in forStatement.Incrementors)
-            {
-                yield return incrementor;
-            }
-        }
+        return forStatement.Condition is { } condition
+            ? forStatement.Incrementors.Prepend(condition)
+            : forStatement.Incrementors;
     }
 
     /// <summary>
