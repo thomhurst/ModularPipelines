@@ -109,13 +109,44 @@ public partial class KustomizeCliScraper : CobraCliScraper
     }
 
     /// <summary>
-    /// Kustomize validates buildmetadata operands but omits them from Cobra's Use value.
+    /// Kustomize 5.8 edit commands validate operands in RunE but omit them from Cobra's
+    /// Use value, so their usage line reads only "[flags]". Operands follow each
+    /// command's argument validation: a trailing "..." marks commands that accept
+    /// several space-separated operands.
     /// </summary>
+    private static readonly Dictionary<string, string> EditOperandSynopses = new(StringComparer.Ordinal)
+    {
+        ["add annotation"] = "<annotation>...",
+        ["add base"] = "<base>",
+        ["add buildmetadata"] = "<metadata>",
+        ["add component"] = "<file>...",
+        ["add configuration"] = "<file>...",
+        ["add generator"] = "<file>...",
+        ["add label"] = "<label>...",
+        ["add resource"] = "<file>...",
+        ["add transformer"] = "<file>...",
+        ["remove annotation"] = "<keys>",
+        ["remove buildmetadata"] = "<metadata>",
+        ["remove component"] = "<file>...",
+        ["remove label"] = "<keys>",
+        ["remove resource"] = "<file>...",
+        ["remove transformer"] = "<file>...",
+        ["set annotation"] = "<annotation>...",
+        ["set buildmetadata"] = "<metadata>",
+        ["set image"] = "<image>...",
+        ["set label"] = "<label>...",
+        ["set nameprefix"] = "<prefix>",
+        ["set namespace"] = "<namespace>",
+        ["set namesuffix"] = "<suffix>",
+        ["set replicas"] = "<replicas>...",
+    };
+
     protected override IEnumerable<string> GetAdditionalUsageSynopses(
         string[] commandPath,
         string helpText) =>
-        commandPath.Skip(1).ToArray() is [.., "buildmetadata"]
-            ? [$"{string.Join(" ", commandPath)} <metadata>"]
+        commandPath is [_, "edit", var verb, var noun]
+        && EditOperandSynopses.TryGetValue($"{verb} {noun}", out var operands)
+            ? [$"{string.Join(" ", commandPath)} {operands}"]
             : base.GetAdditionalUsageSynopses(commandPath, helpText);
 
     protected override void ValidateChildCommandPath(string[] commandPath)

@@ -82,6 +82,57 @@ public class KustomizeCliScraperTests
     }
 
     [Test]
+    [Arguments("add", "configuration", true)]
+    [Arguments("add", "resource", true)]
+    [Arguments("remove", "component", true)]
+    [Arguments("set", "image", true)]
+    [Arguments("add", "base", false)]
+    [Arguments("remove", "label", false)]
+    [Arguments("set", "namespace", false)]
+    public async Task Edit_Operands_Omitted_From_Usage_Are_Required(
+        string verb,
+        string noun,
+        bool expectedVariadic)
+    {
+        var command = await new TestKustomizeCliScraper().Parse(
+            ["kustomize", "edit", verb, noun],
+            $$"""
+              Edits the kustomization file.
+
+              Usage:
+                kustomize edit {{verb}} {{noun}} [flags]
+
+              Flags:
+                -h, --help   help for {{noun}}
+              """);
+
+        var operand = command!.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(operand.IsRequired).IsTrue();
+            await Assert.That(operand.IsVariadic).IsEqualTo(expectedVariadic);
+        }
+    }
+
+    [Test]
+    [Arguments("add", "patch")]
+    [Arguments("remove", "patch")]
+    public async Task Flag_Only_Edit_Commands_Have_No_Operands(string verb, string noun)
+    {
+        var command = await new TestKustomizeCliScraper().Parse(
+            ["kustomize", "edit", verb, noun],
+            $$"""
+              Usage:
+                kustomize edit {{verb}} {{noun}} [flags]
+
+              Flags:
+                    --path string   Path to the patch file.
+              """);
+
+        await Assert.That(command!.PositionalArguments).IsEmpty();
+    }
+
+    [Test]
     [Arguments("string", "", "IEnumerable<string>?", false, false, ",")]
     [Arguments("stringToString", " (default [])", "IReadOnlyList<KeyValue>?", true, false, null)]
     public async Task Create_Map_Option_Rendering_Matches_Cobra_Type(
