@@ -307,6 +307,52 @@ public class RepeatedSkipWhenAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Repeated_WithSkipWhen_Across_Self_Assignment()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder builder, ModuleConfigurationBuilder first)
+                {
+                    builder = builder.WithSkipWhen(_ => SkipDecision.Skip("parameter a"));
+                    builder.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("parameter b"));
+
+                    var local = first;
+                    local = local.WithTimeout(TimeSpan.FromMinutes(1)).WithSkipWhen(_ => SkipDecision.Skip("local a"));
+                    local.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("local b"));
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            source,
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1));
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_WithSkipWhen_Across_Assignment_From_Another_Builder_Chain()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder builder, ModuleConfigurationBuilder next)
+                {
+                    builder = builder.WithSkipWhen(_ => SkipDecision.Skip("first"));
+                    builder = next.WithTimeout(TimeSpan.FromMinutes(1));
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("second"));
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_WithSkipWhen_In_Mutually_Exclusive_Branches()
     {
         var source = ModuleSource("""

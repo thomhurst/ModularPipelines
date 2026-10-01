@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
 
 namespace ModularPipelines.Analyzers;
 
@@ -87,7 +88,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
                         for (var i = 1; i < ordered.Count; i++)
                         {
                             var repeatedCall = ordered[i];
-                            if (ordered.Take(i).Any(earlier => CanRunOnSameBuilder(entry.Key, earlier, repeatedCall)))
+                            if (ordered.Take(i).Any(earlier => CanRunOnSameBuilder(entry.Key, earlier, repeatedCall, builderType)))
                             {
                                 endContext.ReportDiagnostic(Diagnostic.Create(Rule, GetMethodNameLocation(repeatedCall)));
                             }
@@ -104,7 +105,11 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     /// expression body. Branches, loops, and jumps are not analyzed further, so calls that share one <c>if</c>,
     /// switch, or conditional are not reported.
     /// </summary>
-    private static bool CanRunOnSameBuilder(object builderKey, IInvocationOperation earlier, IInvocationOperation later)
+    private static bool CanRunOnSameBuilder(
+        object builderKey,
+        IInvocationOperation earlier,
+        IInvocationOperation later,
+        INamedTypeSymbol builderType)
     {
         if (earlier.SemanticModel is not { } semanticModel
             || GetSequentialRange(earlier.Syntax, later.Syntax) is not var (first, last))
@@ -113,7 +118,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         }
 
         return GetWritableSymbol(builderKey) is not { } symbol
-            || !IsWrittenBetween(symbol, first, last, semanticModel);
+            || !IsWrittenBetween(symbol, first, last, semanticModel, builderType);
     }
 
     /// <summary>
@@ -211,9 +216,15 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
     /// <summary>
     /// Returns whether <paramref name="symbol"/> may be written from the first statement through the last one. Writes
-    /// in that range but off the path between the calls also count, which keeps the check conservative.
+    /// in that range but off the path between the calls also count, which keeps the check conservative. Assignments
+    /// such as <c>builder = builder.WithSkipWhen(...)</c> keep the same builder, so they are not counted as writes.
     /// </summary>
-    private static bool IsWrittenBetween(ISymbol symbol, SyntaxNode first, SyntaxNode last, SemanticModel semanticModel)
+    private static bool IsWrittenBetween(
+        ISymbol symbol,
+        SyntaxNode first,
+        SyntaxNode last,
+        SemanticModel semanticModel,
+        INamedTypeSymbol builderType)
     {
         var dataFlow = (first, last) switch
         {
@@ -225,8 +236,68 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
 
         return dataFlow is null
             || !dataFlow.Succeeded
-            || dataFlow.WrittenInside.Contains(symbol, SymbolEqualityComparer.Default);
+            || (dataFlow.WrittenInside.Contains(symbol, SymbolEqualityComparer.Default)
+                && !OnlyReassignsSameBuilder(symbol, first, last, semanticModel, builderType));
     }
+
+    /// <summary>
+    /// Returns whether every write to <paramref name="symbol"/> from the first node through the last one assigns a
+    /// builder chain that starts from <paramref name="symbol"/> itself. Any other possible write, or no recognized
+    /// write at all, returns <see langword="false"/> so the caller stays conservative.
+    /// </summary>
+    private static bool OnlyReassignsSameBuilder(
+        ISymbol symbol,
+        SyntaxNode first,
+        SyntaxNode last,
+        SemanticModel semanticModel,
+        INamedTypeSymbol builderType)
+    {
+        var range = TextSpan.FromBounds(first.SpanStart, last.Span.End);
+        var selfAssignments = 0;
+        foreach (var identifier in first.SyntaxTree.GetRoot().DescendantNodes(range).OfType<IdentifierNameSyntax>())
+        {
+            if (!range.Contains(identifier.Span)
+                || identifier.Identifier.ValueText != symbol.Name
+                || semanticModel.GetOperation(identifier) is not { } reference
+                || !SymbolEqualityComparer.Default.Equals(GetReferencedSymbol(reference), symbol))
+            {
+                continue;
+            }
+
+            if (reference.Parent is ISimpleAssignmentOperation assignment && assignment.Target == reference)
+            {
+                if (!SymbolEqualityComparer.Default.Equals(GetReferencedSymbol(UnwrapChain(assignment.Value, builderType)), symbol))
+                {
+                    return false;
+                }
+
+                selfAssignments++;
+            }
+            else if (IsPossibleWrite(reference))
+            {
+                return false;
+            }
+        }
+
+        return selfAssignments > 0;
+    }
+
+    private static bool IsPossibleWrite(IOperation reference) =>
+        reference.Parent switch
+        {
+            IAssignmentOperation assignment => assignment.Target == reference,
+            ITupleOperation or IIncrementOrDecrementOperation => true,
+            IArgumentOperation argument => argument.Parameter?.RefKind is not RefKind.None,
+            _ => reference.Syntax.Parent is RefExpressionSyntax,
+        };
+
+    private static ISymbol? GetReferencedSymbol(IOperation operation) =>
+        operation switch
+        {
+            ILocalReferenceOperation local => local.Local,
+            IParameterReferenceOperation parameter => parameter.Parameter,
+            _ => null,
+        };
 
     /// <summary>
     /// Follows a fluent chain of builder calls back to the builder it started from, so calls on the same
