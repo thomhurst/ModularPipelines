@@ -87,8 +87,10 @@ public class ModuleConfigurationTests
         await Assert.That(signatures).IsEquivalentTo(
         [
             $"{typeof(Func<IModuleContext, SkipDecision>)}",
+            $"{typeof(Func<IModuleContext, bool>)}",
             $"{typeof(Func<IModuleContext, bool>)}|{typeof(string)}",
             $"{typeof(Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>)}",
+            $"{typeof(Func<IModuleContext, CancellationToken, ValueTask<bool>>)}",
             $"{typeof(Func<IModuleContext, CancellationToken, ValueTask<bool>>)}|{typeof(string)}",
         ]);
     }
@@ -151,13 +153,17 @@ public class ModuleConfigurationTests
     [Test]
     public async Task WithSkipWhen_DecisionLambdas_StillBindToDecisionOverloads()
     {
+        var flag = false;
         var config = new ModuleConfigurationBuilder()
+            .WithSkipWhen(_ => flag)
+            .WithSkipWhen((_, _) => ValueTask.FromResult(flag))
             .WithSkipWhen(_ => SkipDecision.Skip("Decision reason"))
             .WithSkipWhen(async (_, _) =>
             {
                 await Task.Yield();
                 return SkipDecision.DoNotSkip;
             })
+            .WithSkipWhen((_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip))
             .Build();
 
         var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
