@@ -122,6 +122,21 @@ public class KustomizeEditAdd
     }
 
     /// <summary>
+    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ConfigurationAsync(
+        KustomizeEditAddConfigurationOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new KustomizeEditAddConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Add the name of a file containing a generator configuration to the kustomization file
     /// </summary>
     /// <param name="options">The command options.</param>
