@@ -77,11 +77,11 @@ public class GitTests : TestBase
     }
 
     [Test]
-    public async Task Commits_Are_Available_Through_Interface()
+    public async Task CommitsAsync_Are_Available_Through_Interface()
     {
         using var repository = await TemporaryGitRepository.CreateAsync();
         var gitInformation = await CreateGitInformationAsync(repository.WorkingDirectory);
-        await using var commits = gitInformation.Commits().GetAsyncEnumerator();
+        await using var commits = gitInformation.CommitsAsync().GetAsyncEnumerator();
 
         using (Assert.Multiple())
         {
