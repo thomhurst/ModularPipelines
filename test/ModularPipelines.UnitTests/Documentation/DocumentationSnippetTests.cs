@@ -10,8 +10,8 @@ public class DocumentationSnippetTests
     [
         "RELEASE_NOTES_V3.md",
         "docs/docs/migrating-to-v3.md",
+        "docs/docs/migrating-to-v4.md",
         "docs/docs/advanced/migrating-to-v2.md",
-        "docs/versioned_docs/version-3.x/migrating-to-v3.md",
     ];
 
     private static readonly string[] CurrentApiXmlDocumentation =
@@ -39,10 +39,7 @@ public class DocumentationSnippetTests
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
 
-            if (!relativePath.StartsWith("docs/versioned_docs/version-3.x/", StringComparison.Ordinal))
-            {
-                await AssertDoesNotUseRetiredBuilderApisAsync(contents);
-            }
+            await AssertDoesNotUseRetiredBuilderApisAsync(contents);
         }
 
         foreach (var relativePath in CurrentApiXmlDocumentation)
@@ -106,10 +103,6 @@ public class DocumentationSnippetTests
                 repositoryRoot,
                 "docs/docs/how-to/pipeline-host.md"))
             .ConfigureAwait(false);
-        var versionedPipelineHost = await File.ReadAllTextAsync(Path.Combine(
-                repositoryRoot,
-                "docs/versioned_docs/version-3.x/how-to/pipeline-host.md"))
-            .ConfigureAwait(false);
         var testing = await File.ReadAllTextAsync(Path.Combine(
                 repositoryRoot,
                 "docs/docs/how-to/testing.md"))
@@ -126,9 +119,6 @@ public class DocumentationSnippetTests
         await Assert.That(pipelineHost).Contains("ModuleStatus.Failed");
         await Assert.That(pipelineHost).Contains("FailureMode = FailureMode.ContinueOnFailure");
         await Assert.That(pipelineHost).Contains("ThrowOnPipelineFailure = false");
-        await Assert.That(versionedPipelineHost)
-            .Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
-        await Assert.That(versionedPipelineHost).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ModuleStatus.Succeeded");
         await Assert.That(azure).DoesNotContain("ValueOrDefault!");
