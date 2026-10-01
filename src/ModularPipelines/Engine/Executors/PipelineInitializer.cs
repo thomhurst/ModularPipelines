@@ -327,7 +327,7 @@ internal class PipelineInitializer(
 
         PrintEnvironmentVariables();
 
-        LogBuildSystemDetection(_logger, _buildSystemDetector);
+        LogBuildSystemDetection(_logger, _buildSystemDetector, _secretObfuscator);
 
         await _pipelineFileWriter.WritePipelineFiles().ConfigureAwait(false);
 
@@ -342,7 +342,7 @@ internal class PipelineInitializer(
         return organizedModules;
     }
 
-    internal static void LogBuildSystemDetection(ILogger logger, IBuildSystemDetector buildSystemDetector)
+    internal static void LogBuildSystemDetection(ILogger logger, IBuildSystemDetector buildSystemDetector, ISecretObfuscator secretObfuscator)
     {
         var buildSystem = buildSystemDetector.Current;
         if (buildSystemDetector.MatchedEnvironmentVariable is { } variable)
@@ -356,7 +356,7 @@ internal class PipelineInitializer(
 
         if (buildSystemDetector.CiVariableOnlyValue is { } ciValue)
         {
-            LogCiVariableOnly(logger, ciValue, null);
+            LogCiVariableOnly(logger, secretObfuscator.Obfuscate(ciValue, null), null);
         }
     }
 

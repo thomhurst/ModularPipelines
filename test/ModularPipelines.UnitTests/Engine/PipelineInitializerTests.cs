@@ -2,6 +2,7 @@ using System.Collections;
 using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Secrets;
 using ModularPipelines.UnitTests.Logging;
 using Moq;
 
@@ -53,7 +54,30 @@ public class PipelineInitializerTests
         await Assert.That(output).DoesNotContain("Treating this run as CI");
     }
 
+    [Test]
+    public async Task BuildSystemDetection_Masks_Secret_In_CI_Variable()
+    {
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(o => o.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) => input?.Replace("s3cr3t", "**********", StringComparison.Ordinal) ?? string.Empty);
+
+        var output = LogBuildSystemDetection(obfuscator.Object, ("CI", "s3cr3t"));
+
+        await Assert.That(output).Contains("CI=********** and no known build agent was detected.");
+        await Assert.That(output).DoesNotContain("s3cr3t");
+    }
+
     private static string LogBuildSystemDetection(params (string Name, string Value)[] variables)
+    {
+        var obfuscator = new Mock<ISecretObfuscator>();
+        obfuscator
+            .Setup(o => o.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? input, object? _) => input ?? string.Empty);
+        return LogBuildSystemDetection(obfuscator.Object, variables);
+    }
+
+    private static string LogBuildSystemDetection(ISecretObfuscator obfuscator, params (string Name, string Value)[] variables)
     {
         var environmentVariables = new Mock<IEnvironmentVariablesContext>();
         foreach (var (name, value) in variables)
@@ -66,7 +90,8 @@ public class PipelineInitializerTests
         var output = new StringBuilder();
         PipelineInitializer.LogBuildSystemDetection(
             new StringLogger<PipelineInitializer>(output),
-            new BuildSystemDetector(environmentVariables.Object));
+            new BuildSystemDetector(environmentVariables.Object),
+            obfuscator);
         return output.ToString();
     }
 

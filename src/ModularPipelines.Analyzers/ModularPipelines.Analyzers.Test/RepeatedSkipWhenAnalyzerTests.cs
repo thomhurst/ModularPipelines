@@ -104,6 +104,112 @@ public class RepeatedSkipWhenAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
+    [TestMethod]
+    public async Task Reports_Repeated_WithSkipWhen_Through_Local_Aliases()
+    {
+        var source = ModuleSource("""
+            protected override void Configure(ModuleConfigurationBuilder module)
+                {
+                    var configured = module.WithSkipWhen(_ => SkipDecision.Skip("first"));
+                    configured.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("second"));
+                    var alias = module;
+                    alias.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("third"));
+                }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            source,
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1));
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Follow_Reassigned_Local()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder first, ModuleConfigurationBuilder second)
+                {
+                    var builder = first;
+                    first.WithSkipWhen(_ => SkipDecision.Skip("first"));
+                    builder = second;
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("second"));
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_WithSkipWhen_In_Mutually_Exclusive_Branches()
+    {
+        var source = ModuleSource("""
+            protected override void Configure(ModuleConfigurationBuilder module)
+                {
+                    if (Environment.ProcessorCount > 1)
+                    {
+                        module.WithSkipWhen(_ => SkipDecision.Skip("if"));
+                    }
+                    else if (Environment.ProcessorCount > 0)
+                    {
+                        module.WithSkipWhen(_ => SkipDecision.Skip("else if"));
+                    }
+                    else
+                    {
+                        module.WithSkipWhen(_ => SkipDecision.Skip("else"));
+                    }
+
+                    switch (Environment.ProcessorCount)
+                    {
+                        case 1:
+                            module.WithTimeout(TimeSpan.FromMinutes(1));
+                            break;
+                        default:
+                            module.WithTimeout(TimeSpan.FromMinutes(2));
+                            break;
+                    }
+
+                    _ = Environment.ProcessorCount > 1
+                        ? module.WithTimeout(TimeSpan.FromMinutes(1))
+                        : module.WithTimeout(TimeSpan.FromMinutes(2));
+                }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_WithSkipWhen_After_Branches()
+    {
+        var source = ModuleSource("""
+            protected override void Configure(ModuleConfigurationBuilder module)
+                {
+                    switch (Environment.ProcessorCount)
+                    {
+                        case 1:
+                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
+                            break;
+                        default:
+                            module.WithSkipWhen(_ => SkipDecision.Skip("many"));
+                            break;
+                    }
+
+                    _ = Environment.ProcessorCount > 1
+                        ? module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("true"))
+                        : module.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("false"));
+                }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            source,
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
+            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1));
+    }
+
     private static string ModuleSource(string configure) => $$"""
         {{Header}}
 
