@@ -12,8 +12,9 @@ namespace ModularPipelines.Analyzers;
 /// <summary>
 /// Reports diagnostic MP0020 when one member body calls <c>WithSkipWhen</c> more than once on the same
 /// <c>ModuleConfigurationBuilder</c>. Repeated skip conditions are OR-ed, which differs from V3, where a
-/// later call replaced an earlier one. Calls in mutually exclusive branches (<c>if</c>/<c>else</c>, switch
-/// sections or arms, conditional expressions) are not counted against each other, because only one of them runs.
+/// later call replaced an earlier one. Calls are reported when they sit in different statements of one statement
+/// list, or run unconditionally in one statement such as a fluent chain. Calls that share an <c>if</c>, switch,
+/// conditional, or loop construct are not compared, which accepts some missed reports to avoid false ones.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [ExcludeFromCodeCoverage]
@@ -97,45 +98,135 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         });
     }
 
+    /// <summary>
+    /// Returns whether both calls can configure the same builder in one pass. The calls must sit in different
+    /// statements of their innermost common statement list, or both run unconditionally within one statement or
+    /// expression body. Branches, loops, and jumps are not analyzed further, so calls that share one <c>if</c>,
+    /// switch, or conditional are not reported.
+    /// </summary>
     private static bool CanRunOnSameBuilder(object builderKey, IInvocationOperation earlier, IInvocationOperation later)
     {
         if (earlier.SemanticModel is not { } semanticModel
-            || (AreMutuallyExclusive(earlier.Syntax, later.Syntax, semanticModel)
-                && !CanRepeatAcrossIterations(builderKey, earlier.Syntax, later.Syntax)))
+            || GetSequentialRange(earlier.Syntax, later.Syntax) is not var (first, last))
         {
             return false;
         }
 
-        return builderKey is not ReassignedLocalKey reassigned
-            || !IsWrittenBetween(reassigned.Local, earlier.Syntax, later.Syntax, semanticModel);
+        return GetWritableSymbol(builderKey) is not { } symbol
+            || !IsWrittenBetween(symbol, first, last, semanticModel);
     }
 
     /// <summary>
-    /// Returns whether a loop in the same member encloses both calls but not the builder's declaration, so branches
-    /// that exclude each other within one iteration can both configure the builder across iterations. Reassigned
-    /// locals are excluded, because each iteration may assign a different builder.
+    /// Returns the statements of the innermost common statement list that hold each call, or the shared statement or
+    /// expression body when both calls run unconditionally within it. Returns <see langword="null"/> otherwise.
     /// </summary>
-    private static bool CanRepeatAcrossIterations(object builderKey, SyntaxNode first, SyntaxNode second)
+    private static (SyntaxNode First, SyntaxNode Last)? GetSequentialRange(SyntaxNode earlier, SyntaxNode later)
     {
-        if (builderKey is ReassignedLocalKey)
+        var earlierAncestors = new HashSet<SyntaxNode>(earlier.Ancestors());
+        var container = later.Ancestors().FirstOrDefault(earlierAncestors.Contains);
+        while (container is not (null or BlockSyntax or SwitchSectionSyntax or CompilationUnitSyntax or ArrowExpressionClauseSyntax))
         {
-            return false;
+            container = container is MemberDeclarationSyntax ? null : container.Parent;
         }
 
-        var declaration = builderKey is ILocalSymbol { DeclaringSyntaxReferences.Length: 1 } local
-            ? local.DeclaringSyntaxReferences[0].GetSyntax()
-            : null;
-        var firstAncestors = new HashSet<SyntaxNode>(first.Ancestors());
+        if (container is null)
+        {
+            return null;
+        }
 
-        return second.Ancestors()
-            .TakeWhile(ancestor => ancestor is not (AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax or MemberDeclarationSyntax))
-            .Any(ancestor => IsLoop(ancestor)
-                && firstAncestors.Contains(ancestor)
-                && (declaration is null || !ancestor.Span.Contains(declaration.Span)));
+        if (container is ArrowExpressionClauseSyntax arrow)
+        {
+            return GetUnconditionalAnchor(earlier) == arrow && GetUnconditionalAnchor(later) == arrow
+                ? (arrow, arrow)
+                : null;
+        }
+
+        var first = GetStatementIn(container, earlier);
+        var last = GetStatementIn(container, later);
+        if (first is null || last is null)
+        {
+            return null;
+        }
+
+        if (first == last)
+        {
+            return GetUnconditionalAnchor(earlier) == first && GetUnconditionalAnchor(later) == first
+                ? (first, last)
+                : null;
+        }
+
+        return IsInsideDeferredCode(earlier, first) || IsInsideDeferredCode(later, last) ? null : (first, last);
     }
 
-    private static bool IsLoop(SyntaxNode node) =>
-        node is WhileStatementSyntax or DoStatementSyntax or ForStatementSyntax or CommonForEachStatementSyntax;
+    private static StatementSyntax? GetStatementIn(SyntaxNode list, SyntaxNode call) =>
+        call.Ancestors()
+            .OfType<StatementSyntax>()
+            .FirstOrDefault(statement => statement.Parent == list
+                || (statement.Parent is GlobalStatementSyntax global && global.Parent == list));
+
+    /// <summary>
+    /// Returns the statement or expression body that contains <paramref name="call"/> when the call runs every time
+    /// that statement runs, or <see langword="null"/> when a conditional construct or lambda sits between them.
+    /// </summary>
+    private static SyntaxNode? GetUnconditionalAnchor(SyntaxNode call)
+    {
+        foreach (var ancestor in call.Ancestors())
+        {
+            switch (ancestor)
+            {
+                case ConditionalExpressionSyntax or SwitchExpressionSyntax or ConditionalAccessExpressionSyntax
+                    or AnonymousFunctionExpressionSyntax:
+                    return null;
+                case BinaryExpressionSyntax binary when binary.IsKind(SyntaxKind.LogicalAndExpression)
+                    || binary.IsKind(SyntaxKind.LogicalOrExpression)
+                    || binary.IsKind(SyntaxKind.CoalesceExpression):
+                    return null;
+                case AssignmentExpressionSyntax assignment when assignment.IsKind(SyntaxKind.CoalesceAssignmentExpression):
+                    return null;
+                case ArrowExpressionClauseSyntax or StatementSyntax:
+                    return ancestor;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns whether a lambda or local function sits between <paramref name="call"/> and
+    /// <paramref name="statement"/>; such code may run any number of times, or not at all.
+    /// </summary>
+    private static bool IsInsideDeferredCode(SyntaxNode call, SyntaxNode statement) =>
+        call.Ancestors()
+            .TakeWhile(ancestor => ancestor != statement)
+            .Any(ancestor => ancestor is AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax);
+
+    private static ISymbol? GetWritableSymbol(object builderKey) =>
+        builderKey switch
+        {
+            ReassignedLocalKey reassigned => reassigned.Local,
+            ILocalSymbol local => local,
+            IParameterSymbol parameter => parameter,
+            _ => null,
+        };
+
+    /// <summary>
+    /// Returns whether <paramref name="symbol"/> may be written from the first statement through the last one. Writes
+    /// in that range but off the path between the calls also count, which keeps the check conservative.
+    /// </summary>
+    private static bool IsWrittenBetween(ISymbol symbol, SyntaxNode first, SyntaxNode last, SemanticModel semanticModel)
+    {
+        var dataFlow = (first, last) switch
+        {
+            (StatementSyntax firstStatement, StatementSyntax lastStatement) =>
+                semanticModel.AnalyzeDataFlow(firstStatement, lastStatement),
+            (ArrowExpressionClauseSyntax arrow, _) => semanticModel.AnalyzeDataFlow(arrow.Expression),
+            _ => null,
+        };
+
+        return dataFlow is null
+            || !dataFlow.Succeeded
+            || dataFlow.WrittenInside.Contains(symbol, SymbolEqualityComparer.Default);
+    }
 
     /// <summary>
     /// Follows a fluent chain of builder calls back to the builder it started from, so calls on the same
@@ -249,47 +340,6 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
     }
 
     /// <summary>
-    /// Returns whether <paramref name="local"/> may be written between two calls. The analyzed region spans the
-    /// statements, within the innermost statement list containing both calls, from the one holding the first call to
-    /// the one holding the second. Writes in that range but off the path between the calls also count, which keeps
-    /// the check conservative. Calls that cannot be placed in one statement list are treated as separated by a write.
-    /// </summary>
-    private static bool IsWrittenBetween(ILocalSymbol local, SyntaxNode first, SyntaxNode second, SemanticModel semanticModel)
-    {
-        var firstAncestors = new HashSet<SyntaxNode>(first.AncestorsAndSelf());
-        var common = second.AncestorsAndSelf().First(firstAncestors.Contains);
-
-        var statements = common switch
-        {
-            BlockSyntax block => block.Statements,
-            SwitchSectionSyntax section => section.Statements,
-            _ => default(SyntaxList<StatementSyntax>?),
-        };
-
-        StatementSyntax? firstStatement;
-        StatementSyntax? lastStatement;
-        if (statements is { } list)
-        {
-            firstStatement = list.FirstOrDefault(statement => statement.Span.Contains(first.Span));
-            lastStatement = list.FirstOrDefault(statement => statement.Span.Contains(second.Span));
-        }
-        else
-        {
-            firstStatement = lastStatement = common.FirstAncestorOrSelf<StatementSyntax>();
-        }
-
-        if (firstStatement is null || lastStatement is null)
-        {
-            return true;
-        }
-
-        var dataFlow = semanticModel.AnalyzeDataFlow(firstStatement, lastStatement);
-        return dataFlow is null
-            || !dataFlow.Succeeded
-            || dataFlow.WrittenInside.Contains(local, SymbolEqualityComparer.Default);
-    }
-
-    /// <summary>
     /// Returns the statements and expressions within the local's scope that run after its declaration: the
     /// statements following the declaring statement, statements nested inside it, and a <c>for</c> loop's condition
     /// and incrementors. None of these regions contain the declaration's own write.
@@ -326,208 +376,6 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
         return forStatement.Condition is { } condition
             ? forStatement.Incrementors.Prepend(condition)
             : forStatement.Incrementors;
-    }
-
-    /// <summary>
-    /// Returns whether two calls sit in different branches of the same <c>if</c>/<c>else</c>, switch statement,
-    /// switch expression, or conditional expression, so at most one of them runs.
-    /// </summary>
-    private static bool AreMutuallyExclusive(SyntaxNode first, SyntaxNode second, SemanticModel semanticModel)
-    {
-        var firstAncestors = new HashSet<SyntaxNode>(first.AncestorsAndSelf());
-        var common = second.AncestorsAndSelf().FirstOrDefault(firstAncestors.Contains);
-
-        return common switch
-        {
-            IfStatementSyntax ifStatement => ifStatement.Else is { } elseClause
-                && IsWithinBranches(first, second, ifStatement.Statement, elseClause),
-            ConditionalExpressionSyntax conditional =>
-                IsWithinBranches(first, second, conditional.WhenTrue, conditional.WhenFalse),
-            SwitchStatementSyntax switchStatement =>
-                AreInExclusiveSections(switchStatement, first, second, semanticModel),
-            SwitchExpressionSyntax switchExpression =>
-                IsWithinDifferentBranches(first, second, switchExpression.Arms),
-            _ => false,
-        };
-    }
-
-    /// <summary>
-    /// Returns whether two calls sit in different sections of a switch statement and neither call can reach the
-    /// other's section through <c>goto case</c>, <c>goto default</c>, or a labeled <c>goto</c>.
-    /// </summary>
-    private static bool AreInExclusiveSections(
-        SwitchStatementSyntax switchStatement,
-        SyntaxNode first,
-        SyntaxNode second,
-        SemanticModel semanticModel)
-    {
-        var sections = switchStatement.Sections;
-        var firstSection = sections.FirstOrDefault(section => section.Span.Contains(first.Span));
-        var secondSection = sections.FirstOrDefault(section => section.Span.Contains(second.Span));
-        if (firstSection is null || secondSection is null || firstSection == secondSection)
-        {
-            return false;
-        }
-
-        return !CanReach(switchStatement, firstSection, first, secondSection, semanticModel)
-            && !CanReach(switchStatement, secondSection, second, firstSection, semanticModel);
-    }
-
-    /// <summary>
-    /// Returns whether control can move from <paramref name="call"/> in <paramref name="source"/> to
-    /// <paramref name="target"/>. In the source section only jumps that can run after the call count; sections
-    /// reached on the way count every jump they contain.
-    /// </summary>
-    private static bool CanReach(
-        SwitchStatementSyntax switchStatement,
-        SwitchSectionSyntax source,
-        SyntaxNode call,
-        SwitchSectionSyntax target,
-        SemanticModel semanticModel)
-    {
-        var visited = new HashSet<SwitchSectionSyntax> { source };
-        var pending = new Stack<(SwitchSectionSyntax Section, SyntaxNode? After)>();
-        pending.Push((source, call));
-        while (pending.Count > 0)
-        {
-            var (section, after) = pending.Pop();
-            foreach (var next in GetGotoTargets(switchStatement, section, semanticModel, after))
-            {
-                if (next == target)
-                {
-                    return true;
-                }
-
-                if (visited.Add(next))
-                {
-                    pending.Push((next, null));
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Returns the sections of <paramref name="switchStatement"/> that a <c>goto</c> in <paramref name="section"/> can
-    /// transfer control to. <c>goto case</c> and <c>goto default</c> owned by a nested switch are ignored. A
-    /// <c>goto case</c> whose value cannot be matched to a section is treated as reaching every section. When
-    /// <paramref name="after"/> is set, jumps that can only run before it are ignored.
-    /// </summary>
-    private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
-        SwitchStatementSyntax switchStatement,
-        SwitchSectionSyntax section,
-        SemanticModel semanticModel,
-        SyntaxNode? after)
-    {
-        foreach (var gotoStatement in section.DescendantNodes().OfType<GotoStatementSyntax>())
-        {
-            if (after is not null && !CanRunAfter(gotoStatement, after, section, switchStatement))
-            {
-                continue;
-            }
-
-            foreach (var target in GetGotoTargets(switchStatement, gotoStatement, semanticModel))
-            {
-                yield return target;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Returns whether <paramref name="gotoStatement"/> can run after <paramref name="node"/> in the same section:
-    /// it follows the node in source order, a loop in the section encloses both, or a label at or before it is the
-    /// target of a jump that can run after the node.
-    /// </summary>
-    private static bool CanRunAfter(
-        GotoStatementSyntax gotoStatement,
-        SyntaxNode node,
-        SwitchSectionSyntax section,
-        SwitchStatementSyntax switchStatement)
-    {
-        if (gotoStatement.SpanStart > node.SpanStart)
-        {
-            return true;
-        }
-
-        if (gotoStatement.Ancestors()
-            .TakeWhile(ancestor => ancestor != section)
-            .Any(ancestor => IsLoop(ancestor) && ancestor.Span.Contains(node.Span)))
-        {
-            return true;
-        }
-
-        // A jump in another section counts regardless of position, because that section may run after the node.
-        return section.DescendantNodes()
-            .OfType<LabeledStatementSyntax>()
-            .Where(label => label.SpanStart <= gotoStatement.SpanStart)
-            .Any(label => switchStatement.DescendantNodes()
-                .OfType<GotoStatementSyntax>()
-                .Any(jump => jump.Expression is IdentifierNameSyntax target
-                    && jump.IsKind(SyntaxKind.GotoStatement)
-                    && target.Identifier.ValueText == label.Identifier.ValueText
-                    && (!section.Span.Contains(jump.Span) || jump.SpanStart > node.SpanStart)));
-    }
-
-    private static IEnumerable<SwitchSectionSyntax> GetGotoTargets(
-        SwitchStatementSyntax switchStatement,
-        GotoStatementSyntax gotoStatement,
-        SemanticModel semanticModel)
-    {
-        if (gotoStatement.IsKind(SyntaxKind.GotoStatement))
-        {
-            return gotoStatement.Expression is IdentifierNameSyntax label
-                ? switchStatement.Sections.Where(candidate => candidate.DescendantNodes()
-                    .OfType<LabeledStatementSyntax>()
-                    .Any(labeled => labeled.Identifier.ValueText == label.Identifier.ValueText))
-                : [];
-        }
-
-        if (gotoStatement.FirstAncestorOrSelf<SwitchStatementSyntax>() != switchStatement)
-        {
-            return [];
-        }
-
-        if (gotoStatement.IsKind(SyntaxKind.GotoDefaultStatement))
-        {
-            return switchStatement.Sections.Where(candidate => candidate.Labels.Any(label => label is DefaultSwitchLabelSyntax));
-        }
-
-        return gotoStatement.Expression is { } value
-            ? GetCaseTargets(switchStatement, value, semanticModel)
-            : switchStatement.Sections;
-    }
-
-    private static IEnumerable<SwitchSectionSyntax> GetCaseTargets(
-        SwitchStatementSyntax switchStatement,
-        ExpressionSyntax value,
-        SemanticModel semanticModel)
-    {
-        var constant = semanticModel.GetConstantValue(value);
-        if (!constant.HasValue)
-        {
-            return switchStatement.Sections;
-        }
-
-        var matches = switchStatement.Sections
-            .Where(candidate => candidate.Labels
-                .OfType<CaseSwitchLabelSyntax>()
-                .Any(label => semanticModel.GetConstantValue(label.Value) is { HasValue: true } labelValue
-                    && Equals(labelValue.Value, constant.Value)))
-            .ToList();
-
-        return matches.Count > 0 ? matches : switchStatement.Sections;
-    }
-
-    private static bool IsWithinBranches(SyntaxNode first, SyntaxNode second, SyntaxNode whenTrue, SyntaxNode whenFalse) =>
-        (whenTrue.Span.Contains(first.Span) && whenFalse.Span.Contains(second.Span))
-        || (whenFalse.Span.Contains(first.Span) && whenTrue.Span.Contains(second.Span));
-
-    private static bool IsWithinDifferentBranches(SyntaxNode first, SyntaxNode second, IEnumerable<SyntaxNode> branches)
-    {
-        var firstBranch = branches.FirstOrDefault(branch => branch.Span.Contains(first.Span));
-        var secondBranch = branches.FirstOrDefault(branch => branch.Span.Contains(second.Span));
-        return firstBranch is not null && secondBranch is not null && firstBranch != secondBranch;
     }
 
     private static IOperation Unwrap(IOperation operation)

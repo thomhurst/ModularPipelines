@@ -235,81 +235,19 @@ public class RepeatedSkipWhenAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_WithSkipWhen_In_Switch_Sections_Joined_By_Goto()
+    public async Task Reports_WithSkipWhen_After_Conditional_Call()
     {
         var source = ModuleSource("""
             protected override void Configure(ModuleConfigurationBuilder module)
                 {
-                    switch (Environment.ProcessorCount)
+                    if (Environment.ProcessorCount > 1)
                     {
-                        case 1:
-                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
-                            goto default;
-                        case 2:
-                            module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("two"));
-                            goto case 1;
-                        default:
-                            module.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("many"));
-                            break;
+                        module.WithSkipWhen(_ => SkipDecision.Skip("conditional"));
                     }
-                }
-            """);
 
-        await VerifyCS.VerifyAnalyzerAsync(
-            source,
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1));
-    }
-
-    [TestMethod]
-    public async Task Does_Not_Report_WithSkipWhen_When_Goto_Only_Runs_Before_Call()
-    {
-        var source = ModuleSource("""
-            protected override void Configure(ModuleConfigurationBuilder module)
-                {
-                    switch (Environment.ProcessorCount)
+                    foreach (var name in new[] { "a", "b" })
                     {
-                        case 1:
-                            if (Environment.Is64BitProcess)
-                            {
-                                goto case 2;
-                            }
-
-                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
-                            break;
-                        case 2:
-                            module.WithSkipWhen(_ => SkipDecision.Skip("two"));
-                            break;
-                    }
-                }
-            """);
-
-        await VerifyCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_WithSkipWhen_When_Goto_Before_Call_Can_Run_Again_In_Loop()
-    {
-        var source = ModuleSource("""
-            protected override void Configure(ModuleConfigurationBuilder module)
-                {
-                    switch (Environment.ProcessorCount)
-                    {
-                        case 1:
-                            for (var i = 0; i < 2; i++)
-                            {
-                                if (i == 1)
-                                {
-                                    goto case 2;
-                                }
-
-                                module.WithSkipWhen(_ => SkipDecision.Skip("one"));
-                            }
-
-                            break;
-                        case 2:
-                            module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("two"));
-                            break;
+                        module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip(name));
                     }
                 }
             """);
@@ -320,98 +258,52 @@ public class RepeatedSkipWhenAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_WithSkipWhen_When_Label_Cannot_Return_To_Goto()
+    public async Task Does_Not_Report_WithSkipWhen_Within_One_Branching_Statement()
     {
-        var source = ModuleSource("""
-            protected override void Configure(ModuleConfigurationBuilder module)
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder builder, ModuleConfigurationBuilder[] builders)
                 {
-                    switch (Environment.ProcessorCount)
+                    for (var i = 0; i < builders.Length; i++)
                     {
-                        case 1:
-                            if (Environment.Is64BitProcess)
-                            {
-                                goto case 2;
-                            }
-
-                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
-                        done:
-                            break;
-                        case 2:
-                            module.WithSkipWhen(_ => SkipDecision.Skip("two"));
-                            break;
-                    }
-                }
-            """);
-
-        await VerifyCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_WithSkipWhen_When_Label_Returns_To_Goto_After_Call()
-    {
-        var source = ModuleSource("""
-            protected override void Configure(ModuleConfigurationBuilder module)
-                {
-                    var attempts = 0;
-                    switch (Environment.ProcessorCount)
-                    {
-                        case 1:
-                        retry:
-                            if (attempts > 0)
-                            {
-                                goto case 2;
-                            }
-
-                            module.WithSkipWhen(_ => SkipDecision.Skip("one"));
-                            attempts++;
-                            goto retry;
-                        case 2:
-                            module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("two"));
-                            break;
-                    }
-                }
-            """);
-
-        await VerifyCS.VerifyAnalyzerAsync(
-            source,
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0));
-    }
-
-    [TestMethod]
-    public async Task Reports_WithSkipWhen_In_Exclusive_Branches_Inside_Loop()
-    {
-        var source = ModuleSource("""
-            protected override void Configure(ModuleConfigurationBuilder module)
-                {
-                    for (var i = 0; i < 2; i++)
-                    {
-                        switch (i)
-                        {
-                            case 0:
-                                module.WithSkipWhen(_ => SkipDecision.Skip("zero"));
-                                break;
-                            default:
-                                module.{|#0:WithSkipWhen|}(_ => SkipDecision.Skip("other"));
-                                break;
-                        }
-
+                        builder = builders[i];
                         if (i == 0)
                         {
-                            module.{|#1:WithSkipWhen|}(_ => SkipDecision.Skip("if"));
+                            builder.WithSkipWhen(_ => SkipDecision.Skip("first"));
                         }
                         else
                         {
-                            module.{|#2:WithSkipWhen|}(_ => SkipDecision.Skip("else"));
+                            builder.WithSkipWhen(_ => SkipDecision.Skip("other"));
                         }
                     }
                 }
-            """);
+            }
+            """;
 
-        await VerifyCS.VerifyAnalyzerAsync(
-            source,
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(0),
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(1),
-            VerifyCS.Diagnostic(RepeatedSkipWhenAnalyzer.DiagnosticId).WithLocation(2));
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_WithSkipWhen_Across_Parameter_Reassignment()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class SkipConfiguration
+            {
+                public static void Configure(ModuleConfigurationBuilder builder, ModuleConfigurationBuilder next)
+                {
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("first"));
+                    builder = next;
+                    builder.WithSkipWhen(_ => SkipDecision.Skip("second"));
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
