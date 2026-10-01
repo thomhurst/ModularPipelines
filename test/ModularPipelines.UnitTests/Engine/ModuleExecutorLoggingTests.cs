@@ -81,7 +81,7 @@ public class ModuleExecutorLoggingTests
         readyModules.Writer.Complete();
 
         var waitingForDependency = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var workerCancelled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var workerCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
@@ -102,7 +102,7 @@ public class ModuleExecutorLoggingTests
             {
                 if (state.Module == faulting)
                 {
-                    failureCancellation = token.Register(() => workerCancelled.TrySetResult());
+                    failureCancellation = token.Register(() => workerCanceled.TrySetResult());
                     await waitingForDependency.Task.WaitAsync(cancellationToken);
                     throw failure;
                 }
@@ -128,7 +128,7 @@ public class ModuleExecutorLoggingTests
         var execution = executor.ExecuteAsync(modules);
         try
         {
-            await workerCancelled.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
+            await workerCanceled.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
             await Assert.That(cleanupToken.IsCancellationRequested).IsFalse();
             dependencyState.CompletionSource.TrySetResult(dependency);
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(
@@ -311,8 +311,8 @@ public class ModuleExecutorLoggingTests
         }
 
         await Assert.That(alwaysRunCompleted).IsTrue();
-        await Assert.That(registry.GetResult(running.GetType())!.Status).IsEqualTo(ModuleStatus.Cancelled);
-        await Assert.That(registry.GetResult(queued.GetType())!.Status).IsEqualTo(ModuleStatus.Cancelled);
+        await Assert.That(registry.GetResult(running.GetType())!.Status).IsEqualTo(ModuleStatus.Canceled);
+        await Assert.That(registry.GetResult(queued.GetType())!.Status).IsEqualTo(ModuleStatus.Canceled);
         runner.Verify(x => x.ExecuteAsync(It.Is<ModuleState>(state => state.Module == queued),
             It.IsAny<CancellationToken>()), Times.Never());
     }
@@ -371,21 +371,21 @@ public class ModuleExecutorLoggingTests
         var alwaysRunException = new InvalidOperationException("AlwaysRun fault");
         var readyModules = Channel.CreateUnbounded<ModuleState>();
         readyModules.Writer.Complete(schedulerException);
-        var cancelledModule = new LaterModule();
-        IReadOnlyList<IModule> cancelledModules = [cancelledModule];
+        var canceledModule = new LaterModule();
+        IReadOnlyList<IModule> canceledModules = [canceledModule];
         var scheduler = new Mock<IModuleScheduler>();
         scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
         scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         scheduler.Setup(x => x.CancelPendingModules())
-            .Returns(cancelledModules);
+            .Returns(canceledModules);
         var schedulerFactory = new Mock<IModuleSchedulerFactory>();
         schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
         var resultRegistrar = new Mock<IModuleResultRegistrar>();
         var terminatedResultsRegistered = false;
         resultRegistrar
-            .Setup(x => x.RegisterTerminatedResultsForCancelledModules(
-                cancelledModules,
+            .Setup(x => x.RegisterTerminatedResultsForCanceledModules(
+                canceledModules,
                 schedulerException))
             .Callback(() => terminatedResultsRegistered = true);
         var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
@@ -427,15 +427,15 @@ public class ModuleExecutorLoggingTests
             NullLogger<ModuleExecutor>.Instance);
 
         var exception = await Assert.ThrowsAsync<AggregateException>(
-            async () => await executor.ExecuteAsync([cancelledModule]));
+            async () => await executor.ExecuteAsync([canceledModule]));
 
         using (Assert.Multiple())
         {
             await Assert.That(exception!.InnerExceptions[0]).IsSameReferenceAs(schedulerException);
             await Assert.That(exception.InnerExceptions[1]).IsSameReferenceAs(alwaysRunException);
             await Assert.That(exception.InnerExceptions).Count().IsEqualTo(2);
-            resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCancelledModules(
-                cancelledModules,
+            resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCanceledModules(
+                canceledModules,
                 schedulerException), Times.Once);
             alwaysRunHandler.Verify(x => x.WaitForAlwaysRunModulesAsync(
                 scheduler.Object,

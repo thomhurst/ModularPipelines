@@ -15,7 +15,7 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
         context.Logger.LogDebug("Initializing engine diagnostic interface...");
         context.Logger.LogDebug("Loading engine telemetry baseline parameters...");
 
-        // Use sub-operations to check each engine individually
+        // Use sub-modules to check each engine individually
         var engine1 = await context.RunSubModuleAsync("Engine 1 Diagnostics", async token =>
         {
             context.Logger.LogInformation("Engine 1: Starting diagnostic sequence...");

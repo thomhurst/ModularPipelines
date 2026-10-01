@@ -15,7 +15,7 @@ internal static class StatusFormatter
             ModuleStatus.Succeeded => "[green]Successful[/]",
             ModuleStatus.Failed => "[red]Failed[/]",
             ModuleStatus.FailureIgnored => "[orange3]Ignored Failure[/]",
-            ModuleStatus.Cancelled => "[red]Pipeline Terminated[/]",
+            ModuleStatus.Canceled => "[red]Pipeline Terminated[/]",
             ModuleStatus.DependencyFailed => "[red]Dependency Failed[/]",
             ModuleStatus.TimedOut => "[red]Timed Out[/]",
             ModuleStatus.Skipped => "[yellow]Skipped[/]",

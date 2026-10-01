@@ -9,7 +9,7 @@ public interface IModuleRegistrationHandler : IEventHandler
     /// Called when the module is being registered.
     /// </summary>
     /// <param name="context">The module registration context.</param>
-    /// <param name="cancellationToken">A token cancelled when the pipeline is cancelled.</param>
+    /// <param name="cancellationToken">A token canceled when the pipeline is canceled.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task OnRegistrationAsync(IModuleRegistrationContext context, CancellationToken cancellationToken);
 }

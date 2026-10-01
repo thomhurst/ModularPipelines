@@ -30,8 +30,8 @@ public class InMemoryDistributedCoordinatorTests
         DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(Create());
 
     [Test]
-    public Task Cancelled_Dequeue_Throws() =>
-        DistributedCoordinatorContract.CancelledDequeueThrowsAsync(Create());
+    public Task Canceled_Dequeue_Throws() =>
+        DistributedCoordinatorContract.CanceledDequeueThrowsAsync(Create());
 
     [Test]
     public Task Cancellation_Signal_Unblocks_Worker_Observer() =>
@@ -97,11 +97,11 @@ public class InMemoryDistributedCoordinatorTests
         var coordinator = Create();
         var moduleId = new ModuleId("Module");
         using var cancellation = new CancellationTokenSource();
-        var cancelledWait = coordinator.WaitForResultAsync(moduleId, cancellation.Token);
+        var canceledWait = coordinator.WaitForResultAsync(moduleId, cancellation.Token);
         var survivingWait = coordinator.WaitForResultAsync(moduleId, CancellationToken.None);
 
         await cancellation.CancelAsync();
-        await Assert.That(async () => await cancelledWait).Throws<OperationCanceledException>();
+        await Assert.That(async () => await canceledWait).Throws<OperationCanceledException>();
         var published = DistributedTestData.Result(moduleId);
         await coordinator.PublishResultAsync(published, lease: null, CancellationToken.None);
 

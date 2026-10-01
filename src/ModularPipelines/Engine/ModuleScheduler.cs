@@ -255,8 +255,8 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing).
     /// This cancels only the scheduler's internal completion sources. Call
-    /// <c>RegisterTerminatedResultsForCancelledModules</c> for the returned modules to complete their public result tasks.
-    /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
+    /// <c>RegisterTerminatedResultsForCanceledModules</c> for the returned modules to complete their public result tasks.
+    /// Note: AlwaysRun modules are not canceled as they should be allowed to complete.
     /// </summary>
     public IReadOnlyList<IModule> CancelPendingModules()
     {

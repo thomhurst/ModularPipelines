@@ -604,7 +604,12 @@ internal class ModuleResultReadState
                 break;
             case "Status":
             case "ModuleStatus":
-                Status = JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
+                // Persisted results may carry V3 or V4-preview status names (for example "PipelineTerminated" or "Cancelled").
+                // Current names still go through the configured options, so custom enum converters keep round-tripping.
+                Status = reader.TokenType == JsonTokenType.String
+                    && RunHistoryModuleStatusJsonConverter.TryGetLegacyStatus(reader.GetString(), out var legacyStatus)
+                    ? legacyStatus
+                    : JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                 break;
             case "Exception":
                 Exception = exceptionConverter.Read(ref reader, typeof(Exception), options);

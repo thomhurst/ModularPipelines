@@ -27,7 +27,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     /// <inheritdoc />
     public void RegisterTerminatedResult(IModule module, Type moduleType, Exception exception)
     {
-        RegisterFailureResult(module, moduleType, exception, ModuleStatus.Cancelled);
+        RegisterFailureResult(module, moduleType, exception, ModuleStatus.Canceled);
     }
 
     /// <inheritdoc />
@@ -57,7 +57,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
     }
 
     /// <inheritdoc />
-    public void RegisterTerminatedResultsForCancelledModules(IReadOnlyList<IModule> modules, Exception exception)
+    public void RegisterTerminatedResultsForCanceledModules(IReadOnlyList<IModule> modules, Exception exception)
     {
         foreach (var module in modules)
         {
@@ -77,7 +77,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
             }
 
             _logger.LogDebug(
-                "Registering Cancelled result for cancelled module {ModuleName}",
+                "Registering Canceled result for canceled module {ModuleName}",
                 moduleType.Name);
 
             RegisterTerminatedResult(module, moduleType, exception);

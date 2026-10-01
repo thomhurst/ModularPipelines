@@ -195,7 +195,7 @@ an exception that already failed it; in that case it is recorded as an additiona
 
 Every callback receives a `CancellationToken`. Ready and Start handlers receive the module's
 execution token. End, Failure, Skipped, and pipeline end handlers receive a token that is
-cancelled only when the user or host cancels the pipeline, so they still run after a module
+canceled only when the user or host cancels the pipeline, so they still run after a module
 failure. Extension points use `Task` rather than `ValueTask`.
 
 ## Pipeline event handlers

@@ -31,7 +31,7 @@ public abstract class Module : NonGenericModuleAdapter
     /// Executes the module's core logic.
     /// </summary>
     /// <param name="context">The module context providing access to pipeline services.</param>
-    /// <param name="cancellationToken">A token that is cancelled if the pipeline fails or the module times out.</param>
+    /// <param name="cancellationToken">A token that is canceled if the pipeline fails or the module times out.</param>
     /// <returns>A task representing the operation.</returns>
     protected abstract new Task ExecuteAsync(
         IModuleContext context,

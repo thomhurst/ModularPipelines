@@ -1,7 +1,7 @@
 namespace ModularPipelines.Distributed;
 
 /// <summary>
-/// Describes why the master cancelled distributed execution.
+/// Describes why the master canceled distributed execution.
 /// </summary>
 public enum DistributedCancellationReason
 {

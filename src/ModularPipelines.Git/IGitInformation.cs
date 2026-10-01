@@ -16,9 +16,10 @@ public interface IGitInformation
     /// Enumerates commits from the current branch.
     /// </summary>
     /// <remarks>
-    /// Async-enumerable methods omit the <c>Async</c> suffix because enumeration is asynchronous at the call site.
+    /// Each enumeration runs in its own service scope, so it is safe to call from singleton services.
+    /// <see cref="IGitHistoryCommands.CommitsAsync(GitOptions?, CancellationToken)"/> returns the same commits through the command group.
     /// </remarks>
-    IAsyncEnumerable<GitCommit> Commits(
+    IAsyncEnumerable<GitCommit> CommitsAsync(
         GitOptions? options = null,
         CancellationToken cancellationToken = default);
 
@@ -26,9 +27,10 @@ public interface IGitInformation
     /// Enumerates commits from the specified branch.
     /// </summary>
     /// <remarks>
-    /// Async-enumerable methods omit the <c>Async</c> suffix because enumeration is asynchronous at the call site.
+    /// Each enumeration runs in its own service scope, so it is safe to call from singleton services.
+    /// <see cref="IGitHistoryCommands.CommitsAsync(string?, GitOptions?, CancellationToken)"/> returns the same commits through the command group.
     /// </remarks>
-    IAsyncEnumerable<GitCommit> Commits(
+    IAsyncEnumerable<GitCommit> CommitsAsync(
         string? branch,
         GitOptions? options = null,
         CancellationToken cancellationToken = default);

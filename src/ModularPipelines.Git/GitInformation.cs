@@ -59,14 +59,14 @@ internal class GitInformation : IGitInformation
         }
     }
 
-    public IAsyncEnumerable<GitCommit> Commits(
+    public IAsyncEnumerable<GitCommit> CommitsAsync(
         GitOptions? options = null,
         CancellationToken cancellationToken = default)
     {
-        return Commits(null, options, cancellationToken);
+        return CommitsAsync(null, options, cancellationToken);
     }
 
-    public async IAsyncEnumerable<GitCommit> Commits(
+    public async IAsyncEnumerable<GitCommit> CommitsAsync(
         string? branch,
         GitOptions? options = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)

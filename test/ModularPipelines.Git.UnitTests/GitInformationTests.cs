@@ -125,7 +125,7 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
-    public async Task Cancelled_Load_Is_Not_Cached()
+    public async Task Canceled_Load_Is_Not_Cached()
     {
         var command = new Mock<ICommandContext>();
         var observedToken = default(CancellationToken);
@@ -158,7 +158,7 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
-    public async Task Commits_Propagates_Cancellation_Token()
+    public async Task CommitsAsync_Propagates_Cancellation_Token()
     {
         var observedToken = default(CancellationToken);
         var runner = new Mock<IGitCommandRunner>();
@@ -176,7 +176,7 @@ public class GitInformationTests : TestBase
             services.AddSingleton(runner.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
 
-        await foreach (var _ in result.T.Commits(cancellationToken: cancellationTokenSource.Token))
+        await foreach (var _ in result.T.CommitsAsync(cancellationToken: cancellationTokenSource.Token))
         {
         }
 
@@ -185,7 +185,7 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
-    public async Task Commits_Reads_Multiple_Records_With_One_Git_Process()
+    public async Task CommitsAsync_Reads_Multiple_Records_With_One_Git_Process()
     {
         CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
@@ -205,7 +205,7 @@ public class GitInformationTests : TestBase
             services.AddSingleton(runner.Object));
         var commits = new List<GitCommit>();
 
-        await foreach (var commit in result.T.Commits())
+        await foreach (var commit in result.T.CommitsAsync())
         {
             commits.Add(commit);
         }
@@ -265,7 +265,7 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
-    public async Task Commits_Throws_When_Cancelled_Between_Records()
+    public async Task CommitsAsync_Throws_When_Canceled_Between_Records()
     {
         var runner = new Mock<IGitCommandRunner>();
         runner.Setup(x => x.RunCommandsOrNull(
@@ -276,7 +276,7 @@ public class GitInformationTests : TestBase
         var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
-        await using var commits = result.T.Commits(
+        await using var commits = result.T.CommitsAsync(
             cancellationToken: cancellationTokenSource.Token).GetAsyncEnumerator();
 
         await Assert.That(await commits.MoveNextAsync()).IsTrue();

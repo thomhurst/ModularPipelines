@@ -195,7 +195,7 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
-    public async Task ModuleRunner_PreservesAlwaysRunDuringCancelledLimiterWaits()
+    public async Task ModuleRunner_PreservesAlwaysRunDuringCanceledLimiterWaits()
     {
         var observedTokens = new List<CancellationToken>();
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();
@@ -318,9 +318,9 @@ public class ParallelLimitHandlerTests
             typeof(TestModule),
             false,
             It.IsAny<OperationCanceledException>(),
-            ModuleStatus.Cancelled), Times.Once);
+            ModuleStatus.Canceled), Times.Once);
         await Assert.That(resultRegistry.GetResult(typeof(TestModule))!.Status)
-            .IsEqualTo(ModuleStatus.Cancelled);
+            .IsEqualTo(ModuleStatus.Canceled);
         logger.Verify(x => x.Log(
             LogLevel.Error,
             It.IsAny<EventId>(),
@@ -421,7 +421,7 @@ public class ParallelLimitHandlerTests
             typeof(TestModule),
             false,
             originalException,
-            ModuleStatus.Cancelled), Times.Once);
+            ModuleStatus.Canceled), Times.Once);
     }
 
     [Test]
@@ -569,7 +569,7 @@ public class ParallelLimitHandlerTests
     }
 
     [Test]
-    public async Task ModuleRunner_PreservesWorkerTokenForCancelledLinkedLimiterWait()
+    public async Task ModuleRunner_PreservesWorkerTokenForCanceledLinkedLimiterWait()
     {
         var limiterWaitStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var parallelLimitHandler = new Mock<IParallelLimitHandler>();

@@ -50,7 +50,7 @@ public abstract class SyncModule<T> : Module<T>
     /// Executes the module's core logic synchronously.
     /// </summary>
     /// <param name="context">The module context providing access to pipeline services.</param>
-    /// <param name="cancellationToken">A token that will be cancelled if the pipeline fails or the module times out.</param>
+    /// <param name="cancellationToken">A token that will be canceled if the pipeline fails or the module times out.</param>
     /// <returns>The result of the module execution.</returns>
     /// <remarks>
     /// <para>

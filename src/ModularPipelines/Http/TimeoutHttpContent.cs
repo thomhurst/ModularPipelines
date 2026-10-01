@@ -117,7 +117,7 @@ internal sealed class TimeoutHttpContent : HttpContent
                   && exception is ObjectDisposedException or IOException)
         {
             throw new OperationCanceledException(
-                "The HTTP response body copy was cancelled.",
+                "The HTTP response body copy was canceled.",
                 exception,
                 effectiveCancellationToken);
         }
@@ -292,7 +292,7 @@ internal sealed class TimeoutHttpContent : HttpContent
             CancellationToken cancellationToken)
         {
             return new OperationCanceledException(
-                "The HTTP response body read was cancelled.",
+                "The HTTP response body read was canceled.",
                 exception,
                 cancellationToken);
         }

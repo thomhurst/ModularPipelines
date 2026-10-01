@@ -111,7 +111,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         using var cancellationRegistration = cancellationToken.Register(
             () => _engineCancellationToken.CancelWithReason(
-                "The user's cancellation token passed into the pipeline was cancelled."));
+                "The user's cancellation token passed into the pipeline was canceled."));
 
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();

@@ -224,7 +224,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                     }
 
                     // Render state changes made immediately before disposal. The periodic
-                    // loop may be cancelled before its next scheduled refresh.
+                    // loop may be canceled before its next scheduled refresh.
                     UpdateProgressTickers();
                     ctx.Refresh();
                 })

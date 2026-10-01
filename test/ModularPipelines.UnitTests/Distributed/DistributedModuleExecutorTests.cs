@@ -21,26 +21,26 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public void CompleteCancelledModules_RegistersTerminatedResults()
+    public void CompleteCanceledModules_RegistersTerminatedResults()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Cancel();
         var cancellationToken = cancellationTokenSource.Token;
-        IReadOnlyList<IModule> cancelledModules = [Mock.Of<IModule>()];
+        IReadOnlyList<IModule> canceledModules = [Mock.Of<IModule>()];
         var scheduler = new Mock<IModuleScheduler>();
         var resultRegistrar = new Mock<IModuleResultRegistrar>();
         scheduler
             .Setup(x => x.CancelPendingModules())
-            .Returns(cancelledModules);
+            .Returns(canceledModules);
 
-        DistributedModuleExecutor.CompleteCancelledModules(
+        DistributedModuleExecutor.CompleteCanceledModules(
             scheduler.Object,
             resultRegistrar.Object,
             cancellationToken);
 
         resultRegistrar.Verify(
-            x => x.RegisterTerminatedResultsForCancelledModules(
-                cancelledModules,
+            x => x.RegisterTerminatedResultsForCanceledModules(
+                canceledModules,
                 It.Is<OperationCanceledException>(
                     exception => exception.CancellationToken == cancellationToken)),
             Times.Once);

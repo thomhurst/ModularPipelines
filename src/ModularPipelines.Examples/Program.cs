@@ -33,7 +33,7 @@ builder
     .AddModule<LifeSupportCheckModule>()
     .AddModule<CommunicationsCheckModule>()
 
-    // Layer 3: Deep Dependency Chain (Propulsion - 4 Levels with sub-operations)
+    // Layer 3: Deep Dependency Chain (Propulsion - 4 Levels with sub-modules)
     .AddModule<PropulsionDiagnosticsModule>()
     .AddModule<EngineIgnitionSequenceModule>()
     .AddModule<ThrustVectorCalibrationModule>()

@@ -42,7 +42,7 @@ public interface IDistributedWorkerCoordinator
     /// <param name="workerCapabilities">The capabilities the claiming worker offers.</param>
     /// <param name="cancellationToken">Cancels the wait.</param>
     /// <returns>The claimed lease, or <see langword="null"/> once the master has signalled completion.</returns>
-    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was cancelled.</exception>
+    /// <exception cref="OperationCanceledException"><paramref name="cancellationToken"/> was canceled.</exception>
     Task<ModuleLease?> DequeueModuleAsync(
         WorkerId workerId,
         IReadOnlySet<Capability> workerCapabilities,
@@ -78,6 +78,6 @@ public interface IDistributedWorkerCoordinator
     /// <summary>
     /// Waits until the master broadcasts distributed cancellation.
     /// </summary>
-    /// <returns>Why the master cancelled execution.</returns>
+    /// <returns>Why the master canceled execution.</returns>
     Task<DistributedCancellationReason> WaitForCancellationAsync(CancellationToken cancellationToken);
 }

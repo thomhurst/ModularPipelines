@@ -348,7 +348,7 @@ public class RetryTests : TestBase
         internal void Complete() => _completion.TrySetResult(true);
     }
 
-    private class CancelledDuringRetryModule : Module<bool>
+    private class CanceledDuringRetryModule : Module<bool>
     {
         private readonly TaskCompletionSource _secondAttemptStarted =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -470,13 +470,13 @@ public class RetryTests : TestBase
     }
 
     [Test]
-    public async Task When_Cancelled_During_Later_Attempt_Then_Report_PipelineTerminated()
+    public async Task When_Canceled_During_Later_Attempt_Then_Report_PipelineTerminated()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
         var host = await TestPipelineBuilder.Create()
-            .AddModule<CancelledDuringRetryModule>()
+            .AddModule<CanceledDuringRetryModule>()
             .BuildAsync();
-        var module = host.Services.GetServices<IModule>().OfType<CancelledDuringRetryModule>().Single();
+        var module = host.Services.GetServices<IModule>().OfType<CanceledDuringRetryModule>().Single();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var pipelineTask = host.RunAsync(cancellationTokenSource.Token);
 
@@ -485,12 +485,12 @@ public class RetryTests : TestBase
 
         await pipelineTask;
 
-        var result = resultRegistry.GetResult(typeof(CancelledDuringRetryModule));
+        var result = resultRegistry.GetResult(typeof(CanceledDuringRetryModule));
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(2);
             await Assert.That(result).IsNotNull();
-            await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Cancelled);
+            await Assert.That(result!.Status).IsEqualTo(ModuleStatus.Canceled);
         }
     }
 }

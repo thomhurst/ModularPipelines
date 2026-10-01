@@ -356,7 +356,7 @@ public class ModuleLoggerTests
         var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
         var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer);
         var outputCoordinator = new Mock<IOutputCoordinator>();
-        var providerCancellation = new OperationCanceledException("provider cancelled");
+        var providerCancellation = new OperationCanceledException("provider canceled");
         outputCoordinator
             .Setup(x => x.OnModuleCompletedAsync(
                 moduleOutputBuffer,

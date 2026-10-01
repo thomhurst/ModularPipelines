@@ -117,7 +117,7 @@ public class GeneratedModuleMetadataTests
     }
 
     [Test]
-    public async Task Cancelled_Result_Registration_Defers_AlwaysRun_Completion()
+    public async Task Canceled_Result_Registration_Defers_AlwaysRun_Completion()
     {
         var module = new GeneratedAlwaysRunModule();
         var registry = new ModuleResultRegistry();
@@ -125,7 +125,7 @@ public class GeneratedModuleMetadataTests
             registry,
             NullLogger<ModuleResultRegistrar>.Instance);
 
-        registrar.RegisterTerminatedResultsForCancelledModules(
+        registrar.RegisterTerminatedResultsForCanceledModules(
             [module],
             new InvalidOperationException("Pipeline terminated"));
 

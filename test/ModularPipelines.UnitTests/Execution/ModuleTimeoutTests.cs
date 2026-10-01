@@ -397,7 +397,7 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Cancelled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
+    public async Task Canceled_Execution_Published_After_Deadline_Signal_Belongs_To_Deadline()
     {
         using var attemptCancellation = new CancellationTokenSource();
         var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
@@ -414,7 +414,7 @@ public class ModuleTimeoutTests : TestBase
     {
         // The state #4714 reproduced on a starved runner: the deadline fired before the
         // already-faulted task was published, and a fault carries no token that could
-        // prove it happened independently of the cancelled attempt.
+        // prove it happened independently of the canceled attempt.
         using var attemptCancellation = new CancellationTokenSource();
         var cancellationSignals = new TimeoutHelper.CancellationSignals<bool>(attemptCancellation);
         var signalState = cancellationSignals.Deadline;
