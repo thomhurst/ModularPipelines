@@ -82,13 +82,29 @@ public class KustomizeCliScraperTests
     }
 
     [Test]
+    [Arguments("add", "annotation", true)]
+    [Arguments("add", "component", true)]
     [Arguments("add", "configuration", true)]
+    [Arguments("add", "generator", true)]
+    [Arguments("add", "label", true)]
     [Arguments("add", "resource", true)]
+    [Arguments("add", "transformer", true)]
     [Arguments("remove", "component", true)]
+    [Arguments("remove", "resource", true)]
+    [Arguments("remove", "transformer", true)]
+    [Arguments("set", "annotation", true)]
     [Arguments("set", "image", true)]
+    [Arguments("set", "label", true)]
+    [Arguments("set", "replicas", true)]
     [Arguments("add", "base", false)]
+    [Arguments("add", "buildmetadata", false)]
+    [Arguments("remove", "annotation", false)]
+    [Arguments("remove", "buildmetadata", false)]
     [Arguments("remove", "label", false)]
+    [Arguments("set", "buildmetadata", false)]
+    [Arguments("set", "nameprefix", false)]
     [Arguments("set", "namespace", false)]
+    [Arguments("set", "namesuffix", false)]
     public async Task Edit_Operands_Omitted_From_Usage_Are_Required(
         string verb,
         string noun,
