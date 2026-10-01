@@ -112,6 +112,75 @@ public class ModuleConfigurationTests
     }
 
     [Test]
+    public async Task WithSkipWhen_BooleanCondition_WithoutReason_UsesDefaultReason()
+    {
+        var flag = true;
+        var config = new ModuleConfigurationBuilder()
+            .WithSkipWhen(_ => flag)
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Skip condition was met");
+        }
+    }
+
+    [Test]
+    public async Task WithSkipWhen_AsynchronousBooleanCondition_WithoutReason_UsesDefaultReason()
+    {
+        var config = new ModuleConfigurationBuilder()
+            .WithSkipWhen(async (_, cancellationToken) =>
+            {
+                await Task.Yield();
+                return !cancellationToken.IsCancellationRequested;
+            })
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Skip condition was met");
+        }
+    }
+
+    [Test]
+    public async Task WithSkipWhen_DecisionLambdas_StillBindToDecisionOverloads()
+    {
+        var config = new ModuleConfigurationBuilder()
+            .WithSkipWhen(_ => SkipDecision.Skip("Decision reason"))
+            .WithSkipWhen(async (_, _) =>
+            {
+                await Task.Yield();
+                return SkipDecision.DoNotSkip;
+            })
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        await Assert.That(decision.Reason).IsEqualTo("Decision reason");
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("   ")]
+    public async Task WithSkipWhen_BooleanCondition_RejectsBlankExplicitReason(string reason)
+    {
+        var builder = new ModuleConfigurationBuilder();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => builder.WithSkipWhen(_ => true, reason)).Throws<ArgumentException>();
+            await Assert.That(() => builder.WithSkipWhen((_, _) => ValueTask.FromResult(true), reason))
+                .Throws<ArgumentException>();
+        }
+    }
+
+    [Test]
     public async Task WithSkipWhen_AsynchronousBooleanCondition_ForwardsCancellationToken()
     {
         using var cancellationTokenSource = new CancellationTokenSource();
