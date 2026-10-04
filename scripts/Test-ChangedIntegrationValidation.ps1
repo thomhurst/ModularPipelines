@@ -161,6 +161,17 @@ try {
     if ($entry.build_target -ne "src/$package/$package.slnx") {
         throw 'Integration validation must build the affected solution.'
     }
+    foreach ($solutionPath in @("src/$package/Alternate.slnx", "src\$package\Alternate.slnx")) {
+        Set-Content -LiteralPath (Join-Path $packageDirectory 'Alternate.slnx') -Value '<invalid'
+        $failure = $null
+        try {
+            & $changedResolver -RepositoryRoot $fixture -ChangedPath @($solutionPath) | Out-Null
+        }
+        catch { $failure = $_.Exception.Message }
+        if ($failure -notlike "*Unsupported integration solution: src/$package/Alternate.slnx*") {
+            throw "Additional solution files must not silently select the canonical solution. Received: $failure"
+        }
+    }
     Remove-Item -LiteralPath $packageSolution
     foreach ($case in @(
         @{ Name = 'deleted integration solution'; Paths = @("src/$package/$package.slnx") },
