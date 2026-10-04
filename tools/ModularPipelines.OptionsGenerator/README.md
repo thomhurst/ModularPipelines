@@ -101,7 +101,10 @@ coverage without replacing those APIs. After a successful Git scrape, the workfl
 `scripts/Remove-UnrecognizedCommandOptions.ps1` to remove legacy generated option records
 whose `CliSubCommand` is absent from the validated coverage manifest. This removes old
 Git documentation-page types without treating handwritten options as generated output.
-The script also accepts `-WhatIf` and can reconcile an existing committed coverage manifest.
+Pass `-Tool` using the target package's tool from `--list-tools --json`; the script rejects
+coverage for a different tool before collecting deletion candidates. Single and nested
+`CliSubCommand` arguments are matched against complete command paths. The script also
+accepts `-WhatIf` and can reconcile an existing committed coverage manifest.
 Deleted paths are added to the generation change manifest before provenance is recorded.
 
 ## Add a scraper

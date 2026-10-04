@@ -672,6 +672,7 @@ jobs:
         shell: pwsh
         run: |
           tools/ModularPipelines.OptionsGenerator/scripts/Remove-UnrecognizedCommandOptions.ps1 `
+            -Tool "${{ matrix.tool }}" `
             -RepositoryRoot "$env:GITHUB_WORKSPACE" `
             -PackageDirectory "${{ matrix.outputDirectory }}" `
             -NamespacePrefix "${{ matrix.prefix }}" `
