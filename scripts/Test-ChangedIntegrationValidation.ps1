@@ -26,11 +26,13 @@ function Assert-IntegrationRoute {
         }
         $matrix = $values.integration_matrix | ConvertFrom-Json
         $packages = @($matrix.include | ForEach-Object { $_.package })
-        if (($packages -join ',') -ne (($ExpectedPackages | Sort-Object) -join ',')) {
+        if ((($packages | Sort-Object) -join ',') -ne (($ExpectedPackages | Sort-Object) -join ',')) {
             throw "Route '$Name' selected unexpected packages: $packages."
         }
         foreach ($entry in $matrix.include) {
-            $expectedProject = "src/$($entry.package)/$($entry.package).csproj"
+            $expectedProject = if ($entry.package -eq 'ModularPipelines.DocumentationSnippets') {
+                'test/ModularPipelines.DocumentationSnippets/ModularPipelines.DocumentationSnippets.csproj'
+            } else { "src/$($entry.package)/$($entry.package).csproj" }
             $expectedTest = "test/$($entry.package).UnitTests/$($entry.package).UnitTests.csproj"
             if (-not (Test-Path -LiteralPath (Join-Path $repositoryRoot $expectedTest))) { $expectedTest = '' }
             if ($entry.project -ne $expectedProject -or $entry.test_project -ne $expectedTest) {
@@ -50,7 +52,7 @@ Assert-IntegrationRoute 'mixed generator and integration' @($generator, $google)
 Assert-IntegrationRoute 'test-only change' @('test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'handwritten integration' @('src/ModularPipelines.Ftp/Ftp.cs') @('ModularPipelines.Ftp')
 Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing')
-Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet')
+Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet', 'ModularPipelines.Build', 'ModularPipelines.DocumentationSnippets')
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true
 Assert-IntegrationRoute 'distributed core tests' @('test/ModularPipelines.Distributed.UnitTests/ChangedTests.cs') @() -ExpectedFull $true
@@ -86,9 +88,9 @@ $matrixJob = [regex]::Match($workflow, '(?ms)^  changed-integration:.*?(?=^  [a-
 foreach ($required in @(
     "needs.fast-fail.outputs.run_integration_validation == 'true'",
     'fromJSON(needs.fast-fail.outputs.integration_matrix)',
-    'INTEGRATION_PROJECT: ${{ matrix.project }}',
+    'BUILD_TARGET: ${{ matrix.build_target }}',
     'TEST_PROJECT: ${{ matrix.test_project }}',
-    'dotnet build "$INTEGRATION_PROJECT"',
+    'dotnet build "$BUILD_TARGET"',
     'dotnet build "$TEST_PROJECT"',
     'dotnet run --project "$TEST_PROJECT"',
     'contents: read',
@@ -141,6 +143,25 @@ try {
     Set-Content -LiteralPath $consumerProject -Value '<Project />'
     $removed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs")
     if ($removed.Required) { throw 'Removing the consumer reference should permit complete package removal.' }
+
+    $packageDirectory = Join-Path $fixture "src/$package"
+    New-Item -ItemType Directory -Path $packageDirectory -Force | Out-Null
+    $packageProject = Join-Path $packageDirectory "$package.csproj"
+    $packageSolution = Join-Path $packageDirectory "$package.slnx"
+    Set-Content -LiteralPath $packageProject -Value '<Project />'
+    Set-Content -LiteralPath $packageSolution -Value '<Solution />'
+    Set-Content -LiteralPath $consumerProject -Value '<Project><ItemGroup><ProjectReference Include="../ModularPipelines.Example/ModularPipelines.Example.csproj" /></ItemGroup></Project>'
+    Set-Content -LiteralPath $exampleProject -Value '<Project><ItemGroup><ProjectReference Include="../../src/ModularPipelines.Consumer/ModularPipelines.Consumer.csproj" /></ItemGroup></Project>'
+    $changed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Changed.cs")
+    if (($changed.Matrix.include.project -join ',') -ne 'examples/Consumer/Consumer.csproj,src/ModularPipelines.Consumer/ModularPipelines.Consumer.csproj,src/ModularPipelines.Example/ModularPipelines.Example.csproj') {
+        throw 'Ordinary integration changes must validate direct and transitive consumers.'
+    }
+    $solutionChange = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/$package.slnx")
+    $entry = $solutionChange.Matrix.include | Where-Object package -eq $package
+    if ($entry.build_target -ne "src/$package/$package.slnx") {
+        throw 'Integration validation must build the affected solution.'
+    }
+    Remove-Item -LiteralPath $packageProject, $packageSolution
 
     foreach ($case in @(
         @{ Directory = "src/$package"; Path = "src/$package/Changed.cs"; Project = '' },

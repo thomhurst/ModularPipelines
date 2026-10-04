@@ -833,10 +833,10 @@ jobs:
       - name: Build and test changed integration
         shell: bash
         env:
-          INTEGRATION_PROJECT: ${{ matrix.project }}
+          BUILD_TARGET: ${{ matrix.build_target }}
           TEST_PROJECT: ${{ matrix.test_project }}
         run: |
-          dotnet build "$INTEGRATION_PROJECT" -c Release /m:1 -p:UseSharedCompilation=false
+          dotnet build "$BUILD_TARGET" -c Release /m:1 -p:UseSharedCompilation=false
           if [[ -n "$TEST_PROJECT" ]]; then
             dotnet build "$TEST_PROJECT" -c Release /m:1 -p:UseSharedCompilation=false
             dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
