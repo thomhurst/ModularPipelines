@@ -18,20 +18,13 @@ namespace ModularPipelines.Secrets;
 /// <code>
 /// public class MyModule : Module&lt;bool&gt;
 /// {
-///     private readonly ISecretRegistry _secrets;
-///
-///     public MyModule(ISecretRegistry secrets)
-///     {
-///         _secrets = secrets;
-///     }
-///
 ///     protected override async Task&lt;bool&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         // Get secret from external source
 ///         var apiKey = await GetApiKeyFromVaultAsync();
 ///
 ///         // Register it for masking
-///         _secrets.AddSecret(apiKey);
+///         context.Security.Secrets.AddSecret(apiKey);
 ///
 ///         // Now use it safely - it will be masked in logs
 ///         context.Logger.LogInformation("Using API key: {ApiKey}", apiKey);

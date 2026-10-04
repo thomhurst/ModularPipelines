@@ -533,3 +533,11 @@ object initializers and `with` expressions instead of deriving from them.
 
 The `IEnumerable<IModule>.GetModule<T>()` extension is now internal. Use LINQ
 `OfType<T>().Single()` when selecting a module from a collection.
+
+## Runtime secret registration
+
+Modules can register dynamically discovered secrets with
+`context.Security.Secrets.AddSecret(value)` or `AddSecrets(values)`. This exposes
+the same per-pipeline `ISecretRegistry` available through dependency injection.
+Register values before logging them so subsequent output uses the configured
+masking behavior.

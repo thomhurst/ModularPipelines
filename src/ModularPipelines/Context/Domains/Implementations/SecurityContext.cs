@@ -1,9 +1,10 @@
 using ModularPipelines.Context;
+using ModularPipelines.Secrets;
 
 namespace ModularPipelines.Context.Domains.Implementations;
 
 /// <summary>
-/// Provides access to security operations including certificates and cryptographic hashing.
+/// Provides access to security operations including certificates, cryptographic hashing, and runtime secret registration.
 /// </summary>
 internal class SecurityContext : ISecurityContext
 {
@@ -12,10 +13,12 @@ internal class SecurityContext : ISecurityContext
     /// </summary>
     /// <param name="certificates">The certificates context for X.509 certificate operations.</param>
     /// <param name="hash">The hash context for cryptographic hashing operations.</param>
-    public SecurityContext(ICertificatesContext certificates, IHashContext hash)
+    /// <param name="secrets">The pipeline secret registry.</param>
+    public SecurityContext(ICertificatesContext certificates, IHashContext hash, ISecretRegistry secrets)
     {
         Certificates = certificates;
         Hash = hash;
+        Secrets = secrets;
     }
 
     /// <inheritdoc />
@@ -23,4 +26,7 @@ internal class SecurityContext : ISecurityContext
 
     /// <inheritdoc />
     public IHashContext Hash { get; }
+
+    /// <inheritdoc />
+    public ISecretRegistry Secrets { get; }
 }
