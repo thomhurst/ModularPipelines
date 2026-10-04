@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -7,6 +8,79 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class BrewCliScraperTests
 {
+    private const string GlobalMetadata = "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-d\t--debug\tDisplay debugging information.\n"
+        + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-q\t--quiet\tMake output quieter.\n"
+        + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-v\t--verbose\tMake output more verbose.\n"
+        + "MODULARPIPELINES_BREW_GLOBAL_OPTION\t-h\t--help\tShow this message.\n";
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Traversal_Uses_Installed_Global_Metadata_And_Preserves_Command_Options(bool rootHasCommands)
+    {
+        var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(rootHasCommands));
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        using (Assert.Multiple())
+        {
+            await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName))
+                .IsEquivalentTo(["--debug", "--quiet", "--verbose"]);
+            await Assert.That(tool.GlobalOptions.Select(option => option.ShortForm!))
+                .IsEquivalentTo(["-d", "-q", "-v"]);
+            await Assert.That(tool.GlobalOptions.All(option => option.IsFlag && option.CSharpType == "bool?"))
+                .IsTrue();
+            await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
+        }
+
+        var baseContent = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        var commandContent = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        using (Assert.Multiple())
+        {
+            await Assert.That(baseContent).Contains("public virtual bool? Verbose");
+            await Assert.That(baseContent).DoesNotContain("[CliGlobalOptions]");
+            await Assert.That(baseContent).DoesNotContain("Appdir");
+            await Assert.That(commandContent).DoesNotContain("bool? Verbose");
+            await Assert.That(commandContent).Contains("string? Appdir");
+        }
+    }
+
+    [Test]
+    public async Task Command_Override_With_Different_Arity_Is_Not_Dropped_Or_Hidden()
+    {
+        var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false, localOverride: true));
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        var localOption = commands.Single().Options.Single(option => option.SwitchName == "--verbose");
+        await Assert.That(localOption.IsFlag).IsFalse();
+        await Assert.That(localOption.CSharpType).IsEqualTo("string?");
+        var commandContent = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(commandContent).Contains("public string? CliVerbose");
+        await Assert.That(commandContent).DoesNotContain("public string? Verbose");
+    }
+
+    [Test]
+    [Arguments("failed")]
+    [Arguments("empty")]
+    [Arguments("malformed")]
+    public async Task Global_Metadata_Failure_Stops_Generation(string failure)
+    {
+        var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false, failure));
+
+        await Assert.That(async () => await scraper.GetHelp(["brew"]))
+            .Throws<InvalidOperationException>()
+            .WithMessageContaining("global option metadata");
+    }
+
     [Test]
     public async Task Traversal_Uses_Complete_Quiet_Command_Inventory()
     {
@@ -623,16 +697,11 @@ public class BrewCliScraperTests
         }
     }
 
-    private sealed class TestBrewCliScraper : BrewCliScraper
+    private sealed class TestBrewCliScraper(ICliCommandExecutor? executor = null) : BrewCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<BrewCliScraper>.Instance)
     {
-        public TestBrewCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<BrewCliScraper>.Instance)
-        {
-        }
-
         public override Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) =>
             Task.FromResult(true);
 
@@ -643,10 +712,49 @@ public class BrewCliScraperTests
         }
 
         public IReadOnlyList<string> GetSubcommands(string helpText) =>
-            ExtractSubcommands(helpText).ToArray();
+            [.. ExtractSubcommands(helpText)];
 
         public Task<string?> GetHelp(string[] commandPath) =>
             GetHelpTextAsync(commandPath, CancellationToken.None);
+    }
+
+    private sealed class GlobalMetadataExecutor(bool rootHasCommands, string? failure = null, bool localOverride = false) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var globalQuery = arguments.Contains("Parser.global_options", StringComparison.Ordinal);
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = globalQuery && failure == "failed" ? 1 : 0,
+                StandardOutput = globalQuery
+                    ? failure switch
+                    {
+                        "empty" => string.Empty,
+                        "malformed" => "MODULARPIPELINES_BREW_GLOBAL_OPTION\t--broken",
+                        _ => GlobalMetadata,
+                    }
+                    : arguments switch
+                    {
+                        "--version" => "Homebrew 5.0.0",
+                        "--help" => rootHasCommands
+                            ? "Commands:\n  install  Install formulae.\n\nGLOBAL CASK OPTIONS:\n  --appdir=DIR  Location."
+                            : "Example usage:\n  brew install formula\n\nGLOBAL CASK OPTIONS:\n  --appdir=DIR  Location.",
+                        "commands --quiet" => "install",
+                        "install --help" => localOverride
+                            ? "Usage: brew install [options] formula\n\n  -v, --verbose=LEVEL  Output level."
+                            : "Usage: brew install [options] formula\n\n  -v, --verbose  Show output.\n      --appdir=DIR  Application location.",
+                        _ => string.Empty,
+                    },
+                StandardError = string.Empty,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class FailedHelpExecutor : ICliCommandExecutor
@@ -689,6 +797,7 @@ public class BrewCliScraperTests
                 {
                     "--help" => "Example usage:\n  brew update",
                     "commands --quiet" => "alpha  beta  foo+bar  baz.qux\n",
+                    _ when arguments.Contains("Parser.global_options", StringComparison.Ordinal) => GlobalMetadata,
                     _ => $"Usage: brew {arguments[..^7]} [options]\n\n  --verbose  Show details.",
                 },
                 StandardError = arguments == "commands --quiet"

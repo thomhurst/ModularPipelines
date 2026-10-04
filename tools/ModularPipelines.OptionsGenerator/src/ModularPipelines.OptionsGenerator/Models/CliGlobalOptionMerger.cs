@@ -50,10 +50,9 @@ public static class CliGlobalOptionMerger
             switchByProperty.Add(option.PropertyName, option.SwitchName);
         }
 
-        return optionsBySwitch.Values
+        return [.. optionsBySwitch.Values
             .OrderBy(option => option.SwitchName, StringComparer.OrdinalIgnoreCase)
-            .ThenBy(option => option.SwitchName, StringComparer.Ordinal)
-            .ToList();
+            .ThenBy(option => option.SwitchName, StringComparer.Ordinal)];
     }
 
     private static void ValidateOption(CliOptionDefinition option)
@@ -96,7 +95,7 @@ public static class CliGlobalOptionMerger
         };
     }
 
-    private static bool HasSameShape(CliOptionDefinition left, CliOptionDefinition right)
+    internal static bool HasSameShape(CliOptionDefinition left, CliOptionDefinition right)
     {
         return left.SwitchName.Equals(right.SwitchName, StringComparison.OrdinalIgnoreCase)
                && StringEquals(left.ShortForm, right.ShortForm)

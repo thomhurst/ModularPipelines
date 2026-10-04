@@ -33,8 +33,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///       --cask, --casks          Treat all named arguments as casks.
 ///   -d, --debug                  Display any debugging information.
 /// </summary>
-public partial class BrewCliScraper : CliScraperBase
+public partial class BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<BrewCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private const string GlobalOptionMarker = "MODULARPIPELINES_BREW_GLOBAL_OPTION";
+    private const string GlobalOptionsScript =
+        "require 'cli/parser';Homebrew::CLI::Parser.global_options.each{|s,l,d|" +
+        "puts ['" + GlobalOptionMarker + "',s,l,d].join(9.chr)}";
+
     private const string OptionTypeMarker = "MODULARPIPELINES_BREW_OPTION_TYPE";
     private const string OptionMetadataScript =
         "require 'commands';require 'cli/parser';c=ARGV.shift;s=ARGV.shift;" +
@@ -43,11 +48,6 @@ public partial class BrewCliScraper : CliScraperBase
         "t=p.instance_variable_get(:@option_types);" +
         "t.each{|n,k|puts [n,k].join(9.chr) if p.send(:option_allowed_for_subcommand?,n,s)}";
 
-    public BrewCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<BrewCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "brew";
 
     public override string NamespacePrefix => "Brew";
@@ -55,6 +55,38 @@ public partial class BrewCliScraper : CliScraperBase
     public override string TargetNamespace => "ModularPipelines.Homebrew";
 
     public override string OutputDirectory => "src/ModularPipelines.Homebrew";
+
+    // Homebrew selects the command from the first argument; these shared switches
+    // belong to the selected command parser, not before the command name.
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
+    {
+        var options = new List<CliOptionDefinition>();
+        foreach (var line in NormalizeLines(helpText).Where(line => line.StartsWith(GlobalOptionMarker, StringComparison.Ordinal)))
+        {
+            var parts = line.Split('\t', 4);
+            if (parts.Length != 4 || parts[0] != GlobalOptionMarker
+                || !parts[1].StartsWith('-') || !parts[2].StartsWith("--", StringComparison.Ordinal)
+                || NormalizePropertyName(parts[2]) is not { } propertyName)
+            {
+                throw new InvalidOperationException("Homebrew returned malformed global option metadata.");
+            }
+
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = parts[2],
+                ShortForm = parts[1],
+                PropertyName = propertyName,
+                CSharpType = "bool?",
+                Description = parts[3],
+                IsFlag = true,
+                ValueSeparator = " ",
+            });
+        }
+
+        return options;
+    }
 
     /// <summary>
     /// Skip utility commands.
@@ -96,6 +128,8 @@ public partial class BrewCliScraper : CliScraperBase
                 cancellationToken);
         }
 
+        helpText = await AppendGlobalOptionsMetadataAsync(helpText, cancellationToken).ConfigureAwait(false);
+
         if (CommandSectionPattern().IsMatch(helpText))
         {
             return helpText;
@@ -135,6 +169,24 @@ public partial class BrewCliScraper : CliScraperBase
             Environment.NewLine,
             commands.Select(static command => $"  {command}  Discovered by brew commands --quiet."));
         return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}Commands:{Environment.NewLine}{commandSection}";
+    }
+
+    private async Task<string> AppendGlobalOptionsMetadataAsync(string helpText, CancellationToken cancellationToken)
+    {
+        // Root help omits the global table. Query the installed parser, which registers
+        // every entry from global_options as a switch. global_cask_options is separate.
+        var result = await ExecuteAndRecordHelpCommandAsync(
+            [ToolName],
+            ExecutablePath,
+            $"ruby -e \"{GlobalOptionsScript}\"",
+            cancellationToken,
+            preserveRawHelp: true).ConfigureAwait(false);
+        if (!result.Success || ParseGlobalOptions(result.StandardOutput).Count == 0)
+        {
+            throw new InvalidOperationException("Could not read Homebrew global option metadata from the installed parser.");
+        }
+
+        return $"{helpText.TrimEnd()}{Environment.NewLine}{Environment.NewLine}{result.StandardOutput.TrimEnd()}";
     }
 
     private async Task<string> AppendOptionTypeMetadataAsync(
@@ -265,7 +317,7 @@ public partial class BrewCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
 
         // Parse command lines: "  command             description"
         var lines = section.Split('\n');
@@ -298,7 +350,7 @@ public partial class BrewCliScraper : CliScraperBase
     /// <summary>
     /// Extracts subcommands from "Example usage:" section.
     /// </summary>
-    private IEnumerable<string> ExtractSubcommandsFromExampleUsage(string helpText, HashSet<string> seenCommands)
+    private static IEnumerable<string> ExtractSubcommandsFromExampleUsage(string helpText, HashSet<string> seenCommands)
     {
         var subcommands = new List<string>();
 
@@ -318,7 +370,7 @@ public partial class BrewCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         foreach (var line in lines)
@@ -372,9 +424,12 @@ public partial class BrewCliScraper : CliScraperBase
         // Wrapper commands can print prerequisite help before their own usage.
         // Only options at or after the selected command synopsis belong here.
         var optionTypes = ParseOptionTypes(NormalizeLines(helpText));
+        var globalOptions = EffectiveGlobalOptions;
         var options = ParseOptions(
             ExtractHelpFromMatchingUsage(helpText, usage),
-            optionTypes);
+            optionTypes)
+            .Where(option => !globalOptions.Any(global => CliGlobalOptionMerger.HasSameShape(global, option)))
+            .ToList();
         var positionalArguments = NormalizePositionalArguments(
             commandParts,
             DisambiguatePositionalArguments(
@@ -415,7 +470,7 @@ public partial class BrewCliScraper : CliScraperBase
             .Select(static option => option.PropertyName)
             .ToHashSet(StringComparer.Ordinal);
 
-        return positionalArguments
+        return [.. positionalArguments
             .Select(argument =>
             {
                 var propertyName = argument.PropertyName;
@@ -427,8 +482,7 @@ public partial class BrewCliScraper : CliScraperBase
                 return propertyName == argument.PropertyName
                     ? argument
                     : argument with { PropertyName = propertyName };
-            })
-            .ToArray();
+            })];
     }
 
     private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
@@ -627,7 +681,7 @@ public partial class BrewCliScraper : CliScraperBase
     ///   -d, --debug                  Display any debugging information.
     ///       --[no-]quarantine        Enable/disable quarantine of downloads.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(
+    private static List<CliOptionDefinition> ParseOptions(
         string helpText,
         IReadOnlyDictionary<string, string> optionTypes)
     {
