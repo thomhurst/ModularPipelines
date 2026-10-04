@@ -282,6 +282,7 @@ public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 PropertyName = propertyName,
                 CSharpType = isMap ? "IReadOnlyList<KeyValue>?" : "string?",
                 Description = description,
+                Availability = description.StartsWith("[teams]", StringComparison.OrdinalIgnoreCase) ? "Flyway Teams" : null,
                 IsFlag = false,
                 IsRequired = false,
                 // List settings are comma-delimited; map entries each need their own argument.
