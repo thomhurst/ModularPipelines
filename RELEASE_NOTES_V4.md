@@ -154,7 +154,9 @@ as complete JSON or other structured data.
 `CommandResult.StandardOutputTruncatedCharacters` and
 `CommandResult.StandardErrorTruncatedCharacters` report omitted characters for each
 stream, including on `CommandException.Result`; zero means none were omitted.
-Truncation also emits a warning naming the capture limit. Raise the limit for large
+Truncation also emits a warning naming the capture limit at effective command
+verbosity `Normal` or higher. `Silent` and `InputOnly` suppress the warning without
+changing the result counts. Raise the limit for large
 results or set it to `0` for unlimited capture, accounting for the memory required.
 Streamed command logging is independent of this capture limit.
 

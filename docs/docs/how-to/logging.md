@@ -191,7 +191,9 @@ capture, not the complete streamed log output.
 Check `StandardOutputTruncatedCharacters` and `StandardErrorTruncatedCharacters`
 before parsing captured JSON or other structured output. Each count is zero when
 that stream is complete. The counts are also available on `CommandException.Result`.
-A warning names the limit and reports both counts when capture truncates output.
+A warning names the limit and reports both counts when capture truncates output
+and effective command verbosity is `Normal`, `Detailed`, or `Diagnostic`.
+`Silent` and `InputOnly` suppress this warning; the result counts remain available.
 
 Raise the limit for commands that produce large results, or use `0` for unlimited
 capture (which retains all output in memory):
