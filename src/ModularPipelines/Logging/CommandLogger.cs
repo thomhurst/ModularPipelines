@@ -34,7 +34,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     public void LogOutputTruncation(CommandLineToolOptions? options, CommandExecutionOptions? execOpts, long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
     {
-        if (GetEffectiveLoggingOptions(options, execOpts).Verbosity == CommandLogVerbosity.Silent)
+        if (GetEffectiveLoggingOptions(options, execOpts).Verbosity < CommandLogVerbosity.Normal)
         {
             return;
         }

@@ -23,6 +23,11 @@ public class CommandLoggerOutputFormattingTests
 
     [Test]
     [Arguments(CommandLogVerbosity.Silent, null, false)]
+    [Arguments(CommandLogVerbosity.InputOnly, null, false)]
+    [Arguments(CommandLogVerbosity.Normal, CommandLogVerbosity.InputOnly, false)]
+    [Arguments(CommandLogVerbosity.InputOnly, CommandLogVerbosity.Normal, true)]
+    [Arguments(CommandLogVerbosity.Normal, null, true)]
+    [Arguments(CommandLogVerbosity.Detailed, null, true)]
     [Arguments(CommandLogVerbosity.Normal, CommandLogVerbosity.Silent, false)]
     [Arguments(CommandLogVerbosity.Silent, CommandLogVerbosity.Normal, true)]
     public async Task TruncationWarningHonorsEffectiveVerbosity(CommandLogVerbosity pipelineVerbosity, CommandLogVerbosity? commandVerbosity, bool expectWarning)
