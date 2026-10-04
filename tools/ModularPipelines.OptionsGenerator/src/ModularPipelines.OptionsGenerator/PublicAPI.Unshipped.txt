@@ -242,3 +242,8 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.YqCliScraper.ApplyOption
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GrypeCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GrypeCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PackerCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.IsSkippableSubcommand(string! subcommand) -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!

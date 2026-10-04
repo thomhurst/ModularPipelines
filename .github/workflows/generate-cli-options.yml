@@ -359,6 +359,20 @@ jobs:
         with:
           gradle-version: 9.8.0
 
+      - name: Install Node.js for npm and npx
+        if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.14.1
+
+      - name: Install pinned npm and npx
+        if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
+        run: |
+          test "$(npm view npm@11.11.0 dist.integrity)" = "sha512-82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw=="
+          npm install -g npm@11.11.0
+          npm --version
+          npx --version
+
       - name: Install pnpm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
         run: |
