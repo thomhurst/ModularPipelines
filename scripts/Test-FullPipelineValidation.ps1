@@ -13,6 +13,7 @@ function Assert-Route {
 
 $corePaths = @(
     'src/ModularPipelines/Engine.cs',
+    'src/ModularPipelines.Removed/Deleted.cs',
     'src/ModularPipelines/ModularPipelines.csproj',
     'src/ModularPipelines.SourceGenerator/Generator.cs',
     'src/ModularPipelines.Analyzers/Analyzer.cs',

@@ -55,6 +55,7 @@ Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/Modular
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true
 Assert-IntegrationRoute 'distributed core tests' @('test/ModularPipelines.Distributed.UnitTests/ChangedTests.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'core-only' @('src/ModularPipelines/Context/Http.cs') @() -ExpectedFull $true
+Assert-IntegrationRoute 'removed package without project consumers' @('src/ModularPipelines.Removed/Deleted.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'docs-only' @('docs/docs/mp-packages/cli/gcloud.md') @()
 Assert-IntegrationRoute 'generator-only' @($generator) @()
 Assert-IntegrationRoute 'main push' @($google) @('ModularPipelines.Google') -EventName push
