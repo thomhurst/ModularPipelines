@@ -406,6 +406,12 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
+        // Help can list a negated flag separately as well as name it on the positive
+        // flag. Coalesce after parsing all sections so declaration order is irrelevant.
+        var negatedSwitches = options.Where(option => option.IsFlag)
+            .Select(option => option.NegatedSwitchName).OfType<string>().ToHashSet(StringComparer.Ordinal);
+        options.RemoveAll(option => option.IsFlag && negatedSwitches.Contains(option.SwitchName));
+
         usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(options));
         var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
         foreach (var (name, argumentGroup) in sections)
@@ -689,7 +695,8 @@ public partial class GcloudCliScraper : CliScraperBase
                          && (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne) || DescribesRequiredBundle(group)),
             IsChoice = isChoice,
             IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
-            Members = members,
+            Members = [.. members.GroupBy(member => member.PropertyName).Select(group =>
+                group.First() with { IsRequired = group.Any(member => member.IsRequired) })],
             Groups = nestedGroups,
         };
     }
@@ -736,7 +743,8 @@ public partial class GcloudCliScraper : CliScraperBase
                 continue;
             }
 
-            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
+            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName
+                || option.NegatedSwitchName == argument.SwitchName);
             if (index >= 0)
             {
                 if (options[index].IsFlag || members.Length > 1)
@@ -774,6 +782,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         return options.Where(option => option.SwitchName == argument.SwitchName
+                || option.NegatedSwitchName == argument.SwitchName
                 || (option.IsGeneratedNegation && option.IsFlag && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
             .Select(option => new CliRequiredAlternativeMember
             {
