@@ -49,13 +49,13 @@ public record DotNetTestOptions : DotNetOptions
     /// The path to the custom adapters to use for the test run.
     /// </summary>
     [CliOption("--test-adapter-path")]
-    public string? TestAdapterPath { get; set; }
+    public IEnumerable<string>? TestAdapterPath { get; set; }
 
     /// <summary>
     /// The logger to use for test results. Examples: Log in trx format using a unique file name: --logger trx Log in trx format using the specified file name: --logger "trx;LogFileName=&lt;TestResults.trx&gt;" See https://aka.ms/vstest-report for more information on logger arguments.
     /// </summary>
     [CliOption("--logger", ShortForm = "-l")]
-    public string? Logger { get; set; }
+    public IEnumerable<string>? Logger { get; set; }
 
     /// <summary>
     /// The output directory to place built artifacts in.
@@ -91,7 +91,7 @@ public record DotNetTestOptions : DotNetOptions
     /// The friendly name of the data collector to use for the test run. More info here: https://aka.ms/vstest-collect
     /// </summary>
     [CliOption("--collect")]
-    public string? Collect { get; set; }
+    public IEnumerable<string>? Collect { get; set; }
 
     /// <summary>
     /// Runs the tests in blame mode. This option is helpful in isolating problematic tests that cause the test host to crash or hang, but it does not create a memory dump by default.

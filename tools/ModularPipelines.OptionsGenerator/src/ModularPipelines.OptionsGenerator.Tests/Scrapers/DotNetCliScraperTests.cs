@@ -34,6 +34,23 @@ public class DotNetCliScraperTests
     }
 
     [Test]
+    [Arguments("test", "--logger", true)]
+    [Arguments("test", "--collect", true)]
+    [Arguments("test", "--test-adapter-path", true)]
+    [Arguments("test", "--settings", false)]
+    [Arguments("build", "--logger", false)]
+    public async Task VSTest_Repeatable_Options_Are_Collections(string subcommand, string switchName, bool repeatable)
+    {
+        var command = await new TestDotNetCliScraper().Parse(["dotnet", subcommand],
+            $"Options:\n  {switchName} <VALUE>  Select a value.\n");
+        var option = command!.Options.Single(option => option.SwitchName == switchName);
+
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(repeatable);
+        await Assert.That(option.CSharpType).IsEqualTo(repeatable ? "IEnumerable<string>?" : "string?");
+        await Assert.That(option.IsFlag).IsFalse();
+    }
+
+    [Test]
     [Arguments("--ucr, --use-current-runtime", "--use-current-runtime", null, "UseCurrentRuntime", true)]
     [Arguments("--use-current-runtime, --ucr", "--use-current-runtime", null, "UseCurrentRuntime", true)]
     [Arguments("--sc, --self-contained", "--self-contained", null, "SelfContained", true)]
