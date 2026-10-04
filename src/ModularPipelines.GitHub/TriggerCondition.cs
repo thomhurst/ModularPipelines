@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 public record TriggerCondition
 {

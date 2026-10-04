@@ -36,3 +36,21 @@ public class UseAzurePipelineModule : SyncModule<None>
     }
 }
 ```
+
+
+## V4 migration
+
+`AzurePipelineExtensions` now uses the `ModularPipelines.Azure.Pipelines` namespace.
+Replace imports of `.Extensions` with that package root namespace. The public
+`RegisterAzurePipelineContext` method remains available for generated registration and
+is hidden from IntelliSense.
+
+Read Azure environment values through `context.Tools.AzurePipeline.EnvironmentVariables`
+instead of `Variables`, matching the TeamCity and GitHub context member name. Use the
+shared build-system context instead of the removed `IsRunningOnAzurePipelines` property:
+
+```csharp
+using ModularPipelines.Enums;
+
+var isAzurePipelines = context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines);
+```

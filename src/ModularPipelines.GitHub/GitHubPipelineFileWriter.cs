@@ -2,7 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {

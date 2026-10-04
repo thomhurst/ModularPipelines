@@ -766,3 +766,18 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Handwritten build-system integration APIs
+
+Handwritten GitHub types, including workflow models and condition attributes, now use
+`ModularPipelines.GitHub`. TeamCity and Azure Pipelines extension types also move to their
+package root namespaces. Update imports; the generated `gh` CLI namespaces are unchanged.
+
+- Use `AddDistributedWorkflow(...)` instead of `WriteDistributedWorkflow(...)` on the builder.
+- `SkipIfNoGitHubToken` becomes `SkipIfNoGitHubTokenAttribute`; the short attribute syntax
+  `[SkipIfNoGitHubToken]` remains valid.
+- `IAzurePipeline.Variables` becomes `EnvironmentVariables`, matching TeamCity and GitHub.
+  Replace `IsRunningOnAzurePipelines` with `context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines)`
+  (`BuildSystem` is in `ModularPipelines.Enums`).
+- Handwritten `Register*Context` methods remain public for generated registration and are
+  hidden from IntelliSense.

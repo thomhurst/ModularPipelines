@@ -6,7 +6,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Attributes;
-using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 

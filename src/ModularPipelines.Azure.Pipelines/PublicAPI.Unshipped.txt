@@ -1,2 +1,9 @@
 #nullable enable
 *REMOVED*static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.AzurePipeline(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Azure.Pipelines.IAzurePipeline!
+*REMOVED*ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions
+ModularPipelines.Azure.Pipelines.AzurePipelineExtensions
+*REMOVED*ModularPipelines.Azure.Pipelines.IAzurePipeline.IsRunningOnAzurePipelines.get -> bool
+*REMOVED*ModularPipelines.Azure.Pipelines.IAzurePipeline.Variables.get -> ModularPipelines.Azure.Pipelines.AzurePipelineVariables!
+ModularPipelines.Azure.Pipelines.IAzurePipeline.EnvironmentVariables.get -> ModularPipelines.Azure.Pipelines.AzurePipelineVariables!
+*REMOVED*static ModularPipelines.Azure.Pipelines.Extensions.AzurePipelineExtensions.RegisterAzurePipelineContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Azure.Pipelines.AzurePipelineExtensions.RegisterAzurePipelineContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

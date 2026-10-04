@@ -5,7 +5,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.GitHub;
-using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.TestHelpers;
 using Moq;
 using ModularPipelines.Enums;

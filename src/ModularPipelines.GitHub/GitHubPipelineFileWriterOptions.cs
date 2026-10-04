@@ -1,6 +1,6 @@
 using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 public record GitHubPipelineFileWriterOptions
 {
