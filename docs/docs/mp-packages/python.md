@@ -61,6 +61,9 @@ and repeat their switch for each value. When migrating a single string initializ
 wrap it in a collection expression. `Proxy` URLs are masked in command logs.
 Install options such as `Target` and Package Index Options such as `IndexUrl`
 remain command-specific and render after `install`.
+Dependency groups are repeatable on install, download, wheel, and lock commands:
+`Group = ["development", "testing"]` renders two `--group` switches and can serve
+as the command's complete input source.
 
 The generated API reflects pip 25.3 and includes `LockAsync`. See the
 [pip CLI reference](./cli/pip.md) for the complete command and global-option list.
