@@ -33,7 +33,7 @@ public sealed class RepeatedSkipWhenAnalyzer : DiagnosticAnalyzer
             nameof(Resources.RepeatedSkipWhenAnalyzerTitle),
             nameof(Resources.RepeatedSkipWhenAnalyzerMessageFormat),
             nameof(Resources.RepeatedSkipWhenAnalyzerDescription),
-            severity: DiagnosticSeverity.Info);
+            severity: DiagnosticSeverity.Warning);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 

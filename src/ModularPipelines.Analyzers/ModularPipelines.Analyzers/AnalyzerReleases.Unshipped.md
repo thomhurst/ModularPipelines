@@ -19,7 +19,7 @@ MP0016 | Usage | Warning | ExecuteAsync cancellation token is not flowed
 MP0017 | Usage | Warning | Thread.Sleep in ExecuteAsync
 MP0018 | Usage | Warning | Module class is not public
 MP0019 | Usage | Warning | Duplicate DependsOn declaration
-MP0020 | Usage | Info | Repeated WithSkipWhen calls on one module configuration builder are OR-ed
+MP0020 | Usage | Warning | Repeated WithSkipWhen calls on one module configuration builder are OR-ed
 MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
 MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
