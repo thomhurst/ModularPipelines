@@ -85,6 +85,6 @@ public class FailedPipelineTests : TestBase
                 .AddModule<Module1>()
                 .AddModule<Module3>()
                 .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 }

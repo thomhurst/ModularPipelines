@@ -2592,7 +2592,7 @@ public class RunReportTests
             using (Assert.Multiple())
             {
                 await Assert.That(report.Status).IsEqualTo(ModuleStatus.Failed);
-                await Assert.That(report.TotalDuration).IsEqualTo(summary.TotalDuration);
+                await Assert.That(report.TotalDuration).IsEqualTo(summary.Duration);
                 await Assert.That(report.Modules).IsEmpty();
                 await Assert.That(persisted!.Status).IsEqualTo(ModuleStatus.Failed);
                 await Assert.That(persisted.Modules).IsEmpty();
@@ -2939,7 +2939,7 @@ public class RunReportTests
             using (Assert.Multiple())
             {
                 await Assert.That(report.End).IsGreaterThanOrEqualTo(DelayedEndHook.CompletedAt);
-                await Assert.That(report.TotalDuration).IsEqualTo(summary.TotalDuration);
+                await Assert.That(report.TotalDuration).IsEqualTo(summary.Duration);
                 await Assert.That(report.TotalDuration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(100));
                 await Assert.That(report.Metrics.WallClockDuration).IsEqualTo(report.TotalDuration);
                 await Assert.That(report.Metrics.ParallelismFactor).IsEqualTo(expectedParallelism);

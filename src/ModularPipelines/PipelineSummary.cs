@@ -5,7 +5,7 @@ using ModularPipelines.Reporting;
 
 namespace ModularPipelines;
 
-public record PipelineSummary
+public sealed record PipelineSummary
 {
     /// <summary>
     /// Gets the modules that are part of the pipeline.
@@ -30,19 +30,19 @@ public record PipelineSummary
     /// Gets how long the pipeline took to run.
     /// </summary>
     [JsonInclude]
-    public TimeSpan TotalDuration { get; private init; }
+    public TimeSpan Duration { get; private init; }
 
     /// <summary>
     /// Gets when the pipeline started.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset Start { get; private init; }
+    public DateTimeOffset StartTime { get; private init; }
 
     /// <summary>
     /// Gets when the pipeline finished.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset End { get; private init; }
+    public DateTimeOffset EndTime { get; private init; }
 
     /// <summary>
     /// Gets the execution metrics for the pipeline.
@@ -86,6 +86,20 @@ public record PipelineSummary
     public IReadOnlyList<IModuleResult> IgnoredFailures =>
         [.. Results.Where(result => result.Status == ModuleStatus.FailureIgnored)];
 
+    /// <summary>
+    /// Gets whether the pipeline completed successfully without any unignored failures.
+    /// </summary>
+    /// <remarks>
+    /// Skipped, cached, and ignored-failure module results do not prevent success.
+    /// Incomplete, failed, and canceled runs are not successful.
+    /// </remarks>
+    [JsonInclude]
+    public bool Succeeded
+    {
+        get => Status == ModuleStatus.Succeeded;
+        private init => StatusOverride = value ? ModuleStatus.Succeeded : ModuleStatus.Failed;
+    }
+
     [JsonIgnore]
     internal ModuleStatus? StatusOverride { get; init; }
 
@@ -100,9 +114,9 @@ public record PipelineSummary
     {
         Modules = modules ?? [];
         Results = results ?? [];
-        TotalDuration = totalDuration;
-        Start = start;
-        End = end;
+        Duration = totalDuration;
+        StartTime = start;
+        EndTime = end;
         Metrics = metrics;
         ModuleTimelines = moduleTimelines;
     }
@@ -110,19 +124,20 @@ public record PipelineSummary
     [JsonConstructor]
     internal PipelineSummary(
         IReadOnlyList<IModuleResult> results,
-        TimeSpan totalDuration,
-        DateTimeOffset start,
-        DateTimeOffset end,
+        TimeSpan duration,
+        DateTimeOffset startTime,
+        DateTimeOffset endTime,
         PipelineMetrics? metrics = null,
         IReadOnlyList<ModuleTimeline>? moduleTimelines = null)
-        : this([], results, totalDuration, start, end, metrics, moduleTimelines)
+        : this([], results, duration, startTime, endTime, metrics, moduleTimelines)
     {
     }
 
     /// <summary>
     /// Gets the status of the pipeline.
     /// </summary>
-    public ModuleStatus Status
+    [JsonIgnore]
+    internal ModuleStatus Status
     {
         get
         {
@@ -136,7 +151,19 @@ public record PipelineSummary
                 return ModuleStatus.Failed;
             }
 
+            if (Results.Any(result => result.Status == ModuleStatus.Canceled))
+            {
+                return ModuleStatus.Canceled;
+            }
+
+            if (Results.Any(result => result.Status is ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.DependencyFailed))
+            {
+                return ModuleStatus.Failed;
+            }
+
             return Results.Count == Modules.Count
+                && Results.All(result => result.Status is ModuleStatus.Succeeded or ModuleStatus.Skipped
+                    or ModuleStatus.RestoredFromCache or ModuleStatus.RestoredFromHistory or ModuleStatus.FailureIgnored)
                 ? ModuleStatus.Succeeded
                 : ModuleStatus.Unknown;
         }

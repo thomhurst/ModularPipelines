@@ -11,6 +11,18 @@ namespace ModularPipelines.UnitTests.Models;
 
 public class PipelineSummaryTests
 {
+    [Test]
+    public async Task Public_Contract_Uses_Sealed_Summary_And_Consistent_Timing()
+    {
+        var type = typeof(PipelineSummary);
+        await Assert.That(type.IsSealed).IsTrue();
+        await Assert.That(type.GetProperty("Status")).IsNull();
+        foreach (var property in new[] { "StartTime", "EndTime", "Duration", "Succeeded" })
+        {
+            await Assert.That(type.GetProperty(property)).IsNotNull();
+        }
+    }
+
     private sealed class UnfinishedModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(
@@ -42,7 +54,7 @@ public class PipelineSummaryTests
         {
             await Assert.That(summary.Modules).Count().IsEqualTo(1);
             await Assert.That(summary.Results).IsEmpty();
-            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Unknown);
+            await Assert.That(summary.Succeeded).IsFalse();
         }
     }
 
@@ -66,7 +78,7 @@ public class PipelineSummaryTests
         {
             await Assert.That(summary.Failures).IsEquivalentTo([failed, timedOut]);
             await Assert.That(summary.IgnoredFailures).IsEquivalentTo([ignored]);
-            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(summary.Succeeded).IsFalse();
         }
     }
 
@@ -82,6 +94,46 @@ public class PipelineSummaryTests
             await Assert.That(summary.Failures).IsEmpty();
             await Assert.That(summary.IgnoredFailures).Count().IsEqualTo(1);
         }
+    }
+
+    [Test]
+    [Arguments(ModuleStatus.Succeeded, true)]
+    [Arguments(ModuleStatus.Skipped, true)]
+    [Arguments(ModuleStatus.RestoredFromCache, true)]
+    [Arguments(ModuleStatus.RestoredFromHistory, true)]
+    [Arguments(ModuleStatus.FailureIgnored, true)]
+    [Arguments(ModuleStatus.Failed, false)]
+    [Arguments(ModuleStatus.TimedOut, false)]
+    [Arguments(ModuleStatus.Canceled, false)]
+    [Arguments(ModuleStatus.DependencyFailed, false)]
+    [Arguments(ModuleStatus.NotStarted, false)]
+    [Arguments(ModuleStatus.Running, false)]
+    [Arguments(ModuleStatus.Unknown, false)]
+    public async Task Success_Requires_Accepted_Terminal_Results(ModuleStatus status, bool expected)
+    {
+        var result = CreateResult(status, status == ModuleStatus.FailureIgnored ? new Exception("ignored") : null);
+        var start = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([new UnfinishedModule()], [result], TimeSpan.FromSeconds(2), start, start.AddSeconds(2));
+
+        await Assert.That(summary.Succeeded).IsEqualTo(expected);
+        var json = System.Text.Json.JsonSerializer.Serialize(summary);
+        var restored = System.Text.Json.JsonSerializer.Deserialize<PipelineSummary>(json)!;
+        await Assert.That(restored.Succeeded).IsEqualTo(expected);
+        await Assert.That(restored.StartTime).IsEqualTo(summary.StartTime);
+        await Assert.That(restored.EndTime).IsEqualTo(summary.EndTime);
+        await Assert.That(restored.Duration).IsEqualTo(summary.Duration);
+        await Assert.That(json).DoesNotContain("\"Status\"");
+    }
+
+    [Test]
+    public async Task Pipeline_Failure_Overrides_Successful_Module_Results()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([new UnfinishedModule()], [CreateResult(ModuleStatus.Succeeded, null)], TimeSpan.Zero, now, now)
+        {
+            StatusOverride = ModuleStatus.Failed,
+        };
+        await Assert.That(summary.Succeeded).IsFalse();
     }
 
     private static IModuleResult CreateResult(ModuleStatus status, Exception? exception)

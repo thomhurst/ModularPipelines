@@ -127,7 +127,7 @@ public class AlwaysRunTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(summary.Succeeded).IsFalse();
             await Assert.That(alwaysRunResult).IsNotNull();
             await Assert.That(alwaysRunResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         }

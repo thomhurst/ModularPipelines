@@ -663,7 +663,7 @@ public class EngineCancellationTokenTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Failed);
+            await Assert.That(summary.Succeeded).IsFalse();
             await Assert.That(dependentResult).IsNotNull();
             await Assert.That(dependentResult!.Status).IsEqualTo(ModuleStatus.DependencyFailed);
             await Assert.That(dependentTimeline.Status).IsEqualTo(ModuleStatus.DependencyFailed);
@@ -886,7 +886,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var completingModuleResult = resultRegistry.GetResult(typeof(WaitForAllCompletingModule));
         var pendingModuleResult = resultRegistry.GetResult(typeof(WaitForAllPendingModule));
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Failed);
+        await Assert.That(pipelineSummary.Succeeded).IsFalse();
         await Assert.That(completingModuleResult).IsNotNull();
         await Assert.That(completingModuleResult!.Status).IsEqualTo(ModuleStatus.Succeeded);
         await Assert.That(pendingModuleResult).IsNotNull();

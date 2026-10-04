@@ -100,6 +100,18 @@ copy/move destinations still use the process directory. For pipeline-relative
 paths, use `context.Files.GetFile` or `GetFolder` and pass their absolute `Path`
 to destination parameters. See the [relative-path migration guidance](docs/docs/how-to/relative-paths.md).
 
+## Pipeline summary contract
+
+`PipelineSummary` is now sealed. Its timing properties match the other result types:
+`Start` becomes `StartTime`, `End` becomes `EndTime`, and `TotalDuration` becomes `Duration`.
+The JSON property names change with them.
+
+Replace comparisons against `PipelineSummary.Status` with `summary.Succeeded` (or
+`!summary.Succeeded`). Success means the pipeline completed without unignored failures;
+skipped, cached, restored, and ignored-failure results permit success. Incomplete, failed,
+and canceled runs are not successful. `Failures` and `IgnoredFailures` provide module-level
+details. The success value survives JSON serialization even though module results are omitted.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2

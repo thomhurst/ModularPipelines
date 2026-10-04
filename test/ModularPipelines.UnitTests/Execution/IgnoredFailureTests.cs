@@ -45,7 +45,7 @@ public class IgnoredFailureTests : TestBase
             await Assert.That(moduleResult.ExceptionOrDefault).IsNotNull();
             await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
             await Assert.That(pipelineSummary.Results).Count().IsEqualTo(1);
-            await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(pipelineSummary.Succeeded).IsTrue();
         }
     }
 }

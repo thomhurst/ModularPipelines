@@ -62,7 +62,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
             .AddModule<Module2WithRequiredDep>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         // Module1 was auto-registered
         await Assert.That(pipelineSummary.Modules.Count()).IsEqualTo(2);
     }

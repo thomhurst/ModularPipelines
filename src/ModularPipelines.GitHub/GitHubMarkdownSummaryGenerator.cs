@@ -179,9 +179,9 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
                 }
             ).ToList();
 
-        var isSameDay = pipelineSummary.Start.Date == pipelineSummary.End.Date;
-        var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.Start, pipelineSummary.End, pipelineSummary.TotalDuration);
-        var pipelineStatusString = GetStatusString(pipelineSummary.Status);
+        var isSameDay = pipelineSummary.StartTime.Date == pipelineSummary.EndTime.Date;
+        var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.StartTime, pipelineSummary.EndTime, pipelineSummary.Duration);
+        var pipelineStatusString = GetStatusString(pipelineSummary.Succeeded ? ModuleStatus.Succeeded : ModuleStatus.Failed);
         var overallSummaryString = $"| **Total** | **{pipelineStatusString}** | **{GetTime(globalStartTime, isSameDay)}** | **{GetTime(globalEndTime, isSameDay)}** | **{globalDuration}** |";
         var text = $"""
                     ### Run Summary
