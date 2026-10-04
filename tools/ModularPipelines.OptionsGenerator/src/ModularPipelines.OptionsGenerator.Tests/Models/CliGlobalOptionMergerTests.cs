@@ -182,6 +182,25 @@ public class CliGlobalOptionMergerTests
             .And.HasMessageContaining("--no-feature");
     }
 
+    [Test]
+    public async Task Merge_Preserves_Case_Sensitive_Short_Aliases()
+    {
+        var merged = CliGlobalOptionMerger.Merge(
+            [Option("--verbose", "Verbose") with { ShortForm = "-v" }],
+            [Option("--version", "Version") with { ShortForm = "-V" }]);
+
+        await Assert.That(merged.Select(option => option.ShortForm!)).IsEquivalentTo(["-v", "-V"]);
+    }
+
+    [Test]
+    public async Task Merge_Rejects_Changing_The_Case_Of_An_Existing_Alias()
+    {
+        await Assert.That(() => CliGlobalOptionMerger.Merge(
+                [Option("--verbose", "Verbose") with { ShortForm = "-v" }],
+                [Option("--verbose", "Verbose") with { ShortForm = "-V" }]))
+            .Throws<InvalidOperationException>();
+    }
+
     private static CliOptionDefinition Option(string switchName, string propertyName) => new()
     {
         SwitchName = switchName,

@@ -9,6 +9,75 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PipCliScraperTests
 {
     [Test]
+    [Arguments("--debug", true, false)]
+    [Arguments("--isolated", true, false)]
+    [Arguments("--require-virtualenv", true, false)]
+    [Arguments("--disable-pip-version-check", true, false)]
+    [Arguments("--python", false, false)]
+    [Arguments("--keyring-provider", false, false)]
+    [Arguments("--resume-retries", false, false)]
+    [Arguments("--trusted-host", false, true)]
+    [Arguments("--exists-action", false, true)]
+    [Arguments("--use-feature", false, true)]
+    [Arguments("--use-deprecated", false, true)]
+    public async Task Captured_General_Options_Preserve_Arity_And_Repeated_Values(string name, bool isFlag, bool repeated)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "pip-25.3-root-help.txt"));
+        var options = new TestPipCliScraper().ParseGlobals(help);
+        var option = options.Single(option => option.SwitchName == name);
+        await Assert.That(option.IsFlag).IsEqualTo(isFlag);
+        await Assert.That(option.AcceptsMultipleValues).IsEqualTo(repeated);
+    }
+
+    [Test]
+    public async Task Global_Options_Do_Not_Promote_Command_Specific_Sections()
+    {
+        var options = new TestPipCliScraper().ParseGlobals("""
+            General Options:
+              --proxy <proxy>       Specify scheme://[user:passwd@]proxy.server:port.
+              -v, --verbose         Give more output.
+
+            Install Options:
+              --target <dir>        Install packages into a directory.
+
+            Package Index Options:
+              --index-url <url>     Base URL of Python Package Index.
+            """);
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(["--proxy", "--verbose"]);
+        await Assert.That(options.Single(option => option.SwitchName == "--proxy").IsSecret).IsTrue();
+        await Assert.That(options.Single(option => option.SwitchName == "--verbose").ShortForm).IsEqualTo("-v");
+    }
+
+    [Test]
+    public async Task Scrape_Emits_General_Options_Once_And_Keeps_Install_Options_Local()
+    {
+        var rootHelp = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "pip-25.3-root-help.txt"));
+        var installHelp = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "pip-25.3-install-help.txt"));
+        rootHelp = "Usage: pip <command> [options]\n\nCommands:\n  install    Install packages.\n\n"
+            + rootHelp[rootHelp.IndexOf("General Options:", StringComparison.Ordinal)..];
+        var scraper = new PipCliScraper(new RequirementHelpExecutor("install", installHelp, rootHelp),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<PipCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        await Assert.That(tool.Errors).IsEmpty();
+        var install = commands.Single(command => command.FullCommand == "pip install");
+        await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName)).Contains("--proxy");
+        await Assert.That(install.Options.Select(option => option.SwitchName)).DoesNotContain("--proxy");
+        await Assert.That(install.Options.Select(option => option.SwitchName)).Contains("--target");
+        await Assert.That(install.Options.Select(option => option.SwitchName)).Contains("--index-url");
+        var baseClass = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        var leafClass = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(baseClass).Contains("[CliGlobalOptions]");
+        await Assert.That(baseClass).Contains(" Proxy { get; set; }");
+        await Assert.That(leafClass).DoesNotContain(" Proxy { get; set; }");
+    }
+
+    [Test]
     [Arguments("uninstall", "Package")]
     [Arguments("wheel", "RequirementSpecifier")]
     [Arguments("lock", "LocalProjectPath")]
@@ -143,7 +212,7 @@ public class PipCliScraperTests
         }
     }
 
-    private sealed class RequirementHelpExecutor(string verb, string help) : ICliCommandExecutor
+    private sealed class RequirementHelpExecutor(string verb, string help, string? rootHelp = null) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
             CancellationToken cancellationToken = default, string? workingDirectory = null) =>
@@ -153,7 +222,7 @@ public class PipCliScraperTests
                 StandardError = string.Empty,
                 StandardOutput = arguments switch
                 {
-                    "--help" => $"Usage: pip <command> [options]\n\nCommands:\n  {verb}    Run the pip command.\n",
+                    "--help" => rootHelp ?? $"Usage: pip <command> [options]\n\nCommands:\n  {verb}    Run the pip command.\n",
                     _ when arguments == $"{verb} --help" => help,
                     _ => throw new InvalidOperationException($"Unexpected pip invocation: {arguments}"),
                 },
@@ -169,6 +238,8 @@ public class PipCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<PipCliScraper>.Instance)
     {
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,
