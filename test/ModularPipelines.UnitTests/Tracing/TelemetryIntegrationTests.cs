@@ -614,9 +614,9 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
-    [Arguments("Failed")]
-    [Arguments("TimedOut")]
-    public async Task Failed_Module_Status_Increments_Failure_Counter(string status)
+    [Arguments(ModuleStatus.Failed)]
+    [Arguments(ModuleStatus.TimedOut)]
+    public async Task Failed_Module_Status_Increments_Failure_Counter(ModuleStatus status)
     {
         var measurements = new ConcurrentBag<(string Name, double Value)>();
         using var listener = CreateMeterListener(measurements);
@@ -668,16 +668,16 @@ public class TelemetryIntegrationTests
     {
         var measurements = new ConcurrentBag<(string Name, double Value)>();
         using var listener = CreateMeterListener(measurements);
-        ModuleActivityTracing.RecordModuleMetrics(typeof(CommandModule), "Failed", TimeSpan.Zero);
+        ModuleActivityTracing.RecordModuleMetrics(typeof(CommandModule), ModuleStatus.Failed, TimeSpan.Zero);
         await Assert.That(measurements.Single(measurement => measurement.Name == "modular_pipelines.module.failed").Value).IsEqualTo(1);
     }
 
     [Test]
-    [Arguments("Succeeded", "succeeded")]
-    [Arguments("FailureIgnored", "failure_ignored")]
-    [Arguments("DependencyFailed", "dependency_failed")]
-    [Arguments("RestoredFromHistory", "restored_from_history")]
-    public async Task Pipeline_And_Metric_Status_Attributes_Use_Snake_Case(string status, string expected)
+    [Arguments(ModuleStatus.Succeeded, "succeeded")]
+    [Arguments(ModuleStatus.FailureIgnored, "failure_ignored")]
+    [Arguments(ModuleStatus.DependencyFailed, "dependency_failed")]
+    [Arguments(ModuleStatus.RestoredFromHistory, "restored_from_history")]
+    public async Task Pipeline_And_Metric_Status_Attributes_Use_Snake_Case(ModuleStatus status, string expected)
     {
         var activities = new ConcurrentBag<Activity>();
         using var activityListener = CreateActivityListener(activities);
@@ -710,6 +710,25 @@ public class TelemetryIntegrationTests
 
         await Assert.That(activity!.GetTagItem(PipelineTelemetry.PipelineStatusTag)).IsEqualTo(expected);
         await Assert.That(metricStatus).IsEqualTo(expected);
+    }
+
+    private sealed class IgnoredFailureModule : Module<bool>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithIgnoreFailures();
+
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Ignored failure");
+    }
+
+    [Test]
+    public async Task Ignored_Failure_Span_Uses_Snake_Case()
+    {
+        var activities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(activities);
+        await TestPipelineBuilder.Create().AddModule<IgnoredFailureModule>().RunAsync();
+        var activity = activities.Single(value => value.OperationName == $"Module.{nameof(IgnoredFailureModule)}");
+        await Assert.That(activity.GetTagItem(PipelineTelemetry.ModuleStatusTag)).IsEqualTo("failure_ignored");
+        await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Ok);
     }
 
     private static ActivityListener CreateActivityListener(ConcurrentBag<Activity> stoppedActivities)

@@ -963,7 +963,7 @@ internal class ModuleRunner : IModuleRunner
             _moduleEstimatedTimeProvider);
 
         var telemetryStart = Stopwatch.GetTimestamp();
-        var telemetryStatus = "Failed";
+        var telemetryStatus = ModuleStatus.Failed;
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
         executionContext.ModuleActivity = activity;
 
@@ -985,33 +985,32 @@ internal class ModuleRunner : IModuleRunner
             // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == ModuleStatus.Skipped)
             {
-                telemetryStatus = "Skipped";
+                telemetryStatus = ModuleStatus.Skipped;
                 ModuleActivityTracing.RecordSkipped(activity);
             }
             else if (executionContext.Status == ModuleStatus.FailureIgnored)
             {
-                telemetryStatus = ModuleStatus.FailureIgnored.ToString();
-                activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
-                activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
+                telemetryStatus = ModuleStatus.FailureIgnored;
+                ModuleActivityTracing.RecordFailureIgnored(activity);
             }
             else if (executionContext.Status == ModuleStatus.RestoredFromHistory)
             {
-                telemetryStatus = ModuleStatus.RestoredFromHistory.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromHistory;
                 ModuleActivityTracing.RecordRestoredFromHistory(activity);
             }
             else if (executionContext.Status == ModuleStatus.RestoredFromCache)
             {
-                telemetryStatus = ModuleStatus.RestoredFromCache.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromCache;
                 ModuleActivityTracing.RecordRestoredFromCache(activity);
             }
             else if (executionContext.Status == ModuleStatus.Canceled)
             {
-                telemetryStatus = ModuleStatus.Canceled.ToString();
+                telemetryStatus = ModuleStatus.Canceled;
                 ModuleActivityTracing.RecordCanceled(activity);
             }
             else
             {
-                telemetryStatus = ModuleStatus.Succeeded.ToString();
+                telemetryStatus = ModuleStatus.Succeeded;
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
@@ -1020,7 +1019,7 @@ internal class ModuleRunner : IModuleRunner
             var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
             if (executionContext.Status == ModuleStatus.TimedOut)
             {
-                telemetryStatus = "TimedOut";
+                telemetryStatus = ModuleStatus.TimedOut;
                 ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
             }
             else
