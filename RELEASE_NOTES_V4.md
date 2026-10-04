@@ -665,3 +665,17 @@ now reject conflicting backends in either registration order. Direct registratio
 silently removes an earlier factory, and two different direct stores cannot be selected together.
 Choose one registration at the call site. Repeating the same typed registration is a no-op;
 keyed services and the default filesystem fallback are unchanged.
+
+## Generated CLI operand names
+
+Generated identifiers beginning with a digit now use a `Number` prefix. For example,
+`_404Document` becomes `Number404Document`; the emitted CLI switch remains
+`--404-document`. Current Azure CLI help no longer exposes the static website options
+on `storage account blob-service-properties update`; use the supported storage service
+commands instead.
+
+Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` produce one collection.
+`KubernetesLabelOptions` now takes one `Labels` collection instead of `Key_1Val_1`
+and `KeyNValN`. Label and annotate options expose `Type` and `Name` for resource
+selection, alongside the existing file and selector options. Patch and scale also
+recover their resource operands from the same generic alternative parser.

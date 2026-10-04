@@ -590,6 +590,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             usage = NormalizeUsageSynopsis(command, usage);
             usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
+            usage = usage with
+            {
+                RequiredAlternativeGroups = NormalizeRequiredAlternativeGroups(command, usage.RequiredAlternativeGroups),
+            };
             var requiredAlternatives = ResolveRequiredAlternativeGroups(command, usage);
             usage = RemoveIgnoredOptionValues(usage, command.Options);
             command = command with
@@ -1060,6 +1064,12 @@ public abstract partial class CliScraperBase : ICliScraper
         CliCommandDefinition command,
         UsageSynopsisParseResult usage) =>
         usage;
+
+    /// <summary>
+    /// Refines usage choices after option-value resolution has rebuilt their members.
+    /// </summary>
+    protected virtual IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) => groups;
 
     private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
         CliCommandDefinition command,

@@ -196,11 +196,11 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PatchAsync(
-        KubernetesPatchOptions? options = null,
+        KubernetesPatchOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesPatchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -232,11 +232,11 @@ internal partial class Kubernetes : IKubernetes
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ScaleAsync(
-        KubernetesScaleOptions? options = null,
+        KubernetesScaleOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new KubernetesScaleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

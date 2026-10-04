@@ -133,28 +133,4 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     [CliFlag("--restore-days")]
     public bool? RestoreDays { get; set; }
 
-    /// <summary>
-    /// The absolute path to a webpage that Azure Storage serves for requests that don't correspond to an existing file. The contents of the page are returned with HTTP 404 Not Found. Only a single custom 404 page is supported in each static website.
-    /// </summary>
-    [CliFlag("--404-document", ShortForm = "--error-document-404-path")]
-    public bool? _404Document { get; set; }
-
-    /// <summary>
-    /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case- sensitive.
-    /// </summary>
-    [CliFlag("--default-index", ShortForm = "--default-index-document-path")]
-    public bool? DefaultIndex { get; set; }
-
-    /// <summary>
-    /// Indicates whether static website support is enabled for the specified account.  Allowed values: false, true.
-    /// </summary>
-    [CliOption("--enable-static-website")]
-    public bool? EnableStaticWebsite { get; set; }
-
-    /// <summary>
-    /// The webpage that Azure Storage serves for requests to the root of a website or any subfolder (for example, index.html).
-    /// </summary>
-    [CliFlag("--index-document")]
-    public bool? IndexDocument { get; set; }
-
 }

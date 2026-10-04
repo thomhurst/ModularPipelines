@@ -98,6 +98,8 @@ public class KubectlCliScraperTests
 
         var annotations = command!.PositionalArguments.Single(argument =>
             argument.PropertyName == "Annotations");
+        await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName).ToArray())
+            .IsEquivalentTo(["Type", "Name", "Annotations"]);
         await Assert.That(annotations.IsRequired).IsTrue();
         await Assert.That(annotations.IsValidationRequired).IsFalse();
     }
@@ -243,15 +245,15 @@ public class KubectlCliScraperTests
             ["kubectl", "label"],
             helpText);
 
-        var labels = command!.PositionalArguments.Single(argument => argument.PropertyName == "Key_1Val_1");
-        var trailingLabel = command.PositionalArguments.Single(argument => argument.PropertyName == "KeyNValN");
+        var labels = command!.PositionalArguments.Single(argument => argument.PropertyName == "Labels");
         using (Assert.Multiple())
         {
             await Assert.That(labels.IsRequired).IsTrue();
             await Assert.That(labels.IsValidationRequired).IsFalse();
             await Assert.That(labels.IsVariadic).IsTrue();
             await Assert.That(labels.CSharpType).IsEqualTo("IEnumerable<string>");
-            await Assert.That(trailingLabel.IsValidationRequired).IsFalse();
+            await Assert.That(command.PositionalArguments.Select(argument => argument.PropertyName).ToArray())
+                .IsEquivalentTo(["Type", "Name", "Labels"]);
             await Assert.That(command.PositionalArguments.Count(argument =>
                 argument.IsValidationRequired ?? argument.IsRequired))
                 .IsEqualTo(0);

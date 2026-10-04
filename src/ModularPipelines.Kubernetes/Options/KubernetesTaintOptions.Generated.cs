@@ -26,7 +26,7 @@ public record KubernetesTaintOptions : KubernetesOptions
     /// </summary>
     /// <param name="Node">The NODE operand.</param>
     /// <param name="Name">The NAME operand.</param>
-    /// <param name="Taints">The KEY_1=VAL_1:TAINT_EFFECT_1 operand.</param>
+    /// <param name="Taints">The KEY=VAL:TAINT_EFFECT operand.</param>
     public KubernetesTaintOptions(
         string Node,
         string? Name,
@@ -131,7 +131,7 @@ public record KubernetesTaintOptions : KubernetesOptions
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The KEY_1=VAL_1:TAINT_EFFECT_1 operand.
+    /// The KEY=VAL:TAINT_EFFECT operand.
     /// </summary>
     [CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)]
     public IEnumerable<string> Taints { get; private init; }

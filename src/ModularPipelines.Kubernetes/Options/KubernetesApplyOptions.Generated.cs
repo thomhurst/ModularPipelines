@@ -53,7 +53,7 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     public string? FieldManager { get; set; }
 
     /// <summary>
-    /// The files, directories or URLs that contain the configurations to apply.
+    /// The files that contain the configurations to apply.
     /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename
