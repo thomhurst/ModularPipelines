@@ -107,6 +107,40 @@ raise `ExecutionTimeout` for long-running commands or set it to `null` to disabl
 The unused `PipelineCommandOptions.Execution` property was removed. Continue to pass
 execution behavior through `CommandExecutionOptions` on each command call.
 
+## HTTP failure behavior
+
+`HttpOptions.ThrowOnNonSuccessStatusCode` now defaults to `true`, matching the
+failure defaults for commands and downloads. `context.Network.Http.SendAsync`
+throws `PipelineHttpResponseException` for a non-success response, including calls
+that implicitly convert a string, `Uri`, or `HttpRequestMessage` to `HttpOptions`.
+The exception includes the status code and a preview of up to 2,000 response body bytes
+(plus a truncation marker). The failure path reads at most one additional byte to detect
+truncation; it does not drain an oversized or indefinitely streaming response. Use the
+explicit opt-out below when you need to read the complete failure body.
+
+If your pipeline intentionally handles failure responses, opt out explicitly:
+
+```csharp
+using var response = await context.Network.Http.SendAsync(
+    new HttpOptions(new HttpRequestMessage(HttpMethod.Get, endpoint))
+    {
+        ThrowOnNonSuccessStatusCode = false,
+    },
+    cancellationToken);
+```
+
+Download helpers continue to require a successful response. Use `SendAsync` with
+the explicit opt-out when you need to inspect a failure response body.
+
+Microsoft Teams webhook calls follow the same default. Set
+`MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode = false` when the caller
+needs to inspect an unsuccessful `HttpResponseMessage` and its body. The caller remains
+responsible for disposing any returned response.
+
+Slack webhook calls now throw on unsuccessful responses as well. The Slack wrapper
+does not return a response; use the HTTP context directly with the explicit opt-out
+when you need to handle an unsuccessful webhook response yourself.
+
 ## Hashing, ZIP, and Base64 APIs
 
 Text and file hashing now share `context.Security.Hash` (`IHashContext`). Use

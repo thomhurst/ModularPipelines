@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
@@ -22,6 +23,61 @@ namespace ModularPipelines.UnitTests.Context;
 
 public class HttpTests : TestBase
 {
+    [Test]
+    [Arguments(HttpStatusCode.NotFound, false, false)]
+    [Arguments(HttpStatusCode.NotFound, false, true)]
+    [Arguments(HttpStatusCode.NotFound, true, false)]
+    [Arguments(HttpStatusCode.NotFound, true, true)]
+    [Arguments(HttpStatusCode.InternalServerError, false, false)]
+    [Arguments(HttpStatusCode.InternalServerError, false, true)]
+    [Arguments(HttpStatusCode.InternalServerError, true, false)]
+    [Arguments(HttpStatusCode.InternalServerError, true, true)]
+    public async Task SendAsync_FailureStatus_ThrowsUnlessExplicitlyDisabled(HttpStatusCode status, bool optOut, bool customClient)
+    {
+        using var client = new HttpClient(new ImmediateResponseHandler(new StringContent("failure details"), status));
+        var factory = new Mock<IHttpClientFactory>();
+        factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
+        var http = new ModularPipelines.Http.Http(factory.Object, Mock.Of<IModuleLoggerAccessor>(),
+            Mock.Of<IHttpLogger>(), Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/failure");
+        var options = new HttpOptions(request) { HttpClient = customClient ? client : null };
+
+        if (optOut)
+        {
+            using var response = await http.SendAsync(options with { ThrowOnNonSuccessStatusCode = false });
+            await Assert.That(response.StatusCode).IsEqualTo(status);
+            await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("failure details");
+        }
+        else
+        {
+            var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => http.SendAsync(options));
+            await Assert.That(exception!.StatusCode).IsEqualTo(status);
+            await Assert.That(exception.ResponseContent).IsEqualTo("failure details");
+        }
+    }
+
+    [Test]
+    [Arguments("string")]
+    [Arguments("uri")]
+    [Arguments("request")]
+    public async Task SendAsync_ImplicitOptions_ThrowOnFailure(string input)
+    {
+        using var client = new HttpClient(new ImmediateResponseHandler(new StringContent("not found"), HttpStatusCode.NotFound));
+        var factory = new Mock<IHttpClientFactory>();
+        factory.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(client);
+        var http = new ModularPipelines.Http.Http(factory.Object, Mock.Of<IModuleLoggerAccessor>(),
+            Mock.Of<IHttpLogger>(), Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/missing");
+        HttpOptions options = input switch
+        {
+            "string" => "https://example.test/missing",
+            "uri" => new Uri("https://example.test/missing"),
+            _ => request,
+        };
+
+        await Assert.ThrowsAsync<PipelineHttpResponseException>(() => http.SendAsync(options));
+    }
+
     private static HttpLoggingOptions RequestOnly { get; } = new()
     {
         LogResponse = false,

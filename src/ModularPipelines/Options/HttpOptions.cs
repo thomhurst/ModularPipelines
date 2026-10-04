@@ -12,9 +12,10 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     public HttpClient? HttpClient { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether to throw an exception if the request returns a bad HTTP status code.
+    /// Gets a value indicating whether to throw an exception if the response has a non-success HTTP status code.
+    /// Defaults to true. Set to false to inspect failure responses explicitly.
     /// </summary>
-    public bool ThrowOnNonSuccessStatusCode { get; init; }
+    public bool ThrowOnNonSuccessStatusCode { get; init; } = true;
 
     /// <summary>
     /// Gets logging options controlling what parts of requests and responses are logged.

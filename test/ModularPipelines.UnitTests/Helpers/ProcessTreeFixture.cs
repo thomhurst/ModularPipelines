@@ -41,7 +41,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
     public async Task<Process> WaitForProcessAsync(string name, TimeSpan timeout)
     {
         await WaitForFileAsync(name + ".pid", timeout);
-        var identity = JsonSerializer.Deserialize<ProcessIdentity>(await File.ReadAllTextAsync(Path.Combine(DirectoryPath, name + ".pid")));
+        var identity = JsonSerializer.Deserialize<ProcessIdentity>(await ReadPublishedFileAsync(Path.Combine(DirectoryPath, name + ".pid")));
         if (!_processes.TryGetValue(identity, out var process))
         {
             process = TryOpenProcess(identity) ?? throw new InvalidOperationException($"Fixture process {name} exited before its identity could be retained. {DescribeState()}");
@@ -115,7 +115,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
     private string DescribeState() => string.Join(Environment.NewLine,
         Directory.EnumerateFiles(DirectoryPath).Where(path => !path.EndsWith(".tmp", StringComparison.Ordinal))
-            .Select(path => $"{Path.GetFileName(path)}: {File.ReadAllText(path)} (published {File.GetLastWriteTimeUtc(path):O})"));
+            .Select(path => $"{Path.GetFileName(path)}: {ReadPublishedFile(path)} (published {File.GetLastWriteTimeUtc(path):O})"));
 
     public async ValueTask DisposeAsync()
     {
@@ -252,7 +252,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
     {
         foreach (var path in Directory.EnumerateFiles(DirectoryPath, "*.pid"))
         {
-            var identity = JsonSerializer.Deserialize<ProcessIdentity>(File.ReadAllText(path));
+            var identity = JsonSerializer.Deserialize<ProcessIdentity>(ReadPublishedFile(path));
             if (_processes.ContainsKey(identity))
             {
                 continue;
@@ -264,6 +264,22 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
                 _processes.Add(identity, process);
             }
         }
+    }
+
+    // Published files are immutable, but Windows can still hold a publication/rename handle.
+    private static StreamReader OpenPublishedFile(string path)
+        => new(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete));
+
+    private static async Task<string> ReadPublishedFileAsync(string path)
+    {
+        using var reader = OpenPublishedFile(path);
+        return await reader.ReadToEndAsync();
+    }
+
+    private static string ReadPublishedFile(string path)
+    {
+        using var reader = OpenPublishedFile(path);
+        return reader.ReadToEnd();
     }
 
     private static Process? TryOpenProcess(ProcessIdentity identity)

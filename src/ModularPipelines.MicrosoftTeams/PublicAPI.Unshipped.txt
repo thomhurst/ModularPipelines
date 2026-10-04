@@ -1,2 +1,4 @@
 #nullable enable
 *REMOVED*static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.MicrosoftTeams(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!
+ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.get -> bool
+ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.init -> void

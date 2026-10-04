@@ -6,4 +6,5 @@
   </Configurations>
   <Project Path="../ModularPipelines/ModularPipelines.csproj" />
   <Project Path="ModularPipelines.MicrosoftTeams.csproj" />
+  <Project Path="../../test/ModularPipelines.MicrosoftTeams.UnitTests/ModularPipelines.MicrosoftTeams.UnitTests.csproj" />
 </Solution>

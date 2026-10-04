@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Http;
 using ModularPipelines.MicrosoftTeams.Models;
 using ModularPipelines.MicrosoftTeams.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.MicrosoftTeams;
 
@@ -29,6 +30,9 @@ internal class MicrosoftTeams : IMicrosoftTeams
             RequestUri = options.WebHookUri,
         };
 
-        return await _http.SendAsync(cardsRequest, cancellationToken).ConfigureAwait(false);
+        return await _http.SendAsync(new HttpOptions(cardsRequest)
+        {
+            ThrowOnNonSuccessStatusCode = options.ThrowOnNonSuccessStatusCode,
+        }, cancellationToken).ConfigureAwait(false);
     }
 }
