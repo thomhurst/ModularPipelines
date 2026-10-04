@@ -66,22 +66,65 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
             yield return (member, statusReplacement);
         }
 
-        foreach (var invocation in node.AncestorsAndSelf().OfType<InvocationExpressionSyntax>())
+        foreach (var invocation in node.AncestorsAndSelf().OfType<InvocationExpressionSyntax>().Where(call => !call.ContainsDirectives))
         {
-            if (invocation.Expression is not MemberAccessExpressionSyntax access || invocation.ContainsDirectives)
-            {
-                continue;
-            }
-
-            var receiver = model.GetTypeInfo(access.Expression, cancellationToken).Type;
-            if (receiver is null || receiver.TypeKind == TypeKind.Error)
-            {
-                continue;
-            }
-
-            foreach (var replacement in GetInvocationReplacements(invocation, access, receiver))
+            foreach (var replacement in GetInvocationCandidates(invocation, model, cancellationToken))
             {
                 yield return (invocation, replacement);
+            }
+        }
+    }
+
+    private static IEnumerable<ExpressionSyntax> GetInvocationCandidates(
+        InvocationExpressionSyntax invocation, SemanticModel model, CancellationToken cancellationToken)
+    {
+        if (invocation.Expression is MemberBindingExpressionSyntax binding)
+        {
+            foreach (var replacement in GetConditionalInvocationReplacements(invocation, binding, model, cancellationToken))
+            {
+                yield return replacement;
+            }
+
+            yield break;
+        }
+
+        if (invocation.Expression is not MemberAccessExpressionSyntax access
+            || model.GetTypeInfo(access.Expression, cancellationToken).Type is not { TypeKind: not TypeKind.Error } receiver)
+        {
+            yield break;
+        }
+
+        foreach (var replacement in GetInvocationReplacements(invocation, access, receiver))
+        {
+            yield return replacement;
+        }
+    }
+
+    private static IEnumerable<ExpressionSyntax> GetConditionalInvocationReplacements(
+        InvocationExpressionSyntax invocation, MemberBindingExpressionSyntax binding,
+        SemanticModel model, CancellationToken cancellationToken)
+    {
+        var conditional = binding.Ancestors().OfType<ConditionalAccessExpressionSyntax>()
+            .FirstOrDefault(access => access.WhenNotNull.Span.Contains(binding.Span));
+        if (conditional is null
+            || model.GetTypeInfo(conditional.Expression, cancellationToken).Type is not { TypeKind: not TypeKind.Error } receiver)
+        {
+            yield break;
+        }
+
+        // Reuse the ordinary member transformations, then restore the member binding
+        // inside the existing conditional access. The receiver is never evaluated twice.
+        var receiverAnnotation = new SyntaxAnnotation();
+        var access = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+            conditional.Expression.WithoutTrivia().WithAdditionalAnnotations(receiverAnnotation),
+            binding.OperatorToken, binding.Name);
+        foreach (var replacement in GetInvocationReplacements(invocation, access, receiver))
+        {
+            var annotatedReceiver = replacement.GetAnnotatedNodes(receiverAnnotation).Single();
+            if (annotatedReceiver.Parent is MemberAccessExpressionSyntax leadingAccess)
+            {
+                yield return replacement.ReplaceNode(leadingAccess,
+                    SyntaxFactory.MemberBindingExpression(leadingAccess.OperatorToken, leadingAccess.Name));
             }
         }
     }
