@@ -87,19 +87,16 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string secret = "MySecretPassword";
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 Secrets = options.Secrets with { CaseInsensitive = false },
-            })
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret);
-            })
-            .RunAsync();
+            });
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = secret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -114,19 +111,16 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string secret = "MySecretPassword";
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 Secrets = options.Secrets with { CaseInsensitive = true },
-            })
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret);
-            })
-            .RunAsync();
+            });
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = secret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -145,19 +139,16 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string shortSecret = "ab"; // 2 chars, below configured minimum of 3
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 Secrets = options.Secrets with { MinimumSecretLength = 3 },
-            })
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = shortSecret);
-            })
-            .RunAsync();
+            });
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = shortSecret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -171,19 +162,16 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string exactLengthSecret = "abc"; // 3 chars, exactly at configured minimum
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 Secrets = options.Secrets with { MinimumSecretLength = 3 },
-            })
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = exactLengthSecret);
-            })
-            .RunAsync();
+            });
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = exactLengthSecret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -197,16 +185,13 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string tinySecret = "x"; // 1 char, default minimum is 1
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = tinySecret);
-                // Using default MinimumSecretLength of 1
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = tinySecret);
+        // Using default MinimumSecretLength of 1
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -225,19 +210,16 @@ public class SecretMaskingTests
         const string secret = "MySecretPassword";
         const string customMask = "[REDACTED]";
 
-        await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
                 Secrets = options.Secrets with { MaskValue = customMask },
-            })
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = secret);
-            })
-            .RunAsync();
+            });
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = secret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -254,14 +236,11 @@ public class SecretMaskingTests
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<DynamicSecretModule>>(new StringLogger<DynamicSecretModule>(stringBuilder))
-                    .AddModule<DynamicSecretModule>();
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<DynamicSecretModule>>(new StringLogger<DynamicSecretModule>(stringBuilder))
+            .AddModule<DynamicSecretModule>();
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -398,19 +377,16 @@ public class SecretMaskingTests
         const string apiKey = "api-key-secret-123";
         const string password = "super-secret-password";
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s =>
             {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s =>
-                    {
-                        s.ApiKey = apiKey;
-                        s.Password = password;
-                    });
-            })
-            .RunAsync();
+                s.ApiKey = apiKey;
+                s.Password = password;
+            });
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -425,15 +401,12 @@ public class SecretMaskingTests
         const string firstPassword = "registry-secret-one";
         const string secondPassword = "registry-secret-two";
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.Passwords = [firstPassword, secondPassword]);
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.Passwords = [firstPassword, secondPassword]);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -451,19 +424,16 @@ public class SecretMaskingTests
         const string shortSecret = "secret";
         const string longSecret = "my-secret-password";
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s =>
             {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s =>
-                    {
-                        s.ApiKey = shortSecret;
-                        s.Password = longSecret;
-                    });
-            })
-            .RunAsync();
+                s.ApiKey = shortSecret;
+                s.Password = longSecret;
+            });
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -477,19 +447,16 @@ public class SecretMaskingTests
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s =>
             {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s =>
-                    {
-                        s.ApiKey = "";
-                        s.Password = "   ";
-                    });
-            })
-            .RunAsync();
+                s.ApiKey = "";
+                s.Password = "   ";
+            });
+        await builder.RunAsync();
 
         // Should complete without errors - empty/whitespace secrets are silently ignored
         var output = stringBuilder.ToString();
@@ -502,15 +469,12 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string specialSecret = "p@$$w0rd!#$%^&*()";
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = specialSecret);
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = specialSecret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 
@@ -524,15 +488,12 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string unicodeSecret = "password123";
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services
-                    .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
-                    .AddModule<SecretLoggingModule>()
-                    .Configure<SecretSettings>(s => s.ApiKey = unicodeSecret);
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
+            .AddModule<SecretLoggingModule>()
+            .Configure<SecretSettings>(s => s.ApiKey = unicodeSecret);
+        await builder.RunAsync();
 
         var output = stringBuilder.ToString();
 

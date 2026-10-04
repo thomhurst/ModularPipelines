@@ -62,9 +62,9 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection => collection.AddSingleton(environmentVariables.Object))
-            .AddModule<Module1>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(environmentVariables.Object);
+        var host = await builder.AddModule<Module1>()
             .BuildAsync();
 
         await host.RunAsync();
@@ -82,9 +82,9 @@ public class SkipDependabotAttributeTests : TestBase
         environmentVariables.Setup(x => x.Actor)
             .Returns("dependabot[bot]");
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection => collection.AddSingleton(environmentVariables.Object))
-            .AddModule<Module1>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(environmentVariables.Object);
+        var host = await builder.AddModule<Module1>()
             .BuildAsync();
 
         await host.RunAsync();
@@ -99,9 +99,9 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection => collection.AddSingleton(environmentVariables.Object))
-            .AddModule<Module2>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(environmentVariables.Object);
+        var host = await builder.AddModule<Module2>()
             .BuildAsync();
 
         await host.RunAsync();
@@ -116,9 +116,9 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection => collection.AddSingleton(environmentVariables.Object))
-            .AddModule<Module3>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(environmentVariables.Object);
+        var host = await builder.AddModule<Module3>()
             .BuildAsync();
 
         await host.RunAsync();
@@ -133,9 +133,9 @@ public class SkipDependabotAttributeTests : TestBase
     {
         var environmentVariables = new Mock<IGitHubEnvironmentVariables>();
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection => collection.AddSingleton(environmentVariables.Object))
-            .AddModule<Module4>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(environmentVariables.Object);
+        var host = await builder.AddModule<Module4>()
             .BuildAsync();
 
         await host.RunAsync();

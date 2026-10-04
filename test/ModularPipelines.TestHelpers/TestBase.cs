@@ -53,9 +53,11 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<T>(
             new TestHostSettings(),
-            builder => builder
-                .AddModule<T>()
-                .ConfigureServices(configureServices),
+            builder =>
+            {
+                builder.AddModule<T>();
+                configureServices(builder.Services);
+            },
             modules => modules.OfType<T>().Single());
     }
 

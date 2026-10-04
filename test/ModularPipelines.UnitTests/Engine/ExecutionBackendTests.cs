@@ -19,10 +19,10 @@ public partial class ExecutionBackendTests
     public async Task BuiltInBackendExecutesWithoutCustomDispatchContext()
     {
         var factory = new Mock<IExecutionBackendContextFactory>(MockBehavior.Strict);
-        await using var pipeline = await TestPipelineBuilder.Create()
-            .AddModule<BackendTestModule>()
-            .ConfigureServices(services => services.AddSingleton(factory.Object))
-            .BuildAsync();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>();
+        builder.Services.AddSingleton(factory.Object);
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync();
         var module = pipeline.Services.GetServices<IModule>().OfType<BackendTestModule>().Single();
@@ -44,8 +44,9 @@ public partial class ExecutionBackendTests
         var factory = new Mock<IModuleSchedulerFactory>();
         factory.Setup(x => x.Create()).Returns(scheduler.Object);
         var builder = TestPipelineBuilder.Create()
-            .AddModule<BackendTestModule>()
-            .ConfigureServices(services => services.AddSingleton(factory.Object));
+            .AddModule<BackendTestModule>();
+        builder.Services.AddSingleton(factory.Object);
+
         if (customBackend)
         {
             builder.AddExecutionBackend<InProcessExecutionBackend>();
@@ -91,10 +92,10 @@ public partial class ExecutionBackendTests
             await Assert.That(((ScopedBackendModule) modules.Single()).Probe!.Disposed).IsTrue();
             return [results[0]];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
-            .AddModule<ScopedBackendModule>()
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend).AddScoped<ScopeProbe>())
-            .BuildAsync();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ScopedBackendModule>();
+        builder.Services.AddSingleton<IExecutionBackend>(backend).AddScoped<ScopeProbe>();
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync();
         var module = pipeline.Services.GetServices<IModule>().OfType<ScopedBackendModule>().Single();
@@ -114,10 +115,10 @@ public partial class ExecutionBackendTests
                 .Throws<ArgumentException>();
             return [await context.ExecuteModuleAsync(plannedModule, cancellationToken)];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
-            .AddModule<BackendTestModule>()
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
-            .BuildAsync();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<BackendTestModule>();
+        builder.Services.AddSingleton<IExecutionBackend>(backend);
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync();
         await Assert.That(async () => { await savedContext!.ExecuteModuleAsync(plannedModule!); })
@@ -141,11 +142,11 @@ public partial class ExecutionBackendTests
             requestCancellation.Cancel();
             return [await execution];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BackendTestModule>()
-            .AddModule(new OrderingDependentModule { AlwaysRun = alwaysRun })
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
-            .BuildAsync();
+            .AddModule(new OrderingDependentModule { AlwaysRun = alwaysRun });
+        builder.Services.AddSingleton<IExecutionBackend>(backend);
+        await using var pipeline = await builder.BuildAsync();
 
         await Assert.That(async () => { await pipeline.RunAsync(cancellationToken); }).Throws<OperationCanceledException>();
         await Assert.That(requestStarted).IsTrue();
@@ -310,11 +311,11 @@ public partial class ExecutionBackendTests
             await Assert.That(dependent.ExecutionCount).IsEqualTo(1);
             return [result];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BackendTestModule>()
-            .AddModule<DependentBackendModule>()
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
-            .BuildAsync();
+            .AddModule<DependentBackendModule>();
+        builder.Services.AddSingleton<IExecutionBackend>(backend);
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync(cancellationToken);
     }
@@ -355,11 +356,11 @@ public partial class ExecutionBackendTests
             await Assert.That(await dependency).IsSameReferenceAs(remoteFailure);
             return [result];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BackendTestModule>()
-            .AddModule<OrderingDependentModule>()
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
-            .BuildAsync();
+            .AddModule<OrderingDependentModule>();
+        builder.Services.AddSingleton<IExecutionBackend>(backend);
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync(cancellationToken);
     }
@@ -383,11 +384,11 @@ public partial class ExecutionBackendTests
             await Assert.That(context.TryApplyResult(dependency, result)).IsTrue();
             return [await context.ExecuteModuleAsync(dependent, cancellationToken)];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule(dependency)
-            .AddModule(dependent)
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend))
-            .BuildAsync();
+            .AddModule(dependent);
+        builder.Services.AddSingleton<IExecutionBackend>(backend);
+        await using var pipeline = await builder.BuildAsync();
 
         await Assert.That(async () => { await pipeline.RunAsync(cancellationToken); }).Throws<DependencyFailedException>();
         await Assert.That(dependent.ExecutionCount).IsEqualTo(0);
@@ -425,10 +426,10 @@ public partial class ExecutionBackendTests
             await Assert.That(probe.Disposed).IsTrue();
             return [result];
         });
-        await using var pipeline = await TestPipelineBuilder.Create()
-            .AddModule<ScopedBackendModule>()
-            .ConfigureServices(services => services.AddSingleton<IExecutionBackend>(backend).AddScoped(_ => probe))
-            .BuildAsync();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<ScopedBackendModule>();
+        builder.Services.AddSingleton<IExecutionBackend>(backend).AddScoped(_ => probe);
+        await using var pipeline = await builder.BuildAsync();
 
         await pipeline.RunAsync(cancellationToken);
     }

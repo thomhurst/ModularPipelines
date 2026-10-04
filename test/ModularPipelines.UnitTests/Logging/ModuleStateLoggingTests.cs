@@ -13,13 +13,10 @@ public class ModuleStateLoggingTests
     public async Task CompletedModule_UsesPlaceholderWhenThereAreNoLockKeys()
     {
         var logs = new StringBuilder();
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton(logs);
-                services.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
-            })
-            .AddModule<ModuleWithoutLocks>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton(logs);
+        builder.Services.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
+        var host = await builder.AddModule<ModuleWithoutLocks>()
             .BuildAsync();
 
         await host.RunAsync();

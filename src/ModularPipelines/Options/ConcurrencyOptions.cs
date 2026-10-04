@@ -7,7 +7,7 @@ namespace ModularPipelines.Options;
 /// Configuration options for controlling module execution concurrency.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public record ConcurrencyOptions
+public sealed record ConcurrencyOptions
 {
     /// <summary>
     /// Gets the maximum number of modules that can execute in parallel.

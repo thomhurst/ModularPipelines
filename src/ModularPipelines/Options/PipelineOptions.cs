@@ -47,7 +47,7 @@ namespace ModularPipelines.Options;
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
-public record PipelineOptions
+public sealed record PipelineOptions
 {
     private IReadOnlyList<string>? _runOnlyCategories;
     private IReadOnlyList<string>? _ignoreCategories;

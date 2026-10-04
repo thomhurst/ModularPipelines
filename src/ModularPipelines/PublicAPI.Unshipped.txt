@@ -1611,10 +1611,7 @@ ModularPipelines.ConditionLogic
 ModularPipelines.ConditionLogic.All = 0 -> ModularPipelines.ConditionLogic
 ModularPipelines.ConditionLogic.Any = 1 -> ModularPipelines.ConditionLogic
 ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint?
-ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.init -> void
-ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Exception!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>?
 ModularPipelines.Configuration.ModuleConfiguration.Priority.get -> ModularPipelines.ModulePriority?
-ModularPipelines.Configuration.ModuleConfiguration.SkipCondition.get -> System.Func<ModularPipelines.IModuleContext!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.SkipDecision!>>?
 ModularPipelines.CommandInvocation
 ModularPipelines.CommandInvocation.<Clone>$() -> ModularPipelines.CommandInvocation!
 ModularPipelines.CommandInvocation.CommandInput.get -> string!
@@ -3306,3 +3303,31 @@ ModularPipelines.FileSystem.SystemFileSystemProvider.SetAttributes(string! path,
 ModularPipelines.FileSystem.SystemFileSystemProvider.SetCreationTimeUtc(string! path, System.DateTime creationTimeUtc) -> void
 ModularPipelines.FileSystem.SystemFileSystemProvider.SetLastAccessTimeUtc(string! path, System.DateTime lastAccessTimeUtc) -> void
 ModularPipelines.FileSystem.SystemFileSystemProvider.SetLastWriteTimeUtc(string! path, System.DateTime lastWriteTimeUtc) -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.AlwaysRun.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.CacheAssemblyVersionKey.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.CacheEnvironmentVariables.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.CacheInputPatterns.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.CacheKeyParts.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.Category.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.IgnoreFailuresCondition.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.ParallelConstraintKeys.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.Priority.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.SkipCondition.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.Tags.init -> void
+*REMOVED*ModularPipelines.Configuration.ModuleConfiguration.Timeout.init -> void
+*REMOVED*static ModularPipelines.Extensions.EnumerableExtensions.GetModule<T>(this System.Collections.Generic.IEnumerable<ModularPipelines.Modules.IModule!>! modules) -> T
+*REMOVED*static ModularPipelines.PipelineBuilderExtensions.ConfigureServices(this ModularPipelines.PipelineBuilder! builder, System.Action<Microsoft.Extensions.DependencyInjection.IServiceCollection!>! configureServices) -> ModularPipelines.PipelineBuilder!
+*REMOVED*ModularPipelines.Options.ConcurrencyOptions.ConcurrencyOptions(ModularPipelines.Options.ConcurrencyOptions! original) -> void
+*REMOVED*virtual ModularPipelines.Options.ConcurrencyOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Options.ConcurrencyOptions.Equals(ModularPipelines.Options.ConcurrencyOptions? other) -> bool
+ModularPipelines.Options.ConcurrencyOptions.Equals(ModularPipelines.Options.ConcurrencyOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Options.ConcurrencyOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*ModularPipelines.Options.PipelineOptions.PipelineOptions(ModularPipelines.Options.PipelineOptions! original) -> void
+*REMOVED*virtual ModularPipelines.Options.PipelineOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Options.PipelineOptions.Equals(ModularPipelines.Options.PipelineOptions? other) -> bool
+ModularPipelines.Options.PipelineOptions.Equals(ModularPipelines.Options.PipelineOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Options.PipelineOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*virtual ModularPipelines.Options.ConcurrencyOptions.<Clone>$() -> ModularPipelines.Options.ConcurrencyOptions!
+ModularPipelines.Options.ConcurrencyOptions.<Clone>$() -> ModularPipelines.Options.ConcurrencyOptions!
+*REMOVED*virtual ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.Options.PipelineOptions!
+ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.Options.PipelineOptions!

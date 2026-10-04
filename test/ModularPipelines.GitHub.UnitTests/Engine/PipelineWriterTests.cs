@@ -86,11 +86,10 @@ public class PipelineWriterTests : TestBase
     [Test]
     public async Task GitHubWriter()
     {
-        await TestPipelineBuilder.Create()
-            .AddModule<DummyModule>()
-            .ConfigureServices(services =>
-                services.AddSingleton<IBuildSystemPipelineFileWriter>(new GitHubYamlWriter()))
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create()
+            .AddModule<DummyModule>();
+        builder.Services.AddSingleton<IBuildSystemPipelineFileWriter>(new GitHubYamlWriter());
+        await builder.RunAsync();
         // Normalize line endings for cross-platform consistency
         await Assert.That((await RandomFilePath.ReadAsync()).Trim().ReplaceLineEndings("\n")).
             IsEqualTo($$$"""

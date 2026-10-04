@@ -81,7 +81,7 @@ public class ArtifactContractTests
         {
             builder.AddExecutionBackend<InProcessExecutionBackend>();
         }
-        builder.ConfigureServices(services => services.AddLogging(logging => logging.AddProvider(loggerProvider)));
+        builder.Services.AddLogging(logging => logging.AddProvider(loggerProvider));
         builder.AddModule<AmbientArtifactLoggingProducerModule>();
         builder.AddModule<AmbientArtifactLoggingConsumerModule>();
 

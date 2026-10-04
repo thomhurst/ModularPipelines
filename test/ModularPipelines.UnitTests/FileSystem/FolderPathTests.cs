@@ -85,15 +85,12 @@ public class FolderPathTests : TestBase
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(collection =>
-            {
-                collection
-                    .AddSingleton<ILogger<FindFileModule>>(
-                        new StringLogger<FindFileModule>(stringBuilder))
-                    .AddModule<FindFileModule>();
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<FindFileModule>>(
+                new StringLogger<FindFileModule>(stringBuilder))
+            .AddModule<FindFileModule>();
+        await builder.RunAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
         await Assert.That(actualLogResult).Contains("x => x.Name == \"Foo.txt\"");
@@ -104,15 +101,12 @@ public class FolderPathTests : TestBase
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(collection =>
-            {
-                collection
-                    .AddSingleton<ILogger<ReadFileModule>>(
-                        new StringLogger<ReadFileModule>(stringBuilder))
-                    .AddModule<ReadFileModule>();
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<ReadFileModule>>(
+                new StringLogger<ReadFileModule>(stringBuilder))
+            .AddModule<ReadFileModule>();
+        await builder.RunAsync();
 
         var actualLogResult = stringBuilder.ToString();
 
@@ -128,15 +122,12 @@ public class FolderPathTests : TestBase
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineBuilder.Create()
-            .ConfigureServices(collection =>
-            {
-                collection
-                    .AddSingleton<ILogger<ReadFileModule>>(
-                        new StringLogger<ReadFileModule>(stringBuilder, LogLevel.Information))
-                    .AddModule<ReadFileModule>();
-            })
-            .RunAsync();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<ReadFileModule>>(
+                new StringLogger<ReadFileModule>(stringBuilder, LogLevel.Information))
+            .AddModule<ReadFileModule>();
+        await builder.RunAsync();
 
         await Assert.That(stringBuilder.ToString()).DoesNotContain("Reading File:");
     }

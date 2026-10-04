@@ -22,10 +22,10 @@ public class FailedModuleNotificationTests
                 It.IsAny<CancellationToken>()))
             .Returns(ValueTask.CompletedTask);
 
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object);
         await Assert.That(async () =>
-                await TestPipelineBuilder.Create()
-                    .ConfigureServices(services => services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object))
-                    .AddModule<FailingModule>()
+                await builder.AddModule<FailingModule>()
                     .RunAsync())
             .Throws<ModuleFailedException>();
 
@@ -47,14 +47,11 @@ public class FailedModuleNotificationTests
             .Returns(ValueTask.CompletedTask);
 
         // The module failure is preserved; the handler failure is surfaced alongside it.
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object);
+        builder.Services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
         var exception = await Assert.ThrowsAsync<AggregateException>(async () =>
-            await TestPipelineBuilder.Create()
-                .ConfigureServices(services =>
-                {
-                    services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object);
-                    services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
-                })
-                .AddModule<FailingModule>()
+            await builder.AddModule<FailingModule>()
                 .RunAsync());
         var inner = exception!.Flatten().InnerExceptions;
         await Assert.That(inner.OfType<ModuleFailedException>().Any()).IsTrue();

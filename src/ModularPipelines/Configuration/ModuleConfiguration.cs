@@ -13,7 +13,9 @@ namespace ModularPipelines.Configuration;
 /// <para>
 /// This class provides a unified, immutable configuration object that controls various aspects
 /// of module execution including skip conditions, timeouts, retry policies, failure handling,
-/// and scheduling metadata.
+/// and scheduling metadata. The public view exposes values and metadata for inspection.
+/// Execution delegates, retry machinery, and dependency descriptors remain internal; configure
+/// behavior through <see cref="ModuleConfigurationBuilder"/>.
 /// </para>
 /// </remarks>
 public sealed class ModuleConfiguration
@@ -39,7 +41,7 @@ public sealed class ModuleConfiguration
     /// and returns a <see cref="ValueTask{SkipDecision}"/>,
     /// or null if no skip condition is configured.
     /// </value>
-    public Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? SkipCondition { get; init; }
+    internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? SkipCondition { get; init; }
 
     internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? PlanningSkipCondition { get; init; }
 
@@ -52,7 +54,7 @@ public sealed class ModuleConfiguration
     /// A <see cref="TimeSpan"/> representing the maximum time for each attempt,
     /// or null if no timeout is configured.
     /// </value>
-    public TimeSpan? Timeout { get; init; }
+    public TimeSpan? Timeout { get; internal init; }
 
     /// <summary>
     /// Gets the condition that determines whether a failure should be ignored.
@@ -62,7 +64,7 @@ public sealed class ModuleConfiguration
     /// <see cref="CancellationToken"/>, returning a <see cref="ValueTask{Boolean}"/> indicating whether to
     /// ignore the failure, or null if failures should not be ignored.
     /// </value>
-    public Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>? IgnoreFailuresCondition { get; init; }
+    internal Func<IModuleContext, Exception, CancellationToken, ValueTask<bool>>? IgnoreFailuresCondition { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether this module should always run,
@@ -71,48 +73,48 @@ public sealed class ModuleConfiguration
     /// <value>
     /// true if the module should always run; otherwise, false.
     /// </value>
-    public bool AlwaysRun { get; init; }
+    public bool AlwaysRun { get; internal init; }
 
     /// <summary>
     /// Gets the keys that prevent this module from running in parallel with modules using the same keys.
     /// An empty collection prevents all parallel execution; <see langword="null"/> allows parallel execution.
     /// </summary>
-    public IReadOnlyList<string>? ParallelConstraintKeys { get; init; }
+    public IReadOnlyList<string>? ParallelConstraintKeys { get; internal init; }
 
     /// <summary>
     /// Gets the scheduling priority, or <see langword="null"/> to use normal priority.
     /// </summary>
-    public ModulePriority? Priority { get; init; }
+    public ModulePriority? Priority { get; internal init; }
 
     /// <summary>
     /// Gets the resource-usage hint, or <see langword="null"/> to use the default execution hint.
     /// </summary>
-    public ExecutionHint? ExecutionHint { get; init; }
+    public ExecutionHint? ExecutionHint { get; internal init; }
 
     /// <summary>
     /// Gets module tags used by metadata-based dependency selection.
     /// </summary>
-    public IReadOnlySet<string> Tags { get; init; } = FrozenSet<string>.Empty;
+    public IReadOnlySet<string> Tags { get; internal init; } = FrozenSet<string>.Empty;
 
     /// <summary>
     /// Gets the module category used by filtering and metadata-based dependency selection.
     /// </summary>
-    public string? Category { get; init; }
+    public string? Category { get; internal init; }
 
     /// <summary>
     /// Gets file paths and glob patterns included in the module cache fingerprint.
     /// </summary>
-    public IReadOnlyList<string> CacheInputPatterns { get; init; } = [];
+    public IReadOnlyList<string> CacheInputPatterns { get; internal init; } = [];
 
     /// <summary>
     /// Gets explicit values included in the module cache fingerprint.
     /// </summary>
-    public IReadOnlyList<string> CacheKeyParts { get; init; } = [];
+    public IReadOnlyList<string> CacheKeyParts { get; internal init; } = [];
 
     /// <summary>
     /// Gets environment variable names whose current values are included in the module cache fingerprint.
     /// </summary>
-    public IReadOnlyList<string> CacheEnvironmentVariables { get; init; } = [];
+    public IReadOnlyList<string> CacheEnvironmentVariables { get; internal init; } = [];
 
     /// <summary>
     /// Gets an explicit stable replacement for the module assembly MVID in the cache fingerprint.
@@ -120,7 +122,7 @@ public sealed class ModuleConfiguration
     /// <remarks>
     /// This value must change whenever the module implementation changes. A null value uses the assembly MVID.
     /// </remarks>
-    public string? CacheAssemblyVersionKey { get; init; }
+    public string? CacheAssemblyVersionKey { get; internal init; }
 
     /// <summary>
     /// Gets a value indicating whether fingerprint-based caching is enabled for this module.
