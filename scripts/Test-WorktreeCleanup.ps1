@@ -31,6 +31,11 @@ function global:git {
     $global:LASTEXITCODE = 0
     $script:gitCalled = $true
     if ($args -contains 'merge-base') {
+        if ($args.Count -ne 6 -or $args[0] -cne '-C' -or
+            $args[1] -cne $isolatedRoot -or $args[2] -cne 'merge-base' -or
+            $args[3] -cne '--is-ancestor' -or $args[5] -cne 'zzz999') {
+            throw "Ancestry callback forwarded unexpected Git arguments: $($args -join ' ')"
+        }
         # merge-base --is-ancestor <ancestor> <descendant>: exit 0 only for known ancestors.
         $global:LASTEXITCODE = if ($script:ancestors -ccontains $args[-2]) { 0 } else { 1 }
         return
