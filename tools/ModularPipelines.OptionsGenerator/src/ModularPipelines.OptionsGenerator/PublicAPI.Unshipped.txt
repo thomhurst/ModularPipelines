@@ -216,3 +216,5 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.ChocolateyCliScraper.Par
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.WinGetCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.WinGetCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.TreatParseErrorsAsFatal.get -> bool
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TreatParseErrorsAsFatal.get -> bool
