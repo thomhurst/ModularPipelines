@@ -5,7 +5,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Node.Models;
+using ModularPipelines.Node.Options;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -33,9 +33,9 @@ public class FormatMarkdownModule : Module<None>
 
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Tools.Node.Npm.InstallAsync(new NpmInstallOptions
+        await context.Tools.Npm.InstallAsync(new NpmInstallOptions
         {
-            Arguments =
+            PackageSpec =
             [
                 "remark-cli",
                 "remark-preset-lint-consistent",
@@ -43,7 +43,7 @@ public class FormatMarkdownModule : Module<None>
                 "remark-lint-list-item-indent"
             ],
             SaveDev = true,
-        }, cancellationToken);
+        }, cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync(cancellationToken).ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -55,18 +55,18 @@ public class FormatMarkdownModule : Module<None>
 
         foreach (var fileToFormat in filesToFormat)
         {
-            await context.Tools.Node.Npx.ExecuteAsync(new NpxOptions
+            await context.Tools.Npx.ExecuteAsync(new NpxExecuteOptions
             {
-                Arguments =
+                Pkg = "remark",
+                Args =
                 [
-                    "remark",
                     fileToFormat,
                     "--use", "remark-lint",
                     "--use", "remark-preset-lint-consistent",
                     "--use", "remark-preset-lint-recommended",
                     "--output"
                 ],
-            }, cancellationToken);
+            }, cancellationToken: cancellationToken).ConfigureAwait(false);
         }
 
         var changes = await GitHelpers.GetUncommittedChanges(context, filesToFormat, cancellationToken)
