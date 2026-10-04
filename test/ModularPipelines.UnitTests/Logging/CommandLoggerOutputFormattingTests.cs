@@ -13,7 +13,7 @@ public class CommandLoggerOutputFormattingTests
     {
         var (commandLogger, logger) = CreateCommandLogger();
 
-        commandLogger.LogOutputTruncation(6, 2, 10);
+        commandLogger.LogOutputTruncation(null, null, 6, 2, 10);
 
         var warning = logger.Messages.Single(message => message.Level == LogLevel.Warning);
         await Assert.That(warning.Text).Contains("MaxCapturedOutputLength (10 characters per stream)");
@@ -21,6 +21,22 @@ public class CommandLoggerOutputFormattingTests
         await Assert.That(warning.Text).Contains("set it to 0 for unlimited capture");
     }
 
+    [Test]
+    [Arguments(CommandLogVerbosity.Silent, null, false)]
+    [Arguments(CommandLogVerbosity.Normal, CommandLogVerbosity.Silent, false)]
+    [Arguments(CommandLogVerbosity.Silent, CommandLogVerbosity.Normal, true)]
+    public async Task TruncationWarningHonorsEffectiveVerbosity(CommandLogVerbosity pipelineVerbosity, CommandLogVerbosity? commandVerbosity, bool expectWarning)
+    {
+        var (commandLogger, logger) = CreateCommandLogger(new CommandLoggingOptions { Verbosity = pipelineVerbosity });
+        var executionOptions = new CommandExecutionOptions
+        {
+            Logging = commandVerbosity is { } verbosity ? new CommandLoggingOptions { Verbosity = verbosity } : null,
+        };
+
+        commandLogger.LogOutputTruncation(null, executionOptions, 6, 2, 10);
+
+        await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning)).IsEqualTo(expectWarning);
+    }
     [Test]
     public async Task CapturedOutput_PrefixesEveryLine_AndSkipsBlankLines()
     {
@@ -100,7 +116,7 @@ public class CommandLoggerOutputFormattingTests
         },
     };
 
-    private static (CommandLogger CommandLogger, CollectingLogger Logger) CreateCommandLogger()
+    private static (CommandLogger CommandLogger, CollectingLogger Logger) CreateCommandLogger(CommandLoggingOptions? pipelineLogging = null)
     {
         var logger = new CollectingLogger();
         var loggerAccessor = new Mock<IModuleLoggerAccessor>();
@@ -111,7 +127,7 @@ public class CommandLoggerOutputFormattingTests
             .Returns((string? value, object? _) => value ?? string.Empty);
         var commandLogger = new CommandLogger(
             loggerAccessor.Object,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions { Commands = new PipelineCommandOptions { Logging = pipelineLogging } }),
             secretObfuscator.Object);
         return (commandLogger, logger);
     }

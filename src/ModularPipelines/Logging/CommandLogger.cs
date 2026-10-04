@@ -32,8 +32,13 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private ILogger Logger => _moduleLoggerAccessor.Logger;
 
-    public void LogOutputTruncation(long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
+    public void LogOutputTruncation(CommandLineToolOptions? options, CommandExecutionOptions? execOpts, long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
     {
+        if (GetEffectiveLoggingOptions(options, execOpts).Verbosity == CommandLogVerbosity.Silent)
+        {
+            return;
+        }
+
         Logger.LogWarning(
             "Command output capture exceeded MaxCapturedOutputLength ({MaxCapturedOutputLength} characters per stream). "
             + "Omitted {StandardOutputTruncatedCharacters} standard output characters and {StandardErrorTruncatedCharacters} standard error characters. "
