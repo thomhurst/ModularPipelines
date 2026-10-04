@@ -143,12 +143,6 @@ public record SnykIacTestOptions : SnykOptions
     public string? VarFile { get; set; }
 
     /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Infrastructure as Code path to scan
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
