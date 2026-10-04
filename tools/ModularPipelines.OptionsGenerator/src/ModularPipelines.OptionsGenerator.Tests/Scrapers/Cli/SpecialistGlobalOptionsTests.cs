@@ -38,6 +38,14 @@ public class SpecialistGlobalOptionsTests
         await Assert.That(globals.Single(option => option.SwitchName == "-q").IsFlag).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "-n").IsFlag).IsTrue();
         await Assert.That(globals.Any(option => option.SwitchName == "-flyway")).IsFalse();
+        var placeholders = globals.Single(option => option.PropertyName == "Placeholders");
+        await Assert.That(placeholders.SwitchName).IsEqualTo("-placeholders.");
+        await Assert.That(placeholders.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
+        await Assert.That(placeholders.IsKeyValue).IsTrue();
+        await Assert.That(placeholders.ValueSeparator).IsEqualTo(string.Empty);
+        var jdbcProperties = globals.Single(option => option.PropertyName == "JdbcProperties");
+        await Assert.That(jdbcProperties.SwitchName).IsEqualTo("-jdbcProperties.");
+        await Assert.That(jdbcProperties.IsSecret).IsTrue();
         var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
         await Assert.That(generated).Contains("public virtual string? Url { get; set; }");
         await Assert.That(generated).Contains("OptionFormat.EqualsSeparated");
