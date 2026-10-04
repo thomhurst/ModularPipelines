@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
-using ModularPipelines.GitHub;
 using Octokit;
 using Octokit.Internal;
 
