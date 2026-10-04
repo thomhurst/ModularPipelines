@@ -272,25 +272,25 @@ public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 continue;
             }
 
-            // Flyway options are key=value style, not flags
-            var csharpType = "string?";
+            // Map namespaces use -namespace.key=value; other settings use -key=value.
+            var isMap = optionName is "placeholders" or "jdbcProperties";
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = $"-{optionName}",
+                SwitchName = isMap ? $"-{optionName}." : $"-{optionName}",
                 ShortForm = null,
                 PropertyName = propertyName,
-                CSharpType = csharpType,
+                CSharpType = isMap ? "IReadOnlyList<KeyValue>?" : "string?",
                 Description = description,
                 IsFlag = false,
                 IsRequired = false,
-                // Flyway list values are comma-delimited within one -key=value argument.
-                AcceptsMultipleValues = false,
-                IsKeyValue = false,
+                // List settings are comma-delimited; map entries each need their own argument.
+                AcceptsMultipleValues = isMap,
+                IsKeyValue = isMap,
                 IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
-                ValueSeparator = "=",
+                ValueSeparator = isMap ? string.Empty : "=",
                 EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, false)
+                IsSecret = optionName == "jdbcProperties" || GeneratorUtils.IsSecretOption(propertyName, false)
             });
         }
 

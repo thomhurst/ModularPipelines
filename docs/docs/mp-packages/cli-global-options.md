@@ -39,5 +39,11 @@ for example `Url`, `User`, `Password`, and `Locations`. These are inherited from
 configuration before the subcommand using `-key=value` and emits the diagnostic and
 non-interactive switches as flags. Passwords retain secret metadata.
 
+Supply `Placeholders` and `JdbcProperties` as `KeyValue` collections. Each entry renders as
+`-placeholders.name=value` or `-jdbcProperties.name=value`, respectively. JDBC properties
+are marked as secrets because drivers can accept credentials through this map.
+See [Flyway placeholders](https://documentation.red-gate.com/fd/flyway-placeholders-namespace-277579022.html)
+and [JDBC properties](https://documentation.red-gate.com/flyway/reference/configuration/environments-namespace/environment-jdbc-properties-namespace).
+
 The flat-tool execution classes and Liquibase's existing global properties keep their
 current placement. Help/version actions are not configuration to apply to every command.
