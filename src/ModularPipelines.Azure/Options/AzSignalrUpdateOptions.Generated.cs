@@ -23,8 +23,8 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
-    [CliFlag("--allowed-origins", ShortForm = "-a")]
-    public bool? AllowedOrigins { get; set; }
+    [CliOption("--allowed-origins", ShortForm = "-a")]
+    public string? AllowedOrigins { get; set; }
 
     /// <summary>
     /// Enable or disable client certificate authentication for a SignalR Service.  Allowed values: false, true.
@@ -59,8 +59,8 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// The sku name of the signalr service. E.g. Standard_S1.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -71,8 +71,8 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

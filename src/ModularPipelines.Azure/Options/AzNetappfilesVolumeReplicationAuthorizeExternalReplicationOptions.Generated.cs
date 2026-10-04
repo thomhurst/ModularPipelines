@@ -53,7 +53,7 @@ public record AzNetappfilesVolumeReplicationAuthorizeExternalReplicationOptions 
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--volume-name", ShortForm = "-v")]
+    [CliOption("--volume-name", ShortForm = "-n")]
     public string? VolumeName { get; set; }
 
 }

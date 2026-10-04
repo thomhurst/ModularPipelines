@@ -75,7 +75,7 @@ public record AzContainerappExecOptions : AzOptions
     /// <summary>
     /// The startup command (bash, zsh, sh, etc.).  Default: sh.
     /// </summary>
-    [CliFlag("--command")]
-    public bool? Command { get; set; }
+    [CliOption("--command")]
+    public string? Command { get; set; }
 
 }

@@ -74,7 +74,7 @@ public record AzBackupVaultCreateOptions : AzOptions
     /// <summary>
     /// Use this parameter to configure cost management settings for the vault. By default, the property is "VaultLevel" for the vault.  Allowed values: ProtectedItemLevel, ProtectedItemWithParentTag, VaultLevel.
     /// </summary>
-    [CliOption("--cost-granularity-level", ShortForm = "--cost-management-granularity")]
+    [CliOption("--cost-granularity-level")]
     public string? CostGranularityLevel { get; set; }
 
     /// <summary>

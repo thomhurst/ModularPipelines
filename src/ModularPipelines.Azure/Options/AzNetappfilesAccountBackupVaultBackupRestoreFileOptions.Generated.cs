@@ -74,8 +74,8 @@ public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions : AzOption
     /// <summary>
     /// Destination folder where the files will be restored. The path name should start with a forward slash. If it is omitted from request then restore is done at the root folder of the destination volume by default.
     /// </summary>
-    [CliFlag("--restore-file-path")]
-    public bool? RestoreFilePath { get; set; }
+    [CliOption("--restore-file-path")]
+    public string? RestoreFilePath { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.

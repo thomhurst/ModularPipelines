@@ -70,7 +70,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAdd
     /// <summary>
     /// When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.
     /// </summary>
-    [CliOption("--match-operator", ShortForm = "--selector-match-operator")]
+    [CliOption("--match-operator")]
     public string MatchOperator { get; private init; }
 
     /// <summary>
@@ -112,8 +112,8 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSetAdd
     /// <summary>
     /// The managed rule group for exclusion.
     /// </summary>
-    [CliFlag("--group-name")]
-    public bool? GroupName { get; set; }
+    [CliOption("--group-name")]
+    public string? GroupName { get; set; }
 
     /// <summary>
     /// List of rules that will be disabled. If provided, --group-name must be provided too.

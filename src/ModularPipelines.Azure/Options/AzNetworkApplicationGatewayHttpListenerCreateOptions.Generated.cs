@@ -79,8 +79,8 @@ public record AzNetworkApplicationGatewayHttpListenerCreateOptions : AzOptions
     /// <summary>
     /// Host name to use for multisite gateways.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Space-separated list of host names that allows special wildcard characters as well.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

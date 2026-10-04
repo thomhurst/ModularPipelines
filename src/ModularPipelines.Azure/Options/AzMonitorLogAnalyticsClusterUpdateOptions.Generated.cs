@@ -53,7 +53,7 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -71,8 +71,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Selected key minimum required size.
     /// </summary>
-    [CliFlag("--key-rsa-size")]
-    public bool? KeyRsaSize { get; set; }
+    [CliOption("--key-rsa-size")]
+    public string? KeyRsaSize { get; set; }
 
     /// <summary>
     /// The Key Vault uri which holds they key associated with the Log Analytics cluster.
@@ -83,8 +83,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// The version of the key associated with the Log Analytics cluster.
     /// </summary>
-    [CliFlag("--key-version")]
-    public bool? KeyVersion { get; set; }
+    [CliOption("--key-version")]
+    public string? KeyVersion { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

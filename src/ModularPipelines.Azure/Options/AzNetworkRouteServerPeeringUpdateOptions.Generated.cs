@@ -29,14 +29,14 @@ public record AzNetworkRouteServerPeeringUpdateOptions : AzOptions
     /// <summary>
     /// Peer ASN.
     /// </summary>
-    [CliFlag("--peer-asn")]
-    public bool? PeerAsn { get; set; }
+    [CliOption("--peer-asn")]
+    public string? PeerAsn { get; set; }
 
     /// <summary>
     /// Peer IP address.
     /// </summary>
-    [CliFlag("--peer-ip")]
-    public bool? PeerIp { get; set; }
+    [CliOption("--peer-ip")]
+    public string? PeerIp { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

@@ -41,7 +41,7 @@ public record AzPostgresFlexibleServerMigrationListOptions : AzOptions
     /// <summary>
     /// Migration target server name.
     /// </summary>
-    [CliFlag("--server-name", ShortForm = "-s")]
-    public bool? ServerName { get; set; }
+    [CliOption("--server-name", ShortForm = "-s")]
+    public string? ServerName { get; set; }
 
 }

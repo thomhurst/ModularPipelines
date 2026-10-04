@@ -63,14 +63,14 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes")]
+    public string? AddressPrefixes { get; set; }
 
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
@@ -111,8 +111,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
@@ -153,8 +153,8 @@ public record AzMysqlFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -29,20 +29,20 @@ public record AzNetworkVirtualApplianceGetBootDiagnosticLogOptions : AzOptions
     /// <summary>
     /// Specify the sas-url to the storage blob into which console screen shot for the requested instance will be written.
     /// </summary>
-    [CliFlag("--console-screenshot-storage-sas-url", ShortForm = "--css-sas-url")]
-    public bool? ConsoleScreenshotStorageSasUrl { get; set; }
+    [CliOption("--console-screenshot-storage-sas-url")]
+    public string? ConsoleScreenshotStorageSasUrl { get; set; }
 
     /// <summary>
     /// The network virtual appliance instance id for which boot diagnostic logs is being requested.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Specify the sas-url to the storage blob into which serial console logs for the requested instance will be written.
     /// </summary>
-    [CliFlag("--scs-sas-url", ShortForm = "--serial-console-storage-sas-url")]
-    public bool? ScsSasUrl { get; set; }
+    [CliOption("--scs-sas-url")]
+    public string? ScsSasUrl { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

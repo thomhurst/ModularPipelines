@@ -88,8 +88,8 @@ public record AzNetworkWatcherRunConfigurationDiagnosticOptions : AzOptions
     /// <summary>
     /// Parent path, e.g., virtualMachineScaleSets/vmss1.
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of the resource group the target resource is in.

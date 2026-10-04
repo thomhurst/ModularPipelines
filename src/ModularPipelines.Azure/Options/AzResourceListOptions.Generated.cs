@@ -35,14 +35,14 @@ public record AzResourceListOptions : AzOptions
     /// <summary>
     /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tag")]
-    public bool? Tag { get; set; }
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

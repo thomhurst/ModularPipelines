@@ -24,14 +24,14 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Display name of the Microsoft Entra administrator user or group.
     /// </summary>
-    [CliFlag("--admin-display-name", ShortForm = "-m")]
-    public bool? AdminDisplayName { get; set; }
+    [CliOption("--admin-display-name", ShortForm = "-m")]
+    public string? AdminDisplayName { get; set; }
 
     /// <summary>
     /// The unique identifier of the Microsoft Entra administrator.
     /// </summary>
-    [CliFlag("--admin-object-id", ShortForm = "-i")]
-    public bool? AdminObjectId { get; set; }
+    [CliOption("--admin-object-id", ShortForm = "-i")]
+    public string? AdminObjectId { get; set; }
 
     /// <summary>
     /// Type of the Microsoft Entra administrator.  Allowed values: Group, ServicePrincipal, Unknown, User.
@@ -48,8 +48,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
-    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
-    public bool? BackupFederatedClientId { get; set; }
+    [CliOption("--backup-federated-client-id", ShortForm = "-f")]
+    public string? BackupFederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -66,20 +66,20 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.  Default: 7.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// The default database name for an elastic cluster. Only applicable when --node-count is present.
     /// </summary>
-    [CliFlag("--database-name", ShortForm = "-d")]
-    public bool? DatabaseName { get; set; }
+    [CliOption("--database-name", ShortForm = "-d")]
+    public string? DatabaseName { get; set; }
 
     /// <summary>
     /// The client ID of the federated identity.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -126,8 +126,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The number of nodes for elastic cluster.
     /// </summary>
-    [CliFlag("--node-count")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Whether password authentication is enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
@@ -139,20 +139,20 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Performance tier of the server.
     /// </summary>
-    [CliFlag("--performance-tier")]
-    public bool? PerformanceTier { get; set; }
+    [CliOption("--performance-tier")]
+    public string? PerformanceTier { get; set; }
 
     /// <summary>
     /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Determines the public access. Enter single or range of IP addresses to be included in the allowed list of IPs. IP address ranges must be dash-separated and not contain any spaces. Specifying 0.0.0.0 allows public access from any resources deployed within Azure to access your server. Setting it to "None" sets the server in public access mode but does not create a firewall rule. Acceptable values are 'Disabled', 'Enabled', 'All', 'None','{startIP}' and '{startIP}-{destinationIP}' where startIP and destinationIP ranges from 0.0.0.0 to 255.255.255.255.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -169,8 +169,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
     /// </summary>
-    [CliFlag("--standby-zone")]
-    public bool? StandbyZone { get; set; }
+    [CliOption("--standby-zone")]
+    public string? StandbyZone { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -181,8 +181,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.  Default: 128.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS. Default value is Premium_LRS. Must set --iops and --throughput if using PremiumV2_LRS.  Allowed values: PremiumV2_LRS, Premium_LRS.
@@ -205,8 +205,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public string? Throughput { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: GeneralPurpose.
@@ -217,8 +217,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Server major version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing virtual network. If you want to use a vnet from a different resource group or subscription, please provide a resource identifier. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
@@ -241,8 +241,8 @@ public record AzPostgresFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.

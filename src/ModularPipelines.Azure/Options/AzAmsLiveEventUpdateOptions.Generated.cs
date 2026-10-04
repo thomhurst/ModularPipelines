@@ -23,8 +23,8 @@ public record AzAmsLiveEventUpdateOptions : AzOptions
     /// <summary>
     /// The live event description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -35,14 +35,14 @@ public record AzAmsLiveEventUpdateOptions : AzOptions
     /// <summary>
     /// Filepath to the clientaccesspolicy.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--client-access-policy")]
-    public bool? ClientAccessPolicy { get; set; }
+    [CliOption("--client-access-policy")]
+    public string? ClientAccessPolicy { get; set; }
 
     /// <summary>
     /// Filepath to the crossdomain.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--cross-domain-policy")]
-    public bool? CrossDomainPolicy { get; set; }
+    [CliOption("--cross-domain-policy")]
+    public string? CrossDomainPolicy { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -77,8 +77,8 @@ public record AzAmsLiveEventUpdateOptions : AzOptions
     /// <summary>
     /// ISO 8601 timespan duration of the key frame interval duration in seconds. The value should be an interger in the range of 1 (PT1S or 00:00:01) to 30 (PT30S or 00:00:30) seconds.
     /// </summary>
-    [CliFlag("--key-frame-interval-duration")]
-    public bool? KeyFrameIntervalDuration { get; set; }
+    [CliOption("--key-frame-interval-duration")]
+    public string? KeyFrameIntervalDuration { get; set; }
 
     /// <summary>
     /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.

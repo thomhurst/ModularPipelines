@@ -68,7 +68,7 @@ public record AzEventgridPartnerTopicEventSubscriptionShowOptions : AzOptions
     /// <summary>
     /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
+    [CliOption("--include-attrib-secret")]
     public bool? IncludeAttribSecret { get; set; }
 
     /// <summary>

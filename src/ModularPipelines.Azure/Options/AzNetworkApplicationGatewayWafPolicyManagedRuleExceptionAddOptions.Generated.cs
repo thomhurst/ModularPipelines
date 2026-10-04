@@ -73,25 +73,25 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions
     /// <summary>
     /// Operates on the allowed values for the matchVariable.  Allowed values: Contains, EndsWith, Equals, IPMatch, StartsWith.
     /// </summary>
-    [CliOption("--value-match-operator", ShortForm = "--value-operator")]
+    [CliOption("--value-match-operator")]
     public string ValueMatchOperator { get; private init; }
 
     /// <summary>
     /// Index of exception. If no index is provided, the default behaviour is `append`.
     /// </summary>
-    [CliFlag("--index")]
-    public bool? Index { get; set; }
+    [CliOption("--index")]
+    public string? Index { get; set; }
 
     /// <summary>
     /// When the matchVariable points to a key- value pair (e.g, RequestHeader), this identifies the key.
     /// </summary>
-    [CliFlag("--selector")]
-    public bool? Selector { get; set; }
+    [CliOption("--selector")]
+    public string? Selector { get; set; }
 
     /// <summary>
     /// When the matchVariable points to a key- value pair (e.g, RequestHeader), this operates on the selector.  Allowed values: Contains, EndsWith, Equals, StartsWith.
     /// </summary>
-    [CliOption("--selector-match-operator", ShortForm = "--selector-operator")]
+    [CliOption("--selector-match-operator")]
     public string? SelectorMatchOperator { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExceptionAddOptions
     /// <summary>
     /// The managed rule sets that are associated with the exception.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rule-sets")]
-    public bool? RuleSets { get; set; }
+    [CliOption("--rule-sets")]
+    public string? RuleSets { get; set; }
 
 }

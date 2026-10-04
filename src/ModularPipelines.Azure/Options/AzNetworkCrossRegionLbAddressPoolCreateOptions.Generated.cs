@@ -80,14 +80,14 @@ public record AzNetworkCrossRegionLbAddressPoolCreateOptions : AzOptions
     /// <summary>
     /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
     /// </summary>
-    [CliOption("--backend-address", ShortForm = "--backend-addresses")]
+    [CliOption("--backend-address")]
     public IEnumerable<string>? BackendAddress { get; set; }
 
     /// <summary>
     /// Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
     /// </summary>
-    [CliFlag("--drain-period", ShortForm = "--drain-period-in-seconds")]
-    public bool? DrainPeriod { get; set; }
+    [CliOption("--drain-period")]
+    public string? DrainPeriod { get; set; }
 
     /// <summary>
     /// The location of the backend address pool.
@@ -98,7 +98,7 @@ public record AzNetworkCrossRegionLbAddressPoolCreateOptions : AzOptions
     /// <summary>
     /// A reference to a virtual network.
     /// </summary>
-    [CliFlag("--vnet-id")]
-    public bool? VnetId { get; set; }
+    [CliOption("--vnet-id")]
+    public string? VnetId { get; set; }
 
 }

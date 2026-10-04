@@ -29,8 +29,8 @@ public record AzVmssGetResiliencyViewOptions : AzOptions
     /// <summary>
     /// The instance ID of the virtual machine.
     /// </summary>
-    [CliFlag("--instance")]
-    public bool? Instance { get; set; }
+    [CliOption("--instance")]
+    public string? Instance { get; set; }
 
     /// <summary>
     /// The name of the VM scale set.

@@ -29,8 +29,8 @@ public record AzDiskEncryptionSetIdentityAssignOptions : AzOptions
     /// <summary>
     /// User Assigned Identity ids to be used for disk encryption set. Accepts using the argument without any value. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned")]
+    public string? UserAssigned { get; set; }
 
     /// <summary>
     /// Name of disk encryption set.

@@ -68,14 +68,14 @@ public record AzNetworkRouteTableRouteCreateOptions : AzOptions
     /// <summary>
     /// The destination CIDR to which the route applies.
     /// </summary>
-    [CliFlag("--address-prefix")]
-    public bool? AddressPrefix { get; set; }
+    [CliOption("--address-prefix")]
+    public string? AddressPrefix { get; set; }
 
     /// <summary>
     /// The IP address packets should be forwarded to when using the VirtualAppliance hop type.
     /// </summary>
-    [CliFlag("--next-hop-ip-address")]
-    public bool? NextHopIpAddress { get; set; }
+    [CliOption("--next-hop-ip-address")]
+    public string? NextHopIpAddress { get; set; }
 
     /// <summary>
     /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance, VirtualNetworkGateway, VnetLocal.

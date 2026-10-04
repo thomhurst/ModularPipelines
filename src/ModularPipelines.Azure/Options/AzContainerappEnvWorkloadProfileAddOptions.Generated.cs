@@ -57,25 +57,25 @@ public record AzContainerappEnvWorkloadProfileAddOptions : AzOptions
     /// <summary>
     /// The maximum node count for the workload profile.
     /// </summary>
-    [CliFlag("--max-nodes")]
-    public bool? MaxNodes { get; set; }
+    [CliOption("--max-nodes")]
+    public string? MaxNodes { get; set; }
 
     /// <summary>
     /// The minimum node count for the workload profile.
     /// </summary>
-    [CliFlag("--min-nodes")]
-    public bool? MinNodes { get; set; }
+    [CliOption("--min-nodes")]
+    public string? MinNodes { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// The type of workload profile to add to this environment. Run `az containerapp env workload-profile list-supported -l &lt;region&gt;` to check the options for your region.
     /// </summary>
-    [CliFlag("--workload-profile-type")]
-    public bool? WorkloadProfileType { get; set; }
+    [CliOption("--workload-profile-type")]
+    public string? WorkloadProfileType { get; set; }
 
 }

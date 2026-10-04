@@ -56,7 +56,7 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// The name of the capacity pool.
     /// </summary>
-    [CliOption("--name", ShortForm = "-p")]
+    [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -92,8 +92,8 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level.
     /// </summary>
-    [CliFlag("--custom-throughput", ShortForm = "--custom-throughput-mibps")]
-    public bool? CustomThroughput { get; set; }
+    [CliOption("--custom-throughput")]
+    public string? CustomThroughput { get; set; }
 
     /// <summary>
     /// Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool.  Allowed values: Double, Single.  Default: Single.
@@ -116,8 +116,8 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// Provisioned size of the pool. Must be an integer number of tebibytes in multiples of 4. Use either --size or --size-in-bytes, not both.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
     /// <summary>
     /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or --size-in-bytes, not both.

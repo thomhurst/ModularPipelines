@@ -46,20 +46,20 @@ public record AzRedisImportOptions : AzOptions
     /// <summary>
     /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values: ManagedIdentity, SAS.
     /// </summary>
-    [CliOption("--auth-method", ShortForm = "--preferred-data-archive-auth-method")]
+    [CliOption("--auth-method")]
     public string? AuthMethod { get; set; }
 
     /// <summary>
     /// Format of the blob (Currently rdb is the only supported format, with other formats expected in the future).
     /// </summary>
-    [CliFlag("--file-format")]
-    public bool? FileFormat { get; set; }
+    [CliOption("--file-format")]
+    public string? FileFormat { get; set; }
 
     /// <summary>
     /// SubscriptionId of the storage account.
     /// </summary>
-    [CliFlag("--storage-sub-id", ShortForm = "--storage-subscription-id")]
-    public bool? StorageSubId { get; set; }
+    [CliOption("--storage-sub-id")]
+    public string? StorageSubId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

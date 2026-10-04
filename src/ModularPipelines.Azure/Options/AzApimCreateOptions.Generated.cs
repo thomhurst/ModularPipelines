@@ -115,8 +115,8 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// The number of deployed units of the SKU.  Default: 1.
     /// </summary>
-    [CliFlag("--sku-capacity")]
-    public bool? SkuCapacity { get; set; }
+    [CliOption("--sku-capacity")]
+    public int? SkuCapacity { get; set; }
 
     /// <summary>
     /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default: Developer.

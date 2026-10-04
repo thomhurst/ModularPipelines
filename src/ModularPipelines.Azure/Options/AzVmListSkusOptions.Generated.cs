@@ -41,8 +41,8 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Size name, partial name is accepted.
     /// </summary>
-    [CliFlag("--size", ShortForm = "-s")]
-    public bool? Size { get; set; }
+    [CliOption("--size", ShortForm = "-s")]
+    public int? Size { get; set; }
 
     /// <summary>
     /// Show skus supporting availability zones.  Allowed values: false, true.

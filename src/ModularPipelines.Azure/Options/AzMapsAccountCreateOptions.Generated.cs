@@ -75,8 +75,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
-    [CliFlag("--linked-resources")]
-    public bool? LinkedResources { get; set; }
+    [CliOption("--linked-resources")]
+    public string? LinkedResources { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.

@@ -23,8 +23,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// The short name of the action group. This will be used in SMS messages.
     /// </summary>
-    [CliFlag("--group-short-name", ShortForm = "--short-name")]
-    public bool? GroupShortName { get; set; }
+    [CliOption("--group-short-name")]
+    public string? GroupShortName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -35,8 +35,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// Add receivers to the action group.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "-a")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a")]
+    public string? AddAction { get; set; }
 
     /// <summary>
     /// Remove receivers from the action group. Accept space-separated list of receiver names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

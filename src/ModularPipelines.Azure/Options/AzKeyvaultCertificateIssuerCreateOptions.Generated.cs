@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -74,14 +75,15 @@ public record AzKeyvaultCertificateIssuerCreateOptions : AzOptions
     /// <summary>
     /// The issuer account id/username/etc.
     /// </summary>
-    [CliFlag("--account-id")]
-    public bool? AccountId { get; set; }
+    [CliOption("--account-id")]
+    public string? AccountId { get; set; }
 
     /// <summary>
     /// The issuer account password/secret/etc.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The organization id.

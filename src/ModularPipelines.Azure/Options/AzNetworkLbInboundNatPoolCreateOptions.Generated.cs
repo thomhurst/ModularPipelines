@@ -117,7 +117,7 @@ public record AzNetworkLbInboundNatPoolCreateOptions : AzOptions
     /// <summary>
     /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    [CliOption("--enable-floating-ip")]
     public bool? EnableFloatingIp { get; set; }
 
     /// <summary>
@@ -129,13 +129,13 @@ public record AzNetworkLbInboundNatPoolCreateOptions : AzOptions
     /// <summary>
     /// The name or ID of the frontend IP configuration.
     /// </summary>
-    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    [CliOption("--idle-timeout")]
     public int? IdleTimeout { get; set; }
 
 }

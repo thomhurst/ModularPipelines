@@ -35,20 +35,20 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Format: "YYYY-MM-DDThh:mm:ss["Z"/±hh:mm]. If no time zone or offset specified, use UTC by default.
     /// </summary>
-    [CliFlag("--datetime")]
-    public bool? Datetime { get; set; }
+    [CliOption("--datetime")]
+    public string? Datetime { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Space-separated customized output fields.  Allowed values: content_type, etag, key, label, last_modified, locked, tags, value.
@@ -59,14 +59,14 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// If no key specified, return all keys by default. Support star sign as filters, for instance abc* means keys with abc as prefix.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// If no label specified, list all labels. Support star sign as filters, for instance abc* means labels with abc as prefix. Use '\0' for null label.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
@@ -89,8 +89,8 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// List all keys in a given snapshot of the App Configuration store. If no snapshot is specified, the keys currently in the store are listed.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// If no tags are specified, return all key-values with any tags. Support space-separated tags: key[=value] [key[=value] ...].
@@ -101,7 +101,7 @@ public record AzAppConfigKvListOptions : AzOptions
     /// <summary>
     /// Maximum number of items to return. Must be a positive integer. Default to 100.
     /// </summary>
-    [CliFlag("--top", ShortForm = "-t")]
-    public bool? Top { get; set; }
+    [CliOption("--top", ShortForm = "-t")]
+    public int? Top { get; set; }
 
 }

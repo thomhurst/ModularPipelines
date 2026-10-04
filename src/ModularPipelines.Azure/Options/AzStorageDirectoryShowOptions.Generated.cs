@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -63,7 +64,7 @@ public record AzStorageDirectoryShowOptions : AzOptions
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
     /// </summary>
-    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
     /// <summary>
@@ -81,37 +82,38 @@ public record AzStorageDirectoryShowOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--file-endpoint")]
-    public bool? FileEndpoint { get; set; }
+    [CliOption("--file-endpoint")]
+    public string? FileEndpoint { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

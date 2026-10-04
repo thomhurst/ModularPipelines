@@ -55,7 +55,7 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
     /// <summary>
     /// The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).
     /// </summary>
-    [CliOption("--client-app-group-id", ShortForm = "--client-app-group-identifier")]
+    [CliOption("--client-app-group-id")]
     public string ClientAppGroupId { get; private init; }
 
     /// <summary>
@@ -85,7 +85,7 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
     /// <summary>
     /// List of Throttling Policy Objects.
     /// </summary>
-    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
+    [CliOption("--policy-config", GroupValues = true)]
     public IEnumerable<string>? PolicyConfig { get; set; }
 
 }

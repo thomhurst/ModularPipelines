@@ -29,14 +29,14 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     /// <summary>
     /// The streaming endpoint description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Max cache age.
     /// </summary>
-    [CliFlag("--max-cache-age")]
-    public bool? MaxCacheAge { get; set; }
+    [CliOption("--max-cache-age")]
+    public string? MaxCacheAge { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,8 +59,8 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     /// <summary>
     /// The CDN profile name.
     /// </summary>
-    [CliFlag("--cdn-profile")]
-    public bool? CdnProfile { get; set; }
+    [CliOption("--cdn-profile")]
+    public string? CdnProfile { get; set; }
 
     /// <summary>
     /// The CDN provider name. Allowed values: StandardVerizon, PremiumVerizon, StandardAkamai.
@@ -77,14 +77,14 @@ public record AzAmsStreamingEndpointUpdateOptions : AzOptions
     /// <summary>
     /// The XML representing the clientaccesspolicy data used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/rest/api/media/operations/ crosssiteaccesspolicies.
     /// </summary>
-    [CliFlag("--client-access-policy")]
-    public bool? ClientAccessPolicy { get; set; }
+    [CliOption("--client-access-policy")]
+    public string? ClientAccessPolicy { get; set; }
 
     /// <summary>
     /// The XML representing the crossdomain data used by Silverlight. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/ rest/api/media/operations/crosssiteaccesspolicies.
     /// </summary>
-    [CliFlag("--cross-domain-policy")]
-    public bool? CrossDomainPolicy { get; set; }
+    [CliOption("--cross-domain-policy")]
+    public string? CrossDomainPolicy { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

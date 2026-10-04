@@ -65,13 +65,13 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
     /// </summary>
-    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    [CliOption("--action-on-unmanage")]
     public string ActionOnUnmanage { get; private init; }
 
     /// <summary>
     /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
     /// </summary>
-    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    [CliOption("--deny-settings-mode")]
     public string DenySettingsMode { get; private init; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// The retention interval for What-If results. The value must be in ISO 8601 format and between 1 day and 30 days.
     /// </summary>
-    [CliOption("--retention-interval", ShortForm = "--ri")]
+    [CliOption("--retention-interval")]
     public string RetentionInterval { get; private init; }
 
     /// <summary>
@@ -101,19 +101,19 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
-    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    [CliFlag("--cs")]
     public bool? Cs { get; set; }
 
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
+    [CliOption("--deny-settings-excluded-actions", GroupValues = true)]
     public IEnumerable<string>? DenySettingsExcludedActions { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
+    [CliOption("--deny-settings-excluded-principals", GroupValues = true)]
     public IEnumerable<string>? DenySettingsExcludedPrincipals { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
-    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    [CliOption("--resources-without-delete-support")]
     public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
@@ -185,7 +185,7 @@ public record AzStackWhatifGroupCreateOptions : AzOptions
     /// <summary>
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
-    [CliOption("--validation-level", ShortForm = "--vl")]
+    [CliOption("--validation-level")]
     public string? ValidationLevel { get; set; }
 
 }

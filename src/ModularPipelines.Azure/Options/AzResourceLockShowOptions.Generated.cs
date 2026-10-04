@@ -41,20 +41,20 @@ public record AzResourceLockShowOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: 'resA/myA/resB/myB').
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// If an ID is given, other resource arguments should not be given.
     /// </summary>
-    [CliFlag("--resource", ShortForm = "--resource-name")]
-    public bool? Resource { get; set; }
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
 
     /// <summary>
     /// The resource type (Ex: 'resC'). Can also accept namespace/type format (Ex: 'Microsoft.Provider/resC').

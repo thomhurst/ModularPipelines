@@ -57,7 +57,7 @@ public record AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules.
     /// </summary>
-    [CliFlag("--ip-rule")]
-    public bool? IpRule { get; set; }
+    [CliOption("--ip-rule")]
+    public string? IpRule { get; set; }
 
 }

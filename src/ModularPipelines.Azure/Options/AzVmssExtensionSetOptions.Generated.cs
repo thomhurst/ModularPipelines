@@ -109,8 +109,8 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// <summary>
     /// Protected settings in JSON format for sensitive information like credentials. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Space-separated list of extension names after which this extension should be provisioned. These extensions must already be set on the vm.
@@ -121,13 +121,13 @@ public record AzVmssExtensionSetOptions : AzOptions
     /// <summary>
     /// Extension settings in JSON format. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--settings")]
-    public bool? Settings { get; set; }
+    [CliOption("--settings")]
+    public string? Settings { get; set; }
 
     /// <summary>
     /// The version of the extension. To pin extension version to this value, please specify --no-auto-upgrade-minor-version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

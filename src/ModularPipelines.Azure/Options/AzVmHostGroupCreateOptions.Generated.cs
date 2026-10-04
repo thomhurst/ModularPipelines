@@ -91,7 +91,7 @@ public record AzVmHostGroupCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
 }

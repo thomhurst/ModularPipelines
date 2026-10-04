@@ -35,8 +35,8 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the resource.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// The option whether to validate the enrollment is at or under the assignment scope.  Allowed values: Default, DoNotValidate.
@@ -53,26 +53,26 @@ public record AzPolicyEnrollmentCreateOptions : AzOptions
     /// <summary>
     /// The display name of the policy enrollment.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The policy enrollment metadata. Metadata is an open ended object and is typically a collection of key value pairs. Support shorthand-syntax(full value only), json-file and yaml-file.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata")]
+    public string? Metadata { get; set; }
 
     /// <summary>
     /// The policy assignment to enroll.
     /// </summary>
-    [CliFlag("--policy-assignment", ShortForm = "-a")]
-    public bool? PolicyAssignment { get; set; }
+    [CliOption("--policy-assignment", ShortForm = "-a")]
+    public string? PolicyAssignment { get; set; }
 
     /// <summary>
     /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
-    public bool? PolicyDefinitionReferenceIds { get; set; }
+    [CliOption("--policy-definition-reference-ids", ShortForm = "-r")]
+    public string? PolicyDefinitionReferenceIds { get; set; }
 
     /// <summary>
     /// The resource selector list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

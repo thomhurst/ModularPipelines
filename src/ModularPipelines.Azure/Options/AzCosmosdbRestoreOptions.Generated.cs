@@ -96,14 +96,14 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// Add a database and its collection names to restore. Usage:          --databases-to-restore name=DatabaseName collections=collection1 [collection2 ...] Multiple databases can be specified by using more than one `--databases-to-restore` argument.
     /// </summary>
-    [CliFlag("--databases-to-restore")]
-    public bool? DatabasesToRestore { get; set; }
+    [CliOption("--databases-to-restore")]
+    public string? DatabasesToRestore { get; set; }
 
     /// <summary>
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more.
     /// </summary>
-    [CliFlag("--default-identity")]
-    public bool? DefaultIdentity { get; set; }
+    [CliOption("--default-identity")]
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Disable key-based authentication on the Cosmos DB account.  Allowed values: false, true.
@@ -120,8 +120,8 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// Add a gremlin database and its graph names to restore. Usage:          --gremlin-databases-to-restore name=DatabaseName graphs=graph1 [graph2 ...].
     /// </summary>
-    [CliFlag("--gremlin-databases-to-restore")]
-    public bool? GremlinDatabasesToRestore { get; set; }
+    [CliOption("--gremlin-databases-to-restore")]
+    public string? GremlinDatabasesToRestore { get; set; }
 
     /// <summary>
     /// Sets public network access in server to either Enabled or Disabled.  Allowed values: DISABLED, ENABLED.
@@ -132,13 +132,13 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// This is the location of the source account where backups are located. Provide this value if the source and target are in different locations.
     /// </summary>
-    [CliFlag("--source-backup-location")]
-    public bool? SourceBackupLocation { get; set; }
+    [CliOption("--source-backup-location")]
+    public string? SourceBackupLocation { get; set; }
 
     /// <summary>
     /// Add table names to restore. Usage:          --tables-to-restore table1 [table2 ...].
     /// </summary>
-    [CliFlag("--tables-to-restore")]
-    public bool? TablesToRestore { get; set; }
+    [CliOption("--tables-to-restore")]
+    public string? TablesToRestore { get; set; }
 
 }

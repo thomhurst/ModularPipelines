@@ -45,7 +45,7 @@ public record AzMysqlServerRestoreOptions : AzOptions
     /// <summary>
     /// The point in time in UTC to restore from (ISO8601 format), e.g., 2017-04-26T02:10:00+08:00.
     /// </summary>
-    [CliOption("--pitr-time", ShortForm = "--restore-point-in-time")]
+    [CliOption("--pitr-time")]
     public string PitrTime { get; private init; }
 
     /// <summary>

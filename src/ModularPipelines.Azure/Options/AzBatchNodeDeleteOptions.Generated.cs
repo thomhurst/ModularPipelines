@@ -70,8 +70,8 @@ public record AzBatchNodeDeleteOptions : AzOptions
     /// <summary>
     /// Determines what to do with a Compute Node and its running task(s) after it has been selected for deallocation. The default value is requeue. Known values are: "requeue", "terminate", "taskcompletion", and "retaineddata".
     /// </summary>
-    [CliFlag("--node-deallocation-option")]
-    public bool? NodeDeallocationOption { get; set; }
+    [CliOption("--node-deallocation-option")]
+    public string? NodeDeallocationOption { get; set; }
 
     /// <summary>
     /// A list containing the IDs of the Compute Nodes to be removed from the specified Pool. A maximum of 100 nodes may be removed per request. Required. Space-separated values.

@@ -92,8 +92,8 @@ public record AzAmsAccountCreateOptions : AzOptions
     /// <summary>
     /// Set the user managed identities on the media services account.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// The behavior for IP access control in Key Delivery. Allowed values: Allow,Deny.
@@ -104,7 +104,7 @@ public record AzAmsAccountCreateOptions : AzOptions
     /// <summary>
     /// The IP allow list for access control in Key Delivery. If the default action is set to Allow, the IP allow list must be empty.
     /// </summary>
-    [CliFlag("--ip-allow-list")]
-    public bool? IpAllowList { get; set; }
+    [CliOption("--ip-allow-list")]
+    public string? IpAllowList { get; set; }
 
 }

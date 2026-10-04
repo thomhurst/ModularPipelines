@@ -74,8 +74,8 @@ public record AzNetworkApplicationGatewayFrontendPortUpdateOptions : AzOptions
     /// <summary>
     /// Number of the port.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

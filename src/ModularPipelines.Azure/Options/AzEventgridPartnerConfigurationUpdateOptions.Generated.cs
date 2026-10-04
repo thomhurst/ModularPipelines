@@ -46,7 +46,7 @@ public record AzEventgridPartnerConfigurationUpdateOptions : AzOptions
     /// <summary>
     /// Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days.
     /// </summary>
-    [CliOption("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    [CliOption("--default-maximum-expiration-time-in-days")]
     public string? DefaultMaximumExpirationTimeInDays { get; set; }
 
     /// <summary>

@@ -75,8 +75,8 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// JSON encoded list of logs settings. Use '@{file}' to load from a file. For more information, visit: https://learn.microsoft.com/r est/api/monitor/diagnosticsettings/createorupdate#logsettings. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--logs")]
-    public bool? Logs { get; set; }
+    [CliOption("--logs")]
+    public string? Logs { get; set; }
 
     /// <summary>
     /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
@@ -111,19 +111,19 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

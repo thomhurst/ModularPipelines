@@ -81,14 +81,14 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// The minimum number of instances.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// Add an action to fire when a scaling event occurs. Usage:   --action TYPE KEY [ARG ...] Email:   --action email bob@contoso.com ann@contoso.com Webhook: --action webhook https://www.contoso.com/alert apiKey=value Webhook: --action webhook https://www.contoso.com/alert?apiKey=value Multiple actions can be specified by using more than one `--action` argument.
@@ -111,8 +111,8 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be P100D).
     /// </summary>
-    [CliFlag("--scale-look-ahead-time")]
-    public bool? ScaleLookAheadTime { get; set; }
+    [CliOption("--scale-look-ahead-time")]
+    public string? ScaleLookAheadTime { get; set; }
 
     /// <summary>
     /// The predictive autoscale mode.  Allowed values: Disabled, Enabled, ForecastOnly.
@@ -129,19 +129,19 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

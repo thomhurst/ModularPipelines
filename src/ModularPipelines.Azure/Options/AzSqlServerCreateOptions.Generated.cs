@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,8 +58,9 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// The administrator login password (required forserver creation).
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Administrator username for the server. Oncecreated it cannot be changed.
@@ -81,26 +83,26 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// Display name of the Azure AD administrator user, group or application.
     /// </summary>
-    [CliFlag("--external-admin-name")]
-    public bool? ExternalAdminName { get; set; }
+    [CliOption("--external-admin-name")]
+    public string? ExternalAdminName { get; set; }
 
     /// <summary>
     /// User, Group or Application.
     /// </summary>
-    [CliFlag("--external-admin-principal-type")]
-    public bool? ExternalAdminPrincipalType { get; set; }
+    [CliOption("--external-admin-principal-type")]
+    public string? ExternalAdminPrincipalType { get; set; }
 
     /// <summary>
     /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for Applications.
     /// </summary>
-    [CliFlag("--external-admin-sid")]
-    public bool? ExternalAdminSid { get; set; }
+    [CliOption("--external-admin-sid")]
+    public string? ExternalAdminSid { get; set; }
 
     /// <summary>
     /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id", ShortForm = "--fid")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -135,7 +137,7 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
     /// <summary>
@@ -147,7 +149,7 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a")]
+    public string? UserAssignedIdentityId { get; set; }
 
 }

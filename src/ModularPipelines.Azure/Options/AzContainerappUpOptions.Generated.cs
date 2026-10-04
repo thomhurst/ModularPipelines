@@ -59,8 +59,8 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -77,14 +77,14 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// Local directory path containing the application source and Dockerfile for building the container image. Preview: If no Dockerfile is present, a container image is generated using buildpacks. If Docker is not running or buildpacks cannot be used, Oryx will be used to generate the image. See the supported Oryx runtimes here: https://github.com/mi crosoft/Oryx/blob/main/doc/supportedRuntimeVersions .md.
     /// </summary>
-    [CliFlag("--source")]
-    public bool? Source { get; set; }
+    [CliOption("--source")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
@@ -96,8 +96,8 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// The container registry server hostname, e.g. myregistry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-server")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The username to log in to container registry.
@@ -114,8 +114,8 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// The branch of the Github repo. Assumed to be the Github repo's default branch if not specified.
     /// </summary>
-    [CliFlag("--branch", ShortForm = "-b")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch", ShortForm = "-b")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// Path in the repo from which to run the docker build. Defaults to "./". Dockerfile is assumed to be named "Dockerfile" and in this directory.
@@ -126,32 +126,34 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// Create an app via Github Actions. In the format: `https://github.com/&lt;owner&gt;/&lt;repository-name&gt;` or `&lt;owner&gt;/&lt;repository-name&gt;`.
     /// </summary>
-    [CliFlag("--repo")]
-    public bool? Repo { get; set; }
+    [CliOption("--repo")]
+    public string? Repo { get; set; }
 
     /// <summary>
     /// The service principal client ID. Used by Github Actions to authenticate with Azure.
     /// </summary>
-    [CliOption("--service-principal-client-id", ShortForm = "--sp-cid")]
+    [CliOption("--service-principal-client-id")]
     public string? ServicePrincipalClientId { get; set; }
 
     /// <summary>
     /// The service principal client secret. Used by Github Actions to authenticate with Azure.
     /// </summary>
-    [CliFlag("--service-principal-client-secret", ShortForm = "--sp-sec")]
-    public bool? ServicePrincipalClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--service-principal-client-secret")]
+    public string? ServicePrincipalClientSecret { get; set; }
 
     /// <summary>
     /// The service principal tenant ID. Used by Github Actions to authenticate with Azure.
     /// </summary>
-    [CliOption("--service-principal-tenant-id", ShortForm = "--sp-tid")]
+    [CliOption("--service-principal-tenant-id")]
     public string? ServicePrincipalTenantId { get; set; }
 
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the- command-line. If not provided or not found in the cache (and using --repo), a browser page will be opened to authenticate with Github.
     /// </summary>
-    [CliFlag("--token")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token")]
+    public string? Token { get; set; }
 
     /// <summary>
     /// The ingress type.  Allowed values: external, internal.
@@ -162,19 +164,19 @@ public record AzContainerappUpOptions : AzOptions
     /// <summary>
     /// The application port used for ingress traffic.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public string? TargetPort { get; set; }
 
     /// <summary>
     /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. You can use "az monitor log- analytics workspace create" to create one. Extra billing may apply.
     /// </summary>
-    [CliFlag("--logs-workspace-id")]
-    public bool? LogsWorkspaceId { get; set; }
+    [CliOption("--logs-workspace-id")]
+    public string? LogsWorkspaceId { get; set; }
 
     /// <summary>
     /// Log Analytics workspace key to configure your Log Analytics workspace. You can use "az monitor log- analytics workspace get-shared-keys" to retrieve the key.
     /// </summary>
-    [CliFlag("--logs-workspace-key")]
-    public bool? LogsWorkspaceKey { get; set; }
+    [CliOption("--logs-workspace-key")]
+    public string? LogsWorkspaceKey { get; set; }
 
 }

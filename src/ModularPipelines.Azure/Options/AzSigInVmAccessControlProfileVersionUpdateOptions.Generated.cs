@@ -29,8 +29,8 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions")]
+    public string? TargetRegions { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -95,7 +95,7 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.
     /// </summary>
-    [CliOption("--profile-version", ShortForm = "--version-name")]
+    [CliOption("--profile-version")]
     public string? ProfileVersion { get; set; }
 
     /// <summary>

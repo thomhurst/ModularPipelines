@@ -74,8 +74,8 @@ public record AzNetworkApplicationGatewayFrontendIpUpdateOptions : AzOptions
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Name or ID of the subnet. If using Name, you need to provide `--vnet-name` as well.

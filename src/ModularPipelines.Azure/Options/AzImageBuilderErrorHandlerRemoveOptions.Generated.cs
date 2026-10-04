@@ -23,8 +23,8 @@ public record AzImageBuilderErrorHandlerRemoveOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer")]
+    public string? Defer { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

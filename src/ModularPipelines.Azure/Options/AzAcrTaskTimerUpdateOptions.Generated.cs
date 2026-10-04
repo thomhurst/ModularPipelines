@@ -80,7 +80,7 @@ public record AzAcrTaskTimerUpdateOptions : AzOptions
     /// <summary>
     /// The schedule of the timer trigger represented as a cron expression.
     /// </summary>
-    [CliFlag("--schedule")]
-    public bool? Schedule { get; set; }
+    [CliOption("--schedule")]
+    public string? Schedule { get; set; }
 
 }

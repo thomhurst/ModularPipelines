@@ -52,7 +52,7 @@ public record AzDiskGrantAccessOptions : AzOptions
     /// <summary>
     /// Access level.  Allowed values: None, Read, Write.  Default: Read.
     /// </summary>
-    [CliOption("--access", ShortForm = "--access-level")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
     /// <summary>

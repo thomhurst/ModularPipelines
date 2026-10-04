@@ -46,8 +46,8 @@ public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -76,7 +76,7 @@ public record AzStorageAccountNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// The tenant id to add in network rule.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
 }

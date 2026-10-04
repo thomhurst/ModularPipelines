@@ -23,14 +23,14 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
+    [CliOption("--auto-rotation")]
     public bool? AutoRotation { get; set; }
 
     /// <summary>
     /// The federated client id used in cross tenant scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// URL pointing to a key or secret in KeyVault.

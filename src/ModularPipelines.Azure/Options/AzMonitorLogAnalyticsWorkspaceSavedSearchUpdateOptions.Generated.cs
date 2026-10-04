@@ -68,26 +68,26 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions : AzOptions
     /// <summary>
     /// The category of the saved search. This helps the user to find a saved search faster.
     /// </summary>
-    [CliFlag("--category")]
-    public bool? Category { get; set; }
+    [CliOption("--category")]
+    public string? Category { get; set; }
 
     /// <summary>
     /// Display name of the saved search.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for Computer Groups.
     /// </summary>
-    [CliFlag("--fa", ShortForm = "--func-alias")]
-    public bool? Fa { get; set; }
+    [CliOption("--fa")]
+    public string? Fa { get; set; }
 
     /// <summary>
     /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
     /// </summary>
-    [CliFlag("--fp", ShortForm = "--func-param")]
-    public bool? Fp { get; set; }
+    [CliOption("--fp")]
+    public string? Fp { get; set; }
 
     /// <summary>
     /// The query expression for the saved search.

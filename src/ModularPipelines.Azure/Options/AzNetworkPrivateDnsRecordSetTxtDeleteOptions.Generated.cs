@@ -23,8 +23,8 @@ public record AzNetworkPrivateDnsRecordSetTxtDeleteOptions : AzOptions
     /// <summary>
     /// ETag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

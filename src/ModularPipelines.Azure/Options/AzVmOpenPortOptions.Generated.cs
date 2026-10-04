@@ -38,8 +38,8 @@ public record AzVmOpenPortOptions(
     /// <summary>
     /// Rule priority, between 100 (highest priority) and 4096 (lowest priority). Must be unique for each rule in the collection.  Default: 900.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

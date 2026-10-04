@@ -90,8 +90,8 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Add an action group and optional webhook properties to fire when the alert is triggered. Usage:   --action ACTION_GROUP_NAME_OR_ID [KEY=VAL [KEY=VAL ...]]
     /// </summary>
-    [CliFlag("--action", ShortForm = "-a")]
-    public bool? Action { get; set; }
+    [CliOption("--action", ShortForm = "-a")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Automatically resolve the alert.  Allowed values: false, true.
@@ -102,8 +102,8 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Free-text description of the rule.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Create the rule in a disabled state.  Allowed values: false, true.
@@ -114,20 +114,20 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Frequency with which to evaluate the rule in "##h##m##s" format.  Default: 1m.
     /// </summary>
-    [CliFlag("--evaluation-frequency")]
-    public bool? EvaluationFrequency { get; set; }
+    [CliOption("--evaluation-frequency")]
+    public string? EvaluationFrequency { get; set; }
 
     /// <summary>
     /// The region of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
     /// </summary>
-    [CliFlag("--region", ShortForm = "--target-resource-region")]
-    public bool? Region { get; set; }
+    [CliOption("--region")]
+    public string? Region { get; set; }
 
     /// <summary>
     /// Severity of the alert from 0 (critical) to 4 (verbose). Default: 2.
     /// </summary>
-    [CliFlag("--severity")]
-    public bool? Severity { get; set; }
+    [CliOption("--severity")]
+    public string? Severity { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -138,13 +138,13 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// The resource type of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
     /// </summary>
-    [CliOption("--target-resource-type", ShortForm = "--type")]
+    [CliOption("--target-resource-type")]
     public string? TargetResourceType { get; set; }
 
     /// <summary>
     /// Time over which to aggregate metrics in "##h##m##s" format. Default: 5m.
     /// </summary>
-    [CliFlag("--window-size")]
-    public bool? WindowSize { get; set; }
+    [CliOption("--window-size")]
+    public string? WindowSize { get; set; }
 
 }

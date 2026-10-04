@@ -173,19 +173,19 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
     /// <summary>
     /// Comments related to this status change.
     /// </summary>
-    [CliFlag("--comments")]
-    public bool? Comments { get; set; }
+    [CliOption("--comments")]
+    public string? Comments { get; set; }
 
     /// <summary>
     /// The address line2.
     /// </summary>
-    [CliFlag("--address-line2")]
-    public bool? AddressLine2 { get; set; }
+    [CliOption("--address-line2")]
+    public string? AddressLine2 { get; set; }
 
     /// <summary>
     /// The address line3.
     /// </summary>
-    [CliFlag("--address-line3")]
-    public bool? AddressLine3 { get; set; }
+    [CliOption("--address-line3")]
+    public string? AddressLine3 { get; set; }
 
 }

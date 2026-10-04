@@ -86,8 +86,8 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point.
     /// </summary>
-    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
-    public bool? IaDuration { get; set; }
+    [CliOption("--ia-duration")]
+    public string? IaDuration { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

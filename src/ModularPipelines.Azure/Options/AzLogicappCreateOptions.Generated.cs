@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -74,14 +75,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Instrumentation key of App Insights to be added.
     /// </summary>
-    [CliFlag("--app-insights-key")]
-    public bool? AppInsightsKey { get; set; }
+    [CliOption("--app-insights-key")]
+    public string? AppInsightsKey { get; set; }
 
     /// <summary>
     /// Container image name from container registry, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--deployment-container-image-name", ShortForm = "-i")]
-    public bool? DeploymentContainerImageName { get; set; }
+    [CliOption("--deployment-container-image-name", ShortForm = "-i")]
+    public string? DeploymentContainerImageName { get; set; }
 
     /// <summary>
     /// Enable local git.
@@ -92,14 +93,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// The branch to deploy.  Default: master.
     /// </summary>
-    [CliFlag("--deployment-source-branch", ShortForm = "-b")]
-    public bool? DeploymentSourceBranch { get; set; }
+    [CliOption("--deployment-source-branch", ShortForm = "-b")]
+    public string? DeploymentSourceBranch { get; set; }
 
     /// <summary>
     /// Git repository URL to link with manual integration.
     /// </summary>
-    [CliFlag("--deployment-source-url", ShortForm = "-u")]
-    public bool? DeploymentSourceUrl { get; set; }
+    [CliOption("--deployment-source-url", ShortForm = "-u")]
+    public string? DeploymentSourceUrl { get; set; }
 
     /// <summary>
     /// Disable creating application insights resource during logicapp create. No logs will be available.  Allowed values: false, true.
@@ -110,14 +111,15 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// The container registry server password. Required for private registries.
     /// </summary>
-    [CliFlag("--docker-registry-server-password", ShortForm = "-w")]
-    public bool? DockerRegistryServerPassword { get; set; }
+    [SecretValue]
+    [CliOption("--docker-registry-server-password", ShortForm = "-w")]
+    public string? DockerRegistryServerPassword { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--docker-registry-server-user", ShortForm = "-d")]
-    public bool? DockerRegistryServerUser { get; set; }
+    [CliOption("--docker-registry-server-user", ShortForm = "-d")]
+    public string? DockerRegistryServerUser { get; set; }
 
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.

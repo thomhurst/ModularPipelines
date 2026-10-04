@@ -56,7 +56,7 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Backup policy Name which uniquely identify backup policy.
     /// </summary>
-    [CliOption("--backup-policy-name", ShortForm = "-n")]
+    [CliOption("--backup-policy-name", ShortForm = "-b")]
     public string BackupPolicyName { get; private init; }
 
     /// <summary>
@@ -86,8 +86,8 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Daily backups count to keep.
     /// </summary>
-    [CliFlag("--daily-backups", ShortForm = "-d")]
-    public bool? DailyBackups { get; set; }
+    [CliOption("--daily-backups", ShortForm = "-d")]
+    public string? DailyBackups { get; set; }
 
     /// <summary>
     /// The property to decide policy is enabled or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
@@ -98,13 +98,13 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Monthly backups count to keep.
     /// </summary>
-    [CliFlag("--monthly-backups", ShortForm = "-m")]
-    public bool? MonthlyBackups { get; set; }
+    [CliOption("--monthly-backups", ShortForm = "-m")]
+    public string? MonthlyBackups { get; set; }
 
     /// <summary>
     /// Weekly backups count to keep.
     /// </summary>
-    [CliFlag("--weekly-backups", ShortForm = "-w")]
-    public bool? WeeklyBackups { get; set; }
+    [CliOption("--weekly-backups", ShortForm = "-w")]
+    public string? WeeklyBackups { get; set; }
 
 }

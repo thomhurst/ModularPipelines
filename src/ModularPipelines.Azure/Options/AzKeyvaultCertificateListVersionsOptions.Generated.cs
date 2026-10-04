@@ -23,8 +23,8 @@ public record AzKeyvaultCertificateListVersionsOptions : AzOptions
     /// <summary>
     /// Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
     /// <summary>
     /// Id of the certificate. If specified all other 'Id' arguments should be omitted.

@@ -115,8 +115,8 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// IP Address belonging to the referenced virtual network.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name or Id of the subnet. (If name is provided, vnet is also required; If id, vnet is not required).
@@ -127,7 +127,7 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// Name or Id of the virtual network.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
 }

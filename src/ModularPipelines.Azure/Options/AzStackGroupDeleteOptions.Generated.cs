@@ -40,13 +40,13 @@ public record AzStackGroupDeleteOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that are no longer managed after the stack is updated or deleted. Allowed values: deleteAll, deleteResources, detachAll.
     /// </summary>
-    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    [CliOption("--action-on-unmanage")]
     public string ActionOnUnmanage { get; private init; }
 
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--bse", ShortForm = "--bypass-stack-out-of-sync-error")]
+    [CliOption("--bse")]
     public bool? Bse { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AzStackGroupDeleteOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
-    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    [CliOption("--resources-without-delete-support")]
     public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>

@@ -148,7 +148,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.
     /// </summary>
-    [CliOption("--cache-subnet-id", ShortForm = "--cache-subnet-resource-id")]
+    [CliOption("--cache-subnet-id")]
     public string CacheSubnetId { get; private init; }
 
     /// <summary>
@@ -166,7 +166,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.
     /// </summary>
-    [CliOption("--peering-subnet-id", ShortForm = "--peering-subnet-resource-id")]
+    [CliOption("--peering-subnet-id")]
     public string PeeringSubnetId { get; private init; }
 
     /// <summary>
@@ -196,19 +196,19 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The availability zones. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zones")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones")]
+    public string? Zones { get; set; }
 
     /// <summary>
     /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--export-policy-rules", ShortForm = "--rules")]
-    public bool? ExportPolicyRules { get; set; }
+    [CliOption("--export-policy-rules")]
+    public string? ExportPolicyRules { get; set; }
 
     /// <summary>
     /// Flag indicating whether a CIFS change notification is enabled for the cache. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--cifs-change-notifications", ShortForm = "--cifs-change-notify")]
+    [CliOption("--cifs-change-notifications")]
     public string? CifsChangeNotifications { get; set; }
 
     /// <summary>
@@ -226,7 +226,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
     /// </summary>
-    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    [CliOption("--key-vault-private-endpoint-resource-id")]
     public string? KeyVaultPrivateEndpointResourceId { get; set; }
 
     /// <summary>
@@ -244,14 +244,14 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--protocol-types")]
-    public bool? ProtocolTypes { get; set; }
+    [CliOption("--protocol-types")]
+    public string? ProtocolTypes { get; set; }
 
     /// <summary>
     /// Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache.
     /// </summary>
-    [CliFlag("--throughput-mibps")]
-    public bool? ThroughputMibps { get; set; }
+    [CliOption("--throughput-mibps")]
+    public string? ThroughputMibps { get; set; }
 
     /// <summary>
     /// Flag indicating whether writeback is enabled for the cache.  Allowed values: Disabled, Enabled.
@@ -262,7 +262,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    [CliOption("--smb-access-based-enumeration")]
     public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>

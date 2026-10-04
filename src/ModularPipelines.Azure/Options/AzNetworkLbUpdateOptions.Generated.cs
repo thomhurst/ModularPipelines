@@ -59,8 +59,8 @@ public record AzNetworkLbUpdateOptions : AzOptions
     /// <summary>
     /// Collection of probe objects used in the load balancer.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--probes")]
-    public bool? Probes { get; set; }
+    [CliOption("--probes")]
+    public string? Probes { get; set; }
 
     /// <summary>
     /// Indicates the scope of the load balancer: external (Public) or internal (Private).  Allowed values: Private, Public.
@@ -77,8 +77,8 @@ public record AzNetworkLbUpdateOptions : AzOptions
     /// <summary>
     /// The load balancer name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

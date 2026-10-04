@@ -23,14 +23,14 @@ public record AzImageBuilderValidatorAddOptions : AzOptions
     /// <summary>
     /// If validation fails and this parameter is set to false, output image(s) will not be distributed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--continue-distribute-on-failure", ShortForm = "--dis-on-failure")]
+    [CliOption("--continue-distribute-on-failure")]
     public bool? ContinueDistributeOnFailure { get; set; }
 
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer")]
+    public string? Defer { get; set; }
 
     /// <summary>
     /// If this parameter is set to true, the image specified in the 'source' section will directly be validated. No separate build will be run to generate and then validate a customized image.  Allowed values: false, true.

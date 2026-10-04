@@ -59,8 +59,8 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// External dns suffix search list of managed instance DTC.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--external-dns-suffix-search-list", ShortForm = "--external-dns-suffixes")]
-    public bool? ExternalDnsSuffixSearchList { get; set; }
+    [CliOption("--external-dns-suffix-search-list")]
+    public string? ExternalDnsSuffixSearchList { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -71,7 +71,7 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance-name", ShortForm = "--mi")]
+    [CliOption("--managed-instance-name")]
     public string? ManagedInstanceName { get; set; }
 
     /// <summary>
@@ -83,25 +83,25 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// Allow SNA LU 6.2 Transactions to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--sna-lu-transactions", ShortForm = "--sna-lu6point2-transactions-enabled")]
+    [CliOption("--sna-lu-transactions")]
     public bool? SnaLuTransactions { get; set; }
 
     /// <summary>
     /// Default timeout for XA Transactions (in seconds).
     /// </summary>
-    [CliFlag("--xa-default-timeout", ShortForm = "--xa-transactions-default-timeout")]
-    public bool? XaDefaultTimeout { get; set; }
+    [CliOption("--xa-default-timeout")]
+    public string? XaDefaultTimeout { get; set; }
 
     /// <summary>
     /// Maximum timeout for XA Transactions (in seconds).
     /// </summary>
-    [CliFlag("--xa-max-timeout", ShortForm = "--xa-transactions-maximum-timeout")]
-    public bool? XaMaxTimeout { get; set; }
+    [CliOption("--xa-max-timeout")]
+    public int? XaMaxTimeout { get; set; }
 
     /// <summary>
     /// Allow XA Transactions to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--xa-transactions", ShortForm = "--xa-transactions-enabled")]
+    [CliOption("--xa-transactions")]
     public bool? XaTransactions { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// Authentication type of managed instance DTC.
     /// </summary>
-    [CliFlag("--authentication")]
-    public bool? Authentication { get; set; }
+    [CliOption("--authentication")]
+    public string? Authentication { get; set; }
 
 }

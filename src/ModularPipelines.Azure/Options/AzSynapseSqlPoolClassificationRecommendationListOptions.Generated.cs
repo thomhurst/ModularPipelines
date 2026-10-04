@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -68,8 +69,8 @@ public record AzSynapseSqlPoolClassificationRecommendationListOptions : AzOption
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Indicates whether the result should include disabled recommendations.  Allowed values: false, true.
@@ -80,7 +81,8 @@ public record AzSynapseSqlPoolClassificationRecommendationListOptions : AzOption
     /// <summary>
     /// An OData query option to indicate how many elements to skip in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--skip-token")]
-    public bool? SkipToken { get; set; }
+    [SecretValue]
+    [CliOption("--skip-token")]
+    public string? SkipToken { get; set; }
 
 }

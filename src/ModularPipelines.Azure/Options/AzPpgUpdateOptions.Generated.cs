@@ -57,8 +57,8 @@ public record AzPpgUpdateOptions : AzOptions
     /// <summary>
     /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--intent-vm-sizes")]
-    public bool? IntentVmSizes { get; set; }
+    [CliOption("--intent-vm-sizes")]
+    public string? IntentVmSizes { get; set; }
 
     /// <summary>
     /// The type of the proximity placement group. Allowed values: Standard. Allowed values: Standard, Ultra.

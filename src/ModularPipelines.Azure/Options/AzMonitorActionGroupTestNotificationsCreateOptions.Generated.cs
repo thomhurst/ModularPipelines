@@ -50,7 +50,7 @@ public record AzMonitorActionGroupTestNotificationsCreateOptions : AzOptions
     /// <summary>
     /// The name of the action group.
     /// </summary>
-    [CliOption("--action-group", ShortForm = "--action-group-name")]
+    [CliOption("--action-group")]
     public string ActionGroup { get; private init; }
 
     /// <summary>
@@ -68,8 +68,8 @@ public record AzMonitorActionGroupTestNotificationsCreateOptions : AzOptions
     /// <summary>
     /// Add receivers to the action group.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "-a")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a")]
+    public string? AddAction { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

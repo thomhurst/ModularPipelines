@@ -58,7 +58,7 @@ public record AzExtensionUpdateOptions : AzOptions
     /// <summary>
     /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
     /// </summary>
-    [CliFlag("--pip-proxy")]
-    public bool? PipProxy { get; set; }
+    [CliOption("--pip-proxy")]
+    public string? PipProxy { get; set; }
 
 }

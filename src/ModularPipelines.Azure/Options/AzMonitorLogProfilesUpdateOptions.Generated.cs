@@ -89,8 +89,8 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     /// <summary>
     /// The number of days for the retention in days. A value of 0 will retain the events indefinitely.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days")]
+    public int? Days { get; set; }
 
     /// <summary>
     /// Whether the retention policy is enabled.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

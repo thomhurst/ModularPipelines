@@ -68,14 +68,14 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
-    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
-    public bool? BackupFederatedClientId { get; set; }
+    [CliOption("--backup-federated-client-id", ShortForm = "-f")]
+    public string? BackupFederatedClientId { get; set; }
 
     /// <summary>
     /// The client ID of the federated identity.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
@@ -104,14 +104,14 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Performance tier of the server.
     /// </summary>
-    [CliFlag("--performance-tier")]
-    public bool? PerformanceTier { get; set; }
+    [CliOption("--performance-tier")]
+    public string? PerformanceTier { get; set; }
 
     /// <summary>
     /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -122,8 +122,8 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Storage type for the read replica. Allowed value is PremiumV2_LRS. Default is for the read replica to match storage type of the primary server.  Allowed values: PremiumV2_LRS.
@@ -164,7 +164,7 @@ public record AzPostgresFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
 }

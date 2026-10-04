@@ -46,8 +46,8 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// The display name of the application.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Space-separated values. Also known as App ID URI, this value is set when an application is used as a resource app. The identifierUris acts as the prefix for the scopes you'll reference in your API's code, and it must be globally unique. You can use the default value provided, which is in the form `api://&lt;application-client-id&gt;`, or specify a more readable URI like https://contoso.com/api.
@@ -64,8 +64,8 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// References application or service contact information from a Service or Asset Management database.
     /// </summary>
-    [CliFlag("--service-management-reference")]
-    public bool? ServiceManagementReference { get; set; }
+    [CliOption("--service-management-reference")]
+    public string? ServiceManagementReference { get; set; }
 
     /// <summary>
     /// Specifies the Microsoft accounts that are supported for the current application.  Allowed values: AzureADMultipleOrgs, AzureADMyOrg, AzureADandPersonalMicrosoftAccount, PersonalMicrosoftAccount.
@@ -100,38 +100,38 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// The collection of roles assigned to the application. With app role assignments, these roles can be assigned to users, groups, or service principals associated with other applications. Should be JSON file path or in-line JSON string. See examples for details.
     /// </summary>
-    [CliFlag("--app-roles")]
-    public bool? AppRoles { get; set; }
+    [CliOption("--app-roles")]
+    public string? AppRoles { get; set; }
 
     /// <summary>
     /// Application developers can configure optional claims in their Microsoft Entra applications to specify the claims that are sent to their application by the Microsoft security token service. For more information, see https://learn.microsoft.com/azure/active- directory/develop/active-directory-optional-claims. Should be JSON file path or in-line JSON string. See examples for details.
     /// </summary>
-    [CliFlag("--optional-claims")]
-    public bool? OptionalClaims { get; set; }
+    [CliOption("--optional-claims")]
+    public string? OptionalClaims { get; set; }
 
     /// <summary>
     /// Specifies the resources that the application needs to access. This property also specifies the set of delegated permissions and application roles that it needs for each of those resources. This configuration of access to the required resources drives the consent experience. Should be JSON file path or in-line JSON string. See examples for details.
     /// </summary>
-    [CliFlag("--required-resource-accesses")]
-    public bool? RequiredResourceAccesses { get; set; }
+    [CliOption("--required-resource-accesses")]
+    public string? RequiredResourceAccesses { get; set; }
 
     /// <summary>
     /// Specifies the access token version expected by this resource. This changes the version and format of the JWT produced independent of the endpoint or client used to request the access token.
     /// </summary>
-    [CliFlag("--requested-access-token-version")]
-    public bool? RequestedAccessTokenVersion { get; set; }
+    [CliOption("--requested-access-token-version")]
+    public string? RequestedAccessTokenVersion { get; set; }
 
     /// <summary>
     /// Date or datetime after which credentials expire (e.g. '2017-12-31T11:59:59+00:00' or '2017-12-31'). Default value is one year after current time.
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// Friendly name for the key.
     /// </summary>
-    [CliFlag("--key-display-name")]
-    public bool? KeyDisplayName { get; set; }
+    [CliOption("--key-display-name")]
+    public string? KeyDisplayName { get; set; }
 
     /// <summary>
     /// The type of the key credentials associated with the application.  Allowed values: AsymmetricX509Cert, Password, Symmetric.  Default: AsymmetricX509Cert.
@@ -154,8 +154,8 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Date or datetime at which credentials become valid (e.g. '2017-01-01T01:00:00+00:00' or '2017-01-01'). Default value is current time.
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// Space-separated values. Specifies the URLs where user tokens are sent for sign-in, or the redirect URIs where OAuth 2.0 authorization codes and access tokens are sent.
@@ -178,8 +178,8 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Home page or landing page of the application.
     /// </summary>
-    [CliFlag("--web-home-page-url")]
-    public bool? WebHomePageUrl { get; set; }
+    [CliOption("--web-home-page-url")]
+    public string? WebHomePageUrl { get; set; }
 
     /// <summary>
     /// Space-separated values. Specifies the URLs where user tokens are sent for sign-in, or the redirect URIs where OAuth 2.0 authorization codes and access tokens are sent.

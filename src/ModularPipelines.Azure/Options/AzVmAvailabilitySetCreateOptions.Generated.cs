@@ -57,25 +57,25 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    [CliOption("--additional-events")]
     public bool? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true. Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    [CliOption("--enable-reboot")]
     public bool? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    [CliOption("--enable-redeploy")]
     public bool? EnableRedeploy { get; set; }
 
     /// <summary>
@@ -93,14 +93,14 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// Fault Domain count.  Default: 2.
     /// </summary>
-    [CliFlag("--platform-fault-domain-count")]
-    public bool? PlatformFaultDomainCount { get; set; }
+    [CliOption("--platform-fault-domain-count")]
+    public string? PlatformFaultDomainCount { get; set; }
 
     /// <summary>
     /// Update Domain count. If unspecified, the server will pick the most optimal number like 5.
     /// </summary>
-    [CliFlag("--platform-update-domain-count")]
-    public bool? PlatformUpdateDomainCount { get; set; }
+    [CliOption("--platform-update-domain-count")]
+    public string? PlatformUpdateDomainCount { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the availability set should be associated with.
@@ -111,8 +111,8 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

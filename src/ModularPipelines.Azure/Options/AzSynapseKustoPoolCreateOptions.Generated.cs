@@ -85,20 +85,20 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
+    [CliOption("--enable-streaming-ingest")]
     public bool? EnableStreamingIngest { get; set; }
 
     /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new Kusto Pool to be created, but to prevent updating an existing Kusto Pool. Other values will result in a 412 Pre-condition Failed response.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -115,8 +115,8 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
-    [CliFlag("--optimized-autoscale")]
-    public bool? OptimizedAutoscale { get; set; }
+    [CliOption("--optimized-autoscale")]
+    public string? OptimizedAutoscale { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -127,7 +127,7 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// The workspace unique identifier.
     /// </summary>
-    [CliFlag("--workspace-uid")]
-    public bool? WorkspaceUid { get; set; }
+    [CliOption("--workspace-uid")]
+    public string? WorkspaceUid { get; set; }
 
 }

@@ -68,20 +68,20 @@ public record AzManagedCassandraDatacenterUpdateOptions : AzOptions
     /// <summary>
     /// Indicates the Key Uri of the customer key to use for encryption of the backup storage account.
     /// </summary>
-    [CliFlag("--backup-storage-customer-key-uri", ShortForm = "-p")]
-    public bool? BackupStorageCustomerKeyUri { get; set; }
+    [CliOption("--backup-storage-customer-key-uri", ShortForm = "-p")]
+    public string? BackupStorageCustomerKeyUri { get; set; }
 
     /// <summary>
     /// This is a Base64 encoded yaml file that is a subset of cassandra.yaml.  Supported fields will be honored and others will be ignored.
     /// </summary>
-    [CliFlag("--base64-encoded-cassandra-yaml-fragment", ShortForm = "-b")]
-    public bool? Base64EncodedCassandraYamlFragment { get; set; }
+    [CliOption("--base64-encoded-cassandra-yaml-fragment", ShortForm = "-b")]
+    public string? Base64EncodedCassandraYamlFragment { get; set; }
 
     /// <summary>
     /// Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
     /// </summary>
-    [CliFlag("--managed-disk-customer-key-uri", ShortForm = "-k")]
-    public bool? ManagedDiskCustomerKeyUri { get; set; }
+    [CliOption("--managed-disk-customer-key-uri", ShortForm = "-k")]
+    public string? ManagedDiskCustomerKeyUri { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -92,13 +92,13 @@ public record AzManagedCassandraDatacenterUpdateOptions : AzOptions
     /// <summary>
     /// The number of Cassandra virtual machines in this data center. The minimum value is 3.
     /// </summary>
-    [CliFlag("--node-count", ShortForm = "-n")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count", ShortForm = "-n")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
 }

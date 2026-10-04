@@ -23,8 +23,8 @@ public record AzNetworkVpnConnectionPacketCaptureStartOptions : AzOptions
     /// <summary>
     /// Data filter.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -41,8 +41,8 @@ public record AzNetworkVpnConnectionPacketCaptureStartOptions : AzOptions
     /// <summary>
     /// Connection name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

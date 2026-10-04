@@ -63,8 +63,8 @@ public record AzStaticwebappIdentityAssignOptions : AzOptions
     /// <summary>
     /// Role name or id the managed identity will be assigned. Default: Contributor.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// The scope the managed identity has access to.

@@ -85,7 +85,7 @@ public record AzNetworkDnsRecordSetCnameSetRecordOptions : AzOptions
     /// <summary>
     /// Record set TTL (time-to-live).  Default: 3600.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

@@ -68,8 +68,8 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// <summary>
     /// Authorization key to establish the connection.
     /// </summary>
-    [CliFlag("--authorization-key")]
-    public bool? AuthorizationKey { get; set; }
+    [CliOption("--authorization-key")]
+    public string? AuthorizationKey { get; set; }
 
     /// <summary>
     /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en- us/azure/virtual-wan/effective-routes- virtual-hub?branch=pr-en- us-91866#aboutdefaultroute might be helpful. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -86,14 +86,14 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// <summary>
     /// Routing weight associated with the connection.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public string? RoutingWeight { get; set; }
 
     /// <summary>
     /// ExpressRoute circuit name.
     /// </summary>
-    [CliFlag("--circuit-name")]
-    public bool? CircuitName { get; set; }
+    [CliOption("--circuit-name")]
+    public string? CircuitName { get; set; }
 
     /// <summary>
     /// Name or ID of an ExpressRoute peering.

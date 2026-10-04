@@ -35,14 +35,14 @@ public record AzAppConfigFeatureListOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Name of the feature to be listed. If the feature flag key is different from the default key, provide the `--key` argument instead. Support star sign as filters, for instance * means all features and abc* means features with abc as prefix. Comma separated features are not supported. Please provide escaped string if your feature name contains comma.
@@ -59,14 +59,14 @@ public record AzAppConfigFeatureListOptions : AzOptions
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. If both key and feature arguments are provided, only key will be used. Support star sign as filters, for instance ".appconfig.featureflag/*" means all features and ".appconfig.featureflag/abc*" means features with abc as prefix. Comma separated features are not supported. Please provide escaped string if your feature name contains comma.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// If no label specified, list all labels. Support star sign as filters, for instance * means all labels and abc* means labels with abc as prefix. Use '\0' for null label.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
@@ -83,7 +83,7 @@ public record AzAppConfigFeatureListOptions : AzOptions
     /// <summary>
     /// Maximum number of items to return. Must be a positive integer. Default to 100.
     /// </summary>
-    [CliFlag("--top", ShortForm = "-t")]
-    public bool? Top { get; set; }
+    [CliOption("--top", ShortForm = "-t")]
+    public int? Top { get; set; }
 
 }

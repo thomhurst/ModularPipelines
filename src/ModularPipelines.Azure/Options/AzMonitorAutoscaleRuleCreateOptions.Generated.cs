@@ -68,8 +68,8 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// The number of minutes that must elapse before another scaling event can occur.  Default: 5.
     /// </summary>
-    [CliFlag("--cooldown")]
-    public bool? Cooldown { get; set; }
+    [CliOption("--cooldown")]
+    public int? Cooldown { get; set; }
 
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
@@ -80,8 +80,8 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// The way metrics are polled across instances.  Default: avg 1m. The form of the timegrain is {avg,min,max,sum} VALUE. Values can be obtained from the `az monitor metric` command. Format of VALUE is "##h##m##s".
     /// </summary>
-    [CliFlag("--timegrain")]
-    public bool? Timegrain { get; set; }
+    [CliOption("--timegrain")]
+    public string? Timegrain { get; set; }
 
     /// <summary>
     /// Name or ID of the target resource.
@@ -98,19 +98,19 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

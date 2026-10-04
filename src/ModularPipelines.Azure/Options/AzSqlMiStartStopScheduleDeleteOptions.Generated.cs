@@ -35,7 +35,7 @@ public record AzSqlMiStartStopScheduleDeleteOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

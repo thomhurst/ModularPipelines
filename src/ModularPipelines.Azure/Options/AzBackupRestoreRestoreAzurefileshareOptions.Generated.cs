@@ -57,26 +57,26 @@ public record AzBackupRestoreRestoreAzurefileshareOptions : AzOptions
     /// <summary>
     /// Destination file share to which content will be restored.
     /// </summary>
-    [CliFlag("--target-file-share")]
-    public bool? TargetFileShare { get; set; }
+    [CliOption("--target-file-share")]
+    public string? TargetFileShare { get; set; }
 
     /// <summary>
     /// Destination folder to which content will be restored. To restore content to root , leave the folder name empty.
     /// </summary>
-    [CliFlag("--target-folder")]
-    public bool? TargetFolder { get; set; }
+    [CliOption("--target-folder")]
+    public string? TargetFolder { get; set; }
 
     /// <summary>
     /// Resource group of the destination storage account to which the content will be restored, needed if it is different from the vault resource group.
     /// </summary>
-    [CliOption("--target-resource-group-name", ShortForm = "--target-rg-name")]
+    [CliOption("--target-resource-group-name")]
     public string? TargetResourceGroupName { get; set; }
 
     /// <summary>
     /// Destination storage account to which content will be restored.
     /// </summary>
-    [CliFlag("--target-storage-account")]
-    public bool? TargetStorageAccount { get; set; }
+    [CliOption("--target-storage-account")]
+    public string? TargetStorageAccount { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.

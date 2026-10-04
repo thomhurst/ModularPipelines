@@ -36,7 +36,7 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Use default policy under which the key can be exported for data disk encryption.
     /// </summary>
-    [CliFlag("--default-data-disk-policy", ShortForm = "--default-dd-policy")]
+    [CliFlag("--default-data-disk-policy")]
     public bool? DefaultDataDiskPolicy { get; set; }
 
     /// <summary>
@@ -48,8 +48,8 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Expiration UTC datetime  (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--expires")]
-    public bool? Expires { get; set; }
+    [CliOption("--expires")]
+    public string? Expires { get; set; }
 
     /// <summary>
     /// Whether the private key can be exported. To create key with release policy, "exportable" must be true and caller must have "export" permission.  Allowed values: false, true.
@@ -72,8 +72,8 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// Key not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--not-before")]
-    public bool? NotBefore { get; set; }
+    [CliOption("--not-before")]
+    public string? NotBefore { get; set; }
 
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
@@ -84,8 +84,8 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
     /// </summary>
-    [CliFlag("--policy")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Specifies the type of key protection.  Allowed values: hsm, software.
@@ -126,20 +126,20 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// BYOK file containing the key to be imported. Must not be password protected.
     /// </summary>
-    [CliFlag("--byok-file")]
-    public bool? ByokFile { get; set; }
+    [CliOption("--byok-file")]
+    public string? ByokFile { get; set; }
 
     /// <summary>
     /// BYOK string containing the key to be imported. Must not be password protected.
     /// </summary>
-    [CliFlag("--byok-string")]
-    public bool? ByokString { get; set; }
+    [CliOption("--byok-string")]
+    public string? ByokString { get; set; }
 
     /// <summary>
     /// PEM file containing the key to be imported.
     /// </summary>
-    [CliFlag("--pem-file")]
-    public bool? PemFile { get; set; }
+    [CliOption("--pem-file")]
+    public string? PemFile { get; set; }
 
     /// <summary>
     /// Password of PEM file.
@@ -151,7 +151,7 @@ public record AzKeyvaultKeyImportOptions : AzOptions
     /// <summary>
     /// PEM string containing the key to be imported.
     /// </summary>
-    [CliFlag("--pem-string")]
-    public bool? PemString { get; set; }
+    [CliOption("--pem-string")]
+    public string? PemString { get; set; }
 
 }

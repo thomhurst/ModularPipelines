@@ -75,25 +75,25 @@ public record AzNetworkApplicationGatewayWafPolicyCreateOptions : AzOptions
     /// <summary>
     /// Version of the web application firewall rule set type. 0.1, 1.0, and 1.1 are used for Microsoft_BotManagerRuleSet. Default: 2.1.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// The custom rules inside the policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--custom-rules")]
-    public bool? CustomRules { get; set; }
+    [CliOption("--custom-rules")]
+    public string? CustomRules { get; set; }
 
     /// <summary>
     /// Describes the managedRules structure.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--managed-rules")]
-    public bool? ManagedRules { get; set; }
+    [CliOption("--managed-rules")]
+    public string? ManagedRules { get; set; }
 
     /// <summary>
     /// The PolicySettings for policy.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--policy-settings")]
-    public bool? PolicySettings { get; set; }
+    [CliOption("--policy-settings")]
+    public string? PolicySettings { get; set; }
 
 }

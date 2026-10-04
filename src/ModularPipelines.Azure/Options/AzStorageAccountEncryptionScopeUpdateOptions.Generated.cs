@@ -63,8 +63,8 @@ public record AzStorageAccountEncryptionScopeUpdateOptions : AzOptions
     /// <summary>
     /// The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
     /// </summary>
-    [CliFlag("--key-uri", ShortForm = "-u")]
-    public bool? KeyUri { get; set; }
+    [CliOption("--key-uri", ShortForm = "-u")]
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

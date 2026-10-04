@@ -53,8 +53,8 @@ public record AzNetappfilesVolumeGroupUpdateOptions : AzOptions
     /// <summary>
     /// Volume group details  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--group-meta-data")]
-    public bool? GroupMetaData { get; set; }
+    [CliOption("--group-meta-data")]
+    public string? GroupMetaData { get; set; }
 
     /// <summary>
     /// List of volumes from group  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.

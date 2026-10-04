@@ -81,7 +81,7 @@ public record AzCapacityReservationGroupCreateOptions : AzOptions
     /// <summary>
     /// Availability Zones to use for this capacity reservation group. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z")]
+    public string? Zones { get; set; }
 
 }

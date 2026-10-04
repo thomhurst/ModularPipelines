@@ -119,32 +119,32 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid. Usage: --redis-configuration @"{config_file.json}"
     /// </summary>
-    [CliFlag("--redis-configuration")]
-    public bool? RedisConfiguration { get; set; }
+    [CliOption("--redis-configuration")]
+    public string? RedisConfiguration { get; set; }
 
     /// <summary>
     /// Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'.
     /// </summary>
-    [CliFlag("--redis-version")]
-    public bool? RedisVersion { get; set; }
+    [CliOption("--redis-version")]
+    public string? RedisVersion { get; set; }
 
     /// <summary>
     /// The number of replicas to be created per master.
     /// </summary>
-    [CliFlag("--replicas-per-master")]
-    public bool? ReplicasPerMaster { get; set; }
+    [CliOption("--replicas-per-master")]
+    public int? ReplicasPerMaster { get; set; }
 
     /// <summary>
     /// The number of shards to be created on a Premium Cluster Cache.
     /// </summary>
-    [CliFlag("--shard-count")]
-    public bool? ShardCount { get; set; }
+    [CliOption("--shard-count")]
+    public int? ShardCount { get; set; }
 
     /// <summary>
     /// Specify a static ip if required for the VNET. If you do not specify a static IP then an IP address is chosen automatically.
     /// </summary>
-    [CliFlag("--static-ip")]
-    public bool? StaticIp { get; set; }
+    [CliOption("--static-ip")]
+    public string? StaticIp { get; set; }
 
     /// <summary>
     /// The full resource ID of a subnet in a virtual network to deploy the redis cache in. Example format /subscriptions/{subid}/resourceGroups/{res ourceGroupName}/providers/Microsoft.{Network|Clas sicNetwork}/virtualNetworks/vnet1/subnets/subnet1 .
@@ -173,7 +173,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones, UserDefined.
     /// </summary>
-    [CliOption("--zonal-allocation", ShortForm = "--zonal-allocation-policy")]
+    [CliOption("--zonal-allocation")]
     public string? ZonalAllocation { get; set; }
 
     /// <summary>

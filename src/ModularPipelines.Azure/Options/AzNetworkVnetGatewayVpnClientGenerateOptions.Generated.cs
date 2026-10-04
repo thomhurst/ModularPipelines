@@ -41,8 +41,8 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     /// <summary>
     /// Public certificate data for the Radius server auth certificate in Base-64 format. Required only if external Radius auth has been configured with EAPTLS auth.
     /// </summary>
-    [CliFlag("--radius-server-auth-certificate")]
-    public bool? RadiusServerAuthCertificate { get; set; }
+    [CliOption("--radius-server-auth-certificate")]
+    public string? RadiusServerAuthCertificate { get; set; }
 
     /// <summary>
     /// Generate VPN client package using legacy implementation. Allowed values: false, true.

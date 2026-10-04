@@ -29,7 +29,7 @@ public record AzVmHostResizeOptions : AzOptions
     /// <summary>
     /// The name of the dedicated host group.
     /// </summary>
-    [CliOption("--host-group", ShortForm = "--host-group-name")]
+    [CliOption("--host-group")]
     public string? HostGroup { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzVmHostResizeOptions : AzOptions
     /// <summary>
     /// Dedicated host size for resizing. Available dedicated host sizes for resizing could be listed by running 'az vm host list- resize-options'.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -69,8 +70,8 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).
     /// </summary>
-    [CliFlag("--destination-lease-id")]
-    public bool? DestinationLeaseId { get; set; }
+    [CliOption("--destination-lease-id")]
+    public string? DestinationLeaseId { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
@@ -81,8 +82,8 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// Indicate the priority with which to rehydrate an archived blob.
     /// </summary>
-    [CliFlag("--rehydrate-priority", ShortForm = "-r")]
-    public bool? RehydratePriority { get; set; }
+    [CliOption("--rehydrate-priority", ShortForm = "-r")]
+    public string? RehydratePriority { get; set; }
 
     /// <summary>
     /// Enforce that the service will not return a response until the copy is complete.  Allowed values: false, true.
@@ -99,44 +100,44 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// The tier value to set the blob to. For page blob, the tier correlates to the size of the blob and number of allowed IOPS. Possible values are P10, P15, P20, P30, P4, P40, P50, P6, P60, P70, P80 and this is only applicable to page blobs on premium storage accounts; For block blob, possible values are Archive, Cold, Cool, and Hot. This is only applicable to block blobs on standard storage accounts.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// The storage account key of the source blob.
     /// </summary>
-    [CliFlag("--source-account-key")]
-    public bool? SourceAccountKey { get; set; }
+    [CliOption("--source-account-key")]
+    public string? SourceAccountKey { get; set; }
 
     /// <summary>
     /// The storage account name of the source blob.
     /// </summary>
-    [CliFlag("--source-account-name")]
-    public bool? SourceAccountName { get; set; }
+    [CliOption("--source-account-name")]
+    public string? SourceAccountName { get; set; }
 
     /// <summary>
     /// The blob name for the source storage account.
     /// </summary>
-    [CliFlag("--source-blob")]
-    public bool? SourceBlob { get; set; }
+    [CliOption("--source-blob")]
+    public string? SourceBlob { get; set; }
 
     /// <summary>
     /// The container name for the source storage account.
     /// </summary>
-    [CliFlag("--source-container")]
-    public bool? SourceContainer { get; set; }
+    [CliOption("--source-container")]
+    public string? SourceContainer { get; set; }
 
     /// <summary>
     /// Specify this to perform the Copy Blob operation only if the lease ID given matches the active lease ID of the source blob.
     /// </summary>
-    [CliFlag("--source-lease-id")]
-    public bool? SourceLeaseId { get; set; }
+    [CliOption("--source-lease-id")]
+    public string? SourceLeaseId { get; set; }
 
     /// <summary>
     /// The file path for the source storage account.
@@ -147,20 +148,20 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// The shared access signature for the source storage account.
     /// </summary>
-    [CliFlag("--source-sas")]
-    public bool? SourceSas { get; set; }
+    [CliOption("--source-sas")]
+    public string? SourceSas { get; set; }
 
     /// <summary>
     /// The share name for the source storage account.
     /// </summary>
-    [CliFlag("--source-share")]
-    public bool? SourceShare { get; set; }
+    [CliOption("--source-share")]
+    public string? SourceShare { get; set; }
 
     /// <summary>
     /// The blob snapshot for the source storage account.
     /// </summary>
-    [CliFlag("--source-snapshot")]
-    public bool? SourceSnapshot { get; set; }
+    [CliOption("--source-snapshot")]
+    public string? SourceSnapshot { get; set; }
 
     /// <summary>
     /// A URL of up to 2 KB in length that specifies an Azure file or blob. The value should be URL-encoded as it would appear in a request URI. If the source is in another account, the source must either be public or must be authenticated via a shared access signature. If the source is public, no authentication is required. Examples: `https://myaccount.blob.core.windows.net/mycon tainer/myblob`, `https://myaccount.blob.core.windows.net /mycontainer/myblob?snapshot=&lt;DateTime&gt;`, `https://other account.blob.core.windows.net/mycontainer/myblob?sastoke n`.
@@ -171,8 +172,8 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
     /// </summary>
-    [CliFlag("--destination-if-match")]
-    public bool? DestinationIfMatch { get; set; }
+    [CliOption("--destination-if-match")]
+    public string? DestinationIfMatch { get; set; }
 
     /// <summary>
     /// A DateTime value. Azure expects the date value passed in to be UTC. If timezone is included, any non-UTC datetimes will be converted to UTC. If a date is passed in without timezone info, it is assumed to be UTC. Specify this conditional header to copy the blob only if the destination blob has been modified since the specified date/time. If the destination blob has not been modified, the Blob service returns status code 412 (Precondition Failed).
@@ -183,8 +184,8 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag does not match the value specified. Specify the wildcard character (*) to perform the operation only if the resource does not exist, and fail the operation if it does exist.
     /// </summary>
-    [CliFlag("--destination-if-none-match")]
-    public bool? DestinationIfNoneMatch { get; set; }
+    [CliOption("--destination-if-none-match")]
+    public string? DestinationIfNoneMatch { get; set; }
 
     /// <summary>
     /// A DateTime value. Azure expects the date value passed in to be UTC. If timezone is included, any non-UTC datetimes will be converted to UTC. If a date is passed in without timezone info, it is assumed to be UTC. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).
@@ -195,43 +196,44 @@ public record AzStorageBlobCopyStartOptions : AzOptions
     /// <summary>
     /// Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
     /// </summary>
-    [CliFlag("--destination-tags-condition")]
-    public bool? DestinationTagsCondition { get; set; }
+    [CliOption("--destination-tags-condition")]
+    public string? DestinationTagsCondition { get; set; }
 
     /// <summary>
     /// Specify a SQL where clause on blob tags to operate only on blobs with a matching value.
     /// </summary>
-    [CliFlag("--source-tags-condition")]
-    public bool? SourceTagsCondition { get; set; }
+    [CliOption("--source-tags-condition")]
+    public string? SourceTagsCondition { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

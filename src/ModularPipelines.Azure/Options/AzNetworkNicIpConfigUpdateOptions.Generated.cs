@@ -74,7 +74,7 @@ public record AzNetworkNicIpConfigUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    [CliOption("--ag-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
 
     /// <summary>
@@ -110,7 +110,7 @@ public record AzNetworkNicIpConfigUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    [CliOption("--application-security-groups", GroupValues = true)]
     public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
 
     /// <summary>
@@ -128,14 +128,14 @@ public record AzNetworkNicIpConfigUpdateOptions : AzOptions
     /// <summary>
     /// Static IP address to use or ""('""' in PowerShell) to use a dynamic address.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address.
     /// </summary>
-    [CliFlag("--private-ip-address-prefix-length", ShortForm = "--private-ip-prefix-len")]
-    public bool? PrivateIpAddressPrefixLength { get; set; }
+    [CliOption("--private-ip-address-prefix-length")]
+    public string? PrivateIpAddressPrefixLength { get; set; }
 
     /// <summary>
     /// Version of private IP address to use.  Allowed values: IPv4, IPv6.

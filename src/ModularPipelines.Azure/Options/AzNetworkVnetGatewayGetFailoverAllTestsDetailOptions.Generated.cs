@@ -68,7 +68,7 @@ public record AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions : AzOptions
     /// <summary>
     /// The name of the virtual network gateway.
     /// </summary>
-    [CliOption("--name", ShortForm = "--virtual-network-gateway-name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>

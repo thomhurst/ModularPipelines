@@ -85,8 +85,8 @@ public record AzBackupRecoveryPointListOptions : AzOptions
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// Use this flag to retrieve the recoverypoints that are ready to be moved to destination-tier.  Allowed values: false, true.
@@ -103,8 +103,8 @@ public record AzBackupRecoveryPointListOptions : AzOptions
     /// <summary>
     /// The start date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.

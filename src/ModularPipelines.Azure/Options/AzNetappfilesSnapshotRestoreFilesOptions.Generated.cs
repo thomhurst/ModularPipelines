@@ -63,8 +63,8 @@ public record AzNetappfilesSnapshotRestoreFilesOptions : AzOptions
     /// <summary>
     /// Destination folder where the files will be restored.
     /// </summary>
-    [CliFlag("--destination-path")]
-    public bool? DestinationPath { get; set; }
+    [CliOption("--destination-path")]
+    public string? DestinationPath { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -81,7 +81,7 @@ public record AzNetappfilesSnapshotRestoreFilesOptions : AzOptions
     /// <summary>
     /// The name of the snapshot.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

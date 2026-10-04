@@ -23,8 +23,8 @@ public record AzSynapseSqlPoolUpdateOptions : AzOptions
     /// <summary>
     /// The performance level.
     /// </summary>
-    [CliFlag("--performance-level")]
-    public bool? PerformanceLevel { get; set; }
+    [CliOption("--performance-level")]
+    public string? PerformanceLevel { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -41,8 +41,8 @@ public record AzSynapseSqlPoolUpdateOptions : AzOptions
     /// <summary>
     /// The SQL pool name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

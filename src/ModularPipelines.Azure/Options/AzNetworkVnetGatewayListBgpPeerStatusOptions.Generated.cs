@@ -29,8 +29,8 @@ public record AzNetworkVnetGatewayListBgpPeerStatusOptions : AzOptions
     /// <summary>
     /// The IP address of the peer to retrieve the status of. Default value is None.
     /// </summary>
-    [CliFlag("--peer")]
-    public bool? Peer { get; set; }
+    [CliOption("--peer")]
+    public string? Peer { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

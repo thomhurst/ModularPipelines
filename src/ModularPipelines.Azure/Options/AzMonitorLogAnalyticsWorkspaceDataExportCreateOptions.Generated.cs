@@ -101,8 +101,8 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions : AzOptions
     /// <summary>
     /// Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
     /// </summary>
-    [CliFlag("--event-hub-name")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Active when enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

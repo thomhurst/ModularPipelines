@@ -23,14 +23,14 @@ public record AzPostgresFlexibleServerFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The end IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
     /// </summary>
-    [CliFlag("--end-ip-address")]
-    public bool? EndIpAddress { get; set; }
+    [CliOption("--end-ip-address")]
+    public string? EndIpAddress { get; set; }
 
     /// <summary>
     /// The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
     /// </summary>
-    [CliFlag("--start-ip-address")]
-    public bool? StartIpAddress { get; set; }
+    [CliOption("--start-ip-address")]
+    public string? StartIpAddress { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

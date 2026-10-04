@@ -23,8 +23,8 @@ public record AzCosmosdbPrivateEndpointConnectionApproveOptions : AzOptions
     /// <summary>
     /// Comments for the approve operation.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with Azure Cosmos DB. If specified --account-name --resource-group/-g and --name/-n, this should be omitted.

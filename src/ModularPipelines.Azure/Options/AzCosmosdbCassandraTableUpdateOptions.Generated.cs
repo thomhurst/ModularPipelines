@@ -79,19 +79,19 @@ public record AzCosmosdbCassandraTableUpdateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl")]
+    public string? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Schema, you can enter it as a string or as a file, e.g., --schema @schema-file.json or --schema "{\"columns\": [{\"name\": \"columnA\",\"type\": \"uuid\"}, {\"name\": \"columnB\",\"type\": \"Ascii\"}],\"partitionKeys\": [{\"name\": \"columnA\"}]}".
     /// </summary>
-    [CliFlag("--schema")]
-    public bool? Schema { get; set; }
+    [CliOption("--schema")]
+    public string? Schema { get; set; }
 
     /// <summary>
     /// Default TTL. If the value is missing or set to "-1", items don’t expire. If the value is set to "n", items will expire "n" seconds after last modified time.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

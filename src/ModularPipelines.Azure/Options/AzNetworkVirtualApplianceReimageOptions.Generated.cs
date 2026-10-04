@@ -29,8 +29,8 @@ public record AzNetworkVirtualApplianceReimageOptions : AzOptions
     /// <summary>
     /// The network virtual appliance instance ids. Omitting the network virtual appliance instance ids will result in the operation being performed on all virtual machines belonging to the network virtual appliance.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--instance-ids")]
-    public bool? InstanceIds { get; set; }
+    [CliOption("--instance-ids")]
+    public string? InstanceIds { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

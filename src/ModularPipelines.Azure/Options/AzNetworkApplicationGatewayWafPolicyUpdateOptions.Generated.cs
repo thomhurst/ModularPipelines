@@ -53,20 +53,20 @@ public record AzNetworkApplicationGatewayWafPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The custom rules inside the policy.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--custom-rules")]
-    public bool? CustomRules { get; set; }
+    [CliOption("--custom-rules")]
+    public string? CustomRules { get; set; }
 
     /// <summary>
     /// Describes the managedRules structure.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--managed-rules")]
-    public bool? ManagedRules { get; set; }
+    [CliOption("--managed-rules")]
+    public string? ManagedRules { get; set; }
 
     /// <summary>
     /// The PolicySettings for policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--policy-settings")]
-    public bool? PolicySettings { get; set; }
+    [CliOption("--policy-settings")]
+    public string? PolicySettings { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

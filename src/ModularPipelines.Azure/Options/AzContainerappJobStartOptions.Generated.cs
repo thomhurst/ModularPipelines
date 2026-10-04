@@ -23,8 +23,8 @@ public record AzContainerappJobStartOptions : AzOptions
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image")]
-    public bool? Image { get; set; }
+    [CliOption("--image")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -65,8 +65,8 @@ public record AzContainerappJobStartOptions : AzOptions
     /// <summary>
     /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// A list of environment variable(s) for the container. Space-separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
@@ -77,8 +77,8 @@ public record AzContainerappJobStartOptions : AzOptions
     /// <summary>
     /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

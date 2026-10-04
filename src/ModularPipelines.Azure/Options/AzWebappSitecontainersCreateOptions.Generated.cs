@@ -64,8 +64,8 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// <summary>
     /// Image Name.
     /// </summary>
-    [CliFlag("--image")]
-    public bool? Image { get; set; }
+    [CliOption("--image")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// True if the container is the main SiteContainer; false otherwise.  Allowed values: false, true.
@@ -89,13 +89,13 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// <summary>
     /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    [CliOption("--si")]
     public bool? Si { get; set; }
 
     /// <summary>
     /// Path to a json sitecontainer spec file containing a list of sitecontainers, other sitecontainer input args will be ignored if this arg is provided.
     /// </summary>
-    [CliOption("--sitecontainers-spec-file", ShortForm = "--ssf")]
+    [CliOption("--sitecontainers-spec-file")]
     public string? SitecontainersSpecFile { get; set; }
 
     /// <summary>
@@ -107,19 +107,19 @@ public record AzWebappSitecontainersCreateOptions : AzOptions
     /// <summary>
     /// Startup Command for the SiteContainer.
     /// </summary>
-    [CliFlag("--startup-cmd")]
-    public bool? StartupCmd { get; set; }
+    [CliOption("--startup-cmd")]
+    public string? StartupCmd { get; set; }
 
     /// <summary>
     /// Target port for SiteContainer.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public string? TargetPort { get; set; }
 
     /// <summary>
     /// ClientID for the user-maganed identity which will be used for auth while pulling image.
     /// </summary>
-    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
-    public bool? Ui { get; set; }
+    [CliOption("--ui")]
+    public string? Ui { get; set; }
 
 }

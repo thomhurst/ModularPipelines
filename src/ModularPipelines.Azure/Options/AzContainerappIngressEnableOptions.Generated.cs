@@ -52,14 +52,14 @@ public record AzContainerappIngressEnableOptions : AzOptions
     /// <summary>
     /// Additional exposed port. Only supported by tcp transport protocol. Must be unique per environment if the app ingress is external.
     /// </summary>
-    [CliFlag("--exposed-port")]
-    public bool? ExposedPort { get; set; }
+    [CliOption("--exposed-port")]
+    public string? ExposedPort { get; set; }
 
     /// <summary>
     /// The application port used for ingress traffic.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public string? TargetPort { get; set; }
 
     /// <summary>
     /// The transport protocol used for ingress traffic.  Allowed values: auto, http, http2, tcp.  Default: auto.

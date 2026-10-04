@@ -76,20 +76,20 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// <summary>
     /// Namespace to query metric definitions for.  Values from: az monitor metrics list-namespaces.
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Aggregation to use for sorting results and the direction of the sort. Only one order can be specificed. Examples: sum asc.
     /// </summary>
-    [CliFlag("--orderby")]
-    public bool? Orderby { get; set; }
+    [CliOption("--orderby")]
+    public string? Orderby { get; set; }
 
     /// <summary>
     /// Max number of records to retrieve.  Default: 10.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -100,43 +100,43 @@ public record AzMonitorMetricsListOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
     /// <summary>
     /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--end-time")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// The interval over which to aggregate metrics, in ##h##m format. Default: 1m.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Time offset of the query range, in ##d##h format.  Default: 1h. Can be used with either --start-time or --end-time. If used with --start-time, then the end time will be calculated by adding the offset. If used with --end-time (default), then the start time will be calculated by subtracting the offset. If --start-time and --end-time are provided, then --offset will be ignored.
     /// </summary>
-    [CliFlag("--offset")]
-    public bool? Offset { get; set; }
+    [CliOption("--offset")]
+    public string? Offset { get; set; }
 
     /// <summary>
     /// Start time of the query. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTime { get; set; }
 
 }

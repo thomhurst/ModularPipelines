@@ -23,14 +23,14 @@ public record AzVmAvailabilitySetConvertOptions : AzOptions
     /// <summary>
     /// Specify if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
     /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// The name of the availability set.

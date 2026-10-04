@@ -58,8 +58,8 @@ public record AzFunctionappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Configurable timeout in seconds for checking the status of deployment.
     /// </summary>
-    [CliFlag("--timeout", ShortForm = "-t")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout", ShortForm = "-t")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

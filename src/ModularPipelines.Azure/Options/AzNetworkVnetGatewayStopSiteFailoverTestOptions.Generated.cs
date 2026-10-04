@@ -35,7 +35,7 @@ public record AzNetworkVnetGatewayStopSiteFailoverTestOptions : AzOptions
     /// <summary>
     /// The name of the virtual network gateway.
     /// </summary>
-    [CliOption("--name", ShortForm = "--virtual-network-gateway-name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
@@ -53,13 +53,13 @@ public record AzNetworkVnetGatewayStopSiteFailoverTestOptions : AzOptions
     /// <summary>
     /// Peering location of the test.
     /// </summary>
-    [CliFlag("--peering-location")]
-    public bool? PeeringLocation { get; set; }
+    [CliOption("--peering-location")]
+    public string? PeeringLocation { get; set; }
 
     /// <summary>
     /// Whether the failover simulation was successful or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--simulation-success", ShortForm = "--was-simulation-successful")]
+    [CliOption("--simulation-success")]
     public bool? SimulationSuccess { get; set; }
 
 }

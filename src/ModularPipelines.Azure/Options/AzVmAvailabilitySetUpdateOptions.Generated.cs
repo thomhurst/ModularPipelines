@@ -23,19 +23,19 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    [CliOption("--additional-events")]
     public bool? AdditionalEvents { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    [CliOption("--enable-reboot")]
     public bool? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    [CliOption("--enable-redeploy")]
     public bool? EnableRedeploy { get; set; }
 
     /// <summary>
@@ -47,14 +47,14 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
     /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

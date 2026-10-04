@@ -41,8 +41,8 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The delay time whose unit is minute.
     /// </summary>
-    [CliFlag("--delay")]
-    public bool? Delay { get; set; }
+    [CliOption("--delay")]
+    public string? Delay { get; set; }
 
     /// <summary>
     /// The flag of enabling auto pause.  Allowed values: false, true.
@@ -59,14 +59,14 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The max node count.
     /// </summary>
-    [CliFlag("--max-node-count")]
-    public bool? MaxNodeCount { get; set; }
+    [CliOption("--max-node-count")]
+    public string? MaxNodeCount { get; set; }
 
     /// <summary>
     /// The min node count.
     /// </summary>
-    [CliFlag("--min-node-count")]
-    public bool? MinNodeCount { get; set; }
+    [CliOption("--min-node-count")]
+    public string? MinNodeCount { get; set; }
 
     /// <summary>
     /// List of workspace packages name.
@@ -89,32 +89,32 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The maximum number of executors alloted.
     /// </summary>
-    [CliFlag("--max-executors")]
-    public bool? MaxExecutors { get; set; }
+    [CliOption("--max-executors")]
+    public int? MaxExecutors { get; set; }
 
     /// <summary>
     /// The minimum number of executors alloted.
     /// </summary>
-    [CliFlag("--min-executors")]
-    public bool? MinExecutors { get; set; }
+    [CliOption("--min-executors")]
+    public int? MinExecutors { get; set; }
 
     /// <summary>
     /// The library requirements file.
     /// </summary>
-    [CliFlag("--library-requirements")]
-    public bool? LibraryRequirements { get; set; }
+    [CliOption("--library-requirements")]
+    public string? LibraryRequirements { get; set; }
 
     /// <summary>
     /// Absolute path of Spark pool properties configuration file.
     /// </summary>
-    [CliFlag("--spark-config-file-path")]
-    public bool? SparkConfigFilePath { get; set; }
+    [CliOption("--spark-config-file-path")]
+    public string? SparkConfigFilePath { get; set; }
 
     /// <summary>
     /// The number of node.
     /// </summary>
-    [CliFlag("--node-count")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// The level of compute power that each node in the Big Data pool has.. Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.

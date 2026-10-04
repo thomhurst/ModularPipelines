@@ -57,20 +57,20 @@ public record AzSfManagedClusterUpdateOptions : AzOptions
     /// <summary>
     /// Port used for client connections to the cluster.
     /// </summary>
-    [CliFlag("--client-connection-port", ShortForm = "--client-port")]
-    public bool? ClientConnectionPort { get; set; }
+    [CliOption("--client-connection-port")]
+    public int? ClientConnectionPort { get; set; }
 
     /// <summary>
     /// Cluster's dns name.
     /// </summary>
-    [CliFlag("--dns-name")]
-    public bool? DnsName { get; set; }
+    [CliOption("--dns-name")]
+    public string? DnsName { get; set; }
 
     /// <summary>
     /// Port used for http connections to the cluster.
     /// </summary>
-    [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
-    public bool? GatewayConnectionPort { get; set; }
+    [CliOption("--gateway-connection-port")]
+    public int? GatewayConnectionPort { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

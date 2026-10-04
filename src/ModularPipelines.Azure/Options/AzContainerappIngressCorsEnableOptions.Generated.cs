@@ -81,8 +81,8 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
     /// <summary>
     /// The maximum age of the allowed origin in seconds. Only postive integer or empty string are allowed. Empty string resets max_age to null.
     /// </summary>
-    [CliFlag("--max-age")]
-    public bool? MaxAge { get; set; }
+    [CliOption("--max-age")]
+    public string? MaxAge { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

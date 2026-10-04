@@ -29,8 +29,8 @@ public record AzNetworkPrivateLinkServiceUpdateOptions : AzOptions
     /// <summary>
     /// The destination IP address of the private link service.
     /// </summary>
-    [CliFlag("--destination-ip-address")]
-    public bool? DestinationIpAddress { get; set; }
+    [CliOption("--destination-ip-address")]
+    public string? DestinationIpAddress { get; set; }
 
     /// <summary>
     /// Enable proxy protocol for private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

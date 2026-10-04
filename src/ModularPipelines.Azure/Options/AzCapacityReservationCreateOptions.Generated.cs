@@ -86,19 +86,19 @@ public record AzCapacityReservationCreateOptions : AzOptions
     /// <summary>
     /// Availability Zone to use for this capacity reservation. The zone has to be single value and also should be part for the list of zones specified during the capacity reservation group creation. The zone can be assigned only during creation. If not provided, the reservation supports only non-zonal deployments. If provided, enforces VM/VMSS using this capacity reservation to be in same zone.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// Specify the number of virtual machines in the scale set.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// The SKU of the resource for which capacity needs be reserved. Currently VM Skus with the capability called \"CapacityReservationSupported\" set to true are supported. Refer to List Microsoft.Compute SKUs in a region (https://l earn.microsoft.com/rest/api/compute/resources kus/list) for supported values.
     /// </summary>
-    [CliFlag("--sku", ShortForm = "-s")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
 }

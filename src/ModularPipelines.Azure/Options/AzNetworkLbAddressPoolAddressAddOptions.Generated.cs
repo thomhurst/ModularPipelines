@@ -108,7 +108,7 @@ public record AzNetworkLbAddressPoolAddressAddOptions : AzOptions
     /// <summary>
     /// Name or Id of the virtual network.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
 }

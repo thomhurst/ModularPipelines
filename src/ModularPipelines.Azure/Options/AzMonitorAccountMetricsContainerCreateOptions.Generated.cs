@@ -68,7 +68,7 @@ public record AzMonitorAccountMetricsContainerCreateOptions : AzOptions
     /// <summary>
     /// The version of Metrics Query Service that this AMW will use for all metric queries.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

@@ -86,7 +86,7 @@ public record AzRelayWcfrelayCreateOptions : AzOptions
     /// <summary>
     /// Endpoint metadata.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
 }

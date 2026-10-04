@@ -47,26 +47,26 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     /// <summary>
     /// ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
     /// </summary>
-    [CliFlag("--auto-delete-on-idle")]
-    public bool? AutoDeleteOnIdle { get; set; }
+    [CliOption("--auto-delete-on-idle")]
+    public string? AutoDeleteOnIdle { get; set; }
 
     /// <summary>
     /// ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
     /// </summary>
-    [CliFlag("--default-message-time-to-live")]
-    public bool? DefaultMessageTimeToLive { get; set; }
+    [CliOption("--default-message-time-to-live")]
+    public string? DefaultMessageTimeToLive { get; set; }
 
     /// <summary>
     /// A value indicating if this queue requires duplicate detection.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--duplicate-detection", ShortForm = "--enable-duplicate-detection")]
+    [CliOption("--duplicate-detection")]
     public bool? DuplicateDetection { get; set; }
 
     /// <summary>
     /// ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
     /// </summary>
-    [CliFlag("--duplicate-detection-history-time-window", ShortForm = "-d")]
-    public bool? DuplicateDetectionHistoryTimeWindow { get; set; }
+    [CliOption("--duplicate-detection-history-time-window", ShortForm = "-d")]
+    public string? DuplicateDetectionHistoryTimeWindow { get; set; }
 
     /// <summary>
     /// Value that indicates whether server-side batched operations are enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -95,14 +95,14 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     /// <summary>
     /// Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.
     /// </summary>
-    [CliFlag("--max-message-size", ShortForm = "--max-message-size-in-kilobytes")]
-    public bool? MaxMessageSize { get; set; }
+    [CliOption("--max-message-size")]
+    public int? MaxMessageSize { get; set; }
 
     /// <summary>
     /// Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.
     /// </summary>
-    [CliFlag("--max-size", ShortForm = "--max-size-in-megabytes")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public int? MaxSize { get; set; }
 
     /// <summary>
     /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
@@ -113,8 +113,8 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -125,8 +125,8 @@ public record AzServicebusTopicUpdateOptions : AzOptions
     /// <summary>
     /// The topic name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The namespace name.

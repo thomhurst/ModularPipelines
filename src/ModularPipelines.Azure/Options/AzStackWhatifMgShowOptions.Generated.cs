@@ -70,7 +70,7 @@ public record AzStackWhatifMgShowOptions : AzOptions
     /// <summary>
     /// Flag to return the What-If results with resource property changes included.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--with-property-changes", ShortForm = "--wpc")]
+    [CliOption("--with-property-changes")]
     public bool? WithPropertyChanges { get; set; }
 
 }

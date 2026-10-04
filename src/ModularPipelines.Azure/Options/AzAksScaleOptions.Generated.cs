@@ -73,7 +73,7 @@ public record AzAksScaleOptions : AzOptions
     /// <summary>
     /// Node pool name, up to 12 alphanumeric characters.
     /// </summary>
-    [CliFlag("--nodepool-name")]
-    public bool? NodepoolName { get; set; }
+    [CliOption("--nodepool-name")]
+    public string? NodepoolName { get; set; }
 
 }

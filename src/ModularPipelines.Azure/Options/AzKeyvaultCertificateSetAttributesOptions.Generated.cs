@@ -29,8 +29,8 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).
     /// </summary>
-    [CliFlag("--policy", ShortForm = "-p")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy", ShortForm = "-p")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -59,7 +59,7 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// The certificate version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

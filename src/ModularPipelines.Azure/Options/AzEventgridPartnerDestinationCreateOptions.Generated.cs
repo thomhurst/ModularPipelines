@@ -68,32 +68,32 @@ public record AzEventgridPartnerDestinationCreateOptions : AzOptions
     /// <summary>
     /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') which is the expiration time of the partner destination. If this timer expires and the partner destination was never activated, the partner destination and corresponding channel are deleted.
     /// </summary>
-    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
-    public bool? ActExpDate { get; set; }
+    [CliOption("--act-exp-date")]
+    public string? ActExpDate { get; set; }
 
     /// <summary>
     /// Endpoint context associated with this partner destination.
     /// </summary>
-    [CliFlag("--ed-serv-cont", ShortForm = "--endpoint-service-context")]
-    public bool? EdServCont { get; set; }
+    [CliOption("--ed-serv-cont")]
+    public string? EdServCont { get; set; }
 
     /// <summary>
     /// Endpoint Base URL of the partner destination.
     /// </summary>
-    [CliFlag("--endpoint-base-url")]
-    public bool? EndpointBaseUrl { get; set; }
+    [CliOption("--endpoint-base-url")]
+    public string? EndpointBaseUrl { get; set; }
 
     /// <summary>
     /// Context or helpful message that can be used during the approval process.
     /// </summary>
-    [CliFlag("--message-for-activation")]
-    public bool? MessageForActivation { get; set; }
+    [CliOption("--message-for-activation")]
+    public string? MessageForActivation { get; set; }
 
     /// <summary>
     /// The immutable ID of the corresponding partner registration.
     /// </summary>
-    [CliFlag("--partner-registration-immutable-id", ShortForm = "--pr-id")]
-    public bool? PartnerRegistrationImmutableId { get; set; }
+    [CliOption("--partner-registration-immutable-id")]
+    public string? PartnerRegistrationImmutableId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

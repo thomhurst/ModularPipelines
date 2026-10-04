@@ -52,7 +52,7 @@ public record AzSnapshotGrantAccessOptions : AzOptions
     /// <summary>
     /// Access level.  Allowed values: Read, Write.  Default: Read.
     /// </summary>
-    [CliOption("--access", ShortForm = "--access-level")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
     /// <summary>

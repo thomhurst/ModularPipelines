@@ -23,8 +23,8 @@ public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress.
     /// </summary>
-    [CliFlag("--end-ip-address")]
-    public bool? EndIpAddress { get; set; }
+    [CliOption("--end-ip-address")]
+    public string? EndIpAddress { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -35,8 +35,8 @@ public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The start IP address of the firewall rule. Must be IPv4 format.
     /// </summary>
-    [CliFlag("--start-ip-address")]
-    public bool? StartIpAddress { get; set; }
+    [CliOption("--start-ip-address")]
+    public string? StartIpAddress { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -47,8 +47,8 @@ public record AzSynapseWorkspaceFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The IP firewall rule name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

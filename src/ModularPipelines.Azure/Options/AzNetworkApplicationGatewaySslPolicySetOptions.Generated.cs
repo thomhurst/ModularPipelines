@@ -57,8 +57,8 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     /// <summary>
     /// SSL cipher suites to be enabled in the specified order to application gateway. Values from `az network application- gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--cipher-suites")]
-    public bool? CipherSuites { get; set; }
+    [CliOption("--cipher-suites")]
+    public string? CipherSuites { get; set; }
 
     /// <summary>
     /// Space-separated list of protocols to disable. Values from `az network application-gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

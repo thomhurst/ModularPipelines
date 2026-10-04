@@ -84,8 +84,8 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -114,8 +114,8 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

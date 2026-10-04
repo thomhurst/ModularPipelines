@@ -23,8 +23,8 @@ public record AzImageBuilderOptimizerUpdateOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer")]
+    public string? Defer { get; set; }
 
     /// <summary>
     /// If this parameter is set to true, VM boot time will be improved by optimizing the final customized image output.  Allowed values: false, true.

@@ -107,8 +107,8 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     /// <summary>
     /// Azure container mapping for the share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--azure-container-info")]
-    public bool? AzureContainerInfo { get; set; }
+    [CliOption("--azure-container-info")]
+    public string? AzureContainerInfo { get; set; }
 
     /// <summary>
     /// List of IP addresses and corresponding access rights on the share(required for NFS protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -131,13 +131,13 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     /// <summary>
     /// Details of the refresh job on this share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--refresh-details")]
-    public bool? RefreshDetails { get; set; }
+    [CliOption("--refresh-details")]
+    public string? RefreshDetails { get; set; }
 
     /// <summary>
     /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-access-rights")]
-    public bool? UserAccessRights { get; set; }
+    [CliOption("--user-access-rights")]
+    public string? UserAccessRights { get; set; }
 
 }

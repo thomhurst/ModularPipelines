@@ -76,8 +76,8 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// --secondary-locations extends/contracts an HSM pool to listed regions. The primary location where the resource was originally created CANNOT be removed.
     /// </summary>
-    [CliFlag("--secondary-locations")]
-    public bool? SecondaryLocations { get; set; }
+    [CliOption("--secondary-locations")]
+    public string? SecondaryLocations { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

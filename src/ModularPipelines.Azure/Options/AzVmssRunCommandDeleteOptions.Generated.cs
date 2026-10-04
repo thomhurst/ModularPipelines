@@ -41,8 +41,8 @@ public record AzVmssRunCommandDeleteOptions : AzOptions
     /// <summary>
     /// The instance of the VM.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// The name of the VirtualMachineRunCommand.

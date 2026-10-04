@@ -74,13 +74,13 @@ public record AzVmssDiagnosticsSetOptions : AzOptions
     /// <summary>
     /// Json string or a file path containing private configurations such as storage account keys, etc.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Version of the diagnostics extension. Will use the latest if not specfied.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

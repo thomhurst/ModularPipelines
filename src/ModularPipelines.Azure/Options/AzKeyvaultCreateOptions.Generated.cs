@@ -46,8 +46,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [HSM Only] Administrator role for data plane operations for Managed HSM. It accepts a space separated list of OIDs that will be assigned.
     /// </summary>
-    [CliFlag("--administrators")]
-    public bool? Administrators { get; set; }
+    [CliOption("--administrators")]
+    public string? Administrators { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible. Allowed values: false, true.
@@ -124,8 +124,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90. Defaults to 90 for keyvault creation. Required for MHSM creation.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public string? RetentionDays { get; set; }
 
     /// <summary>
     /// Required. SKU details. Allowed values for Vault: premium, standard. Default: standard. Allowed values for HSM: Standard_B1, Custom_B32, Custom_B6, Custom_C42, Custom_C10. Default: Standard_B1.
@@ -154,8 +154,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Network ACLs. It accepts a JSON filename or a JSON string. JSON format: `{\"ip\":[&lt;ip1&gt;, &lt;ip2&gt;...],\"vnet\":[&lt;vnet_name _1&gt;/&lt;subnet_name_1&gt;,&lt;subnet_id2&gt;...]}`.
     /// </summary>
-    [CliFlag("--network-acls")]
-    public bool? NetworkAcls { get; set; }
+    [CliOption("--network-acls")]
+    public string? NetworkAcls { get; set; }
 
     /// <summary>
     /// Network ACLs IP rules. Space-separated list of IP addresses.

@@ -83,7 +83,7 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--bursting-enabled", ShortForm = "--enable-bursting")]
+    [CliOption("--bursting-enabled")]
     public bool? BurstingEnabled { get; set; }
 
     /// <summary>
@@ -95,38 +95,38 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-only")]
-    public bool? DiskIopsReadOnly { get; set; }
+    [CliOption("--disk-iops-read-only")]
+    public int? DiskIopsReadOnly { get; set; }
 
     /// <summary>
     /// The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-write")]
-    public bool? DiskIopsReadWrite { get; set; }
+    [CliOption("--disk-iops-read-write")]
+    public int? DiskIopsReadWrite { get; set; }
 
     /// <summary>
     /// The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-only")]
-    public bool? DiskMbpsReadOnly { get; set; }
+    [CliOption("--disk-mbps-read-only")]
+    public string? DiskMbpsReadOnly { get; set; }
 
     /// <summary>
     /// The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-write")]
-    public bool? DiskMbpsReadWrite { get; set; }
+    [CliOption("--disk-mbps-read-write")]
+    public string? DiskMbpsReadWrite { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--disk-size-gb", ShortForm = "-z")]
-    public bool? DiskSizeGb { get; set; }
+    [CliOption("--disk-size-gb", ShortForm = "-z")]
+    public int? DiskSizeGb { get; set; }
 
     /// <summary>
     /// The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
     /// </summary>
-    [CliFlag("--max-shares")]
-    public bool? MaxShares { get; set; }
+    [CliOption("--max-shares")]
+    public int? MaxShares { get; set; }
 
     /// <summary>
     /// Policy for accessing the disk via network. Allowed values: AllowAll, AllowPrivate, DenyAll.
@@ -161,7 +161,7 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values: TrustedLaunchAndConfidentialVMSupported, TrustedLaunchSupported.
     /// </summary>
-    [CliOption("--security-option", ShortForm = "--supported-security-option")]
+    [CliOption("--security-option")]
     public string? SecurityOption { get; set; }
 
 }

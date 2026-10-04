@@ -135,8 +135,8 @@ public record AzSqlVmGroupCreateOptions : AzOptions
     /// <summary>
     /// Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain).
     /// </summary>
-    [CliFlag("--bootstrap-acc")]
-    public bool? BootstrapAcc { get; set; }
+    [CliOption("--bootstrap-acc")]
+    public string? BootstrapAcc { get; set; }
 
     /// <summary>
     /// Cluster subnet type.  Allowed values: MultiSubnet, SingleSubnet.  Default: SingleSubnet.
@@ -153,13 +153,13 @@ public record AzSqlVmGroupCreateOptions : AzOptions
     /// <summary>
     /// Organizational Unit path in which the nodes and cluster will be present. Example: OU=WSCluster,DC=testdomain,DC=com.
     /// </summary>
-    [CliFlag("--ou-path")]
-    public bool? OuPath { get; set; }
+    [CliOption("--ou-path")]
+    public string? OuPath { get; set; }
 
     /// <summary>
     /// Primary key of the witness storage account.
     /// </summary>
-    [CliFlag("--sa-key", ShortForm = "-k")]
-    public bool? SaKey { get; set; }
+    [CliOption("--sa-key", ShortForm = "-k")]
+    public string? SaKey { get; set; }
 
 }

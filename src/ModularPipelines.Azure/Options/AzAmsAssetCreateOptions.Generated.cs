@@ -68,8 +68,8 @@ public record AzAmsAssetCreateOptions : AzOptions
     /// <summary>
     /// The alternate id of the asset.
     /// </summary>
-    [CliFlag("--alternate-id")]
-    public bool? AlternateId { get; set; }
+    [CliOption("--alternate-id")]
+    public string? AlternateId { get; set; }
 
     /// <summary>
     /// The name of the asset blob container.
@@ -80,8 +80,8 @@ public record AzAmsAssetCreateOptions : AzOptions
     /// <summary>
     /// The asset description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The name of the storage account.

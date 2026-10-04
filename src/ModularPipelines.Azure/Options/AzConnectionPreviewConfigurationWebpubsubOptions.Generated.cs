@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,19 +30,20 @@ public record AzConnectionPreviewConfigurationWebpubsubOptions : AzOptions
     /// <summary>
     /// The secret auth info.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info.
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal")]
+    public string? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The local user account auth info.
     /// </summary>
-    [CliFlag("--user-account")]
-    public bool? UserAccount { get; set; }
+    [CliOption("--user-account")]
+    public string? UserAccount { get; set; }
 
 }

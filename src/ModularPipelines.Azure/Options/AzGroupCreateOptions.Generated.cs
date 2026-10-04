@@ -51,7 +51,7 @@ public record AzGroupCreateOptions : AzOptions
     /// <summary>
     /// Name of the new resource group.
     /// </summary>
-    [CliOption("--name", ShortForm = "-n")]
+    [CliOption("--name", ShortForm = "-g")]
     public string Name { get; private init; }
 
     /// <summary>

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -99,8 +100,8 @@ public record AzStaticwebappCreateOptions : AzOptions
     /// <summary>
     /// The target branch in the repository.
     /// </summary>
-    [CliFlag("--branch", ShortForm = "-b")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch", ShortForm = "-b")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// Use azure credentials to create an Azure Dev Ops personal access token.
@@ -123,7 +124,8 @@ public record AzStaticwebappCreateOptions : AzOptions
     /// <summary>
     /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
     /// </summary>
-    [CliFlag("--token", ShortForm = "-t")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token", ShortForm = "-t")]
+    public string? Token { get; set; }
 
 }

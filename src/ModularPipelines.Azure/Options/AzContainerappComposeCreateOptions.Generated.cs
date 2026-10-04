@@ -76,8 +76,8 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// <summary>
     /// Transport options per Container App instance (servicename=transportsetting).
     /// </summary>
-    [CliFlag("--transport-mapping")]
-    public bool? TransportMapping { get; set; }
+    [CliOption("--transport-mapping")]
+    public string? TransportMapping { get; set; }
 
     /// <summary>
     /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
@@ -89,8 +89,8 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// <summary>
     /// The container registry server hostname, e.g. myregistry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-server")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The username to log in to container registry.

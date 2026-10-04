@@ -23,26 +23,26 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
     /// </summary>
-    [CliFlag("--action-compatibility-level")]
-    public bool? ActionCompatibilityLevel { get; set; }
+    [CliOption("--action-compatibility-level")]
+    public string? ActionCompatibilityLevel { get; set; }
 
     /// <summary>
     /// Value that indicates whether the rule action requires preprocessing.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--action-preprocessing", ShortForm = "--enable-action-preprocessing")]
+    [CliOption("--action-preprocessing")]
     public bool? ActionPreprocessing { get; set; }
 
     /// <summary>
     /// SQL expression. e.g. MyProperty='ABC'.
     /// </summary>
-    [CliFlag("--action-sql-expression")]
-    public bool? ActionSqlExpression { get; set; }
+    [CliOption("--action-sql-expression")]
+    public string? ActionSqlExpression { get; set; }
 
     /// <summary>
     /// Content type of the message.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Identifier of the correlation.
@@ -53,14 +53,14 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// Value that indicates whether the rule action requires preprocessing.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-correlation-preprocessing", ShortForm = "--requires-preprocessing")]
+    [CliOption("--enable-correlation-preprocessing")]
     public bool? EnableCorrelationPreprocessing { get; set; }
 
     /// <summary>
     /// Application specific label.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Identifier of the message.
@@ -71,32 +71,32 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// Dictionary object for custom filters  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--properties")]
-    public bool? Properties { get; set; }
+    [CliOption("--properties")]
+    public string? Properties { get; set; }
 
     /// <summary>
     /// Address of the queue to reply to.
     /// </summary>
-    [CliFlag("--reply-to")]
-    public bool? ReplyTo { get; set; }
+    [CliOption("--reply-to")]
+    public string? ReplyTo { get; set; }
 
     /// <summary>
     /// Session identifier to reply to.
     /// </summary>
-    [CliFlag("--reply-to-session-id")]
-    public bool? ReplyToSessionId { get; set; }
+    [CliOption("--reply-to-session-id")]
+    public string? ReplyToSessionId { get; set; }
 
     /// <summary>
     /// Session identifier.
     /// </summary>
-    [CliFlag("--session-id")]
-    public bool? SessionId { get; set; }
+    [CliOption("--session-id")]
+    public string? SessionId { get; set; }
 
     /// <summary>
     /// Address to send to.
     /// </summary>
-    [CliFlag("--to")]
-    public bool? To { get; set; }
+    [CliOption("--to")]
+    public string? To { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -137,8 +137,8 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// The rule name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The namespace name.
@@ -167,8 +167,8 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
     /// </summary>
-    [CliFlag("--compatibility-level")]
-    public bool? CompatibilityLevel { get; set; }
+    [CliOption("--compatibility-level")]
+    public string? CompatibilityLevel { get; set; }
 
     /// <summary>
     /// Value that indicates whether the rule action requires preprocessing.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -179,7 +179,7 @@ public record AzServicebusTopicSubscriptionRuleUpdateOptions : AzOptions
     /// <summary>
     /// The SQL expression. e.g. MyProperty='ABC'.
     /// </summary>
-    [CliFlag("--filter-sql-expression", ShortForm = "--sql-expression")]
-    public bool? FilterSqlExpression { get; set; }
+    [CliOption("--filter-sql-expression")]
+    public string? FilterSqlExpression { get; set; }
 
 }

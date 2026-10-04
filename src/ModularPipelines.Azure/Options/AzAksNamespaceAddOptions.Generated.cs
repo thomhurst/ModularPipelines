@@ -118,14 +118,14 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Annotations for the managed namespace.
     /// </summary>
-    [CliFlag("--annotations")]
-    public bool? Annotations { get; set; }
+    [CliOption("--annotations")]
+    public string? Annotations { get; set; }
 
     /// <summary>
     /// Delete options of a namespace. The default value is Keep. Allowed values: Delete, Keep.
@@ -148,8 +148,8 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Labels for the managed namespace.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels")]
+    public string? Labels { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -160,7 +160,7 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// The tags of the managed namespace.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

@@ -40,7 +40,7 @@ public record AzStorageAccountMigrationStartOptions : AzOptions
     /// <summary>
     /// Target sku name for the account.  Allowed values: PremiumV2_LRS, PremiumV2_ZRS, Premium_LRS, Premium_ZRS, StandardV2_GRS, StandardV2_GZRS, StandardV2_LRS, StandardV2_ZRS, Standard_GRS, Standard_GZRS, Standard_LRS, Standard_RAGRS, Standard_RAGZRS, Standard_ZRS.
     /// </summary>
-    [CliOption("--sku", ShortForm = "--target-sku-name")]
+    [CliOption("--sku")]
     public string Sku { get; private init; }
 
     /// <summary>
@@ -58,14 +58,14 @@ public record AzStorageAccountMigrationStartOptions : AzOptions
     /// <summary>
     /// Current value is 'default' for customer initiated migration.
     /// </summary>
-    [CliFlag("--name")]
-    public bool? Name { get; set; }
+    [CliOption("--name")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// SrpAccountMigrationType in ARM contract which is 'accountMigrations'.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
     /// <summary>
     /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.

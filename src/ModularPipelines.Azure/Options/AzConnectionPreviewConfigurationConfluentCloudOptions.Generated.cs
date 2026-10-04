@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,7 +30,8 @@ public record AzConnectionPreviewConfigurationConfluentCloudOptions : AzOptions
     /// <summary>
     /// The secret auth info.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
 }

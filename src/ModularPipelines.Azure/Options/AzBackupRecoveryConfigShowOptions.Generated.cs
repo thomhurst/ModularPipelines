@@ -70,14 +70,14 @@ public record AzBackupRecoveryConfigShowOptions : AzOptions
     /// <summary>
     /// Set Identity ARM ID for HANA Snapshot restores.
     /// </summary>
-    [CliFlag("--identity-arm-id")]
-    public bool? IdentityArmId { get; set; }
+    [CliOption("--identity-arm-id")]
+    public string? IdentityArmId { get; set; }
 
     /// <summary>
     /// Specify the point-in-time (in UTC) which will be restored.
     /// </summary>
-    [CliFlag("--log-point-in-time")]
-    public bool? LogPointInTime { get; set; }
+    [CliOption("--log-point-in-time")]
+    public string? LogPointInTime { get; set; }
 
     /// <summary>
     /// Name of the recovery point.
@@ -88,38 +88,38 @@ public record AzBackupRecoveryConfigShowOptions : AzOptions
     /// <summary>
     /// Specify the resource group for HANA Snapshot Instance restores. If not provided, the default value will be fetched from the target container details.
     /// </summary>
-    [CliFlag("--snapshot-rg")]
-    public bool? SnapshotRg { get; set; }
+    [CliOption("--snapshot-rg")]
+    public string? SnapshotRg { get; set; }
 
     /// <summary>
     /// The target container to which the DB recovery point should be restored.
     /// </summary>
-    [CliFlag("--target-container-name")]
-    public bool? TargetContainerName { get; set; }
+    [CliOption("--target-container-name")]
+    public string? TargetContainerName { get; set; }
 
     /// <summary>
     /// Specify the target instance name for the restore operation.
     /// </summary>
-    [CliFlag("--target-instance-name")]
-    public bool? TargetInstanceName { get; set; }
+    [CliOption("--target-instance-name")]
+    public string? TargetInstanceName { get; set; }
 
     /// <summary>
     /// Specify the target item name for the restore operation.
     /// </summary>
-    [CliFlag("--target-item-name")]
-    public bool? TargetItemName { get; set; }
+    [CliOption("--target-item-name")]
+    public string? TargetItemName { get; set; }
 
     /// <summary>
     /// Specify the resource group of target item for Cross Region Restore. Default value will be same as --resource-group if not specified.
     /// </summary>
-    [CliFlag("--target-resource-group")]
-    public bool? TargetResourceGroup { get; set; }
+    [CliOption("--target-resource-group")]
+    public string? TargetResourceGroup { get; set; }
 
     /// <summary>
     /// Specify the parent server name of the target item.
     /// </summary>
-    [CliFlag("--target-server-name")]
-    public bool? TargetServerName { get; set; }
+    [CliOption("--target-server-name")]
+    public string? TargetServerName { get; set; }
 
     /// <summary>
     /// Specify the type of the server which should be discovered.  Allowed values: HANAInstance, SAPAseDatabase, SAPHanaDBInstance, SAPHanaDatabase, SAPHanaSystem, SQLAG, SQLDatabase, SQLInstance.
@@ -130,14 +130,14 @@ public record AzBackupRecoveryConfigShowOptions : AzOptions
     /// <summary>
     /// Specify the subscription of the target item for Cross Subscription Restore. Defaulted to source subscription if not specified.
     /// </summary>
-    [CliFlag("--target-subscription-id")]
-    public bool? TargetSubscriptionId { get; set; }
+    [CliOption("--target-subscription-id")]
+    public string? TargetSubscriptionId { get; set; }
 
     /// <summary>
     /// Specify the vault name of target item for Cross Region Restore. Default value will be same as --vault-name if not specified.
     /// </summary>
-    [CliFlag("--target-vault-name")]
-    public bool? TargetVaultName { get; set; }
+    [CliOption("--target-vault-name")]
+    public string? TargetVaultName { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase.

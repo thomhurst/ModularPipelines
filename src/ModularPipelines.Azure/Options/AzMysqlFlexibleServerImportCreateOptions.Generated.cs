@@ -80,8 +80,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes")]
+    public string? AddressPrefixes { get; set; }
 
     /// <summary>
     /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -104,8 +104,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Relative path of the directory in which source backup is stored. By default, the backup files will be read from the root of storage. This parameter is valid for storage based data source. Example: azure_blob.
@@ -116,8 +116,9 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Sas token for accessing the data source. This parameter is valid for storage based data source. Example: azure_blob.
     /// </summary>
-    [CliFlag("--data-source-sas-token")]
-    public bool? DataSourceSasToken { get; set; }
+    [SecretValue]
+    [CliOption("--data-source-sas-token")]
+    public string? DataSourceSasToken { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
@@ -140,8 +141,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public int? Iops { get; set; }
 
     /// <summary>
     /// The resource ID of the primary keyvault key for data encryption.
@@ -170,8 +171,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Determines the public access. Enter single or range of IP addresses to be included in the allowed list of IPs. IP address ranges must be dash-separated and not contain any spaces. Specifying 0.0.0.0 allows public access from any resources deployed within Azure to access your server. Setting it to "None" sets the server in public access mode but does not create a firewall rule.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -182,8 +183,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
     /// </summary>
-    [CliFlag("--standby-zone")]
-    public bool? StandbyZone { get; set; }
+    [CliOption("--standby-zone")]
+    public string? StandbyZone { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
@@ -194,8 +195,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
@@ -224,8 +225,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Server major version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or ID of a new or existing virtual network. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a vnet from different resource group or subscription, please provide a resource ID. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
@@ -242,8 +243,8 @@ public record AzMysqlFlexibleServerImportCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.

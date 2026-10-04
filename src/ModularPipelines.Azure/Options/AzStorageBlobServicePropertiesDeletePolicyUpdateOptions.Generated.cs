@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,8 +30,8 @@ public record AzStorageBlobServicePropertiesDeletePolicyUpdateOptions : AzOption
     /// <summary>
     /// Number of days that soft-deleted blob will be retained. Must be in range [1,365].
     /// </summary>
-    [CliFlag("--days-retained")]
-    public bool? DaysRetained { get; set; }
+    [CliOption("--days-retained")]
+    public int? DaysRetained { get; set; }
 
     /// <summary>
     /// Enables/disables soft-delete.  Allowed values: false, true.
@@ -41,31 +42,32 @@ public record AzStorageBlobServicePropertiesDeletePolicyUpdateOptions : AzOption
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

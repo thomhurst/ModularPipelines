@@ -80,13 +80,13 @@ public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
     /// <summary>
     /// The 24-hour time in the form xx:xx in days.
     /// </summary>
-    [CliFlag("--time")]
-    public bool? Time { get; set; }
+    [CliOption("--time")]
+    public string? Time { get; set; }
 
     /// <summary>
     /// The schedule workernode count.
     /// </summary>
-    [CliFlag("--workernode-count")]
-    public bool? WorkernodeCount { get; set; }
+    [CliOption("--workernode-count")]
+    public string? WorkernodeCount { get; set; }
 
 }

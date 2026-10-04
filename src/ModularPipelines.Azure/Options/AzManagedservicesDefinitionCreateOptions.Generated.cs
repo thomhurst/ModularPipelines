@@ -79,8 +79,8 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Guid of the registration definition.
     /// </summary>
-    [CliFlag("--definition-id")]
-    public bool? DefinitionId { get; set; }
+    [CliOption("--definition-id")]
+    public string? DefinitionId { get; set; }
 
     /// <summary>
     /// Description of the registration definition.
@@ -103,19 +103,19 @@ public record AzManagedservicesDefinitionCreateOptions : AzOptions
     /// <summary>
     /// The product code.
     /// </summary>
-    [CliFlag("--plan-product")]
-    public bool? PlanProduct { get; set; }
+    [CliOption("--plan-product")]
+    public string? PlanProduct { get; set; }
 
     /// <summary>
     /// The publisher ID.
     /// </summary>
-    [CliFlag("--plan-publisher")]
-    public bool? PlanPublisher { get; set; }
+    [CliOption("--plan-publisher")]
+    public string? PlanPublisher { get; set; }
 
     /// <summary>
     /// The plan's version.
     /// </summary>
-    [CliFlag("--plan-version")]
-    public bool? PlanVersion { get; set; }
+    [CliOption("--plan-version")]
+    public string? PlanVersion { get; set; }
 
 }

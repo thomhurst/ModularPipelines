@@ -30,8 +30,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
-    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
-    public bool? BackupFederatedClientId { get; set; }
+    [CliOption("--backup-federated-client-id", ShortForm = "-f")]
+    public string? BackupFederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -48,14 +48,14 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// The client ID of the federated identity.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the user assigned identity for data encryption.
@@ -78,8 +78,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Period of time (UTC) designated for maintenance. Examples: "Sun:23:30" to schedule on Sunday, 11:30pm UTC. To set back to default pass in "Disabled".
     /// </summary>
-    [CliFlag("--maintenance-window")]
-    public bool? MaintenanceWindow { get; set; }
+    [CliOption("--maintenance-window")]
+    public string? MaintenanceWindow { get; set; }
 
     /// <summary>
     /// Whether Microsoft Entra authentication is enabled.  Allowed values: Disabled, Enabled.
@@ -90,8 +90,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The number of nodes for elastic cluster.
     /// </summary>
-    [CliFlag("--node-count")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Whether password authentication is enabled.  Allowed values: Disabled, Enabled.
@@ -103,14 +103,14 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Performance tier of the server.
     /// </summary>
-    [CliFlag("--performance-tier")]
-    public bool? PerformanceTier { get; set; }
+    [CliOption("--performance-tier")]
+    public string? PerformanceTier { get; set; }
 
     /// <summary>
     /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
@@ -127,8 +127,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
     /// </summary>
-    [CliFlag("--standby-zone")]
-    public bool? StandbyZone { get; set; }
+    [CliOption("--standby-zone")]
+    public string? StandbyZone { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Disabled.  Allowed values: Disabled, Enabled.
@@ -139,8 +139,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -151,8 +151,8 @@ public record AzPostgresFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Storage throughput in (MB/sec) for the server. This value can only be updated if flexible server is using Premium SSD v2 Disks.
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public string? Throughput { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.

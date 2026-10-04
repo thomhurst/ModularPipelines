@@ -74,7 +74,7 @@ public record AzNetworkApplicationGatewayFrontendPortCreateOptions : AzOptions
     /// <summary>
     /// Number of the port.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
 }

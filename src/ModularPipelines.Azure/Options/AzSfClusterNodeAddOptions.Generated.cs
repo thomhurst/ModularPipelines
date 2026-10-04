@@ -66,7 +66,7 @@ public record AzSfClusterNodeAddOptions : AzOptions
     /// <summary>
     /// Number of nodes to add.
     /// </summary>
-    [CliOption("--nodes-to-add", ShortForm = "--number-of-nodes-to-add")]
+    [CliOption("--nodes-to-add")]
     public int NodesToAdd { get; private init; }
 
     /// <summary>

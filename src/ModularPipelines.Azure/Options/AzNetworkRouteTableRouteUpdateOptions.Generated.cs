@@ -23,14 +23,14 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     /// <summary>
     /// The destination CIDR to which the route applies.
     /// </summary>
-    [CliFlag("--address-prefix")]
-    public bool? AddressPrefix { get; set; }
+    [CliOption("--address-prefix")]
+    public string? AddressPrefix { get; set; }
 
     /// <summary>
     /// The IP address packets should be forwarded to when using the VirtualAppliance hop type.
     /// </summary>
-    [CliFlag("--next-hop-ip-address")]
-    public bool? NextHopIpAddress { get; set; }
+    [CliOption("--next-hop-ip-address")]
+    public string? NextHopIpAddress { get; set; }
 
     /// <summary>
     /// The type of Azure hop the packet should be sent to.  Allowed values: Internet, None, VirtualAppliance, VirtualNetworkGateway, VnetLocal.
@@ -77,8 +77,8 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     /// <summary>
     /// Route name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -89,7 +89,7 @@ public record AzNetworkRouteTableRouteUpdateOptions : AzOptions
     /// <summary>
     /// Route table name.
     /// </summary>
-    [CliFlag("--route-table-name")]
-    public bool? RouteTableName { get; set; }
+    [CliOption("--route-table-name")]
+    public string? RouteTableName { get; set; }
 
 }

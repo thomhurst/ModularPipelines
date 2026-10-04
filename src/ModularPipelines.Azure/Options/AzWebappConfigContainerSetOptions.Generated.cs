@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,26 +24,27 @@ public record AzWebappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
     /// </summary>
-    [CliFlag("--container-image-name", ShortForm = "-i")]
-    public bool? ContainerImageName { get; set; }
+    [CliOption("--container-image-name", ShortForm = "-c")]
+    public string? ContainerImageName { get; set; }
 
     /// <summary>
     /// The container registry server password.
     /// </summary>
-    [CliFlag("--container-registry-password", ShortForm = "-p")]
-    public bool? ContainerRegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--container-registry-password", ShortForm = "-p")]
+    public string? ContainerRegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server url.
     /// </summary>
-    [CliFlag("--container-registry-url", ShortForm = "-r")]
-    public bool? ContainerRegistryUrl { get; set; }
+    [CliOption("--container-registry-url", ShortForm = "-r")]
+    public string? ContainerRegistryUrl { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--container-registry-user", ShortForm = "-u")]
-    public bool? ContainerRegistryUser { get; set; }
+    [CliOption("--container-registry-user", ShortForm = "-u")]
+    public string? ContainerRegistryUser { get; set; }
 
     /// <summary>
     /// Enables platform storage (custom container only).  Allowed values: false, true.
@@ -53,8 +55,8 @@ public record AzWebappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// Config file for multicontainer apps.
     /// </summary>
-    [CliFlag("--multicontainer-config-file")]
-    public bool? MulticontainerConfigFile { get; set; }
+    [CliOption("--multicontainer-config-file")]
+    public string? MulticontainerConfigFile { get; set; }
 
     /// <summary>
     /// Config type.  Allowed values: COMPOSE, KUBE.

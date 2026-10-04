@@ -57,8 +57,8 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Number of message units. This property is only applicable to namespaces of Premium SKU. Allowed values: 1, 16, 2, 4, 8.
@@ -81,7 +81,7 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
     public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
@@ -105,13 +105,13 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
     /// </summary>
-    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
-    public bool? MaxLag { get; set; }
+    [CliOption("--max-lag")]
+    public string? MaxLag { get; set; }
 
     /// <summary>
     /// The minimum TLS version for the cluster to support, e.g. 1.2. Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
     /// <summary>
@@ -123,7 +123,7 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
     /// <summary>

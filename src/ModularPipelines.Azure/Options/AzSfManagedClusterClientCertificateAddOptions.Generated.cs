@@ -57,8 +57,8 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client certificate common name.
     /// </summary>
-    [CliFlag("--common-name")]
-    public bool? CommonName { get; set; }
+    [CliOption("--common-name")]
+    public string? CommonName { get; set; }
 
     /// <summary>
     /// Client authentication type.  Allowed values: false, true.
@@ -75,7 +75,7 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client certificate thumbprint.
     /// </summary>
-    [CliFlag("--thumbprint")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint")]
+    public string? Thumbprint { get; set; }
 
 }

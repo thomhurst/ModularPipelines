@@ -59,14 +59,14 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas. When the lag exceeds the configured amount, operations on the primary replica will be failed. The allowed values are 0 and 5 minutes to 1 day.
     /// </summary>
-    [CliOption("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
+    [CliOption("--max-lag")]
     public string? MaxLag { get; set; }
 
     /// <summary>
     /// Properties of BYOK Identity description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -77,13 +77,13 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Alternate name for namespace.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// List of private endpoint connections. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--connections", ShortForm = "--private-endpoint-connections", GroupValues = true)]
+    [CliOption("--connections", GroupValues = true)]
     public IEnumerable<string>? Connections { get; set; }
 
     /// <summary>
@@ -95,8 +95,8 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Properties of BYOK Encryption description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--encryption")]
-    public bool? Encryption { get; set; }
+    [CliOption("--encryption")]
+    public string? Encryption { get; set; }
 
     /// <summary>
     /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack).  Allowed values: DualStack, IPv4.
@@ -113,14 +113,14 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--platform-capabilities")]
-    public bool? PlatformCapabilities { get; set; }
+    [CliOption("--platform-capabilities")]
+    public string? PlatformCapabilities { get; set; }
 
     /// <summary>
     /// The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4.
     /// </summary>
-    [CliFlag("--premium-messaging-partitions", ShortForm = "--premium-partitions")]
-    public bool? PremiumMessagingPartitions { get; set; }
+    [CliOption("--premium-messaging-partitions")]
+    public int? PremiumMessagingPartitions { get; set; }
 
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. Allowed values: Disabled, Enabled, SecuredByPerimeter.
@@ -137,8 +137,8 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -149,8 +149,8 @@ public record AzServicebusNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Messaging units for your service bus premium namespace. Valid capacities are {1, 2, 4, 8, 16} multiples of your properties.premiumMessagingPartitions setting. For example, If properties.premiumMessagingPartitions is 1 then possible capacity values are 1, 2, 4, 8, and 16. If properties.premiumMessagingPartitions is 4 then possible capacity values are 4, 8, 16, 32 and 64.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Name of this SKU.  Allowed values: Basic, Premium, Standard.

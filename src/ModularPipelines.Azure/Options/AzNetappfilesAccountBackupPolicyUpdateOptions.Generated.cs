@@ -59,8 +59,8 @@ public record AzNetappfilesAccountBackupPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Daily backups count to keep.
     /// </summary>
-    [CliFlag("--daily-backups", ShortForm = "-d")]
-    public bool? DailyBackups { get; set; }
+    [CliOption("--daily-backups", ShortForm = "-d")]
+    public string? DailyBackups { get; set; }
 
     /// <summary>
     /// The property to decide policy is enabled or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -71,14 +71,14 @@ public record AzNetappfilesAccountBackupPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Monthly backups count to keep.
     /// </summary>
-    [CliFlag("--monthly-backups", ShortForm = "-m")]
-    public bool? MonthlyBackups { get; set; }
+    [CliOption("--monthly-backups", ShortForm = "-m")]
+    public string? MonthlyBackups { get; set; }
 
     /// <summary>
     /// Weekly backups count to keep.
     /// </summary>
-    [CliFlag("--weekly-backups", ShortForm = "-w")]
-    public bool? WeeklyBackups { get; set; }
+    [CliOption("--weekly-backups", ShortForm = "-w")]
+    public string? WeeklyBackups { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -89,8 +89,8 @@ public record AzNetappfilesAccountBackupPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Backup policy Name which uniquely identify backup policy.
     /// </summary>
-    [CliFlag("--backup-policy-name", ShortForm = "-n")]
-    public bool? BackupPolicyName { get; set; }
+    [CliOption("--backup-policy-name", ShortForm = "-b")]
+    public string? BackupPolicyName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

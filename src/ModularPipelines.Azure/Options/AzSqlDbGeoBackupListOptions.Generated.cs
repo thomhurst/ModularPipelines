@@ -29,13 +29,13 @@ public record AzSqlDbGeoBackupListOptions : AzOptions
     /// <summary>
     /// Retrieves all requested geo-redundant backups under this resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Retrieves all requested geo-redundant backups under this server.
     /// </summary>
-    [CliFlag("--server", ShortForm = "-s")]
-    public bool? Server { get; set; }
+    [CliOption("--server", ShortForm = "-s")]
+    public string? Server { get; set; }
 
 }

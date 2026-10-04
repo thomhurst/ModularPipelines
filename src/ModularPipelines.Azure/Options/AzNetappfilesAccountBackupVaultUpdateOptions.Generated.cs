@@ -65,7 +65,7 @@ public record AzNetappfilesAccountBackupVaultUpdateOptions : AzOptions
     /// <summary>
     /// The name of the Backup Vault.
     /// </summary>
-    [CliOption("--backup-vault-name", ShortForm = "-v")]
+    [CliOption("--backup-vault-name", ShortForm = "-n")]
     public string? BackupVaultName { get; set; }
 
     /// <summary>

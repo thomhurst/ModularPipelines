@@ -74,8 +74,8 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -86,8 +86,8 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Number of the destination port on the backend.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the settings.
@@ -110,8 +110,8 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

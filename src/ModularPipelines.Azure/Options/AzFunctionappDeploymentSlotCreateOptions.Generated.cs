@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -80,19 +81,20 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The container registry server password.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-d")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-d")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-u")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-u")]
+    public string? RegistryUsername { get; set; }
 
 }

@@ -90,37 +90,37 @@ public record AzCosmosdbGremlinGraphCreateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl")]
+    public string? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
     /// </summary>
-    [CliFlag("--conflict-resolution-policy", ShortForm = "-c")]
-    public bool? ConflictResolutionPolicy { get; set; }
+    [CliOption("--conflict-resolution-policy", ShortForm = "-c")]
+    public string? ConflictResolutionPolicy { get; set; }
 
     /// <summary>
     /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}]}".  Default: { "indexingMode": "consistent", "automatic": true, "includedPaths": [ { "path": "/*" } ], "excludedPaths": [ { "path": "/\"_etag\"/?" } ]
     /// </summary>
-    [CliFlag("--idx")]
-    public bool? Idx { get; set; }
+    [CliOption("--idx")]
+    public string? Idx { get; set; }
 
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).
     /// </summary>
-    [CliFlag("--max-throughput")]
-    public bool? MaxThroughput { get; set; }
+    [CliOption("--max-throughput")]
+    public string? MaxThroughput { get; set; }
 
     /// <summary>
     /// The throughput of Gremlin graph (RU/s). Default value is 400. Omit this parameter if the database has shared throughput unless the graph should have dedicated throughput.
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public string? Throughput { get; set; }
 
     /// <summary>
     /// Default TTL. If the value is missing or set to "-1", items don’t expire. If the value is set to "n", items will expire "n" seconds after last modified time.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

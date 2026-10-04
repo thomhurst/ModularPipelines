@@ -74,13 +74,13 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions : AzOptions
     /// <summary>
     /// The group ID from the provider of resource the shared private link resource is for.
     /// </summary>
-    [CliFlag("--group-id")]
-    public bool? GroupId { get; set; }
+    [CliOption("--group-id")]
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// The resource ID of the resource the shared private link resource is for.
     /// </summary>
-    [CliOption("--private-link-resource-id", ShortForm = "--resource-id")]
+    [CliOption("--private-link-resource-id")]
     public string? PrivateLinkResourceId { get; set; }
 
     /// <summary>
@@ -92,14 +92,14 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions : AzOptions
     /// <summary>
     /// The message for requesting approval of the shared private link resource.
     /// </summary>
-    [CliFlag("--request-message")]
-    public bool? RequestMessage { get; set; }
+    [CliOption("--request-message")]
+    public string? RequestMessage { get; set; }
 
     /// <summary>
     /// Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
     /// </summary>
-    [CliFlag("--resource-region")]
-    public bool? ResourceRegion { get; set; }
+    [CliOption("--resource-region")]
+    public string? ResourceRegion { get; set; }
 
     /// <summary>
     /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. Allowed values: Approved, Disconnected, Pending, Rejected.

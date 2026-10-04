@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -87,26 +88,27 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// The filepath of the certificate file (.pfx or .pem) for the environment's custom domain. To manage certificates for container apps, use `az containerapp env certificate`.
     /// </summary>
-    [CliFlag("--certificate-file", ShortForm = "--custom-domain-certificate-file")]
-    public bool? CertificateFile { get; set; }
+    [CliOption("--certificate-file")]
+    public string? CertificateFile { get; set; }
 
     /// <summary>
     /// The certificate file password for the environment's custom domain.
     /// </summary>
-    [CliFlag("--certificate-password", ShortForm = "--custom-domain-certificate-password")]
-    public bool? CertificatePassword { get; set; }
+    [SecretValue]
+    [CliOption("--certificate-password")]
+    public string? CertificatePassword { get; set; }
 
     /// <summary>
     /// The DNS suffix for the environment's custom domain.
     /// </summary>
-    [CliFlag("--custom-domain-dns-suffix", ShortForm = "--dns-suffix")]
-    public bool? CustomDomainDnsSuffix { get; set; }
+    [CliOption("--custom-domain-dns-suffix")]
+    public string? CustomDomainDnsSuffix { get; set; }
 
     /// <summary>
     /// Application Insights connection string used by Dapr to export service to service communication telemetry.
     /// </summary>
-    [CliFlag("--dapr-connection-string", ShortForm = "-d")]
-    public bool? DaprConnectionString { get; set; }
+    [CliOption("--dapr-connection-string", ShortForm = "-d")]
+    public string? DaprConnectionString { get; set; }
 
     /// <summary>
     /// Logs destination.  Allowed values: azure-monitor, log-analytics, none.  Default: log-analytics.
@@ -117,14 +119,14 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply.
     /// </summary>
-    [CliFlag("--logs-workspace-id")]
-    public bool? LogsWorkspaceId { get; set; }
+    [CliOption("--logs-workspace-id")]
+    public string? LogsWorkspaceId { get; set; }
 
     /// <summary>
     /// Log Analytics workspace key to configure your Log Analytics workspace. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace get-shared-keys" to retrieve the key.
     /// </summary>
-    [CliFlag("--logs-workspace-key")]
-    public bool? LogsWorkspaceKey { get; set; }
+    [CliOption("--logs-workspace-key")]
+    public string? LogsWorkspaceKey { get; set; }
 
     /// <summary>
     /// Name or resource ID of the storage account used for Azure Monitor. If this value is provided, Azure Monitor Diagnostic Settings will be created automatically.
@@ -165,13 +167,13 @@ public record AzContainerappEnvCreateOptions : AzOptions
     /// <summary>
     /// IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
     /// </summary>
-    [CliFlag("--platform-reserved-cidr")]
-    public bool? PlatformReservedCidr { get; set; }
+    [CliOption("--platform-reserved-cidr")]
+    public string? PlatformReservedCidr { get; set; }
 
     /// <summary>
     /// An IP address from the IP range defined by Platform Reserved CIDR that will be reserved for the internal DNS server.
     /// </summary>
-    [CliFlag("--platform-reserved-dns-ip")]
-    public bool? PlatformReservedDnsIp { get; set; }
+    [CliOption("--platform-reserved-dns-ip")]
+    public string? PlatformReservedDnsIp { get; set; }
 
 }

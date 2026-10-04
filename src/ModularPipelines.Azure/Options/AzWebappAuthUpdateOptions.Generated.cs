@@ -42,8 +42,8 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Runtime version of the Authentication/Authorization feature in use for the current app.
     /// </summary>
-    [CliFlag("--runtime-version")]
-    public bool? RuntimeVersion { get; set; }
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -54,8 +54,8 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Hours, must be formattable into a float.
     /// </summary>
-    [CliFlag("--token-refresh-extension-hours")]
-    public bool? TokenRefreshExtensionHours { get; set; }
+    [CliOption("--token-refresh-extension-hours")]
+    public string? TokenRefreshExtensionHours { get; set; }
 
     /// <summary>
     /// Use App Service Token Store.  Allowed values: false, true.
@@ -73,38 +73,42 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Application ID to integrate AAD organization account Sign-in into your web app.
     /// </summary>
-    [CliFlag("--aad-client-id")]
-    public bool? AadClientId { get; set; }
+    [CliOption("--aad-client-id")]
+    public string? AadClientId { get; set; }
 
     /// <summary>
     /// AAD application secret.
     /// </summary>
-    [CliFlag("--aad-client-secret")]
-    public bool? AadClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--aad-client-secret")]
+    public string? AadClientSecret { get; set; }
 
     /// <summary>
     /// Alternative to AAD Client Secret, thumbprint of a certificate used for signing purposes.
     /// </summary>
-    [CliFlag("--aad-client-secret-certificate-thumbprint", ShortForm = "--thumbprint")]
-    public bool? AadClientSecretCertificateThumbprint { get; set; }
+    [SecretValue]
+    [CliOption("--aad-client-secret-certificate-thumbprint")]
+    public string? AadClientSecretCertificateThumbprint { get; set; }
 
     /// <summary>
     /// This url can be found in the JSON output returned from your active directory endpoint using your tenantID. The endpoint can be queried from `az cloud show` at "endpoints.activeDirectory". The tenantID can be found using `az account show`. Get the "issuer" from the JSON at `&lt;active directory endpoint&gt;/&lt;tenantId&gt;/.well- known/openid-configuration`.
     /// </summary>
-    [CliFlag("--aad-token-issuer-url")]
-    public bool? AadTokenIssuerUrl { get; set; }
+    [SecretValue]
+    [CliOption("--aad-token-issuer-url")]
+    public string? AadTokenIssuerUrl { get; set; }
 
     /// <summary>
     /// Application ID to integrate Facebook Sign-in into your web app.
     /// </summary>
-    [CliFlag("--facebook-app-id")]
-    public bool? FacebookAppId { get; set; }
+    [CliOption("--facebook-app-id")]
+    public string? FacebookAppId { get; set; }
 
     /// <summary>
     /// Facebook Application client secret.
     /// </summary>
-    [CliFlag("--facebook-app-secret")]
-    public bool? FacebookAppSecret { get; set; }
+    [SecretValue]
+    [CliOption("--facebook-app-secret")]
+    public string? FacebookAppSecret { get; set; }
 
     /// <summary>
     /// One or more facebook authentication scopes (comma-delimited).
@@ -115,14 +119,15 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Application ID to integrate Google Sign-in into your web app.
     /// </summary>
-    [CliFlag("--google-client-id")]
-    public bool? GoogleClientId { get; set; }
+    [CliOption("--google-client-id")]
+    public string? GoogleClientId { get; set; }
 
     /// <summary>
     /// Google Application client secret.
     /// </summary>
-    [CliFlag("--google-client-secret")]
-    public bool? GoogleClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--google-client-secret")]
+    public string? GoogleClientSecret { get; set; }
 
     /// <summary>
     /// One or more Google authentication scopes (space-delimited).
@@ -133,14 +138,15 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// AAD V2 Application ID to integrate Microsoft account Sign-in into your web app.
     /// </summary>
-    [CliFlag("--microsoft-account-client-id")]
-    public bool? MicrosoftAccountClientId { get; set; }
+    [CliOption("--microsoft-account-client-id")]
+    public string? MicrosoftAccountClientId { get; set; }
 
     /// <summary>
     /// AAD V2 Application client secret.
     /// </summary>
-    [CliFlag("--microsoft-account-client-secret")]
-    public bool? MicrosoftAccountClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--microsoft-account-client-secret")]
+    public string? MicrosoftAccountClientSecret { get; set; }
 
     /// <summary>
     /// One or more Microsoft authentification scopes (comma-delimited).
@@ -169,13 +175,14 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Application ID to integrate Twitter Sign-in into your web app.
     /// </summary>
-    [CliFlag("--twitter-consumer-key")]
-    public bool? TwitterConsumerKey { get; set; }
+    [CliOption("--twitter-consumer-key")]
+    public string? TwitterConsumerKey { get; set; }
 
     /// <summary>
     /// Twitter Application client secret.
     /// </summary>
-    [CliFlag("--twitter-consumer-secret")]
-    public bool? TwitterConsumerSecret { get; set; }
+    [SecretValue]
+    [CliOption("--twitter-consumer-secret")]
+    public string? TwitterConsumerSecret { get; set; }
 
 }

@@ -87,20 +87,20 @@ public record AzVmExtensionSetOptions : AzOptions
     /// <summary>
     /// Protected settings in JSON format for sensitive information like credentials. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Extension settings in JSON format. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--settings")]
-    public bool? Settings { get; set; }
+    [CliOption("--settings")]
+    public string? Settings { get; set; }
 
     /// <summary>
     /// The version of the extension. To pin extension version to this value, please specify --no-auto-upgrade-minor-version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

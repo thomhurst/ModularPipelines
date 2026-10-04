@@ -71,8 +71,8 @@ public record AzServicebusNamespaceNetworkRuleSetUpdateOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules")]
+    public string? VirtualNetworkRules { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

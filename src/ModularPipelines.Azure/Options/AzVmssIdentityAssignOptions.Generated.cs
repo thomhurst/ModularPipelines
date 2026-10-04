@@ -29,8 +29,8 @@ public record AzVmssIdentityAssignOptions : AzOptions
     /// <summary>
     /// Role name or id the system assigned identity will have.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -47,8 +47,8 @@ public record AzVmssIdentityAssignOptions : AzOptions
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

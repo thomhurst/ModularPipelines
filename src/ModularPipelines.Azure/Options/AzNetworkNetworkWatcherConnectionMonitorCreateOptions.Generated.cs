@@ -80,14 +80,14 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Connection monitor location.
     /// </summary>
-    [CliFlag("--location")]
-    public bool? Location { get; set; }
+    [CliOption("--location")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Connection monitor tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
     /// <summary>
     /// Determines if the connection monitor will start automatically once created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -104,8 +104,8 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Optional notes to be associated with the connection monitor.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// List of connection monitor outputs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

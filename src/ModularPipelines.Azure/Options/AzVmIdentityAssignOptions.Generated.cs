@@ -29,8 +29,8 @@ public record AzVmIdentityAssignOptions : AzOptions
     /// <summary>
     /// Role name or id the system assigned identity will have.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.

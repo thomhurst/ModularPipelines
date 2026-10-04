@@ -63,7 +63,7 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned. Default: SystemAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -81,8 +81,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Selected key minimum required size.
     /// </summary>
-    [CliFlag("--key-rsa-size")]
-    public bool? KeyRsaSize { get; set; }
+    [CliOption("--key-rsa-size")]
+    public string? KeyRsaSize { get; set; }
 
     /// <summary>
     /// The Key Vault uri which holds they key associated with the Log Analytics cluster.
@@ -93,8 +93,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// The version of the key associated with the Log Analytics cluster.
     /// </summary>
-    [CliFlag("--key-version")]
-    public bool? KeyVersion { get; set; }
+    [CliOption("--key-version")]
+    public string? KeyVersion { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -123,8 +123,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// The secondary location of the replication. If replication is being enabled, enabled must be provided.
     /// </summary>
-    [CliFlag("--replication-location")]
-    public bool? ReplicationLocation { get; set; }
+    [CliOption("--replication-location")]
+    public string? ReplicationLocation { get; set; }
 
     /// <summary>
     /// The capacity of the SKU. It can be decreased only after 31 days.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.

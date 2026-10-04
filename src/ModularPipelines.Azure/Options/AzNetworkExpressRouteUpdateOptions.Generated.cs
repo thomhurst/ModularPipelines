@@ -35,8 +35,8 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--bandwidth")]
-    public bool? Bandwidth { get; set; }
+    [CliOption("--bandwidth")]
+    public string? Bandwidth { get; set; }
 
     /// <summary>
     /// Name or ID of an ExpressRoute port.
@@ -113,8 +113,8 @@ public record AzNetworkExpressRouteUpdateOptions : AzOptions
     /// <summary>
     /// ExpressRoute circuit name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

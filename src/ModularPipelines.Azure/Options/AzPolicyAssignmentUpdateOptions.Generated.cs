@@ -94,20 +94,20 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// The policy version to assign.
     /// </summary>
-    [CliFlag("--definition-version")]
-    public bool? DefinitionVersion { get; set; }
+    [CliOption("--definition-version")]
+    public string? DefinitionVersion { get; set; }
 
     /// <summary>
     /// Policy assignment description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The display name of the policy assignment.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The policy assignment enforcement mode.  Allowed values: Default, DoNotEnforce, Enroll.
@@ -118,20 +118,20 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// The policy assignment metadata.  Support shorthand-syntax(full value only), json-file and yaml-file.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata")]
+    public string? Metadata { get; set; }
 
     /// <summary>
     /// The policy assignment excluded scopes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--not-scopes")]
-    public bool? NotScopes { get; set; }
+    [CliOption("--not-scopes")]
+    public string? NotScopes { get; set; }
 
     /// <summary>
     /// The policy property value override.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--overrides")]
-    public bool? Overrides { get; set; }
+    [CliOption("--overrides")]
+    public string? Overrides { get; set; }
 
     /// <summary>
     /// The parameter values for the assigned policy rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -142,8 +142,8 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// The policy definition or policy set definition to assign.
     /// </summary>
-    [CliFlag("--policy-set-definition", ShortForm = "-d")]
-    public bool? PolicySetDefinition { get; set; }
+    [CliOption("--policy-set-definition", ShortForm = "-d")]
+    public string? PolicySetDefinition { get; set; }
 
     /// <summary>
     /// The resource selectors list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -154,13 +154,13 @@ public record AzPolicyAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// The self-serve exemption settings for the policy assignment.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--self-serve", ShortForm = "--self-serve-exemption-settings")]
-    public bool? SelfServe { get; set; }
+    [CliOption("--self-serve")]
+    public string? SelfServe { get; set; }
 
     /// <summary>
     /// The messages that describe why a resource is non- compliant with the policy.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--non-compliance-messages", ShortForm = "-m")]
-    public bool? NonComplianceMessages { get; set; }
+    [CliOption("--non-compliance-messages", ShortForm = "-m")]
+    public string? NonComplianceMessages { get; set; }
 
 }

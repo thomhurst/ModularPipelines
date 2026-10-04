@@ -29,8 +29,8 @@ public record AzVmAvailabilitySetConvertToVmssOptions : AzOptions
     /// <summary>
     /// Specify information about the Virtual Machine Scale Set that the Availability Set should be converted to.
     /// </summary>
-    [CliFlag("--vmss-name")]
-    public bool? VmssName { get; set; }
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
     /// <summary>
     /// The name of the availability set.

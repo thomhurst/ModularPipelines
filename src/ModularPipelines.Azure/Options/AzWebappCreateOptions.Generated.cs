@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -92,26 +93,27 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry- name&gt;/&lt;image-name&gt;:&lt;tag&gt;`). Note: if --container-registry-url is also provided, use `&lt;image-name&gt;:&lt;tag&gt;` without the registry name.
     /// </summary>
-    [CliFlag("--container-image-name", ShortForm = "-c")]
-    public bool? ContainerImageName { get; set; }
+    [CliOption("--container-image-name", ShortForm = "-c")]
+    public string? ContainerImageName { get; set; }
 
     /// <summary>
     /// The container registry server password. Required for private registries.
     /// </summary>
-    [CliFlag("--container-registry-password", ShortForm = "-w")]
-    public bool? ContainerRegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--container-registry-password", ShortForm = "-w")]
+    public string? ContainerRegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server url.
     /// </summary>
-    [CliFlag("--container-registry-url")]
-    public bool? ContainerRegistryUrl { get; set; }
+    [CliOption("--container-registry-url")]
+    public string? ContainerRegistryUrl { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--container-registry-user", ShortForm = "-s")]
-    public bool? ContainerRegistryUser { get; set; }
+    [CliOption("--container-registry-user", ShortForm = "-s")]
+    public string? ContainerRegistryUser { get; set; }
 
     /// <summary>
     /// Enable local git.
@@ -122,14 +124,14 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// The branch to deploy.  Default: master.
     /// </summary>
-    [CliFlag("--deployment-source-branch", ShortForm = "-b")]
-    public bool? DeploymentSourceBranch { get; set; }
+    [CliOption("--deployment-source-branch", ShortForm = "-b")]
+    public string? DeploymentSourceBranch { get; set; }
 
     /// <summary>
     /// Git repository URL to link with manual integration.
     /// </summary>
-    [CliFlag("--deployment-source-url", ShortForm = "-u")]
-    public bool? DeploymentSourceUrl { get; set; }
+    [CliOption("--deployment-source-url", ShortForm = "-u")]
+    public string? DeploymentSourceUrl { get; set; }
 
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation. Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
@@ -158,20 +160,20 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// The minimum TLS Cipher Suite required for requests, e.g., 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'.
     /// </summary>
-    [CliFlag("--min-tls-cipher-suite")]
-    public bool? MinTlsCipherSuite { get; set; }
+    [CliOption("--min-tls-cipher-suite")]
+    public string? MinTlsCipherSuite { get; set; }
 
     /// <summary>
     /// The minimum version of TLS required for SSL requests, e.g., '1.0', '1.1', '1.2'.
     /// </summary>
-    [CliFlag("--min-tls-version")]
-    public bool? MinTlsVersion { get; set; }
+    [CliOption("--min-tls-version")]
+    public string? MinTlsVersion { get; set; }
 
     /// <summary>
     /// Linux only. Config file for multicontainer apps. (local or remote).
     /// </summary>
-    [CliFlag("--multicontainer-config-file")]
-    public bool? MulticontainerConfigFile { get; set; }
+    [CliOption("--multicontainer-config-file")]
+    public string? MulticontainerConfigFile { get; set; }
 
     /// <summary>
     /// Linux only.  Allowed values: COMPOSE, KUBE.
@@ -188,14 +190,14 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Role name or id the system assigned identity will have.  Default: Contributor.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Canonicalized web runtime in the format of Framework:Version, e.g. "PYTHON:3.14".Use `az webapp list-runtimes` for available list.
     /// </summary>
-    [CliFlag("--runtime", ShortForm = "-r")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime", ShortForm = "-r")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -218,8 +220,8 @@ public record AzWebappCreateOptions : AzOptions
     /// <summary>
     /// Linux only. The web's startup command or script file. Required for FastAPI and other ASGI frameworks (auto-detection is not supported). Example command: "gunicorn --bind=0.0.0.0 --timeout 600 app:app". Example for FastAPI: "gunicorn -k uvicorn.workers.UvicornWorker app:app". Example script file: "startup.sh".
     /// </summary>
-    [CliFlag("--startup-file")]
-    public bool? StartupFile { get; set; }
+    [CliOption("--startup-file")]
+    public string? StartupFile { get; set; }
 
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the webapp join. The --vnet is argument also needed if specifying subnet by name.

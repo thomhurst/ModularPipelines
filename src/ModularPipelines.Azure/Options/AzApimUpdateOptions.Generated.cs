@@ -87,8 +87,8 @@ public record AzApimUpdateOptions : AzOptions
     /// <summary>
     /// The e-mail address to receive all system notifications.
     /// </summary>
-    [CliFlag("--publisher-email")]
-    public bool? PublisherEmail { get; set; }
+    [CliOption("--publisher-email")]
+    public string? PublisherEmail { get; set; }
 
     /// <summary>
     /// The name of your organization for use in the developer portal and e-mail notifications.
@@ -99,8 +99,8 @@ public record AzApimUpdateOptions : AzOptions
     /// <summary>
     /// The number of deployed units of the SKU.
     /// </summary>
-    [CliFlag("--sku-capacity")]
-    public bool? SkuCapacity { get; set; }
+    [CliOption("--sku-capacity")]
+    public int? SkuCapacity { get; set; }
 
     /// <summary>
     /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.

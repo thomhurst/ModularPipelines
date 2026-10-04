@@ -66,8 +66,8 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// <summary>
     /// The exchange key for security domain.
     /// </summary>
-    [CliFlag("--sd-exchange-key")]
-    public bool? SdExchangeKey { get; set; }
+    [CliOption("--sd-exchange-key")]
+    public string? SdExchangeKey { get; set; }
 
     /// <summary>
     /// Space-separated file paths to PEM files containing private keys.
@@ -84,7 +84,7 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

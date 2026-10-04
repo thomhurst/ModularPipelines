@@ -57,14 +57,14 @@ public record AzBatchAccountSetOptions : AzOptions
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Full path to the versioned secret. Example https://mykeyvault.v ault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
     /// </summary>
-    [CliFlag("--encryption-key-identifier")]
-    public bool? EncryptionKeyIdentifier { get; set; }
+    [CliOption("--encryption-key-identifier")]
+    public string? EncryptionKeyIdentifier { get; set; }
 
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.
     /// </summary>
-    [CliFlag("--encryption-key-source")]
-    public bool? EncryptionKeySource { get; set; }
+    [CliOption("--encryption-key-source")]
+    public string? EncryptionKeySource { get; set; }
 
     /// <summary>
     /// The network access type for accessing Azure Batch account. Values can either be enabled or disabled.  Allowed values: Disabled, Enabled.

@@ -80,7 +80,7 @@ public record AzKeyvaultCertificateCreateOptions : AzOptions
     /// <summary>
     /// Number of months the certificate is valid for. Overrides the value specified with --policy/-p.
     /// </summary>
-    [CliFlag("--validity")]
-    public bool? Validity { get; set; }
+    [CliOption("--validity")]
+    public int? Validity { get; set; }
 
 }

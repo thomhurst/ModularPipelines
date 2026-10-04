@@ -23,8 +23,8 @@ public record AzNetworkVirtualApplianceSiteUpdateOptions : AzOptions
     /// <summary>
     /// Address Prefix of Network Virtual Appliance Site.
     /// </summary>
-    [CliFlag("--address-prefix")]
-    public bool? AddressPrefix { get; set; }
+    [CliOption("--address-prefix")]
+    public string? AddressPrefix { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

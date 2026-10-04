@@ -35,8 +35,8 @@ public record AzConnectionUpdateKeyvaultOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// The id of connection.
@@ -65,13 +65,13 @@ public record AzConnectionUpdateKeyvaultOptions : AzOptions
     /// <summary>
     /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal")]
+    public string? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
-    [CliFlag("--user-account")]
-    public bool? UserAccount { get; set; }
+    [CliOption("--user-account")]
+    public string? UserAccount { get; set; }
 
 }

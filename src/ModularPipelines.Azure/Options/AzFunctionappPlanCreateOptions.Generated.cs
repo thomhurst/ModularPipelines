@@ -80,14 +80,14 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of elastic workers for the plan.
     /// </summary>
-    [CliFlag("--max-burst")]
-    public bool? MaxBurst { get; set; }
+    [CliOption("--max-burst")]
+    public int? MaxBurst { get; set; }
 
     /// <summary>
     /// The number of workers for the app service plan.
     /// </summary>
-    [CliFlag("--min-instances", ShortForm = "--number-of-workers")]
-    public bool? MinInstances { get; set; }
+    [CliOption("--min-instances")]
+    public int? MinInstances { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

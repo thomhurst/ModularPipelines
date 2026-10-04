@@ -35,7 +35,7 @@ public record AzTagCreateOptions : AzOptions
     /// <summary>
     /// The tags to be applied on the resource.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

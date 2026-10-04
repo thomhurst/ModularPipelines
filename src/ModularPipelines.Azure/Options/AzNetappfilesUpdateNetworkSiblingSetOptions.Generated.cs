@@ -56,7 +56,7 @@ public record AzNetappfilesUpdateNetworkSiblingSetOptions : AzOptions
     /// <summary>
     /// Network sibling set state Id identifying the current state of the sibling set. Value can start with a dash, use ='-value'.
     /// </summary>
-    [CliOption("--network-sibling-set-state-id", ShortForm = "--state-id")]
+    [CliOption("--network-sibling-set-state-id")]
     public string NetworkSiblingSetStateId { get; private init; }
 
     /// <summary>

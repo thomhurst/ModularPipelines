@@ -46,8 +46,8 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// <summary>
     /// Allocation weight of the IoT hub.
     /// </summary>
-    [CliFlag("--allocation-weight")]
-    public bool? AllocationWeight { get; set; }
+    [CliOption("--allocation-weight")]
+    public string? AllocationWeight { get; set; }
 
     /// <summary>
     /// A boolean indicating whether to apply allocation policy to the IoT hub.  Allowed values: false, true.
@@ -70,19 +70,19 @@ public record AzIotDpsLinkedHubCreateOptions : AzOptions
     /// <summary>
     /// Connection string of the IoT hub. Required if hub name is not provided using --hub-name.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--hn", ShortForm = "--hub-name")]
-    public bool? Hn { get; set; }
+    [CliOption("--hn")]
+    public string? Hn { get; set; }
 
     /// <summary>
     /// IoT Hub resource group name.
     /// </summary>
-    [CliFlag("--hrg", ShortForm = "--hub-resource-group")]
-    public bool? Hrg { get; set; }
+    [CliOption("--hrg")]
+    public string? Hrg { get; set; }
 
 }

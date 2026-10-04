@@ -68,8 +68,8 @@ public record AzCosmosdbSqlDatabaseRestoreOptions : AzOptions
     /// <summary>
     /// Flag to restore with TTL disabled. Usage:          --disable-ttl True Default: false.
     /// </summary>
-    [CliFlag("--disable-ttl")]
-    public bool? DisableTtl { get; set; }
+    [CliOption("--disable-ttl")]
+    public string? DisableTtl { get; set; }
 
     /// <summary>
     /// The timestamp to which the database needs to be restored to.

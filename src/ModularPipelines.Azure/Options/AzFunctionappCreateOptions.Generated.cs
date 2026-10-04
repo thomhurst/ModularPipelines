@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -80,8 +81,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Instrumentation key of App Insights to be added.
     /// </summary>
-    [CliFlag("--app-insights-key")]
-    public bool? AppInsightsKey { get; set; }
+    [CliOption("--app-insights-key")]
+    public string? AppInsightsKey { get; set; }
 
     /// <summary>
     /// Accept system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity. Check out help for more examples.
@@ -92,44 +93,44 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Use this option if you want to configure networking later for an app using network- restricted storage.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--cnl", ShortForm = "--configure-networking-later")]
+    [CliOption("--cnl")]
     public bool? Cnl { get; set; }
 
     /// <summary>
     /// Geographic location where function app will be hosted. Use `az functionapp list-consumption- locations` to view available locations.
     /// </summary>
-    [CliFlag("--consumption-plan-location", ShortForm = "-c")]
-    public bool? ConsumptionPlanLocation { get; set; }
+    [CliOption("--consumption-plan-location", ShortForm = "-c")]
+    public string? ConsumptionPlanLocation { get; set; }
 
     /// <summary>
     /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
+    [CliOption("--dal")]
     public bool? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to communicate to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// Max size of request body http and grpc servers in MB to handle uploading of large files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public string? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public string? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
@@ -146,38 +147,38 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// The branch to deploy.
     /// </summary>
-    [CliFlag("--deployment-source-branch", ShortForm = "-b")]
-    public bool? DeploymentSourceBranch { get; set; }
+    [CliOption("--deployment-source-branch", ShortForm = "-b")]
+    public string? DeploymentSourceBranch { get; set; }
 
     /// <summary>
     /// Git repository URL to link with manual integration.
     /// </summary>
-    [CliFlag("--deployment-source-url", ShortForm = "-u")]
-    public bool? DeploymentSourceUrl { get; set; }
+    [CliOption("--deployment-source-url", ShortForm = "-u")]
+    public string? DeploymentSourceUrl { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication type.  Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
     /// </summary>
-    [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
+    [CliOption("--deployment-storage-auth-type")]
     public string? DeploymentStorageAuthType { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed- identity authentication type, this parameter is not applicable and should be left empty.
     /// </summary>
-    [CliOption("--deployment-storage-auth-value", ShortForm = "--dsav")]
+    [CliOption("--deployment-storage-auth-value")]
     public string? DeploymentStorageAuthValue { get; set; }
 
     /// <summary>
     /// The deployment storage account container name.
     /// </summary>
-    [CliFlag("--deployment-storage-container-name", ShortForm = "--dscn")]
-    public bool? DeploymentStorageContainerName { get; set; }
+    [CliOption("--deployment-storage-container-name")]
+    public string? DeploymentStorageContainerName { get; set; }
 
     /// <summary>
     /// The deployment storage account name.
     /// </summary>
-    [CliFlag("--deployment-storage-name", ShortForm = "--dsn")]
-    public bool? DeploymentStorageName { get; set; }
+    [CliOption("--deployment-storage-name")]
+    public string? DeploymentStorageName { get; set; }
 
     /// <summary>
     /// Disable creating application insights resource during functionapp create. No logs will be available.  Allowed values: false, true.
@@ -200,8 +201,8 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Geographic location where function app will be hosted. Use `az functionapp list- flexconsumption-locations` to view available locations.
     /// </summary>
-    [CliFlag("--flexconsumption-location", ShortForm = "-f")]
-    public bool? FlexconsumptionLocation { get; set; }
+    [CliOption("--flexconsumption-location", ShortForm = "-f")]
+    public string? FlexconsumptionLocation { get; set; }
 
     /// <summary>
     /// The functions app version. NOTE: This will be required starting the next release cycle. Allowed values: 4.
@@ -218,20 +219,20 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The instance memory size in MB. See https://aka.ms/flex-instance-sizes for more information on the supported values.
     /// </summary>
-    [CliFlag("--instance-memory")]
-    public bool? InstanceMemory { get; set; }
+    [CliOption("--instance-memory")]
+    public string? InstanceMemory { get; set; }
 
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--maximum-instance-count")]
-    public bool? MaximumInstanceCount { get; set; }
+    [CliOption("--maximum-instance-count")]
+    public int? MaximumInstanceCount { get; set; }
 
     /// <summary>
     /// Set the OS type for the app to be created. Allowed values: Linux, Windows.
@@ -248,32 +249,33 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// The container registry server password. Required for private registries.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-w")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-w")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-d")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-d")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.  Default: Contributor.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// The functions runtime stack. Use "az functionapp list-runtimes" to check supported runtimes and versions.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The version of the functions runtime stack. The functions runtime stack. Use "az functionapp list-runtimes" to check supported runtimes and versions.
     /// </summary>
-    [CliFlag("--runtime-version")]
-    public bool? RuntimeVersion { get; set; }
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.

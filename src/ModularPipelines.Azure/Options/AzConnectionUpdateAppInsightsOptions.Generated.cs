@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,8 +36,8 @@ public record AzConnectionUpdateAppInsightsOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// The id of connection.
@@ -65,7 +66,8 @@ public record AzConnectionUpdateAppInsightsOptions : AzOptions
     /// <summary>
     /// The secret auth info. Usage: --secret.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
 }

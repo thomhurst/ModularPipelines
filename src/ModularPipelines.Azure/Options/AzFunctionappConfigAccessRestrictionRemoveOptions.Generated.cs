@@ -29,8 +29,8 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// IP address or CIDR range (optional comma separated list of up to 8 ranges).
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name of the access restriction to remove.
@@ -47,8 +47,8 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// Service Tag (optional comma separated list of up to 8 tags).
     /// </summary>
-    [CliFlag("--service-tag")]
-    public bool? ServiceTag { get; set; }
+    [CliOption("--service-tag")]
+    public string? ServiceTag { get; set; }
 
     /// <summary>
     /// Skip validating public service tags.  Allowed values: false, true.
@@ -71,8 +71,8 @@ public record AzFunctionappConfigAccessRestrictionRemoveOptions : AzOptions
     /// <summary>
     /// VNet name.
     /// </summary>
-    [CliFlag("--vnet-name")]
-    public bool? VnetName { get; set; }
+    [CliOption("--vnet-name")]
+    public string? VnetName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

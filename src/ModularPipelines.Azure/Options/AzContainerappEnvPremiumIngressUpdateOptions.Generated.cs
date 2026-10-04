@@ -46,8 +46,8 @@ public record AzContainerappEnvPremiumIngressUpdateOptions : AzOptions
     /// <summary>
     /// Limit of http headers per request. Default 100, minimum 1.
     /// </summary>
-    [CliFlag("--header-count-limit")]
-    public bool? HeaderCountLimit { get; set; }
+    [CliOption("--header-count-limit")]
+    public string? HeaderCountLimit { get; set; }
 
     /// <summary>
     /// Timeout in minutes for idle requests. Default 4, minimum 4, maximum 30.
@@ -58,14 +58,14 @@ public record AzContainerappEnvPremiumIngressUpdateOptions : AzOptions
     /// <summary>
     /// Time in seconds to drain requests during ingress shutdown. Default 500, minimum 0, maximum 3600.
     /// </summary>
-    [CliFlag("--termination-grace-period", ShortForm = "-t")]
-    public bool? TerminationGracePeriod { get; set; }
+    [CliOption("--termination-grace-period", ShortForm = "-t")]
+    public string? TerminationGracePeriod { get; set; }
 
     /// <summary>
     /// The workload profile to run ingress replicas on. This profile must not be shared with any container app or job.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

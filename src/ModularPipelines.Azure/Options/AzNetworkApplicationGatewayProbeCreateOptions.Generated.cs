@@ -68,13 +68,13 @@ public record AzNetworkApplicationGatewayProbeCreateOptions : AzOptions
     /// <summary>
     /// Whether to use host header from HTTP settings.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--from-http-settings", ShortForm = "--host-name-from-http-settings")]
+    [CliOption("--from-http-settings")]
     public bool? FromHttpSettings { get; set; }
 
     /// <summary>
     /// Whether to use host header from settings. Pick hostname from settings is currently not supported, now only support false. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--from-settings", ShortForm = "--host-name-from-settings")]
+    [CliOption("--from-settings")]
     public bool? FromSettings { get; set; }
 
     /// <summary>
@@ -86,14 +86,14 @@ public record AzNetworkApplicationGatewayProbeCreateOptions : AzOptions
     /// <summary>
     /// Time interval in seconds between consecutive probes.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Body that must be contained in the health response.
     /// </summary>
-    [CliFlag("--match-body")]
-    public bool? MatchBody { get; set; }
+    [CliOption("--match-body")]
+    public string? MatchBody { get; set; }
 
     /// <summary>
     /// Space-separated list of allowed ranges of healthy status codes for the health response.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -104,8 +104,8 @@ public record AzNetworkApplicationGatewayProbeCreateOptions : AzOptions
     /// <summary>
     /// Minimum number of servers that are always marked healthy.
     /// </summary>
-    [CliFlag("--min-servers")]
-    public bool? MinServers { get; set; }
+    [CliOption("--min-servers")]
+    public int? MinServers { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -122,8 +122,8 @@ public record AzNetworkApplicationGatewayProbeCreateOptions : AzOptions
     /// <summary>
     /// Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Standard_v2 and WAF_v2 only.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public string? Port { get; set; }
 
     /// <summary>
     /// Protocol used for the probe.  Allowed values: Http, Https, Tcp, Tls.
@@ -134,14 +134,14 @@ public record AzNetworkApplicationGatewayProbeCreateOptions : AzOptions
     /// <summary>
     /// Number of failed probes after which the back end server is marked down.  Default: 8.
     /// </summary>
-    [CliFlag("--threshold")]
-    public bool? Threshold { get; set; }
+    [CliOption("--threshold")]
+    public int? Threshold { get; set; }
 
     /// <summary>
     /// Probe timeout in seconds.  Default: 120.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Whether to send Proxy Protocol header along with the Health Probe over TCP or TLS protocol. Default value is false. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

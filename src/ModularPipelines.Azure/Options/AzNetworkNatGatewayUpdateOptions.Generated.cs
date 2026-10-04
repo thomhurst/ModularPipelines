@@ -23,8 +23,8 @@ public record AzNetworkNatGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Idle timeout in minutes.
     /// </summary>
-    [CliFlag("--idle-timeout")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -59,8 +59,8 @@ public record AzNetworkNatGatewayUpdateOptions : AzOptions
     /// <summary>
     /// A reference to the source virtual network using this nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--source-vnet")]
-    public bool? SourceVnet { get; set; }
+    [CliOption("--source-vnet")]
+    public string? SourceVnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

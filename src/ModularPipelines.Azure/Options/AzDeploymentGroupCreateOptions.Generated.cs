@@ -46,8 +46,8 @@ public record AzDeploymentGroupCreateOptions : AzOptions
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>
-    [CliFlag("--aux-tenants")]
-    public bool? AuxTenants { get; set; }
+    [CliOption("--aux-tenants")]
+    public string? AuxTenants { get; set; }
 
     /// <summary>
     /// Instruct the command to run deployment What-If before executing the deployment. It then prompts you to acknowledge resource changes before it continues.
@@ -64,8 +64,8 @@ public record AzDeploymentGroupCreateOptions : AzOptions
     /// <summary>
     /// The deployment name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.  Allowed values: false, true.

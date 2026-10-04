@@ -35,8 +35,8 @@ public record AzDataboxedgeOrderDeleteOptions : AzOptions
     /// <summary>
     /// The order details of a device.
     /// </summary>
-    [CliFlag("--device-name", ShortForm = "-d")]
-    public bool? DeviceName { get; set; }
+    [CliOption("--device-name", ShortForm = "-d")]
+    public string? DeviceName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

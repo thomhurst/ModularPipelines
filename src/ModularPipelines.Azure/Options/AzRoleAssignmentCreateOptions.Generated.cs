@@ -57,14 +57,14 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// The assignee's object ID (also known as principal ID). Use this argument instead of '--assignee' to bypass Microsoft Graph query in case the logged-in account has no permission or the machine has no network access to query Microsoft Graph.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Use with --assignee-object-id to avoid errors caused by propagation latency in Microsoft Graph.  Allowed values: ForeignGroup, Group, ServicePrincipal, User.
@@ -75,7 +75,7 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// A GUID for the role assignment. It must be unique and different for each role assignment. If omitted, a new GUID is generated.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

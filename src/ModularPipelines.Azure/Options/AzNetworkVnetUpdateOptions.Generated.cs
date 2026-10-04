@@ -29,8 +29,8 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// The BGP community associated with the virtual network.
     /// </summary>
-    [CliFlag("--bgp-community")]
-    public bool? BgpCommunity { get; set; }
+    [CliOption("--bgp-community")]
+    public string? BgpCommunity { get; set; }
 
     /// <summary>
     /// Control whether DDoS protection is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -59,14 +59,14 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// To control if the Virtual Machine without encryption is allowed in encrypted Virtual Network or not.  Allowed values: AllowUnencrypted, DropUnencrypted.
     /// </summary>
-    [CliOption("--encryption-enforcement-policy", ShortForm = "--encryption-policy")]
+    [CliOption("--encryption-enforcement-policy")]
     public string? EncryptionEnforcementPolicy { get; set; }
 
     /// <summary>
     /// The FlowTimeout value (in minutes) for the Virtual Network.
     /// </summary>
-    [CliFlag("--flowtimeout")]
-    public bool? Flowtimeout { get; set; }
+    [CliOption("--flowtimeout")]
+    public string? Flowtimeout { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -77,7 +77,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// Private Endpoint VNet Policies.  Allowed values: Basic, Disabled.
     /// </summary>
-    [CliOption("--pe-vnet-policies", ShortForm = "--private-endpoint-vnet-policies")]
+    [CliOption("--pe-vnet-policies")]
     public string? PeVnetPolicies { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record AzNetworkVnetUpdateOptions : AzOptions
     /// <summary>
     /// A list of IPAM Pools allocating IP address prefixes. If a non-empty value is provided, --address-prefixes would be ignored.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>

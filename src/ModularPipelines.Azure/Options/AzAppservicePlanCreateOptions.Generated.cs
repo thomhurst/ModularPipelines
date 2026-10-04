@@ -129,8 +129,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Number of workers to be allocated.  Default: 1.
     /// </summary>
-    [CliFlag("--number-of-workers")]
-    public bool? NumberOfWorkers { get; set; }
+    [CliOption("--number-of-workers")]
+    public int? NumberOfWorkers { get; set; }
 
     /// <summary>
     /// Enable per-app scaling at the App Service plan level to allow for scaling an app independently from the App Service plan that hosts it.

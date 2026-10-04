@@ -69,7 +69,7 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// The DDoS protection mode of the public IP.  Allowed values: Disabled, Enabled, VirtualNetworkInherited.
     /// </summary>
-    [CliOption("--ddos-protection-mode", ShortForm = "--protection-mode")]
+    [CliOption("--ddos-protection-mode")]
     public string? DdosProtectionMode { get; set; }
 
     /// <summary>
@@ -81,8 +81,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Globally unique DNS entry.
     /// </summary>
-    [CliFlag("--dns-name")]
-    public bool? DnsName { get; set; }
+    [CliOption("--dns-name")]
+    public string? DnsName { get; set; }
 
     /// <summary>
     /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
@@ -99,14 +99,14 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Idle timeout in minutes.  Default: 4.
     /// </summary>
-    [CliFlag("--idle-timeout")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
     /// <summary>
     /// The IP address associated with the public IP address resource.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Space-separated list of IP tags in 'TYPE=VAL' format.
@@ -129,8 +129,8 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
     /// </summary>
-    [CliFlag("--reverse-fqdn")]
-    public bool? ReverseFqdn { get; set; }
+    [CliOption("--reverse-fqdn")]
+    public string? ReverseFqdn { get; set; }
 
     /// <summary>
     /// Name of a public IP address SKU.  Allowed values: Basic, Standard, StandardV2.  Default: Standard.

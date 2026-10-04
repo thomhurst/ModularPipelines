@@ -57,8 +57,8 @@ public record AzBackupRestoreRestoreAzurefilesOptions : AzOptions
     /// <summary>
     /// The absolute path of the file, to be restored within the file share, as a string. This path is the same path used in the 'az storage file download' or 'az storage file show' CLI commands.
     /// </summary>
-    [CliFlag("--source-file-path")]
-    public bool? SourceFilePath { get; set; }
+    [CliOption("--source-file-path")]
+    public string? SourceFilePath { get; set; }
 
     /// <summary>
     /// Specify the source file type to be selected.  Allowed values: Directory, File.
@@ -69,20 +69,20 @@ public record AzBackupRestoreRestoreAzurefilesOptions : AzOptions
     /// <summary>
     /// Destination file share to which content will be restored.
     /// </summary>
-    [CliFlag("--target-file-share")]
-    public bool? TargetFileShare { get; set; }
+    [CliOption("--target-file-share")]
+    public string? TargetFileShare { get; set; }
 
     /// <summary>
     /// Destination folder to which content will be restored. To restore content to root , leave the folder name empty.
     /// </summary>
-    [CliFlag("--target-folder")]
-    public bool? TargetFolder { get; set; }
+    [CliOption("--target-folder")]
+    public string? TargetFolder { get; set; }
 
     /// <summary>
     /// Destination storage account to which content will be restored.
     /// </summary>
-    [CliFlag("--target-storage-account")]
-    public bool? TargetStorageAccount { get; set; }
+    [CliOption("--target-storage-account")]
+    public string? TargetStorageAccount { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.

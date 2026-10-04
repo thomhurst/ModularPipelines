@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,8 +30,8 @@ public record AzFunctionappConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python.
@@ -47,14 +48,14 @@ public record AzFunctionappConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// The additional connection string properties used to build connection string.
     /// </summary>
-    [CliFlag("--connstr-props")]
-    public bool? ConnstrProps { get; set; }
+    [CliOption("--connstr-props")]
+    public string? ConnstrProps { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Name of the function app. Required if '--source-id' is not specified.None.
@@ -101,7 +102,7 @@ public record AzFunctionappConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// The resource group which contains the app configuration. Required if '--target-id' is not specified.
     /// </summary>
-    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
@@ -113,26 +114,27 @@ public record AzFunctionappConnectionCreateAppConfigOptions : AzOptions
     /// <summary>
     /// The secret auth info. Usage: --secret.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal")]
+    public string? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
-    [CliFlag("--system-identity")]
-    public bool? SystemIdentity { get; set; }
+    [CliOption("--system-identity")]
+    public string? SystemIdentity { get; set; }
 
     /// <summary>
     /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
-    [CliFlag("--user-identity")]
-    public bool? UserIdentity { get; set; }
+    [CliOption("--user-identity")]
+    public string? UserIdentity { get; set; }
 
     /// <summary>
     /// Connect target service by private endpoint. The private endpoint in source virtual network must be created ahead.  Allowed values: false, true.

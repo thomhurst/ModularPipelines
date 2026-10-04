@@ -29,8 +29,8 @@ public record AzKeyvaultNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name of the Vault.

@@ -59,14 +59,14 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.  When the lag exceeds the configured amount, operations on the primary replica will be failed.
     /// </summary>
-    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
-    public bool? MaxLag { get; set; }
+    [CliOption("--max-lag")]
+    public string? MaxLag { get; set; }
 
     /// <summary>
     /// Properties of BYOK Identity description Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -77,14 +77,14 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Cluster ARM ID of the Namespace.
     /// </summary>
-    [CliFlag("--cluster-arm-id")]
-    public bool? ClusterArmId { get; set; }
+    [CliOption("--cluster-arm-id")]
+    public string? ClusterArmId { get; set; }
 
     /// <summary>
     /// This property disables SAS authentication for the Event Hubs namespace.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -101,13 +101,13 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Properties of BYOK Encryption description  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--encryption")]
-    public bool? Encryption { get; set; }
+    [CliOption("--encryption")]
+    public string? Encryption { get; set; }
 
     /// <summary>
     /// List of private endpoint connections. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--endpoint-connections", ShortForm = "--private-endpoint-connections", GroupValues = true)]
+    [CliOption("--endpoint-connections", GroupValues = true)]
     public IEnumerable<string>? EndpointConnections { get; set; }
 
     /// <summary>
@@ -125,8 +125,8 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true).
     /// </summary>
-    [CliFlag("--maximum-throughput-units")]
-    public bool? MaximumThroughputUnits { get; set; }
+    [CliOption("--maximum-throughput-units")]
+    public string? MaximumThroughputUnits { get; set; }
 
     /// <summary>
     /// The minimum TLS version for the cluster to support, e.g. '1.2'.  Allowed values: 1.0, 1.1, 1.2, 1.3.
@@ -137,8 +137,8 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--platform-capabilities")]
-    public bool? PlatformCapabilities { get; set; }
+    [CliOption("--platform-capabilities")]
+    public string? PlatformCapabilities { get; set; }
 
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
@@ -161,8 +161,8 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -173,8 +173,8 @@ public record AzEventhubsNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Name of this SKU.  Allowed values: Basic, Premium, Standard.

@@ -29,8 +29,8 @@ public record AzKeyvaultKeyListOptions : AzOptions
     /// <summary>
     /// Maximum number of results to return.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
     /// <summary>
     /// Name of the HSM. Can be omitted if --id is specified.
@@ -41,8 +41,8 @@ public record AzKeyvaultKeyListOptions : AzOptions
     /// <summary>
     /// Full URI of the Vault or HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the Vault.

@@ -85,26 +85,26 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Logical unit numbers (space- delimited) of data disk snapshots.
     /// </summary>
-    [CliFlag("--data-snapshot-luns")]
-    public bool? DataSnapshotLuns { get; set; }
+    [CliOption("--data-snapshot-luns")]
+    public string? DataSnapshotLuns { get; set; }
 
     /// <summary>
     /// Names or IDs (space- delimited) of data disk snapshots.
     /// </summary>
-    [CliFlag("--data-snapshots")]
-    public bool? DataSnapshots { get; set; }
+    [CliOption("--data-snapshots")]
+    public string? DataSnapshots { get; set; }
 
     /// <summary>
     /// Logical unit numbers (space- delimited) of source VHD URIs of data disks.
     /// </summary>
-    [CliFlag("--data-vhds-luns")]
-    public bool? DataVhdsLuns { get; set; }
+    [CliOption("--data-vhds-luns")]
+    public string? DataVhdsLuns { get; set; }
 
     /// <summary>
     /// Names or IDs (space- delimited) of storage accounts of source VHD URIs of data disks.
     /// </summary>
-    [CliFlag("--data-vhds-sa", ShortForm = "--data-vhds-storage-accounts")]
-    public bool? DataVhdsSa { get; set; }
+    [CliOption("--data-vhds-sa")]
+    public string? DataVhdsSa { get; set; }
 
     /// <summary>
     /// Source VHD URIs (space- delimited) of data disks.
@@ -163,8 +163,8 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// The default number of replicas to be created per region. To set regional replication counts, use --target-regions.
     /// </summary>
-    [CliFlag("--replica-count")]
-    public bool? ReplicaCount { get; set; }
+    [CliOption("--replica-count")]
+    public string? ReplicaCount { get; set; }
 
     /// <summary>
     /// Optional parameter which specifies the mode to be used for replication. This property is not updatable. Allowed values: Full, Shallow.
@@ -181,38 +181,38 @@ public record AzSigImageVersionCreateOptions : AzOptions
     /// <summary>
     /// Space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
     /// <summary>
     /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each edge zone: `&lt;edge zone&gt;,&lt;os_des &gt;,&lt;lun1&gt;,&lt;lun 1_des&gt;,&lt;lun2&gt; ,&lt;lun2_des&gt;`.
     /// </summary>
-    [CliFlag("--target-edge-zone-encryption", ShortForm = "--zone-encryption")]
-    public bool? TargetEdgeZoneEncryption { get; set; }
+    [CliOption("--target-edge-zone-encryption")]
+    public string? TargetEdgeZoneEncryption { get; set; }
 
     /// <summary>
     /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
-    [CliFlag("--target-edge-zones")]
-    public bool? TargetEdgeZones { get; set; }
+    [CliOption("--target-edge-zones")]
+    public string? TargetEdgeZones { get; set; }
 
     /// <summary>
     /// Space- separated list of customer managed key for Confidential VM encrypting the OS disk in the gallery artifact for each region. Format for each region: `&lt;os_cvm_encr yption_type&gt;, &lt;os_cvm_des&gt;` . The valid values for os _cvm_encrypti on_type are E ncryptedVMGue stStateOnlyWi thPmk, Encryp tedWithPmk, E ncryptedWithC mk.
     /// </summary>
-    [CliFlag("--target-region-cvm-encryption")]
-    public bool? TargetRegionCvmEncryption { get; set; }
+    [CliOption("--target-region-cvm-encryption")]
+    public string? TargetRegionCvmEncryption { get; set; }
 
     /// <summary>
     /// Space- separated list of customer managed keys for encrypting the OS and data disks in the gallery artifact for each region. Format for each region: `&lt;os_des&gt;,&lt;lu n1&gt;,&lt;lun1_des &gt;,&lt;lun2&gt;,&lt;lun 2_des&gt;`. Use "null" as a placeholder.
     /// </summary>
-    [CliFlag("--target-region-encryption")]
-    public bool? TargetRegionEncryption { get; set; }
+    [CliOption("--target-region-encryption")]
+    public string? TargetRegionEncryption { get; set; }
 
     /// <summary>
     /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions")]
+    public string? TargetRegions { get; set; }
 
     /// <summary>
     /// Resource id of VM source.

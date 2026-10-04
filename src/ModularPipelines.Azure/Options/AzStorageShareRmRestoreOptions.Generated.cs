@@ -46,8 +46,8 @@ public record AzStorageShareRmRestoreOptions : AzOptions
     /// <summary>
     /// A new file share name to be restored. If not specified, deleted share name will be used.
     /// </summary>
-    [CliFlag("--restored-name")]
-    public bool? RestoredName { get; set; }
+    [CliOption("--restored-name")]
+    public string? RestoredName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

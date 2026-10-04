@@ -95,25 +95,25 @@ public record AzNetworkLbProbeCreateOptions : AzOptions
     /// <summary>
     /// The interval, in seconds, for how frequently to probe the endpoint for health status.
     /// </summary>
-    [CliFlag("--interval", ShortForm = "--interval-in-seconds")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// The number of consecutive probe failures before an instance is deemed unhealthy.
     /// </summary>
-    [CliFlag("--number-of-probes", ShortForm = "--threshold")]
-    public bool? NumberOfProbes { get; set; }
+    [CliOption("--number-of-probes")]
+    public int? NumberOfProbes { get; set; }
 
     /// <summary>
     /// The URI used for requesting health status from the VM. Path is required if a protocol is set to http. Otherwise, it is not allowed.
     /// </summary>
-    [CliOption("--path", ShortForm = "--request-path")]
+    [CliOption("--path")]
     public string? Path { get; set; }
 
     /// <summary>
     /// The number of consecutive successful or failed probes in order to allow or deny traffic from being delivered to this endpoint. It is currently in preview and is not recommended for production workloads. For most scenarios, we recommend maintaining the default value of 1 by not specifying the value of the property.
     /// </summary>
-    [CliFlag("--probe-threshold")]
-    public bool? ProbeThreshold { get; set; }
+    [CliOption("--probe-threshold")]
+    public int? ProbeThreshold { get; set; }
 
 }

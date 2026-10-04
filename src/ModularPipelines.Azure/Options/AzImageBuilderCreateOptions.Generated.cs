@@ -57,8 +57,8 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// The Maximum duration to wait while building the image template, in minutes. Default is 60.
     /// </summary>
-    [CliFlag("--build-timeout")]
-    public bool? BuildTimeout { get; set; }
+    [CliOption("--build-timeout")]
+    public string? BuildTimeout { get; set; }
 
     /// <summary>
     /// Optional configuration of the virtual network to use to deploy the build virtual machine in. Omit if no specific virtual network needs to be used.
@@ -69,8 +69,8 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer")]
+    public string? Defer { get; set; }
 
     /// <summary>
     /// List of user assigned identities (name or ID, space delimited) of the image template.
@@ -81,8 +81,8 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// Local path or URL to an image template file. When using --image-template, all other parameters are ignored except -g and -n. Reference: https://learn.microsoft.com/azure/virtual- machines/linux/image-builder-json.
     /// </summary>
-    [CliFlag("--image-template")]
-    public bool? ImageTemplate { get; set; }
+    [CliOption("--image-template")]
+    public string? ImageTemplate { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -99,20 +99,20 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// Size of the OS disk in GB. Omit or specify 0 to use Azure's default OS disk size.
     /// </summary>
-    [CliFlag("--os-disk-size")]
-    public bool? OsDiskSize { get; set; }
+    [CliOption("--os-disk-size")]
+    public int? OsDiskSize { get; set; }
 
     /// <summary>
     /// Size of the virtual machine used to build, customize and capture images (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images).
     /// </summary>
-    [CliFlag("--proxy-vm-size")]
-    public bool? ProxyVmSize { get; set; }
+    [CliOption("--proxy-vm-size")]
+    public int? ProxyVmSize { get; set; }
 
     /// <summary>
     /// The staging resource group id in the same subscription as the image template that will be used to build the image.
     /// </summary>
-    [CliFlag("--staging-resource-group")]
-    public bool? StagingResourceGroup { get; set; }
+    [CliOption("--staging-resource-group")]
+    public string? StagingResourceGroup { get; set; }
 
     /// <summary>
     /// Name or ID of subnet to deploy the build virtual machine.
@@ -129,14 +129,14 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// The type of validation you want to use on the Image. For example, "Shell" can be shell validation.
     /// </summary>
-    [CliFlag("--validator")]
-    public bool? Validator { get; set; }
+    [CliOption("--validator")]
+    public string? Validator { get; set; }
 
     /// <summary>
     /// Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2).
     /// </summary>
-    [CliFlag("--vm-size")]
-    public bool? VmSize { get; set; }
+    [CliOption("--vm-size")]
+    public int? VmSize { get; set; }
 
     /// <summary>
     /// Name of VNET to deploy the build virtual machine. You should only specify it when subnet is a name.
@@ -153,14 +153,14 @@ public record AzImageBuilderCreateOptions : AzOptions
     /// <summary>
     /// The SHA256 checksum of the Red Hat ISO image.
     /// </summary>
-    [CliFlag("--checksum")]
-    public bool? Checksum { get; set; }
+    [CliOption("--checksum")]
+    public string? Checksum { get; set; }
 
     /// <summary>
     /// The base image to customize. Must be a valid platform image URN, platform image alias, Red Hat ISO image URI, managed image name/ID, or shared image version ID.  Values from: az vm image list, az vm image show.
     /// </summary>
-    [CliFlag("--image-source", ShortForm = "-i")]
-    public bool? ImageSource { get; set; }
+    [CliOption("--image-source", ShortForm = "-i")]
+    public string? ImageSource { get; set; }
 
     /// <summary>
     /// Managed image output distributor information. Space-separated list of key-value pairs. E.g "image_1=westus2 image_2=westus". Each key is the name or resource ID of the managed image to be created. Each value is the location of the image.

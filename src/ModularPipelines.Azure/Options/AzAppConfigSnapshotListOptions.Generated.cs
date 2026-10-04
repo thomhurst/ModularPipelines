@@ -35,14 +35,14 @@ public record AzAppConfigSnapshotListOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Customize output fields for Snapshots.  Allowed values: composition_type, created, etag, expires, filters, items_count, name, retention_period, size, status, tags.
@@ -59,8 +59,8 @@ public record AzAppConfigSnapshotListOptions : AzOptions
     /// <summary>
     /// If no name specified, return all snapshots by default. Support star sign as filters, for instance abc* means snapshots with abc as prefix to the name.  Default: *.
     /// </summary>
-    [CliFlag("--snapshot-name", ShortForm = "-s")]
-    public bool? SnapshotName { get; set; }
+    [CliOption("--snapshot-name", ShortForm = "-s")]
+    public string? SnapshotName { get; set; }
 
     /// <summary>
     /// Filter snapshots by their status. If no status specified, return all snapshots by default.  Allowed values: archived, failed, provisioning, ready.
@@ -71,7 +71,7 @@ public record AzAppConfigSnapshotListOptions : AzOptions
     /// <summary>
     /// Maximum number of items to return. Must be a positive integer. Default to 100.
     /// </summary>
-    [CliFlag("--top", ShortForm = "-t")]
-    public bool? Top { get; set; }
+    [CliOption("--top", ShortForm = "-t")]
+    public int? Top { get; set; }
 
 }

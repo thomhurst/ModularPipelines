@@ -59,8 +59,8 @@ public record AzIdentityUpdateOptions : AzOptions
     /// <summary>
     /// Restrictions on which resource providers this identity can be assigned to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--resource-restriction")]
-    public bool? ResourceRestriction { get; set; }
+    [CliOption("--resource-restriction")]
+    public string? ResourceRestriction { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -57,8 +57,8 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     /// <summary>
     /// The short name of the action group. This will be used in SMS messages.
     /// </summary>
-    [CliFlag("--group-short-name", ShortForm = "--short-name")]
-    public bool? GroupShortName { get; set; }
+    [CliOption("--group-short-name")]
+    public string? GroupShortName { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.  When not specified, the location of the resource group will be used.  Default: Global.
@@ -75,20 +75,20 @@ public record AzMonitorActionGroupCreateOptions : AzOptions
     /// <summary>
     /// Add receivers to the action group during the creation.
     /// </summary>
-    [CliFlag("--action", ShortForm = "-a")]
-    public bool? Action { get; set; }
+    [CliOption("--action", ShortForm = "-a")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Set the system managed identity.
     /// </summary>
-    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned")]
+    public string? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.

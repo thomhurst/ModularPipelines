@@ -46,13 +46,13 @@ public record AzPolicySetDefinitionShowOptions : AzOptions
     /// <summary>
     /// Additional properties to include in output.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// The management group.
     /// </summary>
-    [CliFlag("--management-group")]
-    public bool? ManagementGroup { get; set; }
+    [CliOption("--management-group")]
+    public string? ManagementGroup { get; set; }
 
 }

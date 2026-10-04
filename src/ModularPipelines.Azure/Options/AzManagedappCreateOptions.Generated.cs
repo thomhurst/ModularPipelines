@@ -79,44 +79,44 @@ public record AzManagedappCreateOptions : AzOptions
     /// <summary>
     /// The managed application location.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// The full qualified managed application definition id.
     /// </summary>
-    [CliFlag("--managedapp-definition-id", ShortForm = "-d")]
-    public bool? ManagedappDefinitionId { get; set; }
+    [CliOption("--managedapp-definition-id", ShortForm = "-d")]
+    public string? ManagedappDefinitionId { get; set; }
 
     /// <summary>
     /// JSON formatted string or a path to a file with such content.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters")]
+    public string? Parameters { get; set; }
 
     /// <summary>
     /// The managed application package plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// The managed application package plan product.
     /// </summary>
-    [CliFlag("--plan-product")]
-    public bool? PlanProduct { get; set; }
+    [CliOption("--plan-product")]
+    public string? PlanProduct { get; set; }
 
     /// <summary>
     /// The managed application package plan publisher.
     /// </summary>
-    [CliFlag("--plan-publisher")]
-    public bool? PlanPublisher { get; set; }
+    [CliOption("--plan-publisher")]
+    public string? PlanPublisher { get; set; }
 
     /// <summary>
     /// The managed application package plan version.
     /// </summary>
-    [CliFlag("--plan-version")]
-    public bool? PlanVersion { get; set; }
+    [CliOption("--plan-version")]
+    public string? PlanVersion { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

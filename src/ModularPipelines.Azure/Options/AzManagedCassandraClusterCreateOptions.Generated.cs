@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -85,20 +86,20 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// The version of Cassandra chosen.
     /// </summary>
-    [CliFlag("--cassandra-version")]
-    public bool? CassandraVersion { get; set; }
+    [CliOption("--cassandra-version")]
+    public string? CassandraVersion { get; set; }
 
     /// <summary>
     /// If specified, enables client certificate authentication to the Cassandra API.
     /// </summary>
-    [CliFlag("--client-certificates")]
-    public bool? ClientCertificates { get; set; }
+    [CliOption("--client-certificates")]
+    public string? ClientCertificates { get; set; }
 
     /// <summary>
     /// If a cluster must have a name that is not a valid azure resource name, this field can be specified to choose the Cassandra cluster name. Otherwise, the resource name will be used as the cluster name.
     /// </summary>
-    [CliFlag("--cluster-name-override")]
-    public bool? ClusterNameOverride { get; set; }
+    [CliOption("--cluster-name-override")]
+    public string? ClusterNameOverride { get; set; }
 
     /// <summary>
     /// A list of certificates that the managed cassandra data center's should accept.
@@ -115,8 +116,8 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// The number of hours between backup attempts.
     /// </summary>
-    [CliFlag("--hours-between-backups")]
-    public bool? HoursBetweenBackups { get; set; }
+    [CliOption("--hours-between-backups")]
+    public int? HoursBetweenBackups { get; set; }
 
     /// <summary>
     /// Type of identity used for Customer Managed Disk Key.  Allowed values: None, SystemAssigned. Default: None.
@@ -127,8 +128,9 @@ public record AzManagedCassandraClusterCreateOptions : AzOptions
     /// <summary>
     /// The intial password to be configured when a cluster is created for authentication_method Cassandra.
     /// </summary>
-    [CliFlag("--initial-cassandra-admin-password", ShortForm = "-i")]
-    public bool? InitialCassandraAdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--initial-cassandra-admin-password", ShortForm = "-i")]
+    public string? InitialCassandraAdminPassword { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

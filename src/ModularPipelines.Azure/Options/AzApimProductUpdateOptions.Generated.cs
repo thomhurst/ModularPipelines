@@ -74,20 +74,20 @@ public record AzApimProductUpdateOptions : AzOptions
     /// <summary>
     /// Product description. May include HTML formatting tags.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.
     /// </summary>
-    [CliFlag("--legal-terms")]
-    public bool? LegalTerms { get; set; }
+    [CliOption("--legal-terms")]
+    public string? LegalTerms { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -98,8 +98,8 @@ public record AzApimProductUpdateOptions : AzOptions
     /// <summary>
     /// Product name.
     /// </summary>
-    [CliFlag("--product-name")]
-    public bool? ProductName { get; set; }
+    [CliOption("--product-name")]
+    public string? ProductName { get; set; }
 
     /// <summary>
     /// Whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.  Allowed values: notPublished, published.
@@ -116,8 +116,8 @@ public record AzApimProductUpdateOptions : AzOptions
     /// <summary>
     /// Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.
     /// </summary>
-    [CliFlag("--subscriptions-limit")]
-    public bool? SubscriptionsLimit { get; set; }
+    [CliOption("--subscriptions-limit")]
+    public string? SubscriptionsLimit { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

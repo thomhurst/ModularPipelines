@@ -77,14 +77,14 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// Linux only. A friendly name used to identify the deployment.
     /// </summary>
-    [CliFlag("--tag")]
-    public bool? Tag { get; set; }
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Absolute path that the artifact should be deployed to. Defaults to "home/site/wwwroot/" Ex: "/home/site/deployments/tools/", "/home/site/scripts/startup-script.sh".
     /// </summary>
-    [CliFlag("--target-path")]
-    public bool? TargetPath { get; set; }
+    [CliOption("--target-path")]
+    public string? TargetPath { get; set; }
 
     /// <summary>
     /// Timeout for the deployment operation in milliseconds. Ignored when using "--src-url" since synchronous deployments are not yet supported when using "--src-url".

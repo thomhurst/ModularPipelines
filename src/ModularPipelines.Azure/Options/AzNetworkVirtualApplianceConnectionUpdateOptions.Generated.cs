@@ -53,13 +53,13 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// The list of labels.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--labels", ShortForm = "--propagated-route-table-labels", GroupValues = true)]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// List of resource id of propagated route tables. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--propagated", ShortForm = "--propagated-route-table-ids", GroupValues = true)]
+    [CliOption("--propagated", GroupValues = true)]
     public IEnumerable<string>? Propagated { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// The name of the Network Virtual Appliance.
     /// </summary>
-    [CliOption("--nva", ShortForm = "--virtual-appliance-name")]
+    [CliOption("--nva")]
     public string? Nva { get; set; }
 
     /// <summary>

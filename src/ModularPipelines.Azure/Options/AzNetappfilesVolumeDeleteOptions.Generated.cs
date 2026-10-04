@@ -23,7 +23,7 @@ public record AzNetappfilesVolumeDeleteOptions : AzOptions
     /// <summary>
     /// An option to force delete the volume. Will cleanup resources connected to the particular volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force", ShortForm = "--force-delete")]
+    [CliOption("--force")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record AzNetappfilesVolumeDeleteOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

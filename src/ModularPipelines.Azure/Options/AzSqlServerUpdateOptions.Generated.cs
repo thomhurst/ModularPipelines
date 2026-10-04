@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,9 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The administrator login password.
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this server for use with key management services like Azure KeyVault.
@@ -35,8 +37,8 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id", ShortForm = "--fid")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -65,14 +67,14 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a")]
+    public string? UserAssignedIdentityId { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

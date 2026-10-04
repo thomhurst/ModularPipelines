@@ -35,7 +35,7 @@ public record AzVmHostDeleteOptions : AzOptions
     /// <summary>
     /// The name of the dedicated host group.
     /// </summary>
-    [CliOption("--host-group", ShortForm = "--host-group-name")]
+    [CliOption("--host-group")]
     public string? HostGroup { get; set; }
 
     /// <summary>

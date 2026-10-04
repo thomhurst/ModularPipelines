@@ -108,14 +108,14 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions : AzOptions
     /// <summary>
     /// Size of quota in KiB.
     /// </summary>
-    [CliFlag("--quota-size", ShortForm = "--quota-size-in-kibs")]
-    public bool? QuotaSize { get; set; }
+    [CliOption("--quota-size")]
+    public int? QuotaSize { get; set; }
 
     /// <summary>
     /// UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running `id` or `getent` command for the user or group and SID can be found by running :code:wmic useraccount where name='user-name' get sid`.
     /// </summary>
-    [CliFlag("--quota-target")]
-    public bool? QuotaTarget { get; set; }
+    [CliOption("--quota-target")]
+    public string? QuotaTarget { get; set; }
 
     /// <summary>
     /// Type of quota.  Allowed values: DefaultGroupQuota, DefaultUserQuota, IndividualGroupQuota, IndividualUserQuota.

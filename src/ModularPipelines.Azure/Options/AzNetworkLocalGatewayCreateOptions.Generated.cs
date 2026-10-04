@@ -57,14 +57,14 @@ public record AzNetworkLocalGatewayCreateOptions : AzOptions
     /// <summary>
     /// List of CIDR block prefixes representing the address space of the OnPremise VPN's subnet. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--address-prefixes", ShortForm = "--local-address-prefixes", GroupValues = true)]
+    [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
 
     /// <summary>
     /// Gateway's public IP address. (e.g. 10.1.1.1).
     /// </summary>
-    [CliFlag("--gateway-ip-address")]
-    public bool? GatewayIpAddress { get; set; }
+    [CliOption("--gateway-ip-address")]
+    public string? GatewayIpAddress { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -87,19 +87,19 @@ public record AzNetworkLocalGatewayCreateOptions : AzOptions
     /// <summary>
     /// Autonomous System Number to use for the BGP settings.
     /// </summary>
-    [CliFlag("--asn")]
-    public bool? Asn { get; set; }
+    [CliOption("--asn")]
+    public string? Asn { get; set; }
 
     /// <summary>
     /// IP address from the OnPremise VPN's subnet to use for BGP peering.
     /// </summary>
-    [CliFlag("--bgp-peering-address")]
-    public bool? BgpPeeringAddress { get; set; }
+    [CliOption("--bgp-peering-address")]
+    public string? BgpPeeringAddress { get; set; }
 
     /// <summary>
     /// Weight (0-100) added to routes learned through BGP peering.
     /// </summary>
-    [CliFlag("--peer-weight")]
-    public bool? PeerWeight { get; set; }
+    [CliOption("--peer-weight")]
+    public string? PeerWeight { get; set; }
 
 }

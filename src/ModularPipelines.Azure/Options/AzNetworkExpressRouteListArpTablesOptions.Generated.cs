@@ -35,8 +35,8 @@ public record AzNetworkExpressRouteListArpTablesOptions : AzOptions
     /// <summary>
     /// ExpressRoute circuit name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The path of the device.  Allowed values: primary, secondary.

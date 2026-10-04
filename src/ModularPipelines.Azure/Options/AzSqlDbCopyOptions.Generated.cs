@@ -52,13 +52,13 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Availability zone.
     /// </summary>
-    [CliFlag("--availability-zone")]
-    public bool? AvailabilityZone { get; set; }
+    [CliOption("--availability-zone")]
+    public string? AvailabilityZone { get; set; }
 
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
@@ -76,26 +76,26 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
     /// </summary>
-    [CliFlag("--encryption-protector")]
-    public bool? EncryptionProtector { get; set; }
+    [CliOption("--encryption-protector")]
+    public string? EncryptionProtector { get; set; }
 
     /// <summary>
     /// Specifies the database encryption protector key auto rotation flag. Can be either true, false or null.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--encryption-protector-auto-rotation", ShortForm = "--epauto")]
+    [CliOption("--encryption-protector-auto-rotation")]
     public bool? EncryptionProtectorAutoRotation { get; set; }
 
     /// <summary>
     /// The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
-    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
-    public bool? HaReplicas { get; set; }
+    [CliOption("--ha-replicas")]
+    public int? HaReplicas { get; set; }
 
     /// <summary>
     /// The list of AKV keys for the SQL Database.
@@ -136,7 +136,7 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// The list of user assigned identity for the SQL Database.
     /// </summary>
-    [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
+    [CliOption("--umi", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
 
     /// <summary>
@@ -154,8 +154,8 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
-    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
-    public bool? ServiceLevelObjective { get; set; }
+    [CliOption("--service-level-objective")]
+    public string? ServiceLevelObjective { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -184,8 +184,8 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
     /// </summary>
-    [CliFlag("--auto-pause-delay")]
-    public bool? AutoPauseDelay { get; set; }
+    [CliOption("--auto-pause-delay")]
+    public string? AutoPauseDelay { get; set; }
 
     /// <summary>
     /// The compute model of the database.  Allowed values: Provisioned, Serverless.
@@ -196,7 +196,7 @@ public record AzSqlDbCopyOptions : AzOptions
     /// <summary>
     /// Minimal capacity that database will always have allocated, if not paused.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
 }

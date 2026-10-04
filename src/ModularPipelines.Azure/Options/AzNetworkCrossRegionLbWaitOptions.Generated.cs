@@ -29,8 +29,8 @@ public record AzNetworkCrossRegionLbWaitOptions : AzOptions
     /// <summary>
     /// Expands referenced resources. Default value is None.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -41,8 +41,8 @@ public record AzNetworkCrossRegionLbWaitOptions : AzOptions
     /// <summary>
     /// The load balancer name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -59,8 +59,8 @@ public record AzNetworkCrossRegionLbWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -77,14 +77,14 @@ public record AzNetworkCrossRegionLbWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

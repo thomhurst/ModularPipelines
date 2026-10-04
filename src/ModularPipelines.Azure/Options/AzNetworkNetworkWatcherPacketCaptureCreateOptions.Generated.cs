@@ -96,14 +96,14 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Number of bytes captured per packet, the remaining bytes are truncated.
     /// </summary>
-    [CliFlag("--bytes-to-capture", ShortForm = "--bytes-to-capture-per-packet")]
-    public bool? BytesToCapture { get; set; }
+    [CliOption("--bytes-to-capture")]
+    public int? BytesToCapture { get; set; }
 
     /// <summary>
     /// The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--capture-settings")]
-    public bool? CaptureSettings { get; set; }
+    [CliOption("--capture-settings")]
+    public string? CaptureSettings { get; set; }
 
     /// <summary>
     /// This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -132,13 +132,13 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Maximum duration of the capture session in seconds.
     /// </summary>
-    [CliFlag("--time-limit-in-seconds")]
-    public bool? TimeLimitInSeconds { get; set; }
+    [CliOption("--time-limit-in-seconds")]
+    public string? TimeLimitInSeconds { get; set; }
 
     /// <summary>
     /// Maximum size of the capture output.
     /// </summary>
-    [CliFlag("--total-bytes", ShortForm = "--total-bytes-per-session")]
-    public bool? TotalBytes { get; set; }
+    [CliOption("--total-bytes")]
+    public int? TotalBytes { get; set; }
 
 }

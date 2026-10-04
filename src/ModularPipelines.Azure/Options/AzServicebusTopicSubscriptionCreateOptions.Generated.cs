@@ -79,8 +79,8 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Indicates the Client ID of the application that created the client-affine subscription.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// For client-affine subscriptions, this value indicates whether the subscription is durable or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -97,8 +97,8 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
     /// </summary>
-    [CliFlag("--auto-delete-on-idle")]
-    public bool? AutoDeleteOnIdle { get; set; }
+    [CliOption("--auto-delete-on-idle")]
+    public string? AutoDeleteOnIdle { get; set; }
 
     /// <summary>
     /// Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -109,14 +109,14 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
     /// </summary>
-    [CliFlag("--default-message-time-to-live")]
-    public bool? DefaultMessageTimeToLive { get; set; }
+    [CliOption("--default-message-time-to-live")]
+    public string? DefaultMessageTimeToLive { get; set; }
 
     /// <summary>
     /// ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
     /// </summary>
-    [CliFlag("--duplicate-detection-history-time-window", ShortForm = "-d")]
-    public bool? DuplicateDetectionHistoryTimeWindow { get; set; }
+    [CliOption("--duplicate-detection-history-time-window", ShortForm = "-d")]
+    public string? DuplicateDetectionHistoryTimeWindow { get; set; }
 
     /// <summary>
     /// Value that indicates whether server-side batched operations are enabled. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -127,7 +127,7 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// A value that indicates whether this queue has dead letter support when a message expires.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-dead-lettering-on-message-expiration", ShortForm = "--message-expiration")]
+    [CliOption("--enable-dead-lettering-on-message-expiration")]
     public bool? EnableDeadLetteringOnMessageExpiration { get; set; }
 
     /// <summary>
@@ -139,14 +139,14 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Queue/Topic name to forward the Dead Letter message.
     /// </summary>
-    [CliFlag("--forward-dead-lettered-messages-to")]
-    public bool? ForwardDeadLetteredMessagesTo { get; set; }
+    [CliOption("--forward-dead-lettered-messages-to")]
+    public string? ForwardDeadLetteredMessagesTo { get; set; }
 
     /// <summary>
     /// Queue/Topic name to forward the messages.
     /// </summary>
-    [CliFlag("--forward-to")]
-    public bool? ForwardTo { get; set; }
+    [CliOption("--forward-to")]
+    public string? ForwardTo { get; set; }
 
     /// <summary>
     /// Value that indicates whether the subscription has an affinity to the client id.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -157,14 +157,14 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
     /// </summary>
-    [CliFlag("--lock-duration")]
-    public bool? LockDuration { get; set; }
+    [CliOption("--lock-duration")]
+    public string? LockDuration { get; set; }
 
     /// <summary>
     /// Number of maximum deliveries.
     /// </summary>
-    [CliFlag("--max-delivery-count")]
-    public bool? MaxDeliveryCount { get; set; }
+    [CliOption("--max-delivery-count")]
+    public int? MaxDeliveryCount { get; set; }
 
     /// <summary>
     /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
@@ -175,7 +175,7 @@ public record AzServicebusTopicSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
 }

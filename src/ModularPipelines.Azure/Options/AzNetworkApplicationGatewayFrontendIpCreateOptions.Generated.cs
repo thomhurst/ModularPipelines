@@ -74,8 +74,8 @@ public record AzNetworkApplicationGatewayFrontendIpCreateOptions : AzOptions
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Name or ID of the public IP address.

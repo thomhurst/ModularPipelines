@@ -23,8 +23,8 @@ public record AzNetworkDnsRecordSetSrvDeleteOptions : AzOptions
     /// <summary>
     /// Etag of the record set. Omit this value to always delete the current record set. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

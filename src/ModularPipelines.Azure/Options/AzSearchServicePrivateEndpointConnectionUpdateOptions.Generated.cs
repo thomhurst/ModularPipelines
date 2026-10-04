@@ -47,20 +47,20 @@ public record AzSearchServicePrivateEndpointConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Describes the current state of an existing Azure Private Link service connection to the private endpoint. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--connection-state", ShortForm = "--private-link-service-connection-state")]
-    public bool? ConnectionState { get; set; }
+    [CliOption("--connection-state")]
+    public string? ConnectionState { get; set; }
 
     /// <summary>
     /// The group ID of the Azure resource for which the private link service is for.
     /// </summary>
-    [CliFlag("--group-id")]
-    public bool? GroupId { get; set; }
+    [CliOption("--group-id")]
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// The private endpoint resource from Microsoft.Network provider. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--private-endpoint")]
-    public bool? PrivateEndpoint { get; set; }
+    [CliOption("--private-endpoint")]
+    public string? PrivateEndpoint { get; set; }
 
     /// <summary>
     /// The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled.  Allowed values: Canceled, Deleting, Failed, Incomplete, Succeeded, Updating.

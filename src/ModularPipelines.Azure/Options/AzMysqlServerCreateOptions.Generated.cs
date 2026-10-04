@@ -36,8 +36,8 @@ public record AzMysqlServerCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Enable or disable geo-redundant backups. Default value is Disabled. Not supported in Basic pricing tier.  Allowed values: Disabled, Enabled.
@@ -72,7 +72,7 @@ public record AzMysqlServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
     /// </summary>
-    [CliOption("--public", ShortForm = "--public-network-access")]
+    [CliOption("--public")]
     public string? Public { get; set; }
 
     /// <summary>
@@ -96,8 +96,8 @@ public record AzMysqlServerCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server (unit is megabytes). Minimum 5120 and increases in 1024 increments. Default is 5120.  Default: 5120.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -108,8 +108,8 @@ public record AzMysqlServerCreateOptions : AzOptions
     /// <summary>
     /// Server major version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.

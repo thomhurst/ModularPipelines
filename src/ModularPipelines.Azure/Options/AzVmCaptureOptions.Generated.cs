@@ -58,8 +58,8 @@ public record AzVmCaptureOptions : AzOptions
     /// <summary>
     /// The storage account container name in which to save the disks. Default: vhds.
     /// </summary>
-    [CliFlag("--storage-container")]
-    public bool? StorageContainer { get; set; }
+    [CliOption("--storage-container")]
+    public string? StorageContainer { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

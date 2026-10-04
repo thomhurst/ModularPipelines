@@ -41,14 +41,14 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Connection routing weight.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public string? RoutingWeight { get; set; }
 
     /// <summary>
     /// Shared IPSec key.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -89,14 +89,14 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Gateway connection authentication type.  Allowed values: Certificate, PSK.
     /// </summary>
-    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
     /// <summary>
     /// Certificate Authentication information for a certificate based authentication connection.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
-    public bool? CertAuth { get; set; }
+    [CliOption("--cert-auth")]
+    public string? CertAuth { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -107,8 +107,8 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Connection name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

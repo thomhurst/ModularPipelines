@@ -64,8 +64,8 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
     /// </summary>
-    [CliFlag("--context", ShortForm = "-c")]
-    public bool? Context { get; set; }
+    [CliOption("--context", ShortForm = "-c")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.

@@ -59,8 +59,8 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     /// <summary>
     /// Azure container mapping for the share.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--azure-container-info")]
-    public bool? AzureContainerInfo { get; set; }
+    [CliOption("--azure-container-info")]
+    public string? AzureContainerInfo { get; set; }
 
     /// <summary>
     /// List of IP addresses and corresponding access rights on the share(required for NFS protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -89,8 +89,8 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     /// <summary>
     /// Details of the refresh job on this share.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--refresh-details")]
-    public bool? RefreshDetails { get; set; }
+    [CliOption("--refresh-details")]
+    public string? RefreshDetails { get; set; }
 
     /// <summary>
     /// Current status of the share.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
@@ -101,8 +101,8 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     /// <summary>
     /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-access-rights")]
-    public bool? UserAccessRights { get; set; }
+    [CliOption("--user-access-rights")]
+    public string? UserAccessRights { get; set; }
 
     /// <summary>
     /// The device name.
@@ -119,8 +119,8 @@ public record AzDataboxedgeDeviceShareUpdateOptions : AzOptions
     /// <summary>
     /// The share name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

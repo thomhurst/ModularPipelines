@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -69,14 +70,14 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// Upper bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--max-capacity")]
-    public bool? MaxCapacity { get; set; }
+    [CliOption("--max-capacity")]
+    public string? MaxCapacity { get; set; }
 
     /// <summary>
     /// Lower bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -87,8 +88,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// Priority of the request routing rule. Supported SKU tiers are Standard_v2, WAF_v2.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -117,8 +118,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The number of instances to use with the application gateway.  Default: 2.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public int? Capacity { get; set; }
 
     /// <summary>
     /// The path to the PFX certificate file.
@@ -129,14 +130,15 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The certificate password.
     /// </summary>
-    [CliFlag("--cert-password")]
-    public bool? CertPassword { get; set; }
+    [SecretValue]
+    [CliOption("--cert-password")]
+    public string? CertPassword { get; set; }
 
     /// <summary>
     /// The time in seconds after a backend server is removed during which on open connection remains active. Range: 0 (disabled) to 3600.
     /// </summary>
-    [CliFlag("--connection-draining-timeout")]
-    public bool? ConnectionDrainingTimeout { get; set; }
+    [CliOption("--connection-draining-timeout")]
+    public string? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
     /// Whether FIPS is enabled on the application gateway resource.  Allowed values: false, true.
@@ -147,8 +149,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The front end port number.
     /// </summary>
-    [CliFlag("--frontend-port")]
-    public bool? FrontendPort { get; set; }
+    [CliOption("--frontend-port")]
+    public string? FrontendPort { get; set; }
 
     /// <summary>
     /// Enable or disable HTTP settings cookie-based affinity. Allowed values: Disabled, Enabled.  Default: disabled.
@@ -159,8 +161,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The HTTP settings port.  Default: 80.
     /// </summary>
-    [CliFlag("--http-settings-port")]
-    public bool? HttpSettingsPort { get; set; }
+    [CliOption("--http-settings-port")]
+    public string? HttpSettingsPort { get; set; }
 
     /// <summary>
     /// The HTTP settings protocol.  Allowed values: Http, Https, Tcp, Tls.  Default: Http.
@@ -177,8 +179,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in Azure KeyVault. You need enable soft delete for keyvault to use this feature.
     /// </summary>
-    [CliFlag("--key-vault-secret-id")]
-    public bool? KeyVaultSecretId { get; set; }
+    [CliOption("--key-vault-secret-id")]
+    public string? KeyVaultSecretId { get; set; }
 
     /// <summary>
     /// The request routing rule type.  Allowed values: Basic, PathBasedRouting.  Default: Basic.
@@ -201,8 +203,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The certificate name. Default will be `&lt;application- gateway-name&gt;SslCert`.
     /// </summary>
-    [CliFlag("--ssl-certificate-name")]
-    public bool? SslCertificateName { get; set; }
+    [CliOption("--ssl-certificate-name")]
+    public string? SslCertificateName { get; set; }
 
     /// <summary>
     /// Name or ID of the ManagedIdentity Resource.
@@ -213,8 +215,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Name or ID of a public IP address. Uses existing resource or creates new if specified, or none if omitted.
@@ -225,8 +227,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The kind of IP allocation to use when creating a new public IP.  Default: Dynamic.
     /// </summary>
-    [CliFlag("--public-ip-address-allocation")]
-    public bool? PublicIpAddressAllocation { get; set; }
+    [CliOption("--public-ip-address-allocation")]
+    public string? PublicIpAddressAllocation { get; set; }
 
     /// <summary>
     /// Name or ID of the subnet. Will create resource if it does not exist. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.  Default: default.
@@ -237,14 +239,14 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The CIDR prefix to use when creating a new subnet. Default: 10.0.0.0/24.
     /// </summary>
-    [CliFlag("--subnet-address-prefix")]
-    public bool? SubnetAddressPrefix { get; set; }
+    [CliOption("--subnet-address-prefix")]
+    public string? SubnetAddressPrefix { get; set; }
 
     /// <summary>
     /// The CIDR prefix to use when creating a new VNet. Default: 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--vnet-address-prefix")]
-    public bool? VnetAddressPrefix { get; set; }
+    [CliOption("--vnet-address-prefix")]
+    public string? VnetAddressPrefix { get; set; }
 
     /// <summary>
     /// The virtual network (VNet) name.
@@ -261,8 +263,8 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The static private IP address of a subnet for Private Link. If omitting, a dynamic one will be created.
     /// </summary>
-    [CliFlag("--private-link-ip-address")]
-    public bool? PrivateLinkIpAddress { get; set; }
+    [CliOption("--private-link-ip-address")]
+    public string? PrivateLinkIpAddress { get; set; }
 
     /// <summary>
     /// Whether the IP configuration is primary or not.  Allowed values: false, true.
@@ -279,7 +281,7 @@ public record AzNetworkApplicationGatewayCreateOptions : AzOptions
     /// <summary>
     /// The CIDR prefix to use when creating a new subnet. Default: 10.0.1.0/24.
     /// </summary>
-    [CliFlag("--private-link-subnet-prefix")]
-    public bool? PrivateLinkSubnetPrefix { get; set; }
+    [CliOption("--private-link-subnet-prefix")]
+    public string? PrivateLinkSubnetPrefix { get; set; }
 
 }

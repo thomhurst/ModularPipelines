@@ -53,8 +53,8 @@ public record AzNetappfilesAccountBackupVaultBackupUpdateOptions : AzOptions
     /// <summary>
     /// Label for backup.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -65,7 +65,7 @@ public record AzNetappfilesAccountBackupVaultBackupUpdateOptions : AzOptions
     /// <summary>
     /// The name of the backup.
     /// </summary>
-    [CliOption("--backup-name", ShortForm = "-n")]
+    [CliOption("--backup-name", ShortForm = "-b")]
     public string? BackupName { get; set; }
 
     /// <summary>

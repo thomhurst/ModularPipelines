@@ -45,7 +45,7 @@ public record AzSynapseKustoPoolDetachFollowerDatabaseOptions : AzOptions
     /// <summary>
     /// Resource name of the attached database configuration in the follower cluster.
     /// </summary>
-    [CliOption("--adcn", ShortForm = "--attached-database-configuration-name")]
+    [CliOption("--adcn")]
     public string Adcn { get; private init; }
 
     /// <summary>

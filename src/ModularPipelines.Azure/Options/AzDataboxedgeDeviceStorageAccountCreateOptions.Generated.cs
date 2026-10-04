@@ -91,8 +91,8 @@ public record AzDataboxedgeDeviceStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Storage Account Credential Id.
     /// </summary>
-    [CliFlag("--sac-id", ShortForm = "--storage-account-credential-id")]
-    public bool? SacId { get; set; }
+    [CliOption("--sac-id")]
+    public string? SacId { get; set; }
 
     /// <summary>
     /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.

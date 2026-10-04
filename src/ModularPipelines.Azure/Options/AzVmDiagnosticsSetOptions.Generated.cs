@@ -52,14 +52,14 @@ public record AzVmDiagnosticsSetOptions : AzOptions
     /// <summary>
     /// Json string or a file path containing private configurations such as storage account keys, etc.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Version of the diagnostics extension. Will use the latest if not specfied.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

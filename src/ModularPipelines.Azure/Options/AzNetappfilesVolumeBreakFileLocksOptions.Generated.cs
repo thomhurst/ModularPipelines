@@ -35,13 +35,13 @@ public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
     /// <summary>
     /// To clear file locks on a volume for a particular client.
     /// </summary>
-    [CliFlag("--client-ip")]
-    public bool? ClientIp { get; set; }
+    [CliOption("--client-ip")]
+    public string? ClientIp { get; set; }
 
     /// <summary>
     /// Break-file-locks could be a disruptive operation for application as locks on the volume will be broken, if want to process, set to true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--confirm", ShortForm = "--confirm-running-disruptive-operation")]
+    [CliOption("--confirm")]
     public bool? Confirm { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

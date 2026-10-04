@@ -64,19 +64,19 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
+    [CliOption("--add-proxy-agent-ext")]
     public bool? AddProxyAgentExt { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    [CliOption("--additional-events")]
     public bool? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
@@ -88,43 +88,43 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// The amount of time (in minutes, between 30 and 90) for which automatic repairs are suspended due to a state change on VM.
     /// </summary>
-    [CliFlag("--automatic-repairs-grace-period")]
-    public bool? AutomaticRepairsGracePeriod { get; set; }
+    [CliOption("--automatic-repairs-grace-period")]
+    public string? AutomaticRepairsGracePeriod { get; set; }
 
     /// <summary>
     /// Type of rebalance behavior that will be used for recreating virtualmachines in the scale set across availability zones.  Allowed values: CreateBeforeDelete.
     /// </summary>
-    [CliOption("--automatic-zone-balancing-behavior", ShortForm = "--balancing-behavior")]
+    [CliOption("--automatic-zone-balancing-behavior")]
     public string? AutomaticZoneBalancingBehavior { get; set; }
 
     /// <summary>
     /// Type of rebalance strategy that will be used for rebalancing virtualmachines in the scale set across availability zones.  Allowed values: Recreate.
     /// </summary>
-    [CliOption("--automatic-zone-balancing-strategy", ShortForm = "--balancing-strategy")]
+    [CliOption("--automatic-zone-balancing-strategy")]
     public string? AutomaticZoneBalancingStrategy { get; set; }
 
     /// <summary>
     /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
     /// </summary>
-    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
     /// <summary>
     /// Computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long.
     /// </summary>
-    [CliFlag("--computer-name-prefix")]
-    public bool? ComputerNamePrefix { get; set; }
+    [CliOption("--computer-name-prefix")]
+    public string? ComputerNamePrefix { get; set; }
 
     /// <summary>
     /// Custom init script file or text (cloud-init, cloud- config, etc..).
     /// </summary>
-    [CliFlag("--custom-data")]
-    public bool? CustomData { get; set; }
+    [CliOption("--custom-data")]
+    public string? CustomData { get; set; }
 
     /// <summary>
     /// Specifies whether the virtual machine scale set is explicitly opted out from being associated with any capacity reservation. When set to true, its virtual machines will not be allowed to implicitly or explicitly associate with any type of capacity reservation and will consume publicly available capacity. This option applies to the parent VMSS only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
+    [CliOption("--disable-capacity-reservation-assignment")]
     public bool? DisableCapacityReservationAssignment { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Enable automatic repairs.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-repairs", ShortForm = "--enable-automatic-repairs")]
+    [CliOption("--enable-auto-repairs")]
     public bool? EnableAutoRepairs { get; set; }
 
     /// <summary>
@@ -172,7 +172,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Specify whether automatic AZ balancing should be enabled on the virtualmachine scale set.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-automatic-zone-balancing", ShortForm = "--enable-zone-balancing")]
+    [CliOption("--enable-automatic-zone-balancing")]
     public bool? EnableAutomaticZoneBalancing { get; set; }
 
     /// <summary>
@@ -208,13 +208,13 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    [CliOption("--enable-reboot")]
     public bool? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    [CliOption("--enable-redeploy")]
     public bool? EnableRedeploy { get; set; }
 
     /// <summary>
@@ -262,7 +262,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// List of virtual machine extensions to exclude when applying the Security Posture. Either a Json string or a file path is acceptable. Please refer to htt ps://docs.microsoft .com/rest/api/compu te/virtualmachinesc alesets/get#virtual machineextension for the data format.
     /// </summary>
-    [CliOption("--exclude-extensions", ShortForm = "--security-posture-reference-exclude-extensions", GroupValues = true)]
+    [CliOption("--exclude-extensions", GroupValues = true)]
     public IEnumerable<string>? ExcludeExtensions { get; set; }
 
     /// <summary>
@@ -274,8 +274,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Probe name from the existing load balancer, mainly used for rolling upgrade or automatic repairs.
     /// </summary>
-    [CliFlag("--health-probe")]
-    public bool? HealthProbe { get; set; }
+    [CliOption("--health-probe")]
+    public string? HealthProbe { get; set; }
 
     /// <summary>
     /// Name or ID of dedicated host group that the virtual machine scale set resides in.
@@ -292,7 +292,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
     /// </summary>
-    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    [CliOption("--imds-access-control-profile-reference-id")]
     public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -310,19 +310,19 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Number of VMs in the scale set. Default: 2.
     /// </summary>
-    [CliFlag("--instance-count")]
-    public bool? InstanceCount { get; set; }
+    [CliOption("--instance-count")]
+    public int? InstanceCount { get; set; }
 
     /// <summary>
     /// Specify whether maximum percentage of virtual machine instances per zone policy should be enabled on the virtual machine scale set.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--instance-percent-policy", ShortForm = "--ipp")]
+    [CliOption("--instance-percent-policy")]
     public bool? InstancePercentPolicy { get; set; }
 
     /// <summary>
     /// Whether the security posture can be overridden by the user. Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-overridable", ShortForm = "--security-posture-reference-is-overridable")]
+    [CliOption("--is-overridable")]
     public bool? IsOverridable { get; set; }
 
     /// <summary>
@@ -340,38 +340,38 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. Default: 20%.
     /// </summary>
-    [CliFlag("--max-batch-instance-percent")]
-    public bool? MaxBatchInstancePercent { get; set; }
+    [CliOption("--max-batch-instance-percent")]
+    public string? MaxBatchInstancePercent { get; set; }
 
     /// <summary>
     /// Specify the maximum percentage of virtual machine instances that can be allocated to a single availability zone in the virtual machine scale set. Valid values are integers between 1 and 100.
     /// </summary>
-    [CliFlag("--max-instance-percent", ShortForm = "--value-max-instance-percent-per-zone")]
-    public bool? MaxInstancePercent { get; set; }
+    [CliOption("--max-instance-percent")]
+    public string? MaxInstancePercent { get; set; }
 
     /// <summary>
     /// The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy. Default: 20%.
     /// </summary>
-    [CliFlag("--max-unhealthy-instance-percent")]
-    public bool? MaxUnhealthyInstancePercent { get; set; }
+    [CliOption("--max-unhealthy-instance-percent")]
+    public string? MaxUnhealthyInstancePercent { get; set; }
 
     /// <summary>
     /// The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. Default: 20%.
     /// </summary>
-    [CliFlag("--max-unhealthy-upgraded-instance-percent")]
-    public bool? MaxUnhealthyUpgradedInstancePercent { get; set; }
+    [CliOption("--max-unhealthy-upgraded-instance-percent")]
+    public string? MaxUnhealthyUpgradedInstancePercent { get; set; }
 
     /// <summary>
     /// Specify the maximum number of availability zones to use when --zone-placement-policy is set to Auto. If not specified, all available zones in the region may be used.
     /// </summary>
-    [CliFlag("--max-zone-count")]
-    public bool? MaxZoneCount { get; set; }
+    [CliOption("--max-zone-count")]
+    public string? MaxZoneCount { get; set; }
 
     /// <summary>
     /// Specify the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'. Default value is 2020-11-01.
     /// </summary>
-    [CliFlag("--network-api-version")]
-    public bool? NetworkApiVersion { get; set; }
+    [CliOption("--network-api-version")]
+    public string? NetworkApiVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -406,14 +406,14 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// The wait time between completing the update for all virtual machines in one batch and starting the next batch. Default: 0 seconds.
     /// </summary>
-    [CliFlag("--pause-time-between-batches")]
-    public bool? PauseTimeBetweenBatches { get; set; }
+    [CliOption("--pause-time-between-batches")]
+    public string? PauseTimeBetweenBatches { get; set; }
 
     /// <summary>
     /// Fault Domain count for each placement group in the availability zone.
     /// </summary>
-    [CliFlag("--platform-fault-domain-count")]
-    public bool? PlatformFaultDomainCount { get; set; }
+    [CliOption("--platform-fault-domain-count")]
+    public string? PlatformFaultDomainCount { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the VMSS should be associated with.
@@ -442,20 +442,21 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// One or many Key Vault secrets as JSON strings or files via `@{path}` containing `[{ "sourceVault": { "id": "value" }, "v aultCertificates": [{ "certificateUrl": "value", "certificateStore": "cert store name (only on windows)"}] }]`.
     /// </summary>
-    [CliFlag("--secrets")]
-    public bool? Secrets { get; set; }
+    [SecretValue]
+    [CliOption("--secrets")]
+    public string? Secrets { get; set; }
 
     /// <summary>
     /// The security posture reference id in the form of / CommunityGalleries/ {communityGalleryNa me}/securityPosture s/{securityPostureN ame}/versions/{majo r.minor.patch}|{maj or.*}|latest.
     /// </summary>
-    [CliFlag("--security-posture-id", ShortForm = "--security-posture-reference-id")]
-    public bool? SecurityPostureId { get; set; }
+    [CliOption("--security-posture-id")]
+    public string? SecurityPostureId { get; set; }
 
     /// <summary>
     /// Specify the security type of the virtual machine scale set.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
@@ -472,14 +473,14 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Allocation strategy for vm sizes in SKU profile.  Allowed values: CapacityOptimized, LowestPrice, Prioritized.
     /// </summary>
-    [CliOption("--sku-allocat-strat", ShortForm = "--skuprofile-allocation-strategy")]
+    [CliOption("--sku-allocat-strat")]
     public string? SkuAllocatStrat { get; set; }
 
     /// <summary>
     /// A list for ranks associated with the SKU profile vm sizes.
     /// </summary>
-    [CliFlag("--skuprofile-rank")]
-    public bool? SkuprofileRank { get; set; }
+    [CliOption("--skuprofile-rank")]
+    public string? SkuprofileRank { get; set; }
 
     /// <summary>
     /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
@@ -502,8 +503,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Length of time (in minutes, between 5 and 15) a notification to be sent to the VM on the instance metadata server till the VM gets deleted.
     /// </summary>
-    [CliFlag("--terminate-notification-time")]
-    public bool? TerminateNotificationTime { get; set; }
+    [CliOption("--terminate-notification-time")]
+    public string? TerminateNotificationTime { get; set; }
 
     /// <summary>
     /// Specify the mode of an upgrade to virtual machines in the scale set. Allowed values: Automatic, Manual, Rolling.  Default: manual.
@@ -514,20 +515,20 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// UserData for the virtual machines in the scale set. It can be passed in as file or string.
     /// </summary>
-    [CliFlag("--user-data")]
-    public bool? UserData { get; set; }
+    [CliOption("--user-data")]
+    public string? UserData { get; set; }
 
     /// <summary>
     /// Specify the number of vCPUs available.
     /// </summary>
-    [CliFlag("--v-cpus-available")]
-    public bool? VCpusAvailable { get; set; }
+    [CliOption("--v-cpus-available")]
+    public string? VCpusAvailable { get; set; }
 
     /// <summary>
     /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
     /// </summary>
-    [CliFlag("--v-cpus-per-core")]
-    public bool? VCpusPerCore { get; set; }
+    [CliOption("--v-cpus-per-core")]
+    public string? VCpusPerCore { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -538,13 +539,13 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Size of VMs in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
     /// </summary>
-    [CliFlag("--vm-sku")]
-    public bool? VmSku { get; set; }
+    [CliOption("--vm-sku")]
+    public int? VmSku { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id of wire server.
     /// </summary>
-    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    [CliOption("--wire-server-access-control-profile-reference-id")]
     public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -599,8 +600,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Destination file path on the VM for the SSH key. If the file already exists, the specified key(s) are appended to the file. Destination path for SSH public keys is currently limited to its default value "/hom e/username/.ssh/aut horized_keys" due to a known issue in Linux provisioning agent.
     /// </summary>
-    [CliFlag("--ssh-dest-key-path")]
-    public bool? SshDestKeyPath { get; set; }
+    [CliOption("--ssh-dest-key-path")]
+    public string? SshDestKeyPath { get; set; }
 
     /// <summary>
     /// Specify the type of SSH public and private key files to be generated if missing.  Allowed values: Ed25519, RSA.  Default: RSA.
@@ -623,8 +624,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Role name or id the system assigned identity will have.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -635,26 +636,26 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// Plan product.
     /// </summary>
-    [CliFlag("--plan-product")]
-    public bool? PlanProduct { get; set; }
+    [CliOption("--plan-product")]
+    public string? PlanProduct { get; set; }
 
     /// <summary>
     /// Plan promotion code.
     /// </summary>
-    [CliFlag("--plan-promotion-code")]
-    public bool? PlanPromotionCode { get; set; }
+    [CliOption("--plan-promotion-code")]
+    public string? PlanPromotionCode { get; set; }
 
     /// <summary>
     /// Plan publisher.
     /// </summary>
-    [CliFlag("--plan-publisher")]
-    public bool? PlanPublisher { get; set; }
+    [CliOption("--plan-publisher")]
+    public string? PlanPublisher { get; set; }
 
     /// <summary>
     /// Enable accelerated networking. Unless specified, CLI will enable it based on machine image and size.  Allowed values: false, true.
@@ -695,8 +696,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Globally unique DNS name for a newly created public IP.
     /// </summary>
-    [CliFlag("--public-ip-address-dns-name")]
-    public bool? PublicIpAddressDnsName { get; set; }
+    [CliOption("--public-ip-address-dns-name")]
+    public string? PublicIpAddressDnsName { get; set; }
 
     /// <summary>
     /// Each VM instance will have a public ip. For security, you can use '--nsg' to apply appropriate rules.
@@ -719,14 +720,14 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Domain name of VM instances, once configured, the FQDN is `vm&lt;vm- index&gt;.&lt;vm-domain- name&gt;.&lt;..rest..&gt;`.
     /// </summary>
-    [CliFlag("--vm-domain-name")]
-    public bool? VmDomainName { get; set; }
+    [CliOption("--vm-domain-name")]
+    public string? VmDomainName { get; set; }
 
     /// <summary>
     /// The IP address prefix to use when creating a new VNet in CIDR format. Default: 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--vnet-address-prefix")]
-    public bool? VnetAddressPrefix { get; set; }
+    [CliOption("--vnet-address-prefix")]
+    public string? VnetAddressPrefix { get; set; }
 
     /// <summary>
     /// Name of the virtual network when creating a new one or referencing an existing one.
@@ -743,14 +744,14 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// The number of instances to use when creating a new application gateway.  Default: 10.
     /// </summary>
-    [CliFlag("--app-gateway-capacity")]
-    public bool? AppGatewayCapacity { get; set; }
+    [CliOption("--app-gateway-capacity")]
+    public int? AppGatewayCapacity { get; set; }
 
     /// <summary>
     /// SKU when creating a new application gateway.  Default: Standard_Large.
     /// </summary>
-    [CliFlag("--app-gateway-sku")]
-    public bool? AppGatewaySku { get; set; }
+    [CliOption("--app-gateway-sku")]
+    public string? AppGatewaySku { get; set; }
 
     /// <summary>
     /// The subnet IP address prefix to use when creating a new application gateway in CIDR format.
@@ -767,19 +768,19 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// When creating a new load balancer, backend port to open with NAT rules (Defaults to 22 on Linux and 3389 on Windows). When creating an application gateway, the backend port to use for the backend HTTP settings.
     /// </summary>
-    [CliFlag("--backend-port")]
-    public bool? BackendPort { get; set; }
+    [CliOption("--backend-port")]
+    public string? BackendPort { get; set; }
 
     /// <summary>
     /// Name to use when creating a new load balancer (default) or referencing an existing one. Can also reference an existing load balancer by ID or specify "" for none.
     /// </summary>
-    [CliOption("--lb", ShortForm = "--load-balancer")]
+    [CliOption("--lb")]
     public string? Lb { get; set; }
 
     /// <summary>
     /// Name to use for the NAT rule v2 when creating a new load balancer. (NAT rule V2 is used to replace NAT pool).
     /// </summary>
-    [CliOption("--lb-nat-rule-name", ShortForm = "--nat-rule-name")]
+    [CliOption("--lb-nat-rule-name")]
     public string? LbNatRuleName { get; set; }
 
     /// <summary>
@@ -791,8 +792,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Storage caching type for data disk(s), including 'None', 'ReadOnly', 'ReadWrite', etc. Use a singular value to apply on all disks, or use `&lt;lun&gt;=&lt;vaule1&gt; &lt;lun&gt;=&lt;value2&gt;` to configure individual disk.
     /// </summary>
-    [CliFlag("--data-disk-caching")]
-    public bool? DataDiskCaching { get; set; }
+    [CliOption("--data-disk-caching")]
+    public string? DataDiskCaching { get; set; }
 
     /// <summary>
     /// Specify whether data disk should be deleted or detached upon VMSS Flex deletion (This feature is only for VMSS with flexible orchestration mode).  Allowed values: Delete, Detach.
@@ -803,20 +804,20 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Names or IDs (space delimited) of disk encryption sets for data disks.
     /// </summary>
-    [CliFlag("--data-disk-encryption-sets")]
-    public bool? DataDiskEncryptionSets { get; set; }
+    [CliOption("--data-disk-encryption-sets")]
+    public string? DataDiskEncryptionSets { get; set; }
 
     /// <summary>
     /// Specify the Read- Write IOPS (space delimited) for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
     /// </summary>
-    [CliFlag("--data-disk-iops")]
-    public bool? DataDiskIops { get; set; }
+    [CliOption("--data-disk-iops")]
+    public string? DataDiskIops { get; set; }
 
     /// <summary>
     /// Specify the bandwidth in MB per second (space delimited) for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB.
     /// </summary>
-    [CliFlag("--data-disk-mbps")]
-    public bool? DataDiskMbps { get; set; }
+    [CliOption("--data-disk-mbps")]
+    public string? DataDiskMbps { get; set; }
 
     /// <summary>
     /// Space-separated empty managed data disk sizes in GB to create.
@@ -833,7 +834,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Specify whether or not to enable full caching for this VM/VMSS which will cache the OS disk locally on the host and make this VM/VMSS more resilient to storage outages. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ephemeral-full-caching", ShortForm = "--ephemeral-os-disk-enable-full-caching")]
+    [CliOption("--ephemeral-full-caching")]
     public bool? EphemeralFullCaching { get; set; }
 
     /// <summary>
@@ -845,7 +846,7 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Only applicable when used with `--ephemeral-os-disk`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
@@ -875,8 +876,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// OS disk size in GB to create.
     /// </summary>
-    [CliFlag("--os-disk-size-gb")]
-    public bool? OsDiskSizeGb { get; set; }
+    [CliOption("--os-disk-size-gb")]
+    public string? OsDiskSizeGb { get; set; }
 
     /// <summary>
     /// Type of OS installed on a custom VHD. Do not use when specifying an URN or URN alias.  Allowed values: linux, windows.
@@ -893,8 +894,8 @@ public record AzVmssCreateOptions : AzOptions
     /// <summary>
     /// Only applicable when used with `--use-unmanaged-disk`. Name of the storage container for the VM OS disk. Default: vhds. Default: vhds.
     /// </summary>
-    [CliFlag("--storage-container-name")]
-    public bool? StorageContainerName { get; set; }
+    [CliOption("--storage-container-name")]
+    public string? StorageContainerName { get; set; }
 
     /// <summary>
     /// The SKU of the storage account with which to persist VM. Use a singular sku that would be applied across all disks, or specify individual disks. Usage: [--storage-sku SKU | --storage-sku ID=SKU ID=SKU ID=SKU...], where each ID is "os" or a 0-indexed lun. Allowed values: Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, PremiumV2_LRS.

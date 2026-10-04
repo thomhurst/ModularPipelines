@@ -87,8 +87,8 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// The number of past logs to print (0-300).  Default: 20.
     /// </summary>
-    [CliFlag("--tail")]
-    public bool? Tail { get; set; }
+    [CliOption("--tail")]
+    public int? Tail { get; set; }
 
     /// <summary>
     /// Type of logs to stream.  Allowed values: console, system. Default: console.

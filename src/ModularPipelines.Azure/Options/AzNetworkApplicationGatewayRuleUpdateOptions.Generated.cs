@@ -74,8 +74,8 @@ public record AzNetworkApplicationGatewayRuleUpdateOptions : AzOptions
     /// <summary>
     /// Priority of the request routing rule. Supported SKU tiers are Standard_v2, WAF_v2.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Type of the request routing rule.  Allowed values: Basic, PathBasedRouting.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,8 +36,8 @@ public record AzStorageRemoveOptions : AzOptions
     /// <summary>
     /// The blob name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The path to the file within the file share.
@@ -59,55 +60,56 @@ public record AzStorageRemoveOptions : AzOptions
     /// <summary>
     /// Exclude these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example: myFolder;myFolder/subDirName/file.pdf.
     /// </summary>
-    [CliFlag("--exclude-path")]
-    public bool? ExcludePath { get; set; }
+    [CliOption("--exclude-path")]
+    public string? ExcludePath { get; set; }
 
     /// <summary>
     /// Exclude these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
     /// </summary>
-    [CliFlag("--exclude-pattern")]
-    public bool? ExcludePattern { get; set; }
+    [CliOption("--exclude-pattern")]
+    public string? ExcludePattern { get; set; }
 
     /// <summary>
     /// Include only these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example:myFolder;myFolder/subDirName/file.pdf.
     /// </summary>
-    [CliFlag("--include-path")]
-    public bool? IncludePath { get; set; }
+    [CliOption("--include-path")]
+    public string? IncludePath { get; set; }
 
     /// <summary>
     /// Include only these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
     /// </summary>
-    [CliFlag("--include-pattern")]
-    public bool? IncludePattern { get; set; }
+    [CliOption("--include-pattern")]
+    public string? IncludePattern { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--service-endpoint")]
-    public bool? ServiceEndpoint { get; set; }
+    [CliOption("--service-endpoint")]
+    public string? ServiceEndpoint { get; set; }
 
 }

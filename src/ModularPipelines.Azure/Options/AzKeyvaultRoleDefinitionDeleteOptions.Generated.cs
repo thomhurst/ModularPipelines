@@ -46,13 +46,13 @@ public record AzKeyvaultRoleDefinitionDeleteOptions : AzOptions
     /// <summary>
     /// The role definition name. This is a GUID in the "name" property of a role definition.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The role definition ID.
     /// </summary>
-    [CliFlag("--role-id")]
-    public bool? RoleId { get; set; }
+    [CliOption("--role-id")]
+    public string? RoleId { get; set; }
 
 }

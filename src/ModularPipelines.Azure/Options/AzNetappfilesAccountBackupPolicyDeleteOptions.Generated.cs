@@ -41,8 +41,8 @@ public record AzNetappfilesAccountBackupPolicyDeleteOptions : AzOptions
     /// <summary>
     /// Backup policy Name which uniquely identify backup policy.
     /// </summary>
-    [CliFlag("--backup-policy-name", ShortForm = "-n")]
-    public bool? BackupPolicyName { get; set; }
+    [CliOption("--backup-policy-name", ShortForm = "-b")]
+    public string? BackupPolicyName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

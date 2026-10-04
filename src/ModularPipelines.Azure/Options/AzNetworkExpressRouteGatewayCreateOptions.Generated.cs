@@ -87,13 +87,13 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Maximum number of scale units deployed for gateway.
     /// </summary>
-    [CliFlag("--max-val")]
-    public bool? MaxVal { get; set; }
+    [CliOption("--max-val")]
+    public int? MaxVal { get; set; }
 
     /// <summary>
     /// Minimum number of scale units deployed for gateway.  Default: 2.  Default: 2.
     /// </summary>
-    [CliFlag("--min-val")]
-    public bool? MinVal { get; set; }
+    [CliOption("--min-val")]
+    public int? MinVal { get; set; }
 
 }

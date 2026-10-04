@@ -29,26 +29,26 @@ public record AzAdAppListOptions : AzOptions
     /// <summary>
     /// Application id.
     /// </summary>
-    [CliFlag("--app-id")]
-    public bool? AppId { get; set; }
+    [CliOption("--app-id")]
+    public string? AppId { get; set; }
 
     /// <summary>
     /// The display name of the application.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// OData filter, e.g. --filter "displayname eq 'test' and servicePrincipalType eq 'Application'".
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Graph application identifier, must be in uri format.
     /// </summary>
-    [CliFlag("--identifier-uri")]
-    public bool? IdentifierUri { get; set; }
+    [CliOption("--identifier-uri")]
+    public string? IdentifierUri { get; set; }
 
     /// <summary>
     /// List entities owned by the current user.

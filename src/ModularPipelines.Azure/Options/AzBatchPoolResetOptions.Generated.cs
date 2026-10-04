@@ -70,14 +70,14 @@ public record AzBatchPoolResetOptions : AzOptions
     /// <summary>
     /// Required. The list replaces any existing Application Package references on the Pool. Changes to Application Package references affect all new Compute Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Application Package references on any given Pool. If omitted, or if you specify an empty collection, any existing Application Packages references are removed from the Pool. A maximum of 10 references may be specified on a given Pool.
     /// </summary>
-    [CliFlag("--application-package-references")]
-    public bool? ApplicationPackageReferences { get; set; }
+    [CliOption("--application-package-references")]
+    public string? ApplicationPackageReferences { get; set; }
 
     /// <summary>
     /// Required. This list replaces any existing metadataconfigured on the Pool. If omitted, or if you specify anempty collection, any existing metadata is removed from thePool.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata")]
+    public string? Metadata { get; set; }
 
     /// <summary>
     /// The command line of the start task. The command line does not run under a shell, and therefore cannot take advantage of shell features such as environment variable expansion. If you want to take advantage of such features, you should invoke the shell in the command line, for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux.
@@ -94,8 +94,8 @@ public record AzBatchPoolResetOptions : AzOptions
     /// <summary>
     /// The maximum number of times the task may be retried.
     /// </summary>
-    [CliFlag("--start-task-max-task-retry-count")]
-    public bool? StartTaskMaxTaskRetryCount { get; set; }
+    [CliOption("--start-task-max-task-retry-count")]
+    public int? StartTaskMaxTaskRetryCount { get; set; }
 
     /// <summary>
     /// A list of files that the Batch service will download to the Compute Node before running the command line. Files listed under this element are located in the Task's working directory. Space-separated resource references in filename=httpurl format.

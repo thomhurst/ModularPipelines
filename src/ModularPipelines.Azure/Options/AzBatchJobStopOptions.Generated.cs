@@ -46,8 +46,8 @@ public record AzBatchJobStopOptions : AzOptions
     /// <summary>
     /// Termination reason. The text you want to appear as the job's TerminateReason. The default is 'UserTerminate'.
     /// </summary>
-    [CliFlag("--terminate-reason")]
-    public bool? TerminateReason { get; set; }
+    [CliOption("--terminate-reason")]
+    public string? TerminateReason { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.

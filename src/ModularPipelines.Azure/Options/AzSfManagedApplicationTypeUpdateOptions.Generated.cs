@@ -50,7 +50,7 @@ public record AzSfManagedApplicationTypeUpdateOptions : AzOptions
     /// <summary>
     /// Specify the application type name.
     /// </summary>
-    [CliOption("--application-type-name", ShortForm = "--name")]
+    [CliOption("--application-type-name")]
     public string ApplicationTypeName { get; private init; }
 
     /// <summary>

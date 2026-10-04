@@ -79,14 +79,14 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// The Azure Active Directory Application Id or Uri to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
     /// </summary>
-    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
-    public bool? AadAppId { get; set; }
+    [CliOption("--aad-app-id")]
+    public string? AadAppId { get; set; }
 
     /// <summary>
     /// The Azure Active Directory Tenant Id to get the access token that will be included as the bearer token in delivery requests. Applicable only for webhook as a destination.
     /// </summary>
-    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
-    public bool? AadTenantId { get; set; }
+    [CliOption("--aad-tenant-id")]
+    public string? AadTenantId { get; set; }
 
     /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination where EventGrid should deadletter undeliverable events for this event subscription. Example: --deadletter-endpoint /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft .Storage/storageAccounts/sa1/blobServices/default/containers/containerName.
@@ -97,14 +97,14 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument. Usage:                        --delivery-attribute-mapping attribute-name attribute-type attribute-value [attribute-is-secret] Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue false Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue true Dynamic Attribute Mapping:    --delivery-attribute-mapping somename dynamic somevalue Both Static and Dynamic:      --delivery-attribute-mapping somename dynamic somevalue --delivery-attribute-mapping somename2 static somevalue.
     /// </summary>
-    [CliFlag("--delivery-attribute-mapping", ShortForm = "-d")]
-    public bool? DeliveryAttributeMapping { get; set; }
+    [CliOption("--delivery-attribute-mapping", ShortForm = "-d")]
+    public string? DeliveryAttributeMapping { get; set; }
 
     /// <summary>
     /// Endpoint where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint. It is expected that the destination endpoint to be already created and available for use before executing any Event Grid command.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// The type of the destination endpoint.  Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook.  Default: webhook.
@@ -121,14 +121,14 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Event time to live (in minutes). Must be a number between 1 and 1440.  Default: 1440.
     /// </summary>
-    [CliFlag("--event-ttl")]
-    public bool? EventTtl { get; set; }
+    [CliOption("--event-ttl")]
+    public string? EventTtl { get; set; }
 
     /// <summary>
     /// Date or datetime (in UTC, e.g. '2018-11-30T11:59:59+00:00' or '2018-11-30') after which the event subscription would expire. By default, there is no expiration for the event subscription.
     /// </summary>
-    [CliFlag("--expiration-date")]
-    public bool? ExpirationDate { get; set; }
+    [CliOption("--expiration-date")]
+    public string? ExpirationDate { get; set; }
 
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
@@ -139,37 +139,37 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// Maximum number of delivery attempts. Must be a number between 1 and 30.  Default: 30.
     /// </summary>
-    [CliFlag("--max-delivery-attempts")]
-    public bool? MaxDeliveryAttempts { get; set; }
+    [CliOption("--max-delivery-attempts")]
+    public int? MaxDeliveryAttempts { get; set; }
 
     /// <summary>
     /// Maximum number of events in a batch. Must be a number between 1 and 5000.
     /// </summary>
-    [CliFlag("--max-events-per-batch")]
-    public bool? MaxEventsPerBatch { get; set; }
+    [CliOption("--max-events-per-batch")]
+    public int? MaxEventsPerBatch { get; set; }
 
     /// <summary>
     /// Preferred batch size in kilobytes. Must be a number between 1 and 1024.
     /// </summary>
-    [CliFlag("--pref-batch-size-kb", ShortForm = "--preferred-batch-size-in-kilobytes")]
-    public bool? PrefBatchSizeKb { get; set; }
+    [CliOption("--pref-batch-size-kb")]
+    public string? PrefBatchSizeKb { get; set; }
 
     /// <summary>
     /// Storage queue message time to live in seconds.
     /// </summary>
-    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
-    public bool? Qttl { get; set; }
+    [CliOption("--qttl")]
+    public string? Qttl { get; set; }
 
     /// <summary>
     /// An advanced filter enables filtering of events based on a specific event property. Usage:                     --advanced-filter KEY[.INNERKEY] FILTEROPERATOR VALUE [VALUE ...] StringIn:                  --advanced-filter data.Color StringIn Blue Red Orange Yellow StringNotIn:               --advanced-filter data.Color StringNotIn Blue Red Orange Yellow StringContains:            --advanced-filter subject StringContains Blue Red StringNotContains:         --advanced-filter subject StringNotContains Blue Red StringBeginsWith:          --advanced-filter subject StringBeginsWith Blue Red StringNotBeginsWith:       --advanced-filter subject StringNotBeginsWith Blue Red StringEndsWith:            --advanced-filter subject StringEndsWith img png jpg StringNotEndsWith:         --advanced-filter subject StringNotEndsWith img png jpg NumberIn:                  --advanced-filter data.property1 NumberIn 5 10 20 NumberInRange              --advanced-filter data.property1 NumberInRange 5,10 20,30 40,50 NumberNotIn:               --advanced-filter data.property2 NumberNotIn 100 200 300 NumberNotInRange:          --advanced-filter data.property2 NumberNotInRange 100,110 200,210 300,310 NumberLessThan:            --advanced-filter data.property3 NumberLessThan 100 NumberLessThanOrEquals:    --advanced-filter data.property2 NumberLessThanOrEquals 100 NumberGreaterThan:         --advanced-filter data.property3 NumberGreaterThan 100 NumberGreaterThanOrEquals: --advanced-filter data.property2 NumberGreaterThanOrEquals 100 BoolEquals:                --advanced-filter data.property3 BoolEquals true IsNullOrUndefined:         --advanced-filter data.property3 IsNullOrUndefined IsNotNull:                 --advanced-filter data.property3 IsNotNull Multiple advanced filters can be specified by using more than one `--advanced-filter` argument.
     /// </summary>
-    [CliFlag("--advanced-filter")]
-    public bool? AdvancedFilter { get; set; }
+    [CliOption("--advanced-filter")]
+    public string? AdvancedFilter { get; set; }
 
     /// <summary>
     /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    [CliOption("--enable-advanced-filtering-on-arrays")]
     public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
 
     /// <summary>
@@ -181,8 +181,8 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-begins-with")]
-    public bool? SubjectBeginsWith { get; set; }
+    [CliOption("--subject-begins-with")]
+    public string? SubjectBeginsWith { get; set; }
 
     /// <summary>
     /// Specify to indicate whether the subject fields should be compared in a case sensitive manner. True if flag present.  Allowed values: false, true.
@@ -193,7 +193,7 @@ public record AzEventgridDomainTopicEventSubscriptionCreateOptions : AzOptions
     /// <summary>
     /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-ends-with")]
-    public bool? SubjectEndsWith { get; set; }
+    [CliOption("--subject-ends-with")]
+    public string? SubjectEndsWith { get; set; }
 
 }

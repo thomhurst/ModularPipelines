@@ -57,38 +57,38 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     /// <summary>
     /// If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
     /// </summary>
-    [CliFlag("--custom-body")]
-    public bool? CustomBody { get; set; }
+    [CliOption("--custom-body")]
+    public string? CustomBody { get; set; }
 
     /// <summary>
     /// If the action type is block, customer can override the response status code.
     /// </summary>
-    [CliFlag("--custom-status-code")]
-    public bool? CustomStatusCode { get; set; }
+    [CliOption("--custom-status-code")]
+    public string? CustomStatusCode { get; set; }
 
     /// <summary>
     /// Whether allow WAF to enforce file upload limits.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--file-upload-enforce", ShortForm = "--file-upload-enforcement")]
+    [CliOption("--file-upload-enforce")]
     public bool? FileUploadEnforce { get; set; }
 
     /// <summary>
     /// Maximum file upload size in Mb for WAF.
     /// </summary>
-    [CliFlag("--file-upload-limit-in-mb")]
-    public bool? FileUploadLimitInMb { get; set; }
+    [CliOption("--file-upload-limit-in-mb")]
+    public string? FileUploadLimitInMb { get; set; }
 
     /// <summary>
     /// Web Application Firewall JavaScript Challenge Cookie Expiration time in minutes.
     /// </summary>
-    [CliFlag("--js-cookie-exp-time")]
-    public bool? JsCookieExpTime { get; set; }
+    [CliOption("--js-cookie-exp-time")]
+    public string? JsCookieExpTime { get; set; }
 
     /// <summary>
     /// Maximum request body size in Kb for WAF.
     /// </summary>
-    [CliFlag("--max-request-body-size-in-kb")]
-    public bool? MaxRequestBodySizeInKb { get; set; }
+    [CliOption("--max-request-body-size-in-kb")]
+    public string? MaxRequestBodySizeInKb { get; set; }
 
     /// <summary>
     /// If it is in detection mode or prevention mode at policy level. Allowed values: Detection, Prevention.
@@ -105,14 +105,14 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     /// <summary>
     /// Whether allow WAF to enforce request body limits.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--request-body-enforce", ShortForm = "--request-body-enforcement")]
+    [CliOption("--request-body-enforce")]
     public bool? RequestBodyEnforce { get; set; }
 
     /// <summary>
     /// Max inspection limit in KB for request body inspection for WAF.
     /// </summary>
-    [CliFlag("--request-body-inspect-limit-in-kb", ShortForm = "--request-limit-in-kb")]
-    public bool? RequestBodyInspectLimitInKb { get; set; }
+    [CliOption("--request-body-inspect-limit-in-kb")]
+    public string? RequestBodyInspectLimitInKb { get; set; }
 
     /// <summary>
     /// If the policy is in enabled state or disabled state.  Allowed values: Disabled, Enabled.
@@ -153,7 +153,7 @@ public record AzNetworkApplicationGatewayWafPolicyPolicySettingUpdateOptions : A
     /// <summary>
     /// The rules that are applied to the logs for scrubbing.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more. Singular flags: `--scrubbing-rule`.
     /// </summary>
-    [CliFlag("--scrubbing-rule", ShortForm = "--scrubbing-rules")]
-    public bool? ScrubbingRule { get; set; }
+    [CliOption("--scrubbing-rule")]
+    public string? ScrubbingRule { get; set; }
 
 }

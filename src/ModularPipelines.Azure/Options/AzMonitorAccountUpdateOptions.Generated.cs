@@ -47,7 +47,7 @@ public record AzMonitorAccountUpdateOptions : AzOptions
     /// <summary>
     /// Flag that indicates whether to enable access using resource permissions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-access-using-resource-permissions", ShortForm = "--enable-res-perm")]
+    [CliOption("--enable-access-using-resource-permissions")]
     public bool? EnableAccessUsingResourcePermissions { get; set; }
 
     /// <summary>

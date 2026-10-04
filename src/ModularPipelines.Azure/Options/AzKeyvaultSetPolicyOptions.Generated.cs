@@ -47,8 +47,8 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
     /// </summary>
-    [CliFlag("--application-id")]
-    public bool? ApplicationId { get; set; }
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,8 +59,8 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// <summary>
     /// A GUID that identifies the principal that will receive permissions.
     /// </summary>
-    [CliFlag("--object-id")]
-    public bool? ObjectId { get; set; }
+    [CliOption("--object-id")]
+    public string? ObjectId { get; set; }
 
     /// <summary>
     /// Name of resource group.

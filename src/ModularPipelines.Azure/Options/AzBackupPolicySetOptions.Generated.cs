@@ -35,8 +35,8 @@ public record AzBackupPolicySetOptions : AzOptions
     /// <summary>
     /// JSON encoded policy definition. Use the show command with JSON output to obtain a policy object. Modify the values using a file editor and pass the object.
     /// </summary>
-    [CliFlag("--policy")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.

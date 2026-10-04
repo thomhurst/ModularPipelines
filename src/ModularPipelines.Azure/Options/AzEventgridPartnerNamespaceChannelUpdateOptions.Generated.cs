@@ -23,26 +23,26 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     /// <summary>
     /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
     /// </summary>
-    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
-    public bool? AadAppId { get; set; }
+    [CliOption("--aad-app-id")]
+    public string? AadAppId { get; set; }
 
     /// <summary>
     /// The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     /// </summary>
-    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
-    public bool? AadTenantId { get; set; }
+    [CliOption("--aad-tenant-id")]
+    public string? AadTenantId { get; set; }
 
     /// <summary>
     /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') after which the channel and corresponding partner topic would expire and get auto deleted. If this time is not specified, the expiration date is set to seven days by default.
     /// </summary>
-    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
-    public bool? ActExpDate { get; set; }
+    [CliOption("--act-exp-date")]
+    public string? ActExpDate { get; set; }
 
     /// <summary>
     /// Endpoint Base URL of the partner destination.
     /// </summary>
-    [CliFlag("--endpoint-base-url")]
-    public bool? EndpointBaseUrl { get; set; }
+    [CliOption("--endpoint-base-url")]
+    public string? EndpointBaseUrl { get; set; }
 
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
@@ -59,8 +59,8 @@ public record AzEventgridPartnerNamespaceChannelUpdateOptions : AzOptions
     /// <summary>
     /// Add inline event type info. Multiple attributes can be specified by using more than one `--inline-event-type` argument. Usage:       --inline-event-type KEY [description={description}] [documentation-url={url}] \ [data-schema-url={url}] Example:     --inline-event-type event1 \ description="My inline event type." \ documentation-url=https://www.microsoft.com \ data-schema-url=https://www.microsoft.com.
     /// </summary>
-    [CliFlag("--inline-event-type")]
-    public bool? InlineEventType { get; set; }
+    [CliOption("--inline-event-type")]
+    public string? InlineEventType { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

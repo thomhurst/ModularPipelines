@@ -35,8 +35,8 @@ public record AzMapsAccountUpdateOptions : AzOptions
     /// <summary>
     /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
-    [CliFlag("--linked-resources")]
-    public bool? LinkedResources { get; set; }
+    [CliOption("--linked-resources")]
+    public string? LinkedResources { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

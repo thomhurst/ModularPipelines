@@ -110,7 +110,7 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    [CliOption("--ag-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
 
     /// <summary>
@@ -134,14 +134,14 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    [CliOption("--application-security-groups", GroupValues = true)]
     public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
 
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Version of private IP address to use.  Allowed values: IPv4, IPv6.  Default: IPv4.

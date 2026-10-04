@@ -64,14 +64,14 @@ public record AzSqlMiLinkFailoverOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
     /// Managed Instance link name.
     /// </summary>
-    [CliFlag("--link-name", ShortForm = "-n")]
-    public bool? LinkName { get; set; }
+    [CliOption("--link-name", ShortForm = "-n")]
+    public string? LinkName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

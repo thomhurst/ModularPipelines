@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,14 +24,14 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// <summary>
     /// The maximum nodes for this workload profile, --workload-profile-name required.
     /// </summary>
-    [CliFlag("--max-nodes")]
-    public bool? MaxNodes { get; set; }
+    [CliOption("--max-nodes")]
+    public string? MaxNodes { get; set; }
 
     /// <summary>
     /// The minimum nodes for this workload profile, --workload-profile-name required.
     /// </summary>
-    [CliFlag("--min-nodes")]
-    public bool? MinNodes { get; set; }
+    [CliOption("--min-nodes")]
+    public string? MinNodes { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -47,38 +48,39 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// <summary>
     /// The friendly name for the workload profile.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// The type of workload profile to add or update in this environment, --workload-profile-name required.
     /// </summary>
-    [CliFlag("--workload-profile-type")]
-    public bool? WorkloadProfileType { get; set; }
+    [CliOption("--workload-profile-type")]
+    public string? WorkloadProfileType { get; set; }
 
     /// <summary>
     /// The filepath of the certificate file (.pfx or .pem) for the environment's custom domain. To manage certificates for container apps, use `az containerapp env certificate`.
     /// </summary>
-    [CliFlag("--certificate-file", ShortForm = "--custom-domain-certificate-file")]
-    public bool? CertificateFile { get; set; }
+    [CliOption("--certificate-file")]
+    public string? CertificateFile { get; set; }
 
     /// <summary>
     /// The certificate file password for the environment's custom domain.
     /// </summary>
-    [CliFlag("--certificate-password", ShortForm = "--custom-domain-certificate-password")]
-    public bool? CertificatePassword { get; set; }
+    [SecretValue]
+    [CliOption("--certificate-password")]
+    public string? CertificatePassword { get; set; }
 
     /// <summary>
     /// The DNS suffix for the environment's custom domain.
     /// </summary>
-    [CliFlag("--custom-domain-dns-suffix", ShortForm = "--dns-suffix")]
-    public bool? CustomDomainDnsSuffix { get; set; }
+    [CliOption("--custom-domain-dns-suffix")]
+    public string? CustomDomainDnsSuffix { get; set; }
 
     /// <summary>
     /// Application Insights connection string used by Dapr to export service to service communication telemetry. Use "none" to remove it.
     /// </summary>
-    [CliFlag("--dapr-connection-string", ShortForm = "-d")]
-    public bool? DaprConnectionString { get; set; }
+    [CliOption("--dapr-connection-string", ShortForm = "-d")]
+    public string? DaprConnectionString { get; set; }
 
     /// <summary>
     /// Logs destination.  Allowed values: azure-monitor, log-analytics, none.
@@ -89,14 +91,14 @@ public record AzContainerappEnvUpdateOptions : AzOptions
     /// <summary>
     /// Workspace ID of the Log Analytics workspace to send diagnostics logs to. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply.
     /// </summary>
-    [CliFlag("--logs-workspace-id")]
-    public bool? LogsWorkspaceId { get; set; }
+    [CliOption("--logs-workspace-id")]
+    public string? LogsWorkspaceId { get; set; }
 
     /// <summary>
     /// Log Analytics workspace key to configure your Log Analytics workspace. Only works with logs destination "log-analytics". You can use "az monitor log-analytics workspace get-shared-keys" to retrieve the key.
     /// </summary>
-    [CliFlag("--logs-workspace-key")]
-    public bool? LogsWorkspaceKey { get; set; }
+    [CliOption("--logs-workspace-key")]
+    public string? LogsWorkspaceKey { get; set; }
 
     /// <summary>
     /// Name or resource ID of the storage account used for Azure Monitor. If this value is provided, Azure Monitor Diagnostic Settings will be created automatically.

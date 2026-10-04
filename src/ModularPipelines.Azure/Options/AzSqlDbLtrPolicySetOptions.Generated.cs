@@ -23,38 +23,38 @@ public record AzSqlDbLtrPolicySetOptions : AzOptions
     /// <summary>
     /// Whether to enable time based immutability on the LTR backups. Possible values are: 'True', 'False', 'Enabled', 'Disabled'.
     /// </summary>
-    [CliFlag("--make-backups-immutable", ShortForm = "--tb-immutability")]
-    public bool? MakeBackupsImmutable { get; set; }
+    [CliOption("--make-backups-immutable")]
+    public string? MakeBackupsImmutable { get; set; }
 
     /// <summary>
     /// Retention for the monthly backup. If just a number is passed instead of an ISO 8601 string, days will be assumed as the units.There is a minimum of 7 days and a maximum of 10 years.
     /// </summary>
-    [CliFlag("--monthly-retention")]
-    public bool? MonthlyRetention { get; set; }
+    [CliOption("--monthly-retention")]
+    public string? MonthlyRetention { get; set; }
 
     /// <summary>
     /// The mode of time based immutability to be set on the LTR backups. Possible values are: 'Locked', 'Unlocked'. This is only valid if make-backups- immutable is enabled.
     /// </summary>
-    [CliFlag("--tb-immutability-mode")]
-    public bool? TbImmutabilityMode { get; set; }
+    [CliOption("--tb-immutability-mode")]
+    public string? TbImmutabilityMode { get; set; }
 
     /// <summary>
     /// The Week of Year, 1 to 52, in which to take the yearly LTR backup.
     /// </summary>
-    [CliFlag("--week-of-year")]
-    public bool? WeekOfYear { get; set; }
+    [CliOption("--week-of-year")]
+    public string? WeekOfYear { get; set; }
 
     /// <summary>
     /// Retention for the weekly backup. If just a number is passed instead of an ISO 8601 string, days will be assumed as the units.There is a minimum of 7 days and a maximum of 10 years.
     /// </summary>
-    [CliFlag("--weekly-retention")]
-    public bool? WeeklyRetention { get; set; }
+    [CliOption("--weekly-retention")]
+    public string? WeeklyRetention { get; set; }
 
     /// <summary>
     /// Retention for the yearly backup. If just a number is passed instead of an ISO 8601 string, days will be assumed as the units.There is a minimum of 7 days and a maximum of 10 years.
     /// </summary>
-    [CliFlag("--yearly-retention")]
-    public bool? YearlyRetention { get; set; }
+    [CliOption("--yearly-retention")]
+    public string? YearlyRetention { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

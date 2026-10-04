@@ -100,25 +100,25 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
     /// <summary>
     /// Cognitive Services account commitment plan current commitment period count.
     /// </summary>
-    [CliFlag("--current-count")]
-    public bool? CurrentCount { get; set; }
+    [CliOption("--current-count")]
+    public string? CurrentCount { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan current commitment period tier.
     /// </summary>
-    [CliFlag("--current-tier")]
-    public bool? CurrentTier { get; set; }
+    [CliOption("--current-tier")]
+    public string? CurrentTier { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan next commitment period count.
     /// </summary>
-    [CliFlag("--next-count")]
-    public bool? NextCount { get; set; }
+    [CliOption("--next-count")]
+    public string? NextCount { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan next commitment period tier.
     /// </summary>
-    [CliFlag("--next-tier")]
-    public bool? NextTier { get; set; }
+    [CliOption("--next-tier")]
+    public string? NextTier { get; set; }
 
 }

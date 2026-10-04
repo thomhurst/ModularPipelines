@@ -78,7 +78,7 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// The name or ID of the backend address pool.
     /// </summary>
-    [CliOption("--address-pool", ShortForm = "--backend-address-pool")]
+    [CliOption("--address-pool")]
     public string AddressPool { get; private init; }
 
     /// <summary>
@@ -96,8 +96,8 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// The number of outbound ports to be used for NAT.
     /// </summary>
-    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
-    public bool? AllocatedOutboundPorts { get; set; }
+    [CliOption("--allocated-outbound-ports")]
+    public int? AllocatedOutboundPorts { get; set; }
 
     /// <summary>
     /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -114,7 +114,7 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// The timeout for the TCP idle connection.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    [CliOption("--idle-timeout")]
     public int? IdleTimeout { get; set; }
 
 }

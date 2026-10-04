@@ -47,8 +47,8 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Minimum number of instances. App must be in an elastic scale App Service Plan.
     /// </summary>
-    [CliFlag("--minimum-elastic-instance-count", ShortForm = "-i")]
-    public bool? MinimumElasticInstanceCount { get; set; }
+    [CliOption("--minimum-elastic-instance-count", ShortForm = "-i")]
+    public int? MinimumElasticInstanceCount { get; set; }
 
     /// <summary>
     /// Set the platform release channel for the web app. Possible values: Latest, Standard, Extended.  Allowed values: Extended, Latest, Standard.
@@ -59,8 +59,8 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Number of preWarmed instances. App must be in an elastic scale App Service Plan.
     /// </summary>
-    [CliFlag("--prewarmed-instance-count", ShortForm = "-w")]
-    public bool? PrewarmedInstanceCount { get; set; }
+    [CliOption("--prewarmed-instance-count", ShortForm = "-w")]
+    public int? PrewarmedInstanceCount { get; set; }
 
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.

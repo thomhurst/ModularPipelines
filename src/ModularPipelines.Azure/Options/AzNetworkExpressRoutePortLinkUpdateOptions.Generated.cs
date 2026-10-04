@@ -110,8 +110,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// The connectivity association key (CAK) ID that stored in the KeyVault.
     /// </summary>
-    [CliFlag("--macsec-cak-secret-identifier")]
-    public bool? MacsecCakSecretIdentifier { get; set; }
+    [CliOption("--macsec-cak-secret-identifier")]
+    public string? MacsecCakSecretIdentifier { get; set; }
 
     /// <summary>
     /// Cipher Method.  Allowed values: GcmAes128, GcmAes256, GcmAesXpn128, GcmAesXpn256.
@@ -122,8 +122,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// The connectivity key name (CKN) that stored in the KeyVault.
     /// </summary>
-    [CliFlag("--macsec-ckn-secret-identifier")]
-    public bool? MacsecCknSecretIdentifier { get; set; }
+    [CliOption("--macsec-ckn-secret-identifier")]
+    public string? MacsecCknSecretIdentifier { get; set; }
 
     /// <summary>
     /// Sci mode.  Allowed values: Disabled, Enabled.

@@ -68,7 +68,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
+    [CliOption("--auto-rotation")]
     public bool? AutoRotation { get; set; }
 
     /// <summary>
@@ -80,8 +80,8 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// The federated client id used in cross tenant scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
@@ -116,7 +116,7 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Space separated resource IDs to add user- assigned identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
 }

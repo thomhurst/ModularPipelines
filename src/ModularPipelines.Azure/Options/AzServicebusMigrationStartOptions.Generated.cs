@@ -35,8 +35,8 @@ public record AzServicebusMigrationStartOptions : AzOptions
     /// <summary>
     /// Existing premium Namespace ARM Id name which has no entities, will be used for migration.
     /// </summary>
-    [CliFlag("--target-namespace")]
-    public bool? TargetNamespace { get; set; }
+    [CliOption("--target-namespace")]
+    public string? TargetNamespace { get; set; }
 
     /// <summary>
     /// The configuration name. Should always be "$default".  Allowed values: $default.  Default: $default.
@@ -53,8 +53,8 @@ public record AzServicebusMigrationStartOptions : AzOptions
     /// <summary>
     /// The namespace name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

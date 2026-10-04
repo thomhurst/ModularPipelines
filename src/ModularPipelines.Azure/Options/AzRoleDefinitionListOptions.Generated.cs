@@ -29,14 +29,14 @@ public record AzRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Matches the role definition's name (GUID) or roleName (e.g. 'Reader') property. If a GUID is provided, for better performance, use `az role definition show` command.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Use it only if the role or assignment was added at the level of a resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/virtualMac hines/myVM.

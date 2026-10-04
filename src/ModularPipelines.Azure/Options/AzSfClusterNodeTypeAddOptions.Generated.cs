@@ -109,13 +109,13 @@ public record AzSfClusterNodeTypeAddOptions : AzOptions
     /// <summary>
     /// VM Sku.  Default: Standard_D2_V2.
     /// </summary>
-    [CliFlag("--vm-sku")]
-    public bool? VmSku { get; set; }
+    [CliOption("--vm-sku")]
+    public string? VmSku { get; set; }
 
     /// <summary>
     /// VM tier.  Default: Standard.
     /// </summary>
-    [CliFlag("--vm-tier")]
-    public bool? VmTier { get; set; }
+    [CliOption("--vm-tier")]
+    public string? VmTier { get; set; }
 
 }

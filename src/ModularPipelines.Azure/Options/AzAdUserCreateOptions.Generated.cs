@@ -76,13 +76,13 @@ public record AzAdUserCreateOptions : AzOptions
     /// <summary>
     /// This property is used to associate an on-premises Active Directory user account to their Microsoft Entra user object. This property must be specified when creating a new user account in the Graph if you're using a federated domain for the user's userPrincipalName (UPN) property. NOTE: The $ and _ characters can't be used when specifying this property.
     /// </summary>
-    [CliFlag("--immutable-id")]
-    public bool? ImmutableId { get; set; }
+    [CliOption("--immutable-id")]
+    public string? ImmutableId { get; set; }
 
     /// <summary>
     /// Mail alias. Defaults to user principal name.
     /// </summary>
-    [CliFlag("--mail-nickname")]
-    public bool? MailNickname { get; set; }
+    [CliOption("--mail-nickname")]
+    public string? MailNickname { get; set; }
 
 }

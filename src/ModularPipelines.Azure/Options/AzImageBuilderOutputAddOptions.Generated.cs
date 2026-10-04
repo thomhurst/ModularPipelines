@@ -29,8 +29,8 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer")]
+    public string? Defer { get; set; }
 
     /// <summary>
     /// Name of the image builder run output. Defaults to the name of the managed image or sig image definition.
@@ -83,8 +83,8 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Shared image gallery name, if image definition name and not ID was provided.
     /// </summary>
-    [CliFlag("--gallery-name")]
-    public bool? GalleryName { get; set; }
+    [CliOption("--gallery-name")]
+    public string? GalleryName { get; set; }
 
     /// <summary>
     /// Space-separated list of regions to replicate the image version into. Defaults to resource group's location.
@@ -101,7 +101,7 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Optional Azure Storage URI for the distributed VHD blob. Omit to use the default (empty string) in which case VHD would be published to the storage account in the staging resource group.
     /// </summary>
-    [CliFlag("--vhd-uri")]
-    public bool? VhdUri { get; set; }
+    [CliOption("--vhd-uri")]
+    public string? VhdUri { get; set; }
 
 }

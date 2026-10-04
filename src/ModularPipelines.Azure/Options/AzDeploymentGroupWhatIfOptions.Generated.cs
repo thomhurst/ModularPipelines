@@ -46,8 +46,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>
-    [CliFlag("--aux-tenants")]
-    public bool? AuxTenants { get; set; }
+    [CliOption("--aux-tenants")]
+    public string? AuxTenants { get; set; }
 
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
@@ -64,8 +64,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// The deployment name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Disable pretty-print for What-If results. When set, the output format type will be used.

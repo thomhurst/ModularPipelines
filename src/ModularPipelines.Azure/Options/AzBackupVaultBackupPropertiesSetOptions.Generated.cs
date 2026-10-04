@@ -53,8 +53,8 @@ public record AzBackupVaultBackupPropertiesSetOptions : AzOptions
     /// <summary>
     /// Set soft-delete retention duration time in days for a Recovery Services Vault.
     /// </summary>
-    [CliFlag("--soft-delete-duration")]
-    public bool? SoftDeleteDuration { get; set; }
+    [CliOption("--soft-delete-duration")]
+    public string? SoftDeleteDuration { get; set; }
 
     /// <summary>
     /// Set soft-delete feature state for a Recovery Services Vault. Allowed values: AlwaysOn, Disable, Enable.

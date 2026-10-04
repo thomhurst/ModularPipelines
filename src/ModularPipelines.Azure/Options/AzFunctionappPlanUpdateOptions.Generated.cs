@@ -23,20 +23,20 @@ public record AzFunctionappPlanUpdateOptions : AzOptions
     /// <summary>
     /// The maximum number of elastic workers for the plan.
     /// </summary>
-    [CliFlag("--max-burst")]
-    public bool? MaxBurst { get; set; }
+    [CliOption("--max-burst")]
+    public int? MaxBurst { get; set; }
 
     /// <summary>
     /// The number of workers for the app service plan.
     /// </summary>
-    [CliFlag("--min-instances", ShortForm = "--number-of-workers")]
-    public bool? MinInstances { get; set; }
+    [CliOption("--min-instances")]
+    public int? MinInstances { get; set; }
 
     /// <summary>
     /// The SKU of the app service plan.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

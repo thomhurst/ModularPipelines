@@ -46,8 +46,8 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// Required. You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable at the time the Task is scheduled, then the Task will be scheduled elsewhere.
     /// </summary>
-    [CliFlag("--affinity-id")]
-    public bool? AffinityId { get; set; }
+    [CliOption("--affinity-id")]
+    public string? AffinityId { get; set; }
 
     /// <summary>
     /// The space-separated list of IDs specifying the application packages to be installed. Space-separated application IDs with optional version in 'id[#version]' format.
@@ -76,14 +76,14 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of times the Task may be retried. The Batch service retries a Task if its exit code is nonzero. Note that this value specifically controls the number of retries for the Task executable due to a nonzero exit code. The Batch service will try the Task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the Task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the Task after the first attempt. If the maximum retry count is -1, the Batch service retries the Task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries).
     /// </summary>
-    [CliFlag("--max-task-retry-count")]
-    public bool? MaxTaskRetryCount { get; set; }
+    [CliOption("--max-task-retry-count")]
+    public int? MaxTaskRetryCount { get; set; }
 
     /// <summary>
     /// If this is not specified, there is no time limit on how long the Task may run.
     /// </summary>
-    [CliFlag("--max-wall-clock-time")]
-    public bool? MaxWallClockTime { get; set; }
+    [CliOption("--max-wall-clock-time")]
+    public string? MaxWallClockTime { get; set; }
 
     /// <summary>
     /// A list of files that the Batch service will download to the compute node before running the command line. Space-separated resource references in filename=httpurl format, with httpurl being any HTTP url with public access or a SAS url with read access.
@@ -94,8 +94,8 @@ public record AzBatchTaskCreateOptions : AzOptions
     /// <summary>
     /// The default is 7 days, i.e. the Task directory will be retained for 7 days unless the Compute Node is removed or the Job is deleted.
     /// </summary>
-    [CliFlag("--retention-time")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public string? RetentionTime { get; set; }
 
     /// <summary>
     /// The ID of the task.

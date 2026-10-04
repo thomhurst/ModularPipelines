@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -90,8 +91,9 @@ public record AzSynapseActivityRunQueryByPipelineRunOptions : AzOptions
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
     /// </summary>
-    [CliFlag("--continuation-token")]
-    public bool? ContinuationToken { get; set; }
+    [SecretValue]
+    [CliOption("--continuation-token")]
+    public string? ContinuationToken { get; set; }
 
     /// <summary>
     /// List of filters.

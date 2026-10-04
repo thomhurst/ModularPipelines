@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -90,8 +91,8 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     /// <summary>
     /// The marketplace identifier.
     /// </summary>
-    [CliFlag("--marketplace-id")]
-    public bool? MarketplaceId { get; set; }
+    [CliOption("--marketplace-id")]
+    public string? MarketplaceId { get; set; }
 
     /// <summary>
     /// Permit timeout error during argument validation phase. If omitted, validation timeout error will be permitted.
@@ -114,14 +115,14 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     /// <summary>
     /// The access mode for the application.  Default: WebPage.
     /// </summary>
-    [CliFlag("--access-mode")]
-    public bool? AccessMode { get; set; }
+    [CliOption("--access-mode")]
+    public string? AccessMode { get; set; }
 
     /// <summary>
     /// The destination port to connect to.  Default: 8080.
     /// </summary>
-    [CliFlag("--destination-port")]
-    public bool? DestinationPort { get; set; }
+    [CliOption("--destination-port")]
+    public string? DestinationPort { get; set; }
 
     /// <summary>
     /// Indicates whether to disable gateway authentication. Default is to enable gateway authentication. Default: false.  Allowed values: false, true.
@@ -132,8 +133,8 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     /// <summary>
     /// The subdomain suffix of the application.
     /// </summary>
-    [CliFlag("--sub-domain-suffix")]
-    public bool? SubDomainSuffix { get; set; }
+    [CliOption("--sub-domain-suffix")]
+    public string? SubDomainSuffix { get; set; }
 
     /// <summary>
     /// The name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.
@@ -150,26 +151,27 @@ public record AzHdinsightApplicationCreateOptions : AzOptions
     /// <summary>
     /// The size of the node. See also: https://learn.microsoft.com/azure/hdinsight/hdinsight-hadoop- provision-linux-clusters#configure-cluster-size.  Default: Standard_D3_V2.
     /// </summary>
-    [CliFlag("--edgenode-size")]
-    public bool? EdgenodeSize { get; set; }
+    [CliOption("--edgenode-size")]
+    public int? EdgenodeSize { get; set; }
 
     /// <summary>
     /// SSH password for the cluster nodes.
     /// </summary>
-    [CliFlag("--ssh-password", ShortForm = "-P")]
-    public bool? SshPassword { get; set; }
+    [SecretValue]
+    [CliOption("--ssh-password", ShortForm = "-P")]
+    public string? SshPassword { get; set; }
 
     /// <summary>
     /// SSH public key for the cluster nodes.
     /// </summary>
-    [CliFlag("--ssh-public-key", ShortForm = "-K")]
-    public bool? SshPublicKey { get; set; }
+    [CliOption("--ssh-public-key", ShortForm = "-K")]
+    public string? SshPublicKey { get; set; }
 
     /// <summary>
     /// SSH username for the cluster nodes.  Default: sshuser.
     /// </summary>
-    [CliFlag("--ssh-user", ShortForm = "-U")]
-    public bool? SshUser { get; set; }
+    [CliOption("--ssh-user", ShortForm = "-U")]
+    public string? SshUser { get; set; }
 
     /// <summary>
     /// The parameters for the script.

@@ -46,8 +46,8 @@ public record AzBatchAccountNetworkProfileNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// IPv4 address or CIDR range.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name of the batch account to show. If not specified will display currently set account.

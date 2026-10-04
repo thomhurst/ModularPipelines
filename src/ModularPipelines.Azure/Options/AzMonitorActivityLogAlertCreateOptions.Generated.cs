@@ -69,8 +69,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--condition", ShortForm = "-c")]
-    public bool? Condition { get; set; }
+    [CliOption("--condition", ShortForm = "-c")]
+    public string? Condition { get; set; }
 
     /// <summary>
     /// A description of this Activity Log Alert rule.
@@ -93,8 +93,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// The tags of the resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
     /// <summary>
     /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, this data is appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

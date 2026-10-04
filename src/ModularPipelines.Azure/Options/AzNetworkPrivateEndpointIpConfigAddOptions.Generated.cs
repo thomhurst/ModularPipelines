@@ -74,8 +74,8 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     /// <summary>
     /// The member name of a group obtained from the remote resource that this private endpoint should connect to.
     /// </summary>
-    [CliFlag("--member-name")]
-    public bool? MemberName { get; set; }
+    [CliOption("--member-name")]
+    public string? MemberName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -86,7 +86,7 @@ public record AzNetworkPrivateEndpointIpConfigAddOptions : AzOptions
     /// <summary>
     /// A private ip address obtained from the private endpoint's subnet.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
 }

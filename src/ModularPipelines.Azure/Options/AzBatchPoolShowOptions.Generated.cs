@@ -64,14 +64,14 @@ public record AzBatchPoolShowOptions : AzOptions
     /// <summary>
     /// An OData $expand clause.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service exactly matches the value specified by the client.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
@@ -82,8 +82,8 @@ public record AzBatchPoolShowOptions : AzOptions
     /// <summary>
     /// An ETag value associated with the version of the resource known to the client. The operation will be performed only if the resource's current ETag on the service does not match the value specified by the client.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// A timestamp indicating the last modified time of the resource known to the client. The operation will be performed only if the resource on the service has been modified since the specified time.
@@ -94,7 +94,7 @@ public record AzBatchPoolShowOptions : AzOptions
     /// <summary>
     /// An OData $select clause.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select")]
+    public string? Select { get; set; }
 
 }

@@ -47,8 +47,8 @@ public record AzNetworkNsgRuleUpdateOptions : AzOptions
     /// <summary>
     /// Priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Network protocol this rule applies to.  Allowed values: *, Ah, Esp, Icmp, Tcp, Udp.

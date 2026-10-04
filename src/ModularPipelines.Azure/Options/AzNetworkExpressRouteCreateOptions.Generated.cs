@@ -69,8 +69,8 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--bandwidth")]
-    public bool? Bandwidth { get; set; }
+    [CliOption("--bandwidth")]
+    public string? Bandwidth { get; set; }
 
     /// <summary>
     /// Name or ID of an ExpressRoute port.

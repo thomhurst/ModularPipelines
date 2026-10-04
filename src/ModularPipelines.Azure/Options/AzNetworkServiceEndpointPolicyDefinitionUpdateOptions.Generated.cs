@@ -35,8 +35,8 @@ public record AzNetworkServiceEndpointPolicyDefinitionUpdateOptions : AzOptions
     /// <summary>
     /// Service name the policy definition applies to.  Values from: `az network service-endpoint list`.
     /// </summary>
-    [CliFlag("--service")]
-    public bool? Service { get; set; }
+    [CliOption("--service")]
+    public string? Service { get; set; }
 
     /// <summary>
     /// Space-separated list of service resources the definition applies to. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

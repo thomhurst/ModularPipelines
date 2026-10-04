@@ -57,7 +57,7 @@ public record AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions : A
     /// <summary>
     /// List VirtualNetwork Rules.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
 
 }

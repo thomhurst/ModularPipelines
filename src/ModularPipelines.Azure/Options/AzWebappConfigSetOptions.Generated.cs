@@ -65,74 +65,74 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// The java container, e.g., Tomcat, Jetty.
     /// </summary>
-    [CliFlag("--java-container")]
-    public bool? JavaContainer { get; set; }
+    [CliOption("--java-container")]
+    public string? JavaContainer { get; set; }
 
     /// <summary>
     /// The version of the java container, e.g., '8.0.23' for Tomcat.
     /// </summary>
-    [CliFlag("--java-container-version")]
-    public bool? JavaContainerVersion { get; set; }
+    [CliOption("--java-container-version")]
+    public string? JavaContainerVersion { get; set; }
 
     /// <summary>
     /// The version used to run your web app if using Java, e.g., '1.7' for Java 7, '1.8' for Java 8.
     /// </summary>
-    [CliFlag("--java-version")]
-    public bool? JavaVersion { get; set; }
+    [CliOption("--java-version")]
+    public string? JavaVersion { get; set; }
 
     /// <summary>
     /// The runtime stack used for your linux-based webapp, e.g., "RUBY|2.5.5", "NODE|12LTS", "PHP|7.2", "DOTNETCORE|2.1". See https://aka.ms/linux-stacks for more info.
     /// </summary>
-    [CliFlag("--linux-fx-version")]
-    public bool? LinuxFxVersion { get; set; }
+    [CliOption("--linux-fx-version")]
+    public string? LinuxFxVersion { get; set; }
 
     /// <summary>
     /// The minimum TLS Cipher Suite required for requests, e.g., 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'.
     /// </summary>
-    [CliFlag("--min-tls-cipher-suite")]
-    public bool? MinTlsCipherSuite { get; set; }
+    [CliOption("--min-tls-cipher-suite")]
+    public string? MinTlsCipherSuite { get; set; }
 
     /// <summary>
     /// The minimum version of TLS required for SSL requests, e.g., '1.0', '1.1', '1.2'.
     /// </summary>
-    [CliFlag("--min-tls-version")]
-    public bool? MinTlsVersion { get; set; }
+    [CliOption("--min-tls-version")]
+    public string? MinTlsVersion { get; set; }
 
     /// <summary>
     /// The version used to run your web app if using .NET Framework, e.g., 'v4.0' for .NET 4.6 and 'v3.0' for .NET 3.5.
     /// </summary>
-    [CliFlag("--net-framework-version")]
-    public bool? NetFrameworkVersion { get; set; }
+    [CliOption("--net-framework-version")]
+    public string? NetFrameworkVersion { get; set; }
 
     /// <summary>
     /// The number of workers to be allocated.
     /// </summary>
-    [CliFlag("--number-of-workers")]
-    public bool? NumberOfWorkers { get; set; }
+    [CliOption("--number-of-workers")]
+    public int? NumberOfWorkers { get; set; }
 
     /// <summary>
     /// The version used to run your web app if using PHP, e.g., 5.5, 5.6, 7.0.
     /// </summary>
-    [CliFlag("--php-version")]
-    public bool? PhpVersion { get; set; }
+    [CliOption("--php-version")]
+    public string? PhpVersion { get; set; }
 
     /// <summary>
     /// The version used to run your function app if using PowerShell, e.g., 7.2.
     /// </summary>
-    [CliFlag("--powershell-version")]
-    public bool? PowershellVersion { get; set; }
+    [CliOption("--powershell-version")]
+    public string? PowershellVersion { get; set; }
 
     /// <summary>
     /// Number of pre-warmed instances a function app has.
     /// </summary>
-    [CliFlag("--prewarmed-instance-count")]
-    public bool? PrewarmedInstanceCount { get; set; }
+    [CliOption("--prewarmed-instance-count")]
+    public int? PrewarmedInstanceCount { get; set; }
 
     /// <summary>
     /// The version used to run your web app if using Python, e.g., 2.7, 3.4.
     /// </summary>
-    [CliFlag("--python-version")]
-    public bool? PythonVersion { get; set; }
+    [CliOption("--python-version")]
+    public string? PythonVersion { get; set; }
 
     /// <summary>
     /// Enable or disable remote debugging.  Allowed values: false, true.
@@ -143,8 +143,8 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// Canonicalized web runtime in the format of Framework:Version, e.g. "PHP:7.2".Use `az webapp list-runtimes` for available list.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -155,8 +155,8 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// The startup file for linux hosted web apps, e.g. 'process.json' for Node.js web.
     /// </summary>
-    [CliFlag("--startup-file")]
-    public bool? StartupFile { get; set; }
+    [CliOption("--startup-file")]
+    public string? StartupFile { get; set; }
 
     /// <summary>
     /// Use 32 bits worker process or not.  Allowed values: false, true.
@@ -179,8 +179,8 @@ public record AzWebappConfigSetOptions : AzOptions
     /// <summary>
     /// A docker image name used for your windows container web app, e.g., microsoft/nanoserver:ltsc2016.
     /// </summary>
-    [CliFlag("--windows-fx-version")]
-    public bool? WindowsFxVersion { get; set; }
+    [CliOption("--windows-fx-version")]
+    public string? WindowsFxVersion { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

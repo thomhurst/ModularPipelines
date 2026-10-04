@@ -91,20 +91,20 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     /// <summary>
     /// The default number of replicas to be created per region. To set regional replication counts, use --target-regions.
     /// </summary>
-    [CliFlag("--replica-count")]
-    public bool? ReplicaCount { get; set; }
+    [CliOption("--replica-count")]
+    public string? ReplicaCount { get; set; }
 
     /// <summary>
     /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
-    [CliFlag("--target-edge-zones")]
-    public bool? TargetEdgeZones { get; set; }
+    [CliOption("--target-edge-zones")]
+    public string? TargetEdgeZones { get; set; }
 
     /// <summary>
     /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions")]
+    public string? TargetRegions { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add proper ty.listProper ty &lt;key=value, string or JSON string&gt;`.

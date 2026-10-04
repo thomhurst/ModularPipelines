@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,14 +47,14 @@ public record AzFunctionappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// Kafka bootstrap server url.
     /// </summary>
-    [CliFlag("--bootstrap-server")]
-    public bool? BootstrapServer { get; set; }
+    [CliOption("--bootstrap-server")]
+    public string? BootstrapServer { get; set; }
 
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
@@ -64,20 +65,21 @@ public record AzFunctionappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Kafka API-Key (key).
     /// </summary>
-    [CliFlag("--kafka-key")]
-    public bool? KafkaKey { get; set; }
+    [CliOption("--kafka-key")]
+    public string? KafkaKey { get; set; }
 
     /// <summary>
     /// Kafka API-Key (secret).
     /// </summary>
-    [CliFlag("--kafka-secret")]
-    public bool? KafkaSecret { get; set; }
+    [SecretValue]
+    [CliOption("--kafka-secret")]
+    public string? KafkaSecret { get; set; }
 
     /// <summary>
     /// Name of the function app. Required if '--source-id' is not specified.None.
@@ -106,20 +108,21 @@ public record AzFunctionappConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Schema registry API-Key (key).
     /// </summary>
-    [CliFlag("--schema-key")]
-    public bool? SchemaKey { get; set; }
+    [CliOption("--schema-key")]
+    public string? SchemaKey { get; set; }
 
     /// <summary>
     /// Schema registry url.
     /// </summary>
-    [CliFlag("--schema-registry")]
-    public bool? SchemaRegistry { get; set; }
+    [CliOption("--schema-registry")]
+    public string? SchemaRegistry { get; set; }
 
     /// <summary>
     /// Schema registry API-Key (secret).
     /// </summary>
-    [CliFlag("--schema-secret")]
-    public bool? SchemaSecret { get; set; }
+    [SecretValue]
+    [CliOption("--schema-secret")]
+    public string? SchemaSecret { get; set; }
 
     /// <summary>
     /// The resource id of a functionapp. Required if ['--resource-group', '-- name'] are not specified.

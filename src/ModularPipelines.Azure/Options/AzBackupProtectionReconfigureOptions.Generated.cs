@@ -67,7 +67,7 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Resource group name of the destination Recovery Services vault.
     /// </summary>
-    [CliOption("--new-rg", ShortForm = "--new-vault-resource-group")]
+    [CliOption("--new-rg")]
     public string NewRg { get; private init; }
 
     /// <summary>

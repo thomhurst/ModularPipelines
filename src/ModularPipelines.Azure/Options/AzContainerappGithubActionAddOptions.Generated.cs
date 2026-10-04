@@ -47,8 +47,8 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The branch of the Github repo. Assumed to be the Github repo's default branch if not specified.
     /// </summary>
-    [CliFlag("--branch", ShortForm = "-b")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch", ShortForm = "-b")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// Path in the repo from which to run the docker build. Defaults to "./".
@@ -59,8 +59,8 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// Container image name that the Github Action should use. Defaults to the Container App name.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Interactively log in with Github to retrieve the Personal Access Token.
@@ -78,8 +78,8 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The container registry server, e.g. myregistry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-url")]
-    public bool? RegistryUrl { get; set; }
+    [CliOption("--registry-url")]
+    public string? RegistryUrl { get; set; }
 
     /// <summary>
     /// The username of the registry. If using Azure Container Registry, we will try to infer the credentials if not supplied.
@@ -96,8 +96,9 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// The service principal client secret.
     /// </summary>
-    [CliFlag("--service-principal-client-secret")]
-    public bool? ServicePrincipalClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--service-principal-client-secret")]
+    public string? ServicePrincipalClientSecret { get; set; }
 
     /// <summary>
     /// The service principal tenant ID.
@@ -108,8 +109,9 @@ public record AzContainerappGithubActionAddOptions : AzOptions
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating-to- github/creating-a-personal-access-token-for-the-command- line.
     /// </summary>
-    [CliFlag("--token")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token")]
+    public string? Token { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

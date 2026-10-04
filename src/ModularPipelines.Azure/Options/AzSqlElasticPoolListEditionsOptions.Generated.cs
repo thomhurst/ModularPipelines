@@ -58,19 +58,19 @@ public record AzSqlElasticPoolListEditionsOptions : AzOptions
     /// <summary>
     /// Number of DTUs to search for. If unspecified, all DTU sizes are shown.
     /// </summary>
-    [CliFlag("--dtu")]
-    public bool? Dtu { get; set; }
+    [CliOption("--dtu")]
+    public int? Dtu { get; set; }
 
     /// <summary>
     /// Edition to search for. If unspecified, all editions are shown.
     /// </summary>
-    [CliFlag("--edition", ShortForm = "-e")]
-    public bool? Edition { get; set; }
+    [CliOption("--edition", ShortForm = "-e")]
+    public string? Edition { get; set; }
 
     /// <summary>
     /// Number of vcores to search for. If unspecified, all vcore sizes are shown.
     /// </summary>
-    [CliFlag("--vcores")]
-    public bool? Vcores { get; set; }
+    [CliOption("--vcores")]
+    public int? Vcores { get; set; }
 
 }

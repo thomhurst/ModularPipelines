@@ -47,7 +47,7 @@ public record AzSqlMiPartnerCertDeleteOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>

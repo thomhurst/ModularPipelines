@@ -29,7 +29,7 @@ public record AzSqlMiServerConfigurationOptionSetOptions : AzOptions
     /// <summary>
     /// Value of the server configuration option.
     /// </summary>
-    [CliOption("--server-configuration-option-value", ShortForm = "--value")]
+    [CliOption("--server-configuration-option-value")]
     public string? ServerConfigurationOptionValue { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzSqlMiServerConfigurationOptionSetOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>

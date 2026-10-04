@@ -63,8 +63,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Set custom capabilities on the Cosmos DB database account.
     /// </summary>
-    [CliFlag("--capabilities")]
-    public bool? Capabilities { get; set; }
+    [CliOption("--capabilities")]
+    public string? Capabilities { get; set; }
 
     /// <summary>
     /// Default consistency level of the Cosmos DB database account.  Allowed values: BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong.
@@ -147,8 +147,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Firewall support. Specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma-separated and must not contain any spaces.
     /// </summary>
-    [CliFlag("--ip-range-filter")]
-    public bool? IpRangeFilter { get; set; }
+    [CliOption("--ip-range-filter")]
+    public string? IpRangeFilter { get; set; }
 
     /// <summary>
     /// The URI of the key vault.
@@ -171,14 +171,14 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// When used with Bounded Staleness consistency, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400.  Default: 5.
     /// </summary>
-    [CliFlag("--max-interval")]
-    public bool? MaxInterval { get; set; }
+    [CliOption("--max-interval")]
+    public string? MaxInterval { get; set; }
 
     /// <summary>
     /// When used with Bounded Staleness consistency, this value represents the number of stale requests tolerated. Accepted range for this value is 10 - 2,147,483,647.  Default: 100.
     /// </summary>
-    [CliFlag("--max-staleness-prefix")]
-    public bool? MaxStalenessPrefix { get; set; }
+    [CliOption("--max-staleness-prefix")]
+    public string? MaxStalenessPrefix { get; set; }
 
     /// <summary>
     /// Indicate the minimum allowed TLS version. Allowed values: Tls, Tls11, Tls12. Usage:    --minimal-tls-version TLSVersion Default:  Tls, except for Cassandra and Mongo APIs, which only work with Tls12 The accepted values for the minimal TLS version are 'Tls', 'Tls11', and 'Tls12', which correspond to the TLS versions 1.0, 1.1, and 1.2.
@@ -219,20 +219,20 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// ACL's for virtual network.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules")]
+    public string? VirtualNetworkRules { get; set; }
 
     /// <summary>
     /// Schema type for analytical storage.  Allowed values: FullFidelity, WellDefined.
     /// </summary>
-    [CliOption("--analytical-storage-schema-type", ShortForm = "--as-schema")]
+    [CliOption("--analytical-storage-schema-type")]
     public string? AnalyticalStorageSchemaType { get; set; }
 
     /// <summary>
     /// The frequency(in minutes) with which backups are taken (only for accounts with periodic mode backups).
     /// </summary>
-    [CliFlag("--backup-interval")]
-    public bool? BackupInterval { get; set; }
+    [CliOption("--backup-interval")]
+    public string? BackupInterval { get; set; }
 
     /// <summary>
     /// The type of backup policy of the account to create.  Allowed values: Continuous, Periodic.
@@ -249,8 +249,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// The time(in hours) for which each backup is retained (only for accounts with periodic mode backups).
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public string? BackupRetention { get; set; }
 
     /// <summary>
     /// The tier of Continuous backup.  Allowed values: Continuous30Days, Continuous7Days.
@@ -261,14 +261,14 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Add a database and its collection names to restore. Usage:          --databases-to-restore name=DatabaseName collections=collection1 [collection2 ...].
     /// </summary>
-    [CliFlag("--databases-to-restore")]
-    public bool? DatabasesToRestore { get; set; }
+    [CliOption("--databases-to-restore")]
+    public string? DatabasesToRestore { get; set; }
 
     /// <summary>
     /// Add a gremlin database and its graph names to restore. Usage:          --gremlin-databases-to-restore name=DatabaseName graphs=graph1 [graph2 ...].
     /// </summary>
-    [CliFlag("--gremlin-databases-to-restore")]
-    public bool? GremlinDatabasesToRestore { get; set; }
+    [CliOption("--gremlin-databases-to-restore")]
+    public string? GremlinDatabasesToRestore { get; set; }
 
     /// <summary>
     /// Restore from an existing/deleted account. Allowed values: false, true.
@@ -279,8 +279,8 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// The restorable-database-account Id of the source account from which the account has to be restored. Required if --is-restore-request is set to true.
     /// </summary>
-    [CliFlag("--restore-source")]
-    public bool? RestoreSource { get; set; }
+    [CliOption("--restore-source")]
+    public string? RestoreSource { get; set; }
 
     /// <summary>
     /// The timestamp to which the account has to be restored to. Required if --is-restore-request is set to true.
@@ -291,7 +291,7 @@ public record AzCosmosdbCreateOptions : AzOptions
     /// <summary>
     /// Add table names to restore. Usage:          --tables-to-restore tables=table1 [table2 ...].
     /// </summary>
-    [CliFlag("--tables-to-restore")]
-    public bool? TablesToRestore { get; set; }
+    [CliOption("--tables-to-restore")]
+    public string? TablesToRestore { get; set; }
 
 }

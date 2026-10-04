@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,8 +30,9 @@ public record AzNetappfilesVolumeRelocateOptions : AzOptions
     /// <summary>
     /// New creation token for the volume that controls the mount point name.
     /// </summary>
-    [CliFlag("--creation-token")]
-    public bool? CreationToken { get; set; }
+    [SecretValue]
+    [CliOption("--creation-token")]
+    public string? CreationToken { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -47,7 +49,7 @@ public record AzNetappfilesVolumeRelocateOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

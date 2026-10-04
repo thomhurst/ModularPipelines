@@ -113,8 +113,8 @@ public record AzSqlVmCreateOptions : AzOptions
     /// <summary>
     /// Duration of the time window of a given day during which full backups can take place. 1-23 hours.
     /// </summary>
-    [CliFlag("--full-backup-duration")]
-    public bool? FullBackupDuration { get; set; }
+    [CliOption("--full-backup-duration")]
+    public string? FullBackupDuration { get; set; }
 
     /// <summary>
     /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily, Weekly.
@@ -125,32 +125,32 @@ public record AzSqlVmCreateOptions : AzOptions
     /// <summary>
     /// Start time of a given day during which full backups can take place. 0-23 hours.
     /// </summary>
-    [CliFlag("--full-backup-start-hour")]
-    public bool? FullBackupStartHour { get; set; }
+    [CliOption("--full-backup-start-hour")]
+    public string? FullBackupStartHour { get; set; }
 
     /// <summary>
     /// Frequency of log backups. 5-60 minutes.
     /// </summary>
-    [CliFlag("--log-backup-frequency")]
-    public bool? LogBackupFrequency { get; set; }
+    [CliOption("--log-backup-frequency")]
+    public string? LogBackupFrequency { get; set; }
 
     /// <summary>
     /// Retention period of backup. 1-30 days.
     /// </summary>
-    [CliFlag("--retention-period")]
-    public bool? RetentionPeriod { get; set; }
+    [CliOption("--retention-period")]
+    public string? RetentionPeriod { get; set; }
 
     /// <summary>
     /// Storage account key where backup will be taken to.
     /// </summary>
-    [CliFlag("--sa-key")]
-    public bool? SaKey { get; set; }
+    [CliOption("--sa-key")]
+    public string? SaKey { get; set; }
 
     /// <summary>
     /// Storage account url where backup will be taken to.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
@@ -167,20 +167,20 @@ public record AzSqlVmCreateOptions : AzOptions
     /// <summary>
     /// Duration of patching. 30-180 minutes.
     /// </summary>
-    [CliFlag("--maintenance-window-duration")]
-    public bool? MaintenanceWindowDuration { get; set; }
+    [CliOption("--maintenance-window-duration")]
+    public string? MaintenanceWindowDuration { get; set; }
 
     /// <summary>
     /// Hour of the day when patching is initiated. Local VM time 0-23 hours.
     /// </summary>
-    [CliFlag("--maintenance-window-start-hour")]
-    public bool? MaintenanceWindowStartHour { get; set; }
+    [CliOption("--maintenance-window-start-hour")]
+    public string? MaintenanceWindowStartHour { get; set; }
 
     /// <summary>
     /// Credential name.
     /// </summary>
-    [CliFlag("--credential-name")]
-    public bool? CredentialName { get; set; }
+    [CliOption("--credential-name")]
+    public string? CredentialName { get; set; }
 
     /// <summary>
     /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true. Allowed values: false, true.
@@ -191,20 +191,21 @@ public record AzSqlVmCreateOptions : AzOptions
     /// <summary>
     /// Azure Key Vault url.
     /// </summary>
-    [CliFlag("--key-vault")]
-    public bool? KeyVault { get; set; }
+    [CliOption("--key-vault")]
+    public string? KeyVault { get; set; }
 
     /// <summary>
     /// Service principal name to access key vault.
     /// </summary>
-    [CliFlag("--sp-name")]
-    public bool? SpName { get; set; }
+    [CliOption("--sp-name")]
+    public string? SpName { get; set; }
 
     /// <summary>
     /// Service principal name secret to access key vault.
     /// </summary>
-    [CliFlag("--sp-secret")]
-    public bool? SpSecret { get; set; }
+    [SecretValue]
+    [CliOption("--sp-secret")]
+    public string? SpSecret { get; set; }
 
     /// <summary>
     /// SQL Server connectivity option.  Allowed values: LOCAL, PRIVATE, PUBLIC.
@@ -215,26 +216,27 @@ public record AzSqlVmCreateOptions : AzOptions
     /// <summary>
     /// SQL Server port.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public string? Port { get; set; }
 
     /// <summary>
     /// SQL Server sysadmin login password.
     /// </summary>
-    [CliFlag("--sql-auth-update-pwd")]
-    public bool? SqlAuthUpdatePwd { get; set; }
+    [SecretValue]
+    [CliOption("--sql-auth-update-pwd")]
+    public string? SqlAuthUpdatePwd { get; set; }
 
     /// <summary>
     /// SQL Server sysadmin login to create.
     /// </summary>
-    [CliFlag("--sql-auth-update-username")]
-    public bool? SqlAuthUpdateUsername { get; set; }
+    [CliOption("--sql-auth-update-username")]
+    public string? SqlAuthUpdateUsername { get; set; }
 
     /// <summary>
     /// SQL image offer. Examples include SQL2008R2-WS2008, SQL2008-WS2008.
     /// </summary>
-    [CliFlag("--image-offer")]
-    public bool? ImageOffer { get; set; }
+    [CliOption("--image-offer")]
+    public string? ImageOffer { get; set; }
 
     /// <summary>
     /// SQL image sku.  Allowed values: Developer, Enterprise, Express, Standard, Web.

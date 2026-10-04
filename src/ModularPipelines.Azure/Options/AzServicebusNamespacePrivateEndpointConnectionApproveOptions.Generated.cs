@@ -23,8 +23,8 @@ public record AzServicebusNamespacePrivateEndpointConnectionApproveOptions : AzO
     /// <summary>
     /// Comments for approve operation.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the Service Bus Namespace. You can get it using `az servicebus namespace show`.
@@ -41,8 +41,8 @@ public record AzServicebusNamespacePrivateEndpointConnectionApproveOptions : AzO
     /// <summary>
     /// The Service Bus namesapce name.
     /// </summary>
-    [CliFlag("--namespace-name")]
-    public bool? NamespaceName { get; set; }
+    [CliOption("--namespace-name")]
+    public string? NamespaceName { get; set; }
 
     /// <summary>
     /// The resource group name of specified Service bus namespace.

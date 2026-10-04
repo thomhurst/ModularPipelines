@@ -41,7 +41,7 @@ public record AzMonitorLogAnalyticsWorkspaceFailoverOptions : AzOptions
     /// <summary>
     /// The name of the workspace.
     /// </summary>
-    [CliOption("--name", ShortForm = "--workspace-name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>

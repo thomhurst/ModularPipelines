@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,20 +58,21 @@ public record AzAroUpdateOptions : AzOptions
     /// <summary>
     /// Client ID of cluster service principal.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// Client secret of cluster service principal.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// The desired number of IPv4 outbound IPs created and managed by Azure for the cluster public load balancer.
     /// </summary>
-    [CliFlag("--lb-ip-count", ShortForm = "--load-balancer-managed-outbound-ip-count")]
-    public bool? LbIpCount { get; set; }
+    [CliOption("--lb-ip-count")]
+    public string? LbIpCount { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -87,19 +89,19 @@ public record AzAroUpdateOptions : AzOptions
     /// <summary>
     /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
     /// </summary>
-    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    [CliOption("--assign-cluster-identity")]
     public string? AssignClusterIdentity { get; set; }
 
     /// <summary>
     /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
     /// </summary>
-    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
+    [CliOption("--assign-platform-wi")]
     public string? AssignPlatformWi { get; set; }
 
     /// <summary>
     /// OpenShift version to upgrade to.
     /// </summary>
-    [CliFlag("--upgradeable-to")]
-    public bool? UpgradeableTo { get; set; }
+    [CliOption("--upgradeable-to")]
+    public string? UpgradeableTo { get; set; }
 
 }

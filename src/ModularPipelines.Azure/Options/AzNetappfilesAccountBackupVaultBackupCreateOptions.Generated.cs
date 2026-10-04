@@ -66,7 +66,7 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
     /// <summary>
     /// The name of the backup.
     /// </summary>
-    [CliOption("--backup-name", ShortForm = "-n")]
+    [CliOption("--backup-name", ShortForm = "-b")]
     public string BackupName { get; private init; }
 
     /// <summary>
@@ -96,8 +96,8 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
     /// <summary>
     /// Label for backup.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// The name of the snapshot.

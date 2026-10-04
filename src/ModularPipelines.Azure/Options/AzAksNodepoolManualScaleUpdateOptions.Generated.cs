@@ -96,8 +96,8 @@ public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
     /// <summary>
     /// Number of nodes in the manual.
     /// </summary>
-    [CliFlag("--node-count", ShortForm = "-c")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Comma-separated list of new sizes.

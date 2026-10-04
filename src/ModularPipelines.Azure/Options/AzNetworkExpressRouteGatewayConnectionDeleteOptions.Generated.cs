@@ -29,8 +29,8 @@ public record AzNetworkExpressRouteGatewayConnectionDeleteOptions : AzOptions
     /// <summary>
     /// ExpressRoute gateway name.
     /// </summary>
-    [CliFlag("--gateway-name")]
-    public bool? GatewayName { get; set; }
+    [CliOption("--gateway-name")]
+    public string? GatewayName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -41,8 +41,8 @@ public record AzNetworkExpressRouteGatewayConnectionDeleteOptions : AzOptions
     /// <summary>
     /// ExpressRoute connection name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

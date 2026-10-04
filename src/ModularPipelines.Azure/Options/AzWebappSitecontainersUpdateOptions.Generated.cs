@@ -47,8 +47,8 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// Image Name.
     /// </summary>
-    [CliFlag("--image")]
-    public bool? Image { get; set; }
+    [CliOption("--image")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// True if the container is the main site container; false otherwise.  Allowed values: false, true.
@@ -72,7 +72,7 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// If true, the system-assigned identity will be used for auth while pulling image.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--si", ShortForm = "--system-assigned-identity")]
+    [CliOption("--si")]
     public bool? Si { get; set; }
 
     /// <summary>
@@ -84,20 +84,20 @@ public record AzWebappSitecontainersUpdateOptions : AzOptions
     /// <summary>
     /// Startup Command for the SiteContainer.
     /// </summary>
-    [CliFlag("--startup-cmd")]
-    public bool? StartupCmd { get; set; }
+    [CliOption("--startup-cmd")]
+    public string? StartupCmd { get; set; }
 
     /// <summary>
     /// Target port for SiteContainer.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public string? TargetPort { get; set; }
 
     /// <summary>
     /// ClientID for the user-maganed identity which will be used for auth while pulling image.
     /// </summary>
-    [CliFlag("--ui", ShortForm = "--user-assigned-identity")]
-    public bool? Ui { get; set; }
+    [CliOption("--ui")]
+    public string? Ui { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

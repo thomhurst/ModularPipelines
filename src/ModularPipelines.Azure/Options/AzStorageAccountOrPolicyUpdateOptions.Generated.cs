@@ -58,8 +58,8 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The object replication policy definition between two storage accounts, in JSON format. Multiple rules can be defined in one policy.
     /// </summary>
-    [CliFlag("--policy", ShortForm = "-p")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy", ShortForm = "-p")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.

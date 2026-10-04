@@ -57,31 +57,31 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// The ASN for CIDR advertising. Should be an integer as string.
     /// </summary>
-    [CliFlag("--asn")]
-    public bool? Asn { get; set; }
+    [CliOption("--asn")]
+    public string? Asn { get; set; }
 
     /// <summary>
     /// Authorization message for WAN validation.
     /// </summary>
-    [CliFlag("--authorization-message")]
-    public bool? AuthorizationMessage { get; set; }
+    [CliOption("--authorization-message")]
+    public string? AuthorizationMessage { get; set; }
 
     /// <summary>
     /// The prefix range in CIDR notation. Should include the start address and the prefix length.
     /// </summary>
-    [CliFlag("--cidr")]
-    public bool? Cidr { get; set; }
+    [CliOption("--cidr")]
+    public string? Cidr { get; set; }
 
     /// <summary>
     /// The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
     /// </summary>
-    [CliFlag("--cip-prefix-parent", ShortForm = "-c")]
-    public bool? CipPrefixParent { get; set; }
+    [CliOption("--cip-prefix-parent", ShortForm = "-c")]
+    public string? CipPrefixParent { get; set; }
 
     /// <summary>
     /// Whether to do express route advertise.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--express-route-advertise", ShortForm = "--is-advertised")]
+    [CliOption("--express-route-advertise")]
     public bool? ExpressRouteAdvertise { get; set; }
 
     /// <summary>
@@ -111,8 +111,8 @@ public record AzNetworkCustomIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Signed message for WAN validation.
     /// </summary>
-    [CliFlag("--signed-message")]
-    public bool? SignedMessage { get; set; }
+    [CliOption("--signed-message")]
+    public string? SignedMessage { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

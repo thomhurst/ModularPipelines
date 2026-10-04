@@ -46,14 +46,14 @@ public record AzNetworkPrivateLinkServiceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// A message indicating if changes on the service provider require any updates on the consumer.
     /// </summary>
-    [CliFlag("--action-required")]
-    public bool? ActionRequired { get; set; }
+    [CliOption("--action-required")]
+    public string? ActionRequired { get; set; }
 
     /// <summary>
     /// The reason for approval/rejection of the connection.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

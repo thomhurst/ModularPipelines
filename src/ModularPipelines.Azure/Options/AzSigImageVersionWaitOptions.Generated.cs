@@ -65,8 +65,8 @@ public record AzSigImageVersionWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', insta nceView.statuses[?code=='PowerState/ru nning'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -83,14 +83,14 @@ public record AzSigImageVersionWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

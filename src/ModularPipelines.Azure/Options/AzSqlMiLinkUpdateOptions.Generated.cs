@@ -29,8 +29,8 @@ public record AzSqlMiLinkUpdateOptions : AzOptions
     /// <summary>
     /// Databases in the distributed availability group. This property can be updated only for links in MultiDatabase mode.  Support shorthand- syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--databases")]
-    public bool? Databases { get; set; }
+    [CliOption("--databases")]
+    public string? Databases { get; set; }
 
     /// <summary>
     /// Replication mode of the link. Allowed values: Async, Sync.
@@ -47,14 +47,14 @@ public record AzSqlMiLinkUpdateOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
     /// Managed Instance link name.
     /// </summary>
-    [CliFlag("--link-name", ShortForm = "-n")]
-    public bool? LinkName { get; set; }
+    [CliOption("--link-name", ShortForm = "-n")]
+    public string? LinkName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

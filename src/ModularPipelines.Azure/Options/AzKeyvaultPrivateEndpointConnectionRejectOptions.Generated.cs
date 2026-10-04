@@ -23,8 +23,8 @@ public record AzKeyvaultPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// Comments for the reject operation.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Name of the HSM. Required if --id is not specified.(--hsm-name and --vault-name are mutually exclusive, please specify just one of them).

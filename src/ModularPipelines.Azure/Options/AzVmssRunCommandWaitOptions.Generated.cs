@@ -23,8 +23,8 @@ public record AzVmssRunCommandWaitOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -35,8 +35,8 @@ public record AzVmssRunCommandWaitOptions : AzOptions
     /// <summary>
     /// The instance of the VM.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// The name of the VirtualMachineRunCommand.
@@ -65,8 +65,8 @@ public record AzVmssRunCommandWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -83,14 +83,14 @@ public record AzVmssRunCommandWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

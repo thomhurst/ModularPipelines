@@ -29,8 +29,8 @@ public record AzNetappfilesVolumeListQuotaReportOptions : AzOptions
     /// <summary>
     /// UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running 'id' or 'getent' command for the user or group and SID can be found by running `&lt;wmic useraccount where name='user-name' get sid&gt;`. If provided, quotaType must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota target, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided.
     /// </summary>
-    [CliFlag("--quota-target")]
-    public bool? QuotaTarget { get; set; }
+    [CliOption("--quota-target")]
+    public string? QuotaTarget { get; set; }
 
     /// <summary>
     /// Type of quota. If provided, quotaTarget must also be specified. The quotaType and quotaTarget properties are optional, but when filtering by quota type, quotaType and quotaTarget must be supplied together. Service/API will return an error if only one is provided.  Allowed values: DefaultGroupQuota, DefaultUserQuota, IndividualGroupQuota, IndividualUserQuota.
@@ -41,8 +41,8 @@ public record AzNetappfilesVolumeListQuotaReportOptions : AzOptions
     /// <summary>
     /// The usageThresholdPercentage filter takes the usage threshold percentage and returns records where the usage is greater than or equal to the input value. This is an optional property.
     /// </summary>
-    [CliFlag("--usage-threshold-pct", ShortForm = "--usage-threshold-percentage")]
-    public bool? UsageThresholdPct { get; set; }
+    [CliOption("--usage-threshold-pct")]
+    public string? UsageThresholdPct { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.

@@ -74,37 +74,37 @@ public record AzNetworkLbFrontendIpCreateOptions : AzOptions
     /// <summary>
     /// The DDoS protection settings associated with the frontend IP configuration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ddos-settings")]
-    public bool? DdosSettings { get; set; }
+    [CliOption("--ddos-settings")]
+    public string? DdosSettings { get; set; }
 
     /// <summary>
     /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
+    [CliOption("--default-outbound")]
     public bool? DefaultOutbound { get; set; }
 
     /// <summary>
     /// The reference to gateway load balancer frontend IP.
     /// </summary>
-    [CliFlag("--gateway-lb")]
-    public bool? GatewayLb { get; set; }
+    [CliOption("--gateway-lb")]
+    public string? GatewayLb { get; set; }
 
     /// <summary>
     /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
     /// Static private IP address to associate with the configuration.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Allowed values: IPv4, IPv6.  Default: IPv4.
     /// </summary>
-    [CliOption("--private-ip-address-version", ShortForm = "--private-ipv")]
+    [CliOption("--private-ip-address-version")]
     public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
@@ -122,8 +122,8 @@ public record AzNetworkLbFrontendIpCreateOptions : AzOptions
     /// <summary>
     /// Reference to an existing service gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--service-gateway")]
-    public bool? ServiceGateway { get; set; }
+    [CliOption("--service-gateway")]
+    public string? ServiceGateway { get; set; }
 
     /// <summary>
     /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices, Tenant.

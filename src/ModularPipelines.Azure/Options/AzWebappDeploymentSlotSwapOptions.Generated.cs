@@ -58,8 +58,8 @@ public record AzWebappDeploymentSlotSwapOptions : AzOptions
     /// <summary>
     /// Target slot to swap, default to 'production'.
     /// </summary>
-    [CliFlag("--target-slot")]
-    public bool? TargetSlot { get; set; }
+    [CliOption("--target-slot")]
+    public string? TargetSlot { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

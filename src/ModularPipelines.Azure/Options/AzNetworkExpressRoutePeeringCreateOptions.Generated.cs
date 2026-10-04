@@ -63,8 +63,8 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// <summary>
     /// Autonomous system number of the customer/connectivity provider.
     /// </summary>
-    [CliFlag("--peer-asn")]
-    public bool? PeerAsn { get; set; }
+    [CliOption("--peer-asn")]
+    public string? PeerAsn { get; set; }
 
     /// <summary>
     /// BGP peering type for the circuit.  Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering. Allowed values: AzurePrivatePeering, AzurePublicPeering, MicrosoftPeering.
@@ -75,20 +75,20 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// <summary>
     /// /30(ipv4) or /126(ipv6) subnet used to configure IP addresses for primary interface.
     /// </summary>
-    [CliFlag("--primary-peer-subnet")]
-    public bool? PrimaryPeerSubnet { get; set; }
+    [CliOption("--primary-peer-subnet")]
+    public string? PrimaryPeerSubnet { get; set; }
 
     /// <summary>
     /// /30(ipv4) or /126(ipv6) subnet used to configure IP addresses for secondary interface.
     /// </summary>
-    [CliFlag("--secondary-peer-subnet")]
-    public bool? SecondaryPeerSubnet { get; set; }
+    [CliOption("--secondary-peer-subnet")]
+    public string? SecondaryPeerSubnet { get; set; }
 
     /// <summary>
     /// Key for generating an MD5 for the BGP session.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Identifier used to identify the customer.
@@ -105,8 +105,8 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// <summary>
     /// Autonomous system number of the customer.
     /// </summary>
-    [CliFlag("--customer-asn")]
-    public bool? CustomerAsn { get; set; }
+    [CliOption("--customer-asn")]
+    public string? CustomerAsn { get; set; }
 
     /// <summary>
     /// The IP version to update Microsoft Peering settings for. Allowed values: IPv4, IPv6. Default: IPv4.  Default: IPv4.
@@ -117,8 +117,8 @@ public record AzNetworkExpressRoutePeeringCreateOptions : AzOptions
     /// <summary>
     /// Integer representing the legacy mode of the peering.
     /// </summary>
-    [CliFlag("--legacy-mode")]
-    public bool? LegacyMode { get; set; }
+    [CliOption("--legacy-mode")]
+    public string? LegacyMode { get; set; }
 
     /// <summary>
     /// Name or ID of a route filter to apply to the peering settings.

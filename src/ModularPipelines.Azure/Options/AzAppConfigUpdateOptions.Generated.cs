@@ -76,8 +76,8 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Duration in seconds to retain key-value revisions in the App Configuration store. For Free and Developer sku stores, revisions can be retained for a maximum of 7 days (604,800s); for Standard and Premium sku stores, up to 30 days (2,592,000s). Only Non-Free tiers can update this value. If specified, retention period must be at least 1 hour (3600s).
     /// </summary>
-    [CliFlag("--kv-revision-retention-period")]
-    public bool? KvRevisionRetentionPeriod { get; set; }
+    [CliOption("--kv-revision-retention-period")]
+    public string? KvRevisionRetentionPeriod { get; set; }
 
     /// <summary>
     /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
@@ -118,13 +118,13 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// The version of the KeyVault key. Use the latest version by default.
     /// </summary>
-    [CliFlag("--encryption-key-version")]
-    public bool? EncryptionKeyVersion { get; set; }
+    [CliOption("--encryption-key-version")]
+    public string? EncryptionKeyVersion { get; set; }
 
     /// <summary>
     /// Client ID of the managed identity with wrap and unwrap access to encryption key. Use system-assigned managed identity by default.
     /// </summary>
-    [CliFlag("--identity-client-id")]
-    public bool? IdentityClientId { get; set; }
+    [CliOption("--identity-client-id")]
+    public string? IdentityClientId { get; set; }
 
 }

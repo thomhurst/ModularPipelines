@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,25 +58,27 @@ public record AzComputeFleetListVmsOptions : AzOptions
     /// <summary>
     /// Filter expression to filter the virtual machines.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Skip token for pagination. Uses the token from a previous response to fetch the next page of results.
     /// </summary>
-    [CliFlag("--skiptoken")]
-    public bool? Skiptoken { get; set; }
+    [SecretValue]
+    [CliOption("--skiptoken")]
+    public string? Skiptoken { get; set; }
 
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
-    [CliFlag("--max-items")]
-    public bool? MaxItems { get; set; }
+    [CliOption("--max-items")]
+    public int? MaxItems { get; set; }
 
     /// <summary>
     /// Token to specify where to start paginating. This is the token value from a previously truncated response.
     /// </summary>
-    [CliFlag("--next-token")]
-    public bool? NextToken { get; set; }
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
 }

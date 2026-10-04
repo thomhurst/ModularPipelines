@@ -29,8 +29,8 @@ public record AzNetworkPrivateEndpointUpdateOptions : AzOptions
     /// <summary>
     /// A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars.
     /// </summary>
-    [CliFlag("--request-message")]
-    public bool? RequestMessage { get; set; }
+    [CliOption("--request-message")]
+    public string? RequestMessage { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value]...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

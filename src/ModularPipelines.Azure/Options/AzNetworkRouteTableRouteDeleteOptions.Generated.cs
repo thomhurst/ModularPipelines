@@ -35,8 +35,8 @@ public record AzNetworkRouteTableRouteDeleteOptions : AzOptions
     /// <summary>
     /// Route name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -47,7 +47,7 @@ public record AzNetworkRouteTableRouteDeleteOptions : AzOptions
     /// <summary>
     /// Route table name.
     /// </summary>
-    [CliFlag("--route-table-name")]
-    public bool? RouteTableName { get; set; }
+    [CliOption("--route-table-name")]
+    public string? RouteTableName { get; set; }
 
 }

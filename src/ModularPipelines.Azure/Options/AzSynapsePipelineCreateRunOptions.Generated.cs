@@ -69,13 +69,13 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// <summary>
     /// The pipeline run ID for rerun. If run ID is specified, the parameters of the specified run will be used to create a new run.
     /// </summary>
-    [CliFlag("--reference-pipeline-run-id", ShortForm = "--run-id")]
-    public bool? ReferencePipelineRunId { get; set; }
+    [CliOption("--reference-pipeline-run-id")]
+    public string? ReferencePipelineRunId { get; set; }
 
     /// <summary>
     /// In recovery mode, the rerun will start from this activity. If not specified, all activities will run.
     /// </summary>
-    [CliFlag("--start-activity-name")]
-    public bool? StartActivityName { get; set; }
+    [CliOption("--start-activity-name")]
+    public string? StartActivityName { get; set; }
 
 }

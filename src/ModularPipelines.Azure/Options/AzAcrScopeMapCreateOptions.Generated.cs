@@ -63,14 +63,14 @@ public record AzAcrScopeMapCreateOptions : AzOptions
     /// <summary>
     /// Gateway permissions. Use the format "--gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--gateway")]
-    public bool? Gateway { get; set; }
+    [CliOption("--gateway")]
+    public string? Gateway { get; set; }
 
     /// <summary>
     /// Repository permissions. Use the format "--repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository")]
+    public string? Repository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

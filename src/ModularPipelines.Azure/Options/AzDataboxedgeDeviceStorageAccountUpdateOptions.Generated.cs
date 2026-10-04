@@ -65,8 +65,8 @@ public record AzDataboxedgeDeviceStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Storage Account Credential Id.
     /// </summary>
-    [CliFlag("--sac-id", ShortForm = "--storage-account-credential-id")]
-    public bool? SacId { get; set; }
+    [CliOption("--sac-id")]
+    public string? SacId { get; set; }
 
     /// <summary>
     /// Current status of the storage account.  Allowed values: NeedsAttention, OK, Offline, Unknown, Updating.
@@ -89,8 +89,8 @@ public record AzDataboxedgeDeviceStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// The storage account name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

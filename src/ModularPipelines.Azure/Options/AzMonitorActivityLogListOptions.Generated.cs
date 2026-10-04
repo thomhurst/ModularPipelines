@@ -23,8 +23,8 @@ public record AzMonitorActivityLogListOptions : AzOptions
     /// <summary>
     /// Maximum number of records to return.  Default: 50.
     /// </summary>
-    [CliFlag("--max-events")]
-    public bool? MaxEvents { get; set; }
+    [CliOption("--max-events")]
+    public int? MaxEvents { get; set; }
 
     /// <summary>
     /// Space-separated list of properties to return.  Allowed values: authorization, caller, category, claims, correlationId, description, eventDataId, eventName, eventTimestamp, httpRequest, id, level, operationId, operationName, properties, resourceGroupName, resourceId, resourceProviderName, resourceType, status, subStatus, submissionTimestamp, subscriptionId, tenantId.
@@ -35,14 +35,14 @@ public record AzMonitorActivityLogListOptions : AzOptions
     /// <summary>
     /// Caller to query for, such as an e-mail address or service principal ID.
     /// </summary>
-    [CliFlag("--caller")]
-    public bool? Caller { get; set; }
+    [CliOption("--caller")]
+    public string? Caller { get; set; }
 
     /// <summary>
     /// Correlation ID to query.
     /// </summary>
-    [CliFlag("--correlation-id")]
-    public bool? CorrelationId { get; set; }
+    [CliOption("--correlation-id")]
+    public string? CorrelationId { get; set; }
 
     /// <summary>
     /// Resource provider namespace.
@@ -59,31 +59,31 @@ public record AzMonitorActivityLogListOptions : AzOptions
     /// <summary>
     /// ARM ID of a resource.
     /// </summary>
-    [CliFlag("--resource-id")]
-    public bool? ResourceId { get; set; }
+    [CliOption("--resource-id")]
+    public string? ResourceId { get; set; }
 
     /// <summary>
     /// Status to query for (ex: Failed).
     /// </summary>
-    [CliFlag("--status")]
-    public bool? Status { get; set; }
+    [CliOption("--status")]
+    public string? Status { get; set; }
 
     /// <summary>
     /// End time of the query. Defaults to the current time. Format: date (yyyy- mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--end-time")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// Time offset of the query range, in ##d##h format.  Default: 6h. Can be used with either --start-time or --end-time. If used with --start-time, then the end time will be calculated by adding the offset. If used with --end-time (default), then the start time will be calculated by subtracting the offset. If --start-time and --end-time are provided, then --offset will be ignored.
     /// </summary>
-    [CliFlag("--offset")]
-    public bool? Offset { get; set; }
+    [CliOption("--offset")]
+    public string? Offset { get; set; }
 
     /// <summary>
     /// Start time of the query. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTime { get; set; }
 
 }

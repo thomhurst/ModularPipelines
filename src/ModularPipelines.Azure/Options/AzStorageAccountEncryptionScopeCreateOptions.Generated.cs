@@ -63,8 +63,8 @@ public record AzStorageAccountEncryptionScopeCreateOptions : AzOptions
     /// <summary>
     /// The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
     /// </summary>
-    [CliFlag("--key-uri", ShortForm = "-u")]
-    public bool? KeyUri { get; set; }
+    [CliOption("--key-uri", ShortForm = "-u")]
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.  Allowed values: false, true.

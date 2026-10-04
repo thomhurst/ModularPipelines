@@ -74,14 +74,14 @@ public record AzEventgridPartnerTopicEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument. Usage:                        --delivery-attribute-mapping attribute-name attribute-type attribute-value [attribute-is-secret] Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue false Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue true Dynamic Attribute Mapping:    --delivery-attribute-mapping somename dynamic somevalue Both Static and Dynamic:      --delivery-attribute-mapping somename dynamic somevalue --delivery-attribute-mapping somename2 static somevalue.
     /// </summary>
-    [CliFlag("--delivery-attribute-mapping")]
-    public bool? DeliveryAttributeMapping { get; set; }
+    [CliOption("--delivery-attribute-mapping")]
+    public string? DeliveryAttributeMapping { get; set; }
 
     /// <summary>
     /// Endpoint where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint. It is expected that the destination endpoint to be already created and available for use before executing any Event Grid command.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// The type of the destination endpoint. Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook. Default: webhook.
@@ -98,19 +98,19 @@ public record AzEventgridPartnerTopicEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// Storage queue message time to live in seconds.
     /// </summary>
-    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
-    public bool? Qttl { get; set; }
+    [CliOption("--qttl")]
+    public string? Qttl { get; set; }
 
     /// <summary>
     /// An advanced filter enables filtering of events based on a specific event property. Usage:                     --advanced-filter KEY[.INNERKEY] FILTEROPERATOR VALUE [VALUE ...] StringIn:                  --advanced-filter data.Color StringIn Blue Red Orange Yellow StringNotIn:               --advanced-filter data.Color StringNotIn Blue Red Orange Yellow StringContains:            --advanced-filter subject StringContains Blue Red StringNotContains:         --advanced-filter subject StringNotContains Blue Red StringBeginsWith:          --advanced-filter subject StringBeginsWith Blue Red StringNotBeginsWith:       --advanced-filter subject StringNotBeginsWith Blue Red StringEndsWith:            --advanced-filter subject StringEndsWith img png jpg StringNotEndsWith:         --advanced-filter subject StringNotEndsWith img png jpg NumberIn:                  --advanced-filter data.property1 NumberIn 5 10 20 NumberInRange              --advanced-filter data.property1 NumberInRange 5,10 20,30 40,50 NumberNotIn:               --advanced-filter data.property2 NumberNotIn 100 200 300 NumberNotInRange:          --advanced-filter data.property2 NumberNotInRange 100,110 200,210 300,310 NumberLessThan:            --advanced-filter data.property3 NumberLessThan 100 NumberLessThanOrEquals:    --advanced-filter data.property2 NumberLessThanOrEquals 100 NumberGreaterThan:         --advanced-filter data.property3 NumberGreaterThan 100 NumberGreaterThanOrEquals: --advanced-filter data.property2 NumberGreaterThanOrEquals 100 BoolEquals:                --advanced-filter data.property3 BoolEquals true IsNullOrUndefined:         --advanced-filter data.property3 IsNullOrUndefined IsNotNull:                 --advanced-filter data.property3 IsNotNull Multiple advanced filters can be specified by using more than one `--advanced-filter` argument.
     /// </summary>
-    [CliFlag("--advanced-filter")]
-    public bool? AdvancedFilter { get; set; }
+    [CliOption("--advanced-filter")]
+    public string? AdvancedFilter { get; set; }
 
     /// <summary>
     /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
+    [CliOption("--enable-advanced-filtering-on-arrays")]
     public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
 
     /// <summary>
@@ -122,13 +122,13 @@ public record AzEventgridPartnerTopicEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-begins-with")]
-    public bool? SubjectBeginsWith { get; set; }
+    [CliOption("--subject-begins-with")]
+    public string? SubjectBeginsWith { get; set; }
 
     /// <summary>
     /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-ends-with")]
-    public bool? SubjectEndsWith { get; set; }
+    [CliOption("--subject-ends-with")]
+    public string? SubjectEndsWith { get; set; }
 
 }

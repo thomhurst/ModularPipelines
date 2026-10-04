@@ -74,7 +74,7 @@ public record AzCognitiveservicesAccountProjectUpdateOptions : AzOptions
     /// <summary>
     /// Display name of the project.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
 }

@@ -47,8 +47,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// Dictionary object for SchemaGroup group properties  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--group-properties")]
-    public bool? GroupProperties { get; set; }
+    [CliOption("--group-properties")]
+    public string? GroupProperties { get; set; }
 
     /// <summary>
     /// Compatibility of Schema.  Allowed values: Backward, Forward, None.
@@ -71,8 +71,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// The Schema Group name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The Namespace name.

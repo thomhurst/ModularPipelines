@@ -29,8 +29,8 @@ public record AzDiskConfigUpdateOptions : AzOptions
     /// <summary>
     /// If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
     /// </summary>
-    [CliFlag("--disk-size-gb", ShortForm = "-z")]
-    public bool? DiskSizeGb { get; set; }
+    [CliOption("--disk-size-gb", ShortForm = "-z")]
+    public string? DiskSizeGb { get; set; }
 
     /// <summary>
     /// The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.

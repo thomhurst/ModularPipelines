@@ -57,7 +57,7 @@ public record AzAccountLockCreateOptions : AzOptions
     /// <summary>
     /// Notes about this lock.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
 }

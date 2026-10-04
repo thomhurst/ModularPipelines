@@ -75,7 +75,7 @@ public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
     /// <summary>
     /// Desired instance count per region/zone based on the scope.
     /// </summary>
-    [CliFlag("--desired-count")]
-    public bool? DesiredCount { get; set; }
+    [CliOption("--desired-count")]
+    public string? DesiredCount { get; set; }
 
 }

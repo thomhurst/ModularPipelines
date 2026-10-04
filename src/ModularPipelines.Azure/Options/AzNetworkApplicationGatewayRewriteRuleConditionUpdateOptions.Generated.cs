@@ -108,8 +108,8 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionUpdateOptions : AzO
     /// <summary>
     /// Pattern, either fixed string or regular expression, that evaluates the truthfulness of the condition.
     /// </summary>
-    [CliFlag("--pattern")]
-    public bool? Pattern { get; set; }
+    [CliOption("--pattern")]
+    public string? Pattern { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

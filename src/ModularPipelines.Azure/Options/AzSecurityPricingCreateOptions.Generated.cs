@@ -57,13 +57,13 @@ public record AzSecurityPricingCreateOptions : AzOptions
     /// <summary>
     /// Pricing extensions.
     /// </summary>
-    [CliFlag("--extensions")]
-    public bool? Extensions { get; set; }
+    [CliOption("--extensions")]
+    public string? Extensions { get; set; }
 
     /// <summary>
     /// Bundle suplan.
     /// </summary>
-    [CliFlag("--subplan")]
-    public bool? Subplan { get; set; }
+    [CliOption("--subplan")]
+    public string? Subplan { get; set; }
 
 }

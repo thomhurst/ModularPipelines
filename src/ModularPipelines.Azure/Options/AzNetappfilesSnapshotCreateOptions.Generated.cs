@@ -66,7 +66,7 @@ public record AzNetappfilesSnapshotCreateOptions : AzOptions
     /// <summary>
     /// The name of the snapshot.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
 
     /// <summary>

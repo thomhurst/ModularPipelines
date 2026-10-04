@@ -75,7 +75,7 @@ public record AzBatchTaskSubtaskListOptions : AzOptions
     /// <summary>
     /// An OData $select clause.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select")]
+    public string? Select { get; set; }
 
 }

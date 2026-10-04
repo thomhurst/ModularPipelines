@@ -23,44 +23,44 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
+    [CliOption("--add-proxy-agent-ext")]
     public bool? AddProxyAgentExt { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
+    [CliOption("--additional-events")]
     public bool? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specify whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliOption("--align-regional-disks", ShortForm = "--align-regional-disks-to-vm-zone")]
+    [CliOption("--align-regional-disks")]
     public bool? AlignRegionalDisks { get; set; }
 
     /// <summary>
     /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
+    [CliOption("--all-instance-down")]
     public bool? AllInstanceDown { get; set; }
 
     /// <summary>
     /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
     /// </summary>
-    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
     /// <summary>
     /// Explicitly opt out the VM from being associated with any capacity reservation. The VM will consume publicly available capacity.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
+    [CliOption("--disable-capacity-reservation-assignment")]
     public bool? DisableCapacityReservationAssignment { get; set; }
 
     /// <summary>
     /// Use singular value to apply across, or specify individual disks, e.g. 'os=ReadWrite 0=None 1=ReadOnly' should enable update os disk and 2 data disks.
     /// </summary>
-    [CliFlag("--disk-caching")]
-    public bool? DiskCaching { get; set; }
+    [CliOption("--disk-caching")]
+    public string? DiskCaching { get; set; }
 
     /// <summary>
     /// The flag that enable or disable hibernation capability on the VM.  Allowed values: false, true.
@@ -77,13 +77,13 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
+    [CliOption("--enable-reboot")]
     public bool? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
+    [CliOption("--enable-redeploy")]
     public bool? EnableRedeploy { get; set; }
 
     /// <summary>
@@ -101,13 +101,13 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Only applicable when used with `--size`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
     /// </summary>
-    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    [CliOption("--imds-access-control-profile-reference-id")]
     public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -119,8 +119,8 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Increase the value of this property allows user to reset the key used for securing communication channel between guest and host.
     /// </summary>
-    [CliFlag("--key-incarnation-id")]
-    public bool? KeyIncarnationId { get; set; }
+    [CliOption("--key-incarnation-id")]
+    public string? KeyIncarnationId { get; set; }
 
     /// <summary>
     /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
@@ -137,8 +137,8 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Managed OS disk ID or name to swap to.
     /// </summary>
-    [CliFlag("--os-disk")]
-    public bool? OsDisk { get; set; }
+    [CliOption("--os-disk")]
+    public string? OsDisk { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the VM should be associated with.
@@ -155,8 +155,8 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Specify the security type of the virtual machine.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
@@ -173,25 +173,25 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// UserData for the VM. It can be passed in as file or string. If empty string is passed in, the existing value will be deleted.
     /// </summary>
-    [CliFlag("--user-data")]
-    public bool? UserData { get; set; }
+    [CliOption("--user-data")]
+    public string? UserData { get; set; }
 
     /// <summary>
     /// Specify the number of vCPUs available.
     /// </summary>
-    [CliFlag("--v-cpus-available")]
-    public bool? VCpusAvailable { get; set; }
+    [CliOption("--v-cpus-available")]
+    public string? VCpusAvailable { get; set; }
 
     /// <summary>
     /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
     /// </summary>
-    [CliFlag("--v-cpus-per-core")]
-    public bool? VCpusPerCore { get; set; }
+    [CliOption("--v-cpus-per-core")]
+    public string? VCpusPerCore { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id of wire server.
     /// </summary>
-    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    [CliOption("--wire-server-access-control-profile-reference-id")]
     public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -203,14 +203,14 @@ public record AzVmUpdateOptions : AzOptions
     /// <summary>
     /// Enable/disable disk write accelerator. Use singular value 'true/false' to apply across, or specify individual disks, e.g.'os=true 1=true 2=true' for os disk and data disks with lun of 1 &amp; 2.
     /// </summary>
-    [CliFlag("--write-accelerator")]
-    public bool? WriteAccelerator { get; set; }
+    [CliOption("--write-accelerator")]
+    public string? WriteAccelerator { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another. Allowed values: false, true.

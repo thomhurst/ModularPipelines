@@ -79,19 +79,19 @@ public record AzCosmosdbGremlinGraphUpdateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl")]
+    public string? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}]}".
     /// </summary>
-    [CliFlag("--idx")]
-    public bool? Idx { get; set; }
+    [CliOption("--idx")]
+    public string? Idx { get; set; }
 
     /// <summary>
     /// Default TTL. If the value is missing or set to "-1", items don’t expire. If the value is set to "n", items will expire "n" seconds after last modified time.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

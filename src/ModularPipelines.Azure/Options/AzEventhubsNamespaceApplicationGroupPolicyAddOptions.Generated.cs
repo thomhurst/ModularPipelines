@@ -51,7 +51,7 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions : AzOptions
     /// <summary>
     /// List of Throttling Policy Objects.
     /// </summary>
-    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
+    [CliOption("--policy-config", GroupValues = true)]
     public IEnumerable<string> PolicyConfig { get; private init; }
 
     /// <summary>

@@ -29,26 +29,26 @@ public record AzSigUpdateOptions : AzOptions
     /// <summary>
     /// Community gallery publisher eula.
     /// </summary>
-    [CliFlag("--eula")]
-    public bool? Eula { get; set; }
+    [CliOption("--eula")]
+    public string? Eula { get; set; }
 
     /// <summary>
     /// Community gallery public name prefix.
     /// </summary>
-    [CliFlag("--public-name-prefix")]
-    public bool? PublicNamePrefix { get; set; }
+    [CliOption("--public-name-prefix")]
+    public string? PublicNamePrefix { get; set; }
 
     /// <summary>
     /// Community gallery publisher contact email.
     /// </summary>
-    [CliFlag("--publisher-contact", ShortForm = "--publisher-email")]
-    public bool? PublisherContact { get; set; }
+    [CliOption("--publisher-contact")]
+    public string? PublisherContact { get; set; }
 
     /// <summary>
     /// Community gallery publisher uri.
     /// </summary>
-    [CliFlag("--publisher-uri")]
-    public bool? PublisherUri { get; set; }
+    [CliOption("--publisher-uri")]
+    public string? PublisherUri { get; set; }
 
     /// <summary>
     /// Resource location.

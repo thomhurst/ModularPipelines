@@ -93,8 +93,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// This is the ARM id of the source elastic san volume snapshot.
     /// </summary>
-    [CliFlag("--elastic-san-id", ShortForm = "--elastic-san-resource-id")]
-    public bool? ElasticSanId { get; set; }
+    [CliOption("--elastic-san-id")]
+    public string? ElasticSanId { get; set; }
 
     /// <summary>
     /// Encryption type. EncryptionAtRestWith PlatformKey: Disk is encrypted with XStore managed key at rest. It is the default encryption type. EncryptionAtRe stWithCustomerKey: Disk is encrypted with Customer managed key at rest. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
@@ -117,8 +117,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// For snapshots created from Premium SSD v2 or Ultra disk, this property determines the time in minutes the snapshot is retained for instant access to enable faster restore. The disk sku should be UltraSSD_LRS or PremiumV2_LRS.
     /// </summary>
-    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
-    public bool? IaDuration { get; set; }
+    [CliOption("--ia-duration")]
+    public string? IaDuration { get; set; }
 
     /// <summary>
     /// Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.  Allowed values: false, true.
@@ -147,8 +147,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--size-gb", ShortForm = "-z")]
-    public bool? SizeGb { get; set; }
+    [CliOption("--size-gb", ShortForm = "-z")]
+    public int? SizeGb { get; set; }
 
     /// <summary>
     /// Allowed values: Premium_LRS, Standard_LRS, Standard_ZRS. Default: Standard_LRS.
@@ -165,8 +165,8 @@ public record AzSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Used when source blob is in a different subscription.
     /// </summary>
-    [CliFlag("--source-storage-account-id")]
-    public bool? SourceStorageAccountId { get; set; }
+    [CliOption("--source-storage-account-id")]
+    public string? SourceStorageAccountId { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

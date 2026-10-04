@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,32 +24,32 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
+    [CliOption("--dal")]
     public bool? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to communicate to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// Max size of request body http and grpc servers in MB to handle uploading of large files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public string? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public string? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
@@ -65,26 +66,27 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-c")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The container registry server password.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-p")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-p")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server url.
     /// </summary>
-    [CliFlag("--registry-server", ShortForm = "-r")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server", ShortForm = "-r")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-u")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-u")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

@@ -53,7 +53,7 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, UserAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -89,8 +89,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// The workspace daily quota for ingestion in gigabytes. The minimum value is 0.023 and default is -1 which means unlimited.
     /// </summary>
-    [CliFlag("--quota")]
-    public bool? Quota { get; set; }
+    [CliOption("--quota")]
+    public string? Quota { get; set; }
 
     /// <summary>
     /// The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.
@@ -125,13 +125,13 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// The capacity reservation level for this workspace, when CapacityReservation sku is selected. The maximum value is 1000 and must be in multiples of 100. If you want to increase the limit, please contact LAIngestionRate@microsoft.com.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
     /// </summary>
-    [CliOption("--capacity-reservation-level", ShortForm = "--level")]
+    [CliOption("--capacity-reservation-level")]
     public string? CapacityReservationLevel { get; set; }
 
     /// <summary>
     /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.
     /// </summary>
-    [CliOption("--sku", ShortForm = "--sku-name")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
 }

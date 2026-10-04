@@ -35,8 +35,8 @@ public record AzExtensionAddOptions : AzOptions
     /// <summary>
     /// Filepath or URL to an extension.
     /// </summary>
-    [CliFlag("--source", ShortForm = "-s")]
-    public bool? Source { get; set; }
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Use a system directory for the extension. Default path is azure-cli-extensions folder under the CLI running python environment lib path, configurable by environment variable AZURE_EXTENSION_SYS_DIR. On Windows, you may need to open your shell as Administrator to run with the right permission.
@@ -53,8 +53,8 @@ public record AzExtensionAddOptions : AzOptions
     /// <summary>
     /// The specific version of an extension.  Default: latest.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -71,7 +71,7 @@ public record AzExtensionAddOptions : AzOptions
     /// <summary>
     /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
     /// </summary>
-    [CliFlag("--pip-proxy")]
-    public bool? PipProxy { get; set; }
+    [CliOption("--pip-proxy")]
+    public string? PipProxy { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -58,20 +59,20 @@ public record AzStorageFsFileListOptions : AzOptions
     /// <summary>
     /// An opaque continuation token. This value can be retrieved from the next_marker field of a previous generator object. If specified, this generator will begin returning results from this point.
     /// </summary>
-    [CliFlag("--marker")]
-    public bool? Marker { get; set; }
+    [CliOption("--marker")]
+    public string? Marker { get; set; }
 
     /// <summary>
     /// Specify the maximum number of results to return. If the request does not specify num_results or specifies a value greater than 5,000, the server will return up to 5,000 items.  Default: 5000.
     /// </summary>
-    [CliFlag("--num-results")]
-    public bool? NumResults { get; set; }
+    [CliOption("--num-results")]
+    public string? NumResults { get; set; }
 
     /// <summary>
     /// Filter the results to return only paths under the specified path.
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliOption("--path")]
+    public string? Path { get; set; }
 
     /// <summary>
     /// Look into sub-directories recursively when set to true.  Allowed values: false, true.  Default: True.
@@ -82,37 +83,38 @@ public record AzStorageFsFileListOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

@@ -52,8 +52,8 @@ public record AzDeploymentSubWhatIfOptions : AzOptions
     /// <summary>
     /// The deployment name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Disable pretty-print for What-If results. When set, the output format type will be used.

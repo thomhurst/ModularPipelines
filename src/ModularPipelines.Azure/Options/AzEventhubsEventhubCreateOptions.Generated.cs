@@ -92,14 +92,14 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
     /// <summary>
     /// Allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
     /// </summary>
-    [CliFlag("--capture-interval")]
-    public bool? CaptureInterval { get; set; }
+    [CliOption("--capture-interval")]
+    public string? CaptureInterval { get; set; }
 
     /// <summary>
     /// Defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
@@ -116,14 +116,14 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Yea r}/{Month}/{Day}/{Hour}/{Minute}/{Second} . Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
     /// </summary>
-    [CliFlag("--archive-name-format")]
-    public bool? ArchiveNameFormat { get; set; }
+    [CliOption("--archive-name-format")]
+    public string? ArchiveNameFormat { get; set; }
 
     /// <summary>
     /// Blob container Name.
     /// </summary>
-    [CliFlag("--blob-container")]
-    public bool? BlobContainer { get; set; }
+    [CliOption("--blob-container")]
+    public string? BlobContainer { get; set; }
 
     /// <summary>
     /// Name for capture destination, should be EventHubArchive.AzureBlockBlob.

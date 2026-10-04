@@ -23,8 +23,8 @@ public record AzFunctionappListFlexconsumptionLocationsOptions : AzOptions
     /// <summary>
     /// Limit the output to just the specified runtime.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// Include the runtime details of the regions.  Allowed values: false, true.

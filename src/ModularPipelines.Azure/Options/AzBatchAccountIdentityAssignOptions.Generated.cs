@@ -63,7 +63,7 @@ public record AzBatchAccountIdentityAssignOptions : AzOptions
     /// <summary>
     /// User Assigned Identity ids to be used for batch account. Check out help for more examples.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned")]
+    public string? UserAssigned { get; set; }
 
 }

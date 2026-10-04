@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -74,14 +75,15 @@ public record AzNetworkApplicationGatewaySslCertCreateOptions : AzOptions
     /// <summary>
     /// Certificate password.
     /// </summary>
-    [CliFlag("--cert-password")]
-    public bool? CertPassword { get; set; }
+    [SecretValue]
+    [CliOption("--cert-password")]
+    public string? CertPassword { get; set; }
 
     /// <summary>
     /// Secret ID of (base-64 encoded unencrypted pfx) `Secret` or `Certificate` object stored in Azure KeyVault.
     /// </summary>
-    [CliFlag("--key-vault-secret-id")]
-    public bool? KeyVaultSecretId { get; set; }
+    [CliOption("--key-vault-secret-id")]
+    public string? KeyVaultSecretId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -92,7 +94,7 @@ public record AzNetworkApplicationGatewaySslCertCreateOptions : AzOptions
     /// <summary>
     /// Managed HSM properties of the Application Gateway resource. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--hsm")]
-    public bool? Hsm { get; set; }
+    [CliOption("--hsm")]
+    public string? Hsm { get; set; }
 
 }

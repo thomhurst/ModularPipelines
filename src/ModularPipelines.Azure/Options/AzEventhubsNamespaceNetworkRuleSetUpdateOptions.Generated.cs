@@ -71,8 +71,8 @@ public record AzEventhubsNamespaceNetworkRuleSetUpdateOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules")]
+    public string? VirtualNetworkRules { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -83,8 +83,8 @@ public record AzEventhubsNamespaceNetworkRuleSetUpdateOptions : AzOptions
     /// <summary>
     /// The Namespace name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

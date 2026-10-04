@@ -74,7 +74,7 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
+    [CliOption("--default-outbound")]
     public bool? DefaultOutbound { get; set; }
 
     /// <summary>
@@ -104,7 +104,7 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// A list of IPAM Pools for allocating IP address prefixes. If provided, --address-prefixes would be ignored by CLI and should not be specified. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of a network security group (NSG).
     /// </summary>
-    [CliOption("--network-security-group", ShortForm = "--nsg")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
     /// <summary>
@@ -128,13 +128,13 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Manage network policies for private endpoint.  Allowed values: Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled.  Default: Disabled.
     /// </summary>
-    [CliOption("--ple-network-policies", ShortForm = "--private-endpoint-network-policies")]
+    [CliOption("--ple-network-policies")]
     public string? PleNetworkPolicies { get; set; }
 
     /// <summary>
     /// Manage network policy for private link service.  Allowed values: Disabled, Enabled. Default: Enabled.
     /// </summary>
-    [CliOption("--pls-network-policies", ShortForm = "--private-link-service-network-policies")]
+    [CliOption("--pls-network-policies")]
     public string? PlsNetworkPolicies { get; set; }
 
     /// <summary>

@@ -110,7 +110,7 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--data--protections", ShortForm = "--data-exfiltration-protections", GroupValues = true)]
+    [CliOption("--data--protections", GroupValues = true)]
     public IEnumerable<string>? DataProtections { get; set; }
 
     /// <summary>
@@ -122,8 +122,8 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--encryption-with-cmk")]
-    public bool? EncryptionWithCmk { get; set; }
+    [CliOption("--encryption-with-cmk")]
+    public string? EncryptionWithCmk { get; set; }
 
     /// <summary>
     /// Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Allowed values: default, highDensity. Default: default.
@@ -146,14 +146,14 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.  Allowed values: disabled, enabled, securedByPerimeter. Default: enabled.
     /// </summary>
-    [CliOption("--public-access", ShortForm = "--public-network-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.  Default: 1.
     /// </summary>
-    [CliFlag("--replica-count")]
-    public bool? ReplicaCount { get; set; }
+    [CliOption("--replica-count")]
+    public int? ReplicaCount { get; set; }
 
     /// <summary>
     /// Sets options that control the availability of semantic search. This configuration is only possible for certain Azure AI Search SKUs in certain locations.  Allowed values: disabled, free, standard.

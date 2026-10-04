@@ -35,7 +35,7 @@ public record AzRestorePointCollectionUpdateOptions : AzOptions
     /// <summary>
     /// The name of the restore point collection.
     /// </summary>
-    [CliOption("--collection-name", ShortForm = "--restore-point-collection-name")]
+    [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
     /// <summary>

@@ -59,13 +59,13 @@ public record AzSecuritySettingUpdateOptions : AzOptions
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--alert-sync-settings")]
-    public bool? AlertSyncSettings { get; set; }
+    [CliOption("--alert-sync-settings")]
+    public string? AlertSyncSettings { get; set; }
 
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--data-export-settings")]
-    public bool? DataExportSettings { get; set; }
+    [CliOption("--data-export-settings")]
+    public string? DataExportSettings { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -45,7 +46,7 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// The name of the NetApp account.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "-n")]
+    [CliOption("--account-name", ShortForm = "-a")]
     public string AccountName { get; private init; }
 
     /// <summary>
@@ -63,8 +64,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume.
     /// </summary>
-    [CliFlag("--kdc-ip")]
-    public bool? KdcIp { get; set; }
+    [CliOption("--kdc-ip")]
+    public string? KdcIp { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -93,7 +94,7 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-local-ldap-users", ShortForm = "--allow-local-nfs-users-with-ldap")]
+    [CliOption("--allow-local-ldap-users")]
     public bool? AllowLocalLdapUsers { get; set; }
 
     /// <summary>
@@ -105,8 +106,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain.
     /// </summary>
-    [CliFlag("--dns")]
-    public bool? Dns { get; set; }
+    [CliOption("--dns")]
+    public string? Dns { get; set; }
 
     /// <summary>
     /// Name of the Active Directory domain.
@@ -117,7 +118,7 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--encrypt-dc-conn", ShortForm = "--encrypt-dc-connections")]
+    [CliOption("--encrypt-dc-conn")]
     public bool? EncryptDcConn { get; set; }
 
     /// <summary>
@@ -129,8 +130,8 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// LDAP Search scope options  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ldap-search-scope")]
-    public bool? LdapSearchScope { get; set; }
+    [CliOption("--ldap-search-scope")]
+    public string? LdapSearchScope { get; set; }
 
     /// <summary>
     /// Specifies whether or not the LDAP traffic needs to be signed. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -141,20 +142,21 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// The Organizational Unit (OU) within the Windows Active Directory. Default: CN=Computers.
     /// </summary>
-    [CliFlag("--organizational-unit")]
-    public bool? OrganizationalUnit { get; set; }
+    [CliOption("--organizational-unit")]
+    public string? OrganizationalUnit { get; set; }
 
     /// <summary>
     /// Plain text password of Active Directory domain administrator, value is masked in the response  If value is blank it's asked from the tty.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// Comma separated list of IPv4 addresses of preferred servers for LDAP client. At most two comma separated IPv4 addresses can be passed.
     /// </summary>
-    [CliFlag("--preferred-servers-for-ldap-client", ShortForm = "-p")]
-    public bool? PreferredServersForLdapClient { get; set; }
+    [CliOption("--preferred-servers-for-ldap-client", ShortForm = "-p")]
+    public string? PreferredServersForLdapClient { get; set; }
 
     /// <summary>
     /// Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -165,25 +167,25 @@ public record AzNetappfilesAccountAdAddOptions : AzOptions
     /// <summary>
     /// When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes.  If value is blank it's asked from the tty.
     /// </summary>
-    [CliFlag("--server-root-ca-cert", ShortForm = "--server-root-ca-certificate")]
-    public bool? ServerRootCaCert { get; set; }
+    [CliOption("--server-root-ca-cert")]
+    public string? ServerRootCaCert { get; set; }
 
     /// <summary>
     /// The Active Directory site the service will limit Domain Controller discovery to.
     /// </summary>
-    [CliFlag("--site")]
-    public bool? Site { get; set; }
+    [CliOption("--site")]
+    public string? Site { get; set; }
 
     /// <summary>
     /// NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes.
     /// </summary>
-    [CliFlag("--smb-server-name")]
-    public bool? SmbServerName { get; set; }
+    [CliOption("--smb-server-name")]
+    public string? SmbServerName { get; set; }
 
     /// <summary>
     /// A domain user account with permission to create machine accounts.
     /// </summary>
-    [CliFlag("--username")]
-    public bool? Username { get; set; }
+    [CliOption("--username")]
+    public string? Username { get; set; }
 
 }

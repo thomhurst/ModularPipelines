@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -79,14 +80,15 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// Client ID of cluster service principal.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// Client secret of cluster service principal.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// Resource group of cluster.
@@ -97,8 +99,8 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -109,20 +111,20 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// CIDR of pod network. Must be a minimum of /18 or larger. [Default: 10.128.0.0/14].
     /// </summary>
-    [CliFlag("--pod-cidr")]
-    public bool? PodCidr { get; set; }
+    [CliOption("--pod-cidr")]
+    public string? PodCidr { get; set; }
 
     /// <summary>
     /// CIDR of service network. Must be a minimum of /18 or larger. [Default: 172.30.0.0/16].
     /// </summary>
-    [CliFlag("--service-cidr")]
-    public bool? ServiceCidr { get; set; }
+    [CliOption("--service-cidr")]
+    public string? ServiceCidr { get; set; }
 
     /// <summary>
     /// OpenShift version to use for cluster creation.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
@@ -139,19 +141,19 @@ public record AzAroValidateOptions : AzOptions
     /// <summary>
     /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
     /// </summary>
-    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    [CliOption("--assign-cluster-identity")]
     public string? AssignClusterIdentity { get; set; }
 
     /// <summary>
     /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
     /// </summary>
-    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
+    [CliOption("--assign-platform-wi")]
     public string? AssignPlatformWi { get; set; }
 
     /// <summary>
     /// Enable managed identity for this cluster.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-managed-identity", ShortForm = "--enable-mi")]
+    [CliOption("--enable-managed-identity")]
     public bool? EnableManagedIdentity { get; set; }
 
 }

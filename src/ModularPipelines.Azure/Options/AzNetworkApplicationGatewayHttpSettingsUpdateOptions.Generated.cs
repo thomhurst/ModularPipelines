@@ -80,8 +80,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Time in seconds after a backend server is removed during which on open connection remains active. Range from 0 (Disabled) to 3600.
     /// </summary>
-    [CliFlag("--connection-draining-timeout")]
-    public bool? ConnectionDrainingTimeout { get; set; }
+    [CliOption("--connection-draining-timeout")]
+    public string? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
     /// Enable or disable cookie-based affinity. Allowed values: Disabled, Enabled.
@@ -98,8 +98,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Whether to pick host header should be picked from the host name of the backend server.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -122,8 +122,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Number of the destination port on the backend.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the HTTP settings.
@@ -146,8 +146,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -176,19 +176,19 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable dedicated connection per backend server. Default is set to false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--dedicated-backend-connection", ShortForm = "--dedicated-connection")]
+    [CliOption("--dedicated-backend-connection")]
     public bool? DedicatedBackendConnection { get; set; }
 
     /// <summary>
     /// Specify an SNI value to match the common name of the certificate on the backend. By default, the application gateway uses the incoming request’s host header as the SNI. Default value is null.
     /// </summary>
-    [CliFlag("--sni-name")]
-    public bool? SniName { get; set; }
+    [CliOption("--sni-name")]
+    public string? SniName { get; set; }
 
     /// <summary>
     /// Verify or skip both chain and expiry validations of the certificate on the backend server. Default is set to true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--validate-cert-ce", ShortForm = "--validate-cert-chain-and-expiry")]
+    [CliOption("--validate-cert-ce")]
     public bool? ValidateCertCe { get; set; }
 
     /// <summary>

@@ -68,8 +68,8 @@ public record AzApimNvUpdateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.

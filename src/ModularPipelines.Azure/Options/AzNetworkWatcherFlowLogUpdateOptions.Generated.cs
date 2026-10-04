@@ -87,8 +87,8 @@ public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
     /// <summary>
     /// Number of days to retain logs.
     /// </summary>
-    [CliFlag("--retention")]
-    public bool? Retention { get; set; }
+    [CliOption("--retention")]
+    public int? Retention { get; set; }
 
     /// <summary>
     /// Name or ID of the storage account in which to save the flow logs. Must be in the same region of flow log.
@@ -129,8 +129,8 @@ public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
     /// <summary>
     /// Version (revision) of the flow log.
     /// </summary>
-    [CliFlag("--log-version")]
-    public bool? LogVersion { get; set; }
+    [CliOption("--log-version")]
+    public string? LogVersion { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -159,20 +159,20 @@ public record AzNetworkWatcherFlowLogUpdateOptions : AzOptions
     /// <summary>
     /// FlowLog resource Managed Identity  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Update condition to filter flowlogs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all flowlogs will be logged.
     /// </summary>
-    [CliFlag("--filtering-criteria")]
-    public bool? FilteringCriteria { get; set; }
+    [CliOption("--filtering-criteria")]
+    public string? FilteringCriteria { get; set; }
 
     /// <summary>
     /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five- minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
     /// </summary>
-    [CliFlag("--record-types")]
-    public bool? RecordTypes { get; set; }
+    [CliOption("--record-types")]
+    public string? RecordTypes { get; set; }
 
     /// <summary>
     /// Interval in minutes at which to conduct flow analytics. Temporarily allowed values are 10 and 60.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,14 +24,14 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     /// <summary>
     /// Custom endpoint for blobs.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Custom endpoint for files.
     /// </summary>
-    [CliFlag("--file-endpoint")]
-    public bool? FileEndpoint { get; set; }
+    [CliOption("--file-endpoint")]
+    public string? FileEndpoint { get; set; }
 
     /// <summary>
     /// The key to use.  Allowed values: key1, key2, primary, secondary. Default: key1.
@@ -47,20 +48,21 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     /// <summary>
     /// Custom endpoint for queues.
     /// </summary>
-    [CliFlag("--queue-endpoint")]
-    public bool? QueueEndpoint { get; set; }
+    [CliOption("--queue-endpoint")]
+    public string? QueueEndpoint { get; set; }
 
     /// <summary>
     /// The SAS token to be used in the connection-string.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
     /// <summary>
     /// Custom endpoint for tables.
     /// </summary>
-    [CliFlag("--table-endpoint")]
-    public bool? TableEndpoint { get; set; }
+    [CliOption("--table-endpoint")]
+    public string? TableEndpoint { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -71,8 +73,8 @@ public record AzStorageAccountShowConnectionStringOptions : AzOptions
     /// <summary>
     /// The storage account name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

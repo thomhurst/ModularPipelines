@@ -46,7 +46,7 @@ public record AzEventgridEventSubscriptionDeleteOptions : AzOptions
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be deleted. Usage:                      --source-resource-id Azure-Resource-ID For Azure subscription:     --source-resource-id /subscriptions/{SubID} For resource group:         --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1 For EventGrid topic:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/topics/t1 For storage account:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.Storage/storageaccounts/sa1 For EventGrid domain:       --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/domains/d1 For EventGrid domain topic: --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/p roviders/Microsoft.EventGrid/domains/d1/topics/t1.
     /// </summary>
-    [CliFlag("--source-resource-id")]
-    public bool? SourceResourceId { get; set; }
+    [CliOption("--source-resource-id")]
+    public string? SourceResourceId { get; set; }
 
 }

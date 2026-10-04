@@ -80,7 +80,7 @@ public record AzLogicappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Configurable timeout in seconds for checking the status of deployment.
     /// </summary>
-    [CliFlag("--timeout", ShortForm = "-t")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout", ShortForm = "-t")]
+    public string? Timeout { get; set; }
 
 }

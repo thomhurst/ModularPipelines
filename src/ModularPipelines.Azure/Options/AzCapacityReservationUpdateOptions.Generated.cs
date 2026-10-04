@@ -59,7 +59,7 @@ public record AzCapacityReservationUpdateOptions : AzOptions
     /// <summary>
     /// Specify the number of virtual machines in the scale set.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
 }

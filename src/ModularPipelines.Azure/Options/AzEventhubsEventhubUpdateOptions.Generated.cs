@@ -23,26 +23,26 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month} /{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
     /// </summary>
-    [CliFlag("--archive-name-format")]
-    public bool? ArchiveNameFormat { get; set; }
+    [CliOption("--archive-name-format")]
+    public string? ArchiveNameFormat { get; set; }
 
     /// <summary>
     /// Blob container Name.
     /// </summary>
-    [CliFlag("--blob-container")]
-    public bool? BlobContainer { get; set; }
+    [CliOption("--blob-container")]
+    public string? BlobContainer { get; set; }
 
     /// <summary>
     /// The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
     /// </summary>
-    [CliFlag("--capture-interval")]
-    public bool? CaptureInterval { get; set; }
+    [CliOption("--capture-interval")]
+    public string? CaptureInterval { get; set; }
 
     /// <summary>
     /// The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
     /// </summary>
-    [CliFlag("--capture-size-limit")]
-    public bool? CaptureSizeLimit { get; set; }
+    [CliOption("--capture-size-limit")]
+    public int? CaptureSizeLimit { get; set; }
 
     /// <summary>
     /// Name for capture destination.
@@ -125,8 +125,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
     /// <summary>
     /// The Event Hub name.
@@ -161,19 +161,19 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// The minimum time a message will remain ineligible for compaction in the log. This value is used when cleanupPolicy is Compact or DeleteOrCompact.
     /// </summary>
-    [CliFlag("--min-compaction-lag-in-mins", ShortForm = "--min-lag")]
-    public bool? MinCompactionLagInMins { get; set; }
+    [CliOption("--min-compaction-lag-in-mins")]
+    public string? MinCompactionLagInMins { get; set; }
 
     /// <summary>
     /// Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned value of this property is Long.MaxValue.
     /// </summary>
-    [CliFlag("--retention-time", ShortForm = "--retention-time-in-hours")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public int? RetentionTime { get; set; }
 
     /// <summary>
     /// Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub.
     /// </summary>
-    [CliFlag("--tombstone-retention-time-in-hours", ShortForm = "-t")]
-    public bool? TombstoneRetentionTimeInHours { get; set; }
+    [CliOption("--tombstone-retention-time-in-hours", ShortForm = "-t")]
+    public int? TombstoneRetentionTimeInHours { get; set; }
 
 }

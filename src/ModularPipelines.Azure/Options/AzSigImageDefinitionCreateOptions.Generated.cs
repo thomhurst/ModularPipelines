@@ -124,20 +124,20 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Disk types which would not work with the image, e.g., Standard_LRS.
     /// </summary>
-    [CliFlag("--disallowed-disk-types")]
-    public bool? DisallowedDiskTypes { get; set; }
+    [CliOption("--disallowed-disk-types")]
+    public string? DisallowedDiskTypes { get; set; }
 
     /// <summary>
     /// The end of life date, e.g. '2020-12-31'.
     /// </summary>
-    [CliFlag("--end-of-life-date")]
-    public bool? EndOfLifeDate { get; set; }
+    [CliOption("--end-of-life-date")]
+    public string? EndOfLifeDate { get; set; }
 
     /// <summary>
     /// The Eula agreement for the gallery image.
     /// </summary>
-    [CliFlag("--eula")]
-    public bool? Eula { get; set; }
+    [CliOption("--eula")]
+    public string? Eula { get; set; }
 
     /// <summary>
     /// A list of gallery image features. E.g. "IsSecureBootSupported=true IsMeasuredBootSupported=false".
@@ -166,14 +166,14 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// The privacy statement uri.
     /// </summary>
-    [CliFlag("--privacy-statement-uri")]
-    public bool? PrivacyStatementUri { get; set; }
+    [CliOption("--privacy-statement-uri")]
+    public string? PrivacyStatementUri { get; set; }
 
     /// <summary>
     /// The release note uri.
     /// </summary>
-    [CliFlag("--release-note-uri")]
-    public bool? ReleaseNoteUri { get; set; }
+    [CliOption("--release-note-uri")]
+    public string? ReleaseNoteUri { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -184,43 +184,43 @@ public record AzSigImageDefinitionCreateOptions : AzOptions
     /// <summary>
     /// Plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// Plan product.
     /// </summary>
-    [CliFlag("--plan-product")]
-    public bool? PlanProduct { get; set; }
+    [CliOption("--plan-product")]
+    public string? PlanProduct { get; set; }
 
     /// <summary>
     /// Plan publisher.
     /// </summary>
-    [CliFlag("--plan-publisher")]
-    public bool? PlanPublisher { get; set; }
+    [CliOption("--plan-publisher")]
+    public string? PlanPublisher { get; set; }
 
     /// <summary>
     /// Maximum cpu cores.
     /// </summary>
-    [CliFlag("--maximum-cpu-core")]
-    public bool? MaximumCpuCore { get; set; }
+    [CliOption("--maximum-cpu-core")]
+    public string? MaximumCpuCore { get; set; }
 
     /// <summary>
     /// Maximum memory in MB.
     /// </summary>
-    [CliFlag("--maximum-memory")]
-    public bool? MaximumMemory { get; set; }
+    [CliOption("--maximum-memory")]
+    public string? MaximumMemory { get; set; }
 
     /// <summary>
     /// Minimum cpu cores.
     /// </summary>
-    [CliFlag("--minimum-cpu-core")]
-    public bool? MinimumCpuCore { get; set; }
+    [CliOption("--minimum-cpu-core")]
+    public string? MinimumCpuCore { get; set; }
 
     /// <summary>
     /// Minimum memory in MB.
     /// </summary>
-    [CliFlag("--minimum-memory")]
-    public bool? MinimumMemory { get; set; }
+    [CliOption("--minimum-memory")]
+    public string? MinimumMemory { get; set; }
 
 }

@@ -85,7 +85,7 @@ public record AzCosmosdbServiceUpdateOptions : AzOptions
     /// <summary>
     /// Instance Size. Possible values are: Cosmos.D4s, Cosmos.D8s, Cosmos.D16s etc.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
 }

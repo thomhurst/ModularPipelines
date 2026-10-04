@@ -23,7 +23,7 @@ public record AzKeyvaultListDeletedOptions : AzOptions
     /// <summary>
     /// When --resource-type is not present the command will list all deleted Vaults and HSMs. Possible values for --resource-type are vault and hsm.
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

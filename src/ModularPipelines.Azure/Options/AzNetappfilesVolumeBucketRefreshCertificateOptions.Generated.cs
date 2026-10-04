@@ -35,7 +35,7 @@ public record AzNetappfilesVolumeBucketRefreshCertificateOptions : AzOptions
     /// <summary>
     /// The name of the bucket.
     /// </summary>
-    [CliOption("--bucket-name", ShortForm = "-n")]
+    [CliOption("--bucket-name", ShortForm = "-b")]
     public string? BucketName { get; set; }
 
     /// <summary>

@@ -93,8 +93,8 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// <summary>
     /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// Name or identifier of an existing subnet. If you want to use a subnet from a different resource group or subscription, please provide its resource identifier instead of name.
@@ -117,8 +117,8 @@ public record AzPostgresFlexibleServerReviveDroppedOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

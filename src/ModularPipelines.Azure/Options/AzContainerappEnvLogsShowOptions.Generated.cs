@@ -29,8 +29,8 @@ public record AzContainerappEnvLogsShowOptions : AzOptions
     /// <summary>
     /// The number of past logs to print (0-300).  Default: 20.
     /// </summary>
-    [CliFlag("--tail")]
-    public bool? Tail { get; set; }
+    [CliOption("--tail")]
+    public int? Tail { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,7 +58,7 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     /// <summary>
     /// Description of the secret contents (e.g. password, connection string, etc).
     /// </summary>
-    [CliOption("--content-type", ShortForm = "--description")]
+    [CliOption("--content-type")]
     public string? ContentType { get; set; }
 
     /// <summary>
@@ -69,14 +70,14 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     /// <summary>
     /// Expiration UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--expires")]
-    public bool? Expires { get; set; }
+    [CliOption("--expires")]
+    public string? Expires { get; set; }
 
     /// <summary>
     /// Secret not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--not-before")]
-    public bool? NotBefore { get; set; }
+    [CliOption("--not-before")]
+    public string? NotBefore { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -99,7 +100,8 @@ public record AzKeyvaultSecretSetOptions : AzOptions
     /// <summary>
     /// Plain text secret value. Cannot be used with '--file' or '-- encoding'.
     /// </summary>
-    [CliFlag("--value")]
-    public bool? Value { get; set; }
+    [SecretValue]
+    [CliOption("--value")]
+    public string? Value { get; set; }
 
 }

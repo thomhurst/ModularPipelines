@@ -68,13 +68,13 @@ public record AzSqlServerIpv6FirewallRuleCreateOptions : AzOptions
     /// <summary>
     /// The end IPv6 address of the firewall rule. Must be IPv6 format.
     /// </summary>
-    [CliFlag("--end-ipv6-address")]
-    public bool? EndIpv6Address { get; set; }
+    [CliOption("--end-ipv6-address")]
+    public string? EndIpv6Address { get; set; }
 
     /// <summary>
     /// The start IPv6 address of the firewall rule. Must be IPv6 format.
     /// </summary>
-    [CliFlag("--start-ipv6-address")]
-    public bool? StartIpv6Address { get; set; }
+    [CliOption("--start-ipv6-address")]
+    public string? StartIpv6Address { get; set; }
 
 }

@@ -98,14 +98,14 @@ public record AzNetworkLbRuleUpdateOptions : AzOptions
     /// <summary>
     /// List of ID or name of the backend address pools. Multiple pools are only supported by Gateway SKU load balancer.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--backend-pool-name", ShortForm = "--backend-pools-name", GroupValues = true)]
+    [CliOption("--backend-pool-name", GroupValues = true)]
     public IEnumerable<string>? BackendPoolName { get; set; }
 
     /// <summary>
     /// The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".
     /// </summary>
-    [CliFlag("--backend-port")]
-    public bool? BackendPort { get; set; }
+    [CliOption("--backend-port")]
+    public int? BackendPort { get; set; }
 
     /// <summary>
     /// Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the frontend of the load balancing rule.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -116,7 +116,7 @@ public record AzNetworkLbRuleUpdateOptions : AzOptions
     /// <summary>
     /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
+    [CliOption("--enable-floating-ip")]
     public bool? EnableFloatingIp { get; set; }
 
     /// <summary>
@@ -128,19 +128,19 @@ public record AzNetworkLbRuleUpdateOptions : AzOptions
     /// <summary>
     /// The name of ID of the frontend IP configuration.
     /// </summary>
-    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
     /// <summary>
     /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
     /// </summary>
-    [CliFlag("--frontend-port")]
-    public bool? FrontendPort { get; set; }
+    [CliOption("--frontend-port")]
+    public int? FrontendPort { get; set; }
 
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
+    [CliOption("--idle-timeout")]
     public int? IdleTimeout { get; set; }
 
     /// <summary>
@@ -152,7 +152,7 @@ public record AzNetworkLbRuleUpdateOptions : AzOptions
     /// <summary>
     /// The ID or Name of an existing probe to associate with this rule.
     /// </summary>
-    [CliOption("--probe", ShortForm = "--probe-name")]
+    [CliOption("--probe")]
     public string? Probe { get; set; }
 
     /// <summary>

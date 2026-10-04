@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -52,8 +53,8 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// Object's display name or its prefix.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// If the user must change her password on the next login. Allowed values: false, true.
@@ -64,13 +65,14 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// Mail alias. Defaults to user principal name.
     /// </summary>
-    [CliFlag("--mail-nickname")]
-    public bool? MailNickname { get; set; }
+    [CliOption("--mail-nickname")]
+    public string? MailNickname { get; set; }
 
     /// <summary>
     /// User password.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
 }

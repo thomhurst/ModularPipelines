@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -64,8 +65,8 @@ public record AzVmEncryptionEnableOptions : AzOptions
     /// <summary>
     /// Default: RSA-OAEP.
     /// </summary>
-    [CliFlag("--key-encryption-algorithm")]
-    public bool? KeyEncryptionAlgorithm { get; set; }
+    [CliOption("--key-encryption-algorithm")]
+    public string? KeyEncryptionAlgorithm { get; set; }
 
     /// <summary>
     /// Key vault key name or URL used to encrypt the disk encryption key.
@@ -88,20 +89,21 @@ public record AzVmEncryptionEnableOptions : AzOptions
     /// <summary>
     /// Thumbprint of the AAD app certificate with permissions to write secrets to the key vault.
     /// </summary>
-    [CliFlag("--aad-client-cert-thumbprint")]
-    public bool? AadClientCertThumbprint { get; set; }
+    [CliOption("--aad-client-cert-thumbprint")]
+    public string? AadClientCertThumbprint { get; set; }
 
     /// <summary>
     /// Client ID of an AAD app with permissions to write secrets to the key vault.
     /// </summary>
-    [CliFlag("--aad-client-id")]
-    public bool? AadClientId { get; set; }
+    [CliOption("--aad-client-id")]
+    public string? AadClientId { get; set; }
 
     /// <summary>
     /// Client secret of the AAD app with permissions to write secrets to the key vault.
     /// </summary>
-    [CliFlag("--aad-client-secret")]
-    public bool? AadClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--aad-client-secret")]
+    public string? AadClientSecret { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

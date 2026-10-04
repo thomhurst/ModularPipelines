@@ -115,7 +115,7 @@ public record AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// The frontend IP configuration ID of a regional load balance.
     /// </summary>
-    [CliFlag("--frontend-ip", ShortForm = "--frontend-ip-address")]
-    public bool? FrontendIp { get; set; }
+    [CliOption("--frontend-ip")]
+    public string? FrontendIp { get; set; }
 
 }

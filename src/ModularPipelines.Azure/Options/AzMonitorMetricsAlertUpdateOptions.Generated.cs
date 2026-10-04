@@ -29,8 +29,8 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Free-text description of the rule.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Whether the metric alert rule is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -41,8 +41,8 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Frequency with which to evaluate the rule in `##h##m##s` format.
     /// </summary>
-    [CliFlag("--evaluation-frequency")]
-    public bool? EvaluationFrequency { get; set; }
+    [CliOption("--evaluation-frequency")]
+    public string? EvaluationFrequency { get; set; }
 
     /// <summary>
     /// Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -53,8 +53,8 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Severity of the alert from 0 (critical) to 4 (verbose).
     /// </summary>
-    [CliFlag("--severity")]
-    public bool? Severity { get; set; }
+    [CliOption("--severity")]
+    public string? Severity { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -65,14 +65,14 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Time over which to aggregate metrics in `##h##m##s` format.
     /// </summary>
-    [CliFlag("--window-size")]
-    public bool? WindowSize { get; set; }
+    [CliOption("--window-size")]
+    public string? WindowSize { get; set; }
 
     /// <summary>
     /// Add an action group and optional webhook properties to fire when the alert is triggered.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "--add-actions")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action")]
+    public string? AddAction { get; set; }
 
     /// <summary>
     /// Space-separated list of action group names to remove. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -83,8 +83,8 @@ public record AzMonitorMetricsAlertUpdateOptions : AzOptions
     /// <summary>
     /// Add a condition which triggers the rule.
     /// </summary>
-    [CliFlag("--add-condition", ShortForm = "--add-conditions")]
-    public bool? AddCondition { get; set; }
+    [CliOption("--add-condition")]
+    public string? AddCondition { get; set; }
 
     /// <summary>
     /// Space-separated list of condition names to remove.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

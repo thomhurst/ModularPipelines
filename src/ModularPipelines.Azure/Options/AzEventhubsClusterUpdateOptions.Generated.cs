@@ -29,7 +29,7 @@ public record AzEventhubsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Setting to Enable or Disable Confidential Compute.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--confidential-compute-mode", ShortForm = "--mode")]
+    [CliOption("--confidential-compute-mode")]
     public string? ConfidentialComputeMode { get; set; }
 
     /// <summary>
@@ -65,8 +65,8 @@ public record AzEventhubsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Provisioning state of the Cluster.
     /// </summary>
-    [CliFlag("--provisioning-state")]
-    public bool? ProvisioningState { get; set; }
+    [CliOption("--provisioning-state")]
+    public string? ProvisioningState { get; set; }
 
     /// <summary>
     /// A value that indicates whether Scaling is Supported. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -101,8 +101,8 @@ public record AzEventhubsClusterUpdateOptions : AzOptions
     /// <summary>
     /// The quantity of Event Hubs Cluster Capacity Units contained in this cluster.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Name of this SKU.  Allowed values: Dedicated.

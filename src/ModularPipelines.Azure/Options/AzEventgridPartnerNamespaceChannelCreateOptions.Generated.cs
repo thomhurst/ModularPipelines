@@ -101,26 +101,26 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// <summary>
     /// The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests.
     /// </summary>
-    [CliFlag("--aad-app-id", ShortForm = "--azure-active-directory-application-id-or-uri")]
-    public bool? AadAppId { get; set; }
+    [CliOption("--aad-app-id")]
+    public string? AadAppId { get; set; }
 
     /// <summary>
     /// The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     /// </summary>
-    [CliFlag("--aad-tenant-id", ShortForm = "--azure-active-directory-tenant-id")]
-    public bool? AadTenantId { get; set; }
+    [CliOption("--aad-tenant-id")]
+    public string? AadTenantId { get; set; }
 
     /// <summary>
     /// Date or datetime in UTC ISO 8601 format (e.g., '2022-02-17T01:59:59+00:00' or '2022-02-17') after which the channel and corresponding partner topic would expire and get auto deleted. If this time is not specified, the expiration date is set to seven days by default.
     /// </summary>
-    [CliFlag("--act-exp-date", ShortForm = "--activation-expiration-date")]
-    public bool? ActExpDate { get; set; }
+    [CliOption("--act-exp-date")]
+    public string? ActExpDate { get; set; }
 
     /// <summary>
     /// Endpoint context associated with this partner destination.
     /// </summary>
-    [CliFlag("--ed-serv-cont", ShortForm = "--endpoint-service-context")]
-    public bool? EdServCont { get; set; }
+    [CliOption("--ed-serv-cont")]
+    public string? EdServCont { get; set; }
 
     /// <summary>
     /// The URL that represents the endpoint of the partner destination.
@@ -137,19 +137,19 @@ public record AzEventgridPartnerNamespaceChannelCreateOptions : AzOptions
     /// <summary>
     /// Create a channel for an existing partner namespace, either of type partner topic or partner destination. You can also add inline event type info if channel type is partner topic. Multiple attributes can be specified by using more than one `--inline-event-type` argument. Usage:       --inline-event-type KEY [description={description}] [documentation-url={url}] \ [data-schema-url={url}] Example:     --inline-event-type event1 \ description="My inline event type." \ documentation-url=https://www.microsoft.com \ data-schema-url=https://www.microsoft.com.
     /// </summary>
-    [CliFlag("--inline-event-type")]
-    public bool? InlineEventType { get; set; }
+    [CliOption("--inline-event-type")]
+    public string? InlineEventType { get; set; }
 
     /// <summary>
     /// Context or helpful message that can be used during the approval process.
     /// </summary>
-    [CliFlag("--message-for-activation")]
-    public bool? MessageForActivation { get; set; }
+    [CliOption("--message-for-activation")]
+    public string? MessageForActivation { get; set; }
 
     /// <summary>
     /// Name of the partner destination.
     /// </summary>
-    [CliOption("--partner-destination-name", ShortForm = "--pr-dest-n")]
+    [CliOption("--partner-destination-name")]
     public string? PartnerDestinationName { get; set; }
 
     /// <summary>

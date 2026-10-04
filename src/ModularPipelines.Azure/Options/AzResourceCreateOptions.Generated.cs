@@ -64,8 +64,8 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// The api version of the resource (omit for the latest stable version).
     /// </summary>
-    [CliFlag("--api-version")]
-    public bool? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
 
     /// <summary>
     /// The resource name. (Ex: myC).
@@ -76,14 +76,14 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: 'resA/myA/resB/myB').
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

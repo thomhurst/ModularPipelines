@@ -57,8 +57,8 @@ public record AzIotDpsLinkedHubUpdateOptions : AzOptions
     /// <summary>
     /// Allocation weight of the IoT hub.
     /// </summary>
-    [CliFlag("--allocation-weight")]
-    public bool? AllocationWeight { get; set; }
+    [CliOption("--allocation-weight")]
+    public string? AllocationWeight { get; set; }
 
     /// <summary>
     /// A boolean indicating whether to apply allocation policy to the Iot hub.  Allowed values: false, true.

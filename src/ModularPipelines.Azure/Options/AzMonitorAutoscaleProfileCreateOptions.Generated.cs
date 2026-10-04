@@ -96,31 +96,31 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// The minimum number of instances.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// When the autoscale profile ends. Format depends on the type of profile. Fixed:  --end yyyy-mm-dd [hh:mm:ss] Weekly: [--end hh:mm].
     /// </summary>
-    [CliFlag("--end")]
-    public bool? End { get; set; }
+    [CliOption("--end")]
+    public string? End { get; set; }
 
     /// <summary>
     /// When the profile recurs. If omitted, a fixed (non-recurring) profile is created. Usage:     --recurrence {week} [ARG ARG ...] Weekly:    --recurrence week Sat Sun.
     /// </summary>
-    [CliFlag("--recurrence", ShortForm = "-r")]
-    public bool? Recurrence { get; set; }
+    [CliOption("--recurrence", ShortForm = "-r")]
+    public string? Recurrence { get; set; }
 
     /// <summary>
     /// When the autoscale profile begins. Format depends on the type of profile. Fixed:  --start yyyy-mm-dd [hh:mm:ss] Weekly: [--start hh:mm].
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
 }

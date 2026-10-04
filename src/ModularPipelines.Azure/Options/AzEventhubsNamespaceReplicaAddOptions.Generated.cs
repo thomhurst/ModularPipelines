@@ -61,7 +61,7 @@ public record AzEventhubsNamespaceReplicaAddOptions : AzOptions
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
     public IEnumerable<string> GeoDataReplicationConfig { get; private init; }
 
     /// <summary>

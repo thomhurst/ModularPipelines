@@ -74,7 +74,7 @@ public record AzNetworkApplicationGatewayRewriteRuleSetCreateOptions : AzOptions
     /// <summary>
     /// Rewrite rules in the rewrite rule set.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rules")]
-    public bool? Rules { get; set; }
+    [CliOption("--rules")]
+    public string? Rules { get; set; }
 
 }

@@ -68,8 +68,8 @@ public record AzSynapseNotebookImportOptions : AzOptions
     /// <summary>
     /// Number of executors to be allocated in the specified Spark pool for the job.  Default: 2.
     /// </summary>
-    [CliFlag("--executor-count")]
-    public bool? ExecutorCount { get; set; }
+    [CliOption("--executor-count")]
+    public int? ExecutorCount { get; set; }
 
     /// <summary>
     /// Number of core and memory to be used for executors allocated in the specified Spark pool for the job.  Allowed values: Large, Medium, Small.  Default: Small.
@@ -80,8 +80,8 @@ public record AzSynapseNotebookImportOptions : AzOptions
     /// <summary>
     /// The folder that this notebook is in. If not specified, this notebook will appear at the root level. Eg: folder/subfolder1.
     /// </summary>
-    [CliFlag("--folder-path")]
-    public bool? FolderPath { get; set; }
+    [CliOption("--folder-path")]
+    public string? FolderPath { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

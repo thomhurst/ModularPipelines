@@ -81,7 +81,7 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules")]
+    public string? VirtualNetworkRules { get; set; }
 
 }

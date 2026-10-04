@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -58,8 +59,8 @@ public record AzConnectionCreateMysqlOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Name of the mysql database. Required if '--target-id' is not specified.
@@ -94,13 +95,14 @@ public record AzConnectionCreateMysqlOptions : AzOptions
     /// <summary>
     /// The resource group which contains the mysql server. Required if '--target-id' is not specified.
     /// </summary>
-    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
     /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
 }

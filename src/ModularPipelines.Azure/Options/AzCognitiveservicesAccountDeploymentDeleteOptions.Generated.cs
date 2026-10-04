@@ -57,7 +57,7 @@ public record AzCognitiveservicesAccountDeploymentDeleteOptions : AzOptions
     /// <summary>
     /// Cognitive Services account deployment name.
     /// </summary>
-    [CliFlag("--deployment-name")]
-    public bool? DeploymentName { get; set; }
+    [CliOption("--deployment-name")]
+    public string? DeploymentName { get; set; }
 
 }

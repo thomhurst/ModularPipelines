@@ -85,8 +85,8 @@ public record AzApimApiImportOptions : AzOptions
     /// <summary>
     /// The type of API when file format is WSDL.
     /// </summary>
-    [CliFlag("--soap-api-type")]
-    public bool? SoapApiType { get; set; }
+    [CliOption("--soap-api-type")]
+    public string? SoapApiType { get; set; }
 
     /// <summary>
     /// File path specified to import the API.
@@ -103,26 +103,26 @@ public record AzApimApiImportOptions : AzOptions
     /// <summary>
     /// Local name of WSDL Endpoint (port) to be imported.
     /// </summary>
-    [CliFlag("--wsdl-endpoint-name")]
-    public bool? WsdlEndpointName { get; set; }
+    [CliOption("--wsdl-endpoint-name")]
+    public string? WsdlEndpointName { get; set; }
 
     /// <summary>
     /// Local name of WSDL Service to be imported.
     /// </summary>
-    [CliFlag("--wsdl-service-name")]
-    public bool? WsdlServiceName { get; set; }
+    [CliOption("--wsdl-service-name")]
+    public string? WsdlServiceName { get; set; }
 
     /// <summary>
     /// API identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
     /// </summary>
-    [CliFlag("--api-id")]
-    public bool? ApiId { get; set; }
+    [CliOption("--api-id")]
+    public string? ApiId { get; set; }
 
     /// <summary>
     /// Describes the Revision of the Api. If no value is provided, default revision 1 is created.
     /// </summary>
-    [CliFlag("--api-revision")]
-    public bool? ApiRevision { get; set; }
+    [CliOption("--api-revision")]
+    public string? ApiRevision { get; set; }
 
     /// <summary>
     /// The type of the API.  Allowed values: graphql, http, soap, websocket.
@@ -133,14 +133,14 @@ public record AzApimApiImportOptions : AzOptions
     /// <summary>
     /// Describes the Version of the Api. If you add a version to a non-versioned API, an Original version will be automatically created and will respond on the default URL.
     /// </summary>
-    [CliFlag("--api-version")]
-    public bool? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
 
     /// <summary>
     /// Describes the Version Set to be used with the API.
     /// </summary>
-    [CliFlag("--api-version-set-id")]
-    public bool? ApiVersionSetId { get; set; }
+    [CliOption("--api-version-set-id")]
+    public string? ApiVersionSetId { get; set; }
 
     /// <summary>
     /// Description of the API. May include HTML formatting tags.
@@ -151,8 +151,8 @@ public record AzApimApiImportOptions : AzOptions
     /// <summary>
     /// Display name of this API.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Describes on which protocols(one or more) the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
@@ -163,20 +163,20 @@ public record AzApimApiImportOptions : AzOptions
     /// <summary>
     /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
     /// </summary>
-    [CliFlag("--service-url")]
-    public bool? ServiceUrl { get; set; }
+    [CliOption("--service-url")]
+    public string? ServiceUrl { get; set; }
 
     /// <summary>
     /// Specifies the subscription key header name.
     /// </summary>
-    [CliFlag("--subscription-key-header-name")]
-    public bool? SubscriptionKeyHeaderName { get; set; }
+    [CliOption("--subscription-key-header-name")]
+    public string? SubscriptionKeyHeaderName { get; set; }
 
     /// <summary>
     /// Specifies the subscription key query string parameter name.
     /// </summary>
-    [CliFlag("--subscription-key-query-param-name")]
-    public bool? SubscriptionKeyQueryParamName { get; set; }
+    [CliOption("--subscription-key-query-param-name")]
+    public string? SubscriptionKeyQueryParamName { get; set; }
 
     /// <summary>
     /// If true, the API requires a subscription key on requests. Allowed values: false, true.

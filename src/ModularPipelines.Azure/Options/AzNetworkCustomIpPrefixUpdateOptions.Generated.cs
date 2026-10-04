@@ -23,8 +23,8 @@ public record AzNetworkCustomIpPrefixUpdateOptions : AzOptions
     /// <summary>
     /// Authorization message for WAN validation.
     /// </summary>
-    [CliFlag("--authorization-message")]
-    public bool? AuthorizationMessage { get; set; }
+    [CliOption("--authorization-message")]
+    public string? AuthorizationMessage { get; set; }
 
     /// <summary>
     /// Whether to Advertise the range to Internet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -41,8 +41,8 @@ public record AzNetworkCustomIpPrefixUpdateOptions : AzOptions
     /// <summary>
     /// Signed message for WAN validation.
     /// </summary>
-    [CliFlag("--signed-message")]
-    public bool? SignedMessage { get; set; }
+    [CliOption("--signed-message")]
+    public string? SignedMessage { get; set; }
 
     /// <summary>
     /// Commissioned State of the custom ip prefix.  Allowed values: commission, decommission, deprovision, provision.

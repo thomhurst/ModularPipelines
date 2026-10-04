@@ -23,13 +23,13 @@ public record AzIotHubIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Remove a system-assigned managed identity from this hub.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--system", ShortForm = "--system-assigned")]
+    [CliOption("--system")]
     public bool? System { get; set; }
 
     /// <summary>
     /// Remove user-assigned managed identities from this hub. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliOption("--user", ShortForm = "--user-assigned", GroupValues = true)]
+    [CliOption("--user", GroupValues = true)]
     public IEnumerable<string>? User { get; set; }
 
     /// <summary>
@@ -41,8 +41,8 @@ public record AzIotHubIdentityRemoveOptions : AzOptions
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

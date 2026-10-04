@@ -37,14 +37,14 @@ public record AzVmReimageOptions : AzOptions
     /// <summary>
     /// Specifies a base-64 encoded string of custom data.
     /// </summary>
-    [CliFlag("--custom-data")]
-    public bool? CustomData { get; set; }
+    [CliOption("--custom-data")]
+    public string? CustomData { get; set; }
 
     /// <summary>
     /// Specifies in decimal number, the version the OS disk should be reimaged to. If exact version is not provided, the OS disk is reimaged to the existing version of OS Disk.
     /// </summary>
-    [CliFlag("--exact-version")]
-    public bool? ExactVersion { get; set; }
+    [CliOption("--exact-version")]
+    public string? ExactVersion { get; set; }
 
     /// <summary>
     /// Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

@@ -101,8 +101,8 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     /// <summary>
     /// Index of match condition. If no index is provided, the default behavior is `append`.
     /// </summary>
-    [CliFlag("--index")]
-    public bool? Index { get; set; }
+    [CliOption("--index")]
+    public string? Index { get; set; }
 
     /// <summary>
     /// Match the negative of the condition.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

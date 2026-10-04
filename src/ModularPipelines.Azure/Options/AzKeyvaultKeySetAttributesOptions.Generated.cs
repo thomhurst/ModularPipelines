@@ -29,8 +29,8 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Expiration UTC datetime  (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--expires")]
-    public bool? Expires { get; set; }
+    [CliOption("--expires")]
+    public string? Expires { get; set; }
 
     /// <summary>
     /// Mark a release policy as immutable. An immutable release policy cannot be changed or updated after being marked immutable. Release policies are mutable by default.  Allowed values: false, true.
@@ -41,8 +41,8 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// Key not usable before the provided UTC datetime  (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--not-before")]
-    public bool? NotBefore { get; set; }
+    [CliOption("--not-before")]
+    public string? NotBefore { get; set; }
 
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
@@ -53,8 +53,8 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
     /// </summary>
-    [CliFlag("--policy")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
@@ -89,7 +89,7 @@ public record AzKeyvaultKeySetAttributesOptions : AzOptions
     /// <summary>
     /// The key version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

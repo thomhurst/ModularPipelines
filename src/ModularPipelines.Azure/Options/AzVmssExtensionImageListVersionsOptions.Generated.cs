@@ -23,20 +23,20 @@ public record AzVmssExtensionImageListVersionsOptions : AzOptions
     /// <summary>
     /// The filter to apply on the operation. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The $orderby odata query option.
     /// </summary>
-    [CliFlag("--orderby")]
-    public bool? Orderby { get; set; }
+    [CliOption("--orderby")]
+    public string? Orderby { get; set; }
 
     /// <summary>
     /// The $top odata query option.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -59,7 +59,7 @@ public record AzVmssExtensionImageListVersionsOptions : AzOptions
     /// <summary>
     /// Image publisher name.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
 }

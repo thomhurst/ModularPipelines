@@ -46,7 +46,7 @@ public record AzProviderShowOptions : AzOptions
     /// <summary>
     /// The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases. Default value is None.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
 }

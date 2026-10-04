@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,8 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
@@ -41,14 +42,14 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The additional connection string properties used to build connection string.
     /// </summary>
-    [CliFlag("--connstr-props")]
-    public bool? ConnstrProps { get; set; }
+    [CliOption("--connstr-props")]
+    public string? ConnstrProps { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Name of the function app. Required if '--source-id' is not specified.None.
@@ -95,7 +96,7 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The resource group which contains the MongoDB Atlas. Required if '--target-id' is not specified.
     /// </summary>
-    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
@@ -107,7 +108,8 @@ public record AzFunctionappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The connection string for secret auth. Usage: --secret secret=XX
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
 }

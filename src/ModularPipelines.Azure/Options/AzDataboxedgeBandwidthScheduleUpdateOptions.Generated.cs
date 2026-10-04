@@ -23,8 +23,8 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days")]
+    public string? Days { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -35,20 +35,20 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The bandwidth rate in Mbps.
     /// </summary>
-    [CliFlag("--rate-in-mbps")]
-    public bool? RateInMbps { get; set; }
+    [CliOption("--rate-in-mbps")]
+    public string? RateInMbps { get; set; }
 
     /// <summary>
     /// The start time of the schedule in UTC.
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
     /// <summary>
     /// The stop time of the schedule in UTC.
     /// </summary>
-    [CliFlag("--stop")]
-    public bool? Stop { get; set; }
+    [CliOption("--stop")]
+    public string? Stop { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -89,8 +89,8 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The bandwidth schedule name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

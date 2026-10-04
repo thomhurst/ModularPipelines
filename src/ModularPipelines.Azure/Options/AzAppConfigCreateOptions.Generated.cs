@@ -105,8 +105,8 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Duration in seconds to retain key-value revisions in the App Configuration store. For Free and Developer sku stores, revisions can be retained for a maximum of 7 days (604,800s); for Standard and Premium sku stores, up to 30 days (2,592,000s). Only Non-Free tiers can update this value. If specified, retention period must be at least 1 hour (3600s).
     /// </summary>
-    [CliFlag("--kv-revision-retention-period")]
-    public bool? KvRevisionRetentionPeriod { get; set; }
+    [CliOption("--kv-revision-retention-period")]
+    public string? KvRevisionRetentionPeriod { get; set; }
 
     /// <summary>
     /// Proceed without replica creation for premium tier store.  Allowed values: false, true.
@@ -135,8 +135,8 @@ public record AzAppConfigCreateOptions : AzOptions
     /// <summary>
     /// Number of days to retain the soft delete enabled App Configuration store after deleting. Must be a positive integer between 0 and 7.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public int? RetentionDays { get; set; }
 
     /// <summary>
     /// The sku of the App Configuration store.  Allowed values: Developer, Free, Premium, Standard.  Default: Standard.

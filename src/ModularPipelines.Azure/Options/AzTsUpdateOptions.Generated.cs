@@ -29,8 +29,8 @@ public record AzTsUpdateOptions : AzOptions
     /// <summary>
     /// The display name of the template spec.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The name of the template spec.
@@ -65,8 +65,8 @@ public record AzTsUpdateOptions : AzOptions
     /// <summary>
     /// The uiFormDefinition file path in the file system for the template spec version.
     /// </summary>
-    [CliFlag("--ui-form-definition")]
-    public bool? UiFormDefinition { get; set; }
+    [CliOption("--ui-form-definition")]
+    public string? UiFormDefinition { get; set; }
 
     /// <summary>
     /// The template spec version.

@@ -46,8 +46,8 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// Indicate the default version to use for requests to the Blob service if an incoming request's version is not specified.
     /// </summary>
-    [CliFlag("--default-service-version", ShortForm = "-d")]
-    public bool? DefaultServiceVersion { get; set; }
+    [CliOption("--default-service-version", ShortForm = "-d")]
+    public string? DefaultServiceVersion { get; set; }
 
     /// <summary>
     /// When set to true last access time based tracking policy is enabled. Allowed values: false, true.
@@ -76,20 +76,20 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// Indicate the number of days that the deleted container should be retained. The minimum specified value can be 1 and the maximum value can be 365.
     /// </summary>
-    [CliFlag("--container-days", ShortForm = "--container-delete-retention-days")]
-    public bool? ContainerDays { get; set; }
+    [CliOption("--container-days")]
+    public string? ContainerDays { get; set; }
 
     /// <summary>
     /// Enable container delete retention policy for container soft delete when set to true. Disable container delete retention policy when set to false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--container-retention", ShortForm = "--enable-container-delete-retention")]
+    [CliOption("--container-retention")]
     public bool? ContainerRetention { get; set; }
 
     /// <summary>
     /// Indicate the number of days that the deleted blob should be retained. The value must be in range [1,365]. It must be provided when `--enable-delete-retention` is true.
     /// </summary>
-    [CliFlag("--delete-retention-days")]
-    public bool? DeleteRetentionDays { get; set; }
+    [CliOption("--delete-retention-days")]
+    public string? DeleteRetentionDays { get; set; }
 
     /// <summary>
     /// Indicate whether delete retention policy is enabled for the blob service.  Allowed values: false, true.
@@ -130,20 +130,20 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// The number of days for the blob can be restored. It should be greater than zero and less than Delete Retention Days.
     /// </summary>
-    [CliFlag("--restore-days")]
-    public bool? RestoreDays { get; set; }
+    [CliOption("--restore-days")]
+    public int? RestoreDays { get; set; }
 
     /// <summary>
     /// The absolute path to a webpage that Azure Storage serves for requests that don't correspond to an existing file. The contents of the page are returned with HTTP 404 Not Found. Only a single custom 404 page is supported in each static website.
     /// </summary>
-    [CliFlag("--404-document", ShortForm = "--error-document-404-path")]
-    public bool? _404Document { get; set; }
+    [CliOption("--404-document")]
+    public string? _404Document { get; set; }
 
     /// <summary>
     /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case- sensitive.
     /// </summary>
-    [CliFlag("--default-index", ShortForm = "--default-index-document-path")]
-    public bool? DefaultIndex { get; set; }
+    [CliOption("--default-index")]
+    public string? DefaultIndex { get; set; }
 
     /// <summary>
     /// Indicates whether static website support is enabled for the specified account.  Allowed values: false, true.
@@ -154,7 +154,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// The webpage that Azure Storage serves for requests to the root of a website or any subfolder (for example, index.html).
     /// </summary>
-    [CliFlag("--index-document")]
-    public bool? IndexDocument { get; set; }
+    [CliOption("--index-document")]
+    public string? IndexDocument { get; set; }
 
 }

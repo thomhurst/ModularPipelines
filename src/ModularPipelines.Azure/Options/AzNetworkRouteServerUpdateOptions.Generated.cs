@@ -29,8 +29,8 @@ public record AzNetworkRouteServerUpdateOptions : AzOptions
     /// <summary>
     /// The VirtualHub Router autoscale configuration.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--auto-scale-config")]
-    public bool? AutoScaleConfig { get; set; }
+    [CliOption("--auto-scale-config")]
+    public string? AutoScaleConfig { get; set; }
 
     /// <summary>
     /// Routing preference of the route server.  Allowed values: ASPath, ExpressRoute, VpnGateway.

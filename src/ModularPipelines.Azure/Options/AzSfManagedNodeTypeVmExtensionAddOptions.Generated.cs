@@ -112,31 +112,31 @@ public record AzSfManagedNodeTypeVmExtensionAddOptions : AzOptions
     /// <summary>
     /// Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--auto-upgrade", ShortForm = "--auto-upgrade-minor-version")]
+    [CliOption("--auto-upgrade")]
     public bool? AutoUpgrade { get; set; }
 
     /// <summary>
     /// If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed.
     /// </summary>
-    [CliFlag("--force-update-tag")]
-    public bool? ForceUpdateTag { get; set; }
+    [CliOption("--force-update-tag")]
+    public string? ForceUpdateTag { get; set; }
 
     /// <summary>
     /// The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
     /// </summary>
-    [CliFlag("--protected-setting")]
-    public bool? ProtectedSetting { get; set; }
+    [CliOption("--protected-setting")]
+    public string? ProtectedSetting { get; set; }
 
     /// <summary>
     /// Collection of extension names after which this extension needs to be provisioned.
     /// </summary>
-    [CliFlag("--provision-after", ShortForm = "--provision-after-extension")]
-    public bool? ProvisionAfter { get; set; }
+    [CliOption("--provision-after")]
+    public string? ProvisionAfter { get; set; }
 
     /// <summary>
     /// Json formatted public settings for the extension.
     /// </summary>
-    [CliFlag("--setting")]
-    public bool? Setting { get; set; }
+    [CliOption("--setting")]
+    public string? Setting { get; set; }
 
 }

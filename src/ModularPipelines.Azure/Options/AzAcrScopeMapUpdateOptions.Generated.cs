@@ -57,14 +57,14 @@ public record AzAcrScopeMapUpdateOptions : AzOptions
     /// <summary>
     /// Gateway permissions to be added. Use the format "--add-gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--add-gateway")]
-    public bool? AddGateway { get; set; }
+    [CliOption("--add-gateway")]
+    public string? AddGateway { get; set; }
 
     /// <summary>
     /// Repository permissions to be added. Use the format "--add-repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--add-repository")]
-    public bool? AddRepository { get; set; }
+    [CliOption("--add-repository")]
+    public string? AddRepository { get; set; }
 
     /// <summary>
     /// Description for the scope map. Maximum 256 characters are allowed.
@@ -75,14 +75,14 @@ public record AzAcrScopeMapUpdateOptions : AzOptions
     /// <summary>
     /// Gateway permissions to be removed. Use the format "--remove-gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--remove-gateway")]
-    public bool? RemoveGateway { get; set; }
+    [CliOption("--remove-gateway")]
+    public string? RemoveGateway { get; set; }
 
     /// <summary>
     /// Repository permissions to be removed. Use the format "--remove-repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--remove-repository")]
-    public bool? RemoveRepository { get; set; }
+    [CliOption("--remove-repository")]
+    public string? RemoveRepository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

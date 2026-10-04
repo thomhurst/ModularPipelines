@@ -61,7 +61,7 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -85,8 +85,8 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// Order index.
     /// </summary>
-    [CliFlag("--rule-index")]
-    public bool? RuleIndex { get; set; }
+    [CliOption("--rule-index")]
+    public string? RuleIndex { get; set; }
 
     /// <summary>
     /// Allows CIFS protocol.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -157,8 +157,8 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names.
     /// </summary>
-    [CliFlag("--allowed-clients")]
-    public bool? AllowedClients { get; set; }
+    [CliOption("--allowed-clients")]
+    public string? AllowedClients { get; set; }
 
     /// <summary>
     /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non- root users can change ownership of files that they own. Allowed values: Restricted, Unrestricted.  Default: Restricted.

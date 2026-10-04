@@ -23,8 +23,8 @@ public record AzSqlDbListOptions : AzOptions
     /// <summary>
     /// If specified, lists only the databases in this elastic pool.
     /// </summary>
-    [CliFlag("--elastic-pool")]
-    public bool? ElasticPool { get; set; }
+    [CliOption("--elastic-pool")]
+    public string? ElasticPool { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

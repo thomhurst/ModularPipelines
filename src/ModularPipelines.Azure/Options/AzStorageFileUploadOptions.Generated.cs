@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -52,44 +53,44 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
     /// </summary>
-    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// The cache control string.
     /// </summary>
-    [CliFlag("--content-cache", ShortForm = "--content-cache-control")]
-    public bool? ContentCache { get; set; }
+    [CliOption("--content-cache")]
+    public string? ContentCache { get; set; }
 
     /// <summary>
     /// Conveys additional information about how to process the response payload, and can also be used to attach additional metadata.
     /// </summary>
-    [CliFlag("--content-disposition")]
-    public bool? ContentDisposition { get; set; }
+    [CliOption("--content-disposition")]
+    public string? ContentDisposition { get; set; }
 
     /// <summary>
     /// The content encoding type.
     /// </summary>
-    [CliFlag("--content-encoding")]
-    public bool? ContentEncoding { get; set; }
+    [CliOption("--content-encoding")]
+    public string? ContentEncoding { get; set; }
 
     /// <summary>
     /// The content language.
     /// </summary>
-    [CliFlag("--content-language")]
-    public bool? ContentLanguage { get; set; }
+    [CliOption("--content-language")]
+    public string? ContentLanguage { get; set; }
 
     /// <summary>
     /// The content's MD5 hash.
     /// </summary>
-    [CliFlag("--content-md5")]
-    public bool? ContentMd5 { get; set; }
+    [CliOption("--content-md5")]
+    public string? ContentMd5 { get; set; }
 
     /// <summary>
     /// The content MIME type.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
@@ -100,26 +101,26 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Only applicable to NFS Files. The mode permissions to be set on the file. Symbolic (rwxrw-rw-) is supported. The sticky bit is also supported and its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively, absence of t or T indicates sticky bit not set.".
     /// </summary>
-    [CliFlag("--file-mode")]
-    public bool? FileMode { get; set; }
+    [CliOption("--file-mode")]
+    public string? FileMode { get; set; }
 
     /// <summary>
     /// The full endpoint URL to the File, including SAS token if used.
     /// </summary>
-    [CliFlag("--file-url")]
-    public bool? FileUrl { get; set; }
+    [CliOption("--file-url")]
+    public string? FileUrl { get; set; }
 
     /// <summary>
     /// Only applicable to NFS Files. The owner group identifier (GID) to be set on the file. The default value is 0 (root group).
     /// </summary>
-    [CliFlag("--group")]
-    public bool? Group { get; set; }
+    [CliOption("--group")]
+    public string? Group { get; set; }
 
     /// <summary>
     /// Maximum number of parallel connections to use.  Default: 2.
     /// </summary>
-    [CliFlag("--max-connections")]
-    public bool? MaxConnections { get; set; }
+    [CliOption("--max-connections")]
+    public int? MaxConnections { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
@@ -136,8 +137,8 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Only applicable to NFS Files. The owner user identifier (UID) to be set on the file. The default value is 0 (root).
     /// </summary>
-    [CliFlag("--owner")]
-    public bool? Owner { get; set; }
+    [CliOption("--owner")]
+    public string? Owner { get; set; }
 
     /// <summary>
     /// The path to the file within the file share. If the file name is omitted, the source file name will be used.
@@ -154,8 +155,8 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// If true, calculates an MD5 hash for each range of the file. The storage service checks the hash of the content that has arrived with the hash that was sent. This is primarily valuable for detecting bitflips on the wire if using http instead of https as https (the default) will already validate. Note that this MD5 hash is not stored with the file.
@@ -166,31 +167,32 @@ public record AzStorageFileUploadOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--file-endpoint")]
-    public bool? FileEndpoint { get; set; }
+    [CliOption("--file-endpoint")]
+    public string? FileEndpoint { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

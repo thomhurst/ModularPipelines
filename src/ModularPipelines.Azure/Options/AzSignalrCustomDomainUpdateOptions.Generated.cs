@@ -68,14 +68,14 @@ public record AzSignalrCustomDomainUpdateOptions : AzOptions
     /// <summary>
     /// ResourceId of a previously created custom certificate.
     /// </summary>
-    [CliFlag("--certificate-resource-id")]
-    public bool? CertificateResourceId { get; set; }
+    [CliOption("--certificate-resource-id")]
+    public string? CertificateResourceId { get; set; }
 
     /// <summary>
     /// Custom domain name. For example, `contoso.com`.
     /// </summary>
-    [CliFlag("--domain-name")]
-    public bool? DomainName { get; set; }
+    [CliOption("--domain-name")]
+    public string? DomainName { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

@@ -57,8 +57,8 @@ public record AzAdGroupCreateOptions : AzOptions
     /// <summary>
     /// Group description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Always create a new group instead of updating the one with same display and mail nickname.  Allowed values: false, true.

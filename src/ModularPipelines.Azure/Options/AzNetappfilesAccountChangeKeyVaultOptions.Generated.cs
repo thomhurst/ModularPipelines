@@ -35,8 +35,8 @@ public record AzNetappfilesAccountChangeKeyVaultOptions : AzOptions
     /// <summary>
     /// Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--endpoint-pairs", ShortForm = "--key-vault-private-endpoints")]
-    public bool? EndpointPairs { get; set; }
+    [CliOption("--endpoint-pairs")]
+    public string? EndpointPairs { get; set; }
 
     /// <summary>
     /// The name of the key that should be used for encryption.
@@ -47,7 +47,7 @@ public record AzNetappfilesAccountChangeKeyVaultOptions : AzOptions
     /// <summary>
     /// Azure resource ID of the key vault/managed HSM that should be used for encryption.
     /// </summary>
-    [CliOption("--key-vault-resource-id", ShortForm = "--keyvault-resource-id")]
+    [CliOption("--key-vault-resource-id")]
     public string? KeyVaultResourceId { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record AzNetappfilesAccountChangeKeyVaultOptions : AzOptions
     /// <summary>
     /// The name of the NetApp account.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "-n")]
+    [CliOption("--account-name", ShortForm = "-a")]
     public string? AccountName { get; set; }
 
     /// <summary>

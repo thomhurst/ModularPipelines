@@ -23,8 +23,8 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     /// <summary>
     /// OData filter, e.g. --filter "displayname eq 'test' and servicePrincipalType eq 'Application'".
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Identifier uri, application id, or object id.

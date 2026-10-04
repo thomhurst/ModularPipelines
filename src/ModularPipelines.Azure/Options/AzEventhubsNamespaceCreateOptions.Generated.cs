@@ -57,20 +57,20 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Capacity for Sku.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Cluster ARM ID of the Namespace.
     /// </summary>
-    [CliFlag("--cluster-arm-id")]
-    public bool? ClusterArmId { get; set; }
+    [CliOption("--cluster-arm-id")]
+    public string? ClusterArmId { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Event Hubs.  Allowed values: false, true.
@@ -99,7 +99,7 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
     public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
@@ -123,25 +123,25 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
     /// </summary>
-    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
-    public bool? MaxLag { get; set; }
+    [CliOption("--max-lag")]
+    public string? MaxLag { get; set; }
 
     /// <summary>
     /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true).
     /// </summary>
-    [CliFlag("--maximum-throughput-units")]
-    public bool? MaximumThroughputUnits { get; set; }
+    [CliOption("--maximum-throughput-units")]
+    public string? MaximumThroughputUnits { get; set; }
 
     /// <summary>
     /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
     /// <summary>

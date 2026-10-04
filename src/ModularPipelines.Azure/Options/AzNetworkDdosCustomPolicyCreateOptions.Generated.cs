@@ -63,8 +63,8 @@ public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
     /// <summary>
     /// The detection mode for the DDoS detection rule.
     /// </summary>
-    [CliFlag("--detection-mode")]
-    public bool? DetectionMode { get; set; }
+    [CliOption("--detection-mode")]
+    public string? DetectionMode { get; set; }
 
     /// <summary>
     /// The name of the DDoS detection rule.
@@ -75,14 +75,14 @@ public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
     /// <summary>
     /// The customized packets per second threshold.
     /// </summary>
-    [CliFlag("--packets-per-second")]
-    public bool? PacketsPerSecond { get; set; }
+    [CliOption("--packets-per-second")]
+    public string? PacketsPerSecond { get; set; }
 
     /// <summary>
     /// The traffic type (one of Tcp, Udp, TcpSyn) that the detection rule will be applied upon.
     /// </summary>
-    [CliFlag("--traffic-type")]
-    public bool? TrafficType { get; set; }
+    [CliOption("--traffic-type")]
+    public string? TrafficType { get; set; }
 
     /// <summary>
     /// Resource location.

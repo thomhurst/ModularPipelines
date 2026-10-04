@@ -66,7 +66,7 @@ public record AzSfClusterNodeRemoveOptions : AzOptions
     /// <summary>
     /// Number of nodes to remove.
     /// </summary>
-    [CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")]
+    [CliOption("--nodes-to-remove")]
     public int NodesToRemove { get; private init; }
 
     /// <summary>

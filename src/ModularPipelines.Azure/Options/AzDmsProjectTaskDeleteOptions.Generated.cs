@@ -79,8 +79,8 @@ public record AzDmsProjectTaskDeleteOptions : AzOptions
     /// <summary>
     /// If the task is currently running, cancel the task before deleting the project.
     /// </summary>
-    [CliFlag("--delete-running-tasks")]
-    public bool? DeleteRunningTasks { get; set; }
+    [CliOption("--delete-running-tasks")]
+    public string? DeleteRunningTasks { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

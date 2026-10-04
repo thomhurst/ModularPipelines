@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,9 @@ public record AzKeyvaultBackupStartOptions : AzOptions
     /// <summary>
     /// The SAS token pointing to an Azure Blob storage container.
     /// </summary>
-    [CliFlag("--storage-container-SAS-token", ShortForm = "-t")]
-    public bool? StorageContainerSasToken { get; set; }
+    [SecretValue]
+    [CliOption("--storage-container-SAS-token", ShortForm = "-t")]
+    public string? StorageContainerSasToken { get; set; }
 
     /// <summary>
     /// If True, Managed HSM will use the configured user-assigned managed identity to authenticate with Azure Storage. Otherwise, a `sas_token` has to be specified.  Allowed values: false, true.
@@ -41,8 +43,8 @@ public record AzKeyvaultBackupStartOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of Blob Container.
@@ -59,7 +61,7 @@ public record AzKeyvaultBackupStartOptions : AzOptions
     /// <summary>
     /// Azure Blob storage container Uri. If specified all other 'Storage Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--storage-resource-uri")]
-    public bool? StorageResourceUri { get; set; }
+    [CliOption("--storage-resource-uri")]
+    public string? StorageResourceUri { get; set; }
 
 }

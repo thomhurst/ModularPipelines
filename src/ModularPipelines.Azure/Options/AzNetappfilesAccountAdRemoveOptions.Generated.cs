@@ -50,13 +50,13 @@ public record AzNetappfilesAccountAdRemoveOptions : AzOptions
     /// <summary>
     /// The name of the NetApp account.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "-n")]
+    [CliOption("--account-name", ShortForm = "-a")]
     public string AccountName { get; private init; }
 
     /// <summary>
     /// Id of the Active Directory.
     /// </summary>
-    [CliOption("--active-directory", ShortForm = "--active-directory-id")]
+    [CliOption("--active-directory")]
     public string ActiveDirectory { get; private init; }
 
     /// <summary>

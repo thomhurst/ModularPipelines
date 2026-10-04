@@ -87,13 +87,13 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     /// <summary>
     /// Default the container to use specified encryption scope for all writes.
     /// </summary>
-    [CliFlag("--default-encryption-scope", ShortForm = "-d")]
-    public bool? DefaultEncryptionScope { get; set; }
+    [CliOption("--default-encryption-scope", ShortForm = "-d")]
+    public string? DefaultEncryptionScope { get; set; }
 
     /// <summary>
     /// Block override of encryption scope from the container default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--deny-encryption-scope-override", ShortForm = "--deny-override")]
+    [CliOption("--deny-encryption-scope-override")]
     public bool? DenyEncryptionScopeOverride { get; set; }
 
 }

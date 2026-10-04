@@ -68,20 +68,20 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Authentication type for the VPN connection.  Allowed values: Certificate, PSK.
     /// </summary>
-    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
     /// <summary>
     /// The authorization key for the VPN connection.
     /// </summary>
-    [CliFlag("--authorization-key")]
-    public bool? AuthorizationKey { get; set; }
+    [CliOption("--authorization-key")]
+    public string? AuthorizationKey { get; set; }
 
     /// <summary>
     /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix, Expected keys (outboundAuthCertificate, inboundAuthCertificateChain, inboundAuthCertificateSubjectName).
     /// </summary>
-    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
-    public bool? CertAuth { get; set; }
+    [CliOption("--cert-auth")]
+    public string? CertAuth { get; set; }
 
     /// <summary>
     /// Enable BGP for this VPN connection.
@@ -104,14 +104,14 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Connection routing weight.  Default: 10.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public string? RoutingWeight { get; set; }
 
     /// <summary>
     /// Shared IPSec key.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

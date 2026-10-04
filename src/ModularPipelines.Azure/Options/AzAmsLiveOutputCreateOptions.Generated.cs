@@ -101,25 +101,25 @@ public record AzAmsLiveOutputCreateOptions : AzOptions
     /// <summary>
     /// The live output description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The number of fragments per HLS segment.
     /// </summary>
-    [CliFlag("--fragments-per-ts-segment")]
-    public bool? FragmentsPerTsSegment { get; set; }
+    [CliOption("--fragments-per-ts-segment")]
+    public int? FragmentsPerTsSegment { get; set; }
 
     /// <summary>
     /// The manifest file name. If not provided, the service will generate one automatically.
     /// </summary>
-    [CliFlag("--manifest-name")]
-    public bool? ManifestName { get; set; }
+    [CliOption("--manifest-name")]
+    public string? ManifestName { get; set; }
 
     /// <summary>
     /// The output snapshot time.
     /// </summary>
-    [CliFlag("--output-snap-time")]
-    public bool? OutputSnapTime { get; set; }
+    [CliOption("--output-snap-time")]
+    public string? OutputSnapTime { get; set; }
 
 }

@@ -23,8 +23,8 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Number of instances to use with the application gateway.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public int? Capacity { get; set; }
 
     /// <summary>
     /// Space-separated list of custom error pages in `STATUS_CODE=URL` format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -47,20 +47,20 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// The identity of the application gateway, if configured.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Upper bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--max-capacity")]
-    public bool? MaxCapacity { get; set; }
+    [CliOption("--max-capacity")]
+    public string? MaxCapacity { get; set; }
 
     /// <summary>
     /// Lower bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
@@ -77,8 +77,8 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn.microsoft.com/azure/azure-subscription-service- limits#application-gateway-limits).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ssl-profiles")]
-    public bool? SslProfiles { get; set; }
+    [CliOption("--ssl-profiles")]
+    public string? SslProfiles { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

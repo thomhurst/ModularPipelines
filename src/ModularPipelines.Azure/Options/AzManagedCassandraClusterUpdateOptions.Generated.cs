@@ -63,14 +63,14 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// The version of Cassandra chosen.
     /// </summary>
-    [CliFlag("--cassandra-version")]
-    public bool? CassandraVersion { get; set; }
+    [CliOption("--cassandra-version")]
+    public string? CassandraVersion { get; set; }
 
     /// <summary>
     /// If specified, enables client certificate authentication to the Cassandra API.
     /// </summary>
-    [CliFlag("--client-certificates")]
-    public bool? ClientCertificates { get; set; }
+    [CliOption("--client-certificates")]
+    public string? ClientCertificates { get; set; }
 
     /// <summary>
     /// A list of certificates that the managed cassandra data center's should accept.
@@ -87,8 +87,8 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// The number of hours between backup attempts.
     /// </summary>
-    [CliFlag("--hours-between-backups")]
-    public bool? HoursBetweenBackups { get; set; }
+    [CliOption("--hours-between-backups")]
+    public int? HoursBetweenBackups { get; set; }
 
     /// <summary>
     /// Type of identity used for Customer Managed Disk Key. Allowed values: None, SystemAssigned.

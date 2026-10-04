@@ -35,10 +35,12 @@ internal partial class Az : IAz
         IAzAppConfig appConfig,
         IAzAppservice appservice,
         IAzAro aro,
+        IAzArtifacts artifacts,
         IAzBackup backup,
         IAzBatch batch,
         IAzBicep bicep,
         IAzBilling billing,
+        IAzBoards boards,
         IAzBot bot,
         IAzCache cache,
         IAzCapacity capacity,
@@ -54,6 +56,7 @@ internal partial class Az : IAz
         IAzDataboxedge databoxedge,
         IAzDeployment deployment,
         IAzDeploymentScripts deploymentScripts,
+        IAzDevops devops,
         IAzDisk disk,
         IAzDiskAccess diskAccess,
         IAzDiskEncryptionSet diskEncryptionSet,
@@ -80,6 +83,7 @@ internal partial class Az : IAz
         IAzMysql mysql,
         IAzNetappfiles netappfiles,
         IAzNetwork network,
+        IAzPipelines pipelines,
         IAzPolicy policy,
         IAzPostgres postgres,
         IAzPpg ppg,
@@ -87,6 +91,7 @@ internal partial class Az : IAz
         IAzProvider provider,
         IAzRedis redis,
         IAzRelay relay,
+        IAzRepos repos,
         IAzResource resource,
         IAzResourceManagement resourceManagement,
         IAzRestorePoint restorePoint,
@@ -123,10 +128,12 @@ internal partial class Az : IAz
         AppConfig = appConfig;
         Appservice = appservice;
         Aro = aro;
+        Artifacts = artifacts;
         Backup = backup;
         Batch = batch;
         Bicep = bicep;
         Billing = billing;
+        Boards = boards;
         Bot = bot;
         Cache = cache;
         Capacity = capacity;
@@ -142,6 +149,7 @@ internal partial class Az : IAz
         Databoxedge = databoxedge;
         Deployment = deployment;
         DeploymentScripts = deploymentScripts;
+        Devops = devops;
         Disk = disk;
         DiskAccess = diskAccess;
         DiskEncryptionSet = diskEncryptionSet;
@@ -168,6 +176,7 @@ internal partial class Az : IAz
         Mysql = mysql;
         Netappfiles = netappfiles;
         Network = network;
+        Pipelines = pipelines;
         Policy = policy;
         Postgres = postgres;
         Ppg = ppg;
@@ -175,6 +184,7 @@ internal partial class Az : IAz
         Provider = provider;
         Redis = redis;
         Relay = relay;
+        Repos = repos;
         Resource = resource;
         ResourceManagement = resourceManagement;
         RestorePoint = restorePoint;
@@ -234,6 +244,9 @@ internal partial class Az : IAz
     public IAzAro Aro { get; }
 
     /// <inheritdoc />
+    public IAzArtifacts Artifacts { get; }
+
+    /// <inheritdoc />
     public IAzBackup Backup { get; }
 
     /// <inheritdoc />
@@ -244,6 +257,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzBilling Billing { get; }
+
+    /// <inheritdoc />
+    public IAzBoards Boards { get; }
 
     /// <inheritdoc />
     public IAzBot Bot { get; }
@@ -289,6 +305,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzDeploymentScripts DeploymentScripts { get; }
+
+    /// <inheritdoc />
+    public IAzDevops Devops { get; }
 
     /// <inheritdoc />
     public IAzDisk Disk { get; }
@@ -369,6 +388,9 @@ internal partial class Az : IAz
     public IAzNetwork Network { get; }
 
     /// <inheritdoc />
+    public IAzPipelines Pipelines { get; }
+
+    /// <inheritdoc />
     public IAzPolicy Policy { get; }
 
     /// <inheritdoc />
@@ -388,6 +410,9 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public IAzRelay Relay { get; }
+
+    /// <inheritdoc />
+    public IAzRepos Repos { get; }
 
     /// <inheritdoc />
     public IAzResource Resource { get; }

@@ -74,13 +74,13 @@ public record AzNetworkRouteServerPeeringCreateOptions : AzOptions
     /// <summary>
     /// Peer ASN. Its range is from 1 to 4294967295.
     /// </summary>
-    [CliFlag("--peer-asn")]
-    public bool? PeerAsn { get; set; }
+    [CliOption("--peer-asn")]
+    public string? PeerAsn { get; set; }
 
     /// <summary>
     /// Peer IP address.
     /// </summary>
-    [CliFlag("--peer-ip")]
-    public bool? PeerIp { get; set; }
+    [CliOption("--peer-ip")]
+    public string? PeerIp { get; set; }
 
 }

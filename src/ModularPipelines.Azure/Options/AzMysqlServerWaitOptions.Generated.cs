@@ -41,8 +41,8 @@ public record AzMysqlServerWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until the resource exists.
@@ -53,13 +53,13 @@ public record AzMysqlServerWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
 }

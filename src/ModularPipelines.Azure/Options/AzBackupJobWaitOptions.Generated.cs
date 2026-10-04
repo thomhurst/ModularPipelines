@@ -23,8 +23,8 @@ public record AzBackupJobWaitOptions : AzOptions
     /// <summary>
     /// Maximum time, in seconds, to wait before aborting.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Use this flag to show recoverypoints in secondary region.

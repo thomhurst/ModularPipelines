@@ -68,8 +68,8 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
-    [CliFlag("--allowed-origins", ShortForm = "-a")]
-    public bool? AllowedOrigins { get; set; }
+    [CliOption("--allowed-origins", ShortForm = "-a")]
+    public string? AllowedOrigins { get; set; }
 
     /// <summary>
     /// The switch for messaging logs which signalr service will generate or not.  Allowed values: false, true.
@@ -98,8 +98,8 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.  Default: Allow.

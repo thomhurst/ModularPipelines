@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,13 +24,14 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The administrator login password (required formanaged instance creation).
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Preferred metadata to use for authentication of synced on-prem users. Default is AzureAD.  Allowed values: AzureAD, Paired, Windows.
     /// </summary>
-    [CliOption("--am", ShortForm = "--authentication-metadata")]
+    [CliOption("--am")]
     public string? Am { get; set; }
 
     /// <summary>
@@ -41,7 +43,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
@@ -71,8 +73,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public string? Iops { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
@@ -89,14 +91,14 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Change maintenance configuration for this managed instance.
     /// </summary>
-    [CliFlag("--maint-config-id", ShortForm = "-m")]
-    public bool? MaintConfigId { get; set; }
+    [CliOption("--maint-config-id", ShortForm = "-m")]
+    public string? MaintConfigId { get; set; }
 
     /// <summary>
     /// The memory size of the managed instance. Memory size must be specified in GB.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -107,7 +109,7 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
     /// <summary>
@@ -137,8 +139,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The storage size of the managed instance. Storage size must be specified in increments of 32 GB.
     /// </summary>
-    [CliFlag("--storage")]
-    public bool? Storage { get; set; }
+    [CliOption("--storage")]
+    public string? Storage { get; set; }
 
     /// <summary>
     /// Name or ID of the subnet that allows access to an Azure Sql Managed Instance. If subnet name is provided, --vnet-name must be provided.
@@ -155,8 +157,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a")]
+    public string? UserAssignedIdentityId { get; set; }
 
     /// <summary>
     /// The virtual network name.
@@ -209,8 +211,8 @@ public record AzSqlMiUpdateOptions : AzOptions
     /// <summary>
     /// The managed instance name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

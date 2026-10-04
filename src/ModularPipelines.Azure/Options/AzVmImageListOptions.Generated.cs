@@ -47,19 +47,19 @@ public record AzVmImageListOptions : AzOptions
     /// <summary>
     /// Image offer name, partial name is accepted.
     /// </summary>
-    [CliFlag("--offer", ShortForm = "-f")]
-    public bool? Offer { get; set; }
+    [CliOption("--offer", ShortForm = "-f")]
+    public string? Offer { get; set; }
 
     /// <summary>
     /// Image publisher name, partial name is accepted.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
     /// <summary>
     /// Image sku name, partial name is accepted.
     /// </summary>
-    [CliFlag("--sku", ShortForm = "-s")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
 }

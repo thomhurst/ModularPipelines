@@ -35,7 +35,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// <summary>
     /// Switch parameter that specifies that existing recovery points should be retained for the duration specified by the backup policy.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--retain-as-per-policy", ShortForm = "--retain-recovery-points-as-per-policy")]
+    [CliOption("--retain-as-per-policy")]
     public bool? RetainAsPerPolicy { get; set; }
 
     /// <summary>

@@ -53,14 +53,14 @@ public record AzCosmosdbPostgresFirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The end IP address of the cluster firewall rule. Must be IPv4 format.
     /// </summary>
-    [CliFlag("--end-ip-address")]
-    public bool? EndIpAddress { get; set; }
+    [CliOption("--end-ip-address")]
+    public string? EndIpAddress { get; set; }
 
     /// <summary>
     /// The start IP address of the cluster firewall rule. Must be IPv4 format.
     /// </summary>
-    [CliFlag("--start-ip-address")]
-    public bool? StartIpAddress { get; set; }
+    [CliOption("--start-ip-address")]
+    public string? StartIpAddress { get; set; }
 
     /// <summary>
     /// The name of the cluster.

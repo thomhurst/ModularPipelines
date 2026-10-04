@@ -114,14 +114,14 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Optional notes to be associated with the connection monitor.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// Address of the destination of connection monitor endpoint (IP or domain name).
     /// </summary>
-    [CliFlag("--endpoint-dest-address")]
-    public bool? EndpointDestAddress { get; set; }
+    [CliOption("--endpoint-dest-address")]
+    public string? EndpointDestAddress { get; set; }
 
     /// <summary>
     /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
@@ -144,8 +144,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Address of the source of connection monitor endpoint (IP or domain name).
     /// </summary>
-    [CliFlag("--endpoint-source-address")]
-    public bool? EndpointSourceAddress { get; set; }
+    [CliOption("--endpoint-source-address")]
+    public string? EndpointSourceAddress { get; set; }
 
     /// <summary>
     /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
@@ -162,7 +162,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Connection monitor output destination type. Currently, only "Workspace" is supported. Allowed values: Workspace.
     /// </summary>
-    [CliOption("--output-type", ShortForm = "--type")]
+    [CliOption("--output-type")]
     public string? OutputType { get; set; }
 
     /// <summary>
@@ -174,8 +174,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The frequency of test evaluation, in seconds. Default: 60.
     /// </summary>
-    [CliFlag("--frequency")]
-    public bool? Frequency { get; set; }
+    [CliOption("--frequency")]
+    public string? Frequency { get; set; }
 
     /// <summary>
     /// The HTTP method to use.  Allowed values: Get, Post.
@@ -192,8 +192,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The port to connect to.
     /// </summary>
-    [CliFlag("--http-port")]
-    public bool? HttpPort { get; set; }
+    [CliOption("--http-port")]
+    public int? HttpPort { get; set; }
 
     /// <summary>
     /// Space-separated list of HTTP status codes to consider successful. For instance, '2xx 301-304 418'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -234,8 +234,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The port to connect to.
     /// </summary>
-    [CliFlag("--tcp-port")]
-    public bool? TcpPort { get; set; }
+    [CliOption("--tcp-port")]
+    public int? TcpPort { get; set; }
 
     /// <summary>
     /// Destination port behavior.  Allowed values: ListenIfAvailable, None.
@@ -246,14 +246,14 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The maximum percentage of failed checks permitted for a test to evaluate as successful.
     /// </summary>
-    [CliFlag("--threshold-failed-percent")]
-    public bool? ThresholdFailedPercent { get; set; }
+    [CliOption("--threshold-failed-percent")]
+    public string? ThresholdFailedPercent { get; set; }
 
     /// <summary>
     /// The maximum round-trip time in milliseconds permitted for a test to evaluate as successful.
     /// </summary>
-    [CliFlag("--threshold-round-trip-time")]
-    public bool? ThresholdRoundTripTime { get; set; }
+    [CliOption("--threshold-round-trip-time")]
+    public string? ThresholdRoundTripTime { get; set; }
 
     /// <summary>
     /// Value indicating whether test group is disabled. false is default.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

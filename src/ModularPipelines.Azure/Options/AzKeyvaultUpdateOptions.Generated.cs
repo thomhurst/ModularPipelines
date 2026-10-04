@@ -94,8 +94,8 @@ public record AzKeyvaultUpdateOptions : AzOptions
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public string? RetentionDays { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

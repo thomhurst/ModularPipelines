@@ -74,20 +74,20 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Network security rule description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// CIDR or destination IP ranges. A single or space separated list of destination address prefixes.
     /// </summary>
-    [CliFlag("--dest-addr-prefixes")]
-    public bool? DestAddrPrefixes { get; set; }
+    [CliOption("--dest-addr-prefixes")]
+    public string? DestAddrPrefixes { get; set; }
 
     /// <summary>
     /// A single or space separated list of destination port ranges.
     /// </summary>
-    [CliFlag("--dest-port-ranges")]
-    public bool? DestPortRanges { get; set; }
+    [CliOption("--dest-port-ranges")]
+    public string? DestPortRanges { get; set; }
 
     /// <summary>
     /// Network security rule direction.  Allowed values: inbound, outbound.
@@ -98,8 +98,8 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// Integer that shows priority for rule.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Network protocol.  Allowed values: ah, any, esp, http, https, icmp, tcp, udp.
@@ -110,13 +110,13 @@ public record AzSfManagedClusterNetworkSecurityRuleUpdateOptions : AzOptions
     /// <summary>
     /// The CIDR or source IP ranges. A single or space separated list of source address prefixes.
     /// </summary>
-    [CliFlag("--source-addr-prefixes")]
-    public bool? SourceAddrPrefixes { get; set; }
+    [CliOption("--source-addr-prefixes")]
+    public string? SourceAddrPrefixes { get; set; }
 
     /// <summary>
     /// A single or space separated list of source port ranges.
     /// </summary>
-    [CliFlag("--source-port-ranges")]
-    public bool? SourcePortRanges { get; set; }
+    [CliOption("--source-port-ranges")]
+    public string? SourcePortRanges { get; set; }
 
 }

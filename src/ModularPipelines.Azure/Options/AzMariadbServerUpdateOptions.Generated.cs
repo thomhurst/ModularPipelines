@@ -31,8 +31,8 @@ public record AzMariadbServerUpdateOptions : AzOptions
     /// <summary>
     /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure KeyVault.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", GroupValues = true)]
+    public IEnumerable<string>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.
@@ -43,8 +43,8 @@ public record AzMariadbServerUpdateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Set the minimal TLS version for connections to server when SSL is enabled. Default is TLSEnforcementDisabled.  Allowed values: TLS1_0, TLS1_1, TLS1_2, TLSEnforcementDisabled.
@@ -55,7 +55,7 @@ public record AzMariadbServerUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
     /// </summary>
-    [CliOption("--public", ShortForm = "--public-network-access")]
+    [CliOption("--public")]
     public string? Public { get; set; }
 
     /// <summary>
@@ -73,8 +73,8 @@ public record AzMariadbServerUpdateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server (unit is megabytes). Minimum 5120 and increases in 1024 increments. Default is 5120.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public string? StorageSize { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.

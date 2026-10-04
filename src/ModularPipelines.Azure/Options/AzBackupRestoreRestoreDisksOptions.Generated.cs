@@ -46,8 +46,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Disk encryption set ID for the OS disk of confidential VMs. This is used to encrypt the OS disk during restore.
     /// </summary>
-    [CliFlag("--cvm-os-des-id")]
-    public bool? CvmOsDesId { get; set; }
+    [CliOption("--cvm-os-des-id")]
+    public string? CvmOsDesId { get; set; }
 
     /// <summary>
     /// Specify the disk access option for target disks.  Allowed values: EnablePrivateAccessForAllDisks, EnablePublicAccessForAllDisks, SameAsOnSourceDisks.
@@ -58,8 +58,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// The disk encryption set id is used for encrypting restored disks. Please ensure access to disk encryption set id that is specified here.
     /// </summary>
-    [CliFlag("--disk-encryption-set-id")]
-    public bool? DiskEncryptionSetId { get; set; }
+    [CliOption("--disk-encryption-set-id")]
+    public string? DiskEncryptionSetId { get; set; }
 
     /// <summary>
     /// List of disks to be excluded or included.
@@ -76,14 +76,14 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// ARM ID of the user-assigned managed identity to use for the restore operation. Specify a value for this parameter if you do not want to use a system-assigned MI for restoring the backup item.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Set the maximum time, in days (between 10-30, both inclusive) for which the recovery point stays in hydrated state.  Default: 15.
     /// </summary>
-    [CliFlag("--rehydration-duration")]
-    public bool? RehydrationDuration { get; set; }
+    [CliOption("--rehydration-duration")]
+    public string? RehydrationDuration { get; set; }
 
     /// <summary>
     /// The type of priority to be maintained while rehydrating a recovery point.  Allowed values: High, Standard.
@@ -130,14 +130,14 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Specify the target disk access ID when --disk-access-option is set to EnablePrivateAccessForAllDisks.
     /// </summary>
-    [CliFlag("--target-disk-access-id")]
-    public bool? TargetDiskAccessId { get; set; }
+    [CliOption("--target-disk-access-id")]
+    public string? TargetDiskAccessId { get; set; }
 
     /// <summary>
     /// Use this to specify the target resource group in which the restored disks will be saved.
     /// </summary>
-    [CliFlag("--target-resource-group", ShortForm = "-t")]
-    public bool? TargetResourceGroup { get; set; }
+    [CliOption("--target-resource-group", ShortForm = "-t")]
+    public string? TargetResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new VM.

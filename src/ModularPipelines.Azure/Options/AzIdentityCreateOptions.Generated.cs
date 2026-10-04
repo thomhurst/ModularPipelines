@@ -75,7 +75,7 @@ public record AzIdentityCreateOptions : AzOptions
     /// <summary>
     /// Restrictions on which resource providers this identity can be assigned to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--resource-restriction")]
-    public bool? ResourceRestriction { get; set; }
+    [CliOption("--resource-restriction")]
+    public string? ResourceRestriction { get; set; }
 
 }

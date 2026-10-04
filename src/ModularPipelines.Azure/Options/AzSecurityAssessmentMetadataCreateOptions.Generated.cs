@@ -79,7 +79,7 @@ public record AzSecurityAssessmentMetadataCreateOptions : AzOptions
     /// <summary>
     /// Detailed string that will help users to understand the different ways to mitigate or fix the security issue.
     /// </summary>
-    [CliFlag("--remediation-description")]
-    public bool? RemediationDescription { get; set; }
+    [CliOption("--remediation-description")]
+    public string? RemediationDescription { get; set; }
 
 }

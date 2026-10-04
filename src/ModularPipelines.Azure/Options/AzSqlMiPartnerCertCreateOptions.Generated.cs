@@ -56,7 +56,7 @@ public record AzSqlMiPartnerCertCreateOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string InstanceName { get; private init; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public record AzSqlMiPartnerCertCreateOptions : AzOptions
     /// <summary>
     /// The certificate public blob.
     /// </summary>
-    [CliFlag("--public-blob")]
-    public bool? PublicBlob { get; set; }
+    [CliOption("--public-blob")]
+    public string? PublicBlob { get; set; }
 
 }

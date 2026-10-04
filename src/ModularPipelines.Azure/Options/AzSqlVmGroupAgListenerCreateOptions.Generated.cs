@@ -157,7 +157,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
     /// <summary>
     /// Listener port.  Default: 1433.
     /// </summary>
-    [CliFlag("--port", ShortForm = "-p")]
-    public bool? Port { get; set; }
+    [CliOption("--port", ShortForm = "-p")]
+    public string? Port { get; set; }
 
 }

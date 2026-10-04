@@ -38,8 +38,8 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Add an exclusion expression to the WAF check. Usage:   --exclusion VARIABLE OPERATOR VALUE
     /// </summary>
-    [CliFlag("--exclusion")]
-    public bool? Exclusion { get; set; }
+    [CliOption("--exclusion")]
+    public string? Exclusion { get; set; }
 
     /// <summary>
     /// File upload size limit in MB.
@@ -56,8 +56,8 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Max request body size in KB.
     /// </summary>
-    [CliFlag("--max-request-body-size")]
-    public bool? MaxRequestBodySize { get; set; }
+    [CliOption("--max-request-body-size")]
+    public string? MaxRequestBodySize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -74,14 +74,14 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Rule set type.  Default: OWASP.  Values from: az network application- gateway waf-config list-rule-sets.
     /// </summary>
-    [CliFlag("--rule-set-type")]
-    public bool? RuleSetType { get; set; }
+    [CliOption("--rule-set-type")]
+    public string? RuleSetType { get; set; }
 
     /// <summary>
     /// Rule set version.  Values from: az network application-gateway waf- config list-rule-sets.
     /// </summary>
-    [CliFlag("--rule-set-version")]
-    public bool? RuleSetVersion { get; set; }
+    [CliOption("--rule-set-version")]
+    public string? RuleSetVersion { get; set; }
 
     /// <summary>
     /// Name of the application gateway.

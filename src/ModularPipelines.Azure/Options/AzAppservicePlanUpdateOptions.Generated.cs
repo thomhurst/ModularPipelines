@@ -47,8 +47,8 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Maximum number of instances that the plan can scale out to. The plan must be an elastic scale plan.
     /// </summary>
-    [CliFlag("--max-elastic-worker-count", ShortForm = "-m")]
-    public bool? MaxElasticWorkerCount { get; set; }
+    [CliOption("--max-elastic-worker-count", ShortForm = "-m")]
+    public int? MaxElasticWorkerCount { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,8 +59,8 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Number of workers to be allocated. Use this to scale out/in (add or remove instances), e.g. --number-of-workers 3.  Default: 1.
     /// </summary>
-    [CliFlag("--number-of-workers")]
-    public bool? NumberOfWorkers { get; set; }
+    [CliOption("--number-of-workers")]
+    public int? NumberOfWorkers { get; set; }
 
     /// <summary>
     /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.

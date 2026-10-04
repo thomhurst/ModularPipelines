@@ -57,7 +57,7 @@ public record AzIotDpsCreateOptions : AzOptions
     /// <summary>
     /// Enforce data residency for this IoT Hub Device Provisioning Service by disabling cross geo-pair disaster recovery. This property is immutable once set on the resource. Only available in select regions. Learn more at https://aka.ms/dpsdr.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--edr", ShortForm = "--enforce-data-residency")]
+    [CliOption("--edr")]
     public bool? Edr { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record AzIotDpsCreateOptions : AzOptions
     /// <summary>
     /// Units in your IoT Hub Device Provisioning Service.  Default: 1.
     /// </summary>
-    [CliFlag("--unit")]
-    public bool? Unit { get; set; }
+    [CliOption("--unit")]
+    public string? Unit { get; set; }
 
 }

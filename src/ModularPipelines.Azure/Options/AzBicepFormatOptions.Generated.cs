@@ -52,8 +52,8 @@ public record AzBicepFormatOptions : AzOptions
     /// <summary>
     /// Number of spaces to indent with (Only valid with --indent-kind set to Space).
     /// </summary>
-    [CliFlag("--indent-size")]
-    public bool? IndentSize { get; set; }
+    [CliOption("--indent-size")]
+    public int? IndentSize { get; set; }
 
     /// <summary>
     /// Insert a final newline.
@@ -70,14 +70,14 @@ public record AzBicepFormatOptions : AzOptions
     /// <summary>
     /// When set, saves the output at the specified directory.
     /// </summary>
-    [CliFlag("--outdir")]
-    public bool? Outdir { get; set; }
+    [CliOption("--outdir")]
+    public string? Outdir { get; set; }
 
     /// <summary>
     /// When set, saves the output as the specified file path.
     /// </summary>
-    [CliFlag("--outfile")]
-    public bool? Outfile { get; set; }
+    [CliOption("--outfile")]
+    public string? Outfile { get; set; }
 
     /// <summary>
     /// When set, prints all output to stdout instead of corresponding files.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -63,20 +64,21 @@ public record AzKeyvaultCertificateIssuerUpdateOptions : AzOptions
     /// <summary>
     /// The certificate provider name. Must be registered with your tenant ID and in your region.
     /// </summary>
-    [CliFlag("--provider-name")]
-    public bool? ProviderName { get; set; }
+    [CliOption("--provider-name")]
+    public string? ProviderName { get; set; }
 
     /// <summary>
     /// The issuer account id/username/etc.
     /// </summary>
-    [CliFlag("--account-id")]
-    public bool? AccountId { get; set; }
+    [CliOption("--account-id")]
+    public string? AccountId { get; set; }
 
     /// <summary>
     /// The issuer account password/secret/etc.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The organization id.

@@ -68,44 +68,44 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// The maintenance configuration json file.
     /// </summary>
-    [CliFlag("--config-file")]
-    public bool? ConfigFile { get; set; }
+    [CliOption("--config-file")]
+    public string? ConfigFile { get; set; }
 
     /// <summary>
     /// Specify on which day of the month the maintenance occurs. E.g. 1 indicates the 1st of the month. Applicable to absolute monthly schedule type only. Not applicable to default maintenance configuration.
     /// </summary>
-    [CliFlag("--day-of-month")]
-    public bool? DayOfMonth { get; set; }
+    [CliOption("--day-of-month")]
+    public string? DayOfMonth { get; set; }
 
     /// <summary>
     /// Specify on which day of the week the maintenance occurs. E.g. "Monday". Applicable to weekly and relative monthly schedule types.
     /// </summary>
-    [CliFlag("--day-of-week")]
-    public bool? DayOfWeek { get; set; }
+    [CliOption("--day-of-week")]
+    public string? DayOfWeek { get; set; }
 
     /// <summary>
     /// The length of maintenance window range from 4 to 24 hours.
     /// </summary>
-    [CliFlag("--duration")]
-    public bool? Duration { get; set; }
+    [CliOption("--duration")]
+    public string? Duration { get; set; }
 
     /// <summary>
     /// The number of days between each set of occurrences for daily schedule type. Not applicable to default maintenance configuration.
     /// </summary>
-    [CliFlag("--interval-days")]
-    public bool? IntervalDays { get; set; }
+    [CliOption("--interval-days")]
+    public int? IntervalDays { get; set; }
 
     /// <summary>
     /// The number of months between each set of occurrences. Applicable to absolute and relative monthly schedule types. Not applicable to default maintenance configuration.
     /// </summary>
-    [CliFlag("--interval-months")]
-    public bool? IntervalMonths { get; set; }
+    [CliOption("--interval-months")]
+    public int? IntervalMonths { get; set; }
 
     /// <summary>
     /// The number of weeks between each set of occurrences. Applicable to weekly schedule types only. Cannot be specified for default maintenance configuration (the interval is always 1 week).
     /// </summary>
-    [CliFlag("--interval-weeks")]
-    public bool? IntervalWeeks { get; set; }
+    [CliOption("--interval-weeks")]
+    public int? IntervalWeeks { get; set; }
 
     /// <summary>
     /// Choose either 'Daily', 'Weekly', 'AbsoluteMonthly' or 'RelativeMonthly' for your maintenance schedule. For default maintenance configuration, only 'Weekly' is supported.  Allowed values: AbsoluteMonthly, Daily, RelativeMonthly, Weekly.
@@ -116,14 +116,14 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// The date the maintenance configuration activates. If not specified, the maintenance window will be active right away. Supported for all configuration types, including default.".
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// The start of a 1-hour maintenance window, e.g. 1 means 1:00am-2:00am (legacy timeInWeek format, default config only). See examples for the maintenanceWindow alternative.
     /// </summary>
-    [CliFlag("--start-hour")]
-    public bool? StartHour { get; set; }
+    [CliOption("--start-hour")]
+    public string? StartHour { get; set; }
 
     /// <summary>
     /// The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. '--utc-offset' applies to this field. For example, '02:00' with '--utc-offset +02:00' means UTC time '00:00'.
@@ -134,8 +134,8 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. Supported for all configuration types, including default.
     /// </summary>
-    [CliFlag("--utc-offset")]
-    public bool? UtcOffset { get; set; }
+    [CliOption("--utc-offset")]
+    public string? UtcOffset { get; set; }
 
     /// <summary>
     /// Specify on which instance of the allowed days specified in '-- day-of-week' the maintenance occurs. Applicable to relative monthly schedule type only. Not applicable to default maintenance configuration.  Allowed values: First, Fourth, Last, Second, Third.
@@ -146,7 +146,7 @@ public record AzAksMaintenanceconfigurationAddOptions : AzOptions
     /// <summary>
     /// A day in week on which maintenance is allowed (legacy timeInWeek format, default config only). See examples for the maintenanceWindow alternative.
     /// </summary>
-    [CliFlag("--weekday")]
-    public bool? Weekday { get; set; }
+    [CliOption("--weekday")]
+    public string? Weekday { get; set; }
 
 }

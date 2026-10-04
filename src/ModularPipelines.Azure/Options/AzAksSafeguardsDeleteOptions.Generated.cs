@@ -23,8 +23,8 @@ public record AzAksSafeguardsDeleteOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
-    [CliFlag("--cluster", ShortForm = "-c")]
-    public bool? Cluster { get; set; }
+    [CliOption("--cluster", ShortForm = "-c")]
+    public string? Cluster { get; set; }
 
     /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.

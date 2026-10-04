@@ -101,8 +101,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// Limit the search job to return up to specified number of rows.
     /// </summary>
-    [CliFlag("--limit")]
-    public bool? Limit { get; set; }
+    [CliOption("--limit")]
+    public string? Limit { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -113,13 +113,13 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.
     /// </summary>
-    [CliFlag("--retention-time")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public string? RetentionTime { get; set; }
 
     /// <summary>
     /// The table total retention in days, between 4 and 2556. Setting this property to -1 will default to table retention.
     /// </summary>
-    [CliFlag("--total-retention-time")]
-    public bool? TotalRetentionTime { get; set; }
+    [CliOption("--total-retention-time")]
+    public string? TotalRetentionTime { get; set; }
 
 }

@@ -45,7 +45,7 @@ public record AzSqlMiStartStopScheduleCreateOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string ManagedInstance { get; private init; }
 
     /// <summary>
@@ -63,13 +63,13 @@ public record AzSqlMiStartStopScheduleCreateOptions : AzOptions
     /// <summary>
     /// Schedule list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--schedule-list")]
-    public bool? ScheduleList { get; set; }
+    [CliOption("--schedule-list")]
+    public string? ScheduleList { get; set; }
 
     /// <summary>
     /// The time zone of the schedule.  Default: UTC.
     /// </summary>
-    [CliFlag("--timezone-id")]
-    public bool? TimezoneId { get; set; }
+    [CliOption("--timezone-id")]
+    public string? TimezoneId { get; set; }
 
 }

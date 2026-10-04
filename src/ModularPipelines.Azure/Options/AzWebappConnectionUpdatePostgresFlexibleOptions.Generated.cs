@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,8 @@ public record AzWebappConnectionUpdatePostgresFlexibleOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the webapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
@@ -41,14 +42,14 @@ public record AzWebappConnectionUpdatePostgresFlexibleOptions : AzOptions
     /// <summary>
     /// The additional connection string properties used to build connection string.
     /// </summary>
-    [CliFlag("--connstr-props")]
-    public bool? ConnstrProps { get; set; }
+    [CliOption("--connstr-props")]
+    public string? ConnstrProps { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys")]
+    public string? CustomizedKeys { get; set; }
 
     /// <summary>
     /// The resource id of the connection. ['--resource-group', '--name', ' --connection'] are required if '--id' is not specified.
@@ -95,25 +96,26 @@ public record AzWebappConnectionUpdatePostgresFlexibleOptions : AzOptions
     /// <summary>
     /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret")]
+    public string? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal")]
+    public string? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
-    [CliFlag("--system-identity")]
-    public bool? SystemIdentity { get; set; }
+    [CliOption("--system-identity")]
+    public string? SystemIdentity { get; set; }
 
     /// <summary>
     /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
-    [CliFlag("--user-identity")]
-    public bool? UserIdentity { get; set; }
+    [CliOption("--user-identity")]
+    public string? UserIdentity { get; set; }
 
 }

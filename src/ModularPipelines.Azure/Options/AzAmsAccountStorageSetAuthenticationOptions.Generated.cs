@@ -58,8 +58,8 @@ public record AzAmsAccountStorageSetAuthenticationOptions : AzOptions
     /// <summary>
     /// Set the user managed identity on the storage account.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned")]
+    public string? UserAssigned { get; set; }
 
     /// <summary>
     /// The name of the Azure Media Services account.

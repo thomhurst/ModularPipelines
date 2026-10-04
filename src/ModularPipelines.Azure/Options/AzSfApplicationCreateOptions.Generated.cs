@@ -60,19 +60,19 @@ public record AzSfApplicationCreateOptions : AzOptions
     /// <summary>
     /// Specify the application name.
     /// </summary>
-    [CliOption("--application-name", ShortForm = "--name")]
+    [CliOption("--application-name")]
     public string ApplicationName { get; private init; }
 
     /// <summary>
     /// Specify the application type name.
     /// </summary>
-    [CliOption("--application-type-name", ShortForm = "--type-name")]
+    [CliOption("--application-type-name")]
     public string ApplicationTypeName { get; private init; }
 
     /// <summary>
     /// Specify the application type version.
     /// </summary>
-    [CliOption("--application-type-version", ShortForm = "--version")]
+    [CliOption("--application-type-version")]
     public string ApplicationTypeVersion { get; private init; }
 
     /// <summary>
@@ -90,25 +90,25 @@ public record AzSfApplicationCreateOptions : AzOptions
     /// <summary>
     /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example: --application-parameters param1=value1 param2=value2.
     /// </summary>
-    [CliFlag("--application-parameters", ShortForm = "--parameters")]
-    public bool? ApplicationParameters { get; set; }
+    [CliOption("--application-parameters")]
+    public string? ApplicationParameters { get; set; }
 
     /// <summary>
     /// Specify the maximum number of nodes on which to place an application. The value of this parameter must be a non-negative integer. The default value is 0, which indicates the application can be placed on any number of nodes in the cluster.
     /// </summary>
-    [CliFlag("--max-nodes", ShortForm = "--maximum-nodes")]
-    public bool? MaxNodes { get; set; }
+    [CliOption("--max-nodes")]
+    public string? MaxNodes { get; set; }
 
     /// <summary>
     /// Specify the minimum number of nodes where Service Fabric will reserve capacity for this application, this does not mean that the application is guaranteed to have replicas on all those nodes. The value of this parameter must be a non-negative integer. Default value for this is zero, which means no capacity is reserved for the application.
     /// </summary>
-    [CliFlag("--min-nodes", ShortForm = "--minimum-nodes")]
-    public bool? MinNodes { get; set; }
+    [CliOption("--min-nodes")]
+    public string? MinNodes { get; set; }
 
     /// <summary>
     /// Specify the url of the application package sfpkg file.
     /// </summary>
-    [CliFlag("--package-url")]
-    public bool? PackageUrl { get; set; }
+    [CliOption("--package-url")]
+    public string? PackageUrl { get; set; }
 
 }

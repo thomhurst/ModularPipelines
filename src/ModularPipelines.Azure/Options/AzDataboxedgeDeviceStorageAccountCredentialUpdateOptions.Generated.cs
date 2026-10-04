@@ -53,8 +53,8 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     /// <summary>
     /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Type of storage accessed on the storage account.  Allowed values: BlobStorage, GeneralPurposeStorage.
@@ -65,20 +65,20 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     /// <summary>
     /// Alias for the storage account.
     /// </summary>
-    [CliFlag("--alias")]
-    public bool? Alias { get; set; }
+    [CliOption("--alias")]
+    public string? Alias { get; set; }
 
     /// <summary>
     /// Blob end point for private clouds.
     /// </summary>
-    [CliFlag("--blob-domain-name")]
-    public bool? BlobDomainName { get; set; }
+    [CliOption("--blob-domain-name")]
+    public string? BlobDomainName { get; set; }
 
     /// <summary>
     /// Connection string for the storage account. Use this string if username and account key are not specified.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Signifies whether SSL needs to be enabled or not.  Allowed values: Disabled, Enabled.
@@ -113,8 +113,8 @@ public record AzDataboxedgeDeviceStorageAccountCredentialUpdateOptions : AzOptio
     /// <summary>
     /// The storage account credential name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

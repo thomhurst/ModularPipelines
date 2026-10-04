@@ -77,7 +77,7 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.
     /// </summary>
-    [CliOption("--profile-version", ShortForm = "--version-name")]
+    [CliOption("--profile-version")]
     public string ProfileVersion { get; private init; }
 
     /// <summary>
@@ -107,8 +107,8 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions")]
+    public string? TargetRegions { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
@@ -125,7 +125,7 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// This is the Access Control Rules specification for an in VM access control profile version.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rules")]
-    public bool? Rules { get; set; }
+    [CliOption("--rules")]
+    public string? Rules { get; set; }
 
 }

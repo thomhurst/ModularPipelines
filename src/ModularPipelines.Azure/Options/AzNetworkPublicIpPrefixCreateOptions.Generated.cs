@@ -75,8 +75,8 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Length of the prefix (i.e. `XX.XX.XX.XX/&lt;Length&gt;`).
     /// </summary>
-    [CliFlag("--length")]
-    public bool? Length { get; set; }
+    [CliOption("--length")]
+    public string? Length { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.

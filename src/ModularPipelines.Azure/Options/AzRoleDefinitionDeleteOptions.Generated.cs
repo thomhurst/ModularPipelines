@@ -52,8 +52,8 @@ public record AzRoleDefinitionDeleteOptions : AzOptions
     /// <summary>
     /// Use it only if the role or assignment was added at the level of a resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/virtual Machines/myVM.

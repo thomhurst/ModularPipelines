@@ -23,14 +23,14 @@ public record AzNetworkDnsRecordSetCaaUpdateOptions : AzOptions
     /// <summary>
     /// Etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to `*` to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

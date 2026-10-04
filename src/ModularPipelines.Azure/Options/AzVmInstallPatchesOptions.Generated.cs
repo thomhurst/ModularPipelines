@@ -87,8 +87,8 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// ISO 8601 time value for install patch that were published on or before this given max published date. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--max-patch-publish-date")]
-    public bool? MaxPatchPublishDate { get; set; }
+    [CliOption("--max-patch-publish-date")]
+    public string? MaxPatchPublishDate { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

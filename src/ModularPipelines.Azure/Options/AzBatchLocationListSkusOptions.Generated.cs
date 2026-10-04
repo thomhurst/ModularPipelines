@@ -46,13 +46,13 @@ public record AzBatchLocationListSkusOptions : AzOptions
     /// <summary>
     /// OData filter expression. Valid properties for filtering are "familyName". Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
 }

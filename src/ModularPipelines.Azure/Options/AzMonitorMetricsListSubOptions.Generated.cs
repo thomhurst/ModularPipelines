@@ -58,32 +58,32 @@ public record AzMonitorMetricsListSubOptions : AzOptions
     /// <summary>
     /// The **$filter** is used to reduce the set of metric data returned.&lt;br&gt;Example:&lt;br&gt;Metric contains metadata A, B and C.&lt;br&gt;- Return all time series of C where A = a1 and B = b1 or b2&lt;br&gt;**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**&lt;br&gt;- Invalid variant:&lt;br&gt;**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**&lt;br&gt;This is invalid because the logical or operator cannot separate two different metadata names.&lt;br&gt;- Return all time series where A = a1, B = b1 and C = c1:&lt;br&gt;**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**&lt;br&gt;- Return all time series where A = a1&lt;br&gt;**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested. *Examples: PT15M, PT1H, P1D, FULL*.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// The names of the metrics (comma separated) to retrieve.
     /// </summary>
-    [CliFlag("--metricnames")]
-    public bool? Metricnames { get; set; }
+    [CliOption("--metricnames")]
+    public string? Metricnames { get; set; }
 
     /// <summary>
     /// Metric namespace where the metrics you want reside.
     /// </summary>
-    [CliFlag("--metricnamespace")]
-    public bool? Metricnamespace { get; set; }
+    [CliOption("--metricnamespace")]
+    public string? Metricnamespace { get; set; }
 
     /// <summary>
     /// The aggregation to use for sorting results and the direction of the sort. Only one order can be specified. Examples: sum asc.
     /// </summary>
-    [CliFlag("--order-by")]
-    public bool? OrderBy { get; set; }
+    [CliOption("--order-by")]
+    public string? OrderBy { get; set; }
 
     /// <summary>
     /// Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details.  Allowed values: Data, Metadata.
@@ -94,20 +94,20 @@ public record AzMonitorMetricsListSubOptions : AzOptions
     /// <summary>
     /// Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries.
     /// </summary>
-    [CliFlag("--roll-up-by")]
-    public bool? RollUpBy { get; set; }
+    [CliOption("--roll-up-by")]
+    public string? RollUpBy { get; set; }
 
     /// <summary>
     /// The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
     /// </summary>
-    [CliFlag("--timespan")]
-    public bool? Timespan { get; set; }
+    [CliOption("--timespan")]
+    public string? Timespan { get; set; }
 
     /// <summary>
     /// The maximum number of records to retrieve. Valid only if $filter is specified. Defaults to 10.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public int? Top { get; set; }
 
     /// <summary>
     /// When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

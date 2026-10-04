@@ -79,44 +79,44 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// Application End port of a range of ports.
     /// </summary>
-    [CliFlag("--app-end-port", ShortForm = "--application-end-port")]
-    public bool? AppEndPort { get; set; }
+    [CliOption("--app-end-port")]
+    public string? AppEndPort { get; set; }
 
     /// <summary>
     /// Application start port of a range of ports.
     /// </summary>
-    [CliFlag("--app-start-port", ShortForm = "--application-start-port")]
-    public bool? AppStartPort { get; set; }
+    [CliOption("--app-start-port")]
+    public string? AppStartPort { get; set; }
 
     /// <summary>
     /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity ClientConnections=65536 param2=value2.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Disk size for each vm in the node type in GBs.  Default: 100.
     /// </summary>
-    [CliFlag("--data-disk-size", ShortForm = "--disk-size")]
-    public bool? DataDiskSize { get; set; }
+    [CliOption("--data-disk-size")]
+    public string? DataDiskSize { get; set; }
 
     /// <summary>
     /// Managed data disk type. IOPS and throughput are given by the disk size. To see more information, go to https://learn.microsoft.com/azure/virtual- machines/disks-types. Default: StandardSSD_LRS. Standard_LRS: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. StandardSSD_LRS: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev/test. Premium_LRS: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS.
     /// </summary>
-    [CliOption("--data-disk-type", ShortForm = "--disk-type")]
+    [CliOption("--data-disk-type")]
     public string? DataDiskType { get; set; }
 
     /// <summary>
     /// Ephemeral end port of a range of ports.
     /// </summary>
-    [CliFlag("--ephemeral-end-port")]
-    public bool? EphemeralEndPort { get; set; }
+    [CliOption("--ephemeral-end-port")]
+    public string? EphemeralEndPort { get; set; }
 
     /// <summary>
     /// Ephemeral start port of a range of ports.
     /// </summary>
-    [CliFlag("--ephemeral-start-port")]
-    public bool? EphemeralStartPort { get; set; }
+    [CliOption("--ephemeral-start-port")]
+    public string? EphemeralStartPort { get; set; }
 
     /// <summary>
     /// Indicates if the node type can only host Stateless workloads.  Allowed values: false, true.
@@ -127,14 +127,14 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// Indicates if scale set associated with the node type can be composed of multiple placement groups.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--multi-place-groups", ShortForm = "--multiple-placement-groups")]
+    [CliOption("--multi-place-groups")]
     public bool? MultiPlaceGroups { get; set; }
 
     /// <summary>
     /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement-property NodeColor=Green SomeProperty=5.
     /// </summary>
-    [CliFlag("--placement-property")]
-    public bool? PlacementProperty { get; set; }
+    [CliOption("--placement-property")]
+    public string? PlacementProperty { get; set; }
 
     /// <summary>
     /// Specify if the node type is primary. On this node type will run system services. Only one node type should be marked as primary. Primary node type cannot be deleted or changed for existing clusters.  Allowed values: false, true.
@@ -151,31 +151,31 @@ public record AzSfManagedNodeTypeCreateOptions : AzOptions
     /// <summary>
     /// The offer type of the Azure Virtual Machines Marketplace image.  Default: WindowsServer.
     /// </summary>
-    [CliFlag("--vm-image-offer")]
-    public bool? VmImageOffer { get; set; }
+    [CliOption("--vm-image-offer")]
+    public string? VmImageOffer { get; set; }
 
     /// <summary>
     /// The publisher of the Azure Virtual Machines Marketplace image.  Default: MicrosoftWindowsServer.
     /// </summary>
-    [CliFlag("--vm-image-publisher")]
-    public bool? VmImagePublisher { get; set; }
+    [CliOption("--vm-image-publisher")]
+    public string? VmImagePublisher { get; set; }
 
     /// <summary>
     /// The SKU of the Azure Virtual Machines Marketplace image.  Default: 2019-Datacenter.
     /// </summary>
-    [CliFlag("--vm-image-sku")]
-    public bool? VmImageSku { get; set; }
+    [CliOption("--vm-image-sku")]
+    public string? VmImageSku { get; set; }
 
     /// <summary>
     /// The version of the Azure Virtual Machines Marketplace image.  Default: latest.
     /// </summary>
-    [CliFlag("--vm-image-version")]
-    public bool? VmImageVersion { get; set; }
+    [CliOption("--vm-image-version")]
+    public string? VmImageVersion { get; set; }
 
     /// <summary>
     /// The size of virtual machines in the pool. All virtual machines in a pool are the same size. Default: Standard_D2.
     /// </summary>
-    [CliFlag("--vm-size")]
-    public bool? VmSize { get; set; }
+    [CliOption("--vm-size")]
+    public int? VmSize { get; set; }
 
 }

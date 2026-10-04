@@ -63,8 +63,8 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// The destination IP address of the private link service.
     /// </summary>
-    [CliFlag("--destination-ip-address")]
-    public bool? DestinationIpAddress { get; set; }
+    [CliOption("--destination-ip-address")]
+    public string? DestinationIpAddress { get; set; }
 
     /// <summary>
     /// The name of edge zone.
@@ -129,8 +129,8 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// IP version of the private IP address.  Allowed values: IPv4, IPv6.  Default: IPv4.

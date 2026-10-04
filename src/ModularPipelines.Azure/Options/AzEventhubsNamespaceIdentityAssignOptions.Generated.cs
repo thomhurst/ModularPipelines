@@ -63,7 +63,7 @@ public record AzEventhubsNamespaceIdentityAssignOptions : AzOptions
     /// <summary>
     /// User Assigned Identity.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned")]
+    public string? UserAssigned { get; set; }
 
 }

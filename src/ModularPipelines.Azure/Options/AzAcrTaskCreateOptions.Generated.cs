@@ -82,8 +82,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
     /// </summary>
-    [CliFlag("--context", ShortForm = "-c")]
-    public bool? Context { get; set; }
+    [CliOption("--context", ShortForm = "-c")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// The CPU configuration in terms of number of cores required for the run.  Default: 2.
@@ -174,8 +174,8 @@ public record AzAcrTaskCreateOptions : AzOptions
     /// <summary>
     /// The task values/parameters file path relative to the source context.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values")]
+    public string? Values { get; set; }
 
     /// <summary>
     /// Indicates whether the base image trigger is enabled. Allowed values: false, true.  Default: True.

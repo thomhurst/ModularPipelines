@@ -57,8 +57,8 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// <summary>
     /// Idle timeout in minutes.
     /// </summary>
-    [CliFlag("--idle-timeout")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -105,8 +105,8 @@ public record AzNetworkNatGatewayCreateOptions : AzOptions
     /// <summary>
     /// A reference to the source virtual network using this nat gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--source-vnet")]
-    public bool? SourceVnet { get; set; }
+    [CliOption("--source-vnet")]
+    public string? SourceVnet { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

@@ -59,8 +59,8 @@ public record AzAcrRunOptions : AzOptions
     /// <summary>
     /// The task template/definition file path relative to the source context. It can be '-' to pipe a file from the standard input.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -120,7 +120,7 @@ public record AzAcrRunOptions : AzOptions
     /// <summary>
     /// The task values file path relative to the source context.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values")]
+    public string? Values { get; set; }
 
 }

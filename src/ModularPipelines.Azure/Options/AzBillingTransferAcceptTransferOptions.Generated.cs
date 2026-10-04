@@ -46,7 +46,7 @@ public record AzBillingTransferAcceptTransferOptions : AzOptions
     /// <summary>
     /// Request parameters to accept transfer.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--product-details")]
-    public bool? ProductDetails { get; set; }
+    [CliOption("--product-details")]
+    public string? ProductDetails { get; set; }
 
 }

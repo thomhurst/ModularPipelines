@@ -57,8 +57,8 @@ public record AzSynapseSqlAdAdminUpdateOptions : AzOptions
     /// <summary>
     /// Display name of the Azure AD administrator user or group.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-u")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -69,8 +69,8 @@ public record AzSynapseSqlAdAdminUpdateOptions : AzOptions
     /// <summary>
     /// The unique ID of the Azure AD administrator.
     /// </summary>
-    [CliFlag("--object-id", ShortForm = "-i")]
-    public bool? ObjectId { get; set; }
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string? ObjectId { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

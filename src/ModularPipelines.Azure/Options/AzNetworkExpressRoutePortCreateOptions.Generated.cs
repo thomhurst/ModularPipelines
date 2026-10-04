@@ -57,8 +57,8 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--bandwidth")]
-    public bool? Bandwidth { get; set; }
+    [CliOption("--bandwidth")]
+    public string? Bandwidth { get; set; }
 
     /// <summary>
     /// Encapsulation method on physical ports.  Allowed values: Dot1Q, QinQ.  Allowed values: Dot1Q, QinQ.

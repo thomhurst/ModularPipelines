@@ -53,14 +53,14 @@ public record AzNetworkExpressRouteGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Maximum number of scale units deployed for gateway.
     /// </summary>
-    [CliFlag("--max-val")]
-    public bool? MaxVal { get; set; }
+    [CliOption("--max-val")]
+    public int? MaxVal { get; set; }
 
     /// <summary>
     /// Minimum number of scale units deployed for gateway.  Default: 2.
     /// </summary>
-    [CliFlag("--min-val")]
-    public bool? MinVal { get; set; }
+    [CliOption("--min-val")]
+    public int? MinVal { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -95,8 +95,8 @@ public record AzNetworkExpressRouteGatewayUpdateOptions : AzOptions
     /// <summary>
     /// ExpressRoute gateway name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

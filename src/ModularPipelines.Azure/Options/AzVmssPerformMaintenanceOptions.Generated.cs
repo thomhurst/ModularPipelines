@@ -47,7 +47,7 @@ public record AzVmssPerformMaintenanceOptions : AzOptions
     /// <summary>
     /// The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--instance-ids")]
-    public bool? InstanceIds { get; set; }
+    [CliOption("--instance-ids")]
+    public string? InstanceIds { get; set; }
 
 }

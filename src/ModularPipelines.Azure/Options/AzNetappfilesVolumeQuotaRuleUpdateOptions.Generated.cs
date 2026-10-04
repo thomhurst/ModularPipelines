@@ -59,8 +59,8 @@ public record AzNetappfilesVolumeQuotaRuleUpdateOptions : AzOptions
     /// <summary>
     /// Size of quota in KiB.
     /// </summary>
-    [CliFlag("--quota-size", ShortForm = "--quota-size-in-kibs")]
-    public bool? QuotaSize { get; set; }
+    [CliOption("--quota-size")]
+    public int? QuotaSize { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.

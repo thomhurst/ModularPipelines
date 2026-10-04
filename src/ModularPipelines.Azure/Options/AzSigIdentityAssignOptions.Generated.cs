@@ -63,13 +63,13 @@ public record AzSigIdentityAssignOptions : AzOptions
     /// <summary>
     /// Set the system managed identity.
     /// </summary>
-    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned")]
+    public string? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
 }

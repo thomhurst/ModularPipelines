@@ -79,13 +79,13 @@ public record AzCosmosdbMongodbCollectionUpdateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl")]
+    public string? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Indexes, you can enter it as a string or as a file, e.g., --idx @indexes-file.json or --idx "[{\"key\": {\"keys\": [\"_ts\"]},\"options\": {\"expireAfterSeconds\": 1000}}, {\"key\": {\"keys\": [\"user_id\", \"user_address\"]}, \"options\": {\"unique\": \"true\"}}]".
     /// </summary>
-    [CliFlag("--idx")]
-    public bool? Idx { get; set; }
+    [CliOption("--idx")]
+    public string? Idx { get; set; }
 
 }

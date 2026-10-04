@@ -88,14 +88,14 @@ public record AzPolicyExemptionUpdateOptions : AzOptions
     /// <summary>
     /// Policy exemption description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The display name of the policy exemption.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The policy exemption category.  Allowed values: Mitigated, Waiver.
@@ -106,26 +106,26 @@ public record AzPolicyExemptionUpdateOptions : AzOptions
     /// <summary>
     /// The expiration date and time.
     /// </summary>
-    [CliFlag("--expires-on")]
-    public bool? ExpiresOn { get; set; }
+    [CliOption("--expires-on")]
+    public string? ExpiresOn { get; set; }
 
     /// <summary>
     /// The policy exemption metadata.  Support shorthand- syntax(full value only), json-file and yaml-file.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata")]
+    public string? Metadata { get; set; }
 
     /// <summary>
     /// The policy assignment to exempt.
     /// </summary>
-    [CliFlag("--policy-assignment", ShortForm = "-a")]
-    public bool? PolicyAssignment { get; set; }
+    [CliOption("--policy-assignment", ShortForm = "-a")]
+    public string? PolicyAssignment { get; set; }
 
     /// <summary>
     /// The policy definition reference IDs.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--policy-definition-reference-ids", ShortForm = "-r")]
-    public bool? PolicyDefinitionReferenceIds { get; set; }
+    [CliOption("--policy-definition-reference-ids", ShortForm = "-r")]
+    public string? PolicyDefinitionReferenceIds { get; set; }
 
     /// <summary>
     /// The resource selectors list to filter policies by resource properties.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

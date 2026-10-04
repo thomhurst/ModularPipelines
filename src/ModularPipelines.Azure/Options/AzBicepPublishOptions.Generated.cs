@@ -57,8 +57,8 @@ public record AzBicepPublishOptions : AzOptions
     /// <summary>
     /// The documentation uri of the Bicep module.
     /// </summary>
-    [CliFlag("--documentation-uri", ShortForm = "-d")]
-    public bool? DocumentationUri { get; set; }
+    [CliOption("--documentation-uri", ShortForm = "-d")]
+    public string? DocumentationUri { get; set; }
 
     /// <summary>
     /// Allow overwriting an existing Bicep module version.

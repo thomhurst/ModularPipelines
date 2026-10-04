@@ -71,8 +71,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The number of days to retain threat detection logs.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public int? RetentionDays { get; set; }
 
     /// <summary>
     /// Threat detection policy state.  Allowed values: Disabled, Enabled, New.
@@ -89,8 +89,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The SQL pool name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -113,13 +113,13 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The storage account endpoint.
     /// </summary>
-    [CliFlag("--storage-endpoint")]
-    public bool? StorageEndpoint { get; set; }
+    [CliOption("--storage-endpoint")]
+    public string? StorageEndpoint { get; set; }
 
     /// <summary>
     /// Access key for the storage account.
     /// </summary>
-    [CliFlag("--storage-key")]
-    public bool? StorageKey { get; set; }
+    [CliOption("--storage-key")]
+    public string? StorageKey { get; set; }
 
 }

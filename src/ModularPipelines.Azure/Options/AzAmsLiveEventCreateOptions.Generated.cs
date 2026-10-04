@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -107,14 +108,14 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     /// <summary>
     /// The live event description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// When useStaticHostname is set to true, hostname_prefix specifies the first part of the hostname assigned to the live event preview and ingest endpoints. The final hostname would be a combination of this prefix, the media service account name and a short code for the Azure Media Services data center.
     /// </summary>
-    [CliFlag("--hostname-prefix")]
-    public bool? HostnamePrefix { get; set; }
+    [CliOption("--hostname-prefix")]
+    public string? HostnamePrefix { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -149,14 +150,14 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     /// <summary>
     /// Filepath to the clientaccesspolicy.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--client-access-policy")]
-    public bool? ClientAccessPolicy { get; set; }
+    [CliOption("--client-access-policy")]
+    public string? ClientAccessPolicy { get; set; }
 
     /// <summary>
     /// Filepath to the crossdomain.xml used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--cross-domain-policy")]
-    public bool? CrossDomainPolicy { get; set; }
+    [CliOption("--cross-domain-policy")]
+    public string? CrossDomainPolicy { get; set; }
 
     /// <summary>
     /// The encoding type for live event. This value is specified at creation time and cannot be updated. Allowed values: Premium1080p, None, Standard.
@@ -167,14 +168,14 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     /// <summary>
     /// Use an ISO 8601 time value between 0.5 to 20 seconds to specify the output fragment length for the video and audiotracks of an encoding live event. For example, use PT2S to indicate 2 seconds. For the video track it also defines the key frame interval, or the length of a GoP (group of pictures). If this value is not set for anencoding live event, the fragment duration defaults to 2 seconds. The value cannot be set for pass-through live events.
     /// </summary>
-    [CliFlag("--key-frame-interval")]
-    public bool? KeyFrameInterval { get; set; }
+    [CliOption("--key-frame-interval")]
+    public string? KeyFrameInterval { get; set; }
 
     /// <summary>
     /// The encoding preset name. This value is specified at creation time and cannot be updated.
     /// </summary>
-    [CliFlag("--preset-name")]
-    public bool? PresetName { get; set; }
+    [CliOption("--preset-name")]
+    public string? PresetName { get; set; }
 
     /// <summary>
     /// Specifies how the input video will be resized to fit the desired output resolution(s). Default is None.  Allowed values: None, AutoSize, AutoFit.
@@ -185,20 +186,21 @@ public record AzAmsLiveEventCreateOptions : AzOptions
     /// <summary>
     /// A unique identifier for a stream. This can be specified at creation time but cannot be updated. If omitted, the service will generate a unique value.
     /// </summary>
-    [CliFlag("--access-token")]
-    public bool? AccessToken { get; set; }
+    [SecretValue]
+    [CliOption("--access-token")]
+    public string? AccessToken { get; set; }
 
     /// <summary>
     /// ISO 8601 timespan duration of the key frame interval duration in seconds. The value should be an interger in the range of 1 (PT1S or 00:00:01) to 30 (PT30S or 00:00:30) seconds.
     /// </summary>
-    [CliFlag("--key-frame-interval-duration")]
-    public bool? KeyFrameIntervalDuration { get; set; }
+    [CliOption("--key-frame-interval-duration")]
+    public string? KeyFrameIntervalDuration { get; set; }
 
     /// <summary>
     /// An Alternative Media Identifier associated with the StreamingLocator created for the preview. This value is specified at creation time and cannot be updated. The identifier can be used in the CustomLicenseAcquisitionUrlTemplate or the CustomKeyAcquisitionUrlTemplate of the StreamingPolicy specified in the StreamingPolicyName field.
     /// </summary>
-    [CliFlag("--alternative-media-id")]
-    public bool? AlternativeMediaId { get; set; }
+    [CliOption("--alternative-media-id")]
+    public string? AlternativeMediaId { get; set; }
 
     /// <summary>
     /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. Use "AllowAll" to allow all IP addresses. Allowing all IPs is not recommended for production environments.

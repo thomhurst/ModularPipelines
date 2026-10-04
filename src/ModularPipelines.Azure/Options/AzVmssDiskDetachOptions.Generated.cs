@@ -52,8 +52,8 @@ public record AzVmssDiskDetachOptions : AzOptions
     /// <summary>
     /// Scale set VM instance id.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -64,7 +64,7 @@ public record AzVmssDiskDetachOptions : AzOptions
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--vmss-name")]
-    public bool? VmssName { get; set; }
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
 }

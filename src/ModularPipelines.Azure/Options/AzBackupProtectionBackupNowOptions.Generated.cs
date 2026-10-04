@@ -29,8 +29,8 @@ public record AzBackupProtectionBackupNowOptions : AzOptions
     /// <summary>
     /// 'Full, Differential, Log, CopyOnlyFull' for backup Item type 'MSSQL'. 'Full, Differential' for backup item type 'SAPHANA'.
     /// </summary>
-    [CliFlag("--backup-type")]
-    public bool? BackupType { get; set; }
+    [CliOption("--backup-type")]
+    public string? BackupType { get; set; }
 
     /// <summary>
     /// Option to enable compression.  Allowed values: false, true.
@@ -41,8 +41,8 @@ public record AzBackupProtectionBackupNowOptions : AzOptions
     /// <summary>
     /// The date until which this backed up copy will be available for retrieval, in UTC (d-m-Y). In case of VM and AzureFileShare a default value of 30 days is taken. For MSSQL workload, retain-until min value is 2 days and max value is 99 years for backup-type 'CopyOnlyFull'. For MSSQL and SAPHANA, retain-until min value is 45 days and max value is 99 years for backup-type 'Full'. For any other backup-type, retain-until value is overriden by Policy. If not specified, a default value of 30 days will be taken for backup-type 'CopyOnlyFull', and a value of 45 days for backup-type 'Full' and no default value for other backup types.
     /// </summary>
-    [CliFlag("--retain-until")]
-    public bool? RetainUntil { get; set; }
+    [CliOption("--retain-until")]
+    public string? RetainUntil { get; set; }
 
     /// <summary>
     /// Specify the type of applications within the Resource which should be discovered and protected by Azure Backup. 'MSSQL' and 'SQLDataBase' can be used interchangeably for SQL in Azure VM, as can 'SAPHANA' and 'SAPHanaDatabase' for SAP HANA in Azure VM.  Allowed values: AzureFileShare, MSSQL, SAPASE, SAPAseDatabase, SAPHANA, SAPHanaDBInstance, SAPHanaDatabase, SQLDataBase, VM.

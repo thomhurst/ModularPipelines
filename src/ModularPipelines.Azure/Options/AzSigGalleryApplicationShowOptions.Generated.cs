@@ -29,8 +29,8 @@ public record AzSigGalleryApplicationShowOptions : AzOptions
     /// <summary>
     /// Gallery name.
     /// </summary>
-    [CliFlag("--gallery-name", ShortForm = "-r")]
-    public bool? GalleryName { get; set; }
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

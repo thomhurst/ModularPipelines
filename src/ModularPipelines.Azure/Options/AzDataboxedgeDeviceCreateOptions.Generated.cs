@@ -63,14 +63,14 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// The etag for the devices.
     /// </summary>
-    [CliFlag("--etag")]
-    public bool? Etag { get; set; }
+    [CliOption("--etag")]
+    public string? Etag { get; set; }
 
     /// <summary>
     /// The Data Box Edge/Gateway device name.
     /// </summary>
-    [CliFlag("--friendly-name")]
-    public bool? FriendlyName { get; set; }
+    [CliOption("--friendly-name")]
+    public string? FriendlyName { get; set; }
 
     /// <summary>
     /// The location of the device. This is a supported and registered Azure geographical region (for example, West US, East US, or Southeast Asia). The geographical region of a device cannot be changed once it is created, but if an identical geographical region is specified on update, the request will succeed.  When not specified, the location of the resource group will be used.

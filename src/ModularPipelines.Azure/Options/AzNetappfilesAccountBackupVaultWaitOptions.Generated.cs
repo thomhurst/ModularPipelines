@@ -29,7 +29,7 @@ public record AzNetappfilesAccountBackupVaultWaitOptions : AzOptions
     /// <summary>
     /// The name of the Backup Vault.
     /// </summary>
-    [CliOption("--backup-vault-name", ShortForm = "-v")]
+    [CliOption("--backup-vault-name", ShortForm = "-n")]
     public string? BackupVaultName { get; set; }
 
     /// <summary>
@@ -53,8 +53,8 @@ public record AzNetappfilesAccountBackupVaultWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -71,14 +71,14 @@ public record AzNetappfilesAccountBackupVaultWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public string? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

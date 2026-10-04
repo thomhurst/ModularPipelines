@@ -63,8 +63,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// The job description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated list of files. It can be used to tell the service to only use the files specified from the input asset.
@@ -75,8 +75,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// A label that is assigned to a Job Input that is used to satisfy a reference used in the Transform. For example, a Transform can be authored to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// The priority with which the job should be processed.  Allowed values: High, Low, Normal.
@@ -93,8 +93,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// Base uri for http job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris.
     /// </summary>
-    [CliFlag("--base-uri")]
-    public bool? BaseUri { get; set; }
+    [CliOption("--base-uri")]
+    public string? BaseUri { get; set; }
 
     /// <summary>
     /// The name of the Azure Media Services account.

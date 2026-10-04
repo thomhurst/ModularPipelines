@@ -68,8 +68,8 @@ public record AzApimApiUpdateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity. Not required when creating an entity, but required when updating an entity. Default value is None.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -98,14 +98,14 @@ public record AzApimApiUpdateOptions : AzOptions
     /// <summary>
     /// API name. Must be 1 to 300 characters long.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance.
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliOption("--path")]
+    public string? Path { get; set; }
 
     /// <summary>
     /// Describes on which protocols the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
@@ -116,20 +116,20 @@ public record AzApimApiUpdateOptions : AzOptions
     /// <summary>
     /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
     /// </summary>
-    [CliFlag("--service-url")]
-    public bool? ServiceUrl { get; set; }
+    [CliOption("--service-url")]
+    public string? ServiceUrl { get; set; }
 
     /// <summary>
     /// Specifies the subscription key header name.
     /// </summary>
-    [CliFlag("--subscription-key-header-name")]
-    public bool? SubscriptionKeyHeaderName { get; set; }
+    [CliOption("--subscription-key-header-name")]
+    public string? SubscriptionKeyHeaderName { get; set; }
 
     /// <summary>
     /// Specifies the subscription key query string parameter name.
     /// </summary>
-    [CliFlag("--subscription-key-query-param-name")]
-    public bool? SubscriptionKeyQueryParamName { get; set; }
+    [CliOption("--subscription-key-query-param-name")]
+    public string? SubscriptionKeyQueryParamName { get; set; }
 
     /// <summary>
     /// If true, the API requires a subscription key on requests. Allowed values: false, true.

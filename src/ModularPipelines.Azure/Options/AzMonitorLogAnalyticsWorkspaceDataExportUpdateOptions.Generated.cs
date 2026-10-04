@@ -29,8 +29,8 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
     /// <summary>
     /// Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
     /// </summary>
-    [CliFlag("--event-hub-name")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -71,8 +71,8 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportUpdateOptions : AzOptions
     /// <summary>
     /// The data export rule name.
     /// </summary>
-    [CliFlag("--data-export-name", ShortForm = "-n")]
-    public bool? DataExportName { get; set; }
+    [CliOption("--data-export-name", ShortForm = "-n")]
+    public string? DataExportName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

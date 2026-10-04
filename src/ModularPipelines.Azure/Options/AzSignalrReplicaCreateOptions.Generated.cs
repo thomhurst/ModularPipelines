@@ -91,7 +91,7 @@ public record AzSignalrReplicaCreateOptions : AzOptions
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
 }

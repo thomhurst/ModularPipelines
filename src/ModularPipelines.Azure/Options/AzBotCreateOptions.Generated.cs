@@ -79,7 +79,7 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// The key vault key url to enable Customer Managed Keys encryption.
     /// </summary>
-    [CliOption("--cmk", ShortForm = "--cmk-key-vault-key-url")]
+    [CliOption("--cmk")]
     public string? Cmk { get; set; }
 
     /// <summary>
@@ -103,8 +103,8 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// Microsoft App Tenant Id for the bot.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// The description of the bot.
@@ -115,14 +115,14 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// The display name of the bot. If not specified, defaults to the name of the bot.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The messaging endpoint of the bot.
     /// </summary>
-    [CliFlag("--endpoint", ShortForm = "-e")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint", ShortForm = "-e")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// The Sku of the bot.  Allowed values: F0, S1.  Default: F0.

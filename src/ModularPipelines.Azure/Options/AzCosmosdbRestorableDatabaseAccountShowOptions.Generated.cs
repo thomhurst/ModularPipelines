@@ -23,8 +23,8 @@ public record AzCosmosdbRestorableDatabaseAccountShowOptions : AzOptions
     /// <summary>
     /// InstanceId of the Account.
     /// </summary>
-    [CliFlag("--instance-id", ShortForm = "-i")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id", ShortForm = "-i")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Location.

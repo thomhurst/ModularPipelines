@@ -46,8 +46,8 @@ public record AzManagedservicesAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Can be used to override the generated registration assignment id.
     /// </summary>
-    [CliFlag("--assignment-id")]
-    public bool? AssignmentId { get; set; }
+    [CliOption("--assignment-id")]
+    public string? AssignmentId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.

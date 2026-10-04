@@ -23,8 +23,8 @@ public record AzNetappfilesVolumeBucketGenerateCredentialOptions : AzOptions
     /// <summary>
     /// The number of days from now until the newly generated Access and Secret key pair will expire.
     /// </summary>
-    [CliFlag("--key-pair-expiry-days")]
-    public bool? KeyPairExpiryDays { get; set; }
+    [CliOption("--key-pair-expiry-days")]
+    public int? KeyPairExpiryDays { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -35,7 +35,7 @@ public record AzNetappfilesVolumeBucketGenerateCredentialOptions : AzOptions
     /// <summary>
     /// The name of the bucket.
     /// </summary>
-    [CliOption("--bucket-name", ShortForm = "-n")]
+    [CliOption("--bucket-name", ShortForm = "-b")]
     public string? BucketName { get; set; }
 
     /// <summary>
