@@ -101,19 +101,19 @@ public record HelmPluginListOptions : HelmOptions
     public double? Qps { get; set; }
 
     /// <summary>
-    /// path to the registry config file (default "~/.config/helm/registry/config.json")
+    /// path to the registry config file (default "~\\AppData\\Roaming\\helm\\registry\\config.json")
     /// </summary>
     [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryConfig { get; set; }
 
     /// <summary>
-    /// path to the directory containing cached repository indexes (default "~/.cache/helm/repository")
+    /// path to the directory containing cached repository indexes (default "~\\AppData\\Local\\Temp\\helm\\repository")
     /// </summary>
     [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryCache { get; set; }
 
     /// <summary>
-    /// path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
+    /// path to the file containing repository names and URLs (default "~\\AppData\\Roaming\\helm\\repositories.yaml")
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }

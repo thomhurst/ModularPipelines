@@ -72,7 +72,7 @@ public partial class TrivyCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(

@@ -1420,11 +1420,19 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    public async Task EscapeXmlComment_Normalizes_Windows_Runner_Home_Paths()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task EscapeXmlComment_Normalizes_Windows_Runner_Home_Paths(bool escaped)
     {
-        var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\runneradmin\.config\tool");
+        var path = @"C:\Users\runneradmin\.config\tool";
+        if (escaped)
+        {
+            path = path.Replace("\\", "\\\\", StringComparison.Ordinal);
+        }
 
-        await Assert.That(result).Contains(@"~\.config\tool");
+        var result = GeneratorUtils.EscapeXmlComment($"default {path}");
+
+        await Assert.That(result).Contains(escaped ? @"~\\.config\\tool" : @"~\.config\tool");
         await Assert.That(result).DoesNotContain("runneradmin");
     }
 

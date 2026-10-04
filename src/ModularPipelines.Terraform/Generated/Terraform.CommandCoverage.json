@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "terraform",
-  "toolVersion": "Terraform v1.16.5 on linux_amd64",
-  "commandCount": 68,
-  "commandTreeSha256": "68f2991aabc4276d9134b5e632ec9fd9e0613705bb3edfc0c0b5b39c4f665dc7",
+  "toolVersion": "Terraform v1.16.4 on windows_amd64  Your version of Terraform is out of date! The latest version is 1.16.5. You can update by downloading from https://developer.hashicorp.com/terraform/install",
+  "commandCount": 70,
+  "commandTreeSha256": "27469ab79a53dfa5bfb971a7e8e2dc64cdc419731cd022d0d5317cace378c2a1",
   "commands": [
     "terraform apply",
     "terraform console",
@@ -56,6 +56,7 @@
     "terraform stacks list",
     "terraform stacks providers-lock",
     "terraform stacks validate",
+    "terraform stacks version",
     "terraform state",
     "terraform state identities",
     "terraform state list",
@@ -69,6 +70,7 @@
     "terraform test",
     "terraform untaint",
     "terraform validate",
+    "terraform version",
     "terraform workspace delete",
     "terraform workspace list",
     "terraform workspace new",
