@@ -14,24 +14,18 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.Python.Options;
 
 /// <summary>
-/// Download packages from:
+/// EXPERIMENTAL - Lock packages and their dependencies from:
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("download")]
-public record PipDownloadOptions : PipOptions, IValidatableObject
+[CliSubCommand("lock")]
+public record PipLockOptions : PipOptions, IValidatableObject
 {
     /// <summary>
-    /// Constrain versions using the given constraints file. This option can be used multiple times.
+    /// Lock file name (default=pylock.toml). Use - for stdout.
     /// </summary>
-    [CliOption("--constraint", ShortForm = "-c")]
-    public IEnumerable<string>? Constraint { get; set; }
-
-    /// <summary>
-    /// Constrain build dependencies using the given constraints file. This option can be used multiple times.
-    /// </summary>
-    [CliOption("--build-constraint")]
-    public IEnumerable<string>? BuildConstraint { get; set; }
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Install from the given requirements file. This option can be used multiple times.
@@ -80,10 +74,64 @@ public record PipDownloadOptions : PipOptions, IValidatableObject
     }
 
     /// <summary>
+    /// Constrain versions using the given constraints file. This option can be used multiple times.
+    /// </summary>
+    [CliOption("--constraint", ShortForm = "-c")]
+    public IEnumerable<string>? Constraint { get; set; }
+
+    /// <summary>
+    /// Constrain build dependencies using the given constraints file. This option can be used multiple times.
+    /// </summary>
+    [CliOption("--build-constraint")]
+    public IEnumerable<string>? BuildConstraint { get; set; }
+
+    /// <summary>
     /// Don't install package dependencies.
     /// </summary>
     [CliFlag("--no-deps")]
     public bool? NoDeps { get; set; }
+
+    /// <summary>
+    /// Include pre-release and development versions. By default, pip only finds stable versions.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
+    /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
+    /// </summary>
+    [CliOption("--editable", ShortForm = "-e")]
+    public string? Editable { get; set; }
+
+    /// <summary>
+    /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
+    /// </summary>
+    [CliOption("--src")]
+    public string? Src { get; set; }
+
+    /// <summary>
+    /// Ignore the Requires-Python information.
+    /// </summary>
+    [CliFlag("--ignore-requires-python")]
+    public bool? IgnoreRequiresPython { get; set; }
+
+    /// <summary>
+    /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
+    /// </summary>
+    [CliFlag("--no-build-isolation")]
+    public bool? NoBuildIsolation { get; set; }
+
+    /// <summary>
+    /// Check the build dependencies.
+    /// </summary>
+    [CliFlag("--check-build-dependencies")]
+    public bool? CheckBuildDependencies { get; set; }
+
+    /// <summary>
+    /// Configuration settings to be passed to the build backend. Settings take the form KEY=VALUE. Use multiple --config-settings options to pass multiple keys to the backend.
+    /// </summary>
+    [CliOption("--config-settings", ShortForm = "-C")]
+    public IEnumerable<string>? ConfigSettings { get; set; }
 
     /// <summary>
     /// Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all binary packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
@@ -104,18 +152,6 @@ public record PipDownloadOptions : PipOptions, IValidatableObject
     public bool? PreferBinary { get; set; }
 
     /// <summary>
-    /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
-    /// </summary>
-    [CliOption("--src")]
-    public string? Src { get; set; }
-
-    /// <summary>
-    /// Include pre-release and development versions. By default, pip only finds stable versions.
-    /// </summary>
-    [CliFlag("--pre")]
-    public bool? Pre { get; set; }
-
-    /// <summary>
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
     [CliFlag("--require-hashes")]
@@ -126,54 +162,6 @@ public record PipDownloadOptions : PipOptions, IValidatableObject
     /// </summary>
     [CliOption("--progress-bar")]
     public string? ProgressBar { get; set; }
-
-    /// <summary>
-    /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
-    /// </summary>
-    [CliFlag("--no-build-isolation")]
-    public bool? NoBuildIsolation { get; set; }
-
-    /// <summary>
-    /// Check the build dependencies.
-    /// </summary>
-    [CliFlag("--check-build-dependencies")]
-    public bool? CheckBuildDependencies { get; set; }
-
-    /// <summary>
-    /// Ignore the Requires-Python information.
-    /// </summary>
-    [CliFlag("--ignore-requires-python")]
-    public bool? IgnoreRequiresPython { get; set; }
-
-    /// <summary>
-    /// Download packages into &lt;dir&gt;.
-    /// </summary>
-    [CliOption("--dest", ShortForm = "-d")]
-    public string? Dest { get; set; }
-
-    /// <summary>
-    /// Only use wheels compatible with &lt;platform&gt;. Defaults to the platform of the running system. Use this option multiple times to specify multiple platforms supported by the target interpreter.
-    /// </summary>
-    [CliOption("--platform")]
-    public IEnumerable<string>? Platform { get; set; }
-
-    /// <summary>
-    /// The Python interpreter version to use for wheel and "Requires-Python" compatibility checks. Defaults to a version derived from the running interpreter. The version can be specified using up to three dot-separated integers (e.g. "3" for 3.0.0, "3.7" for 3.7.0, or "3.7.3"). A major- minor version can also be given as a string without dots (e.g. "37" for 3.7.0).
-    /// </summary>
-    [CliOption("--python-version")]
-    public string? PythonVersion { get; set; }
-
-    /// <summary>
-    /// Only use wheels compatible with Python implementation &lt;implementation&gt;, e.g. 'pp', 'jy', 'cp',  or 'ip'. If not specified, then the current interpreter implementation is used.  Use 'py' to force implementation-agnostic wheels.
-    /// </summary>
-    [CliOption("--implementation")]
-    public string? Implementation { get; set; }
-
-    /// <summary>
-    /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python-version when using this option.
-    /// </summary>
-    [CliOption("--abi")]
-    public IEnumerable<string>? Abi { get; set; }
 
     /// <summary>
     /// Install a named dependency-group from a "pyproject.toml" file. If a path is given, the name of the file must be "pyproject.toml". Defaults to using "pyproject.toml" in the current directory.
@@ -212,16 +200,16 @@ public record PipDownloadOptions : PipOptions, IValidatableObject
     public string? FindLinks { get; set; }
 
     /// <summary>
-    /// The &lt;requirement specifier&gt; operand.
+    /// The &lt;local project path&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? RequirementSpecifier
+    public IEnumerable<string>? LocalProjectPath
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RequirementSpecifierSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LocalProjectPathSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
     }
 
-    private sealed class __RequirementSpecifierSnapshotKeyValue(
+    private sealed class __LocalProjectPathSnapshotKeyValue(
         IEnumerable<string> source,
         global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
         : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
@@ -242,9 +230,9 @@ public record PipDownloadOptions : PipOptions, IValidatableObject
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Group)))
+        if (!(((object?)LocalProjectPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)LocalProjectPath is not string || !string.IsNullOrWhiteSpace(LocalProjectPath?.ToString()) : ((object?)LocalProjectPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LocalProjectPath, static item => item is not null) : (LocalProjectPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LocalProjectPath), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || !string.IsNullOrWhiteSpace(Group)))
         {
-            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, or Group must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Group)]);
+            yield return new ValidationResult("At least one of LocalProjectPath, Requirement, Editable, or Group must be specified.", [nameof(LocalProjectPath), nameof(Requirement), nameof(Editable), nameof(Group)]);
         }
         yield break;
     }
