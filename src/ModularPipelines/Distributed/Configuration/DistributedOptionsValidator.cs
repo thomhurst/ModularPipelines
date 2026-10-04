@@ -19,6 +19,12 @@ internal static class DistributedOptionsValidator
             return failures;
         }
 
+        ValidateExecutionOptions(options, failures);
+        return failures;
+    }
+
+    private static void ValidateExecutionOptions(DistributedOptions options, List<string> failures)
+    {
         if (options.TotalInstances < 1)
         {
             failures.Add("Distributed.TotalInstances must be at least 1.");
@@ -70,7 +76,5 @@ internal static class DistributedOptionsValidator
         {
             failures.Add("Distributed.ModuleResultTimeout cannot be negative.");
         }
-
-        return failures;
     }
 }
