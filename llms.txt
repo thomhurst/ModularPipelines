@@ -56,6 +56,7 @@
 - [Getting Started](/docs/next/getting-started.md): ModularPipelines pipelines are .NET console applications. Install the .NET 10 SDK first. The
 - [Always Run](/docs/next/how-to/always-run.md): Module Run Types
 - [Analyzers](/docs/next/how-to/analyzers.md): Modular Pipelines includes Roslyn analyzers that catch pipeline authoring mistakes at compile time. Each rule uses the MP#### ID family, so it can be configured with standard .NET analyzer settings.
+- [Asynchronous file hashing and ZIP operations](/docs/next/how-to/async-file-operations.md): Use the async file helpers for cancellable stream copying and hashing. Pass the
 - [Generate build server files](/docs/next/how-to/build-server-files.md): The ModularPipelines package can create the minimal YAML needed to run a
 - [Cancellation Tokens](/docs/next/how-to/cancellation-tokens.md): When you override a Module's ExecuteAsync method, you are provided a CancellationToken by the framework.
 - [Categories](/docs/next/how-to/categories.md): Sometimes we want to run only certain parts of a pipeline, or we might want to split a pipeline up into different targets. For instance, a test run, and then later on a deploy run. Categories can help achieve that.
