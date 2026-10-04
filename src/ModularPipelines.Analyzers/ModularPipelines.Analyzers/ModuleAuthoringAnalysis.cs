@@ -4715,6 +4715,13 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var syntaxReference in method.DeclaringSyntaxReferences)
         {
+            // Workspace references can expose source owned by another compilation.
+            // Treat those method bodies like metadata references.
+            if (!compilation.ContainsSyntaxTree(syntaxReference.SyntaxTree))
+            {
+                continue;
+            }
+
             var syntax = syntaxReference.GetSyntax(cancellationToken);
             var operation = compilation.GetSemanticModel(syntax.SyntaxTree)
                 .GetOperation(syntax, cancellationToken);
