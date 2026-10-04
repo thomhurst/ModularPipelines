@@ -1,4 +1,4 @@
-﻿namespace ModularPipelines.Interfaces;
+namespace ModularPipelines;
 
 /// <summary>
 /// Defines a limit for parallel execution.

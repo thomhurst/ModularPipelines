@@ -13,7 +13,7 @@ namespace ModularPipelines.UnitTests.Hooks;
 /// Verifies how handler failures affect module outcomes: gate handlers (Ready, Start) fail the module
 /// through the normal failure path, while observer handlers (End, Failure, Skipped) never change it.
 /// </summary>
-[NotInParallel(nameof(EventHandlerFailureSemanticsTests))]
+[TUnit.Core.NotInParallel(nameof(EventHandlerFailureSemanticsTests))]
 public class EventHandlerFailureSemanticsTests : TestBase
 {
     private static readonly List<string> Log = [];

@@ -1,7 +1,6 @@
 using System.Text;
-using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines.FileSystem;
 
 /// <summary>
 /// Extensions for files.

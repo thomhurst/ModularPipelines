@@ -1,12 +1,12 @@
 using System.Collections.Frozen;
 
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Used to control modules not running in parallel with other modules.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-public class NotInParallelAttribute : Attribute
+public sealed class NotInParallelAttribute : Attribute
 {
     /// <summary>
     /// Gets the constraint key.

@@ -12,21 +12,21 @@ public class NotInParallelTests : TestBase
     private static readonly TimeSpan ModuleDelay = TimeSpan.FromMilliseconds(100);
     private static readonly NotInParallelTracker Tracker = new();
 
-    [ModularPipelines.Attributes.NotInParallel]
+    [ModularPipelines.NotInParallel]
     public class Module1 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel]
+    [ModularPipelines.NotInParallel]
     public class Module2 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTests.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["Module1"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel]
+    [ModularPipelines.NotInParallel]
     [ModularPipelines.DependsOn<ParallelDependency>]
     public class NotParallelModuleWithParallelDependency : NotInParallelTestModule
     {
@@ -44,7 +44,7 @@ public class NotInParallelTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.NotInParallel]
+    [ModularPipelines.NotInParallel]
     [ModularPipelines.DependsOn<NotParallelModuleWithParallelDependency>]
     public class NotParallelModuleWithNonParallelDependency : NotInParallelTestModule
     {

@@ -43,7 +43,7 @@ public class ModuleConfigureTests
             => Task.FromResult<string>("test");
     }
 
-    [ModularPipelines.Attributes.NotInParallel("attribute-lock")]
+    [ModularPipelines.NotInParallel("attribute-lock")]
     [Priority(ModulePriority.High)]
     [ExecutionHint(ExecutionHint.CpuBound)]
     [ModuleTag("attribute-tag")]

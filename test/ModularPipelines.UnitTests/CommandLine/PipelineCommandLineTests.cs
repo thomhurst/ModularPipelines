@@ -549,20 +549,20 @@ public class PipelineCommandLineTests
     }
 
     [Priority(ModulePriority.High)]
-    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    [ModularPipelines.NotInParallel("priority-plan-lock")]
     private sealed class PriorityConstraintRootModule : DryRunModule
     {
     }
 
     [Priority(ModulePriority.High)]
-    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    [ModularPipelines.NotInParallel("priority-plan-lock")]
     [ModularPipelines.DependsOn<PriorityConstraintRootModule>]
     private sealed class PriorityConstraintDependentModule : DryRunModule
     {
     }
 
     [Priority(ModulePriority.Low)]
-    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    [ModularPipelines.NotInParallel("priority-plan-lock")]
     private sealed class PriorityConstraintLowRootModule : DryRunModule
     {
     }

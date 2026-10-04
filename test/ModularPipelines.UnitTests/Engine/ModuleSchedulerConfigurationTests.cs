@@ -15,7 +15,7 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class ModuleSchedulerConfigurationTests
 {
-    [ModularPipelines.Attributes.NotInParallel("direct-lock")]
+    [ModularPipelines.NotInParallel("direct-lock")]
     [Priority(ModulePriority.Critical)]
     [ExecutionHint(ExecutionHint.IoBound)]
     private sealed class DirectAttributedModule : IModule

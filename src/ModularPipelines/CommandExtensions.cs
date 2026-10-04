@@ -1,6 +1,6 @@
 using ModularPipelines.Options;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines;
 
 /// <summary>
 /// Provides extension methods for working with command-line options.

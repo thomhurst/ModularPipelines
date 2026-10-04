@@ -1,6 +1,6 @@
 using ModularPipelines.Enums;
 
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Provides a hint about the resource usage characteristics of a module.
@@ -22,7 +22,7 @@ namespace ModularPipelines.Attributes;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-public class ExecutionHintAttribute : Attribute
+public sealed class ExecutionHintAttribute : Attribute
 {
     /// <summary>
     /// Gets the execution hint for the module.

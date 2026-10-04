@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace ModularPipelines.Enums;
+namespace ModularPipelines;
 
 /// <summary>
 /// Hints about the resource usage characteristics of a module.

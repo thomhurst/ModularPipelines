@@ -67,7 +67,8 @@ dotnet run -- --graph json --graph-path branch=main.json
 You can also export programmatically:
 
 ```csharp
-using ModularPipelines.Enums;
+using ModularPipelines;
+using ModularPipelines.Reporting;
 
 var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<Module2>();

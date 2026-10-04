@@ -259,7 +259,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A summary of the pipeline run results.</returns>
-    public static async Task<Models.PipelineSummary> RunAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
+    public static async Task<PipelineSummary> RunAsync(this PipelineBuilder builder, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(builder);
         var pipeline = await builder.BuildAsync().ConfigureAwait(false);

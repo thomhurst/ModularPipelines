@@ -20,7 +20,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Tracing;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 public class TelemetryIntegrationTests
 {
     private const string Secret = "telemetry-secret-value";

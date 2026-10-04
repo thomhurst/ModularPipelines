@@ -16,7 +16,7 @@ using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Options;
 
-[NotInParallel]
+[TUnit.Core.NotInParallel]
 public class PipelineOptionsTests
 {
     private sealed class TestLoggerProvider : ILoggerProvider
