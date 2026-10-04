@@ -221,3 +221,5 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.ParseGl
 
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.BrewCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.BrewCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.FlywayCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.SnykCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
