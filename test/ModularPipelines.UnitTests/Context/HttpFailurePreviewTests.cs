@@ -1,4 +1,6 @@
 using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
 
 using ModularPipelines.Exceptions;
 using ModularPipelines.Http;
@@ -10,6 +12,91 @@ namespace ModularPipelines.UnitTests.Context;
 
 public class HttpFailurePreviewTests
 {
+    [Test]
+    [Arguments("utf-8", false)]
+    [Arguments("utf-8", true)]
+    [Arguments("utf-16", false)]
+    [Arguments("utf-16", true)]
+    [Arguments("utf-16BE", false)]
+    [Arguments("utf-16BE", true)]
+    [Arguments("utf-32", false)]
+    [Arguments("utf-32", true)]
+    [Arguments("utf-32BE", false)]
+    [Arguments("utf-32BE", true)]
+    public async Task Failure_Preview_Decodes_And_Removes_Bom(string charset, bool declareCharset)
+    {
+        const string message = "Request failed: café 😀.";
+        var encoding = Encoding.GetEncoding(charset);
+        using var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+            Content = new ByteArrayContent([.. encoding.GetPreamble(), .. encoding.GetBytes(message)]),
+        };
+        response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain")
+        {
+            CharSet = declareCharset ? $"\"{charset}\"" : null,
+        };
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => response.EnsureSuccessStatusCodeWithContentAsync());
+
+        await Assert.That(exception!.ResponseContent).IsEqualTo(message);
+    }
+
+    [Test]
+    [Arguments("utf-8")]
+    [Arguments("utf-16")]
+    [Arguments("utf-16BE")]
+    [Arguments("utf-32")]
+    [Arguments("utf-32BE")]
+    public async Task Failure_Preview_With_Bom_Does_Not_Split_Characters(string charset)
+    {
+        var encoding = Encoding.GetEncoding(charset);
+        var message = string.Concat(Enumerable.Repeat("😀", 1000));
+        using var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+            Content = new ByteArrayContent([.. encoding.GetPreamble(), .. encoding.GetBytes(message)]),
+        };
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => response.EnsureSuccessStatusCodeWithContentAsync());
+
+        var completeCharacters = (2000 - encoding.GetPreamble().Length) / encoding.GetByteCount("😀");
+        await Assert.That(exception!.ResponseContent)
+            .IsEqualTo(string.Concat(Enumerable.Repeat("😀", completeCharacters)) + "... (truncated)");
+    }
+
+    [Test]
+    [Arguments(false, 7)]
+    [Arguments(false, 0)]
+    [Arguments(true, 7)]
+    [Arguments(true, 0)]
+    public async Task Preview_Preserves_Bom_In_Replayed_Content(bool replayable, int maxBytes)
+    {
+        byte[] bytes = [.. Encoding.Unicode.GetPreamble(), .. Encoding.Unicode.GetBytes("abcd")];
+        using var content = new ByteArrayContent(bytes);
+
+        var result = replayable
+            ? await HttpContentPreviewReader.ReadReplayableAsync(content, maxBytes, CancellationToken.None)
+            : await HttpContentPreviewReader.ReadAsync(content, maxBytes, CancellationToken.None);
+        using var replay = result.ReplayContent;
+
+        await Assert.That(result.Preview).IsEqualTo(maxBytes == 0 ? "abcd" : "ab");
+        await Assert.That((await replay.ReadAsByteArrayAsync()).SequenceEqual(bytes)).IsTrue();
+    }
+
+    [Test]
+    public async Task Failure_Preview_Prefers_Declared_Charset_Over_Bom()
+    {
+        byte[] bytes = [.. Encoding.Unicode.GetPreamble(), .. Encoding.Unicode.GetBytes("failure")];
+        using var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+            Content = new ByteArrayContent(bytes),
+        };
+        response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain") { CharSet = "iso-8859-1" };
+
+        var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => response.EnsureSuccessStatusCodeWithContentAsync());
+
+        await Assert.That(exception!.ResponseContent).IsEqualTo(Encoding.Latin1.GetString(bytes));
+    }
+
     [Test]
     [Arguments(100)]
     [Arguments(2000)]

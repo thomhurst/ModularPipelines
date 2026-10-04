@@ -59,6 +59,7 @@ public class PipelineHttpResponseException : HttpRequestException
     /// <summary>
     /// Gets the content preview of the failed response, if available.
     /// Framework HTTP operations capture at most 2,000 body bytes plus a truncation marker.
+    /// This is a byte limit, not a character limit; the appended marker is outside that limit.
     /// </summary>
     public string? ResponseContent { get; }
 

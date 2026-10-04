@@ -10,6 +10,16 @@ internal static class HttpContentPreviewReader
 {
     private const int MaximumPreviewBufferSize = 81920;
 
+    // UTF-32 LE must precede UTF-16 LE because their preambles share a prefix.
+    private static readonly Encoding[] BomEncodings =
+    [
+        Encoding.UTF32,
+        new UTF32Encoding(bigEndian: true, byteOrderMark: true),
+        Encoding.UTF8,
+        Encoding.Unicode,
+        Encoding.BigEndianUnicode,
+    ];
+
     /// <summary>
     /// Reads at most one byte beyond the configured preview limit.
     /// </summary>
@@ -30,7 +40,7 @@ internal static class HttpContentPreviewReader
             var unboundedReplayContent = new ByteArrayContent(bytes);
             CopyHeaders(content, unboundedReplayContent);
             content.Dispose();
-            return (DecodeCompletePrefix(GetEncoding(unboundedReplayContent), bytes, bytes.Length),
+            return (DecodeCompletePrefix(unboundedReplayContent, bytes, bytes.Length),
                 false,
                 unboundedReplayContent,
                 totalLength ?? bytes.LongLength);
@@ -83,8 +93,7 @@ internal static class HttpContentPreviewReader
         var bytesRead = bufferedBytes.Length;
         var isTruncated = bytesRead > maxBytes;
         var previewLength = Math.Min(bytesRead, maxBytes);
-        var encoding = GetEncoding(content);
-        var preview = DecodeCompletePrefix(encoding, bufferedBytes, previewLength);
+        var preview = DecodeCompletePrefix(content, bufferedBytes, previewLength);
         var replayContent = CreateReplayContent(content, stream, bufferedBytes);
 
         return (preview, isTruncated, replayContent, content.Headers.ContentLength);
@@ -110,7 +119,7 @@ internal static class HttpContentPreviewReader
             ? bytes.Length
             : Math.Min(bytes.Length, maxBytes);
         var isTruncated = previewLength < bytes.Length;
-        var preview = DecodeCompletePrefix(GetEncoding(content), bytes, previewLength);
+        var preview = DecodeCompletePrefix(content, bytes, previewLength);
         var replayContent = new ByteArrayContent(bytes);
         CopyHeaders(content, replayContent);
         content.Dispose();
@@ -157,11 +166,19 @@ internal static class HttpContentPreviewReader
             : Math.Min(probeLength, MaximumPreviewBufferSize);
     }
 
-    private static Encoding GetEncoding(HttpContent content)
+    private static Encoding GetEncoding(HttpContent content, ReadOnlySpan<byte> buffer)
     {
         var charset = content.Headers.ContentType?.CharSet?.Trim('"');
         if (string.IsNullOrWhiteSpace(charset))
         {
+            foreach (var encoding in BomEncodings)
+            {
+                if (buffer.StartsWith(encoding.Preamble))
+                {
+                    return encoding;
+                }
+            }
+
             return Encoding.UTF8;
         }
 
@@ -175,12 +192,17 @@ internal static class HttpContentPreviewReader
         }
     }
 
-    private static string DecodeCompletePrefix(Encoding encoding, byte[] buffer, int length)
+    private static string DecodeCompletePrefix(HttpContent content, byte[] buffer, int length)
     {
+        var encoding = GetEncoding(content, buffer);
+        var preambleLength = buffer.AsSpan().StartsWith(encoding.Preamble)
+            ? Math.Min(length, encoding.Preamble.Length)
+            : 0;
+        var prefix = buffer.AsSpan(preambleLength, length - preambleLength);
         var decoder = encoding.GetDecoder();
-        var characters = new char[encoding.GetMaxCharCount(length)];
+        var characters = new char[encoding.GetMaxCharCount(prefix.Length)];
         decoder.Convert(
-            buffer.AsSpan(0, length),
+            prefix,
             characters,
             flush: false,
             out _,
