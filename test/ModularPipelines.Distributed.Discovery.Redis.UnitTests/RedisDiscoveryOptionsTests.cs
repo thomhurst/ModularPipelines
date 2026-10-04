@@ -49,6 +49,33 @@ public class RedisDiscoveryOptionsTests
     }
 
     [Test]
+    [Arguments("", false)]
+    [Arguments("", true)]
+    [Arguments("localhost:6379", true)]
+    public async Task HostBuildRejectsCallbackWithoutEndpoints(string connectionString, bool customizeTls)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisMasterDiscovery(options =>
+        {
+            options.ConnectionString = connectionString;
+            options.ConfigureConnection = configuration =>
+            {
+                if (customizeTls)
+                {
+                    configuration.Ssl = true;
+                    configuration.EndPoints.Clear();
+                }
+            };
+        });
+        builder.AddDistributedMode(options => options.RunId = "test-run");
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures).Contains("Redis discovery requires at least one TCP endpoint.");
+    }
+
+    [Test]
     [Arguments("localhost:6379")]
     [Arguments("redis.internal:6380")]
     public async Task HostBuildAcceptsExplicitConnectionWithoutConnecting(string connectionString)
@@ -73,6 +100,7 @@ public class RedisDiscoveryOptionsTests
         {
             options.RestUrl = "https://redis.example";
             options.RestToken = "test-token";
+            options.ConfigureConnection = _ => throw new InvalidOperationException("REST must not configure TCP");
         });
         builder.AddDistributedMode(options => options.RunId = "test-run");
 
@@ -87,7 +115,7 @@ public class RedisDiscoveryOptionsTests
     [Test]
     [Arguments("")]
     [Arguments("redis.internal:6380")]
-    public async Task ConnectionCustomizationRunsBeforeConnecting(string connectionString)
+    public async Task ConnectionCustomizationRunsDuringValidation(string connectionString)
     {
         StackExchange.Redis.ConfigurationOptions? capturedConfiguration = null;
         var stopBeforeConnecting = new InvalidOperationException("Stop before network access");
@@ -109,17 +137,34 @@ public class RedisDiscoveryOptionsTests
             };
         });
         builder.AddDistributedMode(options => options.RunId = "test-run");
-        await using var pipeline = await builder.BuildAsync();
-        var store = pipeline.Services.GetRequiredService<IRedisDiscoveryStore>();
-
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
-            () => store.GetAsync("test-key", CancellationToken.None));
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => builder.BuildAsync());
 
         await Assert.That(exception).IsSameReferenceAs(stopBeforeConnecting);
         await Assert.That(capturedConfiguration).IsNotNull();
         await Assert.That(capturedConfiguration!.EndPoints.Single())
             .IsEqualTo(new System.Net.DnsEndPoint("redis.internal", 6380));
         await Assert.That(capturedConfiguration.Ssl).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidationReusesCallbackConfiguration()
+    {
+        var calls = 0;
+        var options = new RedisDiscoveryOptions
+        {
+            ConfigureConnection = configuration =>
+            {
+                calls++;
+                configuration.EndPoints.Add("redis.internal", 6380);
+                configuration.Ssl = true;
+            },
+        };
+        var validator = new RedisDiscoveryOptionsValidator();
+
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+        await Assert.That(validator.Validate(null, options).Succeeded).IsTrue();
+        await Assert.That(options.GetConnectionConfiguration().Ssl).IsTrue();
+        await Assert.That(calls).IsEqualTo(1);
     }
 
     [Test]

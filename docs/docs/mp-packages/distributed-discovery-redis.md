@@ -34,7 +34,9 @@ builder.AddRedisMasterDiscovery(options =>
 
 Discovery has no default connection. Set `ConnectionString` explicitly, including `localhost:6379` for local Redis,
 or supply endpoints through `ConfigureConnection`. Missing connection configuration fails during pipeline construction.
-Discovery opens its own Redis connection on first use; use `ConfigureConnection` to adjust credentials or TLS.
+TCP options validation runs `ConfigureConnection` and requires at least one endpoint afterward.
+The resulting configuration is cached per options instance; finish configuring options before building the pipeline.
+Discovery opens its own Redis connection on first use. REST discovery does not invoke the TCP callback.
 For REST-backed Redis services, configure both `RestUrl` and `RestToken`; no TCP connection string is needed:
 
 ```csharp
