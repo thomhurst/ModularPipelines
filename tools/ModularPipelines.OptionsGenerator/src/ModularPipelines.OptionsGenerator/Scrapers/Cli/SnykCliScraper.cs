@@ -23,17 +23,19 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   monitor                Monitor a project for new vulnerabilities
 ///   ...
 /// </summary>
-public partial class SnykCliScraper : CliScraperBase
+public partial class SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SnykCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    private static readonly HashSet<string> NumericOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> NumericOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--detection-depth",
         "--max-depth",
         "--nested-jars-depth",
-    };
+    ];
 
-    private static readonly HashSet<string> ValueOptionsWithoutHelpPlaceholders = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> ValueOptionsWithoutHelpPlaceholders =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--config-dir",
         "--dotnet-target-framework",
         "--fetch-tfstate-headers",
@@ -45,13 +47,7 @@ public partial class SnykCliScraper : CliScraperBase
         "--tf-provider-version",
         "--tfc-endpoint",
         "--tfc-token",
-    };
-
-    public SnykCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SnykCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-        ExecutablePath = ResolveExecutablePath();
-    }
+    ];
 
     public override string ToolName => "snyk";
 
@@ -61,9 +57,13 @@ public partial class SnykCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Snyk";
 
-    protected override string ExecutablePath { get; }
+    protected override string ExecutablePath { get; } = ResolveExecutablePath();
 
     protected override int MaxParallelism => 4;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        ParseOptions(helpText, []);
 
     public override async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -165,7 +165,10 @@ public partial class SnykCliScraper : CliScraperBase
         usage = NormalizeCommandGroupUsage(commandParts, usage);
 
         var description = ExtractDescription(helpText, string.Join(' ', commandParts));
-        var options = ParseOptions(helpText, commandParts);
+        var globalSwitches = EffectiveGlobalOptions.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        var options = ParseOptions(helpText, commandParts)
+            .Where(option => !globalSwitches.Contains(option.SwitchName))
+            .ToList();
         AddDocumentedOptions(commandParts, options);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(
             GetPositionalArguments(commandParts)
@@ -339,7 +342,7 @@ public partial class SnykCliScraper : CliScraperBase
             var sectionStart = optionsMatch.Index + optionsMatch.Length;
             var nextSection = NextSectionPattern().Match(helpText, sectionStart);
             var sectionEnd = nextSection.Success ? nextSection.Index : helpText.Length;
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             ParseOptionLines(section.Split('\n'), commandParts, options, seenOptions);
         }
 
@@ -393,7 +396,7 @@ public partial class SnykCliScraper : CliScraperBase
         }
     }
 
-    private CliOptionDefinition? CreateOption(
+    private static CliOptionDefinition? CreateOption(
         Match match,
         IReadOnlyList<string> commandParts,
         string? description,
@@ -737,7 +740,7 @@ public partial class SnykCliScraper : CliScraperBase
                     .Key,
                 StringComparer.OrdinalIgnoreCase);
 
-        return commands.Select(command =>
+        return [.. commands.Select(command =>
         {
             var enumPrefix = command.ClassName.EndsWith("Options", StringComparison.Ordinal)
                 ? command.ClassName[..^"Options".Length]
@@ -763,13 +766,12 @@ public partial class SnykCliScraper : CliScraperBase
             return command with
             {
                 Options = options,
-                Enums = options
+                Enums = [.. options
                     .Where(option => option.EnumDefinition is not null)
                     .Select(option => option.EnumDefinition!)
-                    .DistinctBy(enumDefinition => enumDefinition.EnumName, StringComparer.OrdinalIgnoreCase)
-                    .ToList(),
+                    .DistinctBy(enumDefinition => enumDefinition.EnumName, StringComparer.OrdinalIgnoreCase)],
             };
-        }).ToList();
+        })];
     }
 
     private static string GetEnumValueSet(CliEnumDefinition enumDefinition)
