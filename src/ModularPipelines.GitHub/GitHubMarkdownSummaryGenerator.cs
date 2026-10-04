@@ -126,7 +126,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         return $"\n\n```\n{exception}\n```";
     }
 
-    private static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
+    internal static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
     {
         var stepStringList = pipelineSummary.Results
             .Where(x => x.Duration != TimeSpan.Zero)
@@ -196,7 +196,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
 
     private static string AddCritIfFailed(IModuleResult moduleResult)
     {
-        return moduleResult.ExceptionOrDefault is not null
+        return PipelineSummary.IsFailure(moduleResult)
             ? "crit,"
             : string.Empty;
     }

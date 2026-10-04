@@ -98,6 +98,7 @@ public sealed record PipelineSummary
     public bool Succeeded
     {
         get => Status == ModuleStatus.Succeeded;
+        // JSON applies this after the constructor; an absent property preserves Unknown.
         private init => StatusOverride = value ? ModuleStatus.Succeeded : ModuleStatus.Failed;
     }
 

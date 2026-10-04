@@ -314,9 +314,11 @@ The custom JSON converters use the same new property names. Consumers of persist
 distributed `ModuleResult` JSON must migrate those five field names together with the
 .NET API.
 
-`PipelineSummary.Failures` returns the results that failed the pipeline: results with an
-exception whose status is not `FailureIgnored`. `PipelineSummary.IgnoredFailures` returns
-the results whose failures were ignored. Use them instead of filtering `Results` by hand.
+`PipelineSummary.Failures` returns results with a `Failed`, `TimedOut`, `DependencyFailed`,
+or `Canceled` status, even when no exception was captured. It also includes other results
+with an exception unless their status is `FailureIgnored`. `PipelineSummary.IgnoredFailures`
+returns the results whose failures were ignored. Use them instead of filtering `Results`
+by hand. GitHub Mermaid summaries use the same failure criteria for critical styling.
 
 ## Git repository information
 
