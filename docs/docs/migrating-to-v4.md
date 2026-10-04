@@ -502,8 +502,14 @@ V3's `GetFailedModuleResults()` mixed two kinds of result. V4 splits them:
 - `summary.IgnoredFailures` holds results with status `FailureIgnored`. They still have an
   exception, but they do not fail the pipeline.
 
-To reproduce the V3 list, combine both. For the overall outcome, read `summary.Status`.
+To reproduce the V3 list, combine both. For the overall outcome, read `summary.Succeeded`.
 
+`PipelineSummary` is sealed in V4. Its timing properties are renamed from `Start`, `End`, and
+`TotalDuration` to `StartTime`, `EndTime`, and `Duration`; update custom JSON consumers too.
+`Succeeded` replaces the module-level `Status` property. It is true only when the pipeline
+completes without unignored failures. Skipped, cached, restored, and ignored-failure results
+permit success; incomplete, failed, and canceled runs do not. The value survives JSON
+round-trips even though module results are not serialized.
 `summary.Modules` and `summary.GetModule<T>()` are removed. Retrieve dependencies inside a
 module, or inspect `summary.Results` after execution. If the old code needs a particular output,
 select the matching typed result. When several modules return the same type, tell them apart by
@@ -908,8 +914,7 @@ input, set `CommandParts` in the constructor instead:
 
 ```csharp
 // V3: the argument replaced <ACTION>, or disappeared if it did not match.
-[CliTool("tool")]
-[CliSubCommand("resource", "<ACTION>")]
+[CliCommand("tool", "resource", "<ACTION>")]
 public record ResourceOptions(
     [property: CliArgument(0, Name = "<ACTION>")] string Action)
     : CommandLineToolOptions;
@@ -1342,6 +1347,8 @@ public class BuildModule : Module<CommandResult>
 | `[CliCommand("tool", ...)]` | `[CliTool("tool")]` + `[CliSubCommand(...)]` | Handwritten option types only |
 | `Git().Information.BranchName`, etc. | `(await Tools.Git.Information.GetRequiredInfoAsync(ct)).BranchName` | Use `GetInfoAsync` if Git may be unavailable; properties can be null |
 | `CommandLogVerbosity.Minimal` | `CommandLogVerbosity.InputOnly` | Logs command input only; pick the level you need |
+| `summary.Start` / `End` / `TotalDuration` | `StartTime` / `EndTime` / `Duration` | `PipelineSummary` is now sealed |
+| `summary.Status` | `summary.Succeeded` | Boolean overall outcome; inspect `Failures` for details |
 | `summary.GetFailedModuleResults()` | `summary.Failures` and `summary.IgnoredFailures` | V3 returned both kinds together |
 | `Git().Commands.Push(...)`, etc. | `Tools.Git.Commands.Remotes.PushAsync(...)`, etc. | Commands are grouped by area |
 | `DependsOnLazy<T>()` | `DependsOnOptional<T>()` | Same scheduling behavior |
@@ -1536,7 +1543,7 @@ rg -n 'ModularPipelinesPlugin\(|IBuildSystemDetector|IFileSystemContext|IEnviron
 - Preserve `PipelineRequirement.Pass`, `Fail`, and `When` helper calls in derived requirements;
   only their evaluation override needs migration to `EvaluateAsync`.
 - Do not infer pipeline failure from the presence of any result exception. Ignored failures retain
-  exceptions; use `summary.Status` for the pipeline outcome and `summary.Failures` for the failures
+  exceptions; use `summary.Succeeded` for the pipeline outcome and `summary.Failures` for the failures
   that caused it.
 - Review every module with more than one `WithSkipWhen` call. V3 kept only the last call; V4 ORs
   them all. Remove calls that V3 ignored, or use `WithSkipWhenAll` for AND.
