@@ -61,3 +61,5 @@ static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.Final
 static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CancellationKeepsConcurrentObserverSubscribedAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
 static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CreateAssignment(string! moduleId) -> ModularPipelines.Distributed.ModuleAssignment!
 static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CreateResult(string! moduleId, string! value) -> ModularPipelines.Distributed.SerializedModuleResult!
+*REMOVED*ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.Models.IModuleResult!
+ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.IModuleResult!
