@@ -54,6 +54,10 @@ public partial class PipCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Python";
 
     /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        ParseOptions(helpText, globalsOnly: true);
+
+    /// <inheritdoc />
     protected override IEnumerable<string> GetAdditionalUsageSynopses(string[] commandPath, string helpText)
     {
         if (commandPath is not ["pip", "install" or "download" or "wheel" or "lock"])
@@ -63,7 +67,7 @@ public partial class PipCliScraper : CliScraperBase
 
         // pip's requirement command accepts editable projects and dependency groups as
         // input sources even when the usage summary omits their standalone forms.
-        return ParseOptions(helpText, commandPath.Skip(1).ToArray())
+        return ParseOptions(helpText)
             .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group")
             .Select(option => $"{string.Join(" ", commandPath)} [options] {option.SwitchName} <{option.PropertyName}>");
     }
@@ -157,7 +161,7 @@ public partial class PipCliScraper : CliScraperBase
 
         usage = NormalizeParentGroupUsage(commandParts, usage);
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -281,7 +285,7 @@ public partial class PipCliScraper : CliScraperBase
     /// Format: -r, --requirement &lt;file&gt;    Install from the given requirements file.
     ///         --no-deps                    Don't install package dependencies.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, bool globalsOnly = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -290,6 +294,12 @@ public partial class PipCliScraper : CliScraperBase
         var optionsSectionMatches = OptionsSectionPattern().Matches(helpText);
         foreach (Match optionsMatch in optionsSectionMatches)
         {
+            var isGeneral = optionsMatch.Groups["section"].Value.Equals("General Options", StringComparison.OrdinalIgnoreCase);
+            if ((globalsOnly && !isGeneral) || (!globalsOnly && isGeneral && GlobalOptions.Count > 0))
+            {
+                continue;
+            }
+
             var sectionStart = optionsMatch.Index + optionsMatch.Length;
             var sectionEnd = helpText.Length;
 
@@ -315,25 +325,10 @@ public partial class PipCliScraper : CliScraperBase
                 var longForm = match.Groups["long"].Value.Trim();
                 var valueHint = match.Groups["value"].Value.Trim();
 
-                if (string.IsNullOrEmpty(longForm))
-                {
-                    if (!string.IsNullOrEmpty(shortForm))
-                    {
-                        longForm = shortForm;
-                        shortForm = string.Empty;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                if (seenOptions.Contains(longForm))
+                if (!seenOptions.Add(longForm))
                 {
                     continue;
                 }
-
-                seenOptions.Add(longForm);
 
                 var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
 
@@ -343,8 +338,10 @@ public partial class PipCliScraper : CliScraperBase
                     continue;
                 }
 
-                var isFlag = string.IsNullOrEmpty(valueHint) && IsBooleanOption(longForm, description);
-                var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
+                var isFlag = string.IsNullOrEmpty(valueHint);
+                // pip's optparse append actions are not described as repeatable in help.
+                var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
+                    || longForm is "--trusted-host" or "--exists-action" or "--use-feature" or "--use-deprecated";
                 var scalarType = isFlag ? "bool?" : "string?";
                 var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
@@ -360,46 +357,14 @@ public partial class PipCliScraper : CliScraperBase
                     AcceptsMultipleValues = acceptsMultipleValues,
                     IsKeyValue = false,
                     IsNumeric = false,
-                    ValueSeparator = isFlag ? " " : " ",
+                    ValueSeparator = " ",
                     EnumDefinition = null,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                    IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
             }
         }
 
         return options;
-    }
-
-    /// <summary>
-    /// Determines if an option is a boolean flag.
-    /// </summary>
-    private static bool IsBooleanOption(string optionName, string description)
-    {
-        var cleanName = optionName.TrimStart('-').ToLowerInvariant();
-
-        // Options that typically take values
-        var valueOptions = new[] { "requirement", "constraint", "index-url", "extra-index-url", "target", "src", "root", "prefix" };
-        if (valueOptions.Any(v => cleanName.Contains(v)))
-        {
-            return false;
-        }
-
-        // Common boolean option patterns
-        if (cleanName.StartsWith("no-") ||
-            cleanName == "quiet" ||
-            cleanName == "verbose" ||
-            cleanName == "upgrade" ||
-            cleanName == "force-reinstall" ||
-            cleanName == "ignore-installed" ||
-            cleanName == "require-hashes" ||
-            cleanName == "pre" ||
-            cleanName == "user" ||
-            cleanName == "editable")
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private static bool IsOptionRow(string line) => PipOptionPattern().IsMatch(line);
@@ -436,7 +401,7 @@ public partial class PipCliScraper : CliScraperBase
     /// <summary>
     /// Matches Options sections like "Install Options:", "General Options:", etc.
     /// </summary>
-    [GeneratedRegex(@"(?:\w+\s+)?Options:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?<section>(?:\w+[ \t]+)*Options):[ \t]*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
@@ -450,7 +415,7 @@ public partial class PipCliScraper : CliScraperBase
     /// -r, --requirement &lt;file&gt;    Install from the given requirements file.
     /// --no-deps                    Don't install package dependencies.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<value><[^>]+>|\[[^\]]+\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*(?:(?<short>-\w),[ \t]*)?(?<long>--[\w-]+)(?:[ \t]+(?<value><[^>]+>|\[[^\]]+\]))?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex PipOptionPattern();
 
     #endregion
