@@ -36,6 +36,7 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class CoordinatedTextWriter : TextWriter
 {
+    private static readonly ConditionalWeakTable<TextWriter, CoordinatedTextWriter> SynchronizedWriters = new();
     private static readonly AsyncLocal<ActiveOutputWriter?> ActiveOutputWriterScope = new();
     private static readonly AsyncLocal<bool> DirectWriteScope = new();
 
@@ -82,7 +83,7 @@ internal class CoordinatedTextWriter : TextWriter
         bool isError = false)
     {
         _coordinator = coordinator;
-        _realConsole = realConsole;
+        _realConsole = UnwrapSynchronizedWriter(realConsole);
         _shouldBuffer = shouldBuffer;
         _secretObfuscator = secretObfuscator;
         _secretProvider = secretProvider;
@@ -91,6 +92,19 @@ internal class CoordinatedTextWriter : TextWriter
 
     /// <inheritdoc />
     public override Encoding Encoding => _realConsole.Encoding;
+
+    internal TextWriter CreateSynchronizedWriter()
+    {
+        // Console.SetOut/SetError preserve an existing synchronized wrapper. Register it
+        // before installation so internal flushes can use our own synchronization instead
+        // of holding Console.Out's monitor while entering a host's captured writer.
+        var synchronized = Synchronized(this);
+        SynchronizedWriters.Add(synchronized, this);
+        return synchronized;
+    }
+
+    internal static TextWriter UnwrapSynchronizedWriter(TextWriter writer) =>
+        SynchronizedWriters.TryGetValue(writer, out var coordinated) ? coordinated : writer;
 
     /// <inheritdoc />
     public override void WriteLine(string? value)

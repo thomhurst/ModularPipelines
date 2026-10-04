@@ -8,6 +8,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using Moq;
 
@@ -48,14 +49,18 @@ public class PipelineOutputCoordinatorTests
     }
 
     [Test]
-    public async Task FlushWriters_FlushesErrorAfterOutputFailure()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FlushWriters_FlushesErrorAfterOutputFailure(bool synchronized)
     {
         var outputException = new IOException("output flush failed");
         var output = new FlushTrackingWriter(outputException);
         var error = new FlushTrackingWriter();
 
         var exception = await Assert.ThrowsAsync<IOException>(() =>
-            PipelineOutputCoordinator.FlushWritersAsync(output, error));
+            PipelineOutputCoordinator.FlushWritersAsync(
+                synchronized ? CreateCoordinatedWriter(output).CreateSynchronizedWriter() : output,
+                synchronized ? CreateCoordinatedWriter(error).CreateSynchronizedWriter() : error));
 
         using (Assert.Multiple())
         {
@@ -63,6 +68,51 @@ public class PipelineOutputCoordinatorTests
             await Assert.That(output.FlushCount).IsEqualTo(1);
             await Assert.That(error.FlushCount).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task FlushWriters_DoesNotHoldConsoleWrapperWhileFlushingCapturedWriter(bool nested)
+    {
+        using var reporterReady = new ManualResetEventSlim();
+        using var flushEntered = new ManualResetEventSlim();
+        var capturedWriterLock = new object();
+        var capturedWriter = new LockingFlushWriter(capturedWriterLock, flushEntered);
+        var coordinated = CreateCoordinatedWriter(capturedWriter);
+        var consoleWriter = coordinated.CreateSynchronizedWriter();
+        var flushWriter = nested
+            ? CreateCoordinatedWriter(consoleWriter).CreateSynchronizedWriter()
+            : consoleWriter;
+
+        var reporter = Task.Factory.StartNew(() =>
+        {
+            lock (capturedWriterLock)
+            {
+                reporterReady.Set();
+                if (!flushEntered.Wait(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException("Pipeline flush did not reach the captured writer.");
+                }
+
+                // ConsolePal on Unix takes the current Console.Out monitor while a host
+                // reporter can already hold the monitor of its captured original writer.
+                var acquired = Monitor.TryEnter(consoleWriter, TimeSpan.FromSeconds(2));
+                if (acquired)
+                {
+                    Monitor.Exit(consoleWriter);
+                }
+
+                return acquired;
+            }
+        }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+
+        await Assert.That(await Task.Run(() => reporterReady.Wait(TimeSpan.FromSeconds(10)))).IsTrue();
+        var flush = Task.Run(() => PipelineOutputCoordinator.FlushWritersAsync(flushWriter, TextWriter.Null));
+        await Task.WhenAll(reporter, flush).WaitAsync(TimeSpan.FromSeconds(15));
+
+        await Assert.That(await reporter).IsTrue();
+        await Assert.That(capturedWriter.FlushCount).IsEqualTo(1);
     }
 
     [Test]
@@ -327,4 +377,28 @@ public class PipelineOutputCoordinatorTests
                 : Task.FromException(exception);
         }
     }
+
+    private sealed class LockingFlushWriter(object capturedWriterLock, ManualResetEventSlim flushEntered) : StringWriter
+    {
+        public int FlushCount { get; private set; }
+
+        public override void Flush()
+        {
+            flushEntered.Set();
+            lock (capturedWriterLock)
+            {
+                FlushCount++;
+            }
+        }
+
+        public override Task FlushAsync()
+        {
+            Flush();
+            return Task.CompletedTask;
+        }
+    }
+
+    private static CoordinatedTextWriter CreateCoordinatedWriter(TextWriter capturedWriter) => new(
+        Mock.Of<IConsoleCoordinator>(), capturedWriter, () => true,
+        Mock.Of<ISecretObfuscator>(), Mock.Of<ISecretProvider>());
 }

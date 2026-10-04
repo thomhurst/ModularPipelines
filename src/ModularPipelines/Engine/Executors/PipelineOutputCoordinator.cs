@@ -85,6 +85,8 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 
     internal static async Task FlushWritersAsync(TextWriter output, TextWriter error)
     {
+        output = CoordinatedTextWriter.UnwrapSynchronizedWriter(output);
+        error = CoordinatedTextWriter.UnwrapSynchronizedWriter(error);
         var exceptions = new List<Exception>();
         await CaptureExceptionAsync(
             () => output.FlushAsync(),

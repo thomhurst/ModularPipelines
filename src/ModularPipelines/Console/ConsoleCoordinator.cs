@@ -168,8 +168,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     _secretProvider,
                     isError: true);
 
-                System.Console.SetOut(_coordinatedOut);
-                System.Console.SetError(_coordinatedError);
+                System.Console.SetOut(_coordinatedOut.CreateSynchronizedWriter());
+                System.Console.SetError(_coordinatedError.CreateSynchronizedWriter());
 
                 _isInstalled = true;
             }
@@ -551,7 +551,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         var settings = new AnsiConsoleSettings
         {
-            Out = new AnsiConsoleOutput(output),
+            Out = new AnsiConsoleOutput(CoordinatedTextWriter.UnwrapSynchronizedWriter(output)),
         };
 
         if (isKnownBuildAgent)
