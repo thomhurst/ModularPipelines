@@ -680,9 +680,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static partial Regex CommandSectionHeaderPattern();
 
     /// <summary>
-    /// Matches subcommand lines: "    command-name    : description"
+    /// Matches subcommand lines, including status annotations such as "queue [Preview] : description".
     /// </summary>
-    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s+:", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]{2,}(?<name>[\w-]+)[ \t]+(?:\[[^\]\r\n]+\][ \t]*)*:", RegexOptions.Multiline)]
     private static partial Regex SubcommandLinePattern();
 
     /// <summary>

@@ -56,6 +56,49 @@ public partial class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("[Preview]")]
+    [Arguments("[Experimental]")]
+    [Arguments("[Deprecated]")]
+    public async Task AzureTraversal_Discovers_Annotated_Storage_Commands(string annotation)
+    {
+        var scraper = new AzCliScraper(
+            new StubExecutor(new Dictionary<string, string>
+            {
+                ["--help"] = """
+                    Group
+                        az : Manage Azure resources.
+                    Subgroups:
+                        storage : Manage storage.
+                    """,
+                ["storage --help"] = $"""
+                    Group
+                        az storage : Manage storage.
+                    Subgroups:
+                        queue   {annotation} : Manage storage queues.
+                    """,
+                ["storage queue --help"] = $"""
+                    Group
+                        az storage queue : Manage storage queues.
+                    Commands:
+                        create {annotation} : Create a queue under the given account.
+                    """,
+                ["storage queue create --help"] = """
+                    Command
+                        az storage queue create : Create a queue under the given account.
+                    Arguments
+                        --name -n [Required] : The queue name.
+                    """,
+            }),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<AzCliScraper>.Instance);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(new[] { "az storage queue create" });
+    }
+
+    [Test]
     public async Task AzureTraversal_Ignores_Command_Header_Text_Within_Prose()
     {
         var scraper = new AzCliScraper(
