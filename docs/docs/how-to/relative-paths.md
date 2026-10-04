@@ -8,10 +8,23 @@ Use `context.Files.GetFile("input.txt")` and `context.Files.GetFolder("artifacts
 for paths relative to your pipeline's working directory. These methods resolve the
 path immediately and retain the pipeline's file-system provider.
 
-The pipeline working directory comes from `PipelineBuilderSettings.WorkingDirectory`.
-When omitted, the configured content root takes precedence, followed by the calling
-source file's project directory, then the process working directory. Configuring a
-pipeline does not change `Environment.CurrentDirectory`.
+`Pipeline.CreateBuilder` chooses the pipeline working directory in this order:
+
+1. `PipelineBuilderSettings.WorkingDirectory`.
+2. `PipelineBuilderSettings.ContentRootPath`, then the host's configured content root
+   (for example, `DOTNET_CONTENTROOT` or the `--contentRoot` host argument).
+3. A detected pipeline project, as described below.
+4. The process working directory when no pipeline project is found.
+
+Pipeline project detection first checks `MODULAR_PIPELINES_DIRECTORY`. When set to
+a non-whitespace value, it must identify a directory containing both `appsettings.json`
+and a `*.csproj` file; an invalid value throws instead of falling back. Otherwise,
+detection searches the calling source file's directory and its ancestors, then
+`AppContext.BaseDirectory` and its ancestors, for those same two files. A caller's
+project without `appsettings.json` is therefore not automatically the working directory.
+Explicit working-directory or content-root settings bypass project detection.
+
+Configuring a pipeline does not change `Environment.CurrentDirectory`.
 
 ## Which directory is used?
 
