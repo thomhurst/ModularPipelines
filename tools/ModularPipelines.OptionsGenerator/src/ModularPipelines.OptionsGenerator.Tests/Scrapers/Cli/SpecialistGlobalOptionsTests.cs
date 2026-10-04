@@ -38,6 +38,8 @@ public class SpecialistGlobalOptionsTests
         await Assert.That(globals.Single(option => option.SwitchName == "-q").IsFlag).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "-n").IsFlag).IsTrue();
         await Assert.That(globals.Any(option => option.SwitchName == "-flyway")).IsFalse();
+        await Assert.That(globals.Single(option => option.SwitchName == "-batch").Availability).IsEqualTo("Flyway Teams");
+        await Assert.That(url.Availability).IsNull();
         var placeholders = globals.Single(option => option.PropertyName == "Placeholders");
         await Assert.That(placeholders.SwitchName).IsEqualTo("-placeholders.");
         await Assert.That(placeholders.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
