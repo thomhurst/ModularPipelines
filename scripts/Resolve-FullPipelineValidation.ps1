@@ -22,6 +22,7 @@ $corePaths = @(
     'src/ModularPipelines.Analyzers/*',
     'src/ModularPipelines.Development.Analyzers/*',
     'test/ModularPipelines.UnitTests/*',
+    'test/ModularPipelines.Distributed.UnitTests/*',
     'test/ModularPipelines.SourceGenerator.UnitTests/*',
     'test/ModularPipelines.Development.Analyzers.UnitTests/*',
     'test/ModularPipelines.TrimAotSmoke/*',

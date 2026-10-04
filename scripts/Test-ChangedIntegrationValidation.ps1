@@ -53,6 +53,7 @@ Assert-IntegrationRoute 'package absent from full test registration' @('src/Modu
 Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet')
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true
+Assert-IntegrationRoute 'distributed core tests' @('test/ModularPipelines.Distributed.UnitTests/ChangedTests.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'core-only' @('src/ModularPipelines/Context/Http.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'docs-only' @('docs/docs/mp-packages/cli/gcloud.md') @()
 Assert-IntegrationRoute 'generator-only' @($generator) @()
@@ -109,6 +110,36 @@ try {
     New-Item -ItemType Directory -Path $fixture | Out-Null
     $removed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs")
     if ($removed.Required) { throw 'Completely removed packages must not select nonexistent projects.' }
+
+    $consumerDirectory = Join-Path $fixture 'src/ModularPipelines.Consumer'
+    New-Item -ItemType Directory -Path $consumerDirectory -Force | Out-Null
+    $consumerProject = Join-Path $consumerDirectory 'ModularPipelines.Consumer.csproj'
+    Set-Content -LiteralPath $consumerProject -Value '<Project><ItemGroup><ProjectReference Include="../ModularPipelines.Example/ModularPipelines.Example.csproj" /></ItemGroup></Project>'
+    $removed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs")
+    if (-not $removed.Required -or $removed.Matrix.include.Count -ne 1 -or
+        $removed.Matrix.include[0].project -ne 'src/ModularPipelines.Consumer/ModularPipelines.Consumer.csproj') {
+        throw 'Deleting a package must validate its unchanged consumers.'
+    }
+    $testDirectory = Join-Path $fixture 'test/ModularPipelines.Consumer.UnitTests'
+    New-Item -ItemType Directory -Path $testDirectory -Force | Out-Null
+    Set-Content -LiteralPath (Join-Path $testDirectory 'ModularPipelines.Consumer.UnitTests.csproj') -Value '<Project />'
+    $mixed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs", 'src/ModularPipelines.Consumer/Changed.cs')
+    if ($mixed.Matrix.include.Count -ne 1 -or
+        $mixed.Matrix.include[0].test_project -ne 'test/ModularPipelines.Consumer.UnitTests/ModularPipelines.Consumer.UnitTests.csproj') {
+        throw 'A changed consumer must retain its test route without a duplicate build entry.'
+    }
+    $exampleDirectory = Join-Path $fixture 'examples/Consumer'
+    New-Item -ItemType Directory -Path $exampleDirectory -Force | Out-Null
+    $exampleProject = Join-Path $exampleDirectory 'Consumer.csproj'
+    Set-Content -LiteralPath $exampleProject -Value '<Project><ItemGroup><ProjectReference Include="..\..\src\ModularPipelines.Example\ModularPipelines.Example.csproj" /></ItemGroup></Project>'
+    $removed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs")
+    if (($removed.Matrix.include.project -join ',') -ne 'examples/Consumer/Consumer.csproj,src/ModularPipelines.Consumer/ModularPipelines.Consumer.csproj') {
+        throw 'Package deletion must include consumers outside src and normalize Windows references.'
+    }
+    Set-Content -LiteralPath $exampleProject -Value '<Project />'
+    Set-Content -LiteralPath $consumerProject -Value '<Project />'
+    $removed = & $changedResolver -RepositoryRoot $fixture -ChangedPath @("src/$package/Deleted.cs")
+    if ($removed.Required) { throw 'Removing the consumer reference should permit complete package removal.' }
 
     foreach ($case in @(
         @{ Directory = "src/$package"; Path = "src/$package/Changed.cs"; Project = '' },
