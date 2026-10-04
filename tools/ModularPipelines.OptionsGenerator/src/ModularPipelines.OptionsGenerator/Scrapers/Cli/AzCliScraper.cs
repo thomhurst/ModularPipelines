@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -164,6 +165,16 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         string helpText,
         CancellationToken cancellationToken)
     {
+        IReadOnlyDictionary<string, bool>? argumentFlags = null;
+        var metadataIndex = helpText.LastIndexOf(AzCliMetadataExecutor.MetadataMarker, StringComparison.Ordinal);
+        if (metadataIndex >= 0)
+        {
+            argumentFlags = JsonSerializer.Deserialize<Dictionary<string, bool>>(
+                helpText[(metadataIndex + AzCliMetadataExecutor.MetadataMarker.Length)..])
+                ?? throw new InvalidOperationException("Azure CLI argument metadata was null.");
+            helpText = helpText[..metadataIndex].TrimEnd();
+        }
+
         var commandParts = commandPath.Skip(1).ToArray(); // Skip "az"
 
         if (commandParts.Length == 0)
@@ -190,7 +201,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var description = ExtractDescription(helpText);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(helpText, argumentFlags);
 
         // If no options, skip generating this command
         if (options.Count == 0)
@@ -243,7 +254,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, IReadOnlyDictionary<string, bool>? argumentFlags)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -261,7 +272,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             var lines = GetSectionLines(helpText, sectionMatch);
             for (var i = 0; i < lines.Length; i++)
             {
-                var option = ParseOption(lines, ref i, sectionName, seenOptions);
+                var option = ParseOption(lines, ref i, sectionName, seenOptions, argumentFlags);
                 if (option is not null)
                 {
                     options.Add(option);
@@ -288,7 +299,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         string[] lines,
         ref int lineIndex,
         string sectionName,
-        HashSet<string> seenOptions)
+        HashSet<string> seenOptions,
+        IReadOnlyDictionary<string, bool>? argumentFlags)
     {
         var match = AzOptionPattern().Match(lines[lineIndex]);
         if (!match.Success)
@@ -304,7 +316,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
-        var alias = match.Groups["alias"].Value.Trim();
+        var alias = match.Groups["alias"].Captures
+            .Select(capture => capture.Value)
+            .FirstOrDefault(value => value.StartsWith('-') && !value.StartsWith("--", StringComparison.Ordinal));
         var valueHint = match.Groups["value"].Value.Trim();
         var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
@@ -317,7 +331,13 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var isRequired = match.Groups["required"].Success
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-        var isFlag = !isRequired && IsPresenceOnlyFlag(
+        if (argumentFlags is not null && !argumentFlags.ContainsKey($"--{longFlag}"))
+        {
+            throw new InvalidOperationException($"Azure CLI parser metadata does not include --{longFlag}.");
+        }
+        var isFlag = argumentFlags is not null && argumentFlags.TryGetValue($"--{longFlag}", out var metadataFlag)
+            ? metadataFlag
+            : !isRequired && IsPresenceOnlyFlag(
             longFlag,
             valueHint,
             description,
@@ -371,9 +391,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return false;
         }
 
-        return string.IsNullOrEmpty(valueHint) ||
-               valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-               valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+        // Missing placeholders do not imply flags in Azure help. Production scraping
+        // uses argparse arity; plain help fixtures need positive presence-only wording.
+        return string.IsNullOrEmpty(valueHint) && PresenceOnlyDescriptionPattern().IsMatch(description);
     }
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
@@ -691,6 +711,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
+
+    [GeneratedRegex(@"^(?:do not\b|don't\b|force\b|reset\b|use the current time\b|show\b|list all\b|disable colou?r\b|(?:a |the )?(?:boolean )?flag\b|DenySettings apply to child scopes\b)", RegexOptions.IgnoreCase)]
+    private static partial Regex PresenceOnlyDescriptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();

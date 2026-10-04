@@ -268,7 +268,7 @@ public class AzCliScraperTests
             await Assert.That(requiredOptions
                 .All(option => !option.IsFlag && option.CSharpType == "string?")).IsTrue();
             await Assert.That(command.Options.Single(option => option.PropertyName == "ActionOnUnmanage").ShortForm)
-                .IsEqualTo("--aou");
+                .IsNull();
             await Assert.That(command.Options.Single(option => option.PropertyName == "Name").ShortForm)
                 .IsEqualTo("-n");
             await Assert.That(command.Options.Single(option => option.PropertyName == "IssueName").ShortForm)
