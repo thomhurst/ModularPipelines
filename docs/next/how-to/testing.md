@@ -69,6 +69,42 @@ var run = await ModuleTester.For<BuildModule, BuildArtifact>()
 
 The dependency module is registered normally, then its successful result is completed before the target module starts. Calls such as `await context.GetModule<RestoreModule>()` therefore receive the seeded value. If a required dependency has no seeded result, `ExecuteAsync` fails immediately and names the missing dependency instead of waiting for the module timeout.
 
+Use `WithDependencyFailure<RestoreModule, CommandResult>(exception)` or `WithSkippedDependency<RestoreModule, CommandResult>("not needed")` to seed other outcomes. Both register and complete the dependency without executing it. Normal dependency failure and skip rules still apply. A failed registered dependency produces `ModuleStatus.DependencyFailed` without executing the target, unless the target uses `WithAlwaysRun`. A skipped required dependency skips the target, including an always-run target; a skipped optional dependency does not. Optional means that registration is optional, so a registered optional dependency's failure still blocks a target without `WithAlwaysRun`.
+
+## Seed files and configure the pipeline[​](#seed-files-and-configure-the-pipeline "Direct link to Seed files and configure the pipeline")
+
+```
+var run = await ModuleTester.For<BuildModule, BuildArtifact>()
+
+    .WithFile("inputs/settings.json", "{\"environment\":\"test\"}")
+
+    .WithFile("inputs/data.bin", new byte[] { 1, 2, 3 })
+
+    .ConfigurePipeline(builder =>
+
+    {
+
+        builder.Configuration["Build:Configuration"] = "Release";
+
+        builder.ConfigureOptions(options => options with
+
+        {
+
+            Concurrency = options.Concurrency with { MaxParallelism = 1 },
+
+        });
+
+    })
+
+    .ExecuteAsync();
+```
+
+File paths resolve exactly as `context.Files.GetFile`: relative paths use the pipeline working directory, and absolute paths retain their location. The harness creates parent directories and writes seeds before pipeline service initialization, so initializers registered through `ConfigurePipeline` can read them. Strings use UTF-8; byte arrays are copied when registered. Repeating the same seed path replaces its contents. Each execution gets a fresh in-memory provider by default.
+
+To supply your own provider, call `WithService<IFileSystemProvider>(provider)`. File seeds and module operations both use that provider, which is also returned as `run.FileSystem`. A supplied provider is shared across runs and may perform real I/O; use `InMemoryFileSystemProvider` to retain isolation.
+
+`ConfigurePipeline` callbacks run after harness defaults, in registration order, before `BuildAsync`. They can configure options, configuration, capabilities, and services through the normal `PipelineBuilder` API. Overrides can replace the harness's safe defaults, including command interception and console services.
+
 ## Seed consumed artifacts[​](#seed-consumed-artifacts "Direct link to Seed consumed artifacts")
 
 Seed each artifact declared by the module before executing it:
@@ -126,6 +162,8 @@ await Assert.That(run.Commands[0].CommandLine.Arguments)
 ```
 
 Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated `CommandResult`. This avoids assertions against a quoted display string. Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
+
+Use `CommandResult.Fail(exitCode: 17, standardError: "build failed")` for failed commands. It defaults to exit code 1 and rejects zero; standard output and standard error are preserved for assertions.
 
 `ICommandInterceptor` is also a public framework seam: middleware that wraps every command after it is parsed and before the process starts. Register one with `builder.AddCommandInterceptor<TInterceptor>()` (adding the same type twice has no effect) or `builder.AddCommandInterceptor(instance)`. Interceptors run in registration order, so the first registered one is outermost.
 
@@ -228,3 +266,25 @@ await Assert.That(failed.Result).IsTypeOf<ModuleResult<string>.Failure>();
 ```
 
 Use `Result` when assertions need timing, status, or the discriminated result variant. Use `Value`, `Exception`, and `SkipDecision` for concise safe access.
+
+## Verify a custom distributed coordinator[​](#verify-a-custom-distributed-coordinator "Direct link to Verify a custom distributed coordinator")
+
+The `ModularPipelines.Testing` package ships `ModularPipelines.Testing.Distributed.DistributedCoordinatorContract`. It contains the same 19 checks used for the in-memory, Redis, and SignalR coordinator backends. Call these asynchronous methods from any test framework; violations throw `InvalidOperationException`, and timed-out waits fail with `TimeoutException`.
+
+```
+using ModularPipelines.Testing.Distributed;
+
+
+
+// Your factory supplies a fresh backend with an isolated queue/key namespace.
+
+await using var coordinator = await CreateIsolatedCoordinatorAsync(
+
+    workerTimeout: DistributedCoordinatorContract.LeaseTimeout);
+
+await DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(coordinator);
+```
+
+Run each check with a fresh coordinator and dispose its resources afterward. Checks cover assignment/result round trips, completion, cancellation, withdrawal, leases, heartbeats, worker registration, capability matching, and queue ordering. Run all public asynchronous checks for full coverage; passing one method covers only that behavior. The factory helpers create sample assignments/results, not backend instances.
+
+Configure lease checks with `LeaseTimeout` (500 ms). Registration, duplicate-worker, and capability-scarcity checks should use a longer worker timeout, such as 30 seconds, so workers stay live during the check. For `FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync`, configure a short worker lifetime and pass a `heartbeatExpiration` delay longer than that lifetime. Subscription-based backends can pass `waitUntilReady` to applicable methods to signal that their pending subscription is installed before publishing.
