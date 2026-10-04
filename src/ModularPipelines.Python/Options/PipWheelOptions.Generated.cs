@@ -28,10 +28,22 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public string? WheelDir { get; set; }
 
     /// <summary>
+    /// Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all binary packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--no-binary")]
+    public IEnumerable<string>? NoBinary { get; set; }
+
+    /// <summary>
+    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--only-binary")]
+    public IEnumerable<string>? OnlyBinary { get; set; }
+
+    /// <summary>
     /// Prefer binary packages over source packages, even if the source packages are newer.
     /// </summary>
-    [CliOption("--prefer-binary")]
-    public string? PreferBinary { get; set; }
+    [CliFlag("--prefer-binary")]
+    public bool? PreferBinary { get; set; }
 
     /// <summary>
     /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
@@ -40,22 +52,22 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public bool? NoBuildIsolation { get; set; }
 
     /// <summary>
-    /// Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).
+    /// Check the build dependencies.
     /// </summary>
-    [CliOption("--use-pep517")]
-    public string? UsePep517 { get; set; }
-
-    /// <summary>
-    /// Check the build dependencies when PEP517 is used.
-    /// </summary>
-    [CliOption("--check-build-dependencies")]
-    public string? CheckBuildDependencies { get; set; }
+    [CliFlag("--check-build-dependencies")]
+    public bool? CheckBuildDependencies { get; set; }
 
     /// <summary>
     /// Constrain versions using the given constraints file. This option can be used multiple times.
     /// </summary>
     [CliOption("--constraint", ShortForm = "-c")]
     public IEnumerable<string>? Constraint { get; set; }
+
+    /// <summary>
+    /// Constrain build dependencies using the given constraints file. This option can be used multiple times.
+    /// </summary>
+    [CliOption("--build-constraint")]
+    public IEnumerable<string>? BuildConstraint { get; set; }
 
     /// <summary>
     /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
@@ -118,8 +130,8 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     /// <summary>
     /// Ignore the Requires-Python information.
     /// </summary>
-    [CliOption("--ignore-requires-python")]
-    public string? IgnoreRequiresPython { get; set; }
+    [CliFlag("--ignore-requires-python")]
+    public bool? IgnoreRequiresPython { get; set; }
 
     /// <summary>
     /// Don't install package dependencies.
@@ -128,22 +140,22 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public bool? NoDeps { get; set; }
 
     /// <summary>
+    /// Specify whether the progress bar should be used. In 'auto' mode, --quiet will suppress all progress bars. [auto, on, off, raw] (default: auto)
+    /// </summary>
+    [CliOption("--progress-bar")]
+    public string? ProgressBar { get; set; }
+
+    /// <summary>
     /// Don't verify if built wheel is valid.
     /// </summary>
     [CliFlag("--no-verify")]
     public bool? NoVerify { get; set; }
 
     /// <summary>
-    /// Extra arguments to be supplied to 'setup.py bdist_wheel'.
+    /// Configuration settings to be passed to the build backend. Settings take the form KEY=VALUE. Use multiple --config-settings options to pass multiple keys to the backend.
     /// </summary>
-    [CliOption("--build-option")]
-    public string? BuildOption { get; set; }
-
-    /// <summary>
-    /// Extra global options to be supplied to the setup.py call before the install or bdist_wheel command.
-    /// </summary>
-    [CliOption("--global-option")]
-    public string? GlobalOption { get; set; }
+    [CliOption("--config-settings", ShortForm = "-C")]
+    public IEnumerable<string>? ConfigSettings { get; set; }
 
     /// <summary>
     /// Include pre-release and development versions. By default, pip only finds stable versions.
@@ -156,6 +168,12 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     /// </summary>
     [CliFlag("--require-hashes")]
     public bool? RequireHashes { get; set; }
+
+    /// <summary>
+    /// Install a named dependency-group from a "pyproject.toml" file. If a path is given, the name of the file must be "pyproject.toml". Defaults to using "pyproject.toml" in the current directory.
+    /// </summary>
+    [CliOption("--group")]
+    public string? Group { get; set; }
 
     /// <summary>
     /// Don't clean up build directories.
@@ -188,132 +206,6 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public string? FindLinks { get; set; }
 
     /// <summary>
-    /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
-    /// </summary>
-    [CliOption("--debug")]
-    public string? Debug { get; set; }
-
-    /// <summary>
-    /// Run pip in an isolated mode, ignoring environment variables and user configuration.
-    /// </summary>
-    [CliOption("--isolated")]
-    public string? Isolated { get; set; }
-
-    /// <summary>
-    /// Allow pip to only run in a virtual environment; exit with an error otherwise.
-    /// </summary>
-    [CliOption("--require-virtualenv")]
-    public string? RequireVirtualenv { get; set; }
-
-    /// <summary>
-    /// Run pip with the specified Python interpreter.
-    /// </summary>
-    [CliOption("--python")]
-    public string? Python { get; set; }
-
-    /// <summary>
-    /// Give more output. Option is additive, and can be used up to 3 times.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show version and exit.
-    /// </summary>
-    [CliOption("--version", ShortForm = "-V")]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Path to a verbose appending log.
-    /// </summary>
-    [CliOption("--log")]
-    public string? Log { get; set; }
-
-    /// <summary>
-    /// Disable prompting for input.
-    /// </summary>
-    [CliFlag("--no-input")]
-    public bool? NoInput { get; set; }
-
-    /// <summary>
-    /// Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Maximum number of retries each connection should attempt (default 5 times).
-    /// </summary>
-    [CliOption("--retries")]
-    public string? Retries { get; set; }
-
-    /// <summary>
-    /// Set the socket timeout (default 15 seconds).
-    /// </summary>
-    [CliOption("--timeout")]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
-    /// </summary>
-    [CliOption("--exists-action")]
-    public string? ExistsAction { get; set; }
-
-    /// <summary>
-    /// Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
-    /// </summary>
-    [CliOption("--trusted-host")]
-    public string? TrustedHost { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information.
-    /// </summary>
-    [CliOption("--cert")]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
-    /// </summary>
-    [CliOption("--client-cert")]
-    public string? ClientCert { get; set; }
-
-    /// <summary>
-    /// Store the cache data in &lt;dir&gt;.
-    /// </summary>
-    [CliOption("--cache-dir")]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// Disable the cache.
-    /// </summary>
-    [CliFlag("--no-cache-dir")]
-    public bool? NoCacheDir { get; set; }
-
-    /// <summary>
-    /// Suppress colored output.
-    /// </summary>
-    [CliFlag("--no-color")]
-    public bool? NoColor { get; set; }
-
-    /// <summary>
-    /// Enable new functionality, that may be backward incompatible.
-    /// </summary>
-    [CliOption("--use-feature")]
-    public string? UseFeature { get; set; }
-
-    /// <summary>
-    /// Enable deprecated functionality, that will be removed in the future.
-    /// </summary>
-    [CliOption("--use-deprecated")]
-    public string? UseDeprecated { get; set; }
-
-    /// <summary>
     /// The &lt;requirement specifier&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
@@ -344,9 +236,9 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable)))
+        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || !string.IsNullOrWhiteSpace(Group)))
         {
-            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, or Editable must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable)]);
+            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, Editable, or Group must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable), nameof(Group)]);
         }
         yield break;
     }
