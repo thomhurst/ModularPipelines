@@ -68,8 +68,9 @@ public sealed record PipelineSummary
     /// Gets the module results that failed the pipeline.
     /// </summary>
     /// <remarks>
-    /// Includes every result with an exception, except results whose status is
-    /// <see cref="ModuleStatus.FailureIgnored"/>. Excluded from JSON serialization for the same reason as
+    /// Includes failed, timed-out, dependency-failed, and canceled results, even without an exception.
+    /// Also includes other results with an exception, except <see cref="ModuleStatus.FailureIgnored"/>.
+    /// Excluded from JSON serialization for the same reason as
     /// <see cref="Results"/>.
     /// </remarks>
     [JsonIgnore]
@@ -153,11 +154,6 @@ public sealed record PipelineSummary
                 return ModuleStatus.Failed;
             }
 
-            if (Results.Any(result => result.Status is ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.DependencyFailed or ModuleStatus.Canceled))
-            {
-                return ModuleStatus.Failed;
-            }
-
             return Results.Count == Modules.Count
                 && Results.All(result => result.Status is ModuleStatus.Succeeded or ModuleStatus.Skipped
                     or ModuleStatus.RestoredFromCache or ModuleStatus.RestoredFromHistory or ModuleStatus.FailureIgnored)
@@ -175,6 +171,7 @@ public sealed record PipelineSummary
         where T : IModule
         => Modules.OfType<T>().Single();
 
-    private static bool IsFailure(IModuleResult result)
-        => result.ExceptionOrDefault is not null && result.Status != ModuleStatus.FailureIgnored;
+    internal static bool IsFailure(IModuleResult result)
+        => result.Status is ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.DependencyFailed or ModuleStatus.Canceled
+            || (result.ExceptionOrDefault is not null && result.Status != ModuleStatus.FailureIgnored);
 }

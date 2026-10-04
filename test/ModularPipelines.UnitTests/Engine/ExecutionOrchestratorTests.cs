@@ -65,12 +65,16 @@ public class ExecutionOrchestratorTests
         {
             var exception = (await Assert.ThrowsAsync<PipelineFailedException>(() => orchestrator.ExecuteAsync()))!;
             await Assert.That(exception.Summary.Succeeded).IsFalse();
+            await Assert.That(exception.Summary.Failures).IsEquivalentTo([result]);
+            await Assert.That(exception.Summary.IgnoredFailures).IsEquivalentTo([ignoredResult]);
             await Assert.That(exception.FailedModules).IsEquivalentTo(["StatusOnlyFailure"]);
         }
         else
         {
             var returnedSummary = await orchestrator.ExecuteAsync();
             await Assert.That(returnedSummary.Succeeded).IsFalse();
+            await Assert.That(returnedSummary.Failures).IsEquivalentTo([result]);
+            await Assert.That(returnedSummary.IgnoredFailures).IsEquivalentTo([ignoredResult]);
         }
     }
 
