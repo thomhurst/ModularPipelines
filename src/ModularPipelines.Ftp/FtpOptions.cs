@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using FluentFTP;
 
-namespace ModularPipelines.Ftp.Options;
+namespace ModularPipelines.Ftp;
 
 [ExcludeFromCodeCoverage]
 public record FtpOptions(

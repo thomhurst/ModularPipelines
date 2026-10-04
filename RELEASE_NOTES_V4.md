@@ -766,3 +766,15 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## FTP connection cancellation and package namespaces
+
+`IFtp.GetFtpClientAsync(FtpOptions, CancellationToken = default)` now accepts cancellation
+for connection establishment. Failed or canceled client setup disposes the client;
+successfully connected clients remain owned by the FTP context. Custom `IFtp`
+implementations must accept the new parameter.
+
+`FtpOptions` and `FtpExtensions` now live in `ModularPipelines.Ftp`. Replace imports of
+`ModularPipelines.Ftp.Options` and `ModularPipelines.Ftp.Extensions` with that root namespace.
+The generated `context.Tools.Ftp` entry point remains available. `RegisterFtpContext`
+remains public for generated registration and is hidden from IntelliSense.
