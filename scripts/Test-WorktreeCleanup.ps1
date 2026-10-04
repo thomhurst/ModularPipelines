@@ -140,6 +140,15 @@ try {
     if (Test-IsAncestorCommit -RepoPath $isolatedRoot -Ancestor 'bbb222' -Descendant 'zzz999') {
         throw 'Unknown commit was treated as an ancestor.'
     }
+    # Exercise the same closed callback used by the sweep. Script-local helpers are
+    # not automatically visible inside GetNewClosure's dynamic module.
+    $containsCommit = Get-CommitAncestorPredicate -RepoPath $isolatedRoot -Descendant 'zzz999'
+    if (-not (Get-MergedNameReason -Branch 'reused-branch' -MergedHeadShas @('aaa111') -IsAncestor $containsCommit)) {
+        throw 'Closed ancestry callback did not recognize a known ancestor.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'reused-branch' -MergedHeadShas @('bbb222') -IsAncestor $containsCommit)) {
+        throw 'Closed ancestry callback treated an unrelated head as merged.'
+    }
     $script:gitCalled = $false
 
     $explicitSelection = Select-MergeCleanupWorktree `

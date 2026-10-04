@@ -185,11 +185,7 @@ try {
         # also contain that PR's head commit: a fresh branch that reuses the name after
         # a squash merge is cut from main, which never contains the old head.
         $why = $null
-        $worktreePath = $w.Path; $worktreeSha = $sha
-        $containsCommit = {
-            param($headSha)
-            Test-IsAncestorCommit -RepoPath $worktreePath -Ancestor $headSha -Descendant $worktreeSha
-        }.GetNewClosure()
+        $containsCommit = if ($sha) { Get-CommitAncestorPredicate -RepoPath $w.Path -Descendant $sha } else { { $false } }
         if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch)) {
             $why = Get-MergedNameReason -Branch $w.Branch -MergedHeadShas $mergedNames[$w.Branch] -IsAncestor $containsCommit
         }
