@@ -118,8 +118,8 @@ public partial class NestedArgumentGroupParsingTests
                    --location
                       Select the location.
             """;
-        await VerifyGcloudChoice(helpText, ["Confirm", "NoConfirm", "Location"], mask =>
-            (mask & 3) != 3 && ((mask & 4) == 0 || (mask & 3) != 0), requiresOptions: false);
+        await VerifyGcloudChoice(helpText, ["Confirm", "Location"], mask =>
+            (mask & 2) == 0 || (mask & 1) != 0, requiresOptions: false);
     }
 
     [Test]
@@ -266,8 +266,8 @@ public partial class NestedArgumentGroupParsingTests
                      --location
                         Select the location.
             """;
-        await VerifyGcloudChoice(helpText, ["Token", "Confirm", "NoConfirm", "Location"], mask =>
-            mask != 0 && (mask & 6) != 6 && ((mask & 14) == 0 || (mask & 6) != 0), requiresOptions: true);
+        await VerifyGcloudChoice(helpText, ["Token", "Confirm", "Location"], mask =>
+            mask != 0 && ((mask & 6) == 0 || (mask & 2) != 0), requiresOptions: true);
     }
 
     [Test]
@@ -317,11 +317,23 @@ public partial class NestedArgumentGroupParsingTests
                 var instance = Activator.CreateInstance(type)!;
                 for (var index = 0; index < properties.Length; index++)
                 {
-                    type.GetProperty(properties[index])!.SetValue(instance, (mask & (1 << index)) != 0);
+                    var selected = (mask & (1 << index)) != 0;
+                    type.GetProperty(properties[index])!.SetValue(instance, selected ? true : (bool?) null);
                 }
 
                 var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
                 await Assert.That(!errors.Any()).IsEqualTo(isValid(mask));
+                foreach (var option in command.Options.Where(option => option.NegatedSwitchName is not null))
+                {
+                    var property = type.GetProperty(option.PropertyName)!;
+                    if (property.GetValue(instance) is true)
+                    {
+                        property.SetValue(instance, false);
+                    }
+                }
+
+                var negatedErrors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
+                await Assert.That(!negatedErrors.Any()).IsEqualTo(isValid(mask));
             }
         });
         return generated;
@@ -382,7 +394,7 @@ public partial class NestedArgumentGroupParsingTests
     [Arguments(false, false)]
     [Arguments(true, false)]
     [Arguments(false, true)]
-    public async Task Gcloud_Required_Presence_Flag_Rejects_False_And_Missing_Values(bool negatable, bool descriptionNegation)
+    public async Task Gcloud_Required_Flag_Requires_An_Emitted_Positive_Or_Negated_Switch(bool negatable, bool descriptionNegation)
     {
         var helpText = $"""
             NAME
@@ -393,7 +405,7 @@ public partial class NestedArgumentGroupParsingTests
             """;
         var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
         await Assert.That(command.Options.All(option => !option.IsRequired)).IsTrue();
-        string[] expectedProperties = negatable || descriptionNegation ? ["Confirm", "NoConfirm"] : ["Confirm"];
+        string[] expectedProperties = ["Confirm"];
         await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
             .IsEquivalentTo(expectedProperties);
         var tool = new CliToolDefinition
@@ -412,17 +424,9 @@ public partial class NestedArgumentGroupParsingTests
                 var instance = Activator.CreateInstance(type)!;
                 type.GetProperty("Confirm")!.SetValue(instance, value);
                 var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
-                await Assert.That(errors.Length == 0).IsEqualTo(value == true);
+                await Assert.That(errors.Length == 0).IsEqualTo(value == true || (value == false && (negatable || descriptionNegation)));
             }
 
-            if (negatable || descriptionNegation)
-            {
-                var instance = Activator.CreateInstance(type)!;
-                type.GetProperty("NoConfirm")!.SetValue(instance, true);
-                await Assert.That(((IValidatableObject) instance).Validate(new ValidationContext(instance))).IsEmpty();
-                type.GetProperty("Confirm")!.SetValue(instance, true);
-                await Assert.That(((IValidatableObject) instance).Validate(new ValidationContext(instance))).IsNotEmpty();
-            }
         });
     }
 
@@ -480,7 +484,7 @@ public partial class NestedArgumentGroupParsingTests
             """;
         var command = (await CreateGcloudScraper().Parse(["gcloud", "example", "create"], helpText))!;
         await Assert.That(command.RequiredAlternativeGroups.Single().PropertyNames)
-            .IsEquivalentTo(["Confirm", "NoConfirm", "Other"]);
+            .IsEquivalentTo(["Confirm", "Other"]);
         var tool = new CliToolDefinition
         {
             ToolName = "gcloud",
@@ -492,20 +496,17 @@ public partial class NestedArgumentGroupParsingTests
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
         await VerifyGeneratedValidation(generated, "GcloudExampleCreateOptions", async type =>
         {
-            for (var mask = 0; mask < 8; mask++)
+            foreach (var confirm in new bool?[] { null, false, true })
             {
-                var instance = Activator.CreateInstance(type)!;
-                string[] properties = ["Confirm", "NoConfirm", "Other"];
-                var selected = 0;
-                for (var index = 0; index < properties.Length; index++)
+                foreach (var other in new bool?[] { null, false, true })
                 {
-                    var enabled = (mask & (1 << index)) != 0;
-                    type.GetProperty(properties[index])!.SetValue(instance, enabled);
-                    selected += enabled ? 1 : 0;
+                    var instance = Activator.CreateInstance(type)!;
+                    type.GetProperty("Confirm")!.SetValue(instance, confirm);
+                    type.GetProperty("Other")!.SetValue(instance, other);
+                    var selected = (confirm.HasValue ? 1 : 0) + (other == true ? 1 : 0);
+                    var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
+                    await Assert.That(!errors.Any()).IsEqualTo(exclusive ? selected == 1 : selected > 0);
                 }
-
-                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
-                await Assert.That(!errors.Any()).IsEqualTo((mask & 3) != 3 && (exclusive ? selected == 1 : selected > 0));
             }
         });
     }
@@ -731,7 +732,7 @@ public partial class NestedArgumentGroupParsingTests
                     + "public enum OptionFormat { EqualsSeparated } "
                     + "public sealed class CliOptionAttribute(string name) : Attribute { public OptionFormat Format { get; set; } public string? CollectionSeparator { get; set; } } "
                     + "public sealed class EnumValueAttribute(string name) : Attribute; "
-                    + "public sealed class CliFlagAttribute(string name) : Attribute; "
+                    + "public sealed class CliFlagAttribute(string name) : Attribute { public string? NegatedName { get; set; } } "
                     + "public sealed class CliArgumentAttribute(int position) : Attribute { public CommandLinePhase Phase { get; set; } public bool Required { get; set; } } "
                     + "public sealed class CliSubCommandAttribute(params string[] parts) : Attribute; }", parseOptions),
                 CSharpSyntaxTree.ParseText(generatedOptions, parseOptions),
@@ -1116,7 +1117,7 @@ public partial class NestedArgumentGroupParsingTests
     }
 
     [Test]
-    public async Task Gcloud_Emits_Both_Forms_Of_Negatable_Flags()
+    public async Task Gcloud_Models_Both_Forms_Of_Negatable_Flags_With_One_Property()
     {
         const string helpText = """
             NAME
@@ -1147,19 +1148,20 @@ public partial class NestedArgumentGroupParsingTests
         await Assert.That(command!.Options.Select(option => option.SwitchName))
             .IsEquivalentTo([
                 "--allow-unauthenticated",
-                "--no-allow-unauthenticated",
                 "--launch-browser",
-                "--no-launch-browser",
                 "--use",
             ]);
         await Assert.That(command.Options.Select(option => option.PropertyName))
             .IsEquivalentTo([
                 "AllowUnauthenticated",
-                "NoAllowUnauthenticated",
                 "LaunchBrowser",
-                "NoLaunchBrowser",
                 "Use",
             ]);
+        await Assert.That(command.Options.Single(option => option.PropertyName == "AllowUnauthenticated").NegatedSwitchName)
+            .IsEqualTo("--no-allow-unauthenticated");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "LaunchBrowser").NegatedSwitchName)
+            .IsEqualTo("--no-launch-browser");
+        await Assert.That(command.Options.Single(option => option.PropertyName == "Use").NegatedSwitchName).IsNull();
     }
 
     [Test]
