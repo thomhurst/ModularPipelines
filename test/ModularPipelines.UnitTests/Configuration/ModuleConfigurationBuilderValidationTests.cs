@@ -28,7 +28,7 @@ public class ModuleConfigurationBuilderValidationTests
         var configuration = new ModuleConfigurationBuilder().WithTimeout(Timeout.InfiniteTimeSpan).Build();
 
         // TimeSpan.Zero is the configuration's "no timeout" value, which also overrides the pipeline default.
-        await Assert.That(configuration.Timeout).IsEqualTo(TimeSpan.Zero);
+        await Assert.That(configuration.Timeout).IsEqualTo(Timeout.InfiniteTimeSpan);
     }
 
     [Test]

@@ -585,6 +585,28 @@ public class ValidationTests
     }
 
     [Test]
+    [Arguments(0, false)]
+    [Arguments(-1, true)]
+    [Arguments(-2, false)]
+    [Arguments(100, true)]
+    public async Task ModuleTimeoutSentinels_AreValidated(int milliseconds, bool valid)
+    {
+        var validator = new OptionsValidator();
+        var options = new PipelineOptions
+        {
+            DefaultModuleTimeout = TimeSpan.FromMilliseconds(milliseconds),
+            AlwaysRunProgressTimeout = TimeSpan.FromMilliseconds(milliseconds),
+        };
+
+        var result = validator.ValidateOptions(options);
+
+        await Assert.That(result.Errors.Any(error => error.Message.Contains(nameof(PipelineOptions.DefaultModuleTimeout))))
+            .IsEqualTo(!valid);
+        await Assert.That(result.Errors.Any(error => error.Message.Contains(nameof(PipelineOptions.AlwaysRunProgressTimeout))))
+            .IsEqualTo(!valid);
+    }
+
+    [Test]
     public async Task ValidateAsync_WithNegativeDefaultModuleTimeout_ReturnsError()
     {
         var builder = Pipeline.CreateBuilder();

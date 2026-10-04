@@ -72,9 +72,9 @@ internal static class DistributedOptionsValidator
             failures.Add("Distributed.WorkerRegistrationTimeout cannot be negative.");
         }
 
-        if (options.ModuleResultTimeout < TimeSpan.Zero)
+        if (options.ModuleResultTimeout != Timeout.InfiniteTimeSpan && options.ModuleResultTimeout <= TimeSpan.Zero)
         {
-            failures.Add("Distributed.ModuleResultTimeout cannot be negative.");
+            failures.Add("Distributed.ModuleResultTimeout must be positive or Timeout.InfiniteTimeSpan.");
         }
     }
 }

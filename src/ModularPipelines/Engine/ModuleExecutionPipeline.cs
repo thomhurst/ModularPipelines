@@ -551,7 +551,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             return;
         }
 
-        if (timeout == TimeSpan.Zero)
+        if (timeout == Timeout.InfiniteTimeSpan)
         {
             logger.LogTrace("No module timeout configured. The pipeline default timeout is disabled");
             return;
@@ -578,7 +578,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
-            timeout == TimeSpan.Zero ? null : timeout,
+            timeout == Timeout.InfiniteTimeSpan ? null : timeout,
             cancellationToken,
             $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
 

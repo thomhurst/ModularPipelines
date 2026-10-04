@@ -1064,14 +1064,14 @@ internal class DistributedModuleExecutor(
     private TimeSpan? GetResultDeadline(IModule module)
     {
         var resultTimeout = _options.Value.ModuleResultTimeout;
-        if (resultTimeout <= TimeSpan.Zero)
+        if (resultTimeout == Timeout.InfiniteTimeSpan)
         {
             return null;
         }
 
         var pipelineOptions = _pipelineOptions?.Value;
         var configuration = module.Configuration;
-        var perAttempt = configuration.Timeout ?? pipelineOptions?.DefaultModuleTimeout ?? TimeSpan.Zero;
+        var perAttempt = configuration.Timeout ?? pipelineOptions?.DefaultModuleTimeout ?? Timeout.InfiniteTimeSpan;
         var attempts = 1 + (configuration.RetryConfiguration?.Count ?? pipelineOptions?.DefaultRetryCount ?? 0);
         return perAttempt > TimeSpan.Zero
             ? (perAttempt * attempts) + resultTimeout

@@ -54,7 +54,7 @@ public class RedisDistributedCoordinatorTests
                 options,
                 new DistributedOptions
                 {
-                    ModuleResultTimeout = TimeSpan.Zero,
+                    ModuleResultTimeout = Timeout.InfiniteTimeSpan,
                     WorkerTimeout = TimeSpan.FromSeconds(30),
                     MasterTimeout = TimeSpan.FromSeconds(5),
                 }))
@@ -70,7 +70,7 @@ public class RedisDistributedCoordinatorTests
                 options,
                 new DistributedOptions
                 {
-                    ModuleResultTimeout = TimeSpan.Zero,
+                    ModuleResultTimeout = Timeout.InfiniteTimeSpan,
                     WorkerTimeout = TimeSpan.FromSeconds(10),
                     MasterTimeout = TimeSpan.FromMinutes(1),
                 }))

@@ -109,7 +109,8 @@ public class DistributedOptions
     /// Gets or sets how long the master waits for a claimed module's result beyond the module's own
     /// timeouts. The worker enforces the module's per-attempt timeout; the master's deadline starts
     /// when a worker claims the module and allows every configured attempt plus this period.
-    /// Defaults to 45 minutes. Set to <see cref="TimeSpan.Zero"/> to wait indefinitely.
+    /// Defaults to 45 minutes. Set to <see cref="Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+    /// Zero and other negative durations are invalid.
     /// </summary>
     public TimeSpan ModuleResultTimeout { get; set; } = TimeSpan.FromMinutes(45);
 

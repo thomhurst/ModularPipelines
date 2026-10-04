@@ -454,14 +454,7 @@ public sealed class ModuleConfigurationBuilder
     /// </exception>
     public ModuleConfigurationBuilder WithTimeout(TimeSpan timeout)
     {
-        if (timeout == Timeout.InfiniteTimeSpan)
-        {
-            // TimeSpan.Zero is the configuration's representation of "no timeout".
-            _timeout = TimeSpan.Zero;
-            return this;
-        }
-
-        if (timeout <= TimeSpan.Zero)
+        if (timeout != Timeout.InfiniteTimeSpan && timeout <= TimeSpan.Zero)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(timeout),
