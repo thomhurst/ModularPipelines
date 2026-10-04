@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -71,7 +71,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
         foreach (Match commandsSectionMatch in commandsSectionMatches)
         {
-            var section = GetCommandSection(normalizedText, commandsSectionMatch);
+            var section = GetSectionContent(normalizedText, commandsSectionMatch);
 
             // Some CLIs omit the colon on real section headings. For those headings,
             // require an indented command row so title-cased prose cannot open a section.
@@ -103,7 +103,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
         return subcommands;
     }
 
-    private static string GetCommandSection(string helpText, Match header)
+    private static string GetSectionContent(string helpText, Match header)
     {
         var sectionStart = header.Index + header.Length;
         var nextSection = SectionHeaderPattern().Match(helpText, sectionStart);
@@ -311,18 +311,34 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// </summary>
     private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
-        var options = new List<CliOptionDefinition>();
-        var seenOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
-
         // Find Flags, Options, and Global Flags sections
         var flagsSections = ExtractFlagsSections(helpText);
 
         // Also check for "Options:" section (kubectl style)
         var optionsSections = ExtractOptionsSections(helpText);
         flagsSections.AddRange(optionsSections);
+        return ParseOptionSections(helpText, commandParts, flagsSections);
+    }
 
-        foreach (var section in flagsSections)
+    /// <summary>
+    /// Parses one explicitly identified option section without treating ordinary root flags as inherited.
+    /// </summary>
+    protected IReadOnlyList<CliOptionDefinition> ParseNamedOptionSection(string helpText, string sectionName, string[] commandParts)
+    {
+        var header = SectionHeaderPattern().Matches(helpText)
+            .FirstOrDefault(match => match.Value.Trim().TrimEnd(':').Equals(sectionName, StringComparison.OrdinalIgnoreCase));
+        return header is null
+            ? []
+            : ParseOptionSections(helpText, commandParts, [GetSectionContent(helpText, header)]);
+    }
+
+    private List<CliOptionDefinition> ParseOptionSections(string helpText, string[] commandParts, IReadOnlyList<string> sections)
+    {
+        var options = new List<CliOptionDefinition>();
+        var seenOptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var className = GenerateClassName([ToolName, .. commandParts]);
+
+        foreach (var section in sections)
         {
             var lines = section.Split('\n');
             for (var i = 0; i < lines.Length; i++)

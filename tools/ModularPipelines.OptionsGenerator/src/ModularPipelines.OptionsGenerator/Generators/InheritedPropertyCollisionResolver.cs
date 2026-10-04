@@ -70,7 +70,8 @@ internal static class InheritedPropertyCollisionResolver
             command.Options,
             command.CommandParts,
             occupiedNames,
-            renamedProperties);
+            renamedProperties,
+            globalPropertyNames);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -81,7 +82,8 @@ internal static class InheritedPropertyCollisionResolver
                     argument.PropertyName,
                     command.CommandParts,
                     occupiedNames,
-                    renamedProperties),
+                    renamedProperties,
+                    globalPropertyNames),
             })
             .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
                 ? argument
@@ -234,7 +236,8 @@ internal static class InheritedPropertyCollisionResolver
         IReadOnlyList<CliOptionDefinition> options,
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
-        Dictionary<string, string>? renamedProperties) =>
+        Dictionary<string, string>? renamedProperties,
+        IReadOnlySet<string>? globalPropertyNames = null) =>
         [.. options
             .Select(option => option with
             {
@@ -242,14 +245,16 @@ internal static class InheritedPropertyCollisionResolver
                     option.PropertyName,
                     commandParts,
                     occupiedNames,
-                    renamedProperties),
+                    renamedProperties,
+                    globalPropertyNames),
             })];
 
     private static string ResolveName(
         string propertyName,
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
-        Dictionary<string, string>? renamedProperties)
+        Dictionary<string, string>? renamedProperties,
+        IReadOnlySet<string>? globalPropertyNames = null)
     {
         if (renamedProperties?.TryGetValue(propertyName, out var existingRename) == true)
         {
@@ -257,7 +262,8 @@ internal static class InheritedPropertyCollisionResolver
         }
 
         if (!IsInheritedPropertyName(propertyName)
-            && !RecordReservedPropertyNames.Contains(propertyName))
+            && !RecordReservedPropertyNames.Contains(propertyName)
+            && globalPropertyNames?.Contains(propertyName) != true)
         {
             return propertyName;
         }

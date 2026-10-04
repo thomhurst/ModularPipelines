@@ -8,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// CLI-first scraper for Docker.
 /// Docker is a Cobra-based CLI with consistent help formatting.
 /// </summary>
-public class DockerCliScraper : CobraCliScraper
+public class DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DockerCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     private static readonly CliOptionDefinition ComposeExecNoTtyOption = new()
     {
@@ -32,10 +32,10 @@ public class DockerCliScraper : CobraCliScraper
     /// </summary>
     protected override int MaxParallelism => 4;
 
-    public DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DockerCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Global Options", [])
+            .Where(option => option.SwitchName != "--version")];
 
     /// <inheritdoc />
     protected override string NormalizeOptionSwitchName(
@@ -61,10 +61,9 @@ public class DockerCliScraper : CobraCliScraper
             return [.. options, ComposeExecNoTtyOption];
         }
 
-        return options
+        return [.. options
             .Select(option => option.PropertyName == ComposeExecNoTtyOption.PropertyName
                 ? ComposeExecNoTtyOption
-                : option)
-            .ToArray();
+                : option)];
     }
 }
