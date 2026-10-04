@@ -69,6 +69,12 @@ Typed operations use the path's already-resolved absolute location and its own
 filesystem provider, including custom providers. Constructing `new FilePath(...)`
 or `new FolderPath(...)` directly uses the process working directory and system
 filesystem. Existing string overloads keep their system-filesystem behavior.
+Custom providers declare their relative-path separator through
+`IFileSystemProvider.DirectorySeparatorChar`, which defaults to the host separator.
+A provider using backslash separators on Unix must override it. Artifact ZIPs normalize
+that separator before extraction containment checks; slash-based Unix providers keep
+literal backslashes in filenames. Typed paths still require host-compatible absolute roots.
+
 Replacing existing directory entries requires the provider's atomic overwrite-move
 operation. The system and in-memory providers support it. Other custom providers
 that cannot replace files atomically report `NotSupportedException`, preserving the

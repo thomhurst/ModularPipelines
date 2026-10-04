@@ -21,6 +21,7 @@ public class TypedArtifactContextTests
         var canonicalDirectory = Path.Combine(canonicalRoot, "empty");
         var canonicalFile = Path.Combine(canonicalRoot, "payload.txt");
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator[0]);
         provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalDirectory]);
         provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalFile]);
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns($"nested{separator}empty");
@@ -39,6 +40,70 @@ public class TypedArtifactContextTests
         await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("provider payload");
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalDirectory), Times.Once);
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalFile), Times.Once);
+    }
+
+    [Test]
+    public async Task Directory_Archive_Preserves_Literal_Backslash_For_Slash_Provider()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "literal-backslash");
+        var file = Path.Combine(root, "provider-file");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns('/');
+        provider.Setup(p => p.EnumerateDirectories(root, "*", SearchOption.AllDirectories)).Returns([]);
+        provider.Setup(p => p.EnumerateFiles(root, "*", SearchOption.AllDirectories)).Returns([file]);
+        provider.Setup(p => p.GetRelativePath(root, file)).Returns(@"payload\data.txt");
+        provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 1, 1));
+        provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("literal"u8.ToArray()));
+        var store = new InMemoryDistributedArtifactStore();
+        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var reference = await context.PublishDirectoryAsync("literal", new FolderPath(root, provider.Object));
+        await using var data = await store.DownloadAsync(reference, CancellationToken.None);
+        using var result = new ZipArchive(data, ZipArchiveMode.Read);
+        await Assert.That(result.Entries.Single().FullName).IsEqualTo(@"payload\data.txt");
+    }
+
+    [Test]
+    [Arguments(@"..\outside.txt")]
+    [Arguments(@"nested\..\..\outside.txt")]
+    [Arguments(@"..\outside\")]
+    public async Task Directory_Extraction_Rejects_Provider_Backslash_Traversal(string entryName)
+    {
+        var (provider, fileSystem) = CreateProvider();
+        Mock.Get(provider).SetupGet(p => p.DirectorySeparatorChar).Returns('\\');
+        var destination = Path.GetFullPath(Path.Combine("typed-artifacts", "destination"));
+        using var data = new MemoryStream();
+        using (var archive = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            archive.CreateEntry(entryName);
+        }
+
+        data.Position = 0;
+        using var incoming = new ZipArchive(data, ZipArchiveMode.Read);
+        await Assert.ThrowsAsync<IOException>(() => ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+            incoming, destination, CancellationToken.None, provider));
+        Mock.Get(provider).Verify(p => p.Open(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+        await Assert.That(fileSystem.AllFiles).IsEmpty();
+    }
+
+    [Test]
+    public async Task Directory_Extraction_Normalizes_Declared_Separator_For_Files_And_Directories()
+    {
+        var (provider, fileSystem) = CreateProvider();
+        Mock.Get(provider).SetupGet(p => p.DirectorySeparatorChar).Returns('\\');
+        var destination = Path.GetFullPath(Path.Combine("typed-artifacts", "destination"));
+        using var data = new MemoryStream();
+        using (var archive = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            archive.CreateEntry(@"nested\empty\");
+            using var writer = new StreamWriter(archive.CreateEntry(@"nested\payload.txt").Open());
+            writer.Write("content");
+        }
+
+        data.Position = 0;
+        using var incoming = new ZipArchive(data, ZipArchiveMode.Read);
+        await ArtifactContextImpl.ExtractDirectoryArchiveAsync(incoming, destination, CancellationToken.None, provider);
+        await Assert.That(fileSystem.Directory.Exists(Path.Combine(destination, "nested", "empty"))).IsTrue();
+        await Assert.That(fileSystem.File.ReadAllText(Path.Combine(destination, "nested", "payload.txt"))).IsEqualTo("content");
     }
 
     [Test]
@@ -265,6 +330,7 @@ public class TypedArtifactContextTests
     {
         var fileSystem = new MockFileSystem();
         var provider = new Mock<IFileSystemProvider>();
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(Path.DirectorySeparatorChar);
         provider.Setup(p => p.OpenRead(It.IsAny<string>())).Returns((string path) => fileSystem.File.OpenRead(path));
         provider.Setup(p => p.Create(It.IsAny<string>())).Returns((string path) => fileSystem.File.Create(path));
         provider.Setup(p => p.Open(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()))

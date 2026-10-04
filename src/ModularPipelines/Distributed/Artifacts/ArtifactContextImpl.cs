@@ -165,10 +165,8 @@ internal class ArtifactContextImpl(
     private static string GetArchiveEntryName(IFileSystemProvider provider, string directory, string path)
     {
         var relativePath = provider.GetRelativePath(directory, path);
-        // Custom providers may use either separator, independently of the host OS.
-        // Preserve literal backslashes in file names on a Unix system filesystem.
-        var separator = provider is SystemFileSystemProvider ? Path.DirectorySeparatorChar : '\\';
-        return relativePath.Replace(separator, '/');
+        // Only the declared separator separates directories; other characters belong to the file name.
+        return relativePath.Replace(provider.DirectorySeparatorChar, '/');
     }
 
     internal static StringComparison GetArchivePathComparison(IFileSystemProvider? provider = null) =>
@@ -237,9 +235,13 @@ internal class ArtifactContextImpl(
         foreach (var entry in archive.Entries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entry.FullName));
+            // Normalize provider separators before host canonicalization and containment checks.
+            // A slash-based Unix provider can retain a literal backslash in an entry name.
+            var entryName = entry.FullName.Replace(provider.DirectorySeparatorChar, '/');
+            var isDirectory = entryName.EndsWith('/');
+            var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entryName));
             // A root directory entry needs no work; every other entry must be below it.
-            if (string.IsNullOrEmpty(entry.Name) && string.Equals(entryPath, destinationDirectory, pathComparison))
+            if (isDirectory && string.Equals(entryPath, destinationDirectory, pathComparison))
             {
                 continue;
             }
@@ -249,7 +251,7 @@ internal class ArtifactContextImpl(
                 throw new IOException($"Extracting '{entry.FullName}' would leave the destination directory.");
             }
 
-            if (string.IsNullOrEmpty(entry.Name))
+            if (isDirectory)
             {
                 CreateDirectoryWithoutLinks(provider, destinationDirectory, entryPath);
                 continue;
