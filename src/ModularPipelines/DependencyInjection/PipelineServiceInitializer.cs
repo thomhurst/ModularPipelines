@@ -54,7 +54,7 @@ internal static class PipelineServiceInitializer
         foreach (var descriptor in descriptors)
         {
             if (descriptor.ImplementationFactory is not { } factory
-                || !CanProduceInitializer(factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
+                || !CanProduceInitializer(descriptor.ServiceType, factory.Method.ReturnType, loadedInitializerTypes, dynamicAssemblyTypes))
             {
                 continue;
             }
@@ -109,12 +109,14 @@ internal static class PipelineServiceInitializer
     }
 
     private static bool CanProduceInitializer(
+        Type serviceType,
         Type factoryReturnType,
         LoadedInitializerTypes loadedInitializerTypes,
         Dictionary<Assembly, Type[]> dynamicAssemblyTypes)
     {
         return IsInitializer(factoryReturnType)
-               || loadedInitializerTypes.Get(dynamicAssemblyTypes).Any(factoryReturnType.IsAssignableFrom);
+               || loadedInitializerTypes.Get(dynamicAssemblyTypes).Any(type =>
+                   serviceType.IsAssignableFrom(type) && factoryReturnType.IsAssignableFrom(type));
     }
 
     private static bool IsInitializer(Type type) => typeof(IInitializer).IsAssignableFrom(type);

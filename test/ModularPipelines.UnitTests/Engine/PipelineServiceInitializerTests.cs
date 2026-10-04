@@ -146,6 +146,25 @@ public class PipelineServiceInitializerTests
     }
 
     [Test]
+    [Arguments(ServiceLifetime.Singleton)]
+    [Arguments(ServiceLifetime.Scoped)]
+    public async Task ObjectReturningFactoriesMustMatchTheInitializerServiceType(ServiceLifetime lifetime)
+    {
+        var resolved = false;
+        IServiceCollection services = CreateServices();
+        services.Add(new ServiceDescriptor(typeof(InitializationLog), _ =>
+        {
+            resolved = true;
+            return (object) new InitializationLog();
+        }, lifetime));
+
+        await using var serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateScopes = true });
+        await PipelineServiceInitializer.InitializeAsync(serviceProvider);
+
+        await Assert.That(resolved).IsFalse();
+    }
+
+    [Test]
     public async Task RejectsNonSingletonInitializers()
     {
         var services = CreateServices();

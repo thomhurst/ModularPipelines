@@ -101,7 +101,11 @@ internal static class DependencyInjectionSetup
             .AddLoggingHttpClients()
             .AddInitializers()
             .AddServiceCollection()
-            .AddMediator(options => options.GenerateTypesAsInternal = true);
+            .AddMediator(options =>
+            {
+                options.GenerateTypesAsInternal = true;
+                options.NotificationPublisherType = typeof(FrameworkNotificationPublisher);
+            });
 
         // Framework lifecycle notifications must not use a consumer's IMediator registration.
         services.AddKeyedSingleton<IMediator>(
