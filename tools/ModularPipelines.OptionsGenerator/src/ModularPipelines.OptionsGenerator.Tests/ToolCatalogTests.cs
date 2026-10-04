@@ -18,16 +18,14 @@ public class ToolCatalogTests
                 .Select(entry => entry.ToolName))
             .IsEquivalentTo(["choco", "winget"]);
         await Assert.That(entries.Single(entry => entry.ToolName == "npm").IncludeInGenerationMatrix)
-            .IsFalse();
+            .IsTrue();
         await Assert.That(entries.Single(entry => entry.ToolName == "git").GenerateCommandFacade)
             .IsFalse();
         await Assert.That(entries
                 .Where(entry => entry.ToolName != "git")
                 .All(entry => entry.GenerateCommandFacade))
             .IsTrue();
-        await Assert.That(entries
-                .Where(entry => entry.ToolName != "npm")
-                .All(entry => entry.IncludeInGenerationMatrix))
+        await Assert.That(entries.All(entry => entry.IncludeInGenerationMatrix))
             .IsTrue();
         await Assert.That(entries.All(
             entry => entry.OutputDirectory == $"src/{entry.PackageName}")).IsTrue();
