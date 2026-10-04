@@ -68,6 +68,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     protected override int MaxParallelism => 10;
 
+    // Parser metadata is authoritative: omitting a command would hide incomplete verification.
+    protected override bool TreatParseErrorsAsFatal => true;
+
     /// <summary>
     /// Azure policy arguments are described as global but are registered on the selected
     /// command parser, so they must follow the subcommand path.
