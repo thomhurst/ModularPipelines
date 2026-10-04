@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ModularPipelines.Distributed;
+namespace ModularPipelines;
 
 /// <summary>
-/// Identifies a capability that a distributed worker can provide.
+/// Identifies a capability that a pipeline process can provide.
 /// </summary>
 [TypeConverter(typeof(CapabilityTypeConverter))]
 [JsonConverter(typeof(CapabilityJsonConverter))]

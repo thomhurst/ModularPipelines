@@ -3,13 +3,23 @@ namespace ModularPipelines.Distributed.UnitTests;
 public class DistributedNamespaceTests
 {
     [Test]
+    [Arguments(typeof(Capability))]
+    [Arguments(typeof(CapabilityRequirement))]
+    [Arguments(typeof(ICapabilityProvider))]
+    [Arguments(typeof(CapabilityPipelineBuilderExtensions))]
+    public async Task Capability_Types_Are_In_The_Root_Namespace(Type type)
+    {
+        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines");
+        await Assert.That(type.Assembly.GetType($"ModularPipelines.Distributed.{type.Name}"))
+            .IsNull();
+    }
+
+    [Test]
     public async Task Golden_Path_Types_Are_In_The_Distributed_Root_Namespace()
     {
         Type[] types =
         [
             typeof(DistributedPipelineBuilderExtensions),
-            typeof(CapabilityRequirement),
-            typeof(ICapabilityProvider),
             typeof(IMasterDiscovery),
         ];
 

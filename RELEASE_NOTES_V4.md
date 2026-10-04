@@ -204,6 +204,11 @@ single `using ModularPipelines;` covers `Module<T>`, `IModuleContext`, module re
 dependency and condition attributes, conditions, status and priority values, and
 `ModuleConfigurationBuilder`.
 
+`Capability`, `CapabilityRequirement`, `ICapabilityProvider`, and
+`CapabilityPipelineBuilderExtensions` have moved from `ModularPipelines.Distributed`
+to the root `ModularPipelines` namespace because capabilities also apply to local
+pipelines. Update fully qualified references or aliases and rebuild consumers.
+
 Other public contracts now use feature namespaces:
 
 - `ModularPipelines.Context` contains all domain context interfaces.

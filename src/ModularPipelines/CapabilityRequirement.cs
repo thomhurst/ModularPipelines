@@ -1,13 +1,13 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ModularPipelines.Distributed;
+namespace ModularPipelines;
 
 /// <summary>
-/// Describes the capabilities a worker needs to execute a module.
+/// Describes the capabilities a process needs to execute a module.
 /// </summary>
 /// <remarks>
-/// A requirement is a list of clauses. A worker satisfies the requirement when it satisfies every
+/// A requirement is a list of clauses. A process satisfies the requirement when it satisfies every
 /// clause, and it satisfies a clause when it advertises at least one capability in that clause.
 /// For example, <c>[[linux, macos], [docker]]</c> means "(linux or macos) and docker".
 /// </remarks>
@@ -20,7 +20,7 @@ public sealed class CapabilityRequirement : IEquatable<CapabilityRequirement>
     }
 
     /// <summary>
-    /// Gets a requirement that every worker satisfies.
+    /// Gets a requirement that every process satisfies.
     /// </summary>
     public static CapabilityRequirement None { get; } = new([]);
 
