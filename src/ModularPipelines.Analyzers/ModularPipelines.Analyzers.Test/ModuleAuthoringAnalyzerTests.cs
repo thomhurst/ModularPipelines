@@ -5646,7 +5646,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(RegisterModules);
+                    RegisterModules(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -5677,7 +5677,7 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     var builder = Pipeline.CreateBuilder();
                     Action<IServiceCollection> callback = RegisterModules;
-                    builder.ConfigureServices(callback);
+                    callback(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -5789,7 +5789,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(GetRegistration());
+                    GetRegistration()(builder.Services);
                 }
 
                 private static Action<IServiceCollection> GetRegistration() => RegisterModules;
@@ -5823,7 +5823,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(Callback);
+                    Callback(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -5889,7 +5889,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(Callback);
+                    Callback(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -5964,7 +5964,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(Callback);
+                    Callback(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -6013,7 +6013,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(Callback);
+                    Callback(builder.Services);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
@@ -6082,8 +6082,8 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(services =>
-                        services.AddSingleton<IModule, BuildModule>());
+                    Action<IServiceCollection> register = services => services.AddSingleton<IModule, BuildModule>();
+                    register(builder.Services);
                 }
             }
 
@@ -6284,7 +6284,7 @@ public class ModuleAuthoringAnalyzerTests
                 public static void Register()
                 {
                     var builder = Pipeline.CreateBuilder();
-                    builder.ConfigureServices(Callback);
+                    Callback(builder.Services);
                 }
             }
 
@@ -7707,7 +7707,7 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Fluent_ConfigureServices_Registration()
+    public async Task Does_Not_Report_Builder_Services_Registration()
     {
         var source = $$"""
             {{Header}}
@@ -7725,10 +7725,11 @@ public class ModuleAuthoringAnalyzerTests
 
             public static class Registration
             {
-                public static void Register() => Pipeline.CreateBuilder()
-                    .AddModule<FirstModule>()
-                    .ConfigureServices(services =>
-                        services.AddSingleton<IModule, SecondModule>());
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder().AddModule<FirstModule>();
+                    builder.Services.AddSingleton<IModule, SecondModule>();
+                }
             }
 
             {{EntryPoint}}

@@ -493,13 +493,10 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task FailFast_Preserves_Raw_ReadyHook_Failure_When_Dependent_Reports_First()
     {
-        var builder = TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services.RemoveAll<IModuleResultRegistrar>();
-                services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
-            })
-            .AddModule<ReadyHookFailingModule>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.RemoveAll<IModuleResultRegistrar>();
+        builder.Services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
+        builder.AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
             .AddModuleEventHandler<ThrowingReadyHookHandler>();
@@ -584,13 +581,10 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task FailFast_Wraps_Independent_ReadyHook_Cancellation_For_Dependents()
     {
-        var builder = TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services.RemoveAll<IModuleResultRegistrar>();
-                services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
-            })
-            .AddModule<ReadyHookFailingModule>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.RemoveAll<IModuleResultRegistrar>();
+        builder.Services.AddSingleton<IModuleResultRegistrar, CoordinatedModuleResultRegistrar>();
+        builder.AddModule<ReadyHookFailingModule>()
             .AddModule<ReadyHookDependentModule>()
             .AddModule<ReadyHookSiblingDependentModule>()
             .AddModuleEventHandler<IndependentlyCancellingReadyHookHandler>();

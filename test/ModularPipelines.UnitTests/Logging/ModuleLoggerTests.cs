@@ -66,12 +66,9 @@ public class ModuleLoggerTests
         // through the full integration tests.
         var file = FilePath.GetNewTemporaryFilePath();
 
-        var host = await TestPipelineBuilder.Create()
-            .ConfigureServices(collection =>
-            {
-                collection.AddLogging(builder => { builder.AddFile(file); });
-            })
-            .AddModule<Module1>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddLogging(builder => { builder.AddFile(file); });
+        var host = await builder.AddModule<Module1>()
             .BuildAsync();
 
         await host.RunAsync();
@@ -90,12 +87,9 @@ public class ModuleLoggerTests
         var file = FilePath.GetNewTemporaryFilePath();
 
         var pipelineBuilder = TestPipelineBuilder.Create();
-        pipelineBuilder.ConfigureServices(collection =>
-        {
-            collection.Configure<MySecrets>(pipelineBuilder.Configuration);
-            collection.AddLogging(builder => { builder.AddFile(file); });
-            collection.AddSingleton(typeof(IModule), moduleType);
-        });
+        pipelineBuilder.Services.Configure<MySecrets>(pipelineBuilder.Configuration);
+        pipelineBuilder.Services.AddLogging(builder => { builder.AddFile(file); });
+        pipelineBuilder.Services.AddSingleton(typeof(IModule), moduleType);
         pipelineBuilder.Logging.SetMinimumLevel(LogLevel.Information);
 
         var host = await pipelineBuilder.BuildAsync();

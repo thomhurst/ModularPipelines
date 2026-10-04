@@ -20,13 +20,10 @@ public class MockedFileSystemTests
             .ReturnsAsync("{\"enabled\": true}");
 
         // Act - run pipeline with mock provider
-        var result = await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                // Replace the default provider with our mock
-                services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-            })
-            .AddModule<ConfigReaderModule>()
+        var builder = TestPipelineBuilder.Create();
+        // Replace the default provider with our mock
+        builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+        var result = await builder.AddModule<ConfigReaderModule>()
             .RunAsync();
 
         // Assert
@@ -47,12 +44,9 @@ public class MockedFileSystemTests
         var mockProvider = new Mock<IFileSystemProvider>();
 
         // Act
-        var result = await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-            })
-            .AddModule<FileWriterModule>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+        var result = await builder.AddModule<FileWriterModule>()
             .RunAsync();
 
         // Assert
@@ -73,12 +67,9 @@ public class MockedFileSystemTests
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
 
         // Act
-        var result = await TestPipelineBuilder.Create()
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-            })
-            .AddModule<FolderCreatorModule>()
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+        var result = await builder.AddModule<FolderCreatorModule>()
             .RunAsync();
 
         // Assert

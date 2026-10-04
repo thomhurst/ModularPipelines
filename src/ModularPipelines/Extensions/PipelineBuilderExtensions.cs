@@ -212,20 +212,6 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Configures services for the pipeline.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureServices">Action to configure services.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder ConfigureServices(this PipelineBuilder builder, Action<IServiceCollection> configureServices)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-        ArgumentNullException.ThrowIfNull(configureServices);
-        configureServices(builder.Services);
-        return builder;
-    }
-
-    /// <summary>
     /// Replaces the built-in execution backend.
     /// </summary>
     /// <typeparam name="TBackend">The execution backend implementation.</typeparam>

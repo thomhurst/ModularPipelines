@@ -4451,9 +4451,6 @@ internal static class ModuleAuthoringAnalysis
             "System.Threading.Tasks.Task" =>
                 method.Name is "Run" or "ContinueWith",
             "System.Threading.Tasks.Task<TResult>" => method.Name == "ContinueWith",
-            "ModularPipelines.PipelineBuilderExtensions"
-                or "ModularPipelines.Extensions.PipelineBuilderExtensions" =>
-                method.Name == "ConfigureServices",
             "System.Threading.Tasks.TaskFactory"
                 or "System.Threading.Tasks.TaskFactory<TResult>" =>
                 method.Name == "StartNew",

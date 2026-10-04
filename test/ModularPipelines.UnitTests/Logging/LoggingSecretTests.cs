@@ -46,14 +46,12 @@ public class LoggingSecretTests
     {
         var stringBuilder = new StringBuilder();
 
-        var builder = TestPipelineBuilder.Create()
-            .ConfigureServices(collection =>
-            {
-                collection
-                    .AddSingleton<ILogger<SecretValueLoggingModule1>>(new StringLogger<SecretValueLoggingModule1>(stringBuilder))
-                    .AddModule<SecretValueLoggingModule1>()
-                    .Configure<MySecretSettings>(settings => settings.Secret1 = secretValue);
-            });
+        var builder = TestPipelineBuilder.Create();
+        builder.Services
+            .AddSingleton<ILogger<SecretValueLoggingModule1>>(new StringLogger<SecretValueLoggingModule1>(stringBuilder))
+            .AddModule<SecretValueLoggingModule1>()
+            .Configure<MySecretSettings>(settings => settings.Secret1 = secretValue);
+
         if (customBackend)
         {
             builder.AddExecutionBackend<ModularPipelines.ExecutionBackend.TestFixtures.InProcessExecutionBackend>();

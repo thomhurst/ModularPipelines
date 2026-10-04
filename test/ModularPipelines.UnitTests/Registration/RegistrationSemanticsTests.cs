@@ -201,10 +201,6 @@ public class RegistrationSemanticsTests
         {
             await Assert.That(() => PipelineBuilderExtensions.AddResultsRepository<Repository>(null!))
                 .Throws<ArgumentNullException>();
-            await Assert.That(() => PipelineBuilderExtensions.ConfigureServices(null!, _ => { }))
-                .Throws<ArgumentNullException>();
-            await Assert.That(() => Pipeline.CreateBuilder().ConfigureServices(null!))
-                .Throws<ArgumentNullException>();
             await Assert.That(() => Pipeline.CreateBuilder().AddRequirement((IPipelineRequirement) null!))
                 .Throws<ArgumentNullException>();
         }

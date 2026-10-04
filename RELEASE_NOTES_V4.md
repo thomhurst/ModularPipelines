@@ -490,3 +490,19 @@ Move hardware detection into a capability provider so routing and execution agre
 Existing explicit implementations remain supported during local and worker execution.
 The distributed master uses only the capability declaration when constructing routes;
 it does not execute a worker's predicate on the master.
+
+## Builder and configuration contracts
+
+Register dependencies through `builder.Services` instead of the removed
+`builder.ConfigureServices(...)` extension. For example, replace
+`builder.ConfigureServices(services => services.AddSingleton<MyService>())` with
+`builder.Services.AddSingleton<MyService>()`.
+
+`ModuleConfiguration` exposes read-only values and metadata. Its setters and
+execution delegates are internal; configure module behavior through
+`ModuleConfigurationBuilder` in your module's `Configure` override.
+`PipelineOptions` and `ConcurrencyOptions` are sealed records; continue using
+object initializers and `with` expressions instead of deriving from them.
+
+The `IEnumerable<IModule>.GetModule<T>()` extension is now internal. Use LINQ
+`OfType<T>().Single()` when selecting a module from a collection.

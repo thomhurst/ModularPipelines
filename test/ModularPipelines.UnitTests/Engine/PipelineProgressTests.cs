@@ -107,9 +107,10 @@ public class PipelineProgressTests
             Out = new AnsiConsoleOutput(output),
         });
 
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton<IAnsiConsole>(console);
         await Assert.That(async () =>
-                await TestPipelineBuilder.Create()
-                    .ConfigureServices(services => services.AddSingleton<IAnsiConsole>(console))
+                await builder
                     .ConfigureOptions(options => options with
                     {
                         Console = options.Console with
