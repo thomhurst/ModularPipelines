@@ -37,10 +37,11 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   --id                             Filter results by id
 ///   --name                           Filter results by name
 /// </summary>
-public partial class WinGetCliScraper : CliScraperBase
+public partial class WinGetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<WinGetCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> BooleanOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--allow-reboot",
         "--blocking",
         "--dependencies-only",
@@ -57,12 +58,9 @@ public partial class WinGetCliScraper : CliScraperBase
         "--upgrade-available",
         "--versions",
         "--wait",
-    };
-
-    public WinGetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<WinGetCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+        "--logs",
+        "--nowarn",
+    ];
 
     public override string ToolName => "winget";
 
@@ -86,6 +84,13 @@ public partial class WinGetCliScraper : CliScraperBase
     {
         "--version", "-v", "--info", "--help", "-?"
     };
+
+    /// <inheritdoc />
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseOptions(helpText, [], [with(StringComparer.OrdinalIgnoreCase)]).Where(option => option.SwitchName is not ("--version" or "--info" or "--help"))];
 
     /// <summary>
     /// WinGet is only available on Windows.
@@ -140,7 +145,7 @@ public partial class WinGetCliScraper : CliScraperBase
                 sectionEnd = endMarkerMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
 
             // Parse command lines: "  command    description"
             var lines = section.Split('\n');
@@ -200,6 +205,10 @@ public partial class WinGetCliScraper : CliScraperBase
         // Parse arguments from the help text (shares seenOptions to avoid duplicates)
         var arguments = ParseArguments(helpText, seenOptions);
         options.AddRange(arguments);
+        var globalOptions = EffectiveGlobalOptions;
+        options.RemoveAll(option => globalOptions.Any(global =>
+            global.SwitchName == option.SwitchName && global.IsFlag == option.IsFlag
+            && global.CSharpType == option.CSharpType && global.AcceptsMultipleValues == option.AcceptsMultipleValues));
 
         // Extract enums from options
         var enums = options
@@ -261,7 +270,7 @@ public partial class WinGetCliScraper : CliScraperBase
     private static IReadOnlyList<CliPositionalArgument> AssociateNamedOptionOperands(
         IReadOnlyList<CliOptionDefinition> options,
         IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments.Select(argument =>
+        [.. arguments.Select(argument =>
         {
             if (argument.AssociatedOptionSwitch is not null)
             {
@@ -279,7 +288,7 @@ public partial class WinGetCliScraper : CliScraperBase
                 {
                     AssociatedOptionSwitch = option.ShortForm ?? option.SwitchName,
                 };
-        }).ToArray();
+        })];
 
     /// <summary>
     /// Extracts description from help text.
@@ -351,7 +360,7 @@ public partial class WinGetCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -371,7 +380,7 @@ public partial class WinGetCliScraper : CliScraperBase
     /// Parses arguments from WinGet help text.
     /// Format: -short,--long     Description
     /// </summary>
-    private List<CliOptionDefinition> ParseArguments(string helpText, HashSet<string> seenOptions)
+    private static List<CliOptionDefinition> ParseArguments(string helpText, HashSet<string> seenOptions)
     {
         var options = new List<CliOptionDefinition>();
 
@@ -392,7 +401,7 @@ public partial class WinGetCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -424,8 +433,9 @@ public partial class WinGetCliScraper : CliScraperBase
             return null;
         }
 
-        var shortForm = match.Groups["short"].Value.Trim();
-        var longForm = match.Groups["long"].Value.Trim();
+        var switches = match.Groups["flags"].Value.Split(',', StringSplitOptions.TrimEntries);
+        var shortForm = switches.FirstOrDefault(value => !value.StartsWith("--", StringComparison.Ordinal));
+        var longForm = switches.FirstOrDefault(value => value.StartsWith("--", StringComparison.Ordinal));
 
         if (string.IsNullOrEmpty(longForm))
         {
@@ -566,7 +576,7 @@ public partial class WinGetCliScraper : CliScraperBase
     /// -q,--query                       Description
     /// --id                             Description
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),)?(?<long>--[\w-]+)\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*(?<flags>-{1,2}[\w?][\w-]*(?:,[ \t]*-{1,2}[\w?][\w-]*)*)[ \t]{2,}(?<desc>[^\r\n]*)\r?$", RegexOptions.Multiline)]
     private static partial Regex WinGetOptionPattern();
 
     #endregion

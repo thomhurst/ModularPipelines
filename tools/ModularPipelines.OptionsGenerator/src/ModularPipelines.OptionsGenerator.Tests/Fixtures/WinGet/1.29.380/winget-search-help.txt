@@ -1,0 +1,37 @@
+Windows Package Manager v1.29.380
+© 2026 Microsoft. All rights reserved.
+
+Searches for packages from configured sources.
+
+usage: winget search [[-q] <query>] [<options>]
+
+The following command aliases are available:
+  find
+
+The following arguments are available:
+  -q,--query                  The query used to search for a package
+
+The following options are available:
+  --id                        Filter results by id
+  --name                      Filter results by name
+  --moniker                   Filter results by moniker
+  --tag                       Filter results by tag
+  --cmd,--command             Filter results by command
+  -s,--source                 Find package using the specified source
+  -n,--count                  Show no more than specified number of results (between 1 and 1000)
+  -e,--exact                  Find package using exact match
+  --header                    Optional Windows-Package-Manager REST source HTTP header
+  --authentication-mode       Specify authentication window preference (silent, silentPreferred, or interactive)
+  --authentication-account    Specify the account to be used for authentication
+  --accept-source-agreements  Accept all source agreements during source operations
+  --versions                  Show available versions of the package
+  -?,--help                   Shows help about the selected command
+  --wait                      Prompts the user to press any key before exiting
+  --logs,--open-logs          Open the default logs location
+  --verbose,--verbose-logs    Enables verbose logging for winget
+  --nowarn,--ignore-warnings  Suppresses warning outputs
+  --disable-interactivity     Disable interactive prompts
+  --proxy                     Set a proxy to use for this execution
+  --no-proxy                  Disable the use of proxy for this execution
+
+More help can be found at: https://aka.ms/winget-command-search

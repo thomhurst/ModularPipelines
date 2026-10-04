@@ -38,13 +38,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///      --source=VALUE
 ///      Source - The source to find the package(s).
 /// </summary>
-public partial class ChocolateyCliScraper : CliScraperBase
+public partial class ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ChocolateyCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ChocolateyCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "choco";
 
     public override string NamespacePrefix => "Choco";
@@ -59,6 +54,18 @@ public partial class ChocolateyCliScraper : CliScraperBase
     /// Chocolatey starts a comparatively heavy .NET Framework process for each help request.
     /// </summary>
     protected override int MaxParallelism => 4;
+
+    /// <inheritdoc />
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
+    {
+        var defaults = helpText.IndexOf("Default Options and Switches", StringComparison.OrdinalIgnoreCase);
+        return defaults < 0 ? [] : ParseOptions(helpText[defaults..])
+            .Where(option => option.SwitchName is not ("--help" or "--online"))
+            .ToArray();
+    }
 
     /// <inheritdoc />
     public override CliToolDefinition CreateToolDefinition()
@@ -159,7 +166,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
 
         // Parse command lines: " * command - description" or "  command    description"
         var lines = section.Split('\n');
@@ -213,7 +220,11 @@ public partial class ChocolateyCliScraper : CliScraperBase
         var description = ExtractDescription(helpText, commandPath[^1]);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
+        var globalOptions = EffectiveGlobalOptions;
+        options.RemoveAll(option => globalOptions.Any(global =>
+            global.SwitchName == option.SwitchName && global.IsFlag == option.IsFlag
+            && global.CSharpType == option.CSharpType && global.AcceptsMultipleValues == option.AcceptsMultipleValues));
 
         // Extract enums from options
         var enums = options
@@ -299,15 +310,14 @@ public partial class ChocolateyCliScraper : CliScraperBase
         {
             return usage with
             {
-                PositionalArguments = usage.PositionalArguments
+                PositionalArguments = [.. usage.PositionalArguments
                     .Select(static argument => argument.PositionIndex == 0
                         ? argument with
                         {
                             CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
                             IsRequired = false,
                         }
-                        : argument)
-                    .ToArray(),
+                        : argument)],
             };
         }
 
@@ -316,7 +326,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
         IEnumerable<CliPositionalArgument> arguments) =>
-        arguments
+        [.. arguments
             .Where(static argument => argument.PropertyName is not ("OptionsOrSwitches" or "OptionsSwitches"))
             .Select(static (argument, index) =>
             {
@@ -331,8 +341,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
                     : argument;
 
                 return normalized with { PositionIndex = index };
-            })
-            .ToArray();
+            })];
 
     private static string GetRepeatableOperandDescription(string propertyName) => propertyName switch
     {
@@ -415,11 +424,10 @@ public partial class ChocolateyCliScraper : CliScraperBase
     ///      --source=VALUE
     ///      Source - The source to find the package(s).
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find "Options and Switches" section
         var optionsMatch = OptionsSectionPattern().Match(helpText);
@@ -438,7 +446,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         string? currentLongForm = null;
@@ -457,7 +465,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
                 // If we have a pending option, save it
                 if (currentLongForm is not null)
                 {
-                    var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions, className);
+                    var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions);
                     if (option is not null)
                     {
                         options.Add(option);
@@ -477,7 +485,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
                 // Save previous option if any
                 if (currentLongForm is not null)
                 {
-                    var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions, className);
+                    var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions);
                     if (option is not null)
                     {
                         options.Add(option);
@@ -493,7 +501,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
                 // Extract long and short forms
                 var parts = flags.Split(',').Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)).ToList();
                 currentLongForm = parts.FirstOrDefault(p => p.StartsWith("--"));
-                currentShortForm = parts.FirstOrDefault(p => p.StartsWith("-") && !p.StartsWith("--"));
+                currentShortForm = parts.FirstOrDefault(p => p.StartsWith('-') && !p.StartsWith("--"));
 
                 if (currentLongForm is null && currentShortForm is not null)
                 {
@@ -512,7 +520,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
         // Don't forget the last option
         if (currentLongForm is not null)
         {
-            var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions, className);
+            var option = CreateOption(currentLongForm, currentShortForm, string.Join(" ", currentDescription), hasValue, seenOptions);
             if (option is not null)
             {
                 options.Add(option);
@@ -530,8 +538,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
         string? shortForm,
         string description,
         bool hasValue,
-        HashSet<string> seenOptions,
-        string className)
+        HashSet<string> seenOptions)
     {
         if (string.IsNullOrEmpty(longForm))
         {
@@ -629,7 +636,7 @@ public partial class ChocolateyCliScraper : CliScraperBase
     ///      --source=VALUE
     /// Note: Lines have leading whitespace in help output.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?<flags>(?:-[\w?],?\s*)*(?:--[\w-]+(?:=VALUE)?))$")]
+    [GeneratedRegex(@"^[ \t]*(?<flags>-{1,2}[\w?][\w-]*(?:=VALUE)?(?:,[ \t]*-{1,2}[\w?][\w-]*(?:=VALUE)?)*)$")]
     private static partial Regex ChocolateyOptionPattern();
 
     #endregion
