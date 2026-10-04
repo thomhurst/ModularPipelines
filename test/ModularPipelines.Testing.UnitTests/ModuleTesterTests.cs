@@ -730,7 +730,7 @@ public class ModuleTesterTests
             var filePath = Path.Combine(rootPath.Value, "artifact.txt");
             await context.Files.WriteAsync(filePath, "contents", cancellationToken);
             var contents = await context.Files.ReadAsync(filePath, cancellationToken);
-            var exists = await context.Files.ExistsAsync(filePath, cancellationToken);
+            var exists = context.Files.Exists(filePath);
             var files = context.Files.Glob($"{rootPath.Value}/**/*.txt").Count();
             var folders = context.Files.GlobFolders(rootPath.Value).Count();
             var checksum = context.Security.Hash.Md5File(filePath);

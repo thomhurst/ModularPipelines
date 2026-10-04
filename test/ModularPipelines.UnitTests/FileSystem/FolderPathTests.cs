@@ -225,11 +225,10 @@ public class FolderPathTests : TestBase
             await Assert.That(folder.Attributes.ToString()).IsNotNull().And.IsNotEmpty();
             await Assert.That(folder.Path).IsNotNull().And.IsNotEmpty();
             await Assert.That(folder.OriginalPath).IsNotNull().And.IsNotEmpty();
-            await Assert.That(folder.Extension).IsEmpty();
             await Assert.That(folder.Parent?.ToString()!).IsNotNull().And.IsNotEmpty();
             await Assert.That(folder.Root.ToString()).IsNotNull().And.IsNotEmpty();
             await Assert.That(folder.CreationTime.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
-            await Assert.That(folder.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
+            await Assert.That(folder.LastWriteTime.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
             await Assert.That(folder.Hidden).IsFalse();
             await Assert.That(folder.Name).IsNotNull().And.IsNotEmpty();
         }

@@ -43,9 +43,10 @@ public interface IFilesContext
     Task WriteAsync(string path, string content, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Check if a file exists.
+    /// Checks whether a file or directory exists. Relative paths use the pipeline working directory.
     /// </summary>
-    Task<bool> ExistsAsync(string path, CancellationToken cancellationToken = default);
+    /// <returns>True for an existing file or directory; false for a missing or blank path.</returns>
+    bool Exists(string path);
 
     /// <summary>
     /// Compression operations.

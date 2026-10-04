@@ -204,9 +204,11 @@ public class FilePath : IEquatable<FilePath>
     /// <summary>
     /// Asynchronously creates a new file at the current path.
     /// </summary>
+    /// <param name="cancellationToken">Cancellation checked before creating or truncating the file.</param>
     /// <returns>This file instance for method chaining.</returns>
-    public async Task<FilePath> CreateAsync()
+    public async Task<FilePath> CreateAsync(CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         LogFileOperation("Creating File: {Path}", this);
 
         var fileStream = _provider.Create(Path);
@@ -224,10 +226,11 @@ public class FilePath : IEquatable<FilePath>
     /// <inheritdoc cref="FileInfo.IsReadOnly"/>>
     public bool IsReadOnly => (Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
 
-    /// <inheritdoc cref="FileSystemInfo.CreationTime"/>>
-    public DateTimeOffset CreationTime => new DateTimeOffset(_provider.GetCreationTimeUtc(Path)).ToLocalTime();
+    /// <summary>Gets the creation time, normalized to UTC.</summary>
+    public DateTimeOffset CreationTime => new(DateTime.SpecifyKind(_provider.GetCreationTimeUtc(Path), DateTimeKind.Utc));
 
-    public DateTimeOffset LastWriteTimeUtc => new(_provider.GetLastWriteTimeUtc(Path));
+    /// <summary>Gets the last write time, normalized to UTC.</summary>
+    public DateTimeOffset LastWriteTime => new(DateTime.SpecifyKind(_provider.GetLastWriteTimeUtc(Path), DateTimeKind.Utc));
 
     /// <inheritdoc cref="FileSystemInfo.Extension"/>>
     public string Extension => System.IO.Path.GetExtension(Path);
@@ -372,6 +375,11 @@ public class FilePath : IEquatable<FilePath>
     }
 #pragma warning restore RS0026
 
+    /// <summary>Returns a random path in the temporary directory without creating or reserving a file.</summary>
+    /// <remarks>
+    /// Prefer <see cref="TempFile"/> with <c>using</c> or <c>await using</c> for automatic cleanup.
+    /// A <see cref="TempFile"/> also starts with an uncreated path; create or write its file when needed.
+    /// </remarks>
     public static FilePath GetNewTemporaryFilePath()
     {
         var provider = SystemFileSystemProvider.Instance;

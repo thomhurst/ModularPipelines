@@ -67,18 +67,16 @@ internal class FilesContext(
     }
 
     /// <inheritdoc />
-    public Task<bool> ExistsAsync(string path, CancellationToken cancellationToken = default)
+    public bool Exists(string path)
     {
-        cancellationToken.ThrowIfCancellationRequested();
         if (string.IsNullOrWhiteSpace(path))
         {
-            return Task.FromResult(false);
+            return false;
         }
 
         var resolvedPath = _workingDirectory.ResolvePath(path);
-        return Task.FromResult(
-            _fileSystemProvider.FileExists(resolvedPath)
-            || _fileSystemProvider.DirectoryExists(resolvedPath));
+        return _fileSystemProvider.FileExists(resolvedPath)
+               || _fileSystemProvider.DirectoryExists(resolvedPath);
     }
 
     /// <inheritdoc />

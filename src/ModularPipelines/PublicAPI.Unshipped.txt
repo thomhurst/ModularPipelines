@@ -1693,7 +1693,7 @@ ModularPipelines.Context.IEnvironmentVariablesContext.GetAll(System.EnvironmentV
 ModularPipelines.Context.IEnvironmentVariablesContext.GetPath(System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Context.IEnvironmentVariablesContext.Set(string! name, string? value, System.EnvironmentVariableTarget target = System.EnvironmentVariableTarget.Process) -> void
 ModularPipelines.Context.IFilesContext
-ModularPipelines.Context.IFilesContext.ExistsAsync(string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
+ModularPipelines.Context.IFilesContext.Exists(string! path) -> bool
 ModularPipelines.Context.IFilesContext.GetFile(string! path) -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.Context.IFilesContext.GetFolder(System.Environment.SpecialFolder specialFolder) -> ModularPipelines.FileSystem.FolderPath!
 ModularPipelines.Context.IFilesContext.GetFolder(string! path) -> ModularPipelines.FileSystem.FolderPath!
@@ -2001,7 +2001,7 @@ ModularPipelines.FileSystem.FilePath.CopyTo(string! path) -> ModularPipelines.Fi
 ModularPipelines.FileSystem.FilePath.CopyToAsync(ModularPipelines.FileSystem.FolderPath! folder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.FileSystem.FilePath.CopyToAsync(string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.FileSystem.FilePath.Create() -> ModularPipelines.FileSystem.FilePath!
-ModularPipelines.FileSystem.FilePath.CreateAsync() -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
+ModularPipelines.FileSystem.FilePath.CreateAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.FileSystem.FilePath.CreationTime.get -> System.DateTimeOffset
 ModularPipelines.FileSystem.FilePath.Delete() -> void
 ModularPipelines.FileSystem.FilePath.DeleteAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
@@ -2013,7 +2013,7 @@ ModularPipelines.FileSystem.FilePath.Folder.get -> ModularPipelines.FileSystem.F
 ModularPipelines.FileSystem.FilePath.GetStream(System.IO.FileAccess fileAccess = System.IO.FileAccess.ReadWrite) -> System.IO.Stream!
 ModularPipelines.FileSystem.FilePath.Hidden.get -> bool
 ModularPipelines.FileSystem.FilePath.IsReadOnly.get -> bool
-ModularPipelines.FileSystem.FilePath.LastWriteTimeUtc.get -> System.DateTimeOffset
+ModularPipelines.FileSystem.FilePath.LastWriteTime.get -> System.DateTimeOffset
 ModularPipelines.FileSystem.FilePath.Length.get -> long
 ModularPipelines.FileSystem.FilePath.MoveTo(ModularPipelines.FileSystem.FolderPath! folder) -> ModularPipelines.FileSystem.FilePath!
 ModularPipelines.FileSystem.FilePath.MoveTo(string! path) -> ModularPipelines.FileSystem.FilePath!
@@ -2050,7 +2050,6 @@ ModularPipelines.FileSystem.FolderPath.Delete() -> void
 ModularPipelines.FileSystem.FolderPath.DeleteAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 ModularPipelines.FileSystem.FolderPath.Equals(ModularPipelines.FileSystem.FolderPath? other) -> bool
 ModularPipelines.FileSystem.FolderPath.Exists.get -> bool
-ModularPipelines.FileSystem.FolderPath.Extension.get -> string!
 ModularPipelines.FileSystem.FolderPath.FindFile(System.Func<ModularPipelines.FileSystem.FilePath!, bool>! predicate, System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! directoryExclusionFilters, string! predicateExpression = "") -> ModularPipelines.FileSystem.FilePath?
 ModularPipelines.FileSystem.FolderPath.FindFile(System.Func<ModularPipelines.FileSystem.FilePath!, bool>! predicate, string! predicateExpression = "") -> ModularPipelines.FileSystem.FilePath?
 ModularPipelines.FileSystem.FolderPath.FindFolder(System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! predicate, System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! directoryExclusionFilters, string! predicateExpression = "") -> ModularPipelines.FileSystem.FolderPath?
@@ -2064,7 +2063,7 @@ ModularPipelines.FileSystem.FolderPath.GetFolder(string! name) -> ModularPipelin
 ModularPipelines.FileSystem.FolderPath.GetFolders(System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! predicate, System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! exclusionFilters, string! predicateExpression = "") -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FolderPath!>!
 ModularPipelines.FileSystem.FolderPath.GetFolders(System.Func<ModularPipelines.FileSystem.FolderPath!, bool>! predicate, string! predicateExpression = "") -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FolderPath!>!
 ModularPipelines.FileSystem.FolderPath.Hidden.get -> bool
-ModularPipelines.FileSystem.FolderPath.LastWriteTimeUtc.get -> System.DateTimeOffset
+ModularPipelines.FileSystem.FolderPath.LastWriteTime.get -> System.DateTimeOffset
 ModularPipelines.FileSystem.FolderPath.ListFiles() -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.FileSystem.FolderPath.ListFolders() -> System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FolderPath!>!
 ModularPipelines.FileSystem.FolderPath.MoveTo(string! path) -> ModularPipelines.FileSystem.FolderPath!

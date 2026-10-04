@@ -207,6 +207,23 @@ and `FolderPath`. This avoids collisions with `System.IO.File` in projects that
 use implicit global usings. Method names such as `IFilesContext.GetFile` and
 `GetFolder` are unchanged; only their path types have changed.
 
+Both path types expose `CreationTime` and `LastWriteTime` as UTC-normalized
+`DateTimeOffset` values. Replace `LastWriteTimeUtc` with `LastWriteTime`; call
+`ToLocalTime()` explicitly when local display is needed. `FolderPath.Extension`
+has been removed; `FilePath.Extension` remains available.
+
+Replace `await context.Files.ExistsAsync(path, cancellationToken)` with
+`context.Files.Exists(path)`. The synchronous check returns true for either a
+file or a directory and resolves relative paths against the pipeline working
+directory. Use `GetFile(path).Exists` or `GetFolder(path).Exists` for a specific kind.
+`FilePath.CreateAsync` now accepts an optional cancellation token and checks it
+before creating or truncating the file.
+
+Prefer `using` or `await using` with `TempFile` and `TempFolder` for automatic
+cleanup. `TempFile` starts with an uncreated path; create or write its `File` when
+needed. `TempFolder` creates its folder immediately. The lower-level
+`GetNewTemporaryFilePath` and `CreateTemporaryFolder` helpers do not arrange cleanup.
+
 ## Namespace organization
 
 The module authoring surface now lives in the root `ModularPipelines` namespace. A
