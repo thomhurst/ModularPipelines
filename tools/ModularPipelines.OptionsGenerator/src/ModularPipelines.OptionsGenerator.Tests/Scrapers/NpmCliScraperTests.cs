@@ -8,6 +8,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class NpmCliScraperTests
 {
+    private static readonly string[] OrgVerbs = ["set", "rm", "ls"];
+
     [Test]
     public async Task Discovers_Wrapped_Root_Commands()
     {
@@ -203,6 +205,48 @@ public class NpmCliScraperTests
         await Assert.That(scraper.GetSubcommands(["npm", "profile", "enable-2fa"],
             "Usage:\nnpm profile enable-2fa [auth-only|auth-and-writes]")).IsEmpty();
     }
+
+    [Test]
+    public async Task Org_Bare_Operand_Names_Are_Not_Literal_Subcommands()
+    {
+        var help = await ReadNpmFixture("org");
+        var scraper = CreateScraper();
+        await Assert.That(scraper.GetSubcommands(["npm", "org"], help)).IsEquivalentTo(["set", "rm", "ls"]);
+        foreach (var verb in OrgVerbs)
+        {
+            await Assert.That(scraper.GetSubcommands(["npm", "org", verb], help)).IsEmpty();
+            var command = await scraper.Parse(["npm", "org", verb], help);
+            await Assert.That(command).IsNotNull();
+            await Assert.That(command!.PositionalArguments[0].PropertyName).IsEqualTo("Orgname");
+            await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("Username");
+            await Assert.That(command.PositionalArguments[1].IsRequired).IsEqualTo(verb != "ls");
+        }
+    }
+
+    [Test]
+    [Arguments("get")]
+    [Arguments("set")]
+    public async Task Config_Alias_Explanations_Are_Not_Operands(string verb)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        await Assert.That(command!.PositionalArguments).Count().IsEqualTo(1);
+        await Assert.That(command.PositionalArguments[0].IsVariadic).IsTrue();
+        await Assert.That(command.PositionalArguments[0].IsRequired).IsEqualTo(verb == "set");
+    }
+
+    [Test]
+    public async Task Bare_Option_Value_Hints_Are_Not_Flags()
+    {
+        var command = await CreateScraper().Parse(["npm", "version"], await ReadNpmFixture("version"));
+        var preid = command!.Options.Single(option => option.SwitchName == "--preid");
+        await Assert.That(preid.IsFlag).IsFalse();
+        await Assert.That(preid.CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--json").IsFlag).IsTrue();
+    }
+
+    private static Task<string> ReadNpmFixture(string command) => File.ReadAllTextAsync(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", "Npm", "11.11.0", $"npm-{command}.txt"));
 
     private static TestNpmCliScraper CreateScraper() => new();
 
