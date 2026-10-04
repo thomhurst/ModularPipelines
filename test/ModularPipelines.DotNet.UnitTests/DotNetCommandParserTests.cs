@@ -102,6 +102,30 @@ public class DotNetCommandParserTests : TestBase
     }
 
     [Test]
+    [Arguments("tests/UnitTests.csproj")]
+    [Arguments("Tests.sln")]
+    [Arguments("tests")]
+    [Arguments("Tests.dll")]
+    [Arguments("Tests.exe")]
+    public async Task Test_Renders_Positional_Target_Before_Options(string target)
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            ProjectSolution = target,
+            Filter = "Category=Unit",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo($"dotnet test {target} --filter Category=Unit");
+    }
+
+    [Test]
+    public async Task Format_Renders_Version_Without_A_Value()
+    {
+        var result = await GetResult(new DotNetFormatOptions { Version = true });
+        await Assert.That(result.CommandInput).IsEqualTo("dotnet format --version");
+    }
+
+    [Test]
     public async Task Pack_Renders_Version_Value()
     {
         var result = await GetResult(new DotNetPackOptions { Version = "1.2.3" });
