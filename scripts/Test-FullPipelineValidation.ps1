@@ -19,6 +19,7 @@ $corePaths = @(
     'src/ModularPipelines.Development.Analyzers/Analyzer.cs',
     'src/ModularPipelines.Cmd/Command.cs',
     'test/ModularPipelines.UnitTests/EngineTests.cs',
+    'test/ModularPipelines.Distributed.UnitTests/CoordinatorTests.cs',
     'test/ModularPipelines.TrimAotSmoke/Program.cs',
     'test/ModularPipelines.FSharp.TestFixtures/Module.fs',
     'test/Shared/GlobalTestSetup.cs',
