@@ -1,6 +1,6 @@
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.SignalR.Coordination;
-using ModularPipelines.TestHelpers.Distributed;
+using ModularPipelines.Testing.Distributed;
 using MsOptions = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.Distributed.SignalR.UnitTests;

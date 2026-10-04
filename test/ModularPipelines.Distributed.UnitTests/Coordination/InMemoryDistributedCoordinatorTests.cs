@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.Coordination;
-using ModularPipelines.TestHelpers.Distributed;
+using ModularPipelines.Testing.Distributed;
 using MsOptions = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.Distributed.UnitTests.Coordination;

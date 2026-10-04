@@ -30,6 +30,17 @@ public record CommandResult
             exitCode: 0);
     }
 
+    /// <summary>Creates a failed command result for command interceptors and tests.</summary>
+    /// <param name="exitCode">A nonzero process exit code.</param>
+    /// <param name="standardOutput">The simulated standard output.</param>
+    /// <param name="standardError">The simulated standard error.</param>
+    /// <returns>A failed command result.</returns>
+    public static CommandResult Fail(int exitCode = 1, string standardOutput = "", string standardError = "")
+    {
+        ArgumentOutOfRangeException.ThrowIfZero(exitCode);
+        return Ok(standardOutput, standardError) with { ExitCode = exitCode };
+    }
+
     /// <summary>
     /// Gets the command that was executed.
     /// </summary>

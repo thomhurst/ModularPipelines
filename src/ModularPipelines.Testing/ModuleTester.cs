@@ -12,6 +12,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
@@ -58,7 +59,40 @@ public class ModuleTestBuilder<TModule>
     private readonly List<Action<PipelineBuilder>> _registrations = [];
     private readonly List<IDependencySeed> _dependencySeeds = [];
     private readonly Dictionary<(Type ProducerModule, string ArtifactName), byte[]> _artifactSeeds = [];
+    private readonly Dictionary<string, byte[]> _fileSeeds = new(StringComparer.Ordinal);
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>>? _commandHandler;
+
+    /// <summary>Configures the pipeline after harness defaults and before building it.</summary>
+    /// <param name="configure">The callback, invoked for each execution in registration order.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> ConfigurePipeline(Action<PipelineBuilder> configure)
+    {
+        ArgumentNullException.ThrowIfNull(configure);
+        _registrations.Add(configure);
+        return this;
+    }
+
+    /// <summary>Seeds a UTF-8 file before pipeline service initialization and module execution.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="contents">The file contents.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithFile(string path, string contents)
+    {
+        ArgumentNullException.ThrowIfNull(contents);
+        return WithFile(path, Encoding.UTF8.GetBytes(contents));
+    }
+
+    /// <summary>Seeds a binary file before pipeline service initialization, creating parent directories.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="contents">The file contents, copied when registered.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithFile(string path, byte[] contents)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        ArgumentNullException.ThrowIfNull(contents);
+        _fileSeeds[path] = contents.ToArray();
+        return this;
+    }
 
     /// <summary>
     /// Registers a service instance for the module.
@@ -84,7 +118,38 @@ public class ModuleTestBuilder<TModule>
         where TDependency : Module<TResult>
     {
         _registrations.Add(static builder => builder.AddModule<TDependency>());
-        _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(value));
+        _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
+            context => ModuleResult<TResult>.CreateSuccess(value, context), ModuleStatus.Succeeded));
+        return this;
+    }
+
+    /// <summary>Seeds a failed dependency without executing it.</summary>
+    /// <typeparam name="TDependency">The dependency module.</typeparam>
+    /// <typeparam name="TResult">The dependency value type.</typeparam>
+    /// <param name="exception">The dependency failure.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithDependencyFailure<TDependency, TResult>(Exception exception)
+        where TDependency : Module<TResult>
+    {
+        ArgumentNullException.ThrowIfNull(exception);
+        _registrations.Add(static builder => builder.AddModule<TDependency>());
+        _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
+            context => ModuleResult<TResult>.CreateFailure(exception, context), ModuleStatus.Failed));
+        return this;
+    }
+
+    /// <summary>Seeds a skipped dependency without executing it.</summary>
+    /// <typeparam name="TDependency">The dependency module.</typeparam>
+    /// <typeparam name="TResult">The dependency value type.</typeparam>
+    /// <param name="reason">The reason the dependency was skipped.</param>
+    /// <returns>This builder.</returns>
+    public ModuleTestBuilder<TModule> WithSkippedDependency<TDependency, TResult>(string reason)
+        where TDependency : Module<TResult>
+    {
+        ArgumentNullException.ThrowIfNull(reason);
+        _registrations.Add(static builder => builder.AddModule<TDependency>());
+        _dependencySeeds.Add(new DependencySeed<TDependency, TResult>(
+            context => ModuleResult<TResult>.CreateSkipped(SkipDecision.Skip(reason), context), ModuleStatus.Skipped));
         return this;
     }
 
@@ -198,9 +263,11 @@ public class ModuleTestBuilder<TModule>
             registration(builder);
         }
 
-        var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
         await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
+        var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
+        var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
         foreach (var dependencySeed in _dependencySeeds)
         {
             dependencySeed.Apply(pipeline.Services);
@@ -209,8 +276,15 @@ public class ModuleTestBuilder<TModule>
         var module = pipeline.Services.GetServices<IModule>()
             .OfType<TModule>()
             .Single();
-        ValidateRequiredDependencyResults(module, pipeline.Services);
+        var dependencies = ValidateRequiredDependencyResults(module, pipeline.Services);
         var executionContext = ExecutionContextFactory.Create(module, typeof(TModule));
+        var dependencyFailure = ApplyDependencyOutcomes(module, dependencies, pipeline.Services, executionContext);
+        if (dependencyFailure is not null)
+        {
+            executionContext.ModuleCancellationTokenSource.Dispose();
+            return new ExecutionOutcome(dependencyFailure, recorder.Commands, effectiveFileSystem);
+        }
+
         if (cancellationToken.CanBeCanceled)
         {
             var originalCancellationTokenSource =
@@ -220,7 +294,6 @@ public class ModuleTestBuilder<TModule>
             originalCancellationTokenSource.Dispose();
         }
 
-        var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
         var mediator = pipeline.Services.GetRequiredKeyedService<IMediator>(typeof(global::Mediator.Mediator));
         var estimatedTimeProvider = pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>();
@@ -233,7 +306,6 @@ public class ModuleTestBuilder<TModule>
             estimatedTimeProvider);
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
-        var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
         var workingDirectory = pipeline.Services
             .GetRequiredService<IOptions<ModuleCacheOptions>>()
             .Value.WorkingDirectory;
@@ -267,6 +339,64 @@ public class ModuleTestBuilder<TModule>
             .RegisterResult(typeof(TModule), result);
 
         return new ExecutionOutcome(result, recorder.Commands, effectiveFileSystem);
+    }
+
+    private async Task SeedFilesAsync(IServiceProvider services, CancellationToken cancellationToken)
+    {
+        var context = services.GetRequiredService<IPipelineContext>();
+        var fileSystem = services.GetRequiredService<IFileSystemProvider>();
+        foreach (var (path, contents) in _fileSeeds)
+        {
+            var absolutePath = context.Files.GetFile(path).Path;
+            var directory = Path.GetDirectoryName(absolutePath);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                fileSystem.CreateDirectory(directory);
+            }
+
+            await fileSystem.WriteAllBytesAsync(absolutePath, contents.ToArray(), cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private static IModuleResult? ApplyDependencyOutcomes(
+        IModule module,
+        (Type DependencyType, bool Optional)[] dependencies,
+        IServiceProvider services,
+        ModuleExecutionContext executionContext)
+    {
+        var registry = services.GetRequiredService<IModuleResultRegistry>();
+        var outcomes = dependencies.Select(dependency => (
+                dependency.DependencyType,
+                dependency.Optional,
+                Result: registry.GetResult(dependency.DependencyType)))
+            .ToArray();
+
+        if (!module.Configuration.AlwaysRun)
+        {
+            var failed = outcomes.FirstOrDefault(outcome => outcome.Result?.Status is
+                ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.Canceled or ModuleStatus.DependencyFailed);
+            if (failed.Result is not null)
+            {
+                var dependency = services.GetServices<IModule>().Single(candidate => candidate.GetType() == failed.DependencyType);
+                var exception = new DependencyFailedException(failed.Result.ExceptionOrDefault!, dependency);
+                services.GetRequiredService<IModuleResultRegistrar>()
+                    .RegisterDependencyFailedResult(module, typeof(TModule), exception);
+                return registry.GetResult(typeof(TModule));
+            }
+        }
+
+        var skipped = outcomes
+            .Where(outcome => !outcome.Optional && outcome.Result?.Status == ModuleStatus.Skipped)
+            .OrderBy(outcome => outcome.DependencyType.FullName, StringComparer.Ordinal)
+            .Select(outcome => (outcome.DependencyType, outcome.Result!.SkipDecisionOrDefault))
+            .ToArray();
+        if (skipped.Length > 0)
+        {
+            executionContext.SkipResult = DependencySkipDecisionFactory.Create(skipped);
+        }
+
+        return null;
     }
 
     private async Task RestoreConsumedArtifactsAsync(
@@ -324,7 +454,7 @@ public class ModuleTestBuilder<TModule>
         return services.GetRequiredService<ModuleLogger<TModule>>();
     }
 
-    private static void ValidateRequiredDependencyResults(
+    private static (Type DependencyType, bool Optional)[] ValidateRequiredDependencyResults(
         IModule module,
         IServiceProvider services)
     {
@@ -334,12 +464,15 @@ public class ModuleTestBuilder<TModule>
         var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var resultRegistry = services.GetRequiredService<IModuleResultRegistry>();
-        var missingDependencies = ModuleDependencyResolver
+        var dependencies = ModuleDependencyResolver
             .GetAllDependencies(
                 module,
                 registeredModuleTypes,
                 dependencyRegistry,
                 metadataRegistry)
+            .Distinct()
+            .ToArray();
+        var missingDependencies = dependencies
             .Where(static dependency => !dependency.Optional)
             .Select(static dependency => dependency.DependencyType)
             .Distinct()
@@ -355,6 +488,8 @@ public class ModuleTestBuilder<TModule>
                 + string.Join(", ", missingDependencies)
                 + ". Call WithDependencyResult for each dependency.");
         }
+
+        return dependencies;
     }
 
     internal sealed record ExecutionOutcome(
@@ -367,7 +502,9 @@ public class ModuleTestBuilder<TModule>
         void Apply(IServiceProvider services);
     }
 
-    private sealed class DependencySeed<TDependency, TResult>(TResult value) : IDependencySeed
+    private sealed class DependencySeed<TDependency, TResult>(
+        Func<ModuleExecutionContext, ModuleResult<TResult>> createResult,
+        ModuleStatus status) : IDependencySeed
         where TDependency : Module<TResult>
     {
         public void Apply(IServiceProvider services)
@@ -376,16 +513,15 @@ public class ModuleTestBuilder<TModule>
                 .OfType<TDependency>()
                 .Single();
             var now = DateTimeOffset.UtcNow;
-            var result = new ModuleResult<TResult>.Success(value)
+            var context = new ModuleExecutionContext(module, typeof(TDependency))
             {
-                Name = typeof(TDependency).Name,
-                TypeName = typeof(TDependency).FullName,
                 Duration = TimeSpan.Zero,
                 StartTime = now,
                 EndTime = now,
-                Status = ModuleStatus.Succeeded,
-                ModuleType = typeof(TDependency),
+                Status = status,
             };
+            using var cancellation = context.ModuleCancellationTokenSource;
+            var result = createResult(context);
 
             module.AsInternal().TrySetDistributedResult(result);
             services.GetRequiredService<IModuleResultRegistry>()
@@ -402,6 +538,43 @@ public class ModuleTestBuilder<TModule>
 public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TModule>
     where TModule : Module<TResult>
 {
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.ConfigurePipeline"/>
+    public new ModuleTestBuilder<TModule, TResult> ConfigurePipeline(Action<PipelineBuilder> configure)
+    {
+        base.ConfigurePipeline(configure);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithFile(string,string)"/>
+    public new ModuleTestBuilder<TModule, TResult> WithFile(string path, string contents)
+    {
+        base.WithFile(path, contents);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithFile(string,byte[])"/>
+    public new ModuleTestBuilder<TModule, TResult> WithFile(string path, byte[] contents)
+    {
+        base.WithFile(path, contents);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithDependencyFailure{TDependency,TDependencyResult}"/>
+    public new ModuleTestBuilder<TModule, TResult> WithDependencyFailure<TDependency, TDependencyResult>(Exception exception)
+        where TDependency : Module<TDependencyResult>
+    {
+        base.WithDependencyFailure<TDependency, TDependencyResult>(exception);
+        return this;
+    }
+
+    /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithSkippedDependency{TDependency,TDependencyResult}"/>
+    public new ModuleTestBuilder<TModule, TResult> WithSkippedDependency<TDependency, TDependencyResult>(string reason)
+        where TDependency : Module<TDependencyResult>
+    {
+        base.WithSkippedDependency<TDependency, TDependencyResult>(reason);
+        return this;
+    }
+
     /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithService{TService}(TService)"/>
     public new ModuleTestBuilder<TModule, TResult> WithService<TService>(TService service)
         where TService : class

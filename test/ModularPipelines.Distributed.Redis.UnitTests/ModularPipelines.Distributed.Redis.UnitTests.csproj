@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Distributed.Redis\ModularPipelines.Distributed.Redis.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Testing\ModularPipelines.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>
