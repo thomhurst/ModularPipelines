@@ -24,7 +24,7 @@ public class FailedModuleNotificationTests
 
         await Assert.That(async () =>
                 await TestPipelineBuilder.Create()
-                    .ConfigureServices(services => services.AddSingleton(mediator.Object))
+                    .ConfigureServices(services => services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object))
                     .AddModule<FailingModule>()
                     .RunAsync())
             .Throws<ModuleFailedException>();
@@ -51,7 +51,7 @@ public class FailedModuleNotificationTests
             await TestPipelineBuilder.Create()
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton(mediator.Object);
+                    services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object);
                     services.AddSingleton<IModuleEventHandler, ThrowingFailureHandler>();
                 })
                 .AddModule<FailingModule>()

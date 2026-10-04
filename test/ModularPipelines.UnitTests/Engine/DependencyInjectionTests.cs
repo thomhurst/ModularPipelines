@@ -16,6 +16,36 @@ namespace ModularPipelines.UnitTests.Engine;
 public class DependencyInjectionTests
 {
     [Test]
+    public async Task ConsumerScopedNotificationPublisherDoesNotReplaceFrameworkPublisher()
+    {
+        await using var pipeline = await Pipeline.CreateBuilderWithoutProjectInference(new PipelineBuilderSettings
+        {
+            EnvironmentName = Environments.Development,
+        })
+            .ConfigureServices(services => services.AddScoped<global::Mediator.ForeachAwaitPublisher>())
+            .AddModule<TestModule1>()
+            .BuildAsync();
+
+        await using var scope = pipeline.Services.CreateAsyncScope();
+        await Assert.That(scope.ServiceProvider.GetRequiredService<global::Mediator.ForeachAwaitPublisher>()).IsNotNull();
+        await pipeline.RunAsync();
+    }
+
+    [Test]
+    public async Task ConsumerMediatorDoesNotReplaceFrameworkNotifications()
+    {
+        var consumerMediator = new Mock<global::Mediator.IMediator>(MockBehavior.Strict).Object;
+        await using var pipeline = await TestPipelineBuilder.Create()
+            .ConfigureServices(services => services.AddSingleton(consumerMediator))
+            .AddModule<TestModule1>()
+            .BuildAsync();
+
+        await Assert.That(pipeline.Services.GetRequiredService<global::Mediator.IMediator>())
+            .IsSameReferenceAs(consumerMediator);
+        await pipeline.RunAsync();
+    }
+
+    [Test]
     public async Task AllDependenciesCanBeBuilt()
     {
         var host = await TestPipelineBuilder.Create()

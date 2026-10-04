@@ -222,7 +222,7 @@ public class ModuleTestBuilder<TModule>
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
-        var mediator = pipeline.Services.GetRequiredService<IMediator>();
+        var mediator = pipeline.Services.GetRequiredKeyedService<IMediator>(typeof(global::Mediator.Mediator));
         var estimatedTimeProvider = pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>();
         var moduleContext = new ModuleContext(
             pipelineContext,

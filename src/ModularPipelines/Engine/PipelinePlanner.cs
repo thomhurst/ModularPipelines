@@ -45,7 +45,7 @@ internal sealed class PipelinePlanner
         IModuleMetadataRegistry metadataRegistry,
         IDependencyChainProvider dependencyChainProvider,
         IOptions<PipelineOptions> options,
-        IMediator mediator,
+        [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
         IModuleResultHistoryProvider resultHistoryProvider,
         IPipelineContextProvider pipelineContextProvider,
         IModuleCacheResultRepository? moduleCacheResultRepository = null)

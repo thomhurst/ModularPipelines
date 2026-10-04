@@ -13,7 +13,7 @@ namespace ModularPipelines.Engine;
 internal sealed class ModulePlanningSkipEvaluator(
     IServiceProvider serviceProvider,
     IModuleConditionHandler moduleConditionHandler,
-    IMediator mediator,
+    [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
 {
     public async Task<SkipDecision?> EvaluateAsync(

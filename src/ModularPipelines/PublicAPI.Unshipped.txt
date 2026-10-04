@@ -1,4 +1,50 @@
 #nullable enable
+*REMOVED*Mediator.AssemblyReference
+*REMOVED*Mediator.Mediator
+*REMOVED*Mediator.Mediator.CreateStream(object! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<object?>!
+*REMOVED*Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamCommand<TResponse>! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+*REMOVED*Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamQuery<TResponse>! query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+*REMOVED*Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamRequest<TResponse>! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+*REMOVED*Mediator.Mediator.Mediator(System.IServiceProvider! sp) -> void
+*REMOVED*Mediator.Mediator.Publish(object! notification, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+*REMOVED*Mediator.Mediator.Publish<TNotification>(TNotification notification, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+*REMOVED*Mediator.Mediator.Send(object! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<object?>
+*REMOVED*Mediator.Mediator.Send<TResponse>(Mediator.ICommand<TResponse>! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+*REMOVED*Mediator.Mediator.Send<TResponse>(Mediator.IQuery<TResponse>! query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+*REMOVED*Mediator.Mediator.Send<TResponse>(Mediator.IRequest<TResponse>! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+*REMOVED*Mediator.MediatorOptions
+*REMOVED*Mediator.MediatorOptions.GenerateTypesAsInternal.get -> bool
+*REMOVED*Mediator.MediatorOptions.GenerateTypesAsInternal.set -> void
+*REMOVED*Mediator.MediatorOptions.MediatorOptions() -> void
+*REMOVED*Mediator.MediatorOptions.ServiceLifetime.get -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+*REMOVED*Mediator.MediatorOptions.ServiceLifetime.set -> void
+*REMOVED*Mediator.MediatorOptionsAttribute
+*REMOVED*Mediator.MediatorOptionsAttribute.MediatorOptionsAttribute() -> void
+*REMOVED*Mediator.MediatorOptionsAttribute.ServiceLifetime.get -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+*REMOVED*Mediator.MediatorOptionsAttribute.ServiceLifetime.set -> void
+*REMOVED*Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions
+*REMOVED*const Mediator.Mediator.NotificationPublisherName = "ForeachAwaitPublisher" -> string!
+*REMOVED*const Mediator.Mediator.ServiceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+*REMOVED*const Mediator.Mediator.TotalMessages = 5 -> int
+*REMOVED*static Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions.AddMediator(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+*REMOVED*static Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions.AddMediator(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<Mediator.MediatorOptions!>? options) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+*REMOVED*~Mediator.AssemblyReference.Assembly.get -> System.Reflection.Assembly
+*REMOVED*~Mediator.MediatorOptions.Assemblies.get -> System.Collections.Generic.IReadOnlyList<Mediator.AssemblyReference>
+*REMOVED*~Mediator.MediatorOptions.Assemblies.set -> void
+*REMOVED*~Mediator.MediatorOptions.Namespace.get -> string
+*REMOVED*~Mediator.MediatorOptions.Namespace.set -> void
+*REMOVED*~Mediator.MediatorOptions.NotificationPublisherType.get -> System.Type
+*REMOVED*~Mediator.MediatorOptions.NotificationPublisherType.set -> void
+*REMOVED*~Mediator.MediatorOptions.PipelineBehaviors.get -> System.Collections.Generic.IReadOnlyList<System.Type>
+*REMOVED*~Mediator.MediatorOptions.PipelineBehaviors.set -> void
+*REMOVED*~Mediator.MediatorOptions.StreamPipelineBehaviors.get -> System.Collections.Generic.IReadOnlyList<System.Type>
+*REMOVED*~Mediator.MediatorOptions.StreamPipelineBehaviors.set -> void
+*REMOVED*~Mediator.MediatorOptionsAttribute.Namespace.get -> string
+*REMOVED*~Mediator.MediatorOptionsAttribute.Namespace.set -> void
+*REMOVED*~Mediator.MediatorOptionsAttribute.NotificationPublisherType.get -> System.Type
+*REMOVED*~Mediator.MediatorOptionsAttribute.NotificationPublisherType.set -> void
+*REMOVED*~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Reflection.Assembly assembly) -> Mediator.AssemblyReference
+*REMOVED*~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Type type) -> Mediator.AssemblyReference
 *REMOVED*ModularPipelines.Attributes.CommandLinePhase.EndOfOptions = 2 -> ModularPipelines.Attributes.CommandLinePhase
 *REMOVED*ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute
 *REMOVED*ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute.DependsOnAllModulesInheritingFromAttribute(System.Type! type) -> void

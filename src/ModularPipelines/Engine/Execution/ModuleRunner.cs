@@ -64,7 +64,7 @@ internal class ModuleRunner : IModuleRunner
         IServiceProvider serviceProvider,
         IModuleExecutionPipeline executionPipeline,
         IPipelineSetupExecutor pipelineSetupExecutor,
-        IMediator mediator,
+        [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
         ModuleDisposer moduleDisposer,
         IModuleResultRegistry resultRegistry,

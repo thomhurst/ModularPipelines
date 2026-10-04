@@ -450,7 +450,7 @@ public class ParallelLimitHandlerTests
         var builder = TestPipelineBuilder.Create()
             .AddModule<ThrowingReadyTestModule>();
         builder.Services.AddSingleton<IModuleEventHandler>(handler);
-        builder.Services.AddSingleton(mediator.Object);
+        builder.Services.AddKeyedSingleton<IMediator>(typeof(global::Mediator.Mediator), mediator.Object);
         builder.Services.AddSingleton(consoleCoordinator.Object);
         builder.Services.AddSingleton(outputCoordinator.Object);
         await using var host = await builder.BuildAsync();
