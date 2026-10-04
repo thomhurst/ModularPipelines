@@ -43,30 +43,54 @@ if (-not $IsGeneratedIntegration) {
         [pscustomobject]@{ package = $package; project = $project; test_project = $testProject }
     })
 
-    if ($removedPackages.Count -gt 0) {
-        # Include consumers anywhere in the repository, including examples and build tools.
+    if ($packages.Count -gt 0) {
+        # Follow reverse references transitively, including consumers in examples and tools.
         # Inspect references instead of evaluating MSBuild during route classification.
-        $consumers = @(Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Filter '*.csproj' |
+        $affectedNames = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+        foreach ($package in $packages) { [void]$affectedNames.Add("$package.csproj") }
+        $remaining = @(Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Filter '*.csproj' |
             Where-Object { $_.FullName -notmatch '[\\/](?:bin|obj|node_modules|\.git)[\\/]' } |
             ForEach-Object {
-                $projectFile = $_
-                $document = [xml](Get-Content -LiteralPath $projectFile.FullName -Raw)
-                $references = @($document.SelectNodes('//*[local-name()="ProjectReference"]/@Include') |
-                    ForEach-Object { $_.Value -split ';' } |
-                    ForEach-Object { ($_.Replace('\', '/') -split '/')[-1] })
-                if (@($removedPackages | Where-Object { "$_.csproj" -in $references }).Count -gt 0) {
-                    $relativeProject = [IO.Path]::GetRelativePath($RepositoryRoot, $projectFile.FullName).Replace('\', '/')
-                    if ($relativeProject -notin $projects.project) {
-                        [pscustomobject]@{
-                            package = $projectFile.BaseName
-                            project = $relativeProject
-                            test_project = ''
-                        }
-                    }
+                $document = [xml](Get-Content -LiteralPath $_.FullName -Raw)
+                [pscustomobject]@{
+                    File = $_
+                    References = @($document.SelectNodes('//*[local-name()="ProjectReference"]/@Include') |
+                        ForEach-Object { $_.Value -split ';' } |
+                        ForEach-Object { ($_.Replace('\', '/') -split '/')[-1] })
                 }
             })
-        $projects = @(@($projects) + $consumers | Sort-Object -Property project -Unique)
+        do {
+            $discovered = @($remaining | Where-Object {
+                @($_.References | Where-Object { $affectedNames.Contains($_) }).Count -gt 0
+            })
+            foreach ($consumer in $discovered) {
+                [void]$affectedNames.Add($consumer.File.Name)
+                $relativeProject = [IO.Path]::GetRelativePath($RepositoryRoot, $consumer.File.FullName).Replace('\', '/')
+                if ($relativeProject -notin $projects.project -and $relativeProject -notin $projects.test_project) {
+                    $testProject = "test/$($consumer.File.BaseName).UnitTests/$($consumer.File.BaseName).UnitTests.csproj"
+                    if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $testProject) -PathType Leaf)) { $testProject = '' }
+                    $projects += [pscustomobject]@{
+                        package = $consumer.File.BaseName
+                        project = $relativeProject
+                        test_project = $testProject
+                    }
+                }
+            }
+            $remaining = @($remaining | Where-Object { $_ -notin $discovered })
+        } while ($discovered.Count -gt 0)
+        $projects = @($projects | Sort-Object -Property project -Unique)
     }
+
+    foreach ($entry in $projects) {
+        $solution = "src/$($entry.package)/$($entry.package).slnx"
+        # Build tools and arbitrary consumers keep their project target; integration
+        # solutions validate their own project membership and XML as well as compilation.
+        $buildTarget = if ($entry.package -notin $corePackages -and
+            $entry.project -eq "src/$($entry.package)/$($entry.package).csproj" -and
+            (Test-Path -LiteralPath (Join-Path $RepositoryRoot $solution) -PathType Leaf)) { $solution } else { $entry.project }
+        $entry | Add-Member -NotePropertyName build_target -NotePropertyValue $buildTarget
+    }
+
 }
 
 [pscustomobject]@{
