@@ -136,6 +136,26 @@ public class PipelineSummaryTests
         await Assert.That(summary.Succeeded).IsFalse();
     }
 
+    [Test]
+    [Arguments("{}")]
+    [Arguments("{\"Status\":\"Failed\"}")]
+    [Arguments("{\"Status\":\"Canceled\"}")]
+    public async Task Missing_Serialized_Success_Does_Not_Imply_Success(string json)
+    {
+        var summary = System.Text.Json.JsonSerializer.Deserialize<PipelineSummary>(json)!;
+        await Assert.That(summary.Succeeded).IsFalse();
+    }
+
+    [Test]
+    public async Task Cancellation_With_Engine_Exception_Is_Not_Successful()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var canceled = CreateResult(ModuleStatus.Canceled, new OperationCanceledException());
+        var summary = new PipelineSummary([new UnfinishedModule()], [canceled], TimeSpan.Zero, now, now);
+        await Assert.That(summary.Succeeded).IsFalse();
+        await Assert.That(summary.Failures).IsEquivalentTo([canceled]);
+    }
+
     private static IModuleResult CreateResult(ModuleStatus status, Exception? exception)
     {
         var result = new Mock<IModuleResult>();

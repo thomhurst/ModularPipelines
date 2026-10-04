@@ -131,6 +131,8 @@ public sealed record PipelineSummary
         IReadOnlyList<ModuleTimeline>? moduleTimelines = null)
         : this([], results, duration, startTime, endTime, metrics, moduleTimelines)
     {
+        // Missing success metadata must not turn a legacy or incomplete document into a successful run.
+        StatusOverride = ModuleStatus.Unknown;
     }
 
     /// <summary>
@@ -151,12 +153,7 @@ public sealed record PipelineSummary
                 return ModuleStatus.Failed;
             }
 
-            if (Results.Any(result => result.Status == ModuleStatus.Canceled))
-            {
-                return ModuleStatus.Canceled;
-            }
-
-            if (Results.Any(result => result.Status is ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.DependencyFailed))
+            if (Results.Any(result => result.Status is ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.DependencyFailed or ModuleStatus.Canceled))
             {
                 return ModuleStatus.Failed;
             }

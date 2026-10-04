@@ -165,7 +165,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         return text;
     }
 
-    private static string GenerateTableSummary(PipelineSummary pipelineSummary)
+    internal static string GenerateTableSummary(PipelineSummary pipelineSummary)
     {
         var stepStringList = pipelineSummary.Results.OrderBy(x => x.EndTime)
             .ThenBy(s => s.StartTime)
@@ -181,7 +181,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
 
         var isSameDay = pipelineSummary.StartTime.Date == pipelineSummary.EndTime.Date;
         var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.StartTime, pipelineSummary.EndTime, pipelineSummary.Duration);
-        var pipelineStatusString = GetStatusString(pipelineSummary.Succeeded ? ModuleStatus.Succeeded : ModuleStatus.Failed);
+        var pipelineStatusString = GetStatusString(pipelineSummary.Status);
         var overallSummaryString = $"| **Total** | **{pipelineStatusString}** | **{GetTime(globalStartTime, isSameDay)}** | **{GetTime(globalEndTime, isSameDay)}** | **{globalDuration}** |";
         var text = $"""
                     ### Run Summary
