@@ -35,10 +35,13 @@ public static class PipelineTelemetry
     /// <summary>Gets the module-cache tag key.</summary>
     public const string ModuleCacheTag = "modular_pipelines.module.cache";
 
-    /// <summary>Gets the exception-type tag key.</summary>
+    /// <summary>Gets the error-type span attribute key.</summary>
+    public const string ErrorTypeTag = "error.type";
+
+    /// <summary>Gets the exception-type event attribute key.</summary>
     public const string ExceptionTypeTag = "exception.type";
 
-    /// <summary>Gets the exception-message tag key.</summary>
+    /// <summary>Gets the exception-message event attribute key.</summary>
     public const string ExceptionMessageTag = "exception.message";
 
     /// <summary>Gets the command-tool tag key.</summary>
@@ -50,14 +53,11 @@ public static class PipelineTelemetry
     /// <summary>Gets the command-exit-code tag key.</summary>
     public const string CommandExitCodeTag = "process.exit.code";
 
-    /// <summary>Gets the command-duration tag key.</summary>
-    public const string CommandDurationTag = "modular_pipelines.command.duration_ms";
-
     /// <summary>Gets the module-duration instrument name.</summary>
     public const string ModuleDurationMetric = "modular_pipelines.module.duration";
 
     /// <summary>Gets the failed-modules instrument name.</summary>
-    public const string ModulesFailedMetric = "modular_pipelines.modules.failed";
+    public const string ModulesFailedMetric = "modular_pipelines.module.failed";
 
     /// <summary>Gets the module-retries instrument name.</summary>
     public const string ModuleRetriesMetric = "modular_pipelines.module.retries";

@@ -305,9 +305,9 @@ public class TelemetryIntegrationTests
         using (Assert.Multiple())
         {
             await Assert.That(commandActivity.Status).IsEqualTo(ActivityStatusCode.Error);
-            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionTypeTag))
+            await Assert.That(GetExceptionTag(commandActivity, ModuleActivityTracing.ExceptionTypeTag))
                 .IsEqualTo(typeof(InvalidOperationException).FullName);
-            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
+            await Assert.That(GetExceptionTag(commandActivity, ModuleActivityTracing.ExceptionMessageTag))
                 .IsEqualTo("Input manipulator failed");
             await Assert.That(_throwingInputManipulatorInvocations).IsEqualTo(1);
         }
@@ -326,13 +326,12 @@ public class TelemetryIntegrationTests
 
         var commandActivity = stoppedActivities.Single(activity =>
             activity.OperationName == $"Command.{nameof(InvalidCommandOptions)}");
-        var message = commandActivity
-            .GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?
+        var message = GetExceptionTag(commandActivity, ModuleActivityTracing.ExceptionMessageTag)?
             .ToString();
         using (Assert.Multiple())
         {
             await Assert.That(commandActivity.Status).IsEqualTo(ActivityStatusCode.Error);
-            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionTypeTag))
+            await Assert.That(GetExceptionTag(commandActivity, ModuleActivityTracing.ExceptionTypeTag))
                 .IsEqualTo(typeof(CommandOptionsValidationException).FullName);
             await Assert.That(message).Contains("**********");
             await Assert.That(message).DoesNotContain(Secret);
@@ -355,7 +354,7 @@ public class TelemetryIntegrationTests
             activity.OperationName == "Command.throwing-input-manipulator-tool");
         using (Assert.Multiple())
         {
-            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
+            await Assert.That(GetExceptionTag(commandActivity, ModuleActivityTracing.ExceptionMessageTag))
                 .IsEqualTo($"Telemetry failure contains {Secret}");
             await Assert.That(_throwingInputManipulatorInvocations).IsEqualTo(0);
         }
@@ -425,7 +424,7 @@ public class TelemetryIntegrationTests
                     measurement.Name == ModuleActivityTracing.ModuleCacheMissesMetric).Value)
                 .IsEqualTo(1);
             await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-                .IsEqualTo("RestoredFromCache");
+                .IsEqualTo("restored_from_cache");
             await Assert.That(hitActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
                 .IsEqualTo("hit");
             await Assert.That(missActivity.GetTagItem(ModuleActivityTracing.ModuleCacheTag))
@@ -478,7 +477,7 @@ public class TelemetryIntegrationTests
 
         foreach (var activity in failureActivities)
         {
-            var exceptionMessage = activity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?.ToString();
+            var exceptionMessage = GetExceptionTag(activity, ModuleActivityTracing.ExceptionMessageTag)?.ToString();
             await Assert.That(exceptionMessage).Contains("**********");
             await Assert.That(exceptionMessage).DoesNotContain(Secret);
             await Assert.That(activity.StatusDescription).Contains("**********");
@@ -510,7 +509,7 @@ public class TelemetryIntegrationTests
 
         var pipelineActivity = stoppedActivities.Single();
         await Assert.That(pipelineActivity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
-            .IsEqualTo("Failed");
+            .IsEqualTo("failed");
         await Assert.That(pipelineActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 
@@ -538,7 +537,7 @@ public class TelemetryIntegrationTests
         foreach (var activity in stoppedActivities)
         {
             await Assert.That(activity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
-                .IsEqualTo("Canceled");
+                .IsEqualTo("canceled");
             await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Error);
         }
     }
@@ -556,7 +555,7 @@ public class TelemetryIntegrationTests
 
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("RestoredFromHistory");
+            .IsEqualTo("restored_from_history");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Ok);
     }
 
@@ -573,7 +572,7 @@ public class TelemetryIntegrationTests
 
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("Canceled");
+            .IsEqualTo("canceled");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 
@@ -591,7 +590,7 @@ public class TelemetryIntegrationTests
         var moduleActivity = stoppedActivities.Single(activity =>
             activity.OperationName == $"Module.{nameof(TimedOutModule)}");
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
-            .IsEqualTo("TimedOut");
+            .IsEqualTo("timed_out");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 
@@ -609,7 +608,7 @@ public class TelemetryIntegrationTests
         }
 
         var moduleActivity = stoppedActivities.Single();
-        await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?.ToString())
+        await Assert.That(GetExceptionTag(moduleActivity, ModuleActivityTracing.ExceptionMessageTag)?.ToString())
             .DoesNotContain(Secret);
         await Assert.That(moduleActivity.StatusDescription).DoesNotContain(Secret);
     }
@@ -630,6 +629,87 @@ public class TelemetryIntegrationTests
         await Assert.That(measurements.Single(measurement =>
                 measurement.Name == ModuleActivityTracing.ModulesFailedMetric).Value)
             .IsEqualTo(1);
+    }
+
+    private static object? GetExceptionTag(Activity activity, string key) =>
+        activity.Events.Single(activityEvent => activityEvent.Name == "exception").Tags.Single(tag => tag.Key == key).Value;
+
+    [Test]
+    public async Task Exception_Events_And_Listeners_Receive_Only_Sanitized_Data()
+    {
+        var activities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(activities);
+        Exception? observedException = null;
+        listener.ExceptionRecorder = (Activity activity, Exception exception, ref TagList tags) => observedException = exception;
+        using var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule));
+        ModuleActivityTracing.RecordFailure(activity, new InvalidOperationException($"Failure {Secret}", new Exception(Secret)), "Failure **********");
+
+        await Assert.That(observedException).IsNotNull();
+        await Assert.That(observedException!.ToString()).DoesNotContain(Secret);
+        await Assert.That(activity!.GetTagItem("error.type")).IsEqualTo(typeof(InvalidOperationException).FullName);
+        await Assert.That(activity.GetTagItem("exception.message")).IsNull();
+        await Assert.That(GetExceptionTag(activity, "exception.type")).IsEqualTo(typeof(InvalidOperationException).FullName);
+        await Assert.That(GetExceptionTag(activity, "exception.message")).IsEqualTo("Failure **********");
+        await Assert.That(string.Join(" ", activity.Events.SelectMany(activityEvent => activityEvent.Tags).Select(tag => tag.Value))).DoesNotContain(Secret);
+    }
+
+    [Test]
+    public async Task Command_Duration_Uses_Span_Duration_Only()
+    {
+        var activities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(activities);
+        using var activity = ModuleActivityTracing.StartCommandActivity("test-tool");
+        ModuleActivityTracing.RecordCommandResult(activity, CommandResult.Ok());
+        await Assert.That(activity!.GetTagItem("modular_pipelines.command.duration_ms")).IsNull();
+    }
+
+    [Test]
+    public async Task Failure_Metric_Uses_Module_Prefix()
+    {
+        var measurements = new ConcurrentBag<(string Name, double Value)>();
+        using var listener = CreateMeterListener(measurements);
+        ModuleActivityTracing.RecordModuleMetrics(typeof(CommandModule), "Failed", TimeSpan.Zero);
+        await Assert.That(measurements.Single(measurement => measurement.Name == "modular_pipelines.module.failed").Value).IsEqualTo(1);
+    }
+
+    [Test]
+    [Arguments("Succeeded", "succeeded")]
+    [Arguments("FailureIgnored", "failure_ignored")]
+    [Arguments("DependencyFailed", "dependency_failed")]
+    [Arguments("RestoredFromHistory", "restored_from_history")]
+    public async Task Pipeline_And_Metric_Status_Attributes_Use_Snake_Case(string status, string expected)
+    {
+        var activities = new ConcurrentBag<Activity>();
+        using var activityListener = CreateActivityListener(activities);
+        using var activity = ModuleActivityTracing.StartPipelineActivity("test");
+        ModuleActivityTracing.RecordPipelineCompletion(activity, status, false);
+
+        string? metricStatus = null;
+        using var meterListener = new MeterListener
+        {
+            InstrumentPublished = (instrument, listener) =>
+            {
+                if (instrument.Name == PipelineTelemetry.ModuleDurationMetric)
+                {
+                    listener.EnableMeasurementEvents(instrument);
+                }
+            },
+        };
+        meterListener.SetMeasurementEventCallback<double>((instrument, value, tags, state) =>
+        {
+            foreach (var tag in tags)
+            {
+                if (tag.Key == PipelineTelemetry.ModuleStatusTag)
+                {
+                    metricStatus = tag.Value?.ToString();
+                }
+            }
+        });
+        meterListener.Start();
+        ModuleActivityTracing.RecordModuleMetrics(typeof(CommandModule), status, TimeSpan.Zero);
+
+        await Assert.That(activity!.GetTagItem(PipelineTelemetry.PipelineStatusTag)).IsEqualTo(expected);
+        await Assert.That(metricStatus).IsEqualTo(expected);
     }
 
     private static ActivityListener CreateActivityListener(ConcurrentBag<Activity> stoppedActivities)
