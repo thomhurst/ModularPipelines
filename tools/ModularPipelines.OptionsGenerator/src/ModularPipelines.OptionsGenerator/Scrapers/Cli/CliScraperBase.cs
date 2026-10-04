@@ -571,7 +571,8 @@ public abstract partial class CliScraperBase : ICliScraper
         string helpText,
         IReadOnlyCollection<string> subcommands,
         UsageSynopsisParseResult usage) =>
-        (!HasOptions(helpText) && !usage.HasOperandTokens)
+        // Leaf commands can execute without any options or operands (for example, kubectl config current-context).
+        (!HasOptions(helpText) && !usage.HasOperandTokens && (path.Length == 1 || subcommands.Count > 0))
         || (path.Length == 1 && subcommands.Count > 0);
 
     private async Task<CliCommandDefinition?> TryParseCommandAsync(

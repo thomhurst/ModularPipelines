@@ -878,7 +878,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
     [GeneratedRegex(
-        @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Za-z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS):?[ \t]*$",
+        @"^(?:[A-Z][\w-]*(?:[ \t]+[A-Za-z][\w-]*)*[ \t]+)?(?:Commands|COMMANDS)(?:[ \t]+\([^\r\n)]*\))?:?[ \t]*$",
         RegexOptions.Multiline)]
     private static partial Regex CommandsSectionPattern();
 
@@ -895,7 +895,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// Matches section headers like "Flags:", "Usage:", etc.
     /// </summary>
     [GeneratedRegex(
-        @"^(?:[A-Z][\w \t]*:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$",
+        @"^(?:[A-Z][\w \t]*(?:\([^\r\n)]*\))?:|[A-Z][\w ]*(?:Commands|Flags|Options|Usage|Examples))\s*$",
         RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
 
