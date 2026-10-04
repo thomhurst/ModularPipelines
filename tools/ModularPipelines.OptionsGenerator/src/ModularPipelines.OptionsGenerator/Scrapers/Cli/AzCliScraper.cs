@@ -152,7 +152,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "help", "version", "upgrade", "feedback", "find", "interactive", "rest", "configure"
+        "help", "upgrade", "feedback", "find", "interactive", "rest", "configure"
     };
 
     /// <summary>

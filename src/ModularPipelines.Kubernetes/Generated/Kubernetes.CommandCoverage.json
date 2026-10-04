@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "kubectl",
   "toolVersion": "Client Version: v1.37.1 Kustomize Version: v5.8.1",
-  "commandCount": 60,
-  "commandTreeSha256": "f55995efa5e41dde54572bc81e38f46e1d9f6e4fe288f44810cfd81e5d642f48",
+  "commandCount": 61,
+  "commandTreeSha256": "8425cd6e1b06a86cad80d53f1c26257c9f1bd66b243765b92673140efd07b95b",
   "commands": [
     "kubectl annotate",
     "kubectl apply",
@@ -64,6 +64,7 @@
     "kubectl top node",
     "kubectl top pod",
     "kubectl uncordon",
+    "kubectl version",
     "kubectl wait"
   ],
   "commandGroups": [

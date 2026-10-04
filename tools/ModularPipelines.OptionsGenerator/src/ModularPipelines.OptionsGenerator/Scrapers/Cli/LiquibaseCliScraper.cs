@@ -106,7 +106,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "version", "lpm"
+        "--help", "-h", "--version", "help", "lpm"
     };
 
     protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>

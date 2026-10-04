@@ -14,30 +14,24 @@ using ModularPipelines.Helm.Options;
 namespace ModularPipelines.Helm.Options;
 
 /// <summary>
-/// Read the current directory, generate an index file based on the charts found
+/// Show the version for Helm.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("repo", "index")]
-public record HelmRepoIndexOptions : HelmOptions
+[CliSubCommand("version")]
+public record HelmVersionOptions : HelmOptions
 {
     /// <summary>
-    /// output in JSON format
+    /// print the version number
     /// </summary>
-    [CliFlag("--json")]
-    public bool? Json { get; set; }
+    [CliFlag("--short")]
+    public bool? Short { get; set; }
 
     /// <summary>
-    /// merge the generated index into the given index
+    /// template for version string format
     /// </summary>
-    [CliOption("--merge", Format = OptionFormat.EqualsSeparated)]
-    public string? Merge { get; set; }
-
-    /// <summary>
-    /// url of chart repository
-    /// </summary>
-    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? Url { get; set; }
+    [CliOption("--template", Format = OptionFormat.EqualsSeparated)]
+    public string? Template { get; set; }
 
     /// <summary>
     /// client-side default throttling limit (default 100)
@@ -135,11 +129,5 @@ public record HelmRepoIndexOptions : HelmOptions
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
-
-    /// <summary>
-    /// The DIR operand.
-    /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? Dir { get; set; }
 
 }

@@ -150,6 +150,6 @@ public partial class MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextC
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "update-check"
+        "--help", "-h", "--version", "help", "completion", "update-check"
     };
 }

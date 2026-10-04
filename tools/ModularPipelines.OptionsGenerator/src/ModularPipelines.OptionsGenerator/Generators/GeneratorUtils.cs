@@ -214,6 +214,7 @@ public static partial class GeneratorUtils
         {
             trimmedPath.Replace('\\', '/'),
             trimmedPath.Replace('/', '\\'),
+            trimmedPath.Replace('/', '\\').Replace("\\", "\\\\", StringComparison.Ordinal),
         }.Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 

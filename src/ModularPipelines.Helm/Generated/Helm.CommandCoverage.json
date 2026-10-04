@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "helm",
   "toolVersion": "version.BuildInfo{Version:\u0022v3.22.0\u0022, GitCommit:\u0022144ca65f8501953fa8b41cd1d37c7223051c85b7\u0022, GitTreeState:\u0022clean\u0022, GoVersion:\u0022go1.26.8\u0022}",
-  "commandCount": 50,
-  "commandTreeSha256": "4899ed49663bc26b485e79579fc4dd8dc6db81e8115ef7343e12699488811782",
+  "commandCount": 51,
+  "commandTreeSha256": "430b54e3b63d538422c57899872dadf738039d235c9d8444d0c5146f97399490",
   "commands": [
     "helm create",
     "helm dependency",
@@ -54,7 +54,8 @@
     "helm test",
     "helm uninstall",
     "helm upgrade",
-    "helm verify"
+    "helm verify",
+    "helm version"
   ],
   "commandGroups": [
     "helm dependency",
