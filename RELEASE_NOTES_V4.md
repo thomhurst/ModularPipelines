@@ -112,6 +112,11 @@ skipped, cached, restored, and ignored-failure results permit success. Incomplet
 and canceled runs are not successful. `Failures` and `IgnoredFailures` provide module-level
 details. The success value survives JSON serialization even though module results are omitted.
 
+`ThrowOnPipelineFailure` also applies when a module result reports `Failed`, `TimedOut`,
+`DependencyFailed`, or `Canceled` without a captured exception. When enabled, the completed
+run throws `PipelineFailedException`; set it to `false` to inspect the unsuccessful summary.
+The exception's `FailedModules` identifies these results and excludes ignored failures.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
