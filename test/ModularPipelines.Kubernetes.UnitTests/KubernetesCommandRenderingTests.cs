@@ -1,5 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Kubernetes.Options;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -193,6 +194,86 @@ public class KubernetesCommandRenderingTests : TestBase
             Replicas = 3,
         });
         await Assert.That(result.CommandInput).IsEqualTo("kubectl scale --replicas=3 deployments example");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Label_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["app=test"])
+        {
+            Type = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl label --kustomize=overlay app=test"
+            : "kubectl label pod/example app=test");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Annotate_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=test"])
+        {
+            Type = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl annotate --kustomize=overlay owner=test"
+            : "kubectl annotate pod/example owner=test");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Patch_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesPatchOptions
+        {
+            TypeArgument = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+            PatchFile = "patch.json",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl patch --kustomize=overlay --patch-file=patch.json"
+            : "kubectl patch pod/example --patch-file=patch.json");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Scale_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesScaleOptions
+        {
+            Type = kustomize ? null : "deployment/example",
+            Kustomize = kustomize ? "overlay" : null,
+            Replicas = 2,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl scale --kustomize=overlay --replicas=2"
+            : "kubectl scale --replicas=2 deployment/example");
+    }
+
+    [Test]
+    [Arguments("label")]
+    [Arguments("annotate")]
+    [Arguments("patch")]
+    [Arguments("scale")]
+    public async Task Name_Without_A_Resource_Source_Is_Rejected(string command)
+    {
+        CommandLineToolOptions options = command switch
+        {
+            "label" => new KubernetesLabelOptions(["app=test"]) { Name = "example" },
+            "annotate" => new KubernetesAnnotateOptions(["owner=test"]) { Name = "example" },
+            "patch" => new KubernetesPatchOptions { Name = "example", PatchFile = "patch.json" },
+            "scale" => new KubernetesScaleOptions { Name = "example", Replicas = 2 },
+            _ => throw new ArgumentOutOfRangeException(nameof(command)),
+        };
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

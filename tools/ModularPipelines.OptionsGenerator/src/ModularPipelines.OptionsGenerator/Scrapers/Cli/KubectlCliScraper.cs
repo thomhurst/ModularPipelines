@@ -43,23 +43,30 @@ public class KubectlCliScraper : CobraCliScraper
 
     protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
         CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) =>
-        [.. groups.Select(group => IncludeResourceSelectors(group, command.Options))];
+        [.. groups.Select(group => NormalizeResourceInputs(group, command.Options))];
 
-    // kubectl selectors can replace NAME in a TYPE NAME resource branch.
-    private static UsageRequiredAlternativeGroup IncludeResourceSelectors(
+    // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
+    // kubectl validates the resource string itself; a separate NAME is not always present.
+    private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
         UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options)
     {
-        var nested = group.Groups.Select(child => IncludeResourceSelectors(child, options)).ToList();
-        var name = group.Members.FirstOrDefault(member => member.PositionalPropertyName == "Name");
-        var selectors = options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
-            .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName }).ToArray();
-        if (!group.IsChoice && name is not null && selectors.Length > 0
-            && group.Members.Any(member => member.PositionalPropertyName == "Type"))
+        var members = group.Members;
+        if (!group.IsChoice && members.Any(member => member.PositionalPropertyName == "Type"))
         {
-            nested.Add(new UsageRequiredAlternativeGroup { Members = [name, .. selectors] });
-            return group with { Members = [.. group.Members.Where(member => member != name)], Groups = nested };
+            members = [.. members.Where(member => member.PositionalPropertyName != "Name")];
         }
-        return group with { Groups = nested };
+
+        if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
+            && options.Any(option => option.SwitchName == "--kustomize"))
+        {
+            members = [.. members, new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" }];
+        }
+
+        return group with
+        {
+            Members = members,
+            Groups = [.. group.Groups.Select(child => NormalizeResourceInputs(child, options))],
+        };
     }
 
     /// <summary>

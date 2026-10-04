@@ -677,5 +677,8 @@ commands instead.
 Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` produce one collection.
 `KubernetesLabelOptions` now takes one `Labels` collection instead of `Key_1Val_1`
 and `KeyNValN`. Label and annotate options expose `Type` and `Name` for resource
-selection, alongside the existing file and selector options. Patch and scale also
-recover their resource operands from the same generic alternative parser.
+selection, alongside the existing file and selector options. Combined references such
+as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
+`Name`. `Kustomize = "overlay"` is also accepted as a resource source. Kubectl validates
+the resource string itself. Patch and scale recover their resource operands from the
+same generic alternative parser.
