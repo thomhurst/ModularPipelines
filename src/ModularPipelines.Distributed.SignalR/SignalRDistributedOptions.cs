@@ -6,10 +6,10 @@ namespace ModularPipelines.Distributed.SignalR;
 public class SignalRDistributedOptions
 {
     /// <summary>
-    /// Gets or sets the URL the master binds its SignalR server to. Use port 0 to let the operating
+    /// Gets or sets the absolute HTTP or HTTPS URL the master binds its SignalR server to. Use port 0 to let the operating
     /// system choose a port. Default: <c>http://localhost:5099</c>.
     /// </summary>
-    public string ListenUrl { get; set; } = "http://localhost:5099";
+    public Uri ListenUrl { get; set; } = new("http://localhost:5099");
 
     /// <summary>
     /// Gets or sets the URL workers use to reach the master. The master advertises it through

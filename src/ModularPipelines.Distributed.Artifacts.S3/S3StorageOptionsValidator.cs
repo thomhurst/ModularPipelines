@@ -13,6 +13,12 @@ internal sealed class S3StorageOptionsValidator : IValidateOptions<S3StorageOpti
     public ValidateOptionsResult Validate(string? name, S3StorageOptions options)
     {
         var failures = new List<string>();
+        if (options.ServiceUrl is { } serviceUrl
+            && (!serviceUrl.IsAbsoluteUri || serviceUrl.Scheme is not ("http" or "https")))
+        {
+            failures.Add($"{nameof(S3StorageOptions)}.{nameof(S3StorageOptions.ServiceUrl)} must be an absolute http or https URL.");
+        }
+
         if (string.IsNullOrWhiteSpace(options.BucketName))
         {
             failures.Add($"{nameof(S3StorageOptions)}.{nameof(S3StorageOptions.BucketName)} is required.");

@@ -77,7 +77,7 @@ public class RedisDiscoveryOptionsTests
     public async Task HostBuildRejectsIncompleteRestConfiguration()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(options => options.RestUrl = "https://redis.example");
+        builder.AddRedisMasterDiscovery(options => options.RestUrl = new Uri("https://redis.example"));
         builder.Services.Configure<DistributedOptions>(options => options.RunId = "test-run");
 
         var exception = await Assert.ThrowsAsync<OptionsValidationException>(

@@ -8,6 +8,24 @@ namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 public class RestRedisDiscoveryStoreTests
 {
     [Test]
+    [Arguments("http://localhost:8079/base%20path")]
+    [Arguments("https://redis.example/base%20path/")]
+    public async Task Endpoint_Preserves_Port_And_Escaped_Path_Prefix(string endpoint)
+    {
+        Uri? requestedUri = null;
+        var handler = new StubHttpMessageHandler(request =>
+        {
+            requestedUri = request.RequestUri;
+            return JsonResponse("{\"result\":null}");
+        });
+        using var store = new RestRedisDiscoveryStore(new Uri(endpoint), "test-token", handler);
+
+        await store.GetAsync("test:key", CancellationToken.None);
+
+        await Assert.That(requestedUri!.AbsoluteUri).IsEqualTo(endpoint.TrimEnd('/') + "/get/test%3Akey");
+    }
+
+    [Test]
     public async Task SetAsync_Sends_Authenticated_Command_With_Ttl()
     {
         HttpRequestMessage? capturedRequest = null;
@@ -17,7 +35,7 @@ public class RestRedisDiscoveryStoreTests
             return JsonResponse("{\"result\":\"OK\"}");
         });
         using var store = new RestRedisDiscoveryStore(
-            "https://redis.example/",
+            new Uri("https://redis.example/"),
             "secret-token",
             handler);
 
@@ -35,7 +53,7 @@ public class RestRedisDiscoveryStoreTests
     public async Task GetAsync_Returns_Stored_Value()
     {
         var handler = new StubHttpMessageHandler(_ => JsonResponse("{\"result\":\"https://master.example\"}"));
-        using var store = new RestRedisDiscoveryStore("https://redis.example", "secret-token", handler);
+        using var store = new RestRedisDiscoveryStore(new Uri("https://redis.example"), "secret-token", handler);
 
         var result = await store.GetAsync("test:key", CancellationToken.None);
 
@@ -46,7 +64,7 @@ public class RestRedisDiscoveryStoreTests
     public async Task GetAsync_Returns_Null_When_Key_Does_Not_Exist()
     {
         var handler = new StubHttpMessageHandler(_ => JsonResponse("{\"result\":null}"));
-        using var store = new RestRedisDiscoveryStore("https://redis.example", "secret-token", handler);
+        using var store = new RestRedisDiscoveryStore(new Uri("https://redis.example"), "secret-token", handler);
 
         var result = await store.GetAsync("test:key", CancellationToken.None);
 

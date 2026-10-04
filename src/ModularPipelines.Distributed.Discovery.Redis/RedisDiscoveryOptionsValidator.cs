@@ -10,7 +10,13 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
     public ValidateOptionsResult Validate(string? name, RedisDiscoveryOptions options)
     {
         var failures = new List<string>();
-        var usesRest = !string.IsNullOrWhiteSpace(options.RestUrl);
+        var usesRest = options.RestUrl is not null;
+        if (options.RestUrl is { } restUrl
+            && (!restUrl.IsAbsoluteUri || restUrl.Scheme is not ("http" or "https")))
+        {
+            failures.Add($"{nameof(RedisDiscoveryOptions.RestUrl)} must be an absolute http or https URL.");
+        }
+
         if (usesRest != !string.IsNullOrWhiteSpace(options.RestToken))
         {
             failures.Add("RestUrl and RestToken must be configured together.");

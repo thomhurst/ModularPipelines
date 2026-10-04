@@ -13,9 +13,9 @@ internal static class S3ClientFactory
             ForcePathStyle = options.ForcePathStyle,
         };
 
-        if (!string.IsNullOrEmpty(options.ServiceUrl))
+        if (options.ServiceUrl is { } serviceUrl)
         {
-            config.ServiceURL = options.ServiceUrl;
+            config.ServiceURL = serviceUrl.OriginalString;
         }
 
         return !string.IsNullOrEmpty(options.AccessKey) && !string.IsNullOrEmpty(options.SecretKey)

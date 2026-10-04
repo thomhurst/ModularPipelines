@@ -33,7 +33,7 @@ ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AccessToken.get -
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AccessToken.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AdvertisedUrl.get -> System.Uri?
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AdvertisedUrl.set -> void
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.get -> string!
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.get -> System.Uri!
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxMessageSizeBytes.get -> long
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxMessageSizeBytes.set -> void

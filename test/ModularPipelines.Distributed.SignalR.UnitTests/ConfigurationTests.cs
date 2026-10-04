@@ -14,7 +14,7 @@ public class ConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.ListenUrl).IsEqualTo("http://localhost:5099");
+            await Assert.That(options.ListenUrl).IsEqualTo(new Uri("http://localhost:5099"));
             await Assert.That(options.AdvertisedUrl).IsNull();
             await Assert.That(options.AccessToken).IsNull();
             await Assert.That(options.HubPath).IsEqualTo("/pipeline-hub");
@@ -55,7 +55,7 @@ public class ConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.ListenUrl).IsEqualTo("http://0.0.0.0:6000");
+            await Assert.That(options.ListenUrl).IsEqualTo(new Uri("http://0.0.0.0:6000"));
             await Assert.That(options.AdvertisedUrl).IsEqualTo(new Uri("https://master.example"));
             await Assert.That(options.HubPath).IsEqualTo("/distributed");
             await Assert.That(options.AccessToken).IsEqualTo("token");
@@ -74,7 +74,7 @@ public class ConfigurationTests
         var builder = Pipeline.CreateBuilder();
         builder.AddSignalRDistributedCoordinator(options =>
         {
-            options.ListenUrl = "not a url";
+            options.ListenUrl = new Uri("not a url", UriKind.Relative);
             options.HubPath = "hub";
             options.KeepAliveInterval = TimeSpan.FromSeconds(10);
             options.PeerTimeout = TimeSpan.FromSeconds(5);
@@ -103,7 +103,7 @@ public class ConfigurationTests
     public async Task Loopback_Master_Needs_No_Token()
     {
         var token = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = "http://127.0.0.1:0" },
+            new SignalRDistributedOptions { ListenUrl = new Uri("http://127.0.0.1:0") },
             hasDiscovery: false);
 
         await Assert.That(token).IsNull();
@@ -113,10 +113,10 @@ public class ConfigurationTests
     public async Task Reachable_Master_Generates_Token_For_Discovery()
     {
         var first = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = "http://0.0.0.0:5099" },
+            new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099") },
             hasDiscovery: true);
         var second = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = "http://localhost:5099", Tunnel = { Enabled = true } },
+            new SignalRDistributedOptions { ListenUrl = new Uri("http://localhost:5099"), Tunnel = { Enabled = true } },
             hasDiscovery: true);
 
         await Assert.That(first!.Length).IsGreaterThanOrEqualTo(40);
@@ -127,7 +127,7 @@ public class ConfigurationTests
     public async Task Reachable_Master_Without_Token_Or_Discovery_Fails()
     {
         await Assert.That(() => SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-                new SignalRDistributedOptions { ListenUrl = "http://0.0.0.0:5099" },
+                new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099") },
                 hasDiscovery: false))
             .Throws<InvalidOperationException>();
     }
@@ -138,7 +138,7 @@ public class ConfigurationTests
         await Assert.That(() => SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
                 new SignalRDistributedOptions
                 {
-                    ListenUrl = "http://127.0.0.1:5099",
+                    ListenUrl = new Uri("http://127.0.0.1:5099"),
                     AdvertisedUrl = new Uri("https://pipelines.example.com"),
                 },
                 hasDiscovery: false))
@@ -149,7 +149,7 @@ public class ConfigurationTests
     public async Task Configured_Token_Is_Used()
     {
         var token = SignalRDistributedCoordinatorFactory.ResolveMasterAccessToken(
-            new SignalRDistributedOptions { ListenUrl = "http://0.0.0.0:5099", AccessToken = "configured" },
+            new SignalRDistributedOptions { ListenUrl = new Uri("http://0.0.0.0:5099"), AccessToken = "configured" },
             hasDiscovery: false);
 
         await Assert.That(token).IsEqualTo("configured");

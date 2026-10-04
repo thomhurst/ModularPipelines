@@ -20,10 +20,10 @@ public class RedisDiscoveryOptions
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
 
     /// <summary>
-    /// Gets or sets the optional Upstash Redis REST URL. Set this together with <see cref="RestToken"/>
+    /// Gets or sets the optional absolute HTTP or HTTPS Upstash Redis REST URL. Set this together with <see cref="RestToken"/>
     /// to use HTTP instead of the Redis TCP protocol.
     /// </summary>
-    public string? RestUrl { get; set; }
+    public Uri? RestUrl { get; set; }
 
     /// <summary>
     /// Gets or sets the optional Upstash Redis REST token. Set this together with <see cref="RestUrl"/>.

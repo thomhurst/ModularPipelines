@@ -51,7 +51,7 @@ internal sealed class MasterServerHost : IAsyncDisposable
         CancellationToken cancellationToken)
     {
         var builder = WebApplication.CreateBuilder();
-        builder.WebHost.UseUrls(options.ListenUrl);
+        builder.WebHost.UseUrls(options.ListenUrl.OriginalString);
         builder.Logging.ClearProviders();
         builder.Logging.AddProvider(new ForwardingLoggerProvider(loggerFactory));
 
@@ -101,7 +101,9 @@ internal sealed class MasterServerHost : IAsyncDisposable
         await _app.StartAsync(cancellationToken).ConfigureAwait(false);
 
         // Use the actual bound URL (important when port 0 is used to get an OS-assigned port).
-        BoundUrl = new Uri(_app.Urls.FirstOrDefault() ?? options.ListenUrl, UriKind.Absolute);
+        BoundUrl = _app.Urls.FirstOrDefault() is { } boundUrl
+            ? new Uri(boundUrl, UriKind.Absolute)
+            : options.ListenUrl;
         if (logger.IsEnabled(LogLevel.Information))
         {
             logger.LogInformation(
