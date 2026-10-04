@@ -38,6 +38,12 @@ public record DotNetPackageAddOptions : DotNetOptions
     }
 
     /// <summary>
+    /// The version of the package to add.
+    /// </summary>
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
+
+    /// <summary>
     /// Add the reference only when targeting a specific framework.
     /// </summary>
     [CliOption("--framework", ShortForm = "-f")]

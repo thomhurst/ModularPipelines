@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
@@ -30,6 +31,84 @@ public class DotNetCliScraperTests
         var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "dotnet-10.0.401-build-help.txt"));
         var scraper = new TestDotNetCliScraper();
         await Assert.That(scraper.ParseGlobals(help)).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("--ucr, --use-current-runtime", "--use-current-runtime", null, "UseCurrentRuntime", true)]
+    [Arguments("--use-current-runtime, --ucr", "--use-current-runtime", null, "UseCurrentRuntime", true)]
+    [Arguments("--sc, --self-contained", "--self-contained", null, "SelfContained", true)]
+    [Arguments("-v, -verbosity <LEVEL>", "-verbosity", "-v", "Verbosity", false)]
+    [Arguments("-v, --verbosity <LEVEL>", "--verbosity", "-v", "Verbosity", false)]
+    [Arguments("-ss|--symbol-source <SOURCE>", "--symbol-source", "-ss", "SymbolSource", false)]
+    public async Task Option_Aliases_Preserve_Descriptive_Switch(string declaration, string expectedSwitch,
+        string? shortForm, string propertyName, bool isFlag)
+    {
+        var command = await new TestDotNetCliScraper().Parse(["dotnet", "build"],
+            $"Options:\n  {declaration}  Configure this option.\n");
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+        await Assert.That(option.SwitchName).IsEqualTo(expectedSwitch);
+        await Assert.That(option.ShortForm).IsEqualTo(shortForm);
+        await Assert.That(option.IsFlag).IsEqualTo(isFlag);
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Version_Is_Excluded_Only_At_Root(bool root)
+    {
+        var command = await new TestDotNetCliScraper().Parse(root ? ["dotnet"] : ["dotnet", "pack"],
+            "Options:\n  --version <VERSION>  The version of the package to create.\n");
+
+        await Assert.That(command?.Options.Any(option => option.SwitchName == "--version") ?? false).IsEqualTo(!root);
+    }
+
+    [Test]
+    [Arguments("pack", "--version <VERSION>  The version of the package to create.", "string?", false)]
+    [Arguments("nuget", "--version  Show version information", "bool?", true)]
+    [Arguments("workload", "--version  Display the currently installed workload version. [default: False]", "bool?", true)]
+    public async Task Version_Type_Reflects_Command_After_Manual_Overrides(
+        string subcommand, string declaration, string expectedType, bool isFlag)
+    {
+        var command = await new TestDotNetCliScraper().Parse(["dotnet", subcommand],
+            $"Options:\n  {declaration}\n");
+        var tool = new CliToolDefinition
+        {
+            ToolName = "dotnet",
+            NamespacePrefix = "DotNet",
+            TargetNamespace = "ModularPipelines.DotNet",
+            OutputDirectory = "src/ModularPipelines.DotNet",
+            Commands = [command!],
+        };
+        var enhancer = OptionTypeEnhancer.CreateDefault(
+            new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance), NullLoggerFactory.Instance);
+        var enhanced = await enhancer.EnhanceManualOverridesAsync(tool);
+        var version = enhanced.Commands.Single().Options.Single(option => option.SwitchName == "--version");
+        await Assert.That(version.CSharpType).IsEqualTo(expectedType);
+        await Assert.That(version.IsFlag).IsEqualTo(isFlag);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Test_Help_Isolates_Runner_Configuration_And_Preserves_Sdk(bool failHelp)
+    {
+        var executor = new IsolatedTestHelpExecutor(failHelp);
+        var scraper = new TestDotNetCliScraper(executor);
+        if (failHelp)
+        {
+            await Assert.ThrowsAsync<IOException>(() => scraper.Help(["dotnet", "test"]));
+        }
+        else
+        {
+            await Assert.That(await scraper.Help(["dotnet", "test"])).Contains("--filter");
+        }
+
+        await Assert.That(executor.WorkingDirectory).IsNotNull();
+        await Assert.That(Directory.Exists(executor.WorkingDirectory)).IsFalse();
+        using var settings = JsonDocument.Parse(executor.Settings!);
+        await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("version").GetString()).IsEqualTo("10.0.401");
+        await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("rollForward").GetString()).IsEqualTo("disable");
+        await Assert.That(settings.RootElement.TryGetProperty("test", out _)).IsFalse();
     }
 
     [Test]
@@ -208,9 +287,9 @@ public class DotNetCliScraperTests
 
     private sealed class TestDotNetCliScraper : DotNetCliScraper
     {
-        public TestDotNetCliScraper()
+        public TestDotNetCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<DotNetCliScraper>.Instance)
         {
@@ -219,6 +298,8 @@ public class DotNetCliScraperTests
         public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
+        public Task<string?> Help(string[] commandPath) => GetHelpTextAsync(commandPath, CancellationToken.None);
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
@@ -229,6 +310,37 @@ public class DotNetCliScraperTests
                 CancellationToken.None);
             return command is null ? null : ApplyIgnoredOptionPolicy(command);
         }
+    }
+
+    private sealed class IsolatedTestHelpExecutor(bool failHelp) : ICliCommandExecutor
+    {
+        public string? WorkingDirectory { get; private set; }
+        public string? Settings { get; private set; }
+
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            if (arguments == "--version")
+            {
+                return Task.FromResult(new CliCommandResult { ExitCode = 0, StandardOutput = "10.0.401", StandardError = "" });
+            }
+
+            WorkingDirectory = workingDirectory;
+            Settings = workingDirectory is null ? null : File.ReadAllText(Path.Combine(workingDirectory, "global.json"));
+            if (failHelp)
+            {
+                throw new IOException("Help execution failed.");
+            }
+
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = "Options:\n  --filter <EXPRESSION>  Filter tests.\n",
+                StandardError = "",
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
     }
 
     private sealed class StaticHtmlHandler(string html) : HttpMessageHandler

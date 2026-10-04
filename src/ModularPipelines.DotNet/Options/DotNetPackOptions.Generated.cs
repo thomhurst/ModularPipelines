@@ -76,10 +76,22 @@ public record DotNetPackOptions : DotNetOptions
     public bool? NoRestore { get; set; }
 
     /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    [CliOption("-verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
+
+    /// <summary>
     /// Set the value of the $(VersionSuffix) property to use when building the project.
     /// </summary>
     [CliOption("--version-suffix")]
     public string? VersionSuffix { get; set; }
+
+    /// <summary>
+    /// The version of the package to create
+    /// </summary>
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// The configuration to use for building the package. The default is 'Release'.
@@ -92,6 +104,12 @@ public record DotNetPackOptions : DotNetOptions
     /// </summary>
     [CliFlag("--disable-build-servers")]
     public bool? DisableBuildServers { get; set; }
+
+    /// <summary>
+    /// Use current runtime as the target runtime. [default: False]
+    /// </summary>
+    [CliFlag("--use-current-runtime")]
+    public bool? UseCurrentRuntime { get; set; }
 
     /// <summary>
     /// The target runtime to build for.

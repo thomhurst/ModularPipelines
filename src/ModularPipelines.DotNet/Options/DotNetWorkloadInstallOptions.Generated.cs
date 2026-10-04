@@ -79,6 +79,12 @@ public record DotNetWorkloadInstallOptions : DotNetOptions
     public bool? IncludePreviews { get; set; }
 
     /// <summary>
+    /// A workload version to display or one or more workloads and their versions joined by the '@' character.
+    /// </summary>
+    [CliOption("--version")]
+    public string? Version { get; set; }
+
+    /// <summary>
     /// Prevent restoring multiple projects in parallel. [default: False]
     /// </summary>
     [CliFlag("--disable-parallel")]

@@ -75,6 +75,12 @@ public record DotNetPackageListOptions : DotNetOptions
     public bool? HighestMinor { get; set; }
 
     /// <summary>
+    /// The path to the NuGet config file to use. Requires the '--outdated', '--deprecated' or '--vulnerable' option.
+    /// </summary>
+    [CliOption("--configfile")]
+    public string? Configfile { get; set; }
+
+    /// <summary>
     /// The NuGet sources to use when searching for newer packages. Requires the '--outdated', '--deprecated' or '--vulnerable' option.
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
