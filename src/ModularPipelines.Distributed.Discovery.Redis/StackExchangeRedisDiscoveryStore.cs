@@ -18,7 +18,9 @@ internal sealed class StackExchangeRedisDiscoveryStore : IRedisDiscoveryStore, I
         _ownsConnection = true;
         _connect = async cancellationToken =>
         {
-            var configuration = ConfigurationOptions.Parse(options.ConnectionString);
+            var configuration = string.IsNullOrWhiteSpace(options.ConnectionString)
+                ? new ConfigurationOptions()
+                : ConfigurationOptions.Parse(options.ConnectionString);
             options.ConfigureConnection?.Invoke(configuration);
             return await ConnectionMultiplexer.ConnectAsync(configuration)
                 .WaitAsync(cancellationToken)
