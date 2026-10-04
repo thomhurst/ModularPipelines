@@ -181,20 +181,13 @@ public class FlywayCommandCoverageTests
             "flyway snapshot",
             "flyway undo",
             "flyway validate",
+            "flyway version",
         ]);
         await Assert.That(evaluation.Violations).IsEmpty();
     }
 
-    [Test]
-    public async Task FlywayCommunityCommandSurface_SatisfiesCommandCoveragePolicy()
-    {
-        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
-        var scraper = new FlywayCliScraper(
-            new UnusedExecutor(),
-            cache,
-            NullLogger<FlywayCliScraper>.Instance);
-        var communityCommands = new[]
-        {
+    private static readonly string[] CommunityCommandNames =
+        [
             "auth",
             "baseline",
             "check",
@@ -208,7 +201,17 @@ public class FlywayCommandCoverageTests
             "repair",
             "snapshot",
             "validate",
-        }.Select(Command).ToArray();
+        ];
+
+    [Test]
+    public async Task FlywayCommunityCommandSurface_SatisfiesCommandCoveragePolicy()
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FlywayCliScraper(
+            new UnusedExecutor(),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+        var communityCommands = CommunityCommandNames.Select(Command).ToArray();
         var evaluation = EvaluateCoverage(scraper, communityCommands);
 
         var conditionallyAvailableCommands = scraper.CreateToolDefinition()
@@ -228,16 +231,8 @@ public class FlywayCommandCoverageTests
         ]);
     }
 
-    [Test]
-    public async Task FlywaySentinels_RejectIncompleteCommunityCommandSurface()
-    {
-        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
-        var scraper = new FlywayCliScraper(
-            new UnusedExecutor(),
-            cache,
-            NullLogger<FlywayCliScraper>.Instance);
-        var incompleteCommands = new[]
-        {
+    private static readonly string[] IncompleteCommunityCommandNames =
+        [
             "auth",
             "baseline",
             "check",
@@ -249,7 +244,17 @@ public class FlywayCommandCoverageTests
             "repair",
             "snapshot",
             "validate",
-        }.Select(Command).ToArray();
+        ];
+
+    [Test]
+    public async Task FlywaySentinels_RejectIncompleteCommunityCommandSurface()
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FlywayCliScraper(
+            new UnusedExecutor(),
+            cache,
+            NullLogger<FlywayCliScraper>.Instance);
+        var incompleteCommands = IncompleteCommunityCommandNames.Select(Command).ToArray();
         var evaluation = EvaluateCoverage(scraper, incompleteCommands);
 
         await Assert.That(evaluation.Violations).Contains(
@@ -307,7 +312,7 @@ public class FlywayCommandCoverageTests
 
         try
         {
-            var tool = scraper.CreateToolDefinition() with { Commands = commands.ToArray() };
+            var tool = scraper.CreateToolDefinition() with { Commands = [.. commands] };
             return CommandCoverageGuard.Evaluate(
                 tool,
                 outputDirectory,
