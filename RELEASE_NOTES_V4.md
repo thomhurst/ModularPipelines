@@ -98,6 +98,28 @@ raise `ExecutionTimeout` for long-running commands or set it to `null` to disabl
 The unused `PipelineCommandOptions.Execution` property was removed. Continue to pass
 execution behavior through `CommandExecutionOptions` on each command call.
 
+## HTTP failure behavior
+
+`HttpOptions.ThrowOnNonSuccessStatusCode` now defaults to `true`, matching the
+failure defaults for commands and downloads. `context.Network.Http.SendAsync`
+throws `PipelineHttpResponseException` for a non-success response, including calls
+that implicitly convert a string, `Uri`, or `HttpRequestMessage` to `HttpOptions`.
+The exception includes the status code and response content when available.
+
+If your pipeline intentionally handles failure responses, opt out explicitly:
+
+```csharp
+using var response = await context.Network.Http.SendAsync(
+    new HttpOptions(new HttpRequestMessage(HttpMethod.Get, endpoint))
+    {
+        ThrowOnNonSuccessStatusCode = false,
+    },
+    cancellationToken);
+```
+
+Download helpers continue to require a successful response. Use `SendAsync` with
+the explicit opt-out when you need to inspect a failure response body.
+
 ## Hashing, ZIP, and Base64 APIs
 
 Text and file hashing now share `context.Security.Hash` (`IHashContext`). Use
