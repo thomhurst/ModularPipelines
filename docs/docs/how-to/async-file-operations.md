@@ -51,3 +51,19 @@ remain synchronous. In .NET 10, ZIP central-directory enumeration and parts of
 entry creation/finalization also perform synchronous I/O because the runtime does
 not expose asynchronous alternatives for those steps. Custom providers determine
 whether their streams implement asynchronous I/O directly.
+
+## Migrating custom context implementations to V4
+
+The new methods are required interface members. Applications that implement
+`IHashContext` must add `Md5FileAsync`, `Sha1FileAsync`, `Sha256FileAsync`,
+`Sha384FileAsync`, and `Sha512FileAsync`. Implementations of `IZipContext` must add
+`CreateFromDirectoryAsync` and `ExtractToDirectoryAsync`. Rebuild custom
+implementations against V4; preserving the synchronous methods does not preserve
+source or binary compatibility for implementations of the older interfaces.
+
+Use asynchronous stream reads and writes where supported, honor the supplied
+`CancellationToken`, and preserve the synchronous implementation's encoding,
+compression, overwrite, path-resolution, and provider behavior. Forwarding to a
+synchronous method with `Task.FromResult` or `Task.Run` does not satisfy this
+contract. The interfaces do not supply a synchronous fallback or a default method
+that throws `NotSupportedException`.
