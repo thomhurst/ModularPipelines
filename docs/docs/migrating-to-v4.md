@@ -136,6 +136,37 @@ The older duplicate service interfaces such as `ICommand`, `IBash`, `IPowershell
 implementations and mocks to the actual V4 contract, for example `ICommandContext`,
 `IPowerShellContext`, `IHttpContext`, and `IHashContext`.
 
+The remaining utility interface mappings are explicit below. V4 interfaces in this table live in
+`ModularPipelines.Context`; update injected types, implementations, and mocks as well as imports.
+The V3 `Context.Domains.*` interfaces with the same `*Context` names also move to that namespace.
+
+| V3 interface | V4 interface | Context access |
+| --- | --- | --- |
+| `IZip` | `IZipContext` | `context.Files.Zip` |
+| `IXml` | `IXmlContext` | `context.Data.Xml` |
+| `IYaml` | `IYamlContext` | `context.Data.Yaml` |
+| `IBase64` | `IBase64Context` | `context.Data.Base64` |
+| `IHex` | `IHexContext` | `context.Data.Hex` |
+| `ICertificates` | `ICertificatesContext` | `context.Security.Certificates` |
+| `IDownloader` | `IDownloaderContext` | `context.Network.Downloader` |
+| `IEnvironmentVariables` | `IEnvironmentVariablesContext` | `context.Environment.Variables` |
+
+The core `Context.Linux.AptGet` / `IAptGet` wrappers and the
+`ModularPipelines.Options.Linux.AptGet` family (`AptGetOptions`, `AptGetInstallOptions`, etc.) are
+removed, with no typed core replacement. To keep invoking `apt-get`, use the command context
+with explicit argument tokens, or define your own typed integration using the
+[custom integration guide](./how-to/generate-private-cli-integration.md):
+
+```csharp
+await context.Shell.RunAsync(
+    "apt-get",
+    ["install", "--yes", "curl"],
+    cancellationToken: cancellationToken);
+```
+
+Run package-manager commands with the permissions your environment requires. Translate each old
+`AptGet*Options` value to its CLI argument; there is no `context.Tools.AptGet` property in core.
+
 ## Entry Point and Registration Changes
 
 ### Before (V3)
@@ -770,6 +801,8 @@ The Git integration changed beyond the accessor:
 Commands are grouped into `Repository`, `WorkingTree`, `Branches`, `Remotes`, `History`, and
 `Maintenance`; find any command not listed above in those groups.
 `Tools.Git.Information.CommitsAsync(...)` returns the same commits as `Commands.History.CommitsAsync(...)`.
+If upgrading an intermediate V4 build that exposed `IGitInformation.Commits(...)`, rename it to
+`IGitInformation.CommitsAsync(...)`. In released V3.2.8, `Commits` existed only on the internal `GitInformation` implementation, not its public interface.
 
 Repository information is now loaded once, asynchronously, and cached. Choose the method by
 whether your pipeline can run outside a Git repository:
@@ -1135,6 +1168,15 @@ These changes need behavioral checks even after the code compiles:
 | `Md5File` returns lowercase hex | Compare hashes case-insensitively |
 | `IsBuildServer`, `OnCI`, and `Require.Ci()` also honor a truthy `CI` variable | Check local runs that set `CI`; the startup log says when `CI` alone decided |
 
+The output capture limit counts characters, not bytes. When a stream exceeds
+`MaxCapturedOutputLength`, its captured string preserves the beginning and end, inserting
+`... [truncated N characters] ...` between them. The marker adds characters beyond the configured
+capture limit. `CommandResult` currently has no separate truncation flag, and this capture path
+does not emit a separate truncation warning. Do not parse capped output as complete JSON, XML,
+or another machine-readable document: set `MaxCapturedOutputLength = 0` when complete capture is
+required and its memory cost is acceptable. Truncation metadata improvements are tracked in
+[issue #5626](https://github.com/thomhurst/ModularPipelines/issues/5626).
+
 Required result access, read-only options, generated command validation, and pipeline-scoped working
 directories described above also change behavior. Include them in migration acceptance tests.
 
@@ -1459,6 +1501,7 @@ rg -n 'ModuleResultType|IsSuccess|IsFailure|IsSkipped|GetModuleResultsAsync|GetF
 rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDecision\.Of' --glob '*.cs'
 rg -n 'IEventHandlerPriority|PluginRegistry|PluginTestHelper|RequestRetry|SkipDependentModules|FailPipeline|ISecretObfuscator' --glob '*.cs'
 rg -n 'RunIfAll|MandatoryRunConditionAttribute|IConditionAttribute|BuildSystem\.Is[A-Z]|ArgumentPlacement|CliArgument\([^)]*Name' --glob '*.cs'
+rg -n '\b(IZip|IXml|IYaml|IBase64|IHex|ICertificates|IDownloader|IEnvironmentVariables|IAptGet|AptGet\w*)\b' --glob '*.cs'
 rg -n 'ExecutionMode|PipelineCancelledException|HttpResponseException|ModuleReferencingSelfException|FailedRequirementsException|SubModuleFailedException' --glob '*.cs'
 rg -n 'ModuleRunType|ITaggedModule|IPipelineValidator|IModuleResultRepository|IModuleEstimatedTimeProvider|IFileSystemProvider|WithTimeout\(TimeSpan\.Zero' --glob '*.cs'
 rg -n 'CliCommand\(|AllowMultiple\s*=|CustomSeparator|DependsOnLazy|SchedulerOptions|SecretMaskingOptions|CommandLogVerbosity\.Minimal' --glob '*.cs'
