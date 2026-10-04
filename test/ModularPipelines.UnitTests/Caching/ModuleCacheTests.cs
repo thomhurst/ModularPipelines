@@ -3618,7 +3618,7 @@ public class ModuleCacheTests
             {
                 WorkingDirectory = workingDirectory,
                 CacheDirectory = Path.Combine(workingDirectory, "cache"),
-                MaximumInputFiles = 1,
+                MaxInputFiles = 1,
             })
             .AddModule<LookupFailureInputMutatingModule>()
             .BuildAsync();
@@ -3731,11 +3731,11 @@ public class ModuleCacheTests
             {
                 WorkingDirectory = workingDirectory,
                 CacheDirectory = Path.Combine(workingDirectory, "cache"),
-                MaximumInputFiles = maximumInputFiles,
-                MaximumArtifactEntries = maximumArtifactEntries,
-                MaximumArtifactBytes = maximumArtifactBytes,
-                MaximumCacheEntryBytes = maximumCacheEntryBytes,
-                MaximumResultBytes = maximumResultBytes,
+                MaxInputFiles = maximumInputFiles,
+                MaxArtifactEntries = maximumArtifactEntries,
+                MaxArtifactBytes = maximumArtifactBytes,
+                MaxCacheEntryBytes = maximumCacheEntryBytes,
+                MaxResultBytes = maximumResultBytes,
             })
             .AddModule<VaryingArtifactSetModule>()
             .BuildAsync();
@@ -3754,8 +3754,8 @@ public class ModuleCacheTests
             {
                 WorkingDirectory = workingDirectory,
                 CacheDirectory = Path.Combine(workingDirectory, "cache"),
-                MaximumInputFiles = 1,
-                MaximumArtifactEntries = 3,
+                MaxInputFiles = 1,
+                MaxArtifactEntries = 3,
             })
             .AddModule<MultipleArtifactFilesModule>()
             .BuildAsync();

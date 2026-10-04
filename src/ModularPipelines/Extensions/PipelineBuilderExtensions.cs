@@ -317,7 +317,7 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configure">
     /// Optional cache configuration that returns updated options, for example
-    /// <c>options =&gt; options with { MaximumInputFiles = 10_000 }</c>. Configurations from repeated calls apply
+    /// <c>options =&gt; options with { MaxInputFiles = 10_000 }</c>. Configurations from repeated calls apply
     /// in call order.
     /// </param>
     /// <returns>The same builder instance for chaining.</returns>

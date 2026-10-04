@@ -216,7 +216,7 @@ public class S3ModuleCacheTests
             client,
             new ModuleCacheOptions
             {
-                MaximumCacheEntryBytes = maximumCacheEntryBytes,
+                MaxCacheEntryBytes = maximumCacheEntryBytes,
             });
 
     private sealed class NoOpModule : Module<int>

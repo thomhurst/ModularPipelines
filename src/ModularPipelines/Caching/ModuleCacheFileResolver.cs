@@ -32,7 +32,7 @@ internal static class ModuleCacheFileResolver
             ResolveExactFilePattern,
             static root => EnumerateWithoutFollowingDirectoryLinks(root, includeDirectories: false),
             maximum => $"Cache input expansion exceeded the configured limit of {maximum:N0} files. "
-                       + "Narrow the input globs or increase ModuleCacheOptions.MaximumInputFiles.");
+                       + "Narrow the input globs or increase ModuleCacheOptions.MaxInputFiles.");
     }
 
     public static IReadOnlyList<string> ResolveDirectories(

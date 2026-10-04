@@ -211,8 +211,8 @@ public class RegistrationSemanticsTests
     {
         var workingDirectory = Path.GetTempPath();
         var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings { WorkingDirectory = workingDirectory });
-        builder.AddModuleCache<FirstStore>(options => options with { MaximumInputFiles = 10, MaximumHashConcurrency = 3 });
-        builder.AddModuleCache<FirstStore>(options => options with { MaximumInputFiles = options.MaximumInputFiles * 2 });
+        builder.AddModuleCache<FirstStore>(options => options with { MaxInputFiles = 10, MaxHashConcurrency = 3 });
+        builder.AddModuleCache<FirstStore>(options => options with { MaxInputFiles = options.MaxInputFiles * 2 });
         builder.AddModule<AnyModule>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -220,8 +220,8 @@ public class RegistrationSemanticsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.MaximumInputFiles).IsEqualTo(20);
-            await Assert.That(options.MaximumHashConcurrency).IsEqualTo(3);
+            await Assert.That(options.MaxInputFiles).IsEqualTo(20);
+            await Assert.That(options.MaxHashConcurrency).IsEqualTo(3);
             await Assert.That(Path.GetFullPath(options.WorkingDirectory).TrimEnd(Path.DirectorySeparatorChar))
                 .IsEqualTo(Path.GetFullPath(workingDirectory).TrimEnd(Path.DirectorySeparatorChar));
         }

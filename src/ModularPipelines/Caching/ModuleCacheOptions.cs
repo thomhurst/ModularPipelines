@@ -6,7 +6,7 @@ namespace ModularPipelines.Caching;
 /// <remarks>
 /// Like <see cref="Options.PipelineOptions"/>, these options are immutable. Configure them with
 /// <see cref="PipelineBuilderExtensions.AddModuleCache{TStore}(PipelineBuilder, Func{ModuleCacheOptions, ModuleCacheOptions})"/>
-/// and a <c>with</c> expression, for example <c>options =&gt; options with { MaximumInputFiles = 10_000 }</c>.
+/// and a <c>with</c> expression, for example <c>options =&gt; options with { MaxInputFiles = 10_000 }</c>.
 /// </remarks>
 public sealed record ModuleCacheOptions
 {
@@ -26,30 +26,30 @@ public sealed record ModuleCacheOptions
     /// <summary>
     /// Gets the maximum number of files one module may expand from its input globs.
     /// </summary>
-    public int MaximumInputFiles { get; init; } = 100_000;
+    public int MaxInputFiles { get; init; } = 100_000;
 
     /// <summary>
     /// Gets the maximum number of entries stored in one module's artifact snapshot.
     /// </summary>
-    public int MaximumArtifactEntries { get; init; } = 100_000;
+    public int MaxArtifactEntries { get; init; } = 100_000;
 
     /// <summary>
     /// Gets the maximum uncompressed size of one module's artifact snapshot.
     /// </summary>
-    public long MaximumArtifactBytes { get; init; } = 10L * 1024 * 1024 * 1024;
+    public long MaxArtifactBytes { get; init; } = 10L * 1024 * 1024 * 1024;
 
     /// <summary>
     /// Gets the maximum compressed size of one cache entry read from a cache store.
     /// </summary>
-    public long MaximumCacheEntryBytes { get; init; } = 10L * 1024 * 1024 * 1024;
+    public long MaxCacheEntryBytes { get; init; } = 10L * 1024 * 1024 * 1024;
 
     /// <summary>
     /// Gets the maximum uncompressed size of a cached module result restored from a cache store.
     /// </summary>
-    public long MaximumResultBytes { get; init; } = 64L * 1024 * 1024;
+    public long MaxResultBytes { get; init; } = 64L * 1024 * 1024;
 
     /// <summary>
     /// Gets the maximum number of files hashed concurrently.
     /// </summary>
-    public int MaximumHashConcurrency { get; init; } = Math.Max(1, Environment.ProcessorCount);
+    public int MaxHashConcurrency { get; init; } = Math.Max(1, Environment.ProcessorCount);
 }
