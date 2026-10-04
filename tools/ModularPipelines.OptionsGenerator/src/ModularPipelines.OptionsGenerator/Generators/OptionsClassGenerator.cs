@@ -605,7 +605,7 @@ public class OptionsClassGenerator : ICodeGenerator
                          ?? throw new InvalidOperationException(
                              $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
 
-        if (option?.IsFlag == true)
+        if (option is { IsFlag: true, NegatedSwitchName: null })
         {
             return $"{propertyName} == true";
         }

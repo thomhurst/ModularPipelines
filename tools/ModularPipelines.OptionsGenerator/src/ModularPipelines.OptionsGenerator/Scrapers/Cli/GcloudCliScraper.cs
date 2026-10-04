@@ -827,9 +827,18 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         var option = CreateOptionDefinition(argument, longForm, propertyName, commandParts, helpText);
+        var negativeSwitch = GetNegativeSwitch(argument);
+        if (option.IsFlag && negativeSwitch is not null)
+        {
+            yield return option with { NegatedSwitchName = negativeSwitch };
+            yield break;
+        }
+
         yield return option;
 
-        if (GetNegativeSwitch(argument) is { } negativeSwitch)
+        // A value-taking option can have a separate reset flag. It cannot be
+        // represented by a nullable boolean without losing its value contract.
+        if (negativeSwitch is not null)
         {
             yield return CreateNegatedOption(option, negativeSwitch, argument.Documentation);
         }

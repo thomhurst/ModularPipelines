@@ -422,8 +422,8 @@ public partial class NestedArgumentGroupParsingTests
         var command = (await CreateGcloudScraper().Parse(["gcloud", "privateca", "templates", "create"], help))!;
 
         await Assert.That(command.RequiredAlternativeGroups.Where(group => group.IsRequired).SelectMany(group => group.PropertyNames))
-            .IsEquivalentTo(["CopySans", "NoCopySans", "CopySubject", "NoCopySubject"]);
-        await Assert.That(command.RequiredAlternativeGroups.All(group => group.IsMutuallyExclusive)).IsTrue();
+            .IsEquivalentTo(["CopySans", "CopySubject"]);
+        await Assert.That(command.RequiredAlternativeGroups.Where(group => group.IsRequired).All(group => group.PropertyNames.Count() == 1)).IsTrue();
     }
 
     [Test]
