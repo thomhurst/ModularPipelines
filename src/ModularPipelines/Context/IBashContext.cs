@@ -7,9 +7,11 @@ namespace ModularPipelines.Context;
 /// Provides functionality for executing bash commands and scripts.
 /// </summary>
 /// <remarks>
-/// This interface is used for running bash shell commands on Unix-like systems.
+/// Use <c>context.Shell.Bash</c> for scripts that require Bash syntax, such as pipelines
+/// or shell expansion, and for Bash script files.
 /// For PowerShell execution, see <see cref="IPowerShellContext"/>.
-/// For general command line tool execution, see <see cref="ICommandContext"/>.
+/// For general command-line tool execution, use <c>context.Shell.RunAsync</c>, provided by
+/// <see cref="IShellContext.RunAsync(string, IReadOnlyList{string}, CommandExecutionOptions, CancellationToken)"/>.
 /// </remarks>
 public interface IBashContext
 {
