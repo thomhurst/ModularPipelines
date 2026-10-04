@@ -866,11 +866,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return cached;
         }
 
-        var result = await ExecuteAndRecordHelpCommandAsync(
-            commandPath,
-            ExecutablePath,
-            GetHelpArguments(commandPath),
-            cancellationToken);
+        var result = await ExecuteHelpCommandAsync(commandPath, cancellationToken).ConfigureAwait(false);
 
         if (!ShouldAcceptHelpResult(commandPath, result))
         {
@@ -892,6 +888,12 @@ public abstract partial class CliScraperBase : ICliScraper
         LogRejectedHelp(result, cacheKey);
         return null;
     }
+
+    /// <summary>
+    /// Executes help, allowing a scraper to isolate tool-specific working-directory configuration.
+    /// </summary>
+    protected virtual Task<CliCommandResult> ExecuteHelpCommandAsync(string[] commandPath, CancellationToken cancellationToken) =>
+        ExecuteAndRecordHelpCommandAsync(commandPath, ExecutablePath, GetHelpArguments(commandPath), cancellationToken);
 
     private protected void LogRejectedHelp(CliCommandResult result, string command, bool failedCommand = false)
     {

@@ -148,7 +148,7 @@ public partial interface IDotNet
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json' file). This only supports Microsoft.Testing.Platform and doesn't support VSTest. For more information, see https://aka.ms/dotnet-test.
+    /// .NET Test Command for VSTest. To use Microsoft.Testing.Platform, opt-in to the Microsoft.Testing.Platform-based command via global.json. For more information, see https://aka.ms/dotnet-test.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

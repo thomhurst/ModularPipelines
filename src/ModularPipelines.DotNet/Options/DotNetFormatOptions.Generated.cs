@@ -81,6 +81,12 @@ public record DotNetFormatOptions : DotNetOptions
     public string? Report { get; set; }
 
     /// <summary>
+    /// Show version information
+    /// </summary>
+    [CliOption("--version")]
+    public string? Version { get; set; }
+
+    /// <summary>
     /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
