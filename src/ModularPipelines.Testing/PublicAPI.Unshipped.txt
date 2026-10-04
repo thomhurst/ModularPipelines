@@ -28,3 +28,36 @@ ModularPipelines.Testing.InMemoryFileSystemProvider.SetCreationTimeUtc(string! p
 ModularPipelines.Testing.InMemoryFileSystemProvider.SetLastAccessTimeUtc(string! path, System.DateTime lastAccessTimeUtc) -> void
 ModularPipelines.Testing.InMemoryFileSystemProvider.SetLastWriteTimeUtc(string! path, System.DateTime lastWriteTimeUtc) -> void
 ModularPipelines.Testing.RecordedCommand.Invocation.get -> ModularPipelines.CommandInvocation!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.ConfigurePipeline(System.Action<ModularPipelines.PipelineBuilder!>! configure) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithFile(string! path, string! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithFile(string! path, byte[]! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithDependencyFailure<TDependency, TResult>(System.Exception! exception) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule>.WithSkippedDependency<TDependency, TResult>(string! reason) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.ConfigurePipeline(System.Action<ModularPipelines.PipelineBuilder!>! configure) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithFile(string! path, string! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithFile(string! path, byte[]! contents) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithDependencyFailure<TDependency, TDependencyResult>(System.Exception! exception) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.WithSkippedDependency<TDependency, TDependencyResult>(string! reason) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
+ModularPipelines.Testing.Distributed.DistributedCoordinatorContract
+static readonly ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.LeaseTimeout -> System.TimeSpan
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.FirstPublishedResultIsFinalAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CanceledDequeueThrowsAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CancellationUnblocksWorkerObserverAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.PipelineFailureOnlyReleasesAlwaysRunWorkAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.StopClosesDequeueAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.WithdrawRemovesQueuedAssignmentAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.ExpiredLeaseIsRequeuedAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.HeartbeatRenewsLeaseAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.PublishingReleasesLeaseAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.WorkerHeartbeatKeepsRegistrationLiveAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.DuplicateLiveWorkerIsRejectedAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.ClaimPrefersPriorityThenCriticalPathAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.FinalMetricsKeepRegistrationAfterHeartbeatExpiresAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.TimeSpan heartbeatExpiration) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CancellationKeepsConcurrentObserverSubscribedAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Threading.Tasks.Task? waitUntilReady = null) -> System.Threading.Tasks.Task!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CreateAssignment(string! moduleId) -> ModularPipelines.Distributed.ModuleAssignment!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CreateResult(string! moduleId, string! value) -> ModularPipelines.Distributed.SerializedModuleResult!

@@ -16,6 +16,15 @@ implementations against V4 and use cancellable asynchronous stream I/O where
 supported. Existing callers of synchronous methods can keep using them, but
 implementations of the older interfaces are not source or binary compatible.
 
+## Testing inputs and coordinator contracts
+
+`ModuleTester` now supports `WithFile`, `WithDependencyFailure`,
+`WithSkippedDependency`, and `ConfigurePipeline`. Seeded files use the effective
+file-system provider and resolve paths through the pipeline files context.
+`CommandResult.Fail` creates nonzero command results for interceptors.
+`ModularPipelines.Testing.Distributed.DistributedCoordinatorContract` ships the
+shared coordinator checks without a dependency on a test framework.
+
 ## CI detection
 
 Use `context.Environment.BuildSystem.IsCI` (renamed from `IsBuildServer`) and

@@ -1,6 +1,6 @@
 using ModularPipelines.Distributed.Redis;
 using ModularPipelines.Distributed.Redis.Coordination;
-using ModularPipelines.TestHelpers.Distributed;
+using ModularPipelines.Testing.Distributed;
 using StackExchange.Redis;
 using TUnit.Core.Exceptions;
 

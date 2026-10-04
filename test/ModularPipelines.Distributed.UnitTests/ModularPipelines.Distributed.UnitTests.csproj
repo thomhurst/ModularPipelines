@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+    <ProjectReference Include="..\..\src\ModularPipelines.Testing\ModularPipelines.Testing.csproj" />
   </ItemGroup>
 
 </Project>

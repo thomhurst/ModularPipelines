@@ -13,7 +13,8 @@ namespace ModularPipelines.Distributed;
 /// </para>
 /// <para>
 /// Every implementation must satisfy the shared coordinator contract tests
-/// (<c>DistributedCoordinatorContract</c>).
+/// (<c>ModularPipelines.Testing.Distributed.DistributedCoordinatorContract</c> in the
+/// <c>ModularPipelines.Testing</c> package).
 /// </para>
 /// </remarks>
 public interface IDistributedWorkerCoordinator
