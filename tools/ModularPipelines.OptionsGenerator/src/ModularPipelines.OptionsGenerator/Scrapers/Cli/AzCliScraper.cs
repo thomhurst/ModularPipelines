@@ -322,9 +322,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
-        var alias = match.Groups["alias"].Captures
-            .Select(capture => capture.Value)
-            .FirstOrDefault(value => value.StartsWith('-') && !value.StartsWith("--", StringComparison.Ordinal));
+        var alias = GetShortAlias(match);
         var valueHint = match.Groups["value"].Value.Trim();
         var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
@@ -337,17 +335,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var isRequired = match.Groups["required"].Success
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-        if (argumentFlags is not null && !argumentFlags.ContainsKey($"--{longFlag}"))
-        {
-            throw new InvalidOperationException($"Azure CLI parser metadata does not include --{longFlag}.");
-        }
-        var isFlag = argumentFlags is not null && argumentFlags.TryGetValue($"--{longFlag}", out var metadataFlag)
-            ? metadataFlag
-            : !isRequired && IsPresenceOnlyFlag(
-            longFlag,
-            valueHint,
-            description,
-            explicitBooleanValue);
+        var isFlag = DetermineIsFlag(argumentFlags, longFlag, valueHint, description, isRequired, explicitBooleanValue);
         var csharpType = DetermineType(
             longFlag,
             valueHint,
@@ -375,6 +363,32 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             EnumDefinition = null,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
         };
+    }
+
+    private static string? GetShortAlias(Match match) =>
+        match.Groups["alias"].Captures
+            .Select(capture => capture.Value)
+            .FirstOrDefault(value => value.StartsWith('-') && !value.StartsWith("--", StringComparison.Ordinal));
+
+    private static bool DetermineIsFlag(
+        IReadOnlyDictionary<string, bool>? argumentFlags,
+        string longFlag,
+        string valueHint,
+        string description,
+        bool isRequired,
+        bool explicitBooleanValue)
+    {
+        if (argumentFlags is null)
+        {
+            return !isRequired && IsPresenceOnlyFlag(longFlag, valueHint, description, explicitBooleanValue);
+        }
+
+        if (argumentFlags.TryGetValue($"--{longFlag}", out var metadataFlag))
+        {
+            return metadataFlag;
+        }
+
+        throw new InvalidOperationException($"Azure CLI parser metadata does not include --{longFlag}.");
     }
 
     /// <summary>
