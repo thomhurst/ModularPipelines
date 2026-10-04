@@ -231,7 +231,10 @@ internal static class OptionsGeneratorCommand
         services.AddSingleton<ICliScraper, BrewCliScraper>();
         services.AddSingleton<ICliScraper, YarnCliScraper>();
         services.AddSingleton<ICliScraper, AwsCliScraper>();
-        services.AddSingleton<ICliScraper, AzCliScraper>();
+        services.AddSingleton<ICliScraper>(provider => new AzCliScraper(
+            new AzCliMetadataExecutor(provider.GetRequiredService<ICliCommandExecutor>()),
+            provider.GetRequiredService<IHelpTextCache>(),
+            provider.GetRequiredService<ILogger<AzCliScraper>>()));
         services.AddSingleton<ICliScraper, DotNetCliScraper>();
         services.AddSingleton<ICliScraper, NpmCliScraper>();
         services.AddSingleton<ICliScraper, PnpmCliScraper>();
