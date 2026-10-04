@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -195,9 +196,9 @@ public partial class NewmanCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var index = 0; index < lines.Length; index++)
         {
-            var match = NewmanOptionPattern().Match(line);
+            var match = NewmanOptionPattern().Match(lines[index]);
             if (!match.Success)
             {
                 continue;
@@ -206,19 +207,12 @@ public partial class NewmanCliScraper : CliScraperBase
             var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm))
+            if (!seenOptions.Add(longForm))
             {
                 continue;
             }
 
-            if (seenOptions.Contains(longForm))
-            {
-                continue;
-            }
-
-            seenOptions.Add(longForm);
+            var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
 
             var propertyName = NormalizePropertyName(longForm);
             if (propertyName is null)
@@ -227,13 +221,18 @@ public partial class NewmanCliScraper : CliScraperBase
             }
 
             var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Handle common array-type options
-            if (longForm is "--global-var" or "--env-var" or "--folder" or "--reporter")
+            var optionalValue = valueHint.StartsWith('[');
+            var isNumeric = valueHint.Trim('<', '>', '[', ']') is "n" or "ms";
+            // Newman accumulates variables even though their help only describes key=value syntax.
+            var repeated = IsRepeatableValueOption(description, isFlag)
+                || longForm is "--global-var" or "--env-var";
+            var scalarType = (isFlag, isNumeric) switch
             {
-                csharpType = "IEnumerable<string>?";
-            }
+                (true, _) => "bool?",
+                (_, true) => "int?",
+                _ => "string?",
+            };
+            var csharpType = AsCSharpType(scalarType, repeated);
 
             options.Add(new CliOptionDefinition
             {
@@ -243,10 +242,11 @@ public partial class NewmanCliScraper : CliScraperBase
                 CSharpType = csharpType,
                 Description = description,
                 IsFlag = isFlag,
+                ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
                 IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
+                AcceptsMultipleValues = repeated,
                 IsKeyValue = false,
-                IsNumeric = valueHint == "n" || valueHint == "ms",
+                IsNumeric = isNumeric,
                 ValueSeparator = " ",
                 EnumDefinition = null,
                 IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
@@ -255,6 +255,8 @@ public partial class NewmanCliScraper : CliScraperBase
 
         return options;
     }
+
+    private static bool IsOptionRow(string line) => NewmanOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -290,7 +292,7 @@ public partial class NewmanCliScraper : CliScraperBase
     ///   -n, --iteration-count <n>    Define the number
     ///   --bail                       Stop on first failure
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]+(?:(?<short>-\w)[ \t]*,[ \t]*)?(?<long>--[\w-]+)(?:[ \t]+(?<value><[^>]+>|\[[^\]]+\]))?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex NewmanOptionPattern();
 
     #endregion
