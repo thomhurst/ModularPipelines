@@ -8491,6 +8491,26 @@ public record MySettings
 }
 ```
 
+## Register secrets discovered at runtime[​](#register-secrets-discovered-at-runtime "Direct link to Register secrets discovered at runtime")
+
+Inside a module, register secrets returned by a vault, authentication service, or API through `context.Security.Secrets` before those values can reach logs or command output:
+
+```
+var apiKey = await GetApiKeyFromVaultAsync(cancellationToken);
+
+context.Security.Secrets.AddSecret(apiKey);
+
+
+
+// Subsequent pipeline logging masks the registered value.
+
+context.Logger.LogInformation("Using API key: {ApiKey}", apiKey);
+```
+
+Use `AddSecrets(...)` to register several values at once. Registration is thread-safe and uses this pipeline's existing `ISecretRegistry`, so constructor injection remains supported and all modules in the same pipeline share the registered values. Separate pipelines have separate registries. Configured masking options and supported CI-native masking still apply.
+
+Register values before logging them: registration does not redact output that has already been written. Null, empty, and whitespace-only values are ignored.
+
 ## Mask a configuration section[​](#mask-a-configuration-section "Direct link to Mask a configuration section")
 
 When a configuration provider supplies a group of secrets, you can register every leaf value in that section without adding `[SecretValue]` to an options class:
