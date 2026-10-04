@@ -433,7 +433,7 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             var switches = syntax.EnumerateMembers().Select(member => member.OptionSwitch!).ToArray();
             if (switches.Distinct(StringComparer.Ordinal).Count() != switches.Length
-                || switches.Any(optionSwitch => !options.Any(option => option.SwitchName == optionSwitch)))
+                || switches.Any(optionSwitch => CliOptionDefinition.FindIndexBySwitch(options, optionSwitch) < 0))
             {
                 continue;
             }
@@ -520,7 +520,7 @@ public partial class GcloudCliScraper : CliScraperBase
             IsRequired = syntax.IsRequired,
             IsChoice = syntax.IsChoice,
             IsMutuallyExclusive = syntax.IsChoice,
-            Members = members,
+            Members = CoalesceAlternativeMembers(members),
             Groups = groups,
         };
     }
@@ -695,11 +695,15 @@ public partial class GcloudCliScraper : CliScraperBase
                          && (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne) || DescribesRequiredBundle(group)),
             IsChoice = isChoice,
             IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
-            Members = [.. members.GroupBy(member => member.PropertyName).Select(group =>
-                group.First() with { IsRequired = group.Any(member => member.IsRequired) })],
+            Members = CoalesceAlternativeMembers(members),
             Groups = nestedGroups,
         };
     }
+
+    private static CliRequiredAlternativeMember[] CoalesceAlternativeMembers(IEnumerable<CliRequiredAlternativeMember> members) =>
+        [.. members.GroupBy(member => (member.PropertyName, member.OptionSwitch,
+            member.PositionalArgumentPhase, member.PositionalArgumentPositionIndex))
+            .Select(group => group.First() with { IsRequired = group.Any(member => member.IsRequired) })];
 
     private static bool ArgumentIsRequiredInGroup(CliArgumentGroup group, CliArgumentDefinition argument) =>
         (group.Kind.HasFlag(CliArgumentGroupKind.Resource) && group.Arguments.Count == 1)

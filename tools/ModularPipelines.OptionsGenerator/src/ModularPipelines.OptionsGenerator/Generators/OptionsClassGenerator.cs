@@ -542,7 +542,9 @@ public class OptionsClassGenerator : ICodeGenerator
             return (required, activation);
         }
 
-        var triggerPresence = presence(trigger.PropertyName);
+        var triggerPresence = trigger.RequiredFlagValue is { } flagValue
+            ? $"{trigger.PropertyName} == {(flagValue ? "true" : "false")}"
+            : presence(trigger.PropertyName);
         return (true, activation is null ? triggerPresence : $"({activation}) && ({triggerPresence})");
     }
 

@@ -2322,7 +2322,7 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         var emittedSwitches = command.Options
-            .Select(option => option.SwitchName)
+            .SelectMany(option => option.GetSwitchNames())
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
         var emittedOperands = command.PositionalArguments
             .Select(argument => argument.PropertyName)
