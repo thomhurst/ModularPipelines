@@ -40,3 +40,38 @@ public class UseDockerModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Docker client global options
+
+Every generated Docker command inherits client settings from `DockerOptions`.
+For example:
+
+```csharp
+using ModularPipelines.Docker.Options;
+
+var options = new DockerInfoOptions
+{
+    Context = "remote",
+    Debug = true,
+};
+
+await context.Tools.Docker.InfoAsync(options, cancellationToken: cancellationToken);
+```
+
+The global settings appear before the subcommand:
+`docker --context=remote --debug info`. Client configuration, daemon host,
+logging, and TLS options use the same inherited surface. Help/version actions
+are not inherited settings.
+
+### Global and command-specific names
+
+A command or plugin can use the same option name for a different purpose. Those
+settings remain independent: `Context` selects the Docker client context, while
+`BuildxContext` on `DockerBuildxCreateOptions` is the command's context/endpoint
+operand. Similarly, Buildx-specific debug options remain command options rather
+than replacing Docker's global `Debug` setting.
+
+In V4, command members that collide with a new global property receive a scoped
+name such as `BuildxContext` or `BuildxDebug`. Update those callers using the
+[generated Docker reference](cli/docker.md). Do not move a command-specific value
+to the global property merely because its former C# name was the same.

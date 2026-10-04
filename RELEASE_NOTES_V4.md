@@ -1,5 +1,15 @@
 # ModularPipelines V4 Release Notes
 
+## Docker client global options
+
+Generated `DockerOptions` now exposes the Docker client's global configuration,
+context, host, logging, and TLS settings. These are inherited by command options
+and emitted before the subcommand. Command-local options and positional operands
+with the same C# name remain independent under scoped names, such as
+`DockerBuildxCreateOptions.BuildxContext` instead of its former `Context` operand.
+Use the global `Context` only to select the Docker client context. See the
+[Docker migration guidance](docs/docs/mp-packages/docker.md#global-and-command-specific-names).
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
