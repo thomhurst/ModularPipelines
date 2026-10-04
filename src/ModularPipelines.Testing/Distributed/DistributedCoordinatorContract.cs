@@ -38,9 +38,9 @@ public static class DistributedCoordinatorContract
         await WaitUntilReadyAsync(waitUntilReady).ConfigureAwait(false);
         await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None).ConfigureAwait(false);
         var lease = await dequeueTask.WaitAsync(Timeout).ConfigureAwait(false);
-
         Check(lease is not null);
-        Check(Equals(lease!.WorkerId, Worker));
+
+        Check(Equals(lease.WorkerId, Worker));
         Check(!string.IsNullOrEmpty(lease.LeaseId));
         Check(Equals(lease.Assignment.ModuleId, assignment.ModuleId));
         Check(Equals(lease.Assignment.PipelineSchemaVersion, assignment.PipelineSchemaVersion));
@@ -150,9 +150,10 @@ public static class DistributedCoordinatorContract
         await coordinator.BroadcastCancellationAsync(DistributedCancellationReason.PipelineFailed, CancellationToken.None).ConfigureAwait(false);
         var claimed = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(claimed is not null);
         using var noMoreWork = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
 
-        Check(Equals(claimed!.Assignment.ModuleId, new ModuleId("Contract.AlwaysRun")));
+        Check(Equals(claimed.Assignment.ModuleId, new ModuleId("Contract.AlwaysRun")));
         await ExpectThrowsAsync<OperationCanceledException>(() => coordinator.DequeueModuleAsync(
                 Worker,
                 new HashSet<Capability>(),
@@ -187,11 +188,12 @@ public static class DistributedCoordinatorContract
         var withdrawnAgain = await coordinator.WithdrawAssignmentAsync(new ModuleId("Contract.Withdrawn"), CancellationToken.None).ConfigureAwait(false);
         var claimed = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(claimed is not null);
         using var noMoreWork = new CancellationTokenSource(TimeSpan.FromMilliseconds(300));
 
         Check(withdrawn);
         Check(!(withdrawnAgain));
-        Check(Equals(claimed!.Assignment.ModuleId, new ModuleId("Contract.Kept")));
+        Check(Equals(claimed.Assignment.ModuleId, new ModuleId("Contract.Kept")));
         await ExpectThrowsAsync<OperationCanceledException>(() => coordinator.DequeueModuleAsync(
                 Worker,
                 new HashSet<Capability>(),
@@ -206,17 +208,18 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(CreateAssignment("Contract.Expired"), CancellationToken.None).ConfigureAwait(false);
         var firstClaim = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(firstClaim is not null);
         var activeLeases = await coordinator.GetActiveLeasesAsync(CancellationToken.None).ConfigureAwait(false);
 
         await Task.Delay(LeaseTimeout * 3).ConfigureAwait(false);
         var requeued = await coordinator.RequeueExpiredLeasesAsync(CancellationToken.None).ConfigureAwait(false);
         var secondClaim = await coordinator.DequeueModuleAsync(OtherWorker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(secondClaim is not null);
 
-        Check(firstClaim is not null);
         Check(activeLeases.Any(lease => lease.LeaseId == firstClaim.LeaseId));
         Check(requeued.Contains(new ModuleId("Contract.Expired")));
-        Check(Equals(secondClaim!.WorkerId, OtherWorker));
+        Check(Equals(secondClaim.WorkerId, OtherWorker));
         Check(!Equals(secondClaim.LeaseId, firstClaim.LeaseId));
     }
 
@@ -228,12 +231,13 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(CreateAssignment("Contract.Renewed"), CancellationToken.None).ConfigureAwait(false);
         var lease = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(lease is not null);
 
         for (var i = 0; i < 6; i++)
         {
             await Task.Delay(LeaseTimeout / 2).ConfigureAwait(false);
             await coordinator.SendHeartbeatAsync(
-                new WorkerStatus { WorkerId = Worker, InFlightModules = [lease!.Assignment.ModuleId] },
+                new WorkerStatus { WorkerId = Worker, InFlightModules = [lease.Assignment.ModuleId] },
                 CancellationToken.None).ConfigureAwait(false);
         }
 
@@ -241,7 +245,7 @@ public static class DistributedCoordinatorContract
 
         Check(!requeued.Any());
         var activeLeases = await coordinator.GetActiveLeasesAsync(CancellationToken.None).ConfigureAwait(false);
-        Check(activeLeases.Any(active => active.LeaseId == lease!.LeaseId));
+        Check(activeLeases.Any(active => active.LeaseId == lease.LeaseId));
     }
 
     /// <summary>Verifies that publishing releases lease.</summary>
@@ -252,6 +256,7 @@ public static class DistributedCoordinatorContract
         await coordinator.EnqueueModuleAsync(CreateAssignment("Contract.Released"), CancellationToken.None).ConfigureAwait(false);
         var lease = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(lease is not null);
 
         await coordinator.PublishResultAsync(CreateResult("Contract.Released", "done"), lease, CancellationToken.None).ConfigureAwait(false);
         await Task.Delay(LeaseTimeout * 3).ConfigureAwait(false);
@@ -328,8 +333,9 @@ public static class DistributedCoordinatorContract
                 new HashSet<Capability> { new(new("common")), new(new("linux")) },
                 CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(claimed is not null);
 
-        Check(Equals(claimed!.Assignment.ModuleId, new ModuleId("Contract.Linux")));
+        Check(Equals(claimed.Assignment.ModuleId, new ModuleId("Contract.Linux")));
     }
 
     /// <summary>Verifies that claim prefers priority then critical path.</summary>
@@ -350,7 +356,8 @@ public static class DistributedCoordinatorContract
         {
             var lease = await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), CancellationToken.None)
                 .WaitAsync(Timeout).ConfigureAwait(false);
-            claims.Add(lease!.Assignment.ModuleId);
+            Check(lease is not null);
+            claims.Add(lease.Assignment.ModuleId);
         }
 
         Check(claims.SequenceEqual(
@@ -383,16 +390,18 @@ public static class DistributedCoordinatorContract
                 new HashSet<Capability> { Capability.MacOS, Capability.Docker },
                 CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(macClaim is not null);
         var windowsClaim = await coordinator.DequeueModuleAsync(
                 Worker,
                 new HashSet<Capability> { Capability.Windows, Capability.Docker },
                 CancellationToken.None)
             .WaitAsync(Timeout).ConfigureAwait(false);
+        Check(windowsClaim is not null);
 
-        Check(Equals(macClaim!.Assignment.ModuleId, new ModuleId("Contract.Unix")));
+        Check(Equals(macClaim.Assignment.ModuleId, new ModuleId("Contract.Unix")));
         Check(Equals(macClaim.Assignment.RequiredCapabilities, CapabilityRequirement.AnyOf(Capability.Linux, Capability.MacOS)
                 .And(CapabilityRequirement.AllOf(Capability.Docker))));
-        Check(Equals(windowsClaim!.Assignment.ModuleId, new ModuleId("Contract.Windows")));
+        Check(Equals(windowsClaim.Assignment.ModuleId, new ModuleId("Contract.Windows")));
     }
 
     /// <summary>Verifies that final metrics keep registration after heartbeat expires.</summary>

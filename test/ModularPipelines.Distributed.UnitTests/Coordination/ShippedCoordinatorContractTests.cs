@@ -55,6 +55,56 @@ public class ShippedCoordinatorContractTests
     }
 
     [Test]
+    [Arguments("PipelineFailure", 1)]
+    [Arguments("Withdraw", 1)]
+    [Arguments("Expired", 1)]
+    [Arguments("Expired", 2)]
+    [Arguments("Heartbeat", 1)]
+    [Arguments("Publishing", 1)]
+    [Arguments("ScarceCapability", 1)]
+    [Arguments("Priority", 1)]
+    [Arguments("Priority", 2)]
+    [Arguments("Priority", 3)]
+    [Arguments("AlternativeCapabilities", 1)]
+    [Arguments("AlternativeCapabilities", 2)]
+    public async Task MissingRequiredLeaseIncludesContractContext(string scenario, int missingClaim)
+    {
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        var claimCount = 0;
+        var lease = new ModuleLease
+        {
+            LeaseId = "lease",
+            WorkerId = new WorkerId("contract-worker"),
+            Assignment = DistributedCoordinatorContract.CreateAssignment("Contract.Expired"),
+        };
+        coordinator.Setup(x => x.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(() => ++claimCount == missingClaim ? null : lease);
+        coordinator.SetupSequence(x => x.WithdrawAssignmentAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true).ReturnsAsync(false);
+        coordinator.Setup(x => x.GetActiveLeasesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([lease]);
+        coordinator.Setup(x => x.RequeueExpiredLeasesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([lease.Assignment.ModuleId]);
+
+        Task RunContract() => scenario switch
+        {
+            "PipelineFailure" => DistributedCoordinatorContract.PipelineFailureOnlyReleasesAlwaysRunWorkAsync(coordinator.Object),
+            "Withdraw" => DistributedCoordinatorContract.WithdrawRemovesQueuedAssignmentAsync(coordinator.Object),
+            "Expired" => DistributedCoordinatorContract.ExpiredLeaseIsRequeuedAsync(coordinator.Object),
+            "Heartbeat" => DistributedCoordinatorContract.HeartbeatRenewsLeaseAsync(coordinator.Object),
+            "Publishing" => DistributedCoordinatorContract.PublishingReleasesLeaseAsync(coordinator.Object),
+            "ScarceCapability" => DistributedCoordinatorContract.ClaimPrefersScarceCapabilityWorkAsync(coordinator.Object),
+            "Priority" => DistributedCoordinatorContract.ClaimPrefersPriorityThenCriticalPathAsync(coordinator.Object),
+            "AlternativeCapabilities" => DistributedCoordinatorContract.ClaimMatchesAlternativeCapabilitiesAsync(coordinator.Object),
+            _ => throw new ArgumentOutOfRangeException(nameof(scenario)),
+        };
+
+        var exception = await Assert.That(RunContract).Throws<InvalidOperationException>();
+        await Assert.That(exception!.Message).Contains("Coordinator contract failed:");
+        await Assert.That(exception.Message).Contains("is not null");
+    }
+
+    [Test]
     public async Task ReportsMissingCancellationAsContractViolation()
     {
         var coordinator = new Mock<IDistributedMasterCoordinator>();
