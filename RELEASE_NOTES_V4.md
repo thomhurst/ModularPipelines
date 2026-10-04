@@ -67,6 +67,15 @@ Empty or whitespace optional S3/Redis endpoints are treated as omitted. Defaults
 and SignalR port-zero binding are preserved. See the
 [endpoint migration guidance](docs/docs/distributed/configuration.md#v4-endpoint-migration).
 
+## Upgrade code fixes
+
+The analyzer package now offers **Upgrade to ModularPipelines V4** quick actions
+for mechanical tool-access, async method, cancellation-token argument, Git command
+group, and `ModuleStatus` migrations. Fixes validate against installed APIs and
+leave ambiguous replacements unchanged. See the
+[upgrade code-fix guidance](docs/docs/how-to/analyzers.md#v3-to-v4-upgrade-code-fixes)
+for examples and staged Fix All behavior.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
