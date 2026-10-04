@@ -20,10 +20,14 @@ public class RedisDiscoveryOptions
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
 
     /// <summary>
-    /// Gets or sets the optional absolute HTTP or HTTPS Upstash Redis REST URL. Set this together with <see cref="RestToken"/>
-    /// to use HTTP instead of the Redis TCP protocol.
+    /// Gets or sets the optional absolute HTTPS Upstash Redis REST URL. HTTP is supported only on loopback. Set this together with <see cref="RestToken"/>
+    /// to use HTTP instead of the Redis TCP protocol. Blank values are treated as omitted.
     /// </summary>
-    public Uri? RestUrl { get; set; }
+    public Uri? RestUrl
+    {
+        get;
+        set => field = string.IsNullOrWhiteSpace(value?.OriginalString) ? null : value;
+    }
 
     /// <summary>
     /// Gets or sets the optional Upstash Redis REST token. Set this together with <see cref="RestUrl"/>.

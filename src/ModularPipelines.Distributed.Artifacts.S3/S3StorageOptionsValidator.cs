@@ -13,11 +13,7 @@ internal sealed class S3StorageOptionsValidator : IValidateOptions<S3StorageOpti
     public ValidateOptionsResult Validate(string? name, S3StorageOptions options)
     {
         var failures = new List<string>();
-        if (options.ServiceUrl is { } serviceUrl
-            && (!serviceUrl.IsAbsoluteUri || serviceUrl.Scheme is not ("http" or "https")))
-        {
-            failures.Add($"{nameof(S3StorageOptions)}.{nameof(S3StorageOptions.ServiceUrl)} must be an absolute http or https URL.");
-        }
+        ValidateEndpoint(options.ServiceUrl, failures);
 
         if (string.IsNullOrWhiteSpace(options.BucketName))
         {
@@ -56,5 +52,14 @@ internal sealed class S3StorageOptionsValidator : IValidateOptions<S3StorageOpti
         return failures.Count == 0
             ? ValidateOptionsResult.Success
             : ValidateOptionsResult.Fail(failures);
+    }
+
+    private static void ValidateEndpoint(Uri? serviceUrl, List<string> failures)
+    {
+        if (serviceUrl is not null
+            && (!serviceUrl.IsAbsoluteUri || serviceUrl.Scheme is not ("http" or "https")))
+        {
+            failures.Add($"{nameof(S3StorageOptions)}.{nameof(S3StorageOptions.ServiceUrl)} must be an absolute http or https URL.");
+        }
     }
 }

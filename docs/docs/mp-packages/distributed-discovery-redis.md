@@ -34,6 +34,8 @@ builder.AddRedisMasterDiscovery(options =>
 
 Discovery opens its own Redis connection on first use; use `ConfigureConnection` to adjust credentials or TLS.
 For REST-backed Redis services, configure both `RestUrl` and `RestToken`; they must be supplied together.
-`RestUrl` is an absolute HTTP/HTTPS `Uri`, for example `options.RestUrl = new Uri("https://redis.example");`.
+`RestUrl` is an absolute HTTPS `Uri` (HTTP is allowed only on loopback), for example `options.RestUrl = new Uri("https://redis.example");`.
 Because the stored endpoint includes the access token, only the run's processes should be able to read the
 discovery database. See [Configuration](../distributed/configuration#redis-master-discovery) for all options.
+
+An empty or whitespace `RestUrl` is treated as omitted and retains TCP discovery. Remote REST endpoints require HTTPS to protect `RestToken` in transit.

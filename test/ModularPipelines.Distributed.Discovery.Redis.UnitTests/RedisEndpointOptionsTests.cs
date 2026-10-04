@@ -8,6 +8,8 @@ public class RedisEndpointOptionsTests
 {
     [Test]
     [Arguments("http://localhost:8079")]
+    [Arguments("http://127.0.0.1:8079")]
+    [Arguments("http://[::1]:8079")]
     [Arguments("https://redis.example/base%20path")]
     public async Task Bound_Rest_Uri_Selects_Http_Store(string endpoint)
     {
@@ -27,10 +29,18 @@ public class RedisEndpointOptionsTests
     }
 
     [Test]
-    public async Task Omitted_Rest_Uri_Retains_Tcp_Discovery()
+    [Arguments(null)]
+    [Arguments("")]
+    [Arguments("   ")]
+    public async Task Omitted_Rest_Uri_Retains_Tcp_Discovery(string? endpoint)
     {
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["Discovery:ConnectionString"] = "localhost:6379",
+            ["Discovery:RestUrl"] = endpoint,
+        }).Build();
         var builder = Pipeline.CreateBuilder();
-        builder.AddRedisMasterDiscovery(_ => { });
+        builder.AddRedisMasterDiscovery(configuration.GetSection("Discovery"));
         await using var services = builder.Services.BuildServiceProvider();
 
         await Assert.That(services.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value.RestUrl).IsNull();
@@ -38,10 +48,12 @@ public class RedisEndpointOptionsTests
     }
 
     [Test]
+    [Arguments("http://redis.example")]
+    [Arguments("http://192.0.2.1:8079")]
     [Arguments("relative/path")]
     [Arguments("ftp://redis.example")]
     [Arguments("file:///redis")]
-    public async Task Configuration_Rejects_Non_Http_Rest_Endpoints(string endpoint)
+    public async Task Configuration_Rejects_Unsupported_Rest_Endpoints(string endpoint)
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
         {

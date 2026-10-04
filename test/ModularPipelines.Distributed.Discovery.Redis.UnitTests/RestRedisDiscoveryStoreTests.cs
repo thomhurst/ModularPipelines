@@ -26,6 +26,23 @@ public class RestRedisDiscoveryStoreTests
     }
 
     [Test]
+    [Arguments("http://redis.example")]
+    [Arguments("relative/path")]
+    public async Task Constructor_Rejects_Unsupported_Endpoint_Before_Sending_Token(string endpoint)
+    {
+        var sent = false;
+        using var handler = new StubHttpMessageHandler(_ =>
+        {
+            sent = true;
+            return JsonResponse("{\"result\":null}");
+        });
+
+        await Assert.That(() => new RestRedisDiscoveryStore(new Uri(endpoint, UriKind.RelativeOrAbsolute), "secret-token", handler))
+            .Throws<ArgumentException>();
+        await Assert.That(sent).IsFalse();
+    }
+
+    [Test]
     public async Task SetAsync_Sends_Authenticated_Command_With_Ttl()
     {
         HttpRequestMessage? capturedRequest = null;

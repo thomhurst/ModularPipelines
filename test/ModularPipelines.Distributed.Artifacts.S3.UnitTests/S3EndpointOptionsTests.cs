@@ -33,11 +33,15 @@ public class S3EndpointOptionsTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Omitted_Endpoint_Retains_Aws_Region_Default(bool moduleCache)
+    [Arguments(null, false)]
+    [Arguments("", false)]
+    [Arguments("   ", false)]
+    [Arguments(null, true)]
+    [Arguments("", true)]
+    [Arguments("   ", true)]
+    public async Task Omitted_Endpoint_Retains_Aws_Region_Default(string? endpoint, bool moduleCache)
     {
-        var options = BindOptions(null, moduleCache);
+        var options = BindOptions(endpoint, moduleCache);
         using var client = S3ClientFactory.Create(options);
 
         await Assert.That(options.ServiceUrl).IsNull();

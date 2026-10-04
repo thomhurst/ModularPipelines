@@ -14,6 +14,11 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
 
     internal RestRedisDiscoveryStore(Uri restUrl, string restToken, HttpMessageHandler handler)
     {
+        if (!RedisDiscoveryOptionsValidator.IsSupportedRestEndpoint(restUrl))
+        {
+            throw new ArgumentException("REST discovery requires HTTPS, except for HTTP on loopback.", nameof(restUrl));
+        }
+
         _httpClient = new HttpClient(handler)
         {
             BaseAddress = new Uri(restUrl.OriginalString.TrimEnd('/') + "/", UriKind.Absolute),

@@ -331,7 +331,7 @@ replaces an `IConnectionMultiplexer` registered by the application.
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `localhost:6379` | Redis connection string; required unless `RestUrl` is set. |
 | `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed connection configuration, for example credentials or TLS. |
-| `RestUrl` | `Uri?` | `null` | Absolute HTTP/HTTPS Upstash REST endpoint; configure together with `RestToken`. |
+| `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
 | `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
 | `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. |
@@ -372,6 +372,8 @@ See the [StackExchange.Redis configuration docs](https://stackexchange.github.io
 `SignalRDistributedOptions.AdvertisedUrl`. In C# configuration callbacks, wrap
 endpoint strings in `new Uri("https://host.example")`. Endpoints must be absolute
 HTTP or HTTPS URLs; relative URLs and other schemes fail options validation.
+Redis REST endpoints require HTTPS except on loopback because requests include a bearer token.
+Empty or whitespace optional S3/Redis endpoints are treated as omitted.
 
 Configuration files and environment variables still contain URL strings; normal
 configuration binding converts them to `Uri`. SignalR retains its

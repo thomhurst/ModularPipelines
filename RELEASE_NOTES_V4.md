@@ -54,7 +54,8 @@ instance; its validated snapshot is reused for lazy connections and retries.
 and `RedisDiscoveryOptions.RestUrl` are now `Uri?`, matching the existing
 `AdvertisedUrl` convention. Replace C# string assignments with `new Uri(...)`.
 Configuration files still use URL strings, which bind to `Uri` automatically.
-Endpoints require absolute HTTP/HTTPS URLs. Defaults, optional S3/Redis endpoints,
+Endpoints require absolute HTTP/HTTPS URLs. Redis REST requires HTTPS except on loopback.
+Empty or whitespace optional S3/Redis endpoints are treated as omitted. Defaults, optional S3/Redis endpoints,
 and SignalR port-zero binding are preserved. See the
 [endpoint migration guidance](docs/docs/distributed/configuration.md#v4-endpoint-migration).
 
