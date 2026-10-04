@@ -6,7 +6,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {

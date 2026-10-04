@@ -59,12 +59,11 @@ runs; configuration tests alone do not establish those results.
 ## Generate the Workflow
 
 The `ModularPipelines.GitHub` package can generate the matrix from the operating-system
-capabilities declared by registered modules. Call `WriteDistributedWorkflow` after registering
+capabilities declared by registered modules. Call `AddDistributedWorkflow` after registering
 the modules so regeneration reflects capability changes:
 
 ```csharp
-using ModularPipelines.GitHub.Extensions;
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 
 builder.AddModule<RestoreModule>();
 builder.AddModule<LinuxBuildModule>();
@@ -72,7 +71,7 @@ builder.AddModule<WindowsBuildModule>();
 builder.AddModule<MacBuildModule>();
 builder.AddModule<AggregateResultsModule>();
 
-builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
+builder.AddDistributedWorkflow(new DistributedWorkflowOptions
 {
     Backend = DistributedBackend.Redis,
     ExtraWorkers = 1,

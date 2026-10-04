@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -5,12 +6,12 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Reporting;
 
-namespace ModularPipelines.GitHub.Extensions;
+namespace ModularPipelines.GitHub;
 
 [ExcludeFromCodeCoverage]
 public static class GitHubExtensions
@@ -21,7 +22,7 @@ public static class GitHubExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="options">The workflow generation options.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder WriteDistributedWorkflow(
+    public static PipelineBuilder AddDistributedWorkflow(
         this PipelineBuilder builder,
         DistributedWorkflowOptions options)
     {
@@ -35,6 +36,7 @@ public static class GitHubExtensions
     }
 
     [ModularPipelinesIntegration]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static IServiceCollection RegisterGitHubContext(this IServiceCollection services)
     {
         services.TryAddScoped<IGitHub, GitHub>();
