@@ -1171,11 +1171,13 @@ These changes need behavioral checks even after the code compiles:
 The output capture limit counts characters, not bytes. When a stream exceeds
 `MaxCapturedOutputLength`, its captured string preserves the beginning and end, inserting
 `... [truncated N characters] ...` between them. The marker adds characters beyond the configured
-capture limit. `CommandResult` currently has no separate truncation flag, and this capture path
-does not emit a separate truncation warning. Do not parse capped output as complete JSON, XML,
-or another machine-readable document: set `MaxCapturedOutputLength = 0` when complete capture is
-required and its memory cost is acceptable. Truncation metadata improvements are tracked in
-[issue #5626](https://github.com/thomhurst/ModularPipelines/issues/5626).
+capture limit. `CommandResult.StandardOutputTruncatedCharacters` and
+`CommandResult.StandardErrorTruncatedCharacters` report the omitted character count for each
+stream; zero means no characters were omitted. These counts are also available on
+`CommandException.Result`. A warning names `MaxCapturedOutputLength` and reports both counts
+when output is truncated. Do not parse capped output as complete JSON, XML, or another
+machine-readable document: raise the limit or set `MaxCapturedOutputLength = 0` when complete
+capture is required and its memory cost is acceptable.
 
 Required result access, read-only options, generated command validation, and pipeline-scoped working
 directories described above also change behavior. Include them in migration acceptance tests.
