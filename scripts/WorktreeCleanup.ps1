@@ -152,6 +152,21 @@ function Test-IsAncestorCommit {
     return $LASTEXITCODE -eq 0
 }
 
+function Get-CommitAncestorPredicate {
+    param(
+        [Parameter(Mandatory)][string]$RepoPath,
+        [Parameter(Mandatory)][string]$Descendant
+    )
+
+    # GetNewClosure captures variables, but cannot resolve script-local functions.
+    # Retain the implementation explicitly without publishing a global helper.
+    $testAncestry = ${function:Test-IsAncestorCommit}
+    return {
+        param($ancestor)
+        & $testAncestry -RepoPath $RepoPath -Ancestor $ancestor -Descendant $Descendant
+    }.GetNewClosure()
+}
+
 function Get-MergedNameReason {
     param(
         [Parameter(Mandatory)][string]$Branch,

@@ -31,6 +31,11 @@ function global:git {
     $global:LASTEXITCODE = 0
     $script:gitCalled = $true
     if ($args -contains 'merge-base') {
+        if ($args.Count -ne 6 -or $args[0] -cne '-C' -or
+            $args[1] -cne $isolatedRoot -or $args[2] -cne 'merge-base' -or
+            $args[3] -cne '--is-ancestor' -or $args[5] -cne 'zzz999') {
+            throw "Ancestry callback forwarded unexpected Git arguments: $($args -join ' ')"
+        }
         # merge-base --is-ancestor <ancestor> <descendant>: exit 0 only for known ancestors.
         $global:LASTEXITCODE = if ($script:ancestors -ccontains $args[-2]) { 0 } else { 1 }
         return
@@ -139,6 +144,15 @@ try {
     }
     if (Test-IsAncestorCommit -RepoPath $isolatedRoot -Ancestor 'bbb222' -Descendant 'zzz999') {
         throw 'Unknown commit was treated as an ancestor.'
+    }
+    # Exercise the same closed callback used by the sweep. Script-local helpers are
+    # not automatically visible inside GetNewClosure's dynamic module.
+    $containsCommit = Get-CommitAncestorPredicate -RepoPath $isolatedRoot -Descendant 'zzz999'
+    if (-not (Get-MergedNameReason -Branch 'reused-branch' -MergedHeadShas @('aaa111') -IsAncestor $containsCommit)) {
+        throw 'Closed ancestry callback did not recognize a known ancestor.'
+    }
+    if ($null -ne (Get-MergedNameReason -Branch 'reused-branch' -MergedHeadShas @('bbb222') -IsAncestor $containsCommit)) {
+        throw 'Closed ancestry callback treated an unrelated head as merged.'
     }
     $script:gitCalled = $false
 
