@@ -13,6 +13,13 @@ namespace ModularPipelines.FileSystem;
 /// <summary>
 /// Represents a folder in the file system with extended functionality for pipeline operations.
 /// </summary>
+/// <remarks>
+/// Relative paths passed to the constructor or an implicit string conversion use the process's
+/// current directory, not the pipeline working directory. Use
+/// <see cref="ModularPipelines.Context.IFilesContext.GetFolder(string)"/> for pipeline-relative paths.
+/// String destinations passed to copy or move methods also use the process's current directory;
+/// resolve them through the files context first and pass the resulting absolute <see cref="Path"/>.
+/// </remarks>
 [JsonConverter(typeof(FolderPathJsonConverter))]
 public class FolderPath : IEquatable<FolderPath>
 {
@@ -21,6 +28,10 @@ public class FolderPath : IEquatable<FolderPath>
 
     private readonly IFileSystemProvider _provider;
 
+    /// <summary>
+    /// Creates a folder path, resolving a relative path against the process's current directory.
+    /// </summary>
+    /// <param name="path">An absolute path or a path relative to the process's current directory.</param>
     public FolderPath(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
@@ -236,7 +247,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <summary>
     /// Copies the folder and its contents to the specified target path.
     /// </summary>
-    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
     public FolderPath CopyTo(string targetPath)
     {
@@ -246,7 +257,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <summary>
     /// Copies the folder and its contents to the specified target path.
     /// </summary>
-    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="preserveTimestamps">
     /// When true, preserves CreationTimeUtc, LastWriteTimeUtc, and LastAccessTimeUtc
     /// for all files and directories.
@@ -283,7 +294,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <summary>
     /// Asynchronously copies the folder and its contents to the specified target path using stream-based file copying.
     /// </summary>
-    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new <see cref="FolderPath"/> instance representing the copied folder.</returns>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves the established timestamp overload.
@@ -295,7 +306,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <summary>
     /// Asynchronously copies the folder and its contents to the specified target path using stream-based file copying.
     /// </summary>
-    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="targetPath">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="preserveTimestamps">
     /// When true, preserves CreationTimeUtc, LastWriteTimeUtc, and LastAccessTimeUtc
     /// for all files and directories.
@@ -344,6 +355,11 @@ public class FolderPath : IEquatable<FolderPath>
     }
 #pragma warning restore RS0026
 
+    /// <summary>
+    /// Moves the folder to a new path.
+    /// </summary>
+    /// <param name="path">The destination path. Relative paths use the process's current directory.</param>
+    /// <returns>A folder path at the destination.</returns>
     public FolderPath MoveTo(string path)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination}", this, path);
@@ -358,7 +374,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// <remarks>
     /// Uses thread pool offloading as no native async move API exists in .NET.
     /// </remarks>
-    /// <param name="path">The destination path.</param>
+    /// <param name="path">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FolderPath instance at the destination path.</returns>
     public Task<FolderPath> MoveToAsync(string path, CancellationToken cancellationToken = default)
@@ -479,6 +495,11 @@ public class FolderPath : IEquatable<FolderPath>
         return new FolderPath(tempDirectory, provider);
     }
 
+    /// <summary>
+    /// Converts a string to a folder path relative to the process's current directory.
+    /// </summary>
+    /// <param name="path">The path to convert. Absolute paths retain their location.</param>
+    /// <returns>The folder path, or null for a null or empty string.</returns>
     public static implicit operator FolderPath?(string? path)
     {
         if (string.IsNullOrEmpty(path))

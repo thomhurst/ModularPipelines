@@ -32,11 +32,18 @@ public sealed record PipelineBuilderSettings
     public string? ContentRootPath { get; init; }
 
     /// <summary>
-    /// Gets the default working directory for commands and relative file paths.
+    /// Gets the default working directory for commands and context-based relative file paths.
     /// </summary>
     /// <remarks>
-    /// When omitted, the configured content root is used when available, then the calling
-    /// source file's project directory, and finally the process working directory.
+    /// When omitted, the configured content root is used when available, then a detected
+    /// pipeline project, and finally the process working directory.
+    /// Pipeline.CreateBuilder detects a project using MODULAR_PIPELINES_DIRECTORY when set;
+    /// otherwise it searches ancestors of the calling source file and then AppContext.BaseDirectory.
+    /// Detection requires both appsettings.json and a *.csproj file in the same directory.
+    /// An invalid MODULAR_PIPELINES_DIRECTORY value throws rather than falling back.
+    /// This does not change the process's current directory. Relative paths passed directly to
+    /// FilePath or FolderPath constructors and string conversions remain process-relative;
+    /// use context.Files.GetFile or context.Files.GetFolder for pipeline-relative paths.
     /// </remarks>
     public string? WorkingDirectory { get; init; }
 

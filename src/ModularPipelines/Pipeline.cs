@@ -46,8 +46,9 @@ public static class Pipeline
     /// <returns>A new pipeline builder instance.</returns>
     /// <remarks>
     /// When <see cref="PipelineBuilderSettings.WorkingDirectory"/> is unset, the configured content
-    /// root is used when available, then the calling source file's project directory, and finally
-    /// the process working directory.
+    /// root is used when available, then a detected pipeline project, and finally the process
+    /// working directory. Project detection requires appsettings.json and a *.csproj file;
+    /// see <see cref="PipelineBuilderSettings.WorkingDirectory"/> for the search order.
     /// </remarks>
     /// <example>
     /// <code>

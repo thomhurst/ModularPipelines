@@ -10,6 +10,13 @@ namespace ModularPipelines.FileSystem;
 /// <summary>
 /// Represents a file in the file system with extended functionality for pipeline operations.
 /// </summary>
+/// <remarks>
+/// Relative paths passed to the constructor or an implicit string conversion use the process's
+/// current directory, not the pipeline working directory. Use
+/// <see cref="ModularPipelines.Context.IFilesContext.GetFile(string)"/> for pipeline-relative paths.
+/// String destinations passed to copy or move methods also use the process's current directory;
+/// resolve them through the files context first and pass the resulting absolute <see cref="Path"/>.
+/// </remarks>
 [JsonConverter(typeof(FilePathJsonConverter))]
 public class FilePath : IEquatable<FilePath>
 {
@@ -18,6 +25,10 @@ public class FilePath : IEquatable<FilePath>
 
     private readonly IFileSystemProvider _provider;
 
+    /// <summary>
+    /// Creates a file path, resolving a relative path against the process's current directory.
+    /// </summary>
+    /// <param name="path">An absolute path or a path relative to the process's current directory.</param>
     public FilePath(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
@@ -262,7 +273,8 @@ public class FilePath : IEquatable<FilePath>
         return Task.Run(() => _provider.DeleteFile(Path), cancellationToken);
     }
 
-    /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
+    /// <inheritdoc cref="FileInfo.MoveTo(string)"/>
+    /// <remarks>Relative destinations use the process's current directory, not the pipeline working directory.</remarks>
     public FilePath MoveTo(string path)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, path);
@@ -286,7 +298,7 @@ public class FilePath : IEquatable<FilePath>
     /// <remarks>
     /// Uses thread pool offloading as no native async move API exists in .NET.
     /// </remarks>
-    /// <param name="path">The destination path.</param>
+    /// <param name="path">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance at the destination path.</returns>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
@@ -319,7 +331,8 @@ public class FilePath : IEquatable<FilePath>
     }
 #pragma warning restore RS0026
 
-    /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
+    /// <inheritdoc cref="FileInfo.CopyTo(string)"/>
+    /// <remarks>Relative destinations use the process's current directory, not the pipeline working directory.</remarks>
     public FilePath CopyTo(string path)
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, path);
@@ -339,7 +352,7 @@ public class FilePath : IEquatable<FilePath>
     /// <summary>
     /// Asynchronously copies the file to a new path using stream-based copying.
     /// </summary>
-    /// <param name="path">The destination path.</param>
+    /// <param name="path">The destination path. Relative paths use the process's current directory.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance representing the copied file.</returns>
 #pragma warning disable RS0026 // The v4 type rename intentionally preserves path- and folder-specific overloads.
@@ -390,6 +403,11 @@ public class FilePath : IEquatable<FilePath>
         return path!;
     }
 
+    /// <summary>
+    /// Converts a string to a file path relative to the process's current directory.
+    /// </summary>
+    /// <param name="path">The path to convert. Absolute paths retain their location.</param>
+    /// <returns>The file path, or null for a null or empty string.</returns>
     public static implicit operator FilePath?(string? path)
     {
         if (string.IsNullOrEmpty(path))

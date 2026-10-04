@@ -34,6 +34,15 @@ system or a truthy generic `CI` variable identifies CI.
 - `ToHex` accepts `byte[]` instead of `IEnumerable<byte>`; materialize other sequences with `ToArray()`. Hex output remains lowercase.
 - Hex decoding follows `Convert.FromHexString`: odd-length input and separators are rejected with `FormatException` instead of truncating or removing characters.
 
+## Relative paths
+
+`PipelineBuilderSettings.WorkingDirectory` controls context-based file operations
+and command defaults. It does not change the process current directory.
+`FilePath`/`FolderPath` constructors, implicit string conversions, and relative
+copy/move destinations still use the process directory. For pipeline-relative
+paths, use `context.Files.GetFile` or `GetFolder` and pass their absolute `Path`
+to destination parameters. See the [relative-path migration guidance](docs/docs/how-to/relative-paths.md).
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
