@@ -171,7 +171,7 @@ public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// Format: -e, --environment <path>     Specify a URL or path to a Postman Environment
     ///         -n, --iteration-count <n>    Define the number of iterations
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -199,9 +199,7 @@ public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
             if (!seenOptions.Add(longForm))
             {
                 continue;
@@ -209,46 +207,57 @@ public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
             var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
 
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
+            var option = CreateOption(match, longForm, description);
+            if (option is not null)
             {
-                continue;
+                options.Add(option);
             }
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var optionalValue = valueHint.StartsWith('[');
-            var isNumeric = valueHint.Trim('<', '>', '[', ']') is "n" or "ms";
-            // Newman accumulates variables even though their help only describes key=value syntax.
-            var repeated = IsRepeatableValueOption(description, isFlag)
-                || longForm is "--global-var" or "--env-var";
-            var scalarType = (isFlag, isNumeric) switch
-            {
-                (true, _) => "bool?",
-                (_, true) => "int?",
-                _ => "string?",
-            };
-            var csharpType = AsCSharpType(scalarType, repeated);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
-                IsRequired = false,
-                AcceptsMultipleValues = repeated,
-                IsKeyValue = false,
-                IsNumeric = isNumeric,
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition? CreateOption(Match match, string longForm, string description)
+    {
+        var propertyName = NormalizePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var shortForm = match.Groups["short"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var optionalValue = valueHint.StartsWith('[');
+        var isNumeric = valueHint.Trim('<', '>', '[', ']') is "n" or "ms";
+        // Newman accumulates variables even though their help only describes key=value syntax.
+        var repeated = IsRepeatableValueOption(description, isFlag)
+            || longForm is "--global-var" or "--env-var";
+        var scalarType = (isFlag, isNumeric) switch
+        {
+            (true, _) => "bool?",
+            (_, true) => "int?",
+            _ => "string?",
+        };
+        var csharpType = AsCSharpType(scalarType, repeated);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            IsRequired = false,
+            AcceptsMultipleValues = repeated,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
     }
 
     private static bool IsOptionRow(string line) => NewmanOptionPattern().IsMatch(line);
