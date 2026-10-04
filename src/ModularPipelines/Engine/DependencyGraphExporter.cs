@@ -22,7 +22,7 @@ internal sealed class DependencyGraphExporter(
     IModuleConditionHandler moduleConditionHandler,
     IServiceProvider serviceProvider,
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
-    IMediator mediator,
+    [FromKeyedServices(typeof(global::Mediator.Mediator))] IMediator mediator,
     PipelineExecutionState pipelineExecutionState,
     IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar) :
     IDependencyGraphExporter

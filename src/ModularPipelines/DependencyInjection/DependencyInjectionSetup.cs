@@ -102,6 +102,11 @@ internal static class DependencyInjectionSetup
             .AddInitializers()
             .AddServiceCollection()
             .AddMediator(options => options.GenerateTypesAsInternal = true);
+
+        // Framework lifecycle notifications must not use a consumer's IMediator registration.
+        services.AddKeyedSingleton<IMediator>(
+            typeof(global::Mediator.Mediator),
+            static (provider, _) => provider.GetRequiredService<global::Mediator.Mediator>());
     }
 
     [UnconditionalSuppressMessage(

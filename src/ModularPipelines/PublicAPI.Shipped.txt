@@ -1,4 +1,28 @@
 #nullable enable
+Mediator.AssemblyReference
+Mediator.Mediator
+Mediator.Mediator.CreateStream(object! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<object?>!
+Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamCommand<TResponse>! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamQuery<TResponse>! query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+Mediator.Mediator.CreateStream<TResponse>(Mediator.IStreamRequest<TResponse>! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<TResponse>!
+Mediator.Mediator.Mediator(System.IServiceProvider! sp) -> void
+Mediator.Mediator.Publish(object! notification, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+Mediator.Mediator.Publish<TNotification>(TNotification notification, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask
+Mediator.Mediator.Send(object! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<object?>
+Mediator.Mediator.Send<TResponse>(Mediator.ICommand<TResponse>! command, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+Mediator.Mediator.Send<TResponse>(Mediator.IQuery<TResponse>! query, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+Mediator.Mediator.Send<TResponse>(Mediator.IRequest<TResponse>! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<TResponse>
+Mediator.MediatorOptions
+Mediator.MediatorOptions.GenerateTypesAsInternal.get -> bool
+Mediator.MediatorOptions.GenerateTypesAsInternal.set -> void
+Mediator.MediatorOptions.MediatorOptions() -> void
+Mediator.MediatorOptions.ServiceLifetime.get -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+Mediator.MediatorOptions.ServiceLifetime.set -> void
+Mediator.MediatorOptionsAttribute
+Mediator.MediatorOptionsAttribute.MediatorOptionsAttribute() -> void
+Mediator.MediatorOptionsAttribute.ServiceLifetime.get -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+Mediator.MediatorOptionsAttribute.ServiceLifetime.set -> void
+Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions
 ModularPipelines.AmbientModuleContext
 ModularPipelines.Attributes.CacheInputsAttribute
 ModularPipelines.Attributes.CacheInputsAttribute.CacheInputsAttribute(params string![]! patterns) -> void
@@ -1785,6 +1809,9 @@ abstract ModularPipelines.Modules.Module.ExecuteAsync(ModularPipelines.Context.I
 abstract ModularPipelines.Modules.Module<T>.ExecuteAsync(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<T>!
 abstract ModularPipelines.Modules.NonGenericModuleAdapter.ExecuteWithoutResultAsync(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 abstract ModularPipelines.Modules.SyncModule<T>.Execute(ModularPipelines.Context.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> T
+const Mediator.Mediator.NotificationPublisherName = "ForeachAwaitPublisher" -> string!
+const Mediator.Mediator.ServiceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton -> Microsoft.Extensions.DependencyInjection.ServiceLifetime
+const Mediator.Mediator.TotalMessages = 5 -> int
 const ModularPipelines.Models.PipelineRunReport.CurrentSchemaVersion = 4 -> int
 override ModularPipelines.Attributes.DependsOnModulesInCategoryAttribute.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
 override ModularPipelines.Attributes.DependsOnModulesWithAttributeAttribute<TAttribute>.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
@@ -2090,6 +2117,8 @@ override sealed ModularPipelines.Options.DownloadFileOptions.Equals(ModularPipel
 override sealed ModularPipelines.Options.PowershellFileOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
 override sealed ModularPipelines.Options.PowershellOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.PowershellScriptOptions.Equals(ModularPipelines.Options.PowershellOptions? other) -> bool
+static Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions.AddMediator(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static Microsoft.Extensions.DependencyInjection.MediatorDependencyInjectionExtensions.AddMediator(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<Mediator.MediatorOptions!>? options) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
 static ModularPipelines.AmbientModuleContext.CurrentModuleFullName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleName.get -> string?
 static ModularPipelines.AmbientModuleContext.CurrentModuleType.get -> System.Type?
@@ -2471,3 +2500,20 @@ virtual ModularPipelines.Validation.ValidationError.<Clone>$() -> ModularPipelin
 virtual ModularPipelines.Validation.ValidationError.EqualityContract.get -> System.Type!
 virtual ModularPipelines.Validation.ValidationError.Equals(ModularPipelines.Validation.ValidationError? other) -> bool
 virtual ModularPipelines.Validation.ValidationError.PrintMembers(System.Text.StringBuilder! builder) -> bool
+~Mediator.AssemblyReference.Assembly.get -> System.Reflection.Assembly
+~Mediator.MediatorOptions.Assemblies.get -> System.Collections.Generic.IReadOnlyList<Mediator.AssemblyReference>
+~Mediator.MediatorOptions.Assemblies.set -> void
+~Mediator.MediatorOptions.Namespace.get -> string
+~Mediator.MediatorOptions.Namespace.set -> void
+~Mediator.MediatorOptions.NotificationPublisherType.get -> System.Type
+~Mediator.MediatorOptions.NotificationPublisherType.set -> void
+~Mediator.MediatorOptions.PipelineBehaviors.get -> System.Collections.Generic.IReadOnlyList<System.Type>
+~Mediator.MediatorOptions.PipelineBehaviors.set -> void
+~Mediator.MediatorOptions.StreamPipelineBehaviors.get -> System.Collections.Generic.IReadOnlyList<System.Type>
+~Mediator.MediatorOptions.StreamPipelineBehaviors.set -> void
+~Mediator.MediatorOptionsAttribute.Namespace.get -> string
+~Mediator.MediatorOptionsAttribute.Namespace.set -> void
+~Mediator.MediatorOptionsAttribute.NotificationPublisherType.get -> System.Type
+~Mediator.MediatorOptionsAttribute.NotificationPublisherType.set -> void
+~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Reflection.Assembly assembly) -> Mediator.AssemblyReference
+~static Mediator.AssemblyReference.implicit operator Mediator.AssemblyReference(System.Type type) -> Mediator.AssemblyReference
