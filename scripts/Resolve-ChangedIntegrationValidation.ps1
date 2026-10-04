@@ -71,5 +71,7 @@ if (-not $IsGeneratedIntegration) {
 
 [pscustomobject]@{
     Required = $projects.Count -gt 0
+    # Solution files and MSBuild imports may reference deleted packages without a ProjectReference.
+    RequiresFullPipeline = $removedPackages.Count -gt 0
     Matrix = @{ include = $projects }
 }

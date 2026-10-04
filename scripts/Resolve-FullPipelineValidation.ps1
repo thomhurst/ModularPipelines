@@ -106,6 +106,7 @@ $integrations = & (Join-Path $PSScriptRoot 'Resolve-ChangedIntegrationValidation
     -ChangedPath @($ChangedPath | Where-Object { $_ }) `
     -RepositoryRoot $RepositoryRoot `
     -IsGeneratedIntegration ($IsGeneratedIntegration -eq 'true')
+$runFullPipeline = $runFullPipeline -or $integrations.RequiresFullPipeline
 
 if ($GitHubOutput) {
     "run_full_pipeline=$($runFullPipeline.ToString().ToLowerInvariant())" |
