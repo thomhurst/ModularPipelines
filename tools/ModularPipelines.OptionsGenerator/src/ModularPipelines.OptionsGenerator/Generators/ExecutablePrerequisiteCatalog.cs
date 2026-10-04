@@ -60,6 +60,12 @@ internal static class ExecutablePrerequisiteCatalog
                 InstallationUrl = "https://docs.npmjs.com/downloading-and-installing-node-js-and-npm",
                 InstallationNotes = "Install npm with a supported Node.js distribution.",
             },
+            ["npx"] = new()
+            {
+                CommandName = "npx",
+                InstallationUrl = "https://docs.npmjs.com/downloading-and-installing-node-js-and-npm",
+                InstallationNotes = "Install npx with a supported Node.js distribution.",
+            },
             ["packer"] = Declared("packer"),
             ["pip"] = Declared("pip"),
             ["pnpm"] = Declared("pnpm"),

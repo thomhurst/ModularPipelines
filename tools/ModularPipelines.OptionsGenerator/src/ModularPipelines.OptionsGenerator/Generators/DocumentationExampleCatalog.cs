@@ -29,6 +29,7 @@ internal static class DocumentationExampleCatalog
             "liquibase",
             "minikube",
             "mvn",
+            "npx",
             "podman",
             "pulumi",
             "shellcheck",
