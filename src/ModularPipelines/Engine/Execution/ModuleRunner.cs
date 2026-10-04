@@ -108,7 +108,7 @@ internal class ModuleRunner : IModuleRunner
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled;
         var registeredModules = modules.ToArray();
-        _registeredModuleTypes = registeredModules.Select(static module => module.GetType()).ToArray();
+        _registeredModuleTypes = [.. registeredModules.Select(static module => module.GetType())];
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
     }
 
@@ -662,9 +662,7 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         return _artifactDemandPlanCache.GetAsync(
-            () => _registeredModuleTypes
-                .Where(moduleType => scheduler.GetModuleCompletionTask(moduleType)?.IsCompleted == true)
-                .ToHashSet(),
+            () => [.. _registeredModuleTypes.Where(moduleType => scheduler.GetModuleCompletionTask(moduleType)?.IsCompleted == true)],
             async () =>
             {
                 var requiredProducerTypes = await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
@@ -991,7 +989,10 @@ internal class ModuleRunner : IModuleRunner
             else if (executionContext.Status == ModuleStatus.FailureIgnored)
             {
                 telemetryStatus = ModuleStatus.FailureIgnored;
-                ModuleActivityTracing.RecordFailureIgnored(activity);
+                ModuleActivityTracing.RecordFailureIgnored(
+                    activity,
+                    executionContext.Exception,
+                    _secretObfuscator.Obfuscate(executionContext.Exception?.Message ?? "Module execution failed", null));
             }
             else if (executionContext.Status == ModuleStatus.RestoredFromHistory)
             {
@@ -1047,7 +1048,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        var module = moduleState.Module;
+        _ = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks - module is starting execution.
@@ -1347,7 +1348,7 @@ internal class ModuleRunner : IModuleRunner
             : ModuleResultFactory.CreateException(module.ResultType, exception, executionContext);
     }
 
-    private ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
+    private static ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
     {
         // Use compiled delegate factory instead of Activator.CreateInstance
         return ExecutionContextFactory.Create(module, moduleType);
@@ -1376,11 +1377,10 @@ internal class ModuleRunner : IModuleRunner
         }
 
         executionContext.SkipResult = DependencySkipDecisionFactory.Create(
-            skippedDependencies
+            [.. skippedDependencies
                 .Select(dependency => (
                     ModuleType: dependency.Type,
-                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))
-                .ToArray());
+                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))]);
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(

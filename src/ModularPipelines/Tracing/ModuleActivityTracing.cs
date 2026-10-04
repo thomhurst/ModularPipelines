@@ -251,8 +251,13 @@ internal static class ModuleActivityTracing
         activity?.SetStatus(ActivityStatusCode.Ok);
     }
 
-    internal static void RecordFailureIgnored(Activity? activity)
+    internal static void RecordFailureIgnored(Activity? activity, Exception? exception, string obfuscatedMessage)
     {
+        if (exception is not null)
+        {
+            RecordException(activity, exception, obfuscatedMessage);
+        }
+
         activity?.SetTag(ModuleStatusTag, ToTelemetryStatus(ModuleStatus.FailureIgnored));
         activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
     }
@@ -325,8 +330,7 @@ internal static class ModuleActivityTracing
     public static string? GetCurrentModuleName()
     {
         // First try Activity (for OpenTelemetry integration)
-        var activityModuleName = Activity.Current?.GetTagItem(ModuleTypeTag) as string;
-        if (activityModuleName != null)
+        if (Activity.Current?.GetTagItem(ModuleTypeTag) is string activityModuleName)
         {
             return activityModuleName;
         }

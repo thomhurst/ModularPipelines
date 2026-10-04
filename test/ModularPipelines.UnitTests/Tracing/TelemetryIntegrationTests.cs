@@ -440,7 +440,7 @@ public class TelemetryIntegrationTests
         using var listener = new ActivityListener
         {
             ShouldListenTo = source => source.Name == ModuleActivityTracing.PipelineSourceName,
-            Sample = static (ref ActivityCreationOptions<ActivityContext> _) =>
+            Sample = static (ref _) =>
                 ActivitySamplingResult.AllDataAndRecorded,
         };
         ActivitySource.AddActivityListener(listener);
@@ -640,7 +640,7 @@ public class TelemetryIntegrationTests
         var activities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(activities);
         Exception? observedException = null;
-        listener.ExceptionRecorder = (Activity activity, Exception exception, ref TagList tags) => observedException = exception;
+        listener.ExceptionRecorder = (activity, exception, ref tags) => observedException = exception;
         using var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule));
         ModuleActivityTracing.RecordFailure(activity, new InvalidOperationException($"Failure {Secret}", new Exception(Secret)), "Failure **********");
 
@@ -716,19 +716,36 @@ public class TelemetryIntegrationTests
     {
         protected override void Configure(ModuleConfigurationBuilder module) => module.WithIgnoreFailures();
 
-        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
-            throw new InvalidOperationException("Ignored failure");
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            context.Services.GetRequiredService<ISecretRegistry>().AddSecret(Secret);
+            throw new InvalidOperationException($"Ignored failure contains {Secret}", new Exception(Secret));
+        }
     }
 
     [Test]
-    public async Task Ignored_Failure_Span_Uses_Snake_Case()
+    public async Task Ignored_Failure_Span_Records_Sanitized_Exception_Without_Failing()
     {
         var activities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(activities);
+        Exception? observedException = null;
+        listener.ExceptionRecorder = (activity, exception, ref tags) => observedException = exception;
+        var measurements = new ConcurrentBag<(string Name, double Value)>();
+        using var meterListener = CreateMeterListener(measurements);
+
         await TestPipelineBuilder.Create().AddModule<IgnoredFailureModule>().RunAsync();
+
         var activity = activities.Single(value => value.OperationName == $"Module.{nameof(IgnoredFailureModule)}");
         await Assert.That(activity.GetTagItem(PipelineTelemetry.ModuleStatusTag)).IsEqualTo("failure_ignored");
         await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Ok);
+        await Assert.That(activity.GetTagItem(PipelineTelemetry.ErrorTypeTag)).IsEqualTo(typeof(InvalidOperationException).FullName);
+        await Assert.That(GetExceptionTag(activity, PipelineTelemetry.ExceptionTypeTag)).IsEqualTo(typeof(InvalidOperationException).FullName);
+        await Assert.That(GetExceptionTag(activity, PipelineTelemetry.ExceptionMessageTag)).IsEqualTo("Ignored failure contains **********");
+        await Assert.That(GetExceptionTag(activity, "exception.stacktrace")).IsEqualTo(string.Empty);
+        await Assert.That(observedException).IsNotNull();
+        await Assert.That(observedException!.ToString()).DoesNotContain(Secret);
+        await Assert.That(activity.StatusDescription).IsNull();
+        await Assert.That(measurements.Any(measurement => measurement.Name == PipelineTelemetry.ModulesFailedMetric)).IsFalse();
     }
 
     private static ActivityListener CreateActivityListener(ConcurrentBag<Activity> stoppedActivities)
@@ -739,7 +756,7 @@ public class TelemetryIntegrationTests
                 ModuleActivityTracing.PipelineSourceName or
                 ModuleActivityTracing.ModuleSourceName or
                 ModuleActivityTracing.CommandSourceName,
-            Sample = static (ref ActivityCreationOptions<ActivityContext> _) =>
+            Sample = static (ref _) =>
                 ActivitySamplingResult.AllDataAndRecorded,
             ActivityStopped = stoppedActivities.Add,
         };
