@@ -12,6 +12,34 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
+    public async Task Directory_Archive_Uses_Provider_Relative_Paths_For_Canonicalized_Entries()
+    {
+        var requestedRoot = Path.Combine(Path.GetTempPath(), "artifact-alias");
+        var canonicalRoot = Path.Combine(Path.GetTempPath(), "artifact-canonical");
+        var canonicalDirectory = Path.Combine(canonicalRoot, "empty");
+        var canonicalFile = Path.Combine(canonicalRoot, "payload.txt");
+        var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+        provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalDirectory]);
+        provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalFile]);
+        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns("empty");
+        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns("payload.txt");
+        provider.Setup(p => p.GetLastWriteTimeUtc(canonicalFile)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
+        provider.Setup(p => p.OpenRead(canonicalFile)).Returns(() => new MemoryStream("provider payload"u8.ToArray()));
+        var store = new InMemoryDistributedArtifactStore();
+        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+
+        var reference = await context.PublishDirectoryAsync("directory", new FolderPath(requestedRoot, provider.Object));
+
+        await using var data = await store.DownloadAsync(reference, CancellationToken.None);
+        using var archive = new ZipArchive(data, ZipArchiveMode.Read);
+        await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["empty/", "payload.txt"]);
+        using var reader = new StreamReader(archive.GetEntry("payload.txt")!.Open());
+        await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("provider payload");
+        provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalDirectory), Times.Once);
+        provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalFile), Times.Once);
+    }
+
+    [Test]
     [Arguments("PublishFileAsync", typeof(FilePath), typeof(ArtifactReference), false)]
     [Arguments("PublishDirectoryAsync", typeof(FolderPath), typeof(ArtifactReference), false)]
     [Arguments("DownloadAsync", typeof(FilePath), typeof(FilePath), false)]
@@ -220,6 +248,8 @@ public class TypedArtifactContextTests
             .Returns((string path, string pattern, SearchOption search) => fileSystem.Directory.EnumerateDirectories(path, pattern, search));
         provider.Setup(p => p.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<SearchOption>()))
             .Returns((string path, string pattern, SearchOption search) => fileSystem.Directory.EnumerateFiles(path, pattern, search));
+        provider.Setup(p => p.GetRelativePath(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns((string root, string path) => fileSystem.Path.GetRelativePath(root, path));
         provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns((string path) => fileSystem.File.GetAttributes(path));
         provider.Setup(p => p.GetLastWriteTimeUtc(It.IsAny<string>())).Returns((string path) => fileSystem.File.GetLastWriteTimeUtc(path));
         provider.Setup(p => p.SetLastWriteTimeUtc(It.IsAny<string>(), It.IsAny<DateTime>()))

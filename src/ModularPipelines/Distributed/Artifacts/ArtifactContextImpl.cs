@@ -131,7 +131,7 @@ internal class ArtifactContextImpl(
         foreach (var directory in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = Path.GetRelativePath(sourceDirectory, directory)
+            var entryName = provider.GetRelativePath(sourceDirectory, directory)
                 .Replace(Path.DirectorySeparatorChar, '/')
                 .TrimEnd('/') + "/";
             archive.CreateEntry(entryName, compressionLevel);
@@ -140,7 +140,7 @@ internal class ArtifactContextImpl(
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = Path.GetRelativePath(sourceDirectory, file)
+            var entryName = provider.GetRelativePath(sourceDirectory, file)
                 .Replace(Path.DirectorySeparatorChar, '/');
             var entry = archive.CreateEntry(entryName, compressionLevel);
             entry.LastWriteTime = provider.GetLastWriteTimeUtc(file).ToLocalTime();
