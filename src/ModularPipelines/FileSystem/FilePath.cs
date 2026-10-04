@@ -227,10 +227,10 @@ public class FilePath : IEquatable<FilePath>
     public bool IsReadOnly => (Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
 
     /// <summary>Gets the creation time, normalized to UTC.</summary>
-    public DateTimeOffset CreationTime => new(_provider.GetCreationTimeUtc(Path));
+    public DateTimeOffset CreationTime => new(DateTime.SpecifyKind(_provider.GetCreationTimeUtc(Path), DateTimeKind.Utc));
 
     /// <summary>Gets the last write time, normalized to UTC.</summary>
-    public DateTimeOffset LastWriteTime => new(_provider.GetLastWriteTimeUtc(Path));
+    public DateTimeOffset LastWriteTime => new(DateTime.SpecifyKind(_provider.GetLastWriteTimeUtc(Path), DateTimeKind.Utc));
 
     /// <inheritdoc cref="FileSystemInfo.Extension"/>>
     public string Extension => System.IO.Path.GetExtension(Path);

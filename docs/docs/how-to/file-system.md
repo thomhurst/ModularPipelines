@@ -26,6 +26,8 @@ the lifetime of the operation:
 ```csharp
 using ModularPipelines.FileSystem;
 
+var cancellationToken = CancellationToken.None;
+
 await using var temporaryFile = new TempFile();
 await temporaryFile.File.CreateAsync(cancellationToken);
 await temporaryFile.File.WriteAsync("temporary contents", cancellationToken);

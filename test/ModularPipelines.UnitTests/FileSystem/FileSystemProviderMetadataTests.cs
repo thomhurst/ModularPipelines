@@ -4,6 +4,37 @@ namespace ModularPipelines.UnitTests.FileSystem;
 
 public class FileSystemProviderMetadataTests
 {
+    [Test]
+    [Arguments(DateTimeKind.Utc)]
+    [Arguments(DateTimeKind.Unspecified)]
+    public async Task Path_Timestamps_Interpret_Provider_Values_As_Utc(DateTimeKind kind)
+    {
+        var provider = new FakeFileSystemProvider();
+        var folder = new FolderPath(Path.Combine(FakeFileSystemProvider.Root, "timestamps"), provider);
+        var file = new FilePath(Path.Combine(folder.Path, "file.txt"), provider);
+        provider.CreateDirectory(folder.Path);
+        provider.AddFile(file.Path, []);
+        var created = new DateTime(2020, 7, 2, 3, 4, 5, kind);
+        var written = new DateTime(2021, 8, 3, 4, 5, 6, kind);
+        foreach (var path in new[] { file.Path, folder.Path })
+        {
+            provider.SetCreationTimeUtc(path, created);
+            provider.SetLastWriteTimeUtc(path, written);
+        }
+
+        foreach (var (creationTime, lastWriteTime) in new[]
+        {
+            (file.CreationTime, file.LastWriteTime),
+            (folder.CreationTime, folder.LastWriteTime),
+        })
+        {
+            await Assert.That(creationTime.Offset).IsEqualTo(TimeSpan.Zero);
+            await Assert.That(lastWriteTime.Offset).IsEqualTo(TimeSpan.Zero);
+            await Assert.That(creationTime.UtcDateTime).IsEqualTo(DateTime.SpecifyKind(created, DateTimeKind.Utc));
+            await Assert.That(lastWriteTime.UtcDateTime).IsEqualTo(DateTime.SpecifyKind(written, DateTimeKind.Utc));
+        }
+    }
+
     private static readonly DateTime Created = new(2020, 1, 2, 3, 4, 5, DateTimeKind.Utc);
     private static readonly DateTime Written = new(2021, 2, 3, 4, 5, 6, DateTimeKind.Utc);
     private static readonly DateTime Accessed = new(2022, 3, 4, 5, 6, 7, DateTimeKind.Utc);
