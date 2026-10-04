@@ -10,11 +10,17 @@ public interface IFilesContext
     /// <summary>
     /// Get a FilePath object for the specified path.
     /// </summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <returns>A file path with an absolute location and the pipeline's file-system provider.</returns>
+    /// <remarks>Prefer this method over constructing a FilePath from a relative string in pipeline code.</remarks>
     FilePath GetFile(string path);
 
     /// <summary>
     /// Get a FolderPath object for the specified path.
     /// </summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <returns>A folder path with an absolute location and the pipeline's file-system provider.</returns>
+    /// <remarks>Prefer this method over constructing a FolderPath from a relative string in pipeline code.</remarks>
     FolderPath GetFolder(string path);
 
     /// <summary>

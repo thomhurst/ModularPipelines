@@ -32,11 +32,14 @@ public sealed record PipelineBuilderSettings
     public string? ContentRootPath { get; init; }
 
     /// <summary>
-    /// Gets the default working directory for commands and relative file paths.
+    /// Gets the default working directory for commands and context-based relative file paths.
     /// </summary>
     /// <remarks>
     /// When omitted, the configured content root is used when available, then the calling
     /// source file's project directory, and finally the process working directory.
+    /// This does not change the process's current directory. Relative paths passed directly to
+    /// FilePath or FolderPath constructors and string conversions remain process-relative;
+    /// use context.Files.GetFile or context.Files.GetFolder for pipeline-relative paths.
     /// </remarks>
     public string? WorkingDirectory { get; init; }
 
