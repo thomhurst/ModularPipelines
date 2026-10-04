@@ -45,6 +45,34 @@ public class AzValueOptionRegressionTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ParserOptionWhitespaceMatchesRenderedHelp(bool isFlag)
+    {
+        // Azure CLI 2.84.0 registers managedservices definition create's option
+        // with a trailing space, while its help renders the trimmed name.
+        var help = "Command\n    az managedservices definition create : Create.\nArguments\n    --role-definition-id : Role definition.\n"
+            + AzCliMetadataExecutor.MetadataMarker + "{\"--role-definition-id \":" + isFlag.ToString().ToLowerInvariant() + "}";
+        var command = await new Scraper().Parse(help);
+        var option = command!.Options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("--role-definition-id");
+        await Assert.That(option.IsFlag).IsEqualTo(isFlag);
+    }
+
+    [Test]
+    public async Task CollidingNormalizedMetadataFailsInsteadOfGuessing()
+    {
+        const string help = """
+            Command
+                az test run : Run.
+            Arguments
+                --value : Value.
+            __MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:{"--value":true,"--value ":false}
+            """;
+        await Assert.That(() => new Scraper().Parse(help)).Throws<ArgumentException>();
+    }
+
+    [Test]
     [Arguments("--error-document --error-document-path", null)]
     [Arguments("--name --resource-name -n", "-n")]
     [Arguments("--name -n --resource-name", "-n")]
