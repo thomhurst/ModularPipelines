@@ -9,9 +9,6 @@ public class AsyncEnumerableNamingApiTests
     {
         var violations = typeof(IModuleContext).Assembly
             .GetExportedTypes()
-
-            // The Mediator source generator emits its own public Mediator.Mediator.CreateStream API.
-            .Where(type => type.Namespace?.StartsWith("ModularPipelines", StringComparison.Ordinal) == true)
             .SelectMany(type => type.GetMethods(
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             .Where(method => !method.IsSpecialName)
