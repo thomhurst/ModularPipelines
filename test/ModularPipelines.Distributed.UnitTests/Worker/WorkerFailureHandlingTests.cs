@@ -243,7 +243,7 @@ public class WorkerFailureHandlingTests
                 ? null
                 : new ArtifactLifecycleManager(
                     artifactStore,
-                    MsOptions.Create(new ArtifactOptions()),
+                    MsOptions.Create(new DistributedOptions()),
                     NullLogger<ArtifactLifecycleManager>.Instance,
                     workingDirectory ?? Directory.GetCurrentDirectory());
             var executor = new WorkerModuleExecutor(

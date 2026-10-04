@@ -10,17 +10,17 @@ namespace ModularPipelines.Distributed.Artifacts;
 /// </summary>
 internal class ArtifactContextImpl(
     IDistributedArtifactStore store,
-    ArtifactOptions options,
+    DistributedOptions options,
     AcceptedArtifactRegistry? acceptedArtifacts = null) : IArtifactContext, IModuleScopedArtifactContext
 {
     private readonly IDistributedArtifactStore _store = store;
-    private readonly ArtifactOptions _options = options;
+    private readonly DistributedOptions _options = options;
     private readonly AcceptedArtifactRegistry? _acceptedArtifacts = acceptedArtifacts;
     private readonly ModuleId? _moduleId;
 
     private ArtifactContextImpl(
         IDistributedArtifactStore store,
-        ArtifactOptions options,
+        DistributedOptions options,
         AcceptedArtifactRegistry? acceptedArtifacts,
         ModuleId moduleId)
         : this(store, options, acceptedArtifacts)
@@ -62,7 +62,7 @@ internal class ArtifactContextImpl(
             await CreateDirectoryArchiveAsync(
                 directoryPath,
                 temporaryArchivePath,
-                _options.CompressionLevel,
+                _options.ArtifactCompressionLevel,
                 cancellationToken).ConfigureAwait(false);
             var stream = File.OpenRead(temporaryArchivePath);
             await using var streamLifetime = stream.ConfigureAwait(false);

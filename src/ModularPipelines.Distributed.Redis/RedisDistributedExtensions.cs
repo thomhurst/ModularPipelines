@@ -20,7 +20,7 @@ namespace ModularPipelines.Distributed.Redis;
 /// Both connections still share the network link and the Redis server, so size them for the combined load.
 /// The module cache has its own <see cref="RedisOptions"/> and connection, so it can target another
 /// Redis instance. Artifact settings that apply to every backend are configured through
-/// <see cref="ArtifactOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
+/// <see cref="DistributedOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
 /// </remarks>
 public static class RedisDistributedExtensions
 {

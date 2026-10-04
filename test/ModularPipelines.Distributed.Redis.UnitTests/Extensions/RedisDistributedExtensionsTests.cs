@@ -27,22 +27,22 @@ public class RedisDistributedExtensionsTests
     ];
 
     [Test]
-    public async Task ArtifactOptionsUseSharedOptionsPipeline()
+    public async Task DistributedOptionsUseSharedOptionsPipeline()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.AddDistributedMode(options => options.RunId = "test-run");
         builder.AddRedisDistributed(options => options.ConnectionString = "unused");
-        builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.NoCompression);
+        builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
 
-        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
-        var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
+        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
+        var directOptions = pipeline.Services.GetRequiredService<DistributedOptions>();
 
         using (Assert.Multiple())
         {
             await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
-            await Assert.That(configuredOptions.CompressionLevel)
+            await Assert.That(configuredOptions.ArtifactCompressionLevel)
                 .IsEqualTo(CompressionLevel.NoCompression);
         }
     }

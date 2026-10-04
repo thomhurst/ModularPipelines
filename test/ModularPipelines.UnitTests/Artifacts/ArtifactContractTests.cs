@@ -110,7 +110,7 @@ public class ArtifactContractTests
         {
             var manager = new ArtifactLifecycleManager(
                 Mock.Of<IDistributedArtifactStore>(),
-                Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+                Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
                 NullLogger<ArtifactLifecycleManager>.Instance,
                 directory);
 
@@ -162,7 +162,7 @@ public class ArtifactContractTests
         {
             var manager = new ArtifactLifecycleManager(
                 store.Object,
-                Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+                Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
                 NullLogger<ArtifactLifecycleManager>.Instance,
                 restoreDirectory);
 

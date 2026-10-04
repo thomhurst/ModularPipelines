@@ -432,9 +432,8 @@ internal static class DependencyInjectionSetup
                     options.TotalInstances,
                     options.RequireExplicitRunId);
             });
-        services.Configure<ArtifactOptions>(_ => { });
         services.TryAddSingleton(serviceProvider =>
-            serviceProvider.GetRequiredService<IOptions<ArtifactOptions>>().Value);
+            serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value);
         services.TryAddSingleton<DefaultInMemoryDistributedCoordinator>();
         services.TryAddSingleton<IDistributedMasterCoordinator>(serviceProvider =>
             serviceProvider.GetRequiredService<DefaultInMemoryDistributedCoordinator>());

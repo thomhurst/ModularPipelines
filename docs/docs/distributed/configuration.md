@@ -131,19 +131,19 @@ services are independent, and pipelines without an explicit store retain the def
 In V4, direct store registration no longer silently removes an earlier factory; choose one backend
 at the registration call site instead.
 
-## ArtifactOptions
+## Artifact compression
 
-`ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the
+`DistributedOptions.ArtifactCompressionLevel` applies to every artifact store, including in local mode. Configure it with the
 options pattern, independently of the backend:
 
 ```csharp
-builder.Services.Configure<ArtifactOptions>(o => o.CompressionLevel = CompressionLevel.Optimal);
-// or: builder.Services.Configure<ArtifactOptions>(builder.Configuration.GetSection("Artifacts"));
+builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
+// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
 ```
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `CompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory artifacts. |
+| `ArtifactCompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory and glob artifacts. |
 
 Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options
 (`RedisOptions`, `S3StorageOptions`).

@@ -16,7 +16,7 @@ namespace ModularPipelines.Distributed.Artifacts;
 internal class ArtifactLifecycleManager
 {
     private readonly IDistributedArtifactStore _store;
-    private readonly ArtifactOptions _options;
+    private readonly DistributedOptions _options;
     private readonly ILogger<ArtifactLifecycleManager> _logger;
     private readonly string _workingDirectory;
     private readonly AcceptedArtifactRegistry? _acceptedArtifacts;
@@ -32,7 +32,7 @@ internal class ArtifactLifecycleManager
 
     public ArtifactLifecycleManager(
         IDistributedArtifactStore store,
-        IOptions<ArtifactOptions> options,
+        IOptions<DistributedOptions> options,
         ILogger<ArtifactLifecycleManager> logger,
         AcceptedArtifactRegistry? acceptedArtifacts = null)
         : this(store, options, logger, Directory.GetCurrentDirectory(), acceptedArtifacts)
@@ -41,7 +41,7 @@ internal class ArtifactLifecycleManager
 
     public ArtifactLifecycleManager(
         IDistributedArtifactStore store,
-        IOptions<ArtifactOptions> options,
+        IOptions<DistributedOptions> options,
         ILogger<ArtifactLifecycleManager> logger,
         IOptions<ModuleCacheOptions> cacheOptions,
         AcceptedArtifactRegistry? acceptedArtifacts = null)
@@ -51,7 +51,7 @@ internal class ArtifactLifecycleManager
 
     internal ArtifactLifecycleManager(
         IDistributedArtifactStore store,
-        IOptions<ArtifactOptions> options,
+        IOptions<DistributedOptions> options,
         ILogger<ArtifactLifecycleManager> logger,
         string workingDirectory,
         AcceptedArtifactRegistry? acceptedArtifacts = null)
@@ -189,7 +189,7 @@ internal class ArtifactLifecycleManager
             ZipFile.CreateFromDirectory(
                 directoryPath,
                 tempFile,
-                _options.CompressionLevel,
+                _options.ArtifactCompressionLevel,
                 includeBaseDirectory: false);
             return await UploadFileAsync(
                     descriptor with { ContentType = "application/zip" },
@@ -259,7 +259,7 @@ internal class ArtifactLifecycleManager
             var entryName = GetArchiveEntryName(archiveBaseDirectory, directoryPath).TrimEnd('/') + "/";
             if (archivedEntries.Add(entryName))
             {
-                archive.CreateEntry(entryName, _options.CompressionLevel);
+                archive.CreateEntry(entryName, _options.ArtifactCompressionLevel);
             }
         }
 
@@ -271,7 +271,7 @@ internal class ArtifactLifecycleManager
             var entryName = GetArchiveEntryName(archiveBaseDirectory, filePath);
             if (archivedEntries.Add(entryName))
             {
-                archive.CreateEntryFromFile(filePath, entryName, _options.CompressionLevel);
+                archive.CreateEntryFromFile(filePath, entryName, _options.ArtifactCompressionLevel);
             }
         }
     }

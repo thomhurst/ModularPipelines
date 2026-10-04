@@ -69,10 +69,10 @@ A failed multipart upload is aborted on a best-effort basis. If the abort also f
 bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that
 action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.
 
-Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```csharp
-builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
 ```
 
 Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one

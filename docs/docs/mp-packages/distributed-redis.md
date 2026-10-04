@@ -56,10 +56,10 @@ Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every w
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
 Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload.
-Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```csharp
-builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
 ```
 
 See [Configuration](../distributed/configuration.md#redisoptions) for every `RedisOptions` property and the key schema.

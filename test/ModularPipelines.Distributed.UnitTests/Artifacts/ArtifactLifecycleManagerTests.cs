@@ -53,6 +53,62 @@ public class DifferentPathConsumerModule : Module<string>
 public class ArtifactLifecycleManagerTests
 {
     [Test]
+    [Arguments(typeof(ProducerModule), "test-output/output.txt", CompressionLevel.NoCompression)]
+    [Arguments(typeof(ProducerModule), "test-output/output.txt", CompressionLevel.Optimal)]
+    [Arguments(typeof(SingleGlobProducerModule), "single-match-directory/output.txt", CompressionLevel.NoCompression)]
+    [Arguments(typeof(SingleGlobProducerModule), "single-match-directory/output.txt", CompressionLevel.Optimal)]
+    [Arguments(typeof(SingleFileGlobProducerModule), "release-v1/manifest.json", CompressionLevel.NoCompression)]
+    [Arguments(typeof(SingleFileGlobProducerModule), "release-v1/manifest.json", CompressionLevel.Optimal)]
+    public async Task UploadProducedArtifacts_Uses_Distributed_Compression_Level(
+        Type moduleType, string relativePath, CompressionLevel compressionLevel)
+    {
+        var workingDirectory = Directory.CreateTempSubdirectory("artifact-compression-");
+        try
+        {
+            var filePath = Path.Combine(workingDirectory.FullName, relativePath);
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+            await File.WriteAllTextAsync(filePath, new string('x', 8192));
+            long? compressedLength = null;
+            long? originalLength = null;
+            var store = new Mock<IDistributedArtifactStore>();
+            store.Setup(value => value.UploadAsync(
+                    It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
+                .Returns((ArtifactDescriptor descriptor, Stream stream, CancellationToken _) =>
+                {
+                    using var archive = new ZipArchive(stream, ZipArchiveMode.Read, leaveOpen: true);
+                    var entry = archive.Entries.Single(entry => entry.Length > 0);
+                    compressedLength = entry.CompressedLength;
+                    originalLength = entry.Length;
+                    return Task.FromResult(Reference("compressed", DateTimeOffset.UtcNow));
+                });
+            var manager = new ArtifactLifecycleManager(
+                store.Object,
+                Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+                {
+                    ArtifactCompressionLevel = compressionLevel,
+                }),
+                Mock.Of<ILogger<ArtifactLifecycleManager>>(),
+                workingDirectory.FullName);
+
+            await manager.UploadProducedArtifactsAsync(moduleType, CancellationToken.None);
+
+            await Assert.That(originalLength).IsEqualTo(8192);
+            if (compressionLevel == CompressionLevel.NoCompression)
+            {
+                await Assert.That(compressedLength).IsEqualTo(originalLength);
+            }
+            else
+            {
+                await Assert.That(compressedLength!.Value).IsLessThan(originalLength!.Value);
+            }
+        }
+        finally
+        {
+            workingDirectory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task Consumer_Downloads_The_Reference_From_The_Accepted_Producer_Result()
     {
         var accepted = Reference("accepted", DateTimeOffset.UtcNow.AddHours(-1));
@@ -151,7 +207,7 @@ public class ArtifactLifecycleManagerTests
 
         var manager = new ArtifactLifecycleManager(
             mockStore.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             Mock.Of<ILogger<ArtifactLifecycleManager>>(),
             workingDirectory.FullName);
 
@@ -206,7 +262,7 @@ public class ArtifactLifecycleManagerTests
 
         var manager = new ArtifactLifecycleManager(
             mockStore.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             Mock.Of<ILogger<ArtifactLifecycleManager>>(),
             workingDirectory.FullName);
 
@@ -253,7 +309,7 @@ public class ArtifactLifecycleManagerTests
             .Setup(s => s.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedRef);
 
-        var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
         var manager = new ArtifactLifecycleManager(
             mockStore.Object,
@@ -279,7 +335,7 @@ public class ArtifactLifecycleManagerTests
     public async Task UploadProducedArtifacts_Returns_Empty_When_No_Attributes()
     {
         var mockStore = new Mock<IDistributedArtifactStore>();
-        var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
         var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
 
@@ -316,7 +372,7 @@ public class ArtifactLifecycleManagerTests
             .Setup(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new MemoryStream([1, 2, 3]));
 
-        var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
         var manager = new ArtifactLifecycleManager(
             mockStore.Object,
@@ -343,7 +399,7 @@ public class ArtifactLifecycleManagerTests
     public async Task DownloadConsumedArtifacts_NoOp_When_No_Attributes()
     {
         var mockStore = new Mock<IDistributedArtifactStore>();
-        var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+        var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
         var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
 
@@ -359,7 +415,7 @@ public class ArtifactLifecycleManagerTests
         store.Setup(instance => instance.ListArtifactsAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         var manager = new ArtifactLifecycleManager(store.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             Mock.Of<ILogger<ArtifactLifecycleManager>>());
         await manager.DownloadConsumedArtifactsForPathAsync("a:b", "c", Path.GetTempPath(),
             typeof(ConsumerModule), CancellationToken.None);
@@ -395,7 +451,7 @@ public class ArtifactLifecycleManagerTests
                 .Setup(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new MemoryStream([1, 2, 3]));
 
-            var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+            var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
             var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
             var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
 
@@ -445,7 +501,7 @@ public class ArtifactLifecycleManagerTests
                     return new MemoryStream([1, 2, 3]);
                 });
 
-            var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+            var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
             var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
             var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
 
@@ -494,7 +550,7 @@ public class ArtifactLifecycleManagerTests
                     return new MemoryStream([1, 2, 3]);
                 });
 
-            var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
+            var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions());
             var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
             var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
 
