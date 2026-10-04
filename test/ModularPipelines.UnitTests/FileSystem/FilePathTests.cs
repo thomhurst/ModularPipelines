@@ -59,7 +59,7 @@ public class FilePathTests : TestBase
             await Assert.That(file.Extension).IsNotNull().And.IsNotEmpty();
             await Assert.That(file.Folder?.ToString()).IsNotNull().And.IsNotEmpty();
             await Assert.That(file.CreationTime.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
-            await Assert.That(file.LastWriteTimeUtc.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
+            await Assert.That(file.LastWriteTime.ToString(CultureInfo.InvariantCulture)).IsNotNull().And.IsNotEmpty();
             await Assert.That(file.Hidden).IsFalse();
             await Assert.That(file.Name).IsNotNull().And.IsNotEmpty();
             await Assert.That(file.NameWithoutExtension).IsNotNull().And.IsNotEmpty();
@@ -97,6 +97,39 @@ public class FilePathTests : TestBase
 
         file.Create();
         await Assert.That(file.Exists).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CreateAsync_Canceled_Does_Not_Create_Or_Truncate_File(bool exists)
+    {
+        await using var temporary = new TempFile();
+        if (exists)
+        {
+            await temporary.File.WriteAsync("preserved");
+        }
+
+        using var cancellation = new CancellationTokenSource();
+        cancellation.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => temporary.File.CreateAsync(cancellation.Token));
+        await Assert.That(temporary.File.Exists).IsEqualTo(exists);
+        if (exists)
+        {
+            await Assert.That(await temporary.File.ReadAsync()).IsEqualTo("preserved");
+        }
+    }
+
+    [Test]
+    public async Task CreateAsync_Returns_The_Created_File()
+    {
+        await using var temporary = new TempFile();
+        var created = await temporary.File.CreateAsync(CancellationToken.None);
+
+        await Assert.That(created).IsSameReferenceAs(temporary.File);
+        await Assert.That(created.Exists).IsTrue();
+        await Assert.That(created.Length).IsEqualTo(0);
     }
 
     [Test]

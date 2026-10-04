@@ -50,11 +50,27 @@ public class FilesContextTests
     [Test]
     [Arguments("")]
     [Arguments(" ")]
-    public async Task ExistsAsync_Returns_False_For_Blank_Path(string path)
+    public async Task Exists_Returns_False_For_Blank_Path(string path)
     {
         var context = CreateContext();
 
-        await Assert.That(await context.ExistsAsync(path)).IsFalse();
+        await Assert.That(context.Exists(path)).IsFalse();
+    }
+
+    [Test]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(false, false)]
+    public async Task Exists_Resolves_Files_And_Directories_Against_WorkingDirectory(bool fileExists, bool directoryExists)
+    {
+        var root = TestContext.OutputDirectory!;
+        var resolvedPath = Path.Combine(root, "entry");
+        var provider = new Mock<IFileSystemProvider>();
+        provider.Setup(x => x.FileExists(resolvedPath)).Returns(fileExists);
+        provider.Setup(x => x.DirectoryExists(resolvedPath)).Returns(directoryExists);
+        var context = new FilesContext(provider.Object, new PipelineWorkingDirectory(root), Mock.Of<IZipContext>());
+
+        await Assert.That(context.Exists("entry")).IsEqualTo(fileExists || directoryExists);
     }
 
     private static FilesContext CreateContext() =>

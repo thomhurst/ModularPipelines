@@ -26,7 +26,9 @@ public class FileSystemProviderMetadataTests
             await Assert.That(file.Hidden).IsTrue();
             await Assert.That(file.IsReadOnly).IsTrue();
             await Assert.That(file.CreationTime.UtcDateTime).IsEqualTo(Created);
-            await Assert.That(file.LastWriteTimeUtc.UtcDateTime).IsEqualTo(Written);
+            await Assert.That(file.LastWriteTime.UtcDateTime).IsEqualTo(Written);
+            await Assert.That(file.CreationTime.Offset).IsEqualTo(TimeSpan.Zero);
+            await Assert.That(file.LastWriteTime.Offset).IsEqualTo(TimeSpan.Zero);
             await Assert.That(file.Length).IsEqualTo(8);
         }
     }
@@ -47,7 +49,9 @@ public class FileSystemProviderMetadataTests
         {
             await Assert.That(folder.Hidden).IsTrue();
             await Assert.That(folder.CreationTime.UtcDateTime).IsEqualTo(Created);
-            await Assert.That(folder.LastWriteTimeUtc.UtcDateTime).IsEqualTo(Written);
+            await Assert.That(folder.LastWriteTime.UtcDateTime).IsEqualTo(Written);
+            await Assert.That(folder.CreationTime.Offset).IsEqualTo(TimeSpan.Zero);
+            await Assert.That(folder.LastWriteTime.Offset).IsEqualTo(TimeSpan.Zero);
         }
     }
 

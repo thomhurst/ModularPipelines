@@ -86,11 +86,11 @@ public class FolderPath : IEquatable<FolderPath>
         }
     }
 
-    public DateTimeOffset CreationTime => new DateTimeOffset(_provider.GetCreationTimeUtc(Path)).ToLocalTime();
+    /// <summary>Gets the creation time, normalized to UTC.</summary>
+    public DateTimeOffset CreationTime => new(_provider.GetCreationTimeUtc(Path));
 
-    public DateTimeOffset LastWriteTimeUtc => new(_provider.GetLastWriteTimeUtc(Path));
-
-    public string Extension => System.IO.Path.GetExtension(Path);
+    /// <summary>Gets the last write time, normalized to UTC.</summary>
+    public DateTimeOffset LastWriteTime => new(_provider.GetLastWriteTimeUtc(Path));
 
     public FolderPath Create()
     {
@@ -458,6 +458,8 @@ public class FolderPath : IEquatable<FolderPath>
             .Distinct();
     }
 
+    /// <summary>Creates and returns a new temporary folder.</summary>
+    /// <remarks>Prefer <see cref="TempFolder"/> with <c>using</c> or <c>await using</c> for automatic cleanup.</remarks>
     public static FolderPath CreateTemporaryFolder() => CreateTemporaryFolder(SystemFileSystemProvider.Instance);
 
     /// <summary>
@@ -465,6 +467,7 @@ public class FolderPath : IEquatable<FolderPath>
     /// </summary>
     /// <param name="provider">The provider used to create and access the folder.</param>
     /// <returns>The created temporary folder.</returns>
+    /// <remarks>Wrap the returned folder in <see cref="TempFolder"/> for automatic cleanup.</remarks>
     public static FolderPath CreateTemporaryFolder(IFileSystemProvider provider)
     {
         ArgumentNullException.ThrowIfNull(provider);
