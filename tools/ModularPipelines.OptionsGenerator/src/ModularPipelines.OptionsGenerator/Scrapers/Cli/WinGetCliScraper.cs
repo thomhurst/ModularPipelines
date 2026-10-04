@@ -42,7 +42,13 @@ public partial class WinGetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     private static readonly HashSet<string> BooleanOptions =
     [
         with(StringComparer.OrdinalIgnoreCase),
+        "--all",
         "--allow-reboot",
+        "--asc",
+        "--desc",
+        "--pinned",
+        "--recurse",
+        "--unknown",
         "--blocking",
         "--dependencies-only",
         "--details",

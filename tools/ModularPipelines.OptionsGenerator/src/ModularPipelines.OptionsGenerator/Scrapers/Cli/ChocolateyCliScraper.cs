@@ -459,6 +459,11 @@ public partial class ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTex
             var line = lines[i];
             var trimmed = line.Trim();
 
+            if (VersionBannerPattern().IsMatch(trimmed))
+            {
+                break;
+            }
+
             // Skip empty lines and underlines
             if (string.IsNullOrWhiteSpace(trimmed) || trimmed.All(c => c == '='))
             {
@@ -562,6 +567,9 @@ public partial class ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTex
         // Determine type based on whether it has =VALUE suffix
         var isFlag = !hasValue;
         var csharpType = isFlag ? "bool?" : "string?";
+        // Chocolatey labels abbreviated switches with semantic names, e.g. "ApiKey - ...".
+        var labelEnd = description.IndexOf(" - ", StringComparison.Ordinal);
+        var semanticName = labelEnd > 0 ? description[..labelEnd].Replace(" ", string.Empty) : propertyName;
 
         return new CliOptionDefinition
         {
@@ -577,7 +585,8 @@ public partial class ChocolateyCliScraper(ICliCommandExecutor executor, IHelpTex
             IsNumeric = false,
             ValueSeparator = isFlag ? " " : "=",
             EnumDefinition = null,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description)
+                    || GeneratorUtils.IsSecretOption(semanticName, isFlag, description)
         };
     }
 

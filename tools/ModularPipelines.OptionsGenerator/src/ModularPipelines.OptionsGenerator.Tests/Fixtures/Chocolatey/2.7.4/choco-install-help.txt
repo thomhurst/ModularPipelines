@@ -1,5 +1,4 @@
 Chocolatey v2.7.4
-Directory 'C:/git/ModularPipelines-worktrees/issue-5718-tools/chocolatey.2.7.4/tools/chocolateyInstall\lib' does not exist.
 Install Command
 
 Installs a package or a list of packages (sometimes specified as a
