@@ -65,6 +65,7 @@ public class DotNetCliScraperTests
     [Test]
     [Arguments("pack", "--version <VERSION>  The version of the package to create.", "string?", false)]
     [Arguments("nuget", "--version  Show version information", "bool?", true)]
+    [Arguments("format", "--version  Show version information", "bool?", true)]
     [Arguments("workload", "--version  Display the currently installed workload version. [default: False]", "bool?", true)]
     public async Task Version_Type_Reflects_Command_After_Manual_Overrides(
         string subcommand, string declaration, string expectedType, bool isFlag)
@@ -109,6 +110,31 @@ public class DotNetCliScraperTests
         await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("version").GetString()).IsEqualTo("10.0.401");
         await Assert.That(settings.RootElement.GetProperty("sdk").GetProperty("rollForward").GetString()).IsEqualTo("disable");
         await Assert.That(settings.RootElement.TryGetProperty("test", out _)).IsFalse();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Test_Help_Cleanup_Failure_Preserves_Result(bool failHelp)
+    {
+        var executor = new IsolatedTestHelpExecutor(failHelp, blockCleanup: true);
+        var scraper = new TestDotNetCliScraper(executor);
+        try
+        {
+            if (failHelp)
+            {
+                var exception = await Assert.ThrowsAsync<IOException>(() => scraper.Help(["dotnet", "test"]));
+                await Assert.That(exception!.Message).IsEqualTo("Help execution failed.");
+            }
+            else
+            {
+                await Assert.That(await scraper.Help(["dotnet", "test"])).Contains("--filter");
+            }
+        }
+        finally
+        {
+            File.Delete(executor.WorkingDirectory!);
+        }
     }
 
     [Test]
@@ -219,6 +245,26 @@ public class DotNetCliScraperTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task VSTest_Has_One_Optional_Target_Before_Options(bool declaresTarget)
+    {
+        var usage = declaresTarget
+            ? "dotnet test [<PROJECT | SOLUTION | DIRECTORY | DLL | EXE>] [options]"
+            : "dotnet test [options] [[--] <additional arguments>...]]";
+        var command = await new TestDotNetCliScraper().Parse(["dotnet", "test"],
+            $"Description:\n  .NET Test Command for VSTest.\n\nUsage:\n  {usage}\n\nOptions:\n  --filter <EXPRESSION>  Filter tests.\n");
+
+        var target = command!.PositionalArguments.Single(argument => argument.Phase == CommandLinePhase.EarlyOperand);
+        await Assert.That(target.PropertyName).IsEqualTo(declaresTarget ? "Project" : "ProjectSolution");
+        await Assert.That(target.CSharpType).IsEqualTo("string?");
+        await Assert.That(target.IsRequired).IsFalse();
+        await Assert.That(target.IsVariadic).IsFalse();
+        await Assert.That(target.PositionIndex).IsEqualTo(0);
+        await Assert.That(target.PrependOptionTerminator).IsFalse();
+    }
+
+    [Test]
     public async Task Test_Preserves_Both_Option_Terminators()
     {
         const string helpText = """
@@ -242,6 +288,7 @@ public class DotNetCliScraperTests
             argument.PropertyName == "ExtensionOptions");
         using (Assert.Multiple())
         {
+            await Assert.That(command.PositionalArguments).Count().IsEqualTo(2);
             await Assert.That(platformOptions.PrependOptionTerminator).IsTrue();
             await Assert.That(platformOptions.RepeatOptionTerminator).IsFalse();
             await Assert.That(extensionOptions.PrependOptionTerminator).IsTrue();
@@ -312,7 +359,7 @@ public class DotNetCliScraperTests
         }
     }
 
-    private sealed class IsolatedTestHelpExecutor(bool failHelp) : ICliCommandExecutor
+    private sealed class IsolatedTestHelpExecutor(bool failHelp, bool blockCleanup = false) : ICliCommandExecutor
     {
         public string? WorkingDirectory { get; private set; }
         public string? Settings { get; private set; }
@@ -327,6 +374,12 @@ public class DotNetCliScraperTests
 
             WorkingDirectory = workingDirectory;
             Settings = workingDirectory is null ? null : File.ReadAllText(Path.Combine(workingDirectory, "global.json"));
+            if (blockCleanup)
+            {
+                Directory.Delete(workingDirectory!, recursive: true);
+                File.WriteAllText(workingDirectory!, "A file now occupies the temporary directory path.");
+            }
+
             if (failHelp)
             {
                 throw new IOException("Help execution failed.");

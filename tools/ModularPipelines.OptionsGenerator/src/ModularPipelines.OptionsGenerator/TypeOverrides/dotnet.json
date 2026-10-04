@@ -19,18 +19,6 @@
     }
   },
   "commands": {
-    "nuget": {
-      "--version": {
-        "type": "bool",
-        "reason": "Display NuGet version information; no value is accepted"
-      }
-    },
-    "": {
-      "--version": {
-        "type": "bool",
-        "reason": "Display SDK version only at the root command"
-      }
-    },
     "build": {
       "--no-restore": {
         "type": "bool",

@@ -124,7 +124,7 @@ public static class CurrentApiSnippets
             return await context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
-                    Arguments = ["MySolution.sln"],
+                    ProjectSolution = "MySolution.sln",
                     Configuration = "Release",
                 },
                 cancellationToken: cancellationToken).ConfigureAwait(false);

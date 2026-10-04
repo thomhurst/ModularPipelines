@@ -201,4 +201,10 @@ public record DotNetTestOptions : DotNetOptions
     [CliOption("-p", Format = OptionFormat.ColonSeparated)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
+    /// <summary>
+    /// The project, solution, directory, DLL, or EXE to test. Defaults to the current directory.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ProjectSolution { get; set; }
+
 }

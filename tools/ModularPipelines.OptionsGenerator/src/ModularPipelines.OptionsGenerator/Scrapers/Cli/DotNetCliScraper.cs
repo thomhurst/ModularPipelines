@@ -170,7 +170,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         }
 
         // Apply command-specific positional argument fixes
-        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs);
+        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs, description);
 
         // Extract enums from options
         var enums = options
@@ -472,7 +472,8 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// </summary>
     private static List<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
-        List<CliPositionalArgument> args)
+        List<CliPositionalArgument> args,
+        string? description)
     {
         var commandKey = string.Join(" ", commandParts);
 
@@ -516,6 +517,26 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
         if (commandKey.Equals("test", StringComparison.OrdinalIgnoreCase))
         {
+            // SDK 10 VSTest help omits this operand, although the command accepts it.
+            // https://learn.microsoft.com/dotnet/core/tools/dotnet-test-vstest#arguments
+            if (description?.StartsWith(".NET Test Command for VSTest.", StringComparison.OrdinalIgnoreCase) == true
+                && !args.Any(argument => argument.Phase == CommandLinePhase.EarlyOperand))
+            {
+                args =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "ProjectSolution",
+                        CSharpType = "string?",
+                        Description = "The project, solution, directory, DLL, or EXE to test. Defaults to the current directory.",
+                        Phase = CommandLinePhase.EarlyOperand,
+                        PositionIndex = 0,
+                        IsRequired = false,
+                    },
+                    .. args.Select(argument => argument with { PositionIndex = argument.PositionIndex + 1 }),
+                ];
+            }
+
             return [.. args.Select(argument => argument.PropertyName switch
             {
                 "PlatformOptions" => argument with { PrependOptionTerminator = true },
@@ -639,7 +660,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         {
             "name", "username", "password", "source", "url", "path", "file", "directory", "dir",
             "key", "api-key", "apikey", "token", "secret", "config", "configfile", "output",
-            "timeout", "version", "protocol-version", "valid-authentication-types"
+            "timeout", "protocol-version", "valid-authentication-types"
         };
 
         if (valueOptionNames.Contains(optionName))
