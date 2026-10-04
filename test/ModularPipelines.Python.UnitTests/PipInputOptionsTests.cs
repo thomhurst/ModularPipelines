@@ -11,6 +11,44 @@ public class PipInputOptionsTests : TestBase
     private static readonly string[] sourceArray = new[] { "first", "second" };
 
     [Test]
+    [Arguments("install", false)]
+    [Arguments("install", true)]
+    [Arguments("download", false)]
+    [Arguments("download", true)]
+    [Arguments("wheel", false)]
+    [Arguments("wheel", true)]
+    [Arguments("lock", false)]
+    [Arguments("lock", true)]
+    public async Task Dependency_Groups_Are_A_Repeatable_Standalone_Input(string verb, bool empty)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var groups = new SingleUseValues(empty ? [] : ["development", "testing"]);
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { Group = groups },
+            "download" => new PipDownloadOptions { Group = groups },
+            "wheel" => new PipWheelOptions { Group = groups },
+            "lock" => new PipLockOptions { Group = groups },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            if (empty)
+            {
+                await Assert.That(() => builder.Build(options)).Throws<CommandOptionsValidationException>();
+            }
+            else
+            {
+                await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+                    $"pip {verb} --group development --group testing");
+            }
+        }
+
+        await Assert.That(groups.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
     [Arguments(false, false, 0)]
     [Arguments(false, false, 1)]
     [Arguments(false, false, 2)]
