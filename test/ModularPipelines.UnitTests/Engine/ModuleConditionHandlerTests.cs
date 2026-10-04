@@ -839,6 +839,38 @@ public class ModuleConditionHandlerTests
         await Assert.That(result.ShouldIgnore).IsTrue();
     }
 
+    [Test]
+    [Arguments(0, false)]
+    [Arguments(1, true)]
+    public async Task CapabilityPredicateIsDeferredByMasterAndEvaluatedByWorker(int instanceIndex, bool shouldIgnore)
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = instanceIndex,
+            TotalInstances = 2,
+            Capabilities = [Capability.Gpu],
+        }, localCapabilities: CreateLocalCapabilities(Capability.Gpu));
+
+        var result = await handler.ShouldIgnore(new RejectedCapabilityModule());
+        await Assert.That(result.ShouldIgnore).IsEqualTo(shouldIgnore);
+    }
+
+    private sealed class RejectCapability : ICapabilityCondition
+    {
+        public Capability Capability => Capability.Gpu;
+
+        public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
+            Task.FromResult(false);
+    }
+
+    [RunIf<RejectCapability>]
+    private sealed class RejectedCapabilityModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+            Task.FromResult("should not run on the worker");
+    }
+
     private static LocalCapabilityRegistry CreateLocalCapabilities(params Capability[] capabilities) =>
         new(
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions { Capabilities = capabilities }),

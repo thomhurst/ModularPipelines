@@ -474,3 +474,13 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `WithTimeout` rejects zero and negative values; use `Timeout.InfiniteTimeSpan` to disable the timeout.
 - Registration helpers for single-instance services replace earlier registrations; multi-instance helpers
   add each type once.
+
+## Capability condition evaluation
+
+`ICapabilityCondition` now supplies a default `IRunCondition.EvaluateAsync` implementation.
+Custom conditions only need a `Capability` property; evaluation checks the executing
+process's declared capabilities, including registered `ICapabilityProvider` results.
+Move hardware detection into a capability provider so routing and execution agree.
+Existing explicit implementations remain supported during local and worker execution.
+The distributed master uses only the capability declaration when constructing routes;
+it does not execute a worker's predicate on the master.
