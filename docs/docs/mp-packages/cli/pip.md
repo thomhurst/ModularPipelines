@@ -47,7 +47,7 @@ Global options are rendered before the selected subcommand.
 
 | CLI option | Property | Availability | Description |
 | --- | --- | --- | --- |
-| `--cache-dir` | `CacheDir` | All editions | Store the cache data in <dir>. |
+| `--cache-dir` | `CacheDir` | All editions | Store the cache data in &lt;dir&gt;. |
 | `--cert` | `Cert` | All editions | Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information. |
 | `--client-cert` | `ClientCert` | All editions | Path to SSL client certificate, a single file containing the private key and the certificate in PEM format. |
 | `--debug` | `Debug` | All editions | Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr. |
