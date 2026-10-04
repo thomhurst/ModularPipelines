@@ -161,6 +161,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual bool PreserveCommandGroupPlaceholders => false;
 
     /// <summary>
+    /// Gets whether a command parse failure invalidates the entire scrape instead of skipping the command.
+    /// </summary>
+    protected virtual bool TreatParseErrorsAsFatal => false;
+
+    /// <summary>
     /// The validated union of scraped and supplemental global options.
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> EffectiveGlobalOptions =>
@@ -378,6 +383,13 @@ public abstract partial class CliScraperBase : ICliScraper
                     coordinator,
                     visitedPaths,
                     cancellationToken);
+            }
+            catch (Exception exception)
+            {
+                // A failed worker must close the queue even if pending paths remain. Otherwise
+                // the remaining workers (or the consumer) can wait forever for abandoned work.
+                workChannel.Writer.TryComplete(exception);
+                throw;
             }
             finally
             {
@@ -609,7 +621,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 usage.PositionalArguments);
             return command;
         }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception ex) when (!TreatParseErrorsAsFatal && ex is not (OutOfMemoryException or StackOverflowException))
         {
             Logger.LogWarning(ex, "Failed to parse command: {Command}", string.Join(" ", path));
             return null;

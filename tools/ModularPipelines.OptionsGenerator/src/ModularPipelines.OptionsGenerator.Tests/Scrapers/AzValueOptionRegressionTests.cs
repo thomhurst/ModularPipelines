@@ -61,6 +61,64 @@ public class AzValueOptionRegressionTests
             .Throws<InvalidOperationException>();
     }
 
+    [Test]
+    [Arguments("{}")]
+    [Arguments("null")]
+    [Arguments("{invalid}")]
+    public async Task InvalidMetadataAbortsProductionTraversal(string metadata)
+    {
+        var scraper = new TraversalScraper(new TraversalExecutor(metadata));
+        async Task Act()
+        {
+            await foreach (var command in scraper.ScrapeAsync())
+            {
+                // Consume the public production path, including its worker and parse error handling.
+            }
+        }
+
+        var exception = await Assert.That(() => Act().WaitAsync(TimeSpan.FromSeconds(10))).ThrowsException();
+        await Assert.That(exception).IsNotTypeOf<TimeoutException>();
+        await Assert.That(exception is InvalidOperationException or System.Text.Json.JsonException).IsTrue();
+    }
+
+    [Test]
+    public async Task CompleteMetadataPreservesDiscoveredCommands()
+    {
+        var scraper = new TraversalScraper(new TraversalExecutor("{\"--unknown\":false}"));
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(command => command.FullCommand).Order())
+            .IsEquivalentTo(["az broken", "az later"]);
+        await Assert.That(commands.All(command => !command.Options.Single(option => option.SwitchName == "--unknown").IsFlag)).IsTrue();
+    }
+
+    private sealed class TraversalScraper(ICliCommandExecutor executor) : AzCliScraper(
+        executor,
+        new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+        NullLogger<AzCliScraper>.Instance)
+    {
+        protected override int MaxParallelism => 1;
+    }
+
+    private sealed class TraversalExecutor(string metadata) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments, CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardError = string.Empty,
+                StandardOutput = arguments == "--help"
+                    ? "Group\n    az : Azure.\nCommands:\n    broken : Broken metadata.\n    later : Later command."
+                    : $"Command\n    az {arguments.Split(' ')[0]} : Run.\nArguments\n    --unknown : Value.\n{AzCliMetadataExecutor.MetadataMarker}{metadata}",
+            });
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+    }
+
     private sealed class Scraper() : AzCliScraper(
         new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
         new HelpTextCache(NullLogger<HelpTextCache>.Instance),
