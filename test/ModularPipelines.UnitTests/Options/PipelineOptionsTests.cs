@@ -772,13 +772,13 @@ public class PipelineOptionsTests
         {
             Http = options.Http with
             {
-                Logging = new HttpLoggingOptions { LogRequest = true },
+                Logging = new HttpLoggingOptions { ShowRequest = true },
             },
         });
         builder.Services
             .AddOptions<PipelineOptions>("worker")
             .Configure(options => typeof(HttpLoggingOptions)
-                .GetProperty(nameof(HttpLoggingOptions.LogRequest))!
+                .GetProperty(nameof(HttpLoggingOptions.ShowRequest))!
                 .SetValue(options.Http.Logging, false));
 
         await using var pipeline = await builder.BuildAsync();
@@ -789,8 +789,8 @@ public class PipelineOptionsTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(namedOptions.Http.Logging!.LogRequest).IsFalse();
-            await Assert.That(defaultOptions.Http.Logging!.LogRequest).IsTrue();
+            await Assert.That(namedOptions.Http.Logging!.ShowRequest).IsFalse();
+            await Assert.That(defaultOptions.Http.Logging!.ShowRequest).IsTrue();
             await Assert.That(namedOptions.Http).IsNotSameReferenceAs(defaultOptions.Http);
             await Assert.That(namedOptions.Http.Logging)
                 .IsNotSameReferenceAs(defaultOptions.Http.Logging);

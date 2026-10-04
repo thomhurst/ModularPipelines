@@ -24,16 +24,16 @@ public class HttpTests : TestBase
 {
     private static HttpLoggingOptions RequestOnly { get; } = new()
     {
-        LogResponse = false,
-        LogStatusCode = false,
-        LogDuration = false,
+        ShowResponse = false,
+        ShowStatusCode = false,
+        ShowDuration = false,
     };
 
     private static HttpLoggingOptions ResponseOnly { get; } = new()
     {
-        LogRequest = false,
-        LogStatusCode = false,
-        LogDuration = false,
+        ShowRequest = false,
+        ShowStatusCode = false,
+        ShowDuration = false,
     };
 
     [Test]
@@ -47,7 +47,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/large-file"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
         });
 
         await handler.RequestReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
@@ -85,7 +85,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-body"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = useRequestTimeout ? timeout : null,
         });
         try
@@ -128,7 +128,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/client-timeout"))
         {
             HttpClient = useCustomClient ? httpClient : null,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
         });
         try
         {
@@ -164,7 +164,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/caller-cancellation"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
         }, cancellationTokenSource.Token);
         var stream = response.Content.ReadAsStream();
         var readTask = stream.ReadAsync(new byte[1]).AsTask();
@@ -203,7 +203,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/async-timeout"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = timeout,
         });
         try
@@ -244,7 +244,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/read-cancellation"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = TimeSpan.FromMinutes(1),
         });
         var stream = response.Content.ReadAsStream();
@@ -289,7 +289,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/canceled-eof"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = TimeSpan.FromMinutes(1),
         }, cancellationTokenSource.Token);
 
@@ -393,7 +393,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/synchronous-read"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = timeout,
         });
         var stream = await response.Content.ReadAsStreamAsync();
@@ -510,7 +510,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/fallback"))
         {
             HttpClient = httpClient,
-            FallbackLogging = HttpLoggingOptions.None,
+            FallbackLogging = HttpLoggingOptions.Silent,
         });
         using var pipelineDefaultResponse = await http.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/pipeline-default"))
@@ -521,7 +521,7 @@ public class HttpTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(observedOptions[0]).IsSameReferenceAs(HttpLoggingOptions.Minimal);
-            await Assert.That(observedOptions[1]).IsSameReferenceAs(HttpLoggingOptions.None);
+            await Assert.That(observedOptions[1]).IsSameReferenceAs(HttpLoggingOptions.Silent);
             await Assert.That(observedOptions[2]).IsSameReferenceAs(HttpLoggingOptions.Headers);
         }
     }
@@ -587,7 +587,7 @@ public class HttpTests : TestBase
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/buffered-timeout"))
         {
             HttpClient = httpClient,
-            Logging = HttpLoggingOptions.None,
+            Logging = HttpLoggingOptions.Silent,
             Timeout = timeout,
         });
 
@@ -631,7 +631,7 @@ public class HttpTests : TestBase
                         new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-error-body"))
                 {
                     HttpClient = useCustomClient ? httpClient : null,
-                    Logging = HttpLoggingOptions.None,
+                    Logging = HttpLoggingOptions.Silent,
                     ThrowOnNonSuccessStatusCode = true,
                     Timeout = useConfiguredTimeout ? TimeSpan.FromMilliseconds(100) : null,
                 },

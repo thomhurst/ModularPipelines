@@ -98,7 +98,7 @@ Command output is logged one line at a time, each prefixed with `↳`, whether i
 
 | Level | Description |
 |-------|-------------|
-| `Silent` | No output at all |
+| `Silent` | No output unless a `Show*` override explicitly enables it |
 | `InputOnly` | Only command input (no output/errors) |
 | `Normal` | Input, output, and errors on failure (default) |
 | `Detailed` | Above plus exit code and duration |
@@ -165,6 +165,20 @@ new CommandExecutionOptions { Logging = CommandLoggingOptions.Default }
 
 ### Fine-Grained Control
 
+Each command `Show*` setting is nullable: `null` follows the verbosity level, `true` enables it,
+and `false` disables it, including with `Silent` and `Diagnostic`. Presets set only verbosity,
+so changing a preset's verbosity does not leave hidden overrides behind. `ShowCommandArguments = false`
+masks command input; the command start and status markers can still be logged.
+
+Working directories appear only at `Diagnostic` by default. `ShowWorkingDirectory` overrides that
+choice. `ShowTimestamps` prefixes each command log event (start, streamed/captured output, and
+completion) with its UTC logging time in ISO 8601 format. It does not recover timestamps from
+already-captured process output. Both settings also apply to dry-run command starts.
+
+With `ShowStandardError = null`, captured stderr is logged only on command failure; streamed
+stderr is logged at `Normal` or above because tools also use it for progress. An explicit `true`
+logs stderr even for successful captured commands; `false` disables both paths.
+
 Override individual settings regardless of verbosity level:
 
 ```csharp
@@ -217,9 +231,28 @@ await context.Network.Http.SendAsync(new HttpOptions(request)
 
 builder.ConfigureHttp(http => http with
 {
-    Logging = HttpLoggingOptions.None,
+    Logging = HttpLoggingOptions.Silent,
 });
 ```
 
 Use `HttpLoggingOptions` properties for fine-grained request, response, status-code,
-duration, header, and body logging. `HttpLoggingType` no longer exists.
+duration, header, and body logging. Both command and HTTP logging use the `Show*` prefix and
+`Silent`, `Default`, and `Diagnostic` presets. HTTP additionally provides `Minimal` (URL, status,
+and duration) and `Headers` (no bodies). HTTP `Diagnostic` logs bodies up to 64 KiB; `Default`
+uses a 4 KiB limit. HTTP flags remain `bool`, since HTTP has no verbosity level to inherit.
+`HttpLoggingType` no longer exists.
+
+```csharp
+var logging = HttpLoggingOptions.Diagnostic with
+{
+    ShowRequestBody = false,
+    ShowResponseBody = false,
+    ShowDuration = true,
+};
+```
+
+For earlier V4 builds, rename HTTP `LogRequest`, `LogResponse`, `LogRequestHeaders`,
+`LogResponseHeaders`, `LogRequestBody`, `LogResponseBody`, `LogStatusCode`, and `LogDuration` to
+`ShowRequest`, `ShowResponse`, `ShowRequestHeaders`, `ShowResponseHeaders`, `ShowRequestBody`,
+`ShowResponseBody`, `ShowStatusCode`, and `ShowDuration`. Rename `HttpLoggingOptions.None` to
+`Silent` and `HttpLoggingOptions.Full` to `Diagnostic`.

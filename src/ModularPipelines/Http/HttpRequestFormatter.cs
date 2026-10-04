@@ -71,13 +71,13 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         sb.AppendLine($"{request.Method} {request.RequestUri} HTTP/{request.Version}");
         sb.AppendLine();
 
-        if (options.LogRequestHeaders)
+        if (options.ShowRequestHeaders)
         {
             AppendHeaders(sb, request.Headers, request.Content?.Headers, options.SensitiveHeaderNames);
             sb.AppendLine();
         }
 
-        if (options.LogRequestBody)
+        if (options.ShowRequestBody)
         {
             await AppendBodyAsync(sb, request, options.MaxBodySizeToLog, cancellationToken).ConfigureAwait(false);
         }

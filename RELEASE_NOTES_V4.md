@@ -47,6 +47,19 @@ removed core package-manager wrappers.
 
 ## Logging options
 
+Command `Show*` flags are now nullable overrides: `null` follows `Verbosity`, `true`
+enables the item, and `false` disables it, even at `Silent` or `Diagnostic`. Explicit
+`ShowStandardError = true` also includes captured stderr from successful commands.
+`ShowWorkingDirectory` now controls the start-line directory, and `ShowTimestamps`
+adds UTC timestamps to command log events. Both default to enabled only at `Diagnostic`.
+Presets set verbosity without overriding individual flags.
+
+HTTP logging now shares the `Show*` prefix and the `Silent`, `Default`, and `Diagnostic`
+preset names with command logging. Replace HTTP `LogRequest`, `LogResponse`, header/body
+`Log*` flags, `LogStatusCode`, and `LogDuration` with their `Show*` equivalents.
+`HttpLoggingOptions.None` is now `Silent`; `Full` is now `Diagnostic`. HTTP-specific
+`Minimal` and `Headers` presets remain available, and HTTP flags remain non-nullable.
+
 Per-call command and HTTP options now use `Logging`, matching the global
 `Commands.Logging` and `Http.Logging` properties. `IncludeTimestamps` is now
 `ShowTimestamps`.

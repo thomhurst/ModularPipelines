@@ -2318,7 +2318,7 @@ ModularPipelines.OnWindows.OnWindows() -> void
 ModularPipelines.Options.CommandExecutionOptions.Logging.get -> ModularPipelines.Options.CommandLoggingOptions?
 ModularPipelines.Options.CommandExecutionOptions.Logging.init -> void
 ModularPipelines.Options.CommandLogVerbosity.InputOnly = 1 -> ModularPipelines.Options.CommandLogVerbosity
-ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.get -> bool
+ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.get -> bool?
 ModularPipelines.Options.CommandLoggingOptions.ShowTimestamps.init -> void
 ModularPipelines.Options.ConcurrencyOptions.NotificationTimeout.get -> System.TimeSpan
 ModularPipelines.Options.ConcurrencyOptions.NotificationTimeout.init -> void

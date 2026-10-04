@@ -983,8 +983,7 @@ internal sealed class Command : ICommandContext
         var loggingOptions = options.Logging
                              ?? _pipelineOptions.Value.Commands.Logging
                              ?? CommandLoggingOptions.Default;
-        return loggingOptions.Verbosity == CommandLogVerbosity.Silent
-               || !loggingOptions.ShowCommandArguments
+        return !loggingOptions.IncludesCommandArguments
             ? LoggingConstants.CommandMask
             : _secretObfuscator.Obfuscate(inputToLog, options);
     }

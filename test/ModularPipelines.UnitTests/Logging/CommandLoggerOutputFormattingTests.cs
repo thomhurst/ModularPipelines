@@ -65,6 +65,108 @@ public class CommandLoggerOutputFormattingTests
             .IsEquivalentTo(["  ↳ Build succeeded.", "  ↳     0 Error(s)"]);
     }
 
+    [Test]
+    [Arguments(CommandLogVerbosity.Detailed, false)]
+    [Arguments(CommandLogVerbosity.Diagnostic, true)]
+    public async Task DiagnosticAddsWorkingDirectoryAndTimestamps(CommandLogVerbosity verbosity, bool expected)
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.LogCommandStart(null, new CommandExecutionOptions
+        {
+            Logging = new CommandLoggingOptions { Verbosity = verbosity },
+        }, "tool run", "/repo");
+
+        var message = logger.Messages.Single().Text;
+        await Assert.That(message.Contains("/repo", StringComparison.Ordinal)).IsEqualTo(expected);
+        await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message, @"^\[\d{4}-\d{2}-\d{2}T")).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task ExplicitFalseOverridesDiagnosticDefaults()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.Log(null, new CommandExecutionOptions
+        {
+            Logging = CommandLoggingOptions.Diagnostic with
+            {
+                ShowCommandArguments = false,
+                ShowStandardOutput = false,
+                ShowStandardError = false,
+                ShowExitCode = false,
+                ShowExecutionTime = false,
+                ShowWorkingDirectory = false,
+                ShowTimestamps = false,
+            },
+        }, "private-input", 7, TimeSpan.FromSeconds(12), "private-output", "private-error", "/private-directory");
+
+        var messages = string.Join("\n", logger.Messages.Select(message => message.Text));
+        await Assert.That(messages).DoesNotContain("private-");
+        await Assert.That(messages).DoesNotContain("exit ");
+        await Assert.That(messages).DoesNotContain("12s");
+        await Assert.That(messages).DoesNotContain("[");
+    }
+
+    [Test]
+    public async Task ExplicitOutputOverridesSilentForCapturedAndStreamedOutput()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        var execution = new CommandExecutionOptions
+        {
+            Logging = CommandLoggingOptions.Silent with
+            {
+                ShowStandardOutput = true,
+                ShowStandardError = true,
+            },
+        };
+        commandLogger.Log(null, execution, "hidden-input", 0, null, "captured-output", "captured-error", "/hidden-directory");
+        ((ICommandOutputLogger) commandLogger).LogStandardOutputLine(new CommandLineToolOptions("tool"), execution, "streamed-output");
+        ((ICommandOutputLogger) commandLogger).LogStandardErrorLine(new CommandLineToolOptions("tool"), execution, "streamed-error");
+
+        var messages = string.Join("\n", logger.Messages.Select(message => message.Text));
+        await Assert.That(messages).Contains("captured-output");
+        await Assert.That(messages).Contains("captured-error");
+        await Assert.That(messages).Contains("streamed-output");
+        await Assert.That(messages).Contains("streamed-error");
+        await Assert.That(messages).DoesNotContain("hidden-");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ExplicitTimestampsApplyToEveryCommandEvent(bool enabled)
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        var execution = new CommandExecutionOptions
+        {
+            Logging = new CommandLoggingOptions { ShowTimestamps = enabled },
+        };
+        commandLogger.Log(null, execution, "tool run", 1, TimeSpan.FromSeconds(1), "output", "error", "/repo");
+        ((ICommandOutputLogger) commandLogger).LogStandardOutputLine(new CommandLineToolOptions("tool"), execution, "streamed");
+        ((ICommandOutputLogger) commandLogger).LogStandardErrorLine(new CommandLineToolOptions("tool"), execution, "streamed error");
+
+        await Assert.That(logger.Messages.Count).IsEqualTo(6);
+        foreach (var message in logger.Messages)
+        {
+            await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message.Text, @"^\[\d{4}-\d{2}-\d{2}T")).IsEqualTo(enabled);
+        }
+    }
+
+    [Test]
+    public async Task DryRunHonorsDirectoryAndTimestampOverrides()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.Log(null, new CommandExecutionOptions
+        {
+            InternalDryRun = true,
+            Logging = CommandLoggingOptions.Silent with { ShowWorkingDirectory = true, ShowTimestamps = true },
+        }, "hidden-input", 0, null, "hidden-output", "hidden-error", "/repo");
+
+        var message = logger.Messages.Single().Text;
+        await Assert.That(message).Contains("/repo> ******** [DRY-RUN]");
+        await Assert.That(message).DoesNotContain("hidden-");
+        await Assert.That(System.Text.RegularExpressions.Regex.IsMatch(message, @"^\[\d{4}-\d{2}-\d{2}T")).IsTrue();
+    }
+
     private static void Log(CommandLogger commandLogger, int exitCode, string standardOutput, string standardError) =>
         commandLogger.LogCommandCompletion(
             null,

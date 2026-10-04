@@ -71,13 +71,13 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         sb.AppendLine($"HTTP/{response.Version} {response.ReasonPhrase}");
         sb.AppendLine();
 
-        if (options.LogResponseHeaders)
+        if (options.ShowResponseHeaders)
         {
             AppendHeaders(sb, response.Headers, response.Content.Headers, options.SensitiveHeaderNames);
             sb.AppendLine();
         }
 
-        if (options.LogResponseBody)
+        if (options.ShowResponseBody)
         {
             await AppendBodyAsync(sb, response, options.MaxBodySizeToLog, cancellationToken).ConfigureAwait(false);
         }

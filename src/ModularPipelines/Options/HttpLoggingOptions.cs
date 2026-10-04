@@ -9,14 +9,14 @@ namespace ModularPipelines.Options;
 /// <para>Set via <see cref="HttpOptions.Logging"/> or <see cref="PipelineHttpOptions.Logging"/>.</para>
 /// <para>Controls what parts of HTTP requests and responses are logged:</para>
 /// <list type="bullet">
-/// <item><description><see cref="LogRequest"/> - Log request method, URL, and version</description></item>
-/// <item><description><see cref="LogRequestHeaders"/> - Log request headers</description></item>
-/// <item><description><see cref="LogRequestBody"/> - Log request body content</description></item>
-/// <item><description><see cref="LogResponse"/> - Log response status and version</description></item>
-/// <item><description><see cref="LogResponseHeaders"/> - Log response headers</description></item>
-/// <item><description><see cref="LogResponseBody"/> - Log response body content</description></item>
-/// <item><description><see cref="LogStatusCode"/> - Log HTTP status code with icon</description></item>
-/// <item><description><see cref="LogDuration"/> - Log request duration</description></item>
+/// <item><description><see cref="ShowRequest"/> - Log request method, URL, and version</description></item>
+/// <item><description><see cref="ShowRequestHeaders"/> - Log request headers</description></item>
+/// <item><description><see cref="ShowRequestBody"/> - Log request body content</description></item>
+/// <item><description><see cref="ShowResponse"/> - Log response status and version</description></item>
+/// <item><description><see cref="ShowResponseHeaders"/> - Log response headers</description></item>
+/// <item><description><see cref="ShowResponseBody"/> - Log response body content</description></item>
+/// <item><description><see cref="ShowStatusCode"/> - Log HTTP status code with icon</description></item>
+/// <item><description><see cref="ShowDuration"/> - Log request duration</description></item>
 /// </list>
 /// <para>Binary content detection prevents logging of non-text content like file uploads.</para>
 /// </remarks>
@@ -27,44 +27,44 @@ public record HttpLoggingOptions
     /// <summary>
     /// Gets a value indicating whether to log request method, URL, and version. Default is true.
     /// </summary>
-    public bool LogRequest { get; init; } = true;
+    public bool ShowRequest { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log request headers. Default is true.
     /// </summary>
-    public bool LogRequestHeaders { get; init; } = true;
+    public bool ShowRequestHeaders { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log request body content. Default is true.
     /// Binary content is automatically skipped regardless of this setting.
     /// </summary>
-    public bool LogRequestBody { get; init; } = true;
+    public bool ShowRequestBody { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log response status and version. Default is true.
     /// </summary>
-    public bool LogResponse { get; init; } = true;
+    public bool ShowResponse { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log response headers. Default is true.
     /// </summary>
-    public bool LogResponseHeaders { get; init; } = true;
+    public bool ShowResponseHeaders { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log response body content. Default is true.
     /// Binary content is automatically skipped regardless of this setting.
     /// </summary>
-    public bool LogResponseBody { get; init; } = true;
+    public bool ShowResponseBody { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log HTTP status code with success/failure icon. Default is true.
     /// </summary>
-    public bool LogStatusCode { get; init; } = true;
+    public bool ShowStatusCode { get; init; } = true;
 
     /// <summary>
     /// Gets a value indicating whether to log request duration. Default is true.
     /// </summary>
-    public bool LogDuration { get; init; } = true;
+    public bool ShowDuration { get; init; } = true;
 
     /// <summary>
     /// Gets the maximum body size in bytes to read and log. Default is 4096.
@@ -117,16 +117,16 @@ public record HttpLoggingOptions
     /// <summary>
     /// Gets the silent logging options (no HTTP logging).
     /// </summary>
-    public static HttpLoggingOptions None { get; } = new()
+    public static HttpLoggingOptions Silent { get; } = new()
     {
-        LogRequest = false,
-        LogRequestHeaders = false,
-        LogRequestBody = false,
-        LogResponse = false,
-        LogResponseHeaders = false,
-        LogResponseBody = false,
-        LogStatusCode = false,
-        LogDuration = false,
+        ShowRequest = false,
+        ShowRequestHeaders = false,
+        ShowRequestBody = false,
+        ShowResponse = false,
+        ShowResponseHeaders = false,
+        ShowResponseBody = false,
+        ShowStatusCode = false,
+        ShowDuration = false,
     };
 
     /// <summary>
@@ -134,14 +134,14 @@ public record HttpLoggingOptions
     /// </summary>
     public static HttpLoggingOptions Minimal { get; } = new()
     {
-        LogRequest = true,
-        LogRequestHeaders = false,
-        LogRequestBody = false,
-        LogResponse = false,
-        LogResponseHeaders = false,
-        LogResponseBody = false,
-        LogStatusCode = true,
-        LogDuration = true,
+        ShowRequest = true,
+        ShowRequestHeaders = false,
+        ShowRequestBody = false,
+        ShowResponse = false,
+        ShowResponseHeaders = false,
+        ShowResponseBody = false,
+        ShowStatusCode = true,
+        ShowDuration = true,
     };
 
     /// <summary>
@@ -149,29 +149,29 @@ public record HttpLoggingOptions
     /// </summary>
     public static HttpLoggingOptions Headers { get; } = new()
     {
-        LogRequest = true,
-        LogRequestHeaders = true,
-        LogRequestBody = false,
-        LogResponse = true,
-        LogResponseHeaders = true,
-        LogResponseBody = false,
-        LogStatusCode = true,
-        LogDuration = true,
+        ShowRequest = true,
+        ShowRequestHeaders = true,
+        ShowRequestBody = false,
+        ShowResponse = true,
+        ShowResponseHeaders = true,
+        ShowResponseBody = false,
+        ShowStatusCode = true,
+        ShowDuration = true,
     };
 
     /// <summary>
     /// Gets the full logging options (everything logged, 64KB body limit).
     /// </summary>
-    public static HttpLoggingOptions Full { get; } = new()
+    public static HttpLoggingOptions Diagnostic { get; } = new()
     {
-        LogRequest = true,
-        LogRequestHeaders = true,
-        LogRequestBody = true,
-        LogResponse = true,
-        LogResponseHeaders = true,
-        LogResponseBody = true,
-        LogStatusCode = true,
-        LogDuration = true,
+        ShowRequest = true,
+        ShowRequestHeaders = true,
+        ShowRequestBody = true,
+        ShowResponse = true,
+        ShowResponseHeaders = true,
+        ShowResponseBody = true,
+        ShowStatusCode = true,
+        ShowDuration = true,
         MaxBodySizeToLog = LoggingConstants.FullLoggingMaxBodySize,
     };
 

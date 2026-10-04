@@ -6,7 +6,7 @@ namespace ModularPipelines.Options;
 public enum CommandLogVerbosity
 {
     /// <summary>
-    /// No output at all.
+    /// No output unless individual logging options explicitly enable it.
     /// </summary>
     Silent = 0,
 
@@ -21,12 +21,12 @@ public enum CommandLogVerbosity
     Normal = 2,
 
     /// <summary>
-    /// Include additional context like working directory and timing.
+    /// Include exit code and execution time.
     /// </summary>
     Detailed = 3,
 
     /// <summary>
-    /// Full verbose output for debugging.
+    /// Include working directory and timestamps in addition to detailed output.
     /// </summary>
     Diagnostic = 4
 }
