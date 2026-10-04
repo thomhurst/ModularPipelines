@@ -78,6 +78,7 @@
 - [Parallelization Disabling](/docs/next/how-to/parallelization.md): As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
 - [Pipeline Host](/docs/next/how-to/pipeline-host.md): To begin creating your pipeline, use the Pipeline.CreateBuilder() method.
 - [Pipeline Failure Modes](/docs/next/how-to/pipeline-modes.md): A pipeline has two failure modes:
+- [Relative paths](/docs/next/how-to/relative-paths.md): Use context.Files.GetFile("input.txt") and context.Files.GetFolder("artifacts")
 - [Requirements](/docs/next/how-to/requirements.md): Requirements fail a pipeline before module execution when an environment prerequisite
 - [Retries and Resilience Shields](/docs/next/how-to/retry-policy.md): When creating modules, you can configure retries per module using the Configure(ModuleConfigurationBuilder) method.
 - [Run conditions](/docs/next/how-to/run-conditions.md): A run condition is an IRunCondition: one asynchronous predicate that receives the pipeline context and
