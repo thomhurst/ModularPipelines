@@ -6,7 +6,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
-using ModularPipelines.GitHub;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Reporting;
