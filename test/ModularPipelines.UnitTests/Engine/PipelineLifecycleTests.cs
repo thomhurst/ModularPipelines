@@ -327,6 +327,25 @@ public class PipelineLifecycleTests
     }
 
     [Test]
+    public async Task Input_Seeding_Failure_Disposes_The_Built_Host()
+    {
+        DisposalTracker? disposalTracker = null;
+        var failure = new IOException("Seeding failed");
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddScoped<DisposalTracker>();
+
+        var exception = await Assert.ThrowsAsync<IOException>(() => builder.BuildAsync(services =>
+        {
+            disposalTracker = services.GetRequiredService<DisposalTracker>();
+            return Task.FromException(failure);
+        }));
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(disposalTracker!.IsDisposed).IsTrue();
+    }
+
+    [Test]
     public async Task Initialization_Failure_Is_Preserved_When_Disposal_Also_Fails()
     {
         var builder = Pipeline.CreateBuilder();

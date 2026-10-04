@@ -503,6 +503,15 @@ public static class DistributedCoordinatorContract
         {
             return;
         }
+        catch (TimeoutException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                $"Coordinator contract expected {typeof(TException).Name} but got {exception.GetType().Name}.", exception);
+        }
 
         throw new InvalidOperationException($"Coordinator contract expected {typeof(TException).Name}.");
     }

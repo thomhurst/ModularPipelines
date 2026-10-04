@@ -52,7 +52,8 @@ internal sealed class PipelineImpl : IPipeline
     internal static async Task<PipelineImpl> CreateAsync(
         IHostBuilder hostBuilder,
         PipelineBuilderResources builderResources,
-        bool initializePipeline)
+        bool initializePipeline,
+        Func<IServiceProvider, Task>? beforeInitialization = null)
     {
         var pipeline = new PipelineImpl(hostBuilder.Build(), builderResources);
         var services = pipeline._host.Services;
@@ -66,6 +67,11 @@ internal sealed class PipelineImpl : IPipeline
             if (!initializePipeline)
             {
                 return pipeline;
+            }
+
+            if (beforeInitialization is not null)
+            {
+                await beforeInitialization(pipeline.Services).ConfigureAwait(false);
             }
 
             services.GetService<IStartupValidator>()?.Validate();

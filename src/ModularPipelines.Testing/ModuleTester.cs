@@ -12,6 +12,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
@@ -71,7 +72,7 @@ public class ModuleTestBuilder<TModule>
         return this;
     }
 
-    /// <summary>Seeds a UTF-8 file before the module executes.</summary>
+    /// <summary>Seeds a UTF-8 file before pipeline service initialization and module execution.</summary>
     /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
     /// <param name="contents">The file contents.</param>
     /// <returns>This builder.</returns>
@@ -81,7 +82,7 @@ public class ModuleTestBuilder<TModule>
         return WithFile(path, Encoding.UTF8.GetBytes(contents));
     }
 
-    /// <summary>Seeds a binary file before the module executes, creating parent directories.</summary>
+    /// <summary>Seeds a binary file before pipeline service initialization, creating parent directories.</summary>
     /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
     /// <param name="contents">The file contents, copied when registered.</param>
     /// <returns>This builder.</returns>
@@ -262,19 +263,11 @@ public class ModuleTestBuilder<TModule>
             registration(builder);
         }
 
-        var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        var pipeline = await builder.BuildAsync(services => SeedFilesAsync(services, cancellationToken)).ConfigureAwait(false);
         await using var pipelineLifetime = pipeline.ConfigureAwait(false);
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
-        foreach (var (path, contents) in _fileSeeds)
-        {
-            var absolutePath = pipelineContext.Files.GetFile(path).Path;
-            effectiveFileSystem.CreateDirectory(Path.GetDirectoryName(absolutePath)!);
-            await effectiveFileSystem.WriteAllBytesAsync(absolutePath, contents.ToArray(), cancellationToken)
-                .ConfigureAwait(false);
-        }
-
         foreach (var dependencySeed in _dependencySeeds)
         {
             dependencySeed.Apply(pipeline.Services);
@@ -283,8 +276,15 @@ public class ModuleTestBuilder<TModule>
         var module = pipeline.Services.GetServices<IModule>()
             .OfType<TModule>()
             .Single();
-        ValidateRequiredDependencyResults(module, pipeline.Services);
+        var dependencies = ValidateRequiredDependencyResults(module, pipeline.Services);
         var executionContext = ExecutionContextFactory.Create(module, typeof(TModule));
+        var dependencyFailure = ApplyDependencyOutcomes(module, dependencies, pipeline.Services, executionContext);
+        if (dependencyFailure is not null)
+        {
+            executionContext.ModuleCancellationTokenSource.Dispose();
+            return new ExecutionOutcome(dependencyFailure, recorder.Commands, effectiveFileSystem);
+        }
+
         if (cancellationToken.CanBeCanceled)
         {
             var originalCancellationTokenSource =
@@ -339,6 +339,64 @@ public class ModuleTestBuilder<TModule>
             .RegisterResult(typeof(TModule), result);
 
         return new ExecutionOutcome(result, recorder.Commands, effectiveFileSystem);
+    }
+
+    private async Task SeedFilesAsync(IServiceProvider services, CancellationToken cancellationToken)
+    {
+        var context = services.GetRequiredService<IPipelineContext>();
+        var fileSystem = services.GetRequiredService<IFileSystemProvider>();
+        foreach (var (path, contents) in _fileSeeds)
+        {
+            var absolutePath = context.Files.GetFile(path).Path;
+            var directory = Path.GetDirectoryName(absolutePath);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                fileSystem.CreateDirectory(directory);
+            }
+
+            await fileSystem.WriteAllBytesAsync(absolutePath, contents.ToArray(), cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private static IModuleResult? ApplyDependencyOutcomes(
+        IModule module,
+        (Type DependencyType, bool Optional)[] dependencies,
+        IServiceProvider services,
+        ModuleExecutionContext executionContext)
+    {
+        var registry = services.GetRequiredService<IModuleResultRegistry>();
+        var outcomes = dependencies.Select(dependency => (
+                dependency.DependencyType,
+                dependency.Optional,
+                Result: registry.GetResult(dependency.DependencyType)))
+            .ToArray();
+
+        if (!module.Configuration.AlwaysRun)
+        {
+            var failed = outcomes.FirstOrDefault(outcome => outcome.Result?.Status is
+                ModuleStatus.Failed or ModuleStatus.TimedOut or ModuleStatus.Canceled or ModuleStatus.DependencyFailed);
+            if (failed.Result is not null)
+            {
+                var dependency = services.GetServices<IModule>().Single(candidate => candidate.GetType() == failed.DependencyType);
+                var exception = new DependencyFailedException(failed.Result.ExceptionOrDefault!, dependency);
+                services.GetRequiredService<IModuleResultRegistrar>()
+                    .RegisterDependencyFailedResult(module, typeof(TModule), exception);
+                return registry.GetResult(typeof(TModule));
+            }
+        }
+
+        var skipped = outcomes
+            .Where(outcome => !outcome.Optional && outcome.Result?.Status == ModuleStatus.Skipped)
+            .OrderBy(outcome => outcome.DependencyType.FullName, StringComparer.Ordinal)
+            .Select(outcome => (outcome.DependencyType, outcome.Result!.SkipDecisionOrDefault))
+            .ToArray();
+        if (skipped.Length > 0)
+        {
+            executionContext.SkipResult = DependencySkipDecisionFactory.Create(skipped);
+        }
+
+        return null;
     }
 
     private async Task RestoreConsumedArtifactsAsync(
@@ -396,7 +454,7 @@ public class ModuleTestBuilder<TModule>
         return services.GetRequiredService<ModuleLogger<TModule>>();
     }
 
-    private static void ValidateRequiredDependencyResults(
+    private static (Type DependencyType, bool Optional)[] ValidateRequiredDependencyResults(
         IModule module,
         IServiceProvider services)
     {
@@ -406,12 +464,15 @@ public class ModuleTestBuilder<TModule>
         var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var resultRegistry = services.GetRequiredService<IModuleResultRegistry>();
-        var missingDependencies = ModuleDependencyResolver
+        var dependencies = ModuleDependencyResolver
             .GetAllDependencies(
                 module,
                 registeredModuleTypes,
                 dependencyRegistry,
                 metadataRegistry)
+            .Distinct()
+            .ToArray();
+        var missingDependencies = dependencies
             .Where(static dependency => !dependency.Optional)
             .Select(static dependency => dependency.DependencyType)
             .Distinct()
@@ -427,6 +488,8 @@ public class ModuleTestBuilder<TModule>
                 + string.Join(", ", missingDependencies)
                 + ". Call WithDependencyResult for each dependency.");
         }
+
+        return dependencies;
     }
 
     internal sealed record ExecutionOutcome(

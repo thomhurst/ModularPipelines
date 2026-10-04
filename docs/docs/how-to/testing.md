@@ -67,8 +67,12 @@ and names the missing dependency instead of waiting for the module timeout.
 Use `WithDependencyFailure<RestoreModule, CommandResult>(exception)` or
 `WithSkippedDependency<RestoreModule, CommandResult>("not needed")` to seed other
 outcomes. Both register and complete the dependency without executing it. Normal
-dependency failure and skip rules still apply; a module that inspects unsuccessful
-results must permit those outcomes in its dependency configuration.
+dependency failure and skip rules still apply. A failed registered dependency
+produces `ModuleStatus.DependencyFailed` without executing the target, unless the
+target uses `WithAlwaysRun`. A skipped required dependency skips the target,
+including an always-run target; a skipped optional dependency does not. Optional
+means that registration is optional, so a registered optional dependency's failure
+still blocks a target without `WithAlwaysRun`.
 
 ## Seed files and configure the pipeline
 
@@ -89,7 +93,8 @@ var run = await ModuleTester.For<BuildModule, BuildArtifact>()
 
 File paths resolve exactly as `context.Files.GetFile`: relative paths use the
 pipeline working directory, and absolute paths retain their location. The harness
-creates parent directories and writes seeds before module execution. Strings use
+creates parent directories and writes seeds before pipeline service initialization,
+so initializers registered through `ConfigurePipeline` can read them. Strings use
 UTF-8; byte arrays are copied when registered. Repeating the same seed path replaces
 its contents. Each execution gets a fresh in-memory provider by default.
 

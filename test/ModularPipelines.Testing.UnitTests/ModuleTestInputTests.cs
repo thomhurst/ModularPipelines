@@ -1,3 +1,4 @@
+using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -11,6 +12,89 @@ namespace ModularPipelines.Testing.UnitTests;
 
 public class ModuleTestInputTests
 {
+    [Test]
+    public async Task SeedsFilesBeforeConfiguredInitializers()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var initializer = new FileInitializer(provider);
+        await ModuleTester.For<DependencyObserver, string>()
+            .WithFile("initializer.txt", "ready")
+            .WithService<IFileSystemProvider>(provider)
+            .WithDependencyFailure<Dependency, string>(new Exception("seed"))
+            .ConfigurePipeline(builder =>
+            {
+                initializer.Path = Path.Combine(builder.WorkingDirectory, "initializer.txt");
+                builder.Services.AddSingleton<IInitializer>(initializer);
+            })
+            .ExecuteAsync();
+
+        await Assert.That(initializer.Contents).IsEqualTo("ready");
+    }
+
+    [Test]
+    public async Task RequiredFailurePreventsTargetExecution()
+    {
+        var failure = new InvalidOperationException("seeded failure");
+        var run = await ModuleTester.For<RequiredDependencyObserver, string>()
+            .WithDependencyFailure<Dependency, string>(failure)
+            .ExecuteAsync();
+
+        await Assert.That(run.Result.Status).IsEqualTo(ModuleStatus.DependencyFailed);
+        await Assert.That(run.Exception).IsTypeOf<DependencyFailedException>();
+        await Assert.That(run.Exception!.InnerException).IsSameReferenceAs(failure);
+    }
+
+    [Test]
+    public async Task RequiredSkipPreventsTargetExecution()
+    {
+        var run = await ModuleTester.For<RequiredDependencyObserver, string>()
+            .WithSkippedDependency<Dependency, string>("seeded skip")
+            .ExecuteAsync();
+
+        await Assert.That(run.Result.Status).IsEqualTo(ModuleStatus.Skipped);
+        await Assert.That(run.Result.SkipDecisionOrDefault!.Reason).Contains("seeded skip");
+    }
+
+    [Test]
+    public async Task AlwaysRunObservesRequiredFailure()
+    {
+        var run = await ModuleTester.For<AlwaysRunDependencyObserver, string>()
+            .WithDependencyFailure<Dependency, string>(new Exception("expected failure"))
+            .ExecuteAsync();
+
+        await Assert.That(run.Value).IsEqualTo("expected failure");
+    }
+
+    [Test]
+    public async Task OptionalSkipDoesNotSkipTarget()
+    {
+        var run = await ModuleTester.For<OptionalDependencyObserver, string>()
+            .WithSkippedDependency<Dependency, string>("optional skip")
+            .ExecuteAsync();
+
+        await Assert.That(run.Value).IsEqualTo("optional skip");
+    }
+
+    [Test]
+    public async Task RegisteredOptionalFailureStillBlocksTarget()
+    {
+        var run = await ModuleTester.For<OptionalDependencyObserver, string>()
+            .WithDependencyFailure<Dependency, string>(new Exception("failed"))
+            .ExecuteAsync();
+
+        await Assert.That(run.Result.Status).IsEqualTo(ModuleStatus.DependencyFailed);
+    }
+
+    [Test]
+    public async Task AlwaysRunDoesNotOverrideRequiredSkip()
+    {
+        var run = await ModuleTester.For<AlwaysRunDependencyObserver, string>()
+            .WithSkippedDependency<Dependency, string>("required skip")
+            .ExecuteAsync();
+
+        await Assert.That(run.Result.Status).IsEqualTo(ModuleStatus.Skipped);
+    }
+
     [Test]
     public async Task SeedsEffectiveProviderUsingPipelinePathResolution()
     {
@@ -117,5 +201,39 @@ public class ModuleTestInputTests
             var result = await context.GetModule<Dependency>();
             return result.ExceptionOrDefault?.Message ?? result.SkipDecisionOrDefault!.Reason!;
         }
+    }
+
+    [DependsOn<Dependency>]
+    public sealed class RequiredDependencyObserver : Module<string>
+    {
+        protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => throw new InvalidOperationException("Target must not execute");
+    }
+
+    [DependsOn<Dependency>(Optional = true)]
+    public sealed class OptionalDependencyObserver : Module<string>
+    {
+        protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => (await context.GetModule<Dependency>()).SkipDecisionOrDefault!.Reason!;
+    }
+
+    [DependsOn<Dependency>]
+    public sealed class AlwaysRunDependencyObserver : Module<string>
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module.WithAlwaysRun();
+
+        protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => (await context.GetModule<Dependency>()).ExceptionOrDefault!.Message;
+    }
+
+    private sealed class FileInitializer(IFileSystemProvider provider) : IInitializer
+    {
+        public int Order => int.MinValue;
+
+        public string Path { get; set; } = "";
+
+        public string? Contents { get; private set; }
+
+        public async Task InitializeAsync() => Contents = await provider.ReadAllTextAsync(Path);
     }
 }

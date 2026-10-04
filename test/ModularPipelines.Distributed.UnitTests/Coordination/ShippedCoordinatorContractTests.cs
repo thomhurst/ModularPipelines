@@ -6,6 +6,32 @@ namespace ModularPipelines.Distributed.UnitTests.Coordination;
 public class ShippedCoordinatorContractTests
 {
     [Test]
+    public async Task UnexpectedExceptionIncludesContractContext()
+    {
+        var cause = new IOException("backend failed");
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(cause);
+
+        var exception = await Assert.That(() => DistributedCoordinatorContract.CanceledDequeueThrowsAsync(coordinator.Object))
+            .Throws<InvalidOperationException>();
+        await Assert.That(exception!.InnerException).IsSameReferenceAs(cause);
+        await Assert.That(exception.Message).Contains(nameof(OperationCanceledException));
+        await Assert.That(exception.Message).Contains(nameof(IOException));
+    }
+
+    [Test]
+    public async Task TimeoutRemainsDistinguishable()
+    {
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(x => x.DequeueModuleAsync(It.IsAny<WorkerId>(), It.IsAny<IReadOnlySet<Capability>>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new TimeoutException("backend timeout"));
+
+        await Assert.That(() => DistributedCoordinatorContract.CanceledDequeueThrowsAsync(coordinator.Object))
+            .Throws<TimeoutException>();
+    }
+
+    [Test]
     public async Task SampleResultEscapesJsonValues()
     {
         const string value = "quoted \"value\"\nwith newline";
