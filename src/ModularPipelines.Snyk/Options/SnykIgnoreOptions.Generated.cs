@@ -65,12 +65,6 @@ public record SnykIgnoreOptions : SnykOptions, IValidatableObject
     [CliOption("--file-path-group", Format = OptionFormat.EqualsSeparated)]
     public SnykFilePathGroup? FilePathGroup { get; set; }
 
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {

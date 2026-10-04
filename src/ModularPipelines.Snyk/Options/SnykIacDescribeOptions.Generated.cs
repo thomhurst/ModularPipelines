@@ -132,10 +132,4 @@ public record SnykIacDescribeOptions : SnykOptions
     [CliOption("--html-file-output", Format = OptionFormat.EqualsSeparated)]
     public string? HtmlFileOutput { get; set; }
 
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
 }
