@@ -1827,11 +1827,17 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are routed to the right worker.
 
+`Capability`, `CapabilityRequirement`, `ICapabilityProvider`, and the capability builder extensions live in the root `ModularPipelines` namespace. Local pipelines can use them with only `using ModularPipelines;`; distributed execution is optional.
+
 ## Worker Capabilities[​](#worker-capabilities "Direct link to Worker Capabilities")
 
 Workers advertise typed `Capability` values when they register with the coordinator. Built-in values provide discoverable names; create custom capabilities explicitly with `new Capability("name")` or an explicit `(Capability) "name"` cast. The conversion is explicit because it validates the name and throws for an empty or whitespace name.
 
 ```
+using ModularPipelines;
+
+
+
 builder.AddCapabilities(Capability.Docker, Capability.Gpu, new Capability("high-memory"));
 ```
 
