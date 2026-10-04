@@ -337,6 +337,18 @@ switch for each value. Script files can serve as the complete input source for
 install, download, wheel, and lock commands. The generated
 [pip reference](docs/docs/mp-packages/cli/pip.md) lists the current options.
 
+## Newman value-taking options
+
+The Newman 6.2.2 integration now preserves optional values for `Reporters`, `Bail`,
+`DelayRequest`, `Timeout`, `TimeoutRequest`, and `TimeoutScript`. These properties
+change from `bool?` to `CliOptionValue?`: assign a string value, use
+`CliOptionValue.Bare` instead of `true`, or use `null` instead of `false` to omit
+the option. For example, `Reporters = "cli,json"` and `TimeoutRequest = "3000"`
+now render their values correctly. `IterationCount` changes from `string?` to
+`int?`, and `SuppressExitCode` exposes the previously missed `-x` flag.
+
+See the [Newman package guide](docs/docs/mp-packages/newman.md) for a complete example.
+
 ## Logging surface
 
 - `context.Logger` now exposes the standard Microsoft.Extensions.Logging `ILogger`
