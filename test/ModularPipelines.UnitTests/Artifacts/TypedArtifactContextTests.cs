@@ -109,6 +109,34 @@ public class TypedArtifactContextTests
     }
 
     [Test]
+    [Arguments('|')]
+    [Arguments('\\')]
+    public async Task Typed_File_Download_Creates_Provider_Parent(char separator)
+    {
+        var root = Path.Combine(Path.GetTempPath(), "typed-file-parent");
+        var parent = root + separator + "nested";
+        var path = parent + separator + "file.txt";
+        var provider = new Mock<IFileSystemProvider>();
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator);
+        var createdDirectories = new HashSet<string>(StringComparer.Ordinal);
+        provider.Setup(p => p.CreateDirectory(It.IsAny<string>())).Callback((string value) => createdDirectories.Add(value));
+        using var downloaded = new MemoryStream();
+        provider.Setup(p => p.Create(path)).Returns(() => createdDirectories.Contains(parent)
+            ? downloaded
+            : throw new DirectoryNotFoundException(parent));
+        var source = root + separator + "source.txt";
+        provider.Setup(p => p.OpenRead(source)).Returns(() => new MemoryStream("file content"u8.ToArray()));
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+            .ForModule(typeof(ArtifactProducer));
+        await context.PublishFileAsync("file", new FilePath(source, provider.Object));
+
+        await context.DownloadAsync<ArtifactProducer>("file", new FilePath(path, provider.Object));
+
+        provider.Verify(p => p.CreateDirectory(parent), Times.Once);
+        await Assert.That(System.Text.Encoding.UTF8.GetString(downloaded.ToArray())).IsEqualTo("file content");
+    }
+
+    [Test]
     [Arguments(@"..\outside.txt")]
     [Arguments(@"nested\..\..\outside.txt")]
     [Arguments(@"..\outside\")]

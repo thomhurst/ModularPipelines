@@ -205,7 +205,7 @@ internal class ArtifactContextImpl(
             return destinationPath;
         }
 
-        var destinationDirectory = Path.GetDirectoryName(destinationPath);
+        var destinationDirectory = GetProviderParentPath(provider, destinationPath);
         if (!string.IsNullOrEmpty(destinationDirectory))
         {
             provider.CreateDirectory(destinationDirectory);
@@ -299,6 +299,19 @@ internal class ArtifactContextImpl(
         return segments.Count == 0 ? root : AppendProviderPath(provider, root, string.Join(provider.DirectorySeparatorChar, segments));
     }
 
+    private static string? GetProviderParentPath(IFileSystemProvider provider, string path)
+    {
+        var separatorIndex = path.LastIndexOf(provider.DirectorySeparatorChar);
+        // Typed paths retain host-compatible absolute roots. Preserve drive/UNC roots,
+        // and use host parsing only when no provider-relative segments are present.
+        if (provider is SystemFileSystemProvider || separatorIndex < (Path.GetPathRoot(path)?.Length ?? 0))
+        {
+            return Path.GetDirectoryName(path);
+        }
+
+        return path[..separatorIndex];
+    }
+
     private static string AppendProviderPath(IFileSystemProvider provider, string directory, string relativePath) =>
         directory.EndsWith(provider.DirectorySeparatorChar)
             ? directory + relativePath
@@ -313,9 +326,7 @@ internal class ArtifactContextImpl(
         StringComparison pathComparison,
         CancellationToken cancellationToken)
     {
-        var entryDirectory = provider is SystemFileSystemProvider
-            ? Path.GetDirectoryName(entryPath)
-            : entryPath[..Math.Max(destinationDirectory.Length, entryPath.LastIndexOf(provider.DirectorySeparatorChar))];
+        var entryDirectory = GetProviderParentPath(provider, entryPath);
         if (!string.IsNullOrEmpty(entryDirectory))
         {
             CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
