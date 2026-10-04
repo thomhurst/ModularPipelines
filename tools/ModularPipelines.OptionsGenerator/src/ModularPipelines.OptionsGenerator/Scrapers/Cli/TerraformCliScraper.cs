@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.Generators;
@@ -54,6 +55,22 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
             // Help and version select informational actions rather than modifying execution.
             .Where(option => option.SwitchName is not ("-help" or "-version"))
             .ToList();
+
+    protected override string VersionArguments => "version -json";
+
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        using var document = JsonDocument.Parse(result.StandardOutput);
+        if (!document.RootElement.TryGetProperty("terraform_version", out var versionProperty)
+            || versionProperty.ValueKind != JsonValueKind.String
+            || string.IsNullOrWhiteSpace(versionProperty.GetString()))
+        {
+            return null;
+        }
+
+        return $"Terraform v{versionProperty.GetString()}";
+    }
+
 
     /// <summary>
     /// Skip less useful commands.

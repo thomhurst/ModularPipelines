@@ -104,6 +104,7 @@ Global options are rendered before the selected subcommand.
 | `terraform stacks list` | `TerraformStacksListOptions` |
 | `terraform stacks providers-lock` | `TerraformStacksProvidersLockOptions` |
 | `terraform stacks validate` | `TerraformStacksValidateOptions` |
+| `terraform stacks version` | `TerraformStacksVersionOptions` |
 | `terraform state` | `TerraformStateOptions` |
 | `terraform state identities` | `TerraformStateIdentitiesOptions` |
 | `terraform state list` | `TerraformStateListOptions` |
@@ -117,6 +118,7 @@ Global options are rendered before the selected subcommand.
 | `terraform test` | `TerraformTestOptions` |
 | `terraform untaint` | `TerraformUntaintOptions` |
 | `terraform validate` | `TerraformValidateOptions` |
+| `terraform version` | `TerraformVersionOptions` |
 | `terraform workspace delete` | `TerraformWorkspaceDeleteOptions` |
 | `terraform workspace list` | `TerraformWorkspaceListOptions` |
 | `terraform workspace new` | `TerraformWorkspaceNewOptions` |
