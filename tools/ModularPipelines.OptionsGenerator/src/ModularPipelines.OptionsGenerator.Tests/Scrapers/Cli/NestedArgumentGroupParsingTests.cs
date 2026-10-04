@@ -323,6 +323,7 @@ public partial class NestedArgumentGroupParsingTests
 
                 var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
                 await Assert.That(!errors.Any()).IsEqualTo(isValid(mask));
+                // Explicit false supplies a negatable flag just as true does for presence-based groups.
                 foreach (var option in command.Options.Where(option => option.NegatedSwitchName is not null))
                 {
                     var property = type.GetProperty(option.PropertyName)!;
@@ -426,7 +427,6 @@ public partial class NestedArgumentGroupParsingTests
                 var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
                 await Assert.That(errors.Length == 0).IsEqualTo(value == true || (value == false && (negatable || descriptionNegation)));
             }
-
         });
     }
 
