@@ -172,9 +172,12 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var metadataIndex = helpText.LastIndexOf(AzCliMetadataExecutor.MetadataMarker, StringComparison.Ordinal);
         if (metadataIndex >= 0)
         {
-            argumentFlags = JsonSerializer.Deserialize<Dictionary<string, bool>>(
+            var metadata = JsonSerializer.Deserialize<Dictionary<string, bool>>(
                 helpText[(metadataIndex + AzCliMetadataExecutor.MetadataMarker.Length)..])
                 ?? throw new InvalidOperationException("Azure CLI argument metadata was null.");
+            // Some Azure parser option strings contain trailing whitespace that help omits.
+            // Reject normalized duplicates rather than choosing potentially conflicting arity.
+            argumentFlags = metadata.ToDictionary(pair => pair.Key.Trim(), pair => pair.Value, StringComparer.Ordinal);
             helpText = helpText[..metadataIndex].TrimEnd();
         }
 
