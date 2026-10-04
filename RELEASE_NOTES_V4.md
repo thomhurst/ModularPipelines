@@ -1,5 +1,12 @@
 # ModularPipelines V4 Release Notes
 
+## Homebrew shared options
+
+`BrewOptions` now declares `Debug`, `Quiet`, and `Verbose` for generated Homebrew
+commands. These flags follow the command path (`brew list --verbose`). Existing
+property initializers retain their names; reflection over command records must
+include inherited properties. Cask-only options remain command-specific.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
