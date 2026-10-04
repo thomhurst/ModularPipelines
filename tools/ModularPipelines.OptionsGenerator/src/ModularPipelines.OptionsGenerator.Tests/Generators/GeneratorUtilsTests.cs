@@ -66,7 +66,7 @@ public class GeneratorUtilsTests
     [Arguments("gpgkey", "GpgKey")]
     [Arguments("sshkey", "SshKey")]
     [Arguments("kubeconfig", "KubeConfig")]
-    [Arguments("9p", "_9p")]
+    [Arguments("9p", "Number9p")]
     public async Task ToPascalCase_Handles_Compound_Words(
         string input,
         string expected)
