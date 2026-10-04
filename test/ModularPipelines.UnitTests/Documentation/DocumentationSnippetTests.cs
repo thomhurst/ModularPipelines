@@ -141,6 +141,38 @@ public class DocumentationSnippetTests
         await Assert.That(compiledFixture).Contains("buildResult.Value.OutputPath");
     }
 
+    [Test]
+    [Arguments("docs/docs/examples/fsharp-interactive.md", "test/ModularPipelines.DocumentationSnippets.FSharp/InteractiveExample.fs", "type UpdateDotnetWorkloads")]
+    [Arguments("docs/docs/how-to/sub-modules.md", "test/ModularPipelines.DocumentationSnippets/SubModuleSnippet.cs", "class PackProjectsModule")]
+    [Arguments("docs/docs/how-to/defining-modules.md", "test/ModularPipelines.DocumentationSnippets/SyncModuleSnippet.cs", "class LoggingModule")]
+    public async Task Published_Example_Matches_Compiled_Fixture(string documentationPath, string fixturePath, string declaration)
+    {
+        var repositoryRoot = FindRepositoryRoot();
+        var documentation = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, documentationPath));
+        var fixture = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, fixturePath));
+        var fence = Regex.Matches(documentation, @"```(?:csharp|fsharp)\r?\n(.*?)```", RegexOptions.Singleline)
+            .Select(match => match.Groups[1].Value)
+            .Single(code => code.Contains(declaration, StringComparison.Ordinal));
+        // FSI resolves NuGet references; the fixture uses project references to validate this checkout.
+        var code = string.Join("\n", fence.Split('\n')
+            .Where(line => !line.TrimStart().StartsWith("#r ", StringComparison.Ordinal)));
+
+        await Assert.That(Regex.Replace(fixture, @"\s+", string.Empty))
+            .Contains(Regex.Replace(code, @"\s+", string.Empty));
+    }
+
+    [Test]
+    [Arguments("docs/docs/fundamentals.md")]
+    [Arguments("docs/docs/how-to/run-conditions.md")]
+    [Arguments("docs/docs/how-to/defining-modules.md")]
+    public async Task No_Result_Guidance_Uses_Non_Generic_Modules(string documentationPath)
+    {
+        var documentation = await File.ReadAllTextAsync(Path.Combine(FindRepositoryRoot(), documentationPath));
+
+        await Assert.That(documentation).DoesNotContain("Module<None>");
+        await Assert.That(documentation).DoesNotContain("return None.Value;");
+    }
+
     private static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
