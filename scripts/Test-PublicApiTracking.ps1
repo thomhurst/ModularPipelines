@@ -49,7 +49,7 @@ try {
     $command = "& '{0}' -SingleNode -TimeoutSeconds 60 -DotNetArguments @('msbuild', '{1}', '-target:Test', '-verbosity:minimal')" -f $guard.Replace("'", "''"), $project.Replace("'", "''")
     & pwsh -NoProfile -Command $command
     if ($LASTEXITCODE -ne 0) { throw "Public API tracking checks failed with exit code $LASTEXITCODE." }
-    Write-Output 'Public API tracking checks passed (12 configurations).'
+    Write-Output "Public API tracking checks passed ($($checks.Count) configurations)."
 
     $compilationDirectory = Join-Path $testRoot 'compiler'
     New-Item -ItemType Directory -Path $compilationDirectory | Out-Null
