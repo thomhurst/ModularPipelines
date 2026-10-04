@@ -59,11 +59,19 @@ Implement `ICapabilityCondition` to make your own conditions routable:
 public sealed class OnGpu : ICapabilityCondition
 {
     public Capability Capability => Capability.Gpu;
-
-    public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken) =>
-        Task.FromResult(File.Exists("/dev/nvidia0"));
 }
 ```
+
+The default `IRunCondition.EvaluateAsync` implementation checks the executing process's declared
+capabilities. Declare GPU support with `builder.AddCapabilities(Capability.Gpu)`, or register an
+`ICapabilityProvider` to detect it. The provider's result is shared by routing and local evaluation;
+put hardware detection there instead of duplicating it in the condition.
+
+An explicit `EvaluateAsync` implementation is called during local or worker execution and can
+reject a module even on a worker with the required capability. It is **not** called by the
+master when constructing a route: the master reads `Capability` and preserves the condition's
+AND/OR composition. Use an ordinary `IRunCondition` for a runtime predicate that should not
+also constrain worker capabilities.
 
 ```csharp
 // The "linux" capability is auto-detected — no [RequiresCapability] needed
