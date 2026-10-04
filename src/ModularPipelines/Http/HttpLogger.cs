@@ -63,7 +63,7 @@ internal class HttpLogger : IHttpLogger
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
-        if (!options.LogRequest)
+        if (!options.ShowRequest)
         {
             return;
         }
@@ -117,7 +117,7 @@ internal class HttpLogger : IHttpLogger
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
-        if (!options.LogResponse)
+        if (!options.ShowResponse)
         {
             return;
         }
