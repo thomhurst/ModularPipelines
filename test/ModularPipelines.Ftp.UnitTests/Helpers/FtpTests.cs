@@ -1,7 +1,9 @@
+using System.ComponentModel;
 using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
 using FluentFTP;
 using ModularPipelines.Ftp;
-using ModularPipelines.Ftp.Options;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 
@@ -45,6 +47,74 @@ public class FtpTests : TestBase
 
         await ((IAsyncDisposable) ftp).DisposeAsync();
         await Assert.That(client.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Failed_Configuration_Disposes_Client()
+    {
+        var ftp = await GetService<IFtp>();
+        IAsyncFtpClient? captured = null;
+        var failure = new InvalidOperationException("configuration failed");
+        var options = new FtpOptions("127.0.0.1", new NetworkCredential("user", "password"))
+        {
+            ClientConfigurator = client =>
+            {
+                captured = client;
+                throw failure;
+            },
+        };
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => ftp.GetFtpClientAsync(options));
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(captured!.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task PreCanceled_Connection_Does_Not_Configure_Client()
+    {
+        var ftp = await GetService<IFtp>();
+        using var cancellation = new CancellationTokenSource();
+        await cancellation.CancelAsync();
+        var configured = false;
+        var options = CreateOptions(21) with { ClientConfigurator = _ => configured = true };
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => ftp.GetFtpClientAsync(options, cancellation.Token));
+        await Assert.That(configured).IsFalse();
+    }
+
+    [Test]
+    public async Task Cancellation_During_Connection_Disposes_Client()
+    {
+        using var listener = new TcpListener(IPAddress.Loopback, 0);
+        listener.Start();
+        var ftp = await GetService<IFtp>();
+        using var cancellation = new CancellationTokenSource();
+        IAsyncFtpClient? captured = null;
+        var options = CreateOptions(((IPEndPoint) listener.LocalEndpoint).Port);
+        var configure = options.ClientConfigurator;
+        options = options with
+        {
+            ClientConfigurator = client =>
+            {
+                captured = client;
+                configure!(client);
+            },
+        };
+
+        var connection = ftp.GetFtpClientAsync(options, cancellation.Token);
+        using var accepted = await listener.AcceptTcpClientAsync().WaitAsync(TimeSpan.FromSeconds(10));
+        await cancellation.CancelAsync();
+        await Assert.ThrowsAsync<OperationCanceledException>(() => connection.WaitAsync(TimeSpan.FromSeconds(10)));
+        await Assert.That(captured!.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Registration_Remains_Discoverable_And_Hidden_From_IntelliSense()
+    {
+        var method = typeof(FtpExtensions).GetMethod(nameof(FtpExtensions.RegisterFtpContext))!;
+        await Assert.That(method.GetCustomAttribute<EditorBrowsableAttribute>()!.State)
+            .IsEqualTo(EditorBrowsableState.Never);
+        await Assert.That(await GetService<IFtp>()).IsNotNull();
     }
 
     private static FtpOptions CreateOptions(int port)

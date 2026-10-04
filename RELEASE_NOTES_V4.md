@@ -957,3 +957,15 @@ the separator in relative paths. Its default follows the host. Providers using W
 separators on Unix must override it so artifact extraction validates traversal with the
 same separator semantics as the backing store; slash-based providers retain literal
 backslashes in filenames.
+
+## FTP connection cancellation and package namespaces
+
+`IFtp.GetFtpClientAsync(FtpOptions, CancellationToken = default)` now accepts cancellation
+for connection establishment. Failed or canceled client setup disposes the client;
+successfully connected clients remain owned by the FTP context. Custom `IFtp`
+implementations must accept the new parameter.
+
+`FtpOptions` and `FtpExtensions` now live in `ModularPipelines.Ftp`. Replace imports of
+`ModularPipelines.Ftp.Options` and `ModularPipelines.Ftp.Extensions` with that root namespace.
+The generated `context.Tools.Ftp` entry point remains available. `RegisterFtpContext`
+remains public for generated registration and is hidden from IntelliSense.
