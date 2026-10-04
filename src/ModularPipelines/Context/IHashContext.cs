@@ -17,6 +17,13 @@ public interface IHashContext
     /// <returns>The encoded hash.</returns>
     string Md5File(string path, HashEncoding encoding = HashEncoding.Hex);
 
+    /// <summary>Asynchronously computes the MD5 hash of a file.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="encoding">The result encoding.</param>
+    /// <param name="cancellationToken">A token used to cancel reading the file.</param>
+    /// <returns>The encoded hash.</returns>
+    Task<string> Md5FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default);
+
     /// <summary>Computes the SHA-1 hash of UTF-8 text.</summary>
     /// <param name="text">The text to hash.</param>
     /// <param name="encoding">The result encoding.</param>
@@ -28,6 +35,13 @@ public interface IHashContext
     /// <param name="encoding">The result encoding.</param>
     /// <returns>The encoded hash.</returns>
     string Sha1File(string path, HashEncoding encoding = HashEncoding.Hex);
+
+    /// <summary>Asynchronously computes the SHA-1 hash of a file.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="encoding">The result encoding.</param>
+    /// <param name="cancellationToken">A token used to cancel reading the file.</param>
+    /// <returns>The encoded hash.</returns>
+    Task<string> Sha1FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default);
 
     /// <summary>Computes the SHA-256 hash of UTF-8 text.</summary>
     /// <param name="text">The text to hash.</param>
@@ -41,6 +55,13 @@ public interface IHashContext
     /// <returns>The encoded hash.</returns>
     string Sha256File(string path, HashEncoding encoding = HashEncoding.Hex);
 
+    /// <summary>Asynchronously computes the SHA-256 hash of a file.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="encoding">The result encoding.</param>
+    /// <param name="cancellationToken">A token used to cancel reading the file.</param>
+    /// <returns>The encoded hash.</returns>
+    Task<string> Sha256FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default);
+
     /// <summary>Computes the SHA-384 hash of UTF-8 text.</summary>
     /// <param name="text">The text to hash.</param>
     /// <param name="encoding">The result encoding.</param>
@@ -53,6 +74,13 @@ public interface IHashContext
     /// <returns>The encoded hash.</returns>
     string Sha384File(string path, HashEncoding encoding = HashEncoding.Hex);
 
+    /// <summary>Asynchronously computes the SHA-384 hash of a file.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="encoding">The result encoding.</param>
+    /// <param name="cancellationToken">A token used to cancel reading the file.</param>
+    /// <returns>The encoded hash.</returns>
+    Task<string> Sha384FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default);
+
     /// <summary>Computes the SHA-512 hash of UTF-8 text.</summary>
     /// <param name="text">The text to hash.</param>
     /// <param name="encoding">The result encoding.</param>
@@ -64,4 +92,11 @@ public interface IHashContext
     /// <param name="encoding">The result encoding.</param>
     /// <returns>The encoded hash.</returns>
     string Sha512File(string path, HashEncoding encoding = HashEncoding.Hex);
+
+    /// <summary>Asynchronously computes the SHA-512 hash of a file.</summary>
+    /// <param name="path">An absolute path or a path relative to the pipeline working directory.</param>
+    /// <param name="encoding">The result encoding.</param>
+    /// <param name="cancellationToken">A token used to cancel reading the file.</param>
+    /// <returns>The encoded hash.</returns>
+    Task<string> Sha512FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default);
 }

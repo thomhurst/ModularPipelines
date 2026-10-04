@@ -16,11 +16,17 @@ internal class HashContext(
     public string Md5File(string path, HashEncoding encoding = HashEncoding.Hex) =>
         HashFile(path, encoding, MD5.HashData);
 
+    public Task<string> Md5FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default) =>
+        HashFileAsync(path, encoding, MD5.HashDataAsync, cancellationToken);
+
     public string Sha1(string text, HashEncoding encoding = HashEncoding.Hex) =>
         Encode(SHA1.HashData(Encoding.UTF8.GetBytes(text)), encoding);
 
     public string Sha1File(string path, HashEncoding encoding = HashEncoding.Hex) =>
         HashFile(path, encoding, SHA1.HashData);
+
+    public Task<string> Sha1FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default) =>
+        HashFileAsync(path, encoding, SHA1.HashDataAsync, cancellationToken);
 
     public string Sha256(string text, HashEncoding encoding = HashEncoding.Hex) =>
         Encode(SHA256.HashData(Encoding.UTF8.GetBytes(text)), encoding);
@@ -28,11 +34,17 @@ internal class HashContext(
     public string Sha256File(string path, HashEncoding encoding = HashEncoding.Hex) =>
         HashFile(path, encoding, SHA256.HashData);
 
+    public Task<string> Sha256FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default) =>
+        HashFileAsync(path, encoding, SHA256.HashDataAsync, cancellationToken);
+
     public string Sha384(string text, HashEncoding encoding = HashEncoding.Hex) =>
         Encode(SHA384.HashData(Encoding.UTF8.GetBytes(text)), encoding);
 
     public string Sha384File(string path, HashEncoding encoding = HashEncoding.Hex) =>
         HashFile(path, encoding, SHA384.HashData);
+
+    public Task<string> Sha384FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default) =>
+        HashFileAsync(path, encoding, SHA384.HashDataAsync, cancellationToken);
 
     public string Sha512(string text, HashEncoding encoding = HashEncoding.Hex) =>
         Encode(SHA512.HashData(Encoding.UTF8.GetBytes(text)), encoding);
@@ -40,10 +52,36 @@ internal class HashContext(
     public string Sha512File(string path, HashEncoding encoding = HashEncoding.Hex) =>
         HashFile(path, encoding, SHA512.HashData);
 
+    public Task<string> Sha512FileAsync(string path, HashEncoding encoding = HashEncoding.Hex, CancellationToken cancellationToken = default) =>
+        HashFileAsync(path, encoding, SHA512.HashDataAsync, cancellationToken);
+
     private string HashFile(
         string path,
         HashEncoding encoding,
         Func<Stream, byte[]> hash)
+    {
+        path = ResolveExistingFile(path);
+        using var stream = fileSystemProvider.OpenRead(path);
+        return Encode(hash(stream), encoding);
+    }
+
+    private async Task<string> HashFileAsync(
+        string path,
+        HashEncoding encoding,
+        Func<Stream, CancellationToken, ValueTask<byte[]>> hash,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        path = ResolveExistingFile(path);
+        var stream = fileSystemProvider.OpenRead(path);
+        await using (stream.ConfigureAwait(false))
+        {
+            var bytes = await hash(stream, cancellationToken).ConfigureAwait(false);
+            return Encode(bytes, encoding);
+        }
+    }
+
+    private string ResolveExistingFile(string path)
     {
         if (string.IsNullOrWhiteSpace(path))
         {
@@ -56,8 +94,7 @@ internal class HashContext(
             throw new FileNotFoundException($"Cannot calculate hash: file not found at '{path}'", path);
         }
 
-        using var stream = fileSystemProvider.OpenRead(path);
-        return Encode(hash(stream), encoding);
+        return path;
     }
 
     private string Encode(byte[] bytes, HashEncoding encoding) =>

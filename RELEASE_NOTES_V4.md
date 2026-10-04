@@ -1,5 +1,21 @@
 # ModularPipelines V4 Release Notes
 
+## Asynchronous file operations
+
+`IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
+SHA-256, SHA-384, and SHA-512. `IZipContext` adds `CreateFromDirectoryAsync` and
+`ExtractToDirectoryAsync`, preserving compression, overwrite, working-directory,
+and file-system provider behavior. Existing synchronous APIs remain available.
+See [asynchronous file operations](docs/docs/how-to/async-file-operations.md)
+for examples, cancellation behavior, and runtime I/O limitations.
+
+This extends the required interface contract in V4. Custom `IHashContext`
+implementations must implement all five async file-hash methods; custom
+`IZipContext` implementations must implement both async ZIP methods. Rebuild these
+implementations against V4 and use cancellable asynchronous stream I/O where
+supported. Existing callers of synchronous methods can keep using them, but
+implementations of the older interfaces are not source or binary compatible.
+
 ## CI detection
 
 Use `context.Environment.BuildSystem.IsCI` (renamed from `IsBuildServer`) and

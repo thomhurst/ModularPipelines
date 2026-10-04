@@ -5,7 +5,7 @@ using ModularPipelines.Helpers;
 
 namespace ModularPipelines.Context;
 
-internal class Zip(
+internal partial class Zip(
     IFileSystemProvider fileSystemProvider,
     PipelineWorkingDirectory workingDirectory) : IZipContext
 {
@@ -14,21 +14,7 @@ internal class Zip(
 
     public FilePath CreateFromDirectory(FolderPath folder, string outputPath, CompressionLevel compressionLevel)
     {
-        outputPath = _workingDirectory.ResolvePath(outputPath);
-        var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
-                                || (!_fileSystemProvider.FileExists(outputPath)
-                                    && IsDirectoryPath(outputPath));
-        if (outputIsDirectory)
-        {
-            outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
-        }
-
-        if (_fileSystemProvider.FileExists(outputPath))
-        {
-            throw new IOException($"The file '{outputPath}' already exists.");
-        }
-
-        _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
+        outputPath = PrepareOutputPath(outputPath);
         var directories = _fileSystemProvider
             .EnumerateDirectories(folder.Path, "*", SearchOption.AllDirectories)
             .ToArray();
@@ -178,6 +164,26 @@ internal class Zip(
         }
 
         return destinationPath;
+    }
+
+    private string PrepareOutputPath(string outputPath)
+    {
+        outputPath = _workingDirectory.ResolvePath(outputPath);
+        var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
+                                || (!_fileSystemProvider.FileExists(outputPath)
+                                    && IsDirectoryPath(outputPath));
+        if (outputIsDirectory)
+        {
+            outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
+        }
+
+        if (_fileSystemProvider.FileExists(outputPath))
+        {
+            throw new IOException($"The file '{outputPath}' already exists.");
+        }
+
+        _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
+        return outputPath;
     }
 
     private static string NormalizeEntryName(string path) =>
