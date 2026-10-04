@@ -203,14 +203,8 @@ public record GcloudContainerAzureClustersCreateOptions : GcloudOptions, IValida
     /// <summary>
     /// Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
     /// </summary>
-    [CliFlag("--enable-managed-prometheus")]
+    [CliFlag("--enable-managed-prometheus", NegatedName = "--no-enable-managed-prometheus")]
     public bool? EnableManagedPrometheus { get; set; }
-
-    /// <summary>
-    /// Negates --enable-managed-prometheus. Enables managed collection for Managed Service for Prometheus in the cluster. See https://cloud.google.com/stackdriver/docs/managed-prometheus/setup-managed#enable-mgdcoll-gke for more info. Managed Prometheus is enabled by default for cluster versions 1.27 or greater, use --no-enable-managed-prometheus to disable.
-    /// </summary>
-    [CliFlag("--no-enable-managed-prometheus")]
-    public bool? NoEnableManagedPrometheus { get; set; }
 
     /// <summary>
     /// ARM ID of the subnet where the control plane load balancer is deployed. When unspecified, it defaults to the control plane subnet ID.

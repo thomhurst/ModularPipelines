@@ -54,26 +54,14 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     /// <summary>
     /// Whether web grounding should be disabled. DEPRECATED: Use web_grounding_type instead. Use --disable-web-grounding to enable and --no-disable-web-grounding to disable.
     /// </summary>
-    [CliFlag("--disable-web-grounding")]
+    [CliFlag("--disable-web-grounding", NegatedName = "--no-disable-web-grounding")]
     public bool? DisableWebGrounding { get; set; }
-
-    /// <summary>
-    /// Negates --disable-web-grounding. Whether web grounding should be disabled. DEPRECATED: Use web_grounding_type instead. Use --disable-web-grounding to enable and --no-disable-web-grounding to disable.
-    /// </summary>
-    [CliFlag("--no-disable-web-grounding")]
-    public bool? NoDisableWebGrounding { get; set; }
 
     /// <summary>
     /// Not implemented. Use --enable-customer-data-sharing to enable and --no-enable-customer-data-sharing to disable.
     /// </summary>
-    [CliFlag("--enable-customer-data-sharing")]
+    [CliFlag("--enable-customer-data-sharing", NegatedName = "--no-enable-customer-data-sharing")]
     public bool? EnableCustomerDataSharing { get; set; }
-
-    /// <summary>
-    /// Negates --enable-customer-data-sharing. Not implemented. Use --enable-customer-data-sharing to enable and --no-enable-customer-data-sharing to disable.
-    /// </summary>
-    [CliFlag("--no-enable-customer-data-sharing")]
-    public bool? NoEnableCustomerDataSharing { get; set; }
 
     /// <summary>
     /// The Gemini enterprise project for this setting. Format: projects/{project} The {project} segment can be the project ID or project number.
@@ -84,26 +72,14 @@ public record GcloudGeminiGeminiGcpEnablementSettingsUpdateOptions : GcloudOptio
     /// <summary>
     /// Indicates whether resource mutations are enabled. If not set, resource mutations are disabled. Use --mutations-enabled to enable and --no-mutations-enabled to disable.
     /// </summary>
-    [CliFlag("--mutations-enabled")]
+    [CliFlag("--mutations-enabled", NegatedName = "--no-mutations-enabled")]
     public bool? MutationsEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --mutations-enabled. Indicates whether resource mutations are enabled. If not set, resource mutations are disabled. Use --mutations-enabled to enable and --no-mutations-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-mutations-enabled")]
-    public bool? NoMutationsEnabled { get; set; }
 
     /// <summary>
     /// Indicates whether proactive agents are enabled. If not set, proactive agents are disabled. Use --proactive-agents-enabled to enable and --no-proactive-agents-enabled to disable.
     /// </summary>
-    [CliFlag("--proactive-agents-enabled")]
+    [CliFlag("--proactive-agents-enabled", NegatedName = "--no-proactive-agents-enabled")]
     public bool? ProactiveAgentsEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --proactive-agents-enabled. Indicates whether proactive agents are enabled. If not set, proactive agents are disabled. Use --proactive-agents-enabled to enable and --no-proactive-agents-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-proactive-agents-enabled")]
-    public bool? NoProactiveAgentsEnabled { get; set; }
 
     /// <summary>
     /// Specifies the release channel for Gemini features. The release channel determines which set of features are available to the user. RELEASE_CHANNEL must be one of: experimental Experimental release channel. stable Stable channel.

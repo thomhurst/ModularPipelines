@@ -89,14 +89,8 @@ public record GcloudComputeOrgSecurityPoliciesRulesCreateOptions : GcloudOptions
     /// <summary>
     /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

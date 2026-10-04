@@ -55,14 +55,8 @@ public record GcloudBmsInstancesUpdateOptions : GcloudOptions, IValidatableObjec
     /// <summary>
     /// Enable hyperthreading for the server. Use --enable-hyperthreading to enable and --no-enable-hyperthreading to disable.
     /// </summary>
-    [CliFlag("--enable-hyperthreading")]
+    [CliFlag("--enable-hyperthreading", NegatedName = "--no-enable-hyperthreading")]
     public bool? EnableHyperthreading { get; set; }
-
-    /// <summary>
-    /// Negates --enable-hyperthreading. Enable hyperthreading for the server. Use --enable-hyperthreading to enable and --no-enable-hyperthreading to disable.
-    /// </summary>
-    [CliFlag("--no-enable-hyperthreading")]
-    public bool? NoEnableHyperthreading { get; set; }
 
     /// <summary>
     /// OS image to install on the server. To list all OS image codes supported by BMS, run: $ gcloud bms os-images list

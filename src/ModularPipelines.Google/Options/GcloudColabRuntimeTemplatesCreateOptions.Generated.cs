@@ -74,14 +74,8 @@ public record GcloudColabRuntimeTemplatesCreateOptions : GcloudOptions, IValidat
     /// <summary>
     /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. Enable end user credential access for the runtime. Enabled by default, use --no-enable-euc to disable.
     /// </summary>
-    [CliFlag("--enable-euc")]
+    [CliFlag("--enable-euc", NegatedName = "--no-enable-euc")]
     public bool? EnableEuc { get; set; }
-
-    /// <summary>
-    /// Negates --enable-euc. Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. Enable end user credential access for the runtime. Enabled by default, use --no-enable-euc to disable.
-    /// </summary>
-    [CliFlag("--no-enable-euc")]
-    public bool? NoEnableEuc { get; set; }
 
     /// <summary>
     /// Region resource - Cloud region to create runtime template. Please see https://cloud.google.com/colab/docs/locations for a list of supported regions. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --region on the command line with a fully specified name; ◆ set the property colab/region with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. Configuration of the runtime template The machine configuration of the runtime. Enables secure boot for the runtime. Disabled by default.
@@ -164,14 +158,8 @@ public record GcloudColabRuntimeTemplatesCreateOptions : GcloudOptions, IValidat
     /// <summary>
     /// The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
     /// </summary>
-    [CliFlag("--enable-internet-access")]
+    [CliFlag("--enable-internet-access", NegatedName = "--no-enable-internet-access")]
     public bool? EnableInternetAccess { get; set; }
-
-    /// <summary>
-    /// Negates --enable-internet-access. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
-    /// </summary>
-    [CliFlag("--no-enable-internet-access")]
-    public bool? NoEnableInternetAccess { get; set; }
 
     /// <summary>
     /// Network resource - The name of the VPC that this runtime is in. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ◆ provide the argument --network on the command line.

@@ -52,14 +52,8 @@ public record GcloudSpannerSamplesRunOptions : GcloudOptions
     /// <summary>
     /// Delete the instance after running the sample app. Enabled by default, use --no-cleanup to disable.
     /// </summary>
-    [CliFlag("--cleanup")]
+    [CliFlag("--cleanup", NegatedName = "--no-cleanup")]
     public bool? Cleanup { get; set; }
-
-    /// <summary>
-    /// Negates --cleanup. Delete the instance after running the sample app. Enabled by default, use --no-cleanup to disable.
-    /// </summary>
-    [CliFlag("--no-cleanup")]
-    public bool? NoCleanup { get; set; }
 
     /// <summary>
     /// ID of the new Cloud Spanner database to create for the sample app.

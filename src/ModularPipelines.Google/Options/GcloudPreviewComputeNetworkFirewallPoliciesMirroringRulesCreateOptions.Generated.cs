@@ -110,14 +110,8 @@ public record GcloudPreviewComputeNetworkFirewallPoliciesMirroringRulesCreateOpt
     /// <summary>
     /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// A security profile group to be used with mirror action.

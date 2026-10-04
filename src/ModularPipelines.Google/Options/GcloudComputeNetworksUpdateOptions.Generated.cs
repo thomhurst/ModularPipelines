@@ -48,14 +48,8 @@ public record GcloudComputeNetworksUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
     /// </summary>
-    [CliFlag("--enable-ula-internal-ipv6")]
+    [CliFlag("--enable-ula-internal-ipv6", NegatedName = "--no-enable-ula-internal-ipv6")]
     public bool? EnableUlaInternalIpv6 { get; set; }
-
-    /// <summary>
-    /// Negates --enable-ula-internal-ipv6. Enable/disable ULA internal IPv6 on this network. Enabling this feature will assign a /48 from google defined ULA prefix fd20::/20. Use --enable-ula-internal-ipv6 to enable and --no-enable-ula-internal-ipv6 to disable.
-    /// </summary>
-    [CliFlag("--no-enable-ula-internal-ipv6")]
-    public bool? NoEnableUlaInternalIpv6 { get; set; }
 
     /// <summary>
     /// When enabling ULA internal IPv6, caller can optionally specify the /48 range they want from the google defined ULA prefix fd20::/20. ULA_IPV6_RANGE must be a valid /48 ULA IPv6 address and within the fd20::/20. Operation will fail if the speficied /48 is already in used by another resource. If the field is not speficied, then a /48 range will be randomly allocated from fd20::/20 and returned via this field.
@@ -84,14 +78,8 @@ public record GcloudComputeNetworksUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
     /// </summary>
-    [CliFlag("--bgp-bps-always-compare-med")]
+    [CliFlag("--bgp-bps-always-compare-med", NegatedName = "--no-bgp-bps-always-compare-med")]
     public bool? BgpBpsAlwaysCompareMed { get; set; }
-
-    /// <summary>
-    /// Negates --bgp-bps-always-compare-med. Enables/disables the comparison of MED across routes with different Neighbor ASNs. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. Use --bgp-bps-always-compare-med to enable and --no-bgp-bps-always-compare-med to disable.
-    /// </summary>
-    [CliFlag("--no-bgp-bps-always-compare-med")]
-    public bool? NoBgpBpsAlwaysCompareMed { get; set; }
 
     /// <summary>
     /// Defines the preferred approach for handling inter-region cost in the selection process. This value can only be set if the --bgp-best-path-selection-mode is STANDARD. BGP_BPS_INTER_REGION_COST must be one of: ADD_COST_TO_MED Adds inter-region cost to the MED before comparing the MED value. When multiple routes have the same value after the Add-cost-to-med comparison, the route selection continues and prefers the route with lowest cost. DEFAULT MED is compared as originally received from peers. When multiple routes have the same MED, cost is evaluated as the next step.

@@ -65,38 +65,20 @@ public record GcloudComputeRoutersNatsUpdateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
     /// </summary>
-    [CliFlag("--enable-dynamic-port-allocation")]
+    [CliFlag("--enable-dynamic-port-allocation", NegatedName = "--no-enable-dynamic-port-allocation")]
     public bool? EnableDynamicPortAllocation { get; set; }
-
-    /// <summary>
-    /// Negates --enable-dynamic-port-allocation. Enable dynamic port allocation. If not specified, Dynamic Port Allocation is disabled by default. Use --enable-dynamic-port-allocation to enable and --no-enable-dynamic-port-allocation to disable.
-    /// </summary>
-    [CliFlag("--no-enable-dynamic-port-allocation")]
-    public bool? NoEnableDynamicPortAllocation { get; set; }
 
     /// <summary>
     /// Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
     /// </summary>
-    [CliFlag("--enable-endpoint-independent-mapping")]
+    [CliFlag("--enable-endpoint-independent-mapping", NegatedName = "--no-enable-endpoint-independent-mapping")]
     public bool? EnableEndpointIndependentMapping { get; set; }
-
-    /// <summary>
-    /// Negates --enable-endpoint-independent-mapping. Enable endpoint-independent mapping for the NAT (as defined in RFC 5128). If not specified, NATs have endpoint-independent mapping disabled by default. Use --no-enable-endpoint-independent-mapping to disable endpoint-independent mapping.
-    /// </summary>
-    [CliFlag("--no-enable-endpoint-independent-mapping")]
-    public bool? NoEnableEndpointIndependentMapping { get; set; }
 
     /// <summary>
     /// Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud compute routers nats update MY-NAT --no-enable-logging \ --router ROUTER --region REGION
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Enable logging for the NAT. Logs will be exported to Stackdriver. NAT logging is disabled by default. To disable logging for the NAT, use $ gcloud compute routers nats update MY-NAT --no-enable-logging \ --router ROUTER --region REGION
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// Filter for logs exported to stackdriver. The default is ALL. If logging is not enabled, filter settings will be persisted but will have no effect. Use --[no-]enable-logging to enable and disable logging. LOG_FILTER must be one of: ALL Export logs for all connections handled by this NAT. ERRORS_ONLY Export logs for connection failures only. TRANSLATIONS_ONLY Export logs for successful connections only.

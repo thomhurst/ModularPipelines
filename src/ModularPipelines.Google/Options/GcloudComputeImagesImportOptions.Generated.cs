@@ -141,14 +141,8 @@ public record GcloudComputeImagesImportOptions : GcloudOptions, IValidatableObje
     /// <summary>
     /// Installs the guest environment on the image. See https://cloud.google.com/compute/docs/images/guest-environment. Enabled by default, use --no-guest-environment to disable.
     /// </summary>
-    [CliFlag("--guest-environment")]
+    [CliFlag("--guest-environment", NegatedName = "--no-guest-environment")]
     public bool? GuestEnvironment { get; set; }
-
-    /// <summary>
-    /// Negates --guest-environment. Installs the guest environment on the image. See https://cloud.google.com/compute/docs/images/guest-environment. Enabled by default, use --no-guest-environment to disable.
-    /// </summary>
-    [CliFlag("--no-guest-environment")]
-    public bool? NoGuestEnvironment { get; set; }
 
     /// <summary>
     /// Enables one or more features for VM instances that use the image for their boot disks. See the descriptions of supported features at: https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features. GUEST_OS_FEATURE must be (only one value is supported): UEFI_COMPATIBLE. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

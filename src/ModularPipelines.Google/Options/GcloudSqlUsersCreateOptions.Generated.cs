@@ -84,26 +84,14 @@ public record GcloudSqlUsersCreateOptions : GcloudOptions
     /// <summary>
     /// Enables the failed login attempts check if set to true. Use --password-policy-enable-failed-attempts-check to enable and --no-password-policy-enable-failed-attempts-check to disable.
     /// </summary>
-    [CliFlag("--password-policy-enable-failed-attempts-check")]
+    [CliFlag("--password-policy-enable-failed-attempts-check", NegatedName = "--no-password-policy-enable-failed-attempts-check")]
     public bool? PasswordPolicyEnableFailedAttemptsCheck { get; set; }
-
-    /// <summary>
-    /// Negates --password-policy-enable-failed-attempts-check. Enables the failed login attempts check if set to true. Use --password-policy-enable-failed-attempts-check to enable and --no-password-policy-enable-failed-attempts-check to disable.
-    /// </summary>
-    [CliFlag("--no-password-policy-enable-failed-attempts-check")]
-    public bool? NoPasswordPolicyEnableFailedAttemptsCheck { get; set; }
 
     /// <summary>
     /// The current password must be specified when altering the password. Use --password-policy-enable-password-verification to enable and --no-password-policy-enable-password-verification to disable.
     /// </summary>
-    [CliFlag("--password-policy-enable-password-verification")]
+    [CliFlag("--password-policy-enable-password-verification", NegatedName = "--no-password-policy-enable-password-verification")]
     public bool? PasswordPolicyEnablePasswordVerification { get; set; }
-
-    /// <summary>
-    /// Negates --password-policy-enable-password-verification. The current password must be specified when altering the password. Use --password-policy-enable-password-verification to enable and --no-password-policy-enable-password-verification to disable.
-    /// </summary>
-    [CliFlag("--no-password-policy-enable-password-verification")]
-    public bool? NoPasswordPolicyEnablePasswordVerification { get; set; }
 
     /// <summary>
     /// Expiration duration after a password is updated, for example, 2d for 2 days. See gcloud topic datetimes for information on duration formats.

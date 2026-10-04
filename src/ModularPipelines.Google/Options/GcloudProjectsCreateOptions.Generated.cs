@@ -25,14 +25,8 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     /// <summary>
     /// Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
     /// </summary>
-    [CliFlag("--enable-cloud-apis")]
+    [CliFlag("--enable-cloud-apis", NegatedName = "--no-enable-cloud-apis")]
     public bool? EnableCloudApis { get; set; }
-
-    /// <summary>
-    /// Negates --enable-cloud-apis. Enable cloudapis.googleapis.com during creation. Enabled by default, use --no-enable-cloud-apis to disable.
-    /// </summary>
-    [CliFlag("--no-enable-cloud-apis")]
-    public bool? NoEnableCloudApis { get; set; }
 
     /// <summary>
     /// ID for the folder to use as a parent

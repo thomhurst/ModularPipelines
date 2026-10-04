@@ -54,14 +54,8 @@ public record GcloudPreviewComputeHealthChecksUpdateHttpOptions : GcloudOptions,
     /// <summary>
     /// Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// The number of consecutive successful health checks before an unhealthy instance is marked as healthy.

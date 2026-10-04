@@ -48,14 +48,8 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidata
     /// <summary>
     /// Arguments for the async instance endpoints deletion enabled. If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
     /// </summary>
-    [CliFlag("--async-instance-endpoints-deletion-enabled")]
+    [CliFlag("--async-instance-endpoints-deletion-enabled", NegatedName = "--no-async-instance-endpoints-deletion-enabled")]
     public bool? AsyncInstanceEndpointsDeletionEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --async-instance-endpoints-deletion-enabled. Arguments for the async instance endpoints deletion enabled. If true, instance endpoints that are created and registered by customers can be deleted asynchronously. That is, such an instance endpoint can be de-registered before the forwarding rules in the instance endpoint are deleted. Use --async-instance-endpoints-deletion-enabled to enable and --no-async-instance-endpoints-deletion-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-async-instance-endpoints-deletion-enabled")]
-    public bool? NoAsyncInstanceEndpointsDeletionEnabled { get; set; }
 
     /// <summary>
     /// Arguments for the async instance endpoints deletion enabled. Authorization mode of the instance. AUTHORIZATION_MODE must be one of: auth-disabled Authorization disabled. token-auth Token based authorization.
@@ -66,14 +60,8 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidata
     /// <summary>
     /// Arguments for the deletion protection enabled. If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
     /// </summary>
-    [CliFlag("--deletion-protection-enabled")]
+    [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection-enabled. Arguments for the deletion protection enabled. If set to true deletion of the instance will fail. Use --deletion-protection-enabled to enable and --no-deletion-protection-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection-enabled")]
-    public bool? NoDeletionProtectionEnabled { get; set; }
 
     /// <summary>
     /// Arguments for the deletion protection enabled. Engine version of the instance.
@@ -108,14 +96,8 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidata
     /// <summary>
     /// Arguments for the ondemand maintenance. Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
     /// </summary>
-    [CliFlag("--ondemand-maintenance")]
+    [CliFlag("--ondemand-maintenance", NegatedName = "--no-ondemand-maintenance")]
     public bool? OndemandMaintenance { get; set; }
-
-    /// <summary>
-    /// Negates --ondemand-maintenance. Arguments for the ondemand maintenance. Ondemand maintenance for the instance. Use --ondemand-maintenance to enable and --no-ondemand-maintenance to disable.
-    /// </summary>
-    [CliFlag("--no-ondemand-maintenance")]
-    public bool? NoOndemandMaintenance { get; set; }
 
     /// <summary>
     /// Arguments for the replica count. Number of replica nodes per shard. If omitted the default is 0 replicas.
@@ -132,14 +114,8 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidata
     /// <summary>
     /// Arguments for the rotate server certificate. Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
     /// </summary>
-    [CliFlag("--rotate-server-certificate")]
+    [CliFlag("--rotate-server-certificate", NegatedName = "--no-rotate-server-certificate")]
     public bool? RotateServerCertificate { get; set; }
-
-    /// <summary>
-    /// Negates --rotate-server-certificate. Arguments for the rotate server certificate. Rotate the server certificates. Use --rotate-server-certificate to enable and --no-rotate-server-certificate to disable.
-    /// </summary>
-    [CliFlag("--no-rotate-server-certificate")]
-    public bool? NoRotateServerCertificate { get; set; }
 
     /// <summary>
     /// Arguments for the rotate server certificate. Number of shards for the instance.
@@ -150,14 +126,8 @@ public record GcloudMemorystoreInstancesUpdateOptions : GcloudOptions, IValidata
     /// <summary>
     /// Arguments for the simulate maintenance event. Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
     /// </summary>
-    [CliFlag("--simulate-maintenance-event")]
+    [CliFlag("--simulate-maintenance-event", NegatedName = "--no-simulate-maintenance-event")]
     public bool? SimulateMaintenanceEvent { get; set; }
-
-    /// <summary>
-    /// Negates --simulate-maintenance-event. Arguments for the simulate maintenance event. Simulate a maintenance event. Use --simulate-maintenance-event to enable and --no-simulate-maintenance-event to disable.
-    /// </summary>
-    [CliFlag("--no-simulate-maintenance-event")]
-    public bool? NoSimulateMaintenanceEvent { get; set; }
 
     /// <summary>
     /// Arguments for the acl policy. Update acl_policy. At most one of these can be specified: AclPolicy resource - Set acl_policy to new value. The ACL policy for the instance. Format: projects/{project}/locations/{location}/aclPolicies/{acl_policy} This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. To set the location attribute: ▸ provide the argument --acl-policy on the command line with a fully specified name; ▸ provide the argument --location on the command line. ID of the aclPolicy or fully qualified identifier for the aclPolicy. To set the acl-policy attribute: ▸ provide the argument --acl-policy on the command line.

@@ -43,14 +43,8 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// Automatically log into the test device using a preconfigured Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable.
     /// </summary>
-    [CliFlag("--auto-google-login")]
+    [CliFlag("--auto-google-login", NegatedName = "--no-auto-google-login")]
     public bool? AutoGoogleLogin { get; set; }
-
-    /// <summary>
-    /// Negates --auto-google-login. Automatically log into the test device using a preconfigured Google account before beginning the test. Enabled by default, use --no-auto-google-login to disable.
-    /// </summary>
-    [CliFlag("--no-auto-google-login")]
-    public bool? NoAutoGoogleLogin { get; set; }
 
     /// <summary>
     /// Comma-separated, KEY=VALUE map of additional details to attach to the test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix to provide additional context about the tests being run. When consuming the test results, such as in Cloud Functions or a CI system, these details can add additional context such as a link to the corresponding pull request. Example: --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request To help you identify and locate your test matrix in the Firebase console, use the matrixLabel key. Example: --client-details=matrixLabel="Example matrix label" Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -97,26 +91,14 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable.
     /// </summary>
-    [CliFlag("--performance-metrics")]
+    [CliFlag("--performance-metrics", NegatedName = "--no-performance-metrics")]
     public bool? PerformanceMetrics { get; set; }
-
-    /// <summary>
-    /// Negates --performance-metrics. Monitor and record performance metrics: CPU, memory, network usage, and FPS (game-loop only). Enabled by default, use --no-performance-metrics to disable.
-    /// </summary>
-    [CliFlag("--no-performance-metrics")]
-    public bool? NoPerformanceMetrics { get; set; }
 
     /// <summary>
     /// Enable video recording during the test. Enabled by default, use --no-record-video to disable.
     /// </summary>
-    [CliFlag("--record-video")]
+    [CliFlag("--record-video", NegatedName = "--no-record-video")]
     public bool? RecordVideo { get; set; }
-
-    /// <summary>
-    /// Negates --record-video. Enable video recording during the test. Enabled by default, use --no-record-video to disable.
-    /// </summary>
-    [CliFlag("--no-record-video")]
-    public bool? NoRecordVideo { get; set; }
 
     /// <summary>
     /// The name of a Google Cloud Storage bucket where raw test results will be stored (default: "test-lab-&lt;random-UUID&gt;"). Note that the bucket must be owned by a billing-enabled project, and that using a non-default bucket will result in billing charges for the storage used.

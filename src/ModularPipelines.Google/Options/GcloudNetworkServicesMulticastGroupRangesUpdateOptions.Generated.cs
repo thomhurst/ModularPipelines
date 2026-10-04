@@ -61,26 +61,14 @@ public record GcloudNetworkServicesMulticastGroupRangesUpdateOptions : GcloudOpt
     /// <summary>
     /// Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Whether to enable logging for this multicast group range. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// Whether an empty consumer accept list will reject all consumer projects. Use --require-explicit-accept to enable and --no-require-explicit-accept to disable.
     /// </summary>
-    [CliFlag("--require-explicit-accept")]
+    [CliFlag("--require-explicit-accept", NegatedName = "--no-require-explicit-accept")]
     public bool? RequireExplicitAccept { get; set; }
-
-    /// <summary>
-    /// Negates --require-explicit-accept. Whether an empty consumer accept list will reject all consumer projects. Use --require-explicit-accept to enable and --no-require-explicit-accept to disable.
-    /// </summary>
-    [CliFlag("--no-require-explicit-accept")]
-    public bool? NoRequireExplicitAccept { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value is modified. Otherwise, a new label is created. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

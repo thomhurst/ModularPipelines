@@ -27,7 +27,7 @@ public class GcloudWorkbenchExecutionTests
             AcceleratorCount = selection == "accelerator-count" ? 1 : null,
             DiskSizeGb = selection is "disk-size" or "disk-size-type" ? 100 : null,
             DiskType = selection == "disk-size-type" ? GcloudWorkbenchExecutionsCreateDiskType.PdSsd : null,
-            NoEnableInternetAccess = selection == "no-internet" ? true : null,
+            EnableInternetAccess = selection == "no-internet" ? false : null,
         };
         var errors = new List<ValidationResult>();
 
@@ -50,6 +50,28 @@ public class GcloudWorkbenchExecutionTests
             "--gcs-output-uri=gs://output",
             "--service-account=service-account",
             "--gcs-notebook-uri=gs://notebook.ipynb",
+        ]);
+    }
+
+    [Test]
+    [Arguments(true, "--enable-internet-access")]
+    [Arguments(false, "--no-enable-internet-access")]
+    public async Task Internet_Access_Uses_The_Requested_Flag(bool enabled, string expectedFlag)
+    {
+        var options = new GcloudWorkbenchExecutionsCreateOptions("region", "execution", "gs://output", "service-account")
+        {
+            GcsNotebookUri = "gs://notebook.ipynb",
+            EnableInternetAccess = enabled,
+        };
+
+        await AssertArguments(BuildArguments(options),
+        [
+            "--region=region",
+            "--display-name=execution",
+            "--gcs-output-uri=gs://output",
+            "--service-account=service-account",
+            "--gcs-notebook-uri=gs://notebook.ipynb",
+            expectedFlag,
         ]);
     }
 }

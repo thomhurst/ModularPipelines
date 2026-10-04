@@ -151,14 +151,8 @@ public record GcloudContainerAzureNodePoolsCreateOptions : GcloudOptions, IValid
     /// <summary>
     /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
     /// </summary>
-    [CliFlag("--enable-autorepair")]
+    [CliFlag("--enable-autorepair", NegatedName = "--no-enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
-
-    /// <summary>
-    /// Negates --enable-autorepair. Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools create --enable-autorepair Node autorepair is disabled by default.
-    /// </summary>
-    [CliFlag("--no-enable-autorepair")]
-    public bool? NoEnableAutorepair { get; set; }
 
     /// <summary>
     /// Labels assigned to the node pool's nodes. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

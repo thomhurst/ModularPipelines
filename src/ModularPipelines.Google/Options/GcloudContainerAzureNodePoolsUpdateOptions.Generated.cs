@@ -60,14 +60,8 @@ public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions, IValid
     /// <summary>
     /// Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
     /// </summary>
-    [CliFlag("--enable-autorepair")]
+    [CliFlag("--enable-autorepair", NegatedName = "--no-enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
-
-    /// <summary>
-    /// Negates --enable-autorepair. Enable node autorepair feature for a node pool. Use --no-enable-autorepair to disable. $ gcloud container azure node-pools update --enable-autorepair
-    /// </summary>
-    [CliFlag("--no-enable-autorepair")]
-    public bool? NoEnableAutorepair { get; set; }
 
     /// <summary>
     /// Kubernetes version to use for the node pool.

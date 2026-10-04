@@ -71,14 +71,8 @@ public record GcloudBigtableAuthorizedViewsUpdateOptions : GcloudOptions
     /// <summary>
     /// If provided, a diff is displayed with a prompt to proceed or cancel the update. Enabled by default, use --no-interactive to disable.
     /// </summary>
-    [CliFlag("--interactive")]
+    [CliFlag("--interactive", NegatedName = "--no-interactive")]
     public bool? Interactive { get; set; }
-
-    /// <summary>
-    /// Negates --interactive. If provided, a diff is displayed with a prompt to proceed or cancel the update. Enabled by default, use --no-interactive to disable.
-    /// </summary>
-    [CliFlag("--no-interactive")]
-    public bool? NoInteractive { get; set; }
 
     /// <summary>
     /// By default, Base64 encoding is applied to all binary fields ("rowPrefixes", "qualifiers" and "qualifierPrefixes") in the JSON or YAML definition file. Use this to indicate that all binary fields are already Base64-encoded and should be used directly.

@@ -104,14 +104,8 @@ public record GcloudManagedKafkaClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag. Enabled by default, use --no-auto-rebalance to disable.
     /// </summary>
-    [CliFlag("--auto-rebalance")]
+    [CliFlag("--auto-rebalance", NegatedName = "--no-auto-rebalance")]
     public bool? AutoRebalance { get; set; }
-
-    /// <summary>
-    /// Negates --auto-rebalance. Whether the automatic rebalancing is enabled. If automatic rebalancing is enabled, topic partitions are rebalanced among brokers when the number of CPUs in the cluster changes. Automatic rebalancing is enabled by default. Use --no-auto-rebalance to disable this flag. Enabled by default, use --no-auto-rebalance to disable.
-    /// </summary>
-    [CliFlag("--no-auto-rebalance")]
-    public bool? NoAutoRebalance { get; set; }
 
     /// <summary>
     /// The amount of local disk to provision for each broker. Can be specified as a plain integer (defaults to GiB) or with units (e.g., 500Gi, 500GiB, 1Ti, 1TiB). Minimum: 100 Gibibytes.
@@ -140,14 +134,8 @@ public record GcloudManagedKafkaClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
     /// </summary>
-    [CliFlag("--public-cluster")]
+    [CliFlag("--public-cluster", NegatedName = "--no-public-cluster")]
     public bool? PublicCluster { get; set; }
-
-    /// <summary>
-    /// Negates --public-cluster. Enable a public cluster. If disabled, public cluster config is cleared. Use --public-cluster to enable and --no-public-cluster to disable.
-    /// </summary>
-    [CliFlag("--no-public-cluster")]
-    public bool? NoPublicCluster { get; set; }
 
     /// <summary>
     /// The rules for mapping mTLS certificate Distinguished Names (DNs) to shortened principal names for Kafka ACLs. This flag corresponds exactly to the ssl.principal.mapping.rules broker config and matches the format and syntax defined in the Apache Kafka documentation. Setting or modifying this field will trigger a rolling restart of the Kafka brokers to apply the change. An empty string means that the default Kafka behavior is used. Example: "RULE:^CN=(.?),OU=ServiceUsers.$/$1@example.com/,DEFAULT"

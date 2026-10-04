@@ -48,26 +48,14 @@ public record GcloudGeminiLoggingSettingsUpdateOptions : GcloudOptions, IValidat
     /// <summary>
     /// Whether to log metadata. Use --log-metadata to enable and --no-log-metadata to disable.
     /// </summary>
-    [CliFlag("--log-metadata")]
+    [CliFlag("--log-metadata", NegatedName = "--no-log-metadata")]
     public bool? LogMetadata { get; set; }
-
-    /// <summary>
-    /// Negates --log-metadata. Whether to log metadata. Use --log-metadata to enable and --no-log-metadata to disable.
-    /// </summary>
-    [CliFlag("--no-log-metadata")]
-    public bool? NoLogMetadata { get; set; }
 
     /// <summary>
     /// Whether to log prompts and responses. Use --log-prompts-and-responses to enable and --no-log-prompts-and-responses to disable.
     /// </summary>
-    [CliFlag("--log-prompts-and-responses")]
+    [CliFlag("--log-prompts-and-responses", NegatedName = "--no-log-prompts-and-responses")]
     public bool? LogPromptsAndResponses { get; set; }
-
-    /// <summary>
-    /// Negates --log-prompts-and-responses. Whether to log prompts and responses. Use --log-prompts-and-responses to enable and --no-log-prompts-and-responses to disable.
-    /// </summary>
-    [CliFlag("--no-log-prompts-and-responses")]
-    public bool? NoLogPromptsAndResponses { get; set; }
 
     /// <summary>
     /// An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).

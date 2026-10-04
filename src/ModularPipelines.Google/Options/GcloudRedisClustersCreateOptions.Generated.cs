@@ -98,14 +98,8 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions, IValidatableObje
     /// <summary>
     /// Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// The resource name of the customer-managed encryption key (CMEK) to use for the cluster. It must use this format: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/CRYPTO_KEY. The key must be in the same region as the cluster. Otherwise, the create operation fails.

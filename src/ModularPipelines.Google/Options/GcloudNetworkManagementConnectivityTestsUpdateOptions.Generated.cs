@@ -49,14 +49,8 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     /// <summary>
     /// This boolean controls whether to skip firewall checking. Use --no-bypass-firewall-checks to disable.
     /// </summary>
-    [CliFlag("--bypass-firewall-checks")]
+    [CliFlag("--bypass-firewall-checks", NegatedName = "--no-bypass-firewall-checks")]
     public bool? BypassFirewallChecks { get; set; }
-
-    /// <summary>
-    /// Negates --bypass-firewall-checks. This boolean controls whether to skip firewall checking. Use --no-bypass-firewall-checks to disable.
-    /// </summary>
-    [CliFlag("--no-bypass-firewall-checks")]
-    public bool? NoBypassFirewallChecks { get; set; }
 
     /// <summary>
     /// The description of the connectivity test.
@@ -109,14 +103,8 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     /// <summary>
     /// This boolean controls whether return traces (from the destination to the source) will be additionally calculated if packet successfully reaches the destination from the source. Use --no-round-trip to disable.
     /// </summary>
-    [CliFlag("--round-trip")]
+    [CliFlag("--round-trip", NegatedName = "--no-round-trip")]
     public bool? RoundTrip { get; set; }
-
-    /// <summary>
-    /// Negates --round-trip. This boolean controls whether return traces (from the destination to the source) will be additionally calculated if packet successfully reaches the destination from the source. Use --no-round-trip to disable.
-    /// </summary>
-    [CliFlag("--no-round-trip")]
-    public bool? NoRoundTrip { get; set; }
 
     /// <summary>
     /// A VPC network URI for the source endpoint. Used according to the source-network-type flag.

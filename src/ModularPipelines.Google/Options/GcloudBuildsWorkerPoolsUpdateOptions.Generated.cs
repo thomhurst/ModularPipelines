@@ -48,14 +48,8 @@ public record GcloudBuildsWorkerPoolsUpdateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// Exactly one of these must be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: If set to true, workers in the worker pool are created with an external IP address. If set to false, workers in the worker pool are created without an external IP address. If the worker pool is within a VPC Service Control perimeter, use this flag. Use --public-egress to enable and --no-public-egress to disable.
     /// </summary>
-    [CliFlag("--public-egress")]
+    [CliFlag("--public-egress", NegatedName = "--no-public-egress")]
     public bool? PublicEgress { get; set; }
-
-    /// <summary>
-    /// Negates --public-egress. Exactly one of these must be specified: Or at least one of these can be specified: Command-line flags to configure the private pool: If set to true, workers in the worker pool are created with an external IP address. If set to false, workers in the worker pool are created without an external IP address. If the worker pool is within a VPC Service Control perimeter, use this flag. Use --public-egress to enable and --no-public-egress to disable.
-    /// </summary>
-    [CliFlag("--no-public-egress")]
-    public bool? NoPublicEgress { get; set; }
 
     /// <summary>
     /// Exactly one of these must be specified: Or at least one of these can be specified: Configuration to be used for creating workers in the worker pool: Size of the disk attached to the worker. If unspecified, Cloud Build uses a standard disk size.
@@ -90,13 +84,9 @@ public record GcloudBuildsWorkerPoolsUpdateOptions : GcloudOptions, IValidatable
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + ((PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) ? 1 : 0) != 1)
+        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) ? 1 : 0) + (((object?)PublicEgress is not null || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) ? 1 : 0) != 1)
         {
-            yield return new ValidationResult("Exactly one of ConfigFromFile or (PublicEgress, NoPublicEgress, WorkerDiskSize, WorkerMachineType, or WorkerRelease) must be specified.", [nameof(ConfigFromFile), nameof(PublicEgress), nameof(NoPublicEgress), nameof(WorkerDiskSize), nameof(WorkerMachineType), nameof(WorkerRelease)]);
-        }
-        if ((!string.IsNullOrWhiteSpace(ConfigFromFile) || PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) && (PublicEgress == true || NoPublicEgress == true || (object?)WorkerDiskSize is not null || !string.IsNullOrWhiteSpace(WorkerMachineType) || !string.IsNullOrWhiteSpace(WorkerRelease)) && (PublicEgress == true || NoPublicEgress == true) && ((PublicEgress == true ? 1 : 0) + (NoPublicEgress == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of PublicEgress or NoPublicEgress may be specified.", [nameof(PublicEgress), nameof(NoPublicEgress)]);
+            yield return new ValidationResult("Exactly one of ConfigFromFile or (PublicEgress, WorkerDiskSize, WorkerMachineType, or WorkerRelease) must be specified.", [nameof(ConfigFromFile), nameof(PublicEgress), nameof(WorkerDiskSize), nameof(WorkerMachineType), nameof(WorkerRelease)]);
         }
         yield break;
     }

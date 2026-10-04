@@ -120,14 +120,8 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions, IVali
     /// <summary>
     /// At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
     /// </summary>
-    [CliFlag("--organization-subscription")]
+    [CliFlag("--organization-subscription", NegatedName = "--no-organization-subscription")]
     public bool? OrganizationSubscription { get; set; }
-
-    /// <summary>
-    /// Negates --organization-subscription. At most one of these can be specified: The organization subscription for the resource. Use --organization-subscription to enable and --no-organization-subscription to disable.
-    /// </summary>
-    [CliFlag("--no-organization-subscription")]
-    public bool? NoOrganizationSubscription { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: The project subscriptions for the resource. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -186,13 +180,9 @@ public record GcloudEventarcGoogleApiSourcesUpdateOptions : GcloudOptions, IVali
         {
             yield return new ValidationResult("At most one of ClearLabels or RemoveLabels may be specified.", [nameof(ClearLabels), nameof(RemoveLabels)]);
         }
-        if ((ClearProjectSubscriptions == true ? 1 : 0) + (((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) ? 1 : 0) + ((OrganizationSubscription == true || NoOrganizationSubscription == true) ? 1 : 0) > 1)
+        if ((ClearProjectSubscriptions == true ? 1 : 0) + ((object?)OrganizationSubscription is not null ? 1 : 0) + (((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of ClearProjectSubscriptions, ProjectSubscriptions, or (OrganizationSubscription or NoOrganizationSubscription) may be specified.", [nameof(ClearProjectSubscriptions), nameof(ProjectSubscriptions), nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
-        }
-        if ((ClearProjectSubscriptions == true || ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<char> ? (object?)ProjectSubscriptions is not string || !string.IsNullOrWhiteSpace(ProjectSubscriptions?.ToString()) : ((object?)ProjectSubscriptions is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)ProjectSubscriptions, static item => item is not null) : (ProjectSubscriptions is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)ProjectSubscriptions), static item => item is not null)))) || OrganizationSubscription == true || NoOrganizationSubscription == true) && ((OrganizationSubscription == true ? 1 : 0) + (NoOrganizationSubscription == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of OrganizationSubscription or NoOrganizationSubscription may be specified.", [nameof(OrganizationSubscription), nameof(NoOrganizationSubscription)]);
+            yield return new ValidationResult("At most one of ClearProjectSubscriptions, OrganizationSubscription, or ProjectSubscriptions may be specified.", [nameof(ClearProjectSubscriptions), nameof(OrganizationSubscription), nameof(ProjectSubscriptions)]);
         }
         if ((!string.IsNullOrWhiteSpace(DestinationMessageBus) || !string.IsNullOrWhiteSpace(DestinationMessageBusProject)) && (!(!string.IsNullOrWhiteSpace(DestinationMessageBus))))
         {

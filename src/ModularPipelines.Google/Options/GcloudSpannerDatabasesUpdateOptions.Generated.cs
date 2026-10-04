@@ -60,14 +60,8 @@ public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// At most one of these can be specified: Enable database deletion protection on this database. Use --enable-drop-protection to enable and --no-enable-drop-protection to disable.
     /// </summary>
-    [CliFlag("--enable-drop-protection")]
+    [CliFlag("--enable-drop-protection", NegatedName = "--no-enable-drop-protection")]
     public bool? EnableDropProtection { get; set; }
-
-    /// <summary>
-    /// Negates --enable-drop-protection. At most one of these can be specified: Enable database deletion protection on this database. Use --enable-drop-protection to enable and --no-enable-drop-protection to disable.
-    /// </summary>
-    [CliFlag("--no-enable-drop-protection")]
-    public bool? NoEnableDropProtection { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Update KMS key references for this database. Users should always provide the full set of required KMS key references. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -106,13 +100,9 @@ public record GcloudSpannerDatabasesUpdateOptions : GcloudOptions, IValidatableO
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((ClearKmsKeys == true ? 1 : 0) + (((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) ? 1 : 0) + ((EnableDropProtection == true || NoEnableDropProtection == true) ? 1 : 0) > 1)
+        if ((ClearKmsKeys == true ? 1 : 0) + ((object?)EnableDropProtection is not null ? 1 : 0) + (((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of ClearKmsKeys, KmsKeys, or (EnableDropProtection or NoEnableDropProtection) may be specified.", [nameof(ClearKmsKeys), nameof(KmsKeys), nameof(EnableDropProtection), nameof(NoEnableDropProtection)]);
-        }
-        if ((ClearKmsKeys == true || ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<char> ? (object?)KmsKeys is not string || !string.IsNullOrWhiteSpace(KmsKeys?.ToString()) : ((object?)KmsKeys is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)KmsKeys, static item => item is not null) : (KmsKeys is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)KmsKeys), static item => item is not null)))) || EnableDropProtection == true || NoEnableDropProtection == true) && ((EnableDropProtection == true ? 1 : 0) + (NoEnableDropProtection == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of EnableDropProtection or NoEnableDropProtection may be specified.", [nameof(EnableDropProtection), nameof(NoEnableDropProtection)]);
+            yield return new ValidationResult("At most one of ClearKmsKeys, EnableDropProtection, or KmsKeys may be specified.", [nameof(ClearKmsKeys), nameof(EnableDropProtection), nameof(KmsKeys)]);
         }
         yield break;
     }

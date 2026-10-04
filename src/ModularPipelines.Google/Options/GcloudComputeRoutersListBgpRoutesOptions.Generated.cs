@@ -80,14 +80,8 @@ public record GcloudComputeRoutersListBgpRoutesOptions : GcloudOptions
     /// <summary>
     /// Routes returned are post-policy evaluation. Enabled by default, use --no-policy-applied to disable.
     /// </summary>
-    [CliFlag("--policy-applied")]
+    [CliFlag("--policy-applied", NegatedName = "--no-policy-applied")]
     public bool? PolicyApplied { get; set; }
-
-    /// <summary>
-    /// Negates --policy-applied. Routes returned are post-policy evaluation. Enabled by default, use --no-policy-applied to disable.
-    /// </summary>
-    [CliFlag("--no-policy-applied")]
-    public bool? NoPolicyApplied { get; set; }
 
     /// <summary>
     /// Region of the router to list. If not specified, you might be prompted to select a region (interactive mode only). To avoid prompting when this flag is omitted, you can set the compute/region property: $ gcloud config set compute/region REGION A list of regions can be fetched by running: $ gcloud compute regions list To unset the property, run: $ gcloud config unset compute/region Alternatively, the region can be stored in the environment variable CLOUDSDK_COMPUTE_REGION.

@@ -36,14 +36,8 @@ public record GcloudStorageRestoreOptions : GcloudOptions
     /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
-    [CliFlag("--preserve-acl")]
+    [CliFlag("--preserve-acl", NegatedName = "--no-preserve-acl")]
     public bool? PreserveAcl { get; set; }
-
-    /// <summary>
-    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
-    /// </summary>
-    [CliFlag("--no-preserve-acl")]
-    public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
     /// Read the list of URLs from stdin.

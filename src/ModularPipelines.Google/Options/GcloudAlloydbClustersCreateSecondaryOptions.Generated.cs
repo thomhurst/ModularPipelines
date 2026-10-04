@@ -78,14 +78,8 @@ public record GcloudAlloydbClustersCreateSecondaryOptions : GcloudOptions, IVali
     /// <summary>
     /// Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
     /// </summary>
-    [CliFlag("--enable-dataplex-integration")]
+    [CliFlag("--enable-dataplex-integration", NegatedName = "--no-enable-dataplex-integration")]
     public bool? EnableDataplexIntegration { get; set; }
-
-    /// <summary>
-    /// Negates --enable-dataplex-integration. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
-    /// </summary>
-    [CliFlag("--no-enable-dataplex-integration")]
-    public bool? NoEnableDataplexIntegration { get; set; }
 
     /// <summary>
     /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example: 123/environment=production,123/costCenter=marketing Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

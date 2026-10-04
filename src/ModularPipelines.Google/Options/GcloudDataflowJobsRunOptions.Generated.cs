@@ -89,14 +89,8 @@ public record GcloudDataflowJobsRunOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
     /// </summary>
-    [CliFlag("--enable-turnkey-alerts")]
+    [CliFlag("--enable-turnkey-alerts", NegatedName = "--no-enable-turnkey-alerts")]
     public bool? EnableTurnkeyAlerts { get; set; }
-
-    /// <summary>
-    /// Negates --enable-turnkey-alerts. Enable Turnkey Alerts for this job. Disabled by default. Use --enable-turnkey-alerts to enable and --no-enable-turnkey-alerts to disable.
-    /// </summary>
-    [CliFlag("--no-enable-turnkey-alerts")]
-    public bool? NoEnableTurnkeyAlerts { get; set; }
 
     /// <summary>
     /// The maximum number of workers to run.
@@ -155,14 +149,8 @@ public record GcloudDataflowJobsRunOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
     /// </summary>
-    [CliFlag("--update")]
+    [CliFlag("--update", NegatedName = "--no-update")]
     public bool? Update { get; set; }
-
-    /// <summary>
-    /// Negates --update. Set this to true for streaming update jobs. Use --update to enable and --no-update to disable.
-    /// </summary>
-    [CliFlag("--no-update")]
-    public bool? NoUpdate { get; set; }
 
     /// <summary>
     /// Transform name mappings for the streaming update job. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

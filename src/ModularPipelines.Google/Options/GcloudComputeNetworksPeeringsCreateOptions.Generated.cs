@@ -75,50 +75,26 @@ public record GcloudComputeNetworksPeeringsCreateOptions : GcloudOptions
     /// <summary>
     /// If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
     /// </summary>
-    [CliFlag("--export-custom-routes")]
+    [CliFlag("--export-custom-routes", NegatedName = "--no-export-custom-routes")]
     public bool? ExportCustomRoutes { get; set; }
-
-    /// <summary>
-    /// Negates --export-custom-routes. If set, the network will export custom routes to peer network. Use --no-export-custom-routes to disable it.
-    /// </summary>
-    [CliFlag("--no-export-custom-routes")]
-    public bool? NoExportCustomRoutes { get; set; }
 
     /// <summary>
     /// If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
     /// </summary>
-    [CliFlag("--export-subnet-routes-with-public-ip")]
+    [CliFlag("--export-subnet-routes-with-public-ip", NegatedName = "--no-export-subnet-routes-with-public-ip")]
     public bool? ExportSubnetRoutesWithPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --export-subnet-routes-with-public-ip. If set, the network will export subnet routes with addresses in the public IP ranges to peer network. Use --no-export-subnet-routes-with-public-ip to disable it.
-    /// </summary>
-    [CliFlag("--no-export-subnet-routes-with-public-ip")]
-    public bool? NoExportSubnetRoutesWithPublicIp { get; set; }
 
     /// <summary>
     /// If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
     /// </summary>
-    [CliFlag("--import-custom-routes")]
+    [CliFlag("--import-custom-routes", NegatedName = "--no-import-custom-routes")]
     public bool? ImportCustomRoutes { get; set; }
-
-    /// <summary>
-    /// Negates --import-custom-routes. If set, the network will import custom routes from peer network. Use --no-import-custom-routes to disable it.
-    /// </summary>
-    [CliFlag("--no-import-custom-routes")]
-    public bool? NoImportCustomRoutes { get; set; }
 
     /// <summary>
     /// If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
     /// </summary>
-    [CliFlag("--import-subnet-routes-with-public-ip")]
+    [CliFlag("--import-subnet-routes-with-public-ip", NegatedName = "--no-import-subnet-routes-with-public-ip")]
     public bool? ImportSubnetRoutesWithPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --import-subnet-routes-with-public-ip. If set, the network will import subnet routes with addresses in the public IP ranges from peer network. Use --no-import-subnet-routes-with-public-ip to disable it.
-    /// </summary>
-    [CliFlag("--no-import-subnet-routes-with-public-ip")]
-    public bool? NoImportSubnetRoutesWithPublicIp { get; set; }
 
     /// <summary>
     /// The name of the project for the peer network. If not specified, defaults to current project.

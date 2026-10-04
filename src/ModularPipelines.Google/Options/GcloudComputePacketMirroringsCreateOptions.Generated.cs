@@ -76,14 +76,8 @@ public record GcloudComputePacketMirroringsCreateOptions : GcloudOptions
     /// <summary>
     /// Enable or disable the packet-mirroring. Enabled by default, use --no-enable to disable.
     /// </summary>
-    [CliFlag("--enable")]
+    [CliFlag("--enable", NegatedName = "--no-enable")]
     public bool? Enable { get; set; }
-
-    /// <summary>
-    /// Negates --enable. Enable or disable the packet-mirroring. Enabled by default, use --no-enable to disable.
-    /// </summary>
-    [CliFlag("--no-enable")]
-    public bool? NoEnable { get; set; }
 
     /// <summary>
     /// One or more IPv4 or IPv6 CIDR ranges that apply as filters on the source (ingress) or destination (egress) IP in the IP header. If no ranges are specified, all IPv4 traffic that matches the specified IPProtocols is mirrored. If neither cidrRanges nor IPProtocols is specified, all IPv4 traffic is mirrored. To mirror all IPv4 and IPv6 traffic, use 0.0.0.0/0,::/0 Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

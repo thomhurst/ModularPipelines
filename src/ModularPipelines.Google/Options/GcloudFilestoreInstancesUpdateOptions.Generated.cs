@@ -131,14 +131,8 @@ public record GcloudFilestoreInstancesUpdateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Deletion protection control options. When deletion protection is enabled, the instance cannot be deleted. Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Deletion protection control options. When deletion protection is enabled, the instance cannot be deleted. Enables deletion protection for the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// The reason for enabling deletion protection for the instance.

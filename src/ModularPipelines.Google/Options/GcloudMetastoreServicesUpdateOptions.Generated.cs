@@ -68,14 +68,8 @@ public record GcloudMetastoreServicesUpdateOptions : GcloudOptions, IValidatable
     /// <summary>
     /// Flag that enables delete protection on Dataproc Metastore instance to prevent accidental deletions of the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Flag that enables delete protection on Dataproc Metastore instance to prevent accidental deletions of the instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// The protocol to use for the metastore service endpoint. ENDPOINT_PROTOCOL must be one of: grpc The modernized GRPC protocol. thrift The legacy Apache THRIFT protocol.
