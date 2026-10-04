@@ -57,7 +57,8 @@ public class PipelineHttpResponseException : HttpRequestException
     public string? ReasonPhrase { get; }
 
     /// <summary>
-    /// Gets the content of the failed response, if available.
+    /// Gets the content preview of the failed response, if available.
+    /// Framework HTTP operations capture at most 2,000 body bytes plus a truncation marker.
     /// </summary>
     public string? ResponseContent { get; }
 

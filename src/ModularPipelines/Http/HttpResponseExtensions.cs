@@ -28,7 +28,12 @@ internal static class HttpResponseExtensions
         string? responseContent = null;
         try
         {
-            responseContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            const int maximumPreviewBytes = 2000;
+            var (preview, isTruncated, replayContent, _) = await HttpContentPreviewReader
+                .ReadAsync(response.Content, maximumPreviewBytes, cancellationToken)
+                .ConfigureAwait(false);
+            response.Content = replayContent;
+            responseContent = isTruncated ? preview + "... (truncated)" : preview;
         }
         catch (OperationCanceledException)
         {

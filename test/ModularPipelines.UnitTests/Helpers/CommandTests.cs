@@ -1064,6 +1064,20 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Reads_Identity_While_Publication_Handle_Is_Open()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        await fixture.WaitForReadyAsync("parent", TimeSpan.FromSeconds(5));
+        using var publicationHandle = new FileStream(Path.Combine(fixture.DirectoryPath, "parent.pid"),
+            FileMode.Open, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
+
+        var process = await fixture.WaitForProcessAsync("parent", TimeSpan.FromSeconds(5));
+        await Assert.That(process.HasExited).IsFalse();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Cleans_Up_When_Readiness_Fails_Before_Cancellation()
     {
         await using var fixture = new ProcessTreeFixture();
