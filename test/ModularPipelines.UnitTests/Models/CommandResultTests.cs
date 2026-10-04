@@ -31,6 +31,8 @@ public class CommandResultTests
         {
             await Assert.That(result.StandardOutput).IsEqualTo(string.Empty);
             await Assert.That(result.StandardError).IsEqualTo(string.Empty);
+            await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(0);
+            await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(0);
             await Assert.That(result.ExitCode).IsEqualTo(0);
             await Assert.That(result.StartTime).IsNotEqualTo(default(DateTimeOffset));
             await Assert.That(result.EndTime).IsEqualTo(result.StartTime);
