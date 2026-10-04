@@ -574,3 +574,11 @@ Modules can register dynamically discovered secrets with
 the same per-pipeline `ISecretRegistry` available through dependency injection.
 Register values before logging them so subsequent output uses the configured
 masking behavior.
+
+## Artifact store registration conflicts
+
+`AddDistributedArtifactStore<TStore>()` and `AddDistributedArtifactStoreFactory<TFactory>()`
+now reject conflicting backends in either registration order. Direct registration no longer
+silently removes an earlier factory, and two different direct stores cannot be selected together.
+Choose one registration at the call site. Repeating the same typed registration is a no-op;
+keyed services and the default filesystem fallback are unchanged.
