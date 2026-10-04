@@ -50,6 +50,63 @@ try {
     & pwsh -NoProfile -Command $command
     if ($LASTEXITCODE -ne 0) { throw "Public API tracking checks failed with exit code $LASTEXITCODE." }
     Write-Output 'Public API tracking checks passed (12 configurations).'
+
+    $compilationDirectory = Join-Path $testRoot 'compiler'
+    New-Item -ItemType Directory -Path $compilationDirectory | Out-Null
+    $packages = [System.Security.SecurityElement]::Escape((Join-Path $repositoryRoot 'Directory.Packages.props'))
+    $compilationProject = Join-Path $compilationDirectory 'ApiTracking.csproj'
+    Set-Content -LiteralPath $compilationProject -Value (@'
+<Project>
+  <PropertyGroup>
+    <DirectoryBuildPropsPath>{0}</DirectoryBuildPropsPath>
+    <DirectoryPackagesPropsPath>{1}</DirectoryPackagesPropsPath>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <ItemGroup>
+    <!-- Exercise API tracking without building the repository's unrelated analyzers. -->
+    <ProjectReference Remove="@(ProjectReference)" />
+    <PackageReference Remove="Microsoft.SourceLink.GitHub;StyleCop.Analyzers" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>
+'@ -f $props, $packages)
+    Set-Content -LiteralPath (Join-Path $compilationDirectory 'Example.cs') -Value 'namespace ApiTracking; public static class Example { public static void Run() { } }'
+    $shipped = Join-Path $compilationDirectory 'PublicAPI.Shipped.txt'
+    $unshipped = Join-Path $compilationDirectory 'PublicAPI.Unshipped.txt'
+    Set-Content -LiteralPath $shipped -Value '#nullable enable'
+    Set-Content -LiteralPath $unshipped -Value '#nullable enable'
+
+    function Assert-CompilerResult([string] $ExpectedDiagnostic = '') {
+        $command = "& '{0}' -SingleNode -TimeoutSeconds 120 -DotNetArguments @('build', '{1}', '--no-incremental', '-p:GITHUB_ACTIONS=true', '-p:EnableCiAnalyzers=false')" -f $guard.Replace("'", "''"), $compilationProject.Replace("'", "''")
+        $output = @(& pwsh -NoProfile -Command $command 2>&1)
+        $exitCode = $LASTEXITCODE
+        if ($exitCode -in 124, 137) {
+            throw "Compiler fixture reached its validation limit (exit $exitCode): $($output -join "`n")"
+        }
+        if ($ExpectedDiagnostic) {
+            if ($exitCode -eq 0 -or ($output -join "`n") -notmatch "error ${ExpectedDiagnostic}:") {
+                throw "Expected compiler error $ExpectedDiagnostic, got exit ${exitCode}: $($output -join "`n")"
+            }
+        }
+        elseif ($exitCode -ne 0) {
+            throw "Expected a successful compiler fixture, got exit ${exitCode}: $($output -join "`n")"
+        }
+    }
+
+    Assert-CompilerResult 'RS0016'
+    $currentApi = "#nullable enable`nApiTracking.Example`nstatic ApiTracking.Example.Run() -> void"
+    Set-Content -LiteralPath $unshipped -Value $currentApi
+    Assert-CompilerResult
+    Add-Content -LiteralPath $unshipped -Value 'ApiTracking.Removed'
+    Assert-CompilerResult 'RS0017'
+
+    # The same untracked API must compile when the package is a generated CLI snapshot.
+    Set-Content -LiteralPath $unshipped -Value '#nullable enable'
+    $coverageDirectory = Join-Path $compilationDirectory 'Generated'
+    New-Item -ItemType Directory -Path $coverageDirectory | Out-Null
+    Set-Content -LiteralPath (Join-Path $coverageDirectory 'fixture.CommandCoverage.json') -Value '{}'
+    Assert-CompilerResult
+    Write-Output 'Public API compiler checks passed (missing API, valid API, stale API, generated exclusion).'
 }
 finally {
     $resolvedRoot = [System.IO.Path]::GetFullPath($testRoot)
