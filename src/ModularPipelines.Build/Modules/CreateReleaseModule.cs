@@ -22,10 +22,12 @@ public class CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
     private readonly IOptions<GitHubSettings> _githubSettings = githubSettings;
     private readonly IOptions<PublishSettings> _publishSettings = publishSettings;
 
+#pragma warning disable MP0020 // Either missing publishing permission or a missing token must skip release creation.
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithSkipWhen(_ => !_publishSettings.Value.ShouldPublish, "The 'ShouldPublish' flag is false")
         .WithSkipWhen(_ => string.IsNullOrEmpty(_githubSettings.Value.AdminToken), "The GitHub admin token is unavailable")
         .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException);
+#pragma warning restore MP0020
 
     protected override async Task<Release> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

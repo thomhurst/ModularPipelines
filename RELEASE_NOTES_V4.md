@@ -245,9 +245,10 @@ explicitly passed reason must not be blank. Use
 predicate overload.
 
 Repeated `WithSkipWhen` calls are OR-ed: the module is skipped when any condition
-returns skip. In V3 a later call replaced an earlier one. Analyzer `MP0020` reports
-repeated calls on the same builder; use `WithSkipWhenAll` to skip only when every
-condition applies.
+returns skip. In V3 a later call replaced an earlier one. Analyzer `MP0020` now warns about
+repeated calls on the same builder during normal builds. Projects that treat warnings as errors
+must address or suppress this diagnostic. Use `WithSkipWhenAll` to skip only when every condition
+applies, or suppress `MP0020` around calls that intentionally use OR semantics.
 
 Because a reason-less `WithSkipWhen` call now matches both the boolean and the
 `SkipDecision` overloads, a lambda whose body only throws (for example

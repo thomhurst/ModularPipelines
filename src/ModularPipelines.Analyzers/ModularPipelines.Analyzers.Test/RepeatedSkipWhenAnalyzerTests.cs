@@ -10,9 +10,9 @@ public class RepeatedSkipWhenAnalyzerTests
     private const string Header = TestSourceConstants.StandardModuleHeaderWithExtensions;
 
     [TestMethod]
-    public void Rule_Defaults_To_Info()
+    public void Rule_Defaults_To_Warning()
     {
-        Assert.AreEqual(DiagnosticSeverity.Info, RepeatedSkipWhenAnalyzer.Rule.DefaultSeverity);
+        Assert.AreEqual(DiagnosticSeverity.Warning, RepeatedSkipWhenAnalyzer.Rule.DefaultSeverity);
     }
 
     [TestMethod]
