@@ -453,7 +453,7 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `IModuleRegistrationContext.Services` is removed.
 - `PluginRegistry` and `PluginTestHelper` are removed. `IModularPipelinesPlugin` has `Name` and
   `Configure(PipelineBuilder)`; register plugins with `builder.AddPlugin<T>()` or `AddPlugin(instance)`.
-- `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)` and `IsBuildServer` instead of one flag per CI
+- `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)`, `IsCI` and `IsLocal` instead of one flag per CI
   system. `OnCI`, `OnLocal` and `Require.Ci()` share one CI definition. A truthy `CI` variable marks the run as
   CI even when no known build agent is detected; the pipeline logs this once at startup.
 - `ISecretObfuscator` is internal; provide secrets through `ISecretRegistry`, `[SecretValue]` or
