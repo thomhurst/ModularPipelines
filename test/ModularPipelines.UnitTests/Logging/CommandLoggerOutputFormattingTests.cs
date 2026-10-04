@@ -37,6 +37,7 @@ public class CommandLoggerOutputFormattingTests
 
         await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning)).IsEqualTo(expectWarning);
     }
+
     [Test]
     public async Task CapturedOutput_PrefixesEveryLine_AndSkipsBlankLines()
     {
