@@ -12,7 +12,9 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
-    public async Task Directory_Archive_Uses_Provider_Relative_Paths_For_Canonicalized_Entries()
+    [Arguments("/")]
+    [Arguments("\\")]
+    public async Task Directory_Archive_Uses_Provider_Relative_Paths_For_Canonicalized_Entries(string separator)
     {
         var requestedRoot = Path.Combine(Path.GetTempPath(), "artifact-alias");
         var canonicalRoot = Path.Combine(Path.GetTempPath(), "artifact-canonical");
@@ -21,8 +23,8 @@ public class TypedArtifactContextTests
         var provider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
         provider.Setup(p => p.EnumerateDirectories(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalDirectory]);
         provider.Setup(p => p.EnumerateFiles(requestedRoot, "*", SearchOption.AllDirectories)).Returns([canonicalFile]);
-        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns("empty");
-        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns("payload.txt");
+        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns($"nested{separator}empty");
+        provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns($"nested{separator}payload.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(canonicalFile)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
         provider.Setup(p => p.OpenRead(canonicalFile)).Returns(() => new MemoryStream("provider payload"u8.ToArray()));
         var store = new InMemoryDistributedArtifactStore();
@@ -32,8 +34,8 @@ public class TypedArtifactContextTests
 
         await using var data = await store.DownloadAsync(reference, CancellationToken.None);
         using var archive = new ZipArchive(data, ZipArchiveMode.Read);
-        await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["empty/", "payload.txt"]);
-        using var reader = new StreamReader(archive.GetEntry("payload.txt")!.Open());
+        await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["nested/empty/", "nested/payload.txt"]);
+        using var reader = new StreamReader(archive.GetEntry("nested/payload.txt")!.Open());
         await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("provider payload");
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalDirectory), Times.Once);
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalFile), Times.Once);
@@ -212,6 +214,30 @@ public class TypedArtifactContextTests
 
         await Assert.ThrowsAsync<IOException>(() => context.DownloadAsync<ArtifactProducer>("traversal", destination));
         await Assert.That(fileSystem.FileExists(Path.GetFullPath(Path.Combine(destination.Path, "..", "outside.txt")))).IsFalse();
+    }
+
+    [Test]
+    [Arguments("../destination/outside.txt")]
+    [Arguments("../destination/")]
+    public async Task Typed_Directory_Extraction_Rejects_Case_Variant_Traversal(string entryName)
+    {
+        var (provider, fileSystem) = CreateProvider();
+        var destination = new FolderPath(Path.Combine("typed-artifacts", "Destination"), provider);
+        await using var data = new MemoryStream();
+        using (var archive = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            archive.CreateEntry(entryName);
+        }
+
+        data.Position = 0;
+        using var archiveToExtract = new ZipArchive(data, ZipArchiveMode.Read);
+
+        await Assert.ThrowsAsync<IOException>(() => ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+            archiveToExtract, destination.Path, CancellationToken.None, provider));
+
+        Mock.Get(provider).Verify(p => p.CreateDirectory(It.Is<string>(path => path != destination.Path)), Times.Never);
+        Mock.Get(provider).Verify(p => p.Open(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+        await Assert.That(fileSystem.AllFiles).IsEmpty();
     }
 
     [Test]

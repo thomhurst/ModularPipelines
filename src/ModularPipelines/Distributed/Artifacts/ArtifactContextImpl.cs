@@ -103,7 +103,7 @@ internal class ArtifactContextImpl(
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
-        var sourceDirectory = Path.GetFullPath(directoryPath);
+        var sourceDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(directoryPath) : directoryPath;
         var fullArchivePath = Path.GetFullPath(archivePath);
         File.Delete(fullArchivePath);
 
@@ -131,17 +131,14 @@ internal class ArtifactContextImpl(
         foreach (var directory in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = provider.GetRelativePath(sourceDirectory, directory)
-                .Replace(Path.DirectorySeparatorChar, '/')
-                .TrimEnd('/') + "/";
+            var entryName = GetArchiveEntryName(provider, sourceDirectory, directory).TrimEnd('/') + "/";
             archive.CreateEntry(entryName, compressionLevel);
         }
 
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = provider.GetRelativePath(sourceDirectory, file)
-                .Replace(Path.DirectorySeparatorChar, '/');
+            var entryName = GetArchiveEntryName(provider, sourceDirectory, file);
             var entry = archive.CreateEntry(entryName, compressionLevel);
             entry.LastWriteTime = provider.GetLastWriteTimeUtc(file).ToLocalTime();
             if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
@@ -165,8 +162,17 @@ internal class ArtifactContextImpl(
         }
     }
 
-    internal static StringComparison GetArchivePathComparison() =>
-        OperatingSystem.IsWindows()
+    private static string GetArchiveEntryName(IFileSystemProvider provider, string directory, string path)
+    {
+        var relativePath = provider.GetRelativePath(directory, path);
+        // Custom providers may use either separator, independently of the host OS.
+        // Preserve literal backslashes in file names on a Unix system filesystem.
+        var separator = provider is SystemFileSystemProvider ? Path.DirectorySeparatorChar : '\\';
+        return relativePath.Replace(separator, '/');
+    }
+
+    internal static StringComparison GetArchivePathComparison(IFileSystemProvider? provider = null) =>
+        OperatingSystem.IsWindows() && (provider is null or SystemFileSystemProvider)
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 
@@ -221,11 +227,11 @@ internal class ArtifactContextImpl(
     {
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
-        var destinationDirectory = Path.GetFullPath(destinationPath);
+        var destinationDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(destinationPath) : destinationPath;
         var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
             ? destinationDirectory
             : destinationDirectory + Path.DirectorySeparatorChar;
-        var pathComparison = GetArchivePathComparison();
+        var pathComparison = GetArchivePathComparison(provider);
         CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
 
         foreach (var entry in archive.Entries)
@@ -292,7 +298,11 @@ internal class ArtifactContextImpl(
 
         // A new sibling file receives the archive mode through the OS umask even
         // when replacing an existing destination. Cancellation leaves that file intact.
-        var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
+        var temporaryPath = Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
+        if (provider is SystemFileSystemProvider)
+        {
+            temporaryPath = Path.GetFullPath(temporaryPath);
+        }
         if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
         {
             throw new IOException("The archive temporary file would leave the destination directory.");
