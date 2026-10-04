@@ -18,6 +18,10 @@ namespace ModularPipelines.Logging;
 /// </remarks>
 internal interface ICommandLogger
 {
+    void LogOutputTruncation(long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
+    {
+    }
+
     /// <summary>
     /// Logs a command immediately before execution starts.
     /// </summary>
