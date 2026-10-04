@@ -100,7 +100,7 @@ public class ArtifactContextTests
     [Test]
     [Arguments(CompressionLevel.NoCompression)]
     [Arguments(CompressionLevel.Optimal)]
-    public async Task Publish_Directory_Streams_From_Deleted_Temporary_Archive(CompressionLevel compressionLevel)
+    public async Task Configured_Pipeline_Publishes_Directory_With_Selected_Compression(CompressionLevel compressionLevel)
     {
         string? uploadedArchivePath = null;
         byte[]? uploadedContent = null;
@@ -125,16 +125,18 @@ public class ArtifactContextTests
                     UploadedAt = DateTimeOffset.UtcNow,
                 };
             });
-        var context = new ArtifactContextImpl(store.Object, new DistributedOptions { ArtifactCompressionLevel = compressionLevel });
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-context-source-");
 
         try
         {
             await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "output.txt"), new string('x', 8192));
-            using (new ModuleOutputContextScope(typeof(ProducerModule)))
-            {
-                await context.PublishDirectoryAsync("output", sourceDirectory.FullName, CancellationToken.None);
-            }
+            var builder = TestPipelineBuilder.Create().AddModule<PipelineDirectoryProducerModule>();
+            builder.Services.AddSingleton<IDistributedArtifactStore>(store.Object);
+            builder.Services.AddSingleton(new DirectoryPublishState(sourceDirectory.FullName));
+            builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = compressionLevel);
+            await using var pipeline = await builder.BuildAsync();
+
+            _ = await pipeline.RunAsync();
 
             using var archiveStream = new MemoryStream(uploadedContent!);
             using var archive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
@@ -258,6 +260,16 @@ public class ArtifactContextTests
             return string.Empty;
         }
     }
+
+    private sealed class PipelineDirectoryProducerModule(DirectoryPublishState state) : Module<ArtifactReference>
+    {
+        protected internal override Task<ArtifactReference> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => context.Artifacts.PublishDirectoryAsync("output", state.DirectoryPath, cancellationToken);
+    }
+
+    private sealed record DirectoryPublishState(string DirectoryPath);
 
     private sealed record ArtifactPublishState(string FilePath);
 }
