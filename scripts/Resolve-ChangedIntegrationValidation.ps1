@@ -37,6 +37,15 @@ if (-not $IsGeneratedIntegration) {
         if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $project) -PathType Leaf)) {
             throw "Changed integration has no expected project: $project."
         }
+        # A changed solution cannot silently fall back to the remaining project after
+        # deletion or rename. Whole-package removal is handled by full validation above.
+        foreach ($path in $ChangedPath) {
+            $solutionPath = $path.Replace('\', '/')
+            if ($solutionPath -like "src/$package/*.slnx" -and
+                -not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $solutionPath) -PathType Leaf)) {
+                throw "Changed integration solution is missing: $solutionPath."
+            }
+        }
         if (-not $hasTestProject) {
             $testProject = ''
         }

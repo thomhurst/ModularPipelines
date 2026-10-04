@@ -161,7 +161,25 @@ try {
     if ($entry.build_target -ne "src/$package/$package.slnx") {
         throw 'Integration validation must build the affected solution.'
     }
-    Remove-Item -LiteralPath $packageProject, $packageSolution
+    Remove-Item -LiteralPath $packageSolution
+    foreach ($case in @(
+        @{ Name = 'deleted integration solution'; Paths = @("src/$package/$package.slnx") },
+        @{ Name = 'renamed integration solution'; Paths = @("src\$package\$package.slnx", "src/$package/Renamed.slnx") }
+    )) {
+        if ($case.Name -eq 'renamed integration solution') {
+            Set-Content -LiteralPath (Join-Path $packageDirectory 'Renamed.slnx') -Value '<Solution />'
+        }
+        $failure = $null
+        try {
+            & $changedResolver -RepositoryRoot $fixture -ChangedPath $case.Paths | Out-Null
+        }
+        catch { $failure = $_.Exception.Message }
+        if ($failure -notlike "*Changed integration solution is missing: src/$package/$package.slnx*") {
+            throw "Route '$($case.Name)' must reject a missing changed solution while its project remains. Received: $failure"
+        }
+    }
+    Remove-Item -LiteralPath $packageProject
+
 
     foreach ($case in @(
         @{ Directory = "src/$package"; Path = "src/$package/Changed.cs"; Project = '' },
