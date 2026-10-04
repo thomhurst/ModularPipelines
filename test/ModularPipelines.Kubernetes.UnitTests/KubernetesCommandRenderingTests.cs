@@ -150,7 +150,7 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Label_File_With_One_Label_Does_Not_Require_Another_Label()
     {
-        var result = await GetResult(new KubernetesLabelOptions(["environment=test"], null!)
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test"])
         {
             Filename = ["deployment.yaml"],
         });
@@ -162,7 +162,7 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Label_List_Does_Not_Require_Labels()
     {
-        var result = await GetResult(new KubernetesLabelOptions(null!, null!)
+        var result = await GetResult(new KubernetesLabelOptions(null!)
         {
             Filename = ["deployment.yaml"],
             List = true,
@@ -185,6 +185,64 @@ public class KubernetesCommandRenderingTests : TestBase
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl taint nodes example=value:NoSchedule --all");
+    }
+
+    [Test]
+    public async Task Label_Renders_Resource_Before_All_Labels()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test", "team=build"])
+        {
+            Type = "pods",
+            Name = "example",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl label pods example environment=test team=build");
+    }
+
+    [Test]
+    public async Task Annotate_Renders_Resource_Before_All_Annotations()
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=build", "note=example"])
+        {
+            Type = "pods",
+            Name = "example",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl annotate pods example owner=build note=example");
+    }
+
+    [Test]
+    public async Task Label_All_Does_Not_Require_A_Name()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test"])
+        {
+            Type = "pods",
+            All = true,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl label --all pods environment=test");
+    }
+
+    [Test]
+    public async Task Patch_Distinguishes_Patch_Type_From_Resource_Type()
+    {
+        var result = await GetResult(new KubernetesPatchOptions
+        {
+            Type = "merge",
+            TypeArgument = "pods",
+            Name = "example",
+            PatchFile = "patch.json",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl patch pods example --patch-file=patch.json --type=merge");
+    }
+
+    [Test]
+    public async Task Scale_Renders_Resource_Operands()
+    {
+        var result = await GetResult(new KubernetesScaleOptions
+        {
+            Type = "deployments",
+            Name = "example",
+            Replicas = 3,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl scale --replicas=3 deployments example");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
