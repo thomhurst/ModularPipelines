@@ -249,3 +249,8 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.MinikubeCliScraper.Parse
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.MinikubeCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ExecuteHelpCommandAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ExecuteHelpCommandAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ExtractSubcommands(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.IsSkippableSubcommand(string! subcommand) -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.MaxParallelism.get -> int
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.NpmCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!

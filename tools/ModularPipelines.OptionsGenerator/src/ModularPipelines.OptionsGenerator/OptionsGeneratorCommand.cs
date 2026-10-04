@@ -237,6 +237,7 @@ internal static class OptionsGeneratorCommand
             provider.GetRequiredService<ILogger<AzCliScraper>>()));
         services.AddSingleton<ICliScraper, DotNetCliScraper>();
         services.AddSingleton<ICliScraper, NpmCliScraper>();
+        services.AddSingleton<ICliScraper, NpxCliScraper>();
         services.AddSingleton<ICliScraper, PnpmCliScraper>();
         services.AddSingleton<ICliScraper, GhCliScraper>();
         services.AddSingleton<ICliScraper, GoCliScraper>();
