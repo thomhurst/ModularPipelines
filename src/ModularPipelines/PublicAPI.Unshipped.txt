@@ -1674,7 +1674,7 @@ ModularPipelines.Context.IDataContext.Yaml.get -> ModularPipelines.Context.IYaml
 ModularPipelines.Context.IDownloaderContext
 ModularPipelines.Context.IDownloaderContext.DownloadFileAsync(ModularPipelines.Options.DownloadFileOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Context.IDownloaderContext.DownloadResponseAsync(ModularPipelines.Options.DownloadOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage!>!
-ModularPipelines.Context.IDownloaderContext.DownloadStringAsync(ModularPipelines.Options.DownloadOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string?>!
+ModularPipelines.Context.IDownloaderContext.DownloadStringAsync(ModularPipelines.Options.DownloadOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Context.IEnvironmentContext
 ModularPipelines.Context.IEnvironmentContext.AppDomainDirectory.get -> ModularPipelines.FileSystem.FolderPath!
 ModularPipelines.Context.IEnvironmentContext.Architecture.get -> System.Runtime.InteropServices.Architecture
@@ -1714,9 +1714,9 @@ ModularPipelines.Context.IHashContext.Sha384File(string! path, ModularPipelines.
 ModularPipelines.Context.IHashContext.Sha512(string! text, ModularPipelines.Context.HashEncoding encoding = ModularPipelines.Context.HashEncoding.Hex) -> string!
 ModularPipelines.Context.IHashContext.Sha512File(string! path, ModularPipelines.Context.HashEncoding encoding = ModularPipelines.Context.HashEncoding.Hex) -> string!
 ModularPipelines.Context.IHexContext
-ModularPipelines.Context.IHexContext.FromHex(string! hexInput) -> string!
+ModularPipelines.Context.IHexContext.FromHex(string! hexInput) -> byte[]!
 ModularPipelines.Context.IHexContext.FromHex(string! hexInput, System.Text.Encoding! encoding) -> string!
-ModularPipelines.Context.IHexContext.ToHex(System.Collections.Generic.IEnumerable<byte>! bytes) -> string!
+ModularPipelines.Context.IHexContext.ToHex(byte[]! bytes) -> string!
 ModularPipelines.Context.IHexContext.ToHex(string! input) -> string!
 ModularPipelines.Context.IHexContext.ToHex(string! input, System.Text.Encoding! encoding) -> string!
 ModularPipelines.Context.IHttpContext
@@ -1758,8 +1758,8 @@ ModularPipelines.Context.IXmlContext.FromXml<T>(System.Xml.Linq.XElement! elemen
 ModularPipelines.Context.IXmlContext.FromXml<T>(string! input, System.Xml.Linq.LoadOptions options = System.Xml.Linq.LoadOptions.PreserveWhitespace) -> T?
 ModularPipelines.Context.IXmlContext.ToXml<T>(T input, System.Xml.Linq.SaveOptions options = System.Xml.Linq.SaveOptions.None) -> string!
 ModularPipelines.Context.IYamlContext
-ModularPipelines.Context.IYamlContext.FromYaml<T>(string! input) -> T
-ModularPipelines.Context.IYamlContext.FromYaml<T>(string! input, YamlDotNet.Serialization.INamingConvention! namingConvention) -> T
+ModularPipelines.Context.IYamlContext.FromYaml<T>(string! input) -> T?
+ModularPipelines.Context.IYamlContext.FromYaml<T>(string! input, YamlDotNet.Serialization.INamingConvention! namingConvention) -> T?
 ModularPipelines.Context.IYamlContext.ToYaml<T>(T input) -> string!
 ModularPipelines.Context.IYamlContext.ToYaml<T>(T input, YamlDotNet.Serialization.INamingConvention! namingConvention) -> string!
 ModularPipelines.Context.IZipContext

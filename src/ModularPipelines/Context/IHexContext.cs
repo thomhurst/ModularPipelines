@@ -20,24 +20,26 @@ public interface IHexContext
     string ToHex(string input, Encoding encoding);
 
     /// <summary>
-    /// Converts a byte sequence to a hex encoded string.
+    /// Converts a byte array to a hex encoded string.
     /// </summary>
     /// <param name="bytes">The byte array to convert to a hex.</param>
     /// <returns>The hex encoded string.</returns>
-    string ToHex(IEnumerable<byte> bytes);
+    string ToHex(byte[] bytes);
+
+    /// <summary>
+    /// Converts a hex encoded string to bytes.
+    /// </summary>
+    /// <param name="hexInput">The hex string to decode, without separators.</param>
+    /// <returns>The decoded bytes.</returns>
+    /// <exception cref="FormatException">The input has an odd length or contains non-hexadecimal characters.</exception>
+    byte[] FromHex(string hexInput);
 
     /// <summary>
     /// Converts a hex encoded string to a decoded standard string.
     /// </summary>
-    /// <param name="hexInput">The hex string to decode.</param>
-    /// <returns>The decoded string.</returns>
-    string FromHex(string hexInput) => FromHex(hexInput, Encoding.UTF8);
-
-    /// <summary>
-    /// Converts a hex encoded string to a decoded standard string.
-    /// </summary>
-    /// <param name="hexInput">The hex string to decode.</param>
+    /// <param name="hexInput">The hex string to decode, without separators.</param>
     /// <param name="encoding">The string encoding.</param>
     /// <returns>The decoded string.</returns>
+    /// <exception cref="FormatException">The input has an odd length or contains non-hexadecimal characters.</exception>
     string FromHex(string hexInput, Encoding encoding);
 }

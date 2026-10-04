@@ -18,8 +18,8 @@ public interface IDownloaderContext
     /// </summary>
     /// <param name="options">The download options including the source URL.</param>
     /// <param name="cancellationToken">A token to cancel the download operation.</param>
-    /// <returns>The downloaded content as a string, or null if the download failed.</returns>
-    public Task<string?> DownloadStringAsync(DownloadOptions options, CancellationToken cancellationToken = default);
+    /// <returns>The downloaded content as a string. HTTP failures throw an exception.</returns>
+    public Task<string> DownloadStringAsync(DownloadOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an HTTP response from the web.

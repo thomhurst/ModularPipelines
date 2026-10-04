@@ -8,6 +8,16 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class YamlTests : TestBase
 {
     [Test]
+    [Arguments("")]
+    [Arguments("null")]
+    public async Task Empty_Or_Null_Input_Returns_Null(string input)
+    {
+        var yaml = await GetService<IYamlContext>();
+        await Assert.That(yaml.FromYaml<SerializationTestModel>(input)).IsNull();
+        await Assert.That(yaml.FromYaml<SerializationTestModel>(input, CamelCaseNamingConvention.Instance)).IsNull();
+    }
+
+    [Test]
     public async Task Can_Serialize_With_Null()
     {
         var yaml = await GetService<IYamlContext>();

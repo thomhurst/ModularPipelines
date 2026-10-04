@@ -12,6 +12,22 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class DownloaderTests : TestBase
 {
     [Test]
+    public async Task DownloadStringAsync_EmptyContentReturnsEmptyString()
+    {
+        IDownloaderContext downloader = CreateDownloader(new StringContent(string.Empty));
+        var result = await downloader.DownloadStringAsync(new DownloadOptions(new Uri("https://example.test/download")));
+        await Assert.That(result).IsEqualTo(string.Empty);
+    }
+
+    [Test]
+    public async Task DownloadStringAsync_HttpFailureThrows()
+    {
+        IDownloaderContext downloader = CreateDownloader(new StringContent("failure"), statusCode: HttpStatusCode.BadRequest);
+        await Assert.ThrowsAsync<PipelineHttpResponseException>(() =>
+            downloader.DownloadStringAsync(new DownloadOptions(new Uri("https://example.test/download"))));
+    }
+
+    [Test]
     public async Task DownloadOptions_UseMinimalFallbackLoggingByDefault()
     {
         HttpOptions? observedOptions = null;
