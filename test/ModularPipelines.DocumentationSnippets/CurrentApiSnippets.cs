@@ -124,7 +124,7 @@ public static class CurrentApiSnippets
             return await context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
-                    Project = "MySolution.sln",
+                    Arguments = ["MySolution.sln"],
                     Configuration = "Release",
                 },
                 cancellationToken: cancellationToken).ConfigureAwait(false);
@@ -213,9 +213,9 @@ public static class CurrentApiSnippets
                 .SelectAsync(testProject => context.Tools.DotNet.TestAsync(
                     new DotNetTestOptions
                     {
-                        Project = testProject.Path,
                         Arguments =
                         [
+                            "--project", testProject.Path,
                             "--coverage",
                             "--coverage-output-format", "cobertura",
                         ],

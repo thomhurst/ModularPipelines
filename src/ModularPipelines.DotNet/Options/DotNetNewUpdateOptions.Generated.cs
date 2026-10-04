@@ -27,6 +27,18 @@ public record DotNetNewUpdateOptions : DotNetOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
+    /// Specifies a NuGet source to use.
+    /// </summary>
+    [CliOption("--nuget-source")]
+    public string? NuGetSource { get; set; }
+
+    /// <summary>
+    /// Only checks for updates and display the template packages to be updated without applying update. [default: False]
+    /// </summary>
+    [CliFlag("--check-only")]
+    public bool? CheckOnly { get; set; }
+
+    /// <summary>
     /// Sets the verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], and diag[nostic]. [default: normal]
     /// </summary>
     [CliOption("--verbosity", ShortForm = "-v")]

@@ -22,6 +22,12 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetBuildOptions : DotNetOptions
 {
     /// <summary>
+    /// Use current runtime as the target runtime. [default: False]
+    /// </summary>
+    [CliFlag("--use-current-runtime")]
+    public bool? UseCurrentRuntime { get; set; }
+
+    /// <summary>
     /// The target framework to build for. The target framework must also be specified in the project file.
     /// </summary>
     [CliOption("--framework", ShortForm = "-f")]
@@ -52,6 +58,12 @@ public record DotNetBuildOptions : DotNetOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    [CliOption("-verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
+
+    /// <summary>
     /// The output directory to place built artifacts in.
     /// </summary>
     [CliOption("--output", ShortForm = "-o")]
@@ -80,6 +92,12 @@ public record DotNetBuildOptions : DotNetOptions
     /// </summary>
     [CliFlag("--nologo")]
     public bool? NoLogo { get; set; }
+
+    /// <summary>
+    /// Publish the .NET runtime with your application so the runtime doesn't need to be installed on the target machine. The default is 'false.' However, when targeting .NET 7 or lower, the default is 'true' if a runtime identifier is specified. [default: False]
+    /// </summary>
+    [CliFlag("--self-contained")]
+    public bool? SelfContained { get; set; }
 
     /// <summary>
     /// Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to run your application. [default: False]

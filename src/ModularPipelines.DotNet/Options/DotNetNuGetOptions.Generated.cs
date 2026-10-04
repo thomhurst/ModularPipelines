@@ -23,4 +23,10 @@ public record DotNetNuGetOptions : DotNetOptions
     [CliFlag("--force-english-output")]
     public bool? ForceEnglishOutput { get; set; }
 
+    /// <summary>
+    /// Show version information
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
+
 }

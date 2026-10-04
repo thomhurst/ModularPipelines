@@ -56,6 +56,12 @@ public record DotNetToolInstallOptions : DotNetOptions
     public string? ToolPath { get; set; }
 
     /// <summary>
+    /// The version of the tool package to install.
+    /// </summary>
+    [CliOption("--version")]
+    public string? Version { get; set; }
+
+    /// <summary>
     /// The NuGet configuration file to use.
     /// </summary>
     [CliOption("--configfile")]

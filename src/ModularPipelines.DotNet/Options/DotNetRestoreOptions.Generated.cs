@@ -40,6 +40,12 @@ public record DotNetRestoreOptions : DotNetOptions
     public string? Packages { get; set; }
 
     /// <summary>
+    /// Use current runtime as the target runtime. [default: False]
+    /// </summary>
+    [CliFlag("--use-current-runtime")]
+    public bool? UseCurrentRuntime { get; set; }
+
+    /// <summary>
     /// Prevent restoring multiple projects in parallel. [default: False]
     /// </summary>
     [CliFlag("--disable-parallel")]

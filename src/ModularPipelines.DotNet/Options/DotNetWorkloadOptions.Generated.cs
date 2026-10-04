@@ -26,4 +26,10 @@ public record DotNetWorkloadOptions : DotNetOptions
     [CliFlag("--info")]
     public bool? Info { get; set; }
 
+    /// <summary>
+    /// Display the currently installed workload version. [default: False]
+    /// </summary>
+    [CliFlag("--version")]
+    public bool? Version { get; set; }
+
 }
