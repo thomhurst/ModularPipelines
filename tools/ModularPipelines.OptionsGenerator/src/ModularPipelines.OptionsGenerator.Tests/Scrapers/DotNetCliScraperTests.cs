@@ -113,6 +113,65 @@ public class DotNetCliScraperTests
     }
 
     [Test]
+    public async Task Isolated_Settings_Resolve_Ancestor_Sdk_Paths_Without_Changing_Order_Or_Host_Token()
+    {
+        var root = Directory.CreateTempSubdirectory("dotnet-sdk-paths-");
+        try
+        {
+            var workingDirectory = Directory.CreateDirectory(Path.Combine(root.FullName, "nested", "generator"));
+            var absoluteSdk = Path.Combine(root.FullName, "absolute-sdk");
+            var paths = JsonSerializer.Serialize(new[] { ".dotnet", "../shared-sdk", absoluteSdk, "$host$" });
+            await File.WriteAllTextAsync(Path.Combine(root.FullName, "global.json"), $$"""
+                {
+                  // Preserve SDK search locations, but remove the repository's runner selection.
+                  "sdk": { "version": "10.0.100", "paths": {{paths}}, },
+                  "test": { "runner": "Microsoft.Testing.Platform" }
+                }
+                """);
+
+            using var settings = JsonDocument.Parse(await DotNetCliScraper.CreateIsolatedSdkSettingsAsync(
+                workingDirectory.FullName, "10.0.401", CancellationToken.None));
+            var sdk = settings.RootElement.GetProperty("sdk");
+            await Assert.That(sdk.GetProperty("paths").EnumerateArray().Select(path => path.GetString()).SequenceEqual(
+                [Path.Combine(root.FullName, ".dotnet"), Path.GetFullPath("../shared-sdk", root.FullName), absoluteSdk, "$host$"])).IsTrue();
+            await Assert.That(sdk.GetProperty("version").GetString()).IsEqualTo("10.0.401");
+            await Assert.That(sdk.GetProperty("rollForward").GetString()).IsEqualTo("disable");
+            await Assert.That(settings.RootElement.TryGetProperty("test", out _)).IsFalse();
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Isolated_Settings_Stop_At_Nearest_Global_Json(bool emptyPaths)
+    {
+        var root = Directory.CreateTempSubdirectory("dotnet-sdk-paths-");
+        try
+        {
+            await File.WriteAllTextAsync(Path.Combine(root.FullName, "global.json"), """{"sdk":{"paths":["outer-sdk"]}}""");
+            var nested = Directory.CreateDirectory(Path.Combine(root.FullName, "nested"));
+            await File.WriteAllTextAsync(Path.Combine(nested.FullName, "global.json"),
+                emptyPaths ? """{"sdk":{"paths":[]}}""" : "{}");
+            using var settings = JsonDocument.Parse(await DotNetCliScraper.CreateIsolatedSdkSettingsAsync(
+                nested.FullName, "10.0.401", CancellationToken.None));
+            var hasPaths = settings.RootElement.GetProperty("sdk").TryGetProperty("paths", out var paths);
+            await Assert.That(hasPaths).IsEqualTo(emptyPaths);
+            if (hasPaths)
+            {
+                await Assert.That(paths.GetArrayLength()).IsEqualTo(0);
+            }
+        }
+        finally
+        {
+            root.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task Test_Help_Cleanup_Failure_Preserves_Result(bool failHelp)
