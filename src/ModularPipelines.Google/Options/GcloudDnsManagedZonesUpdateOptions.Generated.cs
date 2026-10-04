@@ -98,14 +98,8 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
     /// </summary>
-    [CliFlag("--log-dns-queries")]
+    [CliFlag("--log-dns-queries", NegatedName = "--no-log-dns-queries")]
     public bool? LogDnsQueries { get; set; }
-
-    /// <summary>
-    /// Negates --log-dns-queries. Specifies whether to enable query logging. Defaults to False. Use --log-dns-queries to enable and --no-log-dns-queries to disable.
-    /// </summary>
-    [CliFlag("--no-log-dns-queries")]
-    public bool? NoLogDnsQueries { get; set; }
 
     /// <summary>
     /// Specifies whether this zone is a managed reverse lookup zone, required for Cloud DNS to correctly resolve Non-RFC1918 PTR records.

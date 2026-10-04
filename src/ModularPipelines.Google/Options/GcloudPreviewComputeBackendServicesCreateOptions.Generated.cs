@@ -69,14 +69,8 @@ public record GcloudPreviewComputeBackendServicesCreateOptions : GcloudOptions, 
     /// <summary>
     /// Enable including host in cache key. If enabled, requests to different hosts will be cached separately. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-host to disable.
     /// </summary>
-    [CliFlag("--cache-key-include-host")]
+    [CliFlag("--cache-key-include-host", NegatedName = "--no-cache-key-include-host")]
     public bool? CacheKeyIncludeHost { get; set; }
-
-    /// <summary>
-    /// Negates --cache-key-include-host. Enable including host in cache key. If enabled, requests to different hosts will be cached separately. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-host to disable.
-    /// </summary>
-    [CliFlag("--no-cache-key-include-host")]
-    public bool? NoCacheKeyIncludeHost { get; set; }
 
     /// <summary>
     /// Specifies a comma-separated list of HTTP headers, by field name, to include in cache keys. Only the request URL is included in the cache key by default. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -93,26 +87,14 @@ public record GcloudPreviewComputeBackendServicesCreateOptions : GcloudOptions, 
     /// <summary>
     /// Enable including protocol in cache key. If enabled, http and https requests will be cached separately. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-protocol to disable.
     /// </summary>
-    [CliFlag("--cache-key-include-protocol")]
+    [CliFlag("--cache-key-include-protocol", NegatedName = "--no-cache-key-include-protocol")]
     public bool? CacheKeyIncludeProtocol { get; set; }
-
-    /// <summary>
-    /// Negates --cache-key-include-protocol. Enable including protocol in cache key. If enabled, http and https requests will be cached separately. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-protocol to disable.
-    /// </summary>
-    [CliFlag("--no-cache-key-include-protocol")]
-    public bool? NoCacheKeyIncludeProtocol { get; set; }
 
     /// <summary>
     /// Enable including query string in cache key. If enabled, the query string parameters will be included according to --cache-key-query-string-whitelist and --cache-key-query-string-blacklist. If neither is set, the entire query string will be included. If disabled, then the entire query string will be excluded. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-query-string to disable.
     /// </summary>
-    [CliFlag("--cache-key-include-query-string")]
+    [CliFlag("--cache-key-include-query-string", NegatedName = "--no-cache-key-include-query-string")]
     public bool? CacheKeyIncludeQueryString { get; set; }
-
-    /// <summary>
-    /// Negates --cache-key-include-query-string. Enable including query string in cache key. If enabled, the query string parameters will be included according to --cache-key-query-string-whitelist and --cache-key-query-string-blacklist. If neither is set, the entire query string will be included. If disabled, then the entire query string will be excluded. Can only be applied for global resources. Enabled by default, use --no-cache-key-include-query-string to disable.
-    /// </summary>
-    [CliFlag("--no-cache-key-include-query-string")]
-    public bool? NoCacheKeyIncludeQueryString { get; set; }
 
     /// <summary>
     /// Specifies the cache setting for all responses from this backend. CACHE_MODE must be one of: CACHE_ALL_STATIC Automatically cache static content, including common image formats, media (video and audio), web assets (JavaScript and CSS). Requests and responses that are marked as uncacheable, as well as dynamic content (including HTML), aren't cached. FORCE_CACHE_ALL Cache all content, ignoring any "private", "no-store" or "no-cache" directives in Cache-Control response headers. Warning: this may result in Cloud CDN caching private, per-user (user identifiable) content. You should only enable this on backends that are not serving private or dynamic content, such as storage buckets. USE_ORIGIN_HEADERS Require the origin to set valid caching headers to cache content. Responses without these headers aren't cached at Google's edge, and require a full trip to the origin on every request, potentially impacting performance and increasing load on the origin server.
@@ -201,38 +183,20 @@ public record GcloudPreviewComputeBackendServicesCreateOptions : GcloudOptions, 
     /// <summary>
     /// Enable or disable Cloud CDN for the backend service. Only available for backend services with --load-balancing-scheme=EXTERNAL or EXTERNAL_MANAGED that use a --protocol of HTTP, HTTPS, HTTP2 or H2C. Cloud CDN caches HTTP responses at the edge of Google's network. Cloud CDN is disabled by default. Use --enable-cdn to enable and --no-enable-cdn to disable.
     /// </summary>
-    [CliFlag("--enable-cdn")]
+    [CliFlag("--enable-cdn", NegatedName = "--no-enable-cdn")]
     public bool? EnableCdn { get; set; }
-
-    /// <summary>
-    /// Negates --enable-cdn. Enable or disable Cloud CDN for the backend service. Only available for backend services with --load-balancing-scheme=EXTERNAL or EXTERNAL_MANAGED that use a --protocol of HTTP, HTTPS, HTTP2 or H2C. Cloud CDN caches HTTP responses at the edge of Google's network. Cloud CDN is disabled by default. Use --enable-cdn to enable and --no-enable-cdn to disable.
-    /// </summary>
-    [CliFlag("--no-enable-cdn")]
-    public bool? NoEnableCdn { get; set; }
 
     /// <summary>
     /// The logging options for the load balancer traffic served by this backend service. If logging is enabled, logs will be exported to Cloud Logging. Disabled by default. This field cannot be specified for global external proxy Network Load Balancers. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. The logging options for the load balancer traffic served by this backend service. If logging is enabled, logs will be exported to Cloud Logging. Disabled by default. This field cannot be specified for global external proxy Network Load Balancers. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// Enable or disable strong session affinity. This is only available for loadbalancingScheme EXTERNAL. Use --enable-strong-affinity to enable and --no-enable-strong-affinity to disable.
     /// </summary>
-    [CliFlag("--enable-strong-affinity")]
+    [CliFlag("--enable-strong-affinity", NegatedName = "--no-enable-strong-affinity")]
     public bool? EnableStrongAffinity { get; set; }
-
-    /// <summary>
-    /// Negates --enable-strong-affinity. Enable or disable strong session affinity. This is only available for loadbalancingScheme EXTERNAL. Use --enable-strong-affinity to enable and --no-enable-strong-affinity to disable.
-    /// </summary>
-    [CliFlag("--no-enable-strong-affinity")]
-    public bool? NoEnableStrongAffinity { get; set; }
 
     /// <summary>
     /// Applicable only to backend service-based external passthrough Network load balancers and internal passthrough Network load balancers as part of a failover policy. Not applicable to any other load balancer. This option defines the ratio used to control when failover and failback occur. For details, see: Failover ratio for internal passthrough Network Load Balancers (https://cloud.google.com/load-balancing/docs/internal/failover-overview#failover_ratio) and Failover ratio for external passthrough Network Load Balancer overview (https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview#failover_ratio).
@@ -339,14 +303,8 @@ public record GcloudPreviewComputeBackendServicesCreateOptions : GcloudOptions, 
     /// <summary>
     /// Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ◆ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ◆ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ◆ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
     /// </summary>
-    [CliFlag("--negative-caching")]
+    [CliFlag("--negative-caching", NegatedName = "--no-negative-caching")]
     public bool? NegativeCaching { get; set; }
-
-    /// <summary>
-    /// Negates --negative-caching. Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ◆ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ◆ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ◆ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
-    /// </summary>
-    [CliFlag("--no-negative-caching")]
-    public bool? NoNegativeCaching { get; set; }
 
     /// <summary>
     /// Sets a cache TTL for the specified HTTP status code. NegativeCaching must be enabled to config the negativeCachingPolicy. If you omit the policy and leave negativeCaching enabled, Cloud CDN's default cache TTLs are used. Note that when specifying an explicit negative caching policy, make sure that you specify a cache TTL for all response codes that you want to cache. Cloud CDN doesn't apply any default negative caching when a policy exists. CODE is the HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 308, 404, 405, 410, 421, 451, and 501 can be specified as values, and you cannot specify a status code more than once. TTL is the time to live (in seconds) for which to cache responses for the specified CODE. The maximum allowed value is 1800s (30 minutes), noting that infrequently accessed objects may be evicted from the cache before the defined TTL.
@@ -375,14 +333,8 @@ public record GcloudPreviewComputeBackendServicesCreateOptions : GcloudOptions, 
     /// <summary>
     /// Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
     /// </summary>
-    [CliFlag("--request-coalescing")]
+    [CliFlag("--request-coalescing", NegatedName = "--no-request-coalescing")]
     public bool? RequestCoalescing { get; set; }
-
-    /// <summary>
-    /// Negates --request-coalescing. Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
-    /// </summary>
-    [CliFlag("--no-request-coalescing")]
-    public bool? NoRequestCoalescing { get; set; }
 
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the backend service. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

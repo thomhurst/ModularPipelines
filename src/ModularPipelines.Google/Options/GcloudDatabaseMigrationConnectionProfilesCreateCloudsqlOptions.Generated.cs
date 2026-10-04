@@ -109,14 +109,8 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions : G
     /// <summary>
     /// If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 64 TB. Default: ON. Enabled by default, use --no-auto-storage-increase to disable.
     /// </summary>
-    [CliFlag("--auto-storage-increase")]
+    [CliFlag("--auto-storage-increase", NegatedName = "--no-auto-storage-increase")]
     public bool? AutoStorageIncrease { get; set; }
-
-    /// <summary>
-    /// Negates --auto-storage-increase. If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 64 TB. Default: ON. Enabled by default, use --no-auto-storage-increase to disable.
-    /// </summary>
-    [CliFlag("--no-auto-storage-increase")]
-    public bool? NoAutoStorageIncrease { get; set; }
 
     /// <summary>
     /// Cloud SQL availability type. AVAILABILITY_TYPE must be one of: REGIONAL, ZONAL.
@@ -157,14 +151,8 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions : G
     /// <summary>
     /// Whether the instance should be assigned an IPv4 address or not. Enabled by default, use --no-enable-ip-v4 to disable.
     /// </summary>
-    [CliFlag("--enable-ip-v4")]
+    [CliFlag("--enable-ip-v4", NegatedName = "--no-enable-ip-v4")]
     public bool? EnableIpV4 { get; set; }
-
-    /// <summary>
-    /// Negates --enable-ip-v4. Whether the instance should be assigned an IPv4 address or not. Enabled by default, use --no-enable-ip-v4 to disable.
-    /// </summary>
-    [CliFlag("--no-enable-ip-v4")]
-    public bool? NoEnableIpV4 { get; set; }
 
     /// <summary>
     /// Specifies endpoint mode for a given command. Regional endpoints provide enhanced data residency and reliability by ensuring your request is handled entirely within the specified Google Cloud region. This differs from global endpoints, which may process parts of the request outside the target region. Overrides the default regional/endpoint_mode property value for this command invocation. ENDPOINT_MODE must be one of: global (Default) Use global rather than regional endpoints. regional Only use regional endpoints. An error will be raised if a regional endpoint is not available for a given command. regional-preferred Use regional endpoints when available, otherwise use global endpoints. Recommended for most users.

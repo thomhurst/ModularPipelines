@@ -50,14 +50,8 @@ public record GcloudFunctionsDeployOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// If set, makes this a public function. This will allow all callers, without checking authentication. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
     /// </summary>
-    [CliFlag("--allow-unauthenticated")]
+    [CliFlag("--allow-unauthenticated", NegatedName = "--no-allow-unauthenticated")]
     public bool? AllowUnauthenticated { get; set; }
-
-    /// <summary>
-    /// Negates --allow-unauthenticated. If set, makes this a public function. This will allow all callers, without checking authentication. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
-    /// </summary>
-    [CliFlag("--no-allow-unauthenticated")]
-    public bool? NoAllowUnauthenticated { get; set; }
 
     /// <summary>
     /// Set the maximum number of concurrent requests allowed per container instance. Leave concurrency unspecified to receive the server default value.
@@ -92,14 +86,8 @@ public record GcloudFunctionsDeployOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
     /// </summary>
-    [CliFlag("--gen2")]
+    [CliFlag("--gen2", NegatedName = "--no-gen2")]
     public bool? Gen2 { get; set; }
-
-    /// <summary>
-    /// Negates --gen2. If enabled, this command will use Cloud Functions (Second generation). If disabled with --no-gen2, Cloud Functions (First generation) will be used. If not specified, the value of this flag will be taken from the functions/gen2 configuration property. If the functions/gen2 configuration property is not set, defaults to looking up the given function and using its generation.
-    /// </summary>
-    [CliFlag("--no-gen2")]
-    public bool? NoGen2 { get; set; }
 
     /// <summary>
     /// Override the .gcloudignore file in the source directory and use the specified file instead. By default, the source directory is your current directory. Note that it could be changed by the --source flag, in which case your .gcloudignore file will be searched in the overridden directory. For example, --ignore-file=.mygcloudignore combined with --source=./mydir would point to ./mydir/.mygcloudignore

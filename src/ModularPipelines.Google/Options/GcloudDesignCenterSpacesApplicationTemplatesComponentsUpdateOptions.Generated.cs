@@ -66,14 +66,8 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOption
     /// <summary>
     /// Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module. Use --use-as-root-module to enable and --no-use-as-root-module to disable.
     /// </summary>
-    [CliFlag("--use-as-root-module")]
+    [CliFlag("--use-as-root-module", NegatedName = "--no-use-as-root-module")]
     public bool? UseAsRootModule { get; set; }
-
-    /// <summary>
-    /// Negates --use-as-root-module. Whether the component is exported as a separate terraform root module in a composite application template. If this is false, then native components will be exported as a submodule of a separate terraform root module. Use --use-as-root-module to enable and --no-use-as-root-module to disable.
-    /// </summary>
-    [CliFlag("--no-use-as-root-module")]
-    public bool? NoUseAsRootModule { get; set; }
 
     /// <summary>
     /// This captures the apphub application details associated with the component. The application ID of the apphub application. The ID must be 1-63 characters long and should match the regular expression ^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$.
@@ -546,14 +540,8 @@ public record GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOption
     /// <summary>
     /// Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
     /// </summary>
-    [CliFlag("--criticality-mission-critical")]
+    [CliFlag("--criticality-mission-critical", NegatedName = "--no-criticality-mission-critical")]
     public bool? CriticalityMissionCritical { get; set; }
-
-    /// <summary>
-    /// Negates --criticality-mission-critical. Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. Use --criticality-mission-critical to enable and --no-criticality-mission-critical to disable.
-    /// </summary>
-    [CliFlag("--no-criticality-mission-critical")]
-    public bool? NoCriticalityMissionCritical { get; set; }
 
     /// <summary>
     /// Criticality Type. CRITICALITY_TYPE must be one of: high High impact. low Low impact. medium Medium impact. mission-critical Mission critical service, application or workload.

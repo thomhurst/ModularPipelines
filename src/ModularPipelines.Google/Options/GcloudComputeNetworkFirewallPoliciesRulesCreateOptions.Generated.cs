@@ -134,26 +134,14 @@ public record GcloudComputeNetworkFirewallPoliciesRulesCreateOptions : GcloudOpt
     /// <summary>
     /// Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Use this flag to disable the rule. Disabled rules will not affect traffic. Use --disabled to enable and --no-disabled to disable.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// A security profile group to be used with apply_security_profile_group action.
@@ -236,14 +224,8 @@ public record GcloudComputeNetworkFirewallPoliciesRulesCreateOptions : GcloudOpt
     /// <summary>
     /// Use this flag to indicate whether TLS traffic should be inspected using the TLS inspection policy when the security profile group is applied. Default: no TLS inspection. Use --tls-inspect to enable and --no-tls-inspect to disable.
     /// </summary>
-    [CliFlag("--tls-inspect")]
+    [CliFlag("--tls-inspect", NegatedName = "--no-tls-inspect")]
     public bool? TlsInspect { get; set; }
-
-    /// <summary>
-    /// Negates --tls-inspect. Use this flag to indicate whether TLS traffic should be inspected using the TLS inspection policy when the security profile group is applied. Default: no TLS inspection. Use --tls-inspect to enable and --no-tls-inspect to disable.
-    /// </summary>
-    [CliFlag("--no-tls-inspect")]
-    public bool? NoTlsInspect { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Region of the firewall policy to create. Overrides the default compute/region property value for this command invocation.

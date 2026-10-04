@@ -118,14 +118,8 @@ public record GcloudStorageRsyncOptions : GcloudOptions
     /// <summary>
     /// Ignore file symlinks instead of copying what they point to. Enabled by default, use --no-ignore-symlinks to disable.
     /// </summary>
-    [CliFlag("--ignore-symlinks")]
+    [CliFlag("--ignore-symlinks", NegatedName = "--no-ignore-symlinks")]
     public bool? IgnoreSymlinks { get; set; }
-
-    /// <summary>
-    /// Negates --ignore-symlinks. Ignore file symlinks instead of copying what they point to. Enabled by default, use --no-ignore-symlinks to disable.
-    /// </summary>
-    [CliFlag("--no-ignore-symlinks")]
-    public bool? NoIgnoreSymlinks { get; set; }
 
     /// <summary>
     /// Includes managed folders in command operations. For transfers, gcloud storage will set up managed folders in the destination with the same IAM policy bindings as the source. Managed folders are only included with recursive cloud-to-cloud transfers.

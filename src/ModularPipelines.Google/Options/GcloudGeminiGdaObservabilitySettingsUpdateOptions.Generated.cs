@@ -60,50 +60,26 @@ public record GcloudGeminiGdaObservabilitySettingsUpdateOptions : GcloudOptions,
     /// <summary>
     /// Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
     /// </summary>
-    [CliFlag("--conversational-analytics-setting-feedback-enabled")]
+    [CliFlag("--conversational-analytics-setting-feedback-enabled", NegatedName = "--no-conversational-analytics-setting-feedback-enabled")]
     public bool? ConversationalAnalyticsSettingFeedbackEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --conversational-analytics-setting-feedback-enabled. Whether to enable feedback. Use --conversational-analytics-setting-feedback-enabled to enable and --no-conversational-analytics-setting-feedback-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-conversational-analytics-setting-feedback-enabled")]
-    public bool? NoConversationalAnalyticsSettingFeedbackEnabled { get; set; }
 
     /// <summary>
     /// Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
     /// </summary>
-    [CliFlag("--conversational-analytics-setting-logging-enabled")]
+    [CliFlag("--conversational-analytics-setting-logging-enabled", NegatedName = "--no-conversational-analytics-setting-logging-enabled")]
     public bool? ConversationalAnalyticsSettingLoggingEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --conversational-analytics-setting-logging-enabled. Whether to enable logging. Use --conversational-analytics-setting-logging-enabled to enable and --no-conversational-analytics-setting-logging-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-conversational-analytics-setting-logging-enabled")]
-    public bool? NoConversationalAnalyticsSettingLoggingEnabled { get; set; }
 
     /// <summary>
     /// Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
     /// </summary>
-    [CliFlag("--conversational-analytics-setting-metrics-enabled")]
+    [CliFlag("--conversational-analytics-setting-metrics-enabled", NegatedName = "--no-conversational-analytics-setting-metrics-enabled")]
     public bool? ConversationalAnalyticsSettingMetricsEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --conversational-analytics-setting-metrics-enabled. Whether to enable metrics. Use --conversational-analytics-setting-metrics-enabled to enable and --no-conversational-analytics-setting-metrics-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-conversational-analytics-setting-metrics-enabled")]
-    public bool? NoConversationalAnalyticsSettingMetricsEnabled { get; set; }
 
     /// <summary>
     /// Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
     /// </summary>
-    [CliFlag("--conversational-analytics-setting-traces-enabled")]
+    [CliFlag("--conversational-analytics-setting-traces-enabled", NegatedName = "--no-conversational-analytics-setting-traces-enabled")]
     public bool? ConversationalAnalyticsSettingTracesEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --conversational-analytics-setting-traces-enabled. Whether to enable traces. Use --conversational-analytics-setting-traces-enabled to enable and --no-conversational-analytics-setting-traces-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-conversational-analytics-setting-traces-enabled")]
-    public bool? NoConversationalAnalyticsSettingTracesEnabled { get; set; }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)

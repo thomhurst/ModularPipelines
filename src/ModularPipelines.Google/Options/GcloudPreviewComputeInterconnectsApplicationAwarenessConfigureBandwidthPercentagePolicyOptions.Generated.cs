@@ -52,14 +52,8 @@ public record GcloudPreviewComputeInterconnectsApplicationAwarenessConfigureBand
     /// <summary>
     /// Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
-
-    /// <summary>
-    /// Negates --enabled. Enable or disable application awareness on the interconnect. Application awareness enablement will fail if the application awareness configuration is not specified. Use --no-enabled to disable it.
-    /// </summary>
-    [CliFlag("--no-enabled")]
-    public bool? NoEnabled { get; set; }
 
     /// <summary>
     /// Add profile description for application awareness.

@@ -73,14 +73,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
     /// </summary>
-    [CliFlag("--boot-disk-auto-delete")]
+    [CliFlag("--boot-disk-auto-delete", NegatedName = "--no-boot-disk-auto-delete")]
     public bool? BootDiskAutoDelete { get; set; }
-
-    /// <summary>
-    /// Negates --boot-disk-auto-delete. Automatically delete boot disks when their instances are deleted. Enabled by default, use --no-boot-disk-auto-delete to disable.
-    /// </summary>
-    [CliFlag("--no-boot-disk-auto-delete")]
-    public bool? NoBootDiskAutoDelete { get; set; }
 
     /// <summary>
     /// The name the guest operating system will see for the boot disk. This option can only be specified if a new boot disk is being created (as opposed to mounting an existing persistent disk).
@@ -169,26 +163,14 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
     /// </summary>
-    [CliFlag("--enable-nested-virtualization")]
+    [CliFlag("--enable-nested-virtualization", NegatedName = "--no-enable-nested-virtualization")]
     public bool? EnableNestedVirtualization { get; set; }
-
-    /// <summary>
-    /// Negates --enable-nested-virtualization. If set to true, enables nested virtualization for the instance. Use --enable-nested-virtualization to enable and --no-enable-nested-virtualization to disable.
-    /// </summary>
-    [CliFlag("--no-enable-nested-virtualization")]
-    public bool? NoEnableNestedVirtualization { get; set; }
 
     /// <summary>
     /// If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
     /// </summary>
-    [CliFlag("--enable-uefi-networking")]
+    [CliFlag("--enable-uefi-networking", NegatedName = "--no-enable-uefi-networking")]
     public bool? EnableUefiNetworking { get; set; }
-
-    /// <summary>
-    /// Negates --enable-uefi-networking. If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
-    /// </summary>
-    [CliFlag("--no-enable-uefi-networking")]
-    public bool? NoEnableUefiNetworking { get; set; }
 
     /// <summary>
     /// Specifies whether the disk restored from source snapshots or source machine image should erase Windows specific VSS signature. See https://cloud.google.com/sdk/gcloud/reference/compute/disks/snapshot#--guest-flush
@@ -199,14 +181,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
     /// </summary>
-    [CliFlag("--expose-host-topology")]
+    [CliFlag("--expose-host-topology", NegatedName = "--no-expose-host-topology")]
     public bool? ExposeHostTopology { get; set; }
-
-    /// <summary>
-    /// Negates --expose-host-topology. If true, exposes the hashed physical host ID in the VM's ResourceStatus. Use --expose-host-topology to enable and --no-expose-host-topology to disable.
-    /// </summary>
-    [CliFlag("--no-expose-host-topology")]
-    public bool? NoExposeHostTopology { get; set; }
 
     /// <summary>
     /// Assigns the given external IPv6 address to the instance that is created. The address must be the first IP address in the range. This option can be used only when creating a single instance.
@@ -253,14 +229,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
     /// </summary>
-    [CliFlag("--identity-certificate")]
+    [CliFlag("--identity-certificate", NegatedName = "--no-identity-certificate")]
     public bool? IdentityCertificate { get; set; }
-
-    /// <summary>
-    /// Negates --identity-certificate. Enables or disables managed workload identity certificates on a VM. Use --identity-certificate to enable and --no-identity-certificate to disable.
-    /// </summary>
-    [CliFlag("--no-identity-certificate")]
-    public bool? NoIdentityCertificate { get; set; }
 
     /// <summary>
     /// Specifies the termination action that will be taken upon VM preemption (--provisioning-model=SPOT) or automatic instance termination (--max-run-duration or --termination-time). INSTANCE_TERMINATION_ACTION must be one of: DELETE Permanently delete the VM. STOP Default only for Spot VMs. Stop the VM without preserving memory. The VM can be restarted later.
@@ -439,14 +409,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
     /// </summary>
-    [CliFlag("--require-csek-key-create")]
+    [CliFlag("--require-csek-key-create", NegatedName = "--no-require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
-
-    /// <summary>
-    /// Negates --require-csek-key-create. (DEPRECATED) Refuse to create resources not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating resources with no user managed key. Disabling the check allows creation of some resources without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
-    /// </summary>
-    [CliFlag("--no-require-csek-key-create")]
-    public bool? NoRequireCsekKeyCreate { get; set; }
 
     /// <summary>
     /// Specifies a list of resource manager tags to apply to the instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -463,14 +427,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
     /// </summary>
-    [CliFlag("--restart-on-failure")]
+    [CliFlag("--restart-on-failure", NegatedName = "--no-restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
-
-    /// <summary>
-    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
-    /// </summary>
-    [CliFlag("--no-restart-on-failure")]
-    public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
     /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring."
@@ -493,14 +451,8 @@ public record GcloudComputeInstancesCreateOptions : GcloudOptions, IValidatableO
     /// <summary>
     /// If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
     /// </summary>
-    [CliFlag("--skip-guest-os-shutdown")]
+    [CliFlag("--skip-guest-os-shutdown", NegatedName = "--no-skip-guest-os-shutdown")]
     public bool? SkipGuestOsShutdown { get; set; }
-
-    /// <summary>
-    /// Negates --skip-guest-os-shutdown. If enabled, then, when the instance is stopped or deleted, the instance is immediately stopped without giving time to the guest OS to cleanly shut down. Use --skip-guest-os-shutdown to enable and --no-skip-guest-os-shutdown to disable.
-    /// </summary>
-    [CliFlag("--no-skip-guest-os-shutdown")]
-    public bool? NoSkipGuestOsShutdown { get; set; }
 
     /// <summary>
     /// The name of the instance template that the instance will be created from. An instance template can be a global/regional resource. Users can override instance properties using other flags.

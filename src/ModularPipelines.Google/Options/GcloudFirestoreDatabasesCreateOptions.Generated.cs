@@ -73,26 +73,14 @@ public record GcloudFirestoreDatabasesCreateOptions : GcloudOptions
     /// <summary>
     /// Whether to enable Firestore API Data Access on the created database. If set to true, Firestore API Data Access on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-firestore-data-access.
     /// </summary>
-    [CliFlag("--enable-firestore-data-access")]
+    [CliFlag("--enable-firestore-data-access", NegatedName = "--no-enable-firestore-data-access")]
     public bool? EnableFirestoreDataAccess { get; set; }
-
-    /// <summary>
-    /// Negates --enable-firestore-data-access. Whether to enable Firestore API Data Access on the created database. If set to true, Firestore API Data Access on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-firestore-data-access.
-    /// </summary>
-    [CliFlag("--no-enable-firestore-data-access")]
-    public bool? NoEnableFirestoreDataAccess { get; set; }
 
     /// <summary>
     /// Whether to enable MongoDB Compatible API Data Access on the created database. If set to true, MongoDB Compatible API Data Access on the new database will be enabled. By default, this feature is enabled for Enterprise edition databases. To disable, use --no-enable-mongodb-compatible-data-access.
     /// </summary>
-    [CliFlag("--enable-mongodb-compatible-data-access")]
+    [CliFlag("--enable-mongodb-compatible-data-access", NegatedName = "--no-enable-mongodb-compatible-data-access")]
     public bool? EnableMongodbCompatibleDataAccess { get; set; }
-
-    /// <summary>
-    /// Negates --enable-mongodb-compatible-data-access. Whether to enable MongoDB Compatible API Data Access on the created database. If set to true, MongoDB Compatible API Data Access on the new database will be enabled. By default, this feature is enabled for Enterprise edition databases. To disable, use --no-enable-mongodb-compatible-data-access.
-    /// </summary>
-    [CliFlag("--no-enable-mongodb-compatible-data-access")]
-    public bool? NoEnableMongodbCompatibleDataAccess { get; set; }
 
     /// <summary>
     /// Whether to enable Point In Time Recovery (PITR) on the created database. If set to true, PITR on the new database will be enabled. By default, this feature is not enabled.
@@ -103,14 +91,8 @@ public record GcloudFirestoreDatabasesCreateOptions : GcloudOptions
     /// <summary>
     /// Whether to enable Realtime Updates feature on the created database. If set to true, Realtime Updates feature on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-realtime-updates.
     /// </summary>
-    [CliFlag("--enable-realtime-updates")]
+    [CliFlag("--enable-realtime-updates", NegatedName = "--no-enable-realtime-updates")]
     public bool? EnableRealtimeUpdates { get; set; }
-
-    /// <summary>
-    /// Negates --enable-realtime-updates. Whether to enable Realtime Updates feature on the created database. If set to true, Realtime Updates feature on the new database will be enabled. By default, this feature is disabled for Enterprise edition databases. To explicitly disable, use --no-enable-realtime-updates.
-    /// </summary>
-    [CliFlag("--no-enable-realtime-updates")]
-    public bool? NoEnableRealtimeUpdates { get; set; }
 
     /// <summary>
     /// The resource ID of a Cloud KMS key. If set, the database created will be a Customer-Managed Encryption Key (CMEK) database encrypted with this key. This feature is allowlist only in initial launch. Only a key in the same location as this database is allowed to be used for encryption. For Firestore's nam5 multi-region, this corresponds to Cloud KMS location us. For Firestore's eur3 multi-region, this corresponds to Cloud KMS location europe. See https://cloud.google.com/kms/docs/locations. This value should be the KMS key resource ID in the format of projects/{project_id}/locations/{kms_location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. How to retrieve this resource ID is listed at https://cloud.google.com/kms/docs/getting-resource-ids#getting_the_id_for_a_key_and_version.

@@ -83,14 +83,8 @@ public record GcloudPreviewComputeInterconnectsAttachmentsDedicatedUpdateOptions
     /// <summary>
     /// Administrative status of the interconnect attachment. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
     /// </summary>
-    [CliFlag("--enable-admin")]
+    [CliFlag("--enable-admin", NegatedName = "--no-enable-admin")]
     public bool? EnableAdmin { get; set; }
-
-    /// <summary>
-    /// Negates --enable-admin. Administrative status of the interconnect attachment. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
-    /// </summary>
-    [CliFlag("--no-enable-admin")]
-    public bool? NoEnableAdmin { get; set; }
 
     /// <summary>
     /// The interconnect for the interconnect attachment

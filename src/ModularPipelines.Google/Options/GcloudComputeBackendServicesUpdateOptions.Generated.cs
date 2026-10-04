@@ -158,38 +158,20 @@ public record GcloudComputeBackendServicesUpdateOptions : GcloudOptions, IValida
     /// <summary>
     /// Enable or disable Cloud CDN for the backend service. Only available for backend services with --load-balancing-scheme=EXTERNAL or EXTERNAL_MANAGED that use a --protocol of HTTP, HTTPS, HTTP2 or H2C. Cloud CDN caches HTTP responses at the edge of Google's network. Cloud CDN is disabled by default. Use --enable-cdn to enable and --no-enable-cdn to disable.
     /// </summary>
-    [CliFlag("--enable-cdn")]
+    [CliFlag("--enable-cdn", NegatedName = "--no-enable-cdn")]
     public bool? EnableCdn { get; set; }
-
-    /// <summary>
-    /// Negates --enable-cdn. Enable or disable Cloud CDN for the backend service. Only available for backend services with --load-balancing-scheme=EXTERNAL or EXTERNAL_MANAGED that use a --protocol of HTTP, HTTPS, HTTP2 or H2C. Cloud CDN caches HTTP responses at the edge of Google's network. Cloud CDN is disabled by default. Use --enable-cdn to enable and --no-enable-cdn to disable.
-    /// </summary>
-    [CliFlag("--no-enable-cdn")]
-    public bool? NoEnableCdn { get; set; }
 
     /// <summary>
     /// The logging options for the load balancer traffic served by this backend service. If logging is enabled, logs will be exported to Cloud Logging. Disabled by default. This field cannot be specified for global external proxy Network Load Balancers. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. The logging options for the load balancer traffic served by this backend service. If logging is enabled, logs will be exported to Cloud Logging. Disabled by default. This field cannot be specified for global external proxy Network Load Balancers. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// Enable or disable strong session affinity. This is only available for loadbalancingScheme EXTERNAL. Use --enable-strong-affinity to enable and --no-enable-strong-affinity to disable.
     /// </summary>
-    [CliFlag("--enable-strong-affinity")]
+    [CliFlag("--enable-strong-affinity", NegatedName = "--no-enable-strong-affinity")]
     public bool? EnableStrongAffinity { get; set; }
-
-    /// <summary>
-    /// Negates --enable-strong-affinity. Enable or disable strong session affinity. This is only available for loadbalancingScheme EXTERNAL. Use --enable-strong-affinity to enable and --no-enable-strong-affinity to disable.
-    /// </summary>
-    [CliFlag("--no-enable-strong-affinity")]
-    public bool? NoEnableStrongAffinity { get; set; }
 
     /// <summary>
     /// Determines the fraction of requests that should be processed by the Global external Application Load Balancer. The value of this field must be in the range [0, 100].
@@ -302,14 +284,8 @@ public record GcloudComputeBackendServicesUpdateOptions : GcloudOptions, IValida
     /// <summary>
     /// Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
     /// </summary>
-    [CliFlag("--request-coalescing")]
+    [CliFlag("--request-coalescing", NegatedName = "--no-request-coalescing")]
     public bool? RequestCoalescing { get; set; }
-
-    /// <summary>
-    /// Negates --request-coalescing. Enables request coalescing to the backend (recommended). Request coalescing (or collapsing) combines multiple concurrent cache fill requests into a small number of requests to the origin. This can improve performance by putting less load on the origin and backend infrastructure. However, coalescing adds a small amount of latency when multiple requests to the same URL are processed, so for latency-critical applications it may not be desirable. Defaults to true. Use --request-coalescing to enable and --no-request-coalescing to disable.
-    /// </summary>
-    [CliFlag("--no-request-coalescing")]
-    public bool? NoRequestCoalescing { get; set; }
 
     /// <summary>
     /// The security policy that will be set for this backend service.
@@ -762,14 +738,8 @@ public record GcloudComputeBackendServicesUpdateOptions : GcloudOptions, IValida
     /// <summary>
     /// At most one of these can be specified: Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ▸ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ▸ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ▸ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
     /// </summary>
-    [CliFlag("--negative-caching")]
+    [CliFlag("--negative-caching", NegatedName = "--no-negative-caching")]
     public bool? NegativeCaching { get; set; }
-
-    /// <summary>
-    /// Negates --negative-caching. At most one of these can be specified: Negative caching allows per-status code cache TTLs to be set, in order to apply fine-grained caching for common errors or redirects. This can reduce the load on your origin and improve the end-user experience by reducing response latency. Negative caching applies to a set of 3xx, 4xx, and 5xx status codes that are typically useful to cache. Status codes not listed here cannot have their TTL explicitly set and aren't cached, in order to avoid cache poisoning attacks. HTTP success codes (HTTP 2xx) are handled by the values of defaultTtl and maxTtl. When the cache mode is set to CACHE_ALL_STATIC or USE_ORIGIN_HEADERS, these values apply to responses with the specified response code that lack any cache-control or expires headers. When the cache mode is set to FORCE_CACHE_ALL, these values apply to all responses with the specified response code, and override any caching headers. Cloud CDN applies the following default TTLs to these status codes: ▸ HTTP 300 (Multiple Choice), 301, 308 (Permanent Redirects): 10m ▸ HTTP 404 (Not Found), 410 (Gone), 451 (Unavailable For Legal Reasons): 120s ▸ HTTP 405 (Method Not Found), 421 (Misdirected Request), 501 (Not Implemented): 60s These defaults can be overridden in cdnPolicy.negativeCachingPolicy. Use --negative-caching to enable and --no-negative-caching to disable.
-    /// </summary>
-    [CliFlag("--no-negative-caching")]
-    public bool? NoNegativeCaching { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Remove all negative caching policies for the backend service.
@@ -1025,13 +995,9 @@ public record GcloudComputeBackendServicesUpdateOptions : GcloudOptions, IValida
         {
             yield return new ValidationResult("At most one of MaxTtl or NoMaxTtl may be specified.", [nameof(MaxTtl), nameof(NoMaxTtl)]);
         }
-        if ((NoNegativeCachingPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NegativeCachingPolicy) ? 1 : 0) + ((NegativeCaching == true || NoNegativeCaching == true) ? 1 : 0) > 1)
+        if (((object?)NegativeCaching is not null ? 1 : 0) + (NoNegativeCachingPolicies == true ? 1 : 0) + (!string.IsNullOrWhiteSpace(NegativeCachingPolicy) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of NoNegativeCachingPolicies, NegativeCachingPolicy, or (NegativeCaching or NoNegativeCaching) may be specified.", [nameof(NoNegativeCachingPolicies), nameof(NegativeCachingPolicy), nameof(NegativeCaching), nameof(NoNegativeCaching)]);
-        }
-        if ((NoNegativeCachingPolicies == true || !string.IsNullOrWhiteSpace(NegativeCachingPolicy) || NegativeCaching == true || NoNegativeCaching == true) && ((NegativeCaching == true ? 1 : 0) + (NoNegativeCaching == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of NegativeCaching or NoNegativeCaching may be specified.", [nameof(NegativeCaching), nameof(NoNegativeCaching)]);
+            yield return new ValidationResult("At most one of NegativeCaching, NoNegativeCachingPolicies, or NegativeCachingPolicy may be specified.", [nameof(NegativeCaching), nameof(NoNegativeCachingPolicies), nameof(NegativeCachingPolicy)]);
         }
         if ((!string.IsNullOrWhiteSpace(ServeWhileStale) ? 1 : 0) + (NoServeWhileStale == true ? 1 : 0) > 1)
         {

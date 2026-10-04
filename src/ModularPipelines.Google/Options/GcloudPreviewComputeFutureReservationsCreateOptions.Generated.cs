@@ -55,14 +55,8 @@ public record GcloudPreviewComputeFutureReservationsCreateOptions : GcloudOption
     /// <summary>
     /// If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
     /// </summary>
-    [CliFlag("--auto-delete-auto-created-reservations")]
+    [CliFlag("--auto-delete-auto-created-reservations", NegatedName = "--no-auto-delete-auto-created-reservations")]
     public bool? AutoDeleteAutoCreatedReservations { get; set; }
-
-    /// <summary>
-    /// Negates --auto-delete-auto-created-reservations. If specified, the auto-created reservations for a future reservation are deleted at the end time (default) or at a specified delete time. Use --auto-delete-auto-created-reservations to enable and --no-auto-delete-auto-created-reservations to disable.
-    /// </summary>
-    [CliFlag("--no-auto-delete-auto-created-reservations")]
-    public bool? NoAutoDeleteAutoCreatedReservations { get; set; }
 
     /// <summary>
     /// To create a future reservation request, specify the properties of the resources that you want to reserve and when you want to start using them. After the request is approved, Compute Engine automatically creates reservations for your requested resources at your specified start time. Exactly one of these must be specified: The url of the instance template that will be used to populate the fields of the reservation. Instance properties can not be defined in addition to source instance template.
@@ -151,14 +145,8 @@ public record GcloudPreviewComputeFutureReservationsCreateOptions : GcloudOption
     /// <summary>
     /// Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
     /// </summary>
-    [CliFlag("--require-specific-reservation")]
+    [CliFlag("--require-specific-reservation", NegatedName = "--no-require-specific-reservation")]
     public bool? RequireSpecificReservation { get; set; }
-
-    /// <summary>
-    /// Negates --require-specific-reservation. Indicate whether the auto-created reservations can be consumed by VMs with "any reservation" defined. If enabled, then only VMs that target the auto-created reservation by name using --reservation-affinity=specific can consume from this reservation. Auto-created reservations delivered with this flag enabled will inherit the name of the future reservation. Use --require-specific-reservation to enable and --no-require-specific-reservation to disable.
-    /// </summary>
-    [CliFlag("--no-require-specific-reservation")]
-    public bool? NoRequireSpecificReservation { get; set; }
 
     /// <summary>
     /// The mode of the reservation. RESERVATION_MODE must be one of: CALENDAR This indicates to create a future reservation in calendar mode, which is ideal for reserving GPU VMs. The auto-created reservations for the future reservation are automatically deleted at the end of the reservation period. DEFAULT This indicates to create a standard future reservation. If you want to automatically delete the auto-created reservations, then you must use the --auto-delete-auto-created-reservations flag.
@@ -247,9 +235,9 @@ public record GcloudPreviewComputeFutureReservationsCreateOptions : GcloudOption
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((AutoDeleteAutoCreatedReservations == true ? 1 : 0) + (NoAutoDeleteAutoCreatedReservations == true ? 1 : 0) != 1)
+        if (!((object?)AutoDeleteAutoCreatedReservations is not null))
         {
-            yield return new ValidationResult("Exactly one of AutoDeleteAutoCreatedReservations or NoAutoDeleteAutoCreatedReservations must be specified.", [nameof(AutoDeleteAutoCreatedReservations), nameof(NoAutoDeleteAutoCreatedReservations)]);
+            yield return new ValidationResult("At least one of AutoDeleteAutoCreatedReservations must be specified.", [nameof(AutoDeleteAutoCreatedReservations)]);
         }
         if ((!string.IsNullOrWhiteSpace(SourceInstanceTemplate) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(MachineType) || !string.IsNullOrWhiteSpace(Accelerator) || !string.IsNullOrWhiteSpace(LocalSsd) || !string.IsNullOrWhiteSpace(MinCpuPlatform)) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(TpuVersion) || (object?)ChipCount is not null || !string.IsNullOrWhiteSpace(WorkloadType)) ? 1 : 0) != 1)
         {

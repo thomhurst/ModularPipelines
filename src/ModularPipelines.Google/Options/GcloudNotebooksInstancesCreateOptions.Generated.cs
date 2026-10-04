@@ -92,14 +92,8 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Enable monitoring of the boot integrity of the instance. Enabled by default, use --no-shielded-integrity-monitoring to disable.
     /// </summary>
-    [CliFlag("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring", NegatedName = "--no-shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-integrity-monitoring. Enable monitoring of the boot integrity of the instance. Enabled by default, use --no-shielded-integrity-monitoring to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-integrity-monitoring")]
-    public bool? NoShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
     /// Boot instance with secure boot enabled. Disabled by default.
@@ -110,14 +104,8 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Boot instance with TPM (Trusted Platform Module) enabled. Enabled by default, use --no-shielded-vtpm to disable.
     /// </summary>
-    [CliFlag("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm", NegatedName = "--no-shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-vtpm. Boot instance with TPM (Trusted Platform Module) enabled. Enabled by default, use --no-shielded-vtpm to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-vtpm")]
-    public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
     /// Tags to apply to this instance. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

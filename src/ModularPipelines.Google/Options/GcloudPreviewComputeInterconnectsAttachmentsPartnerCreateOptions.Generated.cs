@@ -95,14 +95,8 @@ public record GcloudPreviewComputeInterconnectsAttachmentsPartnerCreateOptions :
     /// <summary>
     /// Administrative status of the interconnect attachment. If not provided on creation, defaults to disabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
     /// </summary>
-    [CliFlag("--enable-admin")]
+    [CliFlag("--enable-admin", NegatedName = "--no-enable-admin")]
     public bool? EnableAdmin { get; set; }
-
-    /// <summary>
-    /// Negates --enable-admin. Administrative status of the interconnect attachment. If not provided on creation, defaults to disabled. When this is enabled, the attachment is operational and will carry traffic. Use --no-enable-admin to disable it.
-    /// </summary>
-    [CliFlag("--no-enable-admin")]
-    public bool? NoEnableAdmin { get; set; }
 
     /// <summary>
     /// Indicates the user-supplied encryption option for this interconnect attachment (VLAN attachment). Possible values are: NONE - This is the default value, which means the interconnect attachment carries unencrypted traffic. VMs can send traffic to or receive traffic from such interconnect attachment. IPSEC - The interconnect attachment carries only traffic that is encrypted by an IPsec device; for example, an HA VPN gateway or third-party IPsec VPN. VMs cannot directly send traffic to or receive traffic from such an interconnect attachment. To use HA VPN over Cloud Interconnect, the interconnect attachment must be created with this option. ENCRYPTION must be one of: IPSEC, NONE.

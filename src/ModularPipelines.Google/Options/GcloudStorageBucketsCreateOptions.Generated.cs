@@ -131,14 +131,8 @@ public record GcloudStorageBucketsCreateOptions : GcloudOptions
     /// <summary>
     /// Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
-    [CliFlag("--uniform-bucket-level-access")]
+    [CliFlag("--uniform-bucket-level-access", NegatedName = "--no-uniform-bucket-level-access")]
     public bool? UniformBucketLevelAccess { get; set; }
-
-    /// <summary>
-    /// Negates --uniform-bucket-level-access. Turns on uniform bucket-level access setting. Default is False. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
-    /// </summary>
-    [CliFlag("--no-uniform-bucket-level-access")]
-    public bool? NoUniformBucketLevelAccess { get; set; }
 
     /// <summary>
     /// The URLs of the buckets to create.

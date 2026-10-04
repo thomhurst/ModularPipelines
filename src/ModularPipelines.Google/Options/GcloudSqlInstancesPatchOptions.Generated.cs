@@ -80,14 +80,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
     /// </summary>
-    [CliFlag("--assign-ip")]
+    [CliFlag("--assign-ip", NegatedName = "--no-assign-ip")]
     public bool? AssignIp { get; set; }
-
-    /// <summary>
-    /// Negates --assign-ip. Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
-    /// </summary>
-    [CliFlag("--no-assign-ip")]
-    public bool? NoAssignIp { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
@@ -176,14 +170,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// Date when the deny maintenance period ends, that is 2021-01-10.
@@ -224,86 +212,44 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-bin-log to enable and --no-enable-bin-log to disable.
     /// </summary>
-    [CliFlag("--enable-bin-log")]
+    [CliFlag("--enable-bin-log", NegatedName = "--no-enable-bin-log")]
     public bool? EnableBinLog { get; set; }
-
-    /// <summary>
-    /// Negates --enable-bin-log. Allows for data recovery from a specific point in time, down to a fraction of a second. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-bin-log to enable and --no-enable-bin-log to disable.
-    /// </summary>
-    [CliFlag("--no-enable-bin-log")]
-    public bool? NoEnableBinLog { get; set; }
 
     /// <summary>
     /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
     /// </summary>
-    [CliFlag("--enable-connection-pooling")]
+    [CliFlag("--enable-connection-pooling", NegatedName = "--no-enable-connection-pooling")]
     public bool? EnableConnectionPooling { get; set; }
-
-    /// <summary>
-    /// Negates --enable-connection-pooling. Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
-    /// </summary>
-    [CliFlag("--no-enable-connection-pooling")]
-    public bool? NoEnableConnectionPooling { get; set; }
 
     /// <summary>
     /// Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
     /// </summary>
-    [CliFlag("--enable-data-cache")]
+    [CliFlag("--enable-data-cache", NegatedName = "--no-enable-data-cache")]
     public bool? EnableDataCache { get; set; }
-
-    /// <summary>
-    /// Negates --enable-data-cache. Enable use of data cache for accelerated read performance. This flag is only available for Enterprise_Plus edition instances. Use --enable-data-cache to enable and --no-enable-data-cache to disable.
-    /// </summary>
-    [CliFlag("--no-enable-data-cache")]
-    public bool? NoEnableDataCache { get; set; }
 
     /// <summary>
     /// Enable database replication. Applicable only for read replica instance(s). WARNING: Instance will be restarted. Use --enable-database-replication to enable and --no-enable-database-replication to disable.
     /// </summary>
-    [CliFlag("--enable-database-replication")]
+    [CliFlag("--enable-database-replication", NegatedName = "--no-enable-database-replication")]
     public bool? EnableDatabaseReplication { get; set; }
-
-    /// <summary>
-    /// Negates --enable-database-replication. Enable database replication. Applicable only for read replica instance(s). WARNING: Instance will be restarted. Use --enable-database-replication to enable and --no-enable-database-replication to disable.
-    /// </summary>
-    [CliFlag("--no-enable-database-replication")]
-    public bool? NoEnableDatabaseReplication { get; set; }
 
     /// <summary>
     /// Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
     /// </summary>
-    [CliFlag("--enable-dataplex-integration")]
+    [CliFlag("--enable-dataplex-integration", NegatedName = "--no-enable-dataplex-integration")]
     public bool? EnableDataplexIntegration { get; set; }
-
-    /// <summary>
-    /// Negates --enable-dataplex-integration. Enable Dataplex integration for Google Cloud SQL. Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
-    /// </summary>
-    [CliFlag("--no-enable-dataplex-integration")]
-    public bool? NoEnableDataplexIntegration { get; set; }
 
     /// <summary>
     /// Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
     /// </summary>
-    [CliFlag("--enable-google-ml-integration")]
+    [CliFlag("--enable-google-ml-integration", NegatedName = "--no-enable-google-ml-integration")]
     public bool? EnableGoogleMlIntegration { get; set; }
-
-    /// <summary>
-    /// Negates --enable-google-ml-integration. Enable Vertex AI integration for Google Cloud SQL. You can integrate Vertex AI with Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances only. Use --enable-google-ml-integration to enable and --no-enable-google-ml-integration to disable.
-    /// </summary>
-    [CliFlag("--no-enable-google-ml-integration")]
-    public bool? NoEnableGoogleMlIntegration { get; set; }
 
     /// <summary>
     /// Enable a private path for Google Cloud services. This flag specifies whether the instance is accessible to internal Google Cloud services such as BigQuery. This is only applicable to MySQL and PostgreSQL instances that don't use public IP. Currently, SQL Server isn't supported. Use --enable-google-private-path to enable and --no-enable-google-private-path to disable.
     /// </summary>
-    [CliFlag("--enable-google-private-path")]
+    [CliFlag("--enable-google-private-path", NegatedName = "--no-enable-google-private-path")]
     public bool? EnableGooglePrivatePath { get; set; }
-
-    /// <summary>
-    /// Negates --enable-google-private-path. Enable a private path for Google Cloud services. This flag specifies whether the instance is accessible to internal Google Cloud services such as BigQuery. This is only applicable to MySQL and PostgreSQL instances that don't use public IP. Currently, SQL Server isn't supported. Use --enable-google-private-path to enable and --no-enable-google-private-path to disable.
-    /// </summary>
-    [CliFlag("--no-enable-google-private-path")]
-    public bool? NoEnableGooglePrivatePath { get; set; }
 
     /// <summary>
     /// Enable the password policy, which enforces user password management with the policies configured for the instance. This flag is only available for Postgres.
@@ -314,62 +260,32 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Allows for data recovery from a specific point in time, down to a fraction of a second, using write-ahead logs. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-point-in-time-recovery to enable and --no-enable-point-in-time-recovery to disable.
     /// </summary>
-    [CliFlag("--enable-point-in-time-recovery")]
+    [CliFlag("--enable-point-in-time-recovery", NegatedName = "--no-enable-point-in-time-recovery")]
     public bool? EnablePointInTimeRecovery { get; set; }
-
-    /// <summary>
-    /// Negates --enable-point-in-time-recovery. Allows for data recovery from a specific point in time, down to a fraction of a second, using write-ahead logs. Must have automatic backups enabled to use. Make sure storage can support at least 7 days of logs. Use --enable-point-in-time-recovery to enable and --no-enable-point-in-time-recovery to disable.
-    /// </summary>
-    [CliFlag("--no-enable-point-in-time-recovery")]
-    public bool? NoEnablePointInTimeRecovery { get; set; }
 
     /// <summary>
     /// Enable connecting to the Cloud SQL instance with Private Service Connect. Use --enable-private-service-connect to enable and --no-enable-private-service-connect to disable.
     /// </summary>
-    [CliFlag("--enable-private-service-connect")]
+    [CliFlag("--enable-private-service-connect", NegatedName = "--no-enable-private-service-connect")]
     public bool? EnablePrivateServiceConnect { get; set; }
-
-    /// <summary>
-    /// Negates --enable-private-service-connect. Enable connecting to the Cloud SQL instance with Private Service Connect. Use --enable-private-service-connect to enable and --no-enable-private-service-connect to disable.
-    /// </summary>
-    [CliFlag("--no-enable-private-service-connect")]
-    public bool? NoEnablePrivateServiceConnect { get; set; }
 
     /// <summary>
     /// If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
     /// </summary>
-    [CliFlag("--enable-psc-auto-connection-policy")]
+    [CliFlag("--enable-psc-auto-connection-policy", NegatedName = "--no-enable-psc-auto-connection-policy")]
     public bool? EnablePscAutoConnectionPolicy { get; set; }
-
-    /// <summary>
-    /// Negates --enable-psc-auto-connection-policy. If set, service connection policy will be created by Cloud SQL when missing for PSC enabled instance. Use --enable-psc-auto-connection-policy to enable and --no-enable-psc-auto-connection-policy to disable.
-    /// </summary>
-    [CliFlag("--no-enable-psc-auto-connection-policy")]
-    public bool? NoEnablePscAutoConnectionPolicy { get; set; }
 
     /// <summary>
     /// Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
     /// </summary>
-    [CliFlag("--enable-psc-auto-dns")]
+    [CliFlag("--enable-psc-auto-dns", NegatedName = "--no-enable-psc-auto-dns")]
     public bool? EnablePscAutoDns { get; set; }
-
-    /// <summary>
-    /// Negates --enable-psc-auto-dns. Enable per instance DNS records for PSC auto-connections. Use --enable-psc-auto-dns to enable and --no-enable-psc-auto-dns to disable.
-    /// </summary>
-    [CliFlag("--no-enable-psc-auto-dns")]
-    public bool? NoEnablePscAutoDns { get; set; }
 
     /// <summary>
     /// Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
     /// </summary>
-    [CliFlag("--enable-psc-write-endpoint-dns")]
+    [CliFlag("--enable-psc-write-endpoint-dns", NegatedName = "--no-enable-psc-write-endpoint-dns")]
     public bool? EnablePscWriteEndpointDns { get; set; }
-
-    /// <summary>
-    /// Negates --enable-psc-write-endpoint-dns. Enable the global DNS record pointing to the primary, for Enterprise Plus edition only. Use --enable-psc-write-endpoint-dns to enable and --no-enable-psc-write-endpoint-dns to disable.
-    /// </summary>
-    [CliFlag("--no-enable-psc-write-endpoint-dns")]
-    public bool? NoEnablePscWriteEndpointDns { get; set; }
 
     /// <summary>
     /// Force the instance to use the new network architecture.
@@ -386,14 +302,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
     /// </summary>
-    [CliFlag("--final-backup")]
+    [CliFlag("--final-backup", NegatedName = "--no-final-backup")]
     public bool? FinalBackup { get; set; }
-
-    /// <summary>
-    /// Negates --final-backup. Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
-    /// </summary>
-    [CliFlag("--no-final-backup")]
-    public bool? NoFinalBackup { get; set; }
 
     /// <summary>
     /// Specifies number of days to retain final backup. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 10 years (3653 days). Default value is 30 days.
@@ -410,38 +320,20 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enable the major version upgrade of replicas when the in-place major version upgrade of a primary instance is initated with --database-version. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major--version-upgrade to disable. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major-version-upgrade to disable.
     /// </summary>
-    [CliFlag("--include-replicas-for-major-version-upgrade")]
+    [CliFlag("--include-replicas-for-major-version-upgrade", NegatedName = "--no-include-replicas-for-major-version-upgrade")]
     public bool? IncludeReplicasForMajorVersionUpgrade { get; set; }
-
-    /// <summary>
-    /// Negates --include-replicas-for-major-version-upgrade. Enable the major version upgrade of replicas when the in-place major version upgrade of a primary instance is initated with --database-version. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major--version-upgrade to disable. Use --include-replicas-for-major-version-upgrade to enable and --no-include-replicas-for-major-version-upgrade to disable.
-    /// </summary>
-    [CliFlag("--no-include-replicas-for-major-version-upgrade")]
-    public bool? NoIncludeReplicasForMajorVersionUpgrade { get; set; }
 
     /// <summary>
     /// Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
     /// </summary>
-    [CliFlag("--insights-config-enhanced-query-insights-enabled")]
+    [CliFlag("--insights-config-enhanced-query-insights-enabled", NegatedName = "--no-insights-config-enhanced-query-insights-enabled")]
     public bool? InsightsConfigEnhancedQueryInsightsEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-enhanced-query-insights-enabled. Enable enhanced query insights for Enterprise Plus edition to provide more detailed query analytics. Use --insights-config-enhanced-query-insights-enabled to enable and --no-insights-config-enhanced-query-insights-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-enhanced-query-insights-enabled")]
-    public bool? NoInsightsConfigEnhancedQueryInsightsEnabled { get; set; }
 
     /// <summary>
     /// Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
     /// </summary>
-    [CliFlag("--insights-config-query-insights-enabled")]
+    [CliFlag("--insights-config-query-insights-enabled", NegatedName = "--no-insights-config-query-insights-enabled")]
     public bool? InsightsConfigQueryInsightsEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-query-insights-enabled. Enable query insights feature to provide query and query plan analytics. Use --insights-config-query-insights-enabled to enable and --no-insights-config-query-insights-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-query-insights-enabled")]
-    public bool? NoInsightsConfigQueryInsightsEnabled { get; set; }
 
     /// <summary>
     /// Number of query plans to sample every minute. Default value is 5. Allowed range: 0 to 20.
@@ -458,26 +350,14 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
     /// </summary>
-    [CliFlag("--insights-config-record-application-tags")]
+    [CliFlag("--insights-config-record-application-tags", NegatedName = "--no-insights-config-record-application-tags")]
     public bool? InsightsConfigRecordApplicationTags { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-record-application-tags. Allow application tags to be recorded by the query insights feature. Use --insights-config-record-application-tags to enable and --no-insights-config-record-application-tags to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-record-application-tags")]
-    public bool? NoInsightsConfigRecordApplicationTags { get; set; }
 
     /// <summary>
     /// Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
     /// </summary>
-    [CliFlag("--insights-config-record-client-address")]
+    [CliFlag("--insights-config-record-client-address", NegatedName = "--no-insights-config-record-client-address")]
     public bool? InsightsConfigRecordClientAddress { get; set; }
-
-    /// <summary>
-    /// Negates --insights-config-record-client-address. Allow the client address to be recorded by the query insights feature. Use --insights-config-record-client-address to enable and --no-insights-config-record-client-address to disable.
-    /// </summary>
-    [CliFlag("--no-insights-config-record-client-address")]
-    public bool? NoInsightsConfigRecordClientAddress { get; set; }
 
     /// <summary>
     /// The type of the instance. INSTANCE_TYPE must be one of: CLOUD_SQL_INSTANCE A primary instance. READ_POOL_INSTANCE A read pool instance. READ_REPLICA_INSTANCE A read replica instance.
@@ -542,14 +422,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
     /// </summary>
-    [CliFlag("--password-policy-disallow-username-substring")]
+    [CliFlag("--password-policy-disallow-username-substring", NegatedName = "--no-password-policy-disallow-username-substring")]
     public bool? PasswordPolicyDisallowUsernameSubstring { get; set; }
-
-    /// <summary>
-    /// Negates --password-policy-disallow-username-substring. Disallow username as a part of the password. Use --password-policy-disallow-username-substring to enable and --no-password-policy-disallow-username-substring to disable.
-    /// </summary>
-    [CliFlag("--no-password-policy-disallow-username-substring")]
-    public bool? NoPasswordPolicyDisallowUsernameSubstring { get; set; }
 
     /// <summary>
     /// Minimum number of characters allowed in the password.
@@ -590,14 +464,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
     /// </summary>
-    [CliFlag("--recreate-replicas-on-primary-crash")]
+    [CliFlag("--recreate-replicas-on-primary-crash", NegatedName = "--no-recreate-replicas-on-primary-crash")]
     public bool? RecreateReplicasOnPrimaryCrash { get; set; }
-
-    /// <summary>
-    /// Negates --recreate-replicas-on-primary-crash. Allow/Disallow replica recreation when a primary MySQL instance operating in reduced durability mode crashes. Not recreating the replicas might lead to data inconsistencies between the primary and its replicas. This setting is only applicable for MySQL instances and is enabled by default. Use --recreate-replicas-on-primary-crash to enable and --no-recreate-replicas-on-primary-crash to disable.
-    /// </summary>
-    [CliFlag("--no-recreate-replicas-on-primary-crash")]
-    public bool? NoRecreateReplicasOnPrimaryCrash { get; set; }
 
     /// <summary>
     /// Removes the user-specified deny maintenance period.
@@ -614,26 +482,14 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// mysqld should default to 'REQUIRE X509' for users connecting over IP. Use --require-ssl to enable and --no-require-ssl to disable.
     /// </summary>
-    [CliFlag("--require-ssl")]
+    [CliFlag("--require-ssl", NegatedName = "--no-require-ssl")]
     public bool? RequireSsl { get; set; }
-
-    /// <summary>
-    /// Negates --require-ssl. mysqld should default to 'REQUIRE X509' for users connecting over IP. Use --require-ssl to enable and --no-require-ssl to disable.
-    /// </summary>
-    [CliFlag("--no-require-ssl")]
-    public bool? NoRequireSsl { get; set; }
 
     /// <summary>
     /// Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
     /// </summary>
-    [CliFlag("--retain-backups-on-delete")]
+    [CliFlag("--retain-backups-on-delete", NegatedName = "--no-retain-backups-on-delete")]
     public bool? RetainBackupsOnDelete { get; set; }
-
-    /// <summary>
-    /// Negates --retain-backups-on-delete. Retain automated/ondemand backups of the instance after the instance is deleted. Use --retain-backups-on-delete to enable and --no-retain-backups-on-delete to disable.
-    /// </summary>
-    [CliFlag("--no-retain-backups-on-delete")]
-    public bool? NoRetainBackupsOnDelete { get; set; }
 
     /// <summary>
     /// Set the server CA mode of the instance. SERVER_CA_MODE must be one of: CUSTOMER_MANAGED_CAS_CA Customer-managed CA hosted on Google Cloud's Certificate Authority Service (CAS). GOOGLE_MANAGED_CAS_CA Google-managed regional CA part of root CA hierarchy hosted on Google Cloud's Certificate Authority Service (CAS). GOOGLE_MANAGED_INTERNAL_CA Google-managed self-signed internal CA.
@@ -668,14 +524,8 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
     /// </summary>
-    [CliFlag("--storage-auto-increase")]
+    [CliFlag("--storage-auto-increase", NegatedName = "--no-storage-auto-increase")]
     public bool? StorageAutoIncrease { get; set; }
-
-    /// <summary>
-    /// Negates --storage-auto-increase. Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
-    /// </summary>
-    [CliFlag("--no-storage-auto-increase")]
-    public bool? NoStorageAutoIncrease { get; set; }
 
     /// <summary>
     /// Allows you to set a maximum storage capacity, in GB. Automatic increases to your capacity will stop once this limit has been reached. Default capacity is unlimited.
@@ -998,26 +848,14 @@ public record GcloudSqlInstancesPatchOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
     /// </summary>
-    [CliFlag("--auto-scale-disable-scale-in")]
+    [CliFlag("--auto-scale-disable-scale-in", NegatedName = "--no-auto-scale-disable-scale-in")]
     public bool? AutoScaleDisableScaleIn { get; set; }
-
-    /// <summary>
-    /// Negates --auto-scale-disable-scale-in. Options for configuring read pool auto scale. Disables automatic read pool scale-in. When disabled, read pool auto scaling only supports increasing the read pool node count. By default, both automatic read pool scale-in and scale-out are enabled. Use --auto-scale-disable-scale-in to enable and --no-auto-scale-disable-scale-in to disable.
-    /// </summary>
-    [CliFlag("--no-auto-scale-disable-scale-in")]
-    public bool? NoAutoScaleDisableScaleIn { get; set; }
 
     /// <summary>
     /// Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
     /// </summary>
-    [CliFlag("--auto-scale-enabled")]
+    [CliFlag("--auto-scale-enabled", NegatedName = "--no-auto-scale-enabled")]
     public bool? AutoScaleEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --auto-scale-enabled. Enables read pool auto scaling. Supports automatically increasing and decreasing the read pool's node count based on need. Use --auto-scale-enabled to enable and --no-auto-scale-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-auto-scale-enabled")]
-    public bool? NoAutoScaleEnabled { get; set; }
 
     /// <summary>
     /// The cooldown period for automatic read pool scale-in. Minimum time between scale-in events. Must be an integer value. For example, if the value is 60, then a scale-in event will not be triggered within 60 seconds of the last scale-in event.

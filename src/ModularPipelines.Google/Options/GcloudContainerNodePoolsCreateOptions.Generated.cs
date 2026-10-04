@@ -152,26 +152,14 @@ public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Enable node autorepair feature for a node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --enable-autorepair Node autorepair is enabled by default for node pools using COS, COS_CONTAINERD, UBUNTU or UBUNTU_CONTAINERD as a base image, use --no-enable-autorepair to disable. See https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-repair for more info.
     /// </summary>
-    [CliFlag("--enable-autorepair")]
+    [CliFlag("--enable-autorepair", NegatedName = "--no-enable-autorepair")]
     public bool? EnableAutorepair { get; set; }
-
-    /// <summary>
-    /// Negates --enable-autorepair. Enable node autorepair feature for a node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --enable-autorepair Node autorepair is enabled by default for node pools using COS, COS_CONTAINERD, UBUNTU or UBUNTU_CONTAINERD as a base image, use --no-enable-autorepair to disable. See https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-repair for more info.
-    /// </summary>
-    [CliFlag("--no-enable-autorepair")]
-    public bool? NoEnableAutorepair { get; set; }
 
     /// <summary>
     /// Sets autoupgrade feature for a node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --enable-autoupgrade See https://cloud.google.com/kubernetes-engine/docs/node-auto-upgrades for more info. Enabled by default, use --no-enable-autoupgrade to disable.
     /// </summary>
-    [CliFlag("--enable-autoupgrade")]
+    [CliFlag("--enable-autoupgrade", NegatedName = "--no-enable-autoupgrade")]
     public bool? EnableAutoupgrade { get; set; }
-
-    /// <summary>
-    /// Negates --enable-autoupgrade. Sets autoupgrade feature for a node pool. $ gcloud container node-pools create node-pool-1 \ --cluster=example-cluster --enable-autoupgrade See https://cloud.google.com/kubernetes-engine/docs/node-auto-upgrades for more info. Enabled by default, use --no-enable-autoupgrade to disable.
-    /// </summary>
-    [CliFlag("--no-enable-autoupgrade")]
-    public bool? NoEnableAutoupgrade { get; set; }
 
     /// <summary>
     /// Changes node pool upgrade strategy to blue-green upgrade.
@@ -200,38 +188,20 @@ public record GcloudContainerNodePoolsCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// Enable Image Streaming for the node pool, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This setting overrides the cluster-level Image Streaming default for this specific node pool. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the node pool, use --no-enable-image-streaming.
     /// </summary>
-    [CliFlag("--enable-image-streaming")]
+    [CliFlag("--enable-image-streaming", NegatedName = "--no-enable-image-streaming")]
     public bool? EnableImageStreaming { get; set; }
-
-    /// <summary>
-    /// Negates --enable-image-streaming. Enable Image Streaming for the node pool, allowing nodes to stream container image data from Artifact Registry on demand to reduce container start times. This setting overrides the cluster-level Image Streaming default for this specific node pool. See Image Streaming documentation (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming) for full requirements (including version, API enablement and Artifact Registry usage). To disable Image Streaming for the node pool, use --no-enable-image-streaming.
-    /// </summary>
-    [CliFlag("--no-enable-image-streaming")]
-    public bool? NoEnableImageStreaming { get; set; }
 
     /// <summary>
     /// Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
     /// </summary>
-    [CliFlag("--enable-insecure-kubelet-readonly-port")]
+    [CliFlag("--enable-insecure-kubelet-readonly-port", NegatedName = "--no-enable-insecure-kubelet-readonly-port")]
     public bool? EnableInsecureKubeletReadonlyPort { get; set; }
-
-    /// <summary>
-    /// Negates --enable-insecure-kubelet-readonly-port. Enables the Kubelet's insecure read only port. To disable the readonly port on a cluster or node-pool set the flag to --no-enable-insecure-kubelet-readonly-port.
-    /// </summary>
-    [CliFlag("--no-enable-insecure-kubelet-readonly-port")]
-    public bool? NoEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
     /// Enforces that kernel modules are signed on all nodes in the node pool. This setting overrides the cluster-level setting. For example, if the cluster disables enforcement, you can enable enforcement only for a specific node pool. When the policy is modified on an existing node pool, nodes will be immediately recreated to use the new policy. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container node-pools create node-pool-1 \ --enable-kernel-module-signature-enforcement
     /// </summary>
-    [CliFlag("--enable-kernel-module-signature-enforcement")]
+    [CliFlag("--enable-kernel-module-signature-enforcement", NegatedName = "--no-enable-kernel-module-signature-enforcement")]
     public bool? EnableKernelModuleSignatureEnforcement { get; set; }
-
-    /// <summary>
-    /// Negates --enable-kernel-module-signature-enforcement. Enforces that kernel modules are signed on all nodes in the node pool. This setting overrides the cluster-level setting. For example, if the cluster disables enforcement, you can enable enforcement only for a specific node pool. When the policy is modified on an existing node pool, nodes will be immediately recreated to use the new policy. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container node-pools create node-pool-1 \ --enable-kernel-module-signature-enforcement
-    /// </summary>
-    [CliFlag("--no-enable-kernel-module-signature-enforcement")]
-    public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
     /// Enables the use of nested virtualization on the node pool. Defaults to false. Can only be enabled on UBUNTU_CONTAINERD base image or COS_CONTAINERD base image with version 1.28.4-gke.1083000 and above.

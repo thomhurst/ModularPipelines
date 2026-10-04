@@ -74,14 +74,8 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
-    [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]
+    [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port", NegatedName = "--no-autoprovisioning-enable-insecure-kubelet-readonly-port")]
     public bool? AutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
-
-    /// <summary>
-    /// Negates --autoprovisioning-enable-insecure-kubelet-readonly-port. Enables the Kubelet's insecure read only port for Autoprovisioned Node Pools. If not set, the value from nodePoolDefaults.nodeConfigDefaults will be used. To disable the readonly port --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
-    /// </summary>
-    [CliFlag("--no-autoprovisioning-enable-insecure-kubelet-readonly-port")]
-    public bool? NoAutoprovisioningEnableInsecureKubeletReadonlyPort { get; set; }
 
     /// <summary>
     /// Applies the given Compute Engine tags (comma separated) on all nodes in the auto-provisioned node pools of the new Standard cluster or the new Autopilot cluster. Examples: $ gcloud container clusters create-auto example-cluster \ --autoprovisioning-network-tags=tag1,tag2 New nodes in auto-provisioned node pools, including ones created by resize or recreate, will have these tags on the Compute Engine API instance object and can be used in firewall rules. See https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create for examples. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -170,14 +164,8 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
     /// </summary>
-    [CliFlag("--enable-agent-sandbox")]
+    [CliFlag("--enable-agent-sandbox", NegatedName = "--no-enable-agent-sandbox")]
     public bool? EnableAgentSandbox { get; set; }
-
-    /// <summary>
-    /// Negates --enable-agent-sandbox. Enable the Agent Sandbox feature on the cluster. Use --no-enable-agent-sandbox to disable.
-    /// </summary>
-    [CliFlag("--no-enable-agent-sandbox")]
-    public bool? NoEnableAgentSandbox { get; set; }
 
     /// <summary>
     /// Enable enforcement of --master-authorized-networks CIDR ranges for traffic reaching cluster's control plane via private IP.
@@ -212,14 +200,8 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
     /// </summary>
-    [CliFlag("--enable-default-compute-class")]
+    [CliFlag("--enable-default-compute-class", NegatedName = "--no-enable-default-compute-class")]
     public bool? EnableDefaultComputeClass { get; set; }
-
-    /// <summary>
-    /// Negates --enable-default-compute-class. Enable the default compute class to use for the cluster. To disable Default Compute Class in an existing cluster, explicitly set flag --no-enable-default-compute-class.
-    /// </summary>
-    [CliFlag("--no-enable-default-compute-class")]
-    public bool? NoEnableDefaultComputeClass { get; set; }
 
     /// <summary>
     /// Enable access to the cluster's control plane over DNS-based endpoint. DNS-based control plane access is recommended.
@@ -260,14 +242,8 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
     /// </summary>
-    [CliFlag("--enable-kernel-module-signature-enforcement")]
+    [CliFlag("--enable-kernel-module-signature-enforcement", NegatedName = "--no-enable-kernel-module-signature-enforcement")]
     public bool? EnableKernelModuleSignatureEnforcement { get; set; }
-
-    /// <summary>
-    /// Negates --enable-kernel-module-signature-enforcement. Enforces that kernel modules are signed on all new nodes in the cluster unless explicitly overridden with --no-enable-kernel-module-signature-enforcement when creating the nodepool. Use --no-enable-kernel-module-signature-enforcement to disable. Examples: $ gcloud container clusters create-auto example-cluster \ --enable-kernel-module-signature-enforcement
-    /// </summary>
-    [CliFlag("--no-enable-kernel-module-signature-enforcement")]
-    public bool? NoEnableKernelModuleSignatureEnforcement { get; set; }
 
     /// <summary>
     /// Enable Kubernetes beta API features on this cluster. Beta APIs are not expected to be production ready and should be avoided in production-grade environments. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -542,38 +518,20 @@ public record GcloudContainerClustersCreateAutoOptions : GcloudOptions, IValidat
     /// <summary>
     /// Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
     /// </summary>
-    [CliFlag("--enable-insecure-binding-system-authenticated")]
+    [CliFlag("--enable-insecure-binding-system-authenticated", NegatedName = "--no-enable-insecure-binding-system-authenticated")]
     public bool? EnableInsecureBindingSystemAuthenticated { get; set; }
-
-    /// <summary>
-    /// Negates --enable-insecure-binding-system-authenticated. Allow using system:authenticated as a subject in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:authenticated is a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-authenticated flag instead.
-    /// </summary>
-    [CliFlag("--no-enable-insecure-binding-system-authenticated")]
-    public bool? NoEnableInsecureBindingSystemAuthenticated { get; set; }
 
     /// <summary>
     /// Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
     /// </summary>
-    [CliFlag("--enable-insecure-binding-system-unauthenticated")]
+    [CliFlag("--enable-insecure-binding-system-unauthenticated", NegatedName = "--no-enable-insecure-binding-system-unauthenticated")]
     public bool? EnableInsecureBindingSystemUnauthenticated { get; set; }
-
-    /// <summary>
-    /// Negates --enable-insecure-binding-system-unauthenticated. Allow using system:unauthenticated and system:anonymous as subjects in ClusterRoleBindings and RoleBindings. Allowing bindings that reference system:unauthenticated and system:anonymous are a security risk and is not recommended. To disallow binding system:authenticated in a cluster, explicitly set the --no-enable-insecure-binding-system-unauthenticated flag instead.
-    /// </summary>
-    [CliFlag("--no-enable-insecure-binding-system-unauthenticated")]
-    public bool? NoEnableInsecureBindingSystemUnauthenticated { get; set; }
 
     /// <summary>
     /// Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
     /// </summary>
-    [CliFlag("--enable-master-authorized-networks")]
+    [CliFlag("--enable-master-authorized-networks", NegatedName = "--no-enable-master-authorized-networks")]
     public bool? EnableMasterAuthorizedNetworks { get; set; }
-
-    /// <summary>
-    /// Negates --enable-master-authorized-networks. Master Authorized Networks Allow only specified set of CIDR blocks (specified by the --master-authorized-networks flag) to connect to Kubernetes master through HTTPS. Besides these blocks, the following have access as well: 1) The private network the cluster connects to if `--enable-private-nodes` is specified. 2) Google Compute Engine Public IPs if `--enable-private-nodes` is not specified. Use --no-enable-master-authorized-networks to disable. When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
-    /// </summary>
-    [CliFlag("--no-enable-master-authorized-networks")]
-    public bool? NoEnableMasterAuthorizedNetworks { get; set; }
 
     /// <summary>
     /// Master Authorized Networks The list of CIDR blocks (up to 100 for private cluster, 50 for public cluster) that are allowed to connect to Kubernetes master through HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be specified unless --enable-master-authorized-networks is also specified. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

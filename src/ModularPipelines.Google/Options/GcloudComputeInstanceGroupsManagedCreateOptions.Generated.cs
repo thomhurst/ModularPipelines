@@ -87,14 +87,8 @@ public record GcloudComputeInstanceGroupsManagedCreateOptions : GcloudOptions, I
     /// <summary>
     /// Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
     /// </summary>
-    [CliFlag("--force-update-on-repair")]
+    [CliFlag("--force-update-on-repair", NegatedName = "--no-force-update-on-repair")]
     public bool? ForceUpdateOnRepair { get; set; }
-
-    /// <summary>
-    /// Negates --force-update-on-repair. Specifies whether to apply the group's latest configuration when repairing a VM. If you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If this flag is disabled with -no-force-update-on-repair, then updates are applied in accordance with the group's update policy type. By default, this flag is disabled. Use --force-update-on-repair to enable and --no-force-update-on-repair to disable.
-    /// </summary>
-    [CliFlag("--no-force-update-on-repair")]
-    public bool? NoForceUpdateOnRepair { get; set; }
 
     /// <summary>
     /// Specifies the number of seconds that a new VM takes to initialize and run its startup script. During a VM's initial delay period, the MIG ignores unsuccessful health checks because the VM might be in the startup process. This prevents the MIG from prematurely recreating a VM. If the health check receives a healthy response during the initial delay, it indicates that the startup process is complete and the VM is ready. The value of initial delay must be between 0 and 3600 seconds. The default value is 0. See $ gcloud topic datetimes for information on duration formats.

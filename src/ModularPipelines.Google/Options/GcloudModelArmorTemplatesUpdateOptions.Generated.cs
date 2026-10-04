@@ -270,38 +270,20 @@ public record GcloudModelArmorTemplatesUpdateOptions : GcloudOptions, IValidatab
     /// <summary>
     /// If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
     /// </summary>
-    [CliFlag("--template-metadata-ignore-partial-invocation-failures")]
+    [CliFlag("--template-metadata-ignore-partial-invocation-failures", NegatedName = "--no-template-metadata-ignore-partial-invocation-failures")]
     public bool? TemplateMetadataIgnorePartialInvocationFailures { get; set; }
-
-    /// <summary>
-    /// Negates --template-metadata-ignore-partial-invocation-failures. If true, partial detector failures should be ignored. Use --template-metadata-ignore-partial-invocation-failures to enable and --no-template-metadata-ignore-partial-invocation-failures to disable.
-    /// </summary>
-    [CliFlag("--no-template-metadata-ignore-partial-invocation-failures")]
-    public bool? NoTemplateMetadataIgnorePartialInvocationFailures { get; set; }
 
     /// <summary>
     /// If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
     /// </summary>
-    [CliFlag("--template-metadata-log-operations")]
+    [CliFlag("--template-metadata-log-operations", NegatedName = "--no-template-metadata-log-operations")]
     public bool? TemplateMetadataLogOperations { get; set; }
-
-    /// <summary>
-    /// Negates --template-metadata-log-operations. If true, log template crud operations. Use --template-metadata-log-operations to enable and --no-template-metadata-log-operations to disable.
-    /// </summary>
-    [CliFlag("--no-template-metadata-log-operations")]
-    public bool? NoTemplateMetadataLogOperations { get; set; }
 
     /// <summary>
     /// If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
     /// </summary>
-    [CliFlag("--template-metadata-log-sanitize-operations")]
+    [CliFlag("--template-metadata-log-sanitize-operations", NegatedName = "--no-template-metadata-log-sanitize-operations")]
     public bool? TemplateMetadataLogSanitizeOperations { get; set; }
-
-    /// <summary>
-    /// Negates --template-metadata-log-sanitize-operations. If true, log sanitize operations. Use --template-metadata-log-sanitize-operations to enable and --no-template-metadata-log-sanitize-operations to disable.
-    /// </summary>
-    [CliFlag("--no-template-metadata-log-sanitize-operations")]
-    public bool? NoTemplateMetadataLogSanitizeOperations { get; set; }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)

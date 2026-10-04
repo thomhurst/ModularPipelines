@@ -97,14 +97,8 @@ public record GcloudSqlImportBakOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Whether SQL Server import should be striped. Use --striped to enable and --no-striped to disable.
     /// </summary>
-    [CliFlag("--striped")]
+    [CliFlag("--striped", NegatedName = "--no-striped")]
     public bool? Striped { get; set; }
-
-    /// <summary>
-    /// Negates --striped. Whether SQL Server import should be striped. Use --striped to enable and --no-striped to disable.
-    /// </summary>
-    [CliFlag("--no-striped")]
-    public bool? NoStriped { get; set; }
 
     /// <summary>
     /// Encryption info to support importing an encrypted .bak file Path to the encryption certificate file in Google Cloud Storage associated with the BAK file. The URI is in the form gs://bucketName/fileName. This flag argument must be specified if any of the other arguments in this group are specified.

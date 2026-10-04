@@ -42,14 +42,8 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
     /// </summary>
-    [CliFlag("--event-based-hold")]
+    [CliFlag("--event-based-hold", NegatedName = "--no-event-based-hold")]
     public bool? EventBasedHold { get; set; }
-
-    /// <summary>
-    /// Negates --event-based-hold. Enables or disables an event-based hold on objects. Use --event-based-hold to enable and --no-event-based-hold to disable.
-    /// </summary>
-    [CliFlag("--no-event-based-hold")]
-    public bool? NoEventBasedHold { get; set; }
 
     /// <summary>
     /// Read the list of objects to update from stdin. No need to enter a source argument if this flag is present. Example: "storage objects update -I --content-type=new-type"
@@ -66,14 +60,8 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
     /// </summary>
-    [CliFlag("--temporary-hold")]
+    [CliFlag("--temporary-hold", NegatedName = "--no-temporary-hold")]
     public bool? TemporaryHold { get; set; }
-
-    /// <summary>
-    /// Negates --temporary-hold. Enables or disables a temporary hold on objects. Use --temporary-hold to enable and --no-temporary-hold to disable.
-    /// </summary>
-    [CliFlag("--no-temporary-hold")]
-    public bool? NoTemporaryHold { get; set; }
 
     /// <summary>
     /// Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.
@@ -96,14 +84,8 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
     /// </summary>
-    [CliFlag("--preserve-acl")]
+    [CliFlag("--preserve-acl", NegatedName = "--no-preserve-acl")]
     public bool? PreserveAcl { get; set; }
-
-    /// <summary>
-    /// Negates --preserve-acl. Preserves ACLs when copying in the cloud. This option is Cloud Storage-only, and you need OWNER access to all copied objects. If all objects in the destination bucket should have the same ACL, you can also set a default object ACL on that bucket instead of using this flag. Preserving ACLs is the default behavior for updating existing objects. Use --preserve-acl to enable and --no-preserve-acl to disable.
-    /// </summary>
-    [CliFlag("--no-preserve-acl")]
-    public bool? NoPreserveAcl { get; set; }
 
     /// <summary>
     /// Key-value pairs mirroring the JSON accepted by your cloud provider. For example, for Cloud Storage, --remove-acl-grant=ENTITY, where ENTITY has a valid ACL entity format, such as user-tim@gmail.com, group-admins, allUsers, etc.

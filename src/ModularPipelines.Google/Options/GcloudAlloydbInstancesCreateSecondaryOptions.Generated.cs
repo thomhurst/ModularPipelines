@@ -172,14 +172,8 @@ public record GcloudAlloydbInstancesCreateSecondaryOptions : GcloudOptions
     /// <summary>
     /// Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
     /// </summary>
-    [CliFlag("--enable-connection-pooling")]
+    [CliFlag("--enable-connection-pooling", NegatedName = "--no-enable-connection-pooling")]
     public bool? EnableConnectionPooling { get; set; }
-
-    /// <summary>
-    /// Negates --enable-connection-pooling. Enable connection pooling for the instance. Use --enable-connection-pooling to enable and --no-enable-connection-pooling to disable.
-    /// </summary>
-    [CliFlag("--no-enable-connection-pooling")]
-    public bool? NoEnableConnectionPooling { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -190,14 +184,8 @@ public record GcloudAlloydbInstancesCreateSecondaryOptions : GcloudOptions
     /// <summary>
     /// Add outbound Public IP connectivity to an AlloyDB instance. Use --outbound-public-ip to enable and --no-outbound-public-ip to disable.
     /// </summary>
-    [CliFlag("--outbound-public-ip")]
+    [CliFlag("--outbound-public-ip", NegatedName = "--no-outbound-public-ip")]
     public bool? OutboundPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --outbound-public-ip. Add outbound Public IP connectivity to an AlloyDB instance. Use --outbound-public-ip to enable and --no-outbound-public-ip to disable.
-    /// </summary>
-    [CliFlag("--no-outbound-public-ip")]
-    public bool? NoOutboundPublicIp { get; set; }
 
     /// <summary>
     /// Comma-separated list of consumer project and consumer network pairs to create endpoints for Private Service Connect (PSC) connectivity for the instance. Only instances in PSC-enabled clusters are allowed to set this field. Both project and network must be specified. (e.g., --psc-auto-connections=project=project1,network=projects/vpc-host-project1/global/networks/network1 --psc-auto-connections=project=project2,network=projects/vpc-host-project2/global/networks/network2). Sets psc_auto_connections value. network Required, sets network value. project Required, sets project value. Shorthand Example: --psc-auto-connections=network=string,project=string JSON Example: --psc-auto-connections='{"network": "string", "project": "string"}' File Example: --psc-auto-connections=path_to_file.(yaml|json)
@@ -214,14 +202,8 @@ public record GcloudAlloydbInstancesCreateSecondaryOptions : GcloudOptions
     /// <summary>
     /// Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database. Use --require-connectors to enable and --no-require-connectors to disable.
     /// </summary>
-    [CliFlag("--require-connectors")]
+    [CliFlag("--require-connectors", NegatedName = "--no-require-connectors")]
     public bool? RequireConnectors { get; set; }
-
-    /// <summary>
-    /// Negates --require-connectors. Enable or disable enforcing connectors only (ex: AuthProxy) connections to the database. Use --require-connectors to enable and --no-require-connectors to disable.
-    /// </summary>
-    [CliFlag("--no-require-connectors")]
-    public bool? NoRequireConnectors { get; set; }
 
     /// <summary>
     /// Specify the SSL mode to use when the instance connects to the database. Default SSL mode will match what is set on the primary instance. SSL_MODE must be one of: ALLOW_UNENCRYPTED_AND_ENCRYPTED SSL connections are optional. CA verification is not enforced. ENCRYPTED_ONLY SSL connections are required. CA verification is not enforced.

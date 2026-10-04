@@ -44,14 +44,8 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Sets the default value for an event-based hold on the bucket. By setting the default event-based hold on a bucket, newly-created objects inherit that value as their event-based hold (it is not applied retroactively). Use --default-event-based-hold to enable and --no-default-event-based-hold to disable.
     /// </summary>
-    [CliFlag("--default-event-based-hold")]
+    [CliFlag("--default-event-based-hold", NegatedName = "--no-default-event-based-hold")]
     public bool? DefaultEventBasedHold { get; set; }
-
-    /// <summary>
-    /// Negates --default-event-based-hold. Sets the default value for an event-based hold on the bucket. By setting the default event-based hold on a bucket, newly-created objects inherit that value as their event-based hold (it is not applied retroactively). Use --default-event-based-hold to enable and --no-default-event-based-hold to disable.
-    /// </summary>
-    [CliFlag("--no-default-event-based-hold")]
-    public bool? NoDefaultEventBasedHold { get; set; }
 
     /// <summary>
     /// Sets the default storage class for the bucket.
@@ -86,14 +80,8 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Allows you to configure a Cloud Storage bucket so that the requester pays all costs related to accessing the bucket and its objects. Use --requester-pays to enable and --no-requester-pays to disable.
     /// </summary>
-    [CliFlag("--requester-pays")]
+    [CliFlag("--requester-pays", NegatedName = "--no-requester-pays")]
     public bool? RequesterPays { get; set; }
-
-    /// <summary>
-    /// Negates --requester-pays. Allows you to configure a Cloud Storage bucket so that the requester pays all costs related to accessing the bucket and its objects. Use --requester-pays to enable and --no-requester-pays to disable.
-    /// </summary>
-    [CliFlag("--no-requester-pays")]
-    public bool? NoRequesterPays { get; set; }
 
     /// <summary>
     /// Duration to retain soft-deleted objects. For example, "2w1d" is two weeks and one day.
@@ -104,26 +92,14 @@ public record GcloudStorageBucketsUpdateOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Enables or disables uniform bucket-level access (https://cloud.google.com/storage/docs/bucket-policy-only) for the buckets. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
     /// </summary>
-    [CliFlag("--uniform-bucket-level-access")]
+    [CliFlag("--uniform-bucket-level-access", NegatedName = "--no-uniform-bucket-level-access")]
     public bool? UniformBucketLevelAccess { get; set; }
-
-    /// <summary>
-    /// Negates --uniform-bucket-level-access. Enables or disables uniform bucket-level access (https://cloud.google.com/storage/docs/bucket-policy-only) for the buckets. Use --uniform-bucket-level-access to enable and --no-uniform-bucket-level-access to disable.
-    /// </summary>
-    [CliFlag("--no-uniform-bucket-level-access")]
-    public bool? NoUniformBucketLevelAccess { get; set; }
 
     /// <summary>
     /// Allows you to configure a Cloud Storage bucket to keep old versions of objects. Use --versioning to enable and --no-versioning to disable.
     /// </summary>
-    [CliFlag("--versioning")]
+    [CliFlag("--versioning", NegatedName = "--no-versioning")]
     public bool? Versioning { get; set; }
-
-    /// <summary>
-    /// Negates --versioning. Allows you to configure a Cloud Storage bucket to keep old versions of objects. Use --versioning to enable and --no-versioning to disable.
-    /// </summary>
-    [CliFlag("--no-versioning")]
-    public bool? NoVersioning { get; set; }
 
     /// <summary>
     /// Path to a local JSON or YAML formatted file containing a valid policy. See the ObjectAccessControls resource (https://cloud.google.com/storage/docs/json_api/v1/objectAccessControls) for a representation of JSON formatted files. The output of gcloud storage [buckets|objects] describe --format="multi(acl:format=json)" is a valid file and can be edited for more fine-grained control.

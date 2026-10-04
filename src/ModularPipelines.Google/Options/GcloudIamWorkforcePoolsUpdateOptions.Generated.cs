@@ -65,14 +65,8 @@ public record GcloudIamWorkforcePoolsUpdateOptions : GcloudOptions
     /// <summary>
     /// Disables the workforce pool. You cannot use a disabled workforce pool to perform new token exchanges or sign-ins using any provider in the workforce pool. Specify --no-disabled to enable a disabled pool.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Disables the workforce pool. You cannot use a disabled workforce pool to perform new token exchanges or sign-ins using any provider in the workforce pool. Specify --no-disabled to enable a disabled pool.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// A display name for the workforce pool. Cannot exceed 32 characters in length.

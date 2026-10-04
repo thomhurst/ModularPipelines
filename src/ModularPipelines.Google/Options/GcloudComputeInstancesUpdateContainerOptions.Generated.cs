@@ -80,14 +80,8 @@ public record GcloudComputeInstancesUpdateContainerOptions : GcloudOptions, IVal
     /// <summary>
     /// Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update-container --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
     /// </summary>
-    [CliFlag("--shielded-integrity-monitoring")]
+    [CliFlag("--shielded-integrity-monitoring", NegatedName = "--no-shielded-integrity-monitoring")]
     public bool? ShieldedIntegrityMonitoring { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-integrity-monitoring. Enables monitoring and attestation of the boot integrity of the instance. The attestation is performed against the integrity policy baseline. This baseline is initially derived from the implicitly trusted boot image when the instance is created. This baseline can be updated by using gcloud compute instances update-container --shielded-learn-integrity-policy. On Shielded VM instances, integrity monitoring is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. For information about monitoring integrity on Shielded VM instances, see https://cloud.google.com/compute/docs/instances/integrity-monitoring." Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-integrity-monitoring to enable and --no-shielded-integrity-monitoring to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-integrity-monitoring")]
-    public bool? NoShieldedIntegrityMonitoring { get; set; }
 
     /// <summary>
     /// Causes the instance to re-learn the integrity policy baseline using the current instance configuration. Use this flag after any planned boot-specific changes in the instance configuration, like kernel updates or kernel driver installation.
@@ -98,26 +92,14 @@ public record GcloudComputeInstancesUpdateContainerOptions : GcloudOptions, IVal
     /// <summary>
     /// The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
     /// </summary>
-    [CliFlag("--shielded-secure-boot")]
+    [CliFlag("--shielded-secure-boot", NegatedName = "--no-shielded-secure-boot")]
     public bool? ShieldedSecureBoot { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-secure-boot. The instance boots with secure boot enabled. On Shielded VM instances, Secure Boot is not enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-secure-boot to enable and --no-shielded-secure-boot to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-secure-boot")]
-    public bool? NoShieldedSecureBoot { get; set; }
 
     /// <summary>
     /// The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
     /// </summary>
-    [CliFlag("--shielded-vtpm")]
+    [CliFlag("--shielded-vtpm", NegatedName = "--no-shielded-vtpm")]
     public bool? ShieldedVtpm { get; set; }
-
-    /// <summary>
-    /// Negates --shielded-vtpm. The instance boots with the TPM (Trusted Platform Module) enabled. A TPM is a hardware module that can be used for different security operations such as remote attestation, encryption, and sealing of keys. On Shielded VM instances, vTPM is enabled by default. For information about how to modify Shielded VM options, see https://cloud.google.com/compute/docs/instances/modifying-shielded-vm. Changes to this setting with the update command only take effect after stopping and starting the instance. Use --shielded-vtpm to enable and --no-shielded-vtpm to disable.
-    /// </summary>
-    [CliFlag("--no-shielded-vtpm")]
-    public bool? NoShieldedVtpm { get; set; }
 
     /// <summary>
     /// Zone of the instance to update. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.

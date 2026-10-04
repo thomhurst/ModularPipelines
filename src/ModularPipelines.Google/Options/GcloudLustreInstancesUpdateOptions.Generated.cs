@@ -60,14 +60,8 @@ public record GcloudLustreInstancesUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
     /// </summary>
-    [CliFlag("--gke-support-enabled")]
+    [CliFlag("--gke-support-enabled", NegatedName = "--no-gke-support-enabled")]
     public bool? GkeSupportEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --gke-support-enabled. Deprecated: No longer required for GKE instance creation. Indicates whether you want to enable support for GKE clients. By default, GKE clients are not supported. Use --gke-support-enabled to enable and --no-gke-support-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-gke-support-enabled")]
-    public bool? NoGkeSupportEnabled { get; set; }
 
     /// <summary>
     /// For resources [instance, placement-policy], provides fallback value for resource location attribute. When the resource's full URI path is not provided, location will fallback to this flag value.
