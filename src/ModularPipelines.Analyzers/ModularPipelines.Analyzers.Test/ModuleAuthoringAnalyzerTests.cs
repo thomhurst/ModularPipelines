@@ -1,3 +1,6 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyAsyncCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleAsyncSafetyAnalyzer>;
 using VerifyDependencyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.DuplicateDependsOnAnalyzer>;
@@ -22,10 +25,10 @@ public class ModuleAuthoringAnalyzerTests
     public void New_Module_Authoring_Rules_Default_To_Warning()
     {
         Assert.AreEqual(
-            Microsoft.CodeAnalysis.DiagnosticSeverity.Warning,
+            DiagnosticSeverity.Warning,
             ModuleAsyncSafetyAnalyzer.AsyncVoidRule.DefaultSeverity);
         Assert.AreEqual(
-            Microsoft.CodeAnalysis.DiagnosticSeverity.Warning,
+            DiagnosticSeverity.Warning,
             DuplicateDependsOnAnalyzer.Rule.DefaultSeverity);
     }
 
@@ -47,6 +50,65 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("BuildModule");
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Does_Not_Report_Module_Registered_In_Top_Level_Statements(bool asynchronous)
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithExtensions}}
+
+            {{(asynchronous ? "await Task.Yield();" : string.Empty)}}
+            Pipeline.CreateBuilder().AddModule<BuildModule>();
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Registration_From_A_Referenced_Source_Project()
+    {
+        var test = new VerifyRegistrationCS.Test
+        {
+            ReferenceAssemblies = Net.Net100,
+            TestCode = """
+                using ModularPipelines;
+                new PipelineBuilder().AddModule<BuildModule>();
+                public class BuildModule : Module<object> { }
+                public class {|#0:UnregisteredModule|} : Module<object> { }
+                """,
+        };
+        test.TestState.OutputKind = OutputKind.ConsoleApplication;
+        test.ExpectedDiagnostics.Add(VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0).WithArguments("UnregisteredModule"));
+        test.SolutionTransforms.Add((solution, projectId) =>
+        {
+            var referenceId = ProjectId.CreateNewId();
+            return solution
+                .AddProject(referenceId, "ModularPipelines", "ModularPipelines", LanguageNames.CSharp)
+                .WithProjectCompilationOptions(referenceId, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .WithProjectMetadataReferences(referenceId, solution.GetProject(projectId)!.MetadataReferences)
+                .AddDocument(DocumentId.CreateNewId(referenceId), "Framework.cs", SourceText.From("""
+                    namespace ModularPipelines
+                    {
+                        public abstract class Module<T> { }
+                        public class PipelineBuilder { }
+                        public static class PipelineBuilderExtensions
+                        {
+                            public static PipelineBuilder AddModule<T>(this PipelineBuilder builder) => builder;
+                        }
+                    }
+                    """))
+                .AddProjectReference(projectId, new ProjectReference(referenceId));
+        });
+        await test.RunAsync(CancellationToken.None);
     }
 
     [TestMethod]
