@@ -1,4 +1,4 @@
-using ModularPipelines.Node;
+using ModularPipelines.Node.Services;
 
 namespace ModularPipelines.Node.UnitTests.Api;
 
