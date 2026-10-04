@@ -376,6 +376,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
+        console = CoordinatedTextWriter.UnwrapSynchronizedWriter(console);
         var effectiveFallbackLoggers = fallbackLoggers ?? [];
         var exclusiveSink = effectiveFallbackLoggers
             .OfType<IExclusiveStructuredLogSink>()
