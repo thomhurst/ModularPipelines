@@ -121,6 +121,16 @@ public partial interface IPip
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// EXPERIMENTAL - Lock packages and their dependencies from:
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> LockAsync(PipLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Search for PyPI packages whose name or summary contains &lt;query&gt;.
     /// </summary>
     /// <param name="options">The command options.</param>
