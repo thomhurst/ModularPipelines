@@ -40,10 +40,4 @@ public record SnykAibomTestOptions : SnykOptions
     [CliOption("--severity-threshold", Format = OptionFormat.EqualsSeparated)]
     public SnykSeverityThreshold? SeverityThreshold { get; set; }
 
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
 }

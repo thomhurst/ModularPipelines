@@ -22,12 +22,6 @@ namespace ModularPipelines.Snyk.Options;
 public record SnykPolicyOptions : SnykOptions
 {
     /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Path to the Snyk policy file
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

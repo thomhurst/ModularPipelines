@@ -22,4 +22,10 @@ namespace ModularPipelines.Snyk.Options;
 [CliGlobalOptions]
 public abstract record SnykOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Output debug logs.
+    /// </summary>
+    [CliFlag("-d")]
+    public virtual bool? Debug { get; set; }
+
 }

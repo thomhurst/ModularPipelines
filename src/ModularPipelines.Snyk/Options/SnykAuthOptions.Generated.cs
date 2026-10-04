@@ -42,12 +42,6 @@ public record SnykAuthOptions : SnykOptions
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Snyk API token
     /// </summary>
     [SecretValue]
