@@ -125,6 +125,15 @@ details. The success value survives JSON serialization even though module result
 run throws `PipelineFailedException`; set it to `false` to inspect the unsuccessful summary.
 The exception's `FailedModules` identifies these results and excludes ignored failures.
 
+## Git option cleanup
+
+Removed 26 unused generated Git option types absent from the validated command
+coverage list, including documentation pages such as `GitAttributesOptions`,
+`GitProtocolV2Options`, `GitRevisionsOptions`, and `GitFormatPackOptions`.
+The handwritten grouped Git API and handwritten options remain available. Git
+refreshes now prune obsolete generated option records after command coverage
+validation, preventing documentation-page types from lingering in the package.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
