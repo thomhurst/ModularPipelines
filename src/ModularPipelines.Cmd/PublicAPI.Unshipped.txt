@@ -42,7 +42,6 @@ override ModularPipelines.Options.CmdScriptOptions.ToString() -> string!
 override sealed ModularPipelines.Options.CmdFileOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.CmdOptions.Equals(ModularPipelines.Options.CommandLineToolOptions? other) -> bool
 override sealed ModularPipelines.Options.CmdScriptOptions.Equals(ModularPipelines.Options.CmdOptions? other) -> bool
-static ModularPipelines.Cmd.Extensions.CmdExtensions.Cmd(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Cmd.ICmdContext!
 static ModularPipelines.Context.ModularPipelines_Cmd_3e922be450af9c26ToolsExtensions.get_Cmd(ModularPipelines.Context.IToolsContext! tools) -> ModularPipelines.Cmd.ICmdContext!
 static ModularPipelines.Options.CmdFileOptions.operator !=(ModularPipelines.Options.CmdFileOptions? left, ModularPipelines.Options.CmdFileOptions? right) -> bool
 static ModularPipelines.Options.CmdFileOptions.operator ==(ModularPipelines.Options.CmdFileOptions? left, ModularPipelines.Options.CmdFileOptions? right) -> bool

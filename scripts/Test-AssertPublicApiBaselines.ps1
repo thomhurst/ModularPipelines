@@ -103,13 +103,13 @@ try {
 
     Add-File 'src/ModularPipelines.Cmd/PublicAPI.Unshipped.txt' "#nullable enable`n*REMOVED*Api.Retired`nApi.Added`nApi.Added"
     $duplicateResult = Invoke-AssertProcess
-    $duplicateOutput = $duplicateResult.Output
+    $duplicateMessage = Get-AssertFailureMessage
     if ($duplicateResult.ExitCode -eq 0) {
         throw 'Duplicate baseline entry unexpectedly passed.'
     }
 
-    if (($duplicateOutput -join "`n") -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Added') {
-        throw "Duplicate entry was not reported: $($duplicateOutput -join "`n")"
+    if ($duplicateMessage -notmatch 'ModularPipelines.Cmd[\\/]PublicAPI.Unshipped.txt: Api.Added') {
+        throw "Duplicate entry was not reported: $duplicateMessage"
     }
 
     # The same plain symbol in both files is the RS0025 shape; a shipped entry plus its
