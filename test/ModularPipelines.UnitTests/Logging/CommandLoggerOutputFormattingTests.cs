@@ -131,6 +131,20 @@ public class CommandLoggerOutputFormattingTests
     }
 
     [Test]
+    public async Task SuccessfulCapturedStandardErrorUsesInformationWithoutWarningAnnotations()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+        commandLogger.LogCommandCompletion(null, new CommandExecutionOptions
+        {
+            Logging = CommandLoggingOptions.Silent with { ShowStandardError = true },
+        }, "tool run", 0, null, string.Empty, "progress one\n\nprogress two", "/repo");
+
+        await Assert.That(logger.Messages.Select(message => message.Text))
+            .IsEquivalentTo(["  ↳ progress one", "  ↳ progress two"]);
+        await Assert.That(logger.Messages.All(message => message.Level == LogLevel.Information)).IsTrue();
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task ExplicitTimestampsApplyToEveryCommandEvent(bool enabled)

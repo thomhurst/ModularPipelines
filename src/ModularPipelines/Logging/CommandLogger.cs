@@ -265,11 +265,26 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
+        // Successful tools often write progress to stderr. Keep it visible without failure annotations.
+        var obfuscatedError = _secretObfuscator.Obfuscate(error, null);
+        if (exitCode == 0)
+        {
+            foreach (var line in GetOutputLines(obfuscatedError))
+            {
+                Logger.LogInformation(
+                    "{CommandTimestamp}" + OutputLinePrefix + "{CommandError}",
+                    GetTimestamp(options),
+                    new PreObfuscatedLogValue(line));
+            }
+
+            return;
+        }
+
         // Standard error stays one warning so build systems raise a single annotation for it;
         // continuation lines are indented to align under the first.
         var errorText = string.Join(
             Environment.NewLine + ErrorContinuationIndent,
-            GetOutputLines(_secretObfuscator.Obfuscate(error, null)));
+            GetOutputLines(obfuscatedError));
         Logger.LogWarning("{CommandTimestamp}" + ErrorLinePrefix + "{CommandError}", GetTimestamp(options), new PreObfuscatedLogValue(errorText));
     }
 

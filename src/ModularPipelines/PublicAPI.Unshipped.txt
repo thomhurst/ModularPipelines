@@ -358,6 +358,30 @@
 *REMOVED*ModularPipelines.Context.IPipelineContext.Shell.get -> ModularPipelines.Context.Domains.IShellContext!
 *REMOVED*ModularPipelines.Context.IPipelineContext.Summary.get -> ModularPipelines.Logging.ISummaryLogger!
 *REMOVED*ModularPipelines.Context.IPipelineContext.Tools.get -> ModularPipelines.Context.IToolsContext!
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.get -> bool
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.get -> bool
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowExitCode.get -> bool
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowStandardError.get -> bool
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowStandardOutput.get -> bool
+*REMOVED*ModularPipelines.Options.CommandLoggingOptions.ShowWorkingDirectory.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogDuration.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogDuration.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequest.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequest.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequestBody.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequestBody.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequestHeaders.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogRequestHeaders.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponse.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponse.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponseBody.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponseBody.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponseHeaders.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogResponseHeaders.init -> void
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogStatusCode.get -> bool
+*REMOVED*ModularPipelines.Options.HttpLoggingOptions.LogStatusCode.init -> void
+*REMOVED*static ModularPipelines.Options.HttpLoggingOptions.Full.get -> ModularPipelines.Options.HttpLoggingOptions!
+*REMOVED*static ModularPipelines.Options.HttpLoggingOptions.None.get -> ModularPipelines.Options.HttpLoggingOptions!
 ModularPipelines.Distributed.ArtifactDescriptor.<Clone>$() -> ModularPipelines.Distributed.ArtifactDescriptor!
 ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor() -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactDescriptor.ArtifactDescriptor(ModularPipelines.Distributed.ArtifactDescriptor! original) -> void
@@ -1095,6 +1119,28 @@ ModularPipelines.ModuleResult.WorkerId.get -> ModularPipelines.Distributed.Worke
 *REMOVED*ModularPipelines.Plugins.IModularPipelinesPlugin.Priority.get -> int
 *REMOVED*ModularPipelines.Plugins.PluginRegistry
 *REMOVED*ModularPipelines.Requirements.DelegateRequirement
+ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowExitCode.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowStandardError.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowStandardOutput.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowWorkingDirectory.get -> bool?
+ModularPipelines.Options.HttpLoggingOptions.ShowDuration.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowDuration.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowRequest.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowRequest.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowRequestBody.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowRequestBody.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowRequestHeaders.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowRequestHeaders.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowResponse.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowResponse.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowResponseBody.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowResponseBody.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowResponseHeaders.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowResponseHeaders.init -> void
+ModularPipelines.Options.HttpLoggingOptions.ShowStatusCode.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.ShowStatusCode.init -> void
 ModularPipelines.Reporting.DistributedModuleRunReport.WorkerId.get -> ModularPipelines.Distributed.WorkerId
 ModularPipelines.Reporting.DistributedModuleRunReport.WorkerId.init -> void
 ModularPipelines.Reporting.DistributedWorkerRunReport.WorkerId.get -> ModularPipelines.Distributed.WorkerId
@@ -1594,6 +1640,8 @@ static ModularPipelines.CommandInvocation.operator ==(ModularPipelines.CommandIn
 ModularPipelines.ICommandInterceptor
 ModularPipelines.CommandDelegate
 ModularPipelines.ICommandInterceptor.InvokeAsync(ModularPipelines.CommandInvocation! invocation, ModularPipelines.CommandDelegate! next, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
+static ModularPipelines.Options.HttpLoggingOptions.Diagnostic.get -> ModularPipelines.Options.HttpLoggingOptions!
+static ModularPipelines.Options.HttpLoggingOptions.Silent.get -> ModularPipelines.Options.HttpLoggingOptions!
 virtual ModularPipelines.CommandDelegate.Invoke(ModularPipelines.CommandInvocation! invocation, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.ValueTask<ModularPipelines.CommandResult!>
 static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.ICommandInterceptor! interceptor) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.PipelineBuilderExtensions.AddCommandInterceptor<TInterceptor>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
