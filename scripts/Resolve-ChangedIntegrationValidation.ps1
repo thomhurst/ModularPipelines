@@ -41,9 +41,12 @@ if (-not $IsGeneratedIntegration) {
         # deletion or rename. Whole-package removal is handled by full validation above.
         foreach ($path in $ChangedPath) {
             $solutionPath = $path.Replace('\', '/')
-            if ($solutionPath -like "src/$package/*.slnx" -and
-                -not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $solutionPath) -PathType Leaf)) {
+            if ($solutionPath -notlike "src/$package/*.slnx") { continue }
+            if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $solutionPath) -PathType Leaf)) {
                 throw "Changed integration solution is missing: $solutionPath."
+            }
+            if ($solutionPath -cne "src/$package/$package.slnx") {
+                throw "Unsupported integration solution: $solutionPath. Expected src/$package/$package.slnx."
             }
         }
         if (-not $hasTestProject) {
