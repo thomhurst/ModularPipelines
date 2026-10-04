@@ -32,7 +32,7 @@ public partial class NpmCliScraper(
         CommandCoverage = new CliCommandCoveragePolicy
         {
             MinimumCommandCount = 50,
-            SentinelCommands = ["npm install", "npm exec", "npm access list packages", "npm token revoke", "npm version", "npm root"],
+            SentinelCommands = ["npm install", "npm exec", "npm access list packages", "npm token revoke", "npm version", "npm root", "npm org set", "npm org rm", "npm org ls"],
         },
     };
 
@@ -67,17 +67,34 @@ public partial class NpmCliScraper(
 
     /// <inheritdoc />
     protected override UsageSynopsisParseResult ParseUsageSynopsis(string[] commandPath, string helpText) =>
-        base.ParseUsageSynopsis(commandPath, ExpandAuditSynopsis(helpText));
+        base.ParseUsageSynopsis(commandPath, NormalizeUsageHelp(helpText));
 
-    private static string ExpandAuditSynopsis(string helpText) =>
+    private static string NormalizeUsageHelp(string helpText)
+    {
+        var normalized = string.Join('\n', helpText.ReplaceLineEndings("\n").Split('\n').Select(line =>
+        {
+            var usage = line.Trim();
+            if (!usage.StartsWith("npm ", StringComparison.Ordinal))
+            {
+                return line;
+            }
+
+            usage = SynopsisExplanationPattern().Replace(usage, string.Empty);
+            // npm org's help omits angle brackets around these parameter names.
+            return usage.StartsWith("npm org ", StringComparison.Ordinal)
+                ? BareOrgOperandPattern().Replace(usage, "<${name}>")
+                : usage;
+        }));
+
         // Audit's choices name verbs; choices on commands such as profile enable-2fa name values.
-        AuditSynopsisPattern().Replace(helpText, match => match.Value + "\n"
+        return AuditSynopsisPattern().Replace(normalized, match => match.Value + "\n"
             + string.Join('\n', match.Groups["commands"].Value.Split('|').Select(command => "npm audit " + command)));
+    }
 
     private static IEnumerable<string> GetUsageTails(string[] commandPath, string helpText)
     {
         var prefix = string.Join(' ', commandPath);
-        return ExpandAuditSynopsis(helpText).ReplaceLineEndings("\n").Split('\n')
+        return NormalizeUsageHelp(helpText).ReplaceLineEndings("\n").Split('\n')
             .Select(line => line.Trim())
             .Where(line => line.Equals(prefix, StringComparison.Ordinal)
                 || line.StartsWith(prefix + " ", StringComparison.Ordinal))
@@ -207,7 +224,8 @@ public partial class NpmCliScraper(
             var takesValue = Regex.IsMatch(
                 normalizedHelp,
                 $@"{Regex.Escape(switchName)}\s+<[^>]+>",
-                RegexOptions.IgnoreCase);
+                RegexOptions.IgnoreCase)
+                || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+[a-zA-Z][\w-]*(?=[\s\]\|]|$)");
             var acceptsMultipleValues = takesValue
                 && (HelpDeclaresRepeatableOption(normalizedHelp, switchName, description)
                     || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+<[^>]+>\s+\.{{3}}"));
@@ -272,6 +290,12 @@ public partial class NpmCliScraper(
         @"All commands:\s*(?<commands>.*?)(?:\r?\n\s*\r?\n|\z)",
         RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex AllCommandsSectionPattern();
+
+    [GeneratedRegex(@"\s+\((?:See|same as)\b.*\)$", RegexOptions.IgnoreCase)]
+    private static partial Regex SynopsisExplanationPattern();
+
+    [GeneratedRegex(@"(?<= )(?<name>orgname|username)(?=\s|$)")]
+    private static partial Regex BareOrgOperandPattern();
 
     [GeneratedRegex(@"^npm audit \[(?<commands>[a-z][a-z0-9-]*(?:\|[a-z][a-z0-9-]*)+)\][ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex AuditSynopsisPattern();
