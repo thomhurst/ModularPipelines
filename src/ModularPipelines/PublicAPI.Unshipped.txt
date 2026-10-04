@@ -2847,6 +2847,7 @@ const ModularPipelines.Tracing.PipelineTelemetry.CommandExitCodeTag = "process.e
 const ModularPipelines.Tracing.PipelineTelemetry.CommandInputTag = "process.command_line" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandSourceName = "ModularPipelines.Commands" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.CommandToolTag = "process.executable.name" -> string!
+const ModularPipelines.Tracing.PipelineTelemetry.ErrorTypeTag = "error.type" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.ExceptionMessageTag = "exception.message" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.ExceptionTypeTag = "exception.type" -> string!
 const ModularPipelines.Tracing.PipelineTelemetry.MeterName = "ModularPipelines" -> string!
@@ -3458,7 +3459,3 @@ ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other)
 ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.get -> System.IO.Compression.CompressionLevel
 ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.set -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions
-
-
-
-const ModularPipelines.Tracing.PipelineTelemetry.ErrorTypeTag = "error.type" -> string!
