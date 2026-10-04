@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 
@@ -31,7 +32,16 @@ internal class ArtifactContextImpl(
     public IArtifactContext ForModule(Type moduleType)
         => new ArtifactContextImpl(_store, _options, _acceptedArtifacts, ModuleId.FromType(moduleType));
 
-    public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
+    public Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
+        => PublishFileAsync(artifactName, filePath, SystemFileSystemProvider.Instance, cancellationToken);
+
+    public Task<ArtifactReference> PublishFileAsync(string artifactName, FilePath filePath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(filePath);
+        return PublishFileAsync(artifactName, filePath.Path, filePath.Provider, cancellationToken);
+    }
+
+    private async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, IFileSystemProvider provider, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor
@@ -41,12 +51,21 @@ internal class ArtifactContextImpl(
             ContentType = "application/octet-stream",
         };
 
-        var stream = File.OpenRead(filePath);
+        var stream = provider.OpenRead(filePath);
         await using var streamLifetime = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
+    public Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
+        => PublishDirectoryAsync(artifactName, directoryPath, SystemFileSystemProvider.Instance, cancellationToken);
+
+    public Task<ArtifactReference> PublishDirectoryAsync(string artifactName, FolderPath directoryPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(directoryPath);
+        return PublishDirectoryAsync(artifactName, directoryPath.Path, directoryPath.Provider, cancellationToken);
+    }
+
+    private async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, IFileSystemProvider provider, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor
@@ -63,7 +82,8 @@ internal class ArtifactContextImpl(
                 directoryPath,
                 temporaryArchivePath,
                 _options.ArtifactCompressionLevel,
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken,
+                provider).ConfigureAwait(false);
             var stream = File.OpenRead(temporaryArchivePath);
             await using var streamLifetime = stream.ConfigureAwait(false);
             return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
@@ -78,15 +98,17 @@ internal class ArtifactContextImpl(
         string directoryPath,
         string archivePath,
         CompressionLevel compressionLevel,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        IFileSystemProvider? provider = null)
     {
+        provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
         var sourceDirectory = Path.GetFullPath(directoryPath);
         var fullArchivePath = Path.GetFullPath(archivePath);
         File.Delete(fullArchivePath);
 
         var directories = new List<string>();
-        foreach (var directory in Directory.EnumerateDirectories(
+        foreach (var directory in provider.EnumerateDirectories(
                      sourceDirectory,
                      "*",
                      SearchOption.AllDirectories))
@@ -96,7 +118,7 @@ internal class ArtifactContextImpl(
         }
 
         var files = new List<string>();
-        foreach (var file in Directory.EnumerateFiles(
+        foreach (var file in provider.EnumerateFiles(
                      sourceDirectory,
                      "*",
                      SearchOption.AllDirectories))
@@ -121,21 +143,21 @@ internal class ArtifactContextImpl(
             var entryName = Path.GetRelativePath(sourceDirectory, file)
                 .Replace(Path.DirectorySeparatorChar, '/');
             var entry = archive.CreateEntry(entryName, compressionLevel);
-            entry.LastWriteTime = File.GetLastWriteTime(file);
-            if (!OperatingSystem.IsWindows())
+            entry.LastWriteTime = provider.GetLastWriteTimeUtc(file).ToLocalTime();
+            if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
             {
                 // Keep the regular-file type so mode 000 is distinct from absent Unix metadata.
                 entry.ExternalAttributes = (0x8000 | (int) File.GetUnixFileMode(file)) << 16;
             }
 
-            var sourceStream = new FileStream(
+            var sourceStream = provider is SystemFileSystemProvider ? new FileStream(
                 file,
                 new FileStreamOptions
                 {
                     Access = FileAccess.Read,
                     Mode = FileMode.Open,
                     Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-                });
+                }) : provider.OpenRead(file);
             await using var sourceStreamLifetime = sourceStream.ConfigureAwait(false);
             var entryStream = entry.Open();
             await using var entryStreamLifetime = entryStream.ConfigureAwait(false);
@@ -148,7 +170,10 @@ internal class ArtifactContextImpl(
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 
-    public async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
+    public Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
+        => DownloadAsync(producerModuleId, artifactName, destinationPath, SystemFileSystemProvider.Instance, null, cancellationToken);
+
+    private async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, IFileSystemProvider provider, bool? directory, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var artifact = await ArtifactLifecycleManager.ResolveArtifactAsync(
@@ -161,23 +186,28 @@ internal class ArtifactContextImpl(
             ?? throw new InvalidOperationException(
                 $"Artifact '{artifactName}' from module '{producerModuleId}' not found.");
 
+        if (directory.HasValue && directory.Value != (artifact.ContentType == "application/zip"))
+        {
+            throw new InvalidOperationException($"Artifact '{artifactName}' does not match the destination path type.");
+        }
+
         var stream = await _store.DownloadAsync(artifact, cancellationToken).ConfigureAwait(false);
         await using var streamLifetime = stream.ConfigureAwait(false);
 
         if (artifact.ContentType == "application/zip")
         {
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken).ConfigureAwait(false);
+            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken, provider).ConfigureAwait(false);
             return destinationPath;
         }
 
         var destinationDirectory = Path.GetDirectoryName(destinationPath);
         if (!string.IsNullOrEmpty(destinationDirectory))
         {
-            Directory.CreateDirectory(destinationDirectory);
+            provider.CreateDirectory(destinationDirectory);
         }
 
-        var fileStream = File.Create(destinationPath);
+        var fileStream = provider.Create(destinationPath);
         await using var fileStreamLifetime = fileStream.ConfigureAwait(false);
         await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         return destinationPath;
@@ -186,15 +216,17 @@ internal class ArtifactContextImpl(
     internal static async Task ExtractDirectoryArchiveAsync(
         ZipArchive archive,
         string destinationPath,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        IFileSystemProvider? provider = null)
     {
+        provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
         var destinationDirectory = Path.GetFullPath(destinationPath);
         var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
             ? destinationDirectory
             : destinationDirectory + Path.DirectorySeparatorChar;
         var pathComparison = GetArchivePathComparison();
-        CreateDirectoryWithoutLinks(destinationDirectory, destinationDirectory);
+        CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
 
         foreach (var entry in archive.Entries)
         {
@@ -213,17 +245,17 @@ internal class ArtifactContextImpl(
 
             if (string.IsNullOrEmpty(entry.Name))
             {
-                CreateDirectoryWithoutLinks(destinationDirectory, entryPath);
+                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryPath);
                 continue;
             }
 
             var entryDirectory = Path.GetDirectoryName(entryPath);
             if (!string.IsNullOrEmpty(entryDirectory))
             {
-                CreateDirectoryWithoutLinks(destinationDirectory, entryDirectory);
+                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
             }
 
-            EnsurePathContainsNoLinks(destinationDirectory, entryPath);
+            EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
 
             var fileOptions = new FileStreamOptions
             {
@@ -231,7 +263,7 @@ internal class ArtifactContextImpl(
                 Mode = FileMode.CreateNew,
                 Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
             };
-            if (!OperatingSystem.IsWindows())
+            if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
             {
                 // Apply ordinary permissions at creation so the OS enforces the umask.
                 // Never propagate setuid, setgid, or sticky bits from ZIPs.
@@ -251,7 +283,9 @@ internal class ArtifactContextImpl(
                 throw new IOException("The archive temporary file would leave the destination directory.");
             }
 
-            var destinationStream = new FileStream(temporaryPath, fileOptions);
+            var destinationStream = provider is SystemFileSystemProvider
+                ? new FileStream(temporaryPath, fileOptions)
+                : provider.Open(temporaryPath, FileMode.CreateNew, FileAccess.Write);
             try
             {
                 await using (destinationStream.ConfigureAwait(false))
@@ -264,30 +298,30 @@ internal class ArtifactContextImpl(
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
-                File.SetLastWriteTime(temporaryPath, entry.LastWriteTime.DateTime);
-                EnsurePathContainsNoLinks(destinationDirectory, entryPath);
-                File.Move(temporaryPath, entryPath, overwrite: true);
+                provider.SetLastWriteTimeUtc(temporaryPath, entry.LastWriteTime.DateTime.ToUniversalTime());
+                EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+                provider.MoveFile(temporaryPath, entryPath, overwrite: true);
             }
             finally
             {
-                File.Delete(temporaryPath);
+                provider.DeleteFile(temporaryPath);
             }
         }
     }
 
-    private static void CreateDirectoryWithoutLinks(string destinationDirectory, string path)
+    private static void CreateDirectoryWithoutLinks(IFileSystemProvider provider, string destinationDirectory, string path)
     {
-        EnsurePathContainsNoLinks(destinationDirectory, path);
-        Directory.CreateDirectory(path);
-        EnsurePathContainsNoLinks(destinationDirectory, path);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
+        provider.CreateDirectory(path);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
     }
 
-    private static void EnsurePathContainsNoLinks(string destinationDirectory, string path)
+    private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path)
     {
         var currentPath = destinationDirectory;
         try
         {
-            EnsurePathIsNotLink(currentPath);
+            EnsurePathIsNotLink(provider, currentPath);
         }
         catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
         {
@@ -307,7 +341,7 @@ internal class ArtifactContextImpl(
             currentPath = Path.Combine(currentPath, segment);
             try
             {
-                EnsurePathIsNotLink(currentPath);
+                EnsurePathIsNotLink(provider, currentPath);
             }
             catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
             {
@@ -316,9 +350,11 @@ internal class ArtifactContextImpl(
         }
     }
 
-    private static void EnsurePathIsNotLink(string path)
+    private static void EnsurePathIsNotLink(IFileSystemProvider provider, string path)
     {
-        if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+        // File.GetAttributes throws for missing paths, unlike FileSystemInfo.Attributes.
+        var attributes = provider is SystemFileSystemProvider ? File.GetAttributes(path) : provider.GetAttributes(path);
+        if ((attributes & FileAttributes.ReparsePoint) != 0)
         {
             throw new IOException($"Extracting through linked path '{path}' is not allowed.");
         }
@@ -334,6 +370,28 @@ internal class ArtifactContextImpl(
             artifactName,
             destinationPath,
             cancellationToken);
+
+    public async Task<FilePath> DownloadAsync(ModuleId producerModuleId, string artifactName, FilePath destinationPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(destinationPath);
+        await DownloadAsync(producerModuleId, artifactName, destinationPath.Path, destinationPath.Provider, false, cancellationToken).ConfigureAwait(false);
+        return destinationPath;
+    }
+
+    public Task<FilePath> DownloadAsync<TProducerModule>(string artifactName, FilePath destinationPath, CancellationToken cancellationToken = default)
+        where TProducerModule : IModule
+        => DownloadAsync(ModuleId.FromType(typeof(TProducerModule)), artifactName, destinationPath, cancellationToken);
+
+    public async Task<FolderPath> DownloadAsync(ModuleId producerModuleId, string artifactName, FolderPath destinationPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(destinationPath);
+        await DownloadAsync(producerModuleId, artifactName, destinationPath.Path, destinationPath.Provider, true, cancellationToken).ConfigureAwait(false);
+        return destinationPath;
+    }
+
+    public Task<FolderPath> DownloadAsync<TProducerModule>(string artifactName, FolderPath destinationPath, CancellationToken cancellationToken = default)
+        where TProducerModule : IModule
+        => DownloadAsync(ModuleId.FromType(typeof(TProducerModule)), artifactName, destinationPath, cancellationToken);
 
     private ModuleId GetCurrentModuleId()
         => _moduleId

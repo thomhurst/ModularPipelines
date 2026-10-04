@@ -41,6 +41,37 @@ await context.Artifacts.DownloadAsync<BuildModule>(
     Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
 ```
 
+### Typed file and directory paths
+
+All artifact stores support `FilePath` and `FolderPath` overloads. Use paths from
+`context.Files` to retain the pipeline working directory and configured filesystem:
+
+```csharp
+var package = context.Files.GetFile("output/package.zip");
+await context.Artifacts.PublishFileAsync("package", package, cancellationToken);
+
+var downloaded = await context.Artifacts.DownloadAsync<BuildModule>(
+    "package", context.Files.GetFile("downloads/package.zip"), cancellationToken);
+
+var output = context.Files.GetFolder("output");
+await context.Artifacts.PublishDirectoryAsync("output", output, cancellationToken);
+var extracted = await context.Artifacts.DownloadAsync<BuildModule>(
+    "output", context.Files.GetFolder("downloads/output"), cancellationToken);
+```
+
+Downloads return the supplied `FilePath` or `FolderPath`, retaining its provider.
+Both generic producer overloads and overloads accepting a `ModuleId` support typed
+paths. A file artifact requires a `FilePath` destination; a published directory
+requires a `FolderPath` destination. A mismatch throws before writing the download.
+A ZIP file published with `PublishFileAsync` is still a file artifact.
+
+Typed operations use the path's already-resolved absolute location and its own
+filesystem provider, including custom providers. Constructing `new FilePath(...)`
+or `new FolderPath(...)` directly uses the process working directory and system
+filesystem. Existing string overloads keep their system-filesystem behavior.
+Directory publishing still uses a temporary system file to spool the ZIP archive;
+its source and destination contents use their respective path providers.
+
 Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional
 service URL when targeting an S3-compatible provider. Options are validated when the pipeline is built; a missing
 `BucketName` fails fast.
