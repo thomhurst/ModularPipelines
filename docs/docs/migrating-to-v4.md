@@ -882,6 +882,27 @@ For handwritten command options, see [Custom Commands](./how-to/custom-commands.
 commands or incorrect models, fix or report the scraper/generator rather than working around it
 in the generated source.
 
+### .NET test runner options
+
+`DotNetTestOptions` now follows the selected SDK's default VSTest help, independent
+of this repository's test-runner configuration. Use its `Filter`, `Logger`, `Collect`,
+`Settings`, and `Blame` properties for VSTest. The generated MTP-only `Project`,
+`Solution`, `TestModules`, `PlatformOptions`, and `ExtensionOptions` members are removed.
+For Microsoft.Testing.Platform, keep its `global.json` runner selection and pass
+runner-specific switches through the existing `Arguments` property:
+
+```csharp
+new DotNetTestOptions
+{
+    Arguments = ["--project", "Tests.csproj", "--", "--filter", "Category=Unit", "--", "--report-trx"],
+    ArgumentsContainOptionTerminator = true,
+};
+```
+
+Generation does not change the runner selected when your command executes.
+`DotNetPackOptions.Version` accepts a package-version string; `Verbosity`,
+`SelfContained`, and `UseCurrentRuntime` are available where the CLI supports them.
+
 ### Handwritten command attributes
 
 | V3 | V4 |
@@ -1027,7 +1048,24 @@ custom result DTOs. Do not rename `System.IO.File` or `System.IO.Directory` call
 with `PipelineBuilderSettings.WorkingDirectory`, or set `CommandExecutionOptions.WorkingDirectory`
 for one invocation. Commands and context-relative file operations use the pipeline's directory
 without changing the process-wide current directory. Plain `new FilePath(relativePath)` and
-`System.IO` operations do not acquire that context automatically.
+`new FolderPath(relativePath)`, implicit string conversions, and `System.IO` operations
+do not acquire that context automatically: relative paths use the process current directory.
+
+Use `context.Files.GetFile` and `context.Files.GetFolder` for pipeline-relative paths.
+Resolve copy/move destinations too: even a path object obtained from the files context
+does not make a later relative string destination pipeline-relative.
+
+```csharp
+var source = context.Files.GetFile("input.txt");
+var output = context.Files.GetFolder("artifacts");
+output.Create();
+var destination = context.Files.GetFile("artifacts/copy.txt");
+await source.CopyToAsync(destination.Path, cancellationToken);
+```
+
+The same rule applies to synchronous methods and folder copy/move operations. Absolute
+destinations preserve their location. Standalone path types keep their existing resolution
+behavior; do not change the shared process directory to make concurrent pipelines agree.
 
 V4's default directory can derive from the content root or calling source project's directory;
 make it explicit if V3 depended on the directory from which the process was launched.
