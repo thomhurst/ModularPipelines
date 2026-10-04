@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis;
@@ -9,6 +10,10 @@ namespace ModularPipelines.Distributed.Redis;
 /// </summary>
 internal sealed class RedisConnectionProvider : IAsyncDisposable
 {
+    // Keep the validated snapshot for the lifetime of each options instance without retaining
+    // replaced options. Lazy ensures concurrent callers invoke the callback only once.
+    private static readonly ConditionalWeakTable<RedisOptions, Lazy<ConfigurationOptions>> Configurations = [];
+
     private readonly Func<Task<IConnectionMultiplexer>> _connect;
     private readonly bool _ownsConnection;
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -101,12 +106,18 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
         _gate.Dispose();
     }
 
-    internal static ConfigurationOptions CreateConfiguration(RedisOptions options)
+    internal static ConfigurationOptions CreateConfiguration(RedisOptions options) =>
+        Configurations.GetValue(options, static value => new Lazy<ConfigurationOptions>(
+            () => BuildConfiguration(value))).Value.Clone();
+
+    private static ConfigurationOptions BuildConfiguration(RedisOptions options)
     {
         var configuration = string.IsNullOrWhiteSpace(options.ConnectionString)
             ? new ConfigurationOptions()
             : ConfigurationOptions.Parse(options.ConnectionString);
         options.ConfigureConnection?.Invoke(configuration);
-        return configuration;
+        // The callback may retain its argument. Neither it nor an individual connection
+        // should be able to mutate the configuration that passed startup validation.
+        return configuration.Clone();
     }
 }

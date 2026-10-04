@@ -40,6 +40,14 @@ now render before the command path. Root help/version controls and root version
 format are excluded, while scan formats and registry credentials remain local.
 See the [Trivy package guide](docs/docs/mp-packages/trivy.md) for migration details.
 
+## Redis endpoint validation
+
+Redis coordinator, artifact-store, and module-cache registrations now validate the
+endpoints left by `ConfigureConnection` when the pipeline is built. Empty callbacks,
+TLS-only callbacks without endpoints, and callbacks that remove every endpoint fail
+with `OptionsValidationException`. The callback runs once per materialized options
+instance; its validated snapshot is reused for lazy connections and retries.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,

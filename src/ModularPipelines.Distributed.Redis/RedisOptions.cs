@@ -16,8 +16,10 @@ public class RedisOptions
 
     /// <summary>
     /// Gets or sets a callback that adjusts the parsed <see cref="ConfigurationOptions"/> before
-    /// connecting. Use it for values that a connection string cannot carry safely, such as a
-    /// password containing commas, or for TLS and retry settings.
+    /// startup validation. It runs once per materialized options instance, after all configuration
+    /// and post-configuration callbacks. The resulting snapshot must contain at least one endpoint
+    /// and is reused for lazy connections and retries. Use it for passwords containing commas,
+    /// TLS, and retry settings. Later changes to these options do not change that snapshot.
     /// </summary>
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
 

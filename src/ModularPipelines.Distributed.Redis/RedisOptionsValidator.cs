@@ -12,11 +12,11 @@ internal sealed class RedisOptionsValidator(IOptions<DistributedOptions> distrib
     public ValidateOptionsResult Validate(string? name, RedisOptions options)
     {
         var failures = new List<string>();
-        if (string.IsNullOrWhiteSpace(options.ConnectionString) && options.ConfigureConnection is null)
+        if (RedisConnectionProvider.CreateConfiguration(options).EndPoints.Count == 0)
         {
             failures.Add(
-                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} is required unless " +
-                $"{nameof(RedisOptions.ConfigureConnection)} supplies the endpoints.");
+                $"{nameof(RedisOptions)}.{nameof(RedisOptions.ConnectionString)} or " +
+                $"{nameof(RedisOptions.ConfigureConnection)} must supply at least one endpoint after configuration.");
         }
 
         if (string.IsNullOrWhiteSpace(options.KeyPrefix))
