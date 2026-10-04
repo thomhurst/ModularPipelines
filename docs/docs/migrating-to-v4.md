@@ -981,10 +981,27 @@ using var response = await context.Network.Http.SendAsync(
     {
         Logging = HttpLoggingOptions.Minimal,
         Timeout = TimeSpan.FromSeconds(30),
-        ThrowOnNonSuccessStatusCode = true,
     },
     cancellationToken);
 ```
+
+`HttpOptions.ThrowOnNonSuccessStatusCode` now defaults to `true`, matching commands
+and downloads. Non-success responses throw `PipelineHttpResponseException`, which
+includes the status code and response content when available. This also applies to
+the implicit string, `Uri`, and `HttpRequestMessage` conversions to `HttpOptions`.
+If your pipeline intentionally handles failure responses, opt out explicitly:
+
+```csharp
+using var response = await context.Network.Http.SendAsync(
+    new HttpOptions(new HttpRequestMessage(HttpMethod.Get, endpoint))
+    {
+        ThrowOnNonSuccessStatusCode = false,
+    },
+    cancellationToken);
+```
+
+Download helpers continue to require a successful response. Use `SendAsync` with
+the explicit opt-out when you need to inspect a failure response body.
 
 If a custom client is needed, inject one through your application DI and pass it in
 `HttpOptions.HttpClient`. The pipeline's resilience (retry) handler applies only to the default
