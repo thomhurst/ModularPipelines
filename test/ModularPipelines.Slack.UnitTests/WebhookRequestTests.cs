@@ -79,9 +79,9 @@ public class WebhookRequestTests : TestBase
         var posting = service.T.PostMessageAsync(new SlackWebHookOptions(new global::Slack.Webhooks.SlackMessage { Text = "Build passed" }, WebhookUri), cancellation.Token);
         try
         {
-            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await entered.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
             await cancellation.CancelAsync();
-            await Assert.ThrowsAsync<OperationCanceledException>(() => posting.WaitAsync(TimeSpan.FromSeconds(10)));
+            await Assert.ThrowsAsync<OperationCanceledException>(() => posting.WaitAsync(TestHostSettings.DefaultTestTimeout));
             await Assert.That(requestToken.IsCancellationRequested).IsTrue();
         }
         finally
