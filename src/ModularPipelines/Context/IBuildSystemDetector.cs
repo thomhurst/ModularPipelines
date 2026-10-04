@@ -66,11 +66,11 @@ internal interface IBuildSystemDetector
     /// Gets a value indicating whether the pipeline runs on a CI/CD build server: a known build agent
     /// was detected, or the <c>CI</c> environment variable is set to a value other than <c>false</c> or <c>0</c>.
     /// </summary>
-    bool IsBuildServer => IsKnownBuildAgent;
+    bool IsCI => IsKnownBuildAgent;
 
     /// <summary>
     /// Gets the value of the <c>CI</c> environment variable when it is the only reason
-    /// <see cref="IsBuildServer"/> is <see langword="true"/> (no known build agent was detected);
+    /// <see cref="IsCI"/> is <see langword="true"/> (no known build agent was detected);
     /// otherwise, <see langword="null"/>.
     /// </summary>
     string? CiVariableOnlyValue => null;

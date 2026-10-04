@@ -14,7 +14,7 @@ namespace ModularPipelines.Context;
 /// </para>
 /// <para>
 /// This is the single CI definition used by <see cref="OnCI"/>, <see cref="OnLocal"/>,
-/// <c>Require.Ci</c>, <c>Require.LocalEnvironment</c>, and the context extension methods.
+/// <c>Require.Ci</c>, and <c>Require.LocalEnvironment</c>.
 /// </para>
 /// </remarks>
 public interface IBuildSystemContext
@@ -31,7 +31,12 @@ public interface IBuildSystemContext
     /// <see langword="true"/> when <see cref="Current"/> is a known build system, or when the <c>CI</c>
     /// environment variable is set to a value other than <c>false</c> or <c>0</c>.
     /// </remarks>
-    bool IsBuildServer { get; }
+    bool IsCI { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the pipeline is running locally rather than in CI.
+    /// </summary>
+    bool IsLocal => !IsCI;
 
     /// <summary>
     /// Gets a value indicating whether the pipeline is running on the specified build system.

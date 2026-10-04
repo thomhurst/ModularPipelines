@@ -18,7 +18,7 @@ The platform shortcuts are `Require.Windows()`, `Require.Linux()`,
 another `OSPlatform` value.
 
 `Require.Ci()` and `Require.LocalEnvironment()` use the same CI definition as the `OnCI` and
-`OnLocal` run conditions: `IBuildSystemContext.IsBuildServer` is `true` when a known build system
+`OnLocal` run conditions: `IBuildSystemContext.IsCI` is `true` when a known build system
 is detected, or otherwise when the `CI` environment variable is set to a value other than `false`
 or `0`.
 
@@ -70,3 +70,10 @@ not imply failure.
 
 Requirements and run conditions receive `IPipelineContext`, giving them the same
 shared capability surface as global hooks. Use `IModuleContext` only inside modules.
+
+## Inspect the current environment
+
+Use `context.Environment.BuildSystem.IsCI` for CI detection and `.IsLocal` for its
+inverse. For a specific provider, use `.Is(BuildSystem.GitHubActions)` or inspect
+`.Current`. Keep `OnCI`, `OnLocal`, `Require.Ci()`, and `Require.LocalEnvironment()`
+when declaring run conditions or requirements.

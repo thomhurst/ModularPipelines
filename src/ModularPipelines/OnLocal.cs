@@ -8,7 +8,7 @@ namespace ModularPipelines;
 /// </summary>
 /// <remarks>
 /// The inverse of <see cref="OnCI"/>: no known build system is detected and the <c>CI</c> environment
-/// variable is unset, <c>false</c> or <c>0</c>. See <see cref="IBuildSystemContext.IsBuildServer"/>.
+/// variable is unset, <c>false</c> or <c>0</c>. See <see cref="IBuildSystemContext.IsCI"/>.
 /// </remarks>
 /// <example>
 /// <code>
@@ -25,6 +25,6 @@ public sealed class OnLocal : IRunCondition, IPlanningSafe
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        return Task.FromResult(!context.Environment.BuildSystem.IsBuildServer);
+        return Task.FromResult(context.Environment.BuildSystem.IsLocal);
     }
 }

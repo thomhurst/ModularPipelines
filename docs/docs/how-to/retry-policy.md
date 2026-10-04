@@ -69,7 +69,7 @@ public class MyModule : Module<CommandResult>
     protected override void Configure(ModuleConfigurationBuilder module) => module
         .WithShield(ctx =>
         {
-            var retryCount = ctx.Environment.IsCI ? 5 : 2;
+            var retryCount = ctx.Environment.BuildSystem.IsCI ? 5 : 2;
             return Shield.When<Exception>()
                 .Retry(retryCount, Backoff.Custom(i => TimeSpan.FromSeconds(i)));
         });

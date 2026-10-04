@@ -1659,7 +1659,8 @@ ModularPipelines.Context.IBashContext.RunFileAsync(string! path, ModularPipeline
 ModularPipelines.Context.IBuildSystemContext
 ModularPipelines.Context.IBuildSystemContext.Current.get -> ModularPipelines.Enums.BuildSystem
 ModularPipelines.Context.IBuildSystemContext.Is(ModularPipelines.Enums.BuildSystem buildSystem) -> bool
-ModularPipelines.Context.IBuildSystemContext.IsBuildServer.get -> bool
+ModularPipelines.Context.IBuildSystemContext.IsCI.get -> bool
+ModularPipelines.Context.IBuildSystemContext.IsLocal.get -> bool
 ModularPipelines.Context.ICertificatesContext
 ModularPipelines.Context.ICertificatesContext.GetCertificateBy(System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, System.Security.Cryptography.X509Certificates.X509FindType findType, string! findValue) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
 ModularPipelines.Context.ICertificatesContext.GetCertificateBySerialNumber(System.Security.Cryptography.X509Certificates.StoreLocation storeLocation, string! serialNumber) -> System.Security.Cryptography.X509Certificates.X509Certificate2?
@@ -3076,9 +3077,6 @@ static ModularPipelines.CommandResult.operator !=(ModularPipelines.CommandResult
 static ModularPipelines.CommandResult.operator ==(ModularPipelines.CommandResult? left, ModularPipelines.CommandResult? right) -> bool
 static ModularPipelines.Context.ContextExtensions.GetConfigValue(this ModularPipelines.IPipelineContext! context, string! key) -> string?
 static ModularPipelines.Context.ContextExtensions.GetRequiredConfigValue(this ModularPipelines.IPipelineContext! context, string! key) -> string!
-static ModularPipelines.Context.ContextExtensions.IsRunningIn(this ModularPipelines.IPipelineContext! context, ModularPipelines.Enums.BuildSystem buildSystem) -> bool
-static ModularPipelines.Context.ContextExtensions.IsRunningInCI(this ModularPipelines.IPipelineContext! context) -> bool
-static ModularPipelines.Context.ContextExtensions.IsRunningLocally(this ModularPipelines.IPipelineContext! context) -> bool
 static ModularPipelines.Capability.Docker.get -> ModularPipelines.Capability
 static ModularPipelines.Capability.FreeBSD.get -> ModularPipelines.Capability
 static ModularPipelines.Capability.Gpu.get -> ModularPipelines.Capability

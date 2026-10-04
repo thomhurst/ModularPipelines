@@ -1,5 +1,15 @@
 # ModularPipelines V4 Release Notes
 
+## CI detection
+
+Use `context.Environment.BuildSystem.IsCI` (renamed from `IsBuildServer`) and
+`context.Environment.BuildSystem.IsLocal` for the inverse. The `IsRunningInCI()`,
+`IsRunningLocally()`, and `IsRunningIn(buildSystem)` context extensions are removed;
+use the two properties or `context.Environment.BuildSystem.Is(buildSystem)`.
+`OnCI`, `OnLocal`, `Require.Ci()`, and `Require.LocalEnvironment()` remain available
+for run conditions and requirements. Detection rules are unchanged: a known build
+system or a truthy generic `CI` variable identifies CI.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2

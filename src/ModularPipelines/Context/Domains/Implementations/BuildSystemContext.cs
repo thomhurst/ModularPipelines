@@ -11,7 +11,7 @@ internal class BuildSystemContext(IBuildSystemDetector detector) : IBuildSystemC
     public BuildSystem Current => detector.Current;
 
     /// <inheritdoc />
-    public bool IsBuildServer => detector.IsBuildServer;
+    public bool IsCI => detector.IsCI;
 
     /// <inheritdoc />
     public bool Is(BuildSystem buildSystem) => detector.Is(buildSystem);

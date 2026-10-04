@@ -201,30 +201,6 @@ public class ContextExtensionsTests
             .ThrowsExactly<InvalidOperationException>();
     }
 
-    [Test]
-    [Arguments(BuildSystem.AzurePipelines)]
-    [Arguments(BuildSystem.TeamCity)]
-    [Arguments(BuildSystem.GitHubActions)]
-    [Arguments(BuildSystem.Jenkins)]
-    [Arguments(BuildSystem.GitLab)]
-    [Arguments(BuildSystem.Bitbucket)]
-    [Arguments(BuildSystem.TravisCI)]
-    [Arguments(BuildSystem.AppVeyor)]
-    [Arguments(BuildSystem.Unknown)]
-    public async Task IsRunningIn_Uses_Current_Build_System(BuildSystem buildSystem)
-    {
-        var buildSystemContext = new Mock<IBuildSystemContext>();
-        buildSystemContext.SetupGet(context => context.Current).Returns(buildSystem);
-        var environmentContext = new Mock<IEnvironmentContext>();
-        environmentContext
-            .SetupGet(context => context.BuildSystem)
-            .Returns(buildSystemContext.Object);
-        var context = new Mock<IPipelineContext>();
-        context.SetupGet(pipelineContext => pipelineContext.Environment).Returns(environmentContext.Object);
-
-        await Assert.That(context.Object.IsRunningIn(buildSystem)).IsTrue();
-    }
-
     private static ServicesContext CreateServicesContext(IServiceProvider serviceProvider)
     {
         return new ServicesContext(
