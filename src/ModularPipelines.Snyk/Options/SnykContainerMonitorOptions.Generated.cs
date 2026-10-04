@@ -161,12 +161,6 @@ public record SnykContainerMonitorOptions : SnykOptions
     public string? Password { get; set; }
 
     /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Container image to scan
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]

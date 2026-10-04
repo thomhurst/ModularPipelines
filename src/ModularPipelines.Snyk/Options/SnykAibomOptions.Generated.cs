@@ -57,10 +57,4 @@ public record SnykAibomOptions : SnykOptions
     [CliOption("--repo", Format = OptionFormat.EqualsSeparated)]
     public string? Repo { get; set; }
 
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
 }

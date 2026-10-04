@@ -33,10 +33,4 @@ public record SnykIacUpdateExcludePolicyOptions : SnykOptions
     [CliFlag("--exclude-unmanaged")]
     public bool? ExcludeUnmanaged { get; set; }
 
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
 }
