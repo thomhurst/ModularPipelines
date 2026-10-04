@@ -1505,17 +1505,17 @@ ModularPipelines.Options.CommandLoggingOptions.CommandLoggingOptions() -> void
 ModularPipelines.Options.CommandLoggingOptions.CommandLoggingOptions(ModularPipelines.Options.CommandLoggingOptions! original) -> void
 ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.IncludeTimestamps.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowCommandArguments.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowExecutionTime.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowExitCode.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowExitCode.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowExitCode.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowStandardError.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowStandardError.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowStandardError.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowStandardOutput.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowStandardOutput.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowStandardOutput.init -> void
-ModularPipelines.Options.CommandLoggingOptions.ShowWorkingDirectory.get -> bool?
+ModularPipelines.Options.CommandLoggingOptions.ShowWorkingDirectory.get -> bool
 ModularPipelines.Options.CommandLoggingOptions.ShowWorkingDirectory.init -> void
 ModularPipelines.Options.CommandLoggingOptions.Verbosity.get -> ModularPipelines.Options.CommandLogVerbosity
 ModularPipelines.Options.CommandLoggingOptions.Verbosity.init -> void
@@ -1550,22 +1550,22 @@ ModularPipelines.Options.DownloadOptions.RequestConfigurator.init -> void
 ModularPipelines.Options.HttpLoggingOptions
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions() -> void
 ModularPipelines.Options.HttpLoggingOptions.HttpLoggingOptions(ModularPipelines.Options.HttpLoggingOptions! original) -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowDuration.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowDuration.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowRequest.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowRequest.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowRequestBody.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowRequestBody.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowRequestHeaders.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowRequestHeaders.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowResponse.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowResponse.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowResponseBody.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowResponseBody.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowResponseHeaders.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowResponseHeaders.init -> void
-ModularPipelines.Options.HttpLoggingOptions.ShowStatusCode.get -> bool
-ModularPipelines.Options.HttpLoggingOptions.ShowStatusCode.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogDuration.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogDuration.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogRequest.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogRequest.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogRequestBody.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogRequestBody.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogRequestHeaders.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogRequestHeaders.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogResponse.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogResponse.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogResponseBody.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogResponseBody.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogResponseHeaders.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogResponseHeaders.init -> void
+ModularPipelines.Options.HttpLoggingOptions.LogStatusCode.get -> bool
+ModularPipelines.Options.HttpLoggingOptions.LogStatusCode.init -> void
 ModularPipelines.Options.HttpLoggingOptions.MaxBodySizeToLog.get -> int
 ModularPipelines.Options.HttpLoggingOptions.MaxBodySizeToLog.init -> void
 ModularPipelines.Options.HttpLoggingOptions.SensitiveHeaderNames.get -> System.Collections.Generic.IReadOnlyList<string!>!
@@ -2282,10 +2282,10 @@ static ModularPipelines.Options.DownloadOptions.operator !=(ModularPipelines.Opt
 static ModularPipelines.Options.DownloadOptions.operator ==(ModularPipelines.Options.DownloadOptions? left, ModularPipelines.Options.DownloadOptions? right) -> bool
 static ModularPipelines.Options.HttpLoggingOptions.Default.get -> ModularPipelines.Options.HttpLoggingOptions!
 static ModularPipelines.Options.HttpLoggingOptions.DefaultSensitiveHeaders.get -> System.Collections.Generic.IReadOnlyList<string!>!
-static ModularPipelines.Options.HttpLoggingOptions.Diagnostic.get -> ModularPipelines.Options.HttpLoggingOptions!
+static ModularPipelines.Options.HttpLoggingOptions.Full.get -> ModularPipelines.Options.HttpLoggingOptions!
 static ModularPipelines.Options.HttpLoggingOptions.Headers.get -> ModularPipelines.Options.HttpLoggingOptions!
 static ModularPipelines.Options.HttpLoggingOptions.Minimal.get -> ModularPipelines.Options.HttpLoggingOptions!
-static ModularPipelines.Options.HttpLoggingOptions.Silent.get -> ModularPipelines.Options.HttpLoggingOptions!
+static ModularPipelines.Options.HttpLoggingOptions.None.get -> ModularPipelines.Options.HttpLoggingOptions!
 static ModularPipelines.Options.HttpLoggingOptions.operator !=(ModularPipelines.Options.HttpLoggingOptions? left, ModularPipelines.Options.HttpLoggingOptions? right) -> bool
 static ModularPipelines.Options.HttpLoggingOptions.operator ==(ModularPipelines.Options.HttpLoggingOptions? left, ModularPipelines.Options.HttpLoggingOptions? right) -> bool
 static ModularPipelines.Options.HttpOptions.implicit operator ModularPipelines.Options.HttpOptions!(System.Net.Http.HttpRequestMessage! requestMessage) -> ModularPipelines.Options.HttpOptions!
