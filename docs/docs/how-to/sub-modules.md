@@ -20,6 +20,7 @@ In the example below, the `.csproj` filename identifies each sub-module.
 ## Example
 
 ```csharp
+[DependsOn<NugetVersionGeneratorModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -41,14 +42,14 @@ public class PackProjectsModule : Module<CommandResult[]>
         {
             yield return await context.RunSubModuleAsync(project.Name, token => context.Tools.DotNet.PackAsync(new DotNetPackOptions
             {
-                TargetPath = project,
-                Configuration = Configuration.Release,
-                Properties = new List<string>
-                {
-                    $"PackageVersion={packageVersion}",
-                    $"Version={packageVersion}",
-                },
-            }, token), cancellationToken);
+                ProjectSolution = project.Path,
+                Configuration = "Release",
+                Properties =
+                [
+                    new KeyValue("PackageVersion", packageVersion),
+                    new KeyValue("Version", packageVersion),
+                ],
+            }, cancellationToken: token), cancellationToken);
         }
     }
 }
