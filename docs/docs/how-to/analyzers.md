@@ -77,14 +77,17 @@ await context.Git().Commands.Config(options, token: cancellationToken);
 into:
 
 ```csharp
+using ModularPipelines.Context;
+
 await context.Tools.Git.Commands.Repository.ConfigAsync(options, cancellationToken: cancellationToken);
 ```
 
 Fixes bind each proposed replacement against the APIs installed in your project.
 A replacement is offered only when it resolves without errors to a ModularPipelines
 member. Ambiguous Git groups and calls whose arguments also need manual changes
-are left for you to resolve. Ensure the integration's extension namespace is
-imported so its `Tools` property is visible. Extension properties require a
+are left for you to resolve. Import `ModularPipelines.Context`, where the source
+generator emits the tool extension properties; an old import such as
+`ModularPipelines.Git.Extensions` does not expose them. Extension properties require a
 C# 14-capable editor/compiler.
 
 Use **Fix All** for independent occurrences. A chain of old calls can expose a

@@ -14,12 +14,13 @@ public class V4UpgradeCodeFixTests
         using System.Threading;
         using System.Threading.Tasks;
         using ModularPipelines;
-        using ModularPipelines.Extensions;
+        using ModularPipelines.Context;
         namespace ModularPipelines.TestTools
         {
             public interface IService
             {
                 Task PingAsync(CancellationToken cancellationToken = default);
+                Task StatusAsync(ModuleStatus status);
                 Task<T> EchoAsync<T>(T value, CancellationToken cancellationToken = default);
                 object Stop(CancellationToken cancellationToken = default);
             }
@@ -31,6 +32,7 @@ public class V4UpgradeCodeFixTests
             {
                 IRepository Repository { get; }
                 IHistory History { get; }
+                IRemotes Remotes { get; }
             }
             public interface IRepository
             {
@@ -38,8 +40,9 @@ public class V4UpgradeCodeFixTests
                 Task SharedAsync();
             }
             public interface IHistory { Task SharedAsync(); }
+            public interface IRemotes { Task PushAsync(string options, CancellationToken cancellationToken = default); }
         }
-        namespace ModularPipelines.Extensions
+        namespace ModularPipelines.Context
         {
             public static class ToolExtensions
             {
@@ -55,10 +58,12 @@ public class V4UpgradeCodeFixTests
     [TestMethod]
     [DataRow("context.Service()", "context.Tools.Service")]
     [DataRow("context.Tools.Service.Ping()", "context.Tools.Service.PingAsync()")]
+    [DataRow("context.Tools.Service.Status(ModuleStatus.Successful)", "context.Tools.Service.StatusAsync(ModuleStatus.Succeeded)")]
     [DataRow("context.Tools.Service.Ping(token: ct)", "context.Tools.Service.PingAsync(cancellationToken: ct)")]
     [DataRow("context.Tools.Service.Stop(token: ct)", "context.Tools.Service.Stop(cancellationToken: ct)")]
     [DataRow("context.Tools.Service.Echo<string>(\"hello\", token: ct)", "context.Tools.Service.EchoAsync<string>(\"hello\", cancellationToken: ct)")]
     [DataRow("context.Git().Commands.Config(\"option\", token: ct)", "context.Tools.Git.Commands.Repository.ConfigAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context.Git().Push(\"option\", token: ct)", "context.Tools.Git.Commands.Remotes.PushAsync(\"option\", cancellationToken: ct)")]
     [DataRow("context.Tools.Git.Commands.ConfigAsync(\"option\", cancellationToken: ct)", "context.Tools.Git.Commands.Repository.ConfigAsync(\"option\", cancellationToken: ct)")]
     public async Task Upgrades_Only_When_Replacement_Binds(string original, string expected)
     {
@@ -73,6 +78,21 @@ public class V4UpgradeCodeFixTests
         Assert.HasCount(0, errors, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
         var expression = result.DescendantNodes().OfType<MethodDeclarationSyntax>().Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
         Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("IPipelineContext")]
+    [DataRow("ModularPipelines.Events.IModuleHookContext")]
+    [DataRow("DerivedContext")]
+    public async Task Upgrades_Pipeline_And_Hook_Context_Tools(string contextType)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync(Api + $$"""
+            interface DerivedContext : IPipelineContext { }
+            class Example { object Run({{contextType}} context) => context.Service(); }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.HasCount(0, errors);
+        Assert.Contains("context.Tools.Service", root.ToString());
     }
 
     [TestMethod]
@@ -94,6 +114,7 @@ public class V4UpgradeCodeFixTests
 
     [TestMethod]
     [DataRow("context.Tools.Git.Commands.Shared()")]
+    [DataRow("context.Tools.Git.Shared()")]
     [DataRow("context.Tools.Service.Echo(123, 456)")]
     [DataRow("context.MissingTool()")]
     [DataRow("context.Tools.Service.PingAsync()")]
