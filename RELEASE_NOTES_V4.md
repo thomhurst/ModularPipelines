@@ -143,6 +143,8 @@ subcommand. Existing property initializers continue to work, except repeatable
 `TrustedHost`, `ExistsAction`, `UseFeature`, and `UseDeprecated` now accept
 `IEnumerable<string>`: replace `TrustedHost = "packages.example"` with
 `TrustedHost = ["packages.example"]`.
+Command-specific dependency groups also accept collections: use
+`Group = ["development", "testing"]` on install, download, wheel, or lock options.
 
 `Debug`, `Isolated`, `RequireVirtualenv`, `Version`, and `DisablePipVersionCheck` are boolean
 flags. `Python`, `KeyringProvider`, and `ResumeRetries` take values. Proxy URLs are
