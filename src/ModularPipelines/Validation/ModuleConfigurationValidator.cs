@@ -51,11 +51,11 @@ internal class ModuleConfigurationValidator : IModuleConfigurationValidator
 
         // Validate timeout configuration from module configuration
         var timeout = module.Configuration.Timeout;
-        if (timeout.HasValue && timeout.Value <= TimeSpan.Zero)
+        if (timeout.HasValue && timeout.Value != Timeout.InfiniteTimeSpan && timeout.Value <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.ModuleConfiguration,
-                $"Module '{moduleType.Name}' has an invalid timeout value: {timeout.Value}. Timeout must be positive.",
+                $"Module '{moduleType.Name}' has an invalid timeout value: {timeout.Value}. Timeout must be positive or Timeout.InfiniteTimeSpan.",
                 moduleType));
         }
 
