@@ -124,6 +124,13 @@ Each backend registration has exactly two overloads: one taking an `Action<TOpti
 registering a second, different backend throws `InvalidOperationException` instead of silently replacing
 the first. Registering the same backend again is a no-op apart from applying the extra configuration.
 
+The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and
+`AddDistributedArtifactStoreFactory<TFactory>()`: do not mix a direct store and a factory,
+regardless of registration order. Repeating the same typed registration is a no-op. Keyed
+services are independent, and pipelines without an explicit store retain the default filesystem store.
+In V4, direct store registration no longer silently removes an earlier factory; choose one backend
+at the registration call site instead.
+
 ## ArtifactOptions
 
 `ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the

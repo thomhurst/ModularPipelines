@@ -107,22 +107,18 @@ public class ArtifactContextApiTests
     }
 
     [Test]
-    public async Task Direct_Artifact_Store_Overrides_Earlier_Factory()
+    public async Task Direct_Artifact_Store_Rejects_Earlier_Factory()
     {
         var builder = TestPipelineBuilder.Create()
             .AddModule<ArtifactTestModule>()
-            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>()
-            .AddDistributedArtifactStore<TestArtifactStore>();
+            .AddDistributedArtifactStoreFactory<TestArtifactStoreFactory>();
+        var registrations = builder.Services.ToArray();
 
-        await using var pipeline = await builder.BuildAsync();
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            builder.AddDistributedArtifactStore<TestArtifactStore>());
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(pipeline.Services.GetRequiredService<IDistributedArtifactStore>())
-                .IsTypeOf<TestArtifactStore>();
-            await Assert.That(pipeline.Services.GetService<IDistributedArtifactStoreFactory>())
-                .IsNull();
-        }
+        await Assert.That(exception.Message).Contains("artifact store backend");
+        await Assert.That(builder.Services.SequenceEqual(registrations)).IsTrue();
     }
 
     [Test]
