@@ -7,11 +7,12 @@ namespace ModularPipelines.Context;
 /// Provides functionality for executing PowerShell scripts and commands.
 /// </summary>
 /// <remarks>
-/// This interface enables running PowerShell scripts either inline or from script files.
-/// PowerShell execution is platform-dependent; on Windows it uses Windows PowerShell,
-/// while on Linux/macOS it uses PowerShell Core (pwsh) if available.
+/// Use <c>context.Shell.PowerShell</c> for scripts that require PowerShell syntax,
+/// cmdlets, or object pipelines, and for PowerShell script files.
+/// The default executable is <c>pwsh</c> on all platforms and must be installed.
 /// For bash-specific execution, see <see cref="IBashContext"/>.
-/// For general command execution, see <see cref="ICommandContext"/>.
+/// For general command-line tool execution, use <c>context.Shell.RunAsync</c>, provided by
+/// <see cref="IShellContext.RunAsync(string, IReadOnlyList{string}, CommandExecutionOptions, CancellationToken)"/>.
 /// </remarks>
 public interface IPowerShellContext
 {
