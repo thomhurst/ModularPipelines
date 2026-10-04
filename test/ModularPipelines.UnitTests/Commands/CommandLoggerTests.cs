@@ -78,7 +78,7 @@ public class CommandLoggerTests : TestBase
         });
 
         var commandResult = await result.T.ExecuteCommandLineToolAsync(
-            new PowerShellScriptOptions($"Write-Output '{rawOutput}'"),
+            CreateOutputCommand(rawOutput),
             new CommandExecutionOptions
             {
                 Logging = new CommandLoggingOptions
@@ -106,7 +106,7 @@ public class CommandLoggerTests : TestBase
         var command = await GetService<ICommandContext>();
 
         var result = await command.ExecuteCommandLineToolAsync(
-            new PowerShellScriptOptions($"Write-Output '{firstLine}'; Write-Output '{secondLine}'"),
+            CreateOutputCommand(firstLine, secondLine),
             new CommandExecutionOptions
             {
                 MaxCapturedOutputLength = 10,
@@ -122,6 +122,15 @@ public class CommandLoggerTests : TestBase
             output.Contains(firstLine, StringComparison.Ordinal)
             && output.Contains(secondLine, StringComparison.Ordinal)
             && !output.Contains("truncated", StringComparison.Ordinal));
+    }
+
+    private static CommandLineToolOptions CreateOutputCommand(params string[] lines)
+    {
+        var runtimeConfiguration = Path.ChangeExtension(typeof(CommandLoggerTests).Assembly.Location, ".runtimeconfig.json");
+        return new CommandLineToolOptions("dotnet")
+        {
+            Arguments = ["exec", "--runtimeconfig", runtimeConfiguration, typeof(ModularPipelines.ProcessTestHost.Host).Assembly.Location, "write-output", .. lines],
+        };
     }
 
     [Test]
