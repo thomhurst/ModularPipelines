@@ -17,7 +17,7 @@ public static class CliGlobalOptionMerger
 
         var optionsBySwitch = new Dictionary<string, CliOptionDefinition>(StringComparer.OrdinalIgnoreCase);
         var switchByProperty = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var primarySwitchByAlias = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var primarySwitchByAlias = new Dictionary<string, string>(StringComparer.Ordinal);
 
         foreach (var option in scrapedOptions.Concat(supplementalOptions))
         {
@@ -136,6 +136,6 @@ public static class CliGlobalOptionMerger
 
     private static bool StringEquals(string? left, string? right)
     {
-        return string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(left, right, StringComparison.Ordinal);
     }
 }
