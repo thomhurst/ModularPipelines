@@ -40,13 +40,17 @@
     <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All" Condition="$(MSBuildProjectFile.Contains('Test')) == false and ('$(GITHUB_ACTIONS)' != 'true' or '$(EnableCiAnalyzers)' == 'true')" />
   </ItemGroup>
 
-  <!-- Track the core public API only; generated CLI integrations do not maintain baselines. -->
-  <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+  <!-- Baselines opt handwritten packages into API tracking. Generated CLI snapshots are excluded. -->
+  <PropertyGroup>
+    <_GeneratedCommandCoverageCount Condition="Exists('$(MSBuildProjectDirectory)/Generated')">$([System.IO.Directory]::GetFiles('$(MSBuildProjectDirectory)/Generated', '*.CommandCoverage.json').Length)</_GeneratedCommandCoverageCount>
+    <_TrackPublicApi Condition="Exists('$(MSBuildProjectDirectory)/PublicAPI.Shipped.txt') and Exists('$(MSBuildProjectDirectory)/PublicAPI.Unshipped.txt') and ('$(_GeneratedCommandCoverageCount)' == '' or '$(_GeneratedCommandCoverageCount)' == '0')">true</_TrackPublicApi>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(_TrackPublicApi)' == 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="All" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
-    <!-- Keep the core public API baseline enforced in ordinary CI builds. -->
+  <PropertyGroup Condition="'$(_TrackPublicApi)' == 'true' and ('$(GITHUB_ACTIONS)' == 'true' or '$(EnableCiAnalyzers)' == 'true')">
+    <!-- Keep handwritten public API baselines enforced in ordinary CI builds. -->
     <EnableNETAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true' and '$(EnableCiAnalyzers)' != 'true'">false</EnableNETAnalyzers>
     <RunAnalyzers Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzers>
     <RunAnalyzersDuringBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</RunAnalyzersDuringBuild>

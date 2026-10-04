@@ -200,3 +200,14 @@ ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember.IsRequired
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.RequiredWhen.get -> ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember?
+ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.RequiredWhen.init -> void
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.GetHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.DelayBeforeRepeatAsync(System.TimeSpan delay, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.PreserveCommandGroupPlaceholders.get -> bool
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetHelpArguments(string![]! commandPath) -> string!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.GetUsageOptions(System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PackerCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
+static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseArgumentGroups(string! section, System.Func<string!, ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition?>! parseArgument, System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlySet<string!>!>? optionalOptionGroups = null) -> ModularPipelines.OptionsGenerator.Models.CliArgumentGroup!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.GetHelpArguments(string![]! commandPath) -> string!
+*REMOVED*static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ParseArgumentGroups(string! section, System.Func<string!, ModularPipelines.OptionsGenerator.Models.CliArgumentDefinition?>! parseArgument) -> ModularPipelines.OptionsGenerator.Models.CliArgumentGroup!
