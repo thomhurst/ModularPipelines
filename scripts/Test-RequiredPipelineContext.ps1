@@ -22,7 +22,8 @@ foreach ($runFull in @('true', 'false', '', 'invalid')) {
                     try {
                         & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration $generated `
                             -FastFailResult $fastResult -FullPipelineResult $fullResult `
-                            -GeneratedIntegrationResult $generatedResult -CrossPlatformBuildResult $crossPlatformResult *> $null
+                            -GeneratedIntegrationResult $generatedResult -CrossPlatformBuildResult $crossPlatformResult `
+                            -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                     }
                     catch {
                         $passed = $false
@@ -52,7 +53,8 @@ foreach ($runFull in @('true', 'false')) {
                     & $assertScript -RunFullPipeline $runFull -IsGeneratedIntegration 'false' `
                         -FastFailResult 'success' -FullPipelineResult $fullResult -GeneratedIntegrationResult 'skipped' `
                         -Distributed $distributed -WorkerPipelineResult $workerResult `
-                        -CrossPlatformBuildResult $crossPlatformResult *> $null
+                        -CrossPlatformBuildResult $crossPlatformResult `
+                        -RunIntegrationValidation 'false' -IntegrationResult 'skipped' *> $null
                 }
                 catch {
                     $passed = $false
@@ -66,6 +68,35 @@ foreach ($runFull in @('true', 'false')) {
     }
 }
 Write-Host "Required runner routing: $runnerCaseCount cases passed."
+
+$integrationCaseCount = 0
+foreach ($runIntegration in @('true', 'false', '', 'invalid')) {
+    foreach ($integrationResult in @('success', 'failure', 'cancelled', 'skipped')) {
+        foreach ($route in @('full', 'generated', 'fast-only')) {
+            $full = $route -eq 'full'
+            $generated = $route -eq 'generated'
+            $expectedResult = if ($runIntegration -eq 'true') { 'success' } else { 'skipped' }
+            $shouldPass = $runIntegration -in @('true', 'false') -and
+                -not ($generated -and $runIntegration -eq 'true') -and $integrationResult -eq $expectedResult
+            $passed = $true
+            try {
+                & $assertScript -RunFullPipeline $full.ToString().ToLowerInvariant() `
+                    -IsGeneratedIntegration $generated.ToString().ToLowerInvariant() `
+                    -FastFailResult success -FullPipelineResult $(if ($full) { 'success' } else { 'skipped' }) `
+                    -CrossPlatformBuildResult $(if ($full) { 'success' } else { 'skipped' }) `
+                    -GeneratedIntegrationResult $(if ($generated) { 'success' } else { 'skipped' }) `
+                    -RunIntegrationValidation $runIntegration -IntegrationResult $integrationResult *> $null
+            }
+            catch { $passed = $false }
+            if ($passed -ne $shouldPass) {
+                throw "Unexpected integration gate: route=$route required=$runIntegration result=$integrationResult."
+            }
+            $integrationCaseCount++
+        }
+    }
+}
+Write-Host "Required integration routing: $integrationCaseCount cases passed."
+
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
@@ -76,12 +107,14 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
-             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration]',
              'if: always()',
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
              '-CrossPlatformBuildResult ''${{ needs.cross-platform-build.result }}''',
+             '-RunIntegrationValidation ''${{ needs.fast-fail.outputs.run_integration_validation }}''',
+             '-IntegrationResult ''${{ needs.changed-integration.result }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'
          )) {
     if (-not $requiredJob.Contains($requiredText, [StringComparison]::Ordinal)) {

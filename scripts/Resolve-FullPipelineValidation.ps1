@@ -7,13 +7,14 @@ param(
     [Parameter(ParameterSetName = 'Git')][string]$HeadSha = 'HEAD',
     [Parameter(ParameterSetName = 'Git')][string]$RepositoryRoot = (Split-Path $PSScriptRoot -Parent),
     [Parameter(Mandatory, ParameterSetName = 'Paths')][AllowEmptyCollection()][string[]]$ChangedPath,
+    [ValidateSet('true', 'false')][string]$IsGeneratedIntegration = 'false',
     [string]$GitHubOutput
 )
 
 $ErrorActionPreference = 'Stop'
 
 # Include the core's dependencies, tests, and shared build inputs. CLI integrations
-# and the options generator have their own validation and do not require this suite.
+# have a changed-package matrix; the options generator has its own validation.
 $corePaths = @(
     'src/ModularPipelines/*',
     'src/ModularPipelines.Cmd/*',
@@ -49,6 +50,8 @@ $corePaths = @(
     '.github/workflows/dotnet.yml',
     'scripts/Resolve-FullPipelineValidation.ps1',
     'scripts/Test-FullPipelineValidation.ps1',
+    'scripts/Resolve-ChangedIntegrationValidation.ps1',
+    'scripts/Test-ChangedIntegrationValidation.ps1',
     'scripts/Assert-RequiredPipelineContext.ps1',
     'scripts/Test-RequiredPipelineContext.ps1',
     'scripts/Resolve-DistributedBuildMatrix.ps1',
@@ -95,8 +98,20 @@ foreach ($path in $ChangedPath) {
     }
 }
 
+if ($IsGeneratedIntegration -eq 'true' -and ($EventName -ne 'pull_request' -or $runFullPipeline)) {
+    throw 'Focused generated integration validation requires an integration-only pull request.'
+}
+$integrations = & (Join-Path $PSScriptRoot 'Resolve-ChangedIntegrationValidation.ps1') `
+    -ChangedPath @($ChangedPath | Where-Object { $_ }) `
+    -RepositoryRoot $RepositoryRoot `
+    -IsGeneratedIntegration ($IsGeneratedIntegration -eq 'true')
+
 if ($GitHubOutput) {
     "run_full_pipeline=$($runFullPipeline.ToString().ToLowerInvariant())" |
+        Add-Content -LiteralPath $GitHubOutput -Encoding utf8
+    "run_integration_validation=$($integrations.Required.ToString().ToLowerInvariant())" |
+        Add-Content -LiteralPath $GitHubOutput -Encoding utf8
+    "integration_matrix=$($integrations.Matrix | ConvertTo-Json -Depth 4 -Compress)" |
         Add-Content -LiteralPath $GitHubOutput -Encoding utf8
 }
 

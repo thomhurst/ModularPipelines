@@ -139,7 +139,7 @@ try {
     Assert-Route 'GitHub output' $false @{
         EventName = 'push'; ChangedPath = $unrelatedPaths; GitHubOutput = $outputPath
     }
-    if ((Get-Content $outputPath -Raw).Trim() -ne 'run_full_pipeline=false') {
+    if ((Get-Content $outputPath) -notcontains 'run_full_pipeline=false') {
         throw 'Expected a lowercase boolean GitHub output.'
     }
 }
