@@ -9,6 +9,21 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PipCliScraperTests
 {
     [Test]
+    [Arguments("install")]
+    [Arguments("download")]
+    [Arguments("wheel")]
+    [Arguments("lock")]
+    public async Task Dependency_Groups_Accept_Repeated_Values(string verb)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", $"pip-25.3-{verb}-help.txt"));
+        var command = await new TestPipCliScraper().Parse(["pip", verb], help);
+        var group = command!.Options.Single(option => option.SwitchName == "--group");
+
+        await Assert.That(group.AcceptsMultipleValues).IsTrue();
+        await Assert.That(group.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
     [Arguments("--debug", true, false)]
     [Arguments("--isolated", true, false)]
     [Arguments("--require-virtualenv", true, false)]
