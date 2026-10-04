@@ -64,6 +64,7 @@
 - [Custom Commands](/docs/next/how-to/custom-commands.md): Many common CLI tools, such as npm, yarn, dotnet, docker, kubectl, have all had strong objects created to wrap around their CLI commands.
 - [Defining Modules](/docs/next/how-to/defining-modules.md): Defining Modules
 - [Execution and Dependencies](/docs/next/how-to/execution-and-dependencies.md): The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible.
+- [Files and folders](/docs/next/how-to/file-system.md): Use context.Files.GetFile(path) and context.Files.GetFolder(path) for paths
 - [Using F#](/docs/next/how-to/fsharp.md): ModularPipelines modules can be authored and executed from an F# project. Inherit
 - [Generate a private CLI integration](/docs/next/how-to/generate-private-cli-integration.md): ModularPipelines.OptionsGenerator is a .NET tool that generates the same strongly typed
 - [Hooks](/docs/next/how-to/hooks.md): Module lifecycle behavior has three extension points:
