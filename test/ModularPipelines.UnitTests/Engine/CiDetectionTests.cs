@@ -8,7 +8,7 @@ namespace ModularPipelines.UnitTests.Engine;
 
 /// <summary>
 /// Verifies that every CI check (<see cref="OnCI"/>, <see cref="OnLocal"/>, <c>Require.Ci</c>,
-/// <c>Require.LocalEnvironment</c> and <see cref="IBuildSystemContext.IsBuildServer"/>) shares one definition.
+/// <c>Require.LocalEnvironment</c> and <see cref="IBuildSystemContext.IsCI"/>) shares one definition.
 /// </summary>
 public class CiDetectionTests
 {
@@ -34,9 +34,8 @@ public class CiDetectionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(context.Environment.BuildSystem.IsBuildServer).IsEqualTo(expectedCi);
-            await Assert.That(context.IsRunningInCI()).IsEqualTo(expectedCi);
-            await Assert.That(context.IsRunningLocally()).IsEqualTo(!expectedCi);
+            await Assert.That(context.Environment.BuildSystem.IsCI).IsEqualTo(expectedCi);
+            await Assert.That(context.Environment.BuildSystem.IsLocal).IsEqualTo(!expectedCi);
             await Assert.That(onCi).IsEqualTo(expectedCi);
             await Assert.That(onLocal).IsEqualTo(!expectedCi);
             await Assert.That(requireCi.IsSatisfied).IsEqualTo(expectedCi);
@@ -64,7 +63,7 @@ public class CiDetectionTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(buildSystem.IsBuildServer).IsTrue();
+            await Assert.That(buildSystem.IsCI).IsTrue();
             await Assert.That(buildSystem.Current).IsEqualTo(BuildSystem.Unknown);
         }
     }

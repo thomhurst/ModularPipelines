@@ -59,7 +59,7 @@ internal class BuildSystemDetector : IBuildSystemDetector
 
     public string? MatchedEnvironmentVariable => _detection.Value.EnvironmentVariable;
 
-    public bool IsBuildServer => Current != BuildSystem.Unknown || CiVariableOnlyValue is not null;
+    public bool IsCI => Current != BuildSystem.Unknown || CiVariableOnlyValue is not null;
 
     public string? CiVariableOnlyValue
     {

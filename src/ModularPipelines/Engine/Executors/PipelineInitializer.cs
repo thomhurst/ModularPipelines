@@ -117,7 +117,7 @@ internal class PipelineInitializer(
             LogLevel.Information,
             new EventId(3, nameof(LogCiVariableOnly)),
             "Treating this run as CI because CI={CiValue} and no known build agent was detected. "
-            + "OnCI, OnLocal, Require.Ci() and IsBuildServer follow this decision; unset CI or set it to false or 0 to run as local.");
+            + "OnCI, OnLocal, Require.Ci() and IsCI follow this decision; unset CI or set it to false or 0 to run as local.");
 
     private readonly IDependencyDetector _dependencyDetector = dependencyDetector;
     private readonly IRequirementChecker _requirementsChecker = requirementsChecker;

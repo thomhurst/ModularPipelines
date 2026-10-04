@@ -1,5 +1,15 @@
 # ModularPipelines V4 Release Notes
 
+## CI detection
+
+Use `context.Environment.BuildSystem.IsCI` (renamed from `IsBuildServer`) and
+`context.Environment.BuildSystem.IsLocal` for the inverse. The `IsRunningInCI()`,
+`IsRunningLocally()`, and `IsRunningIn(buildSystem)` context extensions are removed;
+use the two properties or `context.Environment.BuildSystem.Is(buildSystem)`.
+`OnCI`, `OnLocal`, `Require.Ci()`, and `Require.LocalEnvironment()` remain available
+for run conditions and requirements. Detection rules are unchanged: a known build
+system or a truthy generic `CI` variable identifies CI.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
@@ -443,7 +453,7 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - `IModuleRegistrationContext.Services` is removed.
 - `PluginRegistry` and `PluginTestHelper` are removed. `IModularPipelinesPlugin` has `Name` and
   `Configure(PipelineBuilder)`; register plugins with `builder.AddPlugin<T>()` or `AddPlugin(instance)`.
-- `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)` and `IsBuildServer` instead of one flag per CI
+- `IBuildSystemContext` exposes `Current`, `Is(BuildSystem)`, `IsCI` and `IsLocal` instead of one flag per CI
   system. `OnCI`, `OnLocal` and `Require.Ci()` share one CI definition. A truthy `CI` variable marks the run as
   CI even when no known build agent is detected; the pipeline logs this once at startup.
 - `ISecretObfuscator` is internal; provide secrets through `ISecretRegistry`, `[SecretValue]` or

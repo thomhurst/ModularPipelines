@@ -152,7 +152,7 @@ public class BuildSystemDetectorTests : TestBase
             .Returns(ciValue);
 
         await Assert.That(_buildSystemDetector.CiVariableOnlyValue).IsEqualTo(expected);
-        await Assert.That(_buildSystemDetector.IsBuildServer).IsEqualTo(expected is not null);
+        await Assert.That(_buildSystemDetector.IsCI).IsEqualTo(expected is not null);
     }
 
     [Test]
@@ -166,6 +166,6 @@ public class BuildSystemDetectorTests : TestBase
             .Returns("true");
 
         await Assert.That(_buildSystemDetector.CiVariableOnlyValue).IsNull();
-        await Assert.That(_buildSystemDetector.IsBuildServer).IsTrue();
+        await Assert.That(_buildSystemDetector.IsCI).IsTrue();
     }
 }

@@ -217,7 +217,7 @@ public static class Require
     /// <summary>
     /// Creates a requirement that the pipeline is running in a CI environment.
     /// </summary>
-    /// <remarks>Uses <see cref="IBuildSystemContext.IsBuildServer"/>.</remarks>
+    /// <remarks>Uses <see cref="IBuildSystemContext.IsCI"/>.</remarks>
     /// <param name="failureReason">Optional custom failure message. Defaults to a standard message.</param>
     /// <param name="order">The evaluation order. Lower values are evaluated first. Default is 0.</param>
     /// <returns>A pipeline requirement that checks for CI environment.</returns>
@@ -231,14 +231,14 @@ public static class Require
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            ctx => ctx.Environment.BuildSystem.IsBuildServer,
+            ctx => ctx.Environment.BuildSystem.IsCI,
             failureReason ?? "This pipeline must run in a CI environment",
             order);
 
     /// <summary>
     /// Creates a requirement that the pipeline is NOT running in a CI environment (i.e., running locally).
     /// </summary>
-    /// <remarks>Uses <see cref="IBuildSystemContext.IsBuildServer"/>.</remarks>
+    /// <remarks>Uses <see cref="IBuildSystemContext.IsLocal"/>.</remarks>
     /// <param name="failureReason">Optional custom failure message. Defaults to a standard message.</param>
     /// <param name="order">The evaluation order. Lower values are evaluated first. Default is 0.</param>
     /// <returns>A pipeline requirement that checks for local environment.</returns>
@@ -252,7 +252,7 @@ public static class Require
         string? failureReason = null,
         int order = 0)
         => new DelegateRequirement(
-            ctx => !ctx.Environment.BuildSystem.IsBuildServer,
+            ctx => ctx.Environment.BuildSystem.IsLocal,
             failureReason ?? "This pipeline must run locally (not in CI)",
             order);
 

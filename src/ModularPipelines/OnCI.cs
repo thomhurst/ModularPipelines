@@ -7,7 +7,7 @@ namespace ModularPipelines;
 /// A condition that returns true when running in a CI environment.
 /// </summary>
 /// <remarks>
-/// Uses <see cref="IBuildSystemContext.IsBuildServer"/>: a known build system is detected, or the
+/// Uses <see cref="IBuildSystemContext.IsCI"/>: a known build system is detected, or the
 /// <c>CI</c> environment variable is set to a value other than <c>false</c> or <c>0</c>.
 /// </remarks>
 /// <example>
@@ -25,6 +25,6 @@ public sealed class OnCI : IRunCondition, IPlanningSafe
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        return Task.FromResult(context.Environment.BuildSystem.IsBuildServer);
+        return Task.FromResult(context.Environment.BuildSystem.IsCI);
     }
 }
