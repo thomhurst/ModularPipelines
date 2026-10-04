@@ -226,20 +226,22 @@ internal class ArtifactContextImpl(
         provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
         var destinationDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(destinationPath) : destinationPath;
-        var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
+        var destinationPrefix = destinationDirectory.EndsWith(provider.DirectorySeparatorChar)
             ? destinationDirectory
-            : destinationDirectory + Path.DirectorySeparatorChar;
+            : destinationDirectory + provider.DirectorySeparatorChar;
         var pathComparison = GetArchivePathComparison(provider);
         CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
 
         foreach (var entry in archive.Entries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            // Normalize provider separators before host canonicalization and containment checks.
-            // A slash-based Unix provider can retain a literal backslash in an entry name.
+            // ZIP uses '/', but legacy archives may also use the provider's separator.
+            // Custom-provider segments must never be interpreted using the host's path rules.
             var entryName = entry.FullName.Replace(provider.DirectorySeparatorChar, '/');
             var isDirectory = entryName.EndsWith('/');
-            var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entryName));
+            var entryPath = provider is SystemFileSystemProvider
+                ? Path.GetFullPath(Path.Combine(destinationDirectory, entryName))
+                : GetProviderArchivePath(provider, destinationDirectory, entryName);
             // A root directory entry needs no work; every other entry must be below it.
             if (isDirectory && string.Equals(entryPath, destinationDirectory, pathComparison))
             {
@@ -263,6 +265,45 @@ internal class ArtifactContextImpl(
         }
     }
 
+    private static string GetProviderArchivePath(IFileSystemProvider provider, string root, string entryName)
+    {
+        if (entryName.StartsWith('/') ||
+            (provider.DirectorySeparatorChar == '\\' && entryName.Length >= 2 && entryName[1] == ':'))
+        {
+            throw new IOException($"Archive entry '{entryName}' must be relative to the destination directory.");
+        }
+
+        var segments = new List<string>();
+        foreach (var segment in entryName.Split('/', StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (segment == ".")
+            {
+                continue;
+            }
+
+            if (segment == "..")
+            {
+                if (segments.Count == 0)
+                {
+                    throw new IOException($"Extracting '{entryName}' would leave the destination directory.");
+                }
+
+                segments.RemoveAt(segments.Count - 1);
+            }
+            else
+            {
+                segments.Add(segment);
+            }
+        }
+
+        return segments.Count == 0 ? root : AppendProviderPath(provider, root, string.Join(provider.DirectorySeparatorChar, segments));
+    }
+
+    private static string AppendProviderPath(IFileSystemProvider provider, string directory, string relativePath) =>
+        directory.EndsWith(provider.DirectorySeparatorChar)
+            ? directory + relativePath
+            : directory + provider.DirectorySeparatorChar + relativePath;
+
     private static async Task ExtractArchiveFileAsync(
         ZipArchiveEntry entry,
         IFileSystemProvider provider,
@@ -272,7 +313,9 @@ internal class ArtifactContextImpl(
         StringComparison pathComparison,
         CancellationToken cancellationToken)
     {
-        var entryDirectory = Path.GetDirectoryName(entryPath);
+        var entryDirectory = provider is SystemFileSystemProvider
+            ? Path.GetDirectoryName(entryPath)
+            : entryPath[..Math.Max(destinationDirectory.Length, entryPath.LastIndexOf(provider.DirectorySeparatorChar))];
         if (!string.IsNullOrEmpty(entryDirectory))
         {
             CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
@@ -300,7 +343,7 @@ internal class ArtifactContextImpl(
 
         // A new sibling file receives the archive mode through the OS umask even
         // when replacing an existing destination. Cancellation leaves that file intact.
-        var temporaryPath = Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
+        var temporaryPath = AppendProviderPath(provider, entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
         if (provider is SystemFileSystemProvider)
         {
             temporaryPath = Path.GetFullPath(temporaryPath);
@@ -354,17 +397,17 @@ internal class ArtifactContextImpl(
             return;
         }
 
-        var relativePath = Path.GetRelativePath(destinationDirectory, path);
-        if (relativePath == ".")
+        var relativePath = provider is SystemFileSystemProvider
+            ? Path.GetRelativePath(destinationDirectory, path)
+            : path[destinationDirectory.Length..].TrimStart(provider.DirectorySeparatorChar);
+        if (relativePath is "" or ".")
         {
             return;
         }
 
-        foreach (var segment in relativePath.Split(
-                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
-                     StringSplitOptions.RemoveEmptyEntries))
+        foreach (var segment in relativePath.Split(provider.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
-            currentPath = Path.Combine(currentPath, segment);
+            currentPath = AppendProviderPath(provider, currentPath, segment);
             try
             {
                 EnsurePathIsNotLink(provider, currentPath);
