@@ -115,7 +115,8 @@ MSBuild aliases, including `UseCurrentRuntime`, `SelfContained`, and `Verbosity`
 
 `DotNetTestOptions` is generated from the selected SDK's default VSTest help,
 independently of the repository's `global.json` test-runner setting. It exposes
-`Filter`, `Logger`, `Collect`, `Settings`, and the `Blame` options. MTP-only members
+`Filter`, `Logger`, `Collect`, `Settings`, and the `Blame` options. `ProjectSolution`
+specifies the optional VSTest project, solution, directory, DLL, or EXE target. MTP-only members
 such as `Project`, `Solution`, `TestModules`, `PlatformOptions`, and
 `ExtensionOptions` are no longer generated. This does not change the runner chosen
 when your command executes. When using Microsoft.Testing.Platform, retain its

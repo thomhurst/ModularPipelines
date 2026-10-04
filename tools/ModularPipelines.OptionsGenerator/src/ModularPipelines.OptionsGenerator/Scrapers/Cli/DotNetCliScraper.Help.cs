@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -29,7 +30,14 @@ public partial class DotNetCliScraper
         }
         finally
         {
-            directory.Delete(recursive: true);
+            try
+            {
+                directory.Delete(recursive: true);
+            }
+            catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+            {
+                Logger.LogWarning(exception, "Could not delete temporary dotnet help directory {Directory}", directory.FullName);
+            }
         }
     }
 }
