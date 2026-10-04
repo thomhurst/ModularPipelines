@@ -48,6 +48,15 @@ TLS-only callbacks without endpoints, and callbacks that remove every endpoint f
 with `OptionsValidationException`. The callback runs once per materialized options
 instance; its validated snapshot is reused for lazy connections and retries.
 
+## Upgrade code fixes
+
+The analyzer package now offers **Upgrade to ModularPipelines V4** quick actions
+for mechanical tool-access, async method, cancellation-token argument, Git command
+group, and `ModuleStatus` migrations. Fixes validate against installed APIs and
+leave ambiguous replacements unchanged. See the
+[upgrade code-fix guidance](docs/docs/how-to/analyzers.md#v3-to-v4-upgrade-code-fixes)
+for examples and staged Fix All behavior.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
