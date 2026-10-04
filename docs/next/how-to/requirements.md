@@ -12,7 +12,7 @@ builder.AddRequirement(Require.Ci("Publishing can only run in CI"));
 
 The platform shortcuts are `Require.Windows()`, `Require.Linux()`, `Require.MacOS()`, and `Require.WindowsAdmin()`. Use `Require.Platform(...)` for another `OSPlatform` value.
 
-`Require.Ci()` and `Require.LocalEnvironment()` use the same CI definition as the `OnCI` and `OnLocal` run conditions: `IBuildSystemContext.IsBuildServer` is `true` when a known build system is detected, or otherwise when the `CI` environment variable is set to a value other than `false` or `0`.
+`Require.Ci()` and `Require.LocalEnvironment()` use the same CI definition as the `OnCI` and `OnLocal` run conditions: `IBuildSystemContext.IsCI` is `true` when a known build system is detected, or otherwise when the `CI` environment variable is set to a value other than `false` or `0`.
 
 For custom asynchronous checks, implement `IPipelineRequirement` or derive from `PipelineRequirement`, whose `EvaluateAsync` is abstract. Evaluation receives the pipeline cancellation token:
 
@@ -79,3 +79,7 @@ Requirements run in ascending `Order` (default `0`). Every requirement is evalua
 `RequirementDecision.IsSatisfied` reports the outcome. Construct decisions with `Passed` or `Failed(reason)`; a `bool` can also convert implicitly. A bare string does not imply failure.
 
 Requirements and run conditions receive `IPipelineContext`, giving them the same shared capability surface as global hooks. Use `IModuleContext` only inside modules.
+
+## Inspect the current environment[​](#inspect-the-current-environment "Direct link to Inspect the current environment")
+
+Use `context.Environment.BuildSystem.IsCI` for CI detection and `.IsLocal` for its inverse. For a specific provider, use `.Is(BuildSystem.GitHubActions)` or inspect `.Current`. Keep `OnCI`, `OnLocal`, `Require.Ci()`, and `Require.LocalEnvironment()` when declaring run conditions or requirements.

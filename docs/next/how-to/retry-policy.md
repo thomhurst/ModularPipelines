@@ -89,7 +89,7 @@ public class MyModule : Module<CommandResult>
 
         {
 
-            var retryCount = ctx.Environment.IsCI ? 5 : 2;
+            var retryCount = ctx.Environment.BuildSystem.IsCI ? 5 : 2;
 
             return Shield.When<Exception>()
 
