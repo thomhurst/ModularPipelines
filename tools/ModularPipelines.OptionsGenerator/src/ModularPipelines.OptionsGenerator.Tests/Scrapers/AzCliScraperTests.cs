@@ -10,6 +10,23 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class AzCliScraperTests
 {
     [Test]
+    public async Task Digit_Leading_Option_Uses_Shared_Name_Without_Changing_Switch()
+    {
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "storage", "blob", "service-properties", "update"],
+            """
+            Command
+                az storage blob service-properties update : Update service properties.
+
+            Arguments
+                --404-document : The error document path.
+            """);
+        var option = command!.Options.Single();
+        await Assert.That(option.PropertyName).IsEqualTo("Number404Document");
+        await Assert.That(option.SwitchName).IsEqualTo("--404-document");
+    }
+
+    [Test]
     public async Task Boolean_Accepted_Values_Require_An_Explicit_Value()
     {
         const string helpText = """
