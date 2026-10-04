@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -45,91 +44,6 @@ public record ChocoUninstallOptions : ChocoOptions
     public bool? Online { get; set; }
 
     /// <summary>
-    /// Debug - Show debug messaging.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Verbose - Show verbose messaging. Very verbose messaging, avoid using under normal circumstances.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Trace - Show trace messaging. Very, very verbose trace messaging. Avoid except when needing super low-level .NET Framework debugging.
-    /// </summary>
-    [CliFlag("--trace")]
-    public bool? Trace { get; set; }
-
-    /// <summary>
-    /// Force - force the behavior. Do not use force during normal operation - it subverts some of the smart behavior for commands.
-    /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Include header names when --limit-output is used. Requires Chocolatey CLI 2.5.0+
-    /// </summary>
-    [CliFlag("--include-headers")]
-    public bool? IncludeHeaders { get; set; }
-
-    /// <summary>
-    /// UseSystemPowerShell - Execute PowerShell using an external process instead of the built-in PowerShell host. Should only be used when internal host is failing.
-    /// </summary>
-    [CliFlag("--use-system-powershell")]
-    public bool? UseSystemPowershell { get; set; }
-
-    /// <summary>
-    /// Do Not Show Progress - Do not show download progress percentages.
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
-    /// </summary>
-    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Proxy User Name - Explicit proxy user (optional). Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy user of ''.
-    /// </summary>
-    [CliOption("--proxy-user", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUser { get; set; }
-
-    /// <summary>
-    /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyPassword { get; set; }
-
-    /// <summary>
-    /// ProxyBypassList - Comma separated list of regex locations to bypass on proxy. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass list of ''.
-    /// </summary>
-    [CliOption("--proxy-bypass-list", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyBypassList { get; set; }
-
-    /// <summary>
-    /// Proxy Bypass On Local - Bypass proxy for local connections. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass on local setting of 'True'.
-    /// </summary>
-    [CliFlag("--proxy-bypass-on-local")]
-    public bool? ProxyBypassOnLocal { get; set; }
-
-    /// <summary>
-    /// Log File to output to in addition to regular loggers.
-    /// </summary>
-    [CliOption("--log-file", Format = OptionFormat.EqualsSeparated)]
-    public string? LogFile { get; set; }
-
-    /// <summary>
-    /// Ignore any HTTP caches that have previously been created when querying sources, and create new caches. Available in 2.1.0+
-    /// </summary>
-    [CliFlag("--ignore-http-cache")]
-    public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
     /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. Defaults to default feeds.
     /// </summary>
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
@@ -140,6 +54,120 @@ public record ChocoUninstallOptions : ChocoOptions
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// AllVersions - Uninstall all versions? Defaults to false.
+    /// </summary>
+    [CliFlag("--allversions", ShortForm = "-a")]
+    public bool? Allversions { get; set; }
+
+    /// <summary>
+    /// UninstallArguments - Uninstall Arguments to pass to the native installer in the package. Defaults to unspecified.
+    /// </summary>
+    [CliOption("--ua", Format = OptionFormat.EqualsSeparated)]
+    public string? Ua { get; set; }
+
+    /// <summary>
+    /// OverrideArguments - Should uninstall arguments be used exclusively without appending to current package passed arguments? Defaults to false.
+    /// </summary>
+    [CliFlag("--override", ShortForm = "-o")]
+    public bool? Override { get; set; }
+
+    /// <summary>
+    /// NotSilent - Do not uninstall this silently. Defaults to false.
+    /// </summary>
+    [CliFlag("--notsilent")]
+    public bool? Notsilent { get; set; }
+
+    /// <summary>
+    /// PackageParameters - Parameters to pass to the package. Defaults to unspecified.
+    /// </summary>
+    [CliOption("--params", Format = OptionFormat.EqualsSeparated)]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// Apply Install Arguments To Dependencies  - Should install arguments be applied to dependent packages? Defaults to false.
+    /// </summary>
+    [CliFlag("--argsglobal")]
+    public bool? Argsglobal { get; set; }
+
+    /// <summary>
+    /// Apply Package Parameters To Dependencies  - Should package parameters be applied to dependent packages? Defaults to false.
+    /// </summary>
+    [CliFlag("--paramsglobal")]
+    public bool? Paramsglobal { get; set; }
+
+    /// <summary>
+    /// RemoveDependencies - Uninstall dependencies when uninstalling package(s- ). Defaults to false.
+    /// </summary>
+    [CliFlag("--forcedependencies", ShortForm = "-x")]
+    public bool? Forcedependencies { get; set; }
+
+    /// <summary>
+    /// Skip PowerShell - Do not run chocolateyUninstall.ps1. Defaults to false.
+    /// </summary>
+    [CliFlag("--skippowershell", ShortForm = "-n")]
+    public bool? Skippowershell { get; set; }
+
+    /// <summary>
+    /// IgnorePackageExitCodes - Exit with a 0 for success and 1 for non-succes- s, no matter what package scripts provide for exit codes. Overrides the default feature 'usePackageExitCodes' set to 'True'.
+    /// </summary>
+    [CliFlag("--ignorepackagecodes")]
+    public bool? Ignorepackagecodes { get; set; }
+
+    /// <summary>
+    /// UsePackageExitCodes - Package scripts can provide exit codes. Use those for choco's exit code when non-zero (this value can come from a dependency package). Chocolatey defines valid exit codes as 0, 1605, 1614, 1641, 3010. Overrides the default feature 'usePackageExitCodes' set to 'True'.
+    /// </summary>
+    [CliFlag("--usepackagecodes")]
+    public bool? Usepackagecodes { get; set; }
+
+    /// <summary>
+    /// UseAutoUninstaller - Use auto uninstaller service when uninstalling. Overrides the default feature 'autoUninstaller' set to 'True'.
+    /// </summary>
+    [CliFlag("--autouninstaller")]
+    public bool? Autouninstaller { get; set; }
+
+    /// <summary>
+    /// SkipAutoUninstaller - Skip auto uninstaller service when uninstalling. Overrides the default feature 'autoUninstaller' set to 'True'.
+    /// </summary>
+    [CliFlag("--skipautouninstaller")]
+    public bool? Skipautouninstaller { get; set; }
+
+    /// <summary>
+    /// FailOnAutoUninstaller - Fail the package uninstall if the auto uninstaller reports and error. Overrides the default feature 'failOnAutoUninstaller' set to 'False'.
+    /// </summary>
+    [CliFlag("--failonautouninstaller")]
+    public bool? Failonautouninstaller { get; set; }
+
+    /// <summary>
+    /// Ignore Auto Uninstaller Failure - Do not fail the package if auto uninstaller reports an error. Overrides the default feature 'failOnAutoUninstaller' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignoreautouninstallerfailure")]
+    public bool? Ignoreautouninstallerfailure { get; set; }
+
+    /// <summary>
+    /// Stop On First Package Failure - stop running install, upgrade or uninstall on first package failure instead of continuing with others. Overrides the default feature 'stopOnFirstPackageFailure' set to 'False'.
+    /// </summary>
+    [CliFlag("--stoponfirstfailure")]
+    public bool? Stoponfirstfailure { get; set; }
+
+    /// <summary>
+    /// Exit When Reboot Detected - Stop running install, upgrade, or uninstall when a reboot request is detected. Requires 'usePackageExitCodes' feature to be turned on. Will exit with either 350 or 1604.  Overrides the default feature 'exitOnRebootDetected' set to 'False'.
+    /// </summary>
+    [CliFlag("--exitwhenrebootdetected")]
+    public bool? Exitwhenrebootdetected { get; set; }
+
+    /// <summary>
+    /// Ignore Detected Reboot - Ignore any detected reboots if found. Overrides the default feature 'exitOnRebootDetected' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignoredetectedreboot")]
+    public bool? Ignoredetectedreboot { get; set; }
+
+    /// <summary>
+    /// Skip hooks - Do not run hook scripts. Available in 1.2.0+
+    /// </summary>
+    [CliFlag("--skiphooks")]
+    public bool? Skiphooks { get; set; }
 
     /// <summary>
     /// The pkg operand.

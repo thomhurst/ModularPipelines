@@ -1,8 +1,10 @@
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers.Extensions;
 
 namespace ModularPipelines.TestHelpers;
@@ -14,6 +16,15 @@ namespace ModularPipelines.TestHelpers;
 public abstract class TestBase
 {
     private readonly List<IPipeline> _pipelines = [];
+
+    /// <summary>
+    /// Renders a complete command without starting its executable.
+    /// </summary>
+    public async Task<string> RenderCommand(CommandLineToolOptions options)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        return builder.Build(options).ToString();
+    }
 
     private class DummyModule : SimpleTestModule<IDictionary<string, object>?>
     {

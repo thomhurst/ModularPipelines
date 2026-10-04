@@ -19,7 +19,49 @@ namespace ModularPipelines.WinGet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("winget")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record WingetOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Disable interactive prompts
+    /// </summary>
+    [CliFlag("--disable-interactivity")]
+    public virtual bool? DisableInteractivity { get; set; }
+
+    /// <summary>
+    /// Open the default logs location
+    /// </summary>
+    [CliFlag("--logs")]
+    public virtual bool? Logs { get; set; }
+
+    /// <summary>
+    /// Disable the use of proxy for this execution
+    /// </summary>
+    [CliFlag("--no-proxy")]
+    public virtual bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// Suppresses warning outputs
+    /// </summary>
+    [CliFlag("--nowarn")]
+    public virtual bool? Nowarn { get; set; }
+
+    /// <summary>
+    /// Set a proxy to use for this execution
+    /// </summary>
+    [CliOption("--proxy")]
+    public virtual string? Proxy { get; set; }
+
+    /// <summary>
+    /// Enables verbose logging for winget
+    /// </summary>
+    [CliFlag("--verbose")]
+    public virtual bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Prompts the user to press any key before exiting
+    /// </summary>
+    [CliFlag("--wait")]
+    public virtual bool? Wait { get; set; }
+
 }

@@ -135,6 +135,12 @@ public record WingetDownloadOptions : WingetOptions
     public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
+    /// Skips retrieving Microsoft Store package offline license
+    /// </summary>
+    [CliFlag("--skip-license")]
+    public bool? SkipLicense { get; set; }
+
+    /// <summary>
     /// Select the target platform
     /// </summary>
     [CliOption("--platform")]
@@ -145,30 +151,6 @@ public record WingetDownloadOptions : WingetOptions
     /// </summary>
     [CliOption("--os-version")]
     public string? OsVersion { get; set; }
-
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
 
     /// <summary>
     /// The query used to search for a package

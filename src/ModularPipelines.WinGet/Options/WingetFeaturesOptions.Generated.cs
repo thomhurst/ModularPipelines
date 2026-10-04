@@ -20,28 +20,4 @@ namespace ModularPipelines.WinGet.Options;
 [CliSubCommand("features")]
 public record WingetFeaturesOptions : WingetOptions
 {
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
-
 }

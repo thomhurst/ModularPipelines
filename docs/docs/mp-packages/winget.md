@@ -6,6 +6,21 @@ title: WinGet Package
 
 Strongly typed Windows Package Manager commands.
 
+## Common options
+
+The common-option audit uses WinGet v1.29.380 help and Microsoft's
+[WinGet reference](https://learn.microsoft.com/en-us/windows/package-manager/winget/).
+`WingetOptions` supplies `Wait`, `Logs`, `Verbose`, `Nowarn`,
+`DisableInteractivity`, `Proxy`, and `NoProxy` to every command. These options
+follow the command: for example, `winget search --query example --verbose`.
+WinGet rejects a command placed after root options.
+
+Existing command initializers can continue setting inherited properties.
+Options with multiple documented names now generate one property using the first
+long name; for example, `--logs,--open-logs` becomes `Logs`. Root information
+operations (`--version`, `--info`, and help) are not inherited. Command-specific
+options retain their own value shape and repetition rules.
+
 ## Installation
 
 ```shell

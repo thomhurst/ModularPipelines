@@ -45,91 +45,6 @@ public record ChocoUpgradeOptions : ChocoOptions
     public bool? Online { get; set; }
 
     /// <summary>
-    /// Debug - Show debug messaging.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Verbose - Show verbose messaging. Very verbose messaging, avoid using under normal circumstances.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Trace - Show trace messaging. Very, very verbose trace messaging. Avoid except when needing super low-level .NET Framework debugging.
-    /// </summary>
-    [CliFlag("--trace")]
-    public bool? Trace { get; set; }
-
-    /// <summary>
-    /// Force - force the behavior. Do not use force during normal operation - it subverts some of the smart behavior for commands.
-    /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Include header names when --limit-output is used. Requires Chocolatey CLI 2.5.0+
-    /// </summary>
-    [CliFlag("--include-headers")]
-    public bool? IncludeHeaders { get; set; }
-
-    /// <summary>
-    /// UseSystemPowerShell - Execute PowerShell using an external process instead of the built-in PowerShell host. Should only be used when internal host is failing.
-    /// </summary>
-    [CliFlag("--use-system-powershell")]
-    public bool? UseSystemPowershell { get; set; }
-
-    /// <summary>
-    /// Do Not Show Progress - Do not show download progress percentages.
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
-    /// </summary>
-    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Proxy User Name - Explicit proxy user (optional). Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy user of ''.
-    /// </summary>
-    [CliOption("--proxy-user", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUser { get; set; }
-
-    /// <summary>
-    /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyPassword { get; set; }
-
-    /// <summary>
-    /// ProxyBypassList - Comma separated list of regex locations to bypass on proxy. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass list of ''.
-    /// </summary>
-    [CliOption("--proxy-bypass-list", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyBypassList { get; set; }
-
-    /// <summary>
-    /// Proxy Bypass On Local - Bypass proxy for local connections. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass on local setting of 'True'.
-    /// </summary>
-    [CliFlag("--proxy-bypass-on-local")]
-    public bool? ProxyBypassOnLocal { get; set; }
-
-    /// <summary>
-    /// Log File to output to in addition to regular loggers.
-    /// </summary>
-    [CliOption("--log-file", Format = OptionFormat.EqualsSeparated)]
-    public string? LogFile { get; set; }
-
-    /// <summary>
-    /// Ignore any HTTP caches that have previously been created when querying sources, and create new caches. Available in 2.1.0+
-    /// </summary>
-    [CliFlag("--ignore-http-cache")]
-    public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
     /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. To specify more than one source, pass it with a semi-colon separating the values (e.g. "'source1;source2'"). Defaults to default feeds.
     /// </summary>
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
@@ -142,10 +57,88 @@ public record ChocoUpgradeOptions : ChocoOptions
     public string? Version { get; set; }
 
     /// <summary>
+    /// Prerelease - Include Prereleases? Defaults to false.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
+    /// ForceX86 - Force x86 (32bit) installation on 64 bit systems. Defaults to false.
+    /// </summary>
+    [CliFlag("--x86")]
+    public bool? X86 { get; set; }
+
+    /// <summary>
+    /// InstallArguments - Install Arguments to pass to the native installer in the package. Defaults to unspecified.
+    /// </summary>
+    [CliOption("--ia", Format = OptionFormat.EqualsSeparated)]
+    public string? Ia { get; set; }
+
+    /// <summary>
+    /// OverrideArguments - Should install arguments be used exclusively without appending to current package passed arguments? Defaults to false.
+    /// </summary>
+    [CliFlag("--override", ShortForm = "-o")]
+    public bool? Override { get; set; }
+
+    /// <summary>
+    /// NotSilent - Do not install this silently. Defaults to false.
+    /// </summary>
+    [CliFlag("--notsilent")]
+    public bool? Notsilent { get; set; }
+
+    /// <summary>
+    /// PackageParameters - Parameters to pass to the package. Defaults to unspecified.
+    /// </summary>
+    [CliOption("--params", Format = OptionFormat.EqualsSeparated)]
+    public string? Params { get; set; }
+
+    /// <summary>
+    /// Apply Install Arguments To Dependencies  - Should install arguments be applied to dependent packages? Defaults to false.
+    /// </summary>
+    [CliFlag("--argsglobal")]
+    public bool? Argsglobal { get; set; }
+
+    /// <summary>
+    /// Apply Package Parameters To Dependencies  - Should package parameters be applied to dependent packages? Defaults to false.
+    /// </summary>
+    [CliFlag("--paramsglobal")]
+    public bool? Paramsglobal { get; set; }
+
+    /// <summary>
+    /// AllowDowngrade - Should an attempt at downgrading be allowed? Defaults to false.
+    /// </summary>
+    [CliFlag("--allowdowngrade")]
+    public bool? Allowdowngrade { get; set; }
+
+    /// <summary>
+    /// IgnoreDependencies - Ignore dependencies when upgrading package(s). Defaults to false.
+    /// </summary>
+    [CliFlag("--ignoredependencies", ShortForm = "-i")]
+    public bool? Ignoredependencies { get; set; }
+
+    /// <summary>
+    /// Skip PowerShell - Do not run chocolateyInstall.ps1. Defaults to false.
+    /// </summary>
+    [CliFlag("--skippowershell", ShortForm = "-n")]
+    public bool? Skippowershell { get; set; }
+
+    /// <summary>
+    /// Fail On Unfound Packages - If a package is not found in sources specified, fail instead of warn.
+    /// </summary>
+    [CliFlag("--failonunfound")]
+    public bool? Failonunfound { get; set; }
+
+    /// <summary>
     /// Ignore Unfound Packages - Ignore packages that are not found on the sources used (or the defaults). Overrides the default feature 'ignoreUnfoundPackagesOnUpgradeOutdated' set to 'False'.
     /// </summary>
     [CliFlag("--ignore-unfound")]
     public bool? IgnoreUnfound { get; set; }
+
+    /// <summary>
+    /// Fail On Non-installed Packages - If a package is not already installed, fail instead of installing.
+    /// </summary>
+    [CliFlag("--failonnotinstalled")]
+    public bool? Failonnotinstalled { get; set; }
 
     /// <summary>
     /// User - used with authenticated feeds. Defaults to empty.
@@ -167,16 +160,143 @@ public record ChocoUpgradeOptions : ChocoOptions
     public string? Cert { get; set; }
 
     /// <summary>
+    /// Certificate Password - the client certificate's password to the source. Defaults to empty.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--cp", Format = OptionFormat.EqualsSeparated)]
+    public string? Cp { get; set; }
+
+    /// <summary>
+    /// IgnoreChecksums - Ignore checksums provided by the package. Overrides the default feature 'checksumFiles' set to 'True'.
+    /// </summary>
+    [CliFlag("--ignorechecksum")]
+    public bool? Ignorechecksum { get; set; }
+
+    /// <summary>
+    /// Allow Empty Checksums - Allow packages to have empty/missing checksums for downloaded resources from non-secure locations (HTTP, FTP). Use this switch is not recommended if using sources that download resources from the internet. Overrides the default feature 'allowEmptyChecksums' set to 'False'.
+    /// </summary>
+    [CliFlag("--allowemptychecksum")]
+    public bool? Allowemptychecksum { get; set; }
+
+    /// <summary>
+    /// Allow Empty Checksums Secure - Allow packages to have empty checksums for downloaded resources from secure locations (HTTPS). Overrides the default feature 'allowEmptyChecksumsSecure' set to 'True'.
+    /// </summary>
+    [CliFlag("--allowemptychecksumsecure")]
+    public bool? Allowemptychecksumsecure { get; set; }
+
+    /// <summary>
+    /// Require Checksums - Requires packages to have checksums for downloaded resources (both non-secure and secure). Overrides the default feature 'allowEmptyChecksums' set to 'False' and 'allowEmptyChecksumsSecure' set to 'True'.
+    /// </summary>
+    [CliFlag("--requirechecksum")]
+    public bool? Requirechecksum { get; set; }
+
+    /// <summary>
+    /// Download Checksum - a user provided checksum for downloaded resources for the package. Overrides the package checksum (if it has one). Defaults to empty.
+    /// </summary>
+    [CliOption("--checksum", Format = OptionFormat.EqualsSeparated)]
+    public string? Checksum { get; set; }
+
+    /// <summary>
+    /// Download Checksum 64bit - a user provided checksum for 64bit downloaded resources for the package. Overrides the package 64-bit checksum (if it has one). Defaults to same as Download Checksum.
+    /// </summary>
+    [CliOption("--checksum64", Format = OptionFormat.EqualsSeparated)]
+    public string? Checksum64 { get; set; }
+
+    /// <summary>
+    /// Download Checksum Type - a user provided checksum type. Overrides the package checksum type (if it has one). Used in conjunction with Download Checksum. Available values are 'md5', 'sha1', 'sha256' or 'sha512'. Defaults to 'md5'.
+    /// </summary>
+    [CliOption("--checksumtype", Format = OptionFormat.EqualsSeparated)]
+    public string? Checksumtype { get; set; }
+
+    /// <summary>
+    /// Download Checksum Type 64bit - a user provided checksum for 64bit downloaded resources for the package. Overrides the package 64-bit checksum (if it has one). Used in conjunction with Download Checksum 64bit. Available values are 'md5', 'sha1', 'sha256' or 'sha512'. Defaults to same as Download Checksum Type.
+    /// </summary>
+    [CliOption("--checksumtype64", Format = OptionFormat.EqualsSeparated)]
+    public string? Checksumtype64 { get; set; }
+
+    /// <summary>
+    /// IgnorePackageExitCodes - Exit with a 0 for success and 1 for non-succes- s, no matter what package scripts provide for exit codes. Overrides the default feature 'usePackageExitCodes' set to 'True'.
+    /// </summary>
+    [CliFlag("--ignorepackagecodes")]
+    public bool? Ignorepackagecodes { get; set; }
+
+    /// <summary>
+    /// UsePackageExitCodes - Package scripts can provide exit codes. Use those for choco's exit code when non-zero (this value can come from a dependency package). Chocolatey defines valid exit codes as 0, 1605, 1614, 1641, 3010. Overrides the default feature 'usePackageExitCodes' set to 'True'.
+    /// </summary>
+    [CliFlag("--usepackagecodes")]
+    public bool? Usepackagecodes { get; set; }
+
+    /// <summary>
     /// Except - a comma-separated list of package names that should not be upgraded when upgrading 'all'. Overrides the configuration setting 'upgradeAllExceptions' set to ''.
     /// </summary>
     [CliOption("--except", Format = OptionFormat.EqualsSeparated)]
     public string? Except { get; set; }
 
     /// <summary>
+    /// Stop On First Package Failure - stop running install, upgrade or uninstall on first package failure instead of continuing with others. Overrides the default feature 'stopOnFirstPackageFailure' set to 'False'.
+    /// </summary>
+    [CliFlag("--stoponfirstfailure")]
+    public bool? Stoponfirstfailure { get; set; }
+
+    /// <summary>
+    /// Skip Packages Not Installed - if a package is not installed, do not install it during the upgrade process. Overrides the default feature 'skipPackageUpgradesWhenNotInstalled' set to 'False'.
+    /// </summary>
+    [CliFlag("--skip-if-not-installed")]
+    public bool? SkipIfNotInstalled { get; set; }
+
+    /// <summary>
     /// Install Missing Packages When Not Installed - if a package is not installed, install it as part of running upgrade (typically default behavior). Overrides the default feature 'skipPackageUpgradesWhenNotInstalled' set to 'False'.
     /// </summary>
     [CliFlag("--install-if-not-installed")]
     public bool? InstallIfNotInstalled { get; set; }
+
+    /// <summary>
+    /// Exclude Prerelease - Should prerelease be ignored for upgrades? Will be ignored if you pass `--pre`.
+    /// </summary>
+    [CliFlag("--exclude-pre")]
+    public bool? ExcludePre { get; set; }
+
+    /// <summary>
+    /// Use Remembered Options for Upgrade - use the arguments and options used during install for upgrade. Does not override arguments being passed at runtime. Overrides the default feature 'useRememberedArgumentsForUpgrades' set to 'False'.
+    /// </summary>
+    [CliFlag("--userememberedargs")]
+    public bool? Userememberedargs { get; set; }
+
+    /// <summary>
+    /// Ignore Remembered Options for Upgrade - ignore the arguments and options used during install for upgrade. Overrides the default feature 'useRememberedArgumentsForUpgrades' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignorerememberedargs")]
+    public bool? Ignorerememberedargs { get; set; }
+
+    /// <summary>
+    /// Exit When Reboot Detected - Stop running install, upgrade, or uninstall when a reboot request is detected. Requires 'usePackageExitCodes' feature to be turned on. Will exit with either 350 or 1604. Overrides the default feature 'exitOnRebootDetected' set to 'False'.
+    /// </summary>
+    [CliFlag("--exitwhenrebootdetected")]
+    public bool? Exitwhenrebootdetected { get; set; }
+
+    /// <summary>
+    /// Ignore Detected Reboot - Ignore any detected reboots if found. Overrides the default feature 'exitOnRebootDetected' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignoredetectedreboot")]
+    public bool? Ignoredetectedreboot { get; set; }
+
+    /// <summary>
+    /// Disable Package Repository Optimizations - Do not use optimizations for reducing bandwidth with repository queries during package install/upgrade/outdated operations. Should not generally be used, unless a repository needs to support older methods of query. When disabled, this makes queries similar to the way they were done in earlier versions of Chocolatey. Overrides the default feature 'usePackageRepositoryOptimizations' set to 'True'.
+    /// </summary>
+    [CliFlag("--disable-repository-optimizations")]
+    public bool? DisableRepositoryOptimizations { get; set; }
+
+    /// <summary>
+    /// Pin Package - Add a pin to the package after upgrade. Available in 1.2.0+
+    /// </summary>
+    [CliFlag("--pin")]
+    public bool? Pin { get; set; }
+
+    /// <summary>
+    /// Skip hooks - Do not run hook scripts. Available in 1.2.0+
+    /// </summary>
+    [CliFlag("--skiphooks")]
+    public bool? Skiphooks { get; set; }
 
     /// <summary>
     /// Ignore Pinned - Ignores any pins and upgrades the package(s) anyway. Available in 2.3.0+
