@@ -3459,3 +3459,10 @@ ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other)
 ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.get -> System.IO.Compression.CompressionLevel
 ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.set -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions
+
+
+
+ModularPipelines.CommandResult.StandardOutputTruncatedCharacters.get -> long
+ModularPipelines.CommandResult.StandardOutputTruncatedCharacters.init -> void
+ModularPipelines.CommandResult.StandardErrorTruncatedCharacters.get -> long
+ModularPipelines.CommandResult.StandardErrorTruncatedCharacters.init -> void

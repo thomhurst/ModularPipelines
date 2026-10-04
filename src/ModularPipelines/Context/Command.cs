@@ -349,7 +349,9 @@ internal sealed class Command : ICommandContext
                 result.StandardError,
                 invocation.RawEnvironmentVariables,
                 result.StartTime,
-                result.EndTime));
+                result.EndTime,
+                result.StandardOutputTruncatedCharacters,
+                result.StandardErrorTruncatedCharacters));
         }
 
         return result;
@@ -677,7 +679,9 @@ internal sealed class Command : ICommandContext
                         completeStandardOutputBuffer,
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
-                        command.WorkingDirPath));
+                        command.WorkingDirPath,
+                        standardOutputBuffer.TruncatedCharacters,
+                        standardErrorBuffer.TruncatedCharacters));
                 var failure = loggingFailures.CombineWith(e);
 
                 throw CommandException.FromAlreadyObfuscatedResult(
@@ -689,7 +693,9 @@ internal sealed class Command : ICommandContext
                         stopwatch.Elapsed,
                         standardOutput,
                         standardError,
-                        rawEnvironmentVariables),
+                        rawEnvironmentVariables,
+                        standardOutputTruncatedCharacters: standardOutputBuffer.TruncatedCharacters,
+                        standardErrorTruncatedCharacters: standardErrorBuffer.TruncatedCharacters),
                     failure);
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
@@ -714,7 +720,9 @@ internal sealed class Command : ICommandContext
                         completeStandardOutputBuffer,
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
-                        command.WorkingDirPath));
+                        command.WorkingDirPath,
+                        standardOutputBuffer.TruncatedCharacters,
+                        standardErrorBuffer.TruncatedCharacters));
                 var failure = loggingFailures.CombineWith(e);
 
                 ThrowCallerCancellationIfRequired(e, failure, callerCancellationToken);
@@ -730,7 +738,9 @@ internal sealed class Command : ICommandContext
                     standardError,
                     rawEnvironmentVariables,
                     callerCancellationToken,
-                    timeoutCancellationToken);
+                    timeoutCancellationToken,
+                    standardOutputBuffer.TruncatedCharacters,
+                    standardErrorBuffer.TruncatedCharacters);
             }
 
             var commandFailure = CreateCommandFailure(
@@ -740,7 +750,9 @@ internal sealed class Command : ICommandContext
                 commandInput,
                 standardOutput,
                 standardError,
-                rawEnvironmentVariables);
+                rawEnvironmentVariables,
+                standardOutputBuffer.TruncatedCharacters,
+                standardErrorBuffer.TruncatedCharacters);
 
             loggingFailures.Capture(
                 () => LogCommandCompletion(
@@ -754,7 +766,9 @@ internal sealed class Command : ICommandContext
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
                     deferredOutputLogger,
-                    command.WorkingDirPath));
+                    command.WorkingDirPath,
+                    standardOutputBuffer.TruncatedCharacters,
+                    standardErrorBuffer.TruncatedCharacters));
             if (commandFailure is not null && loggingFailures.HasFailures)
             {
                 throw CommandException.FromAlreadyObfuscatedResult(
@@ -774,7 +788,11 @@ internal sealed class Command : ICommandContext
                 _secretObfuscator.Obfuscate(commandInput, execOpts),
                 standardOutput,
                 standardError,
-                ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts));
+                ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts))
+            {
+                StandardOutputTruncatedCharacters = standardOutputBuffer.TruncatedCharacters,
+                StandardErrorTruncatedCharacters = standardErrorBuffer.TruncatedCharacters,
+            };
         }
     }
 
@@ -831,7 +849,9 @@ internal sealed class Command : ICommandContext
         string standardError,
         IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         CancellationToken cancellationToken,
-        CancellationTokenSource? timeoutCancellationToken)
+        CancellationTokenSource? timeoutCancellationToken,
+        long standardOutputTruncatedCharacters,
+        long standardErrorTruncatedCharacters)
     {
         if (executionFailure is OperationCanceledException
             && !cancellationToken.IsCancellationRequested
@@ -848,7 +868,9 @@ internal sealed class Command : ICommandContext
             duration,
             standardOutput,
             standardError,
-            rawEnvironmentVariables);
+            rawEnvironmentVariables,
+            standardOutputTruncatedCharacters: standardOutputTruncatedCharacters,
+            standardErrorTruncatedCharacters: standardErrorTruncatedCharacters);
         return IsExecutableNotFound(executionFailure)
             ? new ToolNotFoundException(
                 _secretObfuscator.Obfuscate(command.TargetFilePath, execOpts),
@@ -898,7 +920,9 @@ internal sealed class Command : ICommandContext
         string standardError,
         IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
         DateTimeOffset? startTime = null,
-        DateTimeOffset? endTime = null)
+        DateTimeOffset? endTime = null,
+        long standardOutputTruncatedCharacters = 0,
+        long standardErrorTruncatedCharacters = 0)
     {
         var completedAt = endTime ?? DateTimeOffset.UtcNow;
         var startedAt = startTime ?? completedAt - duration;
@@ -911,7 +935,11 @@ internal sealed class Command : ICommandContext
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
-            exitCode: exitCode);
+            exitCode: exitCode)
+        {
+            StandardOutputTruncatedCharacters = standardOutputTruncatedCharacters,
+            StandardErrorTruncatedCharacters = standardErrorTruncatedCharacters,
+        };
     }
 
     private static Dictionary<string, string?> GetRawEnvironmentVariables(CliWrap.Command command)
@@ -947,7 +975,9 @@ internal sealed class Command : ICommandContext
         string input,
         string standardOutput,
         string standardError,
-        IReadOnlyDictionary<string, string?> rawEnvironmentVariables)
+        IReadOnlyDictionary<string, string?> rawEnvironmentVariables,
+        long standardOutputTruncatedCharacters,
+        long standardErrorTruncatedCharacters)
     {
         return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
             ? CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
@@ -960,7 +990,9 @@ internal sealed class Command : ICommandContext
                 standardError,
                 rawEnvironmentVariables,
                 result.StartTime,
-                result.ExitTime))
+                result.ExitTime,
+                standardOutputTruncatedCharacters,
+                standardErrorTruncatedCharacters))
             : null;
     }
 
@@ -1544,8 +1576,16 @@ internal sealed class Command : ICommandContext
         BoundedCommandOutputBuffer? completeStandardOutputBuffer,
         BoundedCommandOutputBuffer? completeStandardErrorBuffer,
         DeferredCommandOutputLogger? deferredOutputLogger,
-        string workingDirectory)
+        string workingDirectory,
+        long standardOutputTruncatedCharacters,
+        long standardErrorTruncatedCharacters)
     {
+        if (standardOutputTruncatedCharacters > 0 || standardErrorTruncatedCharacters > 0)
+        {
+            _commandLogger.LogOutputTruncation(standardOutputTruncatedCharacters, standardErrorTruncatedCharacters,
+                executionOptions.MaxCapturedOutputLength);
+        }
+
         var deferredOutput = deferredOutputLogger?.Complete();
         var hasStreamedOutput = deferredOutput?.HasStreamedOutput == true;
         _commandLogger.LogCommandCompletion(

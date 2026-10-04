@@ -126,6 +126,18 @@ public record CommandResult
     public required string StandardError { get; init; }
 
     /// <summary>
+    /// Gets the number of standard output characters omitted by the capture limit.
+    /// Zero means no captured characters were omitted. The truncation marker is not included in this count.
+    /// </summary>
+    public long StandardOutputTruncatedCharacters { get; init; }
+
+    /// <summary>
+    /// Gets the number of standard error characters omitted by the capture limit.
+    /// Zero means no captured characters were omitted. The truncation marker is not included in this count.
+    /// </summary>
+    public long StandardErrorTruncatedCharacters { get; init; }
+
+    /// <summary>
     /// Gets exit code set by the underlying process.
     /// </summary>
     public required int ExitCode { get; init; }

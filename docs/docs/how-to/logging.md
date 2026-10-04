@@ -181,6 +181,31 @@ new CommandLoggingOptions
 }
 ```
 
+### Captured Output Limits
+
+`CommandExecutionOptions.MaxCapturedOutputLength` defaults to 1,048,576 characters
+per stream. Longer output retains its beginning and end, with
+`... [truncated N characters] ...` in the middle. This affects `CommandResult`
+capture, not the complete streamed log output.
+
+Check `StandardOutputTruncatedCharacters` and `StandardErrorTruncatedCharacters`
+before parsing captured JSON or other structured output. Each count is zero when
+that stream is complete. The counts are also available on `CommandException.Result`.
+A warning names the limit and reports both counts when capture truncates output.
+
+Raise the limit for commands that produce large results, or use `0` for unlimited
+capture (which retains all output in memory):
+
+```csharp
+var result = await context.Shell.RunAsync("kubectl", ["get", "pods", "-o", "json"],
+    new CommandExecutionOptions { MaxCapturedOutputLength = 8 * 1024 * 1024 });
+
+if (result.StandardOutputTruncatedCharacters > 0)
+{
+    throw new InvalidOperationException("Command output is incomplete; increase the capture limit.");
+}
+```
+
 ### Output Manipulators
 
 Transform logged content before it's written (useful for truncating large outputs or redacting sensitive data):

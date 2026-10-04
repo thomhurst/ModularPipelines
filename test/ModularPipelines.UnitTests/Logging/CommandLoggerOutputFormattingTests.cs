@@ -9,6 +9,19 @@ namespace ModularPipelines.UnitTests.Logging;
 public class CommandLoggerOutputFormattingTests
 {
     [Test]
+    public async Task TruncationWarningNamesTheCaptureLimitAndBothStreams()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+
+        commandLogger.LogOutputTruncation(6, 2, 10);
+
+        var warning = logger.Messages.Single(message => message.Level == LogLevel.Warning);
+        await Assert.That(warning.Text).Contains("MaxCapturedOutputLength (10 characters per stream)");
+        await Assert.That(warning.Text).Contains("6 standard output characters and 2 standard error characters");
+        await Assert.That(warning.Text).Contains("set it to 0 for unlimited capture");
+    }
+
+    [Test]
     public async Task CapturedOutput_PrefixesEveryLine_AndSkipsBlankLines()
     {
         var (commandLogger, logger) = CreateCommandLogger();
