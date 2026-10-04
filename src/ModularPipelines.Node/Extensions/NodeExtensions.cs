@@ -12,8 +12,8 @@ public static class NodeExtensions
     {
         services.TryAddScoped<INode, Node>();
         services.TryAddScoped<INvm, Nvm>();
-        services.TryAddScoped<INpm, Npm>();
-        services.TryAddScoped<INpx, Npx>();
+        services.RegisterNpmContext();
+        services.RegisterNpxContext();
         return services;
     }
 }

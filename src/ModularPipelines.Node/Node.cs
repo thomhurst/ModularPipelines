@@ -1,25 +1,18 @@
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Node.Services;
 
 namespace ModularPipelines.Node;
 
-internal class Node : INode
+internal class Node(INpm npm, INvm nvm, IPipelineContext context, INpx npx) : INode
 {
-    private readonly IPipelineContext _context;
+    private readonly IPipelineContext _context = context;
 
-    public INpm Npm { get; }
+    public INpm Npm { get; } = npm;
 
-    public INvm Nvm { get; }
+    public INvm Nvm { get; } = nvm;
 
-    public INpx Npx { get; }
-
-    public Node(INpm npm, INvm nvm, IPipelineContext context, INpx npx)
-    {
-        _context = context;
-        Npx = npx;
-        Npm = npm;
-        Nvm = nvm;
-    }
+    public INpx Npx { get; } = npx;
 
     public virtual Task<CommandResult> VersionAsync(CancellationToken cancellationToken = default)
     {

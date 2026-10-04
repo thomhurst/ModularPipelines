@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "toolName": "npx",
+  "toolVersion": "11.11.0",
+  "commandCount": 1,
+  "commandTreeSha256": "7c2a28952d52623862fcaf24dae08cddf49e82946269ed0be843a0ac97daef62",
+  "commands": [
+    "npx"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

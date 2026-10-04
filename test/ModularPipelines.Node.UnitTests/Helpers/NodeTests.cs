@@ -1,6 +1,7 @@
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Node.Services;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
