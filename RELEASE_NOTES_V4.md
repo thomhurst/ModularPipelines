@@ -120,6 +120,11 @@ using var response = await context.Network.Http.SendAsync(
 Download helpers continue to require a successful response. Use `SendAsync` with
 the explicit opt-out when you need to inspect a failure response body.
 
+Microsoft Teams webhook calls follow the same default. Set
+`MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode = false` when the caller
+needs to inspect an unsuccessful `HttpResponseMessage` and its body. The caller remains
+responsible for disposing any returned response.
+
 ## Hashing, ZIP, and Base64 APIs
 
 Text and file hashing now share `context.Security.Hash` (`IHashContext`). Use
