@@ -18,7 +18,7 @@ namespace ModularPipelines.Logging;
 /// </remarks>
 internal interface ICommandLogger
 {
-    void LogOutputTruncation(long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
+    void LogOutputTruncation(CommandLineToolOptions? options, CommandExecutionOptions? execOpts, long standardOutputCharacters, long standardErrorCharacters, int maximumLength)
     {
     }
 

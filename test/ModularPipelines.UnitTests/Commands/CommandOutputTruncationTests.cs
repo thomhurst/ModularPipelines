@@ -41,7 +41,7 @@ public class CommandOutputTruncationTests : TestBase
         await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(errorOmitted);
         await Assert.That(result.StandardOutput.Contains("[truncated", StringComparison.Ordinal)).IsEqualTo(outputOmitted > 0);
         await Assert.That(result.StandardError.Contains("[truncated", StringComparison.Ordinal)).IsEqualTo(errorOmitted > 0);
-        logger.Verify(instance => instance.LogOutputTruncation(outputOmitted, errorOmitted, limit),
+        logger.Verify(instance => instance.LogOutputTruncation(It.IsAny<CommandLineToolOptions>(), It.IsAny<CommandExecutionOptions>(), outputOmitted, errorOmitted, limit),
             outputOmitted + errorOmitted > 0 ? Times.Once() : Times.Never());
     }
 }

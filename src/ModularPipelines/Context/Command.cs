@@ -1582,7 +1582,7 @@ internal sealed class Command : ICommandContext
     {
         if (standardOutputTruncatedCharacters > 0 || standardErrorTruncatedCharacters > 0)
         {
-            _commandLogger.LogOutputTruncation(standardOutputTruncatedCharacters, standardErrorTruncatedCharacters,
+            _commandLogger.LogOutputTruncation(options, executionOptions, standardOutputTruncatedCharacters, standardErrorTruncatedCharacters,
                 executionOptions.MaxCapturedOutputLength);
         }
 
