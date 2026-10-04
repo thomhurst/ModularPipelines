@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace ModularPipelines.UnitTests.Documentation;
 
-public class DocumentationSnippetTests
+public partial class DocumentationSnippetTests
 {
     private static readonly HashSet<string> IntentionalLegacyDocumentation =
     [
@@ -35,7 +35,7 @@ public class DocumentationSnippetTests
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
-            await Assert.That(Regex.IsMatch(contents, @"\bPipelineStatus\b")).IsFalse();
+            await Assert.That(LegacyPipelineStatusRegex().IsMatch(contents)).IsFalse();
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
 
@@ -153,12 +153,29 @@ public class DocumentationSnippetTests
         var fence = Regex.Matches(documentation, @"```(?:csharp|fsharp)\r?\n(.*?)```", RegexOptions.Singleline)
             .Select(match => match.Groups[1].Value)
             .Single(code => code.Contains(declaration, StringComparison.Ordinal));
-        // FSI resolves NuGet references; the fixture uses project references to validate this checkout.
-        var code = string.Join("\n", fence.Split('\n')
-            .Where(line => !line.TrimStart().StartsWith("#r ", StringComparison.Ordinal)));
+        if (fixturePath.EndsWith(".fs", StringComparison.Ordinal))
+        {
+            await Assert.That(Regex.Matches(documentation, "#r \"nuget: [^\"]+\"")
+                    .Select(match => match.Value))
+                .IsEquivalentTo([
+                    "#r \"nuget: ModularPipelines, 4.*\"",
+                    "#r \"nuget: ModularPipelines, 4.0.0\"",
+                    "#r \"nuget: ModularPipelines.DotNet, 4.*\"",
+                ]);
+            var lines = fence.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
+            var indent = lines.Where(line => !string.IsNullOrWhiteSpace(line))
+                .Min(line => line.Length - line.TrimStart(' ').Length);
+            var fsharpCode = string.Join("\n", lines
+                .Where(line => !line.TrimStart().StartsWith("#r ", StringComparison.Ordinal))
+                .Select(line => string.IsNullOrWhiteSpace(line) ? string.Empty : line[indent..])).Trim();
+
+            // Remove only the Markdown fence indentation; F# indentation remains significant.
+            await Assert.That(fixture.Replace("\r\n", "\n", StringComparison.Ordinal)).Contains(fsharpCode);
+            return;
+        }
 
         await Assert.That(Regex.Replace(fixture, @"\s+", string.Empty))
-            .Contains(Regex.Replace(code, @"\s+", string.Empty));
+            .Contains(Regex.Replace(fence, @"\s+", string.Empty));
     }
 
     [Test]
@@ -224,4 +241,7 @@ public class DocumentationSnippetTests
             .Where(line => !line.StartsWith("120000 ", StringComparison.Ordinal))
             .Select(line => line[(line.IndexOf(' ') + 1)..])];
     }
+
+    [GeneratedRegex(@"\bPipelineStatus\b")]
+    private static partial Regex LegacyPipelineStatusRegex();
 }
