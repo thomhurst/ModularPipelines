@@ -45,9 +45,9 @@ public class EncodingTests : TestBase
         }
     }
 
-    private class FromHexModule : Module<string>
+    private class FromHexModule : Module<byte[]>
     {
-        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<byte[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Hex.FromHex("466f6f2062617221");
@@ -97,7 +97,7 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<FromHexModule>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo(TestInput);
+        await Assert.That(moduleResult.ValueOrDefault).IsEquivalentTo("Foo bar!"u8.ToArray(), TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     #endregion

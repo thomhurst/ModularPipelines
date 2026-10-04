@@ -10,6 +10,14 @@ use the two properties or `context.Environment.BuildSystem.Is(buildSystem)`.
 for run conditions and requirements. Detection rules are unchanged: a known build
 system or a truthy generic `CI` variable identifies CI.
 
+## Context nullability and hex encoding
+
+- `DownloadStringAsync` returns `Task<string>`; HTTP failures throw instead of returning null.
+- `FromYaml<T>` returns `T?`, reflecting empty or null YAML documents.
+- `FromHex(string)` returns `byte[]`. To decode text, pass an explicit encoding, for example `FromHex(value, Encoding.UTF8)`.
+- `ToHex` accepts `byte[]` instead of `IEnumerable<byte>`; materialize other sequences with `ToArray()`. Hex output remains lowercase.
+- Hex decoding follows `Convert.FromHexString`: odd-length input and separators are rejected with `FormatException` instead of truncating or removing characters.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2

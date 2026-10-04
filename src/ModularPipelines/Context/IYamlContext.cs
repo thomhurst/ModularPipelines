@@ -35,10 +35,10 @@ public interface IYamlContext
     /// </summary>
     /// <typeparam name="T">The type to deserialize to.</typeparam>
     /// <param name="input">The YAML string to deserialize.</param>
-    /// <returns>The deserialized object.</returns>
+    /// <returns>The deserialized value, or default when the YAML document is empty or represents null.</returns>
     [RequiresDynamicCode("YamlDotNet deserialization may require runtime code generation.")]
     [RequiresUnreferencedCode("YamlDotNet deserialization uses reflection over members that may be removed by trimming.")]
-    T FromYaml<T>(string input) => FromYaml<T>(input, CamelCaseNamingConvention.Instance);
+    T? FromYaml<T>(string input) => FromYaml<T>(input, CamelCaseNamingConvention.Instance);
 
     /// <summary>
     /// Deserializes a YAML string to an object using the specified naming convention.
@@ -46,8 +46,8 @@ public interface IYamlContext
     /// <typeparam name="T">The type to deserialize to.</typeparam>
     /// <param name="input">The YAML string to deserialize.</param>
     /// <param name="namingConvention">The naming convention to use for property names.</param>
-    /// <returns>The deserialized object.</returns>
+    /// <returns>The deserialized value, or default when the YAML document is empty or represents null.</returns>
     [RequiresDynamicCode("YamlDotNet deserialization may require runtime code generation.")]
     [RequiresUnreferencedCode("YamlDotNet deserialization uses reflection over members that may be removed by trimming.")]
-    T FromYaml<T>(string input, INamingConvention namingConvention);
+    T? FromYaml<T>(string input, INamingConvention namingConvention);
 }

@@ -27,7 +27,7 @@ internal class Downloader : IDownloaderContext
         _workingDirectory = workingDirectory;
     }
 
-    public async Task<string?> DownloadStringAsync(DownloadOptions options,
+    public async Task<string> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
     {
         using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
