@@ -17,6 +17,20 @@ commands. These flags follow the command path (`brew list --verbose`). Existing
 property initializers retain their names; reflection over command records must
 include inherited properties. Cask-only options remain command-specific.
 
+## Slack and Microsoft Teams webhooks
+
+Slack posting is now `PostMessageAsync`; Teams posting is now `PostCardAsync`.
+Both accept an optional `CancellationToken` and forward it to the HTTP request.
+Each package exposes its options, models, and registration extensions in its root
+namespace. Remove the old `.Options`, `.Models`, and `.Extensions` imports.
+Registration methods remain public but are hidden with `EditorBrowsable(Never)`.
+The old method names and namespaces have no compatibility shims.
+
+HTTP behavior is unchanged: unsuccessful responses throw by default. Teams callers
+can set `ThrowOnNonSuccessStatusCode = false` and must dispose returned responses.
+Slack disposes responses internally. See the [Slack](docs/docs/mp-packages/slack.md)
+and [Teams](docs/docs/mp-packages/microsoft-teams.md) examples.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,

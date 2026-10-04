@@ -1,6 +1,5 @@
 using System.Text;
 using ModularPipelines.Context;
-using ModularPipelines.Slack.Options;
 using Slack.Webhooks;
 
 namespace ModularPipelines.Slack;
@@ -14,7 +13,7 @@ internal class Slack : ISlack
         _http = http;
     }
 
-    public async Task PostWebHookMessage(SlackWebHookOptions options, CancellationToken cancellationToken = default)
+    public async Task PostMessageAsync(SlackWebHookOptions options, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

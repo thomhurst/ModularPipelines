@@ -1,8 +1,6 @@
-using ModularPipelines.Slack.Options;
-
 namespace ModularPipelines.Slack;
 
 public interface ISlack
 {
-    Task PostWebHookMessage(SlackWebHookOptions options, CancellationToken cancellationToken = default);
+    Task PostMessageAsync(SlackWebHookOptions options, CancellationToken cancellationToken = default);
 }

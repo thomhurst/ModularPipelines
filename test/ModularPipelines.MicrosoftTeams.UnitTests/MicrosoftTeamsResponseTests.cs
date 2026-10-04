@@ -1,9 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Exceptions;
-using ModularPipelines.MicrosoftTeams.Extensions;
-using ModularPipelines.MicrosoftTeams.Models;
-using ModularPipelines.MicrosoftTeams.Options;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.MicrosoftTeams.UnitTests;
@@ -33,13 +30,13 @@ public class MicrosoftTeamsResponseTests : TestBase
 
         if (status != HttpStatusCode.OK && !optOut)
         {
-            var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => service.T.PostMicrosoftTeamsCard(options));
+            var exception = await Assert.ThrowsAsync<PipelineHttpResponseException>(() => service.T.PostCardAsync(options));
             await Assert.That(exception!.StatusCode).IsEqualTo(status);
             await Assert.That(exception.ResponseContent).IsEqualTo("webhook response");
         }
         else
         {
-            using var response = await service.T.PostMicrosoftTeamsCard(options);
+            using var response = await service.T.PostCardAsync(options);
             await Assert.That(response.StatusCode).IsEqualTo(status);
             await Assert.That(await response.Content.ReadAsStringAsync()).IsEqualTo("webhook response");
         }

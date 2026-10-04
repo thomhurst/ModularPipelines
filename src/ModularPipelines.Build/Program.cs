@@ -59,6 +59,7 @@ builder
     .AddModule<RunJqUnitTestsModule>()
     .AddModule<RunLiquibaseUnitTestsModule>()
     .AddModule<RunMicrosoftTeamsUnitTestsModule>()
+    .AddModule<RunSlackUnitTestsModule>()
     .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
     .AddModule<RunOpenTelemetryUnitTestsModule>()

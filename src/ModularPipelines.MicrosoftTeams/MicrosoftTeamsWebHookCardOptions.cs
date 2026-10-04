@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.MicrosoftTeams.Models;
 
-namespace ModularPipelines.MicrosoftTeams.Options;
+namespace ModularPipelines.MicrosoftTeams;
 
 [ExcludeFromCodeCoverage]
 public record MicrosoftTeamsWebHookCardOptions

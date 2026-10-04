@@ -110,6 +110,7 @@
     <Project Path="test/ModularPipelines.Kubernetes.UnitTests/ModularPipelines.Kubernetes.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Liquibase.UnitTests/ModularPipelines.Liquibase.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.MicrosoftTeams.UnitTests/ModularPipelines.MicrosoftTeams.UnitTests.csproj" />
+    <Project Path="test/ModularPipelines.Slack.UnitTests/ModularPipelines.Slack.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Minikube.UnitTests/ModularPipelines.Minikube.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.NerdbankGitVersioning.UnitTests/ModularPipelines.NerdbankGitVersioning.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Newman.UnitTests/ModularPipelines.Newman.UnitTests.csproj" />

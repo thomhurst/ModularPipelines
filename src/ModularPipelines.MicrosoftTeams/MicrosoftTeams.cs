@@ -1,8 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Context;
 using ModularPipelines.Http;
-using ModularPipelines.MicrosoftTeams.Models;
-using ModularPipelines.MicrosoftTeams.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.MicrosoftTeams;
@@ -16,7 +14,7 @@ internal class MicrosoftTeams : IMicrosoftTeams
         _http = http;
     }
 
-    public async Task<HttpResponseMessage> PostMicrosoftTeamsCard(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default)
+    public async Task<HttpResponseMessage> PostCardAsync(MicrosoftTeamsWebHookCardOptions options, CancellationToken cancellationToken = default)
     {
         var serializedCard = JsonSerializer.Serialize(MicrosoftTeamsCardWrapper.Wrap(options.Card), new JsonSerializerOptions
         {

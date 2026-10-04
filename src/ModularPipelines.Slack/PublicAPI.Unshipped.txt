@@ -1,2 +1,42 @@
 #nullable enable
 *REMOVED*static ModularPipelines.Slack.Extensions.SlackExtensions.Slack(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Slack.ISlack!
+*REMOVED*ModularPipelines.Slack.Extensions.SlackExtensions
+ModularPipelines.Slack.SlackExtensions
+*REMOVED*ModularPipelines.Slack.ISlack.PostWebHookMessage(ModularPipelines.Slack.Options.SlackWebHookOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Slack.ISlack.PostMessageAsync(ModularPipelines.Slack.SlackWebHookOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions
+ModularPipelines.Slack.SlackWebHookOptions
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.Deconstruct(out Slack.Webhooks.SlackMessage! SlackMessage, out System.Uri! WebHookUri) -> void
+ModularPipelines.Slack.SlackWebHookOptions.Deconstruct(out Slack.Webhooks.SlackMessage! SlackMessage, out System.Uri! WebHookUri) -> void
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.SlackMessage.get -> Slack.Webhooks.SlackMessage!
+ModularPipelines.Slack.SlackWebHookOptions.SlackMessage.get -> Slack.Webhooks.SlackMessage!
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.SlackMessage.init -> void
+ModularPipelines.Slack.SlackWebHookOptions.SlackMessage.init -> void
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.SlackWebHookOptions(ModularPipelines.Slack.Options.SlackWebHookOptions! original) -> void
+ModularPipelines.Slack.SlackWebHookOptions.SlackWebHookOptions(ModularPipelines.Slack.SlackWebHookOptions! original) -> void
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.SlackWebHookOptions(Slack.Webhooks.SlackMessage! SlackMessage, System.Uri! WebHookUri) -> void
+ModularPipelines.Slack.SlackWebHookOptions.SlackWebHookOptions(Slack.Webhooks.SlackMessage! SlackMessage, System.Uri! WebHookUri) -> void
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.WebHookUri.get -> System.Uri!
+ModularPipelines.Slack.SlackWebHookOptions.WebHookUri.get -> System.Uri!
+*REMOVED*ModularPipelines.Slack.Options.SlackWebHookOptions.WebHookUri.init -> void
+ModularPipelines.Slack.SlackWebHookOptions.WebHookUri.init -> void
+*REMOVED*override ModularPipelines.Slack.Options.SlackWebHookOptions.Equals(object? obj) -> bool
+override ModularPipelines.Slack.SlackWebHookOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Slack.Options.SlackWebHookOptions.GetHashCode() -> int
+override ModularPipelines.Slack.SlackWebHookOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Slack.Options.SlackWebHookOptions.ToString() -> string!
+override ModularPipelines.Slack.SlackWebHookOptions.ToString() -> string!
+*REMOVED*static ModularPipelines.Slack.Extensions.SlackExtensions.RegisterSlackContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Slack.SlackExtensions.RegisterSlackContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+*REMOVED*static ModularPipelines.Slack.Options.SlackWebHookOptions.operator !=(ModularPipelines.Slack.Options.SlackWebHookOptions? left, ModularPipelines.Slack.Options.SlackWebHookOptions? right) -> bool
+static ModularPipelines.Slack.SlackWebHookOptions.operator !=(ModularPipelines.Slack.SlackWebHookOptions? left, ModularPipelines.Slack.SlackWebHookOptions? right) -> bool
+*REMOVED*static ModularPipelines.Slack.Options.SlackWebHookOptions.operator ==(ModularPipelines.Slack.Options.SlackWebHookOptions? left, ModularPipelines.Slack.Options.SlackWebHookOptions? right) -> bool
+static ModularPipelines.Slack.SlackWebHookOptions.operator ==(ModularPipelines.Slack.SlackWebHookOptions? left, ModularPipelines.Slack.SlackWebHookOptions? right) -> bool
+*REMOVED*virtual ModularPipelines.Slack.Options.SlackWebHookOptions.<Clone>$() -> ModularPipelines.Slack.Options.SlackWebHookOptions!
+virtual ModularPipelines.Slack.SlackWebHookOptions.<Clone>$() -> ModularPipelines.Slack.SlackWebHookOptions!
+*REMOVED*virtual ModularPipelines.Slack.Options.SlackWebHookOptions.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Slack.SlackWebHookOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Slack.Options.SlackWebHookOptions.Equals(ModularPipelines.Slack.Options.SlackWebHookOptions? other) -> bool
+virtual ModularPipelines.Slack.SlackWebHookOptions.Equals(ModularPipelines.Slack.SlackWebHookOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Slack.Options.SlackWebHookOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.Slack.SlackWebHookOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
