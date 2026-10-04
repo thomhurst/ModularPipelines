@@ -8,6 +8,60 @@ namespace ModularPipelines.Analyzers.Test;
 public class CliOptionCollisionAnalyzerTests
 {
     [TestMethod]
+    public async Task Accepts_Global_And_Command_Switches_With_An_Override()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithOptions}}
+
+            [CliTool("tool"), CliGlobalOptions]
+            public record GlobalOptions : CommandLineToolOptions
+            {
+                [CliFlag("--debug", ShortForm = "-D", NegatedName = "--no-debug")]
+                public virtual bool? GlobalDebug { get; init; }
+            }
+
+            [CliSubCommand("run")]
+            public record CommandOptions : GlobalOptions
+            {
+                public override bool? GlobalDebug { get; init; }
+
+                [CliFlag("--debug", ShortForm = "-D", NegatedName = "--no-debug")]
+                public bool? LocalDebug { get; init; }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Global_Terminal_Option_Colliding_With_Command_Option()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithOptions}}
+
+            [CliTool("tool"), CliGlobalOptions]
+            public record GlobalOptions : CommandLineToolOptions
+            {
+                [CliOption("--output", Phase = CommandLinePhase.Terminal)]
+                public string? GlobalOutput { get; init; }
+            }
+
+            [CliSubCommand("run")]
+            public record CommandOptions : GlobalOptions
+            {
+                [{|#0:CliOption("--output")|}]
+                public string? LocalOutput { get; init; }
+            }
+            """;
+
+        var expected = VerifyCS.Diagnostic(CliOptionCollisionAnalyzer.DuplicateSwitchDiagnosticId)
+            .WithLocation(0)
+            .WithArguments("--output", "GlobalOptions.GlobalOutput", "CommandOptions.LocalOutput");
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Duplicate_Long_Switch()
     {
         var source = CreateOptionsSource("""

@@ -14,7 +14,9 @@ internal sealed class CliAttributeSymbols
         CliOption = compilation.GetTypeByMetadataName(AttributesNamespace + "CliOptionAttribute");
         CliSubCommand = compilation.GetTypeByMetadataName(AttributesNamespace + "CliSubCommandAttribute");
         CliTool = compilation.GetTypeByMetadataName(AttributesNamespace + "CliToolAttribute");
+        CliGlobalOptions = compilation.GetTypeByMetadataName(AttributesNamespace + "CliGlobalOptionsAttribute");
         CommandLinePhasePassthrough = GetEnumConstantValue(compilation, "CommandLinePhase", "Passthrough");
+        CommandLinePhaseTerminal = GetEnumConstantValue(compilation, "CommandLinePhase", "Terminal");
         ArgumentPlacementAfterOptions = GetEnumConstantValue(compilation, "ArgumentPlacement", "AfterOptions");
         CliOptionValueArityNone = GetEnumConstantValue(compilation, "CliOptionValueArity", "None");
     }
@@ -25,7 +27,9 @@ internal sealed class CliAttributeSymbols
     public INamedTypeSymbol? CliOption { get; }
     public INamedTypeSymbol? CliSubCommand { get; }
     public INamedTypeSymbol? CliTool { get; }
+    public INamedTypeSymbol? CliGlobalOptions { get; }
     public int? CommandLinePhasePassthrough { get; }
+    public int? CommandLinePhaseTerminal { get; }
     public int? ArgumentPlacementAfterOptions { get; }
     public int? CliOptionValueArityNone { get; }
 

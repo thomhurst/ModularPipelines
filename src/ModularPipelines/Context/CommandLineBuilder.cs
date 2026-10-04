@@ -446,11 +446,28 @@ internal sealed class CommandLineBuilder(
     {
         var extracted = ExtractRecognizedManualOptionsByScope(
             manualArgs,
-            commandModel.Where(static part => part.IsGlobalOption).ToList(),
-            commandModel.Where(static part => !part.IsGlobalOption).ToList(),
+            [.. commandModel.Where(static part => part.IsGlobalOption)],
+            [.. commandModel.Where(static part => !part.IsGlobalOption)],
             options,
             preserveTerminalOptions: false);
         return [.. extracted.Global, .. extracted.Command];
+    }
+
+    private static IEnumerable<(string Name, PropertyCommandLinePart Part)> GetNamedSwitches(PropertyCommandLinePart part)
+    {
+        string?[] names = part switch
+        {
+            FlagPart flag => [flag.Attribute.Name, flag.Attribute.ShortForm, flag.Attribute.NegatedName],
+            OptionPart option => [option.Attribute.Name, option.Attribute.ShortForm],
+            _ => [],
+        };
+        foreach (var name in names)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                yield return (name, part);
+            }
+        }
     }
 
     private static ExtractedManualOptions ExtractRecognizedManualOptionsByScope(
@@ -460,28 +477,18 @@ internal sealed class CommandLineBuilder(
         CommandLineToolOptions options,
         bool preserveTerminalOptions)
     {
-        var commandModel = globalCommandModel.Concat(commandSpecificModel).ToList();
-        var flagsByName = commandModel
-            .OfType<FlagPart>()
-            .SelectMany(static part => new[]
-            {
-                (Name: part.Attribute.Name, Part: part),
-                (Name: part.Attribute.ShortForm, Part: part),
-                (Name: part.Attribute.NegatedName, Part: part),
-            })
-            .Where(static item => item.Name is not null)
-            .GroupBy(static item => item.Name!, StringComparer.Ordinal)
+        // Arguments belong to the selected command. When a switch also exists globally,
+        // the command definition controls its scope and arity, including short aliases.
+        var switchesByName = commandSpecificModel.Concat(globalCommandModel)
+            .SelectMany(GetNamedSwitches)
+            .GroupBy(static item => item.Name, StringComparer.Ordinal)
             .ToDictionary(static group => group.Key, static group => group.First().Part, StringComparer.Ordinal);
-        var optionsByName = commandModel
-            .OfType<OptionPart>()
-            .SelectMany(static part => new[]
-            {
-                (Name: part.Attribute.Name, Part: part),
-                (Name: part.Attribute.ShortForm, Part: part),
-            })
-            .Where(static item => item.Name is not null)
-            .GroupBy(static item => item.Name!, StringComparer.Ordinal)
-            .ToDictionary(static group => group.Key, static group => group.First().Part, StringComparer.Ordinal);
+        var flagsByName = switchesByName
+            .Where(static pair => pair.Value is FlagPart)
+            .ToDictionary(static pair => pair.Key, static pair => (FlagPart) pair.Value, StringComparer.Ordinal);
+        var optionsByName = switchesByName
+            .Where(static pair => pair.Value is OptionPart)
+            .ToDictionary(static pair => pair.Key, static pair => (OptionPart) pair.Value, StringComparer.Ordinal);
         var globalOptions = new List<string>();
         var commandOptions = new List<string>();
         var remainingArguments = new List<string>();
@@ -762,7 +769,7 @@ internal sealed class CommandLineBuilder(
         IReadOnlyCollection<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         CommandLineToolOptions options) =>
-        ExtractRecognizedManualOptions(manualArgs.ToList(), commandModel, options).Count > 0;
+        ExtractRecognizedManualOptions([.. manualArgs], commandModel, options).Count > 0;
 
     private static bool TryGetCombinedShortOptionOperandCount(
         string argument,
