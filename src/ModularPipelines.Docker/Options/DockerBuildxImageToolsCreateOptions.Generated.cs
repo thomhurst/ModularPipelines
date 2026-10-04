@@ -43,7 +43,7 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? ImageToolsDebug { get; set; }
 
     /// <summary>
     /// Show final image instead of pushing

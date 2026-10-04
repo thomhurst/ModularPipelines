@@ -30,7 +30,7 @@ public record DockerBuildxStopOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? BuildxDebug { get; set; }
 
     /// <summary>
     /// The NAME operand.

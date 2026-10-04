@@ -23,29 +23,29 @@ public record DockerContextRmOptions : DockerOptions
     /// <summary>
     /// Remove one or more contexts
     /// </summary>
-    /// <param name="Context">The CONTEXT operand.</param>
+    /// <param name="ContextContext">The CONTEXT operand.</param>
     public DockerContextRmOptions(
-        IEnumerable<string> Context
+        IEnumerable<string> ContextContext
     )
     {
         {
-            global::System.ArgumentNullException.ThrowIfNull(Context);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Context));
+            global::System.ArgumentNullException.ThrowIfNull(ContextContext);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ContextContext));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
                     "Required collection must contain at least one value.",
-                    nameof(Context));
+                    nameof(ContextContext));
             }
 
-            Context = materialized;
+            ContextContext = materialized;
         }
-        this.Context = Context;
+        this.ContextContext = ContextContext;
     }
 
-    public void Deconstruct(out IEnumerable<string> Context)
+    public void Deconstruct(out IEnumerable<string> ContextContext)
     {
-        Context = this.Context;
+        ContextContext = this.ContextContext;
     }
 
     /// <summary>
@@ -58,6 +58,6 @@ public record DockerContextRmOptions : DockerOptions
     /// The CONTEXT operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public IEnumerable<string> Context { get; private init; }
+    public IEnumerable<string> ContextContext { get; private init; }
 
 }

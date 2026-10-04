@@ -47,7 +47,7 @@ public record DockerBuildxPolicyEvalOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? PolicyDebug { get; set; }
 
     /// <summary>
     /// Fields to evaluate

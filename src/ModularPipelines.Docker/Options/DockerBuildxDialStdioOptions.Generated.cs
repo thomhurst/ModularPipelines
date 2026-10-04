@@ -31,7 +31,7 @@ public record DockerBuildxDialStdioOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? BuildxDebug { get; set; }
 
     /// <summary>
     /// Target platform: this is used for node selection

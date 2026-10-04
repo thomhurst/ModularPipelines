@@ -24,18 +24,18 @@ public record DockerContextUpdateOptions : DockerOptions
     /// <summary>
     /// Update a context
     /// </summary>
-    /// <param name="Context">The CONTEXT operand.</param>
+    /// <param name="ContextContext">The CONTEXT operand.</param>
     public DockerContextUpdateOptions(
-        string Context
+        string ContextContext
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Context);
-        this.Context = Context;
+        global::System.ArgumentNullException.ThrowIfNull(ContextContext);
+        this.ContextContext = ContextContext;
     }
 
-    public void Deconstruct(out string Context)
+    public void Deconstruct(out string ContextContext)
     {
-        Context = this.Context;
+        ContextContext = this.ContextContext;
     }
 
     /// <summary>
@@ -54,6 +54,6 @@ public record DockerContextUpdateOptions : DockerOptions
     /// The CONTEXT operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
-    public string Context { get; private init; }
+    public string ContextContext { get; private init; }
 
 }

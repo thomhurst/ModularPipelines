@@ -47,7 +47,7 @@ public record DockerBuildxPolicyTestOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? PolicyDebug { get; set; }
 
     /// <summary>
     /// Name of the Dockerfile to validate (default "Dockerfile")

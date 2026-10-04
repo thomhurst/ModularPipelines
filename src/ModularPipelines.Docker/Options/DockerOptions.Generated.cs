@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -22,4 +23,64 @@ namespace ModularPipelines.Docker.Options;
 [CliGlobalOptions]
 public abstract record DockerOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Location of client config files (default "~/.docker")
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Config { get; set; }
+
+    /// <summary>
+    /// Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context set with "docker context use")
+    /// </summary>
+    [CliOption("--context", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Context { get; set; }
+
+    /// <summary>
+    /// Enable debug mode
+    /// </summary>
+    [CliFlag("--debug", ShortForm = "-D")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// Daemon socket to connect to
+    /// </summary>
+    [CliOption("--host", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? Host { get; set; }
+
+    /// <summary>
+    /// Set the logging level ("debug", "info", "warn", "error", "fatal") (default "info")
+    /// </summary>
+    [CliOption("--log-level", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
+    public virtual DockerLogLevel? LogLevel { get; set; }
+
+    /// <summary>
+    /// Use TLS; implied by --tlsverify
+    /// </summary>
+    [CliFlag("--tls")]
+    public virtual bool? Tls { get; set; }
+
+    /// <summary>
+    /// Trust certs signed only by this CA (default "~/.docker/ca.pem")
+    /// </summary>
+    [CliOption("--tlscacert", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Tlscacert { get; set; }
+
+    /// <summary>
+    /// Path to TLS certificate file (default "~/.docker/cert.pem")
+    /// </summary>
+    [CliOption("--tlscert", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Tlscert { get; set; }
+
+    /// <summary>
+    /// Path to TLS key file (default "~/.docker/key.pem")
+    /// </summary>
+    [CliOption("--tlskey", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Tlskey { get; set; }
+
+    /// <summary>
+    /// Use TLS and verify the remote
+    /// </summary>
+    [CliFlag("--tlsverify")]
+    public virtual bool? Tlsverify { get; set; }
+
 }

@@ -48,7 +48,7 @@ public record DockerBuildxCreateOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? BuildxDebug { get; set; }
 
     /// <summary>
     /// Driver to use (available: "cloud", "docker-container", "kubernetes", "remote")
@@ -102,6 +102,6 @@ public record DockerBuildxCreateOptions : DockerOptions
     /// The CONTEXT operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public string? Context { get; set; }
+    public string? BuildxContext { get; set; }
 
 }
