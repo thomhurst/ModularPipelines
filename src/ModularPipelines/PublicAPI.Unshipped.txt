@@ -426,7 +426,7 @@ ModularPipelines.Distributed.IDistributedMasterCoordinator.GetActiveLeasesAsync(
 ModularPipelines.Distributed.IDistributedMasterCoordinator.RequeueExpiredLeasesAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ModuleId>!>!
 *REMOVED*ModularPipelines.Distributed.IDistributedMasterCoordinator.WaitForResultAsync(string! moduleTypeName, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.SerializedModuleResult!>!
 ModularPipelines.Distributed.IDistributedMasterCoordinator.WithdrawAssignmentAsync(ModularPipelines.Distributed.ModuleId moduleId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
-ModularPipelines.Distributed.IDistributedWorkerCoordinator.DequeueModuleAsync(ModularPipelines.Distributed.WorkerId workerId, System.Collections.Generic.IReadOnlySet<ModularPipelines.Distributed.Capability>! workerCapabilities, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ModuleLease?>!
+ModularPipelines.Distributed.IDistributedWorkerCoordinator.DequeueModuleAsync(ModularPipelines.Distributed.WorkerId workerId, System.Collections.Generic.IReadOnlySet<ModularPipelines.Capability>! workerCapabilities, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ModuleLease?>!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.PublishResultAsync(ModularPipelines.Distributed.SerializedModuleResult! result, ModularPipelines.Distributed.ModuleLease? lease, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.WaitForCancellationAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.DistributedCancellationReason>!
 ModularPipelines.Distributed.IDistributedWorkerCoordinator.GetMasterStateAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.DistributedMasterState>!
@@ -1312,7 +1312,7 @@ override ModularPipelines.Distributed.WorkerId.ToString() -> string!
 *REMOVED*static ModularPipelines.Context.ContextExtensions.TryGetService<T>(this ModularPipelines.Context.IPipelineContext! context) -> T?
 *REMOVED*static ModularPipelines.Distributed.Capabilities.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, ModularPipelines.Distributed.WorkerRegistration! worker) -> bool
 *REMOVED*static ModularPipelines.Distributed.Capabilities.CapabilityMatcher.CanExecute(ModularPipelines.Distributed.ModuleAssignment! assignment, System.Collections.Generic.IReadOnlySet<string!>! workerCapabilities) -> bool
-static ModularPipelines.Distributed.Capability.explicit operator ModularPipelines.Distributed.Capability(string! name) -> ModularPipelines.Distributed.Capability
+static ModularPipelines.Capability.explicit operator ModularPipelines.Capability(string! name) -> ModularPipelines.Capability
 *REMOVED*static ModularPipelines.Distributed.Extensions.ArtifactContextExtensions.Artifacts(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Distributed.IArtifactContext!
 *REMOVED*static ModularPipelines.Distributed.Extensions.ArtifactContextExtensions.Artifacts(this ModularPipelines.IPipelineContext! context) -> ModularPipelines.Distributed.IArtifactContext!
 *REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedCoordinator<TCoordinator>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
@@ -1753,20 +1753,20 @@ ModularPipelines.Distributed.ArtifactDescriptor.ModuleId.get -> ModularPipelines
 ModularPipelines.Distributed.ArtifactDescriptor.ModuleId.init -> void
 ModularPipelines.Distributed.ArtifactReference.ModuleId.get -> ModularPipelines.Distributed.ModuleId
 ModularPipelines.Distributed.ArtifactReference.ModuleId.init -> void
-ModularPipelines.Distributed.Capability
-ModularPipelines.Distributed.Capability.Capability() -> void
-ModularPipelines.Distributed.Capability.Capability(string! name) -> void
-ModularPipelines.Distributed.Capability.Equals(ModularPipelines.Distributed.Capability other) -> bool
-ModularPipelines.Distributed.Capability.Name.get -> string!
-ModularPipelines.Distributed.Capability.Names
-ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions
-ModularPipelines.Distributed.CapabilityRequirement
-ModularPipelines.Distributed.CapabilityRequirement.And(ModularPipelines.Distributed.CapabilityRequirement! other) -> ModularPipelines.Distributed.CapabilityRequirement!
-ModularPipelines.Distributed.CapabilityRequirement.Clauses.get -> System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!>!
-ModularPipelines.Distributed.CapabilityRequirement.Equals(ModularPipelines.Distributed.CapabilityRequirement? other) -> bool
-ModularPipelines.Distributed.CapabilityRequirement.IsEmpty.get -> bool
-ModularPipelines.Distributed.CapabilityRequirement.IsSatisfiedBy(System.Collections.Generic.IEnumerable<ModularPipelines.Distributed.Capability>! capabilities) -> bool
-ModularPipelines.Distributed.CapabilityRequirement.Or(ModularPipelines.Distributed.CapabilityRequirement! other) -> ModularPipelines.Distributed.CapabilityRequirement!
+ModularPipelines.Capability
+ModularPipelines.Capability.Capability() -> void
+ModularPipelines.Capability.Capability(string! name) -> void
+ModularPipelines.Capability.Equals(ModularPipelines.Capability other) -> bool
+ModularPipelines.Capability.Name.get -> string!
+ModularPipelines.Capability.Names
+ModularPipelines.CapabilityPipelineBuilderExtensions
+ModularPipelines.CapabilityRequirement
+ModularPipelines.CapabilityRequirement.And(ModularPipelines.CapabilityRequirement! other) -> ModularPipelines.CapabilityRequirement!
+ModularPipelines.CapabilityRequirement.Clauses.get -> System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<ModularPipelines.Capability>!>!
+ModularPipelines.CapabilityRequirement.Equals(ModularPipelines.CapabilityRequirement? other) -> bool
+ModularPipelines.CapabilityRequirement.IsEmpty.get -> bool
+ModularPipelines.CapabilityRequirement.IsSatisfiedBy(System.Collections.Generic.IEnumerable<ModularPipelines.Capability>! capabilities) -> bool
+ModularPipelines.CapabilityRequirement.Or(ModularPipelines.CapabilityRequirement! other) -> ModularPipelines.CapabilityRequirement!
 ModularPipelines.Distributed.DependencyResultReference
 ModularPipelines.Distributed.DependencyResultReference.IsAvailable.get -> bool
 ModularPipelines.Distributed.DependencyResultReference.IsAvailable.init -> void
@@ -1790,7 +1790,7 @@ ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionFinish
 ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionFinishedAt.init -> void
 ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionStartedAt.get -> System.DateTimeOffset
 ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionStartedAt.init -> void
-ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
+ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Capability>!
 ModularPipelines.Distributed.DistributedOptions.MaxParallelism.get -> int?
 ModularPipelines.Distributed.DistributedOptions.MaxParallelism.set -> void
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.get -> int
@@ -1818,8 +1818,8 @@ ModularPipelines.Distributed.IArtifactContext.DownloadAsync(ModularPipelines.Dis
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync<TProducerModule>(string! artifactName, string! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Distributed.IArtifactContext.PublishDirectoryAsync(string! artifactName, string! directoryPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ArtifactReference!>!
 ModularPipelines.Distributed.IArtifactContext.PublishFileAsync(string! artifactName, string! filePath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.ArtifactReference!>!
-ModularPipelines.Distributed.ICapabilityProvider
-ModularPipelines.Distributed.ICapabilityProvider.GetCapabilitiesAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<ModularPipelines.Distributed.Capability>!>!
+ModularPipelines.ICapabilityProvider
+ModularPipelines.ICapabilityProvider.GetCapabilitiesAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<ModularPipelines.Capability>!>!
 ModularPipelines.Distributed.IDistributedArtifactStore.ListArtifactsAsync(ModularPipelines.Distributed.ModuleId moduleId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ArtifactReference!>!>!
 ModularPipelines.Distributed.IDistributedCoordinatorFactory.CreateMasterAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.IDistributedMasterCoordinator!>!
 ModularPipelines.Distributed.IDistributedCoordinatorFactory.CreateWorkerAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.IDistributedWorkerCoordinator!>!
@@ -1844,7 +1844,7 @@ ModularPipelines.Distributed.ModuleAssignment.PipelineSchemaVersion.get -> strin
 ModularPipelines.Distributed.ModuleAssignment.PipelineSchemaVersion.init -> void
 ModularPipelines.Distributed.ModuleAssignment.Priority.get -> ModularPipelines.ModulePriority
 ModularPipelines.Distributed.ModuleAssignment.Priority.init -> void
-ModularPipelines.Distributed.ModuleAssignment.RequiredCapabilities.get -> ModularPipelines.Distributed.CapabilityRequirement!
+ModularPipelines.Distributed.ModuleAssignment.RequiredCapabilities.get -> ModularPipelines.CapabilityRequirement!
 ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Distributed.ModuleAssignment.SatisfiedConditionGroups.init -> void
 ModularPipelines.Distributed.ModuleId
@@ -1862,7 +1862,7 @@ ModularPipelines.Distributed.SerializedModuleResult.ModuleId.get -> ModularPipel
 ModularPipelines.Distributed.SerializedModuleResult.ModuleId.init -> void
 ModularPipelines.Distributed.SerializedModuleResult.Payload.get -> string!
 ModularPipelines.Distributed.SerializedModuleResult.Payload.init -> void
-ModularPipelines.Distributed.WorkerRegistration.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.Capability>!
+ModularPipelines.Distributed.WorkerRegistration.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Capability>!
 ModularPipelines.Distributed.WorkerRegistration.PipelineSchemaVersion.get -> string!
 ModularPipelines.Distributed.WorkerRegistration.PipelineSchemaVersion.init -> void
 ModularPipelines.Distributed.WorkerRegistration.RunId.get -> string?
@@ -2109,7 +2109,7 @@ ModularPipelines.Generated.SecretPropertyAccessor.SecretPropertyAccessor(string!
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.get -> System.Collections.Generic.IReadOnlyList<string!>?
 ModularPipelines.Generated.SecretPropertyAccessor.SecretValueKeys.init -> void
 ModularPipelines.ICapabilityCondition
-ModularPipelines.ICapabilityCondition.Capability.get -> ModularPipelines.Distributed.Capability
+ModularPipelines.ICapabilityCondition.Capability.get -> ModularPipelines.Capability
 ModularPipelines.IExecutionBackend
 ModularPipelines.IExecutionBackend.OwnsEntirePlan.get -> bool
 ModularPipelines.IExecutionBackendContext
@@ -2295,24 +2295,24 @@ ModularPipelines.OnCI
 ModularPipelines.OnCI.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnCI.OnCI() -> void
 ModularPipelines.OnFreeBSD
-ModularPipelines.OnFreeBSD.Capability.get -> ModularPipelines.Distributed.Capability
+ModularPipelines.OnFreeBSD.Capability.get -> ModularPipelines.Capability
 ModularPipelines.OnFreeBSD.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnFreeBSD.OnFreeBSD() -> void
 ModularPipelines.OnLinux
-ModularPipelines.OnLinux.Capability.get -> ModularPipelines.Distributed.Capability
+ModularPipelines.OnLinux.Capability.get -> ModularPipelines.Capability
 ModularPipelines.OnLinux.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnLinux.OnLinux() -> void
 ModularPipelines.OnLocal
 ModularPipelines.OnLocal.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnLocal.OnLocal() -> void
 ModularPipelines.OnMacOS
-ModularPipelines.OnMacOS.Capability.get -> ModularPipelines.Distributed.Capability
+ModularPipelines.OnMacOS.Capability.get -> ModularPipelines.Capability
 ModularPipelines.OnMacOS.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnMacOS.OnMacOS() -> void
 ModularPipelines.OnUnix
 ModularPipelines.OnUnix.OnUnix() -> void
 ModularPipelines.OnWindows
-ModularPipelines.OnWindows.Capability.get -> ModularPipelines.Distributed.Capability
+ModularPipelines.OnWindows.Capability.get -> ModularPipelines.Capability
 ModularPipelines.OnWindows.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 ModularPipelines.OnWindows.OnWindows() -> void
 ModularPipelines.Options.CommandExecutionOptions.Logging.get -> ModularPipelines.Options.CommandLoggingOptions?
@@ -2779,12 +2779,12 @@ abstract ModularPipelines.Requirements.PipelineRequirement.EvaluateAsync(Modular
 abstract ModularPipelines.RunConditionAttribute.EvaluateAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
 abstract ModularPipelines.SyncModule.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> void
 abstract ModularPipelines.SyncModule<T>.Execute(ModularPipelines.IModuleContext! context, System.Threading.CancellationToken cancellationToken) -> T
-const ModularPipelines.Distributed.Capability.Names.Docker = "docker" -> string!
-const ModularPipelines.Distributed.Capability.Names.FreeBSD = "freebsd" -> string!
-const ModularPipelines.Distributed.Capability.Names.Gpu = "gpu" -> string!
-const ModularPipelines.Distributed.Capability.Names.Linux = "linux" -> string!
-const ModularPipelines.Distributed.Capability.Names.MacOS = "macos" -> string!
-const ModularPipelines.Distributed.Capability.Names.Windows = "windows" -> string!
+const ModularPipelines.Capability.Names.Docker = "docker" -> string!
+const ModularPipelines.Capability.Names.FreeBSD = "freebsd" -> string!
+const ModularPipelines.Capability.Names.Gpu = "gpu" -> string!
+const ModularPipelines.Capability.Names.Linux = "linux" -> string!
+const ModularPipelines.Capability.Names.MacOS = "macos" -> string!
+const ModularPipelines.Capability.Names.Windows = "windows" -> string!
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentCommandMetadataSchemaVersion = 4 -> int
 const ModularPipelines.Generated.RuntimeMetadataRegistry.CurrentSecretMetadataSchemaVersion = 2 -> int
 const ModularPipelines.Reporting.PipelineRunReport.CurrentSchemaVersion = 5 -> int
@@ -2820,12 +2820,12 @@ override ModularPipelines.DependsOnAllModulesInheritingFromAttribute<TModule>.Sh
 override ModularPipelines.DependsOnModulesInCategoryAttribute.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
 override ModularPipelines.DependsOnModulesWithAttributeAttribute<TAttribute>.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
 override ModularPipelines.DependsOnModulesWithTagAttribute.ShouldDependOn(System.Type! candidateModule, ModularPipelines.Context.IDependencyContext! context) -> bool
-override ModularPipelines.Distributed.Capability.Equals(object? obj) -> bool
-override ModularPipelines.Distributed.Capability.GetHashCode() -> int
-override ModularPipelines.Distributed.Capability.ToString() -> string!
-override ModularPipelines.Distributed.CapabilityRequirement.Equals(object? obj) -> bool
-override ModularPipelines.Distributed.CapabilityRequirement.GetHashCode() -> int
-override ModularPipelines.Distributed.CapabilityRequirement.ToString() -> string!
+override ModularPipelines.Capability.Equals(object? obj) -> bool
+override ModularPipelines.Capability.GetHashCode() -> int
+override ModularPipelines.Capability.ToString() -> string!
+override ModularPipelines.CapabilityRequirement.Equals(object? obj) -> bool
+override ModularPipelines.CapabilityRequirement.GetHashCode() -> int
+override ModularPipelines.CapabilityRequirement.ToString() -> string!
 override ModularPipelines.Distributed.DependencyResultReference.Equals(object? obj) -> bool
 override ModularPipelines.Distributed.DependencyResultReference.GetHashCode() -> int
 override ModularPipelines.Distributed.DependencyResultReference.ToString() -> string!
@@ -3033,21 +3033,21 @@ static ModularPipelines.Context.ContextExtensions.GetRequiredConfigValue(this Mo
 static ModularPipelines.Context.ContextExtensions.IsRunningIn(this ModularPipelines.IPipelineContext! context, ModularPipelines.Enums.BuildSystem buildSystem) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningInCI(this ModularPipelines.IPipelineContext! context) -> bool
 static ModularPipelines.Context.ContextExtensions.IsRunningLocally(this ModularPipelines.IPipelineContext! context) -> bool
-static ModularPipelines.Distributed.Capability.Docker.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.FreeBSD.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.Gpu.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.Linux.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.MacOS.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.Windows.get -> ModularPipelines.Distributed.Capability
-static ModularPipelines.Distributed.Capability.implicit operator string!(ModularPipelines.Distributed.Capability capability) -> string!
-static ModularPipelines.Distributed.Capability.operator !=(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
-static ModularPipelines.Distributed.Capability.operator ==(ModularPipelines.Distributed.Capability left, ModularPipelines.Distributed.Capability right) -> bool
-static ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions.AddCapabilities(this ModularPipelines.PipelineBuilder! builder, params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.CapabilityPipelineBuilderExtensions.AddCapabilityProvider<TProvider>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.CapabilityRequirement.AllOf(params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.Distributed.CapabilityRequirement!
-static ModularPipelines.Distributed.CapabilityRequirement.AnyOf(params ModularPipelines.Distributed.Capability[]! capabilities) -> ModularPipelines.Distributed.CapabilityRequirement!
-static ModularPipelines.Distributed.CapabilityRequirement.Create(System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<ModularPipelines.Distributed.Capability>!>! clauses) -> ModularPipelines.Distributed.CapabilityRequirement!
-static ModularPipelines.Distributed.CapabilityRequirement.None.get -> ModularPipelines.Distributed.CapabilityRequirement!
+static ModularPipelines.Capability.Docker.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.FreeBSD.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.Gpu.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.Linux.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.MacOS.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.Windows.get -> ModularPipelines.Capability
+static ModularPipelines.Capability.implicit operator string!(ModularPipelines.Capability capability) -> string!
+static ModularPipelines.Capability.operator !=(ModularPipelines.Capability left, ModularPipelines.Capability right) -> bool
+static ModularPipelines.Capability.operator ==(ModularPipelines.Capability left, ModularPipelines.Capability right) -> bool
+static ModularPipelines.CapabilityPipelineBuilderExtensions.AddCapabilities(this ModularPipelines.PipelineBuilder! builder, params ModularPipelines.Capability[]! capabilities) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.CapabilityPipelineBuilderExtensions.AddCapabilityProvider<TProvider>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.CapabilityRequirement.AllOf(params ModularPipelines.Capability[]! capabilities) -> ModularPipelines.CapabilityRequirement!
+static ModularPipelines.CapabilityRequirement.AnyOf(params ModularPipelines.Capability[]! capabilities) -> ModularPipelines.CapabilityRequirement!
+static ModularPipelines.CapabilityRequirement.Create(System.Collections.Generic.IEnumerable<System.Collections.Generic.IEnumerable<ModularPipelines.Capability>!>! clauses) -> ModularPipelines.CapabilityRequirement!
+static ModularPipelines.CapabilityRequirement.None.get -> ModularPipelines.CapabilityRequirement!
 static ModularPipelines.Distributed.DependencyResultReference.operator !=(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.DependencyResultReference.operator ==(ModularPipelines.Distributed.DependencyResultReference? left, ModularPipelines.Distributed.DependencyResultReference? right) -> bool
 static ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.operator !=(ModularPipelines.Distributed.DistributedModuleExecutionTelemetry? left, ModularPipelines.Distributed.DistributedModuleExecutionTelemetry? right) -> bool

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace ModularPipelines.Distributed;
+namespace ModularPipelines;
 
 /// <summary>
 /// Extension methods for declaring the capabilities this process provides.

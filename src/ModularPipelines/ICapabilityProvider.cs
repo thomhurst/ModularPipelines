@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed;
 
-namespace ModularPipelines.Distributed;
+namespace ModularPipelines;
 
 /// <summary>
 /// Detects capabilities that this process provides.
