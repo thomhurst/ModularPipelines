@@ -249,63 +249,77 @@ internal class ArtifactContextImpl(
                 continue;
             }
 
-            var entryDirectory = Path.GetDirectoryName(entryPath);
-            if (!string.IsNullOrEmpty(entryDirectory))
+            await ExtractArchiveFileAsync(
+                entry, provider, destinationDirectory, destinationPrefix, entryPath, pathComparison, cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private static async Task ExtractArchiveFileAsync(
+        ZipArchiveEntry entry,
+        IFileSystemProvider provider,
+        string destinationDirectory,
+        string destinationPrefix,
+        string entryPath,
+        StringComparison pathComparison,
+        CancellationToken cancellationToken)
+    {
+        var entryDirectory = Path.GetDirectoryName(entryPath);
+        if (!string.IsNullOrEmpty(entryDirectory))
+        {
+            CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
+        }
+
+        EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+
+        var fileOptions = new FileStreamOptions
+        {
+            Access = FileAccess.Write,
+            Mode = FileMode.CreateNew,
+            Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+        };
+        if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
+        {
+            // Apply ordinary permissions at creation so the OS enforces the umask.
+            // Never propagate setuid, setgid, or sticky bits from ZIPs.
+            var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+            if (unixAttributes != 0)
             {
-                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
+                var permissionBits = unixAttributes & 0x1FF;
+                fileOptions.UnixCreateMode = (UnixFileMode) permissionBits;
+            }
+        }
+
+        // A new sibling file receives the archive mode through the OS umask even
+        // when replacing an existing destination. Cancellation leaves that file intact.
+        var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
+        if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
+        {
+            throw new IOException("The archive temporary file would leave the destination directory.");
+        }
+
+        var destinationStream = provider is SystemFileSystemProvider
+            ? new FileStream(temporaryPath, fileOptions)
+            : provider.Open(temporaryPath, FileMode.CreateNew, FileAccess.Write);
+        try
+        {
+            await using (destinationStream.ConfigureAwait(false))
+            {
+                var entryStream = entry.Open();
+                await using (entryStream.ConfigureAwait(false))
+                {
+                    await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                }
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+            provider.SetLastWriteTimeUtc(temporaryPath, entry.LastWriteTime.DateTime.ToUniversalTime());
             EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
-
-            var fileOptions = new FileStreamOptions
-            {
-                Access = FileAccess.Write,
-                Mode = FileMode.CreateNew,
-                Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-            };
-            if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
-            {
-                // Apply ordinary permissions at creation so the OS enforces the umask.
-                // Never propagate setuid, setgid, or sticky bits from ZIPs.
-                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if (unixAttributes != 0)
-                {
-                    var permissionBits = unixAttributes & 0x1FF;
-                    fileOptions.UnixCreateMode = (UnixFileMode) permissionBits;
-                }
-            }
-
-            // A new sibling file receives the archive mode through the OS umask even
-            // when replacing an existing destination. Cancellation leaves that file intact.
-            var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
-            if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
-            {
-                throw new IOException("The archive temporary file would leave the destination directory.");
-            }
-
-            var destinationStream = provider is SystemFileSystemProvider
-                ? new FileStream(temporaryPath, fileOptions)
-                : provider.Open(temporaryPath, FileMode.CreateNew, FileAccess.Write);
-            try
-            {
-                await using (destinationStream.ConfigureAwait(false))
-                {
-                    var entryStream = entry.Open();
-                    await using (entryStream.ConfigureAwait(false))
-                    {
-                        await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
-                    }
-                }
-
-                cancellationToken.ThrowIfCancellationRequested();
-                provider.SetLastWriteTimeUtc(temporaryPath, entry.LastWriteTime.DateTime.ToUniversalTime());
-                EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
-                provider.MoveFile(temporaryPath, entryPath, overwrite: true);
-            }
-            finally
-            {
-                provider.DeleteFile(temporaryPath);
-            }
+            provider.MoveFile(temporaryPath, entryPath, overwrite: true);
+        }
+        finally
+        {
+            provider.DeleteFile(temporaryPath);
         }
     }
 

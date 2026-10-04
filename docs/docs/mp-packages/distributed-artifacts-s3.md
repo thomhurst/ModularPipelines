@@ -69,6 +69,11 @@ Typed operations use the path's already-resolved absolute location and its own
 filesystem provider, including custom providers. Constructing `new FilePath(...)`
 or `new FolderPath(...)` directly uses the process working directory and system
 filesystem. Existing string overloads keep their system-filesystem behavior.
+Replacing existing directory entries requires the provider's atomic overwrite-move
+operation. The system and in-memory providers support it. Other custom providers
+that cannot replace files atomically report `NotSupportedException`, preserving the
+existing destination instead of deleting it before a replacement is ready.
+
 Directory publishing still uses a temporary system file to spool the ZIP archive;
 its source and destination contents use their respective path providers.
 

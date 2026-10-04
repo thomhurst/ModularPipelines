@@ -186,6 +186,27 @@ public class TypedArtifactContextTests
         await Assert.That(fileSystem.FileExists(Path.GetFullPath(Path.Combine(destination.Path, "..", "outside.txt")))).IsFalse();
     }
 
+    [Test]
+    public async Task Unsupported_Atomic_Replacement_Preserves_Existing_Content_And_Cleans_Temporary_File()
+    {
+        var (provider, fileSystem) = CreateProvider();
+        var source = new FolderPath(Path.Combine("typed-artifacts", "source"), provider);
+        var destination = new FolderPath(Path.Combine("typed-artifacts", "destination"), provider);
+        fileSystem.AddFile(Path.Combine(source.Path, "payload.txt"), new MockFileData("new"));
+        var target = Path.Combine(destination.Path, "payload.txt");
+        fileSystem.AddFile(target, new MockFileData("old"));
+        Mock.Get(provider).Setup(p => p.MoveFile(It.IsAny<string>(), It.IsAny<string>(), true))
+            .Throws<NotSupportedException>();
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+            .ForModule(typeof(ArtifactProducer));
+        await context.PublishDirectoryAsync("directory", source);
+
+        await Assert.ThrowsAsync<NotSupportedException>(() => context.DownloadAsync<ArtifactProducer>("directory", destination));
+
+        await Assert.That(fileSystem.File.ReadAllText(target)).IsEqualTo("old");
+        await Assert.That(fileSystem.Directory.GetFiles(destination.Path)).IsEquivalentTo([target]);
+    }
+
     private static (IFileSystemProvider Provider, MockFileSystem FileSystem) CreateProvider()
     {
         var fileSystem = new MockFileSystem();
