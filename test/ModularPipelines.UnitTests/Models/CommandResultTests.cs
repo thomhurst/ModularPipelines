@@ -1,12 +1,57 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using CliWrap;
+using ModularPipelines.Distributed.Serialization;
 using CommandResult = ModularPipelines.CommandResult;
 
 namespace ModularPipelines.UnitTests.Models;
 
 public class CommandResultTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Json_Without_Truncation_Metadata_Defaults_Counts_To_Zero(bool distributedOptions)
+    {
+        const string json = """
+            {
+              "CommandInput": "tool --version",
+              "EnvironmentVariables": {},
+              "WorkingDirectory": ".",
+              "StandardOutput": "1.0.0",
+              "StandardError": "",
+              "ExitCode": 0,
+              "StartTime": "2026-10-04T12:00:00+00:00",
+              "EndTime": "2026-10-04T12:00:01+00:00",
+              "Duration": "00:00:01"
+            }
+            """;
+
+        var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
+        var result = JsonSerializer.Deserialize<CommandResult>(json, options)!;
+        await Assert.That(result.StandardOutput).IsEqualTo("1.0.0");
+        await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(0);
+        await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(0);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Json_Round_Trip_Preserves_Truncation_Metadata(bool distributedOptions)
+    {
+        var original = CommandResult.Ok("output", "error") with
+        {
+            StandardOutputTruncatedCharacters = 12,
+            StandardErrorTruncatedCharacters = 34,
+        };
+
+        var options = distributedOptions ? ModuleResultSerializer.CreateOptions() : new JsonSerializerOptions();
+        var result = JsonSerializer.Deserialize<CommandResult>(JsonSerializer.Serialize(original, options), options)!;
+        await Assert.That(result.StandardOutputTruncatedCharacters).IsEqualTo(12);
+        await Assert.That(result.StandardErrorTruncatedCharacters).IsEqualTo(34);
+    }
+
     [Test]
     public async Task Public_Result_Data_Is_Required()
     {
