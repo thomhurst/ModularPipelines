@@ -62,14 +62,24 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
 
     private async Task<string> ResolvePythonAsync(string command, CancellationToken cancellationToken)
     {
-        var version = await inner.ExecuteAsync(command, "--version", cancellationToken).ConfigureAwait(false);
-        var match = PythonLocationPattern().Match(version.CombinedOutput);
-        if (version.Unavailable || !version.Success || !match.Success)
+        try
         {
-            throw new InvalidOperationException("Azure CLI did not report its Python location; argument arity cannot be verified.");
-        }
+            var version = await inner.ExecuteAsync(command, "--version", cancellationToken).ConfigureAwait(false);
+            var match = PythonLocationPattern().Match(version.CombinedOutput);
+            if (version.Unavailable || !version.Success || !match.Success)
+            {
+                throw new InvalidOperationException("Azure CLI did not report its Python location; argument arity cannot be verified.");
+            }
 
-        return match.Groups["path"].Value;
+            return match.Groups["path"].Value;
+        }
+        catch
+        {
+            // Only the cached lookup removes its entry, before completing with failure.
+            // Individual callers cancelling WaitAsync cannot evict a live lookup or a replacement.
+            _pythonPaths.TryRemove(command, out _);
+            throw;
+        }
     }
 
     [GeneratedRegex("Python location ['\\\"](?<path>[^'\\\"]+)['\\\"]")]
