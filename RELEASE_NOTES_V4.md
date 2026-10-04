@@ -107,6 +107,7 @@ and command defaults. It does not change the process current directory.
 copy/move destinations still use the process directory. For pipeline-relative
 paths, use `context.Files.GetFile` or `GetFolder` and pass their absolute `Path`
 to destination parameters. See the [relative-path migration guidance](docs/docs/how-to/relative-paths.md).
+
 ## .NET CLI options
 
 The .NET options generator now recognizes multiple long aliases and single-dash

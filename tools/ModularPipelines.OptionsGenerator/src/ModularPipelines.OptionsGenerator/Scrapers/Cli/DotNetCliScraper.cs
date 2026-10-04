@@ -326,8 +326,10 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                          && (declaresBooleanDefault
                              || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
+            // VSTest accepts repeated logger, collector, and adapter switches; its help omits that detail.
             var acceptsMultiple = description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
-                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase);
+                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase) ||
+                                  (commandParts is ["test"] && primaryFlag is "logger" or "collect" or "test-adapter-path");
 
             var csharpType = DetermineType(valueHint, description, isFlag, acceptsMultiple);
 

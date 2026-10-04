@@ -65,13 +65,29 @@ public class DotNetCommandParserTests : TestBase
         {
             Settings = "test.runsettings",
             Filter = "Category=Unit",
-            Logger = "trx",
-            Collect = "Coverage",
+            Logger = ["trx"],
+            Collect = ["Coverage"],
             Blame = true,
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
             "dotnet test --settings test.runsettings --filter Category=Unit --logger trx --collect Coverage --blame");
+    }
+
+    [Test]
+    public async Task Test_Repeats_Logger_Collector_And_Adapter_Switches()
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            TestAdapterPath = ["adapters/first", "adapters/second"],
+            Logger = ["trx", "console;verbosity=normal"],
+            Collect = ["Code Coverage", "XPlat Code Coverage"],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet test --test-adapter-path adapters/first --test-adapter-path adapters/second " +
+            "--logger trx --logger console;verbosity=normal " +
+            "--collect \"Code Coverage\" --collect \"XPlat Code Coverage\"");
     }
 
     [Test]
