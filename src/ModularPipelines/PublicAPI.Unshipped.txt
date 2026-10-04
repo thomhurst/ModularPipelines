@@ -3331,3 +3331,4 @@ ModularPipelines.Options.PipelineOptions.Equals(ModularPipelines.Options.Pipelin
 ModularPipelines.Options.ConcurrencyOptions.<Clone>$() -> ModularPipelines.Options.ConcurrencyOptions!
 *REMOVED*virtual ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.Options.PipelineOptions!
 ModularPipelines.Options.PipelineOptions.<Clone>$() -> ModularPipelines.Options.PipelineOptions!
+ModularPipelines.Context.ISecurityContext.Secrets.get -> ModularPipelines.Secrets.ISecretRegistry!
