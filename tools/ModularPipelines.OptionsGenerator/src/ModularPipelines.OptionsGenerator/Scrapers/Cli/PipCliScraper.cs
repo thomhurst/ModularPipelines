@@ -40,6 +40,12 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PipCliScraper : CliScraperBase
 {
+    // These optparse append actions (and --group's appending callback) omit repeatability from help.
+    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
+    {
+        "--trusted-host", "--exists-action", "--use-feature", "--use-deprecated", "--group",
+    };
+
     public PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -339,9 +345,8 @@ public partial class PipCliScraper : CliScraperBase
                 }
 
                 var isFlag = string.IsNullOrEmpty(valueHint);
-                // pip's optparse append actions are not described as repeatable in help.
                 var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
-                    || longForm is "--trusted-host" or "--exists-action" or "--use-feature" or "--use-deprecated";
+                    || RepeatableOptions.Contains(longForm);
                 var scalarType = isFlag ? "bool?" : "string?";
                 var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
