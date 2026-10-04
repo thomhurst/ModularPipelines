@@ -331,7 +331,6 @@ public class RedisDistributedExtensionsTests
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
-        builder.AddDistributedMode(options => options.RunId = "endpoint-validation");
         void Configure(RedisOptions options)
         {
             options.ConnectionString = mode == "remove" ? "localhost:6379" : string.Empty;
@@ -349,11 +348,11 @@ public class RedisDistributedExtensionsTests
 
         if (moduleCache)
         {
-            builder.AddRedisDistributed(options => options.ConnectionString = "unused");
             builder.AddRedisModuleCache(Configure);
         }
         else
         {
+            builder.AddDistributedMode(options => options.RunId = "endpoint-validation");
             builder.AddRedisDistributed(Configure);
         }
 
@@ -361,6 +360,33 @@ public class RedisDistributedExtensionsTests
         await Assert.That(exception!.Message).Contains(nameof(RedisOptions.ConnectionString));
         await Assert.That(exception.OptionsName)
             .IsEqualTo(moduleCache ? "ModularPipelines.RedisModuleCache" : string.Empty);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Valid_Cache_Only_Configuration_Builds_Without_Connecting(bool callbackOnly)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisModuleCache(options =>
+        {
+            options.TimeToLive = TimeSpan.FromMinutes(1);
+            if (callbackOnly)
+            {
+                options.ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381);
+            }
+            else
+            {
+                options.ConnectionString = "cache.invalid:6381";
+            }
+        });
+
+        await using var pipeline = await builder.BuildAsync();
+        var cache = pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
+            .Get("ModularPipelines.RedisModuleCache");
+        await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).EndPoints.Count).IsEqualTo(1);
+        await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
     }
 
     [Test]
@@ -379,7 +405,9 @@ public class RedisDistributedExtensionsTests
                 connection.Ssl = true;
             },
         };
-        var validator = new RedisOptionsValidator(Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
+        var validator = new RedisOptionsValidator(
+            Microsoft.Extensions.Options.Options.DefaultName,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
 
         var result = validator.Validate(Microsoft.Extensions.Options.Options.DefaultName, options);
         await Assert.That(result.Succeeded).IsTrue();

@@ -200,7 +200,10 @@ public static class RedisDistributedExtensions
 
     private static void AddValidation(IServiceCollection services, string name)
     {
-        services.TryAddEnumerable(ServiceDescriptor.Singleton<IValidateOptions<RedisOptions>, RedisOptionsValidator>());
+        // A cache-only registration must not validate the unused unnamed options when
+        // core services enumerate options, for example when discovering secrets.
+        services.AddSingleton<IValidateOptions<RedisOptions>>(serviceProvider =>
+            new RedisOptionsValidator(name, serviceProvider.GetRequiredService<IOptions<DistributedOptions>>()));
         services.AddOptions<RedisOptions>(name).ValidateOnStart();
     }
 

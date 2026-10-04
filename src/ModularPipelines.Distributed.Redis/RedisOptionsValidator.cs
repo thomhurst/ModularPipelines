@@ -6,11 +6,16 @@ namespace ModularPipelines.Distributed.Redis;
 /// Validates <see cref="RedisOptions"/> at startup. The unnamed instance configures the
 /// distributed coordinator and artifact store, so its keys must outlive a module result wait.
 /// </summary>
-internal sealed class RedisOptionsValidator(IOptions<DistributedOptions> distributedOptions)
+internal sealed class RedisOptionsValidator(string optionsName, IOptions<DistributedOptions> distributedOptions)
     : IValidateOptions<RedisOptions>
 {
     public ValidateOptionsResult Validate(string? name, RedisOptions options)
     {
+        if (!string.Equals(name ?? string.Empty, optionsName, StringComparison.Ordinal))
+        {
+            return ValidateOptionsResult.Skip;
+        }
+
         var failures = new List<string>();
         if (RedisConnectionProvider.CreateConfiguration(options).EndPoints.Count == 0)
         {
