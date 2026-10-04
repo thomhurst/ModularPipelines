@@ -51,6 +51,27 @@ public class KubectlCliScraper : CobraCliScraper
         };
     }
 
+    protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) =>
+        [.. groups.Select(group => IncludeResourceSelectors(group, command.Options))];
+
+    // kubectl selectors can replace NAME in a TYPE NAME resource branch.
+    private static UsageRequiredAlternativeGroup IncludeResourceSelectors(
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options)
+    {
+        var nested = group.Groups.Select(child => IncludeResourceSelectors(child, options)).ToList();
+        var name = group.Members.FirstOrDefault(member => member.PositionalPropertyName == "Name");
+        var selectors = options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
+            .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName }).ToArray();
+        if (!group.IsChoice && name is not null && selectors.Length > 0
+            && group.Members.Any(member => member.PositionalPropertyName == "Type"))
+        {
+            nested.Add(new UsageRequiredAlternativeGroup { Members = [name, .. selectors] });
+            return group with { Members = [.. group.Members.Where(member => member != name)], Groups = nested };
+        }
+        return group with { Groups = nested };
+    }
+
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.
     /// </summary>
@@ -71,11 +92,7 @@ public class KubectlCliScraper : CobraCliScraper
         commandParts switch
         {
             ["annotate"] => AllowOmittedValue(
-                CollapseNumberedRepeat(
-                    positionalArguments,
-                    "Key_1Val_1",
-                    "KeyNValN",
-                    "Annotations"),
+                RenameArgument(positionalArguments, "KeyVal", "Annotations"),
                 "Annotations"),
             ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
             ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
@@ -84,7 +101,7 @@ public class KubectlCliScraper : CobraCliScraper
                 "Pod"),
             ["events"] => RemoveArgument(positionalArguments, "O"),
             ["exec"] => AllowOmittedValue(positionalArguments, "Pod"),
-            ["label"] => NormalizeLabelArguments(positionalArguments),
+            ["label"] => AllowOmittedValue(RenameArgument(positionalArguments, "KeyVal", "Labels"), "Labels"),
             ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
                 positionalArguments,
@@ -127,34 +144,16 @@ public class KubectlCliScraper : CobraCliScraper
         ]);
     }
 
-    private static IReadOnlyList<CliPositionalArgument> NormalizeLabelArguments(
-        IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments
-            .Select(argument => argument.PropertyName switch
-            {
-                "Key_1Val_1" => argument with
-                {
-                    CSharpType = "IEnumerable<string>",
-                    IsRequired = true,
-                    IsVariadic = true,
-                    IsValidationRequired = false,
-                },
-                "KeyNValN" => argument with
-                {
-                    IsValidationRequired = false,
-                },
-                _ => argument,
-            })
-            .ToArray();
+    private static IReadOnlyList<CliPositionalArgument> RenameArgument(
+        IReadOnlyList<CliPositionalArgument> arguments, string sourceName, string targetName) =>
+        [.. arguments.Select(argument => argument.PropertyName == sourceName
+            ? argument with { PropertyName = targetName }
+            : argument)];
 
     private static IReadOnlyList<CliPositionalArgument> NormalizeTaintArguments(
         IReadOnlyList<CliPositionalArgument> arguments) =>
         AllowOmittedValue(
-            CollapseNumberedRepeat(
-                arguments,
-                "Key_1Val_1TaintEffect_1",
-                "KeyNValNTaintEffectN",
-                "Taints"),
+            RenameArgument(arguments, "KeyValTaintEffect", "Taints"),
             "Name");
 
     private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(
