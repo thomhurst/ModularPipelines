@@ -71,7 +71,6 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
         return $"Terraform v{versionProperty.GetString()}";
     }
 
-
     /// <summary>
     /// Skip less useful commands.
     /// </summary>
