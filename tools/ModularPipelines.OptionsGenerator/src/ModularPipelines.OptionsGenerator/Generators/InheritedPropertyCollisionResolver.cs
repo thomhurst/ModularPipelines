@@ -81,7 +81,7 @@ internal static class InheritedPropertyCollisionResolver
             sameScopeGlobals);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
-        // Operand collisions use the same Argument suffix for local and inherited options.
+        // Reserve inherited names for operand disambiguation.
         usedLocalNames.UnionWith(globalPropertyNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
@@ -91,7 +91,9 @@ internal static class InheritedPropertyCollisionResolver
                     argument.PropertyName,
                     command.CommandParts,
                     occupiedNames,
-                    renamedProperties),
+                    renamedProperties,
+                    globalPropertyNames,
+                    isPositionalArgument: true),
             })
             .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
                 ? argument
@@ -295,7 +297,8 @@ internal static class InheritedPropertyCollisionResolver
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
         Dictionary<string, string>? renamedProperties,
-        IReadOnlySet<string>? globalPropertyNames = null)
+        IReadOnlySet<string>? globalPropertyNames = null,
+        bool isPositionalArgument = false)
     {
         if (renamedProperties?.TryGetValue(propertyName, out var existingRename) == true)
         {
@@ -318,7 +321,7 @@ internal static class InheritedPropertyCollisionResolver
             }
         }
 
-        var cliCandidate = $"Cli{propertyName}";
+        var cliCandidate = GetFallbackPropertyName(propertyName, globalPropertyNames, isPositionalArgument);
         if (TryOccupyResolvedName(cliCandidate, occupiedNames))
         {
             return RecordRename(propertyName, cliCandidate, renamedProperties);
@@ -333,6 +336,17 @@ internal static class InheritedPropertyCollisionResolver
             }
         }
     }
+
+    private static string GetFallbackPropertyName(
+        string propertyName,
+        IReadOnlySet<string>? globalPropertyNames,
+        bool isPositionalArgument) =>
+        isPositionalArgument
+        && globalPropertyNames?.Contains(propertyName) == true
+        && !IsInheritedPropertyName(propertyName)
+        && !RecordReservedPropertyNames.Contains(propertyName)
+            ? propertyName + "Argument"
+            : "Cli" + propertyName;
 
     private static bool TryOccupyResolvedName(string candidate, HashSet<string> occupiedNames) =>
         !IsInheritedPropertyName(candidate)
