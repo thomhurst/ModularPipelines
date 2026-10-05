@@ -63,12 +63,6 @@ public record BrewInfoOptions : BrewOptions
     public bool? Variations { get; set; }
 
     /// <summary>
-    /// Show more verbose data for formula, or full information with --installed.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
     /// Treat all named arguments as formulae.
     /// </summary>
     [CliFlag("--formula")]
@@ -85,18 +79,6 @@ public record BrewInfoOptions : BrewOptions
     /// </summary>
     [CliFlag("--sizes")]
     public bool? Sizes { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
 
     /// <summary>
     /// The formula operand.

@@ -40,3 +40,24 @@ public class UseBrewModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared command options
+
+`Debug`, `Quiet`, and `Verbose` are inherited from `BrewOptions`. Homebrew selects
+its command first, so these flags follow the command path:
+
+```csharp
+var options = new BrewListOptions { Verbose = true };
+// brew list --verbose
+```
+
+Existing initializers keep the same property names. Reflection code that inspects
+only properties declared directly on a command record should include inherited
+properties. Cask settings such as `Appdir` remain on the applicable command
+records; they are not general Homebrew settings. When a command changes a shared
+option's aliases or value shape, its generated member replaces the inherited
+member so the switch is rendered only once with that command's semantics.
+
+Generation reads `Homebrew::CLI::Parser.global_options` from the installed CLI,
+separately from its cask-option table. See the [official global options](https://docs.brew.sh/Manpage#global-options)
+and [global cask options](https://docs.brew.sh/Manpage#global-cask-options).

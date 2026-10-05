@@ -57,12 +57,6 @@ public record BrewLivecheckOptions : BrewOptions
     public bool? Resources { get; set; }
 
     /// <summary>
-    /// Suppress warnings, don't print a progress bar for JSON output.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
     /// Only check formulae.
     /// </summary>
     [CliFlag("--formula")]
@@ -85,18 +79,6 @@ public record BrewLivecheckOptions : BrewOptions
     /// </summary>
     [CliFlag("--autobump")]
     public bool? Autobump { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more verbose.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
 
     /// <summary>
     /// The formula operand.

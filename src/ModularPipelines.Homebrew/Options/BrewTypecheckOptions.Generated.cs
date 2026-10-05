@@ -27,12 +27,6 @@ public record BrewTypecheckOptions : BrewOptions
     public bool? Fix { get; set; }
 
     /// <summary>
-    /// Silence all non-critical errors.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
     /// Update RBI files.
     /// </summary>
     [CliFlag("--update")]
@@ -73,18 +67,6 @@ public record BrewTypecheckOptions : BrewOptions
     /// </summary>
     [CliOption("--ignore", Format = OptionFormat.EqualsSeparated)]
     public string? Ignore { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more verbose.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
 
     /// <summary>
     /// The tap operand.

@@ -20,6 +20,12 @@ public record CliOptionDefinition
     /// <summary>Whether an explicitly empty scalar string is a documented value, such as a reset to defaults.</summary>
     internal bool AllowsEmptyValue { get; init; }
 
+    /// <summary>Whether this command's definition replaces a same-scope global property.</summary>
+    internal bool ShadowsGlobalOption { get; init; }
+
+    /// <summary>The inherited property type, used to share storage for compatible replacements.</summary>
+    internal string? GlobalOptionPropertyType { get; init; }
+
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);

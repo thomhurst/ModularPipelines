@@ -51,7 +51,7 @@ public class OptionsClassGenerator : ICodeGenerator
             IsCollectionParameter(parameter)
             || RequiresNullGuard(parameter));
         var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
-            || command.RequiredOptions.Any(static option => option.IsFlag);
+            || command.RequiredOptions.Any(static option => option.IsFlag || option.ShadowsGlobalOption);
 
         // Parameter tags belong on the primary declaration or the explicit constructor.
         GeneratorUtils.GenerateConstructorXmlDocumentation(
@@ -731,7 +731,19 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null,
         CliOptionDefinition? option = null)
     {
-        var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
+        var modifier = GetPropertyModifier(propertyName, option);
+        var declaration = $"    public {modifier}{propertyType} {propertyName}";
+        if (option?.GlobalOptionPropertyType == propertyType)
+        {
+            // Keep command-specific metadata separate while base-typed callers use the same value.
+            sb.AppendLine(declaration);
+            sb.AppendLine("    {");
+            sb.AppendLine($"        get => base.{propertyName};");
+            sb.AppendLine($"        {GetPropertyAccessor(isRequired)} => base.{propertyName} = value;");
+            sb.AppendLine("    }");
+            return;
+        }
+
         // Required collections are already materialized by their constructor. Optional
         // alternative inputs must retain the same values for validation and rendering.
         if (!isRequired && participatesInAlternative
@@ -870,6 +882,10 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPropertyAccessor(bool isRequired) =>
         isRequired ? "private init" : "set";
+
+    // A new slot keeps command metadata independent of the inherited command attribute.
+    private static string GetPropertyModifier(string propertyName, CliOptionDefinition? option) =>
+        option?.ShadowsGlobalOption == true ? "new " : GetNewModifier(propertyName);
 
     private static string GetNewModifier(string propertyName) =>
         InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";

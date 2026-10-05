@@ -43,13 +43,18 @@ internal static class InheritedPropertyCollisionResolver
             .Select(option => option.PropertyName)
             .ToHashSet(StringComparer.Ordinal);
 
+        CliOptionDefinition[] sameScopeGlobals = tool.GlobalOptionsBeforeSubcommands
+            ? []
+            : [.. globalOptions, .. supplementalGlobalOptions];
+
         return tool with
         {
             Commands = [.. tool.Commands
                 .Select(command => ResolveCommand(
                     command,
                     globalRenamedProperties,
-                    resolvedGlobalNames))],
+                    resolvedGlobalNames,
+                    sameScopeGlobals))],
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = supplementalGlobalOptions,
         };
@@ -58,7 +63,8 @@ internal static class InheritedPropertyCollisionResolver
     private static CliCommandDefinition ResolveCommand(
         CliCommandDefinition command,
         IReadOnlyDictionary<string, string> globalRenamedProperties,
-        IReadOnlySet<string> globalPropertyNames)
+        IReadOnlySet<string> globalPropertyNames,
+        IReadOnlyList<CliOptionDefinition> sameScopeGlobals)
     {
         var occupiedNames = command.Options
             .Select(option => option.PropertyName)
@@ -71,7 +77,8 @@ internal static class InheritedPropertyCollisionResolver
             command.CommandParts,
             occupiedNames,
             renamedProperties,
-            globalPropertyNames);
+            globalPropertyNames,
+            sameScopeGlobals);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -237,9 +244,25 @@ internal static class InheritedPropertyCollisionResolver
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
         Dictionary<string, string>? renamedProperties,
-        IReadOnlySet<string>? globalPropertyNames = null) =>
-        [.. options
-            .Select(option => option with
+        IReadOnlySet<string>? globalPropertyNames = null,
+        IReadOnlyList<CliOptionDefinition>? sameScopeGlobals = null) =>
+        [.. options.Select(option =>
+        {
+            var inherited = sameScopeGlobals?.FirstOrDefault(global =>
+                global.SwitchName.Equals(option.SwitchName, StringComparison.Ordinal));
+            if (inherited is not null)
+            {
+                // These switches occupy the same CLI scope. The local definition replaces
+                // the inherited member, including its aliases and value arity.
+                return option with
+                {
+                    PropertyName = RecordRename(option.PropertyName, inherited.PropertyName, renamedProperties),
+                    ShadowsGlobalOption = true,
+                    GlobalOptionPropertyType = inherited.PropertyType,
+                };
+            }
+
+            return option with
             {
                 PropertyName = ResolveName(
                     option.PropertyName,
@@ -247,7 +270,8 @@ internal static class InheritedPropertyCollisionResolver
                     occupiedNames,
                     renamedProperties,
                     globalPropertyNames),
-            })];
+            };
+        })];
 
     private static string ResolveName(
         string propertyName,
