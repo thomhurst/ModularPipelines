@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Newman.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Newman.Options;
 
@@ -40,140 +41,146 @@ public record NewmanRunOptions : NewmanOptions
     }
 
     /// <summary>
-    /// Specify a URL or path to a Postman
+    /// Specify a URL or path to a Postman Environment
     /// </summary>
     [CliOption("--environment", ShortForm = "-e")]
     public string? Environment { get; set; }
 
     /// <summary>
-    /// Specify a URL or path to a file
+    /// Specify a URL or path to a file containing Postman Globals
     /// </summary>
     [CliOption("--globals", ShortForm = "-g")]
     public string? Globals { get; set; }
 
     /// <summary>
-    /// [reporters]           Specify the reporters to use for this
+    /// Specify the reporters to use for this run (default: ["cli"])
     /// </summary>
-    [CliFlag("--reporters", ShortForm = "-r")]
-    public bool? Reporters { get; set; }
+    [CliOption("--reporters", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Reporters { get; set; }
 
     /// <summary>
     /// Define the number of iterations to run
     /// </summary>
     [CliOption("--iteration-count", ShortForm = "-n")]
-    public string? IterationCount { get; set; }
+    public int? IterationCount { get; set; }
 
     /// <summary>
-    /// Specify a data file to use for
+    /// Specify a data file to use for iterations (either JSON or CSV)
     /// </summary>
     [CliOption("--iteration-data", ShortForm = "-d")]
     public string? IterationData { get; set; }
 
     /// <summary>
-    /// Specify the folder to run from a
+    /// Specify the folder to run from a collection. Can be specified multiple times to run multiple folders (default: [])
     /// </summary>
     [CliOption("--folder")]
     public IEnumerable<string>? Folder { get; set; }
 
     /// <summary>
-    /// Allows the specification of global
+    /// Allows the specification of global variables via the command line, in a key=value format (default: [])
     /// </summary>
     [CliOption("--global-var")]
     public IEnumerable<string>? GlobalVar { get; set; }
 
     /// <summary>
-    /// Allows the specification of environment
+    /// Allows the specification of environment variables via the command line, in a key=value format (default: [])
     /// </summary>
     [CliOption("--env-var")]
     public IEnumerable<string>? EnvVar { get; set; }
 
     /// <summary>
-    /// Exports the final environment to a file
+    /// Exports the final environment to a file after completing the run
     /// </summary>
     [CliOption("--export-environment")]
     public string? ExportEnvironment { get; set; }
 
     /// <summary>
-    /// Exports the final globals to a file
+    /// Exports the final globals to a file after completing the run
     /// </summary>
     [CliOption("--export-globals")]
     public string? ExportGlobals { get; set; }
 
     /// <summary>
-    /// Exports the executed collection to a
+    /// Exports the executed collection to a file after completing the run
     /// </summary>
     [CliOption("--export-collection")]
     public string? ExportCollection { get; set; }
 
     /// <summary>
-    /// API Key used to load the resources from
+    /// API Key used to load the resources from the Postman API
     /// </summary>
     [SecretValue]
     [CliOption("--postman-api-key")]
     public string? PostmanApiKey { get; set; }
 
     /// <summary>
-    /// [modifiers]                    Specify whether or not to gracefully
+    /// Specify whether or not to gracefully stop a collection run on encountering an error and whether to end the run with an error based on the optional modifier
     /// </summary>
-    [CliFlag("--bail")]
-    public bool? Bail { get; set; }
+    [CliOption("--bail", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Bail { get; set; }
 
     /// <summary>
-    /// Prevents Newman from automatically
+    /// Prevents Newman from automatically following 3XX redirect responses
     /// </summary>
     [CliFlag("--ignore-redirects")]
     public bool? IgnoreRedirects { get; set; }
 
     /// <summary>
-    /// Prevents Newman from showing output to
+    /// Specify whether or not to override the default exit code for the current run
+    /// </summary>
+    [CliFlag("--suppress-exit-code", ShortForm = "-x")]
+    public bool? SuppressExitCode { get; set; }
+
+    /// <summary>
+    /// Prevents Newman from showing output to CLI
     /// </summary>
     [CliFlag("--silent")]
     public bool? Silent { get; set; }
 
     /// <summary>
-    /// Forces Unicode compliant symbols to be
+    /// Forces Unicode compliant symbols to be replaced by their plain text equivalents
     /// </summary>
     [CliFlag("--disable-unicode")]
     public bool? DisableUnicode { get; set; }
 
     /// <summary>
-    /// Enable/Disable colored output
+    /// Enable/Disable colored output (auto|on|off) (default: "auto")
     /// </summary>
     [CliOption("--color")]
     public string? Color { get; set; }
 
     /// <summary>
-    /// [n]                   Specify the extent of delay between
+    /// Specify the extent of delay between requests (milliseconds) (default: 0)
     /// </summary>
-    [CliFlag("--delay-request")]
-    public bool? DelayRequest { get; set; }
+    [CliOption("--delay-request", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DelayRequest { get; set; }
 
     /// <summary>
-    /// [n]                         Specify a timeout for collection run
+    /// Specify a timeout for collection run (milliseconds) (default: 0)
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Timeout { get; set; }
 
     /// <summary>
-    /// [n]                 Specify a timeout for requests
+    /// Specify a timeout for requests (milliseconds) (default: 0)
     /// </summary>
-    [CliFlag("--timeout-request")]
-    public bool? TimeoutRequest { get; set; }
+    [CliOption("--timeout-request", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TimeoutRequest { get; set; }
 
     /// <summary>
-    /// [n]                  Specify a timeout for scripts
+    /// Specify a timeout for scripts (milliseconds) (default: 0)
     /// </summary>
-    [CliFlag("--timeout-script")]
-    public bool? TimeoutScript { get; set; }
+    [CliOption("--timeout-script", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TimeoutScript { get; set; }
 
     /// <summary>
-    /// Specify the path to the working
+    /// Specify the path to the working directory
     /// </summary>
     [CliOption("--working-dir")]
     public string? WorkingDir { get; set; }
 
     /// <summary>
-    /// Prevents reading the files situated
+    /// Prevents reading the files situated outside of the working directory
     /// </summary>
     [CliFlag("--no-insecure-file-read")]
     public bool? NoInsecureFileRead { get; set; }
@@ -185,50 +192,50 @@ public record NewmanRunOptions : NewmanOptions
     public bool? Insecure { get; set; }
 
     /// <summary>
-    /// Specify the path to a client
+    /// Specify the path to a client certificates configurations (JSON)
     /// </summary>
     [CliOption("--ssl-client-cert-list")]
     public string? SslClientCertList { get; set; }
 
     /// <summary>
-    /// Specify the path to a client
+    /// Specify the path to a client certificate (PEM)
     /// </summary>
     [CliOption("--ssl-client-cert")]
     public string? SslClientCert { get; set; }
 
     /// <summary>
-    /// Specify the path to a client
+    /// Specify the path to a client certificate private key
     /// </summary>
     [CliOption("--ssl-client-key")]
     public string? SslClientKey { get; set; }
 
     /// <summary>
-    /// Specify the client certificate
+    /// Specify the client certificate passphrase (for protected key)
     /// </summary>
     [SecretValue]
     [CliOption("--ssl-client-passphrase")]
     public string? SslClientPassphrase { get; set; }
 
     /// <summary>
-    /// Specify additionally trusted CA
+    /// Specify additionally trusted CA certificates (PEM)
     /// </summary>
     [CliOption("--ssl-extra-ca-certs")]
     public string? SslExtraCaCerts { get; set; }
 
     /// <summary>
-    /// Specify the path to a custom cookie jar
+    /// Specify the path to a custom cookie jar (serialized tough-cookie JSON)
     /// </summary>
     [CliOption("--cookie-jar")]
     public string? CookieJar { get; set; }
 
     /// <summary>
-    /// Exports the cookie jar to a file after
+    /// Exports the cookie jar to a file after completing the run
     /// </summary>
     [CliOption("--export-cookie-jar")]
     public string? ExportCookieJar { get; set; }
 
     /// <summary>
-    /// Show detailed information of collection
+    /// Show detailed information of collection run and each request sent
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }

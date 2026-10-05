@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -23,13 +24,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   run <collection> [options]  Run a collection
 ///   ...
 /// </summary>
-public partial class NewmanCliScraper : CliScraperBase
+public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<NewmanCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<NewmanCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "newman";
 
     public override string NamespacePrefix => "Newman";
@@ -66,7 +62,7 @@ public partial class NewmanCliScraper : CliScraperBase
         if (commandsSectionMatch.Success)
         {
             var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-            var section = helpText.Substring(sectionStart);
+            var section = helpText[sectionStart..];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -175,7 +171,7 @@ public partial class NewmanCliScraper : CliScraperBase
     /// Format: -e, --environment <path>     Specify a URL or path to a Postman Environment
     ///         -n, --iteration-count <n>    Define the number of iterations
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -186,7 +182,7 @@ public partial class NewmanCliScraper : CliScraperBase
         if (optionsSectionMatch.Success)
         {
             var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
+            section = helpText[sectionStart..];
         }
         else
         {
@@ -195,66 +191,76 @@ public partial class NewmanCliScraper : CliScraperBase
 
         var lines = section.Split('\n');
 
-        foreach (var line in lines)
+        for (var index = 0; index < lines.Length; index++)
         {
-            var match = NewmanOptionPattern().Match(line);
+            var match = NewmanOptionPattern().Match(lines[index]);
             if (!match.Success)
             {
                 continue;
             }
 
-            var shortForm = match.Groups["short"].Value.Trim();
             var longForm = match.Groups["long"].Value.Trim();
-            var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(longForm))
+            if (!seenOptions.Add(longForm))
             {
                 continue;
             }
 
-            if (seenOptions.Contains(longForm))
+            var description = AccumulateWrappedDescription(lines, ref index, match.Groups["desc"], IsOptionRow);
+
+            var option = CreateOption(match, longForm, description);
+            if (option is not null)
             {
-                continue;
+                options.Add(option);
             }
-
-            seenOptions.Add(longForm);
-
-            var propertyName = NormalizePropertyName(longForm);
-            if (propertyName is null)
-            {
-                continue;
-            }
-
-            var isFlag = string.IsNullOrEmpty(valueHint);
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            // Handle common array-type options
-            if (longForm is "--global-var" or "--env-var" or "--folder" or "--reporter")
-            {
-                csharpType = "IEnumerable<string>?";
-            }
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = longForm,
-                ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = csharpType.Contains("IEnumerable"),
-                IsKeyValue = false,
-                IsNumeric = valueHint == "n" || valueHint == "ms",
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
         }
 
         return options;
     }
+
+    private static CliOptionDefinition? CreateOption(Match match, string longForm, string description)
+    {
+        var propertyName = NormalizePropertyName(longForm);
+        if (propertyName is null)
+        {
+            return null;
+        }
+
+        var shortForm = match.Groups["short"].Value.Trim();
+        var valueHint = match.Groups["value"].Value.Trim();
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var optionalValue = valueHint.StartsWith('[');
+        var isNumeric = valueHint.Trim('<', '>', '[', ']') is "n" or "ms";
+        // Newman accumulates variables even though their help only describes key=value syntax.
+        var repeated = IsRepeatableValueOption(description, isFlag)
+            || longForm is "--global-var" or "--env-var";
+        var scalarType = (isFlag, isNumeric) switch
+        {
+            (true, _) => "bool?",
+            (_, true) => "int?",
+            _ => "string?",
+        };
+        var csharpType = AsCSharpType(scalarType, repeated);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            ValueArity = optionalValue ? CliOptionValueArity.Optional : CliOptionValueArity.Required,
+            IsRequired = false,
+            AcceptsMultipleValues = repeated,
+            IsKeyValue = false,
+            IsNumeric = isNumeric,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
+        };
+    }
+
+    private static bool IsOptionRow(string line) => NewmanOptionPattern().IsMatch(line);
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -290,7 +296,7 @@ public partial class NewmanCliScraper : CliScraperBase
     ///   -n, --iteration-count <n>    Define the number
     ///   --bail                       Stop on first failure
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:(?<short>-\w),\s+)?(?<long>--[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]+(?:(?<short>-\w)[ \t]*,[ \t]*)?(?<long>--[\w-]+)(?:[ \t]+(?<value><[^>]+>|\[[^\]]+\]))?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex NewmanOptionPattern();
 
     #endregion
