@@ -347,21 +347,23 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> parts)
     {
-        var switches = new Dictionary<string, string>(StringComparer.Ordinal);
+        var switches = new Dictionary<(bool IsGlobalScope, string Name), string>();
 
         foreach (var part in parts)
         {
+            var isGlobalScope = part.IsGlobalOption && part.Phase != CommandLinePhase.Terminal;
             foreach (var switchName in GetSwitchNames(part))
             {
-                if (switches.TryGetValue(switchName, out var existingProperty))
+                var key = (isGlobalScope, switchName);
+                if (switches.TryGetValue(key, out var existingProperty))
                 {
                     throw new InvalidOperationException(
                         $"{optionsType.Name} defines CLI switch '{switchName}' more than once " +
                         $"on properties '{existingProperty}' and '{part.PropertyName}'. " +
-                        "Name, ShortForm, and NegatedName values must be unique.");
+                        "Name, ShortForm, and NegatedName values must be unique within each command scope.");
                 }
 
-                switches.Add(switchName, part.PropertyName);
+                switches.Add(key, part.PropertyName);
             }
         }
     }

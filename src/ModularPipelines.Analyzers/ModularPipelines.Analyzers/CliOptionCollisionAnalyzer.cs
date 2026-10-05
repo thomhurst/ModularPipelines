@@ -42,7 +42,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var switches = new Dictionary<string, IPropertySymbol>(StringComparer.Ordinal);
+        var switches = new Dictionary<(bool IsGlobalScope, string Name), IPropertySymbol>();
 
         foreach (var property in GetEffectivePropertiesBaseFirst(type))
         {
@@ -51,7 +51,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
                 && (CliAttributeSymbols.Is(attribute, symbols.CliFlag)
                     || CliAttributeSymbols.Is(attribute, symbols.CliOption)))
             {
-                AnalyzeSwitch(context, type, property, attribute, switches);
+                AnalyzeSwitch(context, type, property, attribute, switches, symbols);
             }
         }
     }
@@ -99,11 +99,14 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol analyzedType,
         IPropertySymbol property,
         AttributeData attribute,
-        Dictionary<string, IPropertySymbol> switches)
+        Dictionary<(bool IsGlobalScope, string Name), IPropertySymbol> switches,
+        CliAttributeSymbols symbols)
     {
+        var isGlobalScope = IsGlobalScope(property, attribute, symbols);
         foreach (var switchName in GetSwitchNames(attribute))
         {
-            if (switches.TryGetValue(switchName, out var existingProperty))
+            var key = (isGlobalScope, switchName);
+            if (switches.TryGetValue(key, out var existingProperty))
             {
                 if (SymbolEqualityComparer.Default.Equals(property.ContainingType, analyzedType)
                     && !Overrides(property, existingProperty))
@@ -118,9 +121,31 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
             }
             else
             {
-                switches.Add(switchName, property);
+                switches.Add(key, property);
             }
         }
+    }
+
+    private static bool IsGlobalScope(
+        IPropertySymbol property,
+        AttributeData attribute,
+        CliAttributeSymbols symbols)
+    {
+        var phase = attribute.NamedArguments.FirstOrDefault(pair => pair.Key == "Phase").Value.Value as int?;
+        if (phase is not null && phase == symbols.CommandLinePhaseTerminal)
+        {
+            return false;
+        }
+
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            if (current.ContainingType.GetAttributes().Any(candidate => CliAttributeSymbols.Is(candidate, symbols.CliGlobalOptions)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static IEnumerable<string> GetSwitchNames(AttributeData attribute)
