@@ -937,7 +937,7 @@ public static partial class GeneratorUtils
     private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
     private static readonly string[] CredentialCodePropertyNames =
-        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode"];
+        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode", "AuthorizationCode"];
 
     private static readonly string[] SecretMetadataSuffixes =
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
@@ -1110,6 +1110,7 @@ public static partial class GeneratorUtils
         // "Description of the secret contents" names metadata about the secret, not the secret itself.
         description = SecretMetadataPhrasePattern().Replace(description, " ");
         return OneTimeCredentialDescriptionPattern().IsMatch(description)
+               || AuthorizationCodeValueDescriptionPattern().IsMatch(description)
                || SecretMaterialDescriptionPattern().IsMatch(description)
                || (InlineFileContentDescriptionPattern().IsMatch(description)
                    && SecretKeywordDescriptionPattern().IsMatch(description));
@@ -1119,10 +1120,14 @@ public static partial class GeneratorUtils
         @"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies))\s+)?(?:the\s+|a\s+|an\s+)?"
         + @"(?:one[\s-]+time[\s-]+(?:passcode|password)\b"
         + @"|(?:subsequent\s+)?authentication\s+code\s+(?:emitted|generated)\s+by\b"
-        + @"|(?:activation|verification|validation|confirmation)\s+code"
+        + @"|(?:activation|verification|validation|confirmation|authorization)\s+code"
         + @"(?:\s+(?:for|that|received|sent|delivered|provided|generated|used|to|value)\b|[.!]|\s*$))",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex OneTimeCredentialDescriptionPattern();
+
+    [GeneratedRegex(@"(?:\A|[.!?]\s+)\s*(?:the\s+)?short[\s-]+lived\s+code\s+is\s+used\s+to\s+identify\s+(?:this|the|an?)\s+authorization\s+request\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex AuthorizationCodeValueDescriptionPattern();
 
     [GeneratedRegex(
         @"\b(?:description|summary|type|kind|format|encoding|content[\s-]*type|mime[\s-]*type|label|name|tags?|metadata|size|length|version)"
