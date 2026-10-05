@@ -49,3 +49,23 @@ public class UseTerraformModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Working directory[​](#working-directory "Direct link to Working directory")
+
+Set the inherited `Chdir` property on any command options record to select Terraform's working directory. The package renders `-chdir=DIR` before the entire subcommand path, including nested commands such as `state list`.
+
+```
+var options = new TerraformValidateOptions
+
+{
+
+    Chdir = "infrastructure/production",
+
+    Json = true,
+
+};
+```
+
+This renders `terraform -chdir=infrastructure/production validate -json`. Leave `Chdir` unset to use the process working directory. Paths containing spaces remain one argument; do not add shell quotes to the property value.
+
+Terraform's root `-help` and `-version` switches select informational actions. They are not inherited execution settings. Command-specific switches such as `-json` and `-no-color` stay on the commands that support them. See the [Terraform CLI documentation](https://developer.hashicorp.com/terraform/cli/commands#switching-working-directory-with-chdir) for details of `-chdir`.
