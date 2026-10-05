@@ -38776,6 +38776,14 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option      | Property      | Availability | Description               |
+| --------------- | ------------- | ------------ | ------------------------- |
+| `--diagnostics` | `Diagnostics` | All editions | Enable diagnostic output. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                       | Options record                       |
@@ -48599,7 +48607,7 @@ var maven = context.Tools.Maven;
 
 This package does not install the `nbgv` executable. Install it separately and ensure `nbgv` is available on `PATH`.
 
-The generation workflow is pinned to `nbgv` version `3.10.91`.
+The generation workflow is pinned to `nbgv` version `3.10.94`.
 
 See the [nbgv installation guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html).
 
@@ -51032,6 +51040,16 @@ public class UseDotNetModule : Module<CommandResult>
 
 The package exposes generated options records for its supported CLI commands.
 
+## SDK diagnostics[​](#sdk-diagnostics "Direct link to SDK diagnostics")
+
+All generated SDK command records inherit `Diagnostics` from `DotNetOptions`. Set it to `true` to emit `--diagnostics` before the complete command path, for example `dotnet --diagnostics tool list --global`. `false` and `null` omit it.
+
+```
+new DotNetToolListOptions { Diagnostics = true, Global = true };
+```
+
+This is the SDK's diagnostic switch, distinct from command-specific verbosity or diagnostic-file options. Verbosity is not supported by every command and stays on the applicable command records. Runtime-host settings such as `--fx-version`, `--roll-forward`, and `--runtimeconfig`, and root information actions such as `--info` and `--version`, are not inherited SDK execution options. See the [dotnet command reference](https://learn.microsoft.com/dotnet/core/tools/dotnet).
+
 
 ---
 
@@ -52364,6 +52382,12 @@ dotnet tool install --global nbgv
 ```
 
 The `nbgv` executable must be available on `PATH` when the pipeline runs.
+
+## Option scope[​](#option-scope "Direct link to Option scope")
+
+This integration targets the .NET `nbgv` tool. Its root help exposes help/version actions, with no inherited execution settings. `NbgvOptions` therefore has no generated global properties. Set `Project`, `Format`, and other settings on the applicable command record; they render after the command name. For example, `nbgv get-version --project src/MyProject` is valid, while root `nbgv --project src/MyProject get-version` is rejected.
+
+`NbgvCloudOptions.Version` is a command-local value for the cloud build number, distinct from the root `--version` action. No global promotion or API change is needed for the audited .NET tool version 3.10.94. This audit does not describe the separate Rust distribution. See the [official nbgv guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html).
 
 ## Read version information[​](#read-version-information "Direct link to Read version information")
 

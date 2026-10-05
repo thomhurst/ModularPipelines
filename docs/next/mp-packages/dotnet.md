@@ -50,3 +50,13 @@ public class UseDotNetModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## SDK diagnostics[​](#sdk-diagnostics "Direct link to SDK diagnostics")
+
+All generated SDK command records inherit `Diagnostics` from `DotNetOptions`. Set it to `true` to emit `--diagnostics` before the complete command path, for example `dotnet --diagnostics tool list --global`. `false` and `null` omit it.
+
+```
+new DotNetToolListOptions { Diagnostics = true, Global = true };
+```
+
+This is the SDK's diagnostic switch, distinct from command-specific verbosity or diagnostic-file options. Verbosity is not supported by every command and stays on the applicable command records. Runtime-host settings such as `--fx-version`, `--roll-forward`, and `--runtimeconfig`, and root information actions such as `--info` and `--version`, are not inherited SDK execution options. See the [dotnet command reference](https://learn.microsoft.com/dotnet/core/tools/dotnet).

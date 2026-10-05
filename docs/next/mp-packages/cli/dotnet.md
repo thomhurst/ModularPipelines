@@ -48,6 +48,14 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option      | Property      | Availability | Description               |
+| --------------- | ------------- | ------------ | ------------------------- |
+| `--diagnostics` | `Diagnostics` | All editions | Enable diagnostic output. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                       | Options record                       |
