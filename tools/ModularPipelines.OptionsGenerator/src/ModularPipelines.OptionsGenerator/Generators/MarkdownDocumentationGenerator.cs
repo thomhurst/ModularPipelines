@@ -209,11 +209,12 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         }
 
         var invocation = BuildInvocation(tool, command);
-        var optionsExpression = BuildOptionsExpression(command);
+        var optionsExpression = BuildOptionsExpression(tool, command);
 
         sb.AppendLine("```csharp");
         sb.AppendLine("using ModularPipelines;");
-        if (GeneratorUtils.UsesGeneratedEnums(tool, command))
+        if (GeneratorUtils.UsesGeneratedEnums(tool, command)
+            || tool.GetGlobalOptions().Any(option => option.EnumDefinition is not null))
         {
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
@@ -391,12 +392,13 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
             candidate.CommandParts.Take(command.CommandParts.Length),
             StringComparer.OrdinalIgnoreCase);
 
-    private static string BuildOptionsExpression(CliCommandDefinition command)
+    private static string BuildOptionsExpression(CliToolDefinition tool, CliCommandDefinition command)
     {
         var values = command.DocumentationExampleValues;
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var positionalArguments = CliPositionalArgument.MergeDuplicates(command.PositionalArguments);
         var knownProperties = command.Options
+            .Concat(tool.GetGlobalOptions())
             .Select(option => option.PropertyName)
             .Concat(positionalArguments.Select(argument => argument.PropertyName))
             .Distinct(StringComparer.Ordinal)

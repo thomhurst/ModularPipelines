@@ -50,6 +50,24 @@ public class CargoCliScraperTests
         var generatedSearch = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
         await Assert.That(generatedSearch).DoesNotContain(" Config ");
         await Assert.That(generatedSearch).DoesNotContain(" Color ");
+        var documentedTool = tool with
+        {
+            ToolName = "test-cargo",
+            Commands = [search with
+            {
+                IsSafeForDocumentation = true,
+                DocumentationExampleValues = new Dictionary<string, string>
+                {
+                    ["Quiet"] = "true",
+                    ["Color"] = "CargoColor.Never",
+                },
+            }],
+            PreferredDocumentationExampleCommand = "cargo search",
+        };
+        var markdown = (await new MarkdownDocumentationGenerator().GenerateAsync(documentedTool)).Single().Content;
+        await Assert.That(markdown).Contains("Quiet = true,");
+        await Assert.That(markdown).Contains("Color = CargoColor.Never,");
+        await Assert.That(markdown).Contains("using ModularPipelines.Rust.Enums;");
     }
 
     [Test]
