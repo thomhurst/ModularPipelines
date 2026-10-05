@@ -20,10 +20,4 @@ namespace ModularPipelines.Kubernetes.Options;
 [CliSubCommand("cfg")]
 public record KustomizeCfgOptions : KustomizeOptions
 {
-    /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
 }
