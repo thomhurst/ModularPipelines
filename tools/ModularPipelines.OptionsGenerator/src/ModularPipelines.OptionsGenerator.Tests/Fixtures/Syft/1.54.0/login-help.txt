@@ -1,0 +1,20 @@
+Log in to a registry
+
+Usage:
+  syft login [OPTIONS] [SERVER] [flags]
+
+Examples:
+  # Log in to reg.example.com
+  syft login reg.example.com -u AzureDiamond -p hunter2
+
+Flags:
+  -h, --help              help for login
+  -p, --password string   Password
+      --password-stdin    Take the password from stdin
+  -u, --username string   Username
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
