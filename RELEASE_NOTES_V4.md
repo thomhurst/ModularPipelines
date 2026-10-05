@@ -853,3 +853,14 @@ package root namespaces. Update imports; the generated `gh` CLI namespaces are u
   (`BuildSystem` is in `ModularPipelines`).
 - Handwritten `Register*Context` methods remain public for generated registration and are
   hidden from IntelliSense.
+
+## Kustomize edit operands
+
+Regenerated Kustomize edit methods now require options when the CLI requires an
+operand. For example, replace `Edit.Set.NamespaceAsync()` with
+`Edit.Set.NamespaceAsync(new KustomizeEditSetNamespaceOptions("production"))`, and
+replace `Edit.Add.BaseAsync()` with
+`Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other affected
+add, remove, and set methods similarly take their generated options type with the
+required operand. Empty calls no longer compile; generated compatibility overloads
+are not retained for commands that require input.
