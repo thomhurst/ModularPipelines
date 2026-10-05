@@ -90,3 +90,23 @@ where `appsettings.json` is constructed as follows:
 Once configured, Modular Pipelines will handle authentication and authorization automatically by utilizing the provided access token and will deliver a GitHub client that is ready for immediate use.
 
 **Important Note:** This is just an example; **do not store any confidential data in appsettings.json, .env files, and similar.** Use secret storage, key-vault services, etc., for storing sensitive data, and then use the described configuration practices as shown in the example above.
+
+
+## GitHub CLI option scope
+
+The GitHub CLI 2.98.0 root help exposes help/version actions, not shared command
+settings. `GhOptions` therefore has no executable-wide CLI options. The
+[issue list manual](https://cli.github.com/manual/gh_issue_list) labels
+`--repo`/`-R` as inherited from its command group; this does not make repository
+selection valid for `gh auth status`, `gh config get`, or `gh api`.
+
+Set repository selection on the supported command record:
+
+```csharp
+var options = new GhIssueListOptions { Repo = "owner/repository", Limit = 3 };
+// gh issue list --limit=3 --repo=owner/repository
+```
+
+No global-option migration is required for this audit. Existing command-specific
+properties and command/version APIs remain unchanged. See the
+[root CLI manual](https://cli.github.com/manual/gh) for the executable's controls.
