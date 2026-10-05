@@ -221,6 +221,16 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = GetEffectiveName(option.Attribute);
 
+        if (value is CliValueGroup group)
+        {
+            return [optionName, .. group.Values];
+        }
+
+        if (value is IEnumerable<CliValueGroup> groups)
+        {
+            return [.. groups.SelectMany(groupValue => new[] { optionName }.Concat(groupValue.Values))];
+        }
+
         if (value is CliValuePair pair)
         {
             return [optionName, pair.First!, pair.Second!];
@@ -340,6 +350,7 @@ public static class GeneratedOptionsSmokeTestHarness
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
         : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliValueGroup) ? new CliValueGroup(["smoke-first", "smoke-second"])
         : type == typeof(CliOptionValue) ? (CliOptionValue) "smoke-value"
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")

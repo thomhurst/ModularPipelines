@@ -9,6 +9,58 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class AzArgumentShapeTests
 {
     [Test]
+    [Arguments("+", false)]
+    [Arguments("*", true)]
+    [Arguments("2", false)]
+    public async Task Repeated_Groups_Preserve_Occurrence_Boundaries(string nargs, bool optional)
+    {
+        var option = await Parse("identities", "Identity values.", nargs, false, true);
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliValueGroup>?");
+        await Assert.That(option.GroupValues).IsTrue();
+        await Assert.That(option.ValueArity).IsEqualTo(optional ? CliOptionValueArity.Optional : CliOptionValueArity.Required);
+    }
+
+    [Test]
+    public async Task Json_File_Array_Prose_Does_Not_Reject_Verified_Scalar_During_Traversal()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory,
+            "Fixtures", "AzCli", "az-2.84.0-batch-task-create.txt"));
+        var scraper = new AzCliScraper(new BatchHelpExecutor(help),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<AzCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var option = commands.Single(command => command.FullCommand == "az batch task create")
+            .Options.Single(option => option.SwitchName == "--json-file");
+        await Assert.That(option.PropertyType).IsEqualTo("string?");
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    private sealed class BatchHelpExecutor(string help) : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardError = string.Empty,
+                StandardOutput = arguments switch
+                {
+                    "--help" => "Group\n    az : Azure.\nSubgroups:\n    batch : Batch.",
+                    "batch --help" => "Group\n    az batch : Batch.\nSubgroups:\n    task : Tasks.",
+                    "batch task --help" => "Group\n    az batch task : Tasks.\nCommands:\n    create : Create tasks.",
+                    "batch task create --help" => help,
+                    _ => throw new InvalidOperationException(arguments),
+                },
+            });
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+    }
+
+    [Test]
     [Arguments("aks-create", "--node-vm-size", "string?", false)]
     [Arguments("aks-nodepool-add", "--node-vm-size", "string?", false)]
     [Arguments("aks-nodepool-add", "--max-unavailable", "string?", false)]

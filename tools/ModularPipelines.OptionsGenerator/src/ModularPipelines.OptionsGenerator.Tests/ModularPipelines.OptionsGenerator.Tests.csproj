@@ -39,6 +39,7 @@
     <Compile Include="../../../../src/ModularPipelines/Helpers/Internal/ICommandArgumentBuilder.cs" Link="Runtime/Helpers/Internal/ICommandArgumentBuilder.cs" />
     <Compile Include="../../../../src/ModularPipelines/Models/CliOptionValue.cs" Link="Runtime/Models/CliOptionValue.cs" />
     <Compile Include="../../../../src/ModularPipelines/Models/CliValuePair.cs" Link="Runtime/Models/CliValuePair.cs" />
+    <Compile Include="../../../../src/ModularPipelines/Models/CliValueGroup.cs" Link="Runtime/Models/CliValueGroup.cs" />
     <Compile Include="../../../../src/ModularPipelines/Models/KeyValue.cs" Link="Runtime/Models/KeyValue.cs" />
   </ItemGroup>
 

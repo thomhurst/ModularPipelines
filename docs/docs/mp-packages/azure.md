@@ -42,6 +42,14 @@ for a value. DevOps parameters, variables, and work-item fields accept grouped v
 as `["configuration=Release", "platform=x64"]`. Null omits the switch; an empty collection
 also emits nothing. Use `CliOptionValue.Bare` explicitly when a bare switch is intended.
 
+Repeatable multi-value arguments use `IEnumerable<CliValueGroup>` to retain each occurrence.
+For example, set `AssignPlatformWi` to
+`[new CliValueGroup(["operator-one", "identity-one"]), new CliValueGroup(["operator-two", "identity-two"])]`.
+This emits `--assign-platform-wi operator-one identity-one` followed by
+`--assign-platform-wi operator-two identity-two`. Each group holds separate
+argument values; do not join them into a shell string. Empty groups are accepted only for
+options whose parser allows a bare occurrence.
+
 Generation uses an isolated Azure configuration and extension directory containing the
 explicitly installed Azure DevOps extension. The coverage manifest records the CLI and
 extension versions without machine-specific paths or Python installation details.

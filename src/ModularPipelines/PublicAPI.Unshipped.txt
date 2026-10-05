@@ -3339,3 +3339,6 @@ ModularPipelines.Context.IHashContext.Sha512FileAsync(string! path, ModularPipel
 ModularPipelines.Context.IZipContext.CreateFromDirectoryAsync(ModularPipelines.FileSystem.FolderPath! folder, string! outputPath, System.IO.Compression.CompressionLevel compressionLevel = System.IO.Compression.CompressionLevel.Optimal, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Context.IZipContext.ExtractToDirectoryAsync(string! zipPath, string! outputFolderPath, bool overwriteFiles = true, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FolderPath!>!
 static ModularPipelines.CommandResult.Fail(int exitCode = 1, string! standardOutput = "", string! standardError = "") -> ModularPipelines.CommandResult!
+ModularPipelines.Models.CliValueGroup
+ModularPipelines.Models.CliValueGroup.CliValueGroup(System.Collections.Generic.IEnumerable<string!>! values) -> void
+ModularPipelines.Models.CliValueGroup.Values.get -> System.Collections.Generic.IReadOnlyList<string!>!
