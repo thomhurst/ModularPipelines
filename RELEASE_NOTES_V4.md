@@ -665,3 +665,7 @@ now reject conflicting backends in either registration order. Direct registratio
 silently removes an earlier factory, and two different direct stores cannot be selected together.
 Choose one registration at the call site. Repeating the same typed registration is a no-op;
 keyed services and the default filesystem fallback are unchanged.
+
+### kind inherited logging options
+
+`Quiet` and `Verbosity` now live on `KindOptions` and render before the subcommand. Existing initializers remain valid. Reflection code using `DeclaredOnly` should include inherited properties. Cluster-specific options remain local, and root help/version actions are not inherited settings. See the [kind package guide](docs/docs/mp-packages/kind.md).

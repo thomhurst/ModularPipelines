@@ -1,0 +1,13 @@
+Loads docker images from host into all or specified nodes by name
+
+Usage:
+  kind load docker-image <IMAGE> [IMAGE...] [flags]
+
+Flags:
+  -h, --help            help for docker-image
+  -n, --name string     the cluster context name (default "kind")
+      --nodes strings   comma separated list of nodes to load images into
+
+Global Flags:
+  -q, --quiet             silence all stderr output
+  -v, --verbosity int32   info log verbosity, higher value produces more output
