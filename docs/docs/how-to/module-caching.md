@@ -189,3 +189,5 @@ initializers, `with` expressions, and any serialized configuration keys as follo
 
 Defaults, validation, and limit enforcement are unchanged. The renamed options apply
 to local, Redis, and S3 module caches.
+Structured log properties for these limits also use the new names. Update log
+queries that reference the previous `Maximum*` property names.
