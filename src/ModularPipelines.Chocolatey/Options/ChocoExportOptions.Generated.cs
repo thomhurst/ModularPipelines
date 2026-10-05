@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -28,94 +27,15 @@ public record ChocoExportOptions : ChocoOptions
     public bool? Online { get; set; }
 
     /// <summary>
-    /// Debug - Show debug messaging.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Verbose - Show verbose messaging. Very verbose messaging, avoid using under normal circumstances.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Trace - Show trace messaging. Very, very verbose trace messaging. Avoid except when needing super low-level .NET Framework debugging.
-    /// </summary>
-    [CliFlag("--trace")]
-    public bool? Trace { get; set; }
-
-    /// <summary>
-    /// Force - force the behavior. Do not use force during normal operation - it subverts some of the smart behavior for commands.
-    /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Include header names when --limit-output is used. Requires Chocolatey CLI 2.5.0+
-    /// </summary>
-    [CliFlag("--include-headers")]
-    public bool? IncludeHeaders { get; set; }
-
-    /// <summary>
-    /// UseSystemPowerShell - Execute PowerShell using an external process instead of the built-in PowerShell host. Should only be used when internal host is failing.
-    /// </summary>
-    [CliFlag("--use-system-powershell")]
-    public bool? UseSystemPowershell { get; set; }
-
-    /// <summary>
-    /// Do Not Show Progress - Do not show download progress percentages.
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
-    /// </summary>
-    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Proxy User Name - Explicit proxy user (optional). Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy user of ''.
-    /// </summary>
-    [CliOption("--proxy-user", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUser { get; set; }
-
-    /// <summary>
-    /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyPassword { get; set; }
-
-    /// <summary>
-    /// ProxyBypassList - Comma separated list of regex locations to bypass on proxy. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass list of ''.
-    /// </summary>
-    [CliOption("--proxy-bypass-list", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyBypassList { get; set; }
-
-    /// <summary>
-    /// Proxy Bypass On Local - Bypass proxy for local connections. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass on local setting of 'True'.
-    /// </summary>
-    [CliFlag("--proxy-bypass-on-local")]
-    public bool? ProxyBypassOnLocal { get; set; }
-
-    /// <summary>
-    /// Log File to output to in addition to regular loggers.
-    /// </summary>
-    [CliOption("--log-file", Format = OptionFormat.EqualsSeparated)]
-    public string? LogFile { get; set; }
-
-    /// <summary>
-    /// Ignore any HTTP caches that have previously been created when querying sources, and create new caches. Available in 2.1.0+
-    /// </summary>
-    [CliFlag("--ignore-http-cache")]
-    public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
     /// Output File Path - the path to where the list of currently installed packages should be saved. Defaults to packages.config.
     /// </summary>
     [CliOption("--output-file-path", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFilePath { get; set; }
+
+    /// <summary>
+    /// Include Version Numbers - controls whether or not version numbers for each package appear in generated file.  Defaults to false.
+    /// </summary>
+    [CliFlag("--include-version-numbers")]
+    public bool? IncludeVersionNumbers { get; set; }
 
 }

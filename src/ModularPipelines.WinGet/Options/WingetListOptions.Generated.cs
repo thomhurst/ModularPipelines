@@ -51,6 +51,12 @@ public record WingetListOptions : WingetOptions
     public string? Tag { get; set; }
 
     /// <summary>
+    /// Filter results by command
+    /// </summary>
+    [CliOption("--cmd")]
+    public string? Cmd { get; set; }
+
+    /// <summary>
     /// Show no more than specified number of results (between 1 and 1000)
     /// </summary>
     [CliOption("--count", ShortForm = "-n")]
@@ -99,6 +105,18 @@ public record WingetListOptions : WingetOptions
     public bool? UpgradeAvailable { get; set; }
 
     /// <summary>
+    /// List packages even if their current version cannot be determined. Can only be used with the --upgrade-available argument
+    /// </summary>
+    [CliFlag("--unknown", ShortForm = "-u")]
+    public bool? Unknown { get; set; }
+
+    /// <summary>
+    /// List packages even if they have a pin that prevents upgrade. Can only be used with the --upgrade-available argument
+    /// </summary>
+    [CliFlag("--pinned")]
+    public bool? Pinned { get; set; }
+
+    /// <summary>
     /// Show detailed information about packages
     /// </summary>
     [CliFlag("--details")]
@@ -111,28 +129,16 @@ public record WingetListOptions : WingetOptions
     public IEnumerable<string>? Sort { get; set; }
 
     /// <summary>
-    /// Prompts the user to press any key before exiting
+    /// Sort results in ascending order
     /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
+    [CliFlag("--asc")]
+    public bool? Asc { get; set; }
 
     /// <summary>
-    /// Disable interactive prompts
+    /// Sort results in descending order
     /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
+    [CliFlag("--desc")]
+    public bool? Desc { get; set; }
 
     /// <summary>
     /// The query used to search for a package

@@ -183,6 +183,24 @@ public record WingetUpgradeOptions : WingetOptions
     public string? AuthenticationAccount { get; set; }
 
     /// <summary>
+    /// Upgrade all installed packages to latest if available
+    /// </summary>
+    [CliFlag("--recurse", ShortForm = "-r")]
+    public bool? Recurse { get; set; }
+
+    /// <summary>
+    /// Upgrade packages even if their current version cannot be determined
+    /// </summary>
+    [CliFlag("--unknown", ShortForm = "-u")]
+    public bool? Unknown { get; set; }
+
+    /// <summary>
+    /// Upgrade packages even if they have a non-blocking pin
+    /// </summary>
+    [CliFlag("--pinned")]
+    public bool? Pinned { get; set; }
+
+    /// <summary>
     /// Uninstall the previous version of the package during upgrade
     /// </summary>
     [CliFlag("--uninstall-previous")]
@@ -193,30 +211,6 @@ public record WingetUpgradeOptions : WingetOptions
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
 
     /// <summary>
     /// The query used to search for a package

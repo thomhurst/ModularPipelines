@@ -28,91 +28,6 @@ public record ChocoOutdatedOptions : ChocoOptions
     public bool? Online { get; set; }
 
     /// <summary>
-    /// Debug - Show debug messaging.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Verbose - Show verbose messaging. Very verbose messaging, avoid using under normal circumstances.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Trace - Show trace messaging. Very, very verbose trace messaging. Avoid except when needing super low-level .NET Framework debugging.
-    /// </summary>
-    [CliFlag("--trace")]
-    public bool? Trace { get; set; }
-
-    /// <summary>
-    /// Force - force the behavior. Do not use force during normal operation - it subverts some of the smart behavior for commands.
-    /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Include header names when --limit-output is used. Requires Chocolatey CLI 2.5.0+
-    /// </summary>
-    [CliFlag("--include-headers")]
-    public bool? IncludeHeaders { get; set; }
-
-    /// <summary>
-    /// UseSystemPowerShell - Execute PowerShell using an external process instead of the built-in PowerShell host. Should only be used when internal host is failing.
-    /// </summary>
-    [CliFlag("--use-system-powershell")]
-    public bool? UseSystemPowershell { get; set; }
-
-    /// <summary>
-    /// Do Not Show Progress - Do not show download progress percentages.
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
-    /// </summary>
-    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Proxy User Name - Explicit proxy user (optional). Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy user of ''.
-    /// </summary>
-    [CliOption("--proxy-user", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUser { get; set; }
-
-    /// <summary>
-    /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
-    /// </summary>
-    [SecretValue]
-    [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyPassword { get; set; }
-
-    /// <summary>
-    /// ProxyBypassList - Comma separated list of regex locations to bypass on proxy. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass list of ''.
-    /// </summary>
-    [CliOption("--proxy-bypass-list", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyBypassList { get; set; }
-
-    /// <summary>
-    /// Proxy Bypass On Local - Bypass proxy for local connections. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass on local setting of 'True'.
-    /// </summary>
-    [CliFlag("--proxy-bypass-on-local")]
-    public bool? ProxyBypassOnLocal { get; set; }
-
-    /// <summary>
-    /// Log File to output to in addition to regular loggers.
-    /// </summary>
-    [CliOption("--log-file", Format = OptionFormat.EqualsSeparated)]
-    public string? LogFile { get; set; }
-
-    /// <summary>
-    /// Ignore any HTTP caches that have previously been created when querying sources, and create new caches. Available in 2.1.0+
-    /// </summary>
-    [CliFlag("--ignore-http-cache")]
-    public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
     /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. To specify more than one source, pass it with a semi-colon separating the values (e.g. "'source1;source2'"). Defaults to default feeds.
     /// </summary>
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
@@ -138,6 +53,19 @@ public record ChocoOutdatedOptions : ChocoOptions
     public string? Cert { get; set; }
 
     /// <summary>
+    /// Certificate Password - the client certificate's password to the source. Defaults to empty.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--cp", Format = OptionFormat.EqualsSeparated)]
+    public string? Cp { get; set; }
+
+    /// <summary>
+    /// Prerelease - Include Prereleases? Defaults to false.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
     /// Ignore Pinned - Ignore pinned packages. Defaults to false.
     /// </summary>
     [CliFlag("--ignore-pinned")]
@@ -148,6 +76,12 @@ public record ChocoOutdatedOptions : ChocoOptions
     /// </summary>
     [CliFlag("--ignore-unfound")]
     public bool? IgnoreUnfound { get; set; }
+
+    /// <summary>
+    /// Disable Package Repository Optimizations - Do not use optimizations for reducing bandwidth with repository queries during package install/upgrade/outdated operations. Should not generally be used, unless a repository needs to support older methods of query. When disabled, this makes queries similar to the way they were done in earlier versions of Chocolatey. Overrides the default feature 'usePackageRepositoryOptimizations' set to 'True'.
+    /// </summary>
+    [CliFlag("--disable-repository-optimizations")]
+    public bool? DisableRepositoryOptimizations { get; set; }
 
     /// <summary>
     /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+

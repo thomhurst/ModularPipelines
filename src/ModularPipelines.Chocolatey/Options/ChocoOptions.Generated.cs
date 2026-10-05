@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -19,7 +20,152 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("choco")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record ChocoOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// AcceptLicense - Accept license dialogs automatically. Reserved for future use.
+    /// </summary>
+    [CliFlag("--acceptlicense")]
+    public virtual bool? Acceptlicense { get; set; }
+
+    /// <summary>
+    /// AllowUnofficialBuild - When not using the official build you must set this flag for choco to continue.
+    /// </summary>
+    [CliFlag("--allowunofficial")]
+    public virtual bool? Allowunofficial { get; set; }
+
+    /// <summary>
+    /// CacheLocation - Location for download cache, defaults to %TEMP% or value in chocolatey.config file.
+    /// </summary>
+    [CliOption("--cache", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cache { get; set; }
+
+    /// <summary>
+    /// Debug - Show debug messaging.
+    /// </summary>
+    [CliFlag("--debug", ShortForm = "-d")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// FailOnStandardError - Fail on standard error output (stderr), typically received when running external commands during install providers. This overrides the feature failOnStandardError.
+    /// </summary>
+    [CliFlag("--failstderr")]
+    public virtual bool? Failstderr { get; set; }
+
+    /// <summary>
+    /// Force - force the behavior. Do not use force during normal operation - it subverts some of the smart behavior for commands.
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public virtual bool? Force { get; set; }
+
+    /// <summary>
+    /// Ignore any HTTP caches that have previously been created when querying sources, and create new caches. Available in 2.1.0+
+    /// </summary>
+    [CliFlag("--ignore-http-cache")]
+    public virtual bool? IgnoreHttpCache { get; set; }
+
+    /// <summary>
+    /// Include header names when --limit-output is used. Requires Chocolatey CLI 2.5.0+
+    /// </summary>
+    [CliFlag("--include-headers")]
+    public virtual bool? IncludeHeaders { get; set; }
+
+    /// <summary>
+    /// LimitOutput - Limit the output to essential information
+    /// </summary>
+    [CliFlag("--limitoutput", ShortForm = "-r")]
+    public virtual bool? Limitoutput { get; set; }
+
+    /// <summary>
+    /// Log File to output to in addition to regular loggers.
+    /// </summary>
+    [CliOption("--log-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogFile { get; set; }
+
+    /// <summary>
+    /// No Color - Do not show colorization in logging output. This overrides the feature 'logWithoutColor', set to 'False'.
+    /// </summary>
+    [CliFlag("--nocolor")]
+    public virtual bool? Nocolor { get; set; }
+
+    /// <summary>
+    /// NoOp / WhatIf - Don't actually do anything.
+    /// </summary>
+    [CliFlag("--noop")]
+    public virtual bool? Noop { get; set; }
+
+    /// <summary>
+    /// Do Not Show Progress - Do not show download progress percentages.
+    /// </summary>
+    [CliFlag("--no-progress")]
+    public virtual bool? NoProgress { get; set; }
+
+    /// <summary>
+    /// Proxy Location - Explicit proxy location. Overrides the default proxy location of ''.
+    /// </summary>
+    [CliOption("--proxy", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Proxy { get; set; }
+
+    /// <summary>
+    /// ProxyBypassList - Comma separated list of regex locations to bypass on proxy. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass list of ''.
+    /// </summary>
+    [CliOption("--proxy-bypass-list", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ProxyBypassList { get; set; }
+
+    /// <summary>
+    /// Proxy Bypass On Local - Bypass proxy for local connections. Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy bypass on local setting of 'True'.
+    /// </summary>
+    [CliFlag("--proxy-bypass-on-local")]
+    public virtual bool? ProxyBypassOnLocal { get; set; }
+
+    /// <summary>
+    /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ProxyPassword { get; set; }
+
+    /// <summary>
+    /// Proxy User Name - Explicit proxy user (optional). Requires explicit proxy (`--proxy` or config setting). Overrides the default proxy user of ''.
+    /// </summary>
+    [CliOption("--proxy-user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ProxyUser { get; set; }
+
+    /// <summary>
+    /// SkipCompatibilityChecks - Prevent warnings being shown before and after command execution when a runtime compatibility problem is found between the version of Chocolatey and the Chocolatey Licensed Extension.
+    /// </summary>
+    [CliFlag("--skipcompatibilitychecks")]
+    public virtual bool? Skipcompatibilitychecks { get; set; }
+
+    /// <summary>
+    /// CommandExecutionTimeout (in seconds) - The time to allow a command to finish before timing out. Overrides the default execution timeout in the configuration of 2700 seconds. Supply '0' to disable the timeout.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Timeout { get; set; }
+
+    /// <summary>
+    /// Trace - Show trace messaging. Very, very verbose trace messaging. Avoid except when needing super low-level .NET Framework debugging.
+    /// </summary>
+    [CliFlag("--trace")]
+    public virtual bool? Trace { get; set; }
+
+    /// <summary>
+    /// UseSystemPowerShell - Execute PowerShell using an external process instead of the built-in PowerShell host. Should only be used when internal host is failing.
+    /// </summary>
+    [CliFlag("--use-system-powershell")]
+    public virtual bool? UseSystemPowershell { get; set; }
+
+    /// <summary>
+    /// Verbose - Show verbose messaging. Very verbose messaging, avoid using under normal circumstances.
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public virtual bool? Verbose { get; set; }
+
+    /// <summary>
+    /// Confirm all prompts - Chooses affirmative answer instead of prompting. Implies --accept-license
+    /// </summary>
+    [CliFlag("--yes", ShortForm = "-y")]
+    public virtual bool? Yes { get; set; }
+
 }

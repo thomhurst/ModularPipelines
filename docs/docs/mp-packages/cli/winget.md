@@ -30,6 +30,20 @@ Resolve the service in a module, then select a command from the table below. A r
 var winget = context.Tools.Winget;
 ```
 
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--disable-interactivity` | `DisableInteractivity` | All editions | Disable interactive prompts |
+| `--logs` | `Logs` | All editions | Open the default logs location |
+| `--no-proxy` | `NoProxy` | All editions | Disable the use of proxy for this execution |
+| `--nowarn` | `Nowarn` | All editions | Suppresses warning outputs |
+| `--proxy` | `Proxy` | All editions | Set a proxy to use for this execution |
+| `--verbose` | `Verbose` | All editions | Enables verbose logging for winget |
+| `--wait` | `Wait` | All editions | Prompts the user to press any key before exiting |
+
 ## Commands
 
 | CLI command | Options record |

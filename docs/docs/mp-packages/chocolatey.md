@@ -6,6 +6,23 @@ title: Chocolatey Package
 
 Strongly typed Chocolatey package-management commands.
 
+## Common options
+
+The common-option audit uses Chocolatey 2.7.4 help and the official
+[command reference](https://docs.chocolatey.org/en-us/choco/commands/).
+`ChocoOptions` supplies the documented default switches, including `Debug`,
+`Verbose`, `Yes`, `Timeout`, and proxy settings. Common options follow the command
+and its package operands, such as `choco install example --timeout=60 --yes`.
+Value-taking options use `=`; `ProxyPassword` remains secret-masked.
+
+Existing command initializers can continue setting inherited properties. Alias
+lists now produce one property using the first long name, so previously omitted
+options such as `--yes,--confirm` and `--timeout,--execution-timeout=VALUE` are
+available. Short aliases remain attached to that property. Root `--version` and
+help-only options are not common settings; a command's package `Version` stays
+command-specific. Comma-separated settings such as `ProxyBypassList` remain
+single string values.
+
 ## Installation
 
 ```shell

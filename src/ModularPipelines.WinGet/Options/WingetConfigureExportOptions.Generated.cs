@@ -69,33 +69,15 @@ public record WingetConfigureExportOptions : WingetOptions
     public bool? IncludeVersions { get; set; }
 
     /// <summary>
+    /// Exports all package configurations.
+    /// </summary>
+    [CliFlag("--recurse", ShortForm = "-r")]
+    public bool? Recurse { get; set; }
+
+    /// <summary>
     /// Accept all source agreements during source operations
     /// </summary>
     [CliFlag("--accept-source-agreements")]
     public bool? AcceptSourceAgreements { get; set; }
-
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
 
 }

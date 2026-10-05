@@ -21,28 +21,10 @@ namespace ModularPipelines.WinGet.Options;
 public record WingetSettingsResetOptions : WingetOptions
 {
     /// <summary>
-    /// Prompts the user to press any key before exiting
+    /// Resets all admin settings
     /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
+    [CliFlag("--recurse", ShortForm = "-r")]
+    public bool? Recurse { get; set; }
 
     /// <summary>
     /// Name of the setting to modify

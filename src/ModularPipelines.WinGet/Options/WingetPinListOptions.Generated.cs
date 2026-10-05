@@ -51,6 +51,12 @@ public record WingetPinListOptions : WingetOptions
     public string? Tag { get; set; }
 
     /// <summary>
+    /// Filter results by command
+    /// </summary>
+    [CliOption("--cmd")]
+    public string? Cmd { get; set; }
+
+    /// <summary>
     /// Find package using exact match
     /// </summary>
     [CliFlag("--exact", ShortForm = "-e")]
@@ -79,30 +85,6 @@ public record WingetPinListOptions : WingetOptions
     /// </summary>
     [CliFlag("--accept-source-agreements")]
     public bool? AcceptSourceAgreements { get; set; }
-
-    /// <summary>
-    /// Prompts the user to press any key before exiting
-    /// </summary>
-    [CliFlag("--wait")]
-    public bool? Wait { get; set; }
-
-    /// <summary>
-    /// Disable interactive prompts
-    /// </summary>
-    [CliFlag("--disable-interactivity")]
-    public bool? DisableInteractivity { get; set; }
-
-    /// <summary>
-    /// Set a proxy to use for this execution
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Disable the use of proxy for this execution
-    /// </summary>
-    [CliFlag("--no-proxy")]
-    public bool? NoProxy { get; set; }
 
     /// <summary>
     /// The query used to search for a package
