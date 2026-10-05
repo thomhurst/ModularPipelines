@@ -625,3 +625,13 @@ now reject conflicting backends in either registration order. Direct registratio
 silently removes an earlier factory, and two different direct stores cannot be selected together.
 Choose one registration at the call site. Repeating the same typed registration is a no-op;
 keyed services and the default filesystem fallback are unchanged.
+
+### Git root execution settings
+
+Git command options now inherit root execution settings, including repeated `-C` directory
+changes and ordered `-c` configuration overrides. Configuration values are masked in logs.
+Root settings render before subcommands; command-local switches keep their existing meaning.
+On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareRepository` to
+distinguish repository selection from command-local reporting or clone options. Other shared
+properties retain their names through inheritance. Version and path-reporting actions remain
+on `GitBaseOptions`, and the grouped command facade remains unchanged.

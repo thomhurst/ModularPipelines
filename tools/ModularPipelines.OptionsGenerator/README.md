@@ -261,3 +261,14 @@ Breaking generated API changes remain visible for human review. The workflow's m
 `approve-command-coverage-shrinkage` input is an explicit acknowledgement for a single run,
 not a permanent weakening of the coverage policy. It cannot approve more than five
 undocumented removals; coverage failures upload raw help provenance for diagnosis.
+
+### Git root settings and handwritten ownership
+
+Git intentionally sets `GenerateCode = false`: its grouped facade and current option records
+remain owned by the handwritten integration. The scraper combines `git -h` root usage with
+`git help -a` command discovery. It records advertised root execution options separately
+from command-local switches, including case-sensitive `-C` and `-c`, repeated values,
+equals separators, and secret-bearing configuration. Version, help, path-reporting actions,
+and internal `--super-prefix` are excluded. Regeneration still validates the complete
+command tree and writes command coverage and provenance. Do not enable code generation or
+replace these records as a side effect of a root-option change.
