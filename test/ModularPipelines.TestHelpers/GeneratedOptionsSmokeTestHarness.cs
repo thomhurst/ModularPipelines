@@ -245,27 +245,13 @@ public static class GeneratedOptionsSmokeTestHarness
 
         if (value is CliOptionValue optionValue)
         {
-            return RenderOptionalValue(optionName, separator, optionValue).ToList();
+            return [.. RenderOptionalValue(optionName, separator, optionValue)];
         }
 
         if (option.Attribute.ValueArity == CliOptionValueArity.Optional
             && value is IEnumerable<CliOptionValue> optionValues)
         {
-            var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
-            if (option.Attribute.GroupValues && optionalValues.Count > 0)
-            {
-                return
-                [
-                    optionName,
-                    .. optionalValues
-                        .Where(static item => !item.IsBare)
-                        .Select(static item => item.Value!),
-                ];
-            }
-
-            return optionalValues
-                .SelectMany(item => RenderOptionalValue(optionName, separator, item))
-                .ToList();
+            return GetExpectedOptionalValues(option.Attribute, optionName, separator, optionValues);
         }
 
         var values = GetValues(value);
@@ -276,9 +262,28 @@ public static class GeneratedOptionsSmokeTestHarness
                 : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
         }
 
-        return values
-            .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
-            .ToList();
+        return [.. values.SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))];
+    }
+
+    private static List<string> GetExpectedOptionalValues(
+        CliOptionAttribute attribute,
+        string optionName,
+        string separator,
+        IEnumerable<CliOptionValue> optionValues)
+    {
+        var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
+        if (attribute.GroupValues && optionalValues.Count > 0)
+        {
+            return
+            [
+                optionName,
+                .. optionalValues
+                    .Where(static item => !item.IsBare)
+                    .Select(static item => item.Value!),
+            ];
+        }
+
+        return [.. optionalValues.SelectMany(item => RenderOptionalValue(optionName, separator, item))];
     }
 
     private static string GetEffectiveName(CliFlagAttribute attribute) =>

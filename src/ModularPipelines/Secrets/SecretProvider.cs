@@ -812,6 +812,14 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
             yield break;
         }
 
+        foreach (var secret in NormalizeSecretItems(enumerable))
+        {
+            yield return secret;
+        }
+    }
+
+    private static IEnumerable<string?> NormalizeSecretItems(IEnumerable enumerable)
+    {
         foreach (var item in enumerable)
         {
             if (item is CliValueGroup itemGroup)
