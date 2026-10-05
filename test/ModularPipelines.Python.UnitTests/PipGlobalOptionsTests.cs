@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.Python.Options;
 using ModularPipelines.TestHelpers;
@@ -8,6 +9,26 @@ namespace ModularPipelines.Python.UnitTests;
 
 public class PipGlobalOptionsTests : TestBase
 {
+    [Test]
+    [Arguments(2, 3, "pip --quiet --quiet --verbose --verbose --verbose check")]
+    [Arguments(0, 4, "pip --verbose --verbose --verbose --verbose check")]
+    [Arguments(0, 0, "pip check")]
+    [Arguments(null, null, "pip check")]
+    public async Task Additive_Flags_Render_Counts_Before_Command(int? quiet, int? verbose, string expected)
+    {
+        var command = await RenderCommand(new PipCheckOptions { Quiet = quiet, Verbose = verbose });
+        await Assert.That(command).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments(-1, 0)]
+    [Arguments(0, -1)]
+    public async Task Negative_Flag_Counts_Are_Rejected(int quiet, int verbose)
+    {
+        await Assert.That(async () => await RenderCommand(new PipCheckOptions { Quiet = quiet, Verbose = verbose }))
+            .Throws<CommandOptionsValidationException>();
+    }
+
     [Test]
     public async Task General_Options_Render_Once_Before_Command_And_Package_Options()
     {
