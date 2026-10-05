@@ -641,7 +641,8 @@ internal sealed class CommandLineBuilder(
             return null;
         }
 
-        if (flagsByName.TryGetValue(argument, out var flag))
+        if (flagsByName.TryGetValue(argument, out var flag)
+            || TryGetAttachedBooleanFlag(argument, flagsByName, out flag))
         {
             return new ManualOptionMatch(
                 ArgumentCount: 1,
@@ -732,6 +733,25 @@ internal sealed class CommandLineBuilder(
         {
             destination.Add(argument);
         }
+    }
+
+    private static bool TryGetAttachedBooleanFlag(
+        string argument,
+        IReadOnlyDictionary<string, FlagPart> flagsByName,
+        out FlagPart flag)
+    {
+        var separatorIndex = argument.IndexOf('=');
+        if (separatorIndex > 0
+            && bool.TryParse(argument.AsSpan(separatorIndex + 1), out _)
+            && flagsByName.TryGetValue(argument[..separatorIndex], out var matchingFlag)
+            && matchingFlag.Attribute.NegatedName == matchingFlag.Attribute.Name + "=false")
+        {
+            flag = matchingFlag;
+            return true;
+        }
+
+        flag = null!;
+        return false;
     }
 
     private static bool TryGetAttachedManualOption(
@@ -930,6 +950,7 @@ internal sealed class CommandLineBuilder(
     {
         if ((argument == "--" && argumentsContainOptionTerminator)
             || flagsByName.ContainsKey(argument)
+            || TryGetAttachedBooleanFlag(argument, flagsByName, out _)
             || optionsByName.ContainsKey(argument)
             || TryGetAttachedManualOption(argument, optionsByName, out _))
         {
