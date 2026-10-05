@@ -147,6 +147,10 @@ subcommand. Existing property initializers continue to work, except repeatable
 Command-specific dependency groups also accept collections: use
 `Group = ["development", "testing"]` on install, download, wheel, or lock options.
 
+`Quiet` and `Verbose` are nullable integer counters instead of booleans. Replace
+`true` with `1` and `false` with `0` or `null`; positive values repeat the flag,
+zero/null omit it, and negative values fail validation.
+
 `Debug`, `Isolated`, `RequireVirtualenv`, `Version`, and `DisablePipVersionCheck` are boolean
 flags. `Python`, `KeyringProvider`, and `ResumeRetries` take values. Proxy URLs are
 masked in command logging because they can contain credentials. Install-specific
