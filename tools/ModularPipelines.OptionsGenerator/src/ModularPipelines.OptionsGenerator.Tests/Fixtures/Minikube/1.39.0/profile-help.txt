@@ -1,0 +1,10 @@
+profile sets the current minikube profile, or gets the current profile if no arguments are provided.  This is used to run and manage multiple minikube instance.  You can return to the default minikube profile by running `minikube profile default`
+
+Available Commands:
+  list          Lists all minikube profiles.
+
+Usage:
+  minikube profile [MINIKUBE_PROFILE_NAME].  You can return to the default minikube profile by running `minikube profile default` [flags] [options]
+
+Use "minikube profile <command> --help" for more information about a given command.
+Use "minikube options" for a list of global command-line options (applies to all commands).

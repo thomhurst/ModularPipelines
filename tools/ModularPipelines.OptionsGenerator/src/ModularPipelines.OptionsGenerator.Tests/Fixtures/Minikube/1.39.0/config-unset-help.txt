@@ -1,0 +1,6 @@
+unsets PROPERTY_NAME from the minikube config file.  Can be overwritten by flags or environmental variables
+
+Usage:
+  minikube config unset PROPERTY_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

@@ -1,0 +1,16 @@
+pause Kubernetes
+
+Options:
+    -A, --all-namespaces=false:
+	If set, pause all namespaces
+
+    -n, --namespaces=[kube-system,kubernetes-dashboard,istio-operator]:
+	namespaces to pause
+
+    -o, --output='text':
+	Format to print stdout in. Options include: [text,json]
+
+Usage:
+  minikube pause [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

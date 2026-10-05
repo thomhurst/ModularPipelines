@@ -1,0 +1,13 @@
+tunnel creates a route to services deployed with type LoadBalancer and sets their Ingress to their ClusterIP. For a detailed example see https://minikube.sigs.k8s.io/docs/handbook/accessing
+
+Options:
+    --bind-address='':
+	set tunnel bind address, empty or '*' indicates the tunnel should be available for all interfaces
+
+    -c, --cleanup=true:
+	call with cleanup=true to remove old tunnels
+
+Usage:
+  minikube tunnel [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

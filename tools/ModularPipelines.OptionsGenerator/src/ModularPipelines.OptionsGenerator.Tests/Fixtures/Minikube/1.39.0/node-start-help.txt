@@ -1,0 +1,13 @@
+Starts an existing stopped node in a cluster.
+
+Examples:
+minikube node start m02
+
+Options:
+    --delete-on-failure=false:
+	If set, delete the current cluster if start fails and try again. Defaults to false.
+
+Usage:
+  minikube node start NODE_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

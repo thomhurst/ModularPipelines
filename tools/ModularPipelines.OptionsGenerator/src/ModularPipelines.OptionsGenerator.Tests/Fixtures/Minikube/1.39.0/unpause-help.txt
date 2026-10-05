@@ -1,0 +1,19 @@
+unpause Kubernetes
+
+Aliases:
+unpause, resume
+
+Options:
+    -A, --all-namespaces=false:
+	If set, unpause all namespaces
+
+    -n, --namespaces=[kube-system,kubernetes-dashboard,istio-operator]:
+	namespaces to unpause
+
+    -o, --output='text':
+	Format to print stdout in. Options include: [text,json]
+
+Usage:
+  minikube unpause [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

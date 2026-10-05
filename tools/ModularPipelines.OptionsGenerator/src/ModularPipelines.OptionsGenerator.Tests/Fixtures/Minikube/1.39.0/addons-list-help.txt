@@ -1,0 +1,13 @@
+Lists all available minikube addons as well as their current statuses (enabled/disabled)
+
+Options:
+    -d, --docs=false:
+	If true, print web links to addons' documentation if using --output=list (default).
+
+    -o, --output='list':
+	minikube addons list --output OUTPUT. json, list
+
+Usage:
+  minikube addons list [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

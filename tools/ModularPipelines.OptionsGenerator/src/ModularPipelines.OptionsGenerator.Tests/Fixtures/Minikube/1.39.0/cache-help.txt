@@ -1,0 +1,9 @@
+Add an image into minikube as a local cache, or delete, reload the cached images
+
+Available Commands:
+  add           Add an image to local cache.
+  delete        Delete an image from the local cache.
+  list          List all available images from the local cache.
+  reload        reload cached images.
+
+Use "minikube cache <command> --help" for more information about a given command.

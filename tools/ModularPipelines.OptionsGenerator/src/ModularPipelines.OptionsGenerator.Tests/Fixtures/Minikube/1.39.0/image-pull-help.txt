@@ -1,0 +1,10 @@
+Pull images
+
+Examples:
+
+$ minikube image pull busybox
+
+Usage:
+  minikube image pull [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

@@ -1,0 +1,28 @@
+Gets the logs of the running instance, used for debugging minikube, not user code.
+
+Options:
+    --audit=false:
+	Show only the audit logs
+
+    --file='':
+	If present, writes to the provided file instead of stdout.
+
+    -f, --follow=false:
+	Show only the most recent journal entries, and continuously print new entries as they are appended to the journal.
+
+    --last-start-only=false:
+	Show only the last start logs.
+
+    -n, --length=60:
+	Number of lines back to go within the log
+
+    --node='':
+	The node to get logs from. Defaults to the primary control plane.
+
+    --problems=false:
+	Show only log entries which point to known problems
+
+Usage:
+  minikube logs [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).
