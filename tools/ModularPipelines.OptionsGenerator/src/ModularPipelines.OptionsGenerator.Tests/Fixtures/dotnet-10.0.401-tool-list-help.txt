@@ -1,0 +1,16 @@
+Description:
+  List tools installed globally or locally.
+
+Usage:
+  dotnet tool list [<packageId>] [options]
+
+Arguments:
+  <PACKAGE_ID>  The NuGet Package Id of the tool to list
+
+Options:
+  -g, --global           List tools installed for the current user. [default: False]
+  --local                List the tools installed in the local tool manifest. [default: False]
+  --tool-path <PATH>     The directory containing the tools to list.
+  --format <json|table>  The output format for the list of tools. [default: table]
+  -?, -h, --help         Show command line help.
+

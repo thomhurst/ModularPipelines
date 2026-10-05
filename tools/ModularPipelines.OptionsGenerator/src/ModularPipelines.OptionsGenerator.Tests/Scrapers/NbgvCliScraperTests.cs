@@ -8,6 +8,26 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class NbgvCliScraperTests
 {
     [Test]
+    public async Task Installed_DotNet_Tool_Has_No_Inherited_Execution_Options()
+    {
+        var fixtures = Path.Combine(AppContext.BaseDirectory, "Fixtures");
+        var root = await File.ReadAllTextAsync(Path.Combine(fixtures, "nbgv-3.10.94-root-help.txt"));
+        var scraper = new TestNbgvCliScraper();
+        await Assert.That(scraper.ParseGlobals(root)).IsEmpty();
+        foreach (var name in new[] { "get-version", "cloud" })
+        {
+            var help = await File.ReadAllTextAsync(Path.Combine(fixtures, $"nbgv-3.10.94-{name}-help.txt"));
+            var command = await scraper.Parse(["nbgv", name], help);
+            await Assert.That(command!.Options.Select(option => option.SwitchName)).Contains("--project");
+            await Assert.That(command.Options.Any(option => option.SwitchName == "--help")).IsFalse();
+            if (name == "cloud")
+            {
+                await Assert.That(command.Options.Single(option => option.SwitchName == "--version").IsFlag).IsFalse();
+            }
+        }
+    }
+
+    [Test]
     public async Task Root_Help_Discovers_All_Commands()
     {
         const string helpText = """
@@ -162,6 +182,8 @@ public class NbgvCliScraperTests
         }
 
         public List<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

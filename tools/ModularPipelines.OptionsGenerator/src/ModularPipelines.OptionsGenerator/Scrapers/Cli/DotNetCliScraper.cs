@@ -66,6 +66,10 @@ public partial class DotNetCliScraper : CliScraperBase
 
     protected override IReadOnlySet<string> IgnoredOptionSwitches => DotNetIgnoredOptionSwitches;
 
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseOptions(helpText, [], SdkOptionsSectionPattern(), includeGlobalOptions: true)
+            .Where(option => option.SwitchName == "--diagnostics")];
+
 
     /// <summary>
     /// Skip common utility subcommands.
@@ -236,14 +240,18 @@ public partial class DotNetCliScraper : CliScraperBase
     /// Parses options from .NET CLI help text.
     /// .NET CLI uses GNU-style: --option VALUE, --flag, -o (short forms)
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(
+        string helpText,
+        string[] commandParts,
+        Regex? sectionPattern = null,
+        bool includeGlobalOptions = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Options: section
-        var optionsMatch = OptionsSectionPattern().Match(helpText);
+        var optionsMatch = (sectionPattern ?? OptionsSectionPattern()).Match(helpText);
         if (!optionsMatch.Success)
         {
             return options;
@@ -301,7 +309,7 @@ public partial class DotNetCliScraper : CliScraperBase
             seenOptions.Add(primaryFlag);
 
             // Skip common global options that are on base class
-            if (IsGlobalOption(primaryFlag))
+            if (!includeGlobalOptions && IsGlobalOption(primaryFlag))
             {
                 continue;
             }
@@ -694,6 +702,9 @@ public partial class DotNetCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^Options?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex OptionsSectionPattern();
+
+    [GeneratedRegex(@"^sdk-options:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex SdkOptionsSectionPattern();
 
     /// <summary>
     /// Matches "Arguments:" section header.
