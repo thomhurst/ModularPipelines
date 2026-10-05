@@ -54,6 +54,47 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("'", "\n")]
+    [Arguments("\"", "\n")]
+    [Arguments("'", "\r\n")]
+    [Arguments("\"", "\r\n")]
+    public async Task Multiline_Quoted_Defaults_Preserve_Descriptions_And_Adjacent_Options(string quote, string newline)
+    {
+        var helpText = $"""
+            Usage: fake status [OPTIONS]
+
+            Options:
+              --before=1: Previous option.
+              -f, --format={quote}name: name-value
+            Template:
+              --literal template content
+            host: host-value{quote}: Render the template.
+                Preserve this wrapped description.
+              --after=false: Following option.
+
+            Global Flags:
+              --verbose   Show more details
+            """.ReplaceLineEndings(newline);
+        var command = await new TestCobraCliScraper().Parse(["fake", "status"], helpText);
+        var format = command!.Options.Single(option => option.SwitchName == "--format");
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--before", "--format", "--after", "--verbose"]);
+        await Assert.That(format.ShortForm).IsEqualTo("-f");
+        await Assert.That(format.CSharpType).IsEqualTo("string?");
+        await Assert.That(format.IsFlag).IsFalse();
+        await Assert.That(format.Description)
+            .IsEqualTo("Render the template. Preserve this wrapped description.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--after").Description)
+            .IsEqualTo("Following option.");
+        var namedOptions = new TestCobraCliScraper().NamedOptions(helpText);
+        await Assert.That(namedOptions.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--before", "--format", "--after"]);
+        await Assert.That(namedOptions.Single(option => option.SwitchName == "--format").Description)
+            .IsEqualTo(format.Description);
+    }
+
+    [Test]
     public async Task Type_Hint_Preserves_Long_Choices()
     {
         const string longValue = "this-is-a-valid-choice-longer-than-thirty-characters";
@@ -228,6 +269,9 @@ public class CobraCliScraperTests
         public override string TargetNamespace => "ModularPipelines.Fake";
 
         public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        public IReadOnlyList<CliOptionDefinition> NamedOptions(string helpText) =>
+            ParseNamedOptionSection(helpText, "Options", ["status"]);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

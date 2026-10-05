@@ -311,6 +311,8 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// </summary>
     private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
+        helpText = NormalizeQuotedOptionDefaults(helpText);
+
         // Find Flags, Options, and Global Flags sections
         var flagsSections = ExtractFlagsSections(helpText);
 
@@ -325,12 +327,18 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// </summary>
     protected IReadOnlyList<CliOptionDefinition> ParseNamedOptionSection(string helpText, string sectionName, string[] commandParts)
     {
+        helpText = NormalizeQuotedOptionDefaults(helpText);
         var header = SectionHeaderPattern().Matches(helpText)
             .FirstOrDefault(match => match.Value.Trim().TrimEnd(':').Equals(sectionName, StringComparison.OrdinalIgnoreCase));
         return header is null
             ? []
             : ParseOptionSections(helpText, commandParts, [GetSectionContent(helpText, header)]);
     }
+
+    // Defaults only supply a type hint. Join their physical lines before section/row
+    // discovery so template content cannot masquerade as headings or option rows.
+    private static string NormalizeQuotedOptionDefaults(string helpText) =>
+        QuotedOptionDefaultPattern().Replace(helpText, static match => match.Value.ReplaceLineEndings(" "));
 
     private List<CliOptionDefinition> ParseOptionSections(string helpText, string[] commandParts, IReadOnlyList<string> sections)
     {
@@ -961,6 +969,9 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     // the description. A list item may contain its own brackets, as in an IPv6 URL.
     [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^\s]*?))?:(?=[ \t\r]|$)\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
+
+    [GeneratedRegex(@"^[ \t]*(?:-\w,[ \t]*)?--[\w-]+=(?:'[^']*'|""[^""]*"")(?=:(?:[ \t\r\n]|$))", RegexOptions.Multiline)]
+    private static partial Regex QuotedOptionDefaultPattern();
 
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]
     private static partial Regex AllowedValuesPattern();
