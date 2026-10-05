@@ -66,7 +66,7 @@ builder.AddDistributedMode(o =>
 | `WorkerTimeout` | `TimeSpan` | `TimeSpan.FromSeconds(30)` | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`. |
 | `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
-| `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely. |
+| `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `Timeout.InfiniteTimeSpan` to wait indefinitely; zero and other negative values are rejected. |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`,
 are reported by pipeline validation and stop the distributed backend from starting.
@@ -193,7 +193,8 @@ A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
 and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
 artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's
-heartbeat go stale before it expires.
+heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key
+expiration: keys retain their configured TTL, so choose a TTL that covers the required retention period.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 

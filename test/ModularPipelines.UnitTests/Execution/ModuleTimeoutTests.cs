@@ -59,13 +59,32 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class ZeroDefaultTimeoutModule : Module<string>
+    private class InfiniteDefaultTimeoutModule : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
             return TestConstants.TestString;
         }
+    }
+
+    private class InfiniteTimeoutModule : InfiniteDefaultTimeoutModule
+    {
+        protected override void Configure(ModuleConfigurationBuilder module) => module
+            .WithTimeout(Timeout.InfiniteTimeSpan);
+    }
+
+    [Test]
+    public async Task Infinite_Module_Timeout_Overrides_Finite_Pipeline_Default()
+    {
+        await Assert.That(async () => await TestPipelineBuilder.Create()
+            .ConfigureOptions(options => options with
+            {
+                DefaultModuleTimeout = TimeSpan.FromTicks(1),
+            })
+            .AddModule<InfiniteTimeoutModule>()
+            .RunAsync()
+            .WaitAsync(TestHostSettings.DefaultTestTimeout)).ThrowsNothing();
     }
 
     [Test]
@@ -102,14 +121,14 @@ public class ModuleTimeoutTests : TestBase
     }
 
     [Test]
-    public async Task Zero_Pipeline_Default_Module_Timeout_Disables_Timeout()
+    public async Task Infinite_Pipeline_Default_Module_Timeout_Disables_Timeout()
     {
         await Assert.That(async () => await TestPipelineBuilder.Create()
             .ConfigureOptions(options => options with
             {
-                DefaultModuleTimeout = TimeSpan.Zero,
+                DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
             })
-            .AddModule<ZeroDefaultTimeoutModule>()
+            .AddModule<InfiniteDefaultTimeoutModule>()
             .RunAsync()).ThrowsNothing();
     }
 

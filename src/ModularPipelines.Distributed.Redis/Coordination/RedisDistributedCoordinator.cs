@@ -65,7 +65,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     internal static void ValidateKeyExpiration(RedisOptions options, DistributedOptions? distributedOptions)
     {
         var workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
-        var resultTimeout = distributedOptions?.ModuleResultTimeout ?? TimeSpan.Zero;
+        var resultTimeout = distributedOptions?.ModuleResultTimeout ?? Timeout.InfiniteTimeSpan;
         var masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
 
         // The master heartbeat must stay readable for longer than MasterTimeout, or a stale

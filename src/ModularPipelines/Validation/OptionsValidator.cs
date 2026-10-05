@@ -56,18 +56,18 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultRetryCount cannot be negative. Current value: {options.DefaultRetryCount}"));
         }
 
-        if (options.DefaultModuleTimeout < TimeSpan.Zero)
+        if (options.DefaultModuleTimeout != Timeout.InfiniteTimeSpan && options.DefaultModuleTimeout <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"DefaultModuleTimeout cannot be negative. Current value: {options.DefaultModuleTimeout}"));
+                $"DefaultModuleTimeout must be positive or Timeout.InfiniteTimeSpan. Current value: {options.DefaultModuleTimeout}"));
         }
 
-        if (options.AlwaysRunProgressTimeout < TimeSpan.Zero)
+        if (options.AlwaysRunProgressTimeout != Timeout.InfiniteTimeSpan && options.AlwaysRunProgressTimeout <= TimeSpan.Zero)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"AlwaysRunProgressTimeout cannot be negative. Current value: {options.AlwaysRunProgressTimeout}"));
+                $"AlwaysRunProgressTimeout must be positive or Timeout.InfiniteTimeSpan. Current value: {options.AlwaysRunProgressTimeout}"));
         }
 
         ValidateConsoleOptions(options.Console, result);

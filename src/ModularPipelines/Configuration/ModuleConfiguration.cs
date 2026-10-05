@@ -52,7 +52,9 @@ public sealed class ModuleConfiguration
     /// </summary>
     /// <value>
     /// A <see cref="TimeSpan"/> representing the maximum time for each attempt,
-    /// or null if no timeout is configured.
+    /// or <see cref="System.Threading.Timeout.InfiniteTimeSpan"/> to disable the timeout.
+    /// A null value inherits <see cref="Options.PipelineOptions.DefaultModuleTimeout"/>,
+    /// which defaults to 30 minutes.
     /// </value>
     public TimeSpan? Timeout { get; internal init; }
 

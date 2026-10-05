@@ -38,6 +38,21 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    [Arguments(0, false)]
+    [Arguments(-1, true)]
+    [Arguments(-2, false)]
+    [Arguments(100, true)]
+    public async Task ModuleResultTimeout_Requires_Positive_Or_Infinite_Duration(int milliseconds, bool valid)
+    {
+        var options = new DistributedOptions { Enabled = true, ModuleResultTimeout = TimeSpan.FromMilliseconds(milliseconds) };
+
+        var failures = DistributedOptionsValidator.Validate(options);
+
+        await Assert.That(failures.Any(failure => failure.Contains(nameof(DistributedOptions.ModuleResultTimeout))))
+            .IsEqualTo(!valid);
+    }
+
+    [Test]
     public async Task ModuleResultTimeout_Defaults_To_Forty_Five_Minutes()
     {
         var options = new DistributedOptions();
