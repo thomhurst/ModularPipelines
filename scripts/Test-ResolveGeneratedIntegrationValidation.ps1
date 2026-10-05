@@ -342,7 +342,7 @@ foreach ($testCommand in @(
 }
 
 foreach ($step in [regex]::Matches($fastFailJob, '(?ms)^      - .*?(?=^      - |\z)')) {
-    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots|name: Detect core changes') {
+    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration|name: Reject stale generated snapshots|name: Detect validation routes') {
         continue
     }
     if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {

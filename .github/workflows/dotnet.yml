@@ -39,6 +39,8 @@ jobs:
       worker_matrix: ${{ steps.distribution.outputs.worker_matrix }}
       run_identifier: ${{ steps.distribution.outputs.run_identifier }}
       run_full_pipeline: ${{ steps.full_pipeline.outputs.run_full_pipeline }}
+      run_integration_validation: ${{ steps.full_pipeline.outputs.run_integration_validation }}
+      integration_matrix: ${{ steps.full_pipeline.outputs.integration_matrix }}
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
       integration_tool: ${{ steps.generated_integration.outputs.tool }}
       integration_namespace_prefix: ${{ steps.generated_integration.outputs.namespace_prefix }}
@@ -55,18 +57,20 @@ jobs:
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
-      - name: Detect core changes
+      - name: Detect validation routes
         id: full_pipeline
         shell: pwsh
         env:
           EVENT_NAME: ${{ github.event_name }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          IS_GENERATED_INTEGRATION: ${{ steps.generated_integration.outputs.is_generated_integration }}
         run: |
           ./scripts/Resolve-FullPipelineValidation.ps1 `
             -EventName $env:EVENT_NAME `
             -BaseSha $env:BASE_SHA `
             -HeadSha $env:HEAD_SHA `
+            -IsGeneratedIntegration $env:IS_GENERATED_INTEGRATION `
             -GitHubOutput $env:GITHUB_OUTPUT
       - name: Resolve distributed matrix
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
@@ -104,6 +108,7 @@ jobs:
           ./scripts/Test-DistributedBuildArtifacts.ps1
           ./scripts/Test-DistributedBuildSummary.ps1
           ./scripts/Test-FullPipelineValidation.ps1
+          ./scripts/Test-ChangedIntegrationValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
@@ -785,10 +790,63 @@ jobs:
             dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
           fi
 
+  changed-integration:
+    name: changed integration (${{ matrix.package }})
+    needs: fast-fail
+    if: ${{ !cancelled() && needs.fast-fail.outputs.run_integration_validation == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.fast-fail.outputs.integration_matrix) }}
+    env:
+      MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
+    steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: exit 1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-integration-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-integration-
+            ${{ runner.os }}-nuget-
+      - name: Increase swap space for gcloud validation
+        if: matrix.package == 'ModularPipelines.Google'
+        shell: bash
+        run: |
+          sudo swapoff -a || true
+          sudo rm -f /mnt/swapfile || true
+          sudo fallocate -l 10G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+      - name: Build and test changed integration
+        shell: bash
+        env:
+          BUILD_TARGET: ${{ matrix.build_target }}
+          TEST_PROJECT: ${{ matrix.test_project }}
+        run: |
+          dotnet build "$BUILD_TARGET" -c Release /m:1 -p:UseSharedCompilation=false
+          if [[ -n "$TEST_PROJECT" ]]; then
+            dotnet build "$TEST_PROJECT" -c Release /m:1 -p:UseSharedCompilation=false
+            dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
+          fi
+
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
-    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration]
+    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -811,7 +869,9 @@ jobs:
             -Distributed '${{ needs.fast-fail.outputs.distributed }}' `
             -WorkerPipelineResult '${{ needs.pipeline-workers.result }}' `
             -CrossPlatformBuildResult '${{ needs.cross-platform-build.result }}' `
-            -GeneratedIntegrationResult '${{ needs.generated-integration.result }}'
+            -GeneratedIntegrationResult '${{ needs.generated-integration.result }}' `
+            -RunIntegrationValidation '${{ needs.fast-fail.outputs.run_integration_validation }}' `
+            -IntegrationResult '${{ needs.changed-integration.result }}'
 
   trim-aot:
     name: trim and Native AOT

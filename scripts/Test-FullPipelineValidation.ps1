@@ -13,12 +13,14 @@ function Assert-Route {
 
 $corePaths = @(
     'src/ModularPipelines/Engine.cs',
+    'src/ModularPipelines.Removed/Deleted.cs',
     'src/ModularPipelines/ModularPipelines.csproj',
     'src/ModularPipelines.SourceGenerator/Generator.cs',
     'src/ModularPipelines.Analyzers/Analyzer.cs',
     'src/ModularPipelines.Development.Analyzers/Analyzer.cs',
     'src/ModularPipelines.Cmd/Command.cs',
     'test/ModularPipelines.UnitTests/EngineTests.cs',
+    'test/ModularPipelines.Distributed.UnitTests/CoordinatorTests.cs',
     'test/ModularPipelines.TrimAotSmoke/Program.cs',
     'test/ModularPipelines.FSharp.TestFixtures/Module.fs',
     'test/Shared/GlobalTestSetup.cs',
@@ -139,7 +141,7 @@ try {
     Assert-Route 'GitHub output' $false @{
         EventName = 'push'; ChangedPath = $unrelatedPaths; GitHubOutput = $outputPath
     }
-    if ((Get-Content $outputPath -Raw).Trim() -ne 'run_full_pipeline=false') {
+    if ((Get-Content $outputPath) -notcontains 'run_full_pipeline=false') {
         throw 'Expected a lowercase boolean GitHub output.'
     }
 }

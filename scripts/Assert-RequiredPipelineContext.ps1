@@ -20,6 +20,14 @@ param(
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
     [string]$GeneratedIntegrationResult,
 
+    [Parameter(Mandatory)]
+    [AllowEmptyString()]
+    [string]$RunIntegrationValidation,
+
+    [Parameter(Mandatory)]
+    [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
+    [string]$IntegrationResult,
+
     [AllowEmptyString()]
     [string]$Distributed = 'false',
 
@@ -42,6 +50,17 @@ if ($IsGeneratedIntegration -notin @('true', 'false')) {
 
 if ($RunFullPipeline -notin @('true', 'false')) {
     throw "Full pipeline routing value was '$RunFullPipeline'; required context cannot pass."
+}
+
+if ($RunIntegrationValidation -notin @('true', 'false')) {
+    throw "Changed integration routing value was '$RunIntegrationValidation'; required context cannot pass."
+}
+if ($IsGeneratedIntegration -eq 'true' -and $RunIntegrationValidation -eq 'true') {
+    throw 'Generated integration validation cannot also select the changed-package matrix.'
+}
+$expectedIntegrationResult = if ($RunIntegrationValidation -eq 'true') { 'success' } else { 'skipped' }
+if ($IntegrationResult -ne $expectedIntegrationResult) {
+    throw "Changed integration result was '$IntegrationResult'; expected '$expectedIntegrationResult'."
 }
 
 if ($RunFullPipeline -eq 'true' -and $Distributed -notin @('true', 'false')) {
