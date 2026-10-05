@@ -255,3 +255,7 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.PulumiCliScraper.ParseGl
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ParseOptions(string! helpText, string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PulumiCliScraper.ParseOptions(string! helpText, string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PulumiCliScraper.IsBooleanValueOption(string![]! commandParts, string! switchName, string! description) -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.NormalizeOptionDescription(string! description) -> string!
