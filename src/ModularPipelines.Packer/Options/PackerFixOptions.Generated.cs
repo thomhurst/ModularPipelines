@@ -41,7 +41,7 @@ public record PackerFixOptions : PackerOptions
     /// <summary>
     /// If true (default), validates the fixed template.
     /// </summary>
-    [CliFlag("--validate")]
+    [CliOption("-validate", Format = OptionFormat.EqualsSeparated)]
     public bool? Validate { get; set; }
 
     /// <summary>

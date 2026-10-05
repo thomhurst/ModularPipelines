@@ -39,15 +39,9 @@ public record PackerInspectOptions : PackerOptions
     }
 
     /// <summary>
-    /// Machine-readable output
-    /// </summary>
-    [CliFlag("--machine-readable")]
-    public bool? MachineReadable { get; set; }
-
-    /// <summary>
     /// Fallback to using a sequential approach for local/datasource evaluation.
     /// </summary>
-    [CliFlag("--use-sequential-evaluation")]
+    [CliFlag("-use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
 
     /// <summary>

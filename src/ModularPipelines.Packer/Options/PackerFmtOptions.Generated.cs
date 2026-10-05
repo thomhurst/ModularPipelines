@@ -24,25 +24,25 @@ public record PackerFmtOptions : PackerOptions
     /// <summary>
     /// Check if the input is formatted. Exit status will be 0 if all input is properly formatted and non-zero otherwise.
     /// </summary>
-    [CliFlag("--check")]
+    [CliFlag("-check")]
     public bool? Check { get; set; }
 
     /// <summary>
     /// Display diffs of formatting change
     /// </summary>
-    [CliFlag("--diff")]
+    [CliFlag("-diff")]
     public bool? Diff { get; set; }
 
     /// <summary>
     /// Don't write to source files (always disabled if using -check)
     /// </summary>
-    [CliFlag("--write")]
+    [CliOption("-write", Format = OptionFormat.EqualsSeparated)]
     public bool? Write { get; set; }
 
     /// <summary>
     /// Also process files in subdirectories. By default, only the given directory (or current directory) is processed.
     /// </summary>
-    [CliFlag("--recursive")]
+    [CliFlag("-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>

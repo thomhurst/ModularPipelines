@@ -22,4 +22,10 @@ namespace ModularPipelines.Packer.Options;
 [CliGlobalOptions]
 public abstract record PackerOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Produce machine-readable output. Do not combine with build debug mode. Documentation: https://developer.hashicorp.com/packer/docs/commands#machine-readable-output
+    /// </summary>
+    [CliFlag("-machine-readable")]
+    public virtual bool? MachineReadable { get; set; }
+
 }

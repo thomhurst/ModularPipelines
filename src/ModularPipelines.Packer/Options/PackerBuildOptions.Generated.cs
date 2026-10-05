@@ -41,85 +41,79 @@ public record PackerBuildOptions : PackerOptions
     /// <summary>
     /// Disable color output. (Default: color)
     /// </summary>
-    [CliFlag("--color")]
+    [CliOption("-color", Format = OptionFormat.EqualsSeparated)]
     public bool? Color { get; set; }
 
     /// <summary>
     /// Debug mode enabled for builds.
     /// </summary>
-    [CliFlag("--debug")]
+    [CliFlag("-debug")]
     public bool? Debug { get; set; }
 
     /// <summary>
     /// Run all builds and post-processors other than these.
     /// </summary>
-    [CliOption("--except", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-except", Format = OptionFormat.EqualsSeparated)]
     public string? Except { get; set; }
 
     /// <summary>
     /// Build only the specified builds.
     /// </summary>
-    [CliOption("--only", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-only", Format = OptionFormat.EqualsSeparated)]
     public string? Only { get; set; }
 
     /// <summary>
     /// Force a build to continue if artifacts exist, deletes existing artifacts.
     /// </summary>
-    [CliFlag("--force")]
+    [CliFlag("-force")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// Produce machine-readable output.
-    /// </summary>
-    [CliFlag("--machine-readable")]
-    public bool? MachineReadable { get; set; }
 
     /// <summary>
     /// Number of builds to run in parallel. 1 disables parallelization. 0 means no limit (Default: 0)
     /// </summary>
-    [CliOption("--parallel-builds", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-parallel-builds", Format = OptionFormat.EqualsSeparated)]
     public string? ParallelBuilds { get; set; }
 
     /// <summary>
     /// Enable prefixing of each ui output with an RFC3339 timestamp.
     /// </summary>
-    [CliFlag("--timestamp-ui")]
+    [CliFlag("-timestamp-ui")]
     public bool? TimestampUi { get; set; }
 
     /// <summary>
     /// Variable for templates, can be used multiple times.
     /// </summary>
-    [CliOption("--var", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// JSON or HCL2 file containing user variables, can be used multiple times.
     /// </summary>
-    [CliOption("--var-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VarFile { get; set; }
 
     /// <summary>
     /// Display warnings for user variable files containing undeclared variables.
     /// </summary>
-    [CliFlag("--warn-on-undeclared-var")]
+    [CliFlag("-warn-on-undeclared-var")]
     public bool? WarnOnUndeclaredVar { get; set; }
 
     /// <summary>
     /// Disable the loading of prerelease plugin binaries (x.y.z-dev).
     /// </summary>
-    [CliFlag("--ignore-prerelease-plugins")]
+    [CliFlag("-ignore-prerelease-plugins")]
     public bool? IgnorePrereleasePlugins { get; set; }
 
     /// <summary>
     /// Fallback to using a sequential approach for local/datasource evaluation.
     /// </summary>
-    [CliFlag("--use-sequential-evaluation")]
+    [CliFlag("-use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
 
     /// <summary>
     /// Skip injection of HCP Packer enforced provisioners.
     /// </summary>
-    [CliFlag("--skip-enforcement")]
+    [CliFlag("-skip-enforcement")]
     public bool? SkipEnforcement { get; set; }
 
     /// <summary>

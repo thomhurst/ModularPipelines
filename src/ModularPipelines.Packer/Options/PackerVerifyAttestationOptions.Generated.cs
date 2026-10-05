@@ -41,79 +41,79 @@ public record PackerVerifyAttestationOptions : PackerOptions
     /// <summary>
     /// Signing mode: key, kms, keyless. Auto-detected when possible.
     /// </summary>
-    [CliOption("--signing-mode", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-signing-mode", Format = OptionFormat.EqualsSeparated)]
     public string? SigningMode { get; set; }
 
     /// <summary>
     /// PEM key path or KMS/Vault URI used for verification when no verifier is supplied.
     /// </summary>
-    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-key", Format = OptionFormat.EqualsSeparated)]
     public string? Key { get; set; }
 
     /// <summary>
     /// PEM verifier path.
     /// </summary>
-    [CliOption("--verifier", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-verifier", Format = OptionFormat.EqualsSeparated)]
     public string? Verifier { get; set; }
 
     /// <summary>
     /// Expected attestation predicate type.
     /// </summary>
-    [CliOption("--predicate-type", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-predicate-type", Format = OptionFormat.EqualsSeparated)]
     public string? PredicateType { get; set; }
 
     /// <summary>
     /// Expected SLSA builder ID.
     /// </summary>
-    [CliOption("--builder-id", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-builder-id", Format = OptionFormat.EqualsSeparated)]
     public string? BuilderId { get; set; }
 
     /// <summary>
     /// Expected resolved source URI.
     /// </summary>
-    [CliOption("--source-uri", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-source-uri", Format = OptionFormat.EqualsSeparated)]
     public string? SourceUri { get; set; }
 
     /// <summary>
     /// Artifact path to match against attestation subjects.
     /// </summary>
-    [CliOption("--artifact", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-artifact", Format = OptionFormat.EqualsSeparated)]
     public string? Artifact { get; set; }
 
     /// <summary>
     /// Optional Sigstore trusted-root JSON for keyless verification.
     /// </summary>
-    [CliOption("--trusted-root-path", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-trusted-root-path", Format = OptionFormat.EqualsSeparated)]
     public string? TrustedRootPath { get; set; }
 
     /// <summary>
     /// Expected keyless signing identity.
     /// </summary>
-    [CliOption("--keyless-identity", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-keyless-identity", Format = OptionFormat.EqualsSeparated)]
     public string? KeylessIdentity { get; set; }
 
     /// <summary>
     /// Expected keyless OIDC issuer.
     /// </summary>
-    [CliOption("--keyless-oidc-issuer", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-keyless-oidc-issuer", Format = OptionFormat.EqualsSeparated)]
     public string? KeylessOidcIssuer { get; set; }
 
     /// <summary>
     /// Optional Sigstore bundle JSON for Rekor or timestamp verification.
     /// </summary>
-    [CliOption("--bundle", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-bundle", Format = OptionFormat.EqualsSeparated)]
     public string? Bundle { get; set; }
 
     /// <summary>
     /// Require Rekor transparency log verification from the bundle.
     /// </summary>
-    [CliFlag("--require-rekor")]
+    [CliFlag("-require-rekor")]
     public bool? RequireRekor { get; set; }
 
     /// <summary>
     /// Require a trusted observer timestamp from Rekor integrated time or RFC3161 evidence.
     /// </summary>
-    [CliFlag("--require-timestamp")]
+    [CliFlag("-require-timestamp")]
     public bool? RequireTimestamp { get; set; }
 
     /// <summary>

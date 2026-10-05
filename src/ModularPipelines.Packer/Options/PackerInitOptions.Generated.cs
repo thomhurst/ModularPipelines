@@ -41,13 +41,13 @@ public record PackerInitOptions : PackerOptions
     /// <summary>
     /// On top of installing missing plugins, update installed plugins to the latest available version, if there is a new higher one. Note that this still takes into consideration the version constraint of the config.
     /// </summary>
-    [CliFlag("--upgrade")]
+    [CliFlag("-upgrade")]
     public bool? Upgrade { get; set; }
 
     /// <summary>
     /// Forces reinstallation of plugins, even if already installed.
     /// </summary>
-    [CliFlag("--force")]
+    [CliFlag("-force")]
     public bool? Force { get; set; }
 
     /// <summary>
