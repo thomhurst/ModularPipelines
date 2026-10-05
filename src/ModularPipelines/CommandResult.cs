@@ -67,6 +67,8 @@ public record CommandResult
         WorkingDirectory = workingDirectory;
         StandardOutput = standardOutput;
         StandardError = standardError;
+        StandardOutputTruncatedCharacters = 0;
+        StandardErrorTruncatedCharacters = 0;
         EnvironmentVariables = environmentVariables;
         StartTime = startTime;
         EndTime = endTime;
@@ -87,6 +89,8 @@ public record CommandResult
         EnvironmentVariables = environmentVariables;
         StandardOutput = string.Empty;
         StandardError = string.Empty;
+        StandardOutputTruncatedCharacters = 0;
+        StandardErrorTruncatedCharacters = 0;
         ExitCode = 0;
         StartTime = completedAt;
         EndTime = completedAt;
@@ -108,6 +112,8 @@ public record CommandResult
 
         StandardOutput = standardOutput;
         StandardError = standardError;
+        StandardOutputTruncatedCharacters = 0;
+        StandardErrorTruncatedCharacters = 0;
         StartTime = commandResult.StartTime;
         EndTime = commandResult.ExitTime;
         Duration = commandResult.RunTime;
@@ -124,6 +130,18 @@ public record CommandResult
     /// Gets standard error data produced by the underlying process.
     /// </summary>
     public required string StandardError { get; init; }
+
+    /// <summary>
+    /// Gets the number of standard output characters omitted by the capture limit.
+    /// Zero means no captured characters were omitted. The truncation marker is not included in this count.
+    /// </summary>
+    public required long StandardOutputTruncatedCharacters { get; init; }
+
+    /// <summary>
+    /// Gets the number of standard error characters omitted by the capture limit.
+    /// Zero means no captured characters were omitted. The truncation marker is not included in this count.
+    /// </summary>
+    public required long StandardErrorTruncatedCharacters { get; init; }
 
     /// <summary>
     /// Gets exit code set by the underlying process.

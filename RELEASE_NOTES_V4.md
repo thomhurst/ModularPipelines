@@ -143,6 +143,23 @@ validation, preventing documentation-page types from lingering in the package.
 
 Update dashboards and telemetry queries for these v4 changes.
 
+## Command output capture
+
+V3 retained complete command output. V4 defaults to 1,048,576 captured characters
+per stream, configured by `CommandExecutionOptions.MaxCapturedOutputLength`.
+Output above the limit retains the beginning and end with
+`... [truncated N characters] ...` between them. Do not parse this shortened output
+as complete JSON or other structured data.
+
+`CommandResult.StandardOutputTruncatedCharacters` and
+`CommandResult.StandardErrorTruncatedCharacters` report omitted characters for each
+stream, including on `CommandException.Result`; zero means none were omitted.
+Truncation also emits a warning naming the capture limit at effective command
+verbosity `Normal` or higher. `Silent` and `InputOnly` suppress the warning without
+changing the result counts. Raise the limit for large
+results or set it to `0` for unlimited capture, accounting for the memory required.
+Streamed command logging is independent of this capture limit.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2

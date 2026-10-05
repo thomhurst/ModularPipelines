@@ -9,6 +9,41 @@ namespace ModularPipelines.UnitTests.Logging;
 public class CommandLoggerOutputFormattingTests
 {
     [Test]
+    public async Task TruncationWarningNamesTheCaptureLimitAndBothStreams()
+    {
+        var (commandLogger, logger) = CreateCommandLogger();
+
+        commandLogger.LogOutputTruncation(null, null, 6, 2, 10);
+
+        var warning = logger.Messages.Single(message => message.Level == LogLevel.Warning);
+        await Assert.That(warning.Text).Contains("MaxCapturedOutputLength (10 characters per stream)");
+        await Assert.That(warning.Text).Contains("6 standard output characters and 2 standard error characters");
+        await Assert.That(warning.Text).Contains("set it to 0 for unlimited capture");
+    }
+
+    [Test]
+    [Arguments(CommandLogVerbosity.Silent, null, false)]
+    [Arguments(CommandLogVerbosity.InputOnly, null, false)]
+    [Arguments(CommandLogVerbosity.Normal, CommandLogVerbosity.InputOnly, false)]
+    [Arguments(CommandLogVerbosity.InputOnly, CommandLogVerbosity.Normal, true)]
+    [Arguments(CommandLogVerbosity.Normal, null, true)]
+    [Arguments(CommandLogVerbosity.Detailed, null, true)]
+    [Arguments(CommandLogVerbosity.Normal, CommandLogVerbosity.Silent, false)]
+    [Arguments(CommandLogVerbosity.Silent, CommandLogVerbosity.Normal, true)]
+    public async Task TruncationWarningHonorsEffectiveVerbosity(CommandLogVerbosity pipelineVerbosity, CommandLogVerbosity? commandVerbosity, bool expectWarning)
+    {
+        var (commandLogger, logger) = CreateCommandLogger(new CommandLoggingOptions { Verbosity = pipelineVerbosity });
+        var executionOptions = new CommandExecutionOptions
+        {
+            Logging = commandVerbosity is { } verbosity ? new CommandLoggingOptions { Verbosity = verbosity } : null,
+        };
+
+        commandLogger.LogOutputTruncation(null, executionOptions, 6, 2, 10);
+
+        await Assert.That(logger.Messages.Any(message => message.Level == LogLevel.Warning)).IsEqualTo(expectWarning);
+    }
+
+    [Test]
     public async Task CapturedOutput_PrefixesEveryLine_AndSkipsBlankLines()
     {
         var (commandLogger, logger) = CreateCommandLogger();
@@ -87,7 +122,7 @@ public class CommandLoggerOutputFormattingTests
         },
     };
 
-    private static (CommandLogger CommandLogger, CollectingLogger Logger) CreateCommandLogger()
+    private static (CommandLogger CommandLogger, CollectingLogger Logger) CreateCommandLogger(CommandLoggingOptions? pipelineLogging = null)
     {
         var logger = new CollectingLogger();
         var loggerAccessor = new Mock<IModuleLoggerAccessor>();
@@ -98,7 +133,7 @@ public class CommandLoggerOutputFormattingTests
             .Returns((string? value, object? _) => value ?? string.Empty);
         var commandLogger = new CommandLogger(
             loggerAccessor.Object,
-            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions { Commands = new PipelineCommandOptions { Logging = pipelineLogging } }),
             secretObfuscator.Object);
         return (commandLogger, logger);
     }
