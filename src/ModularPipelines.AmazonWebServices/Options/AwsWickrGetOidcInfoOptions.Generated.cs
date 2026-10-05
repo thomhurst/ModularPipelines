@@ -103,6 +103,7 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The PKCE code verifier for enhanced security in the OAuth flow (op- tional). Constraints: o pattern: [\S\s]*
     /// </summary>
+    [SecretValue]
     [CliOption("--code-verifier")]
     public string? CodeVerifier { get; set; }
 
