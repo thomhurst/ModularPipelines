@@ -291,7 +291,7 @@ public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
                 ValueSeparator = isMap ? string.Empty : "=",
                 EnumDefinition = null,
-                IsSecret = optionName == "jdbcProperties" || GeneratorUtils.IsSecretOption(propertyName, false)
+                IsSecret = optionName is "jdbcProperties" or "licenseKey" || GeneratorUtils.IsSecretOption(propertyName, false)
             });
         }
 
