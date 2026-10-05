@@ -80,7 +80,9 @@ Docker snapshot:
 | `docker build`, `docker buildx` | `Debug` | `CliDebug` |
 | Direct `docker buildx` subcommands, including `build`, `create`, `history`, `dap`, `imagetools`, and `policy` | `Debug` | `BuildxDebug` |
 | `docker buildx dap build` | `Debug` | `DapDebug` |
-| Commands below `docker buildx history` | `Debug` | `HistoryDebug` |
+| Direct `docker buildx history` subcommands | `Debug` | `HistoryDebug` |
+| `docker buildx history inspect attachment` | `Debug` | `InspectDebug` |
+| `docker image build` | `Debug` | `ImageDebug` |
 | `docker buildx imagetools create` and `inspect` | `Debug` | `ImageToolsDebug` |
 | `docker buildx policy eval` and `test` | `Debug` | `PolicyDebug` |
 | `docker buildx create` | `Context` operand | `BuildxContext` |
