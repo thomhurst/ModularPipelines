@@ -134,6 +134,15 @@ The handwritten grouped Git API and handwritten options remain available. Git
 refreshes now prune obsolete generated option records after command coverage
 validation, preventing documentation-page types from lingering in the package.
 
+## OpenTelemetry registration namespace
+
+`OpenTelemetryPipelineBuilderExtensions` moves from `ModularPipelines.Extensions`
+to `ModularPipelines.OpenTelemetry`. Import `ModularPipelines.OpenTelemetry` for
+`builder.AddOpenTelemetry(...)`, and update the fully qualified type name for
+static calls. Rebuild callers against V4; no forwarding type remains in the old
+namespace. Registration and exporter behavior are unchanged. See the
+[OpenTelemetry migration guidance](docs/docs/how-to/opentelemetry.md#migrating-to-v4).
+
 ## Telemetry conventions
 
 - Exceptions are now `exception` span events with masked messages, rather than `exception.type` and `exception.message` span attributes. Failed exception spans also expose `error.type`.
