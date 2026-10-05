@@ -1,0 +1,17 @@
+List all existing farms
+
+Description:
+  podman farm ls
+
+List all available farms. The output of the farms can be filtered
+and the output format can be changed to JSON or a user specified Go template.
+
+Usage:
+  podman farm list [options]
+
+Aliases:
+  list, ls
+
+Options:
+      --format string   Format farm output using Go template
+

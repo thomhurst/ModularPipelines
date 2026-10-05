@@ -1,0 +1,15 @@
+Securely copy images
+
+Description:
+  Securely copy an image from one host to another.
+
+Usage:
+  podman image scp [options] IMAGE [HOST::]
+
+Examples:
+  podman image scp myimage:latest otherhost::
+
+Options:
+      --format podman save   Format for podman save when creating the transfer archive (oci-archive, docker-archive). Default is docker-archive when omitted.
+  -q, --quiet                Suppress the output
+

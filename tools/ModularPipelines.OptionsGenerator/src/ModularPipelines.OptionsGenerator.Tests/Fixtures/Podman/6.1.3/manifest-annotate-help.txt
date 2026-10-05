@@ -1,0 +1,22 @@
+Add or update information about an entry in a manifest list or image index
+
+Description:
+  Adds or updates information about an entry in a manifest list or image index.
+
+Usage:
+  podman manifest annotate [options] LIST IMAGEORARTIFACT
+
+Examples:
+  podman manifest annotate --annotation left=right mylist:v1.11 sha256:15352d97781ffdf357bf3459c037be3efac4133dc9070c2dce7eca7c05c3e736
+
+Options:
+      --annotation annotation   set an annotation for the specified image or artifact
+      --arch architecture       override the architecture of the specified image or artifact
+      --features features       override the features of the specified image or artifact
+      --index                   apply --annotation values to the image index itself
+      --os OS                   override the OS of the specified image or artifact
+      --os-features features    override the OS features of the specified image or artifact
+      --os-version version      override the OS version of the specified image or artifact
+      --subject subject         set the subject to which the image index refers
+      --variant Variant         override the Variant of the specified image or artifact
+

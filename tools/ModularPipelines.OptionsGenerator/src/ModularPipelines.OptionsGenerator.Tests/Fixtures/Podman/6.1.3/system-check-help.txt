@@ -1,0 +1,21 @@
+Check storage consistency
+
+Description:
+  
+	podman system check
+
+        Check storage for consistency and remove anything that looks damaged
+
+
+Usage:
+  podman system check [options]
+
+Examples:
+  podman system check
+
+Options:
+  -f, --force          Remove inconsistent images and containers
+  -m, --max duration   Maximum allowed age of unreferenced layers (default 24h0m0s)
+  -q, --quick          Skip time-consuming checks. The default is to include time-consuming checks
+  -r, --repair         Remove inconsistent images
+

@@ -1,0 +1,10 @@
+Reload all volumes from volume plugins
+
+Description:
+  Check all configured volume plugins and update the libpod database with all available volumes.
+
+  Existing volumes are also removed from the database when they are no longer present in the plugin.
+
+Usage:
+  podman volume reload
+

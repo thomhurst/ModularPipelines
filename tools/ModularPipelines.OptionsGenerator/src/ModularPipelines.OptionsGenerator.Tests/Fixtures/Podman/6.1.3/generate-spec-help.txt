@@ -1,0 +1,16 @@
+Generate Specgen JSON based on containers or pods
+
+Description:
+  Generate Specgen JSON based on containers or pods
+
+Usage:
+  podman generate spec [options] {CONTAINER|POD}
+
+Examples:
+  podman generate spec ctrID
+
+Options:
+  -c, --compact           Print the json in a compact format for consumption
+  -f, --filename string   Write output to the specified path
+  -n, --name              Specify a new name for the generated spec (default true)
+

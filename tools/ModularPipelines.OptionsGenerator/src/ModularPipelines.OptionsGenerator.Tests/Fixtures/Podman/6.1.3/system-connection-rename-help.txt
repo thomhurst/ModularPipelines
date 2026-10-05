@@ -1,0 +1,15 @@
+Rename "old" to "new"
+
+Description:
+  Rename destination for the Podman service from "old" to "new"
+
+Usage:
+  podman system connection rename OLD NEW
+
+Aliases:
+  rename, mv
+
+Examples:
+  podman system connection rename laptop devl,
+  podman system connection mv laptop devl
+

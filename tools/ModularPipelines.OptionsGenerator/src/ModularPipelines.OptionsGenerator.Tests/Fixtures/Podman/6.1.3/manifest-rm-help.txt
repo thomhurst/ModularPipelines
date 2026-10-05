@@ -1,0 +1,14 @@
+Remove manifest list or image index from local storage
+
+Description:
+  Remove manifest list or image index from local storage.
+
+Usage:
+  podman manifest rm [options] LIST [LIST...]
+
+Examples:
+  podman manifest rm mylist:v1.11
+
+Options:
+  -i, --ignore   Ignore errors when a specified manifest is missing
+

@@ -1,0 +1,16 @@
+Start an existing machine
+
+Description:
+  Start a managed virtual machine 
+
+Usage:
+  podman machine start [options] [MACHINE]
+
+Examples:
+  podman machine start podman-machine-default
+
+Options:
+      --no-info             Suppress informational tips
+  -q, --quiet               Suppress machine starting status output
+  -u, --update-connection   Set default system connection for this machine
+

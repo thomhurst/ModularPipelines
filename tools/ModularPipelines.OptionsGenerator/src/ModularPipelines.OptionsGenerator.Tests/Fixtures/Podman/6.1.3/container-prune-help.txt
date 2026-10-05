@@ -1,0 +1,17 @@
+Remove all non running containers
+
+Description:
+  podman container prune
+
+	Removes all non running containers
+
+Usage:
+  podman container prune [options]
+
+Examples:
+  podman container prune
+
+Options:
+      --filter stringArray   Provide filter values (e.g. 'label=<key>=<value>')
+  -f, --force                Do not prompt for confirmation.  The default is false
+

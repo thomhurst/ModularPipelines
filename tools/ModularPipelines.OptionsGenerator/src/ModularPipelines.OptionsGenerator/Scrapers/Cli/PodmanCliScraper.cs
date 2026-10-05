@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -23,13 +24,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Flags:
 ///   -h, --help   Help for podman
 /// </summary>
-public partial class PodmanCliScraper : CobraCliScraper
+public partial class PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public PodmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PodmanCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "podman";
 
     public override string NamespacePrefix => "Podman";
@@ -37,6 +33,22 @@ public partial class PodmanCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Podman";
 
     public override string OutputDirectory => "src/ModularPipelines.Podman";
+
+    protected override bool TreatParseErrorsAsFatal => true;
+
+    // Podman's TraverseChildren root settings are omitted from leaf help. Keep
+    // them before subcommands so command-local flags retain their own scope.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Options", [])
+            .Where(option => option.SwitchName is not ("--help" or "--version"))
+            .Select(option => option.CSharpType == "bool?"
+                ? option with
+                {
+                    IsFlag = false,
+                    ValueArity = CliOptionValueArity.Optional,
+                    ValueSeparator = "=",
+                }
+                : option)];
 
     protected virtual string? ComposeProviderPath =>
         Environment.GetEnvironmentVariable("PODMAN_COMPOSE_PROVIDER");
@@ -140,9 +152,7 @@ public partial class PodmanCliScraper : CobraCliScraper
                 index: 0,
                 scalarPropertyName: "Kubefile",
                 variadicPropertyName: "AdditionalKubefiles"),
-            "secret exists" or "secret inspect" or "secret rm" => positionalArguments
-                .Select(argument => argument with { IsSecret = false })
-                .ToList(),
+            "secret exists" or "secret inspect" or "secret rm" => [.. positionalArguments.Select(argument => argument with { IsSecret = false })],
             _ => positionalArguments,
         };
     }
@@ -157,13 +167,12 @@ public partial class PodmanCliScraper : CobraCliScraper
             return options;
         }
 
-        return options.Select(option => (command, option.PropertyName) switch
+        return [.. options.Select(option => (command, option.PropertyName) switch
             {
                 ("build" or "image build", "Output") => option with { PropertyName = "Outputs" },
                 (_, "Timestamp") => option with { PropertyName = "TimestampValue" },
                 _ => option,
-            })
-            .ToList();
+            })];
     }
 
     private static IReadOnlyList<CliPositionalArgument> RenamePositionalArgument(
@@ -191,15 +200,14 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         EnsurePositionalArgumentExists(positionalArguments, index);
 
-        return positionalArguments
+        return [.. positionalArguments
             .Select((argument, argumentIndex) => argumentIndex == index
                 ? ConfigurePositionalArgument(
                     argument,
                     propertyName,
                     isRequired,
                     isVariadic)
-                : argument)
-            .ToList();
+                : argument)];
     }
 
     private static void EnsurePositionalArgumentExists(
@@ -244,7 +252,7 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         EnsurePositionalArgumentExists(positionalArguments, index);
 
-        return positionalArguments
+        return [.. positionalArguments
             .SelectMany((argument, argumentIndex) => argumentIndex == index
                 ? new[]
                 {
@@ -261,8 +269,7 @@ public partial class PodmanCliScraper : CobraCliScraper
                 }
                 : [argumentIndex > index
                     ? argument with { PositionIndex = argument.PositionIndex + 1 }
-                    : argument])
-            .ToList();
+                    : argument])];
     }
 
     private static string GetPositionalElementType(string csharpType)
@@ -278,11 +285,10 @@ public partial class PodmanCliScraper : CobraCliScraper
     private static IReadOnlyList<CliPositionalArgument> SetRequiredCount(
         IReadOnlyList<CliPositionalArgument> positionalArguments,
         int requiredCount) =>
-        positionalArguments
+        [.. positionalArguments
             .Select((argument, index) => ConfigurePositionalArgument(
                 argument,
                 propertyName: null,
                 isRequired: index < requiredCount,
-                isVariadic: argument.IsVariadic))
-            .ToList();
+                isVariadic: argument.IsVariadic))];
 }

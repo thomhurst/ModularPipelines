@@ -1,0 +1,14 @@
+Run the health check of a container
+
+Description:
+  Run the health check of a container
+
+Usage:
+  podman healthcheck run [options] CONTAINER
+
+Examples:
+  podman healthcheck run mywebapp
+
+Options:
+      --ignore-result   Exit with code 0 regardless of healthcheck result or if the container is still in startup period
+

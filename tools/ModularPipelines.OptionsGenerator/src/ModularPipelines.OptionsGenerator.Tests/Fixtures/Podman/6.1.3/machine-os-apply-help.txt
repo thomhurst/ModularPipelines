@@ -1,0 +1,14 @@
+Apply an OCI image to a Podman Machine's OS
+
+Description:
+  Apply custom layers from a containerized Fedora CoreOS OCI image on top of an existing VM
+
+Usage:
+  podman machine os apply [options] URI|IMAGE [MACHINE]
+
+Examples:
+  podman machine os apply myimage
+
+Options:
+      --restart   Restart VM to apply changes
+

@@ -1,0 +1,13 @@
+Remove a name from a local image
+
+Description:
+  Removes one or more names from a locally-stored image.
+
+Usage:
+  podman image untag IMAGE [IMAGE...]
+
+Examples:
+  podman image untag 0e3bbc2
+  podman image untag imageID:latest otherImageName:latest
+  podman image untag httpd myregistryhost:5000/fedora/httpd:v2
+

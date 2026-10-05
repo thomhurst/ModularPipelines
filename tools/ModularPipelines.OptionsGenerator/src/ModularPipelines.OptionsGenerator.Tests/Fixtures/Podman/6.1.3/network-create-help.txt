@@ -1,0 +1,27 @@
+Create networks for containers and pods
+
+Description:
+  Create networks for containers and pods
+
+Usage:
+  podman network create [options] [NAME]
+
+Examples:
+  podman network create podman1
+
+Options:
+      --disable-dns             disable dns plugin
+      --dns strings             DNS servers this network will use
+  -d, --driver string           driver to manage the network (default "bridge")
+      --gateway ipSlice         IPv4 or IPv6 gateway for the subnet (default [])
+      --ignore                  Don't fail if network already exists
+      --interface-name string   interface name which is used by the driver
+      --internal                restrict external access from this network
+      --ip-range stringArray    allocate container IP from range
+      --ipam-driver string      IP Address Management Driver
+      --ipv6                    enable IPv6 networking
+      --label stringArray       set metadata on a network
+  -o, --opt stringArray         Set driver specific options (default [])
+      --route stringArray       Static routes for this network. Format: <destination>,<gateway>[,<metric>] or <destination>,<type>[,<metric>] where type is blackhole, unreachable, or prohibit
+      --subnet stringArray      subnets in CIDR format
+

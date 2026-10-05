@@ -1,0 +1,8 @@
+Usage:  docker compose bridge transformations create [OPTION] PATH
+
+Create a new transformation
+
+Options:
+      --dry-run       Execute command in dry run mode
+  -f, --from string   Existing transformation to copy (default:
+                      docker/compose-bridge-kubernetes)

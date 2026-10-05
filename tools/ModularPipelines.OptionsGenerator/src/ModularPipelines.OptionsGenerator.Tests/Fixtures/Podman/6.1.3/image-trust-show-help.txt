@@ -1,0 +1,14 @@
+Display trust policy for the system
+
+Description:
+  Display trust policy for the system
+
+Usage:
+  podman image trust show [options] [REGISTRY]
+
+Options:
+  -j, --json                      Output as json
+  -n, --noheading                 Do not print column headings
+      --raw                       Output raw policy file
+      --signature-policy string   Path to a signature-policy file
+

@@ -1,0 +1,13 @@
+Usage:  docker compose attach [OPTIONS] SERVICE
+
+Attach local standard input, output, and error streams to a service's running container
+
+Options:
+      --detach-keys string   Override the key sequence for detaching from
+                             a container.
+      --dry-run              Execute command in dry run mode
+      --index int            index of the container if service has
+                             multiple replicas.
+      --no-stdin             Do not attach STDIN
+      --sig-proxy            Proxy all received signals to the process
+                             (default true)

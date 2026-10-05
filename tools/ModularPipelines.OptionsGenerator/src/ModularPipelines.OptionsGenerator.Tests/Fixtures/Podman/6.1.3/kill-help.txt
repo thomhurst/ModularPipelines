@@ -1,0 +1,20 @@
+Kill one or more running containers with a specific signal
+
+Description:
+  The main process inside each container specified will be sent SIGKILL, or any signal specified with option --signal.
+
+Usage:
+  podman kill [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman kill mywebserver
+  podman kill 860a4b23
+  podman kill --signal TERM ctrID
+
+Options:
+  -a, --all                   Signal all running containers
+      --cidfile stringArray   Read the container ID from the file
+  -l, --latest                Act on the latest container podman is aware of
+                              Not supported with the "--remote" flag
+  -s, --signal string         Signal to send to the container (default "KILL")
+

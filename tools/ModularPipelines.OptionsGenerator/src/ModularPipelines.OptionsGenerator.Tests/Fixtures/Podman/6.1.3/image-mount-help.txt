@@ -1,0 +1,23 @@
+Mount an image's root filesystem
+
+Description:
+  podman image mount
+    Lists all mounted images mount points if no images is specified
+
+  podman image mount IMAGE-NAME-OR-ID
+    Mounts the specified image and prints the mountpoint
+
+
+Usage:
+  podman image mount [options] [IMAGE...]
+
+Examples:
+  podman image mount imgID
+  podman image mount imgID1 imgID2 imgID3
+  podman image mount
+  podman image mount --all
+
+Options:
+  -a, --all             Mount all images
+      --format string   Print the mounted images in specified format (json)
+

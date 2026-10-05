@@ -1,0 +1,20 @@
+Send the specified signal or SIGKILL to containers in pod
+
+Description:
+  Signals are sent to the main process of each container inside the specified pod.
+
+  The default signal is SIGKILL, or any signal specified with option --signal.
+
+Usage:
+  podman pod kill [options] POD [POD...]
+
+Examples:
+  podman pod kill podID
+  podman pod kill --signal TERM mywebserver
+
+Options:
+  -a, --all             Kill all containers in all pods
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+  -s, --signal string   Signal to send to the containers in the pod (default "KILL")
+

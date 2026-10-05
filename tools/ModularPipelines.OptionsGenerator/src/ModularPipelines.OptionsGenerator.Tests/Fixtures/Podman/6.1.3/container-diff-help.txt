@@ -1,0 +1,17 @@
+Inspect changes to the container's file systems
+
+Description:
+  Displays changes to the container filesystem's'.  The container will be compared to its parent layer or the second argument when given.
+
+Usage:
+  podman container diff [options] CONTAINER [CONTAINER]
+
+Examples:
+  podman container diff myCtr
+  podman container diff -l --format json myCtr
+
+Options:
+      --format string   Change the output format (json)
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+

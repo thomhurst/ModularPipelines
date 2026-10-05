@@ -1,0 +1,14 @@
+Allows users to manage Quadlets
+
+Description:
+  Allows users to manage Quadlets
+
+Usage:
+  podman quadlet [command]
+
+Available Commands:
+  install     Install a quadlet file or quadlet application
+  list        List Quadlets
+  print       Display the contents of a quadlet
+  rm          Remove Quadlets
+

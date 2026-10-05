@@ -1,0 +1,9 @@
+Usage:  docker compose events [OPTIONS] [SERVICE...]
+
+Receive real time events from containers
+
+Options:
+      --dry-run        Execute command in dry run mode
+      --json           Output events as a stream of json objects
+      --since string   Show all events created since timestamp
+      --until string   Stream events until this timestamp

@@ -1,0 +1,14 @@
+Print layer hierarchy of an image in a tree format
+
+Description:
+  Print layer hierarchy of an image in a tree format
+
+Usage:
+  podman image tree [options] IMAGE
+
+Examples:
+  podman image tree alpine:latest
+
+Options:
+      --whatrequires   Show all child images and layers of the specified image
+

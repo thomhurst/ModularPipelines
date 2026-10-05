@@ -1,0 +1,12 @@
+Usage:  docker compose bridge transformations [OPTIONS] COMMAND
+
+Manage transformation images
+
+Options:
+      --dry-run   Execute command in dry run mode
+
+Commands:
+  create      Create a new transformation
+  list        List available transformations
+
+Run 'docker compose bridge transformations COMMAND --help' for more information on a command.

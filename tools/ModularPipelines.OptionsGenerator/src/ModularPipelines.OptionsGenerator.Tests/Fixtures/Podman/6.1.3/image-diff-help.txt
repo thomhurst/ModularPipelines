@@ -1,0 +1,15 @@
+Inspect changes to the image's file systems
+
+Description:
+  Displays changes to the image's filesystem.  The image will be compared to its parent layer or the second argument when given.
+
+Usage:
+  podman image diff [options] IMAGE [IMAGE]
+
+Examples:
+  podman image diff myImage
+  podman image diff --format json redis:alpine
+
+Options:
+      --format string   Change the output format (json)
+

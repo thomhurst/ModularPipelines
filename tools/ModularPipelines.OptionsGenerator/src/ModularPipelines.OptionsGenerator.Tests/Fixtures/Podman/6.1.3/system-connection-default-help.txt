@@ -1,0 +1,11 @@
+Set named destination as default
+
+Description:
+  Set named destination as default for the Podman service
+
+Usage:
+  podman system connection default NAME
+
+Examples:
+  podman system connection default testing
+

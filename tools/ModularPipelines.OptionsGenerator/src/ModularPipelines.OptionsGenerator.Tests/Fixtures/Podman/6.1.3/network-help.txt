@@ -1,0 +1,20 @@
+Manage networks
+
+Description:
+  Manage networks
+
+Usage:
+  podman network [command]
+
+Available Commands:
+  connect     Add container to a network
+  create      Create networks for containers and pods
+  disconnect  Disconnect a container from a network
+  exists      Check if network exists
+  inspect     Inspect network
+  ls          List networks
+  prune       Prune unused networks
+  reload      Reload firewall rules for one or more containers
+  rm          Remove networks
+  update      Update an existing podman network
+

@@ -9,6 +9,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CobraCliScraperTests
 {
     [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Blank_Paragraphs_Preserve_Aligned_Prose_Without_Consuming_Options_Or_Footer(string newline)
+    {
+        const string help = """
+            Usage: fake run [OPTIONS]
+
+            Options:
+                  --tmpdir string   Temporary state directory.
+
+                                    Use TMPDIR for image storage.
+
+                  --output string   Output path.
+
+                    See the manual for examples.
+            """;
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help.ReplaceLineEndings(newline));
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--tmpdir", "--output"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--tmpdir").Description)
+            .IsEqualTo("Temporary state directory. Use TMPDIR for image storage.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--output").Description)
+            .IsEqualTo("Output path.");
+    }
+
+    [Test]
     public async Task Empty_Short_Alias_Description_Does_Not_Consume_Indented_Option_Rows()
     {
         const string help = """

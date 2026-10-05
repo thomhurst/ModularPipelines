@@ -1,0 +1,12 @@
+Load image(s) from a tar archive
+
+Description:
+  Loads an image from a locally stored archive (tar file) into container storage.
+
+Usage:
+  podman load [options]
+
+Options:
+  -i, --input string   Read from specified archive file (default: stdin)
+  -q, --quiet          Suppress the output
+

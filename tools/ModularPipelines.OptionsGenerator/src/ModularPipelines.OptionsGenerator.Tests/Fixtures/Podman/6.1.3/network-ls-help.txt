@@ -1,0 +1,21 @@
+List networks
+
+Description:
+  List networks
+
+Usage:
+  podman network ls [options]
+
+Aliases:
+  ls, list
+
+Examples:
+  podman network list
+
+Options:
+  -f, --filter stringArray   Provide filter values (e.g. 'name=podman')
+      --format string        Pretty-print networks to JSON or using a Go template
+      --no-trunc             Do not truncate the network ID
+  -n, --noheading            Do not print headers
+  -q, --quiet                display only names
+

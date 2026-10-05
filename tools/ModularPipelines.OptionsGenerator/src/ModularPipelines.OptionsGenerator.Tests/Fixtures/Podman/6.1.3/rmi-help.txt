@@ -1,0 +1,19 @@
+Remove one or more images from local storage
+
+Description:
+  Removes one or more previously pulled or locally created images.
+
+Usage:
+  podman rmi [options] IMAGE [IMAGE...]
+
+Examples:
+  podman rmi imageID
+  podman rmi --force alpine
+  podman rmi c4dfb1609ee2 93fd78260bd1 c0ed59d05ff7
+
+Options:
+  -a, --all        Remove all images
+  -f, --force      Force Removal of the image
+  -i, --ignore     Ignore errors if a specified image does not exist
+      --no-prune   Do not remove dangling images
+

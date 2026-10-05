@@ -1,0 +1,20 @@
+Start one or more pods
+
+Description:
+  The pod name or ID can be used.
+
+  All containers defined in the pod will be started.
+
+Usage:
+  podman pod start [options] POD [POD...]
+
+Examples:
+  podman pod start podID
+  podman pod start --all
+
+Options:
+  -a, --all                       Restart all running pods
+  -l, --latest                    Act on the latest container podman is aware of
+                                  Not supported with the "--remote" flag
+      --pod-id-file stringArray   Read the pod ID from the file
+

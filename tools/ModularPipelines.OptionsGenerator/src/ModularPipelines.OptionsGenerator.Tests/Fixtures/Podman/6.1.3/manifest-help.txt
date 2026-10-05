@@ -1,0 +1,27 @@
+Manipulate manifest lists and image indexes
+
+Description:
+  Creates, modifies, and pushes manifest lists and image indexes.
+
+Usage:
+  podman manifest [command]
+
+Examples:
+  podman manifest add mylist:v1.11 image:v1.11-amd64
+  podman manifest create localhost/list
+  podman manifest inspect localhost/list
+  podman manifest annotate --annotation left=right mylist:v1.11 sha256:15352d97781ffdf357bf3459c037be3efac4133dc9070c2dce7eca7c05c3e736
+  podman manifest push mylist:v1.11 docker://quay.io/myuser/image:v1.11
+  podman manifest remove mylist:v1.11 sha256:15352d97781ffdf357bf3459c037be3efac4133dc9070c2dce7eca7c05c3e736
+  podman manifest rm mylist:v1.11
+
+Available Commands:
+  add         Add images or artifacts to a manifest list or image index
+  annotate    Add or update information about an entry in a manifest list or image index
+  create      Create manifest list or image index
+  exists      Check if a manifest list exists in local storage
+  inspect     Display the contents of a manifest list or image index
+  push        Push a manifest list or image index to a registry
+  remove      Remove an item from a manifest list or image index
+  rm          Remove manifest list or image index from local storage
+

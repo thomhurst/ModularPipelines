@@ -1,0 +1,15 @@
+Export container's filesystem contents as a tar archive
+
+Description:
+  Exports container's filesystem contents as a tar archive and saves it on the local machine.
+
+Usage:
+  podman container export [options] CONTAINER
+
+Examples:
+  podman container export ctrID > myCtr.tar
+  podman container export --output="myCtr.tar" ctrID
+
+Options:
+  -o, --output string   Write to a specified file (default: stdout, which must be redirected)
+
