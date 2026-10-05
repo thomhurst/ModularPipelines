@@ -1,0 +1,10 @@
+Create a signature using local files
+
+Usage:
+skopeo standalone-sign [command options] MANIFEST DOCKER-REFERENCE KEY-FINGERPRINT --output|-o SIGNATURE
+
+Flags:
+  -h, --help                     help for standalone-sign
+  -o, --output SIGNATURE         output the signature to SIGNATURE
+      --passphrase-file string   file that contains a passphrase for the --sign-by key
+

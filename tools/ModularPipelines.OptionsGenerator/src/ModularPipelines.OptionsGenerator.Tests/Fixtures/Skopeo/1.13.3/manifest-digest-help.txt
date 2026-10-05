@@ -1,0 +1,11 @@
+Compute a manifest digest of a file
+
+Usage:
+skopeo manifest-digest MANIFEST-FILE
+
+Examples:
+skopeo manifest-digest manifest.json
+
+Flags:
+  -h, --help   help for manifest-digest
+

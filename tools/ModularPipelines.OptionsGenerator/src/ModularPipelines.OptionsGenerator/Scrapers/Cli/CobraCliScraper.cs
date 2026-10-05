@@ -936,7 +936,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     ///   -e, --env list               Set environment variables
     ///       --name string            Assign a name
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<type>\S+))?(?:\s{2,}(?<desc>.*))?$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w.-]+)(?:\s+(?<type>\S+))?(?:\s{2,}(?<desc>.*))?$", RegexOptions.Multiline)]
     private static partial Regex CobraOptionPattern();
 
     /// <summary>
@@ -959,7 +959,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// </summary>
     // Quoted defaults and bracketed lists are captured whole so their colons do not start
     // the description. A list item may contain its own brackets, as in an IPv6 URL.
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^\s]*?))?:(?=[ \t\r]|$)\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w.-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^\s]*?))?:(?=[ \t\r]|$)\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]

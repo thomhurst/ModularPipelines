@@ -1,0 +1,25 @@
+Delete an "IMAGE_NAME" from a transport
+Supported transports:
+containers-storage, dir, docker, docker-archive, docker-daemon, oci, oci-archive, ostree, sif, tarball
+See skopeo(1) section "IMAGE NAMES" for the expected format
+
+Usage:
+skopeo delete [command options] IMAGE-NAME
+
+Examples:
+skopeo delete docker://registry.example.com/example/pause:latest
+
+Flags:
+      --authfile string             path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --cert-dir PATH               use certificates at PATH (*.crt, *.cert, *.key) to connect to the registry or daemon
+      --creds USERNAME[:PASSWORD]   Use USERNAME[:PASSWORD] for accessing the registry
+      --daemon-host HOST            use docker daemon host at HOST (docker-daemon: only)
+  -h, --help                        help for delete
+      --no-creds                    Access the registry anonymously
+      --password string             Password for accessing the registry
+      --registry-token string       Provide a Bearer token for accessing the registry
+      --retry-times int             the number of times to possibly retry
+      --shared-blob-dir DIRECTORY   DIRECTORY to use to share blobs across OCI repositories
+      --tls-verify                  require HTTPS and verify certificates when talking to the container registry or daemon
+      --username string             Username for accessing the registry
+

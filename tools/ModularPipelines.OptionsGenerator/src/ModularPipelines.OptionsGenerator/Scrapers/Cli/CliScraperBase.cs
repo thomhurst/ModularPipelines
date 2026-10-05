@@ -1364,7 +1364,7 @@ public abstract partial class CliScraperBase : ICliScraper
             return null;
         }
 
-        var parts = cleaned.Split(['-', '_'], StringSplitOptions.RemoveEmptyEntries);
+        var parts = cleaned.Split(['-', '_', '.'], StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 0)
         {
             return null;

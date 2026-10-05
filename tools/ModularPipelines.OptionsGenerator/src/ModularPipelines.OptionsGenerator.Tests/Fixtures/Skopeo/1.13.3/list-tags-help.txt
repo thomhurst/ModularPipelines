@@ -1,0 +1,25 @@
+Return the list of tags from the transport/repository "SOURCE-IMAGE"
+
+Supported transports:
+docker docker-archive
+
+See skopeo-list-tags(1) section "REPOSITORY NAMES" for the expected format
+
+Usage:
+skopeo list-tags [command options] SOURCE-IMAGE
+
+Examples:
+skopeo list-tags docker://docker.io/fedora
+
+Flags:
+      --authfile string             path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --cert-dir PATH               use certificates at PATH (*.crt, *.cert, *.key) to connect to the registry or daemon
+      --creds USERNAME[:PASSWORD]   Use USERNAME[:PASSWORD] for accessing the registry
+  -h, --help                        help for list-tags
+      --no-creds                    Access the registry anonymously
+      --password string             Password for accessing the registry
+      --registry-token string       Provide a Bearer token for accessing the registry
+      --retry-times int             the number of times to possibly retry
+      --tls-verify                  require HTTPS and verify certificates when talking to the container registry or daemon
+      --username string             Username for accessing the registry
+
