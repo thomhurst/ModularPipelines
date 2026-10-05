@@ -26,13 +26,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// It works with Syft to generate SBOMs and scan them for known vulnerabilities.
 /// Supports scanning container images, directories, archives, and SBOMs.
 /// </summary>
-public partial class GrypeCliScraper : CobraCliScraper
+public partial class GrypeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GrypeCliScraper> logger)
+    : CobraCliScraper(executor, helpCache, logger)
 {
-    public GrypeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GrypeCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "grype";
 
     public override string NamespacePrefix => "Grype";
