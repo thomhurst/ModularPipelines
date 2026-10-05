@@ -4,7 +4,8 @@ Captured from the official Windows amd64 release on 2026-10-05. Archive SHA-256:
 `024927f5caefdc05aa4f98453e269a40e9a82978a142dacaf18c67fcab378810`.
 The executable reports commit `10fbc043ecbaf8436daa9efac9f1632557caf277`.
 Commands: `grype --help`, `grype db --help`, `grype db status --help`,
-`grype db search --help`, `grype config --help`, and `grype version --help`.
+`grype db search --help`, `grype db search vuln --help`, `grype config --help`,
+and `grype version --help`.
 
 Authoritative parser evidence:
 
