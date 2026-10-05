@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "go",
-  "toolVersion": "go version go1.27.1 windows/amd64",
+  "toolVersion": "go version go1.27.1 linux/amd64",
   "commandTreeSha256": "548eeaf55d8f76eaffb8b5deb06e1abb41e16c60a69466a4358433d5ecd3df4f",
-  "generatorSourceSha256": "0322a46591ec4b16618fea585d6d11498621a95e8a067441a5c75e16a283b3a4"
+  "generatorSourceSha256": "3d4d935ad6c60ab662b5d030b0065b8e0160e1c4c698032f9cd3f66e0b968c4c"
 }
