@@ -64,6 +64,9 @@ against the previous directory; directory changes precede other root settings.
 `Configuration` repeats `-c key=value` without collapsing duplicate keys. Use an empty
 value to clear a setting or `"true"` for Git's implicit boolean form. Values use `KeyValue`
 and are registered for secret masking, including HTTP authorization headers.
+Secret masking does not remove values from Git's process arguments. Users able to
+inspect those arguments may read credentials. Use `ConfigEnv` for credential-bearing
+values that must not appear in Git's arguments.
 `ConfigEnv` repeats `--config-env=name=ENVIRONMENT_VARIABLE`; it contains variable names,
 not their secret contents.
 

@@ -31,7 +31,13 @@ public partial class GitCliScraperTests
 
         await Assert.That(commands.Select(command => command.FullCommand)).IsEquivalentTo(["git branch"]);
         await Assert.That(scraper.UnavailableHelpPaths).IsEmpty();
-        foreach (var option in commands.Single().Options.Where(option => option.SwitchName is "--delete-merged" or "--forked"))
+        var branchOptions = commands.Single().Options
+            .Where(option => option.SwitchName is "--delete-merged" or "--forked")
+            .ToArray();
+        await Assert.That(branchOptions.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--delete-merged", "--forked"]);
+
+        foreach (var option in branchOptions)
         {
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
             await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
