@@ -47,7 +47,7 @@ internal static class ExecutablePrerequisiteCatalog
             ["nbgv"] = new()
             {
                 CommandName = "nbgv",
-                SupportedVersion = "3.10.91",
+                SupportedVersion = "3.10.94",
                 InstallationUrl =
                     "https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html",
                 InstallationNotes =
