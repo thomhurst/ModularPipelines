@@ -23,13 +23,13 @@ public record KubernetesTopPodOptions : KubernetesOptions
     /// <summary>
     /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
     /// </summary>
-    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    [CliFlag("--all-namespaces", ShortForm = "-A", NegatedName = "--all-namespaces=false")]
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// If present, print usage of containers within a pod.
     /// </summary>
-    [CliFlag("--containers")]
+    [CliFlag("--containers", NegatedName = "--containers=false")]
     public bool? Containers { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record KubernetesTopPodOptions : KubernetesOptions
     /// <summary>
     /// If present, print output without headers.
     /// </summary>
-    [CliFlag("--no-headers")]
+    [CliFlag("--no-headers", NegatedName = "--no-headers=false")]
     public bool? NoHeaders { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record KubernetesTopPodOptions : KubernetesOptions
     /// <summary>
     /// Print pod resources related to swap memory.
     /// </summary>
-    [CliFlag("--show-swap")]
+    [CliFlag("--show-swap", NegatedName = "--show-swap=false")]
     public bool? ShowSwap { get; set; }
 
     /// <summary>
@@ -65,13 +65,13 @@ public record KubernetesTopPodOptions : KubernetesOptions
     /// <summary>
     /// Print the sum of the resource usage
     /// </summary>
-    [CliFlag("--sum")]
+    [CliFlag("--sum", NegatedName = "--sum=false")]
     public bool? Sum { get; set; }
 
     /// <summary>
     /// Enables using protocol-buffers to access Metrics API.
     /// </summary>
-    [CliOption("--use-protocol-buffers", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--use-protocol-buffers", NegatedName = "--use-protocol-buffers=false")]
     public bool? UseProtocolBuffers { get; set; }
 
     /// <summary>

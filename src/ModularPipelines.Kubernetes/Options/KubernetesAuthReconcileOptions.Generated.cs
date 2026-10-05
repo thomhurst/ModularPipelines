@@ -24,7 +24,7 @@ public record KubernetesAuthReconcileOptions : KubernetesOptions
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -54,25 +54,25 @@ public record KubernetesAuthReconcileOptions : KubernetesOptions
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
     /// If true, removes extra permissions added to roles
     /// </summary>
-    [CliFlag("--remove-extra-permissions")]
+    [CliFlag("--remove-extra-permissions", NegatedName = "--remove-extra-permissions=false")]
     public bool? RemoveExtraPermissions { get; set; }
 
     /// <summary>
     /// If true, removes extra subjects added to rolebindings
     /// </summary>
-    [CliFlag("--remove-extra-subjects")]
+    [CliFlag("--remove-extra-subjects", NegatedName = "--remove-extra-subjects=false")]
     public bool? RemoveExtraSubjects { get; set; }
 
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>

@@ -47,13 +47,13 @@ public record KubernetesProxyOptions : KubernetesOptions
     /// <summary>
     /// If true, enables automatic path appending of the kube context server path to each request.
     /// </summary>
-    [CliFlag("--append-server-path")]
+    [CliFlag("--append-server-path", NegatedName = "--append-server-path=false")]
     public bool? AppendServerPath { get; set; }
 
     /// <summary>
     /// If true, disable request filtering in the proxy. This is dangerous, and can leave you vulnerable to XSRF attacks, when used with an accessible port.
     /// </summary>
-    [CliFlag("--disable-filter")]
+    [CliFlag("--disable-filter", NegatedName = "--disable-filter=false")]
     public bool? DisableFilter { get; set; }
 
     /// <summary>

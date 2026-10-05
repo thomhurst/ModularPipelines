@@ -9,6 +9,51 @@ namespace ModularPipelines.Kubernetes.UnitTests;
 public class KubernetesCommandRenderingTests : TestBase
 {
     [Test]
+    [Arguments(true, " --windows-line-endings")]
+    [Arguments(false, " --windows-line-endings=false")]
+    [Arguments(null, "")]
+    public async Task Edit_Preserves_Explicit_Platform_Boolean(bool? value, string rendered)
+    {
+        var result = await GetResult(new KubernetesApplyEditLastAppliedOptions
+        {
+            WindowsLineEndings = value,
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl apply edit-last-applied" + rendered);
+    }
+
+    [Test]
+    [Arguments("--recursive")]
+    [Arguments("-R")]
+    [Arguments("--recursive=true")]
+    [Arguments("--recursive=false")]
+    [Arguments("-R=false")]
+    public async Task Annotate_Manual_Boolean_Preserves_Following_File_And_Operand(string flag)
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=team"])
+        {
+            Arguments = [flag, "--filename", "manifest.yaml"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo($"kubectl annotate {flag} --filename manifest.yaml owner=team");
+    }
+
+    [Test]
+    public async Task Annotate_Explicit_False_Is_Not_Omitted()
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=team"])
+        {
+            Recursive = false,
+            Filename = ["manifest.yaml"],
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl annotate --filename=manifest.yaml --recursive=false owner=team");
+    }
+
+    [Test]
     public async Task Apply_Validate_Renders_Selected_Mode()
     {
         var result = await GetResult(new KubernetesApplyOptions

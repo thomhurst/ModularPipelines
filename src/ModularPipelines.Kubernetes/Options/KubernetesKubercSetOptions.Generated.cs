@@ -60,7 +60,7 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// <summary>
     /// Allow overwriting existing entries
     /// </summary>
-    [CliFlag("--overwrite")]
+    [CliFlag("--overwrite", NegatedName = "--overwrite=false")]
     public bool? Overwrite { get; set; }
 
     /// <summary>

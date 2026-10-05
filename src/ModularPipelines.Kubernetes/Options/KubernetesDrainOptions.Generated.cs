@@ -33,13 +33,13 @@ public record KubernetesDrainOptions(
     /// <summary>
     /// Continue even if there are pods using emptyDir (local data that will be deleted when the node is drained).
     /// </summary>
-    [CliFlag("--delete-emptydir-data")]
+    [CliFlag("--delete-emptydir-data", NegatedName = "--delete-emptydir-data=false")]
     public bool? DeleteEmptydirData { get; set; }
 
     /// <summary>
     /// Force drain to use delete, even if eviction is supported. This will bypass checking PodDisruptionBudgets, use with caution.
     /// </summary>
-    [CliFlag("--disable-eviction")]
+    [CliFlag("--disable-eviction", NegatedName = "--disable-eviction=false")]
     public bool? DisableEviction { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record KubernetesDrainOptions(
     /// <summary>
     /// Continue even if there are pods that do not declare a controller.
     /// </summary>
-    [CliFlag("--force")]
+    [CliFlag("--force", NegatedName = "--force=false")]
     public bool? Force { get; set; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public record KubernetesDrainOptions(
     /// <summary>
     /// Ignore DaemonSet-managed pods.
     /// </summary>
-    [CliFlag("--ignore-daemonsets")]
+    [CliFlag("--ignore-daemonsets", NegatedName = "--ignore-daemonsets=false")]
     public bool? IgnoreDaemonsets { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record KubernetesPatchOptions : KubernetesOptions
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record KubernetesPatchOptions : KubernetesOptions
     /// <summary>
     /// If true, patch will operate on the content of the file, not the server-side resource.
     /// </summary>
-    [CliFlag("--local")]
+    [CliFlag("--local", NegatedName = "--local=false")]
     public bool? Local { get; set; }
 
     /// <summary>
@@ -78,13 +78,13 @@ public record KubernetesPatchOptions : KubernetesOptions
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>

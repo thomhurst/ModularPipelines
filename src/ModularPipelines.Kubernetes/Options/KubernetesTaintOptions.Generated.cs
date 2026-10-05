@@ -61,13 +61,13 @@ public record KubernetesTaintOptions : KubernetesOptions
     /// <summary>
     /// Select all nodes in the cluster
     /// </summary>
-    [CliFlag("--all")]
+    [CliFlag("--all", NegatedName = "--all=false")]
     public bool? All { get; set; }
 
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record KubernetesTaintOptions : KubernetesOptions
     /// <summary>
     /// If true, allow taints to be overwritten, otherwise reject taint updates that overwrite existing taints.
     /// </summary>
-    [CliFlag("--overwrite")]
+    [CliFlag("--overwrite", NegatedName = "--overwrite=false")]
     public bool? Overwrite { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record KubernetesTaintOptions : KubernetesOptions
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>

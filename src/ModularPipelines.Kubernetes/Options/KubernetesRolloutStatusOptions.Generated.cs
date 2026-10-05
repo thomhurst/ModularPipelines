@@ -38,7 +38,7 @@ public record KubernetesRolloutStatusOptions(
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record KubernetesRolloutStatusOptions(
     /// <summary>
     /// Watch the status of the rollout until it's done.
     /// </summary>
-    [CliOption("--watch", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--watch", ShortForm = "-w", NegatedName = "--watch=false")]
     public bool? Watch { get; set; }
 
 }

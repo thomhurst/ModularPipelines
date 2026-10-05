@@ -45,7 +45,7 @@ public record KubernetesConfigSetOptions : KubernetesOptions
     /// <summary>
     /// When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding.
     /// </summary>
-    [CliFlag("--set-raw-bytes")]
+    [CliFlag("--set-raw-bytes", NegatedName = "--set-raw-bytes=false")]
     public bool? SetRawBytes { get; set; }
 
     /// <summary>

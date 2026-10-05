@@ -24,13 +24,13 @@ public record KubernetesEventsOptions : KubernetesOptions
     /// <summary>
     /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
     /// </summary>
-    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    [CliFlag("--all-namespaces", ShortForm = "-A", NegatedName = "--all-namespaces=false")]
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     /// <summary>
     /// When using the default output format, don't print headers.
     /// </summary>
-    [CliFlag("--no-headers")]
+    [CliFlag("--no-headers", NegatedName = "--no-headers=false")]
     public bool? NoHeaders { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     /// <summary>
     /// After listing the requested events, watch for more events.
     /// </summary>
-    [CliFlag("--watch", ShortForm = "-w")]
+    [CliFlag("--watch", ShortForm = "-w", NegatedName = "--watch=false")]
     public bool? Watch { get; set; }
 
 }

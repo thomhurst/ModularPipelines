@@ -23,7 +23,7 @@ public record KubernetesConfigGetContextsOptions : KubernetesOptions
     /// <summary>
     /// When using the default or custom-column output format, don't print headers (default print headers).
     /// </summary>
-    [CliFlag("--no-headers")]
+    [CliFlag("--no-headers", NegatedName = "--no-headers=false")]
     public bool? NoHeaders { get; set; }
 
     /// <summary>

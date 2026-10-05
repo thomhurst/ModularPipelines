@@ -24,13 +24,13 @@ public record KubernetesClusterInfoDumpOptions : KubernetesOptions
     /// <summary>
     /// If true, dump all namespaces.  If true, --namespaces is ignored.
     /// </summary>
-    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    [CliFlag("--all-namespaces", ShortForm = "-A", NegatedName = "--all-namespaces=false")]
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -60,7 +60,7 @@ public record KubernetesClusterInfoDumpOptions : KubernetesOptions
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>
