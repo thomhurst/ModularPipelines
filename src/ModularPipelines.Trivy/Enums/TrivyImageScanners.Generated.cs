@@ -16,6 +16,9 @@ namespace ModularPipelines.Trivy.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum TrivyImageScanners
 {
+    [EnumValue("crypto")]
+    Crypto,
+
     [EnumValue("license")]
     License,
 

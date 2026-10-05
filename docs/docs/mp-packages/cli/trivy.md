@@ -30,6 +30,21 @@ Resolve the service in a module, then select a command from the table below. A r
 var trivy = context.Tools.Trivy;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--cacert` | `Cacert` | All editions | Path to PEM-encoded CA certificate file |
+| `--cache-dir` | `CacheDir` | All editions | cache directory (default "&lt;cache&gt;/trivy") |
+| `--config` | `Config` | All editions | config path (empty string disables loading) (default "trivy.yaml") |
+| `--debug` | `Debug` | All editions | debug mode |
+| `--generate-default-config` | `GenerateDefaultConfig` | All editions | write the default config to trivy-default.yaml |
+| `--insecure` | `Insecure` | All editions | allow insecure server connections |
+| `--quiet` | `Quiet` | All editions | suppress progress bar and log output |
+| `--timeout` | `Timeout` | All editions | timeout (default 5m0s) |
+
 ## Commands
 
 | CLI command | Options record |

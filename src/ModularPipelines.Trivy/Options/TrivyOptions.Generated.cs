@@ -22,4 +22,52 @@ namespace ModularPipelines.Trivy.Options;
 [CliGlobalOptions]
 public abstract record TrivyOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Path to PEM-encoded CA certificate file
+    /// </summary>
+    [CliOption("--cacert", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cacert { get; set; }
+
+    /// <summary>
+    /// cache directory (default "&lt;cache&gt;/trivy")
+    /// </summary>
+    [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CacheDir { get; set; }
+
+    /// <summary>
+    /// config path (empty string disables loading) (default "trivy.yaml")
+    /// </summary>
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Config { get; set; }
+
+    /// <summary>
+    /// debug mode
+    /// </summary>
+    [CliFlag("--debug", ShortForm = "-d")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// write the default config to trivy-default.yaml
+    /// </summary>
+    [CliFlag("--generate-default-config")]
+    public virtual bool? GenerateDefaultConfig { get; set; }
+
+    /// <summary>
+    /// allow insecure server connections
+    /// </summary>
+    [CliFlag("--insecure")]
+    public virtual bool? Insecure { get; set; }
+
+    /// <summary>
+    /// suppress progress bar and log output
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// timeout (default 5m0s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Timeout { get; set; }
+
 }

@@ -81,7 +81,7 @@ public record TrivyConvertOptions : TrivyOptions
     public string? IgnorePolicy { get; set; }
 
     /// <summary>
-    /// specify .trivyignore file (default ".trivyignore")
+    /// specify .trivyignore file (empty string disables loading) (default ".trivyignore")
     /// </summary>
     [CliOption("--ignorefile", Format = OptionFormat.EqualsSeparated)]
     public string? Ignorefile { get; set; }
@@ -133,54 +133,6 @@ public record TrivyConvertOptions : TrivyOptions
     /// </summary>
     [CliOption("--template", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public string? Template { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate file
-    /// </summary>
-    [CliOption("--cacert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cacert { get; set; }
-
-    /// <summary>
-    /// cache directory (default "&lt;cache&gt;/trivy")
-    /// </summary>
-    [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// config path (default "trivy.yaml")
-    /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
-
-    /// <summary>
-    /// debug mode
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// write the default config to trivy-default.yaml
-    /// </summary>
-    [CliFlag("--generate-default-config")]
-    public bool? GenerateDefaultConfig { get; set; }
-
-    /// <summary>
-    /// allow insecure server connections
-    /// </summary>
-    [CliFlag("--insecure")]
-    public bool? Insecure { get; set; }
-
-    /// <summary>
-    /// suppress progress bar and log output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// timeout (default 5m0s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
 
     /// <summary>
     /// show version

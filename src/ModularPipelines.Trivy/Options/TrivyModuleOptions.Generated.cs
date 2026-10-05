@@ -27,58 +27,10 @@ public record TrivyModuleOptions : TrivyOptions
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
+    /// specify the directory of the WASM modules to load (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate file
-    /// </summary>
-    [CliOption("--cacert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cacert { get; set; }
-
-    /// <summary>
-    /// cache directory (default "&lt;cache&gt;/trivy")
-    /// </summary>
-    [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// config path (default "trivy.yaml")
-    /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
-
-    /// <summary>
-    /// debug mode
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// write the default config to trivy-default.yaml
-    /// </summary>
-    [CliFlag("--generate-default-config")]
-    public bool? GenerateDefaultConfig { get; set; }
-
-    /// <summary>
-    /// allow insecure server connections
-    /// </summary>
-    [CliFlag("--insecure")]
-    public bool? Insecure { get; set; }
-
-    /// <summary>
-    /// suppress progress bar and log output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// timeout (default 5m0s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
 
     /// <summary>
     /// show version
