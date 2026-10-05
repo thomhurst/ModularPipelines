@@ -247,6 +247,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool RequiresCommandValidation(CliCommandDefinition command) =>
         command.RequiredAlternativeGroups.Count > 0
+        || command.Options.Any(static option => option.RejectBlankCollectionValues)
         || SupportsAlternateInputModes(command, CliPositionalArgument.MergeDuplicates(command.PositionalArguments));
 
     private static bool SupportsAlternateInputModes(
@@ -433,7 +434,7 @@ public class OptionsClassGenerator : ICodeGenerator
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
-        if (command.RequiredAlternativeGroups.Count == 0 && !supportsAlternateInputModes)
+        if (!RequiresCommandValidation(command))
         {
             return;
         }
@@ -441,6 +442,15 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <inheritdoc />");
         sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
+        foreach (var option in command.Options.Where(static option => option.RejectBlankCollectionValues))
+        {
+            sb.AppendLine($"        if ({option.PropertyName} is not null && global::System.Linq.Enumerable.Any({option.PropertyName}, static item => string.IsNullOrWhiteSpace(item)))");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            yield return new ValidationResult(\"{option.PropertyName} cannot contain null, empty, or whitespace values.\", [nameof({option.PropertyName})]);");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+        }
+
         if (supportsAlternateInputModes)
         {
             List<string> alternateInputs = [];
@@ -750,8 +760,8 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         // Required collections are already materialized by their constructor. Optional
-        // alternative inputs must retain the same values for validation and rendering.
-        if (!isRequired && participatesInAlternative
+        // validated inputs must retain the same values for validation and rendering.
+        if (!isRequired && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
             var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
