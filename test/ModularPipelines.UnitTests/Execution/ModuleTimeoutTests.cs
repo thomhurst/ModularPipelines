@@ -206,24 +206,35 @@ public class ModuleTimeoutTests : TestBase
     {
         for (var iteration = 0; iteration < 100; iteration++)
         {
-            var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-                async cancellationToken =>
-                {
-                    var completion = new TaskCompletionSource<bool>(
-                        TaskCreationOptions.RunContinuationsAsynchronously);
-                    using var registration = cancellationToken.Register(
-                        static state => ((TaskCompletionSource<bool>) state!).TrySetException(
-                            new TimeoutException("Inner operation timed out.")),
-                        completion);
-                    return await completion.Task.ConfigureAwait(false);
-                },
-                TimeSpan.FromMilliseconds(10),
-                CancellationToken.None);
-
-            using (Assert.Multiple())
+            var completion = new TaskCompletionSource<bool>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            CancellationTokenRegistration registration = default;
+            try
             {
-                await Assert.That(result.TimedOut).IsTrue();
-                await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+                var result = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+                    cancellationToken =>
+                    {
+                        registration = cancellationToken.Register(
+                            static state => ((TaskCompletionSource<bool>) state!).TrySetException(
+                                new TimeoutException("Inner operation timed out.")),
+                            completion);
+
+                        // Observe the task faulted by cancellation directly. An async wrapper
+                        // would also require a scheduled continuation to finish within the grace period.
+                        return completion.Task;
+                    },
+                    TimeSpan.FromMilliseconds(10),
+                    CancellationToken.None);
+
+                using (Assert.Multiple())
+                {
+                    await Assert.That(result.TimedOut).IsTrue();
+                    await Assert.That(result.WasCancellationTokenRespected).IsTrue();
+                }
+            }
+            finally
+            {
+                await registration.DisposeAsync();
             }
         }
     }
