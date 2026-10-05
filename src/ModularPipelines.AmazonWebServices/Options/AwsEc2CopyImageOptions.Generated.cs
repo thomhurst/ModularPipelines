@@ -114,7 +114,7 @@ public record AwsEc2CopyImageOptions : AwsOptions, IValidatableObject
     public string? DestinationOutpostArn { get; set; }
 
     /// <summary>
-    /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied: o System tags (prefixed with aws: ) o For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts Default: Your user-defined AMI tags are not copied.
+    /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied: o System tags (prefixed with aws: ) o For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide . Default: Your user-defined AMI tags are not copied.
     /// </summary>
     [CliFlag("--copy-image-tags", NegatedName = "--no-copy-image-tags")]
     public bool? CopyImageTags { get; set; }

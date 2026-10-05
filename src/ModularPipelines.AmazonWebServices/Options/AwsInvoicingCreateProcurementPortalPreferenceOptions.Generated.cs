@@ -173,6 +173,18 @@ public record AwsInvoicingCreateProcurementPortalPreferenceOptions : AwsOptions,
     public string? EinvoiceDeliveryPreference { get; set; }
 
     /// <summary>
+    /// Defaults to false if not provided.
+    /// </summary>
+    [CliFlag("--marketplace-punch-out-enabled", NegatedName = "--no-marketplace-punch-out-enabled")]
+    public bool? MarketplacePunchOutEnabled { get; set; }
+
+    /// <summary>
+    /// Required for Coupa when MarketplacePunchOutEnabled is true. ApprovalRequestRedirectUrl -&gt; (string) The URL that buyers are redirected to for approval requests in the procurement portal. This is only supported for Coupa. When provided together with the procurement portal instance endpoint, its host must match the host of that endpoint. Constraints: o min: 0 o max: 1024 o pattern: \S+ Shorthand Syntax: ApprovalRequestRedirectUrl=string JSON Syntax: { "ApprovalRequestRedirectUrl": "string" }
+    /// </summary>
+    [CliOption("--marketplace-punch-out-preference")]
+    public string? MarketplacePunchOutPreference { get; set; }
+
+    /// <summary>
     /// The tags to apply to this procurement portal preference resource. Each tag consists of a key and an optional value. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. Key -&gt; (string) [required] The object key of your of your resource tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The specific value of the resource tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]

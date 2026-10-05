@@ -30,6 +30,31 @@ Resolve the service in a module, then select a command from the table below. A r
 var aws = context.Tools.Aws;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--ca-bundle` | `CaBundle` | All editions | The CA certificate bundle to use when verifying SSL certificates. Over- rides config/env settings. |
+| `--cli-auto-prompt` | `CliAutoPrompt` | All editions | Automatically prompt for CLI input parameters. |
+| `--cli-binary-format` | `CliBinaryFormat` | All editions | The formatting style to be used for binary blobs. The default format is base64. The base64 format expects binary blobs to be provided as a base64 encoded string. The raw-in-base64-out format preserves compati- bility with AWS CLI V1 behavior and binary values must be passed liter- ally. When providing contents from a file that map to a binary blob fileb:// will always be treated as binary and use the file contents di- rectly regardless of the cli-binary-format setting. When using file:// the file contents will need to properly formatted for the configured cli-binary-format. o base64 o raw-in-base64-out |
+| `--cli-connect-timeout` | `CliConnectTimeout` | All editions | The maximum socket connect time in seconds. If the value is set to 0, the socket connect will be blocking and not timeout. The default value is 60 seconds. |
+| `--cli-error-format` | `CliErrorFormat` | All editions | The formatting style for error output. By default, errors are displayed in enhanced format. o legacy o json o yaml o text o table o enhanced |
+| `--cli-read-timeout` | `CliReadTimeout` | All editions | The maximum socket read time in seconds. If the value is set to 0, the socket read will be blocking and not timeout. The default value is 60 seconds. |
+| `--color` | `Color` | All editions | Turn on/off color output. o on o off o auto |
+| `--debug` | `Debug` | All editions | Turn on debug logging. |
+| `--endpoint-url` | `EndpointUrl` | All editions | Override command's default URL with the given URL. |
+| `--no-cli-auto-prompt` | `NoCliAutoPrompt` | All editions | Disable automatically prompt for CLI input parameters. |
+| `--no-cli-pager` | `NoCliPager` | All editions | Disable cli pager for output. |
+| `--no-paginate` | `NoPaginate` | All editions | Disable automatic pagination. If automatic pagination is disabled, the AWS CLI will only make one call, for the first page of results. |
+| `--no-sign-request` | `NoSignRequest` | All editions | Do not sign requests. Credentials will not be loaded if this argument is provided. |
+| `--no-verify-ssl` | `NoVerifySsl` | All editions | By default, the AWS CLI uses SSL when communicating with AWS services. For each SSL connection, the AWS CLI will verify SSL certificates. This option overrides the default behavior of verifying SSL certificates. |
+| `--output` | `Output` | All editions | The formatting style for command output. o json o text o table o yaml o yaml-stream o off |
+| `--profile` | `Profile` | All editions | Use a specific profile from your credential file. |
+| `--query` | `Query` | All editions | A JMESPath query to use in filtering the response data. |
+| `--region` | `Region` | All editions | The region to use. Overrides config/env settings. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -7663,6 +7688,35 @@ var aws = context.Tools.Aws;
 | `aws emr-serverless terminate-session` | `AwsEmrServerlessTerminateSessionOptions` |
 | `aws emr-serverless untag-resource` | `AwsEmrServerlessUntagResourceOptions` |
 | `aws emr-serverless update-application` | `AwsEmrServerlessUpdateApplicationOptions` |
+| `aws endusermessaging create-brand-profile` | `AwsEndusermessagingCreateBrandProfileOptions` |
+| `aws endusermessaging create-brand-profile-attributes` | `AwsEndusermessagingCreateBrandProfileAttributesOptions` |
+| `aws endusermessaging create-brand-profile-from-registration` | `AwsEndusermessagingCreateBrandProfileFromRegistrationOptions` |
+| `aws endusermessaging create-notify-code-configuration` | `AwsEndusermessagingCreateNotifyCodeConfigurationOptions` |
+| `aws endusermessaging create-registrations-from-brand-profile` | `AwsEndusermessagingCreateRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging delete-brand-profile` | `AwsEndusermessagingDeleteBrandProfileOptions` |
+| `aws endusermessaging delete-brand-profile-attribute` | `AwsEndusermessagingDeleteBrandProfileAttributeOptions` |
+| `aws endusermessaging delete-notify-code-configuration` | `AwsEndusermessagingDeleteNotifyCodeConfigurationOptions` |
+| `aws endusermessaging get-brand-profile` | `AwsEndusermessagingGetBrandProfileOptions` |
+| `aws endusermessaging get-brand-profile-attribute` | `AwsEndusermessagingGetBrandProfileAttributeOptions` |
+| `aws endusermessaging get-job` | `AwsEndusermessagingGetJobOptions` |
+| `aws endusermessaging get-notify-code-configuration` | `AwsEndusermessagingGetNotifyCodeConfigurationOptions` |
+| `aws endusermessaging list-brand-profile-attributes` | `AwsEndusermessagingListBrandProfileAttributesOptions` |
+| `aws endusermessaging list-brand-profiles` | `AwsEndusermessagingListBrandProfilesOptions` |
+| `aws endusermessaging list-jobs` | `AwsEndusermessagingListJobsOptions` |
+| `aws endusermessaging list-notify-code-configurations` | `AwsEndusermessagingListNotifyCodeConfigurationsOptions` |
+| `aws endusermessaging list-registrations-from-brand-profile` | `AwsEndusermessagingListRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging list-tags-for-resource` | `AwsEndusermessagingListTagsForResourceOptions` |
+| `aws endusermessaging send-notify-code-verification` | `AwsEndusermessagingSendNotifyCodeVerificationOptions` |
+| `aws endusermessaging tag-resource` | `AwsEndusermessagingTagResourceOptions` |
+| `aws endusermessaging untag-resource` | `AwsEndusermessagingUntagResourceOptions` |
+| `aws endusermessaging update-brand-profile` | `AwsEndusermessagingUpdateBrandProfileOptions` |
+| `aws endusermessaging update-brand-profile-attribute` | `AwsEndusermessagingUpdateBrandProfileAttributeOptions` |
+| `aws endusermessaging update-brand-profile-from-registration` | `AwsEndusermessagingUpdateBrandProfileFromRegistrationOptions` |
+| `aws endusermessaging update-notify-code-configuration` | `AwsEndusermessagingUpdateNotifyCodeConfigurationOptions` |
+| `aws endusermessaging update-registrations-from-brand-profile` | `AwsEndusermessagingUpdateRegistrationsFromBrandProfileOptions` |
+| `aws endusermessaging validate-notify-code-verification` | `AwsEndusermessagingValidateNotifyCodeVerificationOptions` |
+| `aws endusermessaging wait brand-profile-active` | `AwsEndusermessagingWaitBrandProfileActiveOptions` |
+| `aws endusermessaging wait job-success` | `AwsEndusermessagingWaitJobSuccessOptions` |
 | `aws entityresolution add-policy-statement` | `AwsEntityresolutionAddPolicyStatementOptions` |
 | `aws entityresolution batch-delete-unique-id` | `AwsEntityresolutionBatchDeleteUniqueIdOptions` |
 | `aws entityresolution create-id-mapping-workflow` | `AwsEntityresolutionCreateIdMappingWorkflowOptions` |
@@ -9042,6 +9096,7 @@ var aws = context.Tools.Aws;
 | `aws health describe-events` | `AwsHealthDescribeEventsOptions` |
 | `aws health describe-events-for-organization` | `AwsHealthDescribeEventsForOrganizationOptions` |
 | `aws health describe-health-service-status-for-organization` | `AwsHealthDescribeHealthServiceStatusForOrganizationOptions` |
+| `aws health describe-service-lifecycle` | `AwsHealthDescribeServiceLifecycleOptions` |
 | `aws health disable-health-service-access-for-organization` | `AwsHealthDisableHealthServiceAccessForOrganizationOptions` |
 | `aws health enable-health-service-access-for-organization` | `AwsHealthEnableHealthServiceAccessForOrganizationOptions` |
 | `aws healthlake create-data-transformation-profile` | `AwsHealthlakeCreateDataTransformationProfileOptions` |
@@ -10947,6 +11002,33 @@ var aws = context.Tools.Aws;
 | `aws lambda-microvms untag-resource` | `AwsLambdaMicrovmsUntagResourceOptions` |
 | `aws lambda-microvms update-microvm-image` | `AwsLambdaMicrovmsUpdateMicrovmImageOptions` |
 | `aws lambda-microvms update-microvm-image-version` | `AwsLambdaMicrovmsUpdateMicrovmImageVersionOptions` |
+| `aws lambda-web create-web-function` | `AwsLambdaWebCreateWebFunctionOptions` |
+| `aws lambda-web create-web-function-endpoint` | `AwsLambdaWebCreateWebFunctionEndpointOptions` |
+| `aws lambda-web create-web-function-revision` | `AwsLambdaWebCreateWebFunctionRevisionOptions` |
+| `aws lambda-web delete-resource-policy` | `AwsLambdaWebDeleteResourcePolicyOptions` |
+| `aws lambda-web delete-web-function` | `AwsLambdaWebDeleteWebFunctionOptions` |
+| `aws lambda-web delete-web-function-endpoint` | `AwsLambdaWebDeleteWebFunctionEndpointOptions` |
+| `aws lambda-web delete-web-function-revision` | `AwsLambdaWebDeleteWebFunctionRevisionOptions` |
+| `aws lambda-web deploy` | `AwsLambdaWebDeployOptions` |
+| `aws lambda-web get-resource-policy` | `AwsLambdaWebGetResourcePolicyOptions` |
+| `aws lambda-web get-web-account-settings` | `AwsLambdaWebGetWebAccountSettingsOptions` |
+| `aws lambda-web get-web-function` | `AwsLambdaWebGetWebFunctionOptions` |
+| `aws lambda-web get-web-function-endpoint` | `AwsLambdaWebGetWebFunctionEndpointOptions` |
+| `aws lambda-web get-web-function-revision` | `AwsLambdaWebGetWebFunctionRevisionOptions` |
+| `aws lambda-web list-tags` | `AwsLambdaWebListTagsOptions` |
+| `aws lambda-web list-web-function-endpoints` | `AwsLambdaWebListWebFunctionEndpointsOptions` |
+| `aws lambda-web list-web-function-revisions` | `AwsLambdaWebListWebFunctionRevisionsOptions` |
+| `aws lambda-web list-web-functions` | `AwsLambdaWebListWebFunctionsOptions` |
+| `aws lambda-web put-resource-policy` | `AwsLambdaWebPutResourcePolicyOptions` |
+| `aws lambda-web tag-resource` | `AwsLambdaWebTagResourceOptions` |
+| `aws lambda-web untag-resource` | `AwsLambdaWebUntagResourceOptions` |
+| `aws lambda-web update-web-function-endpoint` | `AwsLambdaWebUpdateWebFunctionEndpointOptions` |
+| `aws lambda-web wait web-function-active` | `AwsLambdaWebWaitWebFunctionActiveOptions` |
+| `aws lambda-web wait web-function-deleted` | `AwsLambdaWebWaitWebFunctionDeletedOptions` |
+| `aws lambda-web wait web-function-endpoint-active` | `AwsLambdaWebWaitWebFunctionEndpointActiveOptions` |
+| `aws lambda-web wait web-function-endpoint-deleted` | `AwsLambdaWebWaitWebFunctionEndpointDeletedOptions` |
+| `aws lambda-web wait web-function-endpoint-updated` | `AwsLambdaWebWaitWebFunctionEndpointUpdatedOptions` |
+| `aws lambda-web wait web-function-revision-active` | `AwsLambdaWebWaitWebFunctionRevisionActiveOptions` |
 | `aws launch-wizard create-deployment` | `AwsLaunchWizardCreateDeploymentOptions` |
 | `aws launch-wizard delete-deployment` | `AwsLaunchWizardDeleteDeploymentOptions` |
 | `aws launch-wizard get-deployment` | `AwsLaunchWizardGetDeploymentOptions` |
@@ -17061,6 +17143,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub get-invitations-count` | `AwsSecurityhubGetInvitationsCountOptions` |
 | `aws securityhub get-members` | `AwsSecurityhubGetMembersOptions` |
 | `aws securityhub get-recommended-policy-v2` | `AwsSecurityhubGetRecommendedPolicyV2Options` |
+| `aws securityhub get-remediations-v2` | `AwsSecurityhubGetRemediationsV2Options` |
 | `aws securityhub get-resources-statistics-v2` | `AwsSecurityhubGetResourcesStatisticsV2Options` |
 | `aws securityhub get-resources-trends-v2` | `AwsSecurityhubGetResourcesTrendsV2Options` |
 | `aws securityhub get-resources-v2` | `AwsSecurityhubGetResourcesV2Options` |
@@ -17074,6 +17157,7 @@ var aws = context.Tools.Aws;
 | `aws securityhub list-connectors` | `AwsSecurityhubListConnectorsOptions` |
 | `aws securityhub list-connectors-v2` | `AwsSecurityhubListConnectorsV2Options` |
 | `aws securityhub list-enabled-products-for-import` | `AwsSecurityhubListEnabledProductsForImportOptions` |
+| `aws securityhub list-exposures-by-remediation-v2` | `AwsSecurityhubListExposuresByRemediationV2Options` |
 | `aws securityhub list-finding-aggregators` | `AwsSecurityhubListFindingAggregatorsOptions` |
 | `aws securityhub list-free-trial-statuses-v2` | `AwsSecurityhubListFreeTrialStatusesV2Options` |
 | `aws securityhub list-invitations` | `AwsSecurityhubListInvitationsOptions` |

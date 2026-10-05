@@ -178,6 +178,7 @@ internal partial class Aws : IAws
         IAwsEmr emr,
         IAwsEmrContainers emrContainers,
         IAwsEmrServerless emrServerless,
+        IAwsEndusermessaging endusermessaging,
         IAwsEntityresolution entityresolution,
         IAwsEs es,
         IAwsEvents events,
@@ -250,6 +251,7 @@ internal partial class Aws : IAws
         IAwsLambda lambda,
         IAwsLambdaCore lambdaCore,
         IAwsLambdaMicrovms lambdaMicrovms,
+        IAwsLambdaWeb lambdaWeb,
         IAwsLaunchWizard launchWizard,
         IAwsLexRuntime lexRuntime,
         IAwsLexv2Models lexv2Models,
@@ -615,6 +617,7 @@ internal partial class Aws : IAws
         Emr = emr;
         EmrContainers = emrContainers;
         EmrServerless = emrServerless;
+        Endusermessaging = endusermessaging;
         Entityresolution = entityresolution;
         Es = es;
         Events = events;
@@ -687,6 +690,7 @@ internal partial class Aws : IAws
         Lambda = lambda;
         LambdaCore = lambdaCore;
         LambdaMicrovms = lambdaMicrovms;
+        LambdaWeb = lambdaWeb;
         LaunchWizard = launchWizard;
         LexRuntime = lexRuntime;
         Lexv2Models = lexv2Models;
@@ -1361,6 +1365,9 @@ internal partial class Aws : IAws
     public IAwsEmrServerless EmrServerless { get; }
 
     /// <inheritdoc />
+    public IAwsEndusermessaging Endusermessaging { get; }
+
+    /// <inheritdoc />
     public IAwsEntityresolution Entityresolution { get; }
 
     /// <inheritdoc />
@@ -1575,6 +1582,9 @@ internal partial class Aws : IAws
 
     /// <inheritdoc />
     public IAwsLambdaMicrovms LambdaMicrovms { get; }
+
+    /// <inheritdoc />
+    public IAwsLambdaWeb LambdaWeb { get; }
 
     /// <inheritdoc />
     public IAwsLaunchWizard LaunchWizard { get; }

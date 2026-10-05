@@ -115,7 +115,7 @@ public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? ClientMetadata { get; set; }
 
     /// <summary>
-    /// The optional session ID from a SignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authenti- cation flow. Constraints: o min: 20 o max: 2048
+    /// The optional session ID from a SignUp API request. You can sign in a user directly from the sign-up process with the USER_AUTH authenti- cation flow. Constraints: o min: 20 o max: 4096
     /// </summary>
     [CliOption("--session")]
     public string? Session { get; set; }

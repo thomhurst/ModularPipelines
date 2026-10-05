@@ -90,6 +90,12 @@ public record AwsCognitoIdpUpdateIdentityProviderOptions : AwsOptions, IValidata
     [CliOption("--idp-identifiers", GroupValues = true)]
     public IEnumerable<string>? IdpIdentifiers { get; set; }
 
+    /// <summary>
+    /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). This mapping has the same behavior as it does when you create an identity provider. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't re- stricted to the Essentials or Plus feature plan. Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o pattern: Level[1-4] value -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// </summary>
+    [CliOption("--acr-mapping", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? AcrMapping { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
