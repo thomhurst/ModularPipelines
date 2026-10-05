@@ -376,6 +376,11 @@ Redis REST endpoints require HTTPS except on loopback because requests include a
 They may include a path prefix, but must not contain a query string or fragment.
 Empty or whitespace optional S3/Redis endpoints are treated as omitted.
 
+`ListenUrl` represents one endpoint, not a semicolon-separated list of Kestrel
+addresses. Kestrel wildcard hosts such as `http://+:5099` and `http://*:5099` are
+not valid `Uri` values. To listen on all IPv4 interfaces, use
+`new Uri("http://0.0.0.0:5099")` and set `AdvertisedUrl` to an address workers can reach.
+
 Configuration files and environment variables still contain URL strings; normal
 configuration binding converts them to `Uri`. SignalR retains its
 `http://localhost:5099` default and supports port `0` for an assigned port. S3's
