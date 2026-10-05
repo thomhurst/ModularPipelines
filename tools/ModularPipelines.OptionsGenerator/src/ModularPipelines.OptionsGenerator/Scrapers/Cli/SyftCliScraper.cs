@@ -29,13 +29,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// from container images and filesystems. It supports multiple SBOM formats including
 /// SPDX, CycloneDX, and Syft's native JSON format.
 /// </summary>
-public partial class SyftCliScraper : CobraCliScraper
+public partial class SyftCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SyftCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public SyftCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SyftCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "syft";
 
     public override string NamespacePrefix => "Syft";
@@ -57,7 +52,7 @@ public partial class SyftCliScraper : CobraCliScraper
         var globals = EffectiveGlobalOptions;
         var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
         // Validate inherited copies before removing them; a changed type or alias must not disappear silently.
-        _ = CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)).ToArray());
+        _ = CliGlobalOptionMerger.Merge(globals, [.. options.Where(option => globalSwitches.Contains(option.SwitchName))]);
         return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
     }
 
