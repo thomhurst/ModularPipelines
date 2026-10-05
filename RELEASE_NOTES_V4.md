@@ -739,3 +739,11 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Go working-directory options
+
+All generated Go commands now inherit `GoOptions.WorkingDirectory`, rendered as
+`-C` before the command path. Replace command-specific `C` or `UpperC` directory
+properties with `WorkingDirectory`. Lowercase `-c` remains a command-local flag;
+`GoTestOptions.Args` still passes its values after package operands. Shared build
+flags remain limited to commands that support them.

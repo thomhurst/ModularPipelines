@@ -52,12 +52,6 @@ public record GoToolOptions : GoOptions
     /// <summary>
     /// Tool also provides the -C, -overlay, and -modcacherw build flags.
     /// </summary>
-    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? C { get; set; }
-
-    /// <summary>
-    /// Tool also provides the -C, -overlay, and -modcacherw build flags.
-    /// </summary>
     [CliOption("-overlay")]
     public string? Overlay { get; set; }
 
