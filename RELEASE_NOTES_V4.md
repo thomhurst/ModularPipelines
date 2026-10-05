@@ -766,3 +766,13 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+### Git root execution settings
+
+Git command options now inherit root execution settings, including repeated `-C` directory
+changes and ordered `-c` configuration overrides. Configuration values are masked in logs.
+Root settings render before subcommands; command-local switches keep their existing meaning.
+On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareRepository` to
+distinguish repository selection from command-local reporting or clone options. Other shared
+properties retain their names through inheritance. Version and path-reporting actions remain
+on `GitBaseOptions`, and the grouped command facade remains unchanged.
