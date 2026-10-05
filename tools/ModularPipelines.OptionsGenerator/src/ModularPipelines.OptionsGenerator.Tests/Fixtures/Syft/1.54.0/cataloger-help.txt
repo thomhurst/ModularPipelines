@@ -1,0 +1,18 @@
+Show available catalogers and configuration
+
+Usage:
+  syft cataloger [command]
+
+Available Commands:
+  list        List available catalogers
+
+Flags:
+  -h, --help   help for cataloger
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
+
+Use "syft cataloger [command] --help" for more information about a command.
