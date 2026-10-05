@@ -9,6 +9,21 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PipCliScraperTests
 {
     [Test]
+    [Arguments("--verbose", "-v")]
+    [Arguments("--quiet", "-q")]
+    public async Task Additive_General_Flags_Preserve_Counts(string name, string alias)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "pip-25.3-root-help.txt"));
+        var option = new TestPipCliScraper().ParseGlobals(help).Single(option => option.SwitchName == name);
+        await Assert.That(option.CSharpType).IsEqualTo("int?");
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.ShortForm).IsEqualTo(alias);
+        await Assert.That(option.AcceptsMultipleValues).IsFalse();
+        await Assert.That(option.ValidationConstraints!.MinValue).IsEqualTo(0);
+    }
+
+    [Test]
     [Arguments("install")]
     [Arguments("download")]
     [Arguments("wheel")]
