@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
     /// </summary>
     /// <param name="AllowedOrigins">A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.</param>
     public AzContainerappIngressCorsEnableOptions(
-        IEnumerable<string> AllowedOrigins
+        IEnumerable<CliOptionValue> AllowedOrigins
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AllowedOrigins));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(AllowedOrigins));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
         this.AllowedOrigins = AllowedOrigins;
     }
 
-    public void Deconstruct(out IEnumerable<string> AllowedOrigins)
+    public void Deconstruct(out IEnumerable<CliOptionValue> AllowedOrigins)
     {
         AllowedOrigins = this.AllowedOrigins;
     }
@@ -51,38 +52,38 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
     /// <summary>
     /// A list of allowed origin(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
-    [CliOption("--allowed-origins", ShortForm = "-r", GroupValues = true)]
-    public IEnumerable<string> AllowedOrigins { get; private init; }
+    [CliOption("--allowed-origins", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> AllowedOrigins { get; private init; }
 
     /// <summary>
     /// Whether the credential is allowed for the container app. Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-credentials")]
-    public bool? AllowCredentials { get; set; }
+    [CliOption("--allow-credentials", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowCredentials { get; set; }
 
     /// <summary>
     /// A list of allowed header(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
-    [CliOption("--allowed-headers", ShortForm = "-a", GroupValues = true)]
-    public IEnumerable<string>? AllowedHeaders { get; set; }
+    [CliOption("--allowed-headers", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AllowedHeaders { get; set; }
 
     /// <summary>
     /// A list of allowed method(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
-    [CliOption("--allowed-methods", ShortForm = "-m", GroupValues = true)]
-    public IEnumerable<string>? AllowedMethods { get; set; }
+    [CliOption("--allowed-methods", ShortForm = "-m", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AllowedMethods { get; set; }
 
     /// <summary>
     /// A list of expose header(s) for the container app. Values are space-separated. Empty string to clear existing values.
     /// </summary>
-    [CliOption("--expose-headers", ShortForm = "-e", GroupValues = true)]
-    public IEnumerable<string>? ExposeHeaders { get; set; }
+    [CliOption("--expose-headers", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ExposeHeaders { get; set; }
 
     /// <summary>
     /// The maximum age of the allowed origin in seconds. Only postive integer or empty string are allowed. Empty string resets max_age to null.
     /// </summary>
-    [CliFlag("--max-age")]
-    public bool? MaxAge { get; set; }
+    [CliOption("--max-age", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MaxAge { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,20 +24,21 @@ public record AzContainerappAuthTwitterUpdateOptions : AzOptions
     /// <summary>
     /// The OAuth 1.0a consumer key of the Twitter application used for sign-in.
     /// </summary>
-    [CliFlag("--consumer-key")]
-    public bool? ConsumerKey { get; set; }
+    [CliOption("--consumer-key")]
+    public string? ConsumerKey { get; set; }
 
     /// <summary>
     /// The consumer secret.
     /// </summary>
-    [CliFlag("--consumer-secret")]
-    public bool? ConsumerSecret { get; set; }
+    [SecretValue]
+    [CliOption("--consumer-secret")]
+    public string? ConsumerSecret { get; set; }
 
     /// <summary>
     /// The consumer secret name that contains the app secret.
     /// </summary>
-    [CliFlag("--consumer-secret-name", ShortForm = "--secret-name")]
-    public bool? ConsumerSecretName { get; set; }
+    [CliOption("--consumer-secret-name")]
+    public string? ConsumerSecretName { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

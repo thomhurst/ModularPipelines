@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,26 +54,26 @@ public record AzStorageShareListHandleOptions : AzOptions
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
     /// </summary>
-    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False. Allowed values: false, true.
     /// </summary>
-    [CliOption("--disallow-trailing-dot")]
-    public bool? DisallowTrailingDot { get; set; }
+    [CliOption("--disallow-trailing-dot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisallowTrailingDot { get; set; }
 
     /// <summary>
     /// An opaque continuation token. This value can be retrieved from the next_marker field of a previous generator object if max_results was specified and that generator has finished enumerating results. If specified, this generator will begin returning results from the point where the previous generator stopped.
     /// </summary>
-    [CliFlag("--marker")]
-    public bool? Marker { get; set; }
+    [CliOption("--marker")]
+    public string? Marker { get; set; }
 
     /// <summary>
     /// Specifies the maximum number of handles taken on files and/or directories to return. If the request does not specify max_results or specifies a value greater than 5,000, the server will return up to 5,000 items. Setting max_results to a value less than or equal to zero results in error response code 400 (Bad Request).
     /// </summary>
-    [CliFlag("--max-results")]
-    public bool? MaxResults { get; set; }
+    [CliOption("--max-results")]
+    public int? MaxResults { get; set; }
 
     /// <summary>
     /// The path to the file/directory within the file share.
@@ -82,8 +84,8 @@ public record AzStorageShareListHandleOptions : AzOptions
     /// <summary>
     /// Boolean that specifies if operation should apply to the directory specified in the URI, its files, with its subdirectories and their files.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--recursive")]
-    public bool? Recursive { get; set; }
+    [CliOption("--recursive", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Recursive { get; set; }
 
     /// <summary>
     /// A string that represents the snapshot version, if applicable.
@@ -94,37 +96,38 @@ public record AzStorageShareListHandleOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--file-endpoint")]
-    public bool? FileEndpoint { get; set; }
+    [CliOption("--file-endpoint")]
+    public string? FileEndpoint { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

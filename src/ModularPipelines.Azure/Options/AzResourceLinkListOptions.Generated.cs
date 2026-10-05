@@ -23,13 +23,13 @@ public record AzResourceLinkListOptions : AzOptions
     /// <summary>
     /// Filter string for limiting results.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Fully-qualified scope for retrieving links.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

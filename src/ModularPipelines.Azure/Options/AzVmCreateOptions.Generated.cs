@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -64,26 +65,26 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
-    public bool? AddProxyAgentExt { get; set; }
+    [CliOption("--add-proxy-agent-ext", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AddProxyAgentExt { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
-    public bool? AdditionalEvents { get; set; }
+    [CliOption("--additional-events", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specify whether the regional disks should be aligned/moved to the VM zone. This is applicable only for VMs with placement property set. Please note that this change is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliOption("--align-regional-disks", ShortForm = "--align-regional-disks-to-vm-zone")]
-    public bool? AlignRegionalDisks { get; set; }
+    [CliOption("--align-regional-disks", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AlignRegionalDisks { get; set; }
 
     /// <summary>
     /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
-    public bool? AllInstanceDown { get; set; }
+    [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllInstanceDown { get; set; }
 
     /// <summary>
     /// Name or ID of an existing availability set to add the VM to. None by default.
@@ -94,44 +95,50 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Pre-existing storage account name or its blob uri to capture boot diagnostics. Its sku should be one of Standard_GRS, Standard_LRS and Standard_RAGRS.
     /// </summary>
-    [CliFlag("--boot-diagnostics-storage")]
-    public bool? BootDiagnosticsStorage { get; set; }
+    [CliOption("--boot-diagnostics-storage")]
+    public string? BootDiagnosticsStorage { get; set; }
 
     /// <summary>
     /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
     /// </summary>
-    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
     /// <summary>
     /// The host OS name of the virtual machine. Defaults to the name of the VM.
     /// </summary>
-    [CliFlag("--computer-name")]
-    public bool? ComputerName { get; set; }
+    [CliOption("--computer-name")]
+    public string? ComputerName { get; set; }
+
+    /// <summary>
+    /// Number of virtual machines to create. Value range is [2, 250], inclusive. Don't specify this parameter if you want to create a normal single VM. The VMs are created in parallel. The output of this command is an array of VMs instead of one single VM. Each VM has its own public IP, NIC. VNET and NSG are shared. It is recommended that no existing public IP, NIC, VNET and NSG are in resource group. When --count is specified, --attach-data-disks, --attach-os-disk, --boot-diagnostics-storage, --computer-name, --host, --host-group, --nics, --os-disk-name, --private-ip-address, --public-ip-address, --public-ip-address-dns-name, --storage-account, --storage-container-name, --subnet, --use-unmanaged-disk, --vnet-name are not allowed. WARNING: Argument '--count' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--count")]
+    public int? Count { get; set; }
 
     /// <summary>
     /// Custom init script file or text (cloud-init, cloud- config, etc..).
     /// </summary>
-    [CliFlag("--custom-data")]
-    public bool? CustomData { get; set; }
+    [CliOption("--custom-data")]
+    public string? CustomData { get; set; }
 
     /// <summary>
     /// Specify the Read- Write IOPS for the managed disk when storage account type is UltraSSD_LRS.
     /// </summary>
-    [CliFlag("--data-disk-iops")]
-    public bool? DataDiskIops { get; set; }
+    [CliOption("--data-disk-iops")]
+    public int? DataDiskIops { get; set; }
 
     /// <summary>
     /// Specify the bandwidth in MB per second for the managed disk when storage account type is UltraSSD_LRS.
     /// </summary>
-    [CliFlag("--data-disk-mbps")]
-    public bool? DataDiskMbps { get; set; }
+    [CliOption("--data-disk-mbps")]
+    public int? DataDiskMbps { get; set; }
 
     /// <summary>
     /// Explicitly opt out the VM from being associated with any capacity reservation. The VM will consume publicly available capacity.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
-    public bool? DisableCapacityReservationAssignment { get; set; }
+    [CliOption("--disable-capacity-reservation-assignment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableCapacityReservationAssignment { get; set; }
 
     /// <summary>
     /// Disable auto upgrade of guest attestation extension for Trusted Launch enabled VMs and VMSS.
@@ -148,26 +155,26 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether virtual machine agent should be provisioned on the virtual machine. When this property is not specified, default behavior is to set it to true. This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-agent")]
-    public bool? EnableAgent { get; set; }
+    [CliOption("--enable-agent", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAgent { get; set; }
 
     /// <summary>
     /// Indicate whether Automatic Updates is enabled for the Windows virtual machine.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-update")]
-    public bool? EnableAutoUpdate { get; set; }
+    [CliOption("--enable-auto-update", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoUpdate { get; set; }
 
     /// <summary>
     /// The flag that enable or disable hibernation capability on the VM.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-hibernation")]
-    public bool? EnableHibernation { get; set; }
+    [CliOption("--enable-hibernation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableHibernation { get; set; }
 
     /// <summary>
     /// Patch VMs without requiring a reboot. --enable-agent must be set and --patch-mode must be set to AutomaticByPlatform .  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-hotpatching")]
-    public bool? EnableHotpatching { get; set; }
+    [CliOption("--enable-hotpatching", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableHotpatching { get; set; }
 
     /// <summary>
     /// Enable installing Microsoft propietary and not security supported guest attestation extension and enabling System Assigned Identity for Trusted Launch enabled VMs and VMSS.
@@ -178,32 +185,32 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-proxy-agent")]
-    public bool? EnableProxyAgent { get; set; }
+    [CliOption("--enable-proxy-agent", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableProxyAgent { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
-    public bool? EnableReboot { get; set; }
+    [CliOption("--enable-reboot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
-    public bool? EnableRedeploy { get; set; }
+    [CliOption("--enable-redeploy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRedeploy { get; set; }
 
     /// <summary>
     /// Enable secure boot. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-secure-boot")]
-    public bool? EnableSecureBoot { get; set; }
+    [CliOption("--enable-secure-boot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSecureBoot { get; set; }
 
     /// <summary>
     /// Enable vTPM. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-vtpm")]
-    public bool? EnableVtpm { get; set; }
+    [CliOption("--enable-vtpm", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableVtpm { get; set; }
 
     /// <summary>
     /// Resource Id of the user managed identity which can be used for Azure disk encryption.
@@ -220,8 +227,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// If "--zone-placement-policy" is set to "Any", availability zone selected by the system must not be present in the list of availability zones passed with "excludeZones". If "--exclude-zones" is not provided, all availability zones in region will be considered for selection.
     /// </summary>
-    [CliFlag("--exclude-zones")]
-    public bool? ExcludeZones { get; set; }
+    [CliOption("--exclude-zones", GroupValues = true)]
+    public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
     /// The name of the operating system image as a URN alias, URN, custom image name or ID, custom image version ID, or VHD blob URI. In addition, it also supports shared gallery image. Please use the image alias including the version of the distribution you want to use. For example: please use Debian11 instead of Debian.' This parameter is required unless using `--attach-os-disk.` Valid URN format: "Publisher: Offer:Sku:Version". For more information, see ht tps://learn.microso ft.com/azure/virtua l- machines/linux/cli- ps-findimage. Values from: az vm image list, az vm image show, az sig image-version show- shared.
@@ -232,7 +239,7 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
     /// </summary>
-    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    [CliOption("--imds-access-control-profile-reference-id")]
     public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -244,14 +251,14 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// If "--zone-placement-policy" is set to "Any", availability zone selected by the system must be present in the list of availability zones passed with " --include-zones". If "--include-zones" is not provided, all availability zones in region will be considered for selection.
     /// </summary>
-    [CliFlag("--include-zones")]
-    public bool? IncludeZones { get; set; }
+    [CliOption("--include-zones", GroupValues = true)]
+    public IEnumerable<string>? IncludeZones { get; set; }
 
     /// <summary>
     /// Increase the value of this property allows user to reset the key used for securing communication channel between guest and host.
     /// </summary>
-    [CliFlag("--key-incarnation-id")]
-    public bool? KeyIncarnationId { get; set; }
+    [CliOption("--key-incarnation-id")]
+    public int? KeyIncarnationId { get; set; }
 
     /// <summary>
     /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
@@ -264,6 +271,12 @@ public record AzVmCreateOptions : AzOptions
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// The maximum price (in US Dollars) you are willing to pay for a Spot VM/VMSS. -1 indicates that the Spot VM/VMSS should not be evicted for price reasons. WARNING: Argument '--max-price' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--max-price")]
+    public string? MaxPrice { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -292,8 +305,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify the scale set logical fault domain into which the virtual machine will be created. By default, the virtual machine will be automatically assigned to a fault domain that best maintains balance across available fault domains. This is applicable only if the virtualMachi neScaleSet property of this virtual machine is set. The virtual machine scale set that is referenced, must have platform fault domain count. This property cannot be updated once the virtual machine is created. Fault domain assignment can be viewed in the virtual machine instance view.
     /// </summary>
-    [CliFlag("--platform-fault-domain")]
-    public bool? PlatformFaultDomain { get; set; }
+    [CliOption("--platform-fault-domain")]
+    public string? PlatformFaultDomain { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the VM should be associated with.
@@ -308,16 +321,23 @@ public record AzVmCreateOptions : AzOptions
     public string? Priority { get; set; }
 
     /// <summary>
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce. WARNING: Option '--proxy-agent-mode' has been deprecated and will be removed in a future release. Use '--wire-server-mode' instead.
+    /// </summary>
+    [CliOption("--proxy-agent-mode")]
+    public string? ProxyAgentMode { get; set; }
+
+    /// <summary>
     /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// One or many Key Vault secrets as JSON strings or files via `@{path}` containing `[{ "sourceVault": { "id": "value" }, "v aultCertificates": [{ "certificateUrl": "value", "certificateStore": "cert store name (only on windows)"}] }]`.
     /// </summary>
-    [CliFlag("--secrets")]
-    public bool? Secrets { get; set; }
+    [SecretValue]
+    [CliOption("--secrets", GroupValues = true)]
+    public IEnumerable<string>? Secrets { get; set; }
 
     /// <summary>
     /// Specify the security type of the virtual machine.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
@@ -328,38 +348,38 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// The VM size to be created. See https: //azure.microsoft.c om/pricing/details/ virtual-machines/ for size info. Default: Standard_D2s_v5. Values from: az vm list-sizes.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
     /// <summary>
     /// Use it as public key in virtual machine. It should be an existing SSH key resource in Azure.
     /// </summary>
-    [CliFlag("--ssh-key-name")]
-    public bool? SshKeyName { get; set; }
+    [CliOption("--ssh-key-name")]
+    public string? SshKeyName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// UserData for the VM. It can be passed in as file or string.
     /// </summary>
-    [CliFlag("--user-data")]
-    public bool? UserData { get; set; }
+    [CliOption("--user-data")]
+    public string? UserData { get; set; }
 
     /// <summary>
     /// Specify the number of vCPUs available.
     /// </summary>
-    [CliFlag("--v-cpus-available")]
-    public bool? VCpusAvailable { get; set; }
+    [CliOption("--v-cpus-available")]
+    public int? VCpusAvailable { get; set; }
 
     /// <summary>
     /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
     /// </summary>
-    [CliFlag("--v-cpus-per-core")]
-    public bool? VCpusPerCore { get; set; }
+    [CliOption("--v-cpus-per-core")]
+    public int? VCpusPerCore { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -376,7 +396,7 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify the access control profile version resource id of wire server.
     /// </summary>
-    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    [CliOption("--wire-server-access-control-profile-reference-id")]
     public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -388,14 +408,14 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// Indicates if zone movement is enabled. By default isEnabled is set to false i.e VM can't be moved from one zone to another. Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-movement")]
-    public bool? ZoneMovement { get; set; }
+    [CliOption("--zone-movement", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneMovement { get; set; }
 
     /// <summary>
     /// Specify the policy for virtual machine's placement in availability zone.  Allowed values: Any.
@@ -431,8 +451,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Destination file path on the VM for the SSH key. If the file already exists, the specified key(s) are appended to the file. Destination path for SSH public keys is currently limited to its default value "/hom e/username/.ssh/aut horized_keys" due to a known issue in Linux provisioning agent.
     /// </summary>
-    [CliFlag("--ssh-dest-key-path")]
-    public bool? SshDestKeyPath { get; set; }
+    [CliOption("--ssh-dest-key-path")]
+    public string? SshDestKeyPath { get; set; }
 
     /// <summary>
     /// Specify the type of SSH public and private key files to be generated if missing.  Allowed values: Ed25519, RSA.  Default: RSA.
@@ -447,16 +467,28 @@ public record AzVmCreateOptions : AzOptions
     public IEnumerable<string>? SshKeyValues { get; set; }
 
     /// <summary>
+    /// Resource ID of the dedicated host that the VM will reside in. --host and --host-group can't be used together. WARNING: Argument '--host' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--host")]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Name or resource ID of the dedicated host group that the VM will reside in. --host and --host-group can't be used together. WARNING: Argument '--host-group' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--host-group")]
+    public string? HostGroup { get; set; }
+
+    /// <summary>
     /// Accept system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity. Check out help for more examples.
     /// </summary>
-    [CliOption("--assign-identity", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -467,32 +499,38 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Plan name.
     /// </summary>
-    [CliFlag("--plan-name")]
-    public bool? PlanName { get; set; }
+    [CliOption("--plan-name")]
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// Plan product.
     /// </summary>
-    [CliFlag("--plan-product")]
-    public bool? PlanProduct { get; set; }
+    [CliOption("--plan-product")]
+    public string? PlanProduct { get; set; }
 
     /// <summary>
     /// Plan promotion code.
     /// </summary>
-    [CliFlag("--plan-promotion-code")]
-    public bool? PlanPromotionCode { get; set; }
+    [CliOption("--plan-promotion-code")]
+    public string? PlanPromotionCode { get; set; }
 
     /// <summary>
     /// Plan publisher.
     /// </summary>
-    [CliFlag("--plan-publisher")]
-    public bool? PlanPublisher { get; set; }
+    [CliOption("--plan-publisher")]
+    public string? PlanPublisher { get; set; }
+
+    /// <summary>
+    /// Name or ID of Log Analytics Workspace. If you specify the workspace through its name, the workspace should be in the same resource group with the vm, otherwise a new workspace will be created. WARNING: Argument '--workspace' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--workspace")]
+    public string? Workspace { get; set; }
 
     /// <summary>
     /// Enable accelerated networking. Unless specified, CLI will enable it based on machine image and size.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--accelerated-networking")]
-    public bool? AcceleratedNetworking { get; set; }
+    [CliOption("--accelerated-networking", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AcceleratedNetworking { get; set; }
 
     /// <summary>
     /// Space-separated list of existing application security groups to associate with the VM.
@@ -503,14 +541,14 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Specify what happens to the network interface when the VM is deleted. Use a singular value to apply on all resources, or use `&lt;Name&gt;=&lt;Value&gt;` to configure the delete behavior for individual resources. Possible options are Delete and Detach.
     /// </summary>
-    [CliFlag("--nic-delete-option")]
-    public bool? NicDeleteOption { get; set; }
+    [CliOption("--nic-delete-option", GroupValues = true)]
+    public IEnumerable<string>? NicDeleteOption { get; set; }
 
     /// <summary>
     /// Names or IDs of existing NICs to attach to the VM. The first NIC will be designated as primary. If omitted, a new NIC will be created. If an existing NIC is specified, do not specify subnet, VNet, public IP or NSG.
     /// </summary>
-    [CliFlag("--nics")]
-    public bool? Nics { get; set; }
+    [CliOption("--nics", GroupValues = true)]
+    public IEnumerable<string>? Nics { get; set; }
 
     /// <summary>
     /// The name to use when creating a new Network Security Group (default) or referencing an existing one. Can also reference an existing NSG by ID or specify "" for none ('""' in Azure CLI using PowerShell or --% operator).
@@ -527,8 +565,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Static private IP address (e.g. 10.0.0.5).
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Name of the public IP address when creating one (default) or referencing an existing one. Can also reference an existing public IP by ID or specify "" or '' for None ('""' in Azure CLI using PowerShell).
@@ -545,8 +583,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Globally unique DNS name for a newly created public IP.
     /// </summary>
-    [CliFlag("--public-ip-address-dns-name")]
-    public bool? PublicIpAddressDnsName { get; set; }
+    [CliOption("--public-ip-address-dns-name")]
+    public string? PublicIpAddressDnsName { get; set; }
 
     /// <summary>
     /// Public IP SKU. The public IP is supported to be created on edge zone only when it is 'Standard'. Allowed values: Basic, Standard. Default: Standard.
@@ -569,8 +607,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// The IP address prefix to use when creating a new VNet in CIDR format. Default: 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--vnet-address-prefix")]
-    public bool? VnetAddressPrefix { get; set; }
+    [CliOption("--vnet-address-prefix")]
+    public string? VnetAddressPrefix { get; set; }
 
     /// <summary>
     /// Name of the virtual network when creating a new one or referencing an existing one.
@@ -581,32 +619,32 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Attach existing data disks to the VM. Can use the name or ID of a managed disk or the URI to an unmanaged disk VHD.
     /// </summary>
-    [CliFlag("--attach-data-disks")]
-    public bool? AttachDataDisks { get; set; }
+    [CliOption("--attach-data-disks", GroupValues = true)]
+    public IEnumerable<string>? AttachDataDisks { get; set; }
 
     /// <summary>
     /// Attach an existing OS disk to the VM. Can use the name or ID of a managed disk or the URI to an unmanaged disk VHD.
     /// </summary>
-    [CliFlag("--attach-os-disk")]
-    public bool? AttachOsDisk { get; set; }
+    [CliOption("--attach-os-disk")]
+    public string? AttachOsDisk { get; set; }
 
     /// <summary>
     /// Storage caching type for data disk(s), including 'None', 'ReadOnly', 'ReadWrite', etc. Use a singular value to apply on all disks, or use `&lt;lun&gt;=&lt;vaule1&gt; &lt;lun&gt;=&lt;value2&gt;` to configure individual disk.
     /// </summary>
-    [CliFlag("--data-disk-caching")]
-    public bool? DataDiskCaching { get; set; }
+    [CliOption("--data-disk-caching", GroupValues = true)]
+    public IEnumerable<string>? DataDiskCaching { get; set; }
 
     /// <summary>
     /// Specify whether data disk should be deleted or detached upon VM deletion. If a single data disk is attached, the allowed values are Delete and Detach. For multiple data disks are attached, please use `&lt;data_disk&gt;=Delete &lt;data_disk2&gt;=Detach ` to configure each disk.
     /// </summary>
-    [CliOption("--data-disk-delete-option")]
-    public string? DataDiskDeleteOption { get; set; }
+    [CliOption("--data-disk-delete-option", GroupValues = true)]
+    public IEnumerable<string>? DataDiskDeleteOption { get; set; }
 
     /// <summary>
     /// Names or IDs (space delimited) of disk encryption sets for data disks.
     /// </summary>
-    [CliFlag("--data-disk-encryption-sets")]
-    public bool? DataDiskEncryptionSets { get; set; }
+    [CliOption("--data-disk-encryption-sets", GroupValues = true)]
+    public IEnumerable<string>? DataDiskEncryptionSets { get; set; }
 
     /// <summary>
     /// Space-separated empty managed data disk sizes in GB to create.
@@ -615,27 +653,33 @@ public record AzVmCreateOptions : AzOptions
     public IEnumerable<string>? DataDiskSizesGb { get; set; }
 
     /// <summary>
+    /// Specify the disk controller type configured for the VM or VMSS. Allowed values: NVMe, SCSI. WARNING: Argument '--disk-controller-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--disk-controller-type")]
+    public string? DiskControllerType { get; set; }
+
+    /// <summary>
     /// Enable Host Encryption for the VM or VMSS. This will enable the encryption for all the disks including Resource/Temp disk at host itself. Allowed values: false, true.
     /// </summary>
-    [CliOption("--encryption-at-host")]
-    public bool? EncryptionAtHost { get; set; }
+    [CliOption("--encryption-at-host", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EncryptionAtHost { get; set; }
 
     /// <summary>
     /// Specify whether or not to enable full caching for this VM/VMSS which will cache the OS disk locally on the host and make this VM/VMSS more resilient to storage outages. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ephemeral-full-caching", ShortForm = "--ephemeral-os-disk-enable-full-caching")]
-    public bool? EphemeralFullCaching { get; set; }
+    [CliOption("--ephemeral-full-caching", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EphemeralFullCaching { get; set; }
 
     /// <summary>
     /// Allows you to create an OS disk directly on the host node, providing local disk performance and faster VM/VMSS reimage time. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ephemeral-os-disk")]
-    public bool? EphemeralOsDisk { get; set; }
+    [CliOption("--ephemeral-os-disk", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EphemeralOsDisk { get; set; }
 
     /// <summary>
     /// Only applicable when used with `--ephemeral-os-disk`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
@@ -665,8 +709,8 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// OS disk size in GB to create.
     /// </summary>
-    [CliFlag("--os-disk-size-gb")]
-    public bool? OsDiskSizeGb { get; set; }
+    [CliOption("--os-disk-size-gb")]
+    public int? OsDiskSizeGb { get; set; }
 
     /// <summary>
     /// Type of OS installed on a custom VHD. Do not use when specifying an URN or URN alias.  Allowed values: linux, windows.
@@ -677,56 +721,56 @@ public record AzVmCreateOptions : AzOptions
     /// <summary>
     /// Create a data disk from a disk restore point. Can use the ID of a disk restore point.
     /// </summary>
-    [CliFlag("--source-disk-restore-point", ShortForm = "--source-disk-rp")]
-    public bool? SourceDiskRestorePoint { get; set; }
+    [CliOption("--source-disk-restore-point", GroupValues = true)]
+    public IEnumerable<string>? SourceDiskRestorePoint { get; set; }
 
     /// <summary>
     /// The size of the source disk restore point in GB.
     /// </summary>
-    [CliFlag("--source-disk-restore-point-size-gb", ShortForm = "--source-rp-size")]
-    public bool? SourceDiskRestorePointSizeGb { get; set; }
+    [CliOption("--source-disk-restore-point-size-gb", GroupValues = true)]
+    public IEnumerable<string>? SourceDiskRestorePointSizeGb { get; set; }
 
     /// <summary>
     /// Create a data disk from a snapshot or another disk. Can use the ID of a disk or snapshot.
     /// </summary>
-    [CliFlag("--source-resource", ShortForm = "--source-snapshots-or-disks")]
-    public bool? SourceResource { get; set; }
+    [CliOption("--source-resource", GroupValues = true)]
+    public IEnumerable<string>? SourceResource { get; set; }
 
     /// <summary>
     /// The size of the source disk in GB.
     /// </summary>
-    [CliFlag("--source-resource-size", ShortForm = "--source-snapshots-or-disks-size-gb")]
-    public bool? SourceResourceSize { get; set; }
+    [CliOption("--source-resource-size", GroupValues = true)]
+    public IEnumerable<string>? SourceResourceSize { get; set; }
 
     /// <summary>
     /// Indicate whether the source image is specialized. Allowed values: false, true.
     /// </summary>
-    [CliOption("--specialized")]
-    public bool? Specialized { get; set; }
+    [CliOption("--specialized", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Specialized { get; set; }
 
     /// <summary>
     /// Only applicable when used with `--use-unmanaged-disk`. The name to use when creating a new storage account or referencing an existing one. If omitted, an appropriate storage account in the same resource group and location will be used, or a new one will be created.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Only applicable when used with `--use-unmanaged-disk`. Name of the storage container for the VM OS disk. Default: vhds.
     /// </summary>
-    [CliFlag("--storage-container-name")]
-    public bool? StorageContainerName { get; set; }
+    [CliOption("--storage-container-name")]
+    public string? StorageContainerName { get; set; }
 
     /// <summary>
     /// The SKU of the storage account with which to persist VM. Use a singular sku that would be applied across all disks, or specify individual disks. Usage: [--storage-sku SKU | --storage-sku ID=SKU ID=SKU ID=SKU...], where each ID is "os" or a 0-indexed lun. Allowed values: Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, PremiumV2_LRS.
     /// </summary>
-    [CliOption("--storage-sku")]
-    public string? StorageSku { get; set; }
+    [CliOption("--storage-sku", GroupValues = true)]
+    public IEnumerable<string>? StorageSku { get; set; }
 
     /// <summary>
     /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ultra-ssd-enabled")]
-    public bool? UltraSsdEnabled { get; set; }
+    [CliOption("--ultra-ssd-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UltraSsdEnabled { get; set; }
 
     /// <summary>
     /// Do not use managed disk to persist VM.

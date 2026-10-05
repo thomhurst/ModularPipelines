@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzAmsAccountIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Set the system managed identity on the media services account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--system-assigned")]
-    public bool? SystemAssigned { get; set; }
+    [CliOption("--system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities on the media services account.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned", GroupValues = true)]
+    public IEnumerable<string>? UserAssigned { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

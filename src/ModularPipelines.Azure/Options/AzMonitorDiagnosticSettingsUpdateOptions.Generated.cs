@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -93,7 +94,7 @@ public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
     /// <summary>
     /// A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: `&lt;normalized service identity&gt;_&lt;normalized category name&gt;`. Possible values are: Dedicated and null (null is default.).
     /// </summary>
-    [CliOption("--log-ana-dtype", ShortForm = "--log-analytics-destination-type")]
+    [CliOption("--log-ana-dtype")]
     public string? LogAnaDtype { get; set; }
 
     /// <summary>
@@ -117,8 +118,8 @@ public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
     /// <summary>
     /// The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.
     /// </summary>
-    [CliFlag("--service-bus-rule-id")]
-    public bool? ServiceBusRuleId { get; set; }
+    [CliOption("--service-bus-rule-id")]
+    public string? ServiceBusRuleId { get; set; }
 
     /// <summary>
     /// The resource ID of the storage account to which you would like to send Diagnostic Logs.
@@ -141,19 +142,19 @@ public record AzMonitorDiagnosticSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

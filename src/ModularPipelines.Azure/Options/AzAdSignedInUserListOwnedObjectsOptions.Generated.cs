@@ -23,7 +23,7 @@ public record AzAdSignedInUserListOwnedObjectsOptions : AzOptions
     /// <summary>
     /// Object type filter, e.g. "application", "servicePrincipal"  "group", etc.
     /// </summary>
-    [CliFlag("--type", ShortForm = "-t")]
-    public bool? Type { get; set; }
+    [CliOption("--type", ShortForm = "-t")]
+    public string? Type { get; set; }
 
 }

@@ -29,8 +29,8 @@ public record AzEventhubsNamespaceNspConfigurationShowOptions : AzOptions
     /// <summary>
     /// The ResourceAssociation Name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The Namespace name.

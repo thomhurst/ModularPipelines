@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -70,19 +71,19 @@ public record AzAdUserCreateOptions : AzOptions
     /// <summary>
     /// Marks this user as needing to update their password the next time they authenticate. If omitted, false will be used.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--force-change-password-next-sign-in")]
-    public bool? ForceChangePasswordNextSignIn { get; set; }
+    [CliOption("--force-change-password-next-sign-in", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceChangePasswordNextSignIn { get; set; }
 
     /// <summary>
     /// This property is used to associate an on-premises Active Directory user account to their Microsoft Entra user object. This property must be specified when creating a new user account in the Graph if you're using a federated domain for the user's userPrincipalName (UPN) property. NOTE: The $ and _ characters can't be used when specifying this property.
     /// </summary>
-    [CliFlag("--immutable-id")]
-    public bool? ImmutableId { get; set; }
+    [CliOption("--immutable-id")]
+    public string? ImmutableId { get; set; }
 
     /// <summary>
     /// Mail alias. Defaults to user principal name.
     /// </summary>
-    [CliFlag("--mail-nickname")]
-    public bool? MailNickname { get; set; }
+    [CliOption("--mail-nickname")]
+    public string? MailNickname { get; set; }
 
 }

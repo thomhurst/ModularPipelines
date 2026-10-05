@@ -58,8 +58,8 @@ public record AzPolicyAssignmentIdentityAssignOptions : AzOptions
     /// <summary>
     /// Role name or id that will be assigned to the managed identity.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// The scope of the policy assignment.

@@ -40,7 +40,7 @@ public record AzVmssRunCommandShowOptions : AzOptions
     /// <summary>
     /// The name of the virtual machine run command.
     /// </summary>
-    [CliOption("--name", ShortForm = "--run-command-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -58,8 +58,8 @@ public record AzVmssRunCommandShowOptions : AzOptions
     /// <summary>
     /// The instance ID of the virtual machine.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

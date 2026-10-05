@@ -57,8 +57,8 @@ public record AzMysqlFlexibleServerFirewallRuleCreateOptions : AzOptions
     /// <summary>
     /// The end IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
     /// </summary>
-    [CliFlag("--end-ip-address")]
-    public bool? EndIpAddress { get; set; }
+    [CliOption("--end-ip-address")]
+    public string? EndIpAddress { get; set; }
 
     /// <summary>
     /// The name of the firewall rule. If name is omitted, default name will be chosen for firewall name. The firewall rule name can only contain 0-9, a-z, A-Z, '-' and '_'. Additionally, the name of the firewall rule must be at least 1 character and no more than 80 characters in length.
@@ -69,7 +69,7 @@ public record AzMysqlFlexibleServerFirewallRuleCreateOptions : AzOptions
     /// <summary>
     /// The start IP address of the firewall rule. Must be IPv4 format. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
     /// </summary>
-    [CliFlag("--start-ip-address")]
-    public bool? StartIpAddress { get; set; }
+    [CliOption("--start-ip-address")]
+    public string? StartIpAddress { get; set; }
 
 }

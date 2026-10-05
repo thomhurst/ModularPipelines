@@ -60,7 +60,7 @@ public record AzSfManagedServiceLoadMetricsDeleteOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record AzSfManagedServiceLoadMetricsDeleteOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>

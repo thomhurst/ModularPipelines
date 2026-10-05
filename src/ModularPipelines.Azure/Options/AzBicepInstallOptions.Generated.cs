@@ -29,7 +29,7 @@ public record AzBicepInstallOptions : AzOptions
     /// <summary>
     /// The version of Bicep CLI to be installed. Default to the latest if not specified.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

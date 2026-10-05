@@ -90,20 +90,20 @@ public record AzSecurityAutomationCreateOrUpdateOptions : AzOptions
     /// <summary>
     /// The security automation description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Entity tag is used for comparing two or more entities from the same requested resource.
     /// </summary>
-    [CliFlag("--etag")]
-    public bool? Etag { get; set; }
+    [CliOption("--etag")]
+    public string? Etag { get; set; }
 
     /// <summary>
     /// Indicates whether the security automation is enabled.
     /// </summary>
-    [CliFlag("--isEnabled")]
-    public bool? IsEnabled { get; set; }
+    [CliOption("--isEnabled")]
+    public string? IsEnabled { get; set; }
 
     /// <summary>
     /// Location of the resource.
@@ -114,7 +114,7 @@ public record AzSecurityAutomationCreateOrUpdateOptions : AzOptions
     /// <summary>
     /// A list of key value pairs that describe the resource.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -31,7 +32,7 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// <param name="WorkspaceName">The name of the workspace.</param>
     public AzSynapseSparkJobSubmitOptions(
         string ExecutorSize,
-        int Executors,
+        string Executors,
         string MainDefinitionFile,
         string Name,
         string SparkPoolName,
@@ -40,6 +41,7 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(ExecutorSize);
         this.ExecutorSize = ExecutorSize;
+        global::System.ArgumentNullException.ThrowIfNull(Executors);
         this.Executors = Executors;
         global::System.ArgumentNullException.ThrowIfNull(MainDefinitionFile);
         this.MainDefinitionFile = MainDefinitionFile;
@@ -51,7 +53,7 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
         this.WorkspaceName = WorkspaceName;
     }
 
-    public void Deconstruct(out string ExecutorSize, out int Executors, out string MainDefinitionFile, out string Name, out string SparkPoolName, out string WorkspaceName)
+    public void Deconstruct(out string ExecutorSize, out string Executors, out string MainDefinitionFile, out string Name, out string SparkPoolName, out string WorkspaceName)
     {
         ExecutorSize = this.ExecutorSize;
         Executors = this.Executors;
@@ -71,7 +73,7 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// The number of executors.
     /// </summary>
     [CliOption("--executors")]
-    public int Executors { get; private init; }
+    public string Executors { get; private init; }
 
     /// <summary>
     /// The main file used for the job.
@@ -100,14 +102,14 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// <summary>
     /// The array of archives.
     /// </summary>
-    [CliOption("--archives")]
+    [CliOption("--archives", GroupValues = true)]
     public IEnumerable<string>? Archives { get; set; }
 
     /// <summary>
     /// Optional arguments to the job (Note: please use storage URIs for file arguments).
     /// </summary>
     [CliOption("--arguments", GroupValues = true)]
-    public string[]? JobArguments { get; set; }
+    public IEnumerable<string>? JobArguments { get; set; }
 
     /// <summary>
     /// The configuration of Spark job.
@@ -130,19 +132,19 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// <summary>
     /// The array of files used for refenence in the main python definition file.  Examples include custom whl files and custom python files.  May pass multiple files such as `az synapse spark job sumbit &lt;other_args&gt; --python_files abfss://file1 abss://file2`.
     /// </summary>
-    [CliOption("--python-files")]
+    [CliOption("--python-files", GroupValues = true)]
     public IEnumerable<string>? PythonFiles { get; set; }
 
     /// <summary>
     /// Additional files used for reference in the main definition file.
     /// </summary>
-    [CliOption("--reference-files")]
+    [CliOption("--reference-files", GroupValues = true)]
     public IEnumerable<string>? ReferenceFiles { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

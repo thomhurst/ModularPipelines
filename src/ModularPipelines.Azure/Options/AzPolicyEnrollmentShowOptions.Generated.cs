@@ -52,7 +52,7 @@ public record AzPolicyEnrollmentShowOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the resource.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
 }

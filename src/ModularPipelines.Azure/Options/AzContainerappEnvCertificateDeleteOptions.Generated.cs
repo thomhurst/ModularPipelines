@@ -35,8 +35,8 @@ public record AzContainerappEnvCertificateDeleteOptions : AzOptions
     /// <summary>
     /// Thumbprint of the certificate.
     /// </summary>
-    [CliFlag("--thumbprint", ShortForm = "-t")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint", ShortForm = "-t")]
+    public string? Thumbprint { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

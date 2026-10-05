@@ -68,8 +68,8 @@ public record AzSynapseSparkJobDefinitionUpdateOptions : AzOptions
     /// <summary>
     /// The folder that this spark job definition is in. If not specified, it will appear at the root level. Eg: folder/subfolder1.
     /// </summary>
-    [CliFlag("--folder-path")]
-    public bool? FolderPath { get; set; }
+    [CliOption("--folder-path")]
+    public string? FolderPath { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

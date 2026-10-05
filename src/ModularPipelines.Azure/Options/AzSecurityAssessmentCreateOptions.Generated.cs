@@ -57,25 +57,25 @@ public record AzSecurityAssessmentCreateOptions : AzOptions
     /// <summary>
     /// Data that is attached to the assessment result for better investigations or status clarity.
     /// </summary>
-    [CliFlag("--additional-data")]
-    public bool? AdditionalData { get; set; }
+    [CliOption("--additional-data")]
+    public string? AdditionalData { get; set; }
 
     /// <summary>
     /// The target resource for this assessment.
     /// </summary>
-    [CliFlag("--assessed-resource-id")]
-    public bool? AssessedResourceId { get; set; }
+    [CliOption("--assessed-resource-id")]
+    public string? AssessedResourceId { get; set; }
 
     /// <summary>
     /// Programmatic code for the cause of the assessment result.
     /// </summary>
-    [CliFlag("--status-cause")]
-    public bool? StatusCause { get; set; }
+    [CliOption("--status-cause")]
+    public string? StatusCause { get; set; }
 
     /// <summary>
     /// Human readable description of the cause of the assessment result.
     /// </summary>
-    [CliFlag("--status-description")]
-    public bool? StatusDescription { get; set; }
+    [CliOption("--status-description")]
+    public string? StatusDescription { get; set; }
 
 }

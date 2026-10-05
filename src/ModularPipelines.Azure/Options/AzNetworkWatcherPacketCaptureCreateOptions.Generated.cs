@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,26 +58,26 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Maximum size in bytes of the capture output.  Default: 1073741824.
     /// </summary>
-    [CliFlag("--capture-limit")]
-    public bool? CaptureLimit { get; set; }
+    [CliOption("--capture-limit")]
+    public string? CaptureLimit { get; set; }
 
     /// <summary>
     /// Number of bytes captured per packet. Excess bytes are truncated.
     /// </summary>
-    [CliFlag("--capture-size")]
-    public bool? CaptureSize { get; set; }
+    [CliOption("--capture-size")]
+    public string? CaptureSize { get; set; }
 
     /// <summary>
     /// JSON encoded list of packet filters. Use `@{path}` to load from file.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the target resource. If `--target-type` is AzureVMSS, then `--target` is mandatory.
@@ -93,8 +94,8 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Maximum duration of the capture session in seconds.  Default: 18000.
     /// </summary>
-    [CliFlag("--time-limit")]
-    public bool? TimeLimit { get; set; }
+    [CliOption("--time-limit")]
+    public string? TimeLimit { get; set; }
 
     /// <summary>
     /// Name or ID of the VM to target.
@@ -117,8 +118,8 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Local path on the targeted VM at which to save the packet capture. For Linux VMs, the path must start with `/var/captures`.
     /// </summary>
-    [CliFlag("--file-path")]
-    public bool? FilePath { get; set; }
+    [CliOption("--file-path")]
+    public string? FilePath { get; set; }
 
     /// <summary>
     /// Name or ID of a storage account to save the packet capture to.
@@ -129,7 +130,7 @@ public record AzNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Fully qualified URI of an existing storage container in which to store the capture file. If not specified, the container `network-watcher-logs` will be created if it does not exist and the capture file will be stored there.
     /// </summary>
-    [CliFlag("--storage-path")]
-    public bool? StoragePath { get; set; }
+    [CliOption("--storage-path")]
+    public string? StoragePath { get; set; }
 
 }

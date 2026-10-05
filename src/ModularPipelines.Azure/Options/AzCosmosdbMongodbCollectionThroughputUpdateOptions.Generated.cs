@@ -79,13 +79,13 @@ public record AzCosmosdbMongodbCollectionThroughputUpdateOptions : AzOptions
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).
     /// </summary>
-    [CliFlag("--max-throughput")]
-    public bool? MaxThroughput { get; set; }
+    [CliOption("--max-throughput")]
+    public string? MaxThroughput { get; set; }
 
     /// <summary>
     /// The throughput of MongoDB collection (RU/s).
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public int? Throughput { get; set; }
 
 }

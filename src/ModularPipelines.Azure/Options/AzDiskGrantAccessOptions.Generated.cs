@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,20 +47,20 @@ public record AzDiskGrantAccessOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Access level.  Allowed values: None, Read, Write.  Default: Read.
     /// </summary>
-    [CliOption("--access", ShortForm = "--access-level")]
+    [CliOption("--access")]
     public string? Access { get; set; }
 
     /// <summary>
     /// Get SAS on managed disk with VM guest state. It will be used by default when the create option of disk is 'secureOSUpload'.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--secure-vm-guest-state-sas", ShortForm = "-s")]
-    public bool? SecureVmGuestStateSas { get; set; }
+    [CliOption("--secure-vm-guest-state-sas", ShortForm = "-s", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SecureVmGuestStateSas { get; set; }
 
     /// <summary>
     /// The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.

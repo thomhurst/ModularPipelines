@@ -74,8 +74,8 @@ public record AzApimBackendUpdateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity. Not required when creating an entity, but required when updating an entity. Default value is None.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Protocol used to communicate with the backend service.  Allowed values: http, soap.
@@ -86,8 +86,8 @@ public record AzApimBackendUpdateOptions : AzOptions
     /// <summary>
     /// Backend service URL.
     /// </summary>
-    [CliFlag("--url")]
-    public bool? Url { get; set; }
+    [CliOption("--url")]
+    public string? Url { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

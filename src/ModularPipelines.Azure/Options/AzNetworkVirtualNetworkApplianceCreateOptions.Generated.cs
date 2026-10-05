@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzNetworkVirtualNetworkApplianceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Resource location.
@@ -69,25 +70,25 @@ public record AzNetworkVirtualNetworkApplianceCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Bandwidth of the VirtualNetworkAppliance resource in Gbps.
     /// </summary>
-    [CliFlag("--bandwidth-gbps", ShortForm = "--bandwidth-in-gbps")]
-    public bool? BandwidthGbps { get; set; }
+    [CliOption("--bandwidth-gbps")]
+    public string? BandwidthGbps { get; set; }
 
     /// <summary>
     /// Whether the specific virtual network appliance is IPv4 or Dual Stack. Default is IPv4.  Allowed values: DualStack, IPv4.
     /// </summary>
-    [CliOption("--private-ip-address-version", ShortForm = "--private-ip-version")]
+    [CliOption("--private-ip-address-version")]
     public string? PrivateIpAddressVersion { get; set; }
 
     /// <summary>
     /// The reference to the subnet resource. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet", GroupValues = true)]
+    public IEnumerable<string>? Subnet { get; set; }
 
 }

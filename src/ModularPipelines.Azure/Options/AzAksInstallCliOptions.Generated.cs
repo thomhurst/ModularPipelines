@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,20 +24,21 @@ public record AzAksInstallCliOptions : AzOptions
     /// <summary>
     /// Base download source URL for kubectl releases.
     /// </summary>
-    [CliFlag("--base-src-url")]
-    public bool? BaseSrcUrl { get; set; }
+    [CliOption("--base-src-url")]
+    public string? BaseSrcUrl { get; set; }
 
     /// <summary>
     /// Version of kubectl to install.  Default: latest.
     /// </summary>
-    [CliFlag("--client-version")]
-    public bool? ClientVersion { get; set; }
+    [CliOption("--client-version")]
+    public string? ClientVersion { get; set; }
 
     /// <summary>
     /// GitHub authentication token used when downloading kubelogin binaries from GitHub releases. Supplying a token helps avoid GitHub API rate limits.
     /// </summary>
-    [CliFlag("--gh-token")]
-    public bool? GhToken { get; set; }
+    [SecretValue]
+    [CliOption("--gh-token")]
+    public string? GhToken { get; set; }
 
     /// <summary>
     /// Path at which to install kubectl. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubectl.
@@ -47,8 +49,8 @@ public record AzAksInstallCliOptions : AzOptions
     /// <summary>
     /// Base download source URL for kubelogin releases.
     /// </summary>
-    [CliFlag("--kubelogin-base-src-url", ShortForm = "-l")]
-    public bool? KubeloginBaseSrcUrl { get; set; }
+    [CliOption("--kubelogin-base-src-url", ShortForm = "-l")]
+    public string? KubeloginBaseSrcUrl { get; set; }
 
     /// <summary>
     /// Path at which to install kubelogin. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubelogin.
@@ -59,7 +61,7 @@ public record AzAksInstallCliOptions : AzOptions
     /// <summary>
     /// Version of kubelogin to install.  Default: latest.
     /// </summary>
-    [CliFlag("--kubelogin-version")]
-    public bool? KubeloginVersion { get; set; }
+    [CliOption("--kubelogin-version")]
+    public string? KubeloginVersion { get; set; }
 
 }

@@ -96,8 +96,8 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// <summary>
     /// Json escaped string defining the document representing the Schema. Specify either --schema-path or --schema-content not both.
     /// </summary>
-    [CliFlag("--schema-content")]
-    public bool? SchemaContent { get; set; }
+    [CliOption("--schema-content")]
+    public string? SchemaContent { get; set; }
 
     /// <summary>
     /// The name of the schema resource.
@@ -114,7 +114,7 @@ public record AzApimApiSchemaCreateOptions : AzOptions
     /// <summary>
     /// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts".
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

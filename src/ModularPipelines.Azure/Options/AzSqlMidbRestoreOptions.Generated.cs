@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database on the source Managed Instance.
     /// </summary>
-    [CliFlag("--deleted-time")]
-    public bool? DeletedTime { get; set; }
+    [CliOption("--deleted-time")]
+    public string? DeletedTime { get; set; }
 
     /// <summary>
     /// Name of the managed instance to restore managed database to. This can be same managed instance, or another managed instance on same subscription. When not specified it defaults to source managed instance.
@@ -81,14 +82,14 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// <summary>
     /// Subscription id of the source database, the one restored from. This parameter should be used when doing cross subscription restore.
     /// </summary>
-    [CliFlag("--source-sub", ShortForm = "-s")]
-    public bool? SourceSub { get; set; }
+    [CliOption("--source-sub", ShortForm = "-s")]
+    public string? SourceSub { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -99,7 +100,7 @@ public record AzSqlMidbRestoreOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

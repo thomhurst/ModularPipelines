@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,20 +30,22 @@ public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
     /// <param name="SimulationSuccessful">Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
     public AzNetworkExpressRouteStopLinkFailoverTestOptions(
         string CircuitTestCategory,
-        bool IsVerified,
+        CliOptionValue IsVerified,
         string LinkType,
-        bool SimulationSuccessful
+        CliOptionValue SimulationSuccessful
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(CircuitTestCategory);
         this.CircuitTestCategory = CircuitTestCategory;
+        global::System.ArgumentNullException.ThrowIfNull(IsVerified);
         this.IsVerified = IsVerified;
         global::System.ArgumentNullException.ThrowIfNull(LinkType);
         this.LinkType = LinkType;
+        global::System.ArgumentNullException.ThrowIfNull(SimulationSuccessful);
         this.SimulationSuccessful = SimulationSuccessful;
     }
 
-    public void Deconstruct(out string CircuitTestCategory, out bool IsVerified, out string LinkType, out bool SimulationSuccessful)
+    public void Deconstruct(out string CircuitTestCategory, out CliOptionValue IsVerified, out string LinkType, out CliOptionValue SimulationSuccessful)
     {
         CircuitTestCategory = this.CircuitTestCategory;
         IsVerified = this.IsVerified;
@@ -59,8 +62,8 @@ public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
     /// <summary>
     /// Whether the customer was able to establish connectivity through this failover link or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--is-verified")]
-    public bool IsVerified { get; private init; }
+    [CliOption("--is-verified", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue IsVerified { get; private init; }
 
     /// <summary>
     /// The type of link on which failover test was performed. Allowed values: Primary, Secondary.
@@ -71,14 +74,14 @@ public record AzNetworkExpressRouteStopLinkFailoverTestOptions : AzOptions
     /// <summary>
     /// Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--simulation-successful")]
-    public bool SimulationSuccessful { get; private init; }
+    [CliOption("--simulation-successful", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue SimulationSuccessful { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

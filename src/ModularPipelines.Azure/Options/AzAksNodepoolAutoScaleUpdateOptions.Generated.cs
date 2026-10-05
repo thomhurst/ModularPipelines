@@ -79,14 +79,14 @@ public record AzAksNodepoolAutoScaleUpdateOptions : AzOptions
     /// <summary>
     /// Maximum number of nodes for autoscaling.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// Minimum number of nodes for autoscaling.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -97,7 +97,7 @@ public record AzAksNodepoolAutoScaleUpdateOptions : AzOptions
     /// <summary>
     /// The new VM size for the autoscale profile.
     /// </summary>
-    [CliFlag("--node-vm-size")]
-    public bool? NodeVmSize { get; set; }
+    [CliOption("--node-vm-size")]
+    public string? NodeVmSize { get; set; }
 
 }

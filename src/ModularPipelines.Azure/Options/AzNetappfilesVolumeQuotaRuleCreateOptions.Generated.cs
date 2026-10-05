@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,8 +91,8 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -102,20 +103,20 @@ public record AzNetappfilesVolumeQuotaRuleCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Size of quota in KiB.
     /// </summary>
-    [CliFlag("--quota-size", ShortForm = "--quota-size-in-kibs")]
-    public bool? QuotaSize { get; set; }
+    [CliOption("--quota-size")]
+    public string? QuotaSize { get; set; }
 
     /// <summary>
     /// UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running `id` or `getent` command for the user or group and SID can be found by running :code:wmic useraccount where name='user-name' get sid`.
     /// </summary>
-    [CliFlag("--quota-target")]
-    public bool? QuotaTarget { get; set; }
+    [CliOption("--quota-target")]
+    public string? QuotaTarget { get; set; }
 
     /// <summary>
     /// Type of quota.  Allowed values: DefaultGroupQuota, DefaultUserQuota, IndividualGroupQuota, IndividualUserQuota.

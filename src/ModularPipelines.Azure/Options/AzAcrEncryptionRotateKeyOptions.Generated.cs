@@ -46,8 +46,8 @@ public record AzAcrEncryptionRotateKeyOptions : AzOptions
     /// <summary>
     /// Client id of managed identity, resource name or id of user assigned identity. Use '[system]' to refer to the system assigned identity.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
 
     /// <summary>
     /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.

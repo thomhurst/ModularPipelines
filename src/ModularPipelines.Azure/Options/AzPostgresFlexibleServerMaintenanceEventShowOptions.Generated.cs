@@ -29,8 +29,8 @@ public record AzPostgresFlexibleServerMaintenanceEventShowOptions : AzOptions
     /// <summary>
     /// The maintenance event identifier.
     /// </summary>
-    [CliFlag("--maintenance-event-id")]
-    public bool? MaintenanceEventId { get; set; }
+    [CliOption("--maintenance-event-id")]
+    public string? MaintenanceEventId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

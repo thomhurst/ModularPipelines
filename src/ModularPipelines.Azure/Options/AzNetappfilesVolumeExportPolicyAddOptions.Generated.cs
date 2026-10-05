@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -61,7 +62,7 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -79,86 +80,86 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Order index.
     /// </summary>
-    [CliFlag("--rule-index")]
-    public bool? RuleIndex { get; set; }
+    [CliOption("--rule-index")]
+    public string? RuleIndex { get; set; }
 
     /// <summary>
     /// Allows CIFS protocol.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--cifs")]
-    public bool? Cifs { get; set; }
+    [CliOption("--cifs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Cifs { get; set; }
 
     /// <summary>
     /// Kerberos5 Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5-read-only")]
-    public bool? Kerberos5ReadOnly { get; set; }
+    [CliOption("--kerberos5-read-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5ReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5 Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5-read-write")]
-    public bool? Kerberos5ReadWrite { get; set; }
+    [CliOption("--kerberos5-read-write", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5ReadWrite { get; set; }
 
     /// <summary>
     /// Kerberos5i Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5i-read-only")]
-    public bool? Kerberos5iReadOnly { get; set; }
+    [CliOption("--kerberos5i-read-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5iReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5i Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5i-read-write")]
-    public bool? Kerberos5iReadWrite { get; set; }
+    [CliOption("--kerberos5i-read-write", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5iReadWrite { get; set; }
 
     /// <summary>
     /// Kerberos5p Read only access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5p-read-only")]
-    public bool? Kerberos5pReadOnly { get; set; }
+    [CliOption("--kerberos5p-read-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5pReadOnly { get; set; }
 
     /// <summary>
     /// Kerberos5p Read and write access. To be use with swagger version 2020-05-01 or later.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--kerberos5p-read-write")]
-    public bool? Kerberos5pReadWrite { get; set; }
+    [CliOption("--kerberos5p-read-write", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Kerberos5pReadWrite { get; set; }
 
     /// <summary>
     /// Allows NFSv3 protocol. Enable only for NFSv3 type volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--nfsv3")]
-    public bool? Nfsv3 { get; set; }
+    [CliOption("--nfsv3", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Nfsv3 { get; set; }
 
     /// <summary>
     /// Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--nfsv41")]
-    public bool? Nfsv41 { get; set; }
+    [CliOption("--nfsv41", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Nfsv41 { get; set; }
 
     /// <summary>
     /// Read only access.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--unix-read-only")]
-    public bool? UnixReadOnly { get; set; }
+    [CliOption("--unix-read-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UnixReadOnly { get; set; }
 
     /// <summary>
     /// Read and write access.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--unix-read-write")]
-    public bool? UnixReadWrite { get; set; }
+    [CliOption("--unix-read-write", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UnixReadWrite { get; set; }
 
     /// <summary>
     /// Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names.
     /// </summary>
-    [CliFlag("--allowed-clients")]
-    public bool? AllowedClients { get; set; }
+    [CliOption("--allowed-clients")]
+    public string? AllowedClients { get; set; }
 
     /// <summary>
     /// This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non- root users can change ownership of files that they own. Allowed values: Restricted, Unrestricted.  Default: Restricted.
@@ -169,7 +170,7 @@ public record AzNetappfilesVolumeExportPolicyAddOptions : AzOptions
     /// <summary>
     /// Has root access to volume.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--has-root-access")]
-    public bool? HasRootAccess { get; set; }
+    [CliOption("--has-root-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HasRootAccess { get; set; }
 
 }

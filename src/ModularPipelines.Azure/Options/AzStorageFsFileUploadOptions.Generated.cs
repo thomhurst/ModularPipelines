@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,38 +76,38 @@ public record AzStorageFsFileUploadOptions : AzOptions
     /// <summary>
     /// The cache control string.
     /// </summary>
-    [CliFlag("--content-cache", ShortForm = "--content-cache-control")]
-    public bool? ContentCache { get; set; }
+    [CliOption("--content-cache")]
+    public string? ContentCache { get; set; }
 
     /// <summary>
     /// Conveys additional information about how to process the response payload, and can also be used to attach additional metadata.
     /// </summary>
-    [CliFlag("--content-disposition")]
-    public bool? ContentDisposition { get; set; }
+    [CliOption("--content-disposition")]
+    public string? ContentDisposition { get; set; }
 
     /// <summary>
     /// The content encoding type.
     /// </summary>
-    [CliFlag("--content-encoding")]
-    public bool? ContentEncoding { get; set; }
+    [CliOption("--content-encoding")]
+    public string? ContentEncoding { get; set; }
 
     /// <summary>
     /// The content language.
     /// </summary>
-    [CliFlag("--content-language")]
-    public bool? ContentLanguage { get; set; }
+    [CliOption("--content-language")]
+    public string? ContentLanguage { get; set; }
 
     /// <summary>
     /// The content's MD5 hash.
     /// </summary>
-    [CliFlag("--content-md5")]
-    public bool? ContentMd5 { get; set; }
+    [CliOption("--content-md5")]
+    public string? ContentMd5 { get; set; }
 
     /// <summary>
     /// The content MIME type.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
@@ -116,79 +118,80 @@ public record AzStorageFsFileUploadOptions : AzOptions
     /// <summary>
     /// Overwrite an existing file when specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--overwrite")]
-    public bool? Overwrite { get; set; }
+    [CliOption("--overwrite", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Overwrite { get; set; }
 
     /// <summary>
     /// POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read (4), write (2), or execute (1) permission. Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. The sticky bit is also supported and in symbolic notation, its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively (e.g. rwxrw-rw- with sticky bit is represented as rwxrw-rwT. A rwxrw- rwx with sticky bit is represented as rwxrw-rwt), absence of t or T indicates sticky bit not set. In 4-digit octal notation, its represented by 1st digit (e.g. 1766 represents rwxrw-rw- with sticky bit and 0766 represents rwxrw-rw- without sticky bit). For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control#levels-of-permission.
     /// </summary>
-    [CliFlag("--permissions")]
-    public bool? Permissions { get; set; }
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
 
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// When creating a file or directory and the parent folder does not have a default ACL, the umask restricts the permissions of the file or directory to be created. The resulting permission is given by p &amp; ^u, where p is the permission and u is the umask. For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data- lake-storage-access-control#umask.
     /// </summary>
-    [CliFlag("--umask")]
-    public bool? Umask { get; set; }
+    [CliOption("--umask")]
+    public string? Umask { get; set; }
 
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// A Commence only if modified since supplied UTC datetime (Y-m-d'T'H:M'Z').
     /// </summary>
-    [CliFlag("--if-modified-since")]
-    public bool? IfModifiedSince { get; set; }
+    [CliOption("--if-modified-since")]
+    public string? IfModifiedSince { get; set; }
 
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag does not match the value specified.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// A Commence only if unmodified since supplied UTC datetime (Y-m-d'T'H:M'Z').
     /// </summary>
-    [CliFlag("--if-unmodified-since")]
-    public bool? IfUnmodifiedSince { get; set; }
+    [CliOption("--if-unmodified-since")]
+    public string? IfUnmodifiedSince { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

@@ -57,25 +57,25 @@ public record AzMysqlFlexibleServerParameterListOptions : AzOptions
     /// <summary>
     /// The keyword of the server configuration.
     /// </summary>
-    [CliFlag("--keyword")]
-    public bool? Keyword { get; set; }
+    [CliOption("--keyword")]
+    public string? Keyword { get; set; }
 
     /// <summary>
     /// The page of the server configuration.
     /// </summary>
-    [CliFlag("--page")]
-    public bool? Page { get; set; }
+    [CliOption("--page")]
+    public string? Page { get; set; }
 
     /// <summary>
     /// The page size of the server configuration.
     /// </summary>
-    [CliFlag("--page-size")]
-    public bool? PageSize { get; set; }
+    [CliOption("--page-size")]
+    public string? PageSize { get; set; }
 
     /// <summary>
     /// The tags of the server configuration.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags")]
+    public string? Tags { get; set; }
 
 }

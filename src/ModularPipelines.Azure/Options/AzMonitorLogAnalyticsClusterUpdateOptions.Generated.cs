@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,7 +54,7 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -71,8 +72,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Selected key minimum required size.
     /// </summary>
-    [CliFlag("--key-rsa-size")]
-    public bool? KeyRsaSize { get; set; }
+    [CliOption("--key-rsa-size")]
+    public string? KeyRsaSize { get; set; }
 
     /// <summary>
     /// The Key Vault uri which holds they key associated with the Log Analytics cluster.
@@ -83,14 +84,14 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// The version of the key associated with the Log Analytics cluster.
     /// </summary>
-    [CliFlag("--key-version")]
-    public bool? KeyVersion { get; set; }
+    [CliOption("--key-version")]
+    public string? KeyVersion { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The cluster's billing type.  Allowed values: Cluster, Workspaces.
@@ -101,8 +102,8 @@ public record AzMonitorLogAnalyticsClusterUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--replication-enabled")]
-    public bool? ReplicationEnabled { get; set; }
+    [CliOption("--replication-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ReplicationEnabled { get; set; }
 
     /// <summary>
     /// Name of the Log Analytics Cluster.

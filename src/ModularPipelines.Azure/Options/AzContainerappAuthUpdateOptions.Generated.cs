@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,7 +25,7 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The action to take when an unauthenticated client attempts to access the app.  Allowed values: AllowAnonymous, RedirectToLoginPage, Return401, Return403.
     /// </summary>
-    [CliOption("--action", ShortForm = "--unauthenticated-client-action")]
+    [CliOption("--action")]
     public string? Action { get; set; }
 
     /// <summary>
@@ -35,26 +37,26 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The name of the header containing the host of the request.
     /// </summary>
-    [CliOption("--custom-host-header", ShortForm = "--proxy-custom-host-header")]
+    [CliOption("--custom-host-header")]
     public string? CustomHostHeader { get; set; }
 
     /// <summary>
     /// The name of the header containing the scheme of the request.
     /// </summary>
-    [CliOption("--custom-proto-header", ShortForm = "--proxy-custom-proto-header")]
+    [CliOption("--custom-proto-header")]
     public string? CustomProtoHeader { get; set; }
 
     /// <summary>
     /// True if the Authentication / Authorization feature is enabled for the current app; otherwise, false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// The list of paths that should be excluded from authentication rules.
     /// </summary>
-    [CliOption("--excluded-paths", GroupValues = true)]
-    public IEnumerable<string>? ExcludedPaths { get; set; }
+    [CliOption("--excluded-paths")]
+    public string? ExcludedPaths { get; set; }
 
     /// <summary>
     /// The convention used to determine the url of the request made.  Allowed values: Custom, NoProxy, Standard.
@@ -65,44 +67,45 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// The default authentication provider to use when multiple providers are configured.
     /// </summary>
-    [CliFlag("--redirect-provider")]
-    public bool? RedirectProvider { get; set; }
+    [CliOption("--redirect-provider")]
+    public string? RedirectProvider { get; set; }
 
     /// <summary>
     /// False if the authentication/authorization responses not having the HTTPS scheme are permissible; otherwise, true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--require-https")]
-    public bool? RequireHttps { get; set; }
+    [CliOption("--require-https", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequireHttps { get; set; }
 
     /// <summary>
     /// The RuntimeVersion of the Authentication / Authorization feature in use for the current app.
     /// </summary>
-    [CliFlag("--runtime-version")]
-    public bool? RuntimeVersion { get; set; }
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// The blob storage SAS URL to be used for token store.
     /// </summary>
-    [CliFlag("--sas-url-secret")]
-    public bool? SasUrlSecret { get; set; }
+    [SecretValue]
+    [CliOption("--sas-url-secret")]
+    public string? SasUrlSecret { get; set; }
 
     /// <summary>
     /// The secret name that contains blob storage SAS URL to be used for token store.
     /// </summary>
-    [CliFlag("--sas-url-secret-name")]
-    public bool? SasUrlSecretName { get; set; }
+    [CliOption("--sas-url-secret-name")]
+    public string? SasUrlSecretName { get; set; }
 
     /// <summary>
     /// Value of a specific field within the configuration settings for the Azure App Service Authentication / Authorization feature.
     /// </summary>
-    [CliOption("--set", GroupValues = true)]
-    public IEnumerable<string>? Set { get; set; }
+    [CliOption("--set")]
+    public string? Set { get; set; }
 
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--token-store")]
-    public bool? TokenStore { get; set; }
+    [CliOption("--token-store", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TokenStore { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

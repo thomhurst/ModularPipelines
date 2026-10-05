@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -75,8 +76,8 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// Used to create internal facing Load balancer.
     /// </summary>
-    [CliFlag("--frontend-ip-zone")]
-    public bool? FrontendIpZone { get; set; }
+    [CliOption("--frontend-ip-zone", GroupValues = true)]
+    public IEnumerable<string>? FrontendIpZone { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -93,8 +94,8 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// The private IP address version to use.  Allowed values: IPv4, IPv6.  Default: IPv4.
@@ -111,8 +112,8 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Generate and validate the ARM template without creating any resources.
@@ -135,14 +136,14 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// Globally unique DNS name for a new public IP.
     /// </summary>
-    [CliFlag("--public-ip-dns-name")]
-    public bool? PublicIpDnsName { get; set; }
+    [CliOption("--public-ip-dns-name")]
+    public string? PublicIpDnsName { get; set; }
 
     /// <summary>
     /// Used to created a new public ip for the load balancer, a.k.a public facing Load balancer.
     /// </summary>
-    [CliFlag("--public-ip-zone")]
-    public bool? PublicIpZone { get; set; }
+    [CliOption("--public-ip-zone")]
+    public string? PublicIpZone { get; set; }
 
     /// <summary>
     /// Name or ID of a subnet. Uses existing resource or creates new if specified, or none if omitted. If name specified, also specify --vnet-name. If you want to use an existing subnet in other resource group or subscription, please provide the ID instead of the name of the subnet.
@@ -153,14 +154,14 @@ public record AzNetworkLbCreateOptions : AzOptions
     /// <summary>
     /// The CIDR address prefix to use when creating a new subnet. Default: 10.0.0.0/24.
     /// </summary>
-    [CliFlag("--subnet-address-prefix")]
-    public bool? SubnetAddressPrefix { get; set; }
+    [CliOption("--subnet-address-prefix")]
+    public string? SubnetAddressPrefix { get; set; }
 
     /// <summary>
     /// The CIDR address prefix to use when creating a new VNet. Default: 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--vnet-address-prefix")]
-    public bool? VnetAddressPrefix { get; set; }
+    [CliOption("--vnet-address-prefix")]
+    public string? VnetAddressPrefix { get; set; }
 
     /// <summary>
     /// The virtual network (VNet) name.

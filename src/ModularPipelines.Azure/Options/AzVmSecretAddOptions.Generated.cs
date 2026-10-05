@@ -57,8 +57,8 @@ public record AzVmSecretAddOptions : AzOptions
     /// <summary>
     /// Windows certificate store names. Default: My.
     /// </summary>
-    [CliFlag("--certificate-store")]
-    public bool? CertificateStore { get; set; }
+    [CliOption("--certificate-store")]
+    public string? CertificateStore { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Full path to the versioned secret. Example https://mykeyvault.v ault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
     /// </summary>
-    [CliFlag("--encryption-key-identifier")]
-    public bool? EncryptionKeyIdentifier { get; set; }
+    [CliOption("--encryption-key-identifier")]
+    public string? EncryptionKeyIdentifier { get; set; }
 
     /// <summary>
     /// Part of the encryption configuration for the Batch account. Type of the key source. Can be either Microsoft.Batch or Microsoft.KeyVault.  Allowed values: Microsoft.Batch, Microsoft.KeyVault.
@@ -104,14 +105,14 @@ public record AzBatchAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags in 'key[=value]' format.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Set the system managed identity on the batch services account.
     /// </summary>
-    [CliFlag("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned")]
+    public string? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Resource ID of the user assigned identity for the batch services account.

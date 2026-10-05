@@ -63,32 +63,32 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// Network security rule description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
     /// </summary>
-    [CliFlag("--dest-addr-prefix")]
-    public bool? DestAddrPrefix { get; set; }
+    [CliOption("--dest-addr-prefix")]
+    public string? DestAddrPrefix { get; set; }
 
     /// <summary>
     /// CIDR or destination IP ranges. A single or space separated list of destination address prefixes.
     /// </summary>
-    [CliFlag("--dest-addr-prefixes")]
-    public bool? DestAddrPrefixes { get; set; }
+    [CliOption("--dest-addr-prefixes", GroupValues = true)]
+    public IEnumerable<string>? DestAddrPrefixes { get; set; }
 
     /// <summary>
     /// The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
     /// </summary>
-    [CliFlag("--dest-port-range")]
-    public bool? DestPortRange { get; set; }
+    [CliOption("--dest-port-range")]
+    public string? DestPortRange { get; set; }
 
     /// <summary>
     /// A single or space separated list of destination port ranges.
     /// </summary>
-    [CliFlag("--dest-port-ranges")]
-    public bool? DestPortRanges { get; set; }
+    [CliOption("--dest-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? DestPortRanges { get; set; }
 
     /// <summary>
     /// Network security rule direction.  Allowed values: inbound, outbound.
@@ -99,14 +99,14 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// Network security rule name.
     /// </summary>
-    [CliFlag("--name")]
-    public bool? Name { get; set; }
+    [CliOption("--name")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Integer that shows priority for rule.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public int? Priority { get; set; }
 
     /// <summary>
     /// Network protocol.  Allowed values: ah, any, esp, http, https, icmp, tcp, udp.
@@ -117,14 +117,14 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from.
     /// </summary>
-    [CliFlag("--source-addr-prefix")]
-    public bool? SourceAddrPrefix { get; set; }
+    [CliOption("--source-addr-prefix")]
+    public string? SourceAddrPrefix { get; set; }
 
     /// <summary>
     /// The CIDR or source IP ranges. A single or space separated list of source address prefixes.
     /// </summary>
-    [CliFlag("--source-addr-prefixes")]
-    public bool? SourceAddrPrefixes { get; set; }
+    [CliOption("--source-addr-prefixes", GroupValues = true)]
+    public IEnumerable<string>? SourceAddrPrefixes { get; set; }
 
     /// <summary>
     /// The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports.
@@ -135,7 +135,7 @@ public record AzSfManagedClusterNetworkSecurityRuleAddOptions : AzOptions
     /// <summary>
     /// A single or space separated list of source port ranges.
     /// </summary>
-    [CliFlag("--source-port-ranges")]
-    public bool? SourcePortRanges { get; set; }
+    [CliOption("--source-port-ranges", GroupValues = true)]
+    public IEnumerable<string>? SourcePortRanges { get; set; }
 
 }

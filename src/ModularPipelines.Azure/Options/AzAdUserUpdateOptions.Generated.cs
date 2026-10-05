@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,31 +48,32 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// Enable the user account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--account-enabled")]
-    public bool? AccountEnabled { get; set; }
+    [CliOption("--account-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AccountEnabled { get; set; }
 
     /// <summary>
     /// Object's display name or its prefix.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// If the user must change her password on the next login. Allowed values: false, true.
     /// </summary>
-    [CliOption("--force-change-password-next-sign-in")]
-    public bool? ForceChangePasswordNextSignIn { get; set; }
+    [CliOption("--force-change-password-next-sign-in", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceChangePasswordNextSignIn { get; set; }
 
     /// <summary>
     /// Mail alias. Defaults to user principal name.
     /// </summary>
-    [CliFlag("--mail-nickname")]
-    public bool? MailNickname { get; set; }
+    [CliOption("--mail-nickname")]
+    public string? MailNickname { get; set; }
 
     /// <summary>
     /// User password.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
 }

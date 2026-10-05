@@ -50,7 +50,7 @@ public record AzSfManagedServiceListOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>

@@ -68,14 +68,14 @@ public record AzNetworkDnsRecordSetACreateOptions : AzOptions
     /// <summary>
     /// The etag of the record set. Omit this value to always overwrite the current record set. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new record set to be created, but to prevent updating an existing record set. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// ID of an Azure resource from which the DNS resource value is taken.
@@ -84,15 +84,21 @@ public record AzNetworkDnsRecordSetACreateOptions : AzOptions
     public string? TargetResource { get; set; }
 
     /// <summary>
+    /// A reference to an Azure Traffic Manager Profile resource from where the DNS resource value is taken. WARNING: Argument '--traffic-management-profile' is experimental and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--tm-profile")]
+    public string? TmProfile { get; set; }
+
+    /// <summary>
     /// The metadata attached to the record set.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// The TTL (time-to-live) of the records in the record set.  Default: 3600.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

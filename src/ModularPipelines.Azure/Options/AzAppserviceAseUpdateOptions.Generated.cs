@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,20 +47,20 @@ public record AzAppserviceAseUpdateOptions : AzOptions
     /// <summary>
     /// (ASEv3 only) Configure App Service Environment to allow FTP access. This ftpEnabled setting allows you to allow or deny FTP connections on the App Service Environment level. Individual apps will still need to configure FTP access.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-incoming-ftp-connections", ShortForm = "-f")]
-    public bool? AllowIncomingFtpConnections { get; set; }
+    [CliOption("--allow-incoming-ftp-connections", ShortForm = "-f", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowIncomingFtpConnections { get; set; }
 
     /// <summary>
     /// (ASEv3 only) Configure Apps in App Service Environment to allow new private endpoint connections.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-new-private-endpoint-connections", ShortForm = "-p")]
-    public bool? AllowNewPrivateEndpointConnections { get; set; }
+    [CliOption("--allow-new-private-endpoint-connections", ShortForm = "-p", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowNewPrivateEndpointConnections { get; set; }
 
     /// <summary>
     /// (ASEv3 only) Configure App Service Environment to allow remote debugging. You will still have to configure remote debugging at the individual app level.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-remote-debugging", ShortForm = "-r")]
-    public bool? AllowRemoteDebugging { get; set; }
+    [CliOption("--allow-remote-debugging", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowRemoteDebugging { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

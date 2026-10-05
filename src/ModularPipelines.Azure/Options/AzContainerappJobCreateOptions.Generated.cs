@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -58,8 +59,8 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Cron expression. Only supported for trigger type "Schedule".
     /// </summary>
-    [CliFlag("--cron-expression")]
-    public bool? CronExpression { get; set; }
+    [CliOption("--cron-expression")]
+    public string? CronExpression { get; set; }
 
     /// <summary>
     /// Name or resource ID of the container app's environment.
@@ -70,8 +71,8 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image")]
-    public bool? Image { get; set; }
+    [CliOption("--image")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Boolean indicating whether to assign system-assigned identity.
@@ -94,44 +95,44 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Maximum number of replicas to run per execution.  Default: 1.
     /// </summary>
-    [CliFlag("--parallelism")]
-    public bool? Parallelism { get; set; }
+    [CliOption("--parallelism")]
+    public int? Parallelism { get; set; }
 
     /// <summary>
     /// Number of replicas that need to complete successfully for execution to succeed.  Default: 1.
     /// </summary>
-    [CliFlag("--rcc", ShortForm = "--replica-completion-count")]
-    public bool? Rcc { get; set; }
+    [CliOption("--rcc")]
+    public int? Rcc { get; set; }
 
     /// <summary>
     /// Maximum number of retries before the replica fails.
     /// </summary>
-    [CliFlag("--replica-retry-limit")]
-    public bool? ReplicaRetryLimit { get; set; }
+    [CliOption("--replica-retry-limit")]
+    public int? ReplicaRetryLimit { get; set; }
 
     /// <summary>
     /// Maximum number of seconds a replica can execute.
     /// </summary>
-    [CliFlag("--replica-timeout")]
-    public bool? ReplicaTimeout { get; set; }
+    [CliOption("--replica-timeout")]
+    public int? ReplicaTimeout { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Trigger type. Schedule | Event | Manual.
     /// </summary>
-    [CliFlag("--trigger-type")]
-    public bool? TriggerType { get; set; }
+    [CliOption("--trigger-type")]
+    public string? TriggerType { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https://learn.microsoft.com/azure/container-apps/azure- resource-manager-api-spec#examples.
@@ -155,8 +156,8 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// The container registry server hostname, e.g. myregistry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-server")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The username to log in to container registry.
@@ -168,20 +169,20 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// A list of secret(s) for the container app. Space-separated values in 'key=value' format.
     /// </summary>
     [SecretValue]
-    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
-    public IEnumerable<string>? Secrets { get; set; }
+    [CliOption("--secrets", ShortForm = "-s", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secrets { get; set; }
 
     /// <summary>
     /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--args", GroupValues = true)]
-    public IEnumerable<string>? Args { get; set; }
+    [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Args { get; set; }
 
     /// <summary>
     /// A list of supported commands on the container that will executed during startup. Space-separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--command", GroupValues = true)]
-    public IEnumerable<string>? Command { get; set; }
+    [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Command { get; set; }
 
     /// <summary>
     /// Name of the container.
@@ -192,61 +193,61 @@ public record AzContainerappJobCreateOptions : AzOptions
     /// <summary>
     /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
     /// </summary>
-    [CliOption("--env-vars", GroupValues = true)]
-    public IEnumerable<string>? EnvVars { get; set; }
+    [CliOption("--env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? EnvVars { get; set; }
 
     /// <summary>
     /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// Maximum number of job executions to run per polling interval.
     /// </summary>
-    [CliFlag("--max-executions")]
-    public bool? MaxExecutions { get; set; }
+    [CliOption("--max-executions")]
+    public int? MaxExecutions { get; set; }
 
     /// <summary>
     /// Minimum number of job executions to run per polling interval.
     /// </summary>
-    [CliFlag("--min-executions")]
-    public bool? MinExecutions { get; set; }
+    [CliOption("--min-executions")]
+    public int? MinExecutions { get; set; }
 
     /// <summary>
     /// Interval to check each event source in seconds. Defaults to 30s.
     /// </summary>
-    [CliFlag("--polling-interval")]
-    public bool? PollingInterval { get; set; }
+    [CliOption("--polling-interval")]
+    public int? PollingInterval { get; set; }
 
     /// <summary>
     /// Scale rule auth parameters. Auth parameters must be in format "{triggerParameter}={secretRef} {triggerParameter}={secretRef} ...".
     /// </summary>
-    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
-    public bool? ScaleRuleAuth { get; set; }
+    [CliOption("--scale-rule-auth", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleAuth { get; set; }
 
     /// <summary>
     /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
     /// </summary>
-    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
-    public bool? ScaleRuleMetadata { get; set; }
+    [CliOption("--scale-rule-metadata", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleMetadata { get; set; }
 
     /// <summary>
     /// The name of the scale rule.
     /// </summary>
-    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    [CliOption("--scale-rule-name")]
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
     /// The type of the scale rule.
     /// </summary>
-    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
-    public bool? ScaleRuleType { get; set; }
+    [CliOption("--scale-rule-type")]
+    public string? ScaleRuleType { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,56 +58,56 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Capacity for Sku.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public int? Capacity { get; set; }
 
     /// <summary>
     /// Cluster ARM ID of the Namespace.
     /// </summary>
-    [CliFlag("--cluster-arm-id")]
-    public bool? ClusterArmId { get; set; }
+    [CliOption("--cluster-arm-id")]
+    public string? ClusterArmId { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Event Hubs.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether AutoInflate is enabled for eventhub namespace.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-inflate")]
-    public bool? EnableAutoInflate { get; set; }
+    [CliOption("--enable-auto-inflate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoInflate { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether Kafka is enabled for eventhub namespace. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-kafka")]
-    public bool? EnableKafka { get; set; }
+    [CliOption("--enable-kafka", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableKafka { get; set; }
 
     /// <summary>
     /// List of KeyVaultProperties objects.
     /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
-    public IEnumerable<string>? EncryptionConfig { get; set; }
+    public IEnumerable<CliValueGroup>? EncryptionConfig { get; set; }
 
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
-    public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption) is enabled/disabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--infra-encryption")]
-    public bool? InfraEncryption { get; set; }
+    [CliOption("--infra-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InfraEncryption { get; set; }
 
     /// <summary>
     /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack, IPv4.
@@ -123,25 +124,25 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
     /// </summary>
-    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
-    public bool? MaxLag { get; set; }
+    [CliOption("--max-lag")]
+    public int? MaxLag { get; set; }
 
     /// <summary>
     /// Upper limit of throughput units when AutoInflate is enabled, vaule should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true).
     /// </summary>
-    [CliFlag("--maximum-throughput-units")]
-    public bool? MaximumThroughputUnits { get; set; }
+    [CliOption("--maximum-throughput-units")]
+    public int? MaximumThroughputUnits { get; set; }
 
     /// <summary>
     /// The minimum TLS version for the cluster to support, e.g. 1.2.  Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
     /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
     /// <summary>
@@ -153,20 +154,20 @@ public record AzEventhubsNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Enabling this property creates a Standard EventHubs Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// Enable System Assigned Identity.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// List of User Assigned Identity ids.

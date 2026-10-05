@@ -23,14 +23,14 @@ public record AzSqlDbClassificationRecommendationListOptions : AzOptions
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Specifies whether to include disabled recommendations or not. Default value is None.
     /// </summary>
-    [CliFlag("--include-disabled-recommendations")]
-    public bool? IncludeDisabledRecommendations { get; set; }
+    [CliOption("--include-disabled-recommendations")]
+    public string? IncludeDisabledRecommendations { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

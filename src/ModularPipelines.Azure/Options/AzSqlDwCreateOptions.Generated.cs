@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,26 +69,26 @@ public record AzSqlDwCreateOptions : AzOptions
     /// <summary>
     /// Availability zone.
     /// </summary>
-    [CliFlag("--availability-zone")]
-    public bool? AvailabilityZone { get; set; }
+    [CliOption("--availability-zone")]
+    public string? AvailabilityZone { get; set; }
 
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// The collation of the data warehouse.
     /// </summary>
-    [CliFlag("--collation")]
-    public bool? Collation { get; set; }
+    [CliOption("--collation")]
+    public string? Collation { get; set; }
 
     /// <summary>
     /// The max storage size. If no unit is specified, defaults to bytes (B).
     /// </summary>
-    [CliFlag("--max-size")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public string? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -98,13 +99,13 @@ public record AzSqlDwCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The service objective for the new database. For example: DW100, DW1000c.
     /// </summary>
-    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
-    public bool? ServiceLevelObjective { get; set; }
+    [CliOption("--service-level-objective")]
+    public string? ServiceLevelObjective { get; set; }
 
 }

@@ -68,13 +68,13 @@ public record AzServicebusGeorecoveryAliasCreateOptions : AzOptions
     /// <summary>
     /// Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
     /// </summary>
-    [CliFlag("--partner-namespace")]
-    public bool? PartnerNamespace { get; set; }
+    [CliOption("--partner-namespace")]
+    public string? PartnerNamespace { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure detailed error messages.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--detailed-error-messages")]
-    public bool? DetailedErrorMessages { get; set; }
+    [CliOption("--detailed-error-messages", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DetailedErrorMessages { get; set; }
 
     /// <summary>
     /// Configure gathering STDOUT and STDERR output from container. Allowed values: filesystem, off.
@@ -41,8 +42,8 @@ public record AzWebappLogConfigOptions : AzOptions
     /// <summary>
     /// Configure failed request tracing.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--failed-request-tracing")]
-    public bool? FailedRequestTracing { get; set; }
+    [CliOption("--failed-request-tracing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? FailedRequestTracing { get; set; }
 
     /// <summary>
     /// Logging level.  Allowed values: error, information, verbose, warning.

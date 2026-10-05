@@ -50,7 +50,7 @@ public record AzSfApplicationShowOptions : AzOptions
     /// <summary>
     /// Specify the application name.
     /// </summary>
-    [CliOption("--application-name", ShortForm = "--name")]
+    [CliOption("--application-name")]
     public string ApplicationName { get; private init; }
 
     /// <summary>

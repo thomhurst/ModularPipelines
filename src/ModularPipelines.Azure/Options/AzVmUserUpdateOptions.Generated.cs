@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -52,14 +53,15 @@ public record AzVmUserUpdateOptions : AzOptions
     /// <summary>
     /// The user password.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// SSH public key file value or public key file path. This command appends the new public key text to the ~/.ssh/authorized_keys file for the admin user on the VM. This does not replace or remove any existing SSH keys.
     /// </summary>
-    [CliFlag("--ssh-key-value")]
-    public bool? SshKeyValue { get; set; }
+    [CliOption("--ssh-key-value")]
+    public string? SshKeyValue { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

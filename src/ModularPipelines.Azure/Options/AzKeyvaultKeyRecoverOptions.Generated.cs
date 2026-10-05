@@ -29,8 +29,8 @@ public record AzKeyvaultKeyRecoverOptions : AzOptions
     /// <summary>
     /// The recovery id of the key. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the key. Required if --id is not specified.

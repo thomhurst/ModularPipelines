@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,14 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     /// <summary>
     /// Indicate whether or not removing this gallery image version from replicated regions is allowed. Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-replicated-location-deletion")]
-    public bool? AllowReplicatedLocationDeletion { get; set; }
+    [CliOption("--allow-replicated-location-deletion", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowReplicatedLocationDeletion { get; set; }
+
+    /// <summary>
+    /// Indicate whether or not the deletion is blocked for this gallery image version if its end of life has not expired. Allowed values: false, true. WARNING: The default value of '--block-deletion-before-end-of-life' will be changed to 'True' from 'None' in a future release.
+    /// </summary>
+    [CliOption("--block-delete-before-eol", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BlockDeleteBeforeEol { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish.
@@ -91,20 +98,20 @@ public record AzSigImageVersionUpdateOptions : AzOptions
     /// <summary>
     /// The default number of replicas to be created per region. To set regional replication counts, use --target-regions.
     /// </summary>
-    [CliFlag("--replica-count")]
-    public bool? ReplicaCount { get; set; }
+    [CliOption("--replica-count")]
+    public int? ReplicaCount { get; set; }
 
     /// <summary>
     /// Space- separated list of regions, edge zones, replica counts and storage types. Use `&lt; region&gt;=&lt;edge zone&gt;[=&lt;repli ca count&gt;][=&lt; storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used. If "--target-edge-zones None" is specified, the target extended locations will be cleared.
     /// </summary>
-    [CliFlag("--target-edge-zones")]
-    public bool? TargetEdgeZones { get; set; }
+    [CliOption("--target-edge-zones", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? TargetEdgeZones { get; set; }
 
     /// <summary>
     /// Space- separated list of regions and their replica counts. Use ` &lt;region&gt;[=&lt;re plica count&gt;] [=&lt;storage account type&gt;]` to optionally set the replica count and/or storage account type for each region. If a replica count is not specified, the default replica count will be used. If a storage account type is not specified, the default storage account type will be used.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? TargetRegions { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add proper ty.listProper ty &lt;key=value, string or JSON string&gt;`.

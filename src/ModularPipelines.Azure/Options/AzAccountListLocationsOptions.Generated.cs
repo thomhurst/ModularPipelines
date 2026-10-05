@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,7 +24,7 @@ public record AzAccountListLocationsOptions : AzOptions
     /// <summary>
     /// Whether to include extended locations.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--include-extended-locations")]
-    public bool? IncludeExtendedLocations { get; set; }
+    [CliOption("--include-extended-locations", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeExtendedLocations { get; set; }
 
 }

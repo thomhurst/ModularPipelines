@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzSqlDbShowOptions : AzOptions
     /// <summary>
     /// Expand the AKV keys for the database.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--expand-keys")]
-    public bool? ExpandKeys { get; set; }
+    [CliOption("--expand-keys", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExpandKeys { get; set; }
 
     /// <summary>
     /// Expand the AKV keys for the database.
     /// </summary>
-    [CliFlag("--keys-filter")]
-    public bool? KeysFilter { get; set; }
+    [CliOption("--keys-filter")]
+    public string? KeysFilter { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Get or Set Kind property.  Allowed values: Gen1, Gen2.
@@ -75,8 +76,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Sets the resources to be used for Managed Identities based operations for the Map account resource. Usage: --linked-resources unique-name=XX id=XX
     /// </summary>
-    [CliFlag("--linked-resources")]
-    public bool? LinkedResources { get; set; }
+    [CliOption("--linked-resources", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? LinkedResources { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -87,8 +88,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned, UserAssigned, UserAssigned.
@@ -99,8 +100,8 @@ public record AzMapsAccountCreateOptions : AzOptions
     /// <summary>
     /// The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId} /resourceGroups/{resourceGroupName}/providers/Microsoft.Ma nagedIdentity/userAssignedIdentities/{identityName}'. Expected value: json-string/@json-file.
     /// </summary>
-    [CliOption("--user-identities", GroupValues = true)]
-    public IEnumerable<string>? UserIdentities { get; set; }
+    [CliOption("--user-identities")]
+    public string? UserIdentities { get; set; }
 
     /// <summary>
     /// The name of the SKU, in standard format (such as S0). Allowed values: G2, S0, S1.

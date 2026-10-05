@@ -35,8 +35,8 @@ public record AzEventhubsNamespacePrivateEndpointConnectionShowOptions : AzOptio
     /// <summary>
     /// The PrivateEndpointConnection name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The Namespace name.

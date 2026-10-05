@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,25 +54,25 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// Active status of managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--dtc-enabled")]
-    public bool? DtcEnabled { get; set; }
+    [CliOption("--dtc-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DtcEnabled { get; set; }
 
     /// <summary>
     /// External dns suffix search list of managed instance DTC.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--external-dns-suffix-search-list", ShortForm = "--external-dns-suffixes")]
-    public bool? ExternalDnsSuffixSearchList { get; set; }
+    [CliOption("--external-dns-suffix-search-list", GroupValues = true)]
+    public IEnumerable<string>? ExternalDnsSuffixSearchList { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance-name", ShortForm = "--mi")]
+    [CliOption("--managed-instance-name")]
     public string? ManagedInstanceName { get; set; }
 
     /// <summary>
@@ -83,43 +84,43 @@ public record AzSqlMiDtcUpdateOptions : AzOptions
     /// <summary>
     /// Allow SNA LU 6.2 Transactions to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--sna-lu-transactions", ShortForm = "--sna-lu6point2-transactions-enabled")]
-    public bool? SnaLuTransactions { get; set; }
+    [CliOption("--sna-lu-transactions", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SnaLuTransactions { get; set; }
 
     /// <summary>
     /// Default timeout for XA Transactions (in seconds).
     /// </summary>
-    [CliFlag("--xa-default-timeout", ShortForm = "--xa-transactions-default-timeout")]
-    public bool? XaDefaultTimeout { get; set; }
+    [CliOption("--xa-default-timeout")]
+    public string? XaDefaultTimeout { get; set; }
 
     /// <summary>
     /// Maximum timeout for XA Transactions (in seconds).
     /// </summary>
-    [CliFlag("--xa-max-timeout", ShortForm = "--xa-transactions-maximum-timeout")]
-    public bool? XaMaxTimeout { get; set; }
+    [CliOption("--xa-max-timeout")]
+    public string? XaMaxTimeout { get; set; }
 
     /// <summary>
     /// Allow XA Transactions to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--xa-transactions", ShortForm = "--xa-transactions-enabled")]
-    public bool? XaTransactions { get; set; }
+    [CliOption("--xa-transactions", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? XaTransactions { get; set; }
 
     /// <summary>
     /// Allow Inbound traffic to managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-inbound-enabled")]
-    public bool? AllowInboundEnabled { get; set; }
+    [CliOption("--allow-inbound-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowInboundEnabled { get; set; }
 
     /// <summary>
     /// Allow Outbound traffic of managed instance DTC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-outbound-enabled")]
-    public bool? AllowOutboundEnabled { get; set; }
+    [CliOption("--allow-outbound-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowOutboundEnabled { get; set; }
 
     /// <summary>
     /// Authentication type of managed instance DTC.
     /// </summary>
-    [CliFlag("--authentication")]
-    public bool? Authentication { get; set; }
+    [CliOption("--authentication")]
+    public string? Authentication { get; set; }
 
 }

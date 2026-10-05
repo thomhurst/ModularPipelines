@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzAksSafeguardsUpdateOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
-    [CliFlag("--cluster", ShortForm = "-c")]
-    public bool? Cluster { get; set; }
+    [CliOption("--cluster", ShortForm = "-c")]
+    public string? Cluster { get; set; }
 
     /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
@@ -35,8 +36,8 @@ public record AzAksSafeguardsUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The name of the resource group. You can configure the default group using az configure --defaults group=`&lt;name&gt;`. You may provide either 'managed_cluster' or both 'resource_group' and 'name', but not both.
@@ -53,8 +54,8 @@ public record AzAksSafeguardsUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -71,8 +72,8 @@ public record AzAksSafeguardsUpdateOptions : AzOptions
     /// <summary>
     /// User defined list of namespaces to exclude from Deployment Safeguards. Deployments in these namespaces will not be checked against any safeguards  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--excluded-namespaces", ShortForm = "--excluded-ns")]
-    public bool? ExcludedNamespaces { get; set; }
+    [CliOption("--excluded-namespaces", GroupValues = true)]
+    public IEnumerable<string>? ExcludedNamespaces { get; set; }
 
     /// <summary>
     /// The deployment safeguards level. Possible values are Warn and Enforce.  Allowed values: Enforce, Warn.

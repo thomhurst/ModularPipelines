@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     /// <summary>
     /// SSL cipher suites to be enabled in the specified order to application gateway. Values from `az network application- gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--cipher-suites")]
-    public bool? CipherSuites { get; set; }
+    [CliOption("--cipher-suites", GroupValues = true)]
+    public IEnumerable<string>? CipherSuites { get; set; }
 
     /// <summary>
     /// Space-separated list of protocols to disable. Values from `az network application-gateway ssl-policy list-options`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -81,8 +82,8 @@ public record AzNetworkApplicationGatewaySslPolicySetOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Type of SSL policy.  Allowed values: Custom, CustomV2, Predefined.

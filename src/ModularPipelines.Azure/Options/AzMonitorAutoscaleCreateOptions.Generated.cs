@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -26,17 +27,16 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <param name="Count">The numer of instances to use. If used with --min/max-count, the default number of instances to use.</param>
     /// <param name="Resource">Name or ID of the target resource.</param>
     public AzMonitorAutoscaleCreateOptions(
-        string Count,
+        int Count,
         string Resource
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Count);
         this.Count = Count;
         global::System.ArgumentNullException.ThrowIfNull(Resource);
         this.Resource = Resource;
     }
 
-    public void Deconstruct(out string Count, out string Resource)
+    public void Deconstruct(out int Count, out string Resource)
     {
         Count = this.Count;
         Resource = this.Resource;
@@ -46,7 +46,7 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// The numer of instances to use. If used with --min/max-count, the default number of instances to use.
     /// </summary>
     [CliOption("--count")]
-    public string Count { get; private init; }
+    public int Count { get; private init; }
 
     /// <summary>
     /// Name or ID of the target resource.
@@ -57,8 +57,8 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Create the autoscale settings in a disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disabled")]
-    public bool? Disabled { get; set; }
+    [CliOption("--disabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disabled { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -75,44 +75,44 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// The minimum number of instances.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// Add an action to fire when a scaling event occurs. Usage:   --action TYPE KEY [ARG ...] Email:   --action email bob@contoso.com ann@contoso.com Webhook: --action webhook https://www.contoso.com/alert apiKey=value Webhook: --action webhook https://www.contoso.com/alert?apiKey=value Multiple actions can be specified by using more than one `--action` argument.
     /// </summary>
-    [CliOption("--action", ShortForm = "-a")]
-    public string? Action { get; set; }
+    [CliOption("--action", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Action { get; set; }
 
     /// <summary>
     /// Send email to subscription administrator on scaling.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--email-administrator")]
-    public bool? EmailAdministrator { get; set; }
+    [CliOption("--email-administrator", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EmailAdministrator { get; set; }
 
     /// <summary>
     /// Send email to subscription co-administrators on scaling.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--email-coadministrators")]
-    public bool? EmailCoadministrators { get; set; }
+    [CliOption("--email-coadministrators", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EmailCoadministrators { get; set; }
 
     /// <summary>
     /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be P100D).
     /// </summary>
-    [CliFlag("--scale-look-ahead-time")]
-    public bool? ScaleLookAheadTime { get; set; }
+    [CliOption("--scale-look-ahead-time")]
+    public string? ScaleLookAheadTime { get; set; }
 
     /// <summary>
     /// The predictive autoscale mode.  Allowed values: Disabled, Enabled, ForecastOnly.
@@ -129,19 +129,19 @@ public record AzMonitorAutoscaleCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

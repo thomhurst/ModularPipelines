@@ -46,7 +46,7 @@ public record AzPolicyDefinitionDeleteOptions : AzOptions
     /// <summary>
     /// The management group.
     /// </summary>
-    [CliFlag("--management-group")]
-    public bool? ManagementGroup { get; set; }
+    [CliOption("--management-group")]
+    public string? ManagementGroup { get; set; }
 
 }

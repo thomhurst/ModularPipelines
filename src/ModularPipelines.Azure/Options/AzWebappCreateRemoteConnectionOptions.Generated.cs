@@ -23,14 +23,14 @@ public record AzWebappCreateRemoteConnectionOptions : AzOptions
     /// <summary>
     /// Webapp instance to connect to. Defaults to none.
     /// </summary>
-    [CliFlag("--instance", ShortForm = "-i")]
-    public bool? Instance { get; set; }
+    [CliOption("--instance", ShortForm = "-i")]
+    public string? Instance { get; set; }
 
     /// <summary>
     /// Port for the remote connection. Default: Random available port.
     /// </summary>
-    [CliFlag("--port", ShortForm = "-p")]
-    public bool? Port { get; set; }
+    [CliOption("--port", ShortForm = "-p")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

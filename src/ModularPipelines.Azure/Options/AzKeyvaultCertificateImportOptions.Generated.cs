@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,25 +70,26 @@ public record AzKeyvaultCertificateImportOptions : AzOptions
     /// <summary>
     /// Import the certificate in disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disabled")]
-    public bool? Disabled { get; set; }
+    [CliOption("--disabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disabled { get; set; }
 
     /// <summary>
     /// If the private key in certificate is encrypted, the password used for encryption.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).
     /// </summary>
-    [CliFlag("--policy", ShortForm = "-p")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy", ShortForm = "-p")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

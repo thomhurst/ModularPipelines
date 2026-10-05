@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,14 +26,25 @@ public record AzSignalrUpstreamUpdateOptions : AzOptions
     /// </summary>
     /// <param name="Template">Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".</param>
     public AzSignalrUpstreamUpdateOptions(
-        string Template
+        IEnumerable<CliValueGroup> Template
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Template);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Template);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(Template));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Template));
+            }
+
+            Template = materialized;
+        }
         this.Template = Template;
     }
 
-    public void Deconstruct(out string Template)
+    public void Deconstruct(out IEnumerable<CliValueGroup> Template)
     {
         Template = this.Template;
     }
@@ -40,8 +52,8 @@ public record AzSignalrUpstreamUpdateOptions : AzOptions
     /// <summary>
     /// Template item for upstream settings. Use key=value pattern to set properties. Supported keys are "url-template", "hub-pattern", "event- pattern", "category-pattern".
     /// </summary>
-    [CliOption("--template")]
-    public string Template { get; private init; }
+    [CliOption("--template", GroupValues = true)]
+    public IEnumerable<CliValueGroup> Template { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -60,7 +60,7 @@ public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--mi", ShortForm = "--source-mi")]
+    [CliOption("--mi")]
     public string Mi { get; private init; }
 
     /// <summary>
@@ -96,13 +96,13 @@ public record AzSqlInstanceFailoverGroupCreateOptions : AzOptions
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.
     /// </summary>
-    [CliFlag("--grace-period")]
-    public bool? GracePeriod { get; set; }
+    [CliOption("--grace-period")]
+    public string? GracePeriod { get; set; }
 
     /// <summary>
     /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only. Default: Geo.
     /// </summary>
-    [CliFlag("--secondary-type")]
-    public bool? SecondaryType { get; set; }
+    [CliOption("--secondary-type")]
+    public string? SecondaryType { get; set; }
 
 }

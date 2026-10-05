@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,26 +75,26 @@ public record AzAksNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Annotations for the managed namespace.
     /// </summary>
-    [CliFlag("--annotations")]
-    public bool? Annotations { get; set; }
+    [CliOption("--annotations", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Annotations { get; set; }
 
     /// <summary>
     /// CPU limit of the namespace.
     /// </summary>
-    [CliFlag("--cpu-limit")]
-    public bool? CpuLimit { get; set; }
+    [CliOption("--cpu-limit")]
+    public string? CpuLimit { get; set; }
 
     /// <summary>
     /// CPU request of the namespace.
     /// </summary>
-    [CliFlag("--cpu-request")]
-    public bool? CpuRequest { get; set; }
+    [CliOption("--cpu-request")]
+    public string? CpuRequest { get; set; }
 
     /// <summary>
     /// Delete options of a namespace.  Allowed values: Delete, Keep.
@@ -116,20 +117,20 @@ public record AzAksNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// Labels for the managed namespace.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Labels { get; set; }
 
     /// <summary>
     /// Memory limit of the namespace.
     /// </summary>
-    [CliFlag("--memory-limit")]
-    public bool? MemoryLimit { get; set; }
+    [CliOption("--memory-limit")]
+    public string? MemoryLimit { get; set; }
 
     /// <summary>
     /// Memory request of the namespace.
     /// </summary>
-    [CliFlag("--memory-request")]
-    public bool? MemoryRequest { get; set; }
+    [CliOption("--memory-request")]
+    public string? MemoryRequest { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -140,7 +141,7 @@ public record AzAksNamespaceUpdateOptions : AzOptions
     /// <summary>
     /// The tags of the managed namespace.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

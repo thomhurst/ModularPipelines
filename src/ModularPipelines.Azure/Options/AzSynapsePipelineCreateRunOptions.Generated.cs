@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// <summary>
     /// Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-recovery")]
-    public bool? IsRecovery { get; set; }
+    [CliOption("--is-recovery", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsRecovery { get; set; }
 
     /// <summary>
     /// Parameters for pipeline run. Can be supplied from a JSON file using the `@{path}` syntax or a JSON string.
@@ -69,13 +70,13 @@ public record AzSynapsePipelineCreateRunOptions : AzOptions
     /// <summary>
     /// The pipeline run ID for rerun. If run ID is specified, the parameters of the specified run will be used to create a new run.
     /// </summary>
-    [CliFlag("--reference-pipeline-run-id", ShortForm = "--run-id")]
-    public bool? ReferencePipelineRunId { get; set; }
+    [CliOption("--reference-pipeline-run-id")]
+    public string? ReferencePipelineRunId { get; set; }
 
     /// <summary>
     /// In recovery mode, the rerun will start from this activity. If not specified, all activities will run.
     /// </summary>
-    [CliFlag("--start-activity-name")]
-    public bool? StartActivityName { get; set; }
+    [CliOption("--start-activity-name")]
+    public string? StartActivityName { get; set; }
 
 }

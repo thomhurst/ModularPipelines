@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,8 +70,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--condition", ShortForm = "-c")]
-    public bool? Condition { get; set; }
+    [CliOption("--condition", ShortForm = "-c", GroupValues = true)]
+    public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>
     /// A description of this Activity Log Alert rule.
@@ -81,8 +82,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// Disable the activity log alert rule after it is created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--disable")]
-    public bool? Disable { get; set; }
+    [CliOption("--disable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disable { get; set; }
 
     /// <summary>
     /// A list of strings that will be used as prefixes. The alert rule will only apply to activity logs with resourceIDs that fall under one of these prefixes. If not provided, the subscriptionId will be used. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -93,8 +94,8 @@ public record AzMonitorActivityLogAlertCreateOptions : AzOptions
     /// <summary>
     /// The tags of the resource.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, this data is appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

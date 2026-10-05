@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -84,19 +85,19 @@ public record AzNetworkCrossRegionLbAddressPoolAddressAddOptions : AzOptions
     /// <summary>
     /// The frontend IP configuration ID of a regional load balance.
     /// </summary>
-    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-address")]
+    [CliOption("--frontend-ip")]
     public string FrontendIp { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.  Allowed values: Down, None, Up.
     /// </summary>
-    [CliOption("--admin-state", GroupValues = true)]
-    public IEnumerable<string>? AdminState { get; set; }
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
 
 }

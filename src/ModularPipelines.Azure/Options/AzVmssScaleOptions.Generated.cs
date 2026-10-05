@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Change the number of VMs within a VMSS.
 /// </summary>
-/// <param name="NewCapacity">Number of VMs in the VMSS.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "scale")]
-public record AzVmssScaleOptions(
-    [property: CliOption("--new-capacity")] int NewCapacity
-) : AzOptions
+public record AzVmssScaleOptions : AzOptions
 {
+    /// <summary>
+    /// Change the number of VMs within a VMSS.
+    /// </summary>
+    /// <param name="NewCapacity">Number of VMs in the VMSS.</param>
+    public AzVmssScaleOptions(
+        string NewCapacity
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(NewCapacity);
+        this.NewCapacity = NewCapacity;
+    }
+
+    public void Deconstruct(out string NewCapacity)
+    {
+        NewCapacity = this.NewCapacity;
+    }
+
+    /// <summary>
+    /// Number of VMs in the VMSS.
+    /// </summary>
+    [CliOption("--new-capacity")]
+    public string NewCapacity { get; private init; }
+
     /// <summary>
     /// Do not wait for the long-running operation to finish.
     /// </summary>
@@ -38,8 +58,8 @@ public record AzVmssScaleOptions(
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

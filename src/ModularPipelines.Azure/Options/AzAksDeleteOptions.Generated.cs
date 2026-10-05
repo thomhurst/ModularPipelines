@@ -63,8 +63,8 @@ public record AzAksDeleteOptions : AzOptions
     /// <summary>
     /// Set to '*' to allow deleting a cluster only if it exists. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

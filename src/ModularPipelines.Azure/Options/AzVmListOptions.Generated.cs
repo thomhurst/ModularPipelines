@@ -35,7 +35,7 @@ public record AzVmListOptions : AzOptions
     /// <summary>
     /// List VM instances in a specific VMSS. Please specify the VMSS id or VMSS name.
     /// </summary>
-    [CliFlag("--vmss")]
-    public bool? Vmss { get; set; }
+    [CliOption("--vmss")]
+    public string? Vmss { get; set; }
 
 }

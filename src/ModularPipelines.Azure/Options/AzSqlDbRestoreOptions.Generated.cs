@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,44 +47,44 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// Assign identity for database.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--assign-identity", ShortForm = "-i", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AssignIdentity { get; set; }
 
     /// <summary>
     /// Availability zone.
     /// </summary>
-    [CliFlag("--availability-zone")]
-    public bool? AvailabilityZone { get; set; }
+    [CliOption("--availability-zone")]
+    public string? AvailabilityZone { get; set; }
 
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
     /// </summary>
-    [CliFlag("--encryption-protector")]
-    public bool? EncryptionProtector { get; set; }
+    [CliOption("--encryption-protector")]
+    public string? EncryptionProtector { get; set; }
 
     /// <summary>
     /// Specifies the database encryption protector key auto rotation flag. Can be either true, false or null.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--encryption-protector-auto-rotation", ShortForm = "--epauto")]
-    public bool? EncryptionProtectorAutoRotation { get; set; }
+    [CliOption("--encryption-protector-auto-rotation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EncryptionProtectorAutoRotation { get; set; }
 
     /// <summary>
     /// The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
-    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
-    public bool? HaReplicas { get; set; }
+    [CliOption("--ha-replicas")]
+    public int? HaReplicas { get; set; }
 
     /// <summary>
     /// The list of AKV keys for the SQL Database.
@@ -118,20 +119,20 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The list of user assigned identity for the SQL Database.
     /// </summary>
-    [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
+    [CliOption("--umi", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
 
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified. Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant", ShortForm = "-z")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// The name or resource id of the elastic pool to create the database in.
@@ -142,8 +143,8 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// The service objective for the new database. For example: Basic, S0, P1, GP_Gen4_1, GP_S_Gen5_8, BC_Gen5_2, HS_Gen5_32.
     /// </summary>
-    [CliFlag("--service-level-objective", ShortForm = "--service-objective")]
-    public bool? ServiceLevelObjective { get; set; }
+    [CliOption("--service-level-objective")]
+    public string? ServiceLevelObjective { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -172,8 +173,8 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database in the same server. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
     /// </summary>
-    [CliFlag("--deleted-time")]
-    public bool? DeletedTime { get; set; }
+    [CliOption("--deleted-time")]
+    public string? DeletedTime { get; set; }
 
     /// <summary>
     /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
@@ -184,8 +185,8 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
     /// </summary>
-    [CliFlag("--auto-pause-delay")]
-    public bool? AutoPauseDelay { get; set; }
+    [CliOption("--auto-pause-delay")]
+    public string? AutoPauseDelay { get; set; }
 
     /// <summary>
     /// The compute model of the database.  Allowed values: Provisioned, Serverless.
@@ -196,7 +197,7 @@ public record AzSqlDbRestoreOptions : AzOptions
     /// <summary>
     /// Minimal capacity that database will always have allocated, if not paused.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
 }

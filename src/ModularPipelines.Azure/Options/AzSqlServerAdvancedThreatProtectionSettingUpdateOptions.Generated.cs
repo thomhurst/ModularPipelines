@@ -29,8 +29,8 @@ public record AzSqlServerAdvancedThreatProtectionSettingUpdateOptions : AzOption
     /// <summary>
     /// State of the advanced threat protection setting.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

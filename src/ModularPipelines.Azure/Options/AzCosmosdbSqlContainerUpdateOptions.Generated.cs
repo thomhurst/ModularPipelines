@@ -79,31 +79,31 @@ public record AzCosmosdbSqlContainerUpdateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl", ShortForm = "-t")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl", ShortForm = "-t")]
+    public int? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full-text-policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
     /// </summary>
-    [CliFlag("--full-text-policy")]
-    public bool? FullTextPolicy { get; set; }
+    [CliOption("--full-text-policy")]
+    public string? FullTextPolicy { get; set; }
 
     /// <summary>
     /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}],\"vectorIndexes\": [{\"path\": \"/vector1\",\"type\": \"flat\"}]}".
     /// </summary>
-    [CliFlag("--idx")]
-    public bool? Idx { get; set; }
+    [CliOption("--idx")]
+    public string? Idx { get; set; }
 
     /// <summary>
     /// Default TTL. If the value is missing or set to "-1", items don’t expire. If the value is set to "n", items will expire "n" seconds after last modified time.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public int? Ttl { get; set; }
 
     /// <summary>
     /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or --vector-embeddings "{\"vectorEmbeddings\": [{\"path\": \"/vector1\", \"dataType\": \"float32\", \"dimensions\": 2, \"distanceFunction\": \"dotproduct\" }]}".
     /// </summary>
-    [CliFlag("--vector-embeddings")]
-    public bool? VectorEmbeddings { get; set; }
+    [CliOption("--vector-embeddings")]
+    public string? VectorEmbeddings { get; set; }
 
 }

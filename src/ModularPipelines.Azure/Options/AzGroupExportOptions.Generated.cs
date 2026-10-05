@@ -40,7 +40,7 @@ public record AzGroupExportOptions : AzOptions
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliOption("--name", ShortForm = "-n")]
+    [CliOption("--name", ShortForm = "-g")]
     public string Name { get; private init; }
 
     /// <summary>

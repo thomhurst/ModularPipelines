@@ -81,7 +81,7 @@ public record AzBatchNodeSchedulingDisableOptions : AzOptions
     /// <summary>
     /// What to do with currently running Tasks when disabling Task scheduling on the Compute Node. The default value is requeue. Known values are: "requeue", "terminate", and "taskcompletion".
     /// </summary>
-    [CliFlag("--node-disable-scheduling-option")]
-    public bool? NodeDisableSchedulingOption { get; set; }
+    [CliOption("--node-disable-scheduling-option")]
+    public string? NodeDisableSchedulingOption { get; set; }
 
 }

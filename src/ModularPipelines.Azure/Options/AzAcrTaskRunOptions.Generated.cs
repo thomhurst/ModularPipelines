@@ -56,6 +56,12 @@ public record AzAcrTaskRunOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
+    /// The name of the agent pool. WARNING: Argument '--agent-pool' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliOption("--arg")]
@@ -64,14 +70,20 @@ public record AzAcrTaskRunOptions : AzOptions
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
     /// </summary>
-    [CliFlag("--context", ShortForm = "-c")]
-    public bool? Context { get; set; }
+    [CliOption("--context", ShortForm = "-c")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
     /// </summary>
     [CliOption("--file", ShortForm = "-f")]
     public string? File { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry. WARNING: Argument '--log-template' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -122,5 +134,12 @@ public record AzAcrTaskRunOptions : AzOptions
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
+
+    /// <summary>
+    /// The payload that will be passed back alongwith the base image trigger notification. WARNING: Argument '--update-trigger-token' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [SecretValue]
+    [CliOption("--update-trigger-token")]
+    public string? UpdateTriggerToken { get; set; }
 
 }

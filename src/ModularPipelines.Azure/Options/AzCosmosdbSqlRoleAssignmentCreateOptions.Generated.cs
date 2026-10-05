@@ -85,19 +85,19 @@ public record AzCosmosdbSqlRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Optional for Create. Unique ID for the Role Assignment. If not provided, a new GUID will be used.
     /// </summary>
-    [CliFlag("--role-assignment-id", ShortForm = "-i")]
-    public bool? RoleAssignmentId { get; set; }
+    [CliOption("--role-assignment-id", ShortForm = "-i")]
+    public string? RoleAssignmentId { get; set; }
 
     /// <summary>
     /// Unique ID of the Role Definition that this Role Assignment refers to.
     /// </summary>
-    [CliFlag("--role-definition-id", ShortForm = "-d")]
-    public bool? RoleDefinitionId { get; set; }
+    [CliOption("--role-definition-id", ShortForm = "-d")]
+    public string? RoleDefinitionId { get; set; }
 
     /// <summary>
     /// Unique Name of the Role Definition that this Role Assignment refers to. Eg. 'Contoso Reader Role'.
     /// </summary>
-    [CliFlag("--role-definition-name", ShortForm = "-n")]
-    public bool? RoleDefinitionName { get; set; }
+    [CliOption("--role-definition-name", ShortForm = "-n")]
+    public string? RoleDefinitionName { get; set; }
 
 }

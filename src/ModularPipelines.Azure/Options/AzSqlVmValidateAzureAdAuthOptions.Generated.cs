@@ -23,8 +23,8 @@ public record AzSqlVmValidateAzureAdAuthOptions : AzOptions
     /// <summary>
     /// Virutal Machine Managed Identity Client ID.
     /// </summary>
-    [CliFlag("--msi-client-id")]
-    public bool? MsiClientId { get; set; }
+    [CliOption("--msi-client-id")]
+    public string? MsiClientId { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

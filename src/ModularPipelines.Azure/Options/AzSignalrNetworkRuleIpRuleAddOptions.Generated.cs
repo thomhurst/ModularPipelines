@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,14 +26,25 @@ public record AzSignalrNetworkRuleIpRuleAddOptions : AzOptions
     /// </summary>
     /// <param name="IpRule">The IP rule for the hub.</param>
     public AzSignalrNetworkRuleIpRuleAddOptions(
-        string IpRule
+        IEnumerable<CliValueGroup> IpRule
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(IpRule);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(IpRule);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(IpRule));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(IpRule));
+            }
+
+            IpRule = materialized;
+        }
         this.IpRule = IpRule;
     }
 
-    public void Deconstruct(out string IpRule)
+    public void Deconstruct(out IEnumerable<CliValueGroup> IpRule)
     {
         IpRule = this.IpRule;
     }
@@ -40,8 +52,8 @@ public record AzSignalrNetworkRuleIpRuleAddOptions : AzOptions
     /// <summary>
     /// The IP rule for the hub.
     /// </summary>
-    [CliOption("--ip-rule")]
-    public string IpRule { get; private init; }
+    [CliOption("--ip-rule", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup> IpRule { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

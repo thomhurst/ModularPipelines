@@ -23,7 +23,7 @@ public record AzSqlMidbLogReplayCompleteOptions : AzOptions
     /// <summary>
     /// The name of the last backup to restore.
     /// </summary>
-    [CliOption("--last-backup-name", ShortForm = "--last-bn")]
+    [CliOption("--last-backup-name")]
     public string? LastBackupName { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record AzSqlMidbLogReplayCompleteOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

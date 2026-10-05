@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,14 +64,14 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// The etag for the devices.
     /// </summary>
-    [CliFlag("--etag")]
-    public bool? Etag { get; set; }
+    [CliOption("--etag")]
+    public string? Etag { get; set; }
 
     /// <summary>
     /// The Data Box Edge/Gateway device name.
     /// </summary>
-    [CliFlag("--friendly-name")]
-    public bool? FriendlyName { get; set; }
+    [CliOption("--friendly-name")]
+    public string? FriendlyName { get; set; }
 
     /// <summary>
     /// The location of the device. This is a supported and registered Azure geographical region (for example, West US, East US, or Southeast Asia). The geographical region of a device cannot be changed once it is created, but if an identical geographical region is specified on update, the request will succeed.  When not specified, the location of the resource group will be used.
@@ -87,8 +88,8 @@ public record AzDataboxedgeDeviceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// SKU name.  Allowed values: EP2_128_1T4_Mx1_W, EP2_256_2T4_W, EP2_64_1VPU_W, Edge, EdgeMR_Mini, EdgePR_Base, EdgePR_Base_UPS, EdgeP_Base, EdgeP_High, GPU, Gateway, Management, RCA_Large, RCA_Small, RDC, TCA_Large, TCA_Small, TDC, TEA_1Node, TEA_1Node_Heater, TEA_1Node_UPS, TEA_1Node_UPS_Heater, TEA_4Node_Heater, TEA_4Node_UPS_Heater, TMA.

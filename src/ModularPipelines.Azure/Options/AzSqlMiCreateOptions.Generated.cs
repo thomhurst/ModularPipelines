@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +70,9 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The administrator login password (required formanaged instance creation).
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Administrator username for the managed instance. Canonly be specified when the managed instance is beingcreated (and is required for creation).
@@ -80,7 +83,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Preferred metadata to use for authentication of synced on-prem users. Default is AzureAD.  Allowed values: AzureAD, Paired, Windows.
     /// </summary>
-    [CliOption("--am", ShortForm = "--authentication-metadata")]
+    [CliOption("--am")]
     public string? Am { get; set; }
 
     /// <summary>
@@ -92,14 +95,14 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// The collation of the managed instance.
     /// </summary>
-    [CliFlag("--collation")]
-    public bool? Collation { get; set; }
+    [CliOption("--collation")]
+    public string? Collation { get; set; }
 
     /// <summary>
     /// Managed Instance database format specific to the SQL. Allowed values include: AlwaysUpToDate, SQLServer2022.  Allowed values: AlwaysUpToDate, SQLServer2022, SQLServer2025.
@@ -122,26 +125,26 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Display name of the Azure AD administrator user, group or application.
     /// </summary>
-    [CliFlag("--external-admin-name")]
-    public bool? ExternalAdminName { get; set; }
+    [CliOption("--external-admin-name")]
+    public string? ExternalAdminName { get; set; }
 
     /// <summary>
     /// User, Group or Application.
     /// </summary>
-    [CliFlag("--external-admin-principal-type")]
-    public bool? ExternalAdminPrincipalType { get; set; }
+    [CliOption("--external-admin-principal-type")]
+    public string? ExternalAdminPrincipalType { get; set; }
 
     /// <summary>
     /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for Applications.
     /// </summary>
-    [CliFlag("--external-admin-sid")]
-    public bool? ExternalAdminSid { get; set; }
+    [CliOption("--external-admin-sid")]
+    public string? ExternalAdminSid { get; set; }
 
     /// <summary>
     /// Whether or not this is a GPv2 variant of General Purpose edition.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--gpv2")]
-    public bool? Gpv2 { get; set; }
+    [CliOption("--gpv2", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Gpv2 { get; set; }
 
     /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssignedUserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -158,8 +161,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The storage iops of the managed instance. Storage iops can be specified in increments of 1.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public int? Iops { get; set; }
 
     /// <summary>
     /// The key vault URI for encryption.
@@ -182,14 +185,20 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Assign maintenance configuration to this managed instance.
     /// </summary>
-    [CliFlag("--maint-config-id", ShortForm = "-m")]
-    public bool? MaintConfigId { get; set; }
+    [CliOption("--maint-config-id", ShortForm = "-m")]
+    public string? MaintConfigId { get; set; }
 
     /// <summary>
     /// The memory size of the managed instance. Memory size must be specified in GB.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// The minimal TLS version enforced by the managed instance for inbound connections.  Allowed values: 1.0, 1.1, 1.2, None. WARNING: Argument '--minimal-tls-version' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--minimal-tls-version")]
+    public string? MinimalTlsVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -200,7 +209,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
 
     /// <summary>
@@ -218,8 +227,8 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Whether or not the public data endpoint is enabled for the instance.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--public-data-endpoint-enabled")]
-    public bool? PublicDataEndpointEnabled { get; set; }
+    [CliOption("--public-data-endpoint-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublicDataEndpointEnabled { get; set; }
 
     /// <summary>
     /// Service Principal type to be used for this Managed Instance. Possible values are SystemAssigned and None.  Allowed values: None, SystemAssigned.
@@ -230,26 +239,26 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// The storage size of the managed instance. Storage size must be specified in increments of 32 GB.
     /// </summary>
-    [CliFlag("--storage")]
-    public bool? Storage { get; set; }
+    [CliOption("--storage")]
+    public string? Storage { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The time zone id for the instance to set. A list of time zone ids is exposed through the sys.time_zone_info (Transact-SQL) view.
     /// </summary>
-    [CliFlag("--timezone-id")]
-    public bool? TimezoneId { get; set; }
+    [CliOption("--timezone-id")]
+    public string? TimezoneId { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? UserAssignedIdentityId { get; set; }
 
     /// <summary>
     /// The virtual network name.
@@ -266,7 +275,7 @@ public record AzSqlMiCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant", ShortForm = "-z")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
 }

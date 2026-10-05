@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -56,7 +57,7 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Backup policy Name which uniquely identify backup policy.
     /// </summary>
-    [CliOption("--backup-policy-name", ShortForm = "-n")]
+    [CliOption("--backup-policy-name", ShortForm = "-b")]
     public string BackupPolicyName { get; private init; }
 
     /// <summary>
@@ -68,8 +69,8 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -80,31 +81,31 @@ public record AzNetappfilesAccountBackupPolicyCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Daily backups count to keep.
     /// </summary>
-    [CliFlag("--daily-backups", ShortForm = "-d")]
-    public bool? DailyBackups { get; set; }
+    [CliOption("--daily-backups", ShortForm = "-d")]
+    public string? DailyBackups { get; set; }
 
     /// <summary>
     /// The property to decide policy is enabled or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--enabled", ShortForm = "-e")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Monthly backups count to keep.
     /// </summary>
-    [CliFlag("--monthly-backups", ShortForm = "-m")]
-    public bool? MonthlyBackups { get; set; }
+    [CliOption("--monthly-backups", ShortForm = "-m")]
+    public string? MonthlyBackups { get; set; }
 
     /// <summary>
     /// Weekly backups count to keep.
     /// </summary>
-    [CliFlag("--weekly-backups", ShortForm = "-w")]
-    public bool? WeeklyBackups { get; set; }
+    [CliOption("--weekly-backups", ShortForm = "-w")]
+    public string? WeeklyBackups { get; set; }
 
 }

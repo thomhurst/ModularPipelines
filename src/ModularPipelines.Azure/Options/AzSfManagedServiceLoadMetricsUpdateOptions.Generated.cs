@@ -60,7 +60,7 @@ public record AzSfManagedServiceLoadMetricsUpdateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record AzSfManagedServiceLoadMetricsUpdateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -90,25 +90,25 @@ public record AzSfManagedServiceLoadMetricsUpdateOptions : AzOptions
     /// <summary>
     /// Specify the default amount of load, as a number, that this service creates for this metric. Used only for Stateless services.
     /// </summary>
-    [CliFlag("--default-load")]
-    public bool? DefaultLoad { get; set; }
+    [CliOption("--default-load")]
+    public string? DefaultLoad { get; set; }
 
     /// <summary>
     /// Specify the default amount of load, as a number, that this service creates for this metric when it is a Primary replica. Used only for Stateful services.
     /// </summary>
-    [CliFlag("--primary-default-load")]
-    public bool? PrimaryDefaultLoad { get; set; }
+    [CliOption("--primary-default-load")]
+    public string? PrimaryDefaultLoad { get; set; }
 
     /// <summary>
     /// Specify the default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. Used only for Stateful services.
     /// </summary>
-    [CliFlag("--secondary-default-load")]
-    public bool? SecondaryDefaultLoad { get; set; }
+    [CliOption("--secondary-default-load")]
+    public string? SecondaryDefaultLoad { get; set; }
 
     /// <summary>
     /// Specify the service load metric relative weight, compared to other metrics configured for this service, as a number.
     /// </summary>
-    [CliFlag("--weight")]
-    public bool? Weight { get; set; }
+    [CliOption("--weight")]
+    public string? Weight { get; set; }
 
 }

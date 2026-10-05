@@ -76,7 +76,7 @@ public record AzKeyvaultKeyDownloadOptions : AzOptions
     /// <summary>
     /// The key version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

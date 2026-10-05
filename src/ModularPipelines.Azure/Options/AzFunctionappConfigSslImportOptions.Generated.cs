@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,14 +64,14 @@ public record AzFunctionappConfigSslImportOptions : AzOptions
     /// <summary>
     /// For Flex Consumption apps only. Enable Key Vault access using Managed Service Identity. When set to true, the app will use its managed identity to access Key Vault instead of service principal.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-using-msi")]
-    public bool? EnableUsingMsi { get; set; }
+    [CliOption("--enable-using-msi", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableUsingMsi { get; set; }
 
     /// <summary>
     /// For Flex Consumption apps only. When set to true, the certificate is accessible to app code.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--load-to-code")]
-    public bool? LoadToCode { get; set; }
+    [CliOption("--load-to-code", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? LoadToCode { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

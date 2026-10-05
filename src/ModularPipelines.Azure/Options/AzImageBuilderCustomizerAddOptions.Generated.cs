@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,14 +58,14 @@ public record AzImageBuilderCustomizerAddOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Defer { get; set; }
 
     /// <summary>
     /// The absolute destination path where the file specified in --file-source will be downloaded to in the image.
     /// </summary>
-    [CliFlag("--dest-path")]
-    public bool? DestPath { get; set; }
+    [CliOption("--dest-path")]
+    public string? DestPath { get; set; }
 
     /// <summary>
     /// The URI of the file to be downloaded into the image. It can be a github link, SAS URI for Azure Storage, etc.
@@ -123,25 +124,25 @@ public record AzImageBuilderCustomizerAddOptions : AzOptions
     /// <summary>
     /// Restart timeout specified as a string consisting of a magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours).  Default: 5m.
     /// </summary>
-    [CliFlag("--restart-timeout")]
-    public bool? RestartTimeout { get; set; }
+    [CliOption("--restart-timeout")]
+    public string? RestartTimeout { get; set; }
 
     /// <summary>
     /// Space delimited filters to select updates to apply. Omit or specify empty array to use the default (no filter).
     /// </summary>
-    [CliFlag("--filters")]
-    public bool? Filters { get; set; }
+    [CliOption("--filters", GroupValues = true)]
+    public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
     /// Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field.
     /// </summary>
-    [CliFlag("--search-criteria")]
-    public bool? SearchCriteria { get; set; }
+    [CliOption("--search-criteria")]
+    public string? SearchCriteria { get; set; }
 
     /// <summary>
     /// Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000).
     /// </summary>
-    [CliFlag("--update-limit")]
-    public bool? UpdateLimit { get; set; }
+    [CliOption("--update-limit")]
+    public string? UpdateLimit { get; set; }
 
 }

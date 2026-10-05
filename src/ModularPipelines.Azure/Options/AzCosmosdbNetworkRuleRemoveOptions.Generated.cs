@@ -46,7 +46,7 @@ public record AzCosmosdbNetworkRuleRemoveOptions : AzOptions
     /// <summary>
     /// The name of the VNET, which must be provided in conjunction with the name of the subnet.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet-name")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
     /// <summary>

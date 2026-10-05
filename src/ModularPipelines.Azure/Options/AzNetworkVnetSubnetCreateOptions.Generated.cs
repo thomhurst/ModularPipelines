@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,8 +75,8 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
-    public bool? DefaultOutbound { get; set; }
+    [CliOption("--default-outbound", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DefaultOutbound { get; set; }
 
     /// <summary>
     /// Space-separated list of services to whom the subnet should be delegated, e.g., Microsoft.Sql/servers.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -86,25 +87,25 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Disable private endpoint network policies on the subnet. Please note that it will be replaced by `--private-endpoint-network-policies` soon.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--disable-private-endpoint-network-policies")]
-    public bool? DisablePrivateEndpointNetworkPolicies { get; set; }
+    [CliOption("--disable-private-endpoint-network-policies", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisablePrivateEndpointNetworkPolicies { get; set; }
 
     /// <summary>
     /// Disable private link service network policies on the subnet. Please note that it will be replaced by `--private-link-service-network-policies` soon. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--disable-private-link-service-network-policies")]
-    public bool? DisablePrivateLinkServiceNetworkPolicies { get; set; }
+    [CliOption("--disable-private-link-service-network-policies", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisablePrivateLinkServiceNetworkPolicies { get; set; }
 
     /// <summary>
     /// An array of service endpoints. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--endpoints")]
+    [CliOption("--endpoints", GroupValues = true)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>
     /// A list of IPAM Pools for allocating IP address prefixes. If provided, --address-prefixes would be ignored by CLI and should not be specified. Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
@@ -116,25 +117,25 @@ public record AzNetworkVnetSubnetCreateOptions : AzOptions
     /// <summary>
     /// Name or ID of a network security group (NSG).
     /// </summary>
-    [CliOption("--network-security-group", ShortForm = "--nsg")]
+    [CliOption("--network-security-group")]
     public string? NetworkSecurityGroup { get; set; }
 
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Manage network policies for private endpoint.  Allowed values: Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled.  Default: Disabled.
     /// </summary>
-    [CliOption("--ple-network-policies", ShortForm = "--private-endpoint-network-policies")]
+    [CliOption("--ple-network-policies")]
     public string? PleNetworkPolicies { get; set; }
 
     /// <summary>
     /// Manage network policy for private link service.  Allowed values: Disabled, Enabled. Default: Enabled.
     /// </summary>
-    [CliOption("--pls-network-policies", ShortForm = "--private-link-service-network-policies")]
+    [CliOption("--pls-network-policies")]
     public string? PlsNetworkPolicies { get; set; }
 
     /// <summary>

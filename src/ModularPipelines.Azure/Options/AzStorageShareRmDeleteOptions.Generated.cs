@@ -23,14 +23,14 @@ public record AzStorageShareRmDeleteOptions : AzOptions
     /// <summary>
     /// Optional. Valid values are: snapshots, leased-snapshots, none. The default value is none. For 'snapshots', the file share is deleted including all of its file share snapshots. If the file share contains leased-snapshots, the deletion fails. For 'leased-snapshots', the file share is deleted included all of its file share snapshots (leased/unleased). For 'none', the file share is deleted if it has no share snapshots. If the file share contains any snapshots (leased or unleased), the deletion fails.  Default: none.
     /// </summary>
-    [CliFlag("--include")]
-    public bool? Include { get; set; }
+    [CliOption("--include")]
+    public string? Include { get; set; }
 
     /// <summary>
     /// Optional, used to delete a snapshot.The DateTime value that specifies the share snapshot to retrieve.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -41,7 +41,7 @@ public record AzStorageShareRmDeleteOptions : AzOptions
     /// <summary>
     /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "--storage-account")]
+    [CliOption("--account-name")]
     public string? AccountName { get; set; }
 
     /// <summary>

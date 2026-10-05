@@ -74,8 +74,8 @@ public record AzMonitorAccountIssueCreateOptions : AzOptions
     /// <summary>
     /// The issue background information  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--background")]
-    public string? Background { get; set; }
+    [CliOption("--background", GroupValues = true)]
+    public IEnumerable<string>? Background { get; set; }
 
     /// <summary>
     /// The issue impact time (in UTC).
@@ -86,8 +86,8 @@ public record AzMonitorAccountIssueCreateOptions : AzOptions
     /// <summary>
     /// The issue notification settings  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--notifications")]
-    public string? Notifications { get; set; }
+    [CliOption("--notifications", GroupValues = true)]
+    public IEnumerable<string>? Notifications { get; set; }
 
     /// <summary>
     /// The issue severity.

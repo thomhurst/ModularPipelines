@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,14 +81,14 @@ public record AzDataboxedgeDeviceUserCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The password details.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [SecretValue]
-    [CliOption("--encrypted-password")]
-    public string? EncryptedPassword { get; set; }
+    [CliOption("--encrypted-password", GroupValues = true)]
+    public IEnumerable<string>? EncryptedPassword { get; set; }
 
 }

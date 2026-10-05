@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,38 +81,38 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Time in seconds after a backend server is removed during which on open connection remains active. Range from 0 (Disabled) to 3600.
     /// </summary>
-    [CliFlag("--connection-draining-timeout")]
-    public bool? ConnectionDrainingTimeout { get; set; }
+    [CliOption("--connection-draining-timeout")]
+    public string? ConnectionDrainingTimeout { get; set; }
 
     /// <summary>
     /// Enable or disable cookie-based affinity. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--cookie-based-affinity")]
-    public string? CookieBasedAffinity { get; set; }
+    [CliOption("--cookie-based-affinity", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CookieBasedAffinity { get; set; }
 
     /// <summary>
     /// Whether the probe is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-probe")]
-    public bool? EnableProbe { get; set; }
+    [CliOption("--enable-probe", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableProbe { get; set; }
 
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Whether to pick host header should be picked from the host name of the backend server.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--host-name-from-backend-pool")]
-    public bool? HostNameFromBackendPool { get; set; }
+    [CliOption("--host-name-from-backend-pool", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HostNameFromBackendPool { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Path that will prefix all HTTP requests.
@@ -122,8 +123,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Number of the destination port on the backend.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public string? Port { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the HTTP settings.
@@ -146,8 +147,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -158,8 +159,8 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -176,25 +177,25 @@ public record AzNetworkApplicationGatewayHttpSettingsUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable dedicated connection per backend server. Default is set to false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--dedicated-backend-connection", ShortForm = "--dedicated-connection")]
-    public bool? DedicatedBackendConnection { get; set; }
+    [CliOption("--dedicated-backend-connection", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DedicatedBackendConnection { get; set; }
 
     /// <summary>
     /// Specify an SNI value to match the common name of the certificate on the backend. By default, the application gateway uses the incoming request’s host header as the SNI. Default value is null.
     /// </summary>
-    [CliFlag("--sni-name")]
-    public bool? SniName { get; set; }
+    [CliOption("--sni-name")]
+    public string? SniName { get; set; }
 
     /// <summary>
     /// Verify or skip both chain and expiry validations of the certificate on the backend server. Default is set to true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--validate-cert-ce", ShortForm = "--validate-cert-chain-and-expiry")]
-    public bool? ValidateCertCe { get; set; }
+    [CliOption("--validate-cert-ce", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ValidateCertCe { get; set; }
 
     /// <summary>
     /// When enabled, verifies if the Common Name of the certificate provided by the backend server matches the Server Name Indication (SNI) value. Default value is true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--validate-sni")]
-    public bool? ValidateSni { get; set; }
+    [CliOption("--validate-sni", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ValidateSni { get; set; }
 
 }

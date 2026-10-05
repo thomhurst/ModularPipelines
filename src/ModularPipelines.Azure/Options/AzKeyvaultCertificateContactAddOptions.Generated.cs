@@ -57,13 +57,13 @@ public record AzKeyvaultCertificateContactAddOptions : AzOptions
     /// <summary>
     /// Full contact name.
     /// </summary>
-    [CliFlag("--name")]
-    public bool? Name { get; set; }
+    [CliOption("--name")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Contact phone number.
     /// </summary>
-    [CliFlag("--phone")]
-    public bool? Phone { get; set; }
+    [CliOption("--phone")]
+    public string? Phone { get; set; }
 
 }

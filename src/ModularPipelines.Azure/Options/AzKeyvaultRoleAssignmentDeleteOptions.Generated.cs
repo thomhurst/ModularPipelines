@@ -23,14 +23,14 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// Use this parameter instead of '--assignee' to bypass graph permission issues. This parameter only works with object ids for users, groups, service principals, and managed identities. For managed identities use the principal id. For service principals, use the object id and not the app id.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Space-separated role assignment ids.
@@ -47,8 +47,8 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Role name or id.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".
@@ -65,7 +65,7 @@ public record AzKeyvaultRoleAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

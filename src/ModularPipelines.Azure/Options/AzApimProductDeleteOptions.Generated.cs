@@ -68,14 +68,14 @@ public record AzApimProductDeleteOptions : AzOptions
     /// <summary>
     /// Delete existing subscriptions associated with the product or not.
     /// </summary>
-    [CliFlag("--delete-subscriptions")]
-    public bool? DeleteSubscriptions { get; set; }
+    [CliOption("--delete-subscriptions")]
+    public string? DeleteSubscriptions { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Enables async scaling for the app service plan. Set to "true" to create an async operation if there are insufficient workers to scale synchronously. The SKU must be Dedicated.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--async-scaling-enabled")]
-    public bool? AsyncScalingEnabled { get; set; }
+    [CliOption("--async-scaling-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AsyncScalingEnabled { get; set; }
 
     /// <summary>
     /// Accept system or user assigned identity separated. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
@@ -35,20 +36,20 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable automatic scaling. Set to "true" to enable elastic scale for this plan, or "false" to disable elastic scale for this plan. The SKU must be a Premium V2 SKU (P1V2, P2V2, P3V2) or a Premium V3 SKU (P1V3, P2V3, P3V3).  Allowed values: false, true.
     /// </summary>
-    [CliOption("--elastic-scale")]
-    public bool? ElasticScale { get; set; }
+    [CliOption("--elastic-scale", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ElasticScale { get; set; }
 
     /// <summary>
     /// Install script configurations. Provide key-value pairs for `name=&lt;name&gt; source-uri=&lt;uri&gt; type=&lt;type&gt;`.
     /// </summary>
-    [CliOption("--install-script")]
-    public string? InstallScript { get; set; }
+    [CliOption("--install-script", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? InstallScript { get; set; }
 
     /// <summary>
     /// Maximum number of instances that the plan can scale out to. The plan must be an elastic scale plan.
     /// </summary>
-    [CliFlag("--max-elastic-worker-count", ShortForm = "-m")]
-    public bool? MaxElasticWorkerCount { get; set; }
+    [CliOption("--max-elastic-worker-count", ShortForm = "-m")]
+    public int? MaxElasticWorkerCount { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,20 +60,20 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Number of workers to be allocated. Use this to scale out/in (add or remove instances), e.g. --number-of-workers 3.  Default: 1.
     /// </summary>
-    [CliFlag("--number-of-workers")]
-    public bool? NumberOfWorkers { get; set; }
+    [CliOption("--number-of-workers")]
+    public int? NumberOfWorkers { get; set; }
 
     /// <summary>
     /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--rdp-enabled")]
-    public bool? RdpEnabled { get; set; }
+    [CliOption("--rdp-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RdpEnabled { get; set; }
 
     /// <summary>
     /// Registry adapter configurations. Provide key-value pairs for `registry-key=&lt;key&gt; type=&lt;type&gt; secret-uri=&lt;uri&gt;`.
     /// </summary>
-    [CliOption("--registry-adapter")]
-    public string? RegistryAdapter { get; set; }
+    [CliOption("--registry-adapter", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? RegistryAdapter { get; set; }
 
     /// <summary>
     /// SKU of the app service plan. Use this to scale up/down (change machine size), e.g. --sku P1v3.  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1MV4, I1V2, I1V4, I2MV2, I2MV4, I2V2, I2V4, I3MV2, I3MV4, I3V2, I3V4, I4MV2, I4MV4, I4V2, I4V4, I5MV2, I5MV4, I5V2, I5V4, I6V2, I6V4, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
@@ -83,8 +84,8 @@ public record AzAppservicePlanUpdateOptions : AzOptions
     /// <summary>
     /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination-path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
     /// </summary>
-    [CliOption("--storage-mount")]
-    public string? StorageMount { get; set; }
+    [CliOption("--storage-mount", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? StorageMount { get; set; }
 
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the app service plan join. The --vnet is argument also needed if specifying subnet by name.

@@ -74,25 +74,25 @@ public record AzCosmosdbSqlRoleAssignmentUpdateOptions : AzOptions
     /// <summary>
     /// AAD Object ID of the principal to which this Role Assignment is being granted.
     /// </summary>
-    [CliFlag("--principal-id", ShortForm = "-p")]
-    public bool? PrincipalId { get; set; }
+    [CliOption("--principal-id", ShortForm = "-p")]
+    public string? PrincipalId { get; set; }
 
     /// <summary>
     /// Unique ID of the Role Definition that this Role Assignment refers to.
     /// </summary>
-    [CliFlag("--role-definition-id", ShortForm = "-d")]
-    public bool? RoleDefinitionId { get; set; }
+    [CliOption("--role-definition-id", ShortForm = "-d")]
+    public string? RoleDefinitionId { get; set; }
 
     /// <summary>
     /// Unique Name of the Role Definition that this Role Assignment refers to. Eg. 'Contoso Reader Role'.
     /// </summary>
-    [CliFlag("--role-definition-name", ShortForm = "-n")]
-    public bool? RoleDefinitionName { get; set; }
+    [CliOption("--role-definition-name", ShortForm = "-n")]
+    public string? RoleDefinitionName { get; set; }
 
     /// <summary>
     /// Data plane resource path at which this Role Assignment is being granted.
     /// </summary>
-    [CliFlag("--scope", ShortForm = "-s")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope", ShortForm = "-s")]
+    public string? Scope { get; set; }
 
 }

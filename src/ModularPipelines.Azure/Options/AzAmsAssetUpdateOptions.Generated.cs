@@ -23,14 +23,14 @@ public record AzAmsAssetUpdateOptions : AzOptions
     /// <summary>
     /// The alternate id of the asset.
     /// </summary>
-    [CliFlag("--alternate-id")]
-    public bool? AlternateId { get; set; }
+    [CliOption("--alternate-id")]
+    public string? AlternateId { get; set; }
 
     /// <summary>
     /// The asset description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

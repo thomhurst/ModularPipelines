@@ -63,14 +63,14 @@ public record AzVmUnmanagedDiskAttachOptions : AzOptions
     /// <summary>
     /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine size.
     /// </summary>
-    [CliFlag("--lun")]
-    public bool? Lun { get; set; }
+    [CliOption("--lun")]
+    public int? Lun { get; set; }
 
     /// <summary>
     /// The data disk name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Create a new disk.
@@ -81,13 +81,13 @@ public record AzVmUnmanagedDiskAttachOptions : AzOptions
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).  Default: 1023.
     /// </summary>
-    [CliFlag("--size-gb", ShortForm = "-z")]
-    public bool? SizeGb { get; set; }
+    [CliOption("--size-gb", ShortForm = "-z")]
+    public int? SizeGb { get; set; }
 
     /// <summary>
     /// Virtual hard disk URI. For example: https://mystorage.blob.core.windows.net/vhds/d1.vhd.
     /// </summary>
-    [CliFlag("--vhd-uri")]
-    public bool? VhdUri { get; set; }
+    [CliOption("--vhd-uri")]
+    public string? VhdUri { get; set; }
 
 }

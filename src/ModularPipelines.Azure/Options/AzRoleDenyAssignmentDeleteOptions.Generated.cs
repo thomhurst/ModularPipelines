@@ -23,8 +23,8 @@ public record AzRoleDenyAssignmentDeleteOptions : AzOptions
     /// <summary>
     /// The fully qualified ID of the deny assignment to delete.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// The name (GUID) of the deny assignment to delete.

@@ -15,34 +15,14 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Get the requested number of random bytes from a managed HSM.
 /// </summary>
+/// <param name="Count">The requested number of random bytes.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("keyvault", "key", "random")]
-public record AzKeyvaultKeyRandomOptions : AzOptions
+public record AzKeyvaultKeyRandomOptions(
+    [property: CliOption("--count")] int Count
+) : AzOptions
 {
-    /// <summary>
-    /// Get the requested number of random bytes from a managed HSM.
-    /// </summary>
-    /// <param name="Count">The requested number of random bytes.</param>
-    public AzKeyvaultKeyRandomOptions(
-        string Count
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(Count);
-        this.Count = Count;
-    }
-
-    public void Deconstruct(out string Count)
-    {
-        Count = this.Count;
-    }
-
-    /// <summary>
-    /// The requested number of random bytes.
-    /// </summary>
-    [CliOption("--count")]
-    public string Count { get; private init; }
-
     /// <summary>
     /// Name of the HSM.
     /// </summary>
@@ -52,7 +32,7 @@ public record AzKeyvaultKeyRandomOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

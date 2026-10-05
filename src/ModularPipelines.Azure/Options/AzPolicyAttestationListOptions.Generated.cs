@@ -23,13 +23,13 @@ public record AzPolicyAttestationListOptions : AzOptions
     /// <summary>
     /// OData filter expression.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Resource ID.
     /// </summary>
-    [CliOption("--resource", ShortForm = "--resource-id")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record AzPolicyAttestationListOptions : AzOptions
     /// <summary>
     /// Maximum number of records to return.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
 }

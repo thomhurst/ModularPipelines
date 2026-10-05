@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -38,14 +39,14 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Add an exclusion expression to the WAF check. Usage:   --exclusion VARIABLE OPERATOR VALUE
     /// </summary>
-    [CliFlag("--exclusion")]
-    public bool? Exclusion { get; set; }
+    [CliOption("--exclusion", GroupValues = true)]
+    public IEnumerable<string>? Exclusion { get; set; }
 
     /// <summary>
     /// File upload size limit in MB.
     /// </summary>
     [CliOption("--file-upload-limit")]
-    public string? FileUploadLimit { get; set; }
+    public int? FileUploadLimit { get; set; }
 
     /// <summary>
     /// Web application firewall mode.  Allowed values: detection, prevention. Default: detection.
@@ -56,8 +57,8 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Max request body size in KB.
     /// </summary>
-    [CliFlag("--max-request-body-size")]
-    public bool? MaxRequestBodySize { get; set; }
+    [CliOption("--max-request-body-size")]
+    public int? MaxRequestBodySize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -68,20 +69,20 @@ public record AzNetworkApplicationGatewayWafConfigSetOptions(
     /// <summary>
     /// Allow WAF to check the request body.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--request-body-check")]
-    public bool? RequestBodyCheck { get; set; }
+    [CliOption("--request-body-check", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequestBodyCheck { get; set; }
 
     /// <summary>
     /// Rule set type.  Default: OWASP.  Values from: az network application- gateway waf-config list-rule-sets.
     /// </summary>
-    [CliFlag("--rule-set-type")]
-    public bool? RuleSetType { get; set; }
+    [CliOption("--rule-set-type")]
+    public string? RuleSetType { get; set; }
 
     /// <summary>
     /// Rule set version.  Values from: az network application-gateway waf- config list-rule-sets.
     /// </summary>
-    [CliFlag("--rule-set-version")]
-    public bool? RuleSetVersion { get; set; }
+    [CliOption("--rule-set-version")]
+    public string? RuleSetVersion { get; set; }
 
     /// <summary>
     /// Name of the application gateway.

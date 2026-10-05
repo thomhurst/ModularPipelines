@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -85,14 +87,15 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Client ID of cluster service principal.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// Client secret of cluster service principal.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// Resource group of cluster.
@@ -103,26 +106,26 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Domain of cluster.
     /// </summary>
-    [CliFlag("--domain")]
-    public bool? Domain { get; set; }
+    [CliOption("--domain")]
+    public string? Domain { get; set; }
 
     /// <summary>
     /// Use Preconfigured NSGs. Allowed values: false, true. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-preconfigured-nsg")]
-    public bool? EnablePreconfiguredNsg { get; set; }
+    [CliOption("--enable-preconfigured-nsg", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePreconfiguredNsg { get; set; }
 
     /// <summary>
     /// Use FIPS validated cryptography modules. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliOption("--fips", ShortForm = "--fips-validated-modules")]
-    public bool? Fips { get; set; }
+    [CliOption("--fips", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Fips { get; set; }
 
     /// <summary>
     /// Ingress visibility. [Default: Public].  Allowed values: Private, Public.
@@ -133,8 +136,8 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// The desired number of IPv4 outbound IPs created and managed by Azure for the cluster public load balancer.
     /// </summary>
-    [CliFlag("--lb-ip-count", ShortForm = "--load-balancer-managed-outbound-ip-count")]
-    public bool? LbIpCount { get; set; }
+    [CliOption("--lb-ip-count")]
+    public int? LbIpCount { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -145,14 +148,14 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Encryption at host flag for master VMs. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliOption("--master-enc-host", ShortForm = "--master-encryption-at-host")]
-    public bool? MasterEncHost { get; set; }
+    [CliOption("--master-enc-host", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MasterEncHost { get; set; }
 
     /// <summary>
     /// Size of master VMs. [Default: Standard_D8s_v5].
     /// </summary>
-    [CliFlag("--master-vm-size")]
-    public bool? MasterVmSize { get; set; }
+    [CliOption("--master-vm-size")]
+    public string? MasterVmSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -163,38 +166,39 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Outbound type of cluster. Must be "Loadbalancer" or "UserDefinedRouting". [Default: Loadbalancer].
     /// </summary>
-    [CliFlag("--outbound-type")]
-    public bool? OutboundType { get; set; }
+    [CliOption("--outbound-type")]
+    public string? OutboundType { get; set; }
 
     /// <summary>
     /// CIDR of pod network. Must be a minimum of /18 or larger. [Default: 10.128.0.0/14].
     /// </summary>
-    [CliFlag("--pod-cidr")]
-    public bool? PodCidr { get; set; }
+    [CliOption("--pod-cidr")]
+    public string? PodCidr { get; set; }
 
     /// <summary>
     /// Pull secret of cluster.
     /// </summary>
-    [CliFlag("--pull-secret")]
-    public bool? PullSecret { get; set; }
+    [SecretValue]
+    [CliOption("--pull-secret")]
+    public string? PullSecret { get; set; }
 
     /// <summary>
     /// CIDR of service network. Must be a minimum of /18 or larger. [Default: 172.30.0.0/16].
     /// </summary>
-    [CliFlag("--service-cidr")]
-    public bool? ServiceCidr { get; set; }
+    [CliOption("--service-cidr")]
+    public string? ServiceCidr { get; set; }
 
     /// <summary>
     /// Tags to be assigned to the openShiftCluster resource. space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// OpenShift version to use for cluster creation.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
@@ -211,43 +215,43 @@ public record AzAroCreateOptions : AzOptions
     /// <summary>
     /// Count of worker VMs. [Default: 3].
     /// </summary>
-    [CliFlag("--worker-count")]
-    public bool? WorkerCount { get; set; }
+    [CliOption("--worker-count")]
+    public int? WorkerCount { get; set; }
 
     /// <summary>
     /// Encryption at host flag for worker VMs. [Default: false].  Allowed values: false, true.
     /// </summary>
-    [CliOption("--worker-enc-host", ShortForm = "--worker-encryption-at-host")]
-    public bool? WorkerEncHost { get; set; }
+    [CliOption("--worker-enc-host", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? WorkerEncHost { get; set; }
 
     /// <summary>
     /// Disk size in GB of worker VMs. [Default: 128].
     /// </summary>
-    [CliFlag("--worker-vm-disk-size-gb")]
-    public bool? WorkerVmDiskSizeGb { get; set; }
+    [CliOption("--worker-vm-disk-size-gb")]
+    public int? WorkerVmDiskSizeGb { get; set; }
 
     /// <summary>
     /// Size of worker VMs. [Default: Standard_D4s_v5].  Default: Standard_D4s_v5.
     /// </summary>
-    [CliFlag("--worker-vm-size")]
-    public bool? WorkerVmSize { get; set; }
+    [CliOption("--worker-vm-size")]
+    public string? WorkerVmSize { get; set; }
 
     /// <summary>
     /// Set the user managed identity on the cluster. Value must be an identity name or resource ID.
     /// </summary>
-    [CliOption("--assign-cluster-identity", ShortForm = "--mi-user-assigned")]
+    [CliOption("--assign-cluster-identity")]
     public string? AssignClusterIdentity { get; set; }
 
     /// <summary>
     /// Assign a platform workload identity used within the cluster. Requires two values:                            an operator name and either the name or resource ID of the Azure identity to use for it.
     /// </summary>
-    [CliOption("--assign-platform-wi", ShortForm = "--assign-platform-workload-identity")]
-    public string? AssignPlatformWi { get; set; }
+    [CliOption("--assign-platform-wi", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? AssignPlatformWi { get; set; }
 
     /// <summary>
     /// Enable managed identity for this cluster.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-managed-identity", ShortForm = "--enable-mi")]
-    public bool? EnableManagedIdentity { get; set; }
+    [CliOption("--enable-managed-identity", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableManagedIdentity { get; set; }
 
 }

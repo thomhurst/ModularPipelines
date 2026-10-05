@@ -63,19 +63,19 @@ public record AzSfClusterSettingSetOptions : AzOptions
     /// <summary>
     /// Section name.
     /// </summary>
-    [CliFlag("--section")]
-    public bool? Section { get; set; }
+    [CliOption("--section")]
+    public string? Section { get; set; }
 
     /// <summary>
     /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"section": "NamingService","parameter": "MaxOperationTimeout","value": 1000},{"section": "MaxFileOperationTimeout","parameter": "Max2","value": 1000}].
     /// </summary>
-    [CliFlag("--settings-section", ShortForm = "--settings-section-description")]
-    public bool? SettingsSection { get; set; }
+    [CliOption("--settings-section")]
+    public string? SettingsSection { get; set; }
 
     /// <summary>
     /// Specify the value.
     /// </summary>
-    [CliFlag("--value")]
-    public bool? Value { get; set; }
+    [CliOption("--value")]
+    public string? Value { get; set; }
 
 }

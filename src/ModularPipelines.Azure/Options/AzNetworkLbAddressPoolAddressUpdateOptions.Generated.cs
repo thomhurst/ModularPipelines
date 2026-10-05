@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -91,8 +92,8 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -109,14 +110,14 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.  Allowed values: Down, None, Up.
     /// </summary>
-    [CliOption("--admin-state", GroupValues = true)]
-    public IEnumerable<string>? AdminState { get; set; }
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
 
     /// <summary>
     /// IP Address belonging to the referenced virtual network.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name or Id of the subnet. (If name is provided, vnet is also required; If id, vnet is not required).
@@ -127,7 +128,7 @@ public record AzNetworkLbAddressPoolAddressUpdateOptions : AzOptions
     /// <summary>
     /// Name or Id of the virtual network.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
 }

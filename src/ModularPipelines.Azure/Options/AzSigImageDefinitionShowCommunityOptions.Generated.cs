@@ -41,7 +41,7 @@ public record AzSigImageDefinitionShowCommunityOptions : AzOptions
     /// <summary>
     /// The public name of the community gallery.
     /// </summary>
-    [CliFlag("--public-gallery-name")]
-    public bool? PublicGalleryName { get; set; }
+    [CliOption("--public-gallery-name")]
+    public string? PublicGalleryName { get; set; }
 
 }

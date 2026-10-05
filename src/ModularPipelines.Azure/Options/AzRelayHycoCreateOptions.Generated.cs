@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,13 +69,13 @@ public record AzRelayHycoCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether client authorization is required. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--requires-client-authorization", ShortForm = "-c")]
-    public bool? RequiresClientAuthorization { get; set; }
+    [CliOption("--requires-client-authorization", ShortForm = "-c", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequiresClientAuthorization { get; set; }
 
     /// <summary>
     /// Endpoint metadata.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
 }

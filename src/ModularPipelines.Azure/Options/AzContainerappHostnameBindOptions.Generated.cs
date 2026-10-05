@@ -64,14 +64,14 @@ public record AzContainerappHostnameBindOptions : AzOptions
     /// <summary>
     /// Thumbprint of the certificate.
     /// </summary>
-    [CliFlag("--thumbprint", ShortForm = "-t")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint", ShortForm = "-t")]
+    public string? Thumbprint { get; set; }
 
     /// <summary>
     /// Validation method of custom domain ownership.
     /// </summary>
-    [CliFlag("--validation-method", ShortForm = "-v")]
-    public bool? ValidationMethod { get; set; }
+    [CliOption("--validation-method", ShortForm = "-v")]
+    public string? ValidationMethod { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

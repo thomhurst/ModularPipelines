@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,7 +54,7 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, UserAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -65,8 +66,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptio ns/{subscriptionId}/resourceGroups/{resourceGroupName}/pr oviders/Microsoft.Insights/dataCollectionRules/{dcrName}.
@@ -89,8 +90,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// The workspace daily quota for ingestion in gigabytes. The minimum value is 0.023 and default is -1 which means unlimited.
     /// </summary>
-    [CliFlag("--quota")]
-    public bool? Quota { get; set; }
+    [CliOption("--quota")]
+    public string? Quota { get; set; }
 
     /// <summary>
     /// The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.
@@ -101,8 +102,8 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether the replication is enabled or not. When true, workspace configuration and data is replicated to the specified location. If replication is been enabled, location must be provided.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--replication-enabled")]
-    public bool? ReplicationEnabled { get; set; }
+    [CliOption("--replication-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ReplicationEnabled { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -125,13 +126,13 @@ public record AzMonitorLogAnalyticsWorkspaceUpdateOptions : AzOptions
     /// <summary>
     /// The capacity reservation level for this workspace, when CapacityReservation sku is selected. The maximum value is 1000 and must be in multiples of 100. If you want to increase the limit, please contact LAIngestionRate@microsoft.com.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.
     /// </summary>
-    [CliOption("--capacity-reservation-level", ShortForm = "--level")]
+    [CliOption("--capacity-reservation-level")]
     public string? CapacityReservationLevel { get; set; }
 
     /// <summary>
     /// The name of the SKU.  Allowed values: CapacityReservation, Free, LACluster, PerGB2018, PerNode, Premium, Standalone, Standard.
     /// </summary>
-    [CliOption("--sku", ShortForm = "--sku-name")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
 }

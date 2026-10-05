@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzIotHubIdentityAssignOptions : AzOptions
     /// <summary>
     /// Role to assign to the hub's system-assigned managed identity.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Space separated list of scopes to assign the role (--role) for the system-assigned managed identity.
     /// </summary>
-    [CliFlag("--scopes")]
-    public bool? Scopes { get; set; }
+    [CliOption("--scopes", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Scopes { get; set; }
 
     /// <summary>
     /// Assign a system-assigned managed identity to this hub.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--system", ShortForm = "--system-assigned")]
-    public bool? System { get; set; }
+    [CliOption("--system", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? System { get; set; }
 
     /// <summary>
     /// Assign user-assigned managed identities to this hub. Accept space- separated list of identity resource IDs.
     /// </summary>
-    [CliFlag("--user", ShortForm = "--user-assigned")]
-    public bool? User { get; set; }
+    [CliOption("--user", GroupValues = true)]
+    public IEnumerable<string>? User { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -53,8 +54,8 @@ public record AzIotHubIdentityAssignOptions : AzOptions
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

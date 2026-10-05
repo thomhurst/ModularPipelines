@@ -64,13 +64,13 @@ public record AzBatchNodeListOptions : AzOptions
     /// <summary>
     /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata- filters-in-batch.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// An OData $select clause.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select", GroupValues = true)]
+    public IEnumerable<string>? Select { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,32 +69,32 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     /// <summary>
     /// Authorization key to establish the connection.
     /// </summary>
-    [CliFlag("--authorization-key")]
-    public bool? AuthorizationKey { get; set; }
+    [CliOption("--authorization-key")]
+    public string? AuthorizationKey { get; set; }
 
     /// <summary>
     /// Enable internet security. A virtual hub can have the ability to propagate a learned default route to this ExpressRoute connection. This ref https://review.learn.microsoft.com/en- us/azure/virtual-wan/effective-routes- virtual-hub?branch=pr-en- us-91866#aboutdefaultroute might be helpful. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--internet-security")]
-    public bool? InternetSecurity { get; set; }
+    [CliOption("--internet-security", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InternetSecurity { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Routing weight associated with the connection.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public string? RoutingWeight { get; set; }
 
     /// <summary>
     /// ExpressRoute circuit name.
     /// </summary>
-    [CliFlag("--circuit-name")]
-    public bool? CircuitName { get; set; }
+    [CliOption("--circuit-name")]
+    public string? CircuitName { get; set; }
 
     /// <summary>
     /// Name or ID of an ExpressRoute peering.
@@ -102,15 +103,33 @@ public record AzNetworkExpressRouteGatewayConnectionCreateOptions : AzOptions
     public string? Peering { get; set; }
 
     /// <summary>
+    /// The resource id of route table associated with this routing configuration. WARNING: Argument '--associated-route-table' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--associated")]
+    public string? Associated { get; set; }
+
+    /// <summary>
+    /// Space-separated list of labels for propagated route tables.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--labels' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--labels", GroupValues = true)]
+    public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Space-separated list of resource id of propagated route tables.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more. WARNING: Argument '--propagated-route-tables' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--propagated", GroupValues = true)]
+    public IEnumerable<string>? Propagated { get; set; }
+
+    /// <summary>
     /// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--inbound-route-map")]
-    public string? InboundRouteMap { get; set; }
+    [CliOption("--inbound-route-map", GroupValues = true)]
+    public IEnumerable<string>? InboundRouteMap { get; set; }
 
     /// <summary>
     /// The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--outbound-route-map")]
-    public string? OutboundRouteMap { get; set; }
+    [CliOption("--outbound-route-map", GroupValues = true)]
+    public IEnumerable<string>? OutboundRouteMap { get; set; }
 
 }

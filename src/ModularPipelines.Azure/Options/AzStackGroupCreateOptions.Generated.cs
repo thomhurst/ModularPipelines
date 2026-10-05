@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -55,13 +56,13 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that are no longer managed after the stack is updated or deleted.  Allowed values: deleteAll, deleteResources, detachAll.
     /// </summary>
-    [CliOption("--action-on-unmanage", ShortForm = "--aou")]
+    [CliOption("--action-on-unmanage")]
     public string ActionOnUnmanage { get; private init; }
 
     /// <summary>
     /// Define which operations are denied on resources managed by the stack.  Allowed values: denyDelete, denyWriteAndDelete, none.
     /// </summary>
-    [CliOption("--deny-settings-mode", ShortForm = "--dm")]
+    [CliOption("--deny-settings-mode")]
     public string DenySettingsMode { get; private init; }
 
     /// <summary>
@@ -79,26 +80,26 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. Allowed values: false, true.
     /// </summary>
-    [CliOption("--bse", ShortForm = "--bypass-stack-out-of-sync-error")]
-    public bool? Bse { get; set; }
+    [CliOption("--bse", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Bse { get; set; }
 
     /// <summary>
     /// DenySettings will be applied to child scopes.
     /// </summary>
-    [CliFlag("--cs", ShortForm = "--deny-settings-apply-to-child-scopes")]
+    [CliFlag("--cs")]
     public bool? Cs { get; set; }
 
     /// <summary>
     /// List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-actions", ShortForm = "--ea", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedActions { get; set; }
+    [CliOption("--deny-settings-excluded-actions")]
+    public string? DenySettingsExcludedActions { get; set; }
 
     /// <summary>
     /// List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted.
     /// </summary>
-    [CliOption("--deny-settings-excluded-principals", ShortForm = "--ep", GroupValues = true)]
-    public IEnumerable<string>? DenySettingsExcludedPrincipals { get; set; }
+    [CliOption("--deny-settings-excluded-principals")]
+    public string? DenySettingsExcludedPrincipals { get; set; }
 
     /// <summary>
     /// The description of deployment stack.
@@ -116,7 +117,7 @@ public record AzStackGroupCreateOptions : AzOptions
     /// Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<CliValueGroup>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.
@@ -127,14 +128,14 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Defines what happens to resources that do not support deletion when they are no longer managed by the stack.  Allowed values: detach, fail.
     /// </summary>
-    [CliOption("--resources-without-delete-support", ShortForm = "--rwd")]
+    [CliOption("--resources-without-delete-support")]
     public string? ResourcesWithoutDeleteSupport { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
@@ -157,7 +158,7 @@ public record AzStackGroupCreateOptions : AzOptions
     /// <summary>
     /// Validation level for the deployment stack. The default is 'Provider'.  Allowed values: Provider, ProviderNoRbac, Template.
     /// </summary>
-    [CliOption("--validation-level", ShortForm = "--vl")]
+    [CliOption("--validation-level")]
     public string? ValidationLevel { get; set; }
 
     /// <summary>

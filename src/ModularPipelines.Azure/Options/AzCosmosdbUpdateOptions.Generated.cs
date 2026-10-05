@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzCosmosdbUpdateOptions : AzOptions
     /// <summary>
     /// Set custom capabilities on the Cosmos DB database account.
     /// </summary>
-    [CliFlag("--capabilities")]
-    public bool? Capabilities { get; set; }
+    [CliOption("--capabilities", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Capabilities { get; set; }
 
     /// <summary>
     /// Default consistency level of the Cosmos DB database account.  Allowed values: BoundedStaleness, ConsistentPrefix, Eventual, Session, Strong.
@@ -47,86 +48,92 @@ public record AzCosmosdbUpdateOptions : AzOptions
     /// <summary>
     /// Disable write operations on metadata resources (databases, containers, throughput) via account keys.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-key-based-metadata-write-access")]
-    public bool? DisableKeyBasedMetadataWriteAccess { get; set; }
+    [CliOption("--disable-key-based-metadata-write-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableKeyBasedMetadataWriteAccess { get; set; }
 
     /// <summary>
     /// Disable key-based authentication on the Cosmos DB account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Flag to enable log storage on the account. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-analytical-storage")]
-    public bool? EnableAnalyticalStorage { get; set; }
+    [CliOption("--enable-analytical-storage", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAnalyticalStorage { get; set; }
 
     /// <summary>
     /// Enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-automatic-failover")]
-    public bool? EnableAutomaticFailover { get; set; }
+    [CliOption("--enable-automatic-failover", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutomaticFailover { get; set; }
 
     /// <summary>
     /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true. Usage:    --enable-burst-capacity true Default:  false The accepted values for the enable-burst-capacity are true and false.
     /// </summary>
-    [CliOption("--enable-burst-capacity")]
-    public bool? EnableBurstCapacity { get; set; }
+    [CliOption("--enable-burst-capacity", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableBurstCapacity { get; set; }
 
     /// <summary>
     /// Enable Multiple Write Locations.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-multiple-write-locations")]
-    public bool? EnableMultipleWriteLocations { get; set; }
+    [CliOption("--enable-multiple-write-locations", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMultipleWriteLocations { get; set; }
 
     /// <summary>
     /// Flag to enable partition merge on the account. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-partition-merge")]
-    public bool? EnablePartitionMerge { get; set; }
+    [CliOption("--enable-partition-merge", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePartitionMerge { get; set; }
 
     /// <summary>
     /// Flag to enable priority based execution on the account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-pbe")]
-    public bool? EnablePbe { get; set; }
+    [CliOption("--enable-pbe", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePbe { get; set; }
 
     /// <summary>
     /// Flag to Enable/Disable burst capacity feature. Allowed values: false, true. Usage:    --enable-prpp-autoscale true Default:  false The accepted values for the --enable-prpp-autoscale are true and false.
     /// </summary>
-    [CliOption("--enable-prpp-autoscale")]
-    public bool? EnablePrppAutoscale { get; set; }
+    [CliOption("--enable-prpp-autoscale", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePrppAutoscale { get; set; }
 
     /// <summary>
     /// Enables virtual network on the Cosmos DB database account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-virtual-network")]
-    public bool? EnableVirtualNetwork { get; set; }
+    [CliOption("--enable-virtual-network", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableVirtualNetwork { get; set; }
 
     /// <summary>
     /// Firewall support. Specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma-separated and must not contain any spaces.
     /// </summary>
-    [CliFlag("--ip-range-filter")]
-    public bool? IpRangeFilter { get; set; }
+    [CliOption("--ip-range-filter", GroupValues = true)]
+    public IEnumerable<string>? IpRangeFilter { get; set; }
+
+    /// <summary>
+    /// The URI of the key vault. WARNING: Argument '--key-uri' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--key-uri")]
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// Add a location to the Cosmos DB database account. Usage:          --locations KEY=VALUE [KEY=VALUE ...] Required Keys:  regionName, failoverPriority Optional Key:   isZoneRedundant Default:        single region account in the location of the specified resource group. Failover priority values are 0 for write regions and greater than 0 for read regions. A failover priority value must be unique and less than the total number of regions. Multiple locations can be specified by using more than one `--locations` argument.
     /// </summary>
-    [CliOption("--locations")]
-    public string? Locations { get; set; }
+    [CliOption("--locations", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Locations { get; set; }
 
     /// <summary>
     /// When used with Bounded Staleness consistency, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400.
     /// </summary>
-    [CliFlag("--max-interval")]
-    public bool? MaxInterval { get; set; }
+    [CliOption("--max-interval")]
+    public int? MaxInterval { get; set; }
 
     /// <summary>
     /// When used with Bounded Staleness consistency, this value represents the number of stale requests tolerated. Accepted range for this value is 10 - 2,147,483,647.
     /// </summary>
-    [CliFlag("--max-staleness-prefix")]
-    public bool? MaxStalenessPrefix { get; set; }
+    [CliOption("--max-staleness-prefix")]
+    public int? MaxStalenessPrefix { get; set; }
 
     /// <summary>
     /// Indicate the minimum allowed TLS version. Allowed values: Tls, Tls11, Tls12. Usage:    --minimal-tls-version TLSVersion Default:  Tls, except for Cassandra and Mongo APIs, which only work with Tls12 The accepted values for the minimal TLS version are 'Tls', 'Tls11', and 'Tls12', which correspond to the TLS versions 1.0, 1.1, and 1.2.
@@ -161,26 +168,26 @@ public record AzCosmosdbUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// ACL's for virtual network.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules", GroupValues = true)]
+    public IEnumerable<string>? VirtualNetworkRules { get; set; }
 
     /// <summary>
     /// Schema type for analytical storage.  Allowed values: FullFidelity, WellDefined.
     /// </summary>
-    [CliOption("--analytical-storage-schema-type", ShortForm = "--as-schema")]
+    [CliOption("--analytical-storage-schema-type")]
     public string? AnalyticalStorageSchemaType { get; set; }
 
     /// <summary>
     /// The frequency(in minutes) with which backups are taken (only for accounts with periodic mode backups).
     /// </summary>
-    [CliFlag("--backup-interval")]
-    public bool? BackupInterval { get; set; }
+    [CliOption("--backup-interval")]
+    public int? BackupInterval { get; set; }
 
     /// <summary>
     /// The type of backup policy of the account to create.  Allowed values: Continuous, Periodic.
@@ -197,8 +204,8 @@ public record AzCosmosdbUpdateOptions : AzOptions
     /// <summary>
     /// The time(in hours) for which each backup is retained (only for accounts with periodic mode backups).
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// The tier of Continuous backup.  Allowed values: Continuous30Days, Continuous7Days.

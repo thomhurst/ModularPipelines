@@ -68,19 +68,19 @@ public record AzApimApiSchemaListOptions : AzOptions
     /// <summary>
     /// Number of records to skip.
     /// </summary>
-    [CliFlag("--skip")]
-    public bool? Skip { get; set; }
+    [CliOption("--skip")]
+    public int? Skip { get; set; }
 
     /// <summary>
     /// Number of records to return.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public int? Top { get; set; }
 
     /// <summary>
     /// Filter of APIs by displayName.
     /// </summary>
-    [CliFlag("--filter-display-name")]
-    public bool? FilterDisplayName { get; set; }
+    [CliOption("--filter-display-name")]
+    public string? FilterDisplayName { get; set; }
 
 }

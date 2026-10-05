@@ -82,19 +82,19 @@ public record AzStorageAccountBlobServicePropertiesCorsRuleAddOptions : AzOption
     /// <summary>
     /// Space-separated list of HTTP verbs (methods) allowed to be executed by the origin.
     /// </summary>
-    [CliOption("--allowed-methods", ShortForm = "--methods", GroupValues = true)]
+    [CliOption("--allowed-methods", GroupValues = true)]
     public IEnumerable<string> AllowedMethods { get; private init; }
 
     /// <summary>
     /// Space-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains.
     /// </summary>
-    [CliOption("--allowed-origins", ShortForm = "--origins", GroupValues = true)]
+    [CliOption("--allowed-origins", GroupValues = true)]
     public IEnumerable<string> AllowedOrigins { get; private init; }
 
     /// <summary>
     /// The number of seconds that the client/browser should cache a preflight response.
     /// </summary>
-    [CliOption("--max-age", ShortForm = "--max-age-in-seconds")]
+    [CliOption("--max-age")]
     public int MaxAge { get; private init; }
 
     /// <summary>

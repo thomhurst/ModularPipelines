@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
-    [CliFlag("--allowed-origins", ShortForm = "-a")]
-    public bool? AllowedOrigins { get; set; }
+    [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AllowedOrigins { get; set; }
 
     /// <summary>
     /// The switch for messaging logs which signalr service will generate or not.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-message-logs")]
-    public bool? EnableMessageLogs { get; set; }
+    [CliOption("--enable-message-logs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMessageLogs { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -92,14 +93,14 @@ public record AzSignalrCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.  Default: Allow.

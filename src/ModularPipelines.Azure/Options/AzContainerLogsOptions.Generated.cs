@@ -23,8 +23,8 @@ public record AzContainerLogsOptions : AzOptions
     /// <summary>
     /// The container name to tail the logs. If omitted, the first container in the container group will be chosen.
     /// </summary>
-    [CliFlag("--container-name")]
-    public bool? ContainerName { get; set; }
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// Indicate to stream the tailing logs.

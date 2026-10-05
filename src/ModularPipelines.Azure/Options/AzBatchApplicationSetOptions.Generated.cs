@@ -68,19 +68,19 @@ public record AzBatchApplicationSetOptions : AzOptions
     /// <summary>
     /// Specify to indicate whether packages within the application may be overwritten using the same version string. Specify either 'true' or 'false' to update the property.
     /// </summary>
-    [CliFlag("--allow-updates")]
-    public bool? AllowUpdates { get; set; }
+    [CliOption("--allow-updates")]
+    public string? AllowUpdates { get; set; }
 
     /// <summary>
     /// Specify which package to use if a client requests the application but does not specify a version.
     /// </summary>
-    [CliFlag("--default-version")]
-    public bool? DefaultVersion { get; set; }
+    [CliOption("--default-version")]
+    public string? DefaultVersion { get; set; }
 
     /// <summary>
     /// Specify the display name for the application.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
 }

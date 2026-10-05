@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -101,19 +102,19 @@ public record AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions : AzOptions
     /// <summary>
     /// Function Aliases are short names given to Saved Searches so they can be easily referenced in query. They are required for Computer Groups.
     /// </summary>
-    [CliFlag("--fa", ShortForm = "--func-alias")]
-    public bool? Fa { get; set; }
+    [CliOption("--fa")]
+    public string? Fa { get; set; }
 
     /// <summary>
     /// The optional function parameters if query serves as a function. Value should be in the following format: 'param-name1:type1 = default_value1, param-name2:type2 = default_value2'. For more examples and proper syntax please refer to https://learn.microsoft.com/azure/kusto/query/functions/user- defined-functions.
     /// </summary>
-    [CliFlag("--fp", ShortForm = "--func-param")]
-    public bool? Fp { get; set; }
+    [CliOption("--fp")]
+    public string? Fp { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

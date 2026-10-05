@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -55,6 +56,12 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     public string StorageAccount { get; private init; }
 
     /// <summary>
+    /// The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.  Allowed values: false, true. WARNING: Argument '--enable-vlw' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--enable-vlw", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableVlw { get; set; }
+
+    /// <summary>
     /// Throw an exception if the container already exists.
     /// </summary>
     [CliFlag("--fail-on-exist")]
@@ -87,13 +94,13 @@ public record AzStorageContainerRmCreateOptions : AzOptions
     /// <summary>
     /// Default the container to use specified encryption scope for all writes.
     /// </summary>
-    [CliFlag("--default-encryption-scope", ShortForm = "-d")]
-    public bool? DefaultEncryptionScope { get; set; }
+    [CliOption("--default-encryption-scope", ShortForm = "-d")]
+    public string? DefaultEncryptionScope { get; set; }
 
     /// <summary>
     /// Block override of encryption scope from the container default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--deny-encryption-scope-override", ShortForm = "--deny-override")]
-    public bool? DenyEncryptionScopeOverride { get; set; }
+    [CliOption("--deny-encryption-scope-override", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DenyEncryptionScopeOverride { get; set; }
 
 }

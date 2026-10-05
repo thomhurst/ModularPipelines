@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzSynapseKustoPoolRemoveLanguageExtensionOptions : AzOptions
     /// The list of language extensions. Usage: --value language-extension-name=XX
     /// </summary>
     [CliOption("--value", GroupValues = true)]
-    public IEnumerable<string>? Value { get; set; }
+    public IEnumerable<CliValueGroup>? Value { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

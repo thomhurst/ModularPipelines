@@ -29,25 +29,14 @@ public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzAksNodepoolManualScaleUpdateOptions(
         string ClusterName,
-        IEnumerable<string> CurrentVmSizes,
+        string CurrentVmSizes,
         string Name,
         string ResourceGroup
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(CurrentVmSizes);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CurrentVmSizes));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(CurrentVmSizes));
-            }
-
-            CurrentVmSizes = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVmSizes);
         this.CurrentVmSizes = CurrentVmSizes;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -55,7 +44,7 @@ public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out IEnumerable<string> CurrentVmSizes, out string Name, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out string CurrentVmSizes, out string Name, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         CurrentVmSizes = this.CurrentVmSizes;
@@ -72,8 +61,8 @@ public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
     /// <summary>
     /// Comma-separated list of sizes in the manual to be updated.
     /// </summary>
-    [CliOption("--current-vm-sizes", GroupValues = true)]
-    public IEnumerable<string> CurrentVmSizes { get; private init; }
+    [CliOption("--current-vm-sizes")]
+    public string CurrentVmSizes { get; private init; }
 
     /// <summary>
     /// The node pool name.
@@ -96,13 +85,13 @@ public record AzAksNodepoolManualScaleUpdateOptions : AzOptions
     /// <summary>
     /// Number of nodes in the manual.
     /// </summary>
-    [CliFlag("--node-count", ShortForm = "-c")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Comma-separated list of new sizes.
     /// </summary>
-    [CliOption("--vm-sizes", GroupValues = true)]
-    public IEnumerable<string>? VmSizes { get; set; }
+    [CliOption("--vm-sizes")]
+    public string? VmSizes { get; set; }
 
 }
