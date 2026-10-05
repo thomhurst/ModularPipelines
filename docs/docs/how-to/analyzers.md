@@ -55,3 +55,43 @@ The legacy prose IDs were renamed so `.editorconfig` settings can use one predic
 | `MPDEP004` | `MP0019` |
 
 Update existing `dotnet_diagnostic.<id>.severity` entries and warning suppressions to the current IDs.
+
+## V3-to-V4 upgrade code fixes
+
+After upgrading the core and integration packages to V4, use **Upgrade to
+ModularPipelines V4** from your editor's quick actions on compiler errors
+`CS1061`, `CS0117`, or `CS1739`. These fixes cover:
+
+- Tool access, such as `context.Git()` becoming `context.Tools.Git`.
+- Methods renamed with an `Async` suffix.
+- Named arguments renamed from `token:` to `cancellationToken:`.
+- Git commands moved into a command group, discovered from the installed `IGitCommands` API.
+- Legacy `ModuleStatus` names, including `Successful` becoming `Succeeded` and `Processing` becoming `Running`.
+
+For example, apply the tool-access fix and then the command fix to migrate:
+
+```csharp
+await context.Git().Commands.Config(options, token: cancellationToken);
+```
+
+into:
+
+```csharp
+using ModularPipelines.Context;
+
+await context.Tools.Git.Commands.Repository.ConfigAsync(options, cancellationToken: cancellationToken);
+```
+
+Fixes bind each proposed replacement against the APIs installed in your project.
+A replacement is offered only when it resolves without errors to a ModularPipelines
+member. Ambiguous Git groups and calls whose arguments also need manual changes
+are left for you to resolve. Import `ModularPipelines.Context`, where the source
+generator emits the tool extension properties; an old import such as
+`ModularPipelines.Git.Extensions` does not expose them. Extension properties require a
+C# 14-capable editor/compiler.
+
+Use **Fix All** for independent occurrences. A chain of old calls can expose a
+new compiler error after the first fix; apply the next quick action or repeat
+Fix All until the mechanical changes are complete. Review the resulting code:
+these fixes do not add `await`, change option types, register integrations, or
+handle every V4 breaking change.
