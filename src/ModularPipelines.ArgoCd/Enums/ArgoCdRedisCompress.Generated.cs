@@ -6,18 +6,19 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.ArgoCd.Options;
 
-namespace ModularPipelines.ArgoCd.Options;
+namespace ModularPipelines.ArgoCd.Enums;
 
 /// <summary>
-/// Manage policies for Git repositories
+/// Allowed values for --redis-compress.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-[ExcludeFromCodeCoverage]
-[CliSubCommand("proj", "source-integrity", "git")]
-public record ArgoCdProjSourceIntegrityGitOptions : ArgoCdOptions
+public enum ArgoCdRedisCompress
 {
+    [EnumValue("gzip")]
+    Gzip,
+
+    [EnumValue("none")]
+    None
 }
