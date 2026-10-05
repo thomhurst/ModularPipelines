@@ -144,7 +144,7 @@ public record AzStorageAccountBlobServicePropertiesUpdateOptions : AzOptions
     /// The absolute path to a webpage that Azure Storage serves for requests that don't correspond to an existing file. The contents of the page are returned with HTTP 404 Not Found. Only a single custom 404 page is supported in each static website.
     /// </summary>
     [CliOption("--404-document")]
-    public string? _404Document { get; set; }
+    public string? Number404Document { get; set; }
 
     /// <summary>
     /// The absolute path where the default index file is present. This absolute path is mutually exclusive to "indexDocument" and it is case- sensitive.
