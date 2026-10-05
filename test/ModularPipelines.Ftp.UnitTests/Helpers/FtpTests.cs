@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using FluentFTP;
+using FluentFTP.Exceptions;
 using ModularPipelines.Ftp;
 using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
@@ -50,6 +51,39 @@ public class FtpTests : TestBase
     }
 
     [Test]
+    [Arguments(FtpEncryptionMode.None)]
+    [Arguments(FtpEncryptionMode.Auto)]
+    [Arguments(FtpEncryptionMode.Explicit)]
+    public async Task Required_Encryption_Rejects_Plaintext_Without_Sending_Credentials(FtpEncryptionMode encryptionMode)
+    {
+        await using var ftpServer = LocalFtpServer.Start();
+        var ftp = await GetService<IFtp>();
+        IAsyncFtpClient? captured = null;
+        var options = CreateOptions(ftpServer.Port);
+        var configure = options.ClientConfigurator;
+        options = options with
+        {
+            RequireEncryption = true,
+            ClientConfigurator = client =>
+            {
+                captured = client;
+                configure!(client);
+                client.Config.EncryptionMode = encryptionMode;
+            },
+        };
+
+        await Assert.ThrowsAsync<FtpException>(() => ftp.GetFtpClientAsync(options));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(captured!.IsDisposed).IsTrue();
+            await Assert.That(ftpServer.Commands.Any(command =>
+                command.StartsWith("USER ", StringComparison.Ordinal)
+                || command.StartsWith("PASS ", StringComparison.Ordinal))).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Failed_Configuration_Disposes_Client()
     {
         var ftp = await GetService<IFtp>();
@@ -83,7 +117,9 @@ public class FtpTests : TestBase
     }
 
     [Test]
-    public async Task Cancellation_During_Connection_Disposes_Client()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Cancellation_During_Connection_Disposes_Client(bool requireEncryption)
     {
         using var listener = new TcpListener(IPAddress.Loopback, 0);
         listener.Start();
@@ -94,6 +130,7 @@ public class FtpTests : TestBase
         var configure = options.ClientConfigurator;
         options = options with
         {
+            RequireEncryption = requireEncryption,
             ClientConfigurator = client =>
             {
                 captured = client;

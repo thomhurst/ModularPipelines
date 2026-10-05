@@ -6,6 +6,8 @@ ModularPipelines.Ftp.FtpExtensions
 ModularPipelines.Ftp.IFtp.GetFtpClientAsync(ModularPipelines.Ftp.FtpOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<FluentFTP.AsyncFtpClient!>!
 *REMOVED*ModularPipelines.Ftp.Options.FtpOptions
 ModularPipelines.Ftp.FtpOptions
+ModularPipelines.Ftp.FtpOptions.RequireEncryption.get -> bool
+ModularPipelines.Ftp.FtpOptions.RequireEncryption.init -> void
 *REMOVED*ModularPipelines.Ftp.Options.FtpOptions.ClientConfigurator.get -> System.Action<FluentFTP.IAsyncFtpClient!>?
 ModularPipelines.Ftp.FtpOptions.ClientConfigurator.get -> System.Action<FluentFTP.IAsyncFtpClient!>?
 *REMOVED*ModularPipelines.Ftp.Options.FtpOptions.ClientConfigurator.init -> void
