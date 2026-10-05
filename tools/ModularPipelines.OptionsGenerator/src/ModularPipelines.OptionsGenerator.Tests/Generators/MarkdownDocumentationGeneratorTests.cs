@@ -59,6 +59,20 @@ public class MarkdownDocumentationGeneratorTests
     }
 
     [Test]
+    public async Task Global_Descriptions_Escape_Mdx_Syntax()
+    {
+        var tool = ToolDefinition("yq") with
+        {
+            GlobalOptions = [Option("--xml-directive-name", "XmlDirectiveName", "string?") with
+            {
+                Description = "XML <!DOCTYPE> & Lua {foo=bar} | text",
+            }],
+        };
+        var markdown = await GenerateDocumentation(tool);
+        await Assert.That(markdown).Contains("XML &lt;!DOCTYPE&gt; &amp; Lua &#123;foo=bar&#125; \\| text");
+    }
+
+    [Test]
     public async Task GenerateAsync_EmitsInstallEntryPointCommandsAndWorkedExample()
     {
         var tool = new CliToolDefinition
