@@ -22,4 +22,16 @@ namespace ModularPipelines.Kind.Options;
 [CliGlobalOptions]
 public abstract record KindOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// silence all stderr output
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// info log verbosity, higher value produces more output
+    /// </summary>
+    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? Verbosity { get; set; }
+
 }

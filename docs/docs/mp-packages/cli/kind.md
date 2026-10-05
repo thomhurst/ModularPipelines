@@ -30,6 +30,15 @@ Resolve the service in a module, then select a command from the table below. A r
 var kind = context.Tools.Kind;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--quiet` | `Quiet` | All editions | silence all stderr output |
+| `--verbosity` | `Verbosity` | All editions | info log verbosity, higher value produces more output |
+
 ## Commands
 
 | CLI command | Options record |

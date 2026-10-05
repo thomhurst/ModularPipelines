@@ -46,18 +46,6 @@ public record KindBuildNodeImageOptions : KindOptions
     public KindBuildNodeImageType? Type { get; set; }
 
     /// <summary>
-    /// silence all stderr output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// info log verbosity, higher value produces more output
-    /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
-
-    /// <summary>
     /// The kubernetes-source operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

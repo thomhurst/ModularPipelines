@@ -50,18 +50,6 @@ public record KindLoadImageArchiveOptions : KindOptions
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>
-    /// silence all stderr output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// info log verbosity, higher value produces more output
-    /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
-
-    /// <summary>
     /// The &lt;IMAGE.tar&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
