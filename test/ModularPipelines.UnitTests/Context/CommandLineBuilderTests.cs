@@ -477,6 +477,56 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    [Arguments("--feature")]
+    [Arguments("-f")]
+    [Arguments("--feature=true")]
+    [Arguments("--feature=false")]
+    [Arguments("-f=true")]
+    [Arguments("-f=false")]
+    public async Task Build_Hoists_Manual_Boolean_Flag_Without_Consuming_Operand(string flag)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var result = builder.Build(new TestBooleanManualFlagOptions
+        {
+            Arguments = [flag, "operand"],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo($"tool {flag} -- -1 operand");
+    }
+
+    [Test]
+    public async Task Build_Optional_Value_Stops_Before_Attached_Boolean_Flag()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var result = builder.Build(new TestBooleanManualFlagOptions
+        {
+            Arguments = ["--mode", "-f=false", "operand"],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("tool --mode -f=false -- -1 operand");
+    }
+
+    [Test]
+    [Arguments("--feature=true")]
+    [Arguments("--feature=false")]
+    public async Task Build_Does_Not_Infer_Attached_Boolean_Syntax_For_Separate_Negation(string argument)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var result = builder.Build(new TestNegatedManualFlagOptions
+        {
+            Arguments = [argument],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo($"tool -- -1 {argument}");
+    }
+
+    [Test]
     public async Task Build_Preserves_Manual_Arguments_After_Ordinary_Passthrough_Values()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -2006,6 +2056,19 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliFlag("--feature", NegatedName = "--no-feature")]
         public bool? Feature { get; init; }
+
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public string? Filter { get; init; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestBooleanManualFlagOptions : CommandLineToolOptions
+    {
+        [CliFlag("--feature", ShortForm = "-f", NegatedName = "--feature=false")]
+        public bool? Feature { get; init; }
+
+        [CliOption("--mode", ValueArity = CliOptionValueArity.Optional)]
+        public CliOptionValue? Mode { get; init; }
 
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; init; }
