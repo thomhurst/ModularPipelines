@@ -1,5 +1,12 @@
 # ModularPipelines V4 Release Notes
 
+## Eksctl inherited settings
+
+`EksctlOptions` now declares `Color`, `Dumplogs`, and `Verbose` for all command
+records. Existing initializers retain their property names and types. Reflection
+over command types must include inherited properties. These persistent settings
+render before the command path; Region, Profile, and resource options remain local.
+See the [Eksctl migration guidance](docs/docs/mp-packages/eksctl.md#inherited-settings-and-v4-migration).
 ## Grype persistent settings
 
 `GrypeOptions` now declares `Config`, `Profile`, `Quiet`, and `Verbose` for every
