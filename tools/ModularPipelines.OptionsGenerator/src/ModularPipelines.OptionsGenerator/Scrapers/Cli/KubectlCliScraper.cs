@@ -8,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// CLI-first scraper for kubectl.
 /// kubectl is a Cobra-based CLI with consistent help formatting.
 /// </summary>
-public class KubectlCliScraper : CobraCliScraper
+public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     public override string ToolName => "kubectl";
     public override string NamespacePrefix => "Kubernetes";
@@ -26,11 +26,6 @@ public class KubectlCliScraper : CobraCliScraper
             option.CSharpType == "bool?"
                 ? option with { IsFlag = true, NegatedSwitchName = option.SwitchName + "=false" }
                 : option)];
-
-    public KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
@@ -166,7 +161,7 @@ public class KubectlCliScraper : CobraCliScraper
     private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(
         IReadOnlyList<CliPositionalArgument> arguments,
         params string[] propertyNames) =>
-        arguments
+        [.. arguments
             .Select(argument => propertyNames.Contains(
                 argument.PropertyName,
                 StringComparer.OrdinalIgnoreCase)
@@ -174,8 +169,7 @@ public class KubectlCliScraper : CobraCliScraper
                 {
                     IsValidationRequired = false,
                 }
-                : argument)
-            .ToArray();
+                : argument)];
 
     private static IReadOnlyList<CliPositionalArgument> RemoveArgument(
         IReadOnlyList<CliPositionalArgument> arguments,
