@@ -221,24 +221,9 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = GetEffectiveName(option.Attribute);
 
-        if (value is CliValueGroup group)
+        if (GetExpectedStructuredOption(optionName, value) is { } structuredOption)
         {
-            return [optionName, .. group.Values];
-        }
-
-        if (value is IEnumerable<CliValueGroup> groups)
-        {
-            return [.. groups.SelectMany(groupValue => new[] { optionName }.Concat(groupValue.Values))];
-        }
-
-        if (value is CliValuePair pair)
-        {
-            return [optionName, pair.First!, pair.Second!];
-        }
-
-        if (value is IEnumerable<CliValuePair> pairs)
-        {
-            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First!, pairValue.Second! })];
+            return structuredOption;
         }
 
         var separator = GetSeparator(option.Attribute);
@@ -263,6 +248,31 @@ public static class GeneratedOptionsSmokeTestHarness
         }
 
         return [.. values.SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))];
+    }
+
+    private static List<string>? GetExpectedStructuredOption(string optionName, object value)
+    {
+        if (value is CliValueGroup group)
+        {
+            return [optionName, .. group.Values];
+        }
+
+        if (value is IEnumerable<CliValueGroup> groups)
+        {
+            return [.. groups.SelectMany(groupValue => new[] { optionName }.Concat(groupValue.Values))];
+        }
+
+        if (value is CliValuePair pair)
+        {
+            return [optionName, pair.First!, pair.Second!];
+        }
+
+        if (value is IEnumerable<CliValuePair> pairs)
+        {
+            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First!, pairValue.Second! })];
+        }
+
+        return null;
     }
 
     private static List<string> GetExpectedOptionalValues(

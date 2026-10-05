@@ -394,8 +394,6 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
-        var alias = GetShortAlias(match);
-        var valueHint = match.Groups["value"].Value.Trim();
         var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
         var propertyName = NormalizePropertyName(longFlag);
@@ -404,10 +402,23 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
+        return CreateOptionDefinition(
+            match, longFlag, propertyName, sectionName, description, GetArgumentShape(argumentShapes, longFlag));
+    }
+
+    private static CliOptionDefinition CreateOptionDefinition(
+        Match match,
+        string longFlag,
+        string propertyName,
+        string sectionName,
+        string description,
+        AzArgumentMetadata? shape)
+    {
+        var alias = GetShortAlias(match);
+        var valueHint = match.Groups["value"].Value.Trim();
         var isRequired = match.Groups["required"].Success
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-        var shape = GetArgumentShape(argumentShapes, longFlag);
         var isFlag = shape?.IsFlag ?? (!isRequired && IsPresenceOnlyFlag(longFlag, valueHint, description, explicitBooleanValue));
         var csharpType = shape is null ? DetermineType(
             longFlag,
