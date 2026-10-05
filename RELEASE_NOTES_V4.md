@@ -743,3 +743,5 @@ value and is not the root version-information action.
 ### Kustomize inherited error diagnostics
 
 `StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
+
+Kustomize v5.8.2 regeneration includes `edit add configuration` and `edit remove component` and applies the existing required-operand model to edit commands. Supply required operands through generated constructors, such as `new KustomizeEditAddAnnotationOptions(["team:platform"])`; incomplete parameterless edit invocations are no longer supported.

@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "kustomize",
-  "toolVersion": "v5.8.1",
-  "commandCount": 45,
-  "commandTreeSha256": "0ae36cae52a7633cdaf6161528ae7819e41d2855a07443c9b69a53279326fb08",
+  "toolVersion": "v5.8.2",
+  "commandCount": 47,
+  "commandTreeSha256": "f2bb4e30816656b268ce9043206d7b5883e8af11e040ce262f32ed03ddc3ab4e",
   "commands": [
     "kustomize build",
     "kustomize cfg",
@@ -19,6 +19,7 @@
     "kustomize edit add buildmetadata",
     "kustomize edit add component",
     "kustomize edit add configmap",
+    "kustomize edit add configuration",
     "kustomize edit add generator",
     "kustomize edit add label",
     "kustomize edit add patch",
@@ -30,6 +31,7 @@
     "kustomize edit remove",
     "kustomize edit remove annotation",
     "kustomize edit remove buildmetadata",
+    "kustomize edit remove component",
     "kustomize edit remove configmap",
     "kustomize edit remove label",
     "kustomize edit remove patch",
