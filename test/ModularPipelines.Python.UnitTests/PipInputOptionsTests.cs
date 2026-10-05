@@ -11,6 +11,32 @@ public class PipInputOptionsTests : TestBase
     private static readonly string[] sourceArray = new[] { "first", "second" };
 
     [Test]
+    [MatrixDataSource]
+    public async Task Dependency_Groups_Reject_Blank_Entries(
+        [Matrix("install", "download", "wheel", "lock")] string verb,
+        [Matrix("", " ", "\t")] string blank,
+        [Matrix(false, true)] bool includeValidGroup)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var groups = new SingleUseValues(includeValidGroup ? ["development", blank] : [blank]);
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { Group = groups },
+            "download" => new PipDownloadOptions { Group = groups },
+            "wheel" => new PipWheelOptions { Group = groups },
+            "lock" => new PipLockOptions { Group = groups },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            await Assert.That(() => builder.Build(options)).Throws<CommandOptionsValidationException>();
+        }
+
+        await Assert.That(groups.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
     [Arguments("install", false)]
     [Arguments("install", true)]
     [Arguments("download", false)]
