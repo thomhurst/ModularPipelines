@@ -249,12 +249,6 @@ public record GoTestOptions : GoOptions
     public string? Trace { get; set; }
 
     /// <summary>
-    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
-    /// </summary>
-    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? UpperC { get; set; }
-
-    /// <summary>
     /// force rebuilding of packages that are already up-to-date.
     /// </summary>
     [CliFlag("-a")]

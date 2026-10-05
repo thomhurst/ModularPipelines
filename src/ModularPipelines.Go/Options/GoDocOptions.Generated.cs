@@ -69,12 +69,6 @@ public record GoDocOptions : GoOptions
     public bool? U { get; set; }
 
     /// <summary>
-    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
-    /// </summary>
-    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? UpperC { get; set; }
-
-    /// <summary>
     /// The package operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
