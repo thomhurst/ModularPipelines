@@ -1,0 +1,546 @@
+
+Command
+    az aks update : Update a managed Kubernetes cluster. When called with no optional arguments this
+    attempts to move the cluster to its goal state without changing the current cluster
+    configuration. This can be used to move out of a non succeeded state.
+
+Arguments
+    --name -n                          [Required] : Name of the managed cluster.
+    --resource-group -g                [Required] : Name of resource group. You can configure the
+                                                    default group using `az configure --defaults
+                                                    group=<name>`.
+    --aad-admin-group-object-ids                  : Comma-separated list of aad group object IDs
+                                                    that will be set as cluster admin.
+    --aad-tenant-id                               : The ID of an Azure Active Directory tenant.
+    --acns-advanced-networkpolicies               : Enable advanced network policies (None, FQDN or
+                                                    L7) on a cluster when enabling advanced
+                                                    networking features with "--enable-acns".
+                                                    Allowed values: FQDN, L7, None.
+    --aks-custom-headers                          : Comma-separated key-value pairs to specify
+                                                    custom headers.
+    --api-server-authorized-ip-ranges             : Comma-separated list of authorized apiserver IP
+                                                    ranges. Set to "" to allow all traffic on a
+                                                    previously restricted cluster. Set to 0.0.0.0/32
+                                                    to restrict apiserver traffic to node pools.
+    --apiserver-subnet-id                         : The ID of a subnet in an existing VNet into
+                                                    which to assign control plane apiserver
+                                                    pods(requires --enable-apiserver-vnet-
+                                                    integration).
+    --assign-identity                             : Specify an existing user assigned identity to
+                                                    manage cluster resource group.
+    --assign-kubelet-identity                     : Update cluster's kubelet identity to an existing
+                                                    user assigned identity. Please note this
+                                                    operation will recreate all agent nodes in the
+                                                    cluster.
+    --assignee-principal-type -t                  : Use this parameter in conjunction with --attach-
+                                                    acr to explicitly set the principal type in the
+                                                    ACR role assignment. This helps avoid RBAC-
+                                                    related errors by ensuring the correct principal
+                                                    type is applied. Valid values are 'User',
+                                                    'Group' or 'ServicePrincipal'.
+    --attach-acr                                  : Grant the 'acrpull' role assignment to the ACR
+                                                    specified by name or resource ID.
+    --auto-upgrade-channel                        : Specify the upgrade channel for autoupgrade.
+                                                    Allowed values: node-image, none, patch, rapid,
+                                                    stable.
+    --azure-container-storage-nodepools           : Define the comma separated nodepool list to
+                                                    install azure container storage.
+    --azure-keyvault-kms-key-id                   : Identifier of Azure Key Vault key.
+    --azure-keyvault-kms-key-vault-network-access : Network Access of Azure Key Vault.  Allowed
+                                                    values: Private, Public.
+        Allowed values are "Public", "Private". If not set, defaults to type "Public". Requires
+        --azure-keyvault-kms-key-id to be used.
+    --azure-keyvault-kms-key-vault-resource-id    : Resource ID of Azure Key Vault.
+    --azure-monitor-workspace-resource-id         : Resource ID of the Azure Monitor Workspace.
+    --bootstrap-artifact-source                   : Configure artifact source when bootstraping the
+                                                    cluster.  Allowed values: Cache, Direct.
+        The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache"
+        to downalod artifacts from Azure Container Registry.
+    --bootstrap-container-registry-resource-id    : Configure container registry resource ID. Must
+                                                    use "Cache" as bootstrap artifact source.
+    --ca-certs --custom-ca-trust-certificates     : Path to a file containing up to 10 blank line
+                                                    separated certificates. Only valid for Linux
+                                                    nodes.
+        These certificates are used by Custom CA Trust feature and will be added to trust stores of
+        nodes.
+    --ca-profile --cluster-autoscaler-profile     : Comma-separated list of key=value pairs for
+                                                    configuring cluster autoscaler. Pass an empty
+                                                    string to clear the profile.
+    --container-storage-version                   : Set azure container storage version, the latest
+                                                    version will be installed by default.  Allowed
+                                                    values: 1, 2.
+    --defender-config                             : Path to JSON file containing Microsoft Defender
+                                                    profile configurations.
+    --detach-acr                                  : Disable the 'acrpull' role assignment to the ACR
+                                                    specified by name or resource ID.
+    --disable-acns                                : Disable all advanced networking functionalities
+                                                    on a cluster.
+    --disable-acns-observability                  : Used to disable advanced networking
+                                                    observability features on a clusters when
+                                                    enabling advanced networking features with "--
+                                                    enable-acns".
+    --disable-acns-security                       : Used to disable advanced networking security
+                                                    features on a clusters when enabling advanced
+                                                    networking features with "--enable-acns".
+    --disable-ahub                                : Disable Azure Hybrid User Benefits (AHUB)
+                                                    feature for cluster.
+    --disable-ai-toolchain-operator               : Disable AI toolchain operator.
+    --disable-azure-container-storage             : Disable azure container storage or any one of
+                                                    the storage pool types. Can be used as a flag
+                                                    (defaults to True) or with a storagepool type
+                                                    value: azureDisk, ephemeralDisk, elasticSan, all
+                                                    (to disable all storage pools).
+    --disable-azure-keyvault-kms                  : Disable Azure KeyVault Key Management Service.
+    --disable-azure-monitor-metrics               : Disable Azure Monitor Metrics Profile. This will
+                                                    delete all DCRA's associated with the cluster,
+                                                    any linked DCRs with the data stream =
+                                                    prometheus-stream and the recording rule groups
+                                                    created by the addon for this AKS cluster.
+    --disable-azure-rbac                          : Disable Azure RBAC to control authorization
+                                                    checks on cluster.
+    --disable-blob-driver                         : Disable AzureBlob CSI Driver.
+    --disable-cluster-autoscaler -d               : Disable cluster autoscaler.
+    --disable-container-network-logs              : Disable container network log collection
+                                                    functionalities on a cluster.
+    --disable-cost-analysis                       : Disable exporting Kubernetes Namespace and
+                                                    Deployment details to the Cost Analysis views in
+                                                    the Azure portal.
+    --disable-defender                            : Disable defender profile.
+    --disable-disk-driver                         : Disable AzureDisk CSI Driver.
+    --disable-file-driver                         : Disable AzureFile CSI Driver.
+    --disable-force-upgrade                       : Disable forceUpgrade cluster upgrade settings
+                                                    override.
+    --disable-image-cleaner                       : Disable ImageCleaner Service.
+    --disable-keda                                : Disable KEDA workload auto-scaler.
+    --disable-local-accounts                      : If set to true, getting static credential will
+                                                    be disabled for this cluster.
+    --disable-private-cluster                     : Disable private cluster for apiserver vnet
+                                                    integration cluster.
+    --disable-public-fqdn                         : Disable public fqdn feature for private cluster.
+    --disable-run-command                         : Disable Run command feature for the cluster.
+    --disable-secret-rotation                     : Disable secret rotation. Use with azure-
+                                                    keyvault-secrets-provider addon.
+    --disable-snapshot-controller                 : Disable CSI Snapshot Controller.
+    --disable-static-egress-gateway               : Disable Static Egress Gateway addon to the
+                                                    cluster.
+    --disable-vpa                                 : Disable vertical pod autoscaler for cluster.
+    --disable-windows-gmsa                        : Disable Windows gmsa on cluster.
+    --disable-workload-identity                   : Disable workload identity addon.
+    --enable-aad                                  : Enable managed AAD feature for cluster.
+    --enable-acns                                 : Enable advanced network functionalities on a
+                                                    cluster. Enabling this will incur additional
+                                                    costs. For non-cilium clusters, acns security
+                                                    will be disabled by default until further
+                                                    notice.
+    --enable-ahub                                 : Enable Azure Hybrid User Benefits (AHUB) feature
+                                                    for cluster.
+    --enable-ai-toolchain-operator                : Enable AI toolchain operator to the cluster.
+    --enable-apiserver-vnet-integration           : Enable integration of user vnet with control
+                                                    plane apiserver pods.
+    --enable-azure-container-storage              : Enable azure container storage. Can be used as a
+                                                    flag (defaults to True) or with a storage pool
+                                                    type value: (azureDisk, ephemeralDisk,
+                                                    elasticSan).
+    --enable-azure-keyvault-kms                   : Enable Azure KeyVault Key Management Service.
+    --enable-azure-monitor-metrics                : Enable a kubernetes cluster with the Azure
+                                                    Monitor managed service for Prometheus
+                                                    integration.
+    --enable-azure-rbac                           : Enable Azure RBAC to control authorization
+                                                    checks on cluster.
+    --enable-blob-driver                          : Enable AzureBlob CSI Driver.
+    --enable-cluster-autoscaler -e                : Enable cluster autoscaler.
+    --enable-container-network-logs               : Enable container network log collection
+                                                    functionalities on a cluster. Automatically
+                                                    enables --enable-high-log-scale-mode.
+    --enable-cost-analysis                        : Enable exporting Kubernetes Namespace and
+                                                    Deployment details to the Cost Analysis views in
+                                                    the Azure portal. For more information see
+                                                    aka.ms/aks/docs/cost-analysis.
+    --enable-defender                             : Enable Microsoft Defender security profile.
+    --enable-disk-driver                          : Enable AzureDisk CSI Driver.
+    --enable-file-driver                          : Enable AzureFile CSI Driver.
+    --enable-force-upgrade                        : Enable forceUpgrade cluster upgrade settings
+                                                    override.
+    --enable-image-cleaner                        : Enable ImageCleaner Service.
+    --enable-keda                                 : Enable KEDA workload auto-scaler.
+    --enable-local-accounts                       : If set to true, will enable getting static
+                                                    credential for this cluster.
+    --enable-managed-identity                     : Update current cluster to use managed identity
+                                                    to manage cluster resource group.
+    --enable-oidc-issuer                          : Enable OIDC issuer.
+    --enable-private-cluster                      : Enable private cluster for apiserver vnet
+                                                    integration cluster.
+    --enable-public-fqdn                          : Enable public fqdn feature for private cluster.
+    --enable-run-command                          : Enable Run command feature for the cluster.
+    --enable-secret-rotation                      : Enable secret rotation. Use with azure-keyvault-
+                                                    secrets-provider addon.
+    --enable-snapshot-controller                  : Enable Snapshot Controller.
+    --enable-static-egress-gateway                : Enable Static Egress Gateway addon to the
+                                                    cluster.
+    --enable-vpa                                  : Enable vertical pod autoscaler for cluster.
+    --enable-windows-gmsa                         : Enable Windows gmsa on cluster.
+    --enable-windows-recording-rules              : Enable Windows Recording Rules when enabling the
+                                                    Azure Monitor Metrics addon.
+    --enable-workload-identity                    : Enable workload identity addon.
+    --ephemeral-disk-nvme-perf-tier               : Set ephemeral disk volume type for azure
+                                                    container storage.  Allowed values: Basic,
+                                                    Premium, Standard.
+    --ephemeral-disk-volume-type                  : Set ephemeral disk volume type for azure
+                                                    container storage.  Allowed values:
+                                                    EphemeralVolumeOnly,
+                                                    PersistentVolumeWithAnnotation.
+    --gmsa-dns-server                             : Specify DNS server for Windows gmsa on cluster.
+        You do not need to set this if you have set DNS server in the VNET used by the cluster.
+        You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when
+        setting --enable-windows-gmsa.
+    --gmsa-root-domain-name                       : Specify root domain name for Windows gmsa on
+                                                    cluster.
+        You do not need to set this if you have set DNS server in the VNET used by the cluster.
+        You must set or not set --gmsa-dns-server and --gmsa-root-domain-name at the same time when
+        setting --enable-windows-gmsa.
+    --grafana-resource-id                         : Resource ID of the Azure Managed Grafana
+                                                    Workspace.
+    --http-proxy-config                           : HTTP Proxy configuration for this cluster.
+    --if-match                                    : The value provided will be compared to the ETag
+                                                    of the managed cluster, if it matches the
+                                                    operation will proceed. If it does not match,
+                                                    the request will be rejected to prevent
+                                                    accidental overwrites. This must not be
+                                                    specified when creating a new cluster.
+    --if-none-match                               : Set to '*' to allow a new cluster to be created,
+                                                    but to prevent updating an existing cluster.
+                                                    Other values will be ignored.
+    --image-cleaner-interval-hours                : ImageCleaner scanning interval.
+    --ip-families                                 : A comma-separated list of IP versions to use for
+                                                    cluster networking.
+        Each IP version should be in the format IPvN. For example, IPv4.
+    --k8s-support-plan                            : Choose from "KubernetesOfficial" or
+                                                    "AKSLongTermSupport", with "AKSLongTermSupport"
+                                                    you get 1 extra year of CVE patchs.  Allowed
+                                                    values: AKSLongTermSupport, KubernetesOfficial.
+    --ksm-metric-annotations-allow-list           : Comma-separated list of additional Kubernetes
+                                                    label keys that will be used in the resource'
+                                                    labels metric. By default the metric contains
+                                                    only name and namespace labels. To include
+                                                    additional labels provide a list of resource
+                                                    names in their plural form and Kubernetes label
+                                                    keys you would like to allow for them (e.g.'=nam
+                                                    espaces=[k8s-label-1,k8s-label-
+                                                    n,...],pods=[app],...)'. A single '*' can be
+                                                    provided per resource instead to allow any
+                                                    labels, but that has severe performance
+                                                    implications (e.g. '=pods=[*]').
+    --ksm-metric-labels-allow-list                : Comma-separated list of additional Kubernetes
+                                                    label keys that will be used in the resource'
+                                                    labels metric. By default the metric contains
+                                                    only name and namespace labels. To include
+                                                    additional labels provide a list of resource
+                                                    names in their plural form and Kubernetes label
+                                                    keys you would like to allow for them (e.g. '=na
+                                                    mespaces=[k8s-label-1,k8s-label-
+                                                    n,...],pods=[app],...)'. A single '*' can be
+                                                    provided per resource instead to allow any
+                                                    labels, but that has severe performance
+                                                    implications (e.g. '=pods=[*]').
+    --load-balancer-backend-pool-type             : Load balancer backend pool type.  Allowed
+                                                    values: nodeIP, nodeIPConfiguration.
+        Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means
+        the VMs will be attached to the LoadBalancer by adding its private IP address to the backend
+        pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by
+        referencing the backend pool ID in the VM's NIC.
+    --load-balancer-idle-timeout                  : Load balancer idle timeout in minutes.
+        Desired idle timeout for load balancer outbound flows, default is 30 minutes. Please specify
+        a value in the range of [4, 100].
+    --load-balancer-managed-outbound-ip-count     : Load balancer managed outbound IP count.
+        Desired number of managed outbound IPs for load balancer outbound connection. Valid for
+        Standard SKU load balancer cluster only. If the new value is greater than the original
+        value, new additional outbound IPs will be created. If the value is less than the original
+        value, existing outbound IPs will be deleted and outbound connections may fail due to
+        configuration update.
+    --load-balancer-managed-outbound-ipv6-count   : Load balancer managed outbound IPv6 IP count.
+        Desired number of managed outbound IPv6 IPs for load balancer outbound connection. Valid for
+        dual-stack (--ip-families IPv4,IPv6) only.
+    --load-balancer-outbound-ip-prefixes          : Load balancer outbound IP prefix resource IDs.
+        Comma-separated public IP prefix resource IDs for load balancer outbound connection. Valid
+        for Standard SKU load balancer cluster only.
+    --load-balancer-outbound-ips                  : Load balancer outbound IP resource IDs.
+        Comma-separated public IP resource IDs for load balancer outbound connection. Valid for
+        Standard SKU load balancer cluster only.
+    --load-balancer-outbound-ports                : Load balancer outbound allocated ports.
+        Desired static number of outbound ports per VM in the load balancer backend pool. By
+        default, set to 0 which uses the default allocation based on the number of VMs.
+    --load-balancer-sku                           : Azure Load Balancer SKU selection for your
+                                                    cluster. only standard is accepted.  Allowed
+                                                    values: standard.
+        Upgrade to Standard Azure Load Balancer SKU for your AKS cluster.
+    --max-count                                   : Maximum nodes count used for autoscaler, when "
+                                                    --enable-cluster-autoscaler" specified. Please
+                                                    specify the value in the range of [1, 1000].
+    --migrate-vmas-to-vms                         : Migrate cluster with VMAS node pool to VMS node
+                                                    pool.
+    --min-count                                   : Minimum nodes count used for autoscaler, when "
+                                                    --enable-cluster-autoscaler" specified. Please
+                                                    specify the value in the range of [1, 1000].
+    --nat-gateway-idle-timeout                    : NAT gateway idle timeout in minutes.
+        Desired idle timeout for NAT gateway outbound flows, default is 4 minutes. Please specify a
+        value in the range of [4, 120]. Valid for Standard SKU load balancer cluster with
+        managedNATGateway outbound type only.
+    --nat-gateway-managed-outbound-ip-count       : NAT gateway managed outbound IP count.
+        Desired number of managed outbound IPs for NAT gateway outbound connection. Please specify a
+        value in the range of [1, 16]. Valid for Standard SKU load balancer cluster with
+        managedNATGateway outbound type only.
+    --network-dataplane                           : The network dataplane to use.  Allowed values:
+                                                    azure, cilium.
+        Network dataplane used in the Kubernetes cluster.
+        Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
+    --network-plugin                              : The Kubernetes network plugin to use.  Allowed
+                                                    values: azure, kubenet, none.
+        Specify "azure" along with --network-plugin-mode=overlay to update a cluster to use Azure
+        CNI Overlay. For more information see https://aka.ms/aks/azure-cni-overlay.
+    --network-plugin-mode                         : Update the mode of a network plugin to migrate
+                                                    to a different pod networking setup.
+    --network-policy                              : Update Network Policy Engine.  Allowed values:
+                                                    azure, calico, cilium, none.
+        Azure provides three Network Policy Engines for enforcing network policies. The following
+        values can be specified:
+          - "azure" for Azure Network Policy Manager,
+          - "cilium" for Azure CNI Powered by Cilium,
+          - "calico" for open-source network and network security solution founded by Tigera,
+          - "none" to uninstall Network Policy Engine (Azure Network Policy Manager or Calico).
+        Defaults to "none" (network policy disabled).
+    --no-wait                                     : Do not wait for the long-running operation to
+                                                    finish.
+    --node-os-upgrade-channel                     : Manner in which the OS on your nodes is updated.
+                                                    It could be NodeImage, None, SecurityPatch or
+                                                    Unmanaged.
+    --node-provisioning-default-pools   [Preview] : The set of default Karpenter NodePools
+                                                    configured for node provisioning. Valid values
+                                                    are "Auto" and "None".  Allowed values: Auto,
+                                                    None.
+        The set of default Karpenter NodePools configured for node provisioning. Valid values are
+        "Auto" and "None".
+        Auto: A standard set of Karpenter NodePools are provisioned.
+        None: No Karpenter NodePools are provisioned.
+        WARNING: Changing this from Auto to None on an existing cluster will cause the default
+        Karpenter NodePools to be deleted, which will in turn drain and delete the nodes associated
+        with those pools. It is strongly recommended to not do this unless there are idle nodes
+        ready to take the pods evicted by that action. WARNING: Argument '--node-provisioning-
+        default-pools' is in preview and under development. Reference and support levels:
+        https://aka.ms/CLI_refstatus
+    --node-provisioning-mode            [Preview] : Set the node provisioning mode of the cluster.
+                                                    Valid values are "Auto" and "Manual". For more
+                                                    information on "Auto" mode see aka.ms/aks/nap.
+                                                    Allowed values: Auto, Manual.
+        WARNING: Argument '--node-provisioning-mode' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+    --nodepool-labels                             : The node labels for all node pool. See
+                                                    https://aka.ms/node-labels for syntax of labels.
+    --nodepool-taints                             : The node taints for all node pool.
+    --nrg-lockdown-restriction-level              : Restriction level on the managed node resource
+                                                    group.  Allowed values: ReadOnly, Unrestricted.
+        The restriction level of permissions allowed on the cluster's managed node resource group,
+        supported values are Unrestricted, and ReadOnly (recommended ReadOnly).
+    --outbound-type                               : How outbound traffic will be configured for a
+                                                    cluster.  Allowed values: loadBalancer,
+                                                    managedNATGateway, none, userAssignedNATGateway,
+                                                    userDefinedRouting.
+        This option will change the way how the outbound connections are managed in the AKS cluster.
+        Available options are loadbalancer, managedNATGateway, userAssignedNATGateway,
+        userDefinedRouting and none. For custom vnet, loadbalancer, userAssignedNATGateway and
+        userDefinedRouting are supported. For aks managed vnet, loadbalancer, managedNATGateway and
+        userDefinedRouting are supported.
+    --pod-cidr                                    : Update the pod CIDR for a cluster. Used when
+                                                    updating a cluster from Azure CNI to Azure CNI
+                                                    Overlay.
+    --private-dns-zone                            : The private dns zone mode for private cluster.
+        Only allow changing private dns zone from byo/system mode to none for private cluster.
+        Others are denied.
+    --rotation-poll-interval                      : Set interval of rotation poll. Use with azure-
+                                                    keyvault-secrets-provider addon.
+    --sku                                         : Specify SKU name for managed clusters. Use '--
+                                                    sku base' enables a base managed cluster. Use '
+                                                    --sku automatic' enables an automatic managed
+                                                    cluster.  Allowed values: automatic, base.
+    --storage-pool-name                           : Set storage pool name for azure container
+                                                    storage.
+    --storage-pool-option                         : Set ephemeral disk storage pool option for azure
+                                                    container storage.  Allowed values: NVMe, Temp,
+                                                    all.
+    --storage-pool-size                           : Set storage pool size for azure container
+                                                    storage.
+    --storage-pool-sku                            : Set azure disk type storage pool sku for azure
+                                                    container storage.  Allowed values:
+                                                    PremiumV2_LRS, Premium_LRS, Premium_ZRS,
+                                                    StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS,
+                                                    UltraSSD_LRS.
+    --tags                                        : The tags of the managed cluster. The managed
+                                                    cluster instance and all resources managed by
+                                                    the cloud provider will be tagged.
+    --tier                                        : Specify SKU tier for managed clusters. '--tier
+                                                    standard' enables a standard managed cluster
+                                                    service with a financially backed SLA. '--tier
+                                                    free' changes a standard managed cluster to a
+                                                    free one.  Allowed values: free, premium,
+                                                    standard.
+    --update-cluster-autoscaler -u                : Update min-count or max-count for cluster
+                                                    autoscaler.
+    --upgrade-override-until                      : Until when the cluster upgradeSettings overrides
+                                                    are effective. It needs to be in a valid date-
+                                                    time format that's within the next 30 days. For
+                                                    example, 2023-04-01T13:00:00Z. Note that if
+                                                    --force-upgrade is set to true and --upgrade-
+                                                    override-until is not set, by default it will be
+                                                    set to 3 days from now.
+    --windows-admin-password                      : User account password to use on windows node
+                                                    VMs.
+        Rules for windows-admin-password:
+            - Minimum-length: 14 characters
+            - Max-length: 123 characters
+            - Complexity requirements: 3 out of 4 conditions below need to be fulfilled
+              * Has lower characters
+              * Has upper characters
+              * Has a digit
+              * Has a special character (Regex match [\W_])
+            - Disallowed values:  "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
+        "pass@word1", "Password!", "Password1", "Password22", "iloveyou!"
+        Reference: https://learn.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.
+        virtualmachinescalesetosprofile.adminpassword?view=azure-dotnet.
+    --yes -y                                      : Do not prompt for confirmation.
+
+Global Arguments
+    --debug                                       : Increase logging verbosity to show all debug
+                                                    logs.
+    --help -h                                     : Show this help message and exit.
+    --only-show-errors                            : Only show errors, suppressing warnings.
+    --output -o                                   : Output format.  Allowed values: json, jsonc,
+                                                    none, table, tsv, yaml, yamlc.  Default: json.
+    --query                                       : JMESPath query string. See http://jmespath.org/
+                                                    for more information and examples.
+    --subscription                                : Name or ID of subscription. You can configure
+                                                    the default subscription using `az account set
+                                                    -s NAME_OR_ID`.
+    --verbose                                     : Increase logging verbosity. Use --debug for full
+                                                    debug logs.
+
+Examples
+    Reconcile the cluster back to its current state.
+        az aks update -g MyResourceGroup -n MyManagedCluster
+
+    Update a kubernetes cluster with standard SKU load balancer to use two AKS created IPs for the
+    load balancer outbound connection usage.
+        az aks update -g MyResourceGroup -n MyManagedCluster --load-balancer-managed-outbound-ip-
+        count 2
+
+    Update a kubernetes cluster with standard SKU load balancer to use the provided public IPs for
+    the load balancer outbound connection usage.
+        az aks update -g MyResourceGroup -n MyManagedCluster --load-balancer-outbound-ips <ip-
+        resource-id-1,ip-resource-id-2>
+
+    Update a kubernetes cluster with a standard SKU load balancer, with two outbound AKS managed IPs
+    an idle flow timeout of 5 minutes and 8000 allocated ports per machine
+        az aks update -g MyResourceGroup -n MyManagedCluster --load-balancer-managed-outbound-ip-
+        count 2 --load-balancer-idle-timeout 5 --load-balancer-outbound-ports 8000
+
+    Update a kubernetes cluster with standard SKU load balancer to use the provided public IP
+    prefixes for the load balancer outbound connection usage.
+        az aks update -g MyResourceGroup -n MyManagedCluster --load-balancer-outbound-ip-prefixes
+        <ip-prefix-resource-id-1,ip-prefix-resource-id-2>
+
+    Update a kubernetes cluster of managedNATGateway outbound type with two outbound AKS managed IPs
+    an idle flow timeout of 4 minutes
+        az aks update -g MyResourceGroup -n MyManagedCluster --nat-gateway-managed-outbound-ip-count
+        2 --nat-gateway-idle-timeout 4
+
+    Attach AKS cluster to ACR by name "acrName"
+        az aks update -g MyResourceGroup -n MyManagedCluster --attach-acr acrName
+
+    Update a kubernetes cluster with authorized apiserver ip ranges.
+        az aks update -g MyResourceGroup -n MyManagedCluster --api-server-authorized-ip-ranges
+        193.168.1.0/24,194.168.1.0/24
+
+    Disable authorized apiserver ip ranges feature for a kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --api-server-authorized-ip-ranges ""
+
+    Restrict apiserver traffic in a kubernetes cluster to agentpool nodes.
+        az aks update -g MyResourceGroup -n MyManagedCluster --api-server-authorized-ip-ranges
+        0.0.0.0/32
+
+    Update a AKS-managed AAD cluster with tenant ID or admin group object IDs.
+        az aks update -g MyResourceGroup -n MyManagedCluster --aad-admin-group-object-ids
+        <id-1,id-2> --aad-tenant-id <id>
+
+    Migrate a AKS AAD-Integrated cluster or a non-AAD cluster to a AKS-managed AAD cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-aad --aad-admin-group-object-
+        ids <id-1,id-2> --aad-tenant-id <id>
+
+    Enable Azure Hybrid User Benefits featture for a kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-ahub
+
+    Disable Azure Hybrid User Benefits featture for a kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --disable-ahub
+
+    Update Windows password of a kubernetes cluster
+        az aks update -g MyResourceGroup -n MyManagedCLuster --windows-admin-password
+        "Repl@cePassw0rd12345678"
+
+    Update the cluster to use system assigned managed identity in control plane.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-managed-identity
+
+    Update the cluster to use user assigned managed identity in control plane.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-managed-identity --assign-
+        identity <user_assigned_identity_resource_id>
+
+    Update a non managed AAD AKS cluster to use Azure RBAC
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-aad --enable-azure-rbac
+
+    Update a managed AAD AKS cluster to use Azure RBAC
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-azure-rbac
+
+    Disable Azure RBAC in a managed AAD AKS cluster
+        az aks update -g MyResourceGroup -n MyManagedCluster --disable-azure-rbac
+
+    Update the tags of a kubernetes cluster
+        az aks update -g MyResourceGroup -n MyManagedCLuster --tags "foo=bar" "baz=qux"
+
+    Update a kubernetes cluster with custom headers
+        az aks update -g MyResourceGroup -n MyManagedCluster --aks-custom-headers WindowsContainerRu
+        ntime=containerd,AKSHTTPCustomFeatures=Microsoft.ContainerService/CustomNodeConfigPreview
+
+    Enable Windows gmsa for a kubernetes cluster with setting DNS server in the vnet used by the
+    cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-windows-gmsa
+
+    Enable Windows gmsa for a kubernetes cluster without setting DNS server in the vnet used by the
+    cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-windows-gmsa --gmsa-dns-server
+        "10.240.0.4" --gmsa-root-domain-name "contoso.com"
+
+    Disable Windows gmsa for a kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --disable-windows-gmsa
+
+    Enable KEDA workload autoscaler for an existing kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --enable-keda
+
+    Disable KEDA workload autoscaler for an existing kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCluster --disable-keda
+
+    Enable VPA(Vertical Pod Autoscaler) for an existing kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCLuster --enable-vpa
+
+    Disable VPA(Vertical Pod Autoscaler) for an existing kubernetes cluster.
+        az aks update -g MyResourceGroup -n MyManagedCLuster --disable-vpa
+
+    Update a kubernetes cluster to use auto node provisioning.
+        az aks update -g MyResourceGroup -n MyManagedCluster --node-provisioning-mode Auto
+
+    Update a kubernetes cluster to use auto node provisioning mode with no default pools.
+        az aks update -g MyResourceGroup -n MyManagedCluster --node-provisioning-mode Auto --node-
+        provisioning-default-pools None
+
+    Upgrade load balancer sku to standard
+        az aks update --load-balancer-sku standard -g MyResourceGroup -n MyManagedCluster
+
+To search AI knowledge base for examples, use: az find "az aks update"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--aad-admin-group-object-ids": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--aad-tenant-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--acns-advanced-networkpolicies": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--aks-custom-headers": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--api-server-authorized-ip-ranges": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--apiserver-subnet-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assign-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assign-kubelet-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assignee-principal-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--attach-acr": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--auto-upgrade-channel": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--azure-container-storage-nodepools": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--azure-keyvault-kms-key-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--azure-keyvault-kms-key-vault-network-access": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--azure-keyvault-kms-key-vault-resource-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--azure-monitor-workspace-resource-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--bootstrap-artifact-source": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--bootstrap-container-registry-resource-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ca-certs": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ca-profile": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--cluster-autoscaler-profile": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--container-storage-version": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--custom-ca-trust-certificates": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--defender-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--detach-acr": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--disable-acns": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-acns-observability": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-acns-security": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-ahub": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-ai-toolchain-operator": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-azure-container-storage": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--disable-azure-keyvault-kms": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-azure-monitor-metrics": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-azure-rbac": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-blob-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-container-network-logs": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-cost-analysis": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-defender": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-disk-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-file-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-force-upgrade": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-image-cleaner": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-keda": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-local-accounts": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-private-cluster": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-public-fqdn": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-run-command": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-secret-rotation": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-snapshot-controller": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-static-egress-gateway": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-vpa": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-windows-gmsa": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-workload-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-aad": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-acns": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-ahub": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-ai-toolchain-operator": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-apiserver-vnet-integration": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-azure-container-storage": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--enable-azure-keyvault-kms": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-azure-monitor-metrics": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-azure-rbac": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-blob-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-container-network-logs": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-cost-analysis": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-defender": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-disk-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-file-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-force-upgrade": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-image-cleaner": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-keda": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-local-accounts": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-managed-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-oidc-issuer": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-private-cluster": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-public-fqdn": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-run-command": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-secret-rotation": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-snapshot-controller": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-static-egress-gateway": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-vpa": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-windows-gmsa": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-windows-recording-rules": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-workload-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--ephemeral-disk-nvme-perf-tier": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ephemeral-disk-volume-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--gmsa-dns-server": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--gmsa-root-domain-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--grafana-resource-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--http-proxy-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-none-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--image-cleaner-interval-hours": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--ip-families": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--k8s-support-plan": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ksm-metric-annotations-allow-list": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ksm-metric-labels-allow-list": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-backend-pool-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-idle-timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-managed-outbound-ip-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-managed-outbound-ipv6-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-outbound-ip-prefixes": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-outbound-ips": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-outbound-ports": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-sku": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--max-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--migrate-vmas-to-vms": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--min-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--nat-gateway-idle-timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--nat-gateway-managed-outbound-ip-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--network-dataplane": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--network-plugin": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--network-plugin-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--network-policy": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--no-wait": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--node-os-upgrade-channel": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--node-provisioning-default-pools": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--node-provisioning-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--nodepool-labels": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--nodepool-taints": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--nrg-lockdown-restriction-level": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--outbound-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--pod-cidr": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--private-dns-zone": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--rotation-poll-interval": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--sku": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--storage-pool-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--storage-pool-option": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--storage-pool-size": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--storage-pool-sku": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--tier": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--update-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--upgrade-override-until": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--windows-admin-password": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--yes": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-d": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-e": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-g": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-t": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-u": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-y": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}}

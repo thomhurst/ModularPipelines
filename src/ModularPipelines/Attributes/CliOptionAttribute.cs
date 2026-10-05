@@ -60,6 +60,8 @@ public sealed class CliOptionAttribute(string name) : Attribute
     /// Gets or sets a value indicating whether collection values share one option occurrence.
     /// By default, collections repeat the option for every value.
     /// Grouped values require <see cref="OptionFormat.SpaceSeparated"/>.
+    /// For optional values, a collection containing only <see cref="ModularPipelines.Models.CliOptionValue.Bare"/>
+    /// renders the bare option. Bare values cannot be combined with other values in a group.
     /// </summary>
     /// <example><c>--arguments first=value second=value</c></example>
     public bool GroupValues { get; set; }

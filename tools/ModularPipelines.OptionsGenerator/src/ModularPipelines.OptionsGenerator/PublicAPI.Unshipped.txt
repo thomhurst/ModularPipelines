@@ -227,3 +227,6 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.KindCliScraper.ParseGlob
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KindCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.TreatParseErrorsAsFatal.get -> bool
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TreatParseErrorsAsFatal.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.VersionArguments.get -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
