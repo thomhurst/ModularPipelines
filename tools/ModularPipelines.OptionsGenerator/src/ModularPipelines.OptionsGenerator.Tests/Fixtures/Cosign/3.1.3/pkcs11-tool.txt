@@ -1,0 +1,22 @@
+Provides utilities for retrieving information from a PKCS11 token.
+
+Usage:
+cosign pkcs11-tool [command]
+
+Available Commands:
+list-keys-uris List URIs of all keys in a PKCS11 token
+list-tokens    List all PKCS11 tokens linked to a module
+
+Flags:
+    -h, --help=false:
+	help for pkcs11-tool
+
+    -f, --no-input=false:
+	skip warnings and confirmations
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output
+
+Use "cosign pkcs11-tool [command] --help" for more information about a command.

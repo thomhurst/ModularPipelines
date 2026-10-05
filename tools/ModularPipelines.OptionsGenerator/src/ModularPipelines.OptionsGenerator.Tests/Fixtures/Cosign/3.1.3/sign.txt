@@ -1,0 +1,170 @@
+Sign the supplied container image.
+
+Make sure to sign the image by its digest (@sha256:...) rather than by tag
+(:latest) so that you actually sign what you think you're signing! This prevents
+race conditions or (worse) malicious tampering.
+
+Usage:
+cosign sign [flags]
+
+Examples:
+  cosign sign --key <key path>|<kms uri> [-a key=value] [--upload=true|false] [-f] [-r] <image digest uri>
+
+  # sign a container image with the Sigstore OIDC flow
+  cosign sign <IMAGE DIGEST>
+
+  # sign a container image with a local key pair file
+  cosign sign --key cosign.key <IMAGE DIGEST>
+
+  # sign a multi-arch container image AND all referenced, discrete images
+  cosign sign --key cosign.key --recursive <MULTI-ARCH IMAGE DIGEST>
+
+  # sign a container image and add annotations
+  cosign sign --key cosign.key -a key1=value1 -a key2=value2 <IMAGE DIGEST>
+
+  # sign a container image with a key stored in an environment variable
+  cosign sign --key env://[ENV_VAR] <IMAGE DIGEST>
+
+  # sign a container image with a key pair stored in Azure Key Vault
+  cosign sign --key azurekms://[VAULT_NAME][VAULT_URI]/[KEY] <IMAGE DIGEST>
+
+  # sign a container image with a key pair stored in AWS KMS
+  cosign sign --key awskms://[ENDPOINT]/[ID/ALIAS/ARN] <IMAGE DIGEST>
+
+  # sign a container image with a key pair stored in Google Cloud KMS
+  cosign sign --key gcpkms://projects/[PROJECT]/locations/global/keyRings/[KEYRING]/cryptoKeys/[KEY]/versions/[VERSION] <IMAGE DIGEST>
+
+  # sign a container image with a key pair stored in Hashicorp Vault
+  cosign sign --key hashivault://[KEY] <IMAGE DIGEST>
+
+  # sign a container image with a key pair stored in a Kubernetes secret
+  cosign sign --key k8s://[NAMESPACE]/[KEY] <IMAGE DIGEST>
+
+  # sign a container image with a key, attaching a certificate and certificate chain
+  cosign sign --key cosign.key --cert cosign.crt --cert-chain chain.crt <IMAGE DIGEST>
+
+  # sign a container in a registry which does not fully support OCI media types
+  COSIGN_DOCKER_MEDIA_TYPES=1 cosign sign --key cosign.key legacy-registry.example.com/my/image@<DIGEST>
+
+  # sign a container image and upload to the transparency log
+  cosign sign --key cosign.key <IMAGE DIGEST>
+
+  # sign a container image and skip uploading to the transparency log
+  cosign sign --key cosign.key --tlog-upload=false <IMAGE DIGEST>
+
+  # sign a container image and honor the creation timestamp of the signature
+  cosign sign --key cosign.key --record-creation-timestamp <IMAGE DIGEST>
+
+Flags:
+    --allow-http-registry=false:
+	whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
+
+    --allow-insecure-registry=false:
+	whether to allow insecure connections to registries (e.g., with expired or self-signed TLS certificates). Don't use this for anything but testing
+
+    -a, --annotations=[]:
+	extra key=value pairs to sign
+
+    --bundle='':
+	write everything required to verify the image to FILE
+
+    --certificate='':
+	path to the X.509 certificate in PEM format to include in the OCI Signature
+
+    --certificate-chain='':
+	path to a list of CA X.509 certificates in PEM format which will be needed when building the certificate chain for the signing certificate. Must start with the parent intermediate CA certificate of the signing certificate and end with the root certificate. Included in the OCI Signature
+
+    --fulcio-auth-flow='':
+	fulcio interactive oauth2 flow to use for certificate from fulcio. Defaults to determining the flow based on the runtime environment. (options) normal|device|token|client_credentials
+
+    -h, --help=false:
+	help for sign
+
+    --identity-token='':
+	identity token to use for certificate from fulcio. the token or a path to a file containing the token is accepted.
+
+    --k8s-keychain=false:
+	whether to use the kubernetes keychain instead of the default keychain (supports workload identity).
+
+    --key='':
+	path to the private key file, KMS URI or Kubernetes Secret
+
+    --oidc-client-id='sigstore':
+	OIDC client ID for application
+
+    --oidc-client-secret-file='':
+	Path to file containing OIDC client secret for application
+
+    --oidc-disable-ambient-providers=false:
+	Disable ambient OIDC providers. When true, ambient credentials will not be read
+
+    --oidc-provider='':
+	Specify the provider to get the OIDC token from (Optional). If unset, all options will be tried. Options include: [spiffe, google, github-actions, filesystem, buildkite-agent]
+
+    --oidc-redirect-url='':
+	OIDC redirect URL (Optional). The default oidc-redirect-url is 'http://localhost:0/auth/callback'.
+
+    -r, --recursive=false:
+	if a multi-arch image is specified, additionally sign each discrete image
+
+    --registry-cacert='':
+	path to the X.509 CA certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-cert='':
+	path to the X.509 certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-key='':
+	path to the X.509 private key file in PEM format to be used, together with the 'registry-client-cert' value, for the connection to the registry
+
+    --registry-password='':
+	registry basic auth password
+
+    --registry-referrers-mode=:
+	mode for fetching references from the registry. allowed: legacy, oci-1-1
+
+    --registry-server-name='':
+	SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the registry
+
+    --registry-token='':
+	registry bearer auth token
+
+    --registry-username='':
+	registry basic auth username
+
+    --signing-config='':
+	path to a signing config file
+
+    --sk=false:
+	whether to use a hardware security key
+
+    --slot='':
+	security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
+
+    --timestamp-client-cacert='':
+	path to the X.509 CA certificate file in PEM format to be used for the connection to the TSA Server
+
+    --timestamp-client-cert='':
+	path to the X.509 certificate file in PEM format to be used for the connection to the TSA Server
+
+    --timestamp-client-key='':
+	path to the X.509 private key file in PEM format to be used, together with the 'timestamp-client-cert' value, for the connection to the TSA Server
+
+    --timestamp-server-name='':
+	SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the TSA Server
+
+    --trusted-root='':
+	optional path to a TrustedRoot JSON file to verify a signature after signing
+
+    --upload=true:
+	whether to upload the signature
+
+    --use-signing-config=true:
+	whether to use a TUF-provided signing config for the service URLs
+
+    -y, --yes=false:
+	skip confirmation prompts for non-destructive operations
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

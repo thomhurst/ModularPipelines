@@ -1,0 +1,17 @@
+Reset the hardware token completely
+
+Usage:
+cosign piv-tool reset [flags]
+
+Examples:
+  cosign piv-tool reset
+
+Flags:
+    -h, --help=false:
+	help for reset
+
+Global Flags:
+  -f, --no-input             skip warnings and confirmations
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

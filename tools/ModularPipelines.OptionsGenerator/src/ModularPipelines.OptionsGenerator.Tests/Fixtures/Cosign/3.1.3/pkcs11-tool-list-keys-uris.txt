@@ -1,0 +1,27 @@
+List URIs of all keys in a PKCS11 token
+
+Usage:
+cosign pkcs11-tool list-keys-uris [flags]
+
+Examples:
+  # list key URIs in a specific PKCS11 token slot
+  cosign pkcs11-tool list-keys-uris --module-path /usr/lib/libp11kit.so --slot-id 0
+
+Flags:
+    -h, --help=false:
+	help for list-keys-uris
+
+    --module-path='':
+	absolute path to the PKCS11 module
+
+    --pin='':
+	pin of the PKCS11 slot, uses environment variable COSIGN_PKCS11_PIN if empty
+
+    --slot-id=0:
+	id of the PKCS11 slot, uses 0 if empty
+
+Global Flags:
+  -f, --no-input             skip warnings and confirmations
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

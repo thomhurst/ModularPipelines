@@ -62,6 +62,20 @@ public partial class CosignCliScraper : CobraCliScraper
 
     protected override string VersionArguments => "version";
 
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", [])
+            .Where(option => option.SwitchName is "--output-file" or "--timeout" or "--verbose")];
+
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
+
     /// <summary>
     /// Cosign prints an ASCII-art banner before its structured version fields.
     /// Persist only the GitVersion value in command-coverage metadata.

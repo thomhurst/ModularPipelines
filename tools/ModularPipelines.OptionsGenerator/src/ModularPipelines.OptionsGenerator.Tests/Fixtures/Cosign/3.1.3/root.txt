@@ -1,0 +1,48 @@
+A tool for Container Signing, Verification and Storage in an OCI registry
+
+Usage:
+cosign [command]
+
+Available Commands:
+attest                  Attest the supplied container image
+attest-blob             Attest the supplied blob
+bundle                  Interact with a Sigstore protobuf bundle
+clean                   Remove all signatures from an image
+completion              Generate completion script
+download                Provides utilities for downloading artifacts and attached artifacts in a registry
+env                     Prints Cosign environment variables
+generate-key-pair       Generates a key-pair
+help                    Help about any command
+import-key-pair         Imports a PEM-encoded RSA or EC private key
+initialize              Initializes SigStore root to retrieve trusted certificate and key targets for verification
+load                    Load a signed image on disk to a remote registry
+login                   Log in to a registry
+piv-tool                Provides utilities for managing a hardware token
+pkcs11-tool             Provides utilities for retrieving information from a PKCS11 token.
+public-key              Gets a public key from the key-pair
+save                    Save the container image and associated signatures to disk at the specified directory
+sign                    Sign the supplied container image
+sign-blob               Sign the supplied blob, outputting the base64-encoded signature to stdout
+signing-config          Interact with a Sigstore protobuf signing config
+tree                    Display supply chain security related artifacts for an image such as signatures, SBOMs and attestations
+trusted-root            Interact with a Sigstore protobuf trusted root
+verify                  Verify a signature on the supplied container image
+verify-attestation      Verify an attestation on the supplied container image
+verify-blob             Verify a signature on the supplied blob
+verify-blob-attestation Verify an attestation on the supplied blob
+version                 Prints the version
+
+Flags:
+    -h, --help=false:
+	help for cosign
+
+    --output-file='':
+	log output to a file
+
+    -t, --timeout=3m0s:
+	timeout for commands
+
+    -d, --verbose=false:
+	log debug output
+
+Use "cosign [command] --help" for more information about a command.

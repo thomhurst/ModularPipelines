@@ -1,0 +1,21 @@
+List all PKCS11 tokens linked to a module
+
+Usage:
+cosign pkcs11-tool list-tokens [flags]
+
+Examples:
+  # list all tokens for a PKCS11 module
+  cosign pkcs11-tool list-tokens --module-path /usr/lib/libp11kit.so
+
+Flags:
+    -h, --help=false:
+	help for list-tokens
+
+    --module-path='':
+	absolute path to the PKCS11 module
+
+Global Flags:
+  -f, --no-input             skip warnings and confirmations
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

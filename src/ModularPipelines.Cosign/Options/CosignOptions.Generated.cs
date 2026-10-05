@@ -22,4 +22,22 @@ namespace ModularPipelines.Cosign.Options;
 [CliGlobalOptions]
 public abstract record CosignOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// log output to a file
+    /// </summary>
+    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputFile { get; set; }
+
+    /// <summary>
+    /// timeout for commands
+    /// </summary>
+    [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Timeout { get; set; }
+
+    /// <summary>
+    /// log debug output
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-d")]
+    public virtual bool? Verbose { get; set; }
+
 }

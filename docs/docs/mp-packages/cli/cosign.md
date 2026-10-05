@@ -30,6 +30,16 @@ Resolve the service in a module, then select a command from the table below. A r
 var cosign = context.Tools.Cosign;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--output-file` | `OutputFile` | All editions | log output to a file |
+| `--timeout` | `Timeout` | All editions | timeout for commands |
+| `--verbose` | `Verbose` | All editions | log debug output |
+
 ## Commands
 
 | CLI command | Options record |

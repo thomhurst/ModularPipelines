@@ -1,0 +1,24 @@
+Unblock a hardware token and set a new PIN
+
+Usage:
+cosign piv-tool unblock [flags]
+
+Examples:
+  # unblock the token using the PUK and set a new PIN
+  cosign piv-tool unblock --puk <puk> --new-PIN <new-pin>
+
+Flags:
+    -h, --help=false:
+	help for unblock
+
+    --new-PIN='':
+	new PIN, uses default if empty
+
+    --puk='':
+	existing PUK, uses default if empty
+
+Global Flags:
+  -f, --no-input             skip warnings and confirmations
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

@@ -1,0 +1,154 @@
+Attest the supplied container image
+
+Usage:
+cosign attest [flags]
+
+Examples:
+  cosign attest --key <key path>|<kms uri> [--predicate <path>] [--a key=value] [--no-upload=true|false] [--record-creation-timestamp=true|false] [--f] [--r] <image uri>
+
+  # attach an attestation to a container image Google sign-in
+  cosign attest --timeout 90s --predicate <FILE> --type <TYPE> <IMAGE>
+
+  # attach an attestation to a container image with a local key pair file
+  cosign attest --predicate <FILE> --type <TYPE> --key cosign.key <IMAGE>
+
+  # attach an attestation to a container image with a key pair stored in Azure Key Vault
+  cosign attest --predicate <FILE> --type <TYPE> --key azurekms://[VAULT_NAME][VAULT_URI]/[KEY] <IMAGE>
+
+  # attach an attestation to a container image with a key pair stored in AWS KMS
+  cosign attest --predicate <FILE> --type <TYPE> --key awskms://[ENDPOINT]/[ID/ALIAS/ARN] <IMAGE>
+
+  # attach an attestation to a container image with a key pair stored in Google Cloud KMS
+  cosign attest --predicate <FILE> --type <TYPE> --key gcpkms://projects/[PROJECT]/locations/global/keyRings/[KEYRING]/cryptoKeys/[KEY]/versions/[VERSION] <IMAGE>
+
+  # attach an attestation to a container image with a key pair stored in Hashicorp Vault
+  cosign attest --predicate <FILE> --type <TYPE> --key hashivault://[KEY] <IMAGE>
+
+  # attach an attestation to a container image with a local key pair file, including a certificate and certificate chain
+  cosign attest --predicate <FILE> --type <TYPE> --key cosign.key --cert cosign.crt --cert-chain chain.crt <IMAGE>
+
+  # attach an attestation to a container image which does not fully support OCI media types
+  COSIGN_DOCKER_MEDIA_TYPES=1 cosign attest --predicate <FILE> --type <TYPE> --key cosign.key legacy-registry.example.com/my/image
+
+  # supply attestation via stdin
+  echo <PAYLOAD> | cosign attest --predicate - <IMAGE>
+
+  # write attestation to stdout
+  cosign attest --predicate <FILE> --type <TYPE> --key cosign.key --no-upload true <IMAGE>
+
+  # attach an attestation to a container image and honor the creation timestamp of the signature
+  cosign attest --predicate <FILE> --type <TYPE> --key cosign.key --record-creation-timestamp <IMAGE>
+
+Flags:
+    --allow-http-registry=false:
+	whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
+
+    --allow-insecure-registry=false:
+	whether to allow insecure connections to registries (e.g., with expired or self-signed TLS certificates). Don't use this for anything but testing
+
+    --bundle='':
+	write everything required to verify the blob to a FILE
+
+    --certificate='':
+	path to the X.509 certificate in PEM format to include in the OCI Signature
+
+    --certificate-chain='':
+	path to a list of CA X.509 certificates in PEM format which will be needed when building the certificate chain for the signing certificate. Must start with the parent intermediate CA certificate of the signing certificate and end with the root certificate. Included in the OCI Signature
+
+    --fulcio-auth-flow='':
+	fulcio interactive oauth2 flow to use for certificate from fulcio. Defaults to determining the flow based on the runtime environment. (options) normal|device|token|client_credentials
+
+    -h, --help=false:
+	help for attest
+
+    --identity-token='':
+	identity token to use for certificate from fulcio. the token or a path to a file containing the token is accepted.
+
+    --k8s-keychain=false:
+	whether to use the kubernetes keychain instead of the default keychain (supports workload identity).
+
+    --key='':
+	path to the private key file, KMS URI or Kubernetes Secret
+
+    --no-upload=false:
+	do not upload the generated attestation, but send the attestation output to STDOUT
+
+    --oidc-client-id='sigstore':
+	OIDC client ID for application
+
+    --oidc-client-secret-file='':
+	Path to file containing OIDC client secret for application
+
+    --oidc-disable-ambient-providers=false:
+	Disable ambient OIDC providers. When true, ambient credentials will not be read
+
+    --oidc-provider='':
+	Specify the provider to get the OIDC token from (Optional). If unset, all options will be tried. Options include: [spiffe, google, github-actions, filesystem, buildkite-agent]
+
+    --oidc-redirect-url='':
+	OIDC redirect URL (Optional). The default oidc-redirect-url is 'http://localhost:0/auth/callback'.
+
+    --predicate='':
+	path to the predicate file.
+
+    --registry-cacert='':
+	path to the X.509 CA certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-cert='':
+	path to the X.509 certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-key='':
+	path to the X.509 private key file in PEM format to be used, together with the 'registry-client-cert' value, for the connection to the registry
+
+    --registry-password='':
+	registry basic auth password
+
+    --registry-server-name='':
+	SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the registry
+
+    --registry-token='':
+	registry bearer auth token
+
+    --registry-username='':
+	registry basic auth username
+
+    --signing-config='':
+	path to a signing config file
+
+    --sk=false:
+	whether to use a hardware security key
+
+    --slot='':
+	security key slot to use for generated key (default: signature) (authentication|signature|card-authentication|key-management)
+
+    --statement='':
+	path to the statement file.
+
+    --timestamp-client-cacert='':
+	path to the X.509 CA certificate file in PEM format to be used for the connection to the TSA Server
+
+    --timestamp-client-cert='':
+	path to the X.509 certificate file in PEM format to be used for the connection to the TSA Server
+
+    --timestamp-client-key='':
+	path to the X.509 private key file in PEM format to be used, together with the 'timestamp-client-cert' value, for the connection to the TSA Server
+
+    --timestamp-server-name='':
+	SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the TSA Server
+
+    --trusted-root='':
+	optional path to a TrustedRoot JSON file to verify a signature after signing
+
+    --type='custom':
+	specify a predicate type (slsaprovenance|slsaprovenance02|slsaprovenance1|link|spdx|spdxjson|cyclonedx|vuln|openvex|custom) or an URI
+
+    --use-signing-config=true:
+	whether to use a TUF-provided signing config for the service URLs
+
+    -y, --yes=false:
+	skip confirmation prompts for non-destructive operations
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output
