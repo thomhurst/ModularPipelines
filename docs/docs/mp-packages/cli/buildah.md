@@ -82,3 +82,4 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah tag` | `BuildahTagOptions` |
 | `buildah umount` | `BuildahUmountOptions` |
 | `buildah unshare` | `BuildahUnshareOptions` |
+| `buildah version` | `BuildahVersionOptions` |

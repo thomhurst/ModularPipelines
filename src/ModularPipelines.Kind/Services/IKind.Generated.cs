@@ -52,4 +52,17 @@ public partial interface IKind
 
     #endregion
 
+    #region Commands
+
+    /// <summary>
+    /// Prints the kind CLI version
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(KindVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    #endregion
 }

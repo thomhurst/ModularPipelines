@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "flyway",
   "toolVersion": "10.20.1",
-  "commandCount": 19,
-  "commandTreeSha256": "206d77a06b83779df807e8cfc15afcf1ecf040cfbfb7380cf9ede97417872e7a",
+  "commandCount": 20,
+  "commandTreeSha256": "e4c660d2e284ff8f850baff3e4244d36056da5fca66e424a17b4b01ef1372dfe",
   "commands": [
     "flyway add",
     "flyway auth",
@@ -23,7 +23,8 @@
     "flyway repair",
     "flyway snapshot",
     "flyway undo",
-    "flyway validate"
+    "flyway validate",
+    "flyway version"
   ],
   "commandGroups": [],
   "exclusions": []

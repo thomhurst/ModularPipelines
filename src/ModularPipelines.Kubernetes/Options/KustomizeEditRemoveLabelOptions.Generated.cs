@@ -21,6 +21,23 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditRemoveLabelOptions : KustomizeOptions
 {
     /// <summary>
+    /// Removes one or more commonLabels from kustomization.yaml
+    /// </summary>
+    /// <param name="Keys">The &lt;keys&gt; operand.</param>
+    public KustomizeEditRemoveLabelOptions(
+        string Keys
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Keys);
+        this.Keys = Keys;
+    }
+
+    public void Deconstruct(out string Keys)
+    {
+        Keys = this.Keys;
+    }
+
+    /// <summary>
     /// ignore error if the given label doesn't exist
     /// </summary>
     [CliFlag("--ignore-non-existence", ShortForm = "-i")]
@@ -31,5 +48,11 @@ public record KustomizeEditRemoveLabelOptions : KustomizeOptions
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;keys&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Keys { get; private init; }
 
 }

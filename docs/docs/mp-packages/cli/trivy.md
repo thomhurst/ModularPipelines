@@ -74,6 +74,7 @@ Global options are rendered before the selected subcommand.
 | `trivy rootfs` | `TrivyRootfsOptions` |
 | `trivy sbom` | `TrivySbomOptions` |
 | `trivy server` | `TrivyServerOptions` |
+| `trivy version` | `TrivyVersionOptions` |
 | `trivy vex` | `TrivyVexOptions` |
 | `trivy vex repo` | `TrivyVexRepoOptions` |
 | `trivy vex repo download` | `TrivyVexRepoDownloadOptions` |

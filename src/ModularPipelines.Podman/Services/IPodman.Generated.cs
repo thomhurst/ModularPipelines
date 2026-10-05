@@ -535,6 +535,16 @@ public partial interface IPodman
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Display the Podman version information
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(PodmanVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Block on one or more containers
     /// </summary>
     /// <param name="options">The command options.</param>
