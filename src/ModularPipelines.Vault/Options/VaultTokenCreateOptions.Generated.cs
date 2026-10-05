@@ -166,6 +166,7 @@ public record VaultTokenCreateOptions : VaultOptions
     /// <summary>
     /// Value for the token. By default, this is an auto-generated string. Specifying this value requires sudo permissions.
     /// </summary>
+    [SecretValue]
     [CliOption("-id", Format = OptionFormat.EqualsSeparated)]
     public string? Id { get; set; }
 

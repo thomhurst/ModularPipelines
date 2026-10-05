@@ -63,6 +63,23 @@ public class VaultOptionScopeTests : TestBase
     }
 
     [Test]
+    public async Task Token_Create_Id_Is_Rendered_And_Masked()
+    {
+        var options = new VaultTokenCreateOptions
+        {
+            Id = "hvs.explicit-token-credential",
+            DisplayName = "deployment",
+        };
+        var rendered = await RenderCommand(options);
+        var obfuscator = await GetService<ISecretObfuscator>();
+        var masked = obfuscator.Obfuscate(rendered, options);
+
+        await Assert.That(rendered).Contains("-id=hvs.explicit-token-credential");
+        await Assert.That(masked).DoesNotContain("hvs.explicit-token-credential");
+        await Assert.That(masked).Contains("-display-name=deployment");
+    }
+
+    [Test]
     public async Task Login_Authentication_Operands_Are_Masked()
     {
         var options = new VaultLoginOptions { AuthKV = ["hvs.example-token"] };
