@@ -313,68 +313,79 @@ public partial class PipCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             }
 
             var section = helpText[sectionStart..sectionEnd];
-            var lines = section.Split('\n');
-
-            for (var i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i];
-                var match = PipOptionPattern().Match(line);
-                if (!match.Success)
-                {
-                    continue;
-                }
-
-                var shortForm = match.Groups["short"].Value.Trim();
-                var longForm = match.Groups["long"].Value.Trim();
-                var valueHint = match.Groups["value"].Value.Trim();
-
-                if (!seenOptions.Add(longForm))
-                {
-                    continue;
-                }
-
-                var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
-
-                var propertyName = NormalizePropertyName(longForm);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                var isFlag = string.IsNullOrEmpty(valueHint);
-                var isCountedFlag = isFlag && description.Contains("Option is additive", StringComparison.OrdinalIgnoreCase);
-                var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
-                    || RepeatableOptions.Contains(longForm);
-                var scalarType = isFlag ? "bool?" : "string?";
-                if (isCountedFlag)
-                {
-                    scalarType = "int?";
-                }
-
-                var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = longForm,
-                    ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = false,
-                    AcceptsMultipleValues = acceptsMultipleValues,
-                    RejectBlankCollectionValues = longForm == "--group",
-                    IsKeyValue = false,
-                    IsNumeric = false,
-                    ValueSeparator = " ",
-                    EnumDefinition = null,
-                    IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag),
-                    ValidationConstraints = isCountedFlag ? new CliValidationConstraints { MinValue = 0 } : null,
-                });
-            }
+            ParseOptionSection(section, seenOptions, options);
         }
 
         return options;
+    }
+
+    private static void ParseOptionSection(string section, HashSet<string> seenOptions, List<CliOptionDefinition> options)
+    {
+        var lines = section.Split('\n');
+
+        for (var i = 0; i < lines.Length; i++)
+        {
+            var line = lines[i];
+            var match = PipOptionPattern().Match(line);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var shortForm = match.Groups["short"].Value.Trim();
+            var longForm = match.Groups["long"].Value.Trim();
+            var valueHint = match.Groups["value"].Value.Trim();
+
+            if (!seenOptions.Add(longForm))
+            {
+                continue;
+            }
+
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+
+            var propertyName = NormalizePropertyName(longForm);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            options.Add(CreateOptionDefinition(shortForm, longForm, valueHint, propertyName, description));
+        }
+    }
+
+    private static CliOptionDefinition CreateOptionDefinition(
+        string shortForm, string longForm, string valueHint, string propertyName, string description)
+    {
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var isCountedFlag = isFlag && description.Contains("Option is additive", StringComparison.OrdinalIgnoreCase);
+        var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
+            || RepeatableOptions.Contains(longForm);
+        var scalarType = isFlag ? "bool?" : "string?";
+        if (isCountedFlag)
+        {
+            scalarType = "int?";
+        }
+
+        var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            RejectBlankCollectionValues = longForm == "--group",
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            ValidationConstraints = isCountedFlag ? new CliValidationConstraints { MinValue = 0 } : null,
+        };
     }
 
     private static bool IsOptionRow(string line) => PipOptionPattern().IsMatch(line);

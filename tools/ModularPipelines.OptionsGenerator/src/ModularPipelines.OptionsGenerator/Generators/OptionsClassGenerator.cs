@@ -764,33 +764,39 @@ public class OptionsClassGenerator : ICodeGenerator
         if (!isRequired && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
-            var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
-            var preserveValuePairs = option is not null && option.CollectionSeparator is null;
-            var typedSnapshotPrefix = $"__{propertyName}Snapshot";
-            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
-            if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
-                && option.ValueSeparator != " ")
-            {
-                // The renderer checks pair format before joining the selected values.
-                // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
-                snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
-            }
-
-            sb.AppendLine(declaration);
-            sb.AppendLine("    {");
-            sb.AppendLine("        get;");
-            sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
-            sb.AppendLine("    }");
-            if (valueArity != CliOptionValueArity.Optional)
-            {
-                GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
-            }
+            GenerateValidatedCollectionProperty(sb, declaration, propertyType, propertyName, option);
 
             return;
         }
 
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
+    }
+
+    private static void GenerateValidatedCollectionProperty(
+        StringBuilder sb, string declaration, string propertyType, string propertyName, CliOptionDefinition? option)
+    {
+        var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
+        var preserveValuePairs = option is not null && option.CollectionSeparator is null;
+        var typedSnapshotPrefix = $"__{propertyName}Snapshot";
+        var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+            propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
+        if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
+            && option.ValueSeparator != " ")
+        {
+            // The renderer checks pair format before joining the selected values.
+            // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
+            snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+        }
+
+        sb.AppendLine(declaration);
+        sb.AppendLine("    {");
+        sb.AppendLine("        get;");
+        sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
+        sb.AppendLine("    }");
+        if (valueArity != CliOptionValueArity.Optional)
+        {
+            GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
+        }
     }
 
     private static void GenerateTypedSnapshotAdapters(StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs)
