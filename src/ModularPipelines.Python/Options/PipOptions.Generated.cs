@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.Python.Options;
 
@@ -111,8 +112,9 @@ public abstract record PipOptions : CommandLineToolOptions
     /// <summary>
     /// Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
     /// </summary>
+    [Range(0, 2147483647)]
     [CliFlag("--quiet", ShortForm = "-q")]
-    public virtual bool? Quiet { get; set; }
+    public virtual int? Quiet { get; set; }
 
     /// <summary>
     /// Allow pip to only run in a virtual environment; exit with an error otherwise.
@@ -159,8 +161,9 @@ public abstract record PipOptions : CommandLineToolOptions
     /// <summary>
     /// Give more output. Option is additive, and can be used up to 3 times.
     /// </summary>
+    [Range(0, 2147483647)]
     [CliFlag("--verbose", ShortForm = "-v")]
-    public virtual bool? Verbose { get; set; }
+    public virtual int? Verbose { get; set; }
 
     /// <summary>
     /// Show version and exit.
