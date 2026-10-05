@@ -82,6 +82,7 @@ var podman = context.Tools.Podman;
 | `podman compose top` | `PodmanComposeTopOptions` |
 | `podman compose unpause` | `PodmanComposeUnpauseOptions` |
 | `podman compose up` | `PodmanComposeUpOptions` |
+| `podman compose version` | `PodmanComposeVersionOptions` |
 | `podman compose volumes` | `PodmanComposeVolumesOptions` |
 | `podman compose wait` | `PodmanComposeWaitOptions` |
 | `podman compose watch` | `PodmanComposeWatchOptions` |
@@ -279,6 +280,7 @@ var podman = context.Tools.Podman;
 | `podman unshare` | `PodmanUnshareOptions` |
 | `podman untag` | `PodmanUntagOptions` |
 | `podman update` | `PodmanUpdateOptions` |
+| `podman version` | `PodmanVersionOptions` |
 | `podman volume` | `PodmanVolumeOptions` |
 | `podman volume create` | `PodmanVolumeCreateOptions` |
 | `podman volume exists` | `PodmanVolumeExistsOptions` |

@@ -132,5 +132,14 @@ internal partial class ArgoCd : IArgoCd
         return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdReloginOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        ArgoCdVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ArgoCdVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

@@ -337,6 +337,16 @@ public interface IPodmanCompose
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Show the podman compose version information
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(PodmanComposeVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List volumes
     /// </summary>
     /// <param name="options">The command options.</param>

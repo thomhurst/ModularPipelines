@@ -121,5 +121,14 @@ internal partial class Packer : IPacker
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        PackerVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PackerVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

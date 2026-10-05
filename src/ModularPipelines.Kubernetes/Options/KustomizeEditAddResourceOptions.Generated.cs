@@ -21,6 +21,34 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddResourceOptions : KustomizeOptions
 {
     /// <summary>
+    /// Add the name of a file containing a resource to the kustomization file
+    /// </summary>
+    /// <param name="File">The &lt;file&gt; operand.</param>
+    public KustomizeEditAddResourceOptions(
+        IEnumerable<string> File
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(File);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(File));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(File));
+            }
+
+            File = materialized;
+        }
+        this.File = File;
+    }
+
+    public void Deconstruct(out IEnumerable<string> File)
+    {
+        File = this.File;
+    }
+
+    /// <summary>
     /// skip validation for resources
     /// </summary>
     [CliFlag("--no-verify")]
@@ -31,5 +59,11 @@ public record KustomizeEditAddResourceOptions : KustomizeOptions
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;file&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> File { get; private init; }
 
 }

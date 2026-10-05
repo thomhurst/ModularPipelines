@@ -254,5 +254,14 @@ internal partial class Buildah : IBuildah
         return await _command.ExecuteCommandLineToolAsync(options ?? new BuildahUnshareOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        BuildahVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BuildahVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

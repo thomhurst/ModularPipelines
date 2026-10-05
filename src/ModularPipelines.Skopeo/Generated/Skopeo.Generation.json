@@ -3,5 +3,5 @@
   "toolName": "skopeo",
   "toolVersion": "skopeo version 1.13.3",
   "commandTreeSha256": "71df545926b8f3395c60d1ed9e037569395c16b401bff0417eacdfb16d3d7908",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "generatorSourceSha256": "fe748bd2c02a3dac67382ca394edf15cdf4e46cf2b9af748628a3ae5eb9c3b65"
 }

@@ -207,3 +207,4 @@ var flux = context.Tools.Flux;
 | `flux trigger` | `FluxTriggerOptions` |
 | `flux trigger receiver` | `FluxTriggerReceiverOptions` |
 | `flux uninstall` | `FluxUninstallOptions` |
+| `flux version` | `FluxVersionOptions` |

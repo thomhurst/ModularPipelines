@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "flux",
-  "toolVersion": "flux version 2.9.5",
-  "commandCount": 173,
-  "commandTreeSha256": "cce64ef09e13559016b9deee8b350b34916ce2e46c6e248c25ab24ae62a04c00",
+  "toolVersion": "flux version 2.9.6",
+  "commandCount": 174,
+  "commandTreeSha256": "557c088b0257cbea56dcae78c03c0a09c4a59c8ec9173e3250ba17b97ba500d7",
   "commands": [
     "flux bootstrap",
     "flux bootstrap bitbucket-server",
@@ -177,7 +177,8 @@
     "flux tree kustomization",
     "flux trigger",
     "flux trigger receiver",
-    "flux uninstall"
+    "flux uninstall",
+    "flux version"
   ],
   "commandGroups": [
     "flux bootstrap",

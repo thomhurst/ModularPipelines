@@ -119,3 +119,4 @@ var eksctl = context.Tools.Eksctl;
 | `eksctl utils update-legacy-subnet-settings` | `EksctlUtilsUpdateLegacySubnetSettingsOptions` |
 | `eksctl utils update-zonal-shift-config` | `EksctlUtilsUpdateZonalShiftConfigOptions` |
 | `eksctl utils write-kubeconfig` | `EksctlUtilsWriteKubeconfigOptions` |
+| `eksctl version` | `EksctlVersionOptions` |

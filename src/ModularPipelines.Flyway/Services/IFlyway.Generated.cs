@@ -77,5 +77,8 @@ public partial interface IFlyway
     public Task<CommandResult> ValidateAsync(FlywayValidateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
+    public Task<CommandResult> VersionAsync(FlywayVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
     #endregion
 }

@@ -57,3 +57,4 @@ Global options are rendered before the selected subcommand.
 | `grype db status` | `GrypeDbStatusOptions` |
 | `grype db update` | `GrypeDbUpdateOptions` |
 | `grype explain` | `GrypeExplainOptions` |
+| `grype version` | `GrypeVersionOptions` |

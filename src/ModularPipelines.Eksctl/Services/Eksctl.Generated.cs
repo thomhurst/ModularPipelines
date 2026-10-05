@@ -110,4 +110,16 @@ internal partial class Eksctl : IEksctl
 
     #endregion
 
+    #region Commands
+
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        EksctlVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new EksctlVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    #endregion
 }

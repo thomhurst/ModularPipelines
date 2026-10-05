@@ -21,9 +21,32 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditAddBaseOptions : KustomizeOptions
 {
     /// <summary>
+    /// Adds one or more bases to the kustomization.yaml in current directory
+    /// </summary>
+    /// <param name="Base">The &lt;base&gt; operand.</param>
+    public KustomizeEditAddBaseOptions(
+        string Base
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Base);
+        this.Base = Base;
+    }
+
+    public void Deconstruct(out string Base)
+    {
+        Base = this.Base;
+    }
+
+    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;base&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Base { get; private init; }
 
 }

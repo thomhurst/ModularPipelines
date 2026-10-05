@@ -97,4 +97,17 @@ public partial interface IEksctl
 
     #endregion
 
+    #region Commands
+
+    /// <summary>
+    /// Output the version of eksctl
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(EksctlVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    #endregion
 }
