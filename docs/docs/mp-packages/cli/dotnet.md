@@ -41,6 +41,14 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--diagnostics` | `Diagnostics` | All editions | Enable diagnostic output. |
+
 ## Commands
 
 | CLI command | Options record |
