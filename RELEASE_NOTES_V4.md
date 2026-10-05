@@ -39,6 +39,13 @@ can set `ThrowOnNonSuccessStatusCode = false` and must dispose returned response
 Slack disposes responses internally. See the [Slack](docs/docs/mp-packages/slack.md)
 and [Teams](docs/docs/mp-packages/microsoft-teams.md) examples.
 
+## Flux inherited settings
+
+Flux command records now inherit 23 persistent settings from `FluxOptions`, preserving
+existing property names and post-command argument ordering. Receiver commands retain their
+local webhook `Token` replacement and secret masking; group-only flags remain local.
+Reflection code must include inherited properties. See the [Flux migration guide](docs/docs/mp-packages/flux.md#migration).
+
 ## Trivy inherited settings
 
 Trivy command records now inherit eight persistent settings from `TrivyOptions`:
