@@ -709,3 +709,15 @@ collection with one `--config` per entry and is now masked as secret-bearing inp
 Replace per-command color enum names (for example `CargoBuildColor`) with `CargoColor`.
 Command-specific manifest/build settings and nightly `Z` options stay on their
 applicable records. No unconditional `-C` or rustup `+toolchain` property is added.
+
+## .NET SDK and nbgv option scope
+
+Generated .NET SDK command records now inherit `Diagnostics` from `DotNetOptions`.
+`Diagnostics = true` renders `--diagnostics` before the command path; false and null
+omit it. Command verbosity, runtime-host settings, and root information actions are
+not universal SDK execution properties.
+
+The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
+help/version actions. Continue setting `Project` and other values on command
+records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
+value and is not the root version-information action.

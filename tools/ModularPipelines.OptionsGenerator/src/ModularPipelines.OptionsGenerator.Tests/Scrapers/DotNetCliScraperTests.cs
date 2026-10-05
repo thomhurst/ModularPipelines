@@ -11,6 +11,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class DotNetCliScraperTests
 {
     [Test]
+    public async Task Sdk_Root_Inherits_Only_Diagnostics()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "dotnet-10.0.401-root-help.txt"));
+        var options = new TestDotNetCliScraper().ParseGlobals(help);
+        await Assert.That(options).Count().IsEqualTo(1);
+        var diagnostics = options.Single();
+        await Assert.That(diagnostics.SwitchName).IsEqualTo("--diagnostics");
+        await Assert.That(diagnostics.ShortForm).IsEqualTo("-d");
+        await Assert.That(diagnostics.PropertyName).IsEqualTo("Diagnostics");
+        await Assert.That(diagnostics.CSharpType).IsEqualTo("bool?");
+        await Assert.That(diagnostics.IsFlag).IsTrue();
+    }
+
+    [Test]
+    public async Task Command_Verbosity_Is_Not_A_Root_Global()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "dotnet-10.0.401-build-help.txt"));
+        var scraper = new TestDotNetCliScraper();
+        await Assert.That(scraper.ParseGlobals(help)).IsEmpty();
+    }
+
+    [Test]
     public async Task Subcommands_With_Positional_Signatures_Are_Discovered()
     {
         const string helpText = """
@@ -195,6 +217,8 @@ public class DotNetCliScraperTests
         }
 
         public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public async Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

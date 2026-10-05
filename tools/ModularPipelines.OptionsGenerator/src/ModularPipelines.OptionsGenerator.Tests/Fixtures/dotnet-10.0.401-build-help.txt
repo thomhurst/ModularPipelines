@@ -1,0 +1,31 @@
+Description:
+  .NET Builder
+
+Usage:
+  dotnet build [<PROJECT | SOLUTION | FILE>...] [options]
+
+Arguments:
+  <PROJECT | SOLUTION | FILE>  The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
+
+Options:
+  --ucr, --use-current-runtime         Use current runtime as the target runtime. [default: False]
+  -f, --framework <FRAMEWORK>          The target framework to build for. The target framework must also be specified in the project file.
+  -c, --configuration <CONFIGURATION>  The configuration to use for building the project. The default for most projects is 'Debug'.
+  --version-suffix <VERSION_SUFFIX>    Set the value of the $(VersionSuffix) property to use when building the project.
+  --no-restore                         Do not restore the project before building. [default: False]
+  --interactive                        Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
+  -v, -verbosity <LEVEL>               Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+  -o, --output <OUTPUT_DIR>            The output directory to place built artifacts in.
+  --artifacts-path <ARTIFACTS_DIR>     The artifacts path. All output from the project, including build, publish, and pack output, will go in subfolders under the specified path.
+  --no-incremental                     Do not use incremental building. [default: False]
+  --no-dependencies                    Do not build project-to-project references and only build the specified project. [default: False]
+  -nologo, --no-logo                   Do not display the startup banner or the copyright message. [default: True]
+  --sc, --self-contained               Publish the .NET runtime with your application so the runtime doesn't need to be installed on the target machine.
+                                       The default is 'false.' However, when targeting .NET 7 or lower, the default is 'true' if a runtime identifier is specified. [default: False]
+  --no-self-contained                  Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to run your application. [default: False]
+  -r, --runtime <RUNTIME_IDENTIFIER>   The target runtime to build for.
+  -a, --arch <ARCH>                    The target architecture.
+  --os <OS>                            The target operating system.
+  --disable-build-servers              Force the command to ignore any persistent build servers. [default: False]
+  -?, -h, --help                       Show command line help.
+
