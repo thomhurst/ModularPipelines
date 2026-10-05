@@ -27,7 +27,7 @@ builder.AddSignalRDistributedCoordinator(options =>
 
 {
 
-    options.ListenUrl = "http://0.0.0.0:5099";
+    options.ListenUrl = new Uri("http://0.0.0.0:5099");
 
     options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
 

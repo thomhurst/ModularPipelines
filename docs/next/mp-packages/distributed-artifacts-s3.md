@@ -48,14 +48,14 @@ await context.Artifacts.DownloadAsync<BuildModule>(
     Path.Combine(context.Environment.WorkingDirectory.Path, "package.zip"));
 ```
 
-Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional service URL when targeting an S3-compatible provider. Options are validated when the pipeline is built; a missing `BucketName` fails fast.
+Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` are both set. Configure the optional service URL when targeting an S3-compatible provider, for example `options.ServiceUrl = new Uri("http://localhost:9000");`. The URL must be absolute and use HTTP or HTTPS. Options are validated when the pipeline is built; a missing `BucketName` fails fast.
 
 ### S3StorageOptions[​](#s3storageoptions "Direct link to S3StorageOptions")
 
 | Property                  | Type       | Default       | Description                                                                                                                                  |
 | ------------------------- | ---------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `BucketName`              | `string`   | `""`          | Bucket to store objects in. **Required.**                                                                                                    |
-| `ServiceUrl`              | `string?`  | `null`        | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3.                                                                       |
+| `ServiceUrl`              | `Uri?`     | `null`        | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3.                                                                       |
 | `AccessKey` / `SecretKey` | `string?`  | `null`        | Explicit credentials; set both or neither.                                                                                                   |
 | `Region`                  | `string`   | `"us-east-1"` | AWS region.                                                                                                                                  |
 | `ForcePathStyle`          | `bool`     | `false`       | Path-style addressing, required by MinIO and some providers.                                                                                 |
