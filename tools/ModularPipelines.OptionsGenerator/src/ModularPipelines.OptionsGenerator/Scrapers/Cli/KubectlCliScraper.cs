@@ -17,6 +17,16 @@ public class KubectlCliScraper : CobraCliScraper
 
     protected override string VersionArguments => "version --client";
 
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        [.. base.ApplyOptionFixes(commandParts, options).Select(option =>
+            // kubectl's pflag Booleans accept bare switches and explicit false regardless
+            // of the default, which can differ between generator and consumer platforms.
+            option.CSharpType == "bool?"
+                ? option with { IsFlag = true, NegatedSwitchName = option.SwitchName + "=false" }
+                : option)];
+
     public KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger)
         : base(executor, helpCache, logger)
     {
