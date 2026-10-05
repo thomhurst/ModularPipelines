@@ -34,6 +34,7 @@ public class SpecialistGlobalOptionsTests
         await Assert.That(url.ValueSeparator).IsEqualTo("=");
         await Assert.That(url.IsFlag).IsFalse();
         await Assert.That(globals.Single(option => option.SwitchName == "-password").IsSecret).IsTrue();
+        await Assert.That(globals.Single(option => option.SwitchName == "-licenseKey").IsSecret).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "-X").IsFlag).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "-q").IsFlag).IsTrue();
         await Assert.That(globals.Single(option => option.SwitchName == "-n").IsFlag).IsTrue();

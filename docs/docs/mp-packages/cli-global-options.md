@@ -37,7 +37,7 @@ Set Flyway connection and configuration settings directly on the chosen command 
 for example `Url`, `User`, `Password`, and `Locations`. These are inherited from
 `FlywayOptions`. Supply `Locations` as one comma-delimited string. The generator emits
 configuration before the subcommand using `-key=value` and emits the diagnostic and
-non-interactive switches as flags. Passwords retain secret metadata.
+non-interactive switches as flags. Passwords and license keys retain secret metadata.
 
 Supply `Placeholders` and `JdbcProperties` as `KeyValue` collections. Each entry renders as
 `-placeholders.name=value` or `-jdbcProperties.name=value`, respectively. JDBC properties
