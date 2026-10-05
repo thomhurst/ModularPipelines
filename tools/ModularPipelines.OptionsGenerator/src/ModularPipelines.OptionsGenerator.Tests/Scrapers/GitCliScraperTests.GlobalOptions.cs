@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -8,6 +9,73 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public partial class GitCliScraperTests
 {
+    [Test]
+    [Arguments(1, "wrapper failed", false)]
+    [Arguments(128, "fatal: failed to execute", false)]
+    [Arguments(0, "", false)]
+    [Arguments(129, " ", false)]
+    [Arguments(0, "usage: git [-C <path>] <command>", true)]
+    public async Task Invalid_Root_Usage_Is_Not_Cached_And_Next_Lookup_Can_Recover(
+        int exitCode, string output, bool executionFailed)
+    {
+        var executor = new RecoveringRootHelpExecutor(new CliCommandResult
+        {
+            StandardOutput = output,
+            StandardError = string.Empty,
+            ExitCode = exitCode,
+            ExecutionFailed = executionFailed,
+        });
+        var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        using var scraper = new RootHelpProbe(executor, cache);
+
+        await Assert.That(await scraper.Fetch()).IsNull();
+        await Assert.That(cache.TryGet("git", out _)).IsFalse();
+        await Assert.That(scraper.UnavailableHelpPaths).IsEquivalentTo(["git"]);
+
+        var recovered = await scraper.Fetch();
+        await Assert.That(recovered).Contains("usage: git");
+        await Assert.That(cache.TryGet("git", out var cached)).IsTrue();
+        await Assert.That(cached).IsEqualTo(recovered);
+        await Assert.That(scraper.UnavailableHelpPaths).IsEmpty();
+        await Assert.That(await scraper.Fetch()).IsEqualTo(recovered);
+        await Assert.That(executor.RootUsageCalls).IsEqualTo(2);
+        await Assert.That(executor.CommandListCalls).IsEqualTo(2);
+    }
+
+    private sealed class RootHelpProbe(ICliCommandExecutor executor, IHelpTextCache cache)
+        : GitCliScraper(executor, cache, NullLogger<GitCliScraper>.Instance)
+    {
+        public Task<string?> Fetch() => GetHelpTextAsync(["git"], CancellationToken.None);
+    }
+
+    private sealed class RecoveringRootHelpExecutor(CliCommandResult initialUsage) : ICliCommandExecutor
+    {
+        public int RootUsageCalls { get; private set; }
+
+        public int CommandListCalls { get; private set; }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            if (arguments == "help -a")
+            {
+                CommandListCalls++;
+                return Task.FromResult(Result("Main Porcelain Commands\n   branch                  List branches"));
+            }
+
+            if (arguments == "-h")
+            {
+                RootUsageCalls++;
+                return Task.FromResult(RootUsageCalls == 1
+                    ? initialUsage : Result("usage: git [-C <path>] <command>", exitCode: 129));
+            }
+
+            throw new InvalidOperationException($"Unexpected help command: {arguments}");
+        }
+    }
+
     [Test]
     public async Task Empty_Root_Usage_Remains_Unavailable()
     {

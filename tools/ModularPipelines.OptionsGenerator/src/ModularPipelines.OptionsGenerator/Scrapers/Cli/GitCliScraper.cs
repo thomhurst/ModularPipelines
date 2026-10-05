@@ -81,6 +81,13 @@ public partial class GitCliScraper(
             {
                 var usage = await ExecuteAndRecordHelpCommandAsync(
                     commandPath, ToolName, "-h", cancellationToken, helpKind: CliHelpKind.Usage);
+                if (usage.Unavailable || usage.ExitCode is not (0 or 129)
+                    || string.IsNullOrWhiteSpace(usage.CombinedOutput))
+                {
+                    LogRejectedHelp(usage, cacheKey, failedCommand: usage.Unavailable || usage.ExitCode is not (0 or 129));
+                    return null;
+                }
+
                 rootUsage = usage.CombinedOutput;
             }
         }

@@ -53,7 +53,8 @@ internal sealed class CliScrapeProvenance
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
             Unavailable = result.Unavailable || (helpKind == CliHelpKind.Manual
                 && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput)))
-                || (helpKind == CliHelpKind.Usage && string.IsNullOrWhiteSpace(result.CombinedOutput)),
+                || (helpKind == CliHelpKind.Usage
+                    && (result.ExitCode is not (0 or 129) || string.IsNullOrWhiteSpace(result.CombinedOutput))),
         };
         if (helpKind == CliHelpKind.Manual)
         {
