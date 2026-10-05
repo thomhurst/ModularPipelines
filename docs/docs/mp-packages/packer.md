@@ -84,3 +84,7 @@ their documented single-hyphen spelling and stay after their command.
 boolean. Set `ConfigType = "hcl2"` to emit `-config-type=hcl2`; leave it `null`
 to preserve Packer's default. Packer's console help omits the value placeholder,
 but its argument parser requires a configuration type.
+
+`PackerBuildOptions.OnError` accepts the CLI's error policy, such as `"abort"` or
+`"run-cleanup-provisioner"`, and renders `-on-error=value`. Leave it `null` to
+preserve Packer's default cleanup behavior.

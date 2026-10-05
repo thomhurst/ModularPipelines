@@ -69,6 +69,12 @@ public record PackerBuildOptions : PackerOptions
     public bool? Force { get; set; }
 
     /// <summary>
+    /// If the build fails do: clean up (default), abort, ask, or run-cleanup-provisioner.
+    /// </summary>
+    [CliOption("-on-error", Format = OptionFormat.EqualsSeparated)]
+    public string? OnError { get; set; }
+
+    /// <summary>
     /// Number of builds to run in parallel. 1 disables parallelization. 0 means no limit (Default: 0)
     /// </summary>
     [CliOption("-parallel-builds", Format = OptionFormat.EqualsSeparated)]

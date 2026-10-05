@@ -68,6 +68,19 @@ public class PackerGlobalOptionsTests : TestBase
     }
 
     [Test]
+    [Arguments("cleanup")]
+    [Arguments("abort")]
+    [Arguments("ask")]
+    [Arguments("run-cleanup-provisioner")]
+    [Arguments(null)]
+    public async Task Build_On_Error_Preserves_Value_And_Default(string? onError)
+    {
+        var command = await RenderCommand(new PackerBuildOptions("image.pkr.hcl") { OnError = onError });
+        var option = onError is null ? string.Empty : $" -on-error={onError}";
+        await Assert.That(command).IsEqualTo($"packer build{option} image.pkr.hcl");
+    }
+
+    [Test]
     public async Task Debug_Remains_A_Command_Local_Flag()
     {
         var command = await RenderCommand(new PackerBuildOptions("image.pkr.hcl") { Debug = true });
