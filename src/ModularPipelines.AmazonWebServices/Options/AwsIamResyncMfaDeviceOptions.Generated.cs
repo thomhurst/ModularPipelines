@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -82,12 +83,14 @@ public record AwsIamResyncMfaDeviceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// An authentication code emitted by the device. The format for this parameter is a sequence of six digits. Constraints: o min: 6 o max: 6 o pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code1")]
     public string? AuthenticationCode1 { get; private init; }
 
     /// <summary>
     /// A subsequent authentication code emitted by the device. The format for this parameter is a sequence of six digits. Constraints: o min: 6 o max: 6 o pattern: [\d]+
     /// </summary>
+    [SecretValue]
     [CliOption("--authentication-code2")]
     public string? AuthenticationCode2 { get; private init; }
 
