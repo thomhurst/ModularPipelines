@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -112,6 +113,7 @@ public record AwsRoute53domainsTransferDomainOptions : AwsOptions, IValidatableO
     /// <summary>
     /// The authorization code for the domain. You get this value from the current registrar. Constraints: o max: 1024
     /// </summary>
+    [SecretValue]
     [CliOption("--auth-code")]
     public string? AuthCode { get; set; }
 

@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -68,6 +69,7 @@ public record AwsPinpointSmsVoiceV2VerifyDestinationNumberOptions : AwsOptions, 
     /// <summary>
     /// The verification code that was received by the verified destination phone number. Constraints: o min: 1 o max: 20 o pattern: [A-Za-z0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--verification-code")]
     public string? VerificationCode { get; private init; }
 

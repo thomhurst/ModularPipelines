@@ -80,6 +80,7 @@ public record AwsCognitoIdpConfirmSignUpOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The confirmation code that your user pool sent in response to the SignUp request. Constraints: o min: 1 o max: 2048 o pattern: [\S]+
     /// </summary>
+    [SecretValue]
     [CliOption("--confirmation-code")]
     public string? ConfirmationCode { get; private init; }
 

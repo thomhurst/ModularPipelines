@@ -92,6 +92,7 @@ public record AwsSsoOidcCreateTokenOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Used only when calling this API for the Authorization Code grant type. The short-lived code is used to identify this authorization request.
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 

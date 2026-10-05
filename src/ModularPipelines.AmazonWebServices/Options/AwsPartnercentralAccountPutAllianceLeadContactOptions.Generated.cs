@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -84,6 +85,7 @@ public record AwsPartnercentralAccountPutAllianceLeadContactOptions : AwsOptions
     /// <summary>
     /// The verification code sent to the alliance lead contact's email to confirm the update. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--email-verification-code")]
     public string? EmailVerificationCode { get; set; }
 

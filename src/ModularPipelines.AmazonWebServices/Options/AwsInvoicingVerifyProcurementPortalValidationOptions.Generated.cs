@@ -69,6 +69,7 @@ public record AwsInvoicingVerifyProcurementPortalValidationOptions : AwsOptions,
     /// <summary>
     /// The validation code received from the procurement portal in response to a previous SendProcurementPortalValidation request. Constraints: o min: 0 o max: 1024 o pattern: \S+
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; private init; }
 
