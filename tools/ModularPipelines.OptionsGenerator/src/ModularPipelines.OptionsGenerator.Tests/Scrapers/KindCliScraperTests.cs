@@ -47,14 +47,15 @@ public class KindCliScraperTests
     }
 
     [Test]
-    [Arguments("create")]
-    [Arguments("create-cluster")]
-    [Arguments("load-docker-image")]
-    public async Task Group_And_Leaf_Help_Confirm_Root_Shapes(string fixture)
+    [Arguments("create", "create")]
+    [Arguments("create-cluster", "create cluster")]
+    [Arguments("load-docker-image", "load docker-image")]
+    public async Task Group_And_Leaf_Help_Confirm_Root_Shapes(string fixture, string commandPath)
     {
         var scraper = new TestKindCliScraper();
         var globals = scraper.ParseGlobals(Fixture("root"));
-        var inherited = scraper.ParseGlobals(Fixture(fixture));
+        var command = (await scraper.Parse(["kind", .. commandPath.Split(' ')], Fixture(fixture)))!;
+        var inherited = command.Options.Where(option => option.SwitchName is "--quiet" or "--verbosity").ToList();
         await Assert.That(inherited.Count).IsEqualTo(2);
         await Assert.That(CliGlobalOptionMerger.Merge(globals, inherited).Count).IsEqualTo(2);
     }
