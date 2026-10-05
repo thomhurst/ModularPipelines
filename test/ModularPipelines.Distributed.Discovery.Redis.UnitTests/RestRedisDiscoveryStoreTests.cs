@@ -31,6 +31,9 @@ public class RestRedisDiscoveryStoreTests
     [Arguments("relative/path")]
     [Arguments("https://redis.example/base?database=1")]
     [Arguments("https://redis.example/base#section")]
+    [Arguments("https://redis.example/base?")]
+    [Arguments("https://redis.example/base#")]
+    [Arguments("https://redis.example/base?#")]
     [Arguments("http://localhost:8079/base?database=1#section")]
     public async Task Constructor_Rejects_Unsupported_Endpoint_Before_Sending_Token(string endpoint)
     {
