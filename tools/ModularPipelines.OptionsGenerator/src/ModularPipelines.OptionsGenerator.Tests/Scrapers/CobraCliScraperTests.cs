@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -32,6 +32,20 @@ public class CobraCliScraperTests
             .IsEqualTo("Temporary state directory. Use TMPDIR for image storage.");
         await Assert.That(command.Options.Single(option => option.SwitchName == "--output").Description)
             .IsEqualTo("Output path.");
+    }
+
+    [Test]
+    [Arguments("--registries.d DIR    Registry directory.")]
+    [Arguments("--registries.d='/etc/containers/registries.d': Registry directory.")]
+    public async Task Dotted_Switches_Preserve_Spelling_And_Generate_Valid_Property_Names(string declaration)
+    {
+        var help = $"Usage: fake inspect [flags]\n\nFlags:\n  {declaration}\n  --next string    Next option.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "inspect"], help);
+        var option = command!.Options.Single(option => option.SwitchName == "--registries.d");
+        await Assert.That(option.PropertyName).IsEqualTo("RegistriesD");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.Description).IsEqualTo("Registry directory.");
+        await Assert.That(command.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--registries.d", "--next"]);
     }
 
     [Test]

@@ -1,0 +1,11 @@
+Verify a signature using local files
+
+KEY-FINGERPRINTS can be a comma separated list of fingerprints, or "any" if you trust all the keys in the public key file.
+
+Usage:
+skopeo standalone-verify MANIFEST DOCKER-REFERENCE KEY-FINGERPRINTS SIGNATURE
+
+Flags:
+  -h, --help                     help for standalone-verify
+      --public-key-file string   File containing public keys. If not specified, will use local GPG keys.
+

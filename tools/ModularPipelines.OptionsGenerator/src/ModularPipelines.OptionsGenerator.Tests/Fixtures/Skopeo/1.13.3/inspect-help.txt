@@ -1,0 +1,32 @@
+Return low-level information about "IMAGE-NAME" in a registry/transport
+Supported transports:
+containers-storage, dir, docker, docker-archive, docker-daemon, oci, oci-archive, ostree, sif, tarball
+
+See skopeo(1) section "IMAGE NAMES" for the expected format
+
+Usage:
+skopeo inspect [command options] IMAGE-NAME
+
+Examples:
+skopeo inspect docker://registry.fedoraproject.org/fedora
+skopeo inspect --config docker://docker.io/alpine
+skopeo inspect --format "Name: {{.Name}} Digest: {{.Digest}}" docker://registry.access.redhat.com/ubi8
+
+Flags:
+      --authfile string             path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
+      --cert-dir PATH               use certificates at PATH (*.crt, *.cert, *.key) to connect to the registry or daemon
+      --config                      output configuration
+      --creds USERNAME[:PASSWORD]   Use USERNAME[:PASSWORD] for accessing the registry
+      --daemon-host HOST            use docker daemon host at HOST (docker-daemon: only)
+  -f, --format string               Format the output to a Go template
+  -h, --help                        help for inspect
+      --no-creds                    Access the registry anonymously
+  -n, --no-tags                     Do not list the available tags from the repository in the output
+      --password string             Password for accessing the registry
+      --raw                         output raw manifest or configuration
+      --registry-token string       Provide a Bearer token for accessing the registry
+      --retry-times int             the number of times to possibly retry
+      --shared-blob-dir DIRECTORY   DIRECTORY to use to share blobs across OCI repositories
+      --tls-verify                  require HTTPS and verify certificates when talking to the container registry or daemon
+      --username string             Username for accessing the registry
+
