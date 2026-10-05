@@ -59,6 +59,11 @@ new PipInstallOptions
 `TrustedHost`, `ExistsAction`, `UseFeature`, and `UseDeprecated` accept collections
 and repeat their switch for each value. When migrating a single string initializer,
 wrap it in a collection expression. `Proxy` URLs are masked in command logs.
+`Quiet` and `Verbose` are nullable integer counts: `Verbose = 3` renders three
+`--verbose` flags before the command, while zero or `null` omits the flag.
+Negative counts are rejected. When migrating Boolean initializers, replace `true`
+with `1` and `false` with `0` or `null`. Pip documents three useful verbosity or
+quietness levels; its parser accepts additive counts rather than Boolean values.
 Install options such as `Target` and Package Index Options such as `IndexUrl`
 remain command-specific and render after `install`.
 Dependency groups are repeatable on install, download, wheel, and lock commands:
