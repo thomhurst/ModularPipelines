@@ -8,7 +8,7 @@ sidebar_position: 7
 ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 
 > **Using V4?** This historical guide shows the V3 API. V4 registers modules directly on `PipelineBuilder`,
-> removes synchronous `Build()`, and validates before execution. See the [current pipeline builder guide](./how-to/pipeline-host.md).
+> removes synchronous `Build()`, and validates before execution. See the [V3-to-V4 migration guide](./migrating-to-v4.md).
 
 > **TL;DR - The 6 biggest changes:**
 > 1. `PipelineHostBuilder.Create()` → `Pipeline.CreateBuilder(args)`
