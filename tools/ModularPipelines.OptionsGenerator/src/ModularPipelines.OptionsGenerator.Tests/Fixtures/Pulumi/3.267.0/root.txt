@@ -1,0 +1,90 @@
+Pulumi - Modern Infrastructure as Code
+
+To begin working with Pulumi, run the `pulumi new` command:
+
+    $ pulumi new
+
+This will prompt you to create a new project for your cloud and language of choice.
+
+The most common commands from there are:
+
+    - pulumi up       : Deploy code and/or resource changes
+    - pulumi stack    : Manage instances of your project
+    - pulumi config   : Alter your stack's configuration or secrets
+    - pulumi destroy  : Tear down your stack's resources entirely
+
+For more information, please visit the project page: https://www.pulumi.com/docs/
+
+Usage:
+  pulumi [command]
+
+Stack Management Commands:
+  new                   Create a new Pulumi project
+  config                Manage configuration
+  stack                 Manage stacks and view stack state
+  console               Opens the current stack in the Pulumi Console
+  import                Import resources into an existing stack
+  refresh               Refresh the resources in a stack
+  state                 Edit the current stack's state
+  install               Install packages and plugins for the current program or policy pack.
+
+Deployment Commands:
+  up                    Create or update the resources in a stack
+  destroy               Destroy all existing resources in the stack
+  preview               Show a preview of updates to a stack's resources
+  cancel                Cancel a stack's currently running update, if any
+
+Environment Commands:
+  env                   Manage environments
+
+Pulumi Cloud Commands:
+  login                 Log in to a Pulumi state backend
+  logout                Log out of a Pulumi state backend
+  whoami                Display the current logged-in user
+  org                   Manage Organization configuration
+  project               Manage Pulumi projects
+  deployment            [EXPERIMENTAL] Manage stack deployments on Pulumi Cloud
+  api                   Call any Pulumi Cloud API endpoint
+  insights              [EXPERIMENTAL] Manage Pulumi Insights resources and accounts
+  do                    [EXPERIMENTAL] Interact directly with cloud resources
+
+Policy Management Commands:
+  policy                Manage resource policies
+
+Plugin Commands:
+  plugin                Manage language and resource provider plugins
+  schema                Analyze package schemas
+  package               Work with Pulumi packages
+
+Other Commands:
+  version               Print Pulumi's version number
+  about                 Print information about the Pulumi environment.
+  gen-completion        Generate completion scripts for the Pulumi CLI
+
+Experimental Commands:
+  convert               Convert Pulumi programs from a supported source program into other supported languages
+  watch                 Continuously update the resources in a stack
+  logs                  Show aggregated resource logs for a stack
+  template              Work with Pulumi templates
+
+AI Commands:
+  neo                   Start a Pulumi Neo agent task with local tool execution
+
+Flags:
+      --color string                 Colorize output. Choices are: always, never, raw, auto (default "auto")
+  -C, --cwd string                   Run pulumi as if it had been started in another directory
+      --disable-integrity-checking   Disable integrity checking of checkpoint files
+  -e, --emoji                        Enable emojis in the output
+  -Q, --fully-qualify-stack-names    Show fully-qualified stack names
+  -h, --help                         help for pulumi
+      --logflow                      Flow log settings to child processes (like plugins)
+      --logtostderr                  Log to stderr instead of to files
+      --memprofilerate int           Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+      --non-interactive              Disable interactive mode for all commands
+      --otel-traces string           Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
+      --profiling string             Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+      --tracing file:                Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file
+  -v, --verbose int                  Enable verbose logging (e.g., v=3); anything >3 is very verbose
+      --version                      version for pulumi
+
+Use `pulumi [command] --help` for more information about a command.
