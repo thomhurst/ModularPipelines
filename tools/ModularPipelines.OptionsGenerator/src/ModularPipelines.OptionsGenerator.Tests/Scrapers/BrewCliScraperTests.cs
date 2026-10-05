@@ -83,7 +83,7 @@ public class BrewCliScraperTests
             """);
         var tool = scraper.CreateToolDefinition() with { Commands = [command!] };
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
-        await Assert.That(generated).Contains("public override bool? Debug");
+        await Assert.That(generated).Contains("public new bool? Debug");
         await Assert.That(generated).Contains("[CliFlag(\"--debug\")]");
         await Assert.That(generated).DoesNotContain("CliDebug");
         await Assert.That(generated).DoesNotContain("ShortForm = \"-d\"");
