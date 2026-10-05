@@ -580,14 +580,22 @@ jobs:
 
       # Docker is pre-installed on ubuntu-latest
       # .NET CLI is installed via setup-dotnet
-      # pip is pre-installed with Python on ubuntu-latest
+
+      - name: Install pip
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pip'
+        run: |
+          # The runner's distro pip can lag behind the generated command surface.
+          python3 -m venv "$CLI_TOOLS_ROOT/pip"
+          "$CLI_TOOLS_ROOT/pip/bin/python" -m pip install --upgrade pip
+          echo "$CLI_TOOLS_ROOT/pip/bin" >> "$GITHUB_PATH"
+          "$CLI_TOOLS_ROOT/pip/bin/pip" --version
 
       - name: Add Homebrew to PATH
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'brew'
         run: echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
 
       - name: Verify affected tool installation
-        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","git","brew","podman","snyk","yarn","cosign","eksctl","trivy","liquibase"]'), matrix.tool)
+        if: steps.should-run.outputs.run == 'true' && contains(fromJSON('["aws","gh","git","brew","podman","snyk","yarn","cosign","eksctl","trivy","liquibase","pip"]'), matrix.tool)
         run: |
           command -v "${{ matrix.tool }}"
           case "${{ matrix.tool }}" in
