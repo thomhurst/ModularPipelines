@@ -1159,6 +1159,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 PropertyName = command.Options[optionIndex].PropertyName,
                 OptionSwitch = command.Options[optionIndex].SwitchName,
+                ValuePattern = member.ValuePattern,
             };
         }
 
@@ -1179,6 +1180,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
                 PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
                 PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+                ValuePattern = member.ValuePattern,
             };
         }
 

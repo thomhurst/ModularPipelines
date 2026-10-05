@@ -54,6 +54,9 @@ public sealed record CliRequiredAlternativeGroup
 /// </summary>
 public sealed record CliRequiredAlternativeMember
 {
+    // Optional string pattern needed to satisfy this member in a complete usage form.
+    internal string? ValuePattern { get; init; }
+
     /// <summary>
     /// Whether this member must be present when its containing argument bundle is selected.
     /// </summary>
