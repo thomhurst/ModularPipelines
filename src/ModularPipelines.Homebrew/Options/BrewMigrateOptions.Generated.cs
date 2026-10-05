@@ -73,24 +73,6 @@ public record BrewMigrateOptions : BrewOptions
     public bool? Cask { get; set; }
 
     /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Make some output more verbose.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
     /// The installed_formula operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]

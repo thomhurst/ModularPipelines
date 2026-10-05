@@ -49,12 +49,6 @@ public record BrewReinstallOptions : BrewOptions
     }
 
     /// <summary>
-    /// If brewing fails, open an interactive debugging session with access to IRB or a shell inside the temporary build directory.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Print install times for each package at the end of the run. Enabled by default if $HOMEBREW_DISPLAY_INSTALL_TIMES is set.
     /// </summary>
     [CliFlag("--display-times")]
@@ -65,12 +59,6 @@ public record BrewReinstallOptions : BrewOptions
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// Print the verification and post-install steps.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
 
     /// <summary>
     /// Do not ask for confirmation before downloading and reinstalling. Ask mode is the default. Enabled by default if $HOMEBREW_NO_ASK is set.
@@ -257,12 +245,6 @@ public record BrewReinstallOptions : BrewOptions
     /// </summary>
     [CliOption("--language", Format = OptionFormat.EqualsSeparated)]
     public string? Language { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
 
     /// <summary>
     /// The formula operand.

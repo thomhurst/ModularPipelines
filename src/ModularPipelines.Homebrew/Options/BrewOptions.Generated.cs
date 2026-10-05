@@ -19,7 +19,25 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("brew")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record BrewOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Display any debugging information.
+    /// </summary>
+    [CliFlag("--debug", ShortForm = "-d")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// Make some output more quiet.
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Make some output more verbose.
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public virtual bool? Verbose { get; set; }
+
 }

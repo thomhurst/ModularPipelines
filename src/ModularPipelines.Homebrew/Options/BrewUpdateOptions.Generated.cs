@@ -32,22 +32,4 @@ public record BrewUpdateOptions : BrewOptions
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
 
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Print the directories checked and git operations performed.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Display a trace of all shell commands as they are executed.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
 }

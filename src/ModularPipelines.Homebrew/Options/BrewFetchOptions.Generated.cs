@@ -85,12 +85,6 @@ public record BrewFetchOptions : BrewOptions
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Do a verbose VCS checkout, if the URL represents a VCS. This is useful for seeing if an existing VCS cache has been updated.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
     /// Retry if downloading fails or re-download if the checksum of a previously cached version no longer matches. Tries at most 5 times with exponential backoff.
     /// </summary>
     [CliFlag("--retry")]
@@ -131,18 +125,6 @@ public record BrewFetchOptions : BrewOptions
     /// </summary>
     [CliFlag("--cask")]
     public bool? Cask { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
 
     /// <summary>
     /// The formula operand.

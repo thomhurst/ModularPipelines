@@ -93,12 +93,6 @@ public record BrewTestBotOptions : BrewOptions
     public bool? FailFast { get; set; }
 
     /// <summary>
-    /// Print test step output in real time. Has the side effect of passing output as raw bytes instead of re-encoding in UTF-8.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
     /// Use a default testing formula when not building a tap and no other formulae are specified.
     /// </summary>
     [CliFlag("--test-default-formula")]
@@ -256,18 +250,6 @@ public record BrewTestBotOptions : BrewOptions
     /// </summary>
     [CliOption("--tested-formulae", Format = OptionFormat.EqualsSeparated)]
     public string? TestedFormulae { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
 
     /// <summary>
     /// The formula operand.

@@ -82,19 +82,7 @@ public record BrewDescOptions : BrewOptions
     /// Display any debugging information.
     /// </summary>
     [CliFlag("--debug")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Make some output more verbose.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
+    public new bool? Debug { get; set; }
 
     /// <summary>
     /// The formula operand.
