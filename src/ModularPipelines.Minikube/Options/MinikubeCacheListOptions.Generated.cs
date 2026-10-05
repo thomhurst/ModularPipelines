@@ -20,4 +20,10 @@ namespace ModularPipelines.Minikube.Options;
 [CliSubCommand("cache", "list")]
 public record MinikubeCacheListOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Go template format string for the cache list output.  The format for Go templates can be found here: https://pkg.go.dev/text/template For the list of accessible variables for the template, see the struct values here: https://pkg.go.dev/k8s.io/minikube/cmd/minikube/cmd#CacheListTemplate
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
 }

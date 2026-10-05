@@ -21,6 +21,12 @@ namespace ModularPipelines.Minikube.Options;
 public record MinikubeStatusOptions : MinikubeOptions
 {
     /// <summary>
+    /// Go template format string for the status output.  The format for Go templates can be found here: https://pkg.go.dev/text/template For the list accessible variables for the template, see the struct values here: https://pkg.go.dev/k8s.io/minikube/cmd/minikube/cmd#Status
+    /// </summary>
+    [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
+    /// <summary>
     /// output layout (EXPERIMENTAL, JSON only): 'nodes' or 'cluster'
     /// </summary>
     [CliOption("--layout", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
