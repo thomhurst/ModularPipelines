@@ -51,6 +51,22 @@ public partial class TrivyCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Trivy";
 
+    // Trivy's GlobalFlagGroup registers these persistent settings; root format is version-only.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName is
+            "--cacert" or "--cache-dir" or "--config" or "--debug" or "--generate-default-config"
+            or "--insecure" or "--quiet" or "--timeout")];
+
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
