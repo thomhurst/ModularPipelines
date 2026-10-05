@@ -44,7 +44,7 @@ public record AzStorageFsServicePropertiesUpdateOptions : AzOptions
     /// Represent the path to the error document that should be shown when an error 404 is issued, in other words, when a browser requests a page that does not exist.
     /// </summary>
     [CliOption("--404-document")]
-    public string? _404Document { get; set; }
+    public string? Number404Document { get; set; }
 
     /// <summary>
     /// Represent the name of the index document. This is commonly "index.html".
