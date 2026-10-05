@@ -26,6 +26,28 @@ public class BrewGlobalOptionsTests : TestBase
     }
 
     [Test]
+    [Arguments("desc")]
+    [Arguments("tests")]
+    [Arguments("vulns")]
+    public async Task Debug_Set_Through_Base_Is_Visible_To_Command(string command)
+    {
+        BrewOptions options = command switch
+        {
+            "desc" => new BrewDescOptions(["wget"]),
+            "tests" => new BrewTestsOptions(),
+            _ => new BrewVulnsOptions(),
+        };
+        options.Debug = true;
+
+        var rendered = await RenderCommand(options);
+
+        await Assert.That(rendered).IsEqualTo(command == "desc" ? "brew desc --debug wget" : $"brew {command} --debug");
+        await Assert.That((bool?) options.GetType().GetProperty(nameof(BrewOptions.Debug))!.GetValue(options)).IsTrue();
+        options.GetType().GetProperty(nameof(BrewOptions.Debug))!.SetValue(options, false);
+        await Assert.That(options.Debug).IsFalse();
+    }
+
+    [Test]
     public async Task Desc_Keeps_Description_Independent_From_Debug()
     {
         var options = new BrewDescOptions(["wget"]) { Description = true, Debug = true };

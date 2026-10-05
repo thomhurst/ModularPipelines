@@ -1839,6 +1839,15 @@ public class GeneratorHardeningTests
             InheritedPropertyCollisionResolver.Resolve(resolved))).Single().Content;
         await Assert.That(generated).IsEqualTo(regenerated);
         await Assert.That(generated).Contains($"public {declaration} Debug");
+        if (localType == "bool?" && !required)
+        {
+            await Assert.That(generated).Contains("get => base.Debug;");
+            await Assert.That(generated).Contains("set => base.Debug = value;");
+        }
+        else
+        {
+            await Assert.That(generated).DoesNotContain("get => base.Debug;");
+        }
         await Assert.That(generated).DoesNotContain("CliDebug");
 
         var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
