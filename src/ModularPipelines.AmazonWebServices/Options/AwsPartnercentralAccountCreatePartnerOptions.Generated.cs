@@ -99,6 +99,7 @@ public record AwsPartnercentralAccountCreatePartnerOptions : AwsOptions, IValida
     /// <summary>
     /// The verification code sent to the alliance lead contact's email to confirm account creation. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--email-verification-code")]
     public string? EmailVerificationCode { get; private init; }
 

@@ -786,6 +786,11 @@ public partial interface IAws
     IAwsEmrServerless EmrServerless => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the endusermessaging sub-domain service.
+    /// </summary>
+    IAwsEndusermessaging Endusermessaging => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the entityresolution sub-domain service.
     /// </summary>
     IAwsEntityresolution Entityresolution => throw new System.NotSupportedException();
@@ -1144,6 +1149,11 @@ public partial interface IAws
     /// Gets the lambdamicrovms sub-domain service.
     /// </summary>
     IAwsLambdaMicrovms LambdaMicrovms => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the lambdaweb sub-domain service.
+    /// </summary>
+    IAwsLambdaWeb LambdaWeb => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the launchwizard sub-domain service.

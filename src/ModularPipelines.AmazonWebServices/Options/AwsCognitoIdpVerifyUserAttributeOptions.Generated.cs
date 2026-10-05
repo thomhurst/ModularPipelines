@@ -80,6 +80,7 @@ public record AwsCognitoIdpVerifyUserAttributeOptions : AwsOptions, IValidatable
     /// <summary>
     /// The verification code that your user pool sent to the added or changed attribute, for example the user's email address. Constraints: o min: 1 o max: 2048 o pattern: [\S]+
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; private init; }
 

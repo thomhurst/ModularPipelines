@@ -1157,6 +1157,21 @@ public class AwsSecurityhub : IAwsSecurityhub
     }
 
     /// <summary>
+    /// Retrieves remediation targets for the account, or for all member ac- counts if the caller is the delegated administrator. Results are sorted by priority, highest first, and are paginated. Use TargetUid or Meta- dataUid to scope the request to a single target or finding. See also: AWS API Documentation get-remediations-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetRemediationsV2Async(
+        AwsSecurityhubGetRemediationsV2Options? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubGetRemediationsV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations , which lets you ag- gregate resources from your entire organization or from specific orga- nizational units. Only the delegated administrator account can use Scopes . If you set GroupByField to ResourceSubCategory , ResourceInfo.AIDe- tails.HostResourceType , or Resour...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -1349,6 +1364,21 @@ public class AwsSecurityhub : IAwsSecurityhub
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsSecurityhubListEnabledProductsForImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves the exposure findings tied to a specific remediation target. Results are sorted by previous severity, highest first, and are pagi- nated. See also: AWS API Documentation list-exposures-by-remediation-v2 is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must ex...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListExposuresByRemediationV2Async(
+        AwsSecurityhubListExposuresByRemediationV2Options options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

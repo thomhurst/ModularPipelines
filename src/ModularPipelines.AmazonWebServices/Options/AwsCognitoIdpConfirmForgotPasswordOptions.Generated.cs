@@ -84,6 +84,7 @@ public record AwsCognitoIdpConfirmForgotPasswordOptions : AwsOptions, IValidatab
     /// <summary>
     /// The confirmation code that your user pool delivered when your user requested to reset their password. Constraints: o min: 1 o max: 2048 o pattern: [\S]+
     /// </summary>
+    [SecretValue]
     [CliOption("--confirmation-code")]
     public string? ConfirmationCode { get; private init; }
 

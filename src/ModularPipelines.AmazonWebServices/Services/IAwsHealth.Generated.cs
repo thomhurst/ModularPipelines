@@ -142,6 +142,16 @@ public interface IAwsHealth
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Returns lifecycle information for Amazon Web Services services, includ- ing end-of-life dates, version recommendations, and lifecycle events. See also: AWS API Documentation describe-service-lifecycle is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> DescribeServiceLifecycleAsync(AwsHealthDescribeServiceLifecycleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Disables Health from working with Organizations. To call this opera- tion, you must sign in to the organization's management account. For more information, see Aggregating Health events in the Health User Guide . This operation doesn't remove the service-linked role from the manage- ment account in your organization. You must use the IAM console, API, or Command Line Interface (CLI) to remove the service-linked role. For more information, see Deleting a Service-Linked Role in the IAM User Guide ...
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -335,12 +335,12 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     {
         // NAME section: "command-name -"
         // DESCRIPTION section follows
-        var descMatch = Regex.Match(helpText, @"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Singleline | RegexOptions.Multiline);
+        var descMatch = DescriptionSectionPattern().Match(helpText);
         if (descMatch.Success)
         {
             var desc = descMatch.Groups[1].Value.Trim();
             // Clean up whitespace
-            desc = Regex.Replace(desc, @"\s+", " ");
+            desc = EnumWhitespacePattern().Replace(desc, " ");
             // Truncate if too long
             if (desc.Length > 500)
             {
@@ -351,14 +351,17 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         return null;
     }
 
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        // AWS documents --version as a string, but it exits immediately instead of configuring a command.
+        [.. ParseOptions(helpText, [], globalOptions: true).Where(option => option.SwitchName != "--version")];
+
+    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts, bool globalOptions = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
-        // Find OPTIONS section
-        var optionsMatch = Regex.Match(helpText, @"^OPTIONS\s*$", RegexOptions.Multiline);
+        var optionsMatch = (globalOptions ? GlobalOptionsSectionPattern() : OptionsSectionPattern()).Match(helpText);
         if (!optionsMatch.Success)
         {
             return options;
@@ -386,8 +389,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
             .Select(static match => match.Groups["name"].Value)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        foreach (Match match in optionMatches)
+        for (var optionIndex = 0; optionIndex < optionMatches.Count; optionIndex++)
         {
+            var match = optionMatches[optionIndex];
             var firstLongForm = match.Groups["long"].Value;
             var alternateLongForm = match.Groups["alternate"].Value;
             var typeHint = match.Groups["type"].Value.Trim().Trim('(', ')');
@@ -404,12 +408,6 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 continue;
             }
 
-            // Skip global options that are duplicated in every command
-            if (IsGlobalOption(longForm) && commandParts.Length > 1)
-            {
-                continue;
-            }
-
             seenOptions.Add(longForm);
             if (!string.IsNullOrEmpty(negatedLongForm))
             {
@@ -422,15 +420,12 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 continue;
             }
 
-            // Get description (lines following the option with more indentation)
-            var optionEnd = match.Index + match.Length;
-            var descMatch = Regex.Match(
-                optionsSection[optionEnd..],
-                """^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""",
-                RegexOptions.Singleline);
-            var rawDescription = descMatch.Success ? descMatch.Value : null;
-            var description = descMatch.Success
-                ? Regex.Replace(descMatch.Groups[1].Value.Trim(), @"\s+", " ")
+            var nextOptionStart = optionIndex + 1 < optionMatches.Count
+                ? optionMatches[optionIndex + 1].Index
+                : optionsSection.Length;
+            var rawDescription = GetOptionDescription(optionsSection, match, nextOptionStart, globalOptions);
+            var description = rawDescription is not null
+                ? EnumWhitespacePattern().Replace(rawDescription.Trim(), " ")
                 : null;
 
             var isBooleanValue = !string.IsNullOrEmpty(typeHint) && IsAwsBooleanType(typeHint);
@@ -442,7 +437,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                           || (isBooleanValue && !requiresExplicitBooleanValue))
                          && !ValueOptionsWithoutTypeHints.Contains(longForm);
             var isStructure = typeHint.Contains("structure");
-            var isScalar = typeHint is "string" or "integer" or "long" or "float" or "double" or "timestamp" or "blob";
+            var isScalar = typeHint is "string" or "int" or "integer" or "long" or "float" or "double" or "timestamp" or "blob";
             var isKeyValue = !isScalar
                              && !isStructure
                              && (typeHint.Contains("map") || (description?.Contains("key=value") ?? false));
@@ -462,7 +457,8 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
             var enumDef = isStructure || isKeyValue || isArray || isNumeric
                 ? null
-                : TryDetectEnum(propertyName, className, rawDescription, longForm);
+                : TryDetectEnum(propertyName, className, rawDescription, longForm)
+                  ?? (globalOptions ? DetectGlobalOptionChoices(propertyName, className, rawDescription, longForm) : null);
             var csharpType = DetermineCSharpType(
                 isFlag || isBooleanValue,
                 isArray,
@@ -495,6 +491,19 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         return options;
+    }
+
+    private static string? GetOptionDescription(string section, Match option, int nextOptionStart, bool globalOptions)
+    {
+        var optionEnd = option.Index + option.Length;
+        if (globalOptions)
+        {
+            // Root descriptions share the option's indentation; bound them by the next declaration.
+            return section[optionEnd..nextOptionStart].Trim();
+        }
+
+        var description = OptionDescriptionPattern().Match(section[optionEnd..]);
+        return description.Success ? description.Value : null;
     }
 
     private static (string SwitchName, string? NegatedSwitchName) GetBooleanSwitchPair(
@@ -625,17 +634,20 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
     }
 
-    private static bool IsGlobalOption(string optionName)
+    private static CliEnumDefinition? DetectGlobalOptionChoices(
+        string propertyName, string className, string? description, string switchName)
     {
-        var globalOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        if (description is null)
         {
-            "--debug", "--endpoint-url", "--no-verify-ssl", "--no-paginate",
-            "--output", "--query", "--profile", "--region", "--version",
-            "--color", "--no-sign-request", "--ca-bundle", "--cli-read-timeout",
-            "--cli-connect-timeout", "--cli-binary-format", "--no-cli-pager",
-            "--cli-auto-prompt", "--no-cli-auto-prompt"
-        };
-        return globalOptions.Contains(optionName);
+            return null;
+        }
+
+        var choices = GlobalOptionChoicePattern().Matches(description)
+            .Select(match => match.Groups["value"].Value)
+            .ToArray();
+        return choices.Length == 0
+            ? null
+            : TryDetectEnum(propertyName, className, "Possible values: " + string.Join(", ", choices), switchName);
     }
 
     private static bool IsAwsBooleanType(string typeHint)
@@ -649,7 +661,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static bool IsNumericType(string typeHint)
     {
         var lower = typeHint.ToLowerInvariant();
-        return lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
+        return lower == "int" || lower.Contains("integer") || lower.Contains("long") || lower.Contains("float") || lower.Contains("double");
     }
 
     internal static CliEnumDefinition? TryDetectEnum(string propertyName, string className, string? description, string? switchName = null)
@@ -765,10 +777,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
 
     private static IReadOnlyList<string> GetSynopsisLines(string helpText)
     {
-        var synopsisMatch = Regex.Match(
-            helpText,
-            @"^SYNOPSIS\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        var synopsisMatch = SynopsisSectionPattern().Match(helpText);
         if (!synopsisMatch.Success)
         {
             return [];
@@ -875,6 +884,9 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     [GeneratedRegex(@"\s+(?:and|or)\s+", RegexOptions.IgnoreCase)]
     private static partial Regex EnumConjunctionPattern();
 
+    [GeneratedRegex(@"^[ \t]*(?:o|\*)[ \t]+(?<value>[^\s]+)[ \t]*\r?$", RegexOptions.Multiline)]
+    private static partial Regex GlobalOptionChoicePattern();
+
     [GeneratedRegex(@"^OPTIONS\s*$", RegexOptions.Multiline)]
     private static partial Regex OptionsSectionPattern();
 
@@ -901,6 +913,15 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     private static partial Regex AvailableCommandsHeaderPattern();
     [GeneratedRegex(@"^[A-Z][A-Z\s]+$", RegexOptions.Multiline)]
     private static partial Regex SectionHeaderPattern();
+    [GeneratedRegex(@"^DESCRIPTION\s*\n\s+(.+?)(?=\n\n[A-Z]|\nSYNOPSIS|\nOPTIONS|\nAVAILABLE)", RegexOptions.Multiline | RegexOptions.Singleline)]
+    private static partial Regex DescriptionSectionPattern();
+
+    [GeneratedRegex(@"^GLOBAL OPTIONS\s*$", RegexOptions.Multiline)]
+    private static partial Regex GlobalOptionsSectionPattern();
+    [GeneratedRegex("""^\s{8,}(.+?)(?=\n\s{7}"?--|\n\n\s{7}"?--|\z)""", RegexOptions.Singleline)]
+    private static partial Regex OptionDescriptionPattern();
+    [GeneratedRegex(@"^SYNOPSIS\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex SynopsisSectionPattern();
 
     #endregion
 }

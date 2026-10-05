@@ -61,6 +61,12 @@ public record AwsPinpointSmsVoiceV2CarrierLookupOptions : AwsOptions, IValidatab
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }
 
+    /// <summary>
+    /// Specifies whether the service cleanses the phone number that you provide. When set to true , the service normalizes the phone number according to the destination country's national numbering plan and dialing rules. The service returns the cleansed number in E.164 for- mat in the E164PhoneNumber field and returns the number that you provided in the OriginalPhoneNumber field.
+    /// </summary>
+    [CliFlag("--enable-cleansing", NegatedName = "--no-enable-cleansing")]
+    public bool? EnableCleansing { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 

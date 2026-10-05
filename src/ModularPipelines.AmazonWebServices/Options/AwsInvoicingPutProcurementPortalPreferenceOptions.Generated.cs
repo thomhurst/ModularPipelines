@@ -133,6 +133,18 @@ public record AwsInvoicingPutProcurementPortalPreferenceOptions : AwsOptions, IV
     public string? EinvoiceDeliveryPreference { get; set; }
 
     /// <summary>
+    /// Whether Marketplace PunchOut is enabled for this connection. De- faults to false if not provided.
+    /// </summary>
+    [CliFlag("--marketplace-punch-out-enabled", NegatedName = "--no-marketplace-punch-out-enabled")]
+    public bool? MarketplacePunchOutEnabled { get; set; }
+
+    /// <summary>
+    /// Configuration for Marketplace PunchOut. Required when Marketpla- cePunchOutEnabled is true. ApprovalRequestRedirectUrl -&gt; (string) The URL that buyers are redirected to for approval requests in the procurement portal. This is only supported for Coupa. When provided together with the procurement portal instance endpoint, its host must match the host of that endpoint. Constraints: o min: 0 o max: 1024 o pattern: \S+ Shorthand Syntax: ApprovalRequestRedirectUrl=string JSON Syntax: { "ApprovalRequestRedirectUrl": "string" }
+    /// </summary>
+    [CliOption("--marketplace-punch-out-preference")]
+    public string? MarketplacePunchOutPreference { get; set; }
+
+    /// <summary>
     /// A unique, case-sensitive identifier that you provide to ensure idem- potency of the request. Constraints: o min: 0 o max: 1024 o pattern: \S+
     /// </summary>
     [SecretValue]

@@ -62,6 +62,12 @@ public record AwsSagemakerWaitImageVersionDeletedOptions : AwsOptions, IValidata
     public string? ImageName { get; private init; }
 
     /// <summary>
+    /// The version of the image. If not specified, the latest version is described. Constraints: o min: 0
+    /// </summary>
+    [CliOption("--version")]
+    public int? Version { get; set; }
+
+    /// <summary>
     /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
     /// </summary>
     [CliOption("--alias")]

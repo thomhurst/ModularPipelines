@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -22,4 +23,112 @@ namespace ModularPipelines.AmazonWebServices.Options;
 [CliGlobalOptions]
 public abstract record AwsOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// The CA certificate bundle to use when verifying SSL certificates. Over- rides config/env settings.
+    /// </summary>
+    [CliOption("--ca-bundle")]
+    public virtual string? CaBundle { get; set; }
+
+    /// <summary>
+    /// Automatically prompt for CLI input parameters.
+    /// </summary>
+    [CliFlag("--cli-auto-prompt")]
+    public virtual bool? CliAutoPrompt { get; set; }
+
+    /// <summary>
+    /// The formatting style to be used for binary blobs. The default format is base64. The base64 format expects binary blobs to be provided as a base64 encoded string. The raw-in-base64-out format preserves compati- bility with AWS CLI V1 behavior and binary values must be passed liter- ally. When providing contents from a file that map to a binary blob fileb:// will always be treated as binary and use the file contents di- rectly regardless of the cli-binary-format setting. When using file:// the file contents will need to properly formatted for the configured cli-binary-format. o base64 o raw-in-base64-out
+    /// </summary>
+    [CliOption("--cli-binary-format")]
+    public virtual AwsCliBinaryFormat? CliBinaryFormat { get; set; }
+
+    /// <summary>
+    /// The maximum socket connect time in seconds. If the value is set to 0, the socket connect will be blocking and not timeout. The default value is 60 seconds.
+    /// </summary>
+    [CliOption("--cli-connect-timeout")]
+    public virtual int? CliConnectTimeout { get; set; }
+
+    /// <summary>
+    /// The formatting style for error output. By default, errors are displayed in enhanced format. o legacy o json o yaml o text o table o enhanced
+    /// </summary>
+    [CliOption("--cli-error-format")]
+    public virtual AwsCliErrorFormat? CliErrorFormat { get; set; }
+
+    /// <summary>
+    /// The maximum socket read time in seconds. If the value is set to 0, the socket read will be blocking and not timeout. The default value is 60 seconds.
+    /// </summary>
+    [CliOption("--cli-read-timeout")]
+    public virtual int? CliReadTimeout { get; set; }
+
+    /// <summary>
+    /// Turn on/off color output. o on o off o auto
+    /// </summary>
+    [CliOption("--color")]
+    public virtual AwsColor? Color { get; set; }
+
+    /// <summary>
+    /// Turn on debug logging.
+    /// </summary>
+    [CliFlag("--debug")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// Override command's default URL with the given URL.
+    /// </summary>
+    [CliOption("--endpoint-url")]
+    public virtual string? EndpointUrl { get; set; }
+
+    /// <summary>
+    /// Disable automatically prompt for CLI input parameters.
+    /// </summary>
+    [CliFlag("--no-cli-auto-prompt")]
+    public virtual bool? NoCliAutoPrompt { get; set; }
+
+    /// <summary>
+    /// Disable cli pager for output.
+    /// </summary>
+    [CliFlag("--no-cli-pager")]
+    public virtual bool? NoCliPager { get; set; }
+
+    /// <summary>
+    /// Disable automatic pagination. If automatic pagination is disabled, the AWS CLI will only make one call, for the first page of results.
+    /// </summary>
+    [CliFlag("--no-paginate")]
+    public virtual bool? NoPaginate { get; set; }
+
+    /// <summary>
+    /// Do not sign requests. Credentials will not be loaded if this argument is provided.
+    /// </summary>
+    [CliFlag("--no-sign-request")]
+    public virtual bool? NoSignRequest { get; set; }
+
+    /// <summary>
+    /// By default, the AWS CLI uses SSL when communicating with AWS services. For each SSL connection, the AWS CLI will verify SSL certificates. This option overrides the default behavior of verifying SSL certificates.
+    /// </summary>
+    [CliFlag("--no-verify-ssl")]
+    public virtual bool? NoVerifySsl { get; set; }
+
+    /// <summary>
+    /// The formatting style for command output. o json o text o table o yaml o yaml-stream o off
+    /// </summary>
+    [CliOption("--output")]
+    public virtual AwsOutput? Output { get; set; }
+
+    /// <summary>
+    /// Use a specific profile from your credential file.
+    /// </summary>
+    [CliOption("--profile")]
+    public virtual string? Profile { get; set; }
+
+    /// <summary>
+    /// A JMESPath query to use in filtering the response data.
+    /// </summary>
+    [CliOption("--query")]
+    public virtual string? Query { get; set; }
+
+    /// <summary>
+    /// The region to use. Overrides config/env settings.
+    /// </summary>
+    [CliOption("--region")]
+    public virtual string? Region { get; set; }
+
 }

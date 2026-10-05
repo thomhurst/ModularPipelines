@@ -215,6 +215,12 @@ public record AwsCognitoIdpCreateUserPoolOptions : AwsOptions, IValidatableObjec
     [CliOption("--issuer-configuration")]
     public string? IssuerConfiguration { get; set; }
 
+    /// <summary>
+    /// The custom names for the authentication context class reference (ACR) levels in your user pool. Amazon Cognito defines four fixed ACR levels that represent increasing authentication assurance. The combination of authentication factors that satisfies each level is fixed and you can't change it. With this configuration, you cus- tomize only the URI name that Amazon Cognito reports for each level in the acr token claim. You can override a subset of the levels. By default, the levels are named urn:cognito:loa:1 through urn:cognito:loa:4 , and Amazon Cog- nito applies the default name to any level that you don't specify. Each name must be unique across all four levels, including any de- fault names that apply to levels you don't override. A name can con- tain any character that is valid in a URL or a URN. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the Essentials tier or higher. Constraints: o min: 0 o max: 4 key -&gt; (string) Constraints: o pattern: Level[1-4] value -&gt; (structure) The configuration for a single authentication context class ref- erence (ACR) level in a user pool. Each entry in an AcrConfigu- ration map associates a level (Level1 through Level4 ) with this configuration, which provides the custom name that Amazon Cog- nito reports for that level in the acr token claim. AcrValue -&gt; (string) [required] The custom name for this authentication context class refer- ence (ACR) level. This value is the URI that Amazon Cognito reports in the acr token claim when a user meets this level. The name must be unique across all levels in the user pool, including default names. Constraints: o min: 1 o max: 64 o pattern: [\x21\x23-\x5B\x5D-\x7E]+ Shorthand Syntax: KeyName1={AcrValue=string},KeyName2={AcrValue=string} JSON Syntax: {"string": { "AcrValue": "string" } ...}
+    /// </summary>
+    [CliOption("--acr-configuration", CollectionSeparator = ",")]
+    public IReadOnlyList<KeyValue>? AcrConfiguration { get; set; }
+
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
