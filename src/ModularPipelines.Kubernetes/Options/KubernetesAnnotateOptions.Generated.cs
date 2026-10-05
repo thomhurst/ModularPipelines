@@ -45,13 +45,13 @@ public record KubernetesAnnotateOptions : KubernetesOptions, IValidatableObject
     }
 
     /// <summary>
-    /// Select all resources, in the namespace of the specified resource types.
+    /// Select all resources in the namespace of the specified resource types
     /// </summary>
     [CliFlag("--all")]
     public bool? All { get; set; }
 
     /// <summary>
-    /// If true, check the specified action in all namespaces.
+    /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
     /// </summary>
     [CliFlag("--all-namespaces", ShortForm = "-A")]
     public bool? AllNamespaces { get; set; }
@@ -81,7 +81,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions, IValidatableObject
     public string? FieldSelector { get; set; }
 
     /// <summary>
-    /// Filename, directory, or URL to files identifying the resource to update the annotation
+    /// identifying the resource.
     /// </summary>
     [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename
@@ -127,7 +127,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions, IValidatableObject
     }
 
     /// <summary>
-    /// Process the kustomization directory. This flag can't be used together with -f or -R.
+    /// Process a kustomization directory. This flag can't be used together with -f or -R.
     /// </summary>
     [CliOption("--kustomize", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]
     public string? Kustomize { get; set; }
@@ -159,7 +159,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliOption("--recursive", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -169,7 +169,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions, IValidatableObject
     public string? ResourceVersion { get; set; }
 
     /// <summary>
-    /// Selector (label query) to filter on, supports '=', '==', '!=', 'in', 'notin'.(e.g. -l key1=value1,key2=value2,key3 in (value3)). Matching objects must satisfy all of the specified label constraints.
+    /// Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)
     /// </summary>
     [CliOption("--selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public string? Selector { get; set; }

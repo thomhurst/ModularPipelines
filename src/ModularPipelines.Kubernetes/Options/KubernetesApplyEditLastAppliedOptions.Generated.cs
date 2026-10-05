@@ -78,7 +78,7 @@ public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
     /// <summary>
     /// Defaults to the line ending native to your platform.
     /// </summary>
-    [CliOption("--windows-line-endings", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--windows-line-endings")]
     public bool? WindowsLineEndings { get; set; }
 
     /// <summary>
