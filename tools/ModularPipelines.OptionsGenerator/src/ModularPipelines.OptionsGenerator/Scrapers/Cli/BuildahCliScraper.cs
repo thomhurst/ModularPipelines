@@ -20,13 +20,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   commit      Create an image from a container
 ///   ...
 /// </summary>
-public partial class BuildahCliScraper : CobraCliScraper
+public partial class BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<BuildahCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<BuildahCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "buildah";
 
     public override string NamespacePrefix => "Buildah";

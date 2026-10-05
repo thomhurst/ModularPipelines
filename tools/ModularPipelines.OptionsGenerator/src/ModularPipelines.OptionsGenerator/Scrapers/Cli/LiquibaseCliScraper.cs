@@ -26,10 +26,11 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   --url=PARAM                    The database URL
 ///   ...
 /// </summary>
-public partial class LiquibaseCliScraper : CliScraperBase
+public partial class LiquibaseCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<LiquibaseCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    private static readonly HashSet<string> NumericOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> NumericOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--changelog-lock-poll-rate",
         "--changelog-lock-wait-time-in-minutes",
         "--count",
@@ -39,18 +40,20 @@ public partial class LiquibaseCliScraper : CliScraperBase
         "--mssql-bytes-per-char",
         "--port",
         "--web-port"
-    };
+    ];
 
-    private static readonly HashSet<string> BooleanDefaultExceptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> BooleanDefaultExceptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--monitor-performance"
-    };
+    ];
 
-    private static readonly HashSet<string> BooleanOptions = new(StringComparer.OrdinalIgnoreCase)
-    {
+    private static readonly HashSet<string> BooleanOptions =
+    [
+        with(StringComparer.OrdinalIgnoreCase),
         "--databricks-diff-tblproperties-ignore-all",
         "--prompt-for-non-local-database"
-    };
+    ];
 
     private static readonly IReadOnlyDictionary<string, string[]> EnumValues =
         new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
@@ -68,12 +71,6 @@ public partial class LiquibaseCliScraper : CliScraperBase
             ["--ui-service"] = ["console", "logger"]
         };
 
-    public LiquibaseCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<LiquibaseCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-        ExecutablePath = ResolveExecutablePath();
-    }
-
     public override string ToolName => "liquibase";
 
     public override string NamespacePrefix => "Liquibase";
@@ -82,7 +79,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Liquibase";
 
-    protected override string ExecutablePath { get; }
+    protected override string ExecutablePath { get; } = ResolveExecutablePath();
 
     /// <summary>
     /// Liquibase starts a JVM for every help request, so keep concurrent discovery memory-bounded.
@@ -189,7 +186,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -491,11 +488,11 @@ public partial class LiquibaseCliScraper : CliScraperBase
         {
             EnumName = $"Liquibase{propertyName}",
             Description = $"Allowed values for {longForm}.",
-            Values = values.Select(value => new CliEnumValue
+            Values = [.. values.Select(value => new CliEnumValue
             {
                 MemberName = ToPascalCase(value),
                 CliValue = value
-            }).ToList()
+            })]
         };
     }
 
