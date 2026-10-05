@@ -95,6 +95,12 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
                     PropertyName = "WorkingDirectory",
                     Phase = CommandLinePhase.Normal,
                 })];
+            if (_globalOptions.Count != 1)
+            {
+                throw new InvalidOperationException(
+                    "go help build did not declare the required -C directory option. Refusing to generate incomplete Go global options.");
+            }
+
             return helpText;
         }
 
