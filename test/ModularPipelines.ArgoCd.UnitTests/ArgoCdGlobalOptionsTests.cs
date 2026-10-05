@@ -50,7 +50,7 @@ public class ArgoCdGlobalOptionsTests : TestBase
     public async Task Admin_Server_Override_Shares_Storage_And_Emits_Once()
     {
         var options = new ArgoCdAdminImportOptions("backup.yaml") { Server = "https://initial" };
-        ((ArgoCdOptions)options).Server = "https://kubernetes";
+        ((ArgoCdOptions) options).Server = "https://kubernetes";
         await Assert.That(options.Server).IsEqualTo("https://kubernetes");
         await AssertArguments(BuildArguments(options), ["backup.yaml", "--server=https://kubernetes"]);
         await Assert.That(typeof(ArgoCdAdminImportOptions).GetProperty(nameof(ArgoCdOptions.Server))!.DeclaringType)
