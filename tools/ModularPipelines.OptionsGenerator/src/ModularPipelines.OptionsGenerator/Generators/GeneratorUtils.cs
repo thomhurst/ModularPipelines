@@ -1105,10 +1105,17 @@ public static partial class GeneratorUtils
 
         // "Description of the secret contents" names metadata about the secret, not the secret itself.
         description = SecretMetadataPhrasePattern().Replace(description, " ");
-        return SecretMaterialDescriptionPattern().IsMatch(description)
+        return OneTimeCredentialDescriptionPattern().IsMatch(description)
+               || SecretMaterialDescriptionPattern().IsMatch(description)
                || (InlineFileContentDescriptionPattern().IsMatch(description)
                    && SecretKeywordDescriptionPattern().IsMatch(description));
     }
+
+    [GeneratedRegex(
+        @"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies))\s+)?(?:the\s+|a\s+|an\s+)?"
+        + @"one[\s-]+time[\s-]+(?:passcode|password)\b",
+        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex OneTimeCredentialDescriptionPattern();
 
     [GeneratedRegex(
         @"\b(?:description|summary|type|kind|format|encoding|content[\s-]*type|mime[\s-]*type|label|name|tags?|metadata|size|length|version)"
