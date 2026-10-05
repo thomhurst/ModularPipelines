@@ -6,8 +6,10 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class GoCliScraperTests
+public partial class GoCliScraperTests
 {
+    private static readonly string[] EditSwitches = ["-module", "-require", "-droprequire", "-replace", "-dropreplace"];
+
     [Test]
     public async Task Traverses_Root_And_Nested_Commands_Including_Optionless_Leaves()
     {
@@ -173,14 +175,15 @@ public class GoCliScraperTests
         });
 
         var doc = (await ScrapeAsync(scraper)).Single(command => command.FullCommand == "go doc");
-        var workingDirectory = doc.Options.Single(option => option.SwitchName == "-C");
+        var workingDirectory = scraper.CreateToolDefinition().GetGlobalOptions().Single(option => option.SwitchName == "-C");
         var caseSensitive = doc.Options.Single(option => option.SwitchName == "-c");
         var unexported = doc.Options.Single(option => option.SwitchName == "-u");
 
         using (Assert.Multiple())
         {
             await Assert.That(workingDirectory.IsFlag).IsFalse();
-            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.Normal);
+            await Assert.That(doc.Options.Any(option => option.SwitchName == "-C")).IsFalse();
             await Assert.That(caseSensitive.IsFlag).IsTrue();
             await Assert.That(caseSensitive.CSharpType).IsEqualTo("bool?");
             await Assert.That(unexported.IsFlag).IsTrue();
@@ -213,8 +216,7 @@ public class GoCliScraperTests
         using (Assert.Multiple())
         {
             var switchNames = command!.Options.Select(option => option.SwitchName).ToHashSet();
-            await Assert.That(new[] { "-module", "-require", "-droprequire", "-replace", "-dropreplace" }
-                    .All(switchNames.Contains))
+            await Assert.That(EditSwitches.All(switchNames.Contains))
                 .IsTrue();
             await Assert.That(command.Options
                     .Where(option => option.SwitchName is "-require" or "-droprequire" or "-replace" or "-dropreplace")
@@ -288,7 +290,7 @@ public class GoCliScraperTests
         var commands = await ScrapeAsync(scraper);
         var test = commands.Single(command => command.FullCommand == "go test");
         var compileOnly = test.Options.Single(option => option.SwitchName == "-c");
-        var workingDirectory = test.Options.Single(option => option.SwitchName == "-C");
+        var workingDirectory = scraper.CreateToolDefinition().GetGlobalOptions().Single(option => option.SwitchName == "-C");
 
         using (Assert.Multiple())
         {
@@ -297,9 +299,10 @@ public class GoCliScraperTests
             await Assert.That(workingDirectory.IsFlag).IsFalse();
             await Assert.That(workingDirectory.CSharpType).IsEqualTo("string?");
             await Assert.That(workingDirectory.Description).Contains("Change to dir");
-            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
+            await Assert.That(workingDirectory.Phase).IsEqualTo(CommandLinePhase.Normal);
             await Assert.That(compileOnly.PropertyName).IsEqualTo("LowerC");
-            await Assert.That(workingDirectory.PropertyName).IsEqualTo("UpperC");
+            await Assert.That(workingDirectory.PropertyName).IsEqualTo("WorkingDirectory");
+            await Assert.That(test.Options.Any(option => option.SwitchName == "-C")).IsFalse();
             await Assert.That(test.Options.Select(option => option.PropertyName).Distinct(StringComparer.Ordinal).Count())
                 .IsEqualTo(test.Options.Count);
         }
@@ -430,8 +433,8 @@ public class GoCliScraperTests
         var cases = new[]
         {
             (Path: new[] { "go", "list" }, Help: "usage: go list [-f format]\n\nThe -f flag controls formatting.", Switch: "-f", Separator: " "),
-            (Path: new[] { "go", "mod", "tidy" }, Help: "usage: go mod tidy [-compat=version]\n\nThe -compat flag selects compatibility.", Switch: "-compat", Separator: "="),
-            (Path: new[] { "go", "mod", "download" }, Help: "usage: go mod download [-reuse=old.json]\n\nThe -reuse flag reuses a prior file.", Switch: "-reuse", Separator: "="),
+            (Path: ["go", "mod", "tidy"], Help: "usage: go mod tidy [-compat=version]\n\nThe -compat flag selects compatibility.", Switch: "-compat", Separator: "="),
+            (Path: ["go", "mod", "download"], Help: "usage: go mod download [-reuse=old.json]\n\nThe -reuse flag reuses a prior file.", Switch: "-reuse", Separator: "="),
         };
 
         foreach (var testCase in cases)
@@ -686,8 +689,8 @@ public class GoCliScraperTests
         var cases = new[]
         {
             (Path: new[] { "go", "work", "use" }, Help: "usage: go work use [-r] [moddirs]\n\nThe -r flag searches recursively. When -r is used, directories are inspected."),
-            (Path: new[] { "go", "version" }, Help: "usage: go version [-json] [file ...]\n\nThe -json flag prints JSON. When -json is used, output is structured."),
-            (Path: new[] { "go", "get" }, Help: "usage: go get [-tool] [packages]\n\nThe -tool flag selects tool mode. When -tool is used, packages are installed as tools."),
+            (Path: ["go", "version"], Help: "usage: go version [-json] [file ...]\n\nThe -json flag prints JSON. When -json is used, output is structured."),
+            (Path: ["go", "get"], Help: "usage: go get [-tool] [packages]\n\nThe -tool flag selects tool mode. When -tool is used, packages are installed as tools."),
         };
 
         foreach (var testCase in cases)
@@ -742,6 +745,8 @@ public class GoCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<GoCliScraper>.Instance)
     {
+        public Task<string?> LoadRootHelp() => GetHelpTextAsync(["go"], CancellationToken.None);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,

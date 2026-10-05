@@ -34,7 +34,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///         -n          print the commands but do not run them
 ///         ...
 /// </summary>
-public partial class GoCliScraper : CliScraperBase
+public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private const string FlagProbeValue = "__modularpipelines_probe__";
 
@@ -44,10 +44,7 @@ public partial class GoCliScraper : CliScraperBase
     private readonly ConcurrentDictionary<string, IReadOnlySet<string>> _unsupportedSharedBuildFlags =
         new(StringComparer.Ordinal);
 
-    public GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    private IReadOnlyList<CliOptionDefinition> _globalOptions = [];
 
     public override string ToolName => "go";
 
@@ -58,6 +55,11 @@ public partial class GoCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Go";
 
     protected override string VersionArguments => "version";
+
+    /// <summary>
+    /// Go documents its tool-wide directory flag in build help, rather than root help.
+    /// </summary>
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions => _globalOptions;
 
     /// <summary>
     /// Skip utility commands.
@@ -72,9 +74,31 @@ public partial class GoCliScraper : CliScraperBase
     /// </summary>
     protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
     {
+        if (commandPath.Length == 1)
+        {
+            _globalOptions = [];
+        }
+
         var helpText = await GetRawHelpTextAsync(commandPath, cancellationToken);
-        if (string.IsNullOrWhiteSpace(helpText)
-            || commandPath.Length != 2)
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            return helpText;
+        }
+
+        if (commandPath.Length == 1)
+        {
+            var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+            _globalOptions = [.. ParseOptions(["build"], buildHelp ?? string.Empty, usageSynopsis: null)
+                .Where(option => option.SwitchName == "-C" && !option.IsFlag)
+                .Select(option => option with
+                {
+                    PropertyName = "WorkingDirectory",
+                    Phase = CommandLinePhase.Normal,
+                })];
+            return helpText;
+        }
+
+        if (commandPath.Length != 2)
         {
             return helpText;
         }
@@ -187,8 +211,8 @@ public partial class GoCliScraper : CliScraperBase
         IEnumerable<CliOptionDefinition> sharedOptions,
         bool isDocWithoutDirectFlags) =>
         isDocWithoutDirectFlags
-            ? sharedOptions.Where(option => option.SwitchName == "-C").ToArray()
-            : sharedOptions.ToArray();
+            ? [.. sharedOptions.Where(option => option.SwitchName == "-C")]
+            : [.. sharedOptions];
 
     private async Task<IReadOnlySet<string>> GetSupportedFlagsAsync(
         IReadOnlyList<string> commandPath,
@@ -330,7 +354,7 @@ public partial class GoCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -403,6 +427,11 @@ public partial class GoCliScraper : CliScraperBase
             options.RemoveAll(option => unsupportedFlags.Contains(option.SwitchName));
         }
 
+        if (_globalOptions.Count > 0)
+        {
+            options.RemoveAll(option => option.SwitchName == "-C");
+        }
+
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -438,11 +467,10 @@ public partial class GoCliScraper : CliScraperBase
     private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
         IReadOnlyList<string> commandParts,
         IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments.Select(argument => NormalizePositionalArgument(commandParts, argument) with
+        [.. arguments.Select(argument => NormalizePositionalArgument(commandParts, argument) with
         {
             Phase = CommandLinePhase.Passthrough,
-        })
-            .ToArray();
+        })];
 
     private static IReadOnlyList<CliPositionalArgument> AddOrderedEditOperations(
         IReadOnlyList<string> commandParts,
@@ -731,7 +759,7 @@ public partial class GoCliScraper : CliScraperBase
         }
     }
 
-    private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
+    private static HashSet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
     {
         var repeatableOptions = new HashSet<string>(StringComparer.Ordinal);
         foreach (var paragraph in paragraphs)
@@ -753,7 +781,7 @@ public partial class GoCliScraper : CliScraperBase
     private static void AddDocumentedOptions(
         string[] lines,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         for (var i = 0; i < lines.Length; i++)
         {
@@ -835,7 +863,7 @@ public partial class GoCliScraper : CliScraperBase
     private static void AddProseOptions(
         IEnumerable<string> paragraphs,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         foreach (var paragraph in paragraphs)
         {
@@ -887,7 +915,7 @@ public partial class GoCliScraper : CliScraperBase
     private static void AddUsageOptions(
         string helpText,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         foreach (Match match in GoUsageOptionPattern().Matches(helpText))
         {
