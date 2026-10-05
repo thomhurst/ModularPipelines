@@ -22,7 +22,7 @@ namespace ModularPipelines.Python.Options;
 public record PipInstallOptions : PipOptions, IValidatableObject
 {
     /// <summary>
-    /// Install from the given requirements file. This option can be used multiple times.
+    /// Install from the given requirements file. The file or URL can be in pip's requirements.txt format, or pylock.toml format. pylock.toml support is experimental. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
     public IEnumerable<string>? Requirement
@@ -80,16 +80,62 @@ public record PipInstallOptions : PipOptions, IValidatableObject
     public IEnumerable<string>? BuildConstraint { get; set; }
 
     /// <summary>
+    /// Install dependencies of the given script file as defined by PEP 723 inline metadata.
+    /// </summary>
+    [CliOption("--requirements-from-script")]
+    public IEnumerable<string>? RequirementsFromScript
+    {
+        get;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> valuePairs ? new __RequirementsFromScriptSnapshotCliValuePair(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.CliValuePair>).Equals((object)valuePairs) ? global::System.Array.Empty<global::ModularPipelines.Models.CliValuePair>() : valuePairs) : ((object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RequirementsFromScriptSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values))))) : default;
+    }
+
+    private sealed class __RequirementsFromScriptSnapshotKeyValue(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
+    {
+        private readonly global::ModularPipelines.Models.KeyValue[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.KeyValue>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)_values).GetEnumerator();
+    }
+
+    private sealed class __RequirementsFromScriptSnapshotCliValuePair(
+        IEnumerable<string> source,
+        global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> values)
+        : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>
+    {
+        private readonly global::ModularPipelines.Models.CliValuePair[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+        global::System.Collections.Generic.IEnumerator<string>
+            global::System.Collections.Generic.IEnumerable<string>.GetEnumerator() => source.GetEnumerator();
+
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+            ((global::System.Collections.IEnumerable)source).GetEnumerator();
+
+        global::System.Collections.Generic.IEnumerator<global::ModularPipelines.Models.CliValuePair>
+            global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+                ((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)_values).GetEnumerator();
+    }
+
+    /// <summary>
     /// Don't install package dependencies.
     /// </summary>
     [CliFlag("--no-deps")]
     public bool? NoDeps { get; set; }
 
     /// <summary>
-    /// Include pre-release and development versions. By default, pip only finds stable versions.
+    /// Take only the dependencies of the provided requirements into account, not the requirements themselves. Cannot be used in combination with --no-deps, --group, --requirement, or --requirements-from-script. No user-supplied requirements will be handled, even if they were dependencies of other user-supplied requirements.
     /// </summary>
-    [CliFlag("--pre")]
-    public bool? Pre { get; set; }
+    [CliFlag("--only-deps")]
+    public bool? OnlyDeps { get; set; }
 
     /// <summary>
     /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
@@ -236,28 +282,16 @@ public record PipInstallOptions : PipOptions, IValidatableObject
     public bool? NoWarnConflicts { get; set; }
 
     /// <summary>
-    /// Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all binary packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
-    /// </summary>
-    [CliOption("--no-binary")]
-    public IEnumerable<string>? NoBinary { get; set; }
-
-    /// <summary>
-    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
-    /// </summary>
-    [CliOption("--only-binary")]
-    public IEnumerable<string>? OnlyBinary { get; set; }
-
-    /// <summary>
-    /// Prefer binary packages over source packages, even if the source packages are newer.
-    /// </summary>
-    [CliFlag("--prefer-binary")]
-    public bool? PreferBinary { get; set; }
-
-    /// <summary>
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
     [CliFlag("--require-hashes")]
     public bool? RequireHashes { get; set; }
+
+    /// <summary>
+    /// Do not automatically enable --require-hashes when encountering a requirement with hashes.
+    /// </summary>
+    [CliFlag("--no-require-hashes")]
+    public bool? NoRequireHashes { get; set; }
 
     /// <summary>
     /// Specify whether the progress bar should be used. In 'auto' mode, --quiet will suppress all progress bars. [auto, on, off, raw] (default: auto)
@@ -330,6 +364,42 @@ public record PipInstallOptions : PipOptions, IValidatableObject
     public bool? NoClean { get; set; }
 
     /// <summary>
+    /// Include pre-release and development versions. By default, pip only finds stable versions.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
+    /// Allow all release types (including pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to allow pre-releases for all packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--all-releases")]
+    public IEnumerable<string>? AllReleases { get; set; }
+
+    /// <summary>
+    /// Only allow final releases (no pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable pre-releases for all packages, ":none:" to empty the set, or one or more package names with commas between them. Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--only-final")]
+    public IEnumerable<string>? OnlyFinal { get; set; }
+
+    /// <summary>
+    /// Do not download binary packages. Cached binary packages may still be used. Can be supplied multiple times, and each time adds to the existing value. Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--no-binary")]
+    public IEnumerable<string>? NoBinary { get; set; }
+
+    /// <summary>
+    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--only-binary")]
+    public IEnumerable<string>? OnlyBinary { get; set; }
+
+    /// <summary>
+    /// Prefer binary packages over source packages, even if the source packages are newer.
+    /// </summary>
+    [CliFlag("--prefer-binary")]
+    public bool? PreferBinary { get; set; }
+
+    /// <summary>
     /// Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
     /// </summary>
     [CliOption("--index-url", ShortForm = "-i")]
@@ -348,10 +418,22 @@ public record PipInstallOptions : PipOptions, IValidatableObject
     public bool? NoIndex { get; set; }
 
     /// <summary>
+    /// Refresh package index information for the given packages instead of using cached responses. Accepts ':all:' to apply to all packages, or a comma-separated list of package names.
+    /// </summary>
+    [CliOption("--refresh-package")]
+    public IEnumerable<string>? RefreshPackage { get; set; }
+
+    /// <summary>
     /// If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files. If a local path or file:// URL that's a directory, then look for archives in the directory listing. Links to VCS project URLs are not supported.
     /// </summary>
     [CliOption("--find-links", ShortForm = "-f")]
     public string? FindLinks { get; set; }
+
+    /// <summary>
+    /// Only consider packages uploaded prior to the given value. Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago). Only effective when using indexes that provide upload-time metadata.
+    /// </summary>
+    [CliOption("--uploaded-prior-to")]
+    public string? UploadedPriorTo { get; set; }
 
     /// <summary>
     /// The &lt;requirement specifier&gt; operand.
@@ -389,9 +471,9 @@ public record PipInstallOptions : PipOptions, IValidatableObject
             yield return new ValidationResult("Group cannot contain null, empty, or whitespace values.", [nameof(Group)]);
         }
 
-        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Group, static item => item is not null) : ((object?)Group is global::System.Collections.Generic.IEnumerable<char> ? (object?)Group is not string || !string.IsNullOrWhiteSpace(Group?.ToString()) : ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Group, static item => item is not null) : (Group is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Group), static item => item is not null)))))))
+        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RequirementsFromScript, static item => item is not null) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementsFromScript is not string || !string.IsNullOrWhiteSpace(RequirementsFromScript?.ToString()) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementsFromScript, static item => item is not null) : (RequirementsFromScript is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementsFromScript), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Group, static item => item is not null) : ((object?)Group is global::System.Collections.Generic.IEnumerable<char> ? (object?)Group is not string || !string.IsNullOrWhiteSpace(Group?.ToString()) : ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Group, static item => item is not null) : (Group is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Group), static item => item is not null)))))))
         {
-            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, Editable, or Group must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable), nameof(Group)]);
+            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, RequirementsFromScript, Editable, or Group must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(RequirementsFromScript), nameof(Editable), nameof(Group)]);
         }
         yield break;
     }
