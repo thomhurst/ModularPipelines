@@ -40,6 +40,14 @@ public partial class CargoCliScraper : CliScraperBase
 
     public override string OutputDirectory => "src/ModularPipelines.Rust";
 
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseOptions(helpText, BaseOptionsClassName).Where(option => IsStableGlobalOption(option.SwitchName))];
+
+    // The stable root parser accepts these before every command. Control actions, rustup's
+    // +toolchain operand, and nightly-only -C/-Z are not unconditional execution settings.
+    private static bool IsStableGlobalOption(string switchName) => switchName is
+        "--verbose" or "--quiet" or "--color" or "--locked" or "--offline" or "--frozen" or "--config";
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
@@ -134,6 +142,20 @@ public partial class CargoCliScraper : CliScraperBase
             ? await GetManualHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false)
             : string.Empty;
         ApplyManualCollectionMetadata(options, manual);
+
+        var globals = EffectiveGlobalOptions;
+        options.RemoveAll(option =>
+        {
+            var global = globals.FirstOrDefault(candidate => candidate.SwitchName == option.SwitchName);
+            if (global is null)
+            {
+                return false;
+            }
+
+            // Fail on a changed command-local contract instead of silently discarding it.
+            _ = CliGlobalOptionMerger.Merge([global], [option]);
+            return true;
+        });
 
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -277,7 +299,13 @@ public partial class CargoCliScraper : CliScraperBase
             match = ClapOptionDeclarationPattern().Match(declaration);
         }
 
-        return CreateClapOption(match, className, propertyName, switchName, block);
+        var option = CreateClapOption(match, IsStableGlobalOption(switchName) ? "CargoOptions" : className,
+            propertyName, switchName, block);
+        // The terse help omits repetition. Cargo's command-line configuration reference
+        // permits repeated TOML overrides, including credential values.
+        return switchName == "--config"
+            ? option with { AcceptsMultipleValues = true, CSharpType = "IEnumerable<string>?", IsSecret = true }
+            : option;
     }
 
     private static bool TryGetSectionHeading(string line, out string heading)

@@ -700,3 +700,12 @@ The `ModuleCacheOptions` limits use `Max` instead of `Maximum`: `MaxInputFiles`,
 `MaxHashConcurrency`. Update object initializers, `with` expressions, and any serialized
 configuration keys. Defaults and enforcement are unchanged for local, Redis, and S3 caches.
 See the [cache option migration table](docs/docs/how-to/module-caching.md#v4-option-names).
+
+## Cargo common options
+
+Cargo command records inherit stable root settings from `CargoOptions`, rendered
+before the command name. `Verbose` remains a nullable count; `Config` remains a
+collection with one `--config` per entry and is now masked as secret-bearing input.
+Replace per-command color enum names (for example `CargoBuildColor`) with `CargoColor`.
+Command-specific manifest/build settings and nightly `Z` options stay on their
+applicable records. No unconditional `-C` or rustup `+toolchain` property is added.

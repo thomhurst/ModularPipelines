@@ -11,6 +11,62 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CargoCliScraperTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Captured_Root_And_Search_Help_Preserve_Global_Contracts(bool conflictingLocalOption)
+    {
+        var fixtureDirectory = Path.Combine(AppContext.BaseDirectory, "Fixtures");
+        var root = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "cargo-1.99.0-root-help.txt"));
+        var help = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "cargo-1.99.0-search-help.txt"));
+        var manual = await File.ReadAllTextAsync(Path.Combine(fixtureDirectory, "cargo-1.99.0-search-manual.txt"));
+        if (conflictingLocalOption)
+        {
+            help = help.Replace("--quiet                    Do not", "--quiet <VALUE>            Do not", StringComparison.Ordinal);
+        }
+
+        var rootHelp = root[..root.IndexOf("Commands:", StringComparison.Ordinal)] + "Commands:\n  search  Search the registry\n";
+        var executor = new CargoHelpExecutor(help, manual, commandName: "search", rootHelp: rootHelp);
+        var scraper = new CargoCliScraper(executor, new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<CargoCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        if (conflictingLocalOption)
+        {
+            await Assert.That(commands.Any(command => command.FullCommand == "cargo search")).IsFalse();
+            return;
+        }
+
+        var search = commands.Single(command => command.FullCommand == "cargo search");
+        await Assert.That(search.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--limit", "--index", "--registry", "-Z"]);
+        await Assert.That(search.PositionalArguments.Single().PropertyName).IsEqualTo("Query");
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        var generatedBase = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generatedBase).Contains("IEnumerable<string>? Config");
+        await Assert.That(generatedBase).Contains("[SecretValue]");
+        await Assert.That(generatedBase).Contains("int? Verbose");
+        var generatedSearch = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generatedSearch).DoesNotContain(" Config ");
+        await Assert.That(generatedSearch).DoesNotContain(" Color ");
+    }
+
+    [Test]
+    public async Task Root_Help_Exposes_Only_Stable_Execution_Settings()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "cargo-1.99.0-root-help.txt"));
+        var options = new TestCargoCliScraper().ParseGlobals(help);
+
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(
+            ["--verbose", "--quiet", "--color", "--locked", "--offline", "--frozen", "--config"]);
+        await Assert.That(options.Single(option => option.SwitchName == "--verbose").CSharpType).IsEqualTo("int?");
+        var config = options.Single(option => option.SwitchName == "--config");
+        await Assert.That(config.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(config.IsSecret).IsTrue();
+    }
+
+    [Test]
     [Arguments("--optional", "Mark the dependency as optional. The package name will be exposed as feature of your crate.")]
     [Arguments("--no-optional", "Mark the dependency as required. The package will be removed from your features.")]
     [Arguments("--public", "Mark the dependency as public (unstable). The dependency can be referenced in your library's public API.")]
@@ -587,7 +643,7 @@ public class CargoCliScraperTests
     private static CliOptionDefinition GetOption(CliCommandDefinition command, string switchName) =>
         command.Options.Single(option => option.SwitchName == switchName);
 
-    private sealed class CargoHelpExecutor(string help, string manual, int manualExitCode = 0, string commandName = "build") : ICliCommandExecutor
+    private sealed class CargoHelpExecutor(string help, string manual, int manualExitCode = 0, string commandName = "build", string? rootHelp = null) : ICliCommandExecutor
     {
         public bool ManualRequested { get; private set; }
 
@@ -597,7 +653,7 @@ public class CargoCliScraperTests
             ManualRequested |= arguments == $"help {commandName}";
             var output = arguments switch
             {
-                "--help" => $"Usage: cargo [COMMAND]\n\nCommands:\n  {commandName}  Inspect packages\n",
+                "--help" => rootHelp ?? $"Usage: cargo [COMMAND]\n\nCommands:\n  {commandName}  Inspect packages\n",
                 _ when arguments == $"{commandName} --help" => help,
                 _ when arguments == $"help {commandName}" => manual,
                 "--version" => "cargo 1.98.1 (797e8a9bc 2026-08-05)",
@@ -615,6 +671,8 @@ public class CargoCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<CargoCliScraper>.Instance)
     {
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string help) => ParseGlobalOptions(help);
+
         protected override Task<string> GetManualHelpTextAsync(string[] commandPath, CancellationToken cancellationToken) =>
             Task.FromResult(string.Empty);
 
