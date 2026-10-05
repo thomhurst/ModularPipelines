@@ -39,13 +39,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///       --enable-alpha-plugins  enable alpha plugins
 ///       ...
 /// </summary>
-public partial class KustomizeCliScraper : CobraCliScraper
+public partial class KustomizeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KustomizeCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public KustomizeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KustomizeCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "kustomize";
 
     public override string NamespacePrefix => "Kustomize";
@@ -55,6 +50,10 @@ public partial class KustomizeCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
     protected override string VersionArguments => "version";
+
+    // Root PersistentFlags includes Go's stack-trace flag; build/plugin settings stay local.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName == "--stack-trace")];
 
     /// <summary>
     /// Kustomize renders the build directory as required in its Cobra usage line even
@@ -87,12 +86,17 @@ public partial class KustomizeCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options)
     {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        options = [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+
         if (commandParts is not ["create"])
         {
             return options;
         }
 
-        return options
+        return [.. options
             .Select(option => option is
             {
                 SwitchName: "--annotations" or "--labels",
@@ -104,8 +108,7 @@ public partial class KustomizeCliScraper : CobraCliScraper
                         CollectionSeparator = ",",
                         IsKeyValue = false,
                     }
-                    : option)
-            .ToArray();
+                    : option)];
     }
 
     /// <summary>

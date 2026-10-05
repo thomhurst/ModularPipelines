@@ -7,6 +7,54 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class KustomizeCliScraperTests
 {
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Root_Inherits_Only_Stack_Trace(string newline)
+    {
+        var options = new TestKustomizeCliScraper().ParseGlobals(Fixture("root").ReplaceLineEndings(newline));
+        var option = options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("--stack-trace");
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.ShortForm).IsNull();
+        await Assert.That(option.IsSecret || option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("edit")]
+    [Arguments("edit-add-configmap")]
+    [Arguments("cfg")]
+    [Arguments("fn")]
+    public async Task Groups_And_Leaves_Confirm_Global_Shape(string fixture)
+    {
+        var scraper = new TestKustomizeCliScraper();
+        var root = scraper.ParseGlobals(Fixture("root"));
+        var command = (await scraper.Parse(["kustomize", .. fixture.Split('-')], Fixture(fixture)))!;
+        var inherited = command.Options.Where(option => option.SwitchName == "--stack-trace").ToList();
+        await Assert.That(inherited.Count).IsEqualTo(1);
+        await Assert.That(CliGlobalOptionMerger.Merge(root, inherited).Count).IsEqualTo(1);
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", $"kustomize-5.8.2-{command}-help.txt"));
+
+    [Test]
+    public async Task Conflicting_Inherited_Shape_Fails_Before_Deduplication()
+    {
+        var scraper = new TestKustomizeCliScraper(new KustomizeHelpExecutor(false, conflictingGlobal: true));
+        // Traversal records parse failures; directly exercise the parser after root discovery.
+        await foreach (var _ in scraper.ScrapeAsync())
+        {
+        }
+
+        await Assert.That(() => scraper.Parse(["kustomize", "build"],
+                Fixture("build").Replace("--stack-trace   ", "--stack-trace string   ", StringComparison.Ordinal)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--stack-trace");
+    }
+
     private static readonly string[] SetLeafCommands =
         ["image", "nameprefix", "namespace", "namesuffix", "replicas"];
 
@@ -197,6 +245,8 @@ public class KustomizeCliScraperTests
     {
         protected override int MaxParallelism => 1;
 
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
@@ -204,7 +254,7 @@ public class KustomizeCliScraperTests
         }
     }
 
-    private sealed class KustomizeHelpExecutor(bool includeBogusChild) : ICliCommandExecutor
+    private sealed class KustomizeHelpExecutor(bool includeBogusChild, bool conflictingGlobal = false) : ICliCommandExecutor
     {
         public List<string> Arguments { get; } = [];
 
@@ -229,6 +279,13 @@ public class KustomizeCliScraperTests
                     => LeafHelp(arguments.Split(' ')[2]),
                 _ => throw new InvalidOperationException($"Unexpected arguments: {arguments}"),
             };
+
+            if (conflictingGlobal)
+            {
+                helpText += arguments == "--help"
+                    ? "\n\nFlags:\n      --stack-trace   print a stack-trace on error\n"
+                    : "\n\nGlobal Flags:\n      --stack-trace string   conflicting value shape\n";
+            }
 
             return Task.FromResult(new CliCommandResult
             {
