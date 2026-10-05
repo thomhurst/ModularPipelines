@@ -36,14 +36,17 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
     }
 
     internal static bool IsSupportedRestEndpoint(Uri endpoint) =>
-        endpoint.IsAbsoluteUri && (endpoint.Scheme == "https" || (endpoint.Scheme == "http" && endpoint.IsLoopback));
+        endpoint.IsAbsoluteUri
+        && string.IsNullOrEmpty(endpoint.Query)
+        && string.IsNullOrEmpty(endpoint.Fragment)
+        && (endpoint.Scheme == "https" || (endpoint.Scheme == "http" && endpoint.IsLoopback));
 
     private static void ValidateConnection(RedisDiscoveryOptions options, List<string> failures)
     {
         var usesRest = options.RestUrl is not null;
         if (options.RestUrl is { } restUrl && !IsSupportedRestEndpoint(restUrl))
         {
-            failures.Add($"{nameof(RedisDiscoveryOptions.RestUrl)} must be an absolute HTTPS URL, or an HTTP URL on loopback.");
+            failures.Add($"{nameof(RedisDiscoveryOptions.RestUrl)} must be an absolute HTTPS URL, or an HTTP URL on loopback, without a query string or fragment.");
         }
 
         if (usesRest != !string.IsNullOrWhiteSpace(options.RestToken))

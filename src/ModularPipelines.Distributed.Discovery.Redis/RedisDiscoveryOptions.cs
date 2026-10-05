@@ -22,6 +22,7 @@ public class RedisDiscoveryOptions
     /// <summary>
     /// Gets or sets the optional absolute HTTPS Upstash Redis REST URL. HTTP is supported only on loopback. Set this together with <see cref="RestToken"/>
     /// to use HTTP instead of the Redis TCP protocol. Blank values are treated as omitted.
+    /// Path prefixes are supported; query strings and fragments are not.
     /// </summary>
     public Uri? RestUrl
     {

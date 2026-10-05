@@ -16,7 +16,7 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
     {
         if (!RedisDiscoveryOptionsValidator.IsSupportedRestEndpoint(restUrl))
         {
-            throw new ArgumentException("REST discovery requires HTTPS, except for HTTP on loopback.", nameof(restUrl));
+            throw new ArgumentException("REST discovery requires HTTPS, except for HTTP on loopback, without a query string or fragment.", nameof(restUrl));
         }
 
         _httpClient = new HttpClient(handler)

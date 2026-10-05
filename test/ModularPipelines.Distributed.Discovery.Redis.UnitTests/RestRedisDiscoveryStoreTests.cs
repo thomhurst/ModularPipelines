@@ -10,6 +10,7 @@ public class RestRedisDiscoveryStoreTests
     [Test]
     [Arguments("http://localhost:8079/base%20path")]
     [Arguments("https://redis.example/base%20path/")]
+    [Arguments("https://redis.example/base%3Fkey%23fragment")]
     public async Task Endpoint_Preserves_Port_And_Escaped_Path_Prefix(string endpoint)
     {
         Uri? requestedUri = null;
@@ -28,6 +29,9 @@ public class RestRedisDiscoveryStoreTests
     [Test]
     [Arguments("http://redis.example")]
     [Arguments("relative/path")]
+    [Arguments("https://redis.example/base?database=1")]
+    [Arguments("https://redis.example/base#section")]
+    [Arguments("http://localhost:8079/base?database=1#section")]
     public async Task Constructor_Rejects_Unsupported_Endpoint_Before_Sending_Token(string endpoint)
     {
         var sent = false;

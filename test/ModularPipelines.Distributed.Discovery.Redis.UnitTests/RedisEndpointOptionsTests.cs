@@ -11,6 +11,7 @@ public class RedisEndpointOptionsTests
     [Arguments("http://127.0.0.1:8079")]
     [Arguments("http://[::1]:8079")]
     [Arguments("https://redis.example/base%20path")]
+    [Arguments("https://redis.example/base%3Fkey%23fragment")]
     public async Task Bound_Rest_Uri_Selects_Http_Store(string endpoint)
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
@@ -53,6 +54,9 @@ public class RedisEndpointOptionsTests
     [Arguments("relative/path")]
     [Arguments("ftp://redis.example")]
     [Arguments("file:///redis")]
+    [Arguments("https://redis.example/base?database=1")]
+    [Arguments("https://redis.example/base#section")]
+    [Arguments("http://localhost:8079/base?database=1#section")]
     public async Task Configuration_Rejects_Unsupported_Rest_Endpoints(string endpoint)
     {
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>

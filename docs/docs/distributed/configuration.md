@@ -373,6 +373,7 @@ See the [StackExchange.Redis configuration docs](https://stackexchange.github.io
 endpoint strings in `new Uri("https://host.example")`. Endpoints must be absolute
 HTTP or HTTPS URLs; relative URLs and other schemes fail options validation.
 Redis REST endpoints require HTTPS except on loopback because requests include a bearer token.
+They may include a path prefix, but must not contain a query string or fragment.
 Empty or whitespace optional S3/Redis endpoints are treated as omitted.
 
 Configuration files and environment variables still contain URL strings; normal
