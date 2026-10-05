@@ -517,7 +517,8 @@ jobs:
       - name: Install Kind
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kind'
         run: |
-          curl -fLo "$CLI_TOOLS_ROOT/bin/kind" https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          curl -fLo "$CLI_TOOLS_ROOT/bin/kind" https://github.com/kubernetes-sigs/kind/releases/download/v0.33.0/kind-linux-amd64
+          echo "aee6151561422756b764a4ae28e7f44cda5af5a9eead3cc9985112b1de8d8e0d  $CLI_TOOLS_ROOT/bin/kind" | sha256sum --check
           chmod +x "$CLI_TOOLS_ROOT/bin/kind"
 
       - name: Install Minikube
