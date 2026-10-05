@@ -57,26 +57,26 @@ public record AzSfClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client certificate thumbprint that only has admin permission.
     /// </summary>
-    [CliFlag("--admin-client-thumbprints", ShortForm = "--admin-client-tps")]
-    public bool? AdminClientThumbprints { get; set; }
+    [CliOption("--admin-client-thumbprints", GroupValues = true)]
+    public IEnumerable<string>? AdminClientThumbprints { get; set; }
 
     /// <summary>
     /// Client certificate common name.
     /// </summary>
-    [CliFlag("--cert-common-name", ShortForm = "--certificate-common-name")]
-    public bool? CertCommonName { get; set; }
+    [CliOption("--cert-common-name")]
+    public string? CertCommonName { get; set; }
 
     /// <summary>
     /// Client certificate issuer thumbprint.
     /// </summary>
-    [CliFlag("--cert-issuer-tp", ShortForm = "--certificate-issuer-thumbprint")]
-    public bool? CertIssuerTp { get; set; }
+    [CliOption("--cert-issuer-tp")]
+    public string? CertIssuerTp { get; set; }
 
     /// <summary>
     /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"isAdmin":true, "certificateCommonName": "test.com", "certificateIssuerThumbprint": "22B4AE296B504E512DF880A77A2CAE20200FF922" }].
     /// </summary>
-    [CliFlag("--client-cert-cn", ShortForm = "--client-certificate-common-names")]
-    public bool? ClientCertCn { get; set; }
+    [CliOption("--client-cert-cn")]
+    public string? ClientCertCn { get; set; }
 
     /// <summary>
     /// Client authentication type.
@@ -87,13 +87,13 @@ public record AzSfClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Space-separated list of client certificate thumbprint that has read only permission.
     /// </summary>
-    [CliOption("--readonly-client-thumbprints", ShortForm = "--readonly-client-tps", GroupValues = true)]
+    [CliOption("--readonly-client-thumbprints", GroupValues = true)]
     public IEnumerable<string>? ReadonlyClientThumbprints { get; set; }
 
     /// <summary>
     /// Client certificate thumbprint.
     /// </summary>
-    [CliFlag("--thumbprint")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint")]
+    public string? Thumbprint { get; set; }
 
 }

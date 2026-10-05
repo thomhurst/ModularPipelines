@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,7 +30,7 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// The DDoS protection mode of the public IP.  Allowed values: Disabled, Enabled, VirtualNetworkInherited.
     /// </summary>
-    [CliOption("--ddos-protection-mode", ShortForm = "--protection-mode")]
+    [CliOption("--ddos-protection-mode")]
     public string? DdosProtectionMode { get; set; }
 
     /// <summary>
@@ -41,8 +42,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Globally unique DNS entry.
     /// </summary>
-    [CliFlag("--dns-name")]
-    public bool? DnsName { get; set; }
+    [CliOption("--dns-name")]
+    public string? DnsName { get; set; }
 
     /// <summary>
     /// The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
@@ -53,8 +54,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Idle timeout in minutes.
     /// </summary>
-    [CliFlag("--idle-timeout")]
-    public bool? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
     /// <summary>
     /// Space-separated list of IP tags in `TYPE=VAL` format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -65,8 +66,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of a public IP prefix.
@@ -77,8 +78,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// Reverse FQDN (fully qualified domain name).
     /// </summary>
-    [CliFlag("--reverse-fqdn")]
-    public bool? ReverseFqdn { get; set; }
+    [CliOption("--reverse-fqdn")]
+    public string? ReverseFqdn { get; set; }
 
     /// <summary>
     /// Name of a public IP address SKU.  Allowed values: Basic, Standard, StandardV2.
@@ -101,8 +102,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// The DDoS custom policy associated with the public IP. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ddos-custom-policy")]
-    public bool? DdosCustomPolicy { get; set; }
+    [CliOption("--ddos-custom-policy", GroupValues = true)]
+    public IEnumerable<string>? DdosCustomPolicy { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -113,8 +114,8 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

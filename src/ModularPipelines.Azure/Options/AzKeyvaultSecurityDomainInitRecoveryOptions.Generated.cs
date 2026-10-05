@@ -52,7 +52,7 @@ public record AzKeyvaultSecurityDomainInitRecoveryOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

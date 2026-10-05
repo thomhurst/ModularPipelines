@@ -82,8 +82,8 @@ public record AzAcrTaskCredentialUpdateOptions : AzOptions
     /// <summary>
     /// The task managed identity used for the credential. Use '[system]' to refer to the system-assigned identity or a client id to refer to a user-assigned identity. Please see https://aka.ms/acr/tasks/cross- registry-authentication for more information.
     /// </summary>
-    [CliFlag("--use-identity")]
-    public bool? UseIdentity { get; set; }
+    [CliOption("--use-identity")]
+    public string? UseIdentity { get; set; }
 
     /// <summary>
     /// The username to login to the custom registry. This can be plain text or a key vault secret URI.

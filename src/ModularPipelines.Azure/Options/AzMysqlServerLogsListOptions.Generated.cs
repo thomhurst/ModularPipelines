@@ -57,19 +57,19 @@ public record AzMysqlServerLogsListOptions : AzOptions
     /// <summary>
     /// Integer in hours to indicate file last modify time, default value is 72.
     /// </summary>
-    [CliFlag("--file-last-written")]
-    public bool? FileLastWritten { get; set; }
+    [CliOption("--file-last-written")]
+    public int? FileLastWritten { get; set; }
 
     /// <summary>
     /// The pattern that file name should match.
     /// </summary>
-    [CliFlag("--filename-contains")]
-    public bool? FilenameContains { get; set; }
+    [CliOption("--filename-contains")]
+    public string? FilenameContains { get; set; }
 
     /// <summary>
     /// The file size limitation to filter files.
     /// </summary>
     [CliOption("--max-file-size")]
-    public string? MaxFileSize { get; set; }
+    public int? MaxFileSize { get; set; }
 
 }

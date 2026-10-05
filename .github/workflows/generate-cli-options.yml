@@ -737,6 +737,13 @@ jobs:
           dotnet build "src/${{ steps.package.outputs.package }}/${{ steps.package.outputs.package }}.slnx" \
             -c Release "${BUILD_ARGS[@]}"
 
+      - name: Test generated Azure contracts
+        if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && matrix.tool == 'az'
+        run: >-
+          dotnet run
+          --project test/ModularPipelines.Azure.UnitTests/ModularPipelines.Azure.UnitTests.csproj
+          --framework net10.0 --configuration Release --no-build
+
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         shell: pwsh

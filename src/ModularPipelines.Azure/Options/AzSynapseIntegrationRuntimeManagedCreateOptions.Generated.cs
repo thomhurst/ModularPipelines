@@ -74,26 +74,26 @@ public record AzSynapseIntegrationRuntimeManagedCreateOptions : AzOptions
     /// <summary>
     /// Core count of the data flow cluster which will execute data flow job.  Default: 8.
     /// </summary>
-    [CliFlag("--core-count")]
-    public bool? CoreCount { get; set; }
+    [CliOption("--core-count")]
+    public string? CoreCount { get; set; }
 
     /// <summary>
     /// The integration runtime description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the integration runtime entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// The integration runtime location.  Default: AutoResolve.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -104,7 +104,7 @@ public record AzSynapseIntegrationRuntimeManagedCreateOptions : AzOptions
     /// <summary>
     /// Time to live (in minutes) setting of the data flow cluster which will execute data flow job.
     /// </summary>
-    [CliFlag("--time-to-live")]
-    public bool? TimeToLive { get; set; }
+    [CliOption("--time-to-live")]
+    public string? TimeToLive { get; set; }
 
 }

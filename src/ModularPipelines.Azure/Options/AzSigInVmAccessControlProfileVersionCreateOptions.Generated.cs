@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -77,7 +78,7 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.
     /// </summary>
-    [CliOption("--profile-version", ShortForm = "--version-name")]
+    [CliOption("--profile-version")]
     public string ProfileVersion { get; private init; }
 
     /// <summary>
@@ -101,14 +102,14 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions", GroupValues = true)]
+    public IEnumerable<string>? TargetRegions { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
@@ -119,13 +120,13 @@ public record AzSigInVmAccessControlProfileVersionCreateOptions : AzOptions
     /// <summary>
     /// If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--exclude-from-latest")]
-    public bool? ExcludeFromLatest { get; set; }
+    [CliOption("--exclude-from-latest", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExcludeFromLatest { get; set; }
 
     /// <summary>
     /// This is the Access Control Rules specification for an in VM access control profile version.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rules")]
-    public bool? Rules { get; set; }
+    [CliOption("--rules", GroupValues = true)]
+    public IEnumerable<string>? Rules { get; set; }
 
 }

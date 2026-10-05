@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -71,8 +72,8 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain).
     /// </summary>
-    [CliFlag("--bootstrap-acc")]
-    public bool? BootstrapAcc { get; set; }
+    [CliOption("--bootstrap-acc")]
+    public string? BootstrapAcc { get; set; }
 
     /// <summary>
     /// Cluster subnet type.  Allowed values: MultiSubnet, SingleSubnet.
@@ -83,8 +84,8 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Fully qualified name of the domain.
     /// </summary>
-    [CliFlag("--domain-fqdn", ShortForm = "-f")]
-    public bool? DomainFqdn { get; set; }
+    [CliOption("--domain-fqdn", ShortForm = "-f")]
+    public string? DomainFqdn { get; set; }
 
     /// <summary>
     /// Optional path for fileshare witness.
@@ -95,31 +96,31 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     /// <summary>
     /// Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster.
     /// </summary>
-    [CliFlag("--operator-acc", ShortForm = "-p")]
-    public bool? OperatorAcc { get; set; }
+    [CliOption("--operator-acc", ShortForm = "-p")]
+    public string? OperatorAcc { get; set; }
 
     /// <summary>
     /// Organizational Unit path in which the nodes and cluster will be present. Example: OU=WSCluster,DC=testdomain,DC=com.
     /// </summary>
-    [CliFlag("--ou-path")]
-    public bool? OuPath { get; set; }
+    [CliOption("--ou-path")]
+    public string? OuPath { get; set; }
 
     /// <summary>
     /// Primary key of the witness storage account.
     /// </summary>
-    [CliFlag("--sa-key", ShortForm = "-k")]
-    public bool? SaKey { get; set; }
+    [CliOption("--sa-key", ShortForm = "-k")]
+    public string? SaKey { get; set; }
 
     /// <summary>
     /// Account name under which SQL service will run on all participating SQL virtual machines in the cluster.
     /// </summary>
-    [CliFlag("--service-acc", ShortForm = "-e")]
-    public bool? ServiceAcc { get; set; }
+    [CliOption("--service-acc", ShortForm = "-e")]
+    public string? ServiceAcc { get; set; }
 
     /// <summary>
     /// Storage account url of the witness storage account.
     /// </summary>
-    [CliFlag("--storage-account", ShortForm = "-u")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account", ShortForm = "-u")]
+    public string? StorageAccount { get; set; }
 
 }

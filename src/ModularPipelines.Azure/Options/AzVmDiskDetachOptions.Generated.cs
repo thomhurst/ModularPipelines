@@ -69,7 +69,7 @@ public record AzVmDiskDetachOptions : AzOptions
     /// <summary>
     /// The data disk name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

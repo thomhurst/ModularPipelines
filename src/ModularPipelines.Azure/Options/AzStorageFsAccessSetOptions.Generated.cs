@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,8 +58,8 @@ public record AzStorageFsAccessSetOptions : AzOptions
     /// <summary>
     /// Invalid in conjunction with acl. POSIX access control rights on files and directories in the format "[scope:][type]:[id]:[permissions]". e.g. "user::rwx,group::r--,other::---,mask::rwx". The value is a comma-separated list of access control entries. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format "[scope:][type]:[id]:[permissions]". The scope must be "default" to indicate the ACE belongs to the default ACL for a directory; otherwise scope is implicit and the ACE belongs to the access ACL. There are four ACE types: "user" grants rights to the owner or a named user, "group" grants rights to the owning group or a named group, "mask" restricts rights granted to named users and the members of groups, and "other" grants rights to all users not found in any of the other entries. The user or group identifier is omitted for entries of type "mask" and "other". The user or group identifier is also omitted for the owner and owning group. For example, the following ACL grants read, write, and execute rights to the file owner an john.doe@contoso, the read right to the owning group, and nothing to everyone else: "user::rwx,user:john.doe@contoso:rwx,group::r--,other::---,mask::rwx". For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-access- control.
     /// </summary>
-    [CliFlag("--acl")]
-    public bool? Acl { get; set; }
+    [CliOption("--acl")]
+    public string? Acl { get; set; }
 
     /// <summary>
     /// The mode in which to run the command. "login" mode will directly use your login credentials for the authentication. The legacy "key" mode will attempt to query for an account key if no authentication parameters for the account are provided. Environment variable: AZURE_STORAGE_AUTH_MODE.  Allowed values: key, login.
@@ -69,49 +70,50 @@ public record AzStorageFsAccessSetOptions : AzOptions
     /// <summary>
     /// The owning group of the file or directory. The group Azure Active Directory object ID or user principal name to set as the owning group. For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage- access-control#changing-the-owning-group.
     /// </summary>
-    [CliFlag("--group")]
-    public bool? Group { get; set; }
+    [CliOption("--group")]
+    public string? Group { get; set; }
 
     /// <summary>
     /// The owning user of the file or directory. The user Azure Active Directory object ID or user principal name to set as the owner. For more information, please refer to https://learn.microsoft.com/azure/storage/blobs/data-lake-storage- access-control#the-owning-user.
     /// </summary>
-    [CliFlag("--owner")]
-    public bool? Owner { get; set; }
+    [CliOption("--owner")]
+    public string? Owner { get; set; }
 
     /// <summary>
     /// Invalid in conjunction with acl. POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read(r), write(w), or execute(x) permission. Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.'.
     /// </summary>
-    [CliFlag("--permissions")]
-    public bool? Permissions { get; set; }
+    [CliOption("--permissions")]
+    public string? Permissions { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

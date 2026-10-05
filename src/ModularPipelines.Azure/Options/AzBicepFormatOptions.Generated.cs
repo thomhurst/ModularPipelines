@@ -52,14 +52,20 @@ public record AzBicepFormatOptions : AzOptions
     /// <summary>
     /// Number of spaces to indent with (Only valid with --indent-kind set to Space).
     /// </summary>
-    [CliFlag("--indent-size")]
-    public bool? IndentSize { get; set; }
+    [CliOption("--indent-size")]
+    public string? IndentSize { get; set; }
 
     /// <summary>
     /// Insert a final newline.
     /// </summary>
     [CliFlag("--insert-final-newline")]
     public bool? InsertFinalNewline { get; set; }
+
+    /// <summary>
+    /// Set newline char. Valid values are ( Auto | LF | CRLF | CR ). WARNING: Option '--newline' has been deprecated and will be removed in a future release. Use '--newline-kind' instead.
+    /// </summary>
+    [CliOption("--newline")]
+    public string? Newline { get; set; }
 
     /// <summary>
     /// Set line ending characters.  Allowed values: CR, CRLF, LF.
@@ -70,14 +76,14 @@ public record AzBicepFormatOptions : AzOptions
     /// <summary>
     /// When set, saves the output at the specified directory.
     /// </summary>
-    [CliFlag("--outdir")]
-    public bool? Outdir { get; set; }
+    [CliOption("--outdir")]
+    public string? Outdir { get; set; }
 
     /// <summary>
     /// When set, saves the output as the specified file path.
     /// </summary>
-    [CliFlag("--outfile")]
-    public bool? Outfile { get; set; }
+    [CliOption("--outfile")]
+    public string? Outfile { get; set; }
 
     /// <summary>
     /// When set, prints all output to stdout instead of corresponding files.

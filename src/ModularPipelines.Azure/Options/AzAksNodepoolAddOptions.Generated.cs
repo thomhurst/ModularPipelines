@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -86,8 +87,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The crg id used to associate the new nodepool with the existed Capacity Reservation Group resource.
     /// </summary>
-    [CliFlag("--crg-id")]
-    public bool? CrgId { get; set; }
+    [CliOption("--crg-id")]
+    public string? CrgId { get; set; }
 
     /// <summary>
     /// Disable Windows OutboundNAT on Windows agent node pool.
@@ -98,8 +99,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// When nodes are drain how many minutes to wait for all pods to be evicted.
     /// </summary>
-    [CliFlag("--drain-timeout")]
-    public bool? DrainTimeout { get; set; }
+    [CliOption("--drain-timeout")]
+    public int? DrainTimeout { get; set; }
 
     /// <summary>
     /// Enable artifact streaming for VirtualMachineScaleSets managed by a node pool, to speed up the cold-start of containers on a node through on-demand image loading. This option is only valid for Linux nodepools. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.
@@ -158,8 +159,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The size of Public IPPrefix attached to the Gateway-mode node pool. The node pool must be in Gateway mode.
     /// </summary>
-    [CliFlag("--gateway-prefix-size")]
-    public bool? GatewayPrefixSize { get; set; }
+    [CliOption("--gateway-prefix-size")]
+    public int? GatewayPrefixSize { get; set; }
 
     /// <summary>
     /// Whether to install driver for GPU node pool. Possible values are "Install" or "None". Default is "Install". Allowed values: Install, None.
@@ -176,8 +177,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The fully qualified dedicated host group id used to provision agent node pool.
     /// </summary>
-    [CliFlag("--host-group-id")]
-    public bool? HostGroupId { get; set; }
+    [CliOption("--host-group-id")]
+    public string? HostGroupId { get; set; }
 
     /// <summary>
     /// The value provided will be compared to the ETag of the agentpool, if it matches the operation will proceed. If it does not match, the request will be rejected to prevent accidental overwrites. This must not be specified when creating a new agentpool.
@@ -188,8 +189,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Set to '*' to allow a new agentpool to be created, but to prevent updating an existing agentpool. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
@@ -200,14 +201,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Version of Kubernetes to use for creating the cluster, such as "1.16.9".  Values from: `az aks get-versions`.
     /// </summary>
-    [CliFlag("--kubernetes-version", ShortForm = "-k")]
-    public bool? KubernetesVersion { get; set; }
+    [CliOption("--kubernetes-version", ShortForm = "-k")]
+    public string? KubernetesVersion { get; set; }
 
     /// <summary>
     /// The node labels for the node pool. See https://aka.ms/node-labels for syntax of labels.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Labels { get; set; }
 
     /// <summary>
     /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
@@ -218,32 +219,32 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Set the localDNS Profile for a nodepool with a JSON config file.
     /// </summary>
-    [CliFlag("--localdns-config")]
-    public bool? LocaldnsConfig { get; set; }
+    [CliOption("--localdns-config")]
+    public string? LocaldnsConfig { get; set; }
 
     /// <summary>
     /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// The maximum number of pods deployable to a node. If not specified, defaults based on network-plugin. 30 for "azure", 110 for "kubenet", or 250 for "none".
     /// </summary>
-    [CliFlag("--max-pods", ShortForm = "-m")]
-    public bool? MaxPods { get; set; }
+    [CliOption("--max-pods", ShortForm = "-m")]
+    public int? MaxPods { get; set; }
 
     /// <summary>
     /// Extra nodes used to speed upgrade. When specified, it represents the number or percent used, eg. 5 or 33%.
     /// </summary>
-    [CliFlag("--max-surge")]
-    public bool? MaxSurge { get; set; }
+    [CliOption("--max-surge")]
+    public string? MaxSurge { get; set; }
 
     /// <summary>
     /// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. When specified, it represents the number or percent used, eg. 1 or 5%.
     /// </summary>
-    [CliFlag("--max-unavailable")]
-    public bool? MaxUnavailable { get; set; }
+    [CliOption("--max-unavailable")]
+    public string? MaxUnavailable { get; set; }
 
     /// <summary>
     /// Path to a file containing the desired message of the day. Only valid for linux nodes. Will be written to /etc/motd.
@@ -254,8 +255,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// The mode for a node pool which defines a node pool's primary function. If set as "System", AKS prefers system pods scheduling to node pools with mode `System`. Learn more at https://aka.ms/aks/nodepool/mode.  Allowed values: Gateway, System, User.  Default: User.
@@ -272,14 +273,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Number of nodes in the Kubernetes agent pool. After creating a cluster, you can change the size of its node pool with `az aks scale`.  Default: 3.
     /// </summary>
-    [CliFlag("--node-count", ShortForm = "-c")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// Size in GiB of the OS disk for each node in the agent pool. Minimum 30 GiB.
     /// </summary>
-    [CliFlag("--node-osdisk-size")]
-    public bool? NodeOsdiskSize { get; set; }
+    [CliOption("--node-osdisk-size")]
+    public int? NodeOsdiskSize { get; set; }
 
     /// <summary>
     /// OS disk type to be used for machines in a given agent pool. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation. ('Ephemeral' or 'Managed').  Allowed values: Ephemeral, Managed.
@@ -290,32 +291,32 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Public IP prefix ID used to assign public IPs to VMSS or VMs nodes.
     /// </summary>
-    [CliFlag("--node-public-ip-prefix-id")]
-    public bool? NodePublicIpPrefixId { get; set; }
+    [CliOption("--node-public-ip-prefix-id")]
+    public string? NodePublicIpPrefixId { get; set; }
 
     /// <summary>
     /// The ipTags of the node public IPs.
     /// </summary>
-    [CliFlag("--node-public-ip-tags")]
-    public bool? NodePublicIpTags { get; set; }
+    [CliOption("--node-public-ip-tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? NodePublicIpTags { get; set; }
 
     /// <summary>
     /// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node.
     /// </summary>
-    [CliFlag("--node-soak-duration")]
-    public bool? NodeSoakDuration { get; set; }
+    [CliOption("--node-soak-duration")]
+    public int? NodeSoakDuration { get; set; }
 
     /// <summary>
     /// The node taints for the node pool.
     /// </summary>
-    [CliFlag("--node-taints")]
-    public bool? NodeTaints { get; set; }
+    [CliOption("--node-taints")]
+    public string? NodeTaints { get; set; }
 
     /// <summary>
     /// Size of Virtual Machines to create as Kubernetes nodes. If the user does not specify one, server will select a default VM size for her/him.
     /// </summary>
-    [CliFlag("--node-vm-size", ShortForm = "-s")]
-    public bool? NodeVmSize { get; set; }
+    [CliOption("--node-vm-size", ShortForm = "-s")]
+    public string? NodeVmSize { get; set; }
 
     /// <summary>
     /// The OS SKU of the agent node pool. Ubuntu, Ubuntu2204, Ubuntu2404, AzureLinux, AzureLinux3, or AzureContainerLinux for Linux. Windows2019, Windows2022, or Windows2025 for Windows.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404, Windows2019, Windows2022, Windows2025.
@@ -326,8 +327,8 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// The OS Type. Linux or Windows.
     /// </summary>
-    [CliFlag("--os-type")]
-    public bool? OsType { get; set; }
+    [CliOption("--os-type")]
+    public string? OsType { get; set; }
 
     /// <summary>
     /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
@@ -368,14 +369,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// It can only be set when --priority is Spot. Specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on- demand. It can only include up to 5 decimal places. Default: nan.
     /// </summary>
-    [CliFlag("--spot-max-price")]
-    public bool? SpotMaxPrice { get; set; }
+    [CliOption("--spot-max-price")]
+    public string? SpotMaxPrice { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Define the behavior for undrainable nodes during upgrade. The value should be "Cordon" or "Schedule". The default value is "Schedule".  Default: Schedule.
@@ -386,14 +387,14 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Agent pool vm set type. VirtualMachineScaleSets or AvailabilitySet or VirtualMachines. Defaults to 'VirtualMachineScaleSets'.
     /// </summary>
-    [CliFlag("--vm-set-type")]
-    public bool? VmSetType { get; set; }
+    [CliOption("--vm-set-type")]
+    public string? VmSetType { get; set; }
 
     /// <summary>
     /// Comma-separated list of VM sizes. Valid for VirtualMachines node pool only. If `--vm-sizes` not specified but `--node-vm-size` specified, value of `--node-vm-size` will be used. If neither of them specified, defaults to Standard_DS2_v2 for Linux or Standard_D2s_v3 for Windows.
     /// </summary>
-    [CliOption("--vm-sizes", GroupValues = true)]
-    public IEnumerable<string>? VmSizes { get; set; }
+    [CliOption("--vm-sizes")]
+    public string? VmSizes { get; set; }
 
     /// <summary>
     /// The Resource Id of a subnet in an existing VNet into which to deploy the cluster.
@@ -410,7 +411,7 @@ public record AzAksNodepoolAddOptions : AzOptions
     /// <summary>
     /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zone you need to pass zone numbers separated by blanks.  For example -  To have all 3 zones, you are expected to enter `--zones 1 2 3`.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
 }

@@ -85,8 +85,8 @@ public record AzApimApiVersionSetCreateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,8 +75,8 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether to Skip Empty.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-empty-archives")]
-    public bool? SkipEmptyArchives { get; set; }
+    [CliOption("--skip-empty-archives", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipEmptyArchives { get; set; }
 
     /// <summary>
     /// Status of Eventhub.  Allowed values: Active, Disabled, SendDisabled.
@@ -92,38 +93,38 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
     /// <summary>
     /// Allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
     /// </summary>
-    [CliFlag("--capture-interval")]
-    public bool? CaptureInterval { get; set; }
+    [CliOption("--capture-interval")]
+    public int? CaptureInterval { get; set; }
 
     /// <summary>
     /// Defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
     /// </summary>
     [CliOption("--capture-size-limit")]
-    public string? CaptureSizeLimit { get; set; }
+    public int? CaptureSizeLimit { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether capture is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-capture")]
-    public bool? EnableCapture { get; set; }
+    [CliOption("--enable-capture", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableCapture { get; set; }
 
     /// <summary>
     /// Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Yea r}/{Month}/{Day}/{Hour}/{Minute}/{Second} . Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
     /// </summary>
-    [CliFlag("--archive-name-format")]
-    public bool? ArchiveNameFormat { get; set; }
+    [CliOption("--archive-name-format")]
+    public string? ArchiveNameFormat { get; set; }
 
     /// <summary>
     /// Blob container Name.
     /// </summary>
-    [CliFlag("--blob-container")]
-    public bool? BlobContainer { get; set; }
+    [CliOption("--blob-container")]
+    public string? BlobContainer { get; set; }
 
     /// <summary>
     /// Name for capture destination, should be EventHubArchive.AzureBlockBlob.
@@ -134,14 +135,14 @@ public record AzEventhubsEventhubCreateOptions : AzOptions
     /// <summary>
     /// Enable System Assigned Identity.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// List of User Assigned Identity ids.
     /// </summary>
-    [CliOption("--mi-user-assigned", GroupValues = true)]
-    public IEnumerable<string>? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Name (if within same resource group and not of type Classic Storage) or ARM id of the storage account to be used to create the blobs.

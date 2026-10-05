@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,31 +69,31 @@ public record AzNetworkApplicationGatewaySslProfileAddOptions : AzOptions
     /// <summary>
     /// Client authentication configuration of the application gateway resource.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--client-auth-config", ShortForm = "--client-auth-configuration")]
-    public bool? ClientAuthConfig { get; set; }
+    [CliOption("--client-auth-config", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ClientAuthConfig { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Array of references to application gateway trusted client certificates.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--trusted-client-cert", ShortForm = "--trusted-client-certificates")]
+    [CliOption("--trusted-client-cert", GroupValues = true)]
     public IEnumerable<string>? TrustedClientCert { get; set; }
 
     /// <summary>
     /// SSL cipher suites to be enabled in the specified order to application gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--cipher-suites")]
-    public bool? CipherSuites { get; set; }
+    [CliOption("--cipher-suites", GroupValues = true)]
+    public IEnumerable<string>? CipherSuites { get; set; }
 
     /// <summary>
     /// Space-separated list of protocols to disable.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--disabled-protocols", ShortForm = "--disabled-ssl-protocols", GroupValues = true)]
+    [CliOption("--disabled-protocols", GroupValues = true)]
     public IEnumerable<string>? DisabledProtocols { get; set; }
 
     /// <summary>

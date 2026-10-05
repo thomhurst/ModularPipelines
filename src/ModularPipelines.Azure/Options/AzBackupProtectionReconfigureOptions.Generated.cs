@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -67,7 +68,7 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Resource group name of the destination Recovery Services vault.
     /// </summary>
-    [CliOption("--new-rg", ShortForm = "--new-vault-resource-group")]
+    [CliOption("--new-rg")]
     public string NewRg { get; private init; }
 
     /// <summary>
@@ -79,8 +80,8 @@ public record AzBackupProtectionReconfigureOptions : AzOptions
     /// <summary>
     /// Retain existing recovery points as per current backup policy when stopping protection in the source vault (the source vault is always the one specified by --vault-name/--resource- group).  Allowed values: false, true.
     /// </summary>
-    [CliOption("--retain-as-per-policy")]
-    public bool? RetainAsPerPolicy { get; set; }
+    [CliOption("--retain-as-per-policy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RetainAsPerPolicy { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the source vault exists in a different tenant.

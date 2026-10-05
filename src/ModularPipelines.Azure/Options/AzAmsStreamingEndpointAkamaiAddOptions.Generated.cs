@@ -23,14 +23,14 @@ public record AzAmsStreamingEndpointAkamaiAddOptions : AzOptions
     /// <summary>
     /// Base64-encoded authentication key that will be used by the CDN. The authentication key provided by Akamai is an ASCII encoded string, and must be converted to bytes and then base64 encoded.
     /// </summary>
-    [CliFlag("--base64-key")]
-    public bool? Base64Key { get; set; }
+    [CliOption("--base64-key")]
+    public string? Base64Key { get; set; }
 
     /// <summary>
     /// The ISO 8601 DateTime value that specifies when the Akamai authentication expires.
     /// </summary>
-    [CliFlag("--expiration")]
-    public bool? Expiration { get; set; }
+    [CliOption("--expiration")]
+    public string? Expiration { get; set; }
 
     /// <summary>
     /// The identifier for the authentication key. This is the nonce provided by Akamai.

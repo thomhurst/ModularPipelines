@@ -70,7 +70,7 @@ public record AzAcrTaskListRunsOptions : AzOptions
     /// <summary>
     /// Limit the number of latest runs in the results.  Default: 15.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
 }

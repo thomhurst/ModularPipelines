@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzVmMigrateToVmssOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The target compute fault domain of VM migration to Flexible Virtual Machine Scale Set.
     /// </summary>
-    [CliFlag("--target-fault-domain")]
-    public bool? TargetFaultDomain { get; set; }
+    [CliOption("--target-fault-domain")]
+    public string? TargetFaultDomain { get; set; }
 
     /// <summary>
     /// The target Virtual Machine size of VM migration to Flexible Virtual Machine Scale Set.
     /// </summary>
-    [CliFlag("--target-vm-size")]
-    public bool? TargetVmSize { get; set; }
+    [CliOption("--target-vm-size")]
+    public string? TargetVmSize { get; set; }
 
     /// <summary>
     /// The target zone of VM migration to Flexible Virtual Machine Scale Set.
     /// </summary>
-    [CliFlag("--target-zone")]
-    public bool? TargetZone { get; set; }
+    [CliOption("--target-zone")]
+    public string? TargetZone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

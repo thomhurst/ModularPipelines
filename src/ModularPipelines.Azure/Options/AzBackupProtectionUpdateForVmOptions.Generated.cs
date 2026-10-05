@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,8 +36,8 @@ public record AzBackupProtectionUpdateForVmOptions : AzOptions
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--exclude-all-data-disks")]
-    public bool? ExcludeAllDataDisks { get; set; }
+    [CliOption("--exclude-all-data-disks", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExcludeAllDataDisks { get; set; }
 
     /// <summary>
     /// Name of the backup container. Accepts 'Name' or 'FriendlyName' from the output of az backup container list command. If 'FriendlyName' is passed then BackupManagementType is required.

@@ -23,14 +23,14 @@ public record AzFunctionappScaleConfigSetOptions : AzOptions
     /// <summary>
     /// The instance memory size in MB.
     /// </summary>
-    [CliFlag("--instance-memory")]
-    public bool? InstanceMemory { get; set; }
+    [CliOption("--instance-memory")]
+    public int? InstanceMemory { get; set; }
 
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--maximum-instance-count")]
-    public bool? MaximumInstanceCount { get; set; }
+    [CliOption("--maximum-instance-count")]
+    public int? MaximumInstanceCount { get; set; }
 
     /// <summary>
     /// Space-separated settings for the trigger type in the format `&lt;name&gt;=&lt;value&gt;`.
@@ -41,8 +41,8 @@ public record AzFunctionappScaleConfigSetOptions : AzOptions
     /// <summary>
     /// The type of trigger.
     /// </summary>
-    [CliFlag("--trigger-type")]
-    public bool? TriggerType { get; set; }
+    [CliOption("--trigger-type")]
+    public string? TriggerType { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

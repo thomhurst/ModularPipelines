@@ -23,8 +23,8 @@ public record AzNetworkPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// Comments for the rejection.
     /// </summary>
-    [CliFlag("--description", ShortForm = "-d")]
-    public bool? Description { get; set; }
+    [CliOption("--description", ShortForm = "-d")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// ID of the private endpoint connection.

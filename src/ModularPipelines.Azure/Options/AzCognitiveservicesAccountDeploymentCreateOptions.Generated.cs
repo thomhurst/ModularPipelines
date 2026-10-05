@@ -90,43 +90,43 @@ public record AzCognitiveservicesAccountDeploymentCreateOptions : AzOptions
     /// <summary>
     /// Capacity value of the Sku of Cognitive Services account/deployment.
     /// </summary>
-    [CliFlag("--capacity", ShortForm = "--sku-capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Cognitive Services account deployment name.
     /// </summary>
-    [CliFlag("--deployment-name")]
-    public bool? DeploymentName { get; set; }
+    [CliOption("--deployment-name")]
+    public string? DeploymentName { get; set; }
 
     /// <summary>
     /// Name of the Sku of Cognitive Services account/deployment.
     /// </summary>
-    [CliOption("--sku", ShortForm = "--sku-name")]
+    [CliOption("--sku")]
     public string? Sku { get; set; }
 
     /// <summary>
     /// The name of the standard deployment to use as a spillover when at capacity.
     /// </summary>
-    [CliOption("--spillover-deployment-name", ShortForm = "--spillover-name")]
+    [CliOption("--spillover-deployment-name")]
     public string? SpilloverDeploymentName { get; set; }
 
     /// <summary>
     /// Cognitive Services account deployment model source.
     /// </summary>
-    [CliFlag("--model-source")]
-    public bool? ModelSource { get; set; }
+    [CliOption("--model-source")]
+    public string? ModelSource { get; set; }
 
     /// <summary>
     /// Cognitive Services account deployment scale settings capacity.
     /// </summary>
-    [CliFlag("--scale-capacity", ShortForm = "--scale-settings-capacity")]
-    public bool? ScaleCapacity { get; set; }
+    [CliOption("--scale-capacity")]
+    public string? ScaleCapacity { get; set; }
 
     /// <summary>
     /// Cognitive Services account deployment scale settings scale type.  Allowed values: Manual, Standard.
     /// </summary>
-    [CliOption("--scale-settings-scale-type", ShortForm = "--scale-type")]
+    [CliOption("--scale-settings-scale-type")]
     public string? ScaleSettingsScaleType { get; set; }
 
 }

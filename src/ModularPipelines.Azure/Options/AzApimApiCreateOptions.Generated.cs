@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,20 +92,21 @@ public record AzApimApiCreateOptions : AzOptions
     /// <summary>
     /// Specifies the OAuth operations scope.
     /// </summary>
-    [CliFlag("--authorization-scope")]
-    public bool? AuthorizationScope { get; set; }
+    [CliOption("--authorization-scope")]
+    public string? AuthorizationScope { get; set; }
 
     /// <summary>
     /// Specifies the OAuth authorization server ID.
     /// </summary>
-    [CliFlag("--authorization-server-id")]
-    public bool? AuthorizationServerId { get; set; }
+    [CliOption("--authorization-server-id")]
+    public string? AuthorizationServerId { get; set; }
 
     /// <summary>
     /// Specifies the sending methods for bearer token.
     /// </summary>
-    [CliFlag("--bearer-token-sending-methods")]
-    public bool? BearerTokenSendingMethods { get; set; }
+    [SecretValue]
+    [CliOption("--bearer-token-sending-methods", GroupValues = true)]
+    public IEnumerable<string>? BearerTokenSendingMethods { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -114,14 +117,14 @@ public record AzApimApiCreateOptions : AzOptions
     /// <summary>
     /// Specifies the openid in the authentication setting.
     /// </summary>
-    [CliFlag("--open-id-provider-id")]
-    public bool? OpenIdProviderId { get; set; }
+    [CliOption("--open-id-provider-id")]
+    public string? OpenIdProviderId { get; set; }
 
     /// <summary>
     /// Specifies whether subscription key is required during call to this API, true - API is included into closed products only, false - API is included into open products alone, null - there is a mix of products.
     /// </summary>
-    [CliFlag("--subscription-key-required")]
-    public bool? SubscriptionKeyRequired { get; set; }
+    [CliOption("--subscription-key-required")]
+    public string? SubscriptionKeyRequired { get; set; }
 
     /// <summary>
     /// The type of the API.  Allowed values: graphql, http, soap, websocket.
@@ -138,31 +141,31 @@ public record AzApimApiCreateOptions : AzOptions
     /// <summary>
     /// Describes on which protocols the operations in this API can be invoked.  Allowed values: http, https, ws, wss.
     /// </summary>
-    [CliOption("--protocols")]
-    public string? Protocols { get; set; }
+    [CliOption("--protocols", GroupValues = true)]
+    public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
     /// Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long.
     /// </summary>
-    [CliFlag("--service-url")]
-    public bool? ServiceUrl { get; set; }
+    [CliOption("--service-url")]
+    public string? ServiceUrl { get; set; }
 
     /// <summary>
     /// Specifies the subscription key header name.
     /// </summary>
-    [CliFlag("--subscription-key-header-name")]
-    public bool? SubscriptionKeyHeaderName { get; set; }
+    [CliOption("--subscription-key-header-name")]
+    public string? SubscriptionKeyHeaderName { get; set; }
 
     /// <summary>
     /// Specifies the subscription key query string parameter name.
     /// </summary>
-    [CliFlag("--subscription-key-query-param-name")]
-    public bool? SubscriptionKeyQueryParamName { get; set; }
+    [CliOption("--subscription-key-query-param-name")]
+    public string? SubscriptionKeyQueryParamName { get; set; }
 
     /// <summary>
     /// If true, the API requires a subscription key on requests. Allowed values: false, true.
     /// </summary>
-    [CliOption("--subscription-required")]
-    public bool? SubscriptionRequired { get; set; }
+    [CliOption("--subscription-required", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SubscriptionRequired { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +24,20 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge")]
-    public bool? EnablePurge { get; set; }
+    [CliOption("--enable-purge", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurge { get; set; }
 
     /// <summary>
     /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
-    public bool? EnableStreamingIngest { get; set; }
+    [CliOption("--enable-streaming-ingest", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableStreamingIngest { get; set; }
 
     /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -47,26 +48,26 @@ public record AzSynapseKustoPoolUpdateOptions : AzOptions
     /// <summary>
     /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
-    [CliFlag("--optimized-autoscale")]
-    public bool? OptimizedAutoscale { get; set; }
+    [CliOption("--optimized-autoscale", GroupValues = true)]
+    public IEnumerable<string>? OptimizedAutoscale { get; set; }
 
     /// <summary>
     /// The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku", GroupValues = true)]
+    public IEnumerable<string>? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The workspace unique identifier.
     /// </summary>
-    [CliFlag("--workspace-uid")]
-    public bool? WorkspaceUid { get; set; }
+    [CliOption("--workspace-uid")]
+    public string? WorkspaceUid { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

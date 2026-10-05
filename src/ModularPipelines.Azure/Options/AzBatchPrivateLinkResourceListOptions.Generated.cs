@@ -57,7 +57,7 @@ public record AzBatchPrivateLinkResourceListOptions : AzOptions
     /// <summary>
     /// The maximum number of items to return in the response. Default value is None.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public string? Maxresults { get; set; }
 
 }

@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -58,8 +60,8 @@ public record AzConnectionCreateSignalrOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -88,25 +90,26 @@ public record AzConnectionCreateSignalrOptions : AzOptions
     /// <summary>
     /// The resource group which contains the signalr. Required if '-- target-id' is not specified.
     /// </summary>
-    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
     /// The secret auth info. Usage: --secret.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
-    [CliFlag("--user-account")]
-    public bool? UserAccount { get; set; }
+    [CliOption("--user-account", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserAccount { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,91 +75,91 @@ public record AzNetappfilesSnapshotPolicyCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Indicates which hour in UTC timezone a snapshot should be taken.
     /// </summary>
-    [CliFlag("--daily-hour")]
-    public bool? DailyHour { get; set; }
+    [CliOption("--daily-hour")]
+    public string? DailyHour { get; set; }
 
     /// <summary>
     /// Indicates which minute snapshot should be taken.
     /// </summary>
-    [CliFlag("--daily-minute")]
-    public bool? DailyMinute { get; set; }
+    [CliOption("--daily-minute")]
+    public string? DailyMinute { get; set; }
 
     /// <summary>
     /// Daily snapshot count to keep.
     /// </summary>
-    [CliFlag("--daily-snapshots", ShortForm = "-d")]
-    public bool? DailySnapshots { get; set; }
+    [CliOption("--daily-snapshots", ShortForm = "-d")]
+    public string? DailySnapshots { get; set; }
 
     /// <summary>
     /// Indicates which minute snapshot should be taken.
     /// </summary>
-    [CliFlag("--hourly-minute", ShortForm = "--minute")]
-    public bool? HourlyMinute { get; set; }
+    [CliOption("--hourly-minute")]
+    public string? HourlyMinute { get; set; }
 
     /// <summary>
     /// Hourly snapshot count to keep.
     /// </summary>
-    [CliFlag("--hourly-snapshots", ShortForm = "-u")]
-    public bool? HourlySnapshots { get; set; }
+    [CliOption("--hourly-snapshots", ShortForm = "-u")]
+    public string? HourlySnapshots { get; set; }
 
     /// <summary>
     /// Indicates which days of the month snapshot should be taken. A comma delimited string.
     /// </summary>
-    [CliFlag("--days-of-month", ShortForm = "--monthly-days")]
-    public bool? DaysOfMonth { get; set; }
+    [CliOption("--days-of-month")]
+    public string? DaysOfMonth { get; set; }
 
     /// <summary>
     /// Indicates which hour in UTC timezone a snapshot should be taken.
     /// </summary>
-    [CliFlag("--hour", ShortForm = "--monthly-hour")]
-    public bool? Hour { get; set; }
+    [CliOption("--hour")]
+    public string? Hour { get; set; }
 
     /// <summary>
     /// Indicates which minute snapshot should be taken.
     /// </summary>
-    [CliFlag("--monthly-minute")]
-    public bool? MonthlyMinute { get; set; }
+    [CliOption("--monthly-minute")]
+    public string? MonthlyMinute { get; set; }
 
     /// <summary>
     /// Monthly snapshot count to keep.
     /// </summary>
-    [CliFlag("--monthly-snapshots", ShortForm = "-m")]
-    public bool? MonthlySnapshots { get; set; }
+    [CliOption("--monthly-snapshots", ShortForm = "-m")]
+    public string? MonthlySnapshots { get; set; }
 
     /// <summary>
     /// The property to decide policy is enabled or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--enabled", ShortForm = "-e")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Indicates which weekdays snapshot should be taken, accepts a comma separated list of week day names in english.
     /// </summary>
-    [CliFlag("--weekly-day")]
-    public bool? WeeklyDay { get; set; }
+    [CliOption("--weekly-day")]
+    public string? WeeklyDay { get; set; }
 
     /// <summary>
     /// Indicates which hour in UTC timezone a snapshot should be taken.
     /// </summary>
-    [CliFlag("--weekly-hour")]
-    public bool? WeeklyHour { get; set; }
+    [CliOption("--weekly-hour")]
+    public string? WeeklyHour { get; set; }
 
     /// <summary>
     /// Indicates which minute snapshot should be taken.
     /// </summary>
-    [CliFlag("--weekly-minute")]
-    public bool? WeeklyMinute { get; set; }
+    [CliOption("--weekly-minute")]
+    public string? WeeklyMinute { get; set; }
 
     /// <summary>
     /// Weekly snapshot count to keep.
     /// </summary>
-    [CliFlag("--weekly-snapshots", ShortForm = "-w")]
-    public bool? WeeklySnapshots { get; set; }
+    [CliOption("--weekly-snapshots", ShortForm = "-w")]
+    public string? WeeklySnapshots { get; set; }
 
 }

@@ -67,7 +67,7 @@ public record AzSfServiceShowOptions : AzOptions
     /// <summary>
     /// Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>

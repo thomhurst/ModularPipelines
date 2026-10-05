@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -28,7 +29,7 @@ public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
     /// <param name="Name">IoT Hub name.</param>
     /// <param name="Value">The enrichment's value.</param>
     public AzIotHubMessageEnrichmentCreateOptions(
-        IEnumerable<string> Endpoints,
+        IEnumerable<CliOptionValue> Endpoints,
         string Key,
         string Name,
         string Value
@@ -36,7 +37,7 @@ public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(Endpoints);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Endpoints));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Endpoints));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -55,7 +56,7 @@ public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
         this.Value = Value;
     }
 
-    public void Deconstruct(out IEnumerable<string> Endpoints, out string Key, out string Name, out string Value)
+    public void Deconstruct(out IEnumerable<CliOptionValue> Endpoints, out string Key, out string Name, out string Value)
     {
         Endpoints = this.Endpoints;
         Key = this.Key;
@@ -66,8 +67,8 @@ public record AzIotHubMessageEnrichmentCreateOptions : AzOptions
     /// <summary>
     /// Endpoint(s) to apply enrichments to. Use a space-separated list for multiple endpoints.
     /// </summary>
-    [CliOption("--endpoints", ShortForm = "-e", GroupValues = true)]
-    public IEnumerable<string> Endpoints { get; private init; }
+    [CliOption("--endpoints", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Endpoints { get; private init; }
 
     /// <summary>
     /// The enrichment's key.

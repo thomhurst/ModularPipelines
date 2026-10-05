@@ -23,19 +23,19 @@ public record AzNetworkApplicationGatewayWafConfigListRuleSetsOptions : AzOption
     /// <summary>
     /// List rules for the specified rule group. Use `*` to list rules for all groups. Omit to suppress listing individual rules.
     /// </summary>
-    [CliFlag("--group")]
-    public bool? Group { get; set; }
+    [CliOption("--group")]
+    public string? Group { get; set; }
 
     /// <summary>
     /// Rule set type to list. Omit to list all types.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
     /// <summary>
     /// Rule set version to list. Omit to list all versions.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

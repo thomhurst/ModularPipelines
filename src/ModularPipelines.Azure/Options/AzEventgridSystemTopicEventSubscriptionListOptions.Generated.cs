@@ -57,7 +57,7 @@ public record AzEventgridSystemTopicEventSubscriptionListOptions : AzOptions
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>
-    [CliFlag("--odata-query")]
-    public bool? OdataQuery { get; set; }
+    [CliOption("--odata-query")]
+    public string? OdataQuery { get; set; }
 
 }

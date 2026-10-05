@@ -57,19 +57,19 @@ public record AzAmsAssetListOptions : AzOptions
     /// <summary>
     /// Restricts the set of items returned.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Specifies the key by which the result collection should be ordered.
     /// </summary>
-    [CliFlag("--orderby")]
-    public bool? Orderby { get; set; }
+    [CliOption("--orderby")]
+    public string? Orderby { get; set; }
 
     /// <summary>
     /// Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzAmsJobStartOptions : AzOptions
     /// </summary>
     /// <param name="OutputAssets">Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.</param>
     public AzAmsJobStartOptions(
-        IEnumerable<string> OutputAssets
+        IEnumerable<CliOptionValue> OutputAssets
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(OutputAssets);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(OutputAssets));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(OutputAssets));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzAmsJobStartOptions : AzOptions
         this.OutputAssets = OutputAssets;
     }
 
-    public void Deconstruct(out IEnumerable<string> OutputAssets)
+    public void Deconstruct(out IEnumerable<CliOptionValue> OutputAssets)
     {
         OutputAssets = this.OutputAssets;
     }
@@ -51,20 +52,20 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// Space-separated assets in 'assetName=label' format. An asset without label can be sent like this: 'assetName='.
     /// </summary>
-    [CliOption("--output-assets", GroupValues = true)]
-    public IEnumerable<string> OutputAssets { get; private init; }
+    [CliOption("--output-assets", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> OutputAssets { get; private init; }
 
     /// <summary>
     /// Space-separated correlation data in 'key[=value]' format. This customer provided data will be returned in Job and JobOutput state events.
     /// </summary>
-    [CliOption("--correlation-data", GroupValues = true)]
-    public IEnumerable<string>? CorrelationData { get; set; }
+    [CliOption("--correlation-data", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CorrelationData { get; set; }
 
     /// <summary>
     /// The job description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Space-separated list of files. It can be used to tell the service to only use the files specified from the input asset.
@@ -75,8 +76,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// A label that is assigned to a Job Input that is used to satisfy a reference used in the Transform. For example, a Transform can be authored to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// The priority with which the job should be processed.  Allowed values: High, Low, Normal.
@@ -93,8 +94,8 @@ public record AzAmsJobStartOptions : AzOptions
     /// <summary>
     /// Base uri for http job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris.
     /// </summary>
-    [CliFlag("--base-uri")]
-    public bool? BaseUri { get; set; }
+    [CliOption("--base-uri")]
+    public string? BaseUri { get; set; }
 
     /// <summary>
     /// The name of the Azure Media Services account.

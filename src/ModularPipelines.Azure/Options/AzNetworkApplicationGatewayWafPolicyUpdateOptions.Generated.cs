@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,8 +36,8 @@ public record AzNetworkApplicationGatewayWafPolicyUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,20 +54,20 @@ public record AzNetworkApplicationGatewayWafPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The custom rules inside the policy.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--custom-rules")]
-    public bool? CustomRules { get; set; }
+    [CliOption("--custom-rules", GroupValues = true)]
+    public IEnumerable<string>? CustomRules { get; set; }
 
     /// <summary>
     /// Describes the managedRules structure.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--managed-rules")]
-    public bool? ManagedRules { get; set; }
+    [CliOption("--managed-rules", GroupValues = true)]
+    public IEnumerable<string>? ManagedRules { get; set; }
 
     /// <summary>
     /// The PolicySettings for policy.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--policy-settings")]
-    public bool? PolicySettings { get; set; }
+    [CliOption("--policy-settings", GroupValues = true)]
+    public IEnumerable<string>? PolicySettings { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

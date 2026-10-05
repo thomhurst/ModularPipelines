@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,8 +47,8 @@ public record AzWebappDeploymentGithubActionsAddOptions : AzOptions
     /// <summary>
     /// The branch to which the workflow file will be added. Defaults to "master" if not specified.  Default: master.
     /// </summary>
-    [CliFlag("--branch", ShortForm = "-b")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch", ShortForm = "-b")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// When true, the command will overwrite any workflow file with a conflicting name.
@@ -64,8 +65,8 @@ public record AzWebappDeploymentGithubActionsAddOptions : AzOptions
     /// <summary>
     /// Canonicalized web runtime in the format of Framework|Version, e.g. "PHP|5.6". Use "az webapp list-runtimes" for available list.
     /// </summary>
-    [CliFlag("--runtime", ShortForm = "-r")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime", ShortForm = "-r")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the production slot if not specified.
@@ -76,8 +77,9 @@ public record AzWebappDeploymentGithubActionsAddOptions : AzOptions
     /// <summary>
     /// A Personal Access Token with write access to the specified repository. For more information: https://help.github.com/en/github/authenticating- to-github/creating-a-personal-access-token-for-the-command-line.
     /// </summary>
-    [CliFlag("--token")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token")]
+    public string? Token { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

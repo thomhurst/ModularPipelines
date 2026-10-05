@@ -57,8 +57,8 @@ public record AzServicebusGeorecoveryAliasSetOptions : AzOptions
     /// <summary>
     /// Alternate Name (Post failover) for Primary Namespace, when Namespace name and Alias name are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

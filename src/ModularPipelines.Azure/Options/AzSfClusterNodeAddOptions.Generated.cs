@@ -30,7 +30,7 @@ public record AzSfClusterNodeAddOptions : AzOptions
     public AzSfClusterNodeAddOptions(
         string ClusterName,
         string NodeType,
-        int NodesToAdd,
+        string NodesToAdd,
         string ResourceGroup
     )
     {
@@ -38,12 +38,13 @@ public record AzSfClusterNodeAddOptions : AzOptions
         this.ClusterName = ClusterName;
         global::System.ArgumentNullException.ThrowIfNull(NodeType);
         this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(NodesToAdd);
         this.NodesToAdd = NodesToAdd;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out string NodeType, out int NodesToAdd, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out string NodeType, out string NodesToAdd, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         NodeType = this.NodeType;
@@ -66,8 +67,8 @@ public record AzSfClusterNodeAddOptions : AzOptions
     /// <summary>
     /// Number of nodes to add.
     /// </summary>
-    [CliOption("--nodes-to-add", ShortForm = "--number-of-nodes-to-add")]
-    public int NodesToAdd { get; private init; }
+    [CliOption("--nodes-to-add")]
+    public string NodesToAdd { get; private init; }
 
     /// <summary>
     /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

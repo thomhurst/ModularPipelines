@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,20 +70,20 @@ public record AzWebappConfigBackupUpdateOptions : AzOptions
     /// <summary>
     /// How often to backup. Use a number followed by d or h, e.g. 5d = 5 days, 2h = 2 hours.
     /// </summary>
-    [CliFlag("--frequency")]
-    public bool? Frequency { get; set; }
+    [CliOption("--frequency")]
+    public string? Frequency { get; set; }
 
     /// <summary>
     /// Always keep one backup, regardless of how old it is.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--retain-one")]
-    public bool? RetainOne { get; set; }
+    [CliOption("--retain-one", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RetainOne { get; set; }
 
     /// <summary>
     /// How many days to keep a backup before automatically deleting it. Set to 0 for indefinite retention.
     /// </summary>
-    [CliFlag("--retention")]
-    public bool? Retention { get; set; }
+    [CliOption("--retention")]
+    public string? Retention { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -93,8 +94,8 @@ public record AzWebappConfigBackupUpdateOptions : AzOptions
     /// <summary>
     /// Connection string for the database in the backup.
     /// </summary>
-    [CliFlag("--db-connection-string")]
-    public bool? DbConnectionString { get; set; }
+    [CliOption("--db-connection-string")]
+    public string? DbConnectionString { get; set; }
 
     /// <summary>
     /// Name of the database in the backup.

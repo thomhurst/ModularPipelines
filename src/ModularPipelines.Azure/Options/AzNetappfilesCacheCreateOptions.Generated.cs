@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -41,7 +42,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
         string CacheName,
         string PoolName,
         string ResourceGroup,
-        string PeerAddresses,
+        IEnumerable<string> PeerAddresses,
         string PeerClusterName,
         string PeerVolumeName,
         string PeerVserverName,
@@ -60,7 +61,18 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
         this.PoolName = PoolName;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        global::System.ArgumentNullException.ThrowIfNull(PeerAddresses);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(PeerAddresses);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PeerAddresses));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(PeerAddresses));
+            }
+
+            PeerAddresses = materialized;
+        }
         this.PeerAddresses = PeerAddresses;
         global::System.ArgumentNullException.ThrowIfNull(PeerClusterName);
         this.PeerClusterName = PeerClusterName;
@@ -80,7 +92,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
         this.Size = Size;
     }
 
-    public void Deconstruct(out string AccountName, out string CacheName, out string PoolName, out string ResourceGroup, out string PeerAddresses, out string PeerClusterName, out string PeerVolumeName, out string PeerVserverName, out string CacheSubnetId, out string EncryptionKeySource, out string FilePath, out string PeeringSubnetId, out string Size)
+    public void Deconstruct(out string AccountName, out string CacheName, out string PoolName, out string ResourceGroup, out IEnumerable<string> PeerAddresses, out string PeerClusterName, out string PeerVolumeName, out string PeerVserverName, out string CacheSubnetId, out string EncryptionKeySource, out string FilePath, out string PeeringSubnetId, out string Size)
     {
         AccountName = this.AccountName;
         CacheName = this.CacheName;
@@ -124,8 +136,8 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--peer-addresses")]
-    public string PeerAddresses { get; private init; }
+    [CliOption("--peer-addresses", GroupValues = true)]
+    public IEnumerable<string> PeerAddresses { get; private init; }
 
     /// <summary>
     /// ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name.
@@ -148,7 +160,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The Azure Resource URI for a delegated cache subnet that will be used to allocate data IPs.
     /// </summary>
-    [CliOption("--cache-subnet-id", ShortForm = "--cache-subnet-resource-id")]
+    [CliOption("--cache-subnet-id")]
     public string CacheSubnetId { get; private init; }
 
     /// <summary>
@@ -166,7 +178,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The Azure Resource URI for a delegated subnet that will be used for ANF Intercluster Interface IP addresses.
     /// </summary>
-    [CliOption("--peering-subnet-id", ShortForm = "--peering-subnet-resource-id")]
+    [CliOption("--peering-subnet-id")]
     public string PeeringSubnetId { get; private init; }
 
     /// <summary>
@@ -178,8 +190,8 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -190,25 +202,25 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The availability zones. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zones")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
     /// Export policy rule  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--export-policy-rules", ShortForm = "--rules")]
-    public bool? ExportPolicyRules { get; set; }
+    [CliOption("--export-policy-rules", GroupValues = true)]
+    public IEnumerable<string>? ExportPolicyRules { get; set; }
 
     /// <summary>
     /// Flag indicating whether a CIFS change notification is enabled for the cache. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--cifs-change-notifications", ShortForm = "--cifs-change-notify")]
+    [CliOption("--cifs-change-notifications")]
     public string? CifsChangeNotifications { get; set; }
 
     /// <summary>
@@ -226,7 +238,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
     /// </summary>
-    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    [CliOption("--key-vault-private-endpoint-resource-id")]
     public string? KeyVaultPrivateEndpointResourceId { get; set; }
 
     /// <summary>
@@ -244,14 +256,14 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Set of supported protocol types, which include NFSv3, NFSv4 and SMB protocol Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--protocol-types")]
-    public bool? ProtocolTypes { get; set; }
+    [CliOption("--protocol-types", GroupValues = true)]
+    public IEnumerable<string>? ProtocolTypes { get; set; }
 
     /// <summary>
     /// Maximum throughput in MiB/s that can be achieved by this cache volume and this will be accepted as input only for manual qosType cache.
     /// </summary>
-    [CliFlag("--throughput-mibps")]
-    public bool? ThroughputMibps { get; set; }
+    [CliOption("--throughput-mibps")]
+    public string? ThroughputMibps { get; set; }
 
     /// <summary>
     /// Flag indicating whether writeback is enabled for the cache.  Allowed values: Disabled, Enabled.
@@ -262,7 +274,7 @@ public record AzNetappfilesCacheCreateOptions : AzOptions
     /// <summary>
     /// Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--smb-access-based-enumeration", ShortForm = "--smb-access-enumeration")]
+    [CliOption("--smb-access-based-enumeration")]
     public string? SmbAccessBasedEnumeration { get; set; }
 
     /// <summary>

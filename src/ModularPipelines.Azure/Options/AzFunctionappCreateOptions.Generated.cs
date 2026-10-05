@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,62 +82,74 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Instrumentation key of App Insights to be added.
     /// </summary>
-    [CliFlag("--app-insights-key")]
-    public bool? AppInsightsKey { get; set; }
+    [CliOption("--app-insights-key")]
+    public string? AppInsightsKey { get; set; }
 
     /// <summary>
     /// Accept system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity. Check out help for more examples.
     /// </summary>
-    [CliOption("--assign-identity", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Use this option if you want to configure networking later for an app using network- restricted storage.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--cnl", ShortForm = "--configure-networking-later")]
-    public bool? Cnl { get; set; }
+    [CliOption("--cnl", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Cnl { get; set; }
 
     /// <summary>
     /// Geographic location where function app will be hosted. Use `az functionapp list-consumption- locations` to view available locations.
     /// </summary>
-    [CliFlag("--consumption-plan-location", ShortForm = "-c")]
-    public bool? ConsumptionPlanLocation { get; set; }
+    [CliOption("--consumption-plan-location", ShortForm = "-c")]
+    public string? ConsumptionPlanLocation { get; set; }
+
+    /// <summary>
+    /// The CPU in cores of the container app. e.g 0.75. WARNING: Argument '--cpu' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
-    public bool? Dal { get; set; }
+    [CliOption("--dal", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to communicate to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// Max size of request body http and grpc servers in MB to handle uploading of large files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public int? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public int? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
     /// </summary>
     [CliOption("--dapr-log-level")]
     public string? DaprLogLevel { get; set; }
+
+    /// <summary>
+    /// Container image, e.g. publisher/image-name:tag. WARNING: Option '--deployment-container-image-name' has been deprecated and will be removed in a future release. Use '--image' instead.
+    /// </summary>
+    [CliOption("--deployment-container-image-name")]
+    public string? DeploymentContainerImageName { get; set; }
 
     /// <summary>
     /// Enable local git.
@@ -146,44 +160,57 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// The branch to deploy.
     /// </summary>
-    [CliFlag("--deployment-source-branch", ShortForm = "-b")]
-    public bool? DeploymentSourceBranch { get; set; }
+    [CliOption("--deployment-source-branch", ShortForm = "-b")]
+    public string? DeploymentSourceBranch { get; set; }
 
     /// <summary>
     /// Git repository URL to link with manual integration.
     /// </summary>
-    [CliFlag("--deployment-source-url", ShortForm = "-u")]
-    public bool? DeploymentSourceUrl { get; set; }
+    [CliOption("--deployment-source-url", ShortForm = "-u")]
+    public string? DeploymentSourceUrl { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication type.  Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
     /// </summary>
-    [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
+    [CliOption("--deployment-storage-auth-type")]
     public string? DeploymentStorageAuthType { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed- identity authentication type, this parameter is not applicable and should be left empty.
     /// </summary>
-    [CliOption("--deployment-storage-auth-value", ShortForm = "--dsav")]
+    [CliOption("--deployment-storage-auth-value")]
     public string? DeploymentStorageAuthValue { get; set; }
 
     /// <summary>
     /// The deployment storage account container name.
     /// </summary>
-    [CliFlag("--deployment-storage-container-name", ShortForm = "--dscn")]
-    public bool? DeploymentStorageContainerName { get; set; }
+    [CliOption("--deployment-storage-container-name")]
+    public string? DeploymentStorageContainerName { get; set; }
 
     /// <summary>
     /// The deployment storage account name.
     /// </summary>
-    [CliFlag("--deployment-storage-name", ShortForm = "--dsn")]
-    public bool? DeploymentStorageName { get; set; }
+    [CliOption("--deployment-storage-name")]
+    public string? DeploymentStorageName { get; set; }
 
     /// <summary>
     /// Disable creating application insights resource during functionapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-app-insights")]
-    public bool? DisableAppInsights { get; set; }
+    [CliOption("--disable-app-insights", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableAppInsights { get; set; }
+
+    /// <summary>
+    /// The container registry server password. Required for private registries. WARNING: Option '--docker-registry-server-password' has been deprecated and will be removed in a future release. Use '--registry-password' instead.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--docker-registry-server-password")]
+    public string? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server username. WARNING: Option '--docker-registry-server-user' has been deprecated and will be removed in a future release. Use '--registry-username' instead.
+    /// </summary>
+    [CliOption("--docker-registry-server-user")]
+    public string? DockerRegistryServerUser { get; set; }
 
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
@@ -194,14 +221,20 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-dapr")]
-    public bool? EnableDapr { get; set; }
+    [CliOption("--enable-dapr", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableDapr { get; set; }
+
+    /// <summary>
+    /// Name of the container app environment. WARNING: Argument '--environment' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--environment")]
+    public string? Environment { get; set; }
 
     /// <summary>
     /// Geographic location where function app will be hosted. Use `az functionapp list- flexconsumption-locations` to view available locations.
     /// </summary>
-    [CliFlag("--flexconsumption-location", ShortForm = "-f")]
-    public bool? FlexconsumptionLocation { get; set; }
+    [CliOption("--flexconsumption-location", ShortForm = "-f")]
+    public string? FlexconsumptionLocation { get; set; }
 
     /// <summary>
     /// The functions app version. NOTE: This will be required starting the next release cycle. Allowed values: 4.
@@ -212,26 +245,44 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--https-only")]
-    public bool? HttpsOnly { get; set; }
+    [CliOption("--https-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsOnly { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The instance memory size in MB. See https://aka.ms/flex-instance-sizes for more information on the supported values.
     /// </summary>
-    [CliFlag("--instance-memory")]
-    public bool? InstanceMemory { get; set; }
+    [CliOption("--instance-memory")]
+    public int? InstanceMemory { get; set; }
+
+    /// <summary>
+    /// The maximum number of replicas when create function app on container app. WARNING: Argument '--max-replicas' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--max-replicas")]
+    public int? MaxReplicas { get; set; }
 
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--maximum-instance-count")]
-    public bool? MaximumInstanceCount { get; set; }
+    [CliOption("--maximum-instance-count")]
+    public int? MaximumInstanceCount { get; set; }
+
+    /// <summary>
+    /// The memory size of the container app. e.g. 1.0Gi,. WARNING: Argument '--memory' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// The minimum number of replicas when create function app on container app. WARNING: Argument '--min-replicas' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--min-replicas")]
+    public int? MinReplicas { get; set; }
 
     /// <summary>
     /// Set the OS type for the app to be created. Allowed values: Linux, Windows.
@@ -248,32 +299,39 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// The container registry server password. Required for private registries.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-w")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-w")]
+    public string? RegistryPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server hostname, e.g. myregistry.azurecr.io. WARNING: Argument '--registry-server' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-d")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-d")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.  Default: Contributor.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// The functions runtime stack. Use "az functionapp list-runtimes" to check supported runtimes and versions.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// The version of the functions runtime stack. The functions runtime stack. Use "az functionapp list-runtimes" to check supported runtimes and versions.
     /// </summary>
-    [CliFlag("--runtime-version")]
-    public bool? RuntimeVersion { get; set; }
+    [CliOption("--runtime-version")]
+    public string? RuntimeVersion { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -290,14 +348,20 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.
     /// </summary>
     [CliOption("--vnet")]
     public string? Vnet { get; set; }
+
+    /// <summary>
+    /// The workload profile name to run the container app on. WARNING: Argument '--workload-profile-name' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--workload-profile-name")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// Name of an existing log analytics workspace to be used for the application insights component.
@@ -308,7 +372,7 @@ public record AzFunctionappCreateOptions : AzOptions
     /// <summary>
     /// Enable zone redundancy for high availability. Applies to Flex Consumption SKU only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
 }

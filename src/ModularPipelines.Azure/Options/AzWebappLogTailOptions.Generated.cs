@@ -23,8 +23,8 @@ public record AzWebappLogTailOptions : AzOptions
     /// <summary>
     /// By default all live traces configured by `az webapp log config` will be shown, but you can scope to certain providers/folders, e.g. 'application', 'http', etc. For details, check out https://github.com/projectkudu/kudu/wiki/Diagnostic-Log-Stream.
     /// </summary>
-    [CliFlag("--provider")]
-    public bool? Provider { get; set; }
+    [CliOption("--provider")]
+    public string? Provider { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

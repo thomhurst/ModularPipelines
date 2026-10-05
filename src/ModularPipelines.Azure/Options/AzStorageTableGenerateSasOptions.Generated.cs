@@ -46,14 +46,14 @@ public record AzStorageTableGenerateSasOptions : AzOptions
     /// <summary>
     /// The maximum partition key accessible with this shared access signature. endpk must accompany endrk. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.
     /// </summary>
-    [CliFlag("--end-pk")]
-    public bool? EndPk { get; set; }
+    [CliOption("--end-pk")]
+    public string? EndPk { get; set; }
 
     /// <summary>
     /// The maximum row key accessible with this shared access signature. endpk must accompany endrk. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.
     /// </summary>
-    [CliFlag("--end-rk")]
-    public bool? EndRk { get; set; }
+    [CliOption("--end-rk")]
+    public string? EndRk { get; set; }
 
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes invalid. Do not use if a stored access policy is referenced with --policy-name that specifies this value.
@@ -70,8 +70,8 @@ public record AzStorageTableGenerateSasOptions : AzOptions
     /// <summary>
     /// Specifies the IP address or range of IP addresses from which to accept requests. Supports only IPv4 style addresses.
     /// </summary>
-    [CliFlag("--ip")]
-    public bool? Ip { get; set; }
+    [CliOption("--ip")]
+    public string? Ip { get; set; }
 
     /// <summary>
     /// The permissions the SAS grants. Allowed values: (r)ead/query (a)dd (u)pdate (d)elete. Do not use if a stored access policy is referenced with --id that specifies this value. Can be combined.
@@ -94,37 +94,37 @@ public record AzStorageTableGenerateSasOptions : AzOptions
     /// <summary>
     /// The minimum partition key accessible with this shared access signature. startpk must accompany startrk. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.
     /// </summary>
-    [CliFlag("--start-pk")]
-    public bool? StartPk { get; set; }
+    [CliOption("--start-pk")]
+    public string? StartPk { get; set; }
 
     /// <summary>
     /// The minimum row key accessible with this shared access signature. startpk must accompany startrk. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.
     /// </summary>
-    [CliFlag("--start-rk")]
-    public bool? StartRk { get; set; }
+    [CliOption("--start-rk")]
+    public string? StartRk { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--table-endpoint")]
-    public bool? TableEndpoint { get; set; }
+    [CliOption("--table-endpoint")]
+    public string? TableEndpoint { get; set; }
 
 }

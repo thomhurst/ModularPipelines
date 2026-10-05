@@ -58,8 +58,8 @@ public record AzSynapseSqlPoolShowConnectionStringOptions : AzOptions
     /// <summary>
     /// The SQL pool name.  Default: &lt;sql pool name&gt;.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The workspace name.  Default: &lt;workspace name&gt;.

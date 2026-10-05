@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -67,8 +68,8 @@ public record AzVmHostGroupCreateOptions : AzOptions
     /// <summary>
     /// Specify whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to false when not provided.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--automatic-placement")]
-    public bool? AutomaticPlacement { get; set; }
+    [CliOption("--automatic-placement", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutomaticPlacement { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. Otherwise, location will default to the resource group's location.
@@ -79,19 +80,19 @@ public record AzVmHostGroupCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Enable a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--ultra-ssd-enabled")]
-    public bool? UltraSsdEnabled { get; set; }
+    [CliOption("--ultra-ssd-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UltraSsdEnabled { get; set; }
 
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
 }

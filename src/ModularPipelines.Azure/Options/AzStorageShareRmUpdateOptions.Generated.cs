@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,14 +54,14 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     /// <summary>
     /// A name-value pair to associate with the share as metadata.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliOption("--metadata")]
-    public string? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// The provisioned size of the share, in gibibytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400. For file shares created under Files Provisioned v2 account type, please refer to the GetFileServiceUsage API response for the minimum and maximum allowed provisioned storage size.
     /// </summary>
-    [CliFlag("--quota", ShortForm = "-q")]
-    public bool? Quota { get; set; }
+    [CliOption("--quota", ShortForm = "-q")]
+    public string? Quota { get; set; }
 
     /// <summary>
     /// Reduction of the access rights for the remote superuser. The property is for NFS share only. The default is NoRootSquash.  Allowed values: AllSquash, NoRootSquash, RootSquash.
@@ -71,14 +72,14 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     /// <summary>
     /// The maximum paid bursting bandwidth for the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 10340 which is the maximum allowed bandwidth for a share.
     /// </summary>
-    [CliOption("--bursting-max-mibps", ShortForm = "--paid-bursting-max-bandwidth-mibps")]
+    [CliOption("--bursting-max-mibps")]
     public string? BurstingMaxMibps { get; set; }
 
     /// <summary>
     /// Indicates whether paid bursting is enabled for the share. This property is only for file shares created under Files Provisioned v1 SSD account type.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--paid-bursting-enabled")]
-    public bool? PaidBurstingEnabled { get; set; }
+    [CliOption("--paid-bursting-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PaidBurstingEnabled { get; set; }
 
     /// <summary>
     /// The maximum paid bursting IOPS for the share. This property is only for file shares created under Files Provisioned v1 SSD account type. The maximum allowed value is 102400 which is the maximum allowed IOPS for a share.
@@ -89,7 +90,7 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     /// <summary>
     /// The provisioned bandwidth of the share, in mebibytes per second. This property is only for file shares created under Files Provisioned v2 account type. Please refer to the GetFileServiceUsage API response for the minimum and maximum allowed value for provisioned bandwidth.
     /// </summary>
-    [CliOption("--provisioned-bandwidth", ShortForm = "--provisioned-bandwidth-mibps")]
+    [CliOption("--provisioned-bandwidth")]
     public string? ProvisionedBandwidth { get; set; }
 
     /// <summary>
@@ -101,13 +102,13 @@ public record AzStorageShareRmUpdateOptions : AzOptions
     /// <summary>
     /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "--storage-account")]
+    [CliOption("--account-name")]
     public string? AccountName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,19 +69,19 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The group ID from the provider of resource the shared private link resource is for.
     /// </summary>
-    [CliFlag("--group-id")]
-    public bool? GroupId { get; set; }
+    [CliOption("--group-id")]
+    public string? GroupId { get; set; }
 
     /// <summary>
     /// The resource ID of the resource the shared private link resource is for.
     /// </summary>
-    [CliOption("--private-link-resource-id", ShortForm = "--resource-id")]
+    [CliOption("--private-link-resource-id")]
     public string? PrivateLinkResourceId { get; set; }
 
     /// <summary>
@@ -92,14 +93,14 @@ public record AzSearchServiceSharedPrivateLinkResourceCreateOptions : AzOptions
     /// <summary>
     /// The message for requesting approval of the shared private link resource.
     /// </summary>
-    [CliFlag("--request-message")]
-    public bool? RequestMessage { get; set; }
+    [CliOption("--request-message")]
+    public string? RequestMessage { get; set; }
 
     /// <summary>
     /// Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
     /// </summary>
-    [CliFlag("--resource-region")]
-    public bool? ResourceRegion { get; set; }
+    [CliOption("--resource-region")]
+    public string? ResourceRegion { get; set; }
 
     /// <summary>
     /// Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. Allowed values: Approved, Disconnected, Pending, Rejected.

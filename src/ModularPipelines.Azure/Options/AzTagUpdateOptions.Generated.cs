@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,18 +30,29 @@ public record AzTagUpdateOptions : AzOptions
     public AzTagUpdateOptions(
         string Operation,
         string ResourceId,
-        string Tags
+        IEnumerable<CliOptionValue> Tags
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Operation);
         this.Operation = Operation;
         global::System.ArgumentNullException.ThrowIfNull(ResourceId);
         this.ResourceId = ResourceId;
-        global::System.ArgumentNullException.ThrowIfNull(Tags);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Tags);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Tags));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Tags));
+            }
+
+            Tags = materialized;
+        }
         this.Tags = Tags;
     }
 
-    public void Deconstruct(out string Operation, out string ResourceId, out string Tags)
+    public void Deconstruct(out string Operation, out string ResourceId, out IEnumerable<CliOptionValue> Tags)
     {
         Operation = this.Operation;
         ResourceId = this.ResourceId;
@@ -62,7 +74,7 @@ public record AzTagUpdateOptions : AzOptions
     /// <summary>
     /// The tags to be updated on the resource.
     /// </summary>
-    [CliOption("--tags")]
-    public string Tags { get; private init; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Tags { get; private init; }
 
 }

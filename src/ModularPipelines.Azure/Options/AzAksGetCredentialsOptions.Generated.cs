@@ -63,20 +63,20 @@ public record AzAksGetCredentialsOptions : AzOptions
     /// <summary>
     /// If specified, overwrite the default context name. The `--admin` parameter takes precedence over `--context`.
     /// </summary>
-    [CliFlag("--context")]
-    public bool? Context { get; set; }
+    [CliOption("--context")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Specify the format of the returned credential. Available values are ["exec", "azure"]. Only take effect when requesting clusterUser credential of AAD clusters.
     /// </summary>
-    [CliFlag("--format")]
-    public bool? Format { get; set; }
+    [CliOption("--format")]
+    public string? Format { get; set; }
 
     /// <summary>
     /// Overwrite any existing cluster entry with the same name.

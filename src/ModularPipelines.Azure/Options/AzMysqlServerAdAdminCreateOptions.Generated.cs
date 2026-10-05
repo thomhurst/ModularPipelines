@@ -57,8 +57,8 @@ public record AzMysqlServerAdAdminCreateOptions : AzOptions
     /// <summary>
     /// Display name of the Microsoft Entra administrator user or group.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-u")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-u")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -69,7 +69,7 @@ public record AzMysqlServerAdAdminCreateOptions : AzOptions
     /// <summary>
     /// The unique ID of the Microsoft Entra administrator.
     /// </summary>
-    [CliFlag("--object-id", ShortForm = "-i")]
-    public bool? ObjectId { get; set; }
+    [CliOption("--object-id", ShortForm = "-i")]
+    public string? ObjectId { get; set; }
 
 }

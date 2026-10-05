@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -27,14 +28,14 @@ public record AzEventhubsNamespaceReplicaRemoveOptions : AzOptions
     /// <param name="NamespaceName">Name of the Namespace.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzEventhubsNamespaceReplicaRemoveOptions(
-        IEnumerable<string> GeoDataReplicationConfig,
+        IEnumerable<CliValueGroup> GeoDataReplicationConfig,
         string NamespaceName,
         string ResourceGroup
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(GeoDataReplicationConfig);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(GeoDataReplicationConfig));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(GeoDataReplicationConfig));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -51,7 +52,7 @@ public record AzEventhubsNamespaceReplicaRemoveOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out IEnumerable<string> GeoDataReplicationConfig, out string NamespaceName, out string ResourceGroup)
+    public void Deconstruct(out IEnumerable<CliValueGroup> GeoDataReplicationConfig, out string NamespaceName, out string ResourceGroup)
     {
         GeoDataReplicationConfig = this.GeoDataReplicationConfig;
         NamespaceName = this.NamespaceName;
@@ -61,8 +62,8 @@ public record AzEventhubsNamespaceReplicaRemoveOptions : AzOptions
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
-    public IEnumerable<string> GeoDataReplicationConfig { get; private init; }
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
+    public IEnumerable<CliValueGroup> GeoDataReplicationConfig { get; private init; }
 
     /// <summary>
     /// Name of the Namespace.

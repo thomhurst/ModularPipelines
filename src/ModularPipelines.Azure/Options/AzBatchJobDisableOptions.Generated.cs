@@ -70,7 +70,7 @@ public record AzBatchJobDisableOptions : AzOptions
     /// <summary>
     /// What to do with active Tasks associated with the Job. Required. Known values are: "requeue", "terminate", and "wait".
     /// </summary>
-    [CliFlag("--disable-tasks")]
-    public bool? DisableTasks { get; set; }
+    [CliOption("--disable-tasks")]
+    public string? DisableTasks { get; set; }
 
 }

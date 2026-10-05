@@ -74,7 +74,7 @@ public record AzHdinsightAzureMonitorAgentEnableOptions : AzOptions
     /// <summary>
     /// The certificate for the Log Analytics workspace. Required when workspace ID is provided.
     /// </summary>
-    [CliFlag("--primary-key")]
-    public bool? PrimaryKey { get; set; }
+    [CliOption("--primary-key")]
+    public string? PrimaryKey { get; set; }
 
 }

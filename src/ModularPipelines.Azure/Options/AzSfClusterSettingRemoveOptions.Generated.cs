@@ -63,13 +63,13 @@ public record AzSfClusterSettingRemoveOptions : AzOptions
     /// <summary>
     /// Section name.
     /// </summary>
-    [CliFlag("--section")]
-    public bool? Section { get; set; }
+    [CliOption("--section")]
+    public string? Section { get; set; }
 
     /// <summary>
     /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"section": "NamingService","parameter": "MaxOperationTimeout"}].
     /// </summary>
-    [CliFlag("--settings-section", ShortForm = "--settings-section-description")]
-    public bool? SettingsSection { get; set; }
+    [CliOption("--settings-section")]
+    public string? SettingsSection { get; set; }
 
 }

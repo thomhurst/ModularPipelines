@@ -57,8 +57,8 @@ public record AzAksApproutingEnableOptions : AzOptions
     /// <summary>
     /// Attach a keyvault id to access secrets and certificates. This optional flag attaches a keyvault id to access secrets and certificates.
     /// </summary>
-    [CliFlag("--attach-kv")]
-    public bool? AttachKv { get; set; }
+    [CliOption("--attach-kv")]
+    public string? AttachKv { get; set; }
 
     /// <summary>
     /// Enable the keyvault secrets provider. This optional flag enables the keyvault-secrets-provider addon in given cluster. This is required for most App Routing use-cases.

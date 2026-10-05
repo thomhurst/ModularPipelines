@@ -29,7 +29,7 @@ public record AzSqlMiDtcShowOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance-name", ShortForm = "--mi")]
+    [CliOption("--managed-instance-name")]
     public string? ManagedInstanceName { get; set; }
 
     /// <summary>

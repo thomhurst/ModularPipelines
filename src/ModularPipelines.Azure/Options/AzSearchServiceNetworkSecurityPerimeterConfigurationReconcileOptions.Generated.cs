@@ -29,8 +29,8 @@ public record AzSearchServiceNetworkSecurityPerimeterConfigurationReconcileOptio
     /// <summary>
     /// The network security perimeter configuration name.
     /// </summary>
-    [CliFlag("--nsp-config-name")]
-    public bool? NspConfigName { get; set; }
+    [CliOption("--nsp-config-name")]
+    public string? NspConfigName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

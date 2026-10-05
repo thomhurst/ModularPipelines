@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,20 +80,20 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Disable gateway in the master region. Only valid for an Api Management service deployed in multiple locations.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-gateway")]
-    public bool? DisableGateway { get; set; }
+    [CliOption("--disable-gateway", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableGateway { get; set; }
 
     /// <summary>
     /// Enforces a client certificate to be presented on each request to the gateway and also enables the ability to authenticate the certificate in the policy on the gateway.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-client-certificate")]
-    public bool? EnableClientCertificate { get; set; }
+    [CliOption("--enable-client-certificate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableClientCertificate { get; set; }
 
     /// <summary>
     /// Create a managed identity for the API Management service to access other Azure resources. Only meant to be used for Consumption SKU Service.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-managed-identity")]
-    public bool? EnableManagedIdentity { get; set; }
+    [CliOption("--enable-managed-identity", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableManagedIdentity { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -109,14 +110,14 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Whether or not public endpoint access is allowed for this API Management service. If set to true, private endpoints are the exclusive access method.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--public-network-access")]
-    public bool? PublicNetworkAccess { get; set; }
+    [CliOption("--public-network-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The number of deployed units of the SKU.  Default: 1.
     /// </summary>
-    [CliFlag("--sku-capacity")]
-    public bool? SkuCapacity { get; set; }
+    [CliOption("--sku-capacity")]
+    public int? SkuCapacity { get; set; }
 
     /// <summary>
     /// The sku of the api management instance.  Allowed values: Basic, Consumption, Developer, Isolated, Premium, Standard.  Default: Developer.
@@ -127,8 +128,8 @@ public record AzApimCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The virtual network type.  Allowed values: External, Internal, None.  Default: None.

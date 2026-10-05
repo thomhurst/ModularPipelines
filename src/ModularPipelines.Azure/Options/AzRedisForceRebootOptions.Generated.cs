@@ -46,8 +46,8 @@ public record AzRedisForceRebootOptions : AzOptions
     /// <summary>
     /// If clustering is enabled, the ID of the shard to be rebooted.
     /// </summary>
-    [CliFlag("--shard-id")]
-    public bool? ShardId { get; set; }
+    [CliOption("--shard-id")]
+    public int? ShardId { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

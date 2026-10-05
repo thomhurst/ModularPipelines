@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -27,14 +28,14 @@ public record AzServicebusNamespaceEncryptionRemoveOptions : AzOptions
     /// <param name="NamespaceName">Name of the Namespace.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzServicebusNamespaceEncryptionRemoveOptions(
-        IEnumerable<string> EncryptionConfig,
+        IEnumerable<CliValueGroup> EncryptionConfig,
         string NamespaceName,
         string ResourceGroup
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(EncryptionConfig);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EncryptionConfig));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(EncryptionConfig));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -51,7 +52,7 @@ public record AzServicebusNamespaceEncryptionRemoveOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out IEnumerable<string> EncryptionConfig, out string NamespaceName, out string ResourceGroup)
+    public void Deconstruct(out IEnumerable<CliValueGroup> EncryptionConfig, out string NamespaceName, out string ResourceGroup)
     {
         EncryptionConfig = this.EncryptionConfig;
         NamespaceName = this.NamespaceName;
@@ -62,7 +63,7 @@ public record AzServicebusNamespaceEncryptionRemoveOptions : AzOptions
     /// List of KeyVaultProperties objects.
     /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
-    public IEnumerable<string> EncryptionConfig { get; private init; }
+    public IEnumerable<CliValueGroup> EncryptionConfig { get; private init; }
 
     /// <summary>
     /// Name of the Namespace.

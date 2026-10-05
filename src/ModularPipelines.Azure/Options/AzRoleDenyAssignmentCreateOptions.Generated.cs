@@ -29,8 +29,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// A GUID for the deny assignment. If omitted, a new GUID is generated.
     /// </summary>
-    [CliFlag("--assignment-name")]
-    public bool? AssignmentName { get; set; }
+    [CliOption("--assignment-name")]
+    public string? AssignmentName { get; set; }
 
     /// <summary>
     /// Description of the deny assignment.
@@ -53,8 +53,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The display name of the deny assignment.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Space-separated list of actions to exclude from the deny.
@@ -65,8 +65,8 @@ public record AzRoleDenyAssignmentCreateOptions : AzOptions
     /// <summary>
     /// The object ID of a specific User or ServicePrincipal to deny. If omitted, the deny assignment applies to Everyone (all principals) and --exclude-principal-ids is required. Group principals are not permitted.
     /// </summary>
-    [CliFlag("--principal-object-id")]
-    public bool? PrincipalObjectId { get; set; }
+    [CliOption("--principal-object-id")]
+    public string? PrincipalObjectId { get; set; }
 
     /// <summary>
     /// The type of the principal specified by --principal-object-id. Required when --principal-object-id is provided. Accepted values: User, ServicePrincipal.  Allowed values: ServicePrincipal, User.

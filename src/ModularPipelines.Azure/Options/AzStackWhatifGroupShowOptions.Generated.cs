@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -53,7 +54,7 @@ public record AzStackWhatifGroupShowOptions : AzOptions
     /// <summary>
     /// Flag to return the What-If results with resource property changes included.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--with-property-changes", ShortForm = "--wpc")]
-    public bool? WithPropertyChanges { get; set; }
+    [CliOption("--with-property-changes", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? WithPropertyChanges { get; set; }
 
 }

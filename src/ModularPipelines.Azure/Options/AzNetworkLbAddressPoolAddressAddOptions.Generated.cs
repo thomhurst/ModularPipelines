@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,14 +91,14 @@ public record AzNetworkLbAddressPoolAddressAddOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.  Allowed values: Down, None, Up.
     /// </summary>
-    [CliOption("--admin-state", GroupValues = true)]
-    public IEnumerable<string>? AdminState { get; set; }
+    [CliOption("--admin-state")]
+    public string? AdminState { get; set; }
 
     /// <summary>
     /// Name or Id of the subnet. (If name is provided, vnet is also required; If id, vnet is not required).
@@ -108,7 +109,7 @@ public record AzNetworkLbAddressPoolAddressAddOptions : AzOptions
     /// <summary>
     /// Name or Id of the virtual network.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
 }

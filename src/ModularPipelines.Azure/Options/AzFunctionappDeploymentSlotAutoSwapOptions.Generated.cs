@@ -46,8 +46,8 @@ public record AzFunctionappDeploymentSlotAutoSwapOptions : AzOptions
     /// <summary>
     /// Target slot to auto swap.  Default: production.
     /// </summary>
-    [CliFlag("--auto-swap-slot")]
-    public bool? AutoSwapSlot { get; set; }
+    [CliOption("--auto-swap-slot")]
+    public string? AutoSwapSlot { get; set; }
 
     /// <summary>
     /// Disable auto swap.

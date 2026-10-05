@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,14 +53,14 @@ public record AzStorageAccountFileServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// Indicate the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365.
     /// </summary>
-    [CliFlag("--delete-retention-days")]
-    public bool? DeleteRetentionDays { get; set; }
+    [CliOption("--delete-retention-days")]
+    public int? DeleteRetentionDays { get; set; }
 
     /// <summary>
     /// Enable file service properties for share soft delete.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-delete-retention")]
-    public bool? EnableDeleteRetention { get; set; }
+    [CliOption("--enable-delete-retention", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableDeleteRetention { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -88,43 +89,43 @@ public record AzStorageAccountFileServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// Whether NFS Encryption in transit is required. Allowed values: false, true.
     /// </summary>
-    [CliOption("--nfs-eit", ShortForm = "--require-nfs-encryption-in-transit")]
-    public bool? NfsEit { get; set; }
+    [CliOption("--nfs-eit", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NfsEit { get; set; }
 
     /// <summary>
     /// SMB authentication methods supported by server. Valid values are NTLMv2, Kerberos. Should be passed as a string with delimiter ';'.
     /// </summary>
-    [CliFlag("--auth-methods")]
-    public bool? AuthMethods { get; set; }
+    [CliOption("--auth-methods")]
+    public string? AuthMethods { get; set; }
 
     /// <summary>
     /// SMB channel encryption supported by server. Valid values are AES-128-CCM, AES-128-GCM, AES-256-GCM. Should be passed as a string with delimiter ';'.
     /// </summary>
-    [CliFlag("--channel-encryption")]
-    public bool? ChannelEncryption { get; set; }
+    [CliOption("--channel-encryption")]
+    public string? ChannelEncryption { get; set; }
 
     /// <summary>
     /// Set SMB Multichannel setting for file service. Applies to Premium FileStorage only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-smb-multichannel", ShortForm = "--mc")]
-    public bool? EnableSmbMultichannel { get; set; }
+    [CliOption("--enable-smb-multichannel", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSmbMultichannel { get; set; }
 
     /// <summary>
     /// Kerberos ticket encryption supported by server. Valid values are RC4-HMAC, AES-256. Should be passed as a string with delimiter ';'.
     /// </summary>
-    [CliFlag("--kerb-ticket-encryption", ShortForm = "-k")]
-    public bool? KerbTicketEncryption { get; set; }
+    [CliOption("--kerb-ticket-encryption", ShortForm = "-k")]
+    public string? KerbTicketEncryption { get; set; }
 
     /// <summary>
     /// Whether SMB Encryption in transit is required. Allowed values: false, true.
     /// </summary>
-    [CliOption("--require-smb-encryption-in-transit", ShortForm = "--smb-eit")]
-    public bool? RequireSmbEncryptionInTransit { get; set; }
+    [CliOption("--require-smb-encryption-in-transit", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequireSmbEncryptionInTransit { get; set; }
 
     /// <summary>
     /// SMB protocol versions supported by server. Valid values are SMB2.1, SMB3.0, SMB3.1.1. Should be passed as a string with delimiter ';'.
     /// </summary>
-    [CliFlag("--versions")]
-    public bool? Versions { get; set; }
+    [CliOption("--versions")]
+    public string? Versions { get; set; }
 
 }

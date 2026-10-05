@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,13 +64,13 @@ public record AzNetworkDnsZoneCreateOptions : AzOptions
     /// <summary>
     /// Specify if parent zone exists for this zone and delegation for the child zone in the parent is to be added.
     /// </summary>
-    [CliFlag("--parent-name", ShortForm = "-p")]
-    public bool? ParentName { get; set; }
+    [CliOption("--parent-name", ShortForm = "-p")]
+    public string? ParentName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

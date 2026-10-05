@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzNetappfilesVolumeBucketGenerateAkvCredentialOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The number of days from now until the newly generated Access and Secret key pair will expire.
     /// </summary>
-    [CliFlag("--key-pair-expiry-days")]
-    public bool? KeyPairExpiryDays { get; set; }
+    [CliOption("--key-pair-expiry-days")]
+    public string? KeyPairExpiryDays { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -41,7 +42,7 @@ public record AzNetappfilesVolumeBucketGenerateAkvCredentialOptions : AzOptions
     /// <summary>
     /// The name of the bucket.
     /// </summary>
-    [CliOption("--bucket-name", ShortForm = "-n")]
+    [CliOption("--bucket-name", ShortForm = "-b")]
     public string? BucketName { get; set; }
 
     /// <summary>

@@ -74,14 +74,14 @@ public record AzApimApiVersionSetUpdateOptions : AzOptions
     /// <summary>
     /// Required. Name of API Version Set.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
@@ -98,8 +98,8 @@ public record AzApimApiVersionSetUpdateOptions : AzOptions
     /// <summary>
     /// Required. An value that determines where the API Version identifer will be located in a HTTP request.
     /// </summary>
-    [CliFlag("--versioning-scheme")]
-    public bool? VersioningScheme { get; set; }
+    [CliOption("--versioning-scheme")]
+    public string? VersioningScheme { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzKeyvaultRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Only show custom role definitions.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--custom-role-only")]
-    public bool? CustomRoleOnly { get; set; }
+    [CliOption("--custom-role-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CustomRoleOnly { get; set; }
 
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., "/" or "/keys" or "/keys/{keyname}".

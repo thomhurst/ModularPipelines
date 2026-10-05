@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -44,22 +45,28 @@ public record AzVmDiagnosticsSetOptions : AzOptions
     public string Settings { get; private init; }
 
     /// <summary>
+    /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true. WARNING: Option '--no-auto-upgrade' has been deprecated and will be removed in a future release. Use '--no-auto-upgrade-minor-version' instead.
+    /// </summary>
+    [CliOption("--no-auto-upgrade", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoAutoUpgrade { get; set; }
+
+    /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-auto-upgrade-minor-version")]
-    public bool? NoAutoUpgradeMinorVersion { get; set; }
+    [CliOption("--no-auto-upgrade-minor-version", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoAutoUpgradeMinorVersion { get; set; }
 
     /// <summary>
     /// Json string or a file path containing private configurations such as storage account keys, etc.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Version of the diagnostics extension. Will use the latest if not specfied.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

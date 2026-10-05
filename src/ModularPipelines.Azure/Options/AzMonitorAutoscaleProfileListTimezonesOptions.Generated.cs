@@ -23,8 +23,8 @@ public record AzMonitorAutoscaleProfileListTimezonesOptions : AzOptions
     /// <summary>
     /// Filter results based on UTC hour offset.
     /// </summary>
-    [CliFlag("--offset")]
-    public bool? Offset { get; set; }
+    [CliOption("--offset")]
+    public string? Offset { get; set; }
 
     /// <summary>
     /// Query text to find.

@@ -85,13 +85,13 @@ public record AzNetworkDnsRecordSetNsAddRecordOptions : AzOptions
     /// <summary>
     /// Subscription id to add name server record.
     /// </summary>
-    [CliFlag("--subscriptionid", ShortForm = "-s")]
-    public bool? Subscriptionid { get; set; }
+    [CliOption("--subscriptionid", ShortForm = "-s")]
+    public string? Subscriptionid { get; set; }
 
     /// <summary>
     /// Record set TTL (time-to-live).  Default: 3600.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public int? Ttl { get; set; }
 
 }

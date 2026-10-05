@@ -91,8 +91,8 @@ public record AzSqlFailoverGroupCreateOptions : AzOptions
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.  Default: 1.
     /// </summary>
-    [CliFlag("--grace-period")]
-    public bool? GracePeriod { get; set; }
+    [CliOption("--grace-period")]
+    public string? GracePeriod { get; set; }
 
     /// <summary>
     /// The name of the resource group of the partner server.

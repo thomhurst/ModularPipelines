@@ -23,25 +23,25 @@ public record AzVmImageTermsCancelOptions : AzOptions
     /// <summary>
     /// Image offer.
     /// </summary>
-    [CliFlag("--offer", ShortForm = "-f")]
-    public bool? Offer { get; set; }
+    [CliOption("--offer", ShortForm = "-f")]
+    public string? Offer { get; set; }
 
     /// <summary>
     /// Image billing plan.
     /// </summary>
-    [CliFlag("--plan")]
-    public bool? Plan { get; set; }
+    [CliOption("--plan")]
+    public string? Plan { get; set; }
 
     /// <summary>
     /// Image publisher.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
     /// <summary>
     /// URN, in the format of 'publisher:offer:sku:version'. If specified, other argument values can be omitted.
     /// </summary>
-    [CliFlag("--urn")]
-    public bool? Urn { get; set; }
+    [CliOption("--urn")]
+    public string? Urn { get; set; }
 
 }

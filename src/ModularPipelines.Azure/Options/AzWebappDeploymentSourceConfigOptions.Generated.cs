@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,20 +47,21 @@ public record AzWebappDeploymentSourceConfigOptions : AzOptions
     /// <summary>
     /// The branch name of the repository.
     /// </summary>
-    [CliFlag("--branch")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// Git access token required for auto sync.
     /// </summary>
-    [CliFlag("--git-token")]
-    public bool? GitToken { get; set; }
+    [SecretValue]
+    [CliOption("--git-token")]
+    public string? GitToken { get; set; }
 
     /// <summary>
     /// If using GitHub action, default to False.
     /// </summary>
-    [CliFlag("--github-action")]
-    public bool? GithubAction { get; set; }
+    [CliOption("--github-action")]
+    public string? GithubAction { get; set; }
 
     /// <summary>
     /// Disable automatic sync between source control and web.

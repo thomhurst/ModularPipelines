@@ -35,7 +35,7 @@ public record AzNetappfilesUsageShowOptions : AzOptions
     /// <summary>
     /// The type of usage.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

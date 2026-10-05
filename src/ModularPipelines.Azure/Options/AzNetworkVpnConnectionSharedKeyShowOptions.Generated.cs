@@ -23,8 +23,8 @@ public record AzNetworkVpnConnectionSharedKeyShowOptions : AzOptions
     /// <summary>
     /// Connection name.
     /// </summary>
-    [CliFlag("--connection-name")]
-    public bool? ConnectionName { get; set; }
+    [CliOption("--connection-name")]
+    public string? ConnectionName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

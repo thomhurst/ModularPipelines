@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     public AzSynapseKustoPoolCreateOptions(
         string KustoPoolName,
         string ResourceGroup,
-        string Sku,
+        IEnumerable<string> Sku,
         string WorkspaceName
     )
     {
@@ -38,13 +39,24 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
         this.KustoPoolName = KustoPoolName;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        global::System.ArgumentNullException.ThrowIfNull(Sku);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Sku);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Sku));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Sku));
+            }
+
+            Sku = materialized;
+        }
         this.Sku = Sku;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
         this.WorkspaceName = WorkspaceName;
     }
 
-    public void Deconstruct(out string KustoPoolName, out string ResourceGroup, out string Sku, out string WorkspaceName)
+    public void Deconstruct(out string KustoPoolName, out string ResourceGroup, out IEnumerable<string> Sku, out string WorkspaceName)
     {
         KustoPoolName = this.KustoPoolName;
         ResourceGroup = this.ResourceGroup;
@@ -67,8 +79,8 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// The SKU of the kusto pool. Usage: --sku name=XX capacity=XX size=XX
     /// </summary>
-    [CliOption("--sku")]
-    public string Sku { get; private init; }
+    [CliOption("--sku", GroupValues = true)]
+    public IEnumerable<string> Sku { get; private init; }
 
     /// <summary>
     /// The name of the workspace.
@@ -79,26 +91,26 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates if the purge operations are enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge")]
-    public bool? EnablePurge { get; set; }
+    [CliOption("--enable-purge", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurge { get; set; }
 
     /// <summary>
     /// A boolean value that indicates if the streaming ingest is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-streaming-ingest", ShortForm = "--esig")]
-    public bool? EnableStreamingIngest { get; set; }
+    [CliOption("--enable-streaming-ingest", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableStreamingIngest { get; set; }
 
     /// <summary>
     /// The ETag of the Kusto Pool. Omit this value to always overwrite the current Kusto Pool. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Set to '*' to allow a new Kusto Pool to be created, but to prevent updating an existing Kusto Pool. Other values will result in a 412 Pre-condition Failed response.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -115,19 +127,19 @@ public record AzSynapseKustoPoolCreateOptions : AzOptions
     /// <summary>
     /// Optimized auto scale definition. Usage: --optimized-autoscale version=XX is-enabled=XX minimum=XX maximum=XX
     /// </summary>
-    [CliFlag("--optimized-autoscale")]
-    public bool? OptimizedAutoscale { get; set; }
+    [CliOption("--optimized-autoscale", GroupValues = true)]
+    public IEnumerable<string>? OptimizedAutoscale { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The workspace unique identifier.
     /// </summary>
-    [CliFlag("--workspace-uid")]
-    public bool? WorkspaceUid { get; set; }
+    [CliOption("--workspace-uid")]
+    public string? WorkspaceUid { get; set; }
 
 }

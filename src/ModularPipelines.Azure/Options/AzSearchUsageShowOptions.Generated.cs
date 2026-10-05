@@ -35,7 +35,7 @@ public record AzSearchUsageShowOptions : AzOptions
     /// <summary>
     /// The unique SKU name that identifies a billable tier.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

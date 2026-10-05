@@ -23,8 +23,8 @@ public record AzWebappLogDownloadOptions : AzOptions
     /// <summary>
     /// The downloaded zipped log file path.  Default: webapp_logs.zip.
     /// </summary>
-    [CliFlag("--log-file")]
-    public bool? LogFile { get; set; }
+    [CliOption("--log-file")]
+    public string? LogFile { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

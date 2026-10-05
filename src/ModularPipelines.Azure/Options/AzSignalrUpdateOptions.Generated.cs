@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// Space separated origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
-    [CliFlag("--allowed-origins", ShortForm = "-a")]
-    public bool? AllowedOrigins { get; set; }
+    [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AllowedOrigins { get; set; }
 
     /// <summary>
     /// Enable or disable client certificate authentication for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--client-cert-enabled")]
-    public bool? ClientCertEnabled { get; set; }
+    [CliOption("--client-cert-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ClientCertEnabled { get; set; }
 
     /// <summary>
     /// Enable or disable local auth for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// The switch for messaging logs which signalr service will generate or not.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-message-logs")]
-    public bool? EnableMessageLogs { get; set; }
+    [CliOption("--enable-message-logs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMessageLogs { get; set; }
 
     /// <summary>
     /// Enable or disable region endpoint for a SignalR Service.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--region-endpoint-enabled")]
-    public bool? RegionEndpointEnabled { get; set; }
+    [CliOption("--region-endpoint-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RegionEndpointEnabled { get; set; }
 
     /// <summary>
     /// The service mode which signalr service will be working on.  Allowed values: Classic, Default, Serverless.
@@ -59,20 +60,20 @@ public record AzSignalrUpdateOptions : AzOptions
     /// <summary>
     /// The sku name of the signalr service. E.g. Standard_S1.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The number of signalr service unit count.  Default: 1.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

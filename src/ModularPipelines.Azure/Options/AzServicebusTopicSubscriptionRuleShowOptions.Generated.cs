@@ -29,8 +29,8 @@ public record AzServicebusTopicSubscriptionRuleShowOptions : AzOptions
     /// <summary>
     /// The rule name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The namespace name.

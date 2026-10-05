@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -47,8 +48,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// Dictionary object for SchemaGroup group properties  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--group-properties")]
-    public bool? GroupProperties { get; set; }
+    [CliOption("--group-properties", GroupValues = true)]
+    public IEnumerable<string>? GroupProperties { get; set; }
 
     /// <summary>
     /// Compatibility of Schema.  Allowed values: Backward, Forward, None.
@@ -71,8 +72,8 @@ public record AzEventhubsNamespaceSchemaRegistryUpdateOptions : AzOptions
     /// <summary>
     /// The Schema Group name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The Namespace name.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -34,8 +35,8 @@ public record AzMonitorLogProfilesCreateOptions : AzOptions
         string Location,
         IEnumerable<string> Locations,
         string Name,
-        int Days,
-        bool Enabled
+        string Days,
+        CliOptionValue Enabled
     )
     {
         {
@@ -68,11 +69,13 @@ public record AzMonitorLogProfilesCreateOptions : AzOptions
         this.Locations = Locations;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Days);
         this.Days = Days;
+        global::System.ArgumentNullException.ThrowIfNull(Enabled);
         this.Enabled = Enabled;
     }
 
-    public void Deconstruct(out IEnumerable<string> Categories, out string Location, out IEnumerable<string> Locations, out string Name, out int Days, out bool Enabled)
+    public void Deconstruct(out IEnumerable<string> Categories, out string Location, out IEnumerable<string> Locations, out string Name, out string Days, out CliOptionValue Enabled)
     {
         Categories = this.Categories;
         Location = this.Location;
@@ -110,13 +113,13 @@ public record AzMonitorLogProfilesCreateOptions : AzOptions
     /// The number of days for the retention in days. A value of 0 will retain the events indefinitely.
     /// </summary>
     [CliOption("--days")]
-    public int Days { get; private init; }
+    public string Days { get; private init; }
 
     /// <summary>
     /// Whether the retention policy is enabled.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool Enabled { get; private init; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue Enabled { get; private init; }
 
     /// <summary>
     /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'.

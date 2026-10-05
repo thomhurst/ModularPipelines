@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// Print logs in real time if present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--follow")]
-    public bool? Follow { get; set; }
+    [CliOption("--follow", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Follow { get; set; }
 
     /// <summary>
     /// Log output format.  Allowed values: json, text.  Default: json.
@@ -87,8 +88,8 @@ public record AzContainerappLogsShowOptions : AzOptions
     /// <summary>
     /// The number of past logs to print (0-300).  Default: 20.
     /// </summary>
-    [CliFlag("--tail")]
-    public bool? Tail { get; set; }
+    [CliOption("--tail")]
+    public int? Tail { get; set; }
 
     /// <summary>
     /// Type of logs to stream.  Allowed values: console, system. Default: console.

@@ -97,8 +97,8 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     /// <summary>
     /// The monitoring status of the endpoint.
     /// </summary>
-    [CliFlag("--endpoint-monitor-status")]
-    public bool? EndpointMonitorStatus { get; set; }
+    [CliOption("--endpoint-monitor-status")]
+    public string? EndpointMonitorStatus { get; set; }
 
     /// <summary>
     /// The status of the endpoint. If enabled the endpoint is probed for endpoint health and included in the traffic routing method. Allowed values: Disabled, Enabled.
@@ -115,26 +115,26 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     /// <summary>
     /// The minimum number of endpoints that must be available in the child profile for the parent profile to be considered available. Only applicable to an endpoint of type 'NestedEndpoints'.
     /// </summary>
-    [CliFlag("--min-child-endpoints")]
-    public bool? MinChildEndpoints { get; set; }
+    [CliOption("--min-child-endpoints")]
+    public int? MinChildEndpoints { get; set; }
 
     /// <summary>
     /// The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
     /// </summary>
-    [CliFlag("--min-child-ipv4")]
-    public bool? MinChildIpv4 { get; set; }
+    [CliOption("--min-child-ipv4")]
+    public int? MinChildIpv4 { get; set; }
 
     /// <summary>
     /// The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type 'NestedEndpoints'.
     /// </summary>
-    [CliFlag("--min-child-ipv6")]
-    public bool? MinChildIpv6 { get; set; }
+    [CliOption("--min-child-ipv6")]
+    public int? MinChildIpv6 { get; set; }
 
     /// <summary>
     /// Priority of the endpoint when using the 'Priority' traffic routing method. Values range from 1 to 1000, with lower values representing higher priority.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public int? Priority { get; set; }
 
     /// <summary>
     /// Space-separated list of subnet CIDR prefixes (10.0.0.0/24) or subnet ranges (10.0.0.0-11.0.0.0).
@@ -145,19 +145,19 @@ public record AzNetworkTrafficManagerEndpointCreateOptions : AzOptions
     /// <summary>
     /// Fully-qualified DNS name of the endpoint.
     /// </summary>
-    [CliFlag("--target")]
-    public bool? Target { get; set; }
+    [CliOption("--target")]
+    public string? Target { get; set; }
 
     /// <summary>
     /// The Azure Resource URI of the endpoint. Not applicable for endpoints of type 'ExternalEndpoints'.
     /// </summary>
-    [CliFlag("--target-resource-id")]
-    public bool? TargetResourceId { get; set; }
+    [CliOption("--target-resource-id")]
+    public string? TargetResourceId { get; set; }
 
     /// <summary>
     /// Weight of the endpoint when using the 'Weighted' traffic routing method. Values range from 1 to 1000.
     /// </summary>
-    [CliFlag("--weight")]
-    public bool? Weight { get; set; }
+    [CliOption("--weight")]
+    public int? Weight { get; set; }
 
 }

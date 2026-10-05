@@ -29,25 +29,14 @@ public record AzMonitorAutoscaleShowPredictiveMetricOptions : AzOptions
     /// <param name="MetricNamespace">Metric namespace to query metric definitions for.</param>
     /// <param name="Timespan">The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.</param>
     public AzMonitorAutoscaleShowPredictiveMetricOptions(
-        IEnumerable<string> Aggregation,
+        string Aggregation,
         string Interval,
         string MetricName,
         string MetricNamespace,
         string Timespan
     )
     {
-        {
-            global::System.ArgumentNullException.ThrowIfNull(Aggregation);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Aggregation));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(Aggregation));
-            }
-
-            Aggregation = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(Aggregation);
         this.Aggregation = Aggregation;
         global::System.ArgumentNullException.ThrowIfNull(Interval);
         this.Interval = Interval;
@@ -59,7 +48,7 @@ public record AzMonitorAutoscaleShowPredictiveMetricOptions : AzOptions
         this.Timespan = Timespan;
     }
 
-    public void Deconstruct(out IEnumerable<string> Aggregation, out string Interval, out string MetricName, out string MetricNamespace, out string Timespan)
+    public void Deconstruct(out string Aggregation, out string Interval, out string MetricName, out string MetricNamespace, out string Timespan)
     {
         Aggregation = this.Aggregation;
         Interval = this.Interval;
@@ -71,8 +60,8 @@ public record AzMonitorAutoscaleShowPredictiveMetricOptions : AzOptions
     /// <summary>
     /// The list of aggregation types (comma separated) to retrieve.
     /// </summary>
-    [CliOption("--aggregation", GroupValues = true)]
-    public IEnumerable<string> Aggregation { get; private init; }
+    [CliOption("--aggregation")]
+    public string Aggregation { get; private init; }
 
     /// <summary>
     /// The interval (i.e. timegrain) of the query.

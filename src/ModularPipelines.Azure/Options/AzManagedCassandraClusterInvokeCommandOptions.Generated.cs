@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,13 +81,13 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// The key="value" of arguments for the command.
     /// </summary>
     [CliOption("--arguments", GroupValues = true)]
-    public string[]? ClusterArguments { get; set; }
+    public IEnumerable<CliValueGroup>? ClusterArguments { get; set; }
 
     /// <summary>
     /// If true, stops cassandra before executing the command and then start it again.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--cassandra-stop-start")]
-    public bool? CassandraStopStart { get; set; }
+    [CliOption("--cassandra-stop-start", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CassandraStopStart { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -97,7 +98,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// <summary>
     /// If true, allows the command to *write* to the cassandra directory, otherwise read-only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--readwrite")]
-    public bool? Readwrite { get; set; }
+    [CliOption("--readwrite", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Readwrite { get; set; }
 
 }

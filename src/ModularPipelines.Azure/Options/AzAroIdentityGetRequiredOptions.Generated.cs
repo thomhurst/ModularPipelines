@@ -90,8 +90,8 @@ public record AzAroIdentityGetRequiredOptions : AzOptions
     /// <summary>
     /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
     /// </summary>
-    [CliFlag("--disk-encryption-set")]
-    public bool? DiskEncryptionSet { get; set; }
+    [CliOption("--disk-encryption-set")]
+    public string? DiskEncryptionSet { get; set; }
 
     /// <summary>
     /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.

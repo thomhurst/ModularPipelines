@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzAmsStreamingPolicyCreateOptions : AzOptions
     /// <summary>
     /// Default Content Key used by current streaming policy.
     /// </summary>
-    [CliFlag("--default-content-key-policy-name")]
-    public bool? DefaultContentKeyPolicyName { get; set; }
+    [CliOption("--default-content-key-policy-name")]
+    public string? DefaultContentKeyPolicyName { get; set; }
 
     /// <summary>
     /// Space-separated list of enabled protocols for NoEncryption. Allowed values: Download, Dash, HLS, SmoothStreaming.
@@ -80,38 +81,38 @@ public record AzAmsStreamingPolicyCreateOptions : AzOptions
     /// <summary>
     /// The JSON representing which tracks should not be encrypted. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on https://learn.micr osoft.com/rest/api/media/streamingpolicies/create#tr ackselection.
     /// </summary>
-    [CliFlag("--cbcs-clear-tracks")]
-    public bool? CbcsClearTracks { get; set; }
+    [CliOption("--cbcs-clear-tracks")]
+    public string? CbcsClearTracks { get; set; }
 
     /// <summary>
     /// Label to specify Default Content Key for an encryption scheme.
     /// </summary>
-    [CliFlag("--cbcs-default-key-label")]
-    public bool? CbcsDefaultKeyLabel { get; set; }
+    [CliOption("--cbcs-default-key-label")]
+    public string? CbcsDefaultKeyLabel { get; set; }
 
     /// <summary>
     /// Policy used by Default Content Key.
     /// </summary>
-    [CliFlag("--cbcs-default-key-policy-name")]
-    public bool? CbcsDefaultKeyPolicyName { get; set; }
+    [CliOption("--cbcs-default-key-policy-name")]
+    public string? CbcsDefaultKeyPolicyName { get; set; }
 
     /// <summary>
     /// Allows the license to be persistent or not.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--cbcs-fair-play-allow-persistent-license")]
-    public bool? CbcsFairPlayAllowPersistentLicense { get; set; }
+    [CliOption("--cbcs-fair-play-allow-persistent-license", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CbcsFairPlayAllowPersistentLicense { get; set; }
 
     /// <summary>
     /// The custom license acquisition URL template for a customer service to deliver keys to end users. Not needed when using Azure Media Services for issuing keys.
     /// </summary>
-    [CliFlag("--cbcs-fair-play-template")]
-    public bool? CbcsFairPlayTemplate { get; set; }
+    [CliOption("--cbcs-fair-play-template")]
+    public string? CbcsFairPlayTemplate { get; set; }
 
     /// <summary>
     /// The JSON representing a list of StreamingPolicyContentKey. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on h ttps://learn.microsoft.com/rest/api/media/streamingp olicies/create#streamingpolicycontentkey.
     /// </summary>
-    [CliFlag("--cbcs-key-to-track-mappings")]
-    public bool? CbcsKeyToTrackMappings { get; set; }
+    [CliOption("--cbcs-key-to-track-mappings")]
+    public string? CbcsKeyToTrackMappings { get; set; }
 
     /// <summary>
     /// Space-separated list of enabled protocols for Common Encryption CBCS. Allowed values: Download, Dash, HLS, SmoothStreaming.
@@ -122,50 +123,50 @@ public record AzAmsStreamingPolicyCreateOptions : AzOptions
     /// <summary>
     /// The JSON representing which tracks should not be encrypted. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on https://learn.micr osoft.com/rest/api/media/streamingpolicies/create#tr ackselection.
     /// </summary>
-    [CliFlag("--cenc-clear-tracks")]
-    public bool? CencClearTracks { get; set; }
+    [CliOption("--cenc-clear-tracks")]
+    public string? CencClearTracks { get; set; }
 
     /// <summary>
     /// Label to specify Default Content Key for an encryption scheme.
     /// </summary>
-    [CliFlag("--cenc-default-key-label")]
-    public bool? CencDefaultKeyLabel { get; set; }
+    [CliOption("--cenc-default-key-label")]
+    public string? CencDefaultKeyLabel { get; set; }
 
     /// <summary>
     /// Policy used by Default Content Key.
     /// </summary>
-    [CliFlag("--cenc-default-key-policy-name")]
-    public bool? CencDefaultKeyPolicyName { get; set; }
+    [CliOption("--cenc-default-key-policy-name")]
+    public string? CencDefaultKeyPolicyName { get; set; }
 
     /// <summary>
     /// If specified, no PlayReady cenc DRM will be configured. If --cenc-disable-play-ready is set, --cenc-disable-widevine cannot also be set.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--cenc-disable-play-ready")]
-    public bool? CencDisablePlayReady { get; set; }
+    [CliOption("--cenc-disable-play-ready", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CencDisablePlayReady { get; set; }
 
     /// <summary>
     /// If specified, no Widevine cenc DRM will be configured. If --cenc-disable-widevine is set, --cenc-disable-play-ready cannot also be set. Allowed values: false, true.
     /// </summary>
-    [CliOption("--cenc-disable-widevine")]
-    public bool? CencDisableWidevine { get; set; }
+    [CliOption("--cenc-disable-widevine", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CencDisableWidevine { get; set; }
 
     /// <summary>
     /// The JSON representing a list of StreamingPolicyContentKey. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on h ttps://learn.microsoft.com/rest/api/media/streamingp olicies/create#streamingpolicycontentkey.
     /// </summary>
-    [CliFlag("--cenc-key-to-track-mappings")]
-    public bool? CencKeyToTrackMappings { get; set; }
+    [CliOption("--cenc-key-to-track-mappings")]
+    public string? CencKeyToTrackMappings { get; set; }
 
     /// <summary>
     /// Custom attributes for PlayReady.
     /// </summary>
-    [CliFlag("--cenc-play-ready-attributes")]
-    public bool? CencPlayReadyAttributes { get; set; }
+    [CliOption("--cenc-play-ready-attributes")]
+    public string? CencPlayReadyAttributes { get; set; }
 
     /// <summary>
     /// The custom license acquisition URL template for a customer service to deliver keys to end users. Not needed when using Azure Media Services for issuing keys.
     /// </summary>
-    [CliFlag("--cenc-play-ready-template")]
-    public bool? CencPlayReadyTemplate { get; set; }
+    [CliOption("--cenc-play-ready-template")]
+    public string? CencPlayReadyTemplate { get; set; }
 
     /// <summary>
     /// Space-separated list of enabled protocols for Common Encryption CENC. Allowed values: Download, Dash, HLS, SmoothStreaming.
@@ -176,32 +177,32 @@ public record AzAmsStreamingPolicyCreateOptions : AzOptions
     /// <summary>
     /// The custom license acquisition URL template for a customer service to deliver keys to end users. Not needed when using Azure Media Services for issuing keys.
     /// </summary>
-    [CliFlag("--cenc-widevine-template")]
-    public bool? CencWidevineTemplate { get; set; }
+    [CliOption("--cenc-widevine-template")]
+    public string? CencWidevineTemplate { get; set; }
 
     /// <summary>
     /// The JSON representing which tracks should not be encrypted. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on https://learn.micr osoft.com/rest/api/media/streamingpolicies/create#tr ackselection.
     /// </summary>
-    [CliFlag("--envelope-clear-tracks")]
-    public bool? EnvelopeClearTracks { get; set; }
+    [CliOption("--envelope-clear-tracks")]
+    public string? EnvelopeClearTracks { get; set; }
 
     /// <summary>
     /// Label used to specify Content Key when creating a streaming locator.
     /// </summary>
-    [CliFlag("--envelope-default-key-label")]
-    public bool? EnvelopeDefaultKeyLabel { get; set; }
+    [CliOption("--envelope-default-key-label")]
+    public string? EnvelopeDefaultKeyLabel { get; set; }
 
     /// <summary>
     /// Policy used by Default Key.
     /// </summary>
-    [CliFlag("--envelope-default-key-policy-name")]
-    public bool? EnvelopeDefaultKeyPolicyName { get; set; }
+    [CliOption("--envelope-default-key-policy-name")]
+    public string? EnvelopeDefaultKeyPolicyName { get; set; }
 
     /// <summary>
     /// The JSON representing a list of StreamingPolicyContentKey. Use @{file} to load from a file. For further information about the JSON structure please refer to swagger documentation on h ttps://learn.microsoft.com/rest/api/media/streamingp olicies/create#streamingpolicycontentkey.
     /// </summary>
-    [CliFlag("--envelope-key-to-track-mappings")]
-    public bool? EnvelopeKeyToTrackMappings { get; set; }
+    [CliOption("--envelope-key-to-track-mappings")]
+    public string? EnvelopeKeyToTrackMappings { get; set; }
 
     /// <summary>
     /// Space-separated list of enabled protocols for Envelope Encryption. Allowed values: Download, Dash, HLS, SmoothStreaming.
@@ -212,7 +213,7 @@ public record AzAmsStreamingPolicyCreateOptions : AzOptions
     /// <summary>
     /// The KeyAcquistionUrlTemplate is used to point to user specified service to delivery content keys.
     /// </summary>
-    [CliFlag("--envelope-template")]
-    public bool? EnvelopeTemplate { get; set; }
+    [CliOption("--envelope-template")]
+    public string? EnvelopeTemplate { get; set; }
 
 }

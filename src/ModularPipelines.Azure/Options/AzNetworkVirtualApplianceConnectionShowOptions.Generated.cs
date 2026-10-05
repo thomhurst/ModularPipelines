@@ -35,7 +35,7 @@ public record AzNetworkVirtualApplianceConnectionShowOptions : AzOptions
     /// <summary>
     /// The name of the Network Virtual Appliance.
     /// </summary>
-    [CliOption("--nva", ShortForm = "--virtual-appliance-name")]
+    [CliOption("--nva")]
     public string? Nva { get; set; }
 
     /// <summary>

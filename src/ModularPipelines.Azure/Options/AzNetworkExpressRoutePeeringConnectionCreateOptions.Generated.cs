@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,20 +80,20 @@ public record AzNetworkExpressRoutePeeringConnectionCreateOptions : AzOptions
     /// <summary>
     /// /29 IP address space to carve out customer addresses for tunnels.
     /// </summary>
-    [CliFlag("--address-prefix")]
-    public bool? AddressPrefix { get; set; }
+    [CliOption("--address-prefix")]
+    public string? AddressPrefix { get; set; }
 
     /// <summary>
     /// The authorization key used when the peer circuit is in another subscription.
     /// </summary>
-    [CliFlag("--authorization-key")]
-    public bool? AuthorizationKey { get; set; }
+    [CliOption("--authorization-key")]
+    public string? AuthorizationKey { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the peer ExpressRoute circuit.
@@ -103,7 +104,7 @@ public record AzNetworkExpressRoutePeeringConnectionCreateOptions : AzOptions
     /// <summary>
     /// Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.
     /// </summary>
-    [CliFlag("--source-circuit")]
-    public bool? SourceCircuit { get; set; }
+    [CliOption("--source-circuit")]
+    public string? SourceCircuit { get; set; }
 
 }

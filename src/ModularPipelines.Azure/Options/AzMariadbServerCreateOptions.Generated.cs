@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -24,8 +25,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Generate and assign an Microsoft Entra Identity for this server for use with key management services like Azure KeyVault.
     /// </summary>
-    [CliFlag("--assign-identity")]
-    public bool? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AssignIdentity { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
@@ -36,8 +37,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Enable or disable geo-redundant backups. Default value is Disabled. Not supported in Basic pricing tier.  Allowed values: Disabled, Enabled.
@@ -48,8 +49,8 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Add an optional second layer of encryption for data using new encryption algorithm. Default value is Disabled.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--infrastructure-encryption", ShortForm = "-i")]
-    public string? InfrastructureEncryption { get; set; }
+    [CliOption("--infrastructure-encryption", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InfrastructureEncryption { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -72,7 +73,7 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// Enable or disable public network access to server. When disabled, only connections made through Private Links can reach this server. Allowed values are : `Enabled`, `Disabled`, `all`, `0.0.0.0`, `&lt;SingleIP&gt;`, `&lt;StartIP- DestinationIP&gt;`. Default is `Enabled`.
     /// </summary>
-    [CliOption("--public", ShortForm = "--public-network-access")]
+    [CliOption("--public")]
     public string? Public { get; set; }
 
     /// <summary>
@@ -96,20 +97,20 @@ public record AzMariadbServerCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server (unit is megabytes). Minimum 5120 and increases in 1024 increments. Default is 5120.  Default: 5120.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public int? StorageSize { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Server major version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.

@@ -75,7 +75,7 @@ public record AzBatchNodeShowOptions : AzOptions
     /// <summary>
     /// An OData $select clause.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select", GroupValues = true)]
+    public IEnumerable<string>? Select { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzStaticwebappIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Space-separated identities to assign. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliOption("--identities", GroupValues = true)]
-    public IEnumerable<string>? Identities { get; set; }
+    [CliOption("--identities", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Identities { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

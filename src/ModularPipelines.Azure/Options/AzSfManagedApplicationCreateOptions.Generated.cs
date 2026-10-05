@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -60,19 +61,19 @@ public record AzSfManagedApplicationCreateOptions : AzOptions
     /// <summary>
     /// Specify the application name.
     /// </summary>
-    [CliOption("--application-name", ShortForm = "--name")]
+    [CliOption("--application-name")]
     public string ApplicationName { get; private init; }
 
     /// <summary>
     /// Specify the application type name.
     /// </summary>
-    [CliOption("--application-type-name", ShortForm = "--type-name")]
+    [CliOption("--application-type-name")]
     public string ApplicationTypeName { get; private init; }
 
     /// <summary>
     /// Specify the application type version.
     /// </summary>
-    [CliOption("--application-type-version", ShortForm = "--version")]
+    [CliOption("--application-type-version")]
     public string ApplicationTypeVersion { get; private init; }
 
     /// <summary>
@@ -90,19 +91,19 @@ public record AzSfManagedApplicationCreateOptions : AzOptions
     /// <summary>
     /// Specify the application parameters as key/value pairs. These parameters must exist in the application manifest. for example: --application-parameters param1=value1 param2=value2.
     /// </summary>
-    [CliFlag("--application-parameters", ShortForm = "--parameters")]
-    public bool? ApplicationParameters { get; set; }
+    [CliOption("--application-parameters", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? ApplicationParameters { get; set; }
 
     /// <summary>
     /// Specify the url of the application package sfpkg file.
     /// </summary>
-    [CliFlag("--package-url")]
-    public bool? PackageUrl { get; set; }
+    [CliOption("--package-url")]
+    public string? PackageUrl { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

@@ -50,7 +50,7 @@ public record AzEventhubsNamespaceAuthorizationRuleKeysListOptions : AzOptions
     /// <summary>
     /// The authorization rule name.
     /// </summary>
-    [CliOption("--authorization-rule-name", ShortForm = "--name")]
+    [CliOption("--authorization-rule-name")]
     public string AuthorizationRuleName { get; private init; }
 
     /// <summary>

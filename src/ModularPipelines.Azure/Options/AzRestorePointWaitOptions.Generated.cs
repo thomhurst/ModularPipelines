@@ -29,7 +29,7 @@ public record AzRestorePointWaitOptions : AzOptions
     /// <summary>
     /// The name of the restore point collection.
     /// </summary>
-    [CliOption("--collection-name", ShortForm = "--restore-point-collection-name")]
+    [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
     /// <summary>
@@ -59,8 +59,8 @@ public record AzRestorePointWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceVie w.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -77,14 +77,14 @@ public record AzRestorePointWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

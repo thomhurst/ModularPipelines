@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
     /// </summary>
     /// <param name="Args">List of the configuration key-value pair.</param>
     public AzMysqlFlexibleServerParameterSetBatchOptions(
-        IEnumerable<string> Args
+        IEnumerable<CliValueGroup> Args
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(Args);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Args));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(Args));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
         this.Args = Args;
     }
 
-    public void Deconstruct(out IEnumerable<string> Args)
+    public void Deconstruct(out IEnumerable<CliValueGroup> Args)
     {
         Args = this.Args;
     }
@@ -51,8 +52,8 @@ public record AzMysqlFlexibleServerParameterSetBatchOptions : AzOptions
     /// <summary>
     /// List of the configuration key-value pair.
     /// </summary>
-    [CliOption("--args", GroupValues = true)]
-    public IEnumerable<string> Args { get; private init; }
+    [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup> Args { get; private init; }
 
     /// <summary>
     /// Source of the configuration.

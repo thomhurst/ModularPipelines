@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -91,7 +92,7 @@ public record AzBackupProtectionEnableForVmOptions : AzOptions
     /// <summary>
     /// Option to specify to backup OS disk only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--exclude-all-data-disks")]
-    public bool? ExcludeAllDataDisks { get; set; }
+    [CliOption("--exclude-all-data-disks", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExcludeAllDataDisks { get; set; }
 
 }

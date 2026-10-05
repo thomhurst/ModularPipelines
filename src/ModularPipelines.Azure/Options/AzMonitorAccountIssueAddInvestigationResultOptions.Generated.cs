@@ -57,20 +57,20 @@ public record AzMonitorAccountIssueAddInvestigationResultOptions : AzOptions
     /// <summary>
     /// The creation time of the investigation (in UTC).
     /// </summary>
-    [CliFlag("--created-at")]
-    public bool? CreatedAt { get; set; }
+    [CliOption("--created-at")]
+    public string? CreatedAt { get; set; }
 
     /// <summary>
     /// The last update time of the investigation (in UTC).
     /// </summary>
-    [CliFlag("--last-modified-at")]
-    public bool? LastModifiedAt { get; set; }
+    [CliOption("--last-modified-at")]
+    public string? LastModifiedAt { get; set; }
 
     /// <summary>
     /// The origin of the investigation  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--origin")]
-    public bool? Origin { get; set; }
+    [CliOption("--origin", GroupValues = true)]
+    public IEnumerable<string>? Origin { get; set; }
 
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.

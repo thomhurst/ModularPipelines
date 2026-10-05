@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,32 +58,32 @@ public record AzSigCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Community gallery publisher eula.
     /// </summary>
-    [CliFlag("--eula")]
-    public bool? Eula { get; set; }
+    [CliOption("--eula")]
+    public string? Eula { get; set; }
 
     /// <summary>
     /// Community gallery public name prefix.
     /// </summary>
-    [CliFlag("--public-name-prefix")]
-    public bool? PublicNamePrefix { get; set; }
+    [CliOption("--public-name-prefix")]
+    public string? PublicNamePrefix { get; set; }
 
     /// <summary>
     /// Community gallery publisher contact email.
     /// </summary>
-    [CliFlag("--publisher-contact", ShortForm = "--publisher-email")]
-    public bool? PublisherContact { get; set; }
+    [CliOption("--publisher-contact")]
+    public string? PublisherContact { get; set; }
 
     /// <summary>
     /// Community gallery publisher uri.
     /// </summary>
-    [CliFlag("--publisher-uri")]
-    public bool? PublisherUri { get; set; }
+    [CliOption("--publisher-uri")]
+    public string? PublisherUri { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
@@ -99,14 +100,14 @@ public record AzSigCreateOptions : AzOptions
     /// <summary>
     /// Set the system managed identity.
     /// </summary>
-    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// The description of the gallery.
@@ -123,7 +124,7 @@ public record AzSigCreateOptions : AzOptions
     /// <summary>
     /// Enable soft-deletion for resources in this gallery, allowing them to be recovered within retention time. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--soft-delete")]
-    public bool? SoftDelete { get; set; }
+    [CliOption("--soft-delete", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SoftDelete { get; set; }
 
 }

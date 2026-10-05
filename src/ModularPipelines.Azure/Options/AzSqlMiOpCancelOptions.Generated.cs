@@ -52,7 +52,7 @@ public record AzSqlMiOpCancelOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

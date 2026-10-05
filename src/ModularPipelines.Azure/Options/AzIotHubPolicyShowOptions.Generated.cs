@@ -23,8 +23,8 @@ public record AzIotHubPolicyShowOptions : AzOptions
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--hub-name")]
-    public bool? HubName { get; set; }
+    [CliOption("--hub-name")]
+    public string? HubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -35,8 +35,8 @@ public record AzIotHubPolicyShowOptions : AzOptions
     /// <summary>
     /// Shared access policy name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

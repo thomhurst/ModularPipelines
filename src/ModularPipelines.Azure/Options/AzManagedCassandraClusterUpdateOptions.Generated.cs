@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,32 +64,32 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// The version of Cassandra chosen.
     /// </summary>
-    [CliFlag("--cassandra-version")]
-    public bool? CassandraVersion { get; set; }
+    [CliOption("--cassandra-version")]
+    public string? CassandraVersion { get; set; }
 
     /// <summary>
     /// If specified, enables client certificate authentication to the Cassandra API.
     /// </summary>
-    [CliFlag("--client-certificates")]
-    public bool? ClientCertificates { get; set; }
+    [CliOption("--client-certificates", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ClientCertificates { get; set; }
 
     /// <summary>
     /// A list of certificates that the managed cassandra data center's should accept.
     /// </summary>
-    [CliOption("--external-gossip-certificates", ShortForm = "-e", GroupValues = true)]
-    public IEnumerable<string>? ExternalGossipCertificates { get; set; }
+    [CliOption("--external-gossip-certificates", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ExternalGossipCertificates { get; set; }
 
     /// <summary>
     /// A list of ip addresses of the seed nodes of on-premise data centers.
     /// </summary>
-    [CliOption("--external-seed-nodes", GroupValues = true)]
-    public IEnumerable<string>? ExternalSeedNodes { get; set; }
+    [CliOption("--external-seed-nodes", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ExternalSeedNodes { get; set; }
 
     /// <summary>
     /// The number of hours between backup attempts.
     /// </summary>
-    [CliFlag("--hours-between-backups")]
-    public bool? HoursBetweenBackups { get; set; }
+    [CliOption("--hours-between-backups")]
+    public string? HoursBetweenBackups { get; set; }
 
     /// <summary>
     /// Type of identity used for Customer Managed Disk Key. Allowed values: None, SystemAssigned.
@@ -105,13 +106,13 @@ public record AzManagedCassandraClusterUpdateOptions : AzOptions
     /// <summary>
     /// Enables automatic repair.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--repair-enabled")]
-    public bool? RepairEnabled { get; set; }
+    [CliOption("--repair-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RepairEnabled { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

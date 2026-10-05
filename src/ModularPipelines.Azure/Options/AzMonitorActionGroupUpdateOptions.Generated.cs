@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// The short name of the action group. This will be used in SMS messages.
     /// </summary>
-    [CliFlag("--group-short-name", ShortForm = "--short-name")]
-    public bool? GroupShortName { get; set; }
+    [CliOption("--group-short-name")]
+    public string? GroupShortName { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -35,8 +36,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// Add receivers to the action group.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "-a")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? AddAction { get; set; }
 
     /// <summary>
     /// Remove receivers from the action group. Accept space-separated list of receiver names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -53,8 +54,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -101,8 +102,8 @@ public record AzMonitorActionGroupUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// The list of event hub receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

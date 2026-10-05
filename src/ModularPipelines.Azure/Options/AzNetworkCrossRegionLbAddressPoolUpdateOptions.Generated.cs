@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -59,20 +60,26 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     /// <summary>
     /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
     /// </summary>
-    [CliOption("--backend-address", ShortForm = "--backend-addresses")]
+    [CliOption("--backend-address", GroupValues = true)]
     public IEnumerable<string>? BackendAddress { get; set; }
 
     /// <summary>
     /// Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
     /// </summary>
-    [CliFlag("--drain-period", ShortForm = "--drain-period-in-seconds")]
-    public bool? DrainPeriod { get; set; }
+    [CliOption("--drain-period")]
+    public string? DrainPeriod { get; set; }
 
     /// <summary>
     /// The location of the backend address pool.
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// Backend address synchronous mode for the backend pool.  Allowed values: Automatic, Manual. WARNING: Argument '--sync-mode' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--sync-mode")]
+    public string? SyncMode { get; set; }
 
     /// <summary>
     /// The name of the backend address pool.
@@ -101,7 +108,7 @@ public record AzNetworkCrossRegionLbAddressPoolUpdateOptions : AzOptions
     /// <summary>
     /// A reference to a virtual network.
     /// </summary>
-    [CliFlag("--vnet-id")]
-    public bool? VnetId { get; set; }
+    [CliOption("--vnet-id")]
+    public string? VnetId { get; set; }
 
 }

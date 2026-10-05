@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,14 +53,14 @@ public record AzWebappDeploymentSlotSwapOptions : AzOptions
     /// <summary>
     /// Preserve Virtual Network to the slot during swap, default to 'true'. Allowed values: false, true.
     /// </summary>
-    [CliOption("--preserve-vnet")]
-    public bool? PreserveVnet { get; set; }
+    [CliOption("--preserve-vnet", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PreserveVnet { get; set; }
 
     /// <summary>
     /// Target slot to swap, default to 'production'.
     /// </summary>
-    [CliFlag("--target-slot")]
-    public bool? TargetSlot { get; set; }
+    [CliOption("--target-slot")]
+    public string? TargetSlot { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

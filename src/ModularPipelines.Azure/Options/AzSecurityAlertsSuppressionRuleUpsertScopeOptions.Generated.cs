@@ -57,8 +57,8 @@ public record AzSecurityAlertsSuppressionRuleUpsertScopeOptions : AzOptions
     /// <summary>
     /// A list of strings to scope the suppression rule by.
     /// </summary>
-    [CliOption("--any-of", GroupValues = true)]
-    public IEnumerable<string>? AnyOf { get; set; }
+    [CliOption("--any-of")]
+    public string? AnyOf { get; set; }
 
     /// <summary>
     /// The string to scope the suppression rule by.

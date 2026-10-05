@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzKeyvaultSecretSetAttributesOptions : AzOptions
     /// <summary>
     /// Type of the secret value such as a password.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Enable the secret.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Expiration UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--expires")]
-    public bool? Expires { get; set; }
+    [CliOption("--expires")]
+    public string? Expires { get; set; }
 
     /// <summary>
     /// Secret not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--not-before")]
-    public bool? NotBefore { get; set; }
+    [CliOption("--not-before")]
+    public string? NotBefore { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Id of the secret. If specified all other 'Id' arguments should be omitted.
@@ -71,7 +72,7 @@ public record AzKeyvaultSecretSetAttributesOptions : AzOptions
     /// <summary>
     /// The secret version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

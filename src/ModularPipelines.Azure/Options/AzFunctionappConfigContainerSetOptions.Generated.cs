@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -21,34 +23,40 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappConfigContainerSetOptions : AzOptions
 {
     /// <summary>
+    /// Required CPU in cores from 0.5 to 2.0. WARNING: Argument '--cpu' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
+
+    /// <summary>
     /// Enable/Disable API logging for the Dapr sidecar.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--dal", ShortForm = "--dapr-enable-api-logging")]
-    public bool? Dal { get; set; }
+    [CliOption("--dal", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to communicate to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// Max size of request body http and grpc servers in MB to handle uploading of large files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public int? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Max size of http header read buffer in KB to handle when sending multi-KB headers.
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public int? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// The log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.
@@ -57,40 +65,90 @@ public record AzFunctionappConfigContainerSetOptions : AzOptions
     public string? DaprLogLevel { get; set; }
 
     /// <summary>
+    /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`). WARNING: Option '--docker-custom-image-name' has been deprecated and will be removed in a future release. Use '--image' instead.
+    /// </summary>
+    [CliOption("--docker-custom-image-name")]
+    public string? DockerCustomImageName { get; set; }
+
+    /// <summary>
+    /// The container registry server password. WARNING: Option '--docker-registry-server-password' has been deprecated and will be removed in a future release. Use '--registry-password' instead.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--docker-registry-server-password")]
+    public string? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server url. WARNING: Option '--docker-registry-server-url' has been deprecated and will be removed in a future release. Use '--registry-server' instead.
+    /// </summary>
+    [CliOption("--docker-registry-server-url")]
+    public string? DockerRegistryServerUrl { get; set; }
+
+    /// <summary>
+    /// The container registry server username. WARNING: Option '--docker-registry-server-user' has been deprecated and will be removed in a future release. Use '--registry-username' instead.
+    /// </summary>
+    [CliOption("--docker-registry-server-user")]
+    public string? DockerRegistryServerUser { get; set; }
+
+    /// <summary>
     /// Enable/Disable Dapr for a function app on an Azure Container App environment.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-dapr")]
-    public bool? EnableDapr { get; set; }
+    [CliOption("--enable-dapr", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableDapr { get; set; }
 
     /// <summary>
     /// The container custom image name and optionally the tag name (e.g., `&lt;registry-name&gt;/&lt;image- name&gt;:&lt;tag&gt;`).
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-c")]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// The maximum number of replicas when create function app on container app. WARNING: Argument '--max-replicas' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--max-replicas")]
+    public int? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// Required memory from 1.0 to 4.0 ending with Gi e.g. 1.0Gi,. WARNING: Argument '--memory' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// The minimum number of replicas when create function app on container app. WARNING: Argument '--min-replicas' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--min-replicas")]
+    public int? MinReplicas { get; set; }
 
     /// <summary>
     /// The container registry server password.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-p")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-p")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server url.
     /// </summary>
-    [CliFlag("--registry-server", ShortForm = "-r")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server", ShortForm = "-r")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-u")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-u")]
+    public string? RegistryUsername { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// The name of the workload profile to run the app on. WARNING: Argument '--workload-profile-name' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--workload-profile-name")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

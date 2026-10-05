@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,14 +47,20 @@ public record AzStorageAccountNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// The action of virtual network rule. Possible value is Allow. Default: Allow.
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// IPv4 address or CIDR range. Can supply a list: --ip-address ip1 [ip2]...
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? IpAddress { get; set; }
+
+    /// <summary>
+    /// IPv6 address or CIDR range. Can supply a list: --ipv6-address ip1 [ip2]... WARNING: Argument '--ipv6-address' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--ipv6-address", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Ipv6Address { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -82,7 +89,7 @@ public record AzStorageAccountNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// The tenant id to add in network rule.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
 }

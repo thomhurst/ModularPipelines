@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -27,14 +28,14 @@ public record AzStaticwebappAppSettingsDeleteOptions : AzOptions
     /// <param name="SettingNames">Space-separated app setting names.</param>
     public AzStaticwebappAppSettingsDeleteOptions(
         string Name,
-        IEnumerable<string> SettingNames
+        IEnumerable<CliOptionValue> SettingNames
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
         {
             global::System.ArgumentNullException.ThrowIfNull(SettingNames);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SettingNames));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(SettingNames));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -47,7 +48,7 @@ public record AzStaticwebappAppSettingsDeleteOptions : AzOptions
         this.SettingNames = SettingNames;
     }
 
-    public void Deconstruct(out string Name, out IEnumerable<string> SettingNames)
+    public void Deconstruct(out string Name, out IEnumerable<CliOptionValue> SettingNames)
     {
         Name = this.Name;
         SettingNames = this.SettingNames;
@@ -62,8 +63,8 @@ public record AzStaticwebappAppSettingsDeleteOptions : AzOptions
     /// <summary>
     /// Space-separated app setting names.
     /// </summary>
-    [CliOption("--setting-names", GroupValues = true)]
-    public IEnumerable<string> SettingNames { get; private init; }
+    [CliOption("--setting-names", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> SettingNames { get; private init; }
 
     /// <summary>
     /// Name of the environment of static site.

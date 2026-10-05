@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -58,8 +59,8 @@ public record AzVmDiskAttachOptions : AzOptions
     /// <summary>
     /// One or more names or IDs of the managed disk (space-delimited).
     /// </summary>
-    [CliOption("--disks", GroupValues = true)]
-    public IEnumerable<string>? Disks { get; set; }
+    [CliOption("--disks", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Disks { get; set; }
 
     /// <summary>
     /// Enable write accelerator.
@@ -70,8 +71,8 @@ public record AzVmDiskAttachOptions : AzOptions
     /// <summary>
     /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine size.
     /// </summary>
-    [CliFlag("--lun")]
-    public bool? Lun { get; set; }
+    [CliOption("--lun")]
+    public int? Lun { get; set; }
 
     /// <summary>
     /// Create a new disk.
@@ -82,20 +83,20 @@ public record AzVmDiskAttachOptions : AzOptions
     /// <summary>
     /// The name of create new data disk from a disk restore point.
     /// </summary>
-    [CliOption("--new-names-of-rp", ShortForm = "--new-names-of-source-disk-restore-point")]
-    public string? NewNamesOfRp { get; set; }
+    [CliOption("--new-names-of-rp", GroupValues = true)]
+    public IEnumerable<string>? NewNamesOfRp { get; set; }
 
     /// <summary>
     /// The name of create new data disk from a snapshot or another disk.
     /// </summary>
-    [CliOption("--new-names-of-source-snapshots-or-disks", ShortForm = "--new-names-of-sr")]
-    public string? NewNamesOfSourceSnapshotsOrDisks { get; set; }
+    [CliOption("--new-names-of-source-snapshots-or-disks", GroupValues = true)]
+    public IEnumerable<string>? NewNamesOfSourceSnapshotsOrDisks { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--size-gb", ShortForm = "-z")]
-    public bool? SizeGb { get; set; }
+    [CliOption("--size-gb", ShortForm = "-z")]
+    public int? SizeGb { get; set; }
 
     /// <summary>
     /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
@@ -106,14 +107,14 @@ public record AzVmDiskAttachOptions : AzOptions
     /// <summary>
     /// Create a data disk from a disk restore point. Can use the ID of a disk restore point.
     /// </summary>
-    [CliFlag("--source-disk-restore-point", ShortForm = "--source-disk-rp")]
-    public bool? SourceDiskRestorePoint { get; set; }
+    [CliOption("--source-disk-restore-point", GroupValues = true)]
+    public IEnumerable<string>? SourceDiskRestorePoint { get; set; }
 
     /// <summary>
     /// Create a data disk from a snapshot or another disk. Can use the ID of a disk or snapshot.
     /// </summary>
-    [CliFlag("--source-resource", ShortForm = "--source-snapshots-or-disks")]
-    public bool? SourceResource { get; set; }
+    [CliOption("--source-resource", GroupValues = true)]
+    public IEnumerable<string>? SourceResource { get; set; }
 
     /// <summary>
     /// The name or ID of the managed disk.

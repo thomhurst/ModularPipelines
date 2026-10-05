@@ -23,8 +23,8 @@ public record AzAdvisorRecommendationDisableOptions : AzOptions
     /// <summary>
     /// Number of days to disable. If not specified, the recommendation is disabled forever.
     /// </summary>
-    [CliFlag("--days", ShortForm = "-d")]
-    public bool? Days { get; set; }
+    [CliOption("--days", ShortForm = "-d")]
+    public int? Days { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.

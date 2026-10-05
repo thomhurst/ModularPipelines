@@ -23,8 +23,8 @@ public record AzAksSafeguardsWaitOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
-    [CliFlag("--cluster", ShortForm = "-c")]
-    public bool? Cluster { get; set; }
+    [CliOption("--cluster", ShortForm = "-c")]
+    public string? Cluster { get; set; }
 
     /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
@@ -47,8 +47,8 @@ public record AzAksSafeguardsWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -65,14 +65,14 @@ public record AzAksSafeguardsWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

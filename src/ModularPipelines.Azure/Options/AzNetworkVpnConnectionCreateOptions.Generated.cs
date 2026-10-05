@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,20 +69,26 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Authentication type for the VPN connection.  Allowed values: Certificate, PSK.
     /// </summary>
-    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
     /// <summary>
     /// The authorization key for the VPN connection.
     /// </summary>
-    [CliFlag("--authorization-key")]
-    public bool? AuthorizationKey { get; set; }
+    [CliOption("--authorization-key")]
+    public string? AuthorizationKey { get; set; }
 
     /// <summary>
     /// Certificate-based authentication configuration. Provide as JSON string or file path with @ prefix, Expected keys (outboundAuthCertificate, inboundAuthCertificateChain, inboundAuthCertificateSubjectName).
     /// </summary>
-    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
-    public bool? CertAuth { get; set; }
+    [CliOption("--cert-auth")]
+    public string? CertAuth { get; set; }
+
+    /// <summary>
+    /// List of egress NatRules. WARNING: Argument '--egress-nat-rule' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--egress-nat-rule", GroupValues = true)]
+    public IEnumerable<string>? EgressNatRule { get; set; }
 
     /// <summary>
     /// Enable BGP for this VPN connection.
@@ -92,8 +99,14 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Bypass ExpressRoute gateway for data forwarding. Allowed values: false, true.
     /// </summary>
-    [CliOption("--express-route-gateway-bypass")]
-    public bool? ExpressRouteGatewayBypass { get; set; }
+    [CliOption("--express-route-gateway-bypass", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExpressRouteGatewayBypass { get; set; }
+
+    /// <summary>
+    /// List of ingress NatRules. WARNING: Argument '--ingress-nat-rule' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--ingress-nat-rule", GroupValues = true)]
+    public IEnumerable<string>? IngressNatRule { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -104,26 +117,26 @@ public record AzNetworkVpnConnectionCreateOptions : AzOptions
     /// <summary>
     /// Connection routing weight.  Default: 10.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public int? RoutingWeight { get; set; }
 
     /// <summary>
     /// Shared IPSec key.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Enable policy-based traffic selectors.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--use-policy-based-traffic-selectors")]
-    public bool? UsePolicyBasedTrafficSelectors { get; set; }
+    [CliOption("--use-policy-based-traffic-selectors", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UsePolicyBasedTrafficSelectors { get; set; }
 
     /// <summary>
     /// Display and validate the ARM template but do not create any resources.

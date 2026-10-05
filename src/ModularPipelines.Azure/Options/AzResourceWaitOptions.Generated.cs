@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzResourceWaitOptions : AzOptions
     /// <summary>
     /// Use if the default command output doesn't capture all of the property data.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-response-body")]
-    public bool? IncludeResponseBody { get; set; }
+    [CliOption("--include-response-body", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeResponseBody { get; set; }
 
     /// <summary>
     /// The api version of the resource (omit for the latest stable version).
     /// </summary>
-    [CliFlag("--api-version")]
-    public bool? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
@@ -47,14 +48,14 @@ public record AzResourceWaitOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: 'resA/myA/resB/myB').
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -77,8 +78,8 @@ public record AzResourceWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState!='InProgress', instanceView.statuses[?code=='PowerState/running'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -95,14 +96,14 @@ public record AzResourceWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds.  Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds.  Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

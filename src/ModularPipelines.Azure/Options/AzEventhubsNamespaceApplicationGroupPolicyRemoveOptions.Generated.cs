@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions : AzOption
     /// </summary>
     /// <param name="Policy">List of Throttling Policy Objects.</param>
     public AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions(
-        IEnumerable<string> Policy
+        IEnumerable<CliValueGroup> Policy
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(Policy);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Policy));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(Policy));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions : AzOption
         this.Policy = Policy;
     }
 
-    public void Deconstruct(out IEnumerable<string> Policy)
+    public void Deconstruct(out IEnumerable<CliValueGroup> Policy)
     {
         Policy = this.Policy;
     }
@@ -52,7 +53,7 @@ public record AzEventhubsNamespaceApplicationGroupPolicyRemoveOptions : AzOption
     /// List of Throttling Policy Objects.
     /// </summary>
     [CliOption("--policy", GroupValues = true)]
-    public IEnumerable<string> Policy { get; private init; }
+    public IEnumerable<CliValueGroup> Policy { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

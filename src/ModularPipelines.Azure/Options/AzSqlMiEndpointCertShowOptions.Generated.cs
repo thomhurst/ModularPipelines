@@ -23,8 +23,8 @@ public record AzSqlMiEndpointCertShowOptions : AzOptions
     /// <summary>
     /// Type of the endpoint whose certificate the customer is looking for.
     /// </summary>
-    [CliFlag("--endpoint-type", ShortForm = "-n")]
-    public bool? EndpointType { get; set; }
+    [CliOption("--endpoint-type", ShortForm = "-n")]
+    public string? EndpointType { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -35,7 +35,7 @@ public record AzSqlMiEndpointCertShowOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,14 +54,14 @@ public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
     /// <summary>
     /// Schedule list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--schedule-list")]
-    public bool? ScheduleList { get; set; }
+    [CliOption("--schedule-list", GroupValues = true)]
+    public IEnumerable<string>? ScheduleList { get; set; }
 
     /// <summary>
     /// The time zone of the schedule.
     /// </summary>
-    [CliFlag("--timezone-id")]
-    public bool? TimezoneId { get; set; }
+    [CliOption("--timezone-id")]
+    public string? TimezoneId { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -71,7 +72,7 @@ public record AzSqlMiStartStopScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The name of the managed instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

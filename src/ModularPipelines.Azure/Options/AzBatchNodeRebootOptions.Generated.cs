@@ -81,7 +81,7 @@ public record AzBatchNodeRebootOptions : AzOptions
     /// <summary>
     /// When to reboot the Compute Node and what to do with currently running Tasks. The default value is requeue. Known values are: "requeue", "terminate", "taskcompletion", and "retaineddata".
     /// </summary>
-    [CliFlag("--node-reboot-option")]
-    public bool? NodeRebootOption { get; set; }
+    [CliOption("--node-reboot-option")]
+    public string? NodeRebootOption { get; set; }
 
 }

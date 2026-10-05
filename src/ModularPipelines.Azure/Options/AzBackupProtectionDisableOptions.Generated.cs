@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,14 +30,14 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// <summary>
     /// Option to delete existing backed up data in the Recovery services vault.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--delete-backup-data")]
-    public bool? DeleteBackupData { get; set; }
+    [CliOption("--delete-backup-data", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DeleteBackupData { get; set; }
 
     /// <summary>
     /// Switch parameter that specifies that existing recovery points should be retained for the duration specified by the backup policy.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--retain-as-per-policy", ShortForm = "--retain-recovery-points-as-per-policy")]
-    public bool? RetainAsPerPolicy { get; set; }
+    [CliOption("--retain-as-per-policy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RetainAsPerPolicy { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.
@@ -65,7 +66,7 @@ public record AzBackupProtectionDisableOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

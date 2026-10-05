@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -28,18 +29,19 @@ public record AzSecurityAtpCosmosdbUpdateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzSecurityAtpCosmosdbUpdateOptions(
         string CosmosdbAccount,
-        bool IsEnabled,
+        CliOptionValue IsEnabled,
         string ResourceGroup
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(CosmosdbAccount);
         this.CosmosdbAccount = CosmosdbAccount;
+        global::System.ArgumentNullException.ThrowIfNull(IsEnabled);
         this.IsEnabled = IsEnabled;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string CosmosdbAccount, out bool IsEnabled, out string ResourceGroup)
+    public void Deconstruct(out string CosmosdbAccount, out CliOptionValue IsEnabled, out string ResourceGroup)
     {
         CosmosdbAccount = this.CosmosdbAccount;
         IsEnabled = this.IsEnabled;
@@ -55,8 +57,8 @@ public record AzSecurityAtpCosmosdbUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable Advanced Threat Protection for a received storage or Cosmos DB account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-enabled")]
-    public bool IsEnabled { get; private init; }
+    [CliOption("--is-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue IsEnabled { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

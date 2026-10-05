@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
     /// <param name="WorkspaceName">The name of the workspace.</param>
     public AzSynapseSparkSessionCreateOptions(
         string ExecutorSize,
-        int Executors,
+        string Executors,
         string Name,
         string SparkPoolName,
         string WorkspaceName
@@ -38,6 +39,7 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(ExecutorSize);
         this.ExecutorSize = ExecutorSize;
+        global::System.ArgumentNullException.ThrowIfNull(Executors);
         this.Executors = Executors;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -47,7 +49,7 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
         this.WorkspaceName = WorkspaceName;
     }
 
-    public void Deconstruct(out string ExecutorSize, out int Executors, out string Name, out string SparkPoolName, out string WorkspaceName)
+    public void Deconstruct(out string ExecutorSize, out string Executors, out string Name, out string SparkPoolName, out string WorkspaceName)
     {
         ExecutorSize = this.ExecutorSize;
         Executors = this.Executors;
@@ -66,7 +68,7 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
     /// The number of executors.
     /// </summary>
     [CliOption("--executors")]
-    public int Executors { get; private init; }
+    public string Executors { get; private init; }
 
     /// <summary>
     /// The Spark session name.
@@ -95,13 +97,13 @@ public record AzSynapseSparkSessionCreateOptions : AzOptions
     /// <summary>
     /// Additional files used for reference in the main definition file.
     /// </summary>
-    [CliOption("--reference-files")]
+    [CliOption("--reference-files", GroupValues = true)]
     public IEnumerable<string>? ReferenceFiles { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

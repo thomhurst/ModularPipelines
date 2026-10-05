@@ -68,8 +68,8 @@ public record AzAksNodepoolStopOptions : AzOptions
     /// <summary>
     /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

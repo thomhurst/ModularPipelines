@@ -29,13 +29,13 @@ public record AzSqlMidbCopyListOptions : AzOptions
     /// <summary>
     /// Name of the target resource group to show copy operations for.
     /// </summary>
-    [CliOption("--dest-resource-group", ShortForm = "--dest-rg")]
+    [CliOption("--dest-resource-group")]
     public string? DestResourceGroup { get; set; }
 
     /// <summary>
     /// Flag that only shows latest copy operation per managed database.
     /// </summary>
-    [CliFlag("--latest", ShortForm = "--only-latest-per-database")]
+    [CliFlag("--latest")]
     public bool? Latest { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzSqlMidbCopyListOptions : AzOptions
     /// <summary>
     /// Name of the source managed instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

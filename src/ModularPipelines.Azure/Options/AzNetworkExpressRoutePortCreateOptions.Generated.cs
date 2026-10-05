@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--bandwidth")]
-    public bool? Bandwidth { get; set; }
+    [CliOption("--bandwidth", GroupValues = true)]
+    public IEnumerable<string>? Bandwidth { get; set; }
 
     /// <summary>
     /// Encapsulation method on physical ports.  Allowed values: Dot1Q, QinQ.  Allowed values: Dot1Q, QinQ.
@@ -75,8 +76,8 @@ public record AzNetworkExpressRoutePortCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The name of the peering location that the port is mapped to physically.

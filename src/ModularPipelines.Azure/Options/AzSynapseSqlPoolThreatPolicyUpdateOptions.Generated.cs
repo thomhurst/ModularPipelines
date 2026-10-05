@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -53,8 +54,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Whether the alert is sent to the account administrators. Allowed values: false, true.
     /// </summary>
-    [CliOption("--email-account-admins")]
-    public bool? EmailAccountAdmins { get; set; }
+    [CliOption("--email-account-admins", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EmailAccountAdmins { get; set; }
 
     /// <summary>
     /// List of email addresses that alerts are sent to.
@@ -71,8 +72,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The number of days to retain threat detection logs.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public int? RetentionDays { get; set; }
 
     /// <summary>
     /// Threat detection policy state.  Allowed values: Disabled, Enabled, New.
@@ -89,8 +90,8 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The SQL pool name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -113,13 +114,13 @@ public record AzSynapseSqlPoolThreatPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The storage account endpoint.
     /// </summary>
-    [CliFlag("--storage-endpoint")]
-    public bool? StorageEndpoint { get; set; }
+    [CliOption("--storage-endpoint")]
+    public string? StorageEndpoint { get; set; }
 
     /// <summary>
     /// Access key for the storage account.
     /// </summary>
-    [CliFlag("--storage-key")]
-    public bool? StorageKey { get; set; }
+    [CliOption("--storage-key")]
+    public string? StorageKey { get; set; }
 
 }

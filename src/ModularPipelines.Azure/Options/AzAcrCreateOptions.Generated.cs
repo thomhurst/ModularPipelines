@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,26 @@ public record AzAcrCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether the admin user is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--admin-enabled")]
-    public bool? AdminEnabled { get; set; }
+    [CliOption("--admin-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdminEnabled { get; set; }
+
+    /// <summary>
+    /// Configure exportPolicy to allow/disallow artifacts from being exported from this registry. Artifacts can be exported via import or transfer operations. For more information, please visit https://aka.ms/acr/export-policy.  Allowed values: false, true. WARNING: Argument '--allow-exports' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--allow-exports", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowExports { get; set; }
+
+    /// <summary>
+    /// Enable or disable the metadata-search feature for the registry. If not specified, this is set to disabled by default.  Allowed values: false, true. WARNING: Argument '--allow-metadata-search' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--allow-metadata-search", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowMetadataSearch { get; set; }
+
+    /// <summary>
+    /// Domain name label scope will add a hash to the resource name. The resulting login server name will be in the format `registryname`-`hash`.azurecr-io. Default is Unsecure. Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse, Unsecure. WARNING: Argument '--dnl-scope' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--dnl-scope")]
+    public string? DnlScope { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -80,8 +99,26 @@ public record AzAcrCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Name or ID of the Log Analytics workspace to send registry diagnostic logs to. All events will be enabled. You can use "az monitor log-analytics workspace create" to create one. Extra billing may apply. WARNING: Argument '--workspace' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--workspace")]
+    public string? Workspace { get; set; }
+
+    /// <summary>
+    /// 'Enable or disable writing to repositories backed by cache rules. If not specified, this is set to Disabled by default'.  Allowed values: Disabled, Enabled. WARNING: Argument '--writable-cache-repos' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--writable-cache-repos")]
+    public string? WritableCacheRepos { get; set; }
+
+    /// <summary>
+    /// Indicates whether or not zone redundancy should be enabled for this registry or replication. For more information, such as supported locations, please visit https://aka.ms/acr/az. Zone-redundancy cannot be updated. Defaults to 'Disabled'. Allowed values: Disabled, Enabled. WARNING: Argument '--zone-redundancy' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--zone-redundancy")]
+    public string? ZoneRedundancy { get; set; }
 
     /// <summary>
     /// Use assigned managed identity resource id or name if in the same resource group.
@@ -98,14 +135,14 @@ public record AzAcrCreateOptions : AzOptions
     /// <summary>
     /// Allow trusted Azure Services to access network restricted registries. For more information, please visit https://aka.ms/acr/trusted-services. The Default is to allow.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-trusted-services")]
-    public bool? AllowTrustedServices { get; set; }
+    [CliOption("--allow-trusted-services", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowTrustedServices { get; set; }
 
     /// <summary>
     /// Enable dedicated data endpoint for client firewall configuration.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--data-endpoint-enabled")]
-    public bool? DataEndpointEnabled { get; set; }
+    [CliOption("--data-endpoint-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DataEndpointEnabled { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches. Only applicable to Premium SKU.  Allowed values: Allow, Deny.
@@ -114,10 +151,22 @@ public record AzAcrCreateOptions : AzOptions
     public string? DefaultAction { get; set; }
 
     /// <summary>
+    /// The endpoint protocol for the registry. Allowed values: IPv4, IPv4AndIPv6.  Allowed values: IPv4, IPv4AndIPv6. WARNING: Argument '--endpoint-protocol' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--endpoint-protocol")]
+    public string? EndpointProtocol { get; set; }
+
+    /// <summary>
     /// Allow public network access for the container registry. The Default is to allow.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--public-network-enabled")]
-    public bool? PublicNetworkEnabled { get; set; }
+    [CliOption("--public-network-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublicNetworkEnabled { get; set; }
+
+    /// <summary>
+    /// Indicates whether or not regional endpoints should be enabled for the registry.  Allowed values: Disabled, Enabled. WARNING: Argument '--regional-endpoints' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--regional-endpoints")]
+    public string? RegionalEndpoints { get; set; }
 
     /// <summary>
     /// Role assignment mode of the registry. For more information on this feature, see https://aka.ms/acr/auth/abac. The Default is rbac.  Allowed values: rbac, rbac-abac.

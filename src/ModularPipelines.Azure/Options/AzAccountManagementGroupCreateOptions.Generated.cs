@@ -46,8 +46,8 @@ public record AzAccountManagementGroupCreateOptions : AzOptions
     /// <summary>
     /// Sets the display name of the management group. If null, the group name is set as the display name.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Skip registration for resource provider Microsoft.Management.
@@ -58,7 +58,7 @@ public record AzAccountManagementGroupCreateOptions : AzOptions
     /// <summary>
     /// Sets the parent of the management group. Can be the fully qualified id or the name of the management group. If null, the root tenant group is set as the parent.
     /// </summary>
-    [CliFlag("--parent", ShortForm = "-p")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent", ShortForm = "-p")]
+    public string? Parent { get; set; }
 
 }

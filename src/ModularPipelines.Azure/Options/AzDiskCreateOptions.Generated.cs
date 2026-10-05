@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -55,6 +56,12 @@ public record AzDiskCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to enable the accelerated networking if the OS disk image support.  Allowed values: false, true. WARNING: Argument '--accelerated-network' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--accelerated-network", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AcceleratedNetwork { get; set; }
+
+    /// <summary>
     /// Determine on how to handle disks with slow I/O. Allowed values: AutomaticReattach.
     /// </summary>
     [CliOption("--action-on-disk-delay")]
@@ -87,26 +94,26 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-only")]
-    public bool? DiskIopsReadOnly { get; set; }
+    [CliOption("--disk-iops-read-only")]
+    public int? DiskIopsReadOnly { get; set; }
 
     /// <summary>
     /// The number of IOPS allowed for this disk. Only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-write")]
-    public bool? DiskIopsReadWrite { get; set; }
+    [CliOption("--disk-iops-read-write")]
+    public int? DiskIopsReadWrite { get; set; }
 
     /// <summary>
     /// The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-only")]
-    public bool? DiskMbpsReadOnly { get; set; }
+    [CliOption("--disk-mbps-read-only")]
+    public int? DiskMbpsReadOnly { get; set; }
 
     /// <summary>
     /// The bandwidth allowed for this disk. Only settable for UltraSSD disks. MBps means millions of bytes per second with ISO notation of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-write")]
-    public bool? DiskMbpsReadWrite { get; set; }
+    [CliOption("--disk-mbps-read-write")]
+    public int? DiskMbpsReadWrite { get; set; }
 
     /// <summary>
     /// The name of edge zone.
@@ -117,8 +124,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-bursting")]
-    public bool? EnableBursting { get; set; }
+    [CliOption("--enable-bursting", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableBursting { get; set; }
 
     /// <summary>
     /// Encryption type. EncryptionAtRestWithPlatformKey: Disk is encrypted with XStore managed key at rest. It is the default encryption type. EncryptionAtRestWithCustomerKey: Disk is encrypted with Customer managed key at rest. Allowed values: EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionAtRestWithPlatformKey.
@@ -135,8 +142,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
     /// </summary>
-    [CliFlag("--gallery-image-reference-lun")]
-    public bool? GalleryImageReferenceLun { get; set; }
+    [CliOption("--gallery-image-reference-lun")]
+    public int? GalleryImageReferenceLun { get; set; }
 
     /// <summary>
     /// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.  Allowed values: V1, V2.
@@ -153,8 +160,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
     /// </summary>
-    [CliFlag("--image-reference-lun")]
-    public bool? ImageReferenceLun { get; set; }
+    [CliOption("--image-reference-lun")]
+    public int? ImageReferenceLun { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`. If location is not specified and no default location specified, location will be automatically set as same as the resource group.
@@ -165,14 +172,14 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
     /// </summary>
-    [CliFlag("--logical-sector-size")]
-    public bool? LogicalSectorSize { get; set; }
+    [CliOption("--logical-sector-size")]
+    public int? LogicalSectorSize { get; set; }
 
     /// <summary>
     /// The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
     /// </summary>
-    [CliFlag("--max-shares")]
-    public bool? MaxShares { get; set; }
+    [CliOption("--max-shares")]
+    public int? MaxShares { get; set; }
 
     /// <summary>
     /// Policy for accessing the disk via network. Allowed values: AllowAll, AllowPrivate, DenyAll.
@@ -189,8 +196,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Setting this property to true improves reliability and performance of data disks that are frequently (more than 5 times a day) by detached from one virtual machine and attached to another. This property should not be set for disks that are not detached and attached frequently as it causes the disks to not align with the fault domain of the virtual machine. Allowed values: false, true.
     /// </summary>
-    [CliOption("--optimized-for-frequent-attach")]
-    public bool? OptimizedForFrequentAttach { get; set; }
+    [CliOption("--optimized-for-frequent-attach", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? OptimizedForFrequentAttach { get; set; }
 
     /// <summary>
     /// The Operating System type of the Disk.  Allowed values: Linux, Windows.
@@ -201,8 +208,14 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Set this flag to true to get a boost on the performance target of the disk deployed. This flag can only be set on disk creation time and cannot be disabled after enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--performance-plus")]
-    public bool? PerformancePlus { get; set; }
+    [CliOption("--performance-plus", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PerformancePlus { get; set; }
+
+    /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to control the export policy on the disk. Allowed values: Disabled, Enabled. WARNING: Argument '--public-network-access' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// Name or ID of disk encryption set created with ConfidentialVmEncryptedWithCustomerKey encryption type.
@@ -213,19 +226,19 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Please specify the blob URI of VHD to be imported into VM guest state.
     /// </summary>
-    [CliFlag("--security-data-uri")]
-    public bool? SecurityDataUri { get; set; }
+    [CliOption("--security-data-uri")]
+    public string? SecurityDataUri { get; set; }
 
     /// <summary>
     /// Specify the blob URI to be imported into VM metadata for Confidential VM.
     /// </summary>
-    [CliFlag("--security-metadata-uri")]
-    public bool? SecurityMetadataUri { get; set; }
+    [CliOption("--security-metadata-uri")]
+    public string? SecurityMetadataUri { get; set; }
 
     /// <summary>
     /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values: TrustedLaunchAndConfidentialVMSupported, TrustedLaunchSupported.
     /// </summary>
-    [CliOption("--security-option", ShortForm = "--supported-security-option")]
+    [CliOption("--security-option")]
     public string? SecurityOption { get; set; }
 
     /// <summary>
@@ -237,8 +250,8 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--size-gb", ShortForm = "-z")]
-    public bool? SizeGb { get; set; }
+    [CliOption("--size-gb", ShortForm = "-z")]
+    public int? SizeGb { get; set; }
 
     /// <summary>
     /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.  Default: Premium_LRS.
@@ -255,32 +268,32 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Used when source blob is in a different subscription.
     /// </summary>
-    [CliFlag("--source-storage-account-id")]
-    public bool? SourceStorageAccountId { get; set; }
+    [CliOption("--source-storage-account-id")]
+    public string? SourceStorageAccountId { get; set; }
 
     /// <summary>
     /// Indicate the OS on a disk supports hibernation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--support-hibernation")]
-    public bool? SupportHibernation { get; set; }
+    [CliOption("--support-hibernation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SupportHibernation { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/pric ing/details/managed-disks/. Does not apply to Ultra disks.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// The size (in bytes) of the contents of the upload including the VHD footer. Min value: 20972032. Max value: 35183298347520. This parameter is required if --upload-type is specified.
     /// </summary>
-    [CliFlag("--upload-size-bytes")]
-    public bool? UploadSizeBytes { get; set; }
+    [CliOption("--upload-size-bytes")]
+    public int? UploadSizeBytes { get; set; }
 
     /// <summary>
     /// Create the disk for upload scenario. 'Upload' is for Standard disk only upload. 'UploadWithSecurityData' is for OS Disk upload along with VM Guest State. Please note the 'UploadWithSecurityData' is not valid for data disk upload, it only to be used for OS Disk upload at present.  Allowed values: Upload, UploadWithSecurityData.
@@ -291,7 +304,7 @@ public record AzDiskCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone")]
+    public string? Zone { get; set; }
 
 }

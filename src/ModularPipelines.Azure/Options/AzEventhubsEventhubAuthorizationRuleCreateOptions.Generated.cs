@@ -79,7 +79,7 @@ public record AzEventhubsEventhubAuthorizationRuleCreateOptions : AzOptions
     /// <summary>
     /// The rights associated with the rule.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rights")]
-    public bool? Rights { get; set; }
+    [CliOption("--rights", GroupValues = true)]
+    public IEnumerable<string>? Rights { get; set; }
 
 }

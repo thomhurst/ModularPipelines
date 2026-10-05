@@ -60,7 +60,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions
     /// <summary>
     /// When match-variable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to.  Allowed values: Contains, EndsWith, Equals, EqualsAny, StartsWith.
     /// </summary>
-    [CliOption("--match-operator", ShortForm = "--selector-match-operator")]
+    [CliOption("--match-operator")]
     public string MatchOperator { get; private init; }
 
     /// <summary>
@@ -90,13 +90,13 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions
     /// <summary>
     /// Index of exclusion. If no index is provided, the default behavior is `append`.
     /// </summary>
-    [CliFlag("--index")]
-    public bool? Index { get; set; }
+    [CliOption("--index")]
+    public string? Index { get; set; }
 
     /// <summary>
     /// The managed rule sets that are associated with the exclusion.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--rule-sets")]
-    public bool? RuleSets { get; set; }
+    [CliOption("--rule-sets", GroupValues = true)]
+    public IEnumerable<string>? RuleSets { get; set; }
 
 }

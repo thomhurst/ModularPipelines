@@ -90,67 +90,67 @@ public record AzCosmosdbSqlContainerCreateOptions : AzOptions
     /// <summary>
     /// Analytical TTL, when analytical storage is enabled.
     /// </summary>
-    [CliFlag("--analytical-storage-ttl", ShortForm = "-t")]
-    public bool? AnalyticalStorageTtl { get; set; }
+    [CliOption("--analytical-storage-ttl", ShortForm = "-t")]
+    public int? AnalyticalStorageTtl { get; set; }
 
     /// <summary>
     /// Client Encryption Policy, you can enter it as a string or as a file, e.g., --cep @policy-file.json or --cep "{\"includedPaths\": [{\"path\": \"/path1\",\"clientEncryptionKeyId\": \"key1\",\"encryptionAlgorithm\": \"AEAD_AES_256_CBC_HMAC_SHA256\",\"encryptionType\": \"Deterministic\"}],\"policyFormatVersion\": 2}".
     /// </summary>
-    [CliFlag("--cep")]
-    public bool? Cep { get; set; }
+    [CliOption("--cep")]
+    public string? Cep { get; set; }
 
     /// <summary>
     /// Conflict Resolution Policy, you can enter it as a string or as a file, e.g., --conflict-resolution-policy @policy- file.json or --conflict-resolution-policy "{\"mode\": \"lastWriterWins\", \"conflictResolutionPath\": \"/path\"}".
     /// </summary>
-    [CliFlag("--conflict-resolution-policy", ShortForm = "-c")]
-    public bool? ConflictResolutionPolicy { get; set; }
+    [CliOption("--conflict-resolution-policy", ShortForm = "-c")]
+    public string? ConflictResolutionPolicy { get; set; }
 
     /// <summary>
     /// Full Text Policy, you can enter it as a string or as a file, e.g., --full-text-policy @policy-file.json or --full-text-policy "{\"fullTextPaths\": [{\"path\": \"/ftPath1\", \"language\": \"en-US\" }]}".
     /// </summary>
-    [CliFlag("--full-text-policy")]
-    public bool? FullTextPolicy { get; set; }
+    [CliOption("--full-text-policy")]
+    public string? FullTextPolicy { get; set; }
 
     /// <summary>
     /// Indexing Policy, you can enter it as a string or as a file, e.g., --idx @policy-file.json or --idx "{\"indexingMode\": \"consistent\", \"automatic\": true, \"includedPaths\": [{\"path\": \"/*\"}], \"excludedPaths\": [{ \"path\": \"/headquarters/employees/?\"}, { \"path\": \"/\\"_etag\\"/?\"}],\"vectorIndexes\": [{\"path\": \"/vector1\",\"type\": \"flat\"}]}".  Default: { "indexingMode": "consistent", "automatic": true, "includedPaths": [ { "path": "/*" } ], "excludedPaths": [ { "path": "/\"_etag\"/?" } ]
     /// </summary>
-    [CliFlag("--idx")]
-    public bool? Idx { get; set; }
+    [CliOption("--idx")]
+    public string? Idx { get; set; }
 
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).
     /// </summary>
-    [CliFlag("--max-throughput")]
-    public bool? MaxThroughput { get; set; }
+    [CliOption("--max-throughput")]
+    public string? MaxThroughput { get; set; }
 
     /// <summary>
     /// The version of partition key.
     /// </summary>
-    [CliFlag("--partition-key-version")]
-    public bool? PartitionKeyVersion { get; set; }
+    [CliOption("--partition-key-version")]
+    public int? PartitionKeyVersion { get; set; }
 
     /// <summary>
     /// The throughput of SQL container (RU/s). Default value is 400. Omit this parameter if the database has shared throughput unless the container should have dedicated throughput.
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public string? Throughput { get; set; }
 
     /// <summary>
     /// Default TTL. If the value is missing or set to "-1", items don’t expire. If the value is set to "n", items will expire "n" seconds after last modified time.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public int? Ttl { get; set; }
 
     /// <summary>
     /// Unique Key Policy, you can enter it as a string or as a file, e.g., --unique-key-policy @policy-file.json or --unique-key-policy "{\"uniqueKeys\": [{\"paths\": [\"/path/to/key1\"]}, {\"paths\": [\"/path/to/key2\"]}]}".
     /// </summary>
-    [CliFlag("--unique-key-policy", ShortForm = "-u")]
-    public bool? UniqueKeyPolicy { get; set; }
+    [CliOption("--unique-key-policy", ShortForm = "-u")]
+    public string? UniqueKeyPolicy { get; set; }
 
     /// <summary>
     /// Vector Embedding Policy, you can enter it as a string or as a file, e.g., --vector-embeddings @policy-file.json or --vector-embeddings "{\"vectorEmbeddings\": [{\"path\": \"/vector1\", \"dataType\": \"float32\", \"dimensions\": 2, \"distanceFunction\": \"dotproduct\" }]}".
     /// </summary>
-    [CliFlag("--vector-embeddings")]
-    public bool? VectorEmbeddings { get; set; }
+    [CliOption("--vector-embeddings")]
+    public string? VectorEmbeddings { get; set; }
 
 }

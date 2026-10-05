@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string>? Days { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The bandwidth rate in Mbps.
     /// </summary>
-    [CliFlag("--rate-in-mbps")]
-    public bool? RateInMbps { get; set; }
+    [CliOption("--rate-in-mbps")]
+    public string? RateInMbps { get; set; }
 
     /// <summary>
     /// The start time of the schedule in UTC.
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start")]
+    public string? Start { get; set; }
 
     /// <summary>
     /// The stop time of the schedule in UTC.
     /// </summary>
-    [CliFlag("--stop")]
-    public bool? Stop { get; set; }
+    [CliOption("--stop")]
+    public string? Stop { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -59,8 +60,8 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,8 +90,8 @@ public record AzDataboxedgeBandwidthScheduleUpdateOptions : AzOptions
     /// <summary>
     /// The bandwidth schedule name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

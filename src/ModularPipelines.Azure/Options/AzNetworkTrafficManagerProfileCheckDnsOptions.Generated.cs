@@ -23,13 +23,13 @@ public record AzNetworkTrafficManagerProfileCheckDnsOptions : AzOptions
     /// <summary>
     /// DNS prefix to verify availability for.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The type of the resource.  Default: Microsoft.Network/trafficManagerProfiles.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,14 +58,14 @@ public record AzAcrScopeMapUpdateOptions : AzOptions
     /// <summary>
     /// Gateway permissions to be added. Use the format "--add-gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--add-gateway")]
-    public bool? AddGateway { get; set; }
+    [CliOption("--add-gateway", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? AddGateway { get; set; }
 
     /// <summary>
     /// Repository permissions to be added. Use the format "--add-repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--add-repository")]
-    public bool? AddRepository { get; set; }
+    [CliOption("--add-repository", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? AddRepository { get; set; }
 
     /// <summary>
     /// Description for the scope map. Maximum 256 characters are allowed.
@@ -75,14 +76,14 @@ public record AzAcrScopeMapUpdateOptions : AzOptions
     /// <summary>
     /// Gateway permissions to be removed. Use the format "--remove-gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--remove-gateway")]
-    public bool? RemoveGateway { get; set; }
+    [CliOption("--remove-gateway", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? RemoveGateway { get; set; }
 
     /// <summary>
     /// Repository permissions to be removed. Use the format "--remove-repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--remove-repository")]
-    public bool? RemoveRepository { get; set; }
+    [CliOption("--remove-repository", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? RemoveRepository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

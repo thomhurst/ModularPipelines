@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -96,20 +97,20 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions
     /// <summary>
     /// This property is reserved for future use. An integer value showing the compatibility level, currently hard-coded to 20.
     /// </summary>
-    [CliFlag("--action-compatibility-level")]
-    public bool? ActionCompatibilityLevel { get; set; }
+    [CliOption("--action-compatibility-level")]
+    public int? ActionCompatibilityLevel { get; set; }
 
     /// <summary>
     /// Action SQL expression.
     /// </summary>
-    [CliFlag("--action-sql-expression")]
-    public bool? ActionSqlExpression { get; set; }
+    [CliOption("--action-sql-expression")]
+    public string? ActionSqlExpression { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-action-preprocessing")]
-    public bool? EnableActionPreprocessing { get; set; }
+    [CliOption("--enable-action-preprocessing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableActionPreprocessing { get; set; }
 
     /// <summary>
     /// Rule Filter types.  Allowed values: CorrelationFilter, SqlFilter.
@@ -120,14 +121,14 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions
     /// <summary>
     /// Content type of message.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Dictionary object for custom filters.
     /// </summary>
-    [CliFlag("--correlation-filter", ShortForm = "--correlation-filter-property")]
-    public bool? CorrelationFilter { get; set; }
+    [CliOption("--correlation-filter", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CorrelationFilter { get; set; }
 
     /// <summary>
     /// Identifier of correlation.
@@ -138,14 +139,14 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-correlation-preprocessing")]
-    public bool? EnableCorrelationPreprocessing { get; set; }
+    [CliOption("--enable-correlation-preprocessing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableCorrelationPreprocessing { get; set; }
 
     /// <summary>
     /// Application specific label.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Identifier of message.
@@ -156,37 +157,37 @@ public record AzServicebusTopicSubscriptionRuleCreateOptions : AzOptions
     /// <summary>
     /// Address of the queue to reply to.
     /// </summary>
-    [CliFlag("--reply-to")]
-    public bool? ReplyTo { get; set; }
+    [CliOption("--reply-to")]
+    public string? ReplyTo { get; set; }
 
     /// <summary>
     /// Session identifier to reply to.
     /// </summary>
-    [CliFlag("--reply-to-session-id")]
-    public bool? ReplyToSessionId { get; set; }
+    [CliOption("--reply-to-session-id")]
+    public string? ReplyToSessionId { get; set; }
 
     /// <summary>
     /// Session identifier.
     /// </summary>
-    [CliFlag("--session-id")]
-    public bool? SessionId { get; set; }
+    [CliOption("--session-id")]
+    public string? SessionId { get; set; }
 
     /// <summary>
     /// Address to send to.
     /// </summary>
-    [CliFlag("--to")]
-    public bool? To { get; set; }
+    [CliOption("--to")]
+    public string? To { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether the rule action requires preprocessing. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-sql-preprocessing")]
-    public bool? EnableSqlPreprocessing { get; set; }
+    [CliOption("--enable-sql-preprocessing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSqlPreprocessing { get; set; }
 
     /// <summary>
     /// SQL expression. e.g. myproperty=test.
     /// </summary>
-    [CliFlag("--filter-sql-expression")]
-    public bool? FilterSqlExpression { get; set; }
+    [CliOption("--filter-sql-expression")]
+    public string? FilterSqlExpression { get; set; }
 
 }

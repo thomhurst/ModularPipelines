@@ -23,20 +23,20 @@ public record AzContainerappDaprEnableOptions : AzOptions
     /// <summary>
     /// Enable API logging for the Dapr sidecar.
     /// </summary>
-    [CliFlag("--dal", ShortForm = "--dapr-enable-api-logging")]
+    [CliFlag("--dal")]
     public bool? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to talk to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// The protocol Dapr uses to talk to the application. Allowed values: grpc, http.
@@ -47,14 +47,14 @@ public record AzContainerappDaprEnableOptions : AzOptions
     /// <summary>
     /// Increase max size of request body http and grpc servers parameter in MB to handle uploading of big files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public int? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Dapr max size of http header read buffer in KB to handle when sending multi-KB headers..
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public int? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// Set the log level for the Dapr sidecar.  Allowed values: debug, error, info, warn.

@@ -63,13 +63,13 @@ public record AzAksBrowseOptions : AzOptions
     /// <summary>
     /// The listening address for the dashboard.  Default: 127.0.0.1. Add this argument to listen on a specific IP address.
     /// </summary>
-    [CliFlag("--listen-address")]
-    public bool? ListenAddress { get; set; }
+    [CliOption("--listen-address")]
+    public string? ListenAddress { get; set; }
 
     /// <summary>
     /// The listening port for the dashboard.  Default: 8001. Add this argument when the default listening port is used by another process or unavailable.
     /// </summary>
-    [CliFlag("--listen-port")]
-    public bool? ListenPort { get; set; }
+    [CliOption("--listen-port")]
+    public string? ListenPort { get; set; }
 
 }

@@ -68,14 +68,14 @@ public record AzAksNamespaceGetCredentialsOptions : AzOptions
     /// <summary>
     /// If specified, overwrite the default context name.
     /// </summary>
-    [CliFlag("--context")]
-    public bool? Context { get; set; }
+    [CliOption("--context")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Overwrite any existing cluster entry with the same name.

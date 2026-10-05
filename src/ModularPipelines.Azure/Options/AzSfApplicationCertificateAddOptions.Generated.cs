@@ -58,20 +58,20 @@ public record AzSfApplicationCertificateAddOptions : AzOptions
     /// <summary>
     /// The folder of the new certificate file to be created.
     /// </summary>
-    [CliFlag("--cert-out-folder", ShortForm = "--certificate-output-folder")]
-    public bool? CertOutFolder { get; set; }
+    [CliOption("--cert-out-folder")]
+    public string? CertOutFolder { get; set; }
 
     /// <summary>
     /// The subject name of the certificate to be created.
     /// </summary>
-    [CliFlag("--cert-subject-name", ShortForm = "--certificate-subject-name")]
-    public bool? CertSubjectName { get; set; }
+    [CliOption("--cert-subject-name")]
+    public string? CertSubjectName { get; set; }
 
     /// <summary>
     /// The existing certificate file path for the primary cluster certificate.
     /// </summary>
-    [CliFlag("--certificate-file")]
-    public bool? CertificateFile { get; set; }
+    [CliOption("--certificate-file")]
+    public string? CertificateFile { get; set; }
 
     /// <summary>
     /// The password of the certificate file.
@@ -83,14 +83,14 @@ public record AzSfApplicationCertificateAddOptions : AzOptions
     /// <summary>
     /// The existing Azure key vault secret URL.
     /// </summary>
-    [CliFlag("--secret-identifier")]
-    public bool? SecretIdentifier { get; set; }
+    [CliOption("--secret-identifier")]
+    public string? SecretIdentifier { get; set; }
 
     /// <summary>
     /// Azure key vault name, if not given it will be the cluster resource group name.
     /// </summary>
-    [CliFlag("--vault-name")]
-    public bool? VaultName { get; set; }
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
 
     /// <summary>
     /// Key vault resource group name, if not given it will be cluster resource group name.

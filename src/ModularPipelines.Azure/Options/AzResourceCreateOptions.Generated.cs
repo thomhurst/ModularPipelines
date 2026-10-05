@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// Resource ID.
     /// </summary>
-    [CliOption("--id")]
-    public string? Id { get; set; }
+    [CliOption("--id", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Id { get; set; }
 
     /// <summary>
     /// Indicate that the properties object includes other options such as location, tags, sku, and/or plan.
@@ -64,8 +65,14 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// The api version of the resource (omit for the latest stable version).
     /// </summary>
-    [CliFlag("--api-version")]
-    public bool? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
+
+    /// <summary>
+    /// Indicate that the latest api-version will be used regardless of whether it is preview version (like 2020-01-01-preview) or not. For example, if the supported api-version of resource provider is 2020-01-01-preview and 2019-01-01: when passing in this parameter it will take the latest version 2020-01-01-preview, otherwise it will take the latest stable version 2019-01-01 without passing in this parameter. WARNING: Argument '--latest-include-preview' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliFlag("--latest-include-preview", ShortForm = "-v")]
+    public bool? LatestIncludePreview { get; set; }
 
     /// <summary>
     /// The resource name. (Ex: myC).
@@ -76,14 +83,14 @@ public record AzResourceCreateOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: 'resA/myA/resB/myB').
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

@@ -96,7 +96,7 @@ public record AzSearchSharedPrivateLinkResourceCreateOptions : AzOptions
     /// <summary>
     /// Custom request message when creating or updating the shared privatelink resources.  Default: Please approve.
     /// </summary>
-    [CliFlag("--request-message")]
-    public bool? RequestMessage { get; set; }
+    [CliOption("--request-message")]
+    public string? RequestMessage { get; set; }
 
 }

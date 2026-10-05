@@ -28,19 +28,41 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <param name="Scale">The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.</param>
     public AzMonitorAutoscaleRuleCreateOptions(
         string AutoscaleName,
-        string Condition,
-        string Scale
+        IEnumerable<string> Condition,
+        IEnumerable<string> Scale
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AutoscaleName);
         this.AutoscaleName = AutoscaleName;
-        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Condition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Condition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Condition));
+            }
+
+            Condition = materialized;
+        }
         this.Condition = Condition;
-        global::System.ArgumentNullException.ThrowIfNull(Scale);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Scale);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scale));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Scale));
+            }
+
+            Scale = materialized;
+        }
         this.Scale = Scale;
     }
 
-    public void Deconstruct(out string AutoscaleName, out string Condition, out string Scale)
+    public void Deconstruct(out string AutoscaleName, out IEnumerable<string> Condition, out IEnumerable<string> Scale)
     {
         AutoscaleName = this.AutoscaleName;
         Condition = this.Condition;
@@ -56,20 +78,20 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// The condition which triggers the scaling action. Usage:  --condition ["NAMESPACE"] METRIC {==,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD {avg,min,max,total,count} PERIOD [where DIMENSION {==,!=} VALUE [or VALUE ...] [and   DIMENSION {==,!=} VALUE [or VALUE ...] ...]]
     /// </summary>
-    [CliOption("--condition")]
-    public string Condition { get; private init; }
+    [CliOption("--condition", GroupValues = true)]
+    public IEnumerable<string> Condition { get; private init; }
 
     /// <summary>
     /// The direction and amount to scale. Usage:          --scale {to,in,out} VAL[%] Fixed Count:    --scale to 5 In by Count:    --scale in 2 Out by Percent: --scale out 10%.
     /// </summary>
-    [CliOption("--scale")]
-    public string Scale { get; private init; }
+    [CliOption("--scale", GroupValues = true)]
+    public IEnumerable<string> Scale { get; private init; }
 
     /// <summary>
     /// The number of minutes that must elapse before another scaling event can occur.  Default: 5.
     /// </summary>
-    [CliFlag("--cooldown")]
-    public bool? Cooldown { get; set; }
+    [CliOption("--cooldown")]
+    public int? Cooldown { get; set; }
 
     /// <summary>
     /// Name of the autoscale profile.  Default: default.
@@ -80,8 +102,8 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// The way metrics are polled across instances.  Default: avg 1m. The form of the timegrain is {avg,min,max,sum} VALUE. Values can be obtained from the `az monitor metric` command. Format of VALUE is "##h##m##s".
     /// </summary>
-    [CliFlag("--timegrain")]
-    public bool? Timegrain { get; set; }
+    [CliOption("--timegrain", GroupValues = true)]
+    public IEnumerable<string>? Timegrain { get; set; }
 
     /// <summary>
     /// Name or ID of the target resource.
@@ -98,19 +120,19 @@ public record AzMonitorAutoscaleRuleCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

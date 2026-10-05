@@ -74,7 +74,7 @@ public record AzAksNodepoolScaleOptions : AzOptions
     /// <summary>
     /// Number of nodes in the Kubernetes node pool.  Default: 3.
     /// </summary>
-    [CliFlag("--node-count", ShortForm = "-c")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count", ShortForm = "-c")]
+    public int? NodeCount { get; set; }
 
 }

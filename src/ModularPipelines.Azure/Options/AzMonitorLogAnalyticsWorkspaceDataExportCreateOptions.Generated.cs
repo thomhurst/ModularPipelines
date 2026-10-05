@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -95,19 +96,19 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportCreateOptions : AzOptions
     /// <summary>
     /// An array of tables to export.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tables", ShortForm = "-t")]
+    [CliOption("--tables", ShortForm = "-t", GroupValues = true)]
     public IEnumerable<string> Tables { get; private init; }
 
     /// <summary>
     /// Optional. Allows to define an Event Hub name. Not applicable when destination is Storage Account.
     /// </summary>
-    [CliFlag("--event-hub-name")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Active when enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable")]
-    public bool? Enable { get; set; }
+    [CliOption("--enable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enable { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -96,8 +97,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -114,14 +115,14 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Optional notes to be associated with the connection monitor.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// Address of the destination of connection monitor endpoint (IP or domain name).
     /// </summary>
-    [CliFlag("--endpoint-dest-address")]
-    public bool? EndpointDestAddress { get; set; }
+    [CliOption("--endpoint-dest-address")]
+    public string? EndpointDestAddress { get; set; }
 
     /// <summary>
     /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
@@ -144,8 +145,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Address of the source of connection monitor endpoint (IP or domain name).
     /// </summary>
-    [CliFlag("--endpoint-source-address")]
-    public bool? EndpointSourceAddress { get; set; }
+    [CliOption("--endpoint-source-address")]
+    public string? EndpointSourceAddress { get; set; }
 
     /// <summary>
     /// Test coverage for the endpoint.  Allowed values: AboveAverage, Average, BelowAverage, Default, Full, Low.
@@ -162,7 +163,7 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Connection monitor output destination type. Currently, only "Workspace" is supported. Allowed values: Workspace.
     /// </summary>
-    [CliOption("--output-type", ShortForm = "--type")]
+    [CliOption("--output-type")]
     public string? OutputType { get; set; }
 
     /// <summary>
@@ -174,8 +175,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The frequency of test evaluation, in seconds. Default: 60.
     /// </summary>
-    [CliFlag("--frequency")]
-    public bool? Frequency { get; set; }
+    [CliOption("--frequency")]
+    public string? Frequency { get; set; }
 
     /// <summary>
     /// The HTTP method to use.  Allowed values: Get, Post.
@@ -192,8 +193,8 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The port to connect to.
     /// </summary>
-    [CliFlag("--http-port")]
-    public bool? HttpPort { get; set; }
+    [CliOption("--http-port")]
+    public string? HttpPort { get; set; }
 
     /// <summary>
     /// Space-separated list of HTTP status codes to consider successful. For instance, '2xx 301-304 418'  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -204,14 +205,14 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Value indicating whether HTTPS is preferred over HTTP in cases where the choice is not explicit.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--https-prefer")]
-    public bool? HttpsPrefer { get; set; }
+    [CliOption("--https-prefer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsPrefer { get; set; }
 
     /// <summary>
     /// Value indicating whether path evaluation with trace route should be disabled. false is default.  Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--icmp-disable-trace-route")]
-    public bool? IcmpDisableTraceRoute { get; set; }
+    [CliOption("--icmp-disable-trace-route", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IcmpDisableTraceRoute { get; set; }
 
     /// <summary>
     /// The preferred IP version to use in test evaluation. The connection monitor may choose to use a different version depending on other parameters.  Allowed values: IPv4, IPv6.
@@ -228,14 +229,14 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Value indicating whether path evaluation with trace route should be disabled. false is default. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--tcp-disable-trace-route")]
-    public bool? TcpDisableTraceRoute { get; set; }
+    [CliOption("--tcp-disable-trace-route", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TcpDisableTraceRoute { get; set; }
 
     /// <summary>
     /// The port to connect to.
     /// </summary>
-    [CliFlag("--tcp-port")]
-    public bool? TcpPort { get; set; }
+    [CliOption("--tcp-port")]
+    public string? TcpPort { get; set; }
 
     /// <summary>
     /// Destination port behavior.  Allowed values: ListenIfAvailable, None.
@@ -246,20 +247,20 @@ public record AzNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// The maximum percentage of failed checks permitted for a test to evaluate as successful.
     /// </summary>
-    [CliFlag("--threshold-failed-percent")]
-    public bool? ThresholdFailedPercent { get; set; }
+    [CliOption("--threshold-failed-percent")]
+    public string? ThresholdFailedPercent { get; set; }
 
     /// <summary>
     /// The maximum round-trip time in milliseconds permitted for a test to evaluate as successful.
     /// </summary>
-    [CliFlag("--threshold-round-trip-time")]
-    public bool? ThresholdRoundTripTime { get; set; }
+    [CliOption("--threshold-round-trip-time")]
+    public string? ThresholdRoundTripTime { get; set; }
 
     /// <summary>
     /// Value indicating whether test group is disabled. false is default.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--test-group-disable")]
-    public bool? TestGroupDisable { get; set; }
+    [CliOption("--test-group-disable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TestGroupDisable { get; set; }
 
     /// <summary>
     /// The name of the connection monitor test group. Default: DefaultTestGroup.

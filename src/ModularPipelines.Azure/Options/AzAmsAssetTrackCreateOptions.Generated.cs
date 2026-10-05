@@ -96,8 +96,8 @@ public record AzAmsAssetTrackCreateOptions : AzOptions
     /// <summary>
     /// The display name of the text track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The name of the file. Note: this file should already be uploaded to the storage container.
@@ -108,13 +108,13 @@ public record AzAmsAssetTrackCreateOptions : AzOptions
     /// <summary>
     /// The RFC5646 language code for the text track.
     /// </summary>
-    [CliFlag("--language-code")]
-    public bool? LanguageCode { get; set; }
+    [CliOption("--language-code")]
+    public string? LanguageCode { get; set; }
 
     /// <summary>
     /// When PlayerVisibility is set to "Visible", the text track will be present in the DASH manifest or HLS playlist when requested by a client. When the PlayerVisibility is set to "Hidden", the text will not be available to the client. The default value is "Visible".
     /// </summary>
-    [CliFlag("--player-visibility")]
-    public bool? PlayerVisibility { get; set; }
+    [CliOption("--player-visibility")]
+    public string? PlayerVisibility { get; set; }
 
 }

@@ -57,7 +57,7 @@ public record AzSynapseNotebookExportOptions : AzOptions
     /// <summary>
     /// The notebook name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

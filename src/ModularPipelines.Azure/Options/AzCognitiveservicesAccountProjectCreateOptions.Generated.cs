@@ -85,13 +85,13 @@ public record AzCognitiveservicesAccountProjectCreateOptions : AzOptions
     /// <summary>
     /// Display name of the project.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Use with --user-assigned-identity to generate and assign a system managed Azure Active Directory Identity for this project.
     /// </summary>
-    [CliFlag("--assign-identity", ShortForm = "--include-system-identity")]
+    [CliFlag("--assign-identity")]
     public bool? AssignIdentity { get; set; }
 
     /// <summary>

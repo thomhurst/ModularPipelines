@@ -23,8 +23,8 @@ public record AzAdvisorConfigurationUpdateOptions : AzOptions
     /// <summary>
     /// Advisor configuration name. Value must be "default".
     /// </summary>
-    [CliFlag("--configuration-name")]
-    public bool? ConfigurationName { get; set; }
+    [CliOption("--configuration-name")]
+    public string? ConfigurationName { get; set; }
 
     /// <summary>
     /// Exclude from recommendation generation.

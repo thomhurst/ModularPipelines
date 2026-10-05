@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -55,7 +56,7 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
     /// <summary>
     /// The Unique identifier for application group.Supports SAS(NamespaceSASKeyName=KeyName or EntitySASKeyName=KeyName) or AAD(AADAppID=Guid).
     /// </summary>
-    [CliOption("--client-app-group-id", ShortForm = "--client-app-group-identifier")]
+    [CliOption("--client-app-group-id")]
     public string ClientAppGroupId { get; private init; }
 
     /// <summary>
@@ -79,13 +80,13 @@ public record AzEventhubsNamespaceApplicationGroupCreateOptions : AzOptions
     /// <summary>
     /// Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-enabled")]
-    public bool? IsEnabled { get; set; }
+    [CliOption("--is-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsEnabled { get; set; }
 
     /// <summary>
     /// List of Throttling Policy Objects.
     /// </summary>
-    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
-    public IEnumerable<string>? PolicyConfig { get; set; }
+    [CliOption("--policy-config", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? PolicyConfig { get; set; }
 
 }

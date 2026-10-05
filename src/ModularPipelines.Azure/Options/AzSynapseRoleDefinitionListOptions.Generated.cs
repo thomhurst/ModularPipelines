@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,7 +47,7 @@ public record AzSynapseRoleDefinitionListOptions : AzOptions
     /// <summary>
     /// Is a Synapse Built-In Role or not.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-built-in")]
-    public bool? IsBuiltIn { get; set; }
+    [CliOption("--is-built-in", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsBuiltIn { get; set; }
 
 }
