@@ -8,6 +8,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class KindCliScraperTests
 {
     [Test]
+    [Arguments("--quiet", "--quiet string")]
+    [Arguments("--verbosity int32", "--verbosity string")]
+    public async Task Conflicting_Leaf_Shapes_Are_Not_Discarded(string original, string replacement)
+    {
+        var scraper = new TestKindCliScraper(new KindHelpExecutor());
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Count).IsEqualTo(2);
+        await Assert.That(commands.SelectMany(command => command.Options)
+            .Any(option => option.SwitchName is "--quiet" or "--verbosity")).IsFalse();
+        await Assert.That(() => scraper.Parse(["kind", "create", "cluster"],
+                Fixture("create-cluster").Replace(original, replacement, StringComparison.Ordinal)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("conflicting scraped and supplemental definitions");
+    }
+
+    [Test]
     [Arguments("\n")]
     [Arguments("\r\n")]
     public async Task Root_Inherits_Only_Persistent_Settings(string newline)
@@ -165,9 +186,9 @@ public class KindCliScraperTests
     {
         public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
-        public TestKindCliScraper()
+        public TestKindCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<KindCliScraper>.Instance)
         {
@@ -177,6 +198,33 @@ public class KindCliScraperTests
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
+    }
+
+    private sealed class KindHelpExecutor : ICliCommandExecutor
+    {
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            var root = Fixture("root");
+            var help = arguments switch
+            {
+                "--help" => "Usage:\n  kind [command]\n\nAvailable Commands:\n  create   Create a cluster\n\n"
+                              + root[root.IndexOf("Flags:", StringComparison.Ordinal)..],
+                "create --help" => Fixture("create"),
+                "create cluster --help" => Fixture("create-cluster"),
+                "--version" => "kind version 0.33.0",
+                _ => throw new InvalidOperationException($"Unexpected arguments: {arguments}"),
+            };
+            return Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = help,
+                StandardError = string.Empty,
+                ExitCode = 0,
+            });
         }
     }
 }
