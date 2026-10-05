@@ -7,6 +7,11 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 public partial class DotNetCliScraper
 {
+    private static readonly JsonSerializerOptions IsolatedSdkJsonOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    };
+
     protected override async Task<CliCommandResult> ExecuteHelpCommandAsync(string[] commandPath, CancellationToken cancellationToken)
     {
         if (commandPath.Length != 2 || commandPath[1] != "test")
@@ -62,8 +67,7 @@ public partial class DotNetCliScraper
             {
                 // Relative paths are based on the original global.json, not the temporary
                 // directory. The host token must continue to identify the dotnet executable.
-                paths = sdkPaths.EnumerateArray().Select(path => path.GetString()!)
-                    .Select(path => path == "$host$" ? path : Path.GetFullPath(path, directory.FullName)).ToArray();
+                paths = [.. sdkPaths.EnumerateArray().Select(path => path.GetString()!).Select(path => path == "$host$" ? path : Path.GetFullPath(path, directory.FullName))];
             }
 
             // SDK resolution uses the nearest global.json, even when it has no sdk.paths.
@@ -73,6 +77,6 @@ public partial class DotNetCliScraper
         return JsonSerializer.Serialize(new
         {
             sdk = new { version, rollForward = "disable", allowPrerelease = true, paths },
-        }, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        }, IsolatedSdkJsonOptions);
     }
 }
