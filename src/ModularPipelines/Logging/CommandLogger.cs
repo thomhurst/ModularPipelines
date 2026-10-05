@@ -39,24 +39,31 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         string commandWorkingDirPath)
     {
         var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
-        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
+        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent
+            && !effectiveOptions.IncludesCommandArguments
+            && !effectiveOptions.IncludesWorkingDirectory
+            && !effectiveOptions.IncludesTimestamps)
         {
             return;
         }
 
-        if (execOpts?.InternalDryRun == true)
-        {
-            LogDryRunCommand(effectiveOptions, commandWorkingDirPath, inputToLog);
-            return;
-        }
-
-        var obfuscatedInput = ShouldShowInput(effectiveOptions)
+        var obfuscatedInput = effectiveOptions.IncludesCommandArguments
             ? ObfuscateLogValue(inputToLog)
             : new PreObfuscatedLogValue(LoggingConstants.CommandMask);
-        Logger.LogInformation(
-            "{WorkingDirectory}> {Input}",
-            commandWorkingDirPath,
-            obfuscatedInput);
+        var dryRun = execOpts?.InternalDryRun == true ? " [DRY-RUN]" : string.Empty;
+        if (effectiveOptions.IncludesWorkingDirectory)
+        {
+            Logger.LogInformation(
+                "{CommandTimestamp}{WorkingDirectory}> {Input}{DryRun}",
+                GetTimestamp(effectiveOptions),
+                ObfuscateLogValue(commandWorkingDirPath),
+                obfuscatedInput,
+                dryRun);
+        }
+        else
+        {
+            Logger.LogInformation("{CommandTimestamp}{Input}{DryRun}", GetTimestamp(effectiveOptions), obfuscatedInput, dryRun);
+        }
     }
 
     public void LogCommandCompletion(
@@ -70,8 +77,12 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         string commandWorkingDirPath)
     {
         var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
-        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent
-            || execOpts?.InternalDryRun == true)
+        if (execOpts?.InternalDryRun == true
+            || (effectiveOptions.Verbosity < CommandLogVerbosity.Normal
+                && !effectiveOptions.IncludesStandardOutput
+                && !effectiveOptions.IncludesStandardError
+                && !effectiveOptions.IncludesExitCode
+                && !effectiveOptions.IncludesExecutionTime))
         {
             return;
         }
@@ -136,19 +147,6 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         return _pipelineOptions.Value.Commands.Logging ?? CommandLoggingOptions.Default;
     }
 
-    private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)
-    {
-        var logger = Logger;
-        if (!ShouldShowInput(options) || !logger.IsEnabled(LogLevel.Information))
-        {
-            return;
-        }
-
-        logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
-            workingDirectory,
-            ObfuscateLogValue(input));
-    }
-
     private void LogOutputLine(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
@@ -156,10 +154,9 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         bool isError)
     {
         var effectiveOptions = GetEffectiveLoggingOptions(options, executionOptions);
-        var shouldLog = effectiveOptions.Verbosity >= CommandLogVerbosity.Normal
-                        && (isError
-                            ? effectiveOptions.ShowStandardError
-                            : effectiveOptions.ShowStandardOutput);
+        var shouldLog = isError
+            ? effectiveOptions.IncludesStandardError
+            : effectiveOptions.IncludesStandardOutput;
         if (!shouldLog)
         {
             return;
@@ -173,7 +170,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         var obfuscatedOutput = ObfuscateLogValue(line.TrimEnd());
         Logger.LogInformation(
-            isError ? OutputLinePrefix + "{CommandError}" : OutputLinePrefix + "{CommandOutput}",
+            isError ? "{CommandTimestamp}" + OutputLinePrefix + "{CommandError}" : "{CommandTimestamp}" + OutputLinePrefix + "{CommandOutput}",
+            GetTimestamp(effectiveOptions),
             obfuscatedOutput);
     }
 
@@ -206,13 +204,13 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         int? exitCode,
         TimeSpan? runTime)
     {
-        var showExecutionTime = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime;
-        var showExitCode = options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode;
+        var showExecutionTime = options.IncludesExecutionTime;
+        var showExitCode = options.IncludesExitCode;
         if (!showExecutionTime && !showExitCode)
         {
             return !isSuccess
                    && options.Verbosity >= CommandLogVerbosity.Normal
-                   && options.ShowStandardError
+                   && options.IncludesStandardError
                 ? " ✗"
                 : string.Empty;
         }
@@ -239,8 +237,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         string output)
     {
         if (string.IsNullOrWhiteSpace(output)
-            || options.Verbosity < CommandLogVerbosity.Normal
-            || !options.ShowStandardOutput)
+            || !options.IncludesStandardOutput)
         {
             return;
         }
@@ -250,7 +247,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         foreach (var line in GetOutputLines(obfuscatedOutput))
         {
             Logger.LogInformation(
-                OutputLinePrefix + "{CommandOutput}",
+                "{CommandTimestamp}" + OutputLinePrefix + "{CommandOutput}",
+                GetTimestamp(options),
                 new PreObfuscatedLogValue(line));
         }
     }
@@ -261,10 +259,24 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         int? exitCode)
     {
         if (string.IsNullOrWhiteSpace(error)
-            || options.Verbosity < CommandLogVerbosity.Normal
-            || !options.ShowStandardError
-            || exitCode == 0)
+            || !options.IncludesStandardError
+            || (exitCode == 0 && options.ShowStandardError is null))
         {
+            return;
+        }
+
+        // Successful tools often write progress to stderr. Keep it visible without failure annotations.
+        var obfuscatedError = _secretObfuscator.Obfuscate(error, null);
+        if (exitCode == 0)
+        {
+            foreach (var line in GetOutputLines(obfuscatedError))
+            {
+                Logger.LogInformation(
+                    "{CommandTimestamp}" + OutputLinePrefix + "{CommandError}",
+                    GetTimestamp(options),
+                    new PreObfuscatedLogValue(line));
+            }
+
             return;
         }
 
@@ -272,8 +284,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         // continuation lines are indented to align under the first.
         var errorText = string.Join(
             Environment.NewLine + ErrorContinuationIndent,
-            GetOutputLines(_secretObfuscator.Obfuscate(error, null)));
-        Logger.LogWarning(ErrorLinePrefix + "{CommandError}", new PreObfuscatedLogValue(errorText));
+            GetOutputLines(obfuscatedError));
+        Logger.LogWarning("{CommandTimestamp}" + ErrorLinePrefix + "{CommandError}", GetTimestamp(options), new PreObfuscatedLogValue(errorText));
     }
 
     private void LogCommandStatus(
@@ -292,11 +304,12 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         if (!string.IsNullOrEmpty(commandStatus))
         {
-            var obfuscatedInput = ShouldShowInput(options)
+            var obfuscatedInput = options.IncludesCommandArguments
                 ? ObfuscateLogValue(inputToLog)
                 : new PreObfuscatedLogValue(LoggingConstants.CommandMask);
             Logger.LogInformation(
-                "{CommandStatus} {Input}",
+                "{CommandTimestamp}{CommandStatus} {Input}",
+                GetTimestamp(options),
                 commandStatus.TrimStart(),
                 obfuscatedInput);
         }
@@ -305,9 +318,6 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     private PreObfuscatedLogValue ObfuscateLogValue(string? value) =>
         new(_secretObfuscator.Obfuscate(value, null));
 
-    private static bool ShouldShowInput(CommandLoggingOptions options)
-    {
-        // ShowCommandArguments controls whether to show full command or obfuscated
-        return options.ShowCommandArguments;
-    }
+    private static string GetTimestamp(CommandLoggingOptions options) =>
+        options.IncludesTimestamps ? $"[{DateTimeOffset.UtcNow:O}] " : string.Empty;
 }

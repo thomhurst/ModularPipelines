@@ -43,7 +43,7 @@ public class DownloaderTests : TestBase
             await Assert.That(observedOptions).IsNotNull();
             await Assert.That(observedOptions!.Logging).IsNull();
             await Assert.That(observedOptions.FallbackLogging).IsSameReferenceAs(HttpLoggingOptions.Minimal);
-            await Assert.That(observedOptions.FallbackLogging!.LogResponse).IsFalse();
+            await Assert.That(observedOptions.FallbackLogging!.ShowResponse).IsFalse();
         }
     }
 

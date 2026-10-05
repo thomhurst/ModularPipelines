@@ -13,7 +13,7 @@ namespace ModularPipelines.Options;
 /// <item><description><see cref="CommandLogVerbosity.Detailed"/> - Above plus exit code and duration</description></item>
 /// <item><description><see cref="CommandLogVerbosity.Diagnostic"/> - Everything including working directory and timestamps</description></item>
 /// </list>
-/// <para>Individual Show* properties can disable features provided by the verbosity level.</para>
+/// <para>Individual Show* properties override verbosity: null follows the level, true enables, and false disables.</para>
 /// </remarks>
 public record CommandLoggingOptions
 {
@@ -23,39 +23,39 @@ public record CommandLoggingOptions
     public CommandLogVerbosity Verbosity { get; init; } = CommandLogVerbosity.Normal;
 
     /// <summary>
-    /// Gets a value indicating whether timestamps are included in output. Default is false.
+    /// Gets a value indicating whether timestamps are included in output. Null follows the verbosity level.
     /// </summary>
-    public bool ShowTimestamps { get; init; }
+    public bool? ShowTimestamps { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether command arguments are shown. Default is true.
+    /// Gets a value indicating whether command arguments are shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowCommandArguments { get; init; } = true;
+    public bool? ShowCommandArguments { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether standard output is shown. Default is true.
+    /// Gets a value indicating whether standard output is shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowStandardOutput { get; init; } = true;
+    public bool? ShowStandardOutput { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether standard error is shown. Default is true.
+    /// Gets a value indicating whether standard error is shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowStandardError { get; init; } = true;
+    public bool? ShowStandardError { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether the exit code is shown. Default is false.
+    /// Gets a value indicating whether the exit code is shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowExitCode { get; init; }
+    public bool? ShowExitCode { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether the working directory is shown. Default is false.
+    /// Gets a value indicating whether the working directory is shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowWorkingDirectory { get; init; }
+    public bool? ShowWorkingDirectory { get; init; }
 
     /// <summary>
-    /// Gets a value indicating whether execution time is shown. Default is false.
+    /// Gets a value indicating whether execution time is shown. Null follows the verbosity level.
     /// </summary>
-    public bool ShowExecutionTime { get; init; }
+    public bool? ShowExecutionTime { get; init; }
 
     /// <summary>
     /// Gets the default logging options (Normal verbosity, all standard options enabled).
@@ -70,15 +70,19 @@ public record CommandLoggingOptions
     /// <summary>
     /// Gets diagnostic logging options with maximum verbosity and all options enabled.
     /// </summary>
-    public static CommandLoggingOptions Diagnostic { get; } = new()
-    {
-        Verbosity = CommandLogVerbosity.Diagnostic,
-        ShowTimestamps = true,
-        ShowCommandArguments = true,
-        ShowStandardOutput = true,
-        ShowStandardError = true,
-        ShowExitCode = true,
-        ShowWorkingDirectory = true,
-        ShowExecutionTime = true,
-    };
+    public static CommandLoggingOptions Diagnostic { get; } = new() { Verbosity = CommandLogVerbosity.Diagnostic };
+
+    internal bool IncludesCommandArguments => ShowCommandArguments ?? Verbosity >= CommandLogVerbosity.InputOnly;
+
+    internal bool IncludesStandardOutput => ShowStandardOutput ?? Verbosity >= CommandLogVerbosity.Normal;
+
+    internal bool IncludesStandardError => ShowStandardError ?? Verbosity >= CommandLogVerbosity.Normal;
+
+    internal bool IncludesExitCode => ShowExitCode ?? Verbosity >= CommandLogVerbosity.Detailed;
+
+    internal bool IncludesExecutionTime => ShowExecutionTime ?? Verbosity >= CommandLogVerbosity.Detailed;
+
+    internal bool IncludesWorkingDirectory => ShowWorkingDirectory ?? Verbosity >= CommandLogVerbosity.Diagnostic;
+
+    internal bool IncludesTimestamps => ShowTimestamps ?? Verbosity >= CommandLogVerbosity.Diagnostic;
 }
