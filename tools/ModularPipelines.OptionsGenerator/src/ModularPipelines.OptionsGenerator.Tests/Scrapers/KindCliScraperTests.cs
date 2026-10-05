@@ -8,6 +8,71 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class KindCliScraperTests
 {
     [Test]
+    [Arguments("--quiet", "--quiet string")]
+    [Arguments("--verbosity int32", "--verbosity string")]
+    public async Task Conflicting_Leaf_Shapes_Are_Not_Discarded(string original, string replacement)
+    {
+        var scraper = new TestKindCliScraper(new KindHelpExecutor());
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Count).IsEqualTo(2);
+        await Assert.That(commands.SelectMany(command => command.Options)
+            .Any(option => option.SwitchName is "--quiet" or "--verbosity")).IsFalse();
+        await Assert.That(() => scraper.Parse(["kind", "create", "cluster"],
+                Fixture("create-cluster").Replace(original, replacement, StringComparison.Ordinal)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("conflicting scraped and supplemental definitions");
+    }
+
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Root_Inherits_Only_Persistent_Settings(string newline)
+    {
+        var options = new TestKindCliScraper().ParseGlobals(Fixture("root").ReplaceLineEndings(newline));
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(["--quiet", "--verbosity"]);
+        var quiet = options.Single(option => option.SwitchName == "--quiet");
+        await Assert.That(quiet.ShortForm).IsEqualTo("-q");
+        await Assert.That(quiet.IsFlag).IsTrue();
+        var verbosity = options.Single(option => option.SwitchName == "--verbosity");
+        await Assert.That(verbosity.ShortForm).IsEqualTo("-v");
+        await Assert.That(verbosity.CSharpType).IsEqualTo("int?");
+        await Assert.That(verbosity.IsFlag).IsFalse();
+        await Assert.That(verbosity.ValueSeparator).IsEqualTo("=");
+        await Assert.That(options.Any(option => option.IsSecret || option.AcceptsMultipleValues)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("create", "create")]
+    [Arguments("create-cluster", "create cluster")]
+    [Arguments("load-docker-image", "load docker-image")]
+    public async Task Group_And_Leaf_Help_Confirm_Root_Shapes(string fixture, string commandPath)
+    {
+        var scraper = new TestKindCliScraper();
+        var globals = scraper.ParseGlobals(Fixture("root"));
+        var command = (await scraper.Parse(["kind", .. commandPath.Split(' ')], Fixture(fixture)))!;
+        var inherited = command.Options.Where(option => option.SwitchName is "--quiet" or "--verbosity").ToList();
+        await Assert.That(inherited.Count).IsEqualTo(2);
+        await Assert.That(CliGlobalOptionMerger.Merge(globals, inherited).Count).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Cluster_Settings_Remain_Local()
+    {
+        var command = await Parse(["kind", "create", "cluster"], Fixture("create-cluster"));
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--name").ShortForm).IsEqualTo("-n");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--kubeconfig").CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--wait").IsFlag).IsFalse();
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", $"kind-0.33.0-{command}-help.txt"));
+
+    [Test]
     public async Task Docker_Image_Positionals_Are_One_Required_Collection()
     {
         var command = await Parse(
@@ -120,9 +185,11 @@ public class KindCliScraperTests
 
     private sealed class TestKindCliScraper : KindCliScraper
     {
-        public TestKindCliScraper()
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
+        public TestKindCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<KindCliScraper>.Instance)
         {
@@ -132,6 +199,33 @@ public class KindCliScraperTests
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
             return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
+    }
+
+    private sealed class KindHelpExecutor : ICliCommandExecutor
+    {
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            var root = Fixture("root");
+            var help = arguments switch
+            {
+                "--help" => "Usage:\n  kind [command]\n\nAvailable Commands:\n  create   Create a cluster\n\n"
+                              + root[root.IndexOf("Flags:", StringComparison.Ordinal)..],
+                "create --help" => Fixture("create"),
+                "create cluster --help" => Fixture("create-cluster"),
+                "--version" => "kind version 0.33.0",
+                _ => throw new InvalidOperationException($"Unexpected arguments: {arguments}"),
+            };
+            return Task.FromResult(new CliCommandResult
+            {
+                StandardOutput = help,
+                StandardError = string.Empty,
+                ExitCode = 0,
+            });
         }
     }
 }

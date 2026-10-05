@@ -1,0 +1,17 @@
+Creates a local Kubernetes cluster using Docker container 'nodes'
+
+Usage:
+  kind create cluster [flags]
+
+Flags:
+      --config string       path to a kind config file
+  -h, --help                help for cluster
+      --image string        node docker image to use for booting the cluster
+      --kubeconfig string   sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config
+  -n, --name string         cluster name, overrides KIND_CLUSTER_NAME, config (default kind)
+      --retain              retain nodes for debugging when cluster creation fails
+      --wait duration       The length of time to wait for control plane node to be ready (default 0s). Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h).
+
+Global Flags:
+  -q, --quiet             silence all stderr output
+  -v, --verbosity int32   info log verbosity, higher value produces more output
