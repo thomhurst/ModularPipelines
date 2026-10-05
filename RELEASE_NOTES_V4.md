@@ -752,9 +752,10 @@ value and is not the root version-information action.
 
 Generated identifiers beginning with a digit now use a `Number` prefix. For example,
 `_404Document` becomes `Number404Document`; the emitted CLI switch remains
-`--404-document`. Current Azure CLI help no longer exposes the static website options
-on `storage account blob-service-properties update`; use the supported storage service
-commands instead.
+`--404-document`. The same rule applies to digit-leading name segments:
+`Use_32bitWorkerProcess` becomes `UseNumber32bitWorkerProcess`, while
+`--use-32bit-worker-process` is unchanged. Azure static-website options remain available
+in the current generated storage service commands.
 
 Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` produce one collection.
 `KubernetesLabelOptions` now takes one `Labels` collection instead of `Key_1Val_1`
