@@ -30,6 +30,39 @@ Resolve the service in a module, then select a command from the table below. A r
 var argoCd = context.Tools.ArgoCd;
 ```
 
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--argocd-context` | `ArgocdContext` | All editions | The name of the Argo-CD server context to use |
+| `--auth-token` | `AuthToken` | All editions | Authentication token; set this or the ARGOCD_AUTH_TOKEN environment variable |
+| `--client-crt` | `ClientCrt` | All editions | Client certificate file |
+| `--client-crt-key` | `ClientCrtKey` | All editions | Client certificate key file |
+| `--config` | `Config` | All editions | Path to Argo CD config (default "&lt;home&gt;/.config/argocd/config") |
+| `--controller-name` | `ControllerName` | All editions | Name of the Argo CD Application controller; set this or the ARGOCD_APPLICATION_CONTROLLER_NAME environment variable when the controller's name label differs from the default, for example when installing via the Helm chart (default "argocd-application-controller") |
+| `--core` | `Core` | All editions | If set to true then CLI talks directly to Kubernetes instead of talking to Argo CD API server |
+| `--grpc-web` | `GrpcWeb` | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2. |
+| `--grpc-web-root-path` | `GrpcWebRootPath` | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2. Set web root. |
+| `--header` | `Header` | All editions | Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers) |
+| `--http-retry-max` | `HttpRetryMax` | All editions | Maximum number of retries to establish http connection to Argo CD server |
+| `--insecure` | `Insecure` | All editions | Skip server certificate and domain verification |
+| `--kube-context` | `KubeContext` | All editions | Directs the command to the given kube-context |
+| `--logformat` | `Logformat` | All editions | Set the logging format. One of: json\|text (default "json") |
+| `--loglevel` | `Loglevel` | All editions | Set the logging level. One of: debug\|info\|warn\|error (default "info") |
+| `--plaintext` | `Plaintext` | All editions | Disable TLS |
+| `--port-forward` | `PortForward` | All editions | Connect to a random argocd-server port using port forwarding |
+| `--port-forward-namespace` | `PortForwardNamespace` | All editions | Namespace name which should be used for port forwarding |
+| `--prompts-enabled` | `PromptsEnabled` | All editions | Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default. |
+| `--redis-compress` | `RedisCompress` | All editions | Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip") |
+| `--redis-haproxy-name` | `RedisHaproxyName` | All editions | Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy") |
+| `--redis-name` | `RedisName` | All editions | Name of the Redis deployment; set this or the ARGOCD_REDIS_NAME environment variable when the Redis's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis") |
+| `--repo-server-name` | `RepoServerName` | All editions | Name of the Argo CD Repo server; set this or the ARGOCD_REPO_SERVER_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-repo-server") |
+| `--server` | `Server` | All editions | Argo CD server address |
+| `--server-crt` | `ServerCrt` | All editions | Server certificate file |
+| `--server-name` | `ServerName` | All editions | Name of the Argo CD API server; set this or the ARGOCD_SERVER_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-server") |
+
 ## Commands
 
 | CLI command | Options record |
