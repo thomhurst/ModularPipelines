@@ -1797,6 +1797,89 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    [Arguments("bool?", false, "override bool?")]
+    [Arguments("bool?", true, "new bool")]
+    [Arguments("string?", false, "new string?")]
+    [Arguments("string?", true, "new string")]
+    [Arguments("int?", true, "new int")]
+    public async Task Same_Scope_Global_Overrides_Compile(string localType, bool required, string declaration)
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--debug",
+                    PropertyName = "Debug",
+                    CSharpType = localType,
+                    IsFlag = localType == "bool?",
+                    IsRequired = required,
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptionsBeforeSubcommands = false,
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--debug",
+                    ShortForm = "-d",
+                    PropertyName = "Debug",
+                    CSharpType = "bool?",
+                    IsFlag = true,
+                },
+            ],
+        };
+        var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
+        var generated = (await new OptionsClassGenerator().GenerateAsync(resolved)).Single().Content;
+        var regenerated = (await new OptionsClassGenerator().GenerateAsync(
+            InheritedPropertyCollisionResolver.Resolve(resolved))).Single().Content;
+        await Assert.That(generated).IsEqualTo(regenerated);
+        await Assert.That(generated).Contains($"public {declaration} Debug");
+        await Assert.That(generated).DoesNotContain("CliDebug");
+
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create(
+            "global-override-options",
+            [
+                CSharpSyntaxTree.ParseText("""
+                    namespace ModularPipelines.Attributes
+                    {
+                        public sealed class CliOptionAttribute(string name) : System.Attribute;
+                        public sealed class CliFlagAttribute(string name) : System.Attribute;
+                        public sealed class CliSubCommandAttribute(params string[] commands) : System.Attribute;
+                    }
+                    namespace ModularPipelines.Tool.Options
+                    {
+                        public record ToolOptions
+                        {
+                            public virtual bool? Debug { get; set; }
+                        }
+                    }
+                    """),
+                CSharpSyntaxTree.ParseText(generated),
+            ],
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+                .WithNullableContextOptions(NullableContextOptions.Enable));
+        var errors = compilation.GetDiagnostics()
+            .Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error
+                || diagnostic.Id is "CS0108" or "CS0114" or "CS8765")
+            .Select(diagnostic => diagnostic.ToString()).ToArray();
+        await Assert.That(errors).IsEmpty();
+
+        var separateScopes = (await new OptionsClassGenerator().GenerateAsync(
+            tool with { GlobalOptionsBeforeSubcommands = true })).Single().Content;
+        await Assert.That(separateScopes).Contains("CliDebug");
+        await Assert.That(separateScopes).DoesNotContain("override");
+    }
+
+    [Test]
     public async Task GeneratedCodeAttribute_Contains_A_Version()
     {
         await Assert.That(GeneratorUtils.GeneratedCodeAttribute)

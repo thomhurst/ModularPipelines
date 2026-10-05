@@ -51,7 +51,7 @@ public class OptionsClassGenerator : ICodeGenerator
             IsCollectionParameter(parameter)
             || RequiresNullGuard(parameter));
         var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
-            || command.RequiredOptions.Any(static option => option.IsFlag);
+            || command.RequiredOptions.Any(static option => option.IsFlag || option.InheritedOptionPropertyType is not null);
 
         // Parameter tags belong on the primary declaration or the explicit constructor.
         GeneratorUtils.GenerateConstructorXmlDocumentation(
@@ -731,7 +731,8 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null,
         CliOptionDefinition? option = null)
     {
-        var declaration = $"    public {GetNewModifier(propertyName)}{propertyType} {propertyName}";
+        var modifier = GetPropertyModifier(propertyName, propertyType, isRequired, option);
+        var declaration = $"    public {modifier}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
         // alternative inputs must retain the same values for validation and rendering.
         if (!isRequired && participatesInAlternative
@@ -870,6 +871,18 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPropertyAccessor(bool isRequired) =>
         isRequired ? "private init" : "set";
+
+    private static string GetPropertyModifier(
+        string propertyName, string propertyType, bool isRequired, CliOptionDefinition? option)
+    {
+        if (option?.InheritedOptionPropertyType is not { } inheritedType)
+        {
+            return GetNewModifier(propertyName);
+        }
+
+        // Required properties use init accessors and cannot override the mutable base property.
+        return !isRequired && inheritedType == propertyType ? "override " : "new ";
+    }
 
     private static string GetNewModifier(string propertyName) =>
         InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";
