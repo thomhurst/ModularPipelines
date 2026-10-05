@@ -146,19 +146,19 @@ Each backend registration has exactly two overloads: one taking an `Action<TOpti
 
 The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and `AddDistributedArtifactStoreFactory<TFactory>()`: do not mix a direct store and a factory, regardless of registration order. Repeating the same typed registration is a no-op. Keyed services are independent, and pipelines without an explicit store retain the default filesystem store. In V4, direct store registration no longer silently removes an earlier factory; choose one backend at the registration call site instead.
 
-## ArtifactOptions[​](#artifactoptions "Direct link to ArtifactOptions")
+## Artifact compression[​](#artifact-compression "Direct link to Artifact compression")
 
-`ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the options pattern, independently of the backend:
+`DistributedOptions.ArtifactCompressionLevel` applies to every artifact store, including in local mode. Configure it with the options pattern, independently of the backend:
 
 ```
-builder.Services.Configure<ArtifactOptions>(o => o.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
 
-// or: builder.Services.Configure<ArtifactOptions>(builder.Configuration.GetSection("Artifacts"));
+// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
 ```
 
-| Property           | Type               | Default   | Description                                |
-| ------------------ | ------------------ | --------- | ------------------------------------------ |
-| `CompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory artifacts. |
+| Property                   | Type               | Default   | Description                                         |
+| -------------------------- | ------------------ | --------- | --------------------------------------------------- |
+| `ArtifactCompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory and glob artifacts. |
 
 Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options (`RedisOptions`, `S3StorageOptions`).
 

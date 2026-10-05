@@ -2225,19 +2225,19 @@ Each backend registration has exactly two overloads: one taking an `Action<TOpti
 
 The same conflict rule applies to `AddDistributedArtifactStore<TStore>()` and `AddDistributedArtifactStoreFactory<TFactory>()`: do not mix a direct store and a factory, regardless of registration order. Repeating the same typed registration is a no-op. Keyed services are independent, and pipelines without an explicit store retain the default filesystem store. In V4, direct store registration no longer silently removes an earlier factory; choose one backend at the registration call site instead.
 
-## ArtifactOptions[​](#artifactoptions "Direct link to ArtifactOptions")
+## Artifact compression[​](#artifact-compression "Direct link to Artifact compression")
 
-`ArtifactOptions` holds the artifact settings that apply to every artifact store. Configure them once with the options pattern, independently of the backend:
+`DistributedOptions.ArtifactCompressionLevel` applies to every artifact store, including in local mode. Configure it with the options pattern, independently of the backend:
 
 ```
-builder.Services.Configure<ArtifactOptions>(o => o.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(o => o.ArtifactCompressionLevel = CompressionLevel.Optimal);
 
-// or: builder.Services.Configure<ArtifactOptions>(builder.Configuration.GetSection("Artifacts"));
+// Or set o.ArtifactCompressionLevel inside your existing AddDistributedMode configuration.
 ```
 
-| Property           | Type               | Default   | Description                                |
-| ------------------ | ------------------ | --------- | ------------------------------------------ |
-| `CompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory artifacts. |
+| Property                   | Type               | Default   | Description                                         |
+| -------------------------- | ------------------ | --------- | --------------------------------------------------- |
+| `ArtifactCompressionLevel` | `CompressionLevel` | `Fastest` | Compression level for directory and glob artifacts. |
 
 Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options (`RedisOptions`, `S3StorageOptions`).
 
@@ -50690,10 +50690,10 @@ Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` 
 
 A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.
 
-Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```
-builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
 ```
 
 Both `AddS3DistributedArtifactStore` and `AddS3ModuleCache` have one `Action<S3StorageOptions>` overload and one `IConfigurationSection` overload.
@@ -50830,10 +50830,10 @@ Each Redis feature owns its connection and connects asynchronously on first use.
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
-`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `CompressionLevel`, are configured once through `ArtifactOptions`:
+`AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required. Every Redis registration method has one `Action<RedisOptions>` overload and one `IConfigurationSection` overload. Backend-independent artifact settings, such as `ArtifactCompressionLevel`, are configured once through `DistributedOptions`:
 
 ```
-builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.Optimal);
+builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.Optimal);
 ```
 
 See [Configuration](/ModularPipelines/docs/next/distributed/configuration.md#redisoptions) for every `RedisOptions` property and the key schema.
