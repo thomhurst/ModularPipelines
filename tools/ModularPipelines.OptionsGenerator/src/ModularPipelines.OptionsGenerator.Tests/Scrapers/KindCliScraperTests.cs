@@ -8,6 +8,49 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class KindCliScraperTests
 {
     [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Root_Inherits_Only_Persistent_Settings(string newline)
+    {
+        var options = new TestKindCliScraper().ParseGlobals(Fixture("root").ReplaceLineEndings(newline));
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(["--quiet", "--verbosity"]);
+        var quiet = options.Single(option => option.SwitchName == "--quiet");
+        await Assert.That(quiet.ShortForm).IsEqualTo("-q");
+        await Assert.That(quiet.IsFlag).IsTrue();
+        var verbosity = options.Single(option => option.SwitchName == "--verbosity");
+        await Assert.That(verbosity.ShortForm).IsEqualTo("-v");
+        await Assert.That(verbosity.CSharpType).IsEqualTo("int?");
+        await Assert.That(verbosity.IsFlag).IsFalse();
+        await Assert.That(verbosity.ValueSeparator).IsEqualTo("=");
+        await Assert.That(options.Any(option => option.IsSecret || option.AcceptsMultipleValues)).IsFalse();
+    }
+
+    [Test]
+    [Arguments("create")]
+    [Arguments("create-cluster")]
+    [Arguments("load-docker-image")]
+    public async Task Group_And_Leaf_Help_Confirm_Root_Shapes(string fixture)
+    {
+        var scraper = new TestKindCliScraper();
+        var globals = scraper.ParseGlobals(Fixture("root"));
+        var inherited = scraper.ParseGlobals(Fixture(fixture));
+        await Assert.That(inherited.Count).IsEqualTo(2);
+        await Assert.That(CliGlobalOptionMerger.Merge(globals, inherited).Count).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Cluster_Settings_Remain_Local()
+    {
+        var command = await Parse(["kind", "create", "cluster"], Fixture("create-cluster"));
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--name").ShortForm).IsEqualTo("-n");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--kubeconfig").CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--wait").IsFlag).IsFalse();
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", $"kind-0.33.0-{command}-help.txt"));
+
+    [Test]
     public async Task Docker_Image_Positionals_Are_One_Required_Collection()
     {
         var command = await Parse(
@@ -120,6 +163,8 @@ public class KindCliScraperTests
 
     private sealed class TestKindCliScraper : KindCliScraper
     {
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public TestKindCliScraper()
             : base(
                 new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),

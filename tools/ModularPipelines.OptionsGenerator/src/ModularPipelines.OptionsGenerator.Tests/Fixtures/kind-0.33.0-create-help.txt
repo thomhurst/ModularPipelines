@@ -1,0 +1,17 @@
+Creates one of local Kubernetes cluster (cluster)
+
+Usage:
+  kind create [flags]
+  kind create [command]
+
+Available Commands:
+  cluster     Creates a local Kubernetes cluster
+
+Flags:
+  -h, --help   help for create
+
+Global Flags:
+  -q, --quiet             silence all stderr output
+  -v, --verbosity int32   info log verbosity, higher value produces more output
+
+Use "kind create [command] --help" for more information about a command.

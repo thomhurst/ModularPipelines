@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -38,6 +39,21 @@ public partial class KindCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Kind";
 
     public override string OutputDirectory => "src/ModularPipelines.Kind";
+
+    // These are the root PersistentFlags in kind; help and version are root controls.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName is "--quiet" or "--verbosity")];
+
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        // Reject a changed inherited shape rather than silently discard its metadata.
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
 
     /// <summary>
     /// Skip utility commands.
