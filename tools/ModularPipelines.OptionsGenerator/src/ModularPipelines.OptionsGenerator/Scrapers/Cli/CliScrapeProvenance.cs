@@ -26,12 +26,11 @@ internal sealed class CliScrapeProvenance
     /// coverage validation must not report them as removals.
     /// </summary>
     public IReadOnlyList<string> UnavailableHelpPaths =>
-        _helpInvocations.Values
+        [.. _helpInvocations.Values
             .Where(static invocation => invocation.Unavailable)
             .Select(static invocation => invocation.CommandPath)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .Order(StringComparer.OrdinalIgnoreCase)
-            .ToArray();
+            .Order(StringComparer.OrdinalIgnoreCase)];
 
     public void Record(
         IReadOnlyList<string> commandPath,
@@ -53,7 +52,8 @@ internal sealed class CliScrapeProvenance
             RawHelp = result.CombinedOutput,
             PreserveRawHelp = preserveRawHelp || commandPath.Count == 1 || result.ExitCode != 0,
             Unavailable = result.Unavailable || (helpKind == CliHelpKind.Manual
-                && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput))),
+                && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput)))
+                || (helpKind == CliHelpKind.Usage && string.IsNullOrWhiteSpace(result.CombinedOutput)),
         };
         if (helpKind == CliHelpKind.Manual)
         {
@@ -168,11 +168,10 @@ internal sealed class CliScrapeProvenance
 
     private static string GetSafeToolDirectoryName(string toolName)
     {
-        var safeName = new string(toolName
+        var safeName = new string([.. toolName
             .Select(character => char.IsAsciiLetterOrDigit(character) || character is '-' or '_'
                 ? character
-                : '_')
-            .ToArray());
+                : '_')]);
         return safeName.Length > 0 ? safeName : "unknown-tool";
     }
 
@@ -184,6 +183,7 @@ internal enum CliHelpKind
 {
     Help,
     Manual,
+    Usage,
 }
 
 internal sealed record CliHelpInvocation
