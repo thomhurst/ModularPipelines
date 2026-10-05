@@ -1,0 +1,16 @@
+Set a value in the npm configuration
+
+Usage:
+npm set <key>=<value> [<key>=<value> ...] (See `npm config`)
+
+Options:
+[-g|--global] [-L|--location <global|user|project>]
+
+  -g|--global
+    Operates in "global" mode, so that packages are installed into the
+
+  -L|--location
+    When passed to `npm config` this refers to which config file to use.
+
+
+Run "npm help set" for more info

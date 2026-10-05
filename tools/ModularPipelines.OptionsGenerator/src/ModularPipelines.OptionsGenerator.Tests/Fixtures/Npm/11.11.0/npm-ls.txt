@@ -1,0 +1,62 @@
+List installed packages
+
+Usage:
+npm ls <package-spec>
+
+Options:
+[-a|--all] [--json] [-l|--long] [-p|--parseable] [-g|--global] [--depth <depth>]
+[--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+[--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+[--link] [--package-lock-only] [--no-unicode]
+[-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+[--workspaces] [--include-workspace-root] [--install-links]
+
+  -a|--all
+    When running `npm outdated` and `npm ls`, setting `--all` will show
+
+  --json
+    Whether or not to output JSON data, rather than the normal output.
+
+  -l|--long
+    Show extended information in `ls`, `search`, and `help-search`.
+
+  -p|--parseable
+    Output parseable results from commands that write to standard output. For
+
+  -g|--global
+    Operates in "global" mode, so that packages are installed into the
+
+  --depth
+    The depth to go when recursing packages for `npm ls`.
+
+  --omit
+    Dependency types to omit from the installation tree on disk.
+
+  --include
+    Option that allows for defining which types of dependencies to install.
+
+  --link
+    Used with `npm ls`, limiting output to only those packages that are
+
+  --package-lock-only
+    If set to true, the current operation will only use the `package-lock.json`,
+
+  --unicode
+    When set to true, npm uses unicode characters in the tree output.  When
+
+  -w|--workspace
+    Enable running a command in the context of the configured workspaces of the
+
+  --workspaces
+    Set to true to run the command in the context of **all** configured
+
+  --include-workspace-root
+    Include the workspace root when workspaces are enabled for a command.
+
+  --install-links
+    When set file: protocol dependencies will be packed and installed as
+
+
+alias: list
+
+Run "npm help ls" for more info

@@ -8,6 +8,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class NpmCliScraperTests
 {
+    private static readonly string[] OrgVerbs = ["set", "rm", "ls"];
+
     [Test]
     public async Task Discovers_Wrapped_Root_Commands()
     {
@@ -130,10 +132,160 @@ public class NpmCliScraperTests
             """);
 
         await Assert.That(command!.CommandParts).IsEquivalentTo(["exec"]);
-        var operand = command.PositionalArguments.First();
+        var operand = command.PositionalArguments[0];
         await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(operand.PrependOptionTerminator).IsTrue();
     }
+
+    [Test]
+    public async Task Discovers_Nested_Commands_From_Usage_Without_Operands_Or_Assignments()
+    {
+        const string help = """
+            Set access level on published packages
+            Usage:
+            npm access list packages [<user>|<scope>]
+            npm access list collaborators [<package>]
+            npm access set status=public|private [<package>]
+            npm access grant <read-only|read-write> <scope:team>
+            """;
+        var scraper = CreateScraper();
+        await Assert.That(scraper.GetSubcommands(["npm", "access"], help)).IsEquivalentTo(["list", "set", "grant"]);
+        await Assert.That(scraper.GetSubcommands(["npm", "access", "list"], help)).IsEquivalentTo(["packages", "collaborators"]);
+        await Assert.That(scraper.GetSubcommands(["npm", "access", "set"], help)).IsEmpty();
+        await Assert.That(scraper.GetSubcommands(["npm", "access", "grant"], help)).IsEmpty();
+    }
+
+    [Test]
+    public async Task Command_Groups_Do_Not_Become_Executable_Options()
+    {
+        var command = await CreateScraper().Parse(["npm", "token"], """
+            Manage tokens
+            Usage:
+            npm token list
+            npm token revoke <id>
+            Options:
+            [--json]
+              --json
+                Output JSON.
+            """);
+        await Assert.That(command).IsNull();
+    }
+
+    [Test]
+    public async Task Summary_Alternatives_Preserve_Boolean_Options_And_Negation()
+    {
+        var command = await CreateScraper().Parse(["npm", "install"], """
+            Install packages
+            Usage:
+            npm install [<package-spec> ...]
+            Options:
+            [-S|--save|--no-save|--save-prod|--save-dev] [--no-package-lock]
+
+              -S|--save
+                Save installed packages.
+
+              --package-lock
+                Read the lockfile.
+            """);
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--save", "--save-prod", "--save-dev", "--package-lock"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--save").NegatedSwitchName).IsEqualTo("--no-save");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--package-lock").NegatedSwitchName).IsEqualTo("--no-package-lock");
+    }
+
+    [Test]
+    public async Task Root_Verb_Choices_Are_Discovered_But_Nested_Value_Choices_Are_Not()
+    {
+        var scraper = CreateScraper();
+        const string auditHelp = "Run an audit\nUsage:\nnpm audit [fix|signatures]\nOptions:\n[--json]";
+        await Assert.That(scraper.GetSubcommands(["npm", "audit"], auditHelp)).IsEquivalentTo(["fix", "signatures"]);
+        var fix = await scraper.Parse(["npm", "audit", "fix"], auditHelp);
+        await Assert.That(fix!.CommandParts).IsEquivalentTo(["audit", "fix"]);
+        await Assert.That(fix.PositionalArguments).IsEmpty();
+        await Assert.That(scraper.GetSubcommands(["npm", "profile", "enable-2fa"],
+            "Usage:\nnpm profile enable-2fa [auth-only|auth-and-writes]")).IsEmpty();
+    }
+
+    [Test]
+    public async Task Org_Bare_Operand_Names_Are_Not_Literal_Subcommands()
+    {
+        var help = await ReadNpmFixture("org");
+        var scraper = CreateScraper();
+        await Assert.That(scraper.GetSubcommands(["npm", "org"], help)).IsEquivalentTo(["set", "rm", "ls"]);
+        foreach (var verb in OrgVerbs)
+        {
+            await Assert.That(scraper.GetSubcommands(["npm", "org", verb], help)).IsEmpty();
+            var command = await scraper.Parse(["npm", "org", verb], help);
+            await Assert.That(command).IsNotNull();
+            await Assert.That(command!.PositionalArguments[0].PropertyName).IsEqualTo("Orgname");
+            await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("Username");
+            await Assert.That(command.PositionalArguments[1].IsRequired).IsEqualTo(verb != "ls");
+        }
+    }
+
+    [Test]
+    [Arguments("get")]
+    [Arguments("set")]
+    public async Task Config_Alias_Explanations_Are_Not_Operands(string verb)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        await Assert.That(command!.PositionalArguments).Count().IsEqualTo(1);
+        await Assert.That(command.PositionalArguments[0].IsVariadic).IsTrue();
+        await Assert.That(command.PositionalArguments[0].IsRequired).IsEqualTo(verb == "set");
+    }
+
+    [Test]
+    public async Task Bare_Option_Value_Hints_Are_Not_Flags()
+    {
+        var command = await CreateScraper().Parse(["npm", "version"], await ReadNpmFixture("version"));
+        var preid = command!.Options.Single(option => option.SwitchName == "--preid");
+        await Assert.That(preid.IsFlag).IsFalse();
+        await Assert.That(preid.CSharpType).IsEqualTo("string?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--json").IsFlag).IsTrue();
+    }
+
+    [Test]
+    [Arguments("ls", true)]
+    [Arguments("pack", true)]
+    [Arguments("publish", false)]
+    public async Task Current_Project_Commands_Accept_Optional_Package_Specs(string verb, bool variadic)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        var operand = command!.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("PackageSpec");
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.IsVariadic).IsEqualTo(variadic);
+        await Assert.That(operand.CSharpType).IsEqualTo(variadic ? "IEnumerable<string>?" : "string?");
+    }
+
+    [Test]
+    [Arguments("run")]
+    [Arguments("start")]
+    [Arguments("stop")]
+    [Arguments("test")]
+    [Arguments("restart")]
+    public async Task Script_Arguments_Preserve_Separate_Tokens_After_Separator(string verb)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        var operand = command!.PositionalArguments.Single(argument => argument.Phase == CommandLinePhase.Passthrough);
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.IsVariadic).IsTrue();
+        await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(operand.PrependOptionTerminator).IsTrue();
+    }
+
+    [Test]
+    public async Task Run_Without_Command_Lists_Scripts()
+    {
+        var command = await CreateScraper().Parse(["npm", "run"], await ReadNpmFixture("run"));
+        var operand = command!.PositionalArguments.Single(argument => argument.PropertyName == "Command");
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.CSharpType).IsEqualTo("string?");
+    }
+
+    private static Task<string> ReadNpmFixture(string command) => File.ReadAllTextAsync(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", "Npm", "11.11.0", $"npm-{command}.txt"));
 
     private static TestNpmCliScraper CreateScraper() => new();
 
@@ -148,6 +300,8 @@ public class NpmCliScraperTests
         }
 
         public string[] GetSubcommands(string helpText) => [.. ExtractSubcommands(helpText)];
+
+        public string[] GetSubcommands(string[] path, string helpText) => [.. ExtractSubcommands(path, helpText)];
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
