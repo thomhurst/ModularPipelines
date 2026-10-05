@@ -195,8 +195,11 @@ The pip 25.3 help no longer exposes `UsePep517`, `BuildOption`, or `GlobalOption
 their generated properties are removed. Use the current pip build configuration
 options, such as `ConfigSettings`, where appropriate for the build backend.
 
-The Python integration was regenerated from pip 25.3 (Python 3.14), retaining all
-14 previous commands and adding `LockAsync` / `PipLockOptions`. The generated
+The Python integration was regenerated from pip 26.2.1, retaining all 15 commands,
+including `LockAsync` / `PipLockOptions`. `NoProxyEnv` is an inherited boolean flag.
+`RequirementsFromScript` and `RefreshPackage` accept collections and repeat their
+switch for each value. Script files can serve as the complete input source for
+install, download, wheel, and lock commands. The generated
 [pip reference](docs/docs/mp-packages/cli/pip.md) lists the current options.
 
 ## Logging surface

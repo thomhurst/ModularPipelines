@@ -64,6 +64,7 @@ wrap it in a collection expression. `Proxy` URLs are masked in command logs.
 Negative counts are rejected. When migrating Boolean initializers, replace `true`
 with `1` and `false` with `0` or `null`. Pip documents three useful verbosity or
 quietness levels; its parser accepts additive counts rather than Boolean values.
+`NoProxyEnv` disables proxy settings inherited from environment variables.
 Install options such as `Target` and Package Index Options such as `IndexUrl`
 remain command-specific and render after `install`.
 Dependency groups are repeatable on install, download, wheel, and lock commands:
@@ -71,5 +72,12 @@ Dependency groups are repeatable on install, download, wheel, and lock commands:
 as the command's complete input source. Null, empty, and whitespace-only entries
 are rejected before starting pip, including when mixed with valid group names.
 
-The generated API reflects pip 25.3 and includes `LockAsync`. See the
+`RequirementsFromScript = ["first.py", "second.py"]` supplies repeatable PEP 723
+script inputs on install, download, wheel, and lock commands. Script inputs can
+satisfy the command's input requirement on their own. `RefreshPackage` also takes
+a collection: `RefreshPackage = [":none:", "first,second"]` emits each value in
+order as a separate `--refresh-package` operand, preserving pip's accumulation
+and reset semantics.
+
+The generated API reflects pip 26.2.1, inherits all 26 General Options, and includes `LockAsync`. See the
 [pip CLI reference](./cli/pip.md) for the complete command and global-option list.
