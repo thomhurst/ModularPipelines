@@ -692,3 +692,15 @@ For example, Cassandra `ClusterArguments = [new CliValueGroup(["first=value",
 group to repeat the option. ARO `AssignPlatformWi` similarly preserves each operator
 and identity pair. See the Azure package guide for the DevOps extension prerequisite
 and noninteractive PAT authentication.
+
+## .NET SDK and nbgv option scope
+
+Generated .NET SDK command records now inherit `Diagnostics` from `DotNetOptions`.
+`Diagnostics = true` renders `--diagnostics` before the command path; false and null
+omit it. Command verbosity, runtime-host settings, and root information actions are
+not universal SDK execution properties.
+
+The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
+help/version actions. Continue setting `Project` and other values on command
+records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
+value and is not the root version-information action.

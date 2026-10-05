@@ -182,6 +182,7 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.UsageSynop
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PipCliScraper.GetAdditionalUsageSynopses(string![]! commandPath, string! helpText) -> System.Collections.Generic.IEnumerable<string!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DotNetCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ApplyIgnoredOptionPolicy(ModularPipelines.OptionsGenerator.Models.CliCommandDefinition! command) -> ModularPipelines.OptionsGenerator.Models.CliCommandDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.IgnoredOptionSwitches.get -> System.Collections.Generic.IReadOnlySet<string!>!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionDeclarationPattern() -> System.Text.RegularExpressions.Regex!
