@@ -27,8 +27,10 @@ public class DotNetGlobalOptionsTests : TestBase
     [Test]
     public async Task Every_Command_Inherits_One_Diagnostics_Property_Without_Host_Options()
     {
-        foreach (var type in typeof(DotNetOptions).Assembly.GetTypes()
-                     .Where(type => !type.IsAbstract && typeof(DotNetOptions).IsAssignableFrom(type)))
+        var commands = typeof(DotNetOptions).Assembly.GetTypes()
+            .Where(type => !type.IsAbstract && typeof(DotNetOptions).IsAssignableFrom(type)).ToArray();
+        await Assert.That(commands).IsNotEmpty();
+        foreach (var type in commands)
         {
             var diagnostics = type.GetProperties().Single(property => property.Name == nameof(DotNetOptions.Diagnostics));
             await Assert.That(diagnostics.DeclaringType).IsEqualTo(typeof(DotNetOptions));
