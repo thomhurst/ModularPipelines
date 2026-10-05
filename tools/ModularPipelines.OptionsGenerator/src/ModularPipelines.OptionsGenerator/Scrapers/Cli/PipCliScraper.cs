@@ -38,20 +38,16 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -c, --constraint &lt;file&gt;     Constrain versions using the given constraints file.
 ///   ...
 /// </summary>
-public partial class PipCliScraper : CliScraperBase
+public partial class PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     // These optparse append actions and accumulating callbacks omit repeatability from help.
     // See the captured pip-26.2.1 fixtures and their parser source references.
-    private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
-    {
+    private static readonly HashSet<string> RepeatableOptions =
+    [
+        with(StringComparer.Ordinal),
         "--trusted-host", "--exists-action", "--use-feature", "--use-deprecated", "--group",
         "--requirements-from-script", "--refresh-package",
-    };
-
-    public PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    ];
 
     public override string ToolName => "pip";
 
@@ -109,7 +105,7 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -230,7 +226,7 @@ public partial class PipCliScraper : CliScraperBase
             return arguments;
         }
 
-        return arguments
+        return [.. arguments
                 .Where(argument => !argument.PropertyName.Equals(
                     "PackageIndexOptions",
                     StringComparison.Ordinal))
@@ -244,8 +240,7 @@ public partial class PipCliScraper : CliScraperBase
                             : "IEnumerable<string>?",
                         IsVariadic = true,
                     }
-                    : argument)
-                .ToArray();
+                    : argument)];
     }
 
     /// <inheritdoc />
@@ -272,7 +267,7 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -317,7 +312,7 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             for (var i = 0; i < lines.Length; i++)
