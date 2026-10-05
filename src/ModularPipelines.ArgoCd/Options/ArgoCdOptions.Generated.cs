@@ -5,10 +5,13 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
+using ModularPipelines.ArgoCd.Enums;
 
 namespace ModularPipelines.ArgoCd.Options;
 
@@ -19,7 +22,165 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("argocd")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record ArgoCdOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// The name of the Argo-CD server context to use
+    /// </summary>
+    [CliOption("--argocd-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ArgocdContext { get; set; }
+
+    /// <summary>
+    /// Authentication token; set this or the ARGOCD_AUTH_TOKEN environment variable
+    /// </summary>
+    [SecretValue]
+    [CliOption("--auth-token", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AuthToken { get; set; }
+
+    /// <summary>
+    /// Client certificate file
+    /// </summary>
+    [CliOption("--client-crt", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ClientCrt { get; set; }
+
+    /// <summary>
+    /// Client certificate key file
+    /// </summary>
+    [CliOption("--client-crt-key", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ClientCrtKey { get; set; }
+
+    /// <summary>
+    /// Path to Argo CD config (default "&lt;home&gt;/.config/argocd/config")
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Config { get; set; }
+
+    /// <summary>
+    /// Name of the Argo CD Application controller; set this or the ARGOCD_APPLICATION_CONTROLLER_NAME environment variable when the controller's name label differs from the default, for example when installing via the Helm chart (default "argocd-application-controller")
+    /// </summary>
+    [CliOption("--controller-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ControllerName { get; set; }
+
+    /// <summary>
+    /// If set to true then CLI talks directly to Kubernetes instead of talking to Argo CD API server
+    /// </summary>
+    [CliOption("--core", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Core { get; set; }
+
+    /// <summary>
+    /// Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2.
+    /// </summary>
+    [CliOption("--grpc-web", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? GrpcWeb { get; set; }
+
+    /// <summary>
+    /// Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2. Set web root.
+    /// </summary>
+    [CliOption("--grpc-web-root-path", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? GrpcWebRootPath { get; set; }
+
+    /// <summary>
+    /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
+    /// </summary>
+    [SecretValue]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? Header { get; set; }
+
+    /// <summary>
+    /// Maximum number of retries to establish http connection to Argo CD server
+    /// </summary>
+    [CliOption("--http-retry-max", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? HttpRetryMax { get; set; }
+
+    /// <summary>
+    /// Skip server certificate and domain verification
+    /// </summary>
+    [CliOption("--insecure", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Insecure { get; set; }
+
+    /// <summary>
+    /// Directs the command to the given kube-context
+    /// </summary>
+    [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeContext { get; set; }
+
+    /// <summary>
+    /// Set the logging format. One of: json|text (default "json")
+    /// </summary>
+    [CliOption("--logformat", Format = OptionFormat.EqualsSeparated)]
+    public virtual ArgoCdLogformat? Logformat { get; set; }
+
+    /// <summary>
+    /// Set the logging level. One of: debug|info|warn|error (default "info")
+    /// </summary>
+    [CliOption("--loglevel", Format = OptionFormat.EqualsSeparated)]
+    public virtual ArgoCdLoglevel? Loglevel { get; set; }
+
+    /// <summary>
+    /// Disable TLS
+    /// </summary>
+    [CliOption("--plaintext", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Plaintext { get; set; }
+
+    /// <summary>
+    /// Connect to a random argocd-server port using port forwarding
+    /// </summary>
+    [CliOption("--port-forward", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? PortForward { get; set; }
+
+    /// <summary>
+    /// Namespace name which should be used for port forwarding
+    /// </summary>
+    [CliOption("--port-forward-namespace", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PortForwardNamespace { get; set; }
+
+    /// <summary>
+    /// Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default.
+    /// </summary>
+    [CliOption("--prompts-enabled", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? PromptsEnabled { get; set; }
+
+    /// <summary>
+    /// Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")
+    /// </summary>
+    [CliOption("--redis-compress", Format = OptionFormat.EqualsSeparated)]
+    public virtual ArgoCdRedisCompress? RedisCompress { get; set; }
+
+    /// <summary>
+    /// Name of the Redis HA Proxy; set this or the ARGOCD_REDIS_HAPROXY_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")
+    /// </summary>
+    [CliOption("--redis-haproxy-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RedisHaproxyName { get; set; }
+
+    /// <summary>
+    /// Name of the Redis deployment; set this or the ARGOCD_REDIS_NAME environment variable when the Redis's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis")
+    /// </summary>
+    [CliOption("--redis-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RedisName { get; set; }
+
+    /// <summary>
+    /// Name of the Argo CD Repo server; set this or the ARGOCD_REPO_SERVER_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-repo-server")
+    /// </summary>
+    [CliOption("--repo-server-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RepoServerName { get; set; }
+
+    /// <summary>
+    /// Argo CD server address
+    /// </summary>
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Server { get; set; }
+
+    /// <summary>
+    /// Server certificate file
+    /// </summary>
+    [CliOption("--server-crt", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ServerCrt { get; set; }
+
+    /// <summary>
+    /// Name of the Argo CD API server; set this or the ARGOCD_SERVER_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-server")
+    /// </summary>
+    [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ServerName { get; set; }
+
 }
