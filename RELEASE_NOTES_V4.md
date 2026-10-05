@@ -808,3 +808,14 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Kustomize edit operands
+
+Regenerated Kustomize edit methods now require options when the CLI requires an
+operand. For example, replace `Edit.Set.NamespaceAsync()` with
+`Edit.Set.NamespaceAsync(new KustomizeEditSetNamespaceOptions("production"))`, and
+replace `Edit.Add.BaseAsync()` with
+`Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other affected
+add, remove, and set methods similarly take their generated options type with the
+required operand. Empty calls no longer compile; generated compatibility overloads
+are not retained for commands that require input.
