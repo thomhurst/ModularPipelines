@@ -2278,7 +2278,9 @@ builder.AddRedisDistributed(o =>
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not adopted and cannot conflict with it.
 
-The options are validated when the pipeline is built. A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires.
+The options are validated when the pipeline is built. After configuration and post-configuration finish, `ConfigureConnection` runs once per materialized options instance. The effective configuration must have at least one endpoint: a no-op or TLS-only callback without a connection string fails, as does a callback that removes every parsed endpoint. Validation does not connect to Redis. Connections and retries reuse copies of the validated snapshot; later option changes or mutations of a retained callback argument do not change that snapshot. Named module-cache options have their own snapshots.
+
+A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
