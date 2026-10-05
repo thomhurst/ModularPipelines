@@ -741,8 +741,11 @@ internal sealed class CommandLineBuilder(
         out FlagPart flag)
     {
         var separatorIndex = argument.IndexOf('=');
+        // Recognize pflag/strconv spellings without accepting whitespace or arbitrary casing.
         if (separatorIndex > 0
-            && bool.TryParse(argument.AsSpan(separatorIndex + 1), out _)
+            && argument.AsSpan(separatorIndex + 1) is
+                "1" or "t" or "T" or "true" or "TRUE" or "True" or
+                "0" or "f" or "F" or "false" or "FALSE" or "False"
             && flagsByName.TryGetValue(argument[..separatorIndex], out var matchingFlag)
             && matchingFlag.Attribute.NegatedName == matchingFlag.Attribute.Name + "=false")
         {

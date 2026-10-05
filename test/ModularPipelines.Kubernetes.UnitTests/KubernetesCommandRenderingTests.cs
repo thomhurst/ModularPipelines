@@ -28,6 +28,10 @@ public class KubernetesCommandRenderingTests : TestBase
     [Arguments("--recursive=true")]
     [Arguments("--recursive=false")]
     [Arguments("-R=false")]
+    [Arguments("--recursive=1")]
+    [Arguments("--recursive=0")]
+    [Arguments("-R=t")]
+    [Arguments("-R=f")]
     public async Task Annotate_Manual_Boolean_Preserves_Following_File_And_Operand(string flag)
     {
         var result = await GetResult(new KubernetesAnnotateOptions(null)

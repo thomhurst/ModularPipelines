@@ -483,6 +483,18 @@ public class CommandLineBuilderTests : TestBase
     [Arguments("--feature=false")]
     [Arguments("-f=true")]
     [Arguments("-f=false")]
+    [Arguments("--feature=1")]
+    [Arguments("--feature=0")]
+    [Arguments("--feature=t")]
+    [Arguments("--feature=f")]
+    [Arguments("--feature=T")]
+    [Arguments("--feature=F")]
+    [Arguments("--feature=True")]
+    [Arguments("--feature=False")]
+    [Arguments("--feature=TRUE")]
+    [Arguments("--feature=FALSE")]
+    [Arguments("-f=1")]
+    [Arguments("-f=0")]
     public async Task Build_Hoists_Manual_Boolean_Flag_Without_Consuming_Operand(string flag)
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -497,17 +509,39 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_Optional_Value_Stops_Before_Attached_Boolean_Flag()
+    [Arguments("--terminal=true")]
+    [Arguments("--terminal=0")]
+    public async Task Build_Optional_Value_Does_Not_Hide_Attached_Terminal_Boolean(string flag)
     {
         var builder = await GetService<ICommandLineBuilder>();
-        var result = builder.Build(new TestBooleanManualFlagOptions
+        CommandLine Build() => builder.Build(new TestBooleanManualFlagOptions
         {
-            Arguments = ["--mode", "-f=false", "operand"],
+            Arguments = ["--mode", flag, "operand"],
             ArgumentsContainToolOptions = true,
             Filter = "-1",
         });
 
-        await Assert.That(result.ToString()).IsEqualTo("tool --mode -f=false -- -1 operand");
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual terminal options");
+    }
+
+    [Test]
+    [Arguments("--feature=tRuE")]
+    [Arguments("--feature= false")]
+    [Arguments("--feature=false ")]
+    [Arguments("--feature=")]
+    public async Task Build_Does_Not_Classify_Unsupported_Attached_Boolean_Values(string argument)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var result = builder.Build(new TestBooleanManualFlagOptions
+        {
+            Arguments = [argument],
+            ArgumentsContainToolOptions = true,
+            Filter = "-1",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo($"tool -- -1 {argument}");
     }
 
     [Test]
@@ -2069,6 +2103,9 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--mode", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Mode { get; init; }
+
+        [CliFlag("--terminal", NegatedName = "--terminal=false", Phase = CommandLinePhase.Terminal)]
+        public bool? Terminal { get; init; }
 
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; init; }

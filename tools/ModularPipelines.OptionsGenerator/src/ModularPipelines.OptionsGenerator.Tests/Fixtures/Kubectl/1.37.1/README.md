@@ -21,3 +21,8 @@ The short filename description and selector operator list in the annotate help
 are the binary's actual output, not truncated scraper descriptions.
 
 Only trailing whitespace was removed from the captured output.
+
+Additional help-only probes accepted `--recursive=` with each of `1`, `0`, `t`,
+`f`, `T`, `F`, `true`, `false`, `True`, `False`, `TRUE`, and `FALSE` (exit 0).
+The same invocation rejected `tRuE`, ` false`, and `false ` (exit 1), confirming
+pflag's exact Boolean spellings rather than .NET's whitespace-tolerant parsing.
