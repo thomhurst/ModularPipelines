@@ -40,3 +40,38 @@ public class UseGrypeModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Persistent settings
+
+Audited against Grype 0.120.0. Every generated command inherits `Config`, `Profile`, `Quiet`, and `Verbose` from
+`GrypeOptions`. They render before the command path. Configuration files and
+profiles are collections: each value becomes a separate switch occurrence, with
+spaces and commas preserved inside that value. `Verbose` is a nullable count;
+`0` is emitted explicitly, while an unset value is omitted. `Quiet = false` and
+`Quiet = null` omit the flag.
+
+```csharp
+using ModularPipelines.Grype.Options;
+
+await context.Tools.Grype.Db.StatusAsync(new GrypeDbStatusOptions
+{
+    Config = ["base config.yaml", "production.yaml"],
+    Profile = ["production"],
+    Verbose = 1,
+    Output = "json",
+}, cancellationToken: cancellationToken);
+```
+
+This emits global settings before `db status`, followed by its local
+`--output=json`. Root scan flags such as `--scope`, `--fail-on`, and the scan
+`--output` are not persistent settings. The database status command's `Output`
+remains its own scalar option. See the [generated command reference](cli/grype.md)
+for complete command-specific options.
+
+### Migration
+
+Existing initializers keep the same property names and types. The four shared
+properties now belong to `GrypeOptions`; reflection over command records must
+include inherited properties rather than using `BindingFlags.DeclaredOnly`.
+Derived overrides still emit one switch. No command or version API is added or
+removed by this inheritance change.

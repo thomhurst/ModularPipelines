@@ -1,0 +1,14 @@
+Display database status and metadata
+
+Usage:
+  grype db status [flags]
+
+Flags:
+  -h, --help            help for status
+  -o, --output string   format to display results (available=[text, json]) (default "text")
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
