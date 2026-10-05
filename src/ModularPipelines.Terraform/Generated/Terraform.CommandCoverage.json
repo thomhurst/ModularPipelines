@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "terraform",
-  "toolVersion": "Terraform v1.16.4",
+  "toolVersion": "Terraform v1.16.5",
   "commandCount": 70,
   "commandTreeSha256": "27469ab79a53dfa5bfb971a7e8e2dc64cdc419731cd022d0d5317cace378c2a1",
   "commands": [
