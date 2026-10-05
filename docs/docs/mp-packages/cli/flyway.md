@@ -59,7 +59,7 @@ Global options are rendered before the selected subcommand.
 | `-ignoreMigrationPatterns` | `IgnoreMigrationPatterns` | All editions | Patterns of migrations and states to ignore during validate |
 | `-initSql` | `InitSql` | All editions | SQL statements to run to initialize a new database connection |
 | `-installedBy` | `InstalledBy` | All editions | Username that will be recorded in the schema history table |
-| `-jarDirs` | `JarDirs` | All editions | Comma-separated list of dirs for Jdbc drivers & Java migrations |
+| `-jarDirs` | `JarDirs` | All editions | Comma-separated list of dirs for Jdbc drivers &amp; Java migrations |
 | `-jdbcProperties.` | `JdbcProperties` | All editions | Properties to pass to the JDBC driver object |
 | `-licenseKey` | `LicenseKey` | Flyway Teams | [teams] Your Flyway license key |
 | `-locations` | `Locations` | All editions | Classpath locations to scan recursively for migrations |
