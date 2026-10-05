@@ -9,10 +9,20 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public partial class GitCliScraperTests
 {
     [Test]
-    public async Task Scrape_Preserves_Branch_When_Root_Switches_Overlap_Local_Switches()
+    public async Task Empty_Root_Usage_Remains_Unavailable()
+    {
+        var provenance = new CliScrapeProvenance();
+        provenance.Record(["git"], "-h", Result("", exitCode: 129), helpKind: CliHelpKind.Usage);
+        await Assert.That(provenance.UnavailableHelpPaths).IsEquivalentTo(["git"]);
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(129)]
+    public async Task Scrape_Preserves_Branch_When_Root_Switches_Overlap_Local_Switches(int rootUsageExitCode)
     {
         using var logs = LoggerFactory.Create(builder => builder.AddConsole());
-        using var scraper = new GitCliScraper(new BranchHelpExecutor(), new StubHelpTextCache(), logs.CreateLogger<GitCliScraper>());
+        using var scraper = new GitCliScraper(new BranchHelpExecutor(rootUsageExitCode), new StubHelpTextCache(), logs.CreateLogger<GitCliScraper>());
         var commands = new List<CliCommandDefinition>();
         await foreach (var command in scraper.ScrapeAsync())
         {
@@ -20,6 +30,7 @@ public partial class GitCliScraperTests
         }
 
         await Assert.That(commands.Select(command => command.FullCommand)).IsEquivalentTo(["git branch"]);
+        await Assert.That(scraper.UnavailableHelpPaths).IsEmpty();
         foreach (var option in commands.Single().Options.Where(option => option.SwitchName is "--delete-merged" or "--forked"))
         {
             await Assert.That(option.AcceptsMultipleValues).IsTrue();
@@ -27,14 +38,14 @@ public partial class GitCliScraperTests
         }
     }
 
-    private sealed class BranchHelpExecutor : ICliCommandExecutor
+    private sealed class BranchHelpExecutor(int rootUsageExitCode) : ICliCommandExecutor
     {
         public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
             CancellationToken cancellationToken = default, string? workingDirectory = null) =>
             Task.FromResult(arguments switch
             {
                 "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
-                "-h" => Result(ReadFixture("root-help.txt")),
+                "-h" => Result("", ReadFixture("root-help.txt"), rootUsageExitCode),
                 "branch -h" => Result(ReadFixture("branch-help.txt")),
                 _ => Result(""),
             });
