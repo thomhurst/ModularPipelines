@@ -65,7 +65,7 @@ var options = new CosignVerifyOptions(["registry.example/app@sha256:..."])
     Verbose = true,
     Key = "cosign.pub",
 };
-// cosign --output-file=verification.log --timeout=45s --verbose verify --key=cosign.pub registry.example/app@sha256:...
+// cosign --output-file=verification.log --timeout=45s --verbose verify registry.example/app@sha256:... --key=cosign.pub
 ```
 
 `Timeout` is a Cosign duration string such as `45s` or `2m30s`, not the framework's

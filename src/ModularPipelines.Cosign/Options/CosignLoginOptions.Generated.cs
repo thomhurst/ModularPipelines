@@ -40,24 +40,6 @@ public record CosignLoginOptions : CosignOptions
     [CliOption("--username", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    /// <summary>
-    /// log output to a file
-    /// </summary>
-    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputFile { get; set; }
-
-    /// <summary>
-    /// timeout for commands (default 3m0s)
-    /// </summary>
-    [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// log debug output
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-d")]
-    public bool? Verbose { get; set; }
-
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Server { get; set; }
 

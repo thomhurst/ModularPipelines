@@ -20,22 +20,4 @@ namespace ModularPipelines.Cosign.Options;
 [CliSubCommand("bundle")]
 public record CosignBundleOptions : CosignOptions
 {
-    /// <summary>
-    /// log output to a file
-    /// </summary>
-    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputFile { get; set; }
-
-    /// <summary>
-    /// timeout for commands (default 3m0s)
-    /// </summary>
-    [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// log debug output
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-d")]
-    public bool? Verbose { get; set; }
-
 }
