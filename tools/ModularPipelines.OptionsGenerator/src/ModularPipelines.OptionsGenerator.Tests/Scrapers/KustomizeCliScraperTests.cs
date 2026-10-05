@@ -7,6 +7,38 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class KustomizeCliScraperTests
 {
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Root_Inherits_Only_Stack_Trace(string newline)
+    {
+        var options = new TestKustomizeCliScraper().ParseGlobals(Fixture("root").ReplaceLineEndings(newline));
+        var option = options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("--stack-trace");
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.ShortForm).IsNull();
+        await Assert.That(option.IsSecret || option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    [Arguments("build")]
+    [Arguments("edit")]
+    [Arguments("edit-add-configmap")]
+    [Arguments("cfg")]
+    [Arguments("fn")]
+    public async Task Groups_And_Leaves_Confirm_Global_Shape(string fixture)
+    {
+        var scraper = new TestKustomizeCliScraper();
+        var root = scraper.ParseGlobals(Fixture("root"));
+        var inherited = scraper.ParseGlobals(Fixture(fixture));
+        await Assert.That(inherited.Count).IsEqualTo(1);
+        await Assert.That(CliGlobalOptionMerger.Merge(root, inherited).Count).IsEqualTo(1);
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", $"kustomize-5.8.2-{command}-help.txt"));
+
     private static readonly string[] SetLeafCommands =
         ["image", "nameprefix", "namespace", "namesuffix", "replicas"];
 
@@ -196,6 +228,8 @@ public class KustomizeCliScraperTests
             NullLogger<KustomizeCliScraper>.Instance)
     {
         protected override int MaxParallelism => 1;
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

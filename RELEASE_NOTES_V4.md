@@ -700,3 +700,7 @@ The `ModuleCacheOptions` limits use `Max` instead of `Maximum`: `MaxInputFiles`,
 `MaxHashConcurrency`. Update object initializers, `with` expressions, and any serialized
 configuration keys. Defaults and enforcement are unchanged for local, Redis, and S3 caches.
 See the [cache option migration table](docs/docs/how-to/module-caching.md#v4-option-names).
+
+### Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
