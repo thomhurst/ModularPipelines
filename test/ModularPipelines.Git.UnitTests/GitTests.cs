@@ -15,7 +15,7 @@ public class GitTests : TestBase
 {
     private class GitVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Tools.Git.Commands.Repository.GitAsync(new GitBaseOptions
             {
