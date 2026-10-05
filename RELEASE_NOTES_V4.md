@@ -727,3 +727,7 @@ File and folder extension methods now live beside their path types in
 
 Tests that also use TUnit's `NotInParallel` attribute should qualify it as
 `TUnit.Core.NotInParallel` to distinguish test scheduling from module scheduling.
+
+### Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
