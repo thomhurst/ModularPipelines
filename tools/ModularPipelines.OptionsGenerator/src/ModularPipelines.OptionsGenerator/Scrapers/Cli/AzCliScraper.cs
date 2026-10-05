@@ -68,16 +68,24 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     {
         using var document = JsonDocument.Parse(result.StandardOutput);
         var root = document.RootElement;
-        var identity = $"azure-cli {root.GetProperty("azure-cli").GetString()}";
+        var identity = $"azure-cli {ReadVersion(root.GetProperty("azure-cli"), "azure-cli")}";
         if (root.TryGetProperty("extensions", out var extensions))
         {
             foreach (var extension in extensions.EnumerateObject().OrderBy(extension => extension.Name, StringComparer.Ordinal))
             {
-                identity += $"; {extension.Name} {extension.Value.GetString()}";
+                identity += $"; {extension.Name} {ReadVersion(extension.Value, extension.Name)}";
             }
         }
 
         return identity;
+    }
+
+    private static string ReadVersion(JsonElement element, string component)
+    {
+        var version = element.ValueKind == JsonValueKind.String ? element.GetString() : null;
+        return !string.IsNullOrWhiteSpace(version)
+            ? version
+            : throw new InvalidOperationException($"Azure CLI reported an invalid version for '{component}'.");
     }
 
     public override CliToolDefinition CreateToolDefinition()
