@@ -82,6 +82,31 @@ public class MinikubeGlobalOptionsTests
     }
 
     [Test]
+    [Arguments(null)]
+    [Arguments("--profile")]
+    [Arguments("--vmodule")]
+    public async Task Incomplete_Global_Help_Does_Not_Produce_A_Partial_Surface(string? missingSwitch)
+    {
+        var help = missingSwitch is null
+            ? "The following options can be passed to any command:\n"
+            : string.Join('\n', Fixture("options").Split('\n')
+                .Where(line => !line.Contains(missingSwitch + "=", StringComparison.Ordinal)));
+        var scraper = new TestScraper(new HelpExecutor(optionsOutput: help));
+        await Assert.That(async () => await scraper.ScrapeAsync().ToListAsync())
+            .Throws<InvalidOperationException>().WithMessageContaining("global option help is incomplete");
+    }
+
+    [Test]
+    public async Task Additional_Persistent_Settings_Are_Not_Blocked_By_Completeness_Check()
+    {
+        var scraper = new TestScraper(new HelpExecutor(optionsOutput:
+            Fixture("options") + "\n    --future-setting='': Future persistent setting\n"));
+        await scraper.ScrapeAsync().ToListAsync();
+        await Assert.That(scraper.CreateToolDefinition().GlobalOptions.Select(option => option.SwitchName))
+            .Contains("--future-setting");
+    }
+
+    [Test]
     [Arguments("--profile='minikube': Profile", false)]
     [Arguments("--profile=1: Profile", true)]
     public async Task Inherited_Duplicates_Are_Validated_Before_Removal(string declaration, bool conflicting)
@@ -114,7 +139,7 @@ public class MinikubeGlobalOptionsTests
                 ParseUsageSynopsis(["minikube", "status"], help), CancellationToken.None);
     }
 
-    private sealed class HelpExecutor(int optionsExitCode = 0, bool missingOptions = false) : ICliCommandExecutor
+    private sealed class HelpExecutor(int optionsExitCode = 0, bool missingOptions = false, string? optionsOutput = null) : ICliCommandExecutor
     {
         private int _optionsCalls;
         public int OptionsCalls => _optionsCalls;
@@ -139,9 +164,15 @@ public class MinikubeGlobalOptionsTests
                 Interlocked.Increment(ref _optionsCalls);
             }
 
+            var output = fixture == "options" ? optionsOutput ?? Fixture(fixture) : Fixture(fixture);
+            if (fixture == "options" && missingOptions)
+            {
+                output = string.Empty;
+            }
+
             return Task.FromResult(new CliCommandResult
             {
-                StandardOutput = fixture == "options" && missingOptions ? string.Empty : Fixture(fixture),
+                StandardOutput = output,
                 StandardError = string.Empty,
                 ExitCode = fixture == "options" ? optionsExitCode : 0,
             });

@@ -49,6 +49,16 @@ public partial class MinikubeCliScraper : CobraCliScraper
 {
     private const string GlobalOptionsHeading = "The following options can be passed to any command";
 
+    // Audited persistent settings in Minikube 1.39.0. Additions are allowed; removals
+    // require a new upstream audit instead of silently shrinking the generated API.
+    private static readonly string[] RequiredGlobalSwitches =
+    [
+        "--add_dir_header", "--alsologtostderr", "--alsologtostderrthreshold", "--bootstrapper",
+        "--legacy_stderr_threshold_behavior", "--log_backtrace_at", "--log_dir", "--log_file",
+        "--log_file_max_size", "--logtostderr", "--one_output", "--profile", "--rootless",
+        "--skip-audit", "--skip_headers", "--skip_log_headers", "--stderrthreshold", "--user", "--v", "--vmodule",
+    ];
+
     public MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<MinikubeCliScraper> logger)
         : base(executor, helpCache, logger)
     {
@@ -92,6 +102,13 @@ public partial class MinikubeCliScraper : CobraCliScraper
         if (globalHelp is null || !globalHelp.Contains(GlobalOptionsHeading + ":", StringComparison.Ordinal))
         {
             throw new InvalidOperationException("Minikube global option help is unavailable.");
+        }
+
+        var missing = RequiredGlobalSwitches.Except(
+            ParseGlobalOptions(globalHelp).Select(option => option.SwitchName), StringComparer.Ordinal).ToArray();
+        if (missing.Length > 0)
+        {
+            throw new InvalidOperationException($"Minikube global option help is incomplete; missing: {string.Join(", ", missing)}.");
         }
 
         return help + "\n" + globalHelp;
