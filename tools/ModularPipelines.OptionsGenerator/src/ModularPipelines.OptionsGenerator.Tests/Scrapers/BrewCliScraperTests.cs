@@ -50,7 +50,7 @@ public class BrewCliScraperTests
     }
 
     [Test]
-    public async Task Command_Override_With_Different_Arity_Is_Not_Dropped_Or_Hidden()
+    public async Task Command_Override_With_Different_Arity_Replaces_The_Inherited_Switch()
     {
         var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false, localOverride: true));
         var commands = new List<CliCommandDefinition>();
@@ -64,8 +64,29 @@ public class BrewCliScraperTests
         await Assert.That(localOption.IsFlag).IsFalse();
         await Assert.That(localOption.CSharpType).IsEqualTo("string?");
         var commandContent = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
-        await Assert.That(commandContent).Contains("public string? CliVerbose");
-        await Assert.That(commandContent).DoesNotContain("public string? Verbose");
+        await Assert.That(commandContent).Contains("public new string? Verbose");
+        await Assert.That(commandContent).DoesNotContain("CliVerbose");
+    }
+
+    [Test]
+    public async Task Command_Override_With_Different_Aliases_Replaces_The_Inherited_Switch()
+    {
+        var scraper = new TestBrewCliScraper(new GlobalMetadataExecutor(false));
+        await foreach (var unused in scraper.ScrapeAsync())
+        {
+        }
+
+        var command = await scraper.Parse(["brew", "tests"], """
+            Usage: brew tests [options]
+
+              --debug  Display debugging information.
+            """);
+        var tool = scraper.CreateToolDefinition() with { Commands = [command!] };
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains("public override bool? Debug");
+        await Assert.That(generated).Contains("[CliFlag(\"--debug\")]");
+        await Assert.That(generated).DoesNotContain("CliDebug");
+        await Assert.That(generated).DoesNotContain("ShortForm = \"-d\"");
     }
 
     [Test]
