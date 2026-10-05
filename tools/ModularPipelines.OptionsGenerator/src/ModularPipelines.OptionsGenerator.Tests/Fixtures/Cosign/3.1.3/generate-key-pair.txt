@@ -1,0 +1,62 @@
+Generates a key-pair for signing.
+
+Usage:
+cosign generate-key-pair [flags]
+
+Examples:
+  cosign generate-key-pair [--kms KMSPATH]
+
+  # generate key-pair and write to cosign.key and cosign.pub files
+  cosign generate-key-pair
+
+  # generate key-pair and write to custom named my-name.key and my-name.pub files
+  cosign generate-key-pair --output-key-prefix my-name
+
+  # generate a key-pair in Azure Key Vault
+  cosign generate-key-pair --kms azurekms://[VAULT_NAME][VAULT_URI]/[KEY]
+
+  # generate a key-pair in AWS KMS
+  cosign generate-key-pair --kms awskms://[ENDPOINT]/[ID/ALIAS/ARN]
+
+  # generate a key-pair in Google Cloud KMS
+  cosign generate-key-pair --kms gcpkms://projects/[PROJECT]/locations/global/keyRings/[KEYRING]/cryptoKeys/[KEY]
+
+  # generate a key-pair in Hashicorp Vault
+  cosign generate-key-pair --kms hashivault://[KEY]
+
+  # generate a key-pair in Kubernetes Secret
+  cosign generate-key-pair k8s://[NAMESPACE]/[NAME]
+
+  # generate a key-pair in GitHub
+  cosign generate-key-pair github://[OWNER]/[PROJECT_NAME]
+
+  # generate a key-pair in GitLab with project name
+  cosign generate-key-pair gitlab://[OWNER]/[PROJECT_NAME]
+
+  # generate a key-pair in GitLab with project id
+  cosign generate-key-pair gitlab://[PROJECT_ID]
+
+  # generate a key-pair in GitLab with group name (accessible to all projects in the group)
+  cosign generate-key-pair gitlab://[GROUP_NAME]
+
+  # generate a key-pair in GitLab with subgroup name
+  cosign generate-key-pair gitlab://[GROUP_NAME]/[SUBGROUP_NAME]
+
+CAVEATS:
+  This command interactively prompts for a password. You can use
+  the COSIGN_PASSWORD environment variable to provide one.
+
+Flags:
+    -h, --help=false:
+	help for generate-key-pair
+
+    --kms='':
+	create key pair in KMS service to use for signing
+
+    --output-key-prefix='cosign':
+	name used for generated .pub and .key files (defaults to `cosign`)
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

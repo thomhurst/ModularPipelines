@@ -5,7 +5,7 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class CosignCliScraperTests
+public partial class CosignCliScraperTests
 {
     [Test]
     public async Task Extracts_Unindented_Cosign_V3_Subcommands()
@@ -209,13 +209,15 @@ public class CosignCliScraperTests
 
     private sealed class TestCosignCliScraper : CosignCliScraper
     {
-        public TestCosignCliScraper()
+        public TestCosignCliScraper(ICliCommandExecutor? executor = null)
             : base(
-                new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
                 new HelpTextCache(NullLogger<HelpTextCache>.Instance),
                 NullLogger<CosignCliScraper>.Instance)
         {
         }
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public IReadOnlyList<string> Extract(string helpText) => ExtractSubcommands(helpText).ToList();
 

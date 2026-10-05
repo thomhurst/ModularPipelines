@@ -1,0 +1,20 @@
+Provides utilities for downloading artifacts and attached artifacts in a registry
+
+Usage:
+cosign download [command]
+
+Available Commands:
+attestation Download in-toto attestations from the supplied container image
+sbom        DEPRECATED: Download SBOMs from the supplied container image
+signature   Download signatures from the supplied container image
+
+Flags:
+    -h, --help=false:
+	help for download
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output
+
+Use "cosign download [command] --help" for more information about a command.

@@ -1,0 +1,49 @@
+Save the container image and associated signatures to disk at the specified directory.
+
+Usage:
+cosign save [flags]
+
+Examples:
+  cosign save --dir <path to directory> <IMAGE>
+
+Flags:
+    --allow-http-registry=false:
+	whether to allow using HTTP protocol while connecting to registries. Don't use this for anything but testing
+
+    --allow-insecure-registry=false:
+	whether to allow insecure connections to registries (e.g., with expired or self-signed TLS certificates). Don't use this for anything but testing
+
+    --dir='':
+	path to dir where the signed image should be stored on disk
+
+    -h, --help=false:
+	help for save
+
+    --k8s-keychain=false:
+	whether to use the kubernetes keychain instead of the default keychain (supports workload identity).
+
+    --registry-cacert='':
+	path to the X.509 CA certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-cert='':
+	path to the X.509 certificate file in PEM format to be used for the connection to the registry
+
+    --registry-client-key='':
+	path to the X.509 private key file in PEM format to be used, together with the 'registry-client-cert' value, for the connection to the registry
+
+    --registry-password='':
+	registry basic auth password
+
+    --registry-server-name='':
+	SAN name to use as the 'ServerName' tls.Config field to verify the mTLS connection to the registry
+
+    --registry-token='':
+	registry bearer auth token
+
+    --registry-username='':
+	registry basic auth username
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

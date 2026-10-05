@@ -1,0 +1,19 @@
+Upgrade a Sigstore Protobuf bundle to the latest version. This command only supports standardized bundles.
+
+Usage:
+cosign bundle upgrade <bundle> [flags]
+
+Flags:
+    -h, --help=false:
+	help for upgrade
+
+    --out='':
+	path to the output upgraded bundle file
+
+    --rekor-url='https://rekor.sigstore.dev':
+	URL of the transparency log
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output

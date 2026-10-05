@@ -1,0 +1,27 @@
+Provides utilities for managing a hardware token
+
+Usage:
+cosign piv-tool [command]
+
+Available Commands:
+attestation        Manage hardware token attestations
+generate-key       Generate a new signing key on the hardware token
+reset              Reset the hardware token completely
+set-management-key Set the management key of a hardware token
+set-pin            Set the PIN on a hardware token
+set-puk            Set the PUK on a hardware token
+unblock            Unblock a hardware token and set a new PIN
+
+Flags:
+    -h, --help=false:
+	help for piv-tool
+
+    -f, --no-input=false:
+	skip warnings and confirmations
+
+Global Flags:
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output
+
+Use "cosign piv-tool [command] --help" for more information about a command.

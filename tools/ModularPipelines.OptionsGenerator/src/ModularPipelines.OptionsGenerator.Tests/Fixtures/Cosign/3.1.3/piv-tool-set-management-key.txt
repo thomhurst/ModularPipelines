@@ -1,0 +1,33 @@
+Set the management key of a hardware token
+
+Usage:
+cosign piv-tool set-management-key [flags]
+
+Examples:
+  # set a new management key interactively (uses defaults if flags omitted)
+  cosign piv-tool set-management-key
+
+  # set a random management key
+  cosign piv-tool set-management-key --random-management-key
+
+  # set a specific new management key
+  cosign piv-tool set-management-key --old-key <old-key> --new-key <new-key>
+
+Flags:
+    -h, --help=false:
+	help for set-management-key
+
+    --new-key='':
+	new management key, uses default if empty
+
+    --old-key='':
+	existing management key, uses default if empty
+
+    --random-management-key=false:
+	if set to true, generates a new random management key and deletes it after
+
+Global Flags:
+  -f, --no-input             skip warnings and confirmations
+      --output-file string   log output to a file
+  -t, --timeout duration     timeout for commands (default 3m0s)
+  -d, --verbose              log debug output
