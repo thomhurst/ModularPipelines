@@ -1,2 +1,6 @@
 #nullable enable
 *REMOVED*static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.TeamCity(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.TeamCity.ITeamCity!
+*REMOVED*ModularPipelines.TeamCity.Extensions.TeamCityExtensions
+ModularPipelines.TeamCity.TeamCityExtensions
+*REMOVED*static ModularPipelines.TeamCity.Extensions.TeamCityExtensions.RegisterTeamCityContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.TeamCity.TeamCityExtensions.RegisterTeamCityContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

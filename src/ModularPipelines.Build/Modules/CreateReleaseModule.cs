@@ -4,7 +4,7 @@ using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
-using ModularPipelines.GitHub.Attributes;
+using ModularPipelines.GitHub;
 using ModularPipelines.Modules;
 using Octokit;
 

@@ -90,3 +90,17 @@ where `appsettings.json` is constructed as follows:
 Once configured, Modular Pipelines will handle authentication and authorization automatically by utilizing the provided access token and will deliver a GitHub client that is ready for immediate use.
 
 **Important Note:** This is just an example; **do not store any confidential data in appsettings.json, .env files, and similar.** Use secret storage, key-vault services, etc., for storing sensitive data, and then use the described configuration practices as shown in the example above.
+
+
+## V4 migration
+
+Handwritten GitHub options, condition attributes, extension methods, and workflow models
+now use `ModularPipelines.GitHub`. Replace imports of `.Attributes`, `.PipelineWriters`,
+and the handwritten `.Extensions`/`.Options` types with the package root namespace.
+The generated `gh` CLI options and services retain their generated namespaces.
+
+Use `AddDistributedWorkflow(...)` instead of `WriteDistributedWorkflow(...)` to register
+a workflow writer on the builder. `SkipIfNoGitHubToken` is now
+`SkipIfNoGitHubTokenAttribute`; attribute syntax `[SkipIfNoGitHubToken]` remains valid.
+The public `RegisterGitHubContext` method is hidden from IntelliSense and remains available
+for generated registration. Module code uses `context.Tools.GitHub`.

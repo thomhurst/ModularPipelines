@@ -1,5 +1,5 @@
 using ModularPipelines.Context;
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 using ModularPipelines.Interfaces;
 using ModularPipelines.TestHelpers;
 using Microsoft.Extensions.DependencyInjection;
