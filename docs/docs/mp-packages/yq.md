@@ -43,7 +43,7 @@ The package exposes generated options records for its supported CLI commands.
 
 ## Shared settings
 
-`YqOptions` declares the 46 persistent settings shared by `YqEvalOptions` and
+`YqOptions` declares the [persistent settings](cli/yq.md#global-options) shared by `YqEvalOptions` and
 `YqEvalAllOptions`. Existing property names remain available through inheritance.
 Settings render before the subcommand; expression and file operands render afterward.
 
@@ -68,3 +68,10 @@ The root-only `--version` action is not inherited by processing commands.
 This scope follows [yq 4.54.1's persistent flag registrations](https://github.com/mikefarah/yq/blob/v4.54.1/cmd/root.go).
 The command coverage remains `eval` and `eval-all`; utility help and completion
 commands do not add generated command groups.
+
+## Migration
+
+Existing command option initializers keep the same property names and types; no
+initializer changes are needed. Shared settings now belong to `YqOptions` and are
+inherited by both processing records. Reflection code using `DeclaredOnly` must
+include inherited properties or inspect `YqOptions` when discovering those settings.

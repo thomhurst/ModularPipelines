@@ -122,13 +122,12 @@ internal static class InheritedPropertyCollisionResolver
             RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups.Select(ResolveGroup)],
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
-                    pair => TryGetRename(
+                    pair => ResolveDocumentationExampleName(
                         pair.Key,
+                        command,
+                        positionalArguments,
                         renamedProperties,
-                        globalRenamedProperties,
-                        out var renamedProperty)
-                            ? renamedProperty
-                            : pair.Key,
+                        globalRenamedProperties),
                     pair => pair.Value,
                     StringComparer.Ordinal),
         };
@@ -232,13 +231,30 @@ internal static class InheritedPropertyCollisionResolver
         }
     }
 
-    private static bool TryGetRename(
+    private static string ResolveDocumentationExampleName(
         string propertyName,
+        CliCommandDefinition command,
+        CliPositionalArgument[] positionalArguments,
         Dictionary<string, string> commandRenames,
-        IReadOnlyDictionary<string, string> globalRenames,
-        out string renamedProperty) =>
-        commandRenames.TryGetValue(propertyName, out renamedProperty!)
-        || globalRenames.TryGetValue(propertyName, out renamedProperty!);
+        IReadOnlyDictionary<string, string> globalRenames)
+    {
+        // An existing local option keeps ownership of an ambiguous example key.
+        if (!command.Options.Any(option => option.PropertyName == propertyName))
+        {
+            for (var index = 0; index < command.PositionalArguments.Count; index++)
+            {
+                if (command.PositionalArguments[index].PropertyName == propertyName)
+                {
+                    return positionalArguments[index].PropertyName;
+                }
+            }
+        }
+
+        return commandRenames.TryGetValue(propertyName, out var renamedProperty)
+               || globalRenames.TryGetValue(propertyName, out renamedProperty)
+            ? renamedProperty
+            : propertyName;
+    }
 
     private static CliOptionDefinition[] ResolveOptions(
         IReadOnlyList<CliOptionDefinition> options,
