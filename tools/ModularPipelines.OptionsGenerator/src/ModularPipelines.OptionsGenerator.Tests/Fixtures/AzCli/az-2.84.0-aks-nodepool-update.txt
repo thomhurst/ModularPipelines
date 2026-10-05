@@ -1,0 +1,121 @@
+
+Command
+    az aks nodepool update : Update a node pool properties.
+        Update a node pool to enable/disable cluster-autoscaler or change min-count or max-count.
+        When called with no optional arguments this attempts to move the node pool to its goal state
+        without changing the current node pool configuration. This can be used to move out of a non
+        succeeded state.
+
+Arguments
+    --cluster-name            [Required] : The cluster name.
+    --name --nodepool-name -n [Required] : The node pool name.
+    --resource-group -g       [Required] : Name of resource group. You can configure the default
+                                           group using `az configure --defaults group=<name>`.
+    --aks-custom-headers                 : Comma-separated key-value pairs to specify custom
+                                           headers.
+    --allowed-host-ports                 : Expose host ports on the node pool. When specified,
+                                           format should be a space-separated list of ranges with
+                                           protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
+    --asg-ids                            : The IDs of the application security groups to which the
+                                           node pool's network interface should belong. When
+                                           specified, format should be a space-separated list of
+                                           IDs.
+    --disable-cluster-autoscaler -d      : Disable cluster autoscaler.
+    --disable-fips-image                 : Switch to use non-FIPS-enabled OS on agent nodes.
+    --disable-secure-boot                : Disable Secure Boot on on an existing Trusted Launch
+                                           enabled agent node pool.
+    --disable-vtpm                       : Disable vTPM on an existing Trusted Launch enabled agent
+                                           node pool.
+    --drain-timeout                      : When nodes are drain how many minutes to wait for all
+                                           pods to be evicted.
+    --enable-cluster-autoscaler -e       : Enable cluster autoscaler.
+    --enable-fips-image                  : Switch to use FIPS-enabled OS on agent nodes.
+    --enable-secure-boot                 : Enable Secure Boot on an existing Trusted Launch enabled
+                                           agent node pool. Must use VMSS or VMs agent pool type.
+    --enable-vtpm                        : Enable vTPM on an existing Trusted Launch enabled agent
+                                           node pool. Must use VMSS or VMs agent pool type.
+    --gpu-driver                         : Whether to install driver for GPU node pool. Possible
+                                           values are "Install" or "None".  Allowed values: Install,
+                                           None.
+    --if-match                           : The value provided will be compared to the ETag of the
+                                           node pool, if it matches the operation will proceed. If
+                                           it does not match, the request will be rejected to
+                                           prevent accidental overwrites. This must not be specified
+                                           when creating a new agentpool.
+    --if-none-match                      : Set to '*' to allow a new node pool to be created, but to
+                                           prevent updating an existing node pool. Other values will
+                                           be ignored.
+    --labels                             : The node labels for the node pool. See
+                                           https://aka.ms/node-labels for syntax of labels.
+    --localdns-config                    : Set the localDNS Profile for a nodepool with a JSON
+                                           config file.
+    --max-count                          : Maximum nodes count used for autoscaler, when "--enable-
+                                           cluster-autoscaler" specified. Please specify the value
+                                           in the range of [0, 1000] for user nodepool, and [1,1000]
+                                           for system nodepool.
+    --max-surge                          : Extra nodes used to speed upgrade. When specified, it
+                                           represents the number or percent used, eg. 5 or 33%.
+    --max-unavailable                    : The maximum number or percentage of nodes that can be
+                                           simultaneously unavailable during upgrade. When
+                                           specified, it represents the number or percent used, eg.
+                                           1 or 5%.
+    --min-count                          : Minimum nodes count used for autoscaler, when "--enable-
+                                           cluster-autoscaler" specified. Please specify the value
+                                           in the range of [0, 1000] for user nodepool, and [1,1000]
+                                           for system nodepool.
+    --mode                               : The mode for a node pool which defines a node pool's
+                                           primary function. If set as "System", AKS prefers system
+                                           pods scheduling to node pools with mode `System`. Learn
+                                           more at https://aka.ms/aks/nodepool/mode.  Allowed
+                                           values: Gateway, System, User.
+    --no-wait                            : Do not wait for the long-running operation to finish.
+    --node-soak-duration                 : The amount of time (in minutes) to wait after draining a
+                                           node and before reimaging it and moving on to next node.
+    --node-taints                        : The node taints for the node pool. You can update the
+                                           existing node taint of a nodepool or create a new node
+                                           taint for a nodepool. Pass the empty string `""` to
+                                           remove all taints.
+    --os-sku                             : The os-sku of the agent node pool.  Allowed values:
+                                           AzureLinux, AzureLinux3, Ubuntu, Ubuntu2204, Ubuntu2404.
+    --scale-down-mode                    : Describe how VMs are added to or removed from nodepools.
+                                           Allowed values: Deallocate, Delete.
+    --tags                               : Space-separated tags: key[=value] [key[=value] ...]. Use
+                                           "" to clear existing tags.
+    --undrainable-node-behavior          : Define the behavior for undrainable nodes during upgrade.
+                                           The value should be "Cordon" or "Schedule". The default
+                                           value is "Schedule".
+    --update-cluster-autoscaler -u       : Update min-count or max-count for cluster autoscaler.
+
+Global Arguments
+    --debug                              : Increase logging verbosity to show all debug logs.
+    --help -h                            : Show this help message and exit.
+    --only-show-errors                   : Only show errors, suppressing warnings.
+    --output -o                          : Output format.  Allowed values: json, jsonc, none, table,
+                                           tsv, yaml, yamlc.  Default: json.
+    --query                              : JMESPath query string. See http://jmespath.org/ for more
+                                           information and examples.
+    --subscription                       : Name or ID of subscription. You can configure the default
+                                           subscription using `az account set -s NAME_OR_ID`.
+    --verbose                            : Increase logging verbosity. Use --debug for full debug
+                                           logs.
+
+Examples
+    Reconcile the nodepool back to its current state.
+        az aks nodepool update -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+
+    Enable cluster-autoscaler within node count range [1,5]
+        az aks nodepool update --enable-cluster-autoscaler --min-count 1 --max-count 5 -g
+        MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+
+    Disable cluster-autoscaler for an existing cluster
+        az aks nodepool update --disable-cluster-autoscaler -g MyResourceGroup -n nodepool1
+        --cluster-name MyManagedCluster
+
+    Update min-count or max-count for cluster autoscaler.
+        az aks nodepool update --update-cluster-autoscaler --min-count 1 --max-count 10 -g
+        MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+
+To search AI knowledge base for examples, use: az find "az aks nodepool update"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--aks-custom-headers": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--allowed-host-ports": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--asg-ids": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--cluster-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-fips-image": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-secure-boot": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-vtpm": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--drain-timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--enable-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-fips-image": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-secure-boot": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-vtpm": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--gpu-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--if-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-none-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--labels": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--localdns-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--max-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--max-surge": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--max-unavailable": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--min-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--no-wait": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--node-soak-duration": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--node-taints": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--nodepool-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--os-sku": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--scale-down-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--undrainable-node-behavior": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--update-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-d": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-e": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-g": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-u": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}}

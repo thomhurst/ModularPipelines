@@ -1,0 +1,169 @@
+
+Command
+    az aro create : Create a cluster.
+
+Arguments
+    --master-subnet                                         [Required] : Name or ID of master vnet
+                                                                         subnet.  If name is
+                                                                         supplied, `--vnet` must be
+                                                                         supplied.
+    --name -n                                               [Required] : Name of cluster.
+    --resource-group -g                                     [Required] : Name of resource group. You
+                                                                         can configure the default
+                                                                         group using `az configure
+                                                                         --defaults group=<name>`.
+    --worker-subnet                                         [Required] : Name or ID of worker vnet
+                                                                         subnet.  If name is
+                                                                         supplied, `--vnet` must be
+                                                                         supplied.
+    --apiserver-visibility                                             : API server visibility.
+                                                                         [Default: Public].  Allowed
+                                                                         values: Private, Public.
+    --client-id                                                        : Client ID of cluster
+                                                                         service principal.
+    --client-secret                                                    : Client secret of cluster
+                                                                         service principal.
+    --cluster-resource-group                                           : Resource group of cluster.
+    --disk-encryption-set                                              : ResourceID of the
+                                                                         DiskEncryptionSet to be
+                                                                         used for master and worker
+                                                                         VMs.
+    --domain                                                           : Domain of cluster.
+    --enable-preconfigured-nsg                                         : Use Preconfigured NSGs.
+                                                                         Allowed values: false,
+                                                                         true. [Default: false].
+                                                                         Allowed values: false,
+                                                                         true.
+    --fips --fips-validated-modules                                    : Use FIPS validated
+                                                                         cryptography modules.
+                                                                         [Default: false].  Allowed
+                                                                         values: false, true.
+    --ingress-visibility                                               : Ingress visibility.
+                                                                         [Default: Public].  Allowed
+                                                                         values: Private, Public.
+    --lb-ip-count --load-balancer-managed-outbound-ip-count            : The desired number of IPv4
+                                                                         outbound IPs created and
+                                                                         managed by Azure for the
+                                                                         cluster public load
+                                                                         balancer.
+    --location -l                                                      : Location. Values from: `az
+                                                                         account list-locations`.
+                                                                         You can configure the
+                                                                         default location using `az
+                                                                         configure --defaults
+                                                                         location=<location>`.
+    --master-enc-host --master-encryption-at-host                      : Encryption at host flag for
+                                                                         master VMs. [Default:
+                                                                         false].  Allowed values:
+                                                                         false, true.
+    --master-vm-size                                                   : Size of master VMs.
+                                                                         [Default: Standard_D8s_v5].
+    --no-wait                                                          : Do not wait for the long-
+                                                                         running operation to
+                                                                         finish.
+    --outbound-type                                                    : Outbound type of cluster.
+                                                                         Must be "Loadbalancer" or
+                                                                         "UserDefinedRouting".
+                                                                         [Default: Loadbalancer].
+    --pod-cidr                                                         : CIDR of pod network. Must
+                                                                         be a minimum of /18 or
+                                                                         larger. [Default:
+                                                                         10.128.0.0/14].
+    --pull-secret                                                      : Pull secret of cluster.
+    --service-cidr                                                     : CIDR of service network.
+                                                                         Must be a minimum of /18 or
+                                                                         larger. [Default:
+                                                                         172.30.0.0/16].
+    --tags                                                             : Space-separated tags:
+                                                                         key[=value] [key[=value]
+                                                                         ...]. Use "" to clear
+                                                                         existing tags.
+    --version                                                          : OpenShift version to use
+                                                                         for cluster creation.
+    --vnet                                                             : Name or ID of vnet.  If
+                                                                         name is supplied, `--vnet-
+                                                                         resource-group` must be
+                                                                         supplied.
+    --vnet-resource-group                                              : Name of vnet resource
+                                                                         group.
+    --worker-count                                                     : Count of worker VMs.
+                                                                         [Default: 3].
+    --worker-enc-host --worker-encryption-at-host                      : Encryption at host flag for
+                                                                         worker VMs. [Default:
+                                                                         false].  Allowed values:
+                                                                         false, true.
+    --worker-vm-disk-size-gb                                           : Disk size in GB of worker
+                                                                         VMs. [Default: 128].
+    --worker-vm-size                                                   : Size of worker VMs.
+                                                                         [Default: Standard_D4s_v5].
+
+Identity Arguments
+    --assign-cluster-identity --mi-user-assigned             [Preview] : Set the user managed
+                                                                         identity on the cluster.
+                                                                         Value must be an identity
+                                                                         name or resource ID.
+        WARNING: Argument '--assign-cluster-identity' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+    --assign-platform-wi --assign-platform-workload-identity [Preview] : Assign a platform workload
+                                                                         identity used within the
+                                                                         cluster. Requires two
+                                                                         values:
+                                                                         an operator name and either
+                                                                         the name or resource ID of
+                                                                         the Azure identity to use
+                                                                         for it.
+        WARNING: Argument '--assign-platform-workload-identity' is in preview and under development.
+        Reference and support levels: https://aka.ms/CLI_refstatus
+    --enable-managed-identity --enable-mi                    [Preview] : Enable managed identity for
+                                                                         this cluster.  Allowed
+                                                                         values: false, true.
+        WARNING: Argument '--enable-managed-identity' is in preview and under development. Reference
+        and support levels: https://aka.ms/CLI_refstatus
+
+Global Arguments
+    --debug                                                            : Increase logging verbosity
+                                                                         to show all debug logs.
+    --help -h                                                          : Show this help message and
+                                                                         exit.
+    --only-show-errors                                                 : Only show errors,
+                                                                         suppressing warnings.
+    --output -o                                                        : Output format.  Allowed
+                                                                         values: json, jsonc, none,
+                                                                         table, tsv, yaml, yamlc.
+                                                                         Default: json.
+    --query                                                            : JMESPath query string. See
+                                                                         http://jmespath.org/ for
+                                                                         more information and
+                                                                         examples.
+    --subscription                                                     : Name or ID of subscription.
+                                                                         You can configure the
+                                                                         default subscription using
+                                                                         `az account set -s
+                                                                         NAME_OR_ID`.
+    --verbose                                                          : Increase logging verbosity.
+                                                                         Use --debug for full debug
+                                                                         logs.
+
+Examples
+    Create a cluster.
+        az aro create --resource-group MyResourceGroup --name MyCluster --vnet MyVnet --master-
+        subnet MyMasterSubnet --worker-subnet MyWorkerSubnet
+
+    Create a cluster with a supported OpenShift version.
+        az aro create --resource-group MyResourceGroup --name MyCluster --vnet MyVnet --master-
+        subnet MyMasterSubnet --worker-subnet MyWorkerSubnet --version X.Y.Z
+
+    Create a cluster with 5 compute nodes and Red Hat pull secret.
+        az aro create --resource-group MyResourceGroup --name MyCluster --vnet MyVnet --master-
+        subnet MyMasterSubnet --worker-subnet MyWorkerSubnet --worker-count 5 --pull-secret
+        pullsecret.txt
+
+    Create a private cluster.
+        az aro create --resource-group MyResourceGroup --name MyCluster --vnet MyVnet --master-
+        subnet MyMasterSubnet --worker-subnet MyWorkerSubnet --apiserver-visibility Private
+        --ingress-visibility Private
+
+To search AI knowledge base for examples, use: az find "az aro create"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--apiserver-visibility": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assign-cluster-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assign-platform-wi": {"IsInteger": false, "IsRepeated": true, "Nargs": "+"}, "--assign-platform-workload-identity": {"IsInteger": false, "IsRepeated": true, "Nargs": "+"}, "--client-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--client-secret": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cluster-resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disk-encryption-set": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--domain": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--enable-managed-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--enable-mi": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--enable-preconfigured-nsg": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--fips": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--fips-validated-modules": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--ingress-visibility": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--install-version": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--lb-ip-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--load-balancer-managed-outbound-ip-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--location": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--master-enc-host": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--master-encryption-at-host": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--master-subnet": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--master-vm-size": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--mi-user-assigned": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--no-wait": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--outbound-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--pod-cidr": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--pull-secret": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--service-cidr": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--version": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--vnet": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--vnet-resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--worker-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--worker-enc-host": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--worker-encryption-at-host": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--worker-subnet": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--worker-vm-disk-size-gb": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--worker-vm-size": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-g": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-l": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

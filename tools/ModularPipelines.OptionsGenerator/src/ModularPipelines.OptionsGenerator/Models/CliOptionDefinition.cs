@@ -11,6 +11,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    /// <summary>Whether the installed parser verified the type and arity, which prose or legacy overrides must not replace.</summary>
+    internal bool HasVerifiedValueShape { get; init; }
+
     /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 
