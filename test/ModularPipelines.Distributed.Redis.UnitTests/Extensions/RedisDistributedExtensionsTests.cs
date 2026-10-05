@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -427,6 +428,40 @@ public class RedisDistributedExtensionsTests
             await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
             await Assert.That(second.Ssl).IsTrue();
         }
+    }
+
+    [Test]
+    [Arguments("127.0.0.1")]
+    [Arguments("fe80::1%12")]
+    public async Task Validated_IP_Endpoints_Are_Isolated_From_Retained_And_Returned_Objects(string address)
+    {
+        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
+        var options = new RedisOptions
+        {
+            ConfigureConnection = connection => connection.EndPoints.Add(retained),
+        };
+        var validator = new RedisOptionsValidator(Microsoft.Extensions.Options.Options.DefaultName, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
+        await Assert.That(validator.Validate(Microsoft.Extensions.Options.Options.DefaultName, options).Succeeded).IsTrue();
+
+        retained.Port = 6381;
+        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            retained.Address.ScopeId = 13;
+        }
+
+        retained.Address = IPAddress.Loopback;
+        var first = (IPEndPoint) RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
+        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+
+        first.Port = 6382;
+        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            first.Address.ScopeId = 14;
+        }
+
+        first.Address = IPAddress.Loopback;
+        var second = RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
+        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
     }
 
     [Test]

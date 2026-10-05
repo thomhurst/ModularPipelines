@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using StackExchange.Redis;
 
@@ -107,8 +109,8 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
     }
 
     internal static ConfigurationOptions CreateConfiguration(RedisOptions options) =>
-        Configurations.GetValue(options, static value => new Lazy<ConfigurationOptions>(
-            () => BuildConfiguration(value))).Value.Clone();
+        CloneConfiguration(Configurations.GetValue(options, static value => new Lazy<ConfigurationOptions>(
+            () => BuildConfiguration(value))).Value);
 
     private static ConfigurationOptions BuildConfiguration(RedisOptions options)
     {
@@ -118,6 +120,25 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
         options.ConfigureConnection?.Invoke(configuration);
         // The callback may retain its argument. Neither it nor an individual connection
         // should be able to mutate the configuration that passed startup validation.
-        return configuration.Clone();
+        return CloneConfiguration(configuration);
+    }
+
+    private static ConfigurationOptions CloneConfiguration(ConfigurationOptions configuration)
+    {
+        var clone = configuration.Clone();
+        // StackExchange.Redis copies the collection but shares mutable IP endpoints and addresses.
+        for (var i = 0; i < clone.EndPoints.Count; i++)
+        {
+            if (clone.EndPoints[i] is IPEndPoint endpoint)
+            {
+                var address = endpoint.Address;
+                var addressCopy = address.AddressFamily == AddressFamily.InterNetworkV6
+                    ? new IPAddress(address.GetAddressBytes(), address.ScopeId)
+                    : new IPAddress(address.GetAddressBytes());
+                clone.EndPoints[i] = new IPEndPoint(addressCopy, endpoint.Port);
+            }
+        }
+
+        return clone;
     }
 }
