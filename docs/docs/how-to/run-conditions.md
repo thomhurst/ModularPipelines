@@ -35,7 +35,7 @@ Apply the condition with an attribute that states its intent:
 
 ```csharp
 [RunIf<ServiceIsAvailable>]
-public class DeployModule : Module<None>
+public class DeployModule : Module
 ```
 
 - `[RunIf<T1, ..., T4>]` runs only when all of its one to four conditions are `true`.
@@ -83,7 +83,7 @@ public sealed class RunIfRegionAttribute(string region)
 }
 
 [RunIfRegion("eu-west-2")]
-public class RegionalDeployModule : Module<None>
+public class RegionalDeployModule : Module
 ```
 
 Each run attribute is a requirement of its own. To make several run attributes alternatives, give them the
@@ -104,7 +104,7 @@ public sealed class RunOnBranchAttribute(string branch) : RunConditionAttribute(
 // Runs on main or on release.
 [RunOnBranch("main")]
 [RunOnBranch("release")]
-public class ReleaseModule : Module<None>
+public class ReleaseModule : Module
 ```
 
 The group key is ignored for skip attributes, because any satisfied skip attribute already skips the module.
@@ -138,7 +138,7 @@ All built-in conditions are planning-safe:
 
 ```csharp
 [RunIf<OnLinux>]
-public class LinuxModule : Module<None>
+public class LinuxModule : Module
 ```
 
 Parameterized built-ins cover environment variables. Combine platform conditions when a module
@@ -148,7 +148,7 @@ can run on alternative operating systems:
 [RunIfEnvironmentVariable("NUGET_API_KEY")]
 [SkipIfEnvironmentVariable("CI", "true")]
 [RunIfAny<OnLinux, OnMacOS>]
-public class PublishModule : Module<None>
+public class PublishModule : Module
 ```
 
 Use `RunIfEnvironmentVariableUnset` or `SkipIfEnvironmentVariableUnset` for the inverse

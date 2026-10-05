@@ -18,45 +18,42 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
     ```fsharp
     #r "nuget: ModularPipelines, 4.0.0"
     ```
-3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
+3. **Write your F# code:** Below the package reference, you can write your F# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to update .NET workloads and check the installed SDKs:
 
     ```fsharp
     #r "nuget: ModularPipelines.DotNet, 4.*"
-    open ModularPipelines.DotNet
-    open ModularPipelines.Attributes
-    open ModularPipelines.Context
     open ModularPipelines.DotNet.Extensions
     open ModularPipelines.DotNet.Services
     open ModularPipelines.Extensions
-    open ModularPipelines.Models
-    open ModularPipelines.Modules
     open ModularPipelines
     open System.Threading
 
     type UpdateDotnetWorkloads() =
         inherit Module<CommandResult>()
-        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
-                context.Tools.Get<IDotNet>().Workload.Update(cancellationToken = cancellationToken)
+        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): System.Threading.Tasks.Task<CommandResult> =
+                context.Tools.Get<IDotNet>().Workload.UpdateAsync(cancellationToken = cancellationToken)
 
     /// Generic attributes are not supported in fsharp, so have to use the old way of declaring dependencies
     [<DependsOn(typeof<UpdateDotnetWorkloads>)>]
     type CheckDotnetSdkModule () =
         inherit Module<CommandResult>()
-        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> = 
-                context.Tools.Get<IDotNet>().Sdk.Check(cancellationToken = cancellationToken);
+        override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): System.Threading.Tasks.Task<CommandResult> =
+                context.Tools.Get<IDotNet>().Sdk.CheckAsync(cancellationToken = cancellationToken)
 
     let args = System.Environment.GetCommandLineArgs()
     let builder = Pipeline.CreateBuilder(args)
-    builder.Services.RegisterDotNetContext()
+    builder.Services.RegisterDotNetContext() |> ignore
 
     builder
         .AddModule<UpdateDotnetWorkloads>()
         .AddModule<CheckDotnetSdkModule>()
+    |> ignore
 
-    builder.ExecutePipelineAsync()
+    builder.RunAsync()
     |> Async.AwaitTask
     |> Async.RunSynchronously
-    ``` 
+    |> ignore
+    ```
 4. **Run your F# script:** You can run your F# script using the F# Interactive environment. If you are using Visual Studio, you can simply open the `example.fsx` file and execute it. Alternatively, you can run it from the command line using:
 
     ```powershell

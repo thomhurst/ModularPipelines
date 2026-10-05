@@ -1,25 +1,14 @@
----
-title: Sub-modules
----
+using System.Runtime.CompilerServices;
+using ModularPipelines;
+using ModularPipelines.Context;
+using ModularPipelines.DotNet.Options;
+using ModularPipelines.Extensions;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Models;
+using NugetVersionGeneratorModule = ModularPipelines.DocumentationSnippets.CurrentApiSnippets.NugetVersionGeneratorModule;
 
-# Sub-modules
+namespace ModularPipelines.DocumentationSnippets.SubModules;
 
-## What are they?
-Sub-modules track and organise blocks of execution where it doesn't make sense to refactor into a module. This is useful when iterating through data in a loop.
-
-For instance, you have 10 .NET projects to package into NuGet packages.
-
-By declaring each package operation as a sub-module, you can track failures and see each duration in the console progress display.
-
-A sub-module takes a name and a token-aware body to execute.
-
-If a sub-module fails, its original exception propagates while its name remains visible in progress output.
-
-In the example below, the `.csproj` filename identifies each sub-module.
-
-## Example
-
-```csharp
 [DependsOn<NugetVersionGeneratorModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
@@ -53,4 +42,3 @@ public class PackProjectsModule : Module<CommandResult[]>
         }
     }
 }
-```

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace ModularPipelines.UnitTests.Documentation;
 
-public class DocumentationSnippetTests
+public partial class DocumentationSnippetTests
 {
     private static readonly HashSet<string> IntentionalLegacyDocumentation =
     [
@@ -35,7 +35,7 @@ public class DocumentationSnippetTests
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
-            await Assert.That(Regex.IsMatch(contents, @"\bPipelineStatus\b")).IsFalse();
+            await Assert.That(LegacyPipelineStatusRegex().IsMatch(contents)).IsFalse();
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
 
@@ -141,6 +141,55 @@ public class DocumentationSnippetTests
         await Assert.That(compiledFixture).Contains("buildResult.Value.OutputPath");
     }
 
+    [Test]
+    [Arguments("docs/docs/examples/fsharp-interactive.md", "test/ModularPipelines.DocumentationSnippets.FSharp/InteractiveExample.fs", "type UpdateDotnetWorkloads")]
+    [Arguments("docs/docs/how-to/sub-modules.md", "test/ModularPipelines.DocumentationSnippets/SubModuleSnippet.cs", "class PackProjectsModule")]
+    [Arguments("docs/docs/how-to/defining-modules.md", "test/ModularPipelines.DocumentationSnippets/SyncModuleSnippet.cs", "class LoggingModule")]
+    public async Task Published_Example_Matches_Compiled_Fixture(string documentationPath, string fixturePath, string declaration)
+    {
+        var repositoryRoot = FindRepositoryRoot();
+        var documentation = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, documentationPath));
+        var fixture = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, fixturePath));
+        var fence = Regex.Matches(documentation, @"```(?:csharp|fsharp)\r?\n(.*?)```", RegexOptions.Singleline)
+            .Select(match => match.Groups[1].Value)
+            .Single(code => code.Contains(declaration, StringComparison.Ordinal));
+        if (fixturePath.EndsWith(".fs", StringComparison.Ordinal))
+        {
+            await Assert.That(Regex.Matches(documentation, "#r \"nuget: [^\"]+\"")
+                    .Select(match => match.Value))
+                .IsEquivalentTo([
+                    "#r \"nuget: ModularPipelines, 4.*\"",
+                    "#r \"nuget: ModularPipelines, 4.0.0\"",
+                    "#r \"nuget: ModularPipelines.DotNet, 4.*\"",
+                ]);
+            var lines = fence.Replace("\r\n", "\n", StringComparison.Ordinal).Split('\n');
+            var indent = lines.Where(line => !string.IsNullOrWhiteSpace(line))
+                .Min(line => line.Length - line.TrimStart(' ').Length);
+            var fsharpCode = string.Join("\n", lines
+                .Where(line => !line.TrimStart().StartsWith("#r ", StringComparison.Ordinal))
+                .Select(line => string.IsNullOrWhiteSpace(line) ? string.Empty : line[indent..])).Trim();
+
+            // Remove only the Markdown fence indentation; F# indentation remains significant.
+            await Assert.That(fixture.Replace("\r\n", "\n", StringComparison.Ordinal)).Contains(fsharpCode);
+            return;
+        }
+
+        await Assert.That(Regex.Replace(fixture, @"\s+", string.Empty))
+            .Contains(Regex.Replace(fence, @"\s+", string.Empty));
+    }
+
+    [Test]
+    [Arguments("docs/docs/fundamentals.md")]
+    [Arguments("docs/docs/how-to/run-conditions.md")]
+    [Arguments("docs/docs/how-to/defining-modules.md")]
+    public async Task No_Result_Guidance_Uses_Non_Generic_Modules(string documentationPath)
+    {
+        var documentation = await File.ReadAllTextAsync(Path.Combine(FindRepositoryRoot(), documentationPath));
+
+        await Assert.That(documentation).DoesNotContain("Module<None>");
+        await Assert.That(documentation).DoesNotContain("return None.Value;");
+    }
+
     private static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
@@ -192,4 +241,7 @@ public class DocumentationSnippetTests
             .Where(line => !line.StartsWith("120000 ", StringComparison.Ordinal))
             .Select(line => line[(line.IndexOf(' ') + 1)..])];
     }
+
+    [GeneratedRegex(@"\bPipelineStatus\b")]
+    private static partial Regex LegacyPipelineStatusRegex();
 }

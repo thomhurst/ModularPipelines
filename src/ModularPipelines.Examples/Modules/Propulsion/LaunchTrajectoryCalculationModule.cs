@@ -1,8 +1,5 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Examples.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules.Propulsion;
 

@@ -241,6 +241,10 @@ jobs:
           )
           test -f "$RUNNER_TEMP/relocated-template-run/artifacts/publish/Example.dll"
           test ! -d "$RUNNER_TEMP/published-caller/artifacts"
+      - name: Validate F# Interactive documentation
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        shell: pwsh
+        run: ./scripts/Test-DocumentationFsi.ps1 -PackageDirectory "$env:RUNNER_TEMP/template-pack" -PackageVersion '0.0.0-local'
       - name: Run OptionsGenerator unit tests
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         run: |
