@@ -81,6 +81,7 @@ internal static class InheritedPropertyCollisionResolver
             sameScopeGlobals);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
+        usedLocalNames.UnionWith(globalPropertyNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
             .Select(argument => argument with
