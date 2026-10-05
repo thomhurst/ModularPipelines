@@ -91,7 +91,7 @@ public partial interface IPip
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Inspect the content of a Python environment and produce a report in JSON format.
+    /// Inspect the content of a Python environment and produce a report in JSON
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
