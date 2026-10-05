@@ -1,0 +1,12 @@
+{
+  "$schema": "./schema.json",
+  "global": {},
+  "commands": {
+    "console": {
+      "-config-type": {
+        "type": "string",
+        "reason": "Packer console help omits the value placeholder. Packer v1.16.1 command/cli.go registers ConfigType as a value accepting hcl2 or json: https://github.com/hashicorp/packer/blob/v1.16.1/command/cli.go"
+      }
+    }
+  }
+}

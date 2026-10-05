@@ -22,6 +22,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PackerCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private const string MachineReadableSwitch = "-machine-readable";
+
     public override string ToolName => "packer";
 
     public override string NamespacePrefix => "Packer";
@@ -48,7 +50,7 @@ public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCac
         new()
         {
             // Packer's main.extractMachineReadable consumes this exact token before dispatch.
-            SwitchName = "-machine-readable",
+            SwitchName = MachineReadableSwitch,
             PropertyName = "MachineReadable",
             CSharpType = "bool?",
             IsFlag = true,
@@ -126,7 +128,7 @@ public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
-        options.RemoveAll(option => option.SwitchName == "-machine-readable" && option.IsFlag);
+        options.RemoveAll(option => option.SwitchName == MachineReadableSwitch && option.IsFlag);
 
         var className = GenerateClassName(commandPath);
 

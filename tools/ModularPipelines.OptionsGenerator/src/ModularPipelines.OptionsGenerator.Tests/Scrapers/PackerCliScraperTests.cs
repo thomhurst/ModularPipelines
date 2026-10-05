@@ -56,6 +56,32 @@ public class PackerCliScraperTests
         await Assert.That(option.SwitchName).IsEqualTo("-" + propertyName.ToLowerInvariant());
     }
 
+    [Test]
+    public async Task Console_Config_Type_Override_Retains_String_Value()
+    {
+        var scraper = new TestPackerCliScraper();
+        var command = (await scraper.Parse(["packer", "console"], await ReadFixture("console")))!;
+        var detector = new ManualOverrideDetector(
+            NullLogger<ManualOverrideDetector>.Instance,
+            Path.Combine(AppContext.BaseDirectory, "TypeOverrides"));
+        var enhancer = new OptionTypeEnhancer(
+            new OptionTypeDetectorPipeline([detector], NullLogger<OptionTypeDetectorPipeline>.Instance),
+            NullLogger<OptionTypeEnhancer>.Instance);
+        var tool = await enhancer.EnhanceManualOverridesAsync(
+            scraper.CreateToolDefinition() with { Commands = [command] });
+        var option = tool.Commands.Single().Options.Single(option => option.SwitchName == "-config-type");
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        await Assert.That(option.IsSecret).IsFalse();
+        await Assert.That(tool.Commands.Single().Options
+            .Single(option => option.SwitchName == "-use-sequential-evaluation").IsFlag).IsTrue();
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains("public string? ConfigType");
+        await Assert.That(generated).Contains("[CliOption(\"-config-type\", Format = OptionFormat.EqualsSeparated)]");
+    }
+
     private static Task<string> ReadFixture(string command) => File.ReadAllTextAsync(
         Path.Combine(AppContext.BaseDirectory, "Fixtures", "Packer", "1.16.1", $"packer-{command}-help.txt"));
 

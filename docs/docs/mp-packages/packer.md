@@ -79,3 +79,8 @@ booleans, but now render explicit values. `Color = false` emits `-color=false`,
 and `Write = false` emits `-write=false`; neither silently omits the option.
 Leaving either property `null` preserves Packer's default. Other switches retain
 their documented single-hyphen spelling and stay after their command.
+
+`PackerConsoleOptions.ConfigType` now accepts a string rather than a nullable
+boolean. Set `ConfigType = "hcl2"` to emit `-config-type=hcl2`; leave it `null`
+to preserve Packer's default. Packer's console help omits the value placeholder,
+but its argument parser requires a configuration type.

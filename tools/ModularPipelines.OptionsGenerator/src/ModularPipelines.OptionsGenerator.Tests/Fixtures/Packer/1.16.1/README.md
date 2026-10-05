@@ -21,3 +21,9 @@ Sources:
 - https://releases.hashicorp.com/packer/1.16.1/
 - https://github.com/hashicorp/packer/blob/v1.16.1/main.go
 - https://developer.hashicorp.com/packer/docs/commands#machine-readable-output
+
+The console help omits the value placeholder for `-config-type`, but describes
+`hcl2` and the `json` default. The v1.16.1 `command/cli.go` registration accepts
+a configuration type value. The command-scoped `TypeOverrides/packer.json`
+entry preserves that value contract without inferring value arity for unrelated flags.
+Source: https://github.com/hashicorp/packer/blob/v1.16.1/command/cli.go
