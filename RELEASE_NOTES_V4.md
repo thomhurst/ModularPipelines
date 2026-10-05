@@ -783,4 +783,7 @@ selection, alongside the existing file and selector options. Combined references
 as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
 `Name`. `Kustomize = "overlay"` is also accepted as a resource source. Kubectl validates
 the resource string itself. Patch and scale recover their resource operands from the
-same generic alternative parser.
+same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.ScaleAsync`
+now require a non-null `options` argument instead of defaulting it to null. Pass
+`KubernetesPatchOptions` or `KubernetesScaleOptions` with a resource source; calls
+that omit options must be updated.
