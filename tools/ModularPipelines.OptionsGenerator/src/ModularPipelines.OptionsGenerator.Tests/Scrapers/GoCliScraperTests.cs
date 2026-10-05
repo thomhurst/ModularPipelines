@@ -27,7 +27,7 @@ public partial class GoCliScraperTests
                 Use "go help <command>" for more information about a command.
                 """,
             ["help bug"] = "usage: go bug\n\nBug starts a bug report.",
-            ["help build"] = "usage: go build [packages]\n\nBuild compiles packages.",
+            ["help build"] = "usage: go build [packages]\n\n    -C dir\n        Change to dir before running the command.",
             ["help version"] = "usage: go version [-json] [file ...]\n\nVersion reports build information.",
             ["help mod"] = """
                 Usage:
@@ -94,7 +94,7 @@ public partial class GoCliScraperTests
 
                 Use "go help <command>" for more information about a command.
                 """,
-            ["help build"] = buildHelp,
+            ["help build"] = buildHelp + "\n    -C dir\n        Change to dir before running the command.",
             ["help clean"] = "usage: go clean [-cache]\n\nClean removes cached files.",
             ["help fix"] = "usage: go fix [build flags] [-fixtool prog] [packages]\n\nFix applies fixes.",
             ["help generate"] = "usage: go generate [build flags] [-run regexp] [file.go ...]\n\nGenerate runs generators.",
@@ -538,7 +538,7 @@ public partial class GoCliScraperTests
                     build       compile packages
                     vet         report suspicious constructs
                 """,
-            ["help build"] = buildHelp,
+            ["help build"] = buildHelp + "\n    -C dir\n        Change to dir before running the command.",
             ["help vet"] = "usage: go vet [packages]\n\nVet reports suspicious constructs.",
         }, new HashSet<string>(StringComparer.Ordinal) { "vet -race" });
 
@@ -567,6 +567,8 @@ public partial class GoCliScraperTests
 
                 The build flags are shared by the build and test commands:
 
+                    -C dir
+                        Change to dir before running the command.
                     -race
                         enable data race detection.
                 """,
