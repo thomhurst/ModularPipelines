@@ -31,6 +31,13 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<FlywayCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
+    private static readonly Dictionary<string, string> FlagPropertyNames = new(StringComparer.Ordinal)
+    {
+        ["-X"] = "Debug",
+        ["-q"] = "Quiet",
+        ["-n"] = "NonInteractive",
+    };
+
     public override string ToolName => "flyway";
 
     public override string NamespacePrefix => "Flyway";
@@ -232,24 +239,28 @@ public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// Format: -url=                         : Jdbc url to use to connect to the database
     ///         -user=                        : User to use to connect to the database
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText) =>
+        [.. ParseConfigurationOptions(helpText), .. ParseFlags(helpText)];
+
+    private static IEnumerable<string> ReadSectionLines(string helpText, Regex pattern, bool allowUnindentedOptions)
     {
-        var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        // Find "Configuration" section
-        var configSectionMatch = ConfigurationSectionPattern().Match(helpText);
-        var sectionStart = configSectionMatch.Index + configSectionMatch.Length;
-        var section = configSectionMatch.Success ? helpText[sectionStart..] : string.Empty;
-        var lines = section.Split('\n');
-
-        foreach (var line in lines)
+        var header = pattern.Match(helpText);
+        if (!header.Success)
         {
-            if (!string.IsNullOrWhiteSpace(line) && !char.IsWhiteSpace(line[0]) && !line.StartsWith('-'))
-            {
-                break;
-            }
+            return [];
+        }
 
+        return helpText[(header.Index + header.Length)..].Split('\n')
+            .TakeWhile(line => string.IsNullOrWhiteSpace(line)
+                || char.IsWhiteSpace(line[0])
+                || (allowUnindentedOptions && line.StartsWith('-')));
+    }
+
+    private static IEnumerable<CliOptionDefinition> ParseConfigurationOptions(string helpText)
+    {
+        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var line in ReadSectionLines(helpText, ConfigurationSectionPattern(), allowUnindentedOptions: true))
+        {
             var match = FlywayOptionPattern().Match(line);
             if (!match.Success)
             {
@@ -257,73 +268,63 @@ public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCac
             }
 
             var optionName = match.Groups["option"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(optionName) || seenOptions.Contains(optionName))
+            if (string.IsNullOrEmpty(optionName) || !seenOptions.Add(optionName))
             {
                 continue;
             }
-
-            seenOptions.Add(optionName);
 
             var propertyName = NormalizePropertyName(optionName);
-            if (propertyName is null)
+            if (propertyName is not null)
+            {
+                yield return CreateConfigurationOption(optionName, propertyName, match.Groups["desc"].Value.Trim());
+            }
+        }
+    }
+
+    private static CliOptionDefinition CreateConfigurationOption(string optionName, string propertyName, string description)
+    {
+        // Map namespaces use -namespace.key=value; other settings use -key=value.
+        var isMap = optionName is "placeholders" or "jdbcProperties";
+        return new CliOptionDefinition
+        {
+            SwitchName = isMap ? $"-{optionName}." : $"-{optionName}",
+            ShortForm = null,
+            PropertyName = propertyName,
+            CSharpType = isMap ? "IReadOnlyList<KeyValue>?" : "string?",
+            Description = description,
+            Availability = description.StartsWith("[teams]", StringComparison.OrdinalIgnoreCase) ? "Flyway Teams" : null,
+            IsFlag = false,
+            IsRequired = false,
+            // List settings are comma-delimited; map entries each need their own argument.
+            AcceptsMultipleValues = isMap,
+            IsKeyValue = isMap,
+            IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
+            ValueSeparator = isMap ? string.Empty : "=",
+            EnumDefinition = null,
+            IsSecret = optionName is "jdbcProperties" or "licenseKey" || GeneratorUtils.IsSecretOption(propertyName, false),
+        };
+    }
+
+    private static IEnumerable<CliOptionDefinition> ParseFlags(string helpText)
+    {
+        foreach (var line in ReadSectionLines(helpText, FlagsSectionPattern(), allowUnindentedOptions: false))
+        {
+            var flag = FlywayFlagPattern().Match(line);
+            if (!flag.Success)
             {
                 continue;
             }
 
-            // Map namespaces use -namespace.key=value; other settings use -key=value.
-            var isMap = optionName is "placeholders" or "jdbcProperties";
-
-            options.Add(new CliOptionDefinition
+            var switchName = flag.Groups["flag"].Value;
+            yield return new CliOptionDefinition
             {
-                SwitchName = isMap ? $"-{optionName}." : $"-{optionName}",
-                ShortForm = null,
-                PropertyName = propertyName,
-                CSharpType = isMap ? "IReadOnlyList<KeyValue>?" : "string?",
-                Description = description,
-                Availability = description.StartsWith("[teams]", StringComparison.OrdinalIgnoreCase) ? "Flyway Teams" : null,
-                IsFlag = false,
-                IsRequired = false,
-                // List settings are comma-delimited; map entries each need their own argument.
-                AcceptsMultipleValues = isMap,
-                IsKeyValue = isMap,
-                IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
-                ValueSeparator = isMap ? string.Empty : "=",
-                EnumDefinition = null,
-                IsSecret = optionName is "jdbcProperties" or "licenseKey" || GeneratorUtils.IsSecretOption(propertyName, false)
-            });
+                SwitchName = switchName,
+                PropertyName = FlagPropertyNames[switchName],
+                CSharpType = "bool?",
+                Description = flag.Groups["desc"].Value.Trim(),
+                IsFlag = true,
+            };
         }
-
-        var flagsSection = FlagsSectionPattern().Match(helpText);
-        if (flagsSection.Success)
-        {
-            foreach (var line in helpText[(flagsSection.Index + flagsSection.Length)..].Split('\n'))
-            {
-                if (!string.IsNullOrWhiteSpace(line) && !char.IsWhiteSpace(line[0]))
-                {
-                    break;
-                }
-
-                var flag = FlywayFlagPattern().Match(line);
-                if (!flag.Success)
-                {
-                    continue;
-                }
-
-                var switchName = flag.Groups["flag"].Value;
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = switchName,
-                    PropertyName = switchName switch { "-X" => "Debug", "-q" => "Quiet", _ => "NonInteractive" },
-                    CSharpType = "bool?",
-                    Description = flag.Groups["desc"].Value.Trim(),
-                    IsFlag = true,
-                });
-            }
-        }
-
-        return options;
     }
 
     /// <summary>
