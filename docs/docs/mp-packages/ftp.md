@@ -30,7 +30,10 @@ public class ConnectFtpModule : Module<None>
             "ftp.example.com",
             new NetworkCredential(
                 Environment.GetEnvironmentVariable("FTP_USERNAME"),
-                Environment.GetEnvironmentVariable("FTP_PASSWORD")));
+                Environment.GetEnvironmentVariable("FTP_PASSWORD")))
+        {
+            RequireEncryption = true,
+        };
 
         var client = await context.Tools.Ftp.GetFtpClientAsync(options, cancellationToken);
         context.Logger.LogInformation("Connected to {Host}", client.Host);
@@ -43,6 +46,13 @@ The cancellation token applies to connection establishment. Pass a cancellation 
 separately to subsequent FluentFTP operations. The FTP context disposes connected clients
 when its scope ends; failed or canceled setup disposes the client before returning the error.
 A token canceled before the call prevents client configuration and connection attempts.
+
+Set `RequireEncryption = true` when sending credentials. This requires explicit FTPS
+and fails before authentication if the server rejects TLS. To use implicit FTPS, set
+`client.Config.EncryptionMode = FtpEncryptionMode.Implicit` in `ClientConfigurator`.
+Both control and data connections remain encrypted. The default is `false` for
+compatibility with plaintext FTP servers; that mode uses FluentFTP auto-detection
+and can send credentials without encryption.
 
 ## V4 migration
 

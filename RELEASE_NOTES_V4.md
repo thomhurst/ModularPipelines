@@ -774,6 +774,10 @@ for connection establishment. Failed or canceled client setup disposes the clien
 successfully connected clients remain owned by the FTP context. Custom `IFtp`
 implementations must accept the new parameter.
 
+Set `FtpOptions.RequireEncryption = true` to require explicit FTPS without plaintext
+fallback; an explicitly configured implicit FTPS mode is also supported. Control and
+data connections stay encrypted. The default remains `false` for compatibility.
+
 `FtpOptions` and `FtpExtensions` now live in `ModularPipelines.Ftp`. Replace imports of
 `ModularPipelines.Ftp.Options` and `ModularPipelines.Ftp.Extensions` with that root namespace.
 The generated `context.Tools.Ftp` entry point remains available. `RegisterFtpContext`

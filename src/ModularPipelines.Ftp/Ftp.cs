@@ -13,7 +13,24 @@ internal class Ftp : IAsyncDisposable, IFtp
         try
         {
             options.ClientConfigurator?.Invoke(client);
-            await client.AutoConnect(cancellationToken).ConfigureAwait(false);
+            if (options.RequireEncryption)
+            {
+                // Auto-detection can authenticate in plaintext before returning a profile.
+                // Explicit FTPS rejects an unsupported TLS upgrade before sending credentials.
+                if (client.Config.EncryptionMode != FtpEncryptionMode.Implicit)
+                {
+                    client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
+                }
+
+                client.Config.EncryptAuthenticationOnly = false;
+                client.Config.DataConnectionEncryption = true;
+                await client.Connect(cancellationToken).ConfigureAwait(false);
+            }
+            else
+            {
+                await client.AutoConnect(cancellationToken).ConfigureAwait(false);
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
             _clients.Add(client);
             return client;
