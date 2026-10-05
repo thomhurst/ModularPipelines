@@ -6,6 +6,18 @@ namespace ModularPipelines.OptionsGenerator.Tests.Models;
 public class CliGlobalOptionMergerTests
 {
     [Test]
+    public async Task Merge_Preserves_Case_Sensitive_Short_Switches_And_Aliases()
+    {
+        var merged = CliGlobalOptionMerger.Merge(
+            [Option("-C", "ChangeDirectories"), Option("-c", "Configuration")],
+            [Option("--paginate", "Paginate") with { ShortForm = "-p" },
+             Option("--no-pager", "NoPager") with { ShortForm = "-P" }]);
+
+        await Assert.That(merged.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-C", "-c", "--paginate", "--no-pager"]);
+    }
+
+    [Test]
     public async Task Merge_Combines_And_Orders_Scraped_And_Supplemental_Options()
     {
         var merged = CliGlobalOptionMerger.Merge(

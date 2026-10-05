@@ -15,9 +15,9 @@ public static class CliGlobalOptionMerger
         ArgumentNullException.ThrowIfNull(scrapedOptions);
         ArgumentNullException.ThrowIfNull(supplementalOptions);
 
-        var optionsBySwitch = new Dictionary<string, CliOptionDefinition>(StringComparer.OrdinalIgnoreCase);
+        var optionsBySwitch = new Dictionary<string, CliOptionDefinition>(StringComparer.Ordinal);
         var switchByProperty = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var primarySwitchByAlias = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var primarySwitchByAlias = new Dictionary<string, string>(StringComparer.Ordinal);
 
         foreach (var option in scrapedOptions.Concat(supplementalOptions))
         {
@@ -72,7 +72,7 @@ public static class CliGlobalOptionMerger
     private static void RegisterAlias(
         string alias,
         string primarySwitch,
-        IDictionary<string, string> primarySwitchByAlias)
+        Dictionary<string, string> primarySwitchByAlias)
     {
         if (primarySwitchByAlias.TryGetValue(alias, out var existingSwitch))
         {
@@ -97,7 +97,7 @@ public static class CliGlobalOptionMerger
 
     internal static bool HasSameShape(CliOptionDefinition left, CliOptionDefinition right)
     {
-        return left.SwitchName.Equals(right.SwitchName, StringComparison.OrdinalIgnoreCase)
+        return left.SwitchName.Equals(right.SwitchName, StringComparison.Ordinal)
                && StringEquals(left.ShortForm, right.ShortForm)
                && StringEquals(left.NegatedSwitchName, right.NegatedSwitchName)
                && left.PreferShortForm == right.PreferShortForm
@@ -136,6 +136,6 @@ public static class CliGlobalOptionMerger
 
     private static bool StringEquals(string? left, string? right)
     {
-        return string.Equals(left, right, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(left, right, StringComparison.Ordinal);
     }
 }
