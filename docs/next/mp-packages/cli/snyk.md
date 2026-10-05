@@ -24,6 +24,14 @@ Resolve the service in a module, then select a command from the table below. A r
 var snyk = context.Tools.Snyk;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description        |
+| ---------- | -------- | ------------ | ------------------ |
+| `-d`       | `Debug`  | All editions | Output debug logs. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                      | Options record                      |

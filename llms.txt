@@ -100,6 +100,7 @@
 - [Azure Pipelines Package](/docs/next/mp-packages/azure-pipelines.md): Azure Pipelines environment and build integration helpers.
 - [Buildah Package](/docs/next/mp-packages/buildah.md): Strongly typed Buildah commands for building OCI container images.
 - [Chocolatey Package](/docs/next/mp-packages/chocolatey.md): Strongly typed Chocolatey package-management commands.
+- [Global options in specialist CLI packages](/docs/next/mp-packages/cli-global-options.md): Some tools have subcommands with inherited settings. Others accept one invocation with
 - [ansible CLI reference](/docs/next/mp-packages/cli/ansible.md): ModularPipelines.Ansible provides strongly typed access to the ansible CLI.
 - [argocd CLI reference](/docs/next/mp-packages/cli/argocd.md): ModularPipelines.ArgoCd provides strongly typed access to the argocd CLI.
 - [aws CLI reference](/docs/next/mp-packages/cli/aws.md): ModularPipelines.AmazonWebServices provides strongly typed access to the aws CLI.
