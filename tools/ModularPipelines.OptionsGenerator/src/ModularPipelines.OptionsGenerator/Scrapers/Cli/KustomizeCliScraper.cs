@@ -56,6 +56,10 @@ public partial class KustomizeCliScraper : CobraCliScraper
 
     protected override string VersionArguments => "version";
 
+    // Root PersistentFlags includes Go's stack-trace flag; build/plugin settings stay local.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName == "--stack-trace")];
+
     /// <summary>
     /// Kustomize renders the build directory as required in its Cobra usage line even
     /// though omitting it is documented to use the current directory.
@@ -87,6 +91,11 @@ public partial class KustomizeCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliOptionDefinition> options)
     {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        options = [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+
         if (commandParts is not ["create"])
         {
             return options;
