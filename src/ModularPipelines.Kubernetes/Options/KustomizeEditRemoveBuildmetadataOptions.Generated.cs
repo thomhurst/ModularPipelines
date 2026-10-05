@@ -38,12 +38,6 @@ public record KustomizeEditRemoveBuildmetadataOptions : KustomizeOptions
     }
 
     /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
-    /// <summary>
     /// The &lt;metadata&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
