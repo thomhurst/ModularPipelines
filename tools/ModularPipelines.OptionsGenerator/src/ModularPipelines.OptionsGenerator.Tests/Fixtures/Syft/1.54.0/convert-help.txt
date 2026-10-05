@@ -1,0 +1,23 @@
+[Experimental] Convert SBOM files to, and from, SPDX, CycloneDX and Syft's format. For more info about data loss between formats see https://github.com/anchore/syft/wiki/format-conversion
+
+Usage:
+  syft convert [SOURCE-SBOM] -o [FORMAT] [flags]
+
+Examples:
+  syft convert img.syft.json -o spdx-json                      convert a syft SBOM to spdx-json, output goes to stdout
+  syft convert img.syft.json -o cyclonedx-json=img.cdx.json    convert a syft SBOM to CycloneDX, output is written to the file "img.cdx.json"
+  syft convert - -o spdx-json                                  convert an SBOM from STDIN to spdx-json
+  SYFT_CONVERT_PASSTHROUGH_EXACT_FORMAT=true syft convert img.syft.json -o syft-json=out.syft.json    copy the input to "out.syft.json" unchanged if it is already syft-json at the current schema version
+
+
+Flags:
+      --file string          file to write the default report output to (default is STDOUT) (DEPRECATED: use: --output FORMAT=PATH)
+  -h, --help                 help for convert
+  -o, --output stringArray   report output format (<format>=<file> to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
+  -t, --template string      specify the path to a Go template file
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
