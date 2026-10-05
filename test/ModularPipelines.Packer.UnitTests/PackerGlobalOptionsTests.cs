@@ -52,6 +52,22 @@ public class PackerGlobalOptionsTests : TestBase
     }
 
     [Test]
+    [Arguments("hcl2")]
+    [Arguments("json")]
+    [Arguments(null)]
+    public async Task Console_Config_Type_Preserves_Value_And_Default(string? configType)
+    {
+        var command = await RenderCommand(new PackerConsoleOptions
+        {
+            ConfigType = configType,
+            Template = "image.pkr.hcl",
+        });
+        var option = configType is null ? string.Empty : $" -config-type={configType}";
+
+        await Assert.That(command).IsEqualTo($"packer console{option} image.pkr.hcl");
+    }
+
+    [Test]
     public async Task Debug_Remains_A_Command_Local_Flag()
     {
         var command = await RenderCommand(new PackerBuildOptions("image.pkr.hcl") { Debug = true });

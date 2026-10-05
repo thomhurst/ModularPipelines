@@ -36,8 +36,8 @@ public record PackerConsoleOptions : PackerOptions
     /// <summary>
     /// Set to 'hcl2' to run in HCL2 mode when no file is passed. Defaults to json.
     /// </summary>
-    [CliFlag("-config-type")]
-    public bool? ConfigType { get; set; }
+    [CliOption("-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigType { get; set; }
 
     /// <summary>
     /// Fallback to using a sequential approach for local/datasource evaluation.
