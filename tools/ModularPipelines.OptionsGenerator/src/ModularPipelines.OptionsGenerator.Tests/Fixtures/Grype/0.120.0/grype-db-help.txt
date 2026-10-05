@@ -1,0 +1,26 @@
+vulnerability database operations
+
+Usage:
+  grype db [command]
+
+Available Commands:
+  check       Check to see if there is a database update available
+  delete      Delete the vulnerability database
+  diff        Diff two databases, showing packages with added, removed, and modified vulnerability matches
+  import      Import a vulnerability database or archive from a local file or URL
+  list        List all DBs available according to the listing URL
+  providers   List vulnerability providers that are in the database
+  search      Search the DB for vulnerabilities or affected packages
+  status      Display database status and metadata
+  update      Download and install the latest vulnerability database
+
+Flags:
+  -h, --help   help for db
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
+
+Use "grype db [command] --help" for more information about a command.

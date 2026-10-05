@@ -1,0 +1,14 @@
+show version information
+
+Usage:
+  grype version [flags]
+
+Flags:
+  -h, --help            help for version
+  -o, --output string   the format to show the results (allowable: [text json]) (default "text")
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
