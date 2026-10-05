@@ -14,6 +14,9 @@ public record CliOptionDefinition
     /// <summary>Whether the installed parser verified the type and arity, which prose or legacy overrides must not replace.</summary>
     internal bool HasVerifiedValueShape { get; init; }
 
+    /// <summary>Whether every string collection entry must contain a non-whitespace value.</summary>
+    internal bool RejectBlankCollectionValues { get; init; }
+
     /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 

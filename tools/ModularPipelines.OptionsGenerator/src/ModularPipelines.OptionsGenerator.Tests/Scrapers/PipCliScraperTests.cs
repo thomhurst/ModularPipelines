@@ -20,6 +20,7 @@ public class PipCliScraperTests
         var group = command!.Options.Single(option => option.SwitchName == "--group");
 
         await Assert.That(group.AcceptsMultipleValues).IsTrue();
+        await Assert.That(group.RejectBlankCollectionValues).IsTrue();
         await Assert.That(group.CSharpType).IsEqualTo("IEnumerable<string>?");
     }
 

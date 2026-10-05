@@ -360,6 +360,7 @@ public partial class PipCliScraper : CliScraperBase
                     IsFlag = isFlag,
                     IsRequired = false,
                     AcceptsMultipleValues = acceptsMultipleValues,
+                    RejectBlankCollectionValues = longForm == "--group",
                     IsKeyValue = false,
                     IsNumeric = false,
                     ValueSeparator = " ",
