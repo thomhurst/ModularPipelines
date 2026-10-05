@@ -1,0 +1,53 @@
+Search the DB for vulnerabilities or affected packages
+
+Usage:
+  grype db search [flags]
+  grype db search [command]
+
+Examples:
+
+  Search for affected packages by vulnerability ID:
+
+    $ grype db search --vuln ELSA-2023-12205
+
+  Search for affected packages by package name:
+
+    $ grype db search --pkg log4j
+
+  Search for affected packages by package name, filtering down to a specific vulnerability:
+
+    $ grype db search --pkg log4j --vuln CVE-2021-44228
+
+  Search for affected packages by PURL (note: version is not considered):
+
+    $ grype db search --pkg 'pkg:rpm/redhat/openssl' # or: '--ecosystem rpm --pkg openssl
+
+  Search for affected packages by CPE (note: version/update is not considered):
+
+    $ grype db search --pkg 'cpe:2.3:a:jetty:jetty_http_server:*:*:*:*:*:*:*:*'
+    $ grype db search --pkg 'cpe:/a:jetty:jetty_http_server'
+
+Available Commands:
+  vuln        Search for vulnerabilities within the DB (supports DB schema v6+ only)
+
+Flags:
+      --broad-cpe-matching        allow for specific package CPE attributes to match with '*' values on the vulnerability
+      --distro stringArray        refine to results with the given operating system (format: 'name', 'name[-:@]version', 'name[-:@]maj.min', 'name[-:@]codename')
+      --ecosystem string          ecosystem of the package to search within
+      --fixed-state stringArray   only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
+  -h, --help                      help for search
+      --limit int                 limit the number of results returned, use 0 for no limit (default 5000)
+      --modified-after string     only show vulnerabilities originally published or modified since the given date (format: YYYY-MM-DD)
+  -o, --output string             format to display results (available=[table, json]) (default "table")
+      --pkg stringArray           package name/CPE/PURL to search for
+      --provider stringArray      only show vulnerabilities from the given provider
+      --published-after string    only show vulnerabilities originally published after the given date (format: YYYY-MM-DD)
+      --vuln stringArray          only show results for the given vulnerability ID
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
+
+Use "grype db search [command] --help" for more information about a command.
