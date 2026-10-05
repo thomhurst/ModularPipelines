@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -68,6 +69,7 @@ public record AwsEndusermessagingValidateNotifyCodeVerificationOptions : AwsOpti
     /// <summary>
     /// The one-time passcode that the recipient submitted for validation. Constraints: o min: 4 o max: 8 o pattern: [A-Za-z0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; private init; }
 
