@@ -30,6 +30,22 @@ Resolve the service in a module, then select a command from the table below. A r
 var skopeo = context.Tools.Skopeo;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--command-timeout` | `CommandTimeout` | All editions | timeout for the command execution |
+| `--debug` | `Debug` | All editions | enable debug output |
+| `--insecure-policy` | `InsecurePolicy` | All editions | run the tool without any policy check |
+| `--override-arch` | `OverrideArch` | All editions | use ARCH instead of the architecture of the machine for choosing images |
+| `--override-os` | `OverrideOs` | All editions | use OS instead of the running OS for choosing images |
+| `--override-variant` | `OverrideVariant` | All editions | use VARIANT instead of the running architecture variant for choosing images |
+| `--policy` | `Policy` | All editions | Path to a trust policy file |
+| `--registries.d` | `RegistriesD` | All editions | use registry configuration files in DIR (e.g. for container signature storage) |
+| `--tmpdir` | `Tmpdir` | All editions | directory used to store temporary files |
+
 ## Commands
 
 | CLI command | Options record |

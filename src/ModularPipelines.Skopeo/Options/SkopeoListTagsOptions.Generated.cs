@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Skopeo.Options;
 
@@ -86,8 +87,8 @@ public record SkopeoListTagsOptions : SkopeoOptions
     /// <summary>
     /// require HTTPS and verify certificates when talking to the container registry or daemon
     /// </summary>
-    [CliFlag("--tls-verify")]
-    public bool? TlsVerify { get; set; }
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TlsVerify { get; set; }
 
     /// <summary>
     /// Username for accessing the registry

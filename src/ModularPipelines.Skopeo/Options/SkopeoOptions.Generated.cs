@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Skopeo.Options;
 
@@ -22,4 +23,58 @@ namespace ModularPipelines.Skopeo.Options;
 [CliGlobalOptions]
 public abstract record SkopeoOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// timeout for the command execution
+    /// </summary>
+    [CliOption("--command-timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CommandTimeout { get; set; }
+
+    /// <summary>
+    /// enable debug output
+    /// </summary>
+    [CliOption("--debug", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Debug { get; set; }
+
+    /// <summary>
+    /// run the tool without any policy check
+    /// </summary>
+    [CliOption("--insecure-policy", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? InsecurePolicy { get; set; }
+
+    /// <summary>
+    /// use ARCH instead of the architecture of the machine for choosing images
+    /// </summary>
+    [CliOption("--override-arch", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OverrideArch { get; set; }
+
+    /// <summary>
+    /// use OS instead of the running OS for choosing images
+    /// </summary>
+    [CliOption("--override-os", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OverrideOs { get; set; }
+
+    /// <summary>
+    /// use VARIANT instead of the running architecture variant for choosing images
+    /// </summary>
+    [CliOption("--override-variant", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OverrideVariant { get; set; }
+
+    /// <summary>
+    /// Path to a trust policy file
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Policy { get; set; }
+
+    /// <summary>
+    /// use registry configuration files in DIR (e.g. for container signature storage)
+    /// </summary>
+    [CliOption("--registries.d", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RegistriesD { get; set; }
+
+    /// <summary>
+    /// directory used to store temporary files
+    /// </summary>
+    [CliOption("--tmpdir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Tmpdir { get; set; }
+
 }
