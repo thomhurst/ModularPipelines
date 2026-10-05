@@ -1,0 +1,25 @@
+Search packages in the registry. Default registry is crates.io
+
+Usage: cargo.exe search [OPTIONS] [QUERY]...
+
+Arguments:
+  [QUERY]...  
+
+Options:
+      --limit <LIMIT>            Limit the number of results (default: 10, max: 100)
+      --index <INDEX>            Registry index URL to search packages in
+      --registry <REGISTRY>      Registry to search packages in
+  -v, --verbose...               Use verbose output (-vv very verbose/build.rs output)
+  -q, --quiet                    Do not print cargo log messages
+      --color <WHEN>             Coloring [possible values: auto, always, never]
+      --config <KEY=VALUE|PATH>  Override a configuration value
+  -Z <FLAG>                      Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for
+                                 details
+  -h, --help                     Print help
+
+Manifest Options:
+      --locked   Assert that `Cargo.lock` will remain unchanged
+      --offline  Run without accessing the network
+      --frozen   Equivalent to specifying both --locked and --offline
+
+Run `cargo help search` for more detailed information.

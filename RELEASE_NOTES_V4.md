@@ -692,3 +692,12 @@ For example, Cassandra `ClusterArguments = [new CliValueGroup(["first=value",
 group to repeat the option. ARO `AssignPlatformWi` similarly preserves each operator
 and identity pair. See the Azure package guide for the DevOps extension prerequisite
 and noninteractive PAT authentication.
+
+## Cargo common options
+
+Cargo command records inherit stable root settings from `CargoOptions`, rendered
+before the command name. `Verbose` remains a nullable count; `Config` remains a
+collection with one `--config` per entry and is now masked as secret-bearing input.
+Replace per-command color enum names (for example `CargoBuildColor`) with `CargoColor`.
+Command-specific manifest/build settings and nightly `Z` options stay on their
+applicable records. No unconditional `-C` or rustup `+toolchain` property is added.
