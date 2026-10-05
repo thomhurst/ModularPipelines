@@ -48,6 +48,23 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option    | Property    | Availability | Description                                                                                                                            |
+| ------------- | ----------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `--config`    | `Config`    | All editions | Location of client config files (default "\~/.docker")                                                                                 |
+| `--context`   | `Context`   | All editions | Name of the context to use to connect to the daemon (overrides DOCKER\_HOST env var and default context set with "docker context use") |
+| `--debug`     | `Debug`     | All editions | Enable debug mode                                                                                                                      |
+| `--host`      | `Host`      | All editions | Daemon socket to connect to                                                                                                            |
+| `--log-level` | `LogLevel`  | All editions | Set the logging level ("debug", "info", "warn", "error", "fatal") (default "info")                                                     |
+| `--tls`       | `Tls`       | All editions | Use TLS; implied by --tlsverify                                                                                                        |
+| `--tlscacert` | `Tlscacert` | All editions | Trust certs signed only by this CA (default "\~/.docker/ca.pem")                                                                       |
+| `--tlscert`   | `Tlscert`   | All editions | Path to TLS certificate file (default "\~/.docker/cert.pem")                                                                           |
+| `--tlskey`    | `Tlskey`    | All editions | Path to TLS key file (default "\~/.docker/key.pem")                                                                                    |
+| `--tlsverify` | `Tlsverify` | All editions | Use TLS and verify the remote                                                                                                          |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                    | Options record                                    |
