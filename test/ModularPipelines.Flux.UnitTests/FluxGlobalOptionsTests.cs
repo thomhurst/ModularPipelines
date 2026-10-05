@@ -76,8 +76,14 @@ public class FluxGlobalOptionsTests : TestBase
         await Assert.That(property.GetValue(options)).IsEqualTo("webhook-fixture");
         var path = trigger ? "trigger receiver" : "create secret receiver";
         await Assert.That(await RenderCommand(options)).IsEqualTo($"flux {path} receiver --token=webhook-fixture");
+        var obfuscator = await GetService<ISecretObfuscator>();
+        var mask = new SecretMaskingOptions().MaskValue;
+        await Assert.That(obfuscator.Obfuscate("receiver --token=webhook-fixture", options))
+            .IsEqualTo($"receiver --token={mask}");
         property.SetValue(options, "updated-webhook");
         await Assert.That(options.Token).IsEqualTo("updated-webhook");
+        await Assert.That(obfuscator.Obfuscate("receiver --token=updated-webhook", options))
+            .IsEqualTo($"receiver --token={mask}");
     }
 
     [Test]
