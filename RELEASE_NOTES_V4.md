@@ -791,8 +791,9 @@ Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` produce one collecti
 and `KeyNValN`. Label and annotate options expose `Type` and `Name` for resource
 selection, alongside the existing file and selector options. Combined references such
 as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
-`Name`. `Kustomize = "overlay"` is also accepted as a resource source. Kubectl validates
-the resource string itself. Patch and scale recover their resource operands from the
+`Name`. For label and annotate, a bare `Type` requires `Name`, `All = true`, or a
+nonblank `Selector`/`FieldSelector`. `Kustomize = "overlay"` is also accepted as a
+resource source. Kubectl validates the resource identity itself. Patch and scale recover their resource operands from the
 same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.ScaleAsync`
 now require a non-null `options` argument instead of defaulting it to null. Pass
 `KubernetesPatchOptions` or `KubernetesScaleOptions` with a resource source; calls
