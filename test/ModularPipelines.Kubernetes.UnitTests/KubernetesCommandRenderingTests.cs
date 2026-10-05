@@ -327,6 +327,45 @@ public class KubernetesCommandRenderingTests : TestBase
         await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
     }
 
+    [Test]
+    [Arguments("label", null)]
+    [Arguments("label", false)]
+    [Arguments("annotate", null)]
+    [Arguments("annotate", false)]
+    public async Task Bare_Type_Without_A_Selection_Is_Rejected(string command, bool? all)
+    {
+        CommandLineToolOptions options = command == "label"
+            ? new KubernetesLabelOptions(["app=test"]) { Type = "pods", All = all, Selector = " " }
+            : new KubernetesAnnotateOptions(["owner=test"]) { Type = "pods", All = all, Selector = " " };
+
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
+    }
+
+    [Test]
+    [Arguments("label", false)]
+    [Arguments("label", true)]
+    [Arguments("annotate", false)]
+    [Arguments("annotate", true)]
+    public async Task Resource_Selectors_Do_Not_Require_A_Name(string command, bool fieldSelector)
+    {
+        CommandLineToolOptions options = command == "label"
+            ? new KubernetesLabelOptions(["owner=test"])
+            {
+                Type = "pods",
+                Selector = fieldSelector ? null : "app=web",
+                FieldSelector = fieldSelector ? "metadata.name=web" : null,
+            }
+            : new KubernetesAnnotateOptions(["owner=test"])
+            {
+                Type = "pods",
+                Selector = fieldSelector ? null : "app=web",
+                FieldSelector = fieldSelector ? "metadata.name=web" : null,
+            };
+        var result = await GetResult(options);
+        var selection = fieldSelector ? "--field-selector=metadata.name=web" : "--selector=app=web";
+        await Assert.That(result.CommandInput).IsEqualTo($"kubectl {command} {selection} pods owner=test");
+    }
+
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
     {
         var command = await GetService<ICommandContext>();

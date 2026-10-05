@@ -2630,6 +2630,9 @@ public sealed record UsageRequiredAlternativeGroup
 /// </summary>
 public sealed record UsageRequiredAlternativeMember
 {
+    // Distinguishes a combined operand from a bare value in a usage alternative.
+    internal string? ValuePattern { get; init; }
+
     /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
     public bool IsRequired { get; init; } = true;
 
