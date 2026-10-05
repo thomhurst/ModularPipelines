@@ -3,5 +3,5 @@
   "toolName": "grype",
   "toolVersion": "grype 0.120.0",
   "commandTreeSha256": "b45d7527254e3df6ad584cc8896f94ed1d24e359389729d279639a4563ceb40c",
-  "generatorSourceSha256": "e3ca608a64462758809ff75fa48fbc9a6398d91aabb8563c69957a9811ca99a1"
+  "generatorSourceSha256": "238bec937ca1524ee4d0020076f6ebd070fc12665235e4bbcb47ee50758cb26e"
 }
