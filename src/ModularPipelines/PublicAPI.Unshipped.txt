@@ -769,7 +769,7 @@ ModularPipelines.ExecutionBackendRequest.Modules.init -> void
 *REMOVED*ModularPipelines.IConsoleWriter
 *REMOVED*ModularPipelines.IConsoleWriter.LogToConsole(string! value) -> void
 *REMOVED*ModularPipelines.IConsoleWriter.Write(Spectre.Console.Rendering.IRenderable! renderable) -> void
-ModularPipelines.IExecutionBackend.ExecuteAsync(ModularPipelines.ExecutionBackendRequest! request, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!>!
+ModularPipelines.IExecutionBackend.ExecuteAsync(ModularPipelines.ExecutionBackendRequest! request, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.IModuleResult!>!>!
 *REMOVED*ModularPipelines.Interfaces.IModuleEventReceiver
 *REMOVED*ModularPipelines.Interfaces.IModuleEventReceiver.OnModuleEndAsync(ModularPipelines.Context.IModuleHookContext! context) -> System.Threading.Tasks.Task!
 *REMOVED*ModularPipelines.Interfaces.IModuleEventReceiver.OnModuleFailureAsync(ModularPipelines.Context.IModuleHookContext! context) -> System.Threading.Tasks.Task!
@@ -1564,13 +1564,13 @@ ModularPipelines.Attributes.CliFlagAttribute.NegatedName.set -> void
 ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.get -> string?
 ModularPipelines.Attributes.CliOptionAttribute.CollectionSeparator.set -> void
 ModularPipelines.Attributes.CommandLinePhase.LateOperand = 5 -> ModularPipelines.Attributes.CommandLinePhase
-ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
-ModularPipelines.Attributes.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.Enums.ExecutionHint executionHint) -> void
+ModularPipelines.ExecutionHintAttribute.ExecutionHint.get -> ModularPipelines.ExecutionHint
+ModularPipelines.ExecutionHintAttribute.ExecutionHintAttribute(ModularPipelines.ExecutionHint executionHint) -> void
 ModularPipelines.Attributes.ModuleIdAttribute
 ModularPipelines.Attributes.ModuleIdAttribute.Id.get -> string!
 ModularPipelines.Attributes.ModuleIdAttribute.ModuleIdAttribute(string! id) -> void
-ModularPipelines.Attributes.PriorityAttribute.Priority.get -> ModularPipelines.ModulePriority
-ModularPipelines.Attributes.PriorityAttribute.PriorityAttribute(ModularPipelines.ModulePriority priority) -> void
+ModularPipelines.PriorityAttribute.Priority.get -> ModularPipelines.ModulePriority
+ModularPipelines.PriorityAttribute.PriorityAttribute(ModularPipelines.ModulePriority priority) -> void
 ModularPipelines.Attributes.RequiresAnyCapabilityAttribute
 ModularPipelines.Attributes.RequiresAnyCapabilityAttribute.Capabilities.get -> System.Collections.Generic.IReadOnlyList<string!>!
 ModularPipelines.Attributes.RequiresAnyCapabilityAttribute.RequiresAnyCapabilityAttribute(params string![]! capabilities) -> void
@@ -1622,7 +1622,7 @@ ModularPipelines.ConditionIntent.Skip = 1 -> ModularPipelines.ConditionIntent
 ModularPipelines.ConditionLogic
 ModularPipelines.ConditionLogic.All = 0 -> ModularPipelines.ConditionLogic
 ModularPipelines.ConditionLogic.Any = 1 -> ModularPipelines.ConditionLogic
-ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint?
+ModularPipelines.Configuration.ModuleConfiguration.ExecutionHint.get -> ModularPipelines.ExecutionHint?
 ModularPipelines.Configuration.ModuleConfiguration.Priority.get -> ModularPipelines.ModulePriority?
 ModularPipelines.CommandInvocation
 ModularPipelines.CommandInvocation.<Clone>$() -> ModularPipelines.CommandInvocation!
@@ -1666,8 +1666,8 @@ ModularPipelines.Context.IBashContext.RunAsync(string! script, ModularPipelines.
 ModularPipelines.Context.IBashContext.RunFileAsync(ModularPipelines.Options.BashFileOptions! options, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Context.IBashContext.RunFileAsync(string! path, ModularPipelines.Options.CommandExecutionOptions? executionOptions = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.CommandResult!>!
 ModularPipelines.Context.IBuildSystemContext
-ModularPipelines.Context.IBuildSystemContext.Current.get -> ModularPipelines.Enums.BuildSystem
-ModularPipelines.Context.IBuildSystemContext.Is(ModularPipelines.Enums.BuildSystem buildSystem) -> bool
+ModularPipelines.Context.IBuildSystemContext.Current.get -> ModularPipelines.BuildSystem
+ModularPipelines.Context.IBuildSystemContext.Is(ModularPipelines.BuildSystem buildSystem) -> bool
 ModularPipelines.Context.IBuildSystemContext.IsCI.get -> bool
 ModularPipelines.Context.IBuildSystemContext.IsLocal.get -> bool
 ModularPipelines.Context.ICertificatesContext
@@ -1928,15 +1928,15 @@ ModularPipelines.Distributed.WorkerStatus.ModuleCommandCounts.init -> void
 ModularPipelines.Distributed.WorkerStatus.RunId.get -> string?
 ModularPipelines.Distributed.WorkerStatus.RunId.init -> void
 ModularPipelines.Distributed.WorkerStatus.UnattributedCommandCount.init -> void
-ModularPipelines.Enums.ExecutionHint
-ModularPipelines.Enums.ExecutionHint.CpuBound = 1 -> ModularPipelines.Enums.ExecutionHint
-ModularPipelines.Enums.ExecutionHint.Default = 0 -> ModularPipelines.Enums.ExecutionHint
-ModularPipelines.Enums.ExecutionHint.IoBound = 2 -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.ExecutionHint
+ModularPipelines.ExecutionHint.CpuBound = 1 -> ModularPipelines.ExecutionHint
+ModularPipelines.ExecutionHint.Default = 0 -> ModularPipelines.ExecutionHint
+ModularPipelines.ExecutionHint.IoBound = 2 -> ModularPipelines.ExecutionHint
 ModularPipelines.Events.IEventHandler
 ModularPipelines.Events.IEventHandler.ContinueOnError.get -> bool
 ModularPipelines.Events.IEventHandler.Order.get -> int
 ModularPipelines.Events.IModuleEndHandler
-ModularPipelines.Events.IModuleEndHandler.OnModuleEndAsync(ModularPipelines.Events.IModuleHookContext! context, ModularPipelines.Models.IModuleResult! result, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IModuleEndHandler.OnModuleEndAsync(ModularPipelines.Events.IModuleHookContext! context, ModularPipelines.IModuleResult! result, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IModuleEventHandler
 ModularPipelines.Events.IModuleFailureHandler
 ModularPipelines.Events.IModuleFailureHandler.OnModuleFailureAsync(ModularPipelines.Events.IModuleHookContext! context, System.Exception! exception, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
@@ -1947,7 +1947,7 @@ ModularPipelines.Events.IModuleHookContext.Module.get -> ModularPipelines.Module
 ModularPipelines.Events.IModuleHookContext.ModuleAttributes.get -> System.Collections.Generic.IReadOnlyList<System.Attribute!>!
 ModularPipelines.Events.IModuleHookContext.ModuleName.get -> string!
 ModularPipelines.Events.IModuleHookContext.ModuleType.get -> System.Type!
-ModularPipelines.Events.IModuleHookContext.Result.get -> ModularPipelines.Models.IModuleResult?
+ModularPipelines.Events.IModuleHookContext.Result.get -> ModularPipelines.IModuleResult?
 ModularPipelines.Events.IModuleHookContext.StartTime.get -> System.DateTimeOffset
 ModularPipelines.Events.IModuleReadyHandler
 ModularPipelines.Events.IModuleReadyHandler.OnModuleReadyAsync(ModularPipelines.Events.IModuleHookContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
@@ -1975,7 +1975,7 @@ ModularPipelines.Events.IModuleSkippedHandler.OnModuleSkippedAsync(ModularPipeli
 ModularPipelines.Events.IModuleStartHandler
 ModularPipelines.Events.IModuleStartHandler.OnModuleStartAsync(ModularPipelines.Events.IModuleHookContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IPipelineEventHandler
-ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.IPipelineContext! context, ModularPipelines.Models.PipelineSummary! pipelineSummary, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+ModularPipelines.Events.IPipelineEventHandler.OnPipelineEndAsync(ModularPipelines.IPipelineContext! context, ModularPipelines.PipelineSummary! pipelineSummary, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Events.IPipelineEventHandler.OnPipelineStartAsync(ModularPipelines.IPipelineContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result) -> void
 ModularPipelines.Exceptions.CommandException.CommandException(ModularPipelines.CommandResult! result, System.Exception? innerException) -> void
@@ -2168,8 +2168,8 @@ ModularPipelines.ICapabilityCondition.Capability.get -> ModularPipelines.Capabil
 ModularPipelines.IExecutionBackend
 ModularPipelines.IExecutionBackend.OwnsEntirePlan.get -> bool
 ModularPipelines.IExecutionBackendContext
-ModularPipelines.IExecutionBackendContext.ExecuteModuleAsync(ModularPipelines.Modules.IModule! module, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.IModuleResult!>!
-ModularPipelines.IExecutionBackendContext.TryApplyResult(ModularPipelines.Modules.IModule! module, ModularPipelines.Models.IModuleResult! result) -> bool
+ModularPipelines.IExecutionBackendContext.ExecuteModuleAsync(ModularPipelines.Modules.IModule! module, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.IModuleResult!>!
+ModularPipelines.IExecutionBackendContext.TryApplyResult(ModularPipelines.Modules.IModule! module, ModularPipelines.IModuleResult! result) -> bool
 ModularPipelines.IModuleContext
 ModularPipelines.IModuleContext.GetModule<TModule>() -> TModule!
 ModularPipelines.IModuleContext.GetModuleIfRegistered<TModule>() -> TModule?
@@ -2204,20 +2204,20 @@ ModularPipelines.Logging.ISummaryLogReader.GetEntries(string! category) -> Syste
 ModularPipelines.Logging.ISummaryLogReader.GetOutput() -> string!
 ModularPipelines.Logging.ISummaryLogger.Information(string! category, string! message) -> void
 ModularPipelines.Logging.ISummaryLogger.Information(string! message) -> void
-ModularPipelines.Models.IModuleResult.Duration.get -> System.TimeSpan
-ModularPipelines.Models.IModuleResult.EndTime.get -> System.DateTimeOffset
-ModularPipelines.Models.IModuleResult.Name.get -> string!
-ModularPipelines.Models.IModuleResult.SkipDecisionOrDefault.get -> ModularPipelines.SkipDecision?
-ModularPipelines.Models.IModuleResult.StartTime.get -> System.DateTimeOffset
-ModularPipelines.Models.IModuleResult.Status.get -> ModularPipelines.ModuleStatus
-ModularPipelines.Models.IModuleResult.TypeName.get -> string?
+ModularPipelines.IModuleResult.Duration.get -> System.TimeSpan
+ModularPipelines.IModuleResult.EndTime.get -> System.DateTimeOffset
+ModularPipelines.IModuleResult.Name.get -> string!
+ModularPipelines.IModuleResult.SkipDecisionOrDefault.get -> ModularPipelines.SkipDecision?
+ModularPipelines.IModuleResult.StartTime.get -> System.DateTimeOffset
+ModularPipelines.IModuleResult.Status.get -> ModularPipelines.ModuleStatus
+ModularPipelines.IModuleResult.TypeName.get -> string?
 ModularPipelines.Models.PipelinePlanModule.SkipDecision.get -> ModularPipelines.SkipDecision?
-ModularPipelines.Models.PipelineSummary.Failures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
-ModularPipelines.Models.PipelineSummary.IgnoredFailures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
-ModularPipelines.Models.PipelineSummary.Metrics.get -> ModularPipelines.Reporting.PipelineMetrics?
-ModularPipelines.Models.PipelineSummary.ModuleTimelines.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.ModuleTimeline!>?
-ModularPipelines.Models.PipelineSummary.RunReport.get -> ModularPipelines.Reporting.PipelineRunReport?
-ModularPipelines.Models.PipelineSummary.Status.get -> ModularPipelines.ModuleStatus
+ModularPipelines.PipelineSummary.Failures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.IModuleResult!>!
+ModularPipelines.PipelineSummary.IgnoredFailures.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.IModuleResult!>!
+ModularPipelines.PipelineSummary.Metrics.get -> ModularPipelines.Reporting.PipelineMetrics?
+ModularPipelines.PipelineSummary.ModuleTimelines.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.ModuleTimeline!>?
+ModularPipelines.PipelineSummary.RunReport.get -> ModularPipelines.Reporting.PipelineRunReport?
+ModularPipelines.PipelineSummary.Status.get -> ModularPipelines.ModuleStatus
 ModularPipelines.Models.RequirementDecision.IsSatisfied.get -> bool
 ModularPipelines.Module
 ModularPipelines.Module.Module() -> void
@@ -2240,7 +2240,7 @@ ModularPipelines.ModuleConfigurationBuilder.WithCacheAssemblyVersionKey(string! 
 ModularPipelines.ModuleConfigurationBuilder.WithCacheEnvironmentVariable(string! variableName) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithCacheKeyPart(string! value) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithCategory(string! category) -> ModularPipelines.ModuleConfigurationBuilder!
-ModularPipelines.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.Enums.ExecutionHint executionHint) -> ModularPipelines.ModuleConfigurationBuilder!
+ModularPipelines.ModuleConfigurationBuilder.WithExecutionHint(ModularPipelines.ExecutionHint executionHint) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithIgnoreFailures() -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.IModuleContext!, System.Exception!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<bool>>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
 ModularPipelines.ModuleConfigurationBuilder.WithIgnoreFailuresWhen(System.Func<ModularPipelines.IModuleContext!, System.Exception!, bool>! condition) -> ModularPipelines.ModuleConfigurationBuilder!
@@ -2491,9 +2491,9 @@ ModularPipelines.Reporting.DistributedWorkerRunReport.ModuleCount.init -> void
 ModularPipelines.Reporting.DistributedWorkerRunReport.UtilizationPercentage.get -> double
 ModularPipelines.Reporting.DistributedWorkerRunReport.UtilizationPercentage.init -> void
 ModularPipelines.Reporting.IDependencyGraphExporter
-ModularPipelines.Reporting.IDependencyGraphExporter.ExportAsync(ModularPipelines.Enums.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
-ModularPipelines.Reporting.IDependencyGraphExporter.RenderAsync(ModularPipelines.Enums.DependencyGraphFormat format, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
-ModularPipelines.Reporting.IDependencyGraphExporter.RenderSummaryAsync(ModularPipelines.Enums.DependencyGraphFormat format, ModularPipelines.Models.PipelineSummary! pipelineSummary, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+ModularPipelines.Reporting.IDependencyGraphExporter.ExportAsync(ModularPipelines.Reporting.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.Reporting.IDependencyGraphExporter.RenderAsync(ModularPipelines.Reporting.DependencyGraphFormat format, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
+ModularPipelines.Reporting.IDependencyGraphExporter.RenderSummaryAsync(ModularPipelines.Reporting.DependencyGraphFormat format, ModularPipelines.PipelineSummary! pipelineSummary, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<string!>!
 ModularPipelines.Reporting.IModuleEstimatedTimeProvider
 ModularPipelines.Reporting.IModuleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(System.Type! moduleType, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.TimeSpan>!
 ModularPipelines.Reporting.IModuleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(System.Type! moduleType, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<ModularPipelines.Reporting.SubModuleEstimation!>!>!
@@ -2572,7 +2572,7 @@ ModularPipelines.Reporting.ModuleTimeline.EndTime.get -> System.DateTimeOffset?
 ModularPipelines.Reporting.ModuleTimeline.EndTime.init -> void
 ModularPipelines.Reporting.ModuleTimeline.ExecutionDuration.get -> System.TimeSpan?
 ModularPipelines.Reporting.ModuleTimeline.ExecutionDuration.init -> void
-ModularPipelines.Reporting.ModuleTimeline.ExecutionHint.get -> ModularPipelines.Enums.ExecutionHint
+ModularPipelines.Reporting.ModuleTimeline.ExecutionHint.get -> ModularPipelines.ExecutionHint
 ModularPipelines.Reporting.ModuleTimeline.ExecutionHint.init -> void
 ModularPipelines.Reporting.ModuleTimeline.ModuleName.get -> string!
 ModularPipelines.Reporting.ModuleTimeline.ModuleName.init -> void
@@ -2667,7 +2667,7 @@ ModularPipelines.Reporting.PipelineRunReport.UnattributedCommandCount.get -> int
 ModularPipelines.Reporting.PipelineRunReport.UnattributedCommandCount.init -> void
 ModularPipelines.Reporting.RunCorrelation
 ModularPipelines.Reporting.RunCorrelation.<Clone>$() -> ModularPipelines.Reporting.RunCorrelation!
-ModularPipelines.Reporting.RunCorrelation.BuildSystem.get -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.Reporting.RunCorrelation.BuildSystem.get -> ModularPipelines.BuildSystem
 ModularPipelines.Reporting.RunCorrelation.BuildSystem.init -> void
 ModularPipelines.Reporting.RunCorrelation.CiRunUrl.get -> string?
 ModularPipelines.Reporting.RunCorrelation.CiRunUrl.init -> void
@@ -2693,7 +2693,7 @@ ModularPipelines.Reporting.RunHistoryQuery.Status.get -> ModularPipelines.Module
 ModularPipelines.Reporting.RunHistoryQuery.Status.init -> void
 ModularPipelines.Reporting.RunHistoryStoreExtensions
 ModularPipelines.Reporting.RunReportEnrichmentContext
-ModularPipelines.Reporting.RunReportEnrichmentContext.BuildSystem.get -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.Reporting.RunReportEnrichmentContext.BuildSystem.get -> ModularPipelines.BuildSystem
 ModularPipelines.Reporting.RunReportEnrichmentContext.BuildSystem.set -> void
 ModularPipelines.Reporting.RunReportEnrichmentContext.CiRunUrl.get -> string?
 ModularPipelines.Reporting.RunReportEnrichmentContext.CiRunUrl.set -> void
@@ -2705,7 +2705,7 @@ ModularPipelines.Reporting.RunReportEnrichmentContext.Hostname.get -> string?
 ModularPipelines.Reporting.RunReportEnrichmentContext.Hostname.set -> void
 ModularPipelines.Reporting.RunReportEnrichmentContext.PipelineIdentity.get -> string!
 ModularPipelines.Reporting.RunReportEnrichmentContext.RunId.get -> string!
-ModularPipelines.Reporting.RunReportEnrichmentContext.RunReportEnrichmentContext(string! runId, string! pipelineIdentity, string? hostname, ModularPipelines.Enums.BuildSystem buildSystem) -> void
+ModularPipelines.Reporting.RunReportEnrichmentContext.RunReportEnrichmentContext(string! runId, string! pipelineIdentity, string? hostname, ModularPipelines.BuildSystem buildSystem) -> void
 ModularPipelines.Reporting.RunReportExceptionDetails
 ModularPipelines.Reporting.RunReportExceptionDetails.<Clone>$() -> ModularPipelines.Reporting.RunReportExceptionDetails!
 ModularPipelines.Reporting.RunReportExceptionDetails.Equals(ModularPipelines.Reporting.RunReportExceptionDetails? other) -> bool
@@ -3119,15 +3119,15 @@ static ModularPipelines.Distributed.ModuleId.operator !=(ModularPipelines.Distri
 static ModularPipelines.Distributed.ModuleId.operator ==(ModularPipelines.Distributed.ModuleId left, ModularPipelines.Distributed.ModuleId right) -> bool
 static ModularPipelines.Distributed.WorkerStatus.operator !=(ModularPipelines.Distributed.WorkerStatus? left, ModularPipelines.Distributed.WorkerStatus? right) -> bool
 static ModularPipelines.Distributed.WorkerStatus.operator ==(ModularPipelines.Distributed.WorkerStatus? left, ModularPipelines.Distributed.WorkerStatus? right) -> bool
-static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!
-static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, params string![]! arguments) -> TOptions!
-static ModularPipelines.Extensions.CommandExtensions.WithArguments<TOptions>(this TOptions! options, string! singleArgument) -> TOptions!
-static ModularPipelines.Extensions.FileExtensions.AsPaths(this System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FilePath!>! files) -> System.Collections.Generic.IEnumerable<string!>!
-static ModularPipelines.Extensions.FileExtensions.AsPaths(this System.Collections.Generic.IList<ModularPipelines.FileSystem.FilePath!>! files) -> System.Collections.Generic.IReadOnlyList<string!>!
-static ModularPipelines.Extensions.FileExtensions.AssertExists(this ModularPipelines.FileSystem.FilePath? file, string? message = null) -> ModularPipelines.FileSystem.FilePath!
-static ModularPipelines.Extensions.FolderExtensions.AsPaths(this System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FolderPath!>! folders) -> System.Collections.Generic.IEnumerable<string!>!
-static ModularPipelines.Extensions.FolderExtensions.AsPaths(this System.Collections.Generic.IList<ModularPipelines.FileSystem.FolderPath!>! folders) -> System.Collections.Generic.IReadOnlyList<string!>!
-static ModularPipelines.Extensions.FolderExtensions.AssertExists(this ModularPipelines.FileSystem.FolderPath? folder) -> ModularPipelines.FileSystem.FolderPath!
+static ModularPipelines.CommandExtensions.WithArguments<TOptions>(this TOptions! options, System.Collections.Generic.IEnumerable<string!>? arguments) -> TOptions!
+static ModularPipelines.CommandExtensions.WithArguments<TOptions>(this TOptions! options, params string![]! arguments) -> TOptions!
+static ModularPipelines.CommandExtensions.WithArguments<TOptions>(this TOptions! options, string! singleArgument) -> TOptions!
+static ModularPipelines.FileSystem.FileExtensions.AsPaths(this System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FilePath!>! files) -> System.Collections.Generic.IEnumerable<string!>!
+static ModularPipelines.FileSystem.FileExtensions.AsPaths(this System.Collections.Generic.IList<ModularPipelines.FileSystem.FilePath!>! files) -> System.Collections.Generic.IReadOnlyList<string!>!
+static ModularPipelines.FileSystem.FileExtensions.AssertExists(this ModularPipelines.FileSystem.FilePath? file, string? message = null) -> ModularPipelines.FileSystem.FilePath!
+static ModularPipelines.FileSystem.FolderExtensions.AsPaths(this System.Collections.Generic.IEnumerable<ModularPipelines.FileSystem.FolderPath!>! folders) -> System.Collections.Generic.IEnumerable<string!>!
+static ModularPipelines.FileSystem.FolderExtensions.AsPaths(this System.Collections.Generic.IList<ModularPipelines.FileSystem.FolderPath!>! folders) -> System.Collections.Generic.IReadOnlyList<string!>!
+static ModularPipelines.FileSystem.FolderExtensions.AssertExists(this ModularPipelines.FileSystem.FolderPath? folder) -> ModularPipelines.FileSystem.FolderPath!
 static ModularPipelines.FileSystem.FilePath.GetNewTemporaryFilePath() -> ModularPipelines.FileSystem.FilePath!
 static ModularPipelines.FileSystem.FilePath.implicit operator ModularPipelines.FileSystem.FilePath?(System.IO.FileInfo? fileInfo) -> ModularPipelines.FileSystem.FilePath?
 static ModularPipelines.FileSystem.FilePath.implicit operator ModularPipelines.FileSystem.FilePath?(string? path) -> ModularPipelines.FileSystem.FilePath?
@@ -3354,3 +3354,105 @@ static ModularPipelines.CommandResult.Fail(int exitCode = 1, string! standardOut
 ModularPipelines.Models.CliValueGroup
 ModularPipelines.Models.CliValueGroup.CliValueGroup(System.Collections.Generic.IEnumerable<string!>! values) -> void
 ModularPipelines.Models.CliValueGroup.Values.get -> System.Collections.Generic.IReadOnlyList<string!>!
+*REMOVED*ModularPipelines.Attributes.ExecutionHintAttribute
+ModularPipelines.ExecutionHintAttribute
+*REMOVED*ModularPipelines.Attributes.NotInParallelAttribute
+ModularPipelines.NotInParallelAttribute
+*REMOVED*ModularPipelines.Attributes.NotInParallelAttribute.ConstraintKeys.get -> System.Collections.Generic.IReadOnlySet<string!>!
+ModularPipelines.NotInParallelAttribute.ConstraintKeys.get -> System.Collections.Generic.IReadOnlySet<string!>!
+*REMOVED*ModularPipelines.Attributes.NotInParallelAttribute.NotInParallelAttribute() -> void
+ModularPipelines.NotInParallelAttribute.NotInParallelAttribute() -> void
+*REMOVED*ModularPipelines.Attributes.NotInParallelAttribute.NotInParallelAttribute(params string![]! constraintKeys) -> void
+ModularPipelines.NotInParallelAttribute.NotInParallelAttribute(params string![]! constraintKeys) -> void
+*REMOVED*ModularPipelines.Attributes.NotInParallelAttribute.NotInParallelAttribute(string! constraintKey) -> void
+ModularPipelines.NotInParallelAttribute.NotInParallelAttribute(string! constraintKey) -> void
+*REMOVED*ModularPipelines.Attributes.PriorityAttribute
+ModularPipelines.PriorityAttribute
+*REMOVED*ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.AppVeyor = 7 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.AppVeyor = 7 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.AzurePipelines = 0 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.AzurePipelines = 0 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.Bitbucket = 5 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.Bitbucket = 5 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.GitHubActions = 2 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.GitHubActions = 2 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.GitLab = 4 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.GitLab = 4 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.Jenkins = 3 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.Jenkins = 3 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.TeamCity = 1 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.TeamCity = 1 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.TravisCI = 6 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.TravisCI = 6 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.BuildSystem.Unknown = 8 -> ModularPipelines.Enums.BuildSystem
+ModularPipelines.BuildSystem.Unknown = 8 -> ModularPipelines.BuildSystem
+*REMOVED*ModularPipelines.Enums.DependencyGraphFormat
+ModularPipelines.Reporting.DependencyGraphFormat
+*REMOVED*ModularPipelines.Enums.DependencyGraphFormat.Dot = 1 -> ModularPipelines.Enums.DependencyGraphFormat
+ModularPipelines.Reporting.DependencyGraphFormat.Dot = 1 -> ModularPipelines.Reporting.DependencyGraphFormat
+*REMOVED*ModularPipelines.Enums.DependencyGraphFormat.Json = 2 -> ModularPipelines.Enums.DependencyGraphFormat
+ModularPipelines.Reporting.DependencyGraphFormat.Json = 2 -> ModularPipelines.Reporting.DependencyGraphFormat
+*REMOVED*ModularPipelines.Enums.DependencyGraphFormat.Mermaid = 0 -> ModularPipelines.Enums.DependencyGraphFormat
+ModularPipelines.Reporting.DependencyGraphFormat.Mermaid = 0 -> ModularPipelines.Reporting.DependencyGraphFormat
+*REMOVED*ModularPipelines.Exceptions.PipelineFailedException.PipelineFailedException(ModularPipelines.Models.PipelineSummary! summary, System.Collections.Generic.IReadOnlyList<string!>! failedModules) -> void
+ModularPipelines.Exceptions.PipelineFailedException.PipelineFailedException(ModularPipelines.PipelineSummary! summary, System.Collections.Generic.IReadOnlyList<string!>! failedModules) -> void
+*REMOVED*ModularPipelines.Exceptions.PipelineFailedException.Summary.get -> ModularPipelines.Models.PipelineSummary!
+ModularPipelines.Exceptions.PipelineFailedException.Summary.get -> ModularPipelines.PipelineSummary!
+*REMOVED*ModularPipelines.Extensions.CommandExtensions
+ModularPipelines.CommandExtensions
+*REMOVED*ModularPipelines.Extensions.EnumerableExtensions
+ModularPipelines.EnumerableExtensions
+*REMOVED*ModularPipelines.Extensions.FileExtensions
+ModularPipelines.FileSystem.FileExtensions
+*REMOVED*ModularPipelines.Extensions.FolderExtensions
+ModularPipelines.FileSystem.FolderExtensions
+*REMOVED*ModularPipelines.IPipeline.ExportDependencyGraphAsync(ModularPipelines.Enums.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+ModularPipelines.IPipeline.ExportDependencyGraphAsync(ModularPipelines.Reporting.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+*REMOVED*ModularPipelines.IPipeline.RunAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
+ModularPipelines.IPipeline.RunAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.PipelineSummary!>!
+*REMOVED*ModularPipelines.Interfaces.IParallelLimit
+ModularPipelines.IParallelLimit
+*REMOVED*ModularPipelines.Interfaces.IParallelLimit.Limit.get -> int
+ModularPipelines.IParallelLimit.Limit.get -> int
+*REMOVED*ModularPipelines.Models.IModuleResult
+ModularPipelines.IModuleResult
+*REMOVED*ModularPipelines.Models.IModuleResult.ExceptionOrDefault.get -> System.Exception?
+ModularPipelines.IModuleResult.ExceptionOrDefault.get -> System.Exception?
+*REMOVED*ModularPipelines.Models.IModuleResult.ValueOrDefault.get -> object?
+ModularPipelines.IModuleResult.ValueOrDefault.get -> object?
+*REMOVED*ModularPipelines.Models.PipelineSummary
+ModularPipelines.PipelineSummary
+*REMOVED*ModularPipelines.Models.PipelineSummary.End.get -> System.DateTimeOffset
+ModularPipelines.PipelineSummary.End.get -> System.DateTimeOffset
+*REMOVED*ModularPipelines.Models.PipelineSummary.PipelineSummary(ModularPipelines.Models.PipelineSummary! original) -> void
+ModularPipelines.PipelineSummary.PipelineSummary(ModularPipelines.PipelineSummary! original) -> void
+*REMOVED*ModularPipelines.Models.PipelineSummary.Results.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
+ModularPipelines.PipelineSummary.Results.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.IModuleResult!>!
+*REMOVED*ModularPipelines.Models.PipelineSummary.Start.get -> System.DateTimeOffset
+ModularPipelines.PipelineSummary.Start.get -> System.DateTimeOffset
+*REMOVED*ModularPipelines.Models.PipelineSummary.TotalDuration.get -> System.TimeSpan
+ModularPipelines.PipelineSummary.TotalDuration.get -> System.TimeSpan
+*REMOVED*override ModularPipelines.Models.PipelineSummary.Equals(object? obj) -> bool
+override ModularPipelines.PipelineSummary.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Models.PipelineSummary.GetHashCode() -> int
+override ModularPipelines.PipelineSummary.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Models.PipelineSummary.ToString() -> string!
+override ModularPipelines.PipelineSummary.ToString() -> string!
+*REMOVED*static ModularPipelines.Models.PipelineSummary.operator !=(ModularPipelines.Models.PipelineSummary? left, ModularPipelines.Models.PipelineSummary? right) -> bool
+static ModularPipelines.PipelineSummary.operator !=(ModularPipelines.PipelineSummary? left, ModularPipelines.PipelineSummary? right) -> bool
+*REMOVED*static ModularPipelines.Models.PipelineSummary.operator ==(ModularPipelines.Models.PipelineSummary? left, ModularPipelines.Models.PipelineSummary? right) -> bool
+static ModularPipelines.PipelineSummary.operator ==(ModularPipelines.PipelineSummary? left, ModularPipelines.PipelineSummary? right) -> bool
+*REMOVED*static ModularPipelines.PipelineBuilderExtensions.ExportDependencyGraphAsync(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.Enums.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+static ModularPipelines.PipelineBuilderExtensions.ExportDependencyGraphAsync(this ModularPipelines.PipelineBuilder! builder, ModularPipelines.Reporting.DependencyGraphFormat format, string! path, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+*REMOVED*static ModularPipelines.PipelineBuilderExtensions.RunAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
+static ModularPipelines.PipelineBuilderExtensions.RunAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.PipelineSummary!>!
+*REMOVED*virtual ModularPipelines.Models.PipelineSummary.<Clone>$() -> ModularPipelines.Models.PipelineSummary!
+virtual ModularPipelines.PipelineSummary.<Clone>$() -> ModularPipelines.PipelineSummary!
+*REMOVED*virtual ModularPipelines.Models.PipelineSummary.EqualityContract.get -> System.Type!
+virtual ModularPipelines.PipelineSummary.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Models.PipelineSummary.Equals(ModularPipelines.Models.PipelineSummary? other) -> bool
+virtual ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other) -> bool
+*REMOVED*virtual ModularPipelines.Models.PipelineSummary.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.PipelineSummary.PrintMembers(System.Text.StringBuilder! builder) -> bool

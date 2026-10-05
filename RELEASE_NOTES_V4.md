@@ -709,3 +709,21 @@ collection with one `--config` per entry and is now masked as secret-bearing inp
 Replace per-command color enum names (for example `CargoBuildColor`) with `CargoColor`.
 Command-specific manifest/build settings and nightly `Z` options stay on their
 applicable records. No unconditional `-C` or rustup `+toolchain` property is added.
+
+## Core namespaces and module attributes
+
+One `using ModularPipelines;` now also covers `NotInParallelAttribute`,
+`PriorityAttribute`, `ExecutionHintAttribute`, `ExecutionHint`, `BuildSystem`,
+`PipelineSummary`, `IModuleResult`, `IParallelLimit`, `CommandExtensions`, and
+`EnumerableExtensions`. Replace fully qualified references to their former
+`.Attributes`, `.Enums`, `.Models`, `.Interfaces`, or `.Extensions` namespaces.
+The three attributes are sealed; use their constructor arguments or fluent module
+configuration instead of deriving from them.
+
+File and folder extension methods now live beside their path types in
+`ModularPipelines.FileSystem`. Dependency graph export uses
+`ModularPipelines.Reporting.DependencyGraphFormat`, alongside
+`IDependencyGraphExporter`.
+
+Tests that also use TUnit's `NotInParallel` attribute should qualify it as
+`TUnit.Core.NotInParallel` to distinguish test scheduling from module scheduling.

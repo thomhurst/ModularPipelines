@@ -15,7 +15,7 @@ namespace ModularPipelines.UnitTests.Hooks;
 /// <summary>
 /// Integration tests for Direct Module-Level Hooks that test full pipeline execution scenarios.
 /// </summary>
-[NotInParallel(nameof(DirectModuleHooksIntegrationTests))]
+[TUnit.Core.NotInParallel(nameof(DirectModuleHooksIntegrationTests))]
 public class DirectModuleHooksIntegrationTests : TestBase
 {
     #region Test Modules for Integration Tests

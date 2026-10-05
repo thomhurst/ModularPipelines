@@ -1,4 +1,5 @@
 using ModularPipelines.Enums;
+using ModularPipelines.Reporting;
 
 namespace ModularPipelines.PipelineCli;
 

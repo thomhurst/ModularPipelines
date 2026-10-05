@@ -2,7 +2,7 @@ using ModularPipelines.Secrets;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
-using PipelineNotInParallelAttribute = ModularPipelines.Attributes.NotInParallelAttribute;
+using PipelineNotInParallelAttribute = ModularPipelines.NotInParallelAttribute;
 
 namespace ModularPipelines.UnitTests.Api;
 

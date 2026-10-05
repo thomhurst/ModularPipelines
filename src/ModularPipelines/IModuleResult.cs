@@ -1,6 +1,6 @@
 using ModularPipelines.Enums;
 
-namespace ModularPipelines.Models;
+namespace ModularPipelines;
 
 /// <summary>
 /// Non-generic interface for type-erased module result access.

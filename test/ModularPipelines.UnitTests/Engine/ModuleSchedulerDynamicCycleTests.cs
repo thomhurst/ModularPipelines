@@ -51,7 +51,7 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string>(nameof(NewlyReadyDependentModule));
     }
 
-    [ModularPipelines.Attributes.NotInParallel]
+    [ModularPipelines.NotInParallel]
     private class DeferredConstraintModule : Module<string>
     {
         protected internal override Task<string> ExecuteAsync(

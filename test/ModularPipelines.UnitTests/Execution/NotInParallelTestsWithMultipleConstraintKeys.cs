@@ -7,28 +7,28 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
 {
     private static readonly NotInParallelTracker Tracker = new();
 
-    [ModularPipelines.Attributes.NotInParallel("A")]
+    [ModularPipelines.NotInParallel("A")]
     public class Module1 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("A", "B")]
+    [ModularPipelines.NotInParallel("A", "B")]
     public class Module2 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["Module1", "Module3"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("B", "C")]
+    [ModularPipelines.NotInParallel("B", "C")]
     public class Module3 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["Module2"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("D")]
+    [ModularPipelines.NotInParallel("D")]
     public class Module4 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithMultipleConstraintKeys.Tracker;

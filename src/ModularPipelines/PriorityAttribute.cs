@@ -1,6 +1,6 @@
 using ModularPipelines.Enums;
 
-namespace ModularPipelines.Attributes;
+namespace ModularPipelines;
 
 /// <summary>
 /// Specifies the execution priority of a module.
@@ -17,7 +17,7 @@ namespace ModularPipelines.Attributes;
 /// </code>
 /// </example>
 [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-public class PriorityAttribute : Attribute
+public sealed class PriorityAttribute : Attribute
 {
     /// <summary>
     /// Gets the priority level of the module.

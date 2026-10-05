@@ -1,4 +1,4 @@
-namespace ModularPipelines.Enums;
+namespace ModularPipelines.Reporting;
 
 /// <summary>
 /// Output formats supported by dependency graph export.

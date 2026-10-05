@@ -187,7 +187,7 @@ public sealed record PipelineOptions
     /// ensuring users see the full output before the process exits.
     /// </para>
     /// <para>
-    /// Set to <c>false</c> for scenarios where you want to inspect the <see cref="Models.PipelineSummary"/>
+    /// Set to <c>false</c> for scenarios where you want to inspect the <see cref="PipelineSummary"/>
     /// programmatically without catching exceptions (e.g., in tests or when implementing custom failure handling).
     /// </para>
     /// </remarks>

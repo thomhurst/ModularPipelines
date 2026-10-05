@@ -92,7 +92,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [NotInParallel(nameof(ZipTests), Order = 1)]
+    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 1)]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<ZipModule>();
@@ -101,7 +101,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [NotInParallel(nameof(ZipTests), Order = 2)]
+    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 2)]
     public async Task Zip_File_Exists()
     {
         await RunModule<ZipModule>();
@@ -135,7 +135,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [NotInParallel(nameof(ZipTests), Order = 3)]
+    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 3)]
     public async Task UnZip_Has_Not_Errored()
     {
         var moduleResult = await await RunModule<UnZipModule>();
@@ -144,7 +144,7 @@ public class ZipTests : TestBase
     }
 
     [Test]
-    [NotInParallel(nameof(ZipTests), Order = 4)]
+    [TUnit.Core.NotInParallel(nameof(ZipTests), Order = 4)]
     public async Task UnZipped_Folder_Exists()
     {
         await RunModule<UnZipModule>();

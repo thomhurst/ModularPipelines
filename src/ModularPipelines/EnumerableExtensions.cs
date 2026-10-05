@@ -1,6 +1,6 @@
 using ModularPipelines.Modules;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines;
 
 /// <summary>
 /// Extensions for enumerables.

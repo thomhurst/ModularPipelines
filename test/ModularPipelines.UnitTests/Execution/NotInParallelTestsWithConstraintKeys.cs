@@ -7,28 +7,28 @@ public class NotInParallelTestsWithConstraintKeys : TestBase
 {
     private static readonly NotInParallelTracker Tracker = new();
 
-    [ModularPipelines.Attributes.NotInParallel("A")]
+    [ModularPipelines.NotInParallel("A")]
     public class ModuleWithAConstraintKey1 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["ModuleWithAConstraintKey2"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("A")]
+    [ModularPipelines.NotInParallel("A")]
     public class ModuleWithAConstraintKey2 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["ModuleWithAConstraintKey1"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("B")]
+    [ModularPipelines.NotInParallel("B")]
     public class ModuleWithBConstraintKey1 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithConstraintKeys.Tracker;
         protected override IEnumerable<string> ConflictingModuleNames => ["ModuleWithBConstraintKey2"];
     }
 
-    [ModularPipelines.Attributes.NotInParallel("B")]
+    [ModularPipelines.NotInParallel("B")]
     public class ModuleWithBConstraintKey2 : NotInParallelTestModule
     {
         protected override NotInParallelTracker Tracker => NotInParallelTestsWithConstraintKeys.Tracker;
