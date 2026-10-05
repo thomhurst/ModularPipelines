@@ -18,6 +18,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private const int CommandMetadataSchemaVersion = 4;
     private const string CliOptionValueFullName = "ModularPipelines.Models.CliOptionValue";
     private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
+    private const string CliValueGroupFullName = "ModularPipelines.Models.CliValueGroup";
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string OptionsNamespace = "Microsoft.Extensions.Options";
@@ -996,7 +997,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         propertyType = UnwrapNullable(propertyType);
         return IsType(propertyType, CliOptionValueFullName)
-               || IsEnumerableOf(propertyType, CliOptionValueFullName);
+               || IsEnumerableOf(propertyType, CliOptionValueFullName)
+               || IsType(propertyType, CliValueGroupFullName)
+               || IsEnumerableOf(propertyType, CliValueGroupFullName);
     }
 
     private static bool IsEnumerableOf(ITypeSymbol propertyType, string elementTypeName)
