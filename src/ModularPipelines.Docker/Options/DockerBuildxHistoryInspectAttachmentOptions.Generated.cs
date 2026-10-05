@@ -30,7 +30,7 @@ public record DockerBuildxHistoryInspectAttachmentOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? InspectDebug { get; set; }
 
     /// <summary>
     /// Platform of attachment

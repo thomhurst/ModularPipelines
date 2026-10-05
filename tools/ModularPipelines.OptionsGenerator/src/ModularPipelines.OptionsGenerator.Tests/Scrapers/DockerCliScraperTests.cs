@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -8,6 +9,118 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class DockerCliScraperTests
 {
+    private const string RootHelp = """
+        Usage: docker [OPTIONS] COMMAND
+
+        Flags:
+          --root-only string   An action that is not inherited
+
+        Global Options:
+              --config string      Location of client config files
+          -c, --context string     Name of the context to use to connect to the daemon
+          -D, --debug              Enable debug mode
+          -H, --host string        Daemon socket to connect to
+          -l, --log-level string   Set the logging level ("debug", "info", "warn", "error", "fatal")
+              --tls                Use TLS; implied by --tlsverify
+              --tlscacert string   Trust certs signed only by this CA
+              --tlscert string     Path to TLS certificate file
+              --tlskey string      Path to TLS key file
+              --tlsverify          Use TLS and verify the remote
+          -v, --version            Print version information and quit
+
+        Examples:
+          --not-an-option string   An example outside the global section
+        """;
+
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Global_Options_Use_Only_The_Explicit_Section(string lineEnding)
+    {
+        var options = new TestDockerCliScraper().ParseGlobals(RootHelp.Replace("\n", lineEnding));
+
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(
+            ["--config", "--context", "--debug", "--host", "--log-level", "--tls", "--tlscacert", "--tlscert", "--tlskey", "--tlsverify"]);
+        var host = options.Single(option => option.SwitchName == "--host");
+        await Assert.That(host.ShortForm).IsEqualTo("-H");
+        await Assert.That(host.CSharpType).IsEqualTo("string?");
+        await Assert.That(host.IsFlag).IsFalse();
+        await Assert.That(options.Single(option => option.SwitchName == "--debug").IsFlag).IsTrue();
+    }
+
+    [Test]
+    public async Task Ordinary_Root_Flags_Are_Not_Promoted_To_Global_Options()
+    {
+        var options = new TestDockerCliScraper().ParseGlobals("""
+            Usage: docker [OPTIONS] COMMAND
+
+            Flags:
+              --root-only string   This section is not global
+            """);
+
+        await Assert.That(options).IsEmpty();
+    }
+
+    [Test]
+    public async Task Global_And_Command_Local_Switches_Remain_Independently_Configurable()
+    {
+        var command = await new TestDockerCliScraper().Parse(["docker", "service", "create"], """
+            Usage: docker service create [OPTIONS] IMAGE
+
+            Options:
+              --host list     Set one or more custom host-to-IP mappings
+              --config list   Specify configurations to expose to the service
+            """);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "docker",
+            NamespacePrefix = "Docker",
+            TargetNamespace = "ModularPipelines.Docker",
+            OutputDirectory = "src/ModularPipelines.Docker",
+            Commands = [command!],
+            GlobalOptions =
+            [
+                new CliOptionDefinition { SwitchName = "--host", PropertyName = "Host", CSharpType = "string?" },
+                new CliOptionDefinition { SwitchName = "--config", PropertyName = "Config", CSharpType = "string?" },
+            ],
+        };
+
+        var baseCode = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        var commandCode = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(baseCode).Contains("[CliGlobalOptions]");
+        await Assert.That(baseCode).Contains("public virtual string? Host");
+        await Assert.That(baseCode).Contains("public virtual string? Config");
+        await Assert.That(commandCode).Contains("public IEnumerable<string>? ServiceHost");
+        await Assert.That(commandCode).Contains("public IEnumerable<string>? ServiceConfig");
+        await Assert.That(commandCode).DoesNotContain("public IEnumerable<string>? Host ");
+        await Assert.That(commandCode).DoesNotContain("public IEnumerable<string>? Config ");
+    }
+
+    [Test]
+    public async Task Global_Context_Does_Not_Hide_A_Command_Operand()
+    {
+        var command = await new TestDockerCliScraper().Parse(["docker", "buildx", "create"], """
+            Usage: docker buildx create [OPTIONS] [CONTEXT]
+            """);
+        var tool = new CliToolDefinition
+        {
+            ToolName = "docker",
+            NamespacePrefix = "Docker",
+            TargetNamespace = "ModularPipelines.Docker",
+            OutputDirectory = "src/ModularPipelines.Docker",
+            Commands = [command!],
+            GlobalOptions = [new CliOptionDefinition { SwitchName = "--context", PropertyName = "Context", CSharpType = "string?" }],
+        };
+
+        var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
+        var repeated = InheritedPropertyCollisionResolver.Resolve(resolved);
+
+        await Assert.That(resolved.GlobalOptions.Single().PropertyName).IsEqualTo("Context");
+        await Assert.That(resolved.Commands.Single().PositionalArguments.Single().PropertyName).IsEqualTo("BuildxContext");
+        await Assert.That(repeated.Commands.Single().PositionalArguments.Single().PropertyName).IsEqualTo("BuildxContext");
+    }
+
     [Test]
     [Arguments("exec")]
     [Arguments("run")]
@@ -139,6 +252,8 @@ public class DockerCliScraperTests
                 NullLogger<DockerCliScraper>.Instance)
         {
         }
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

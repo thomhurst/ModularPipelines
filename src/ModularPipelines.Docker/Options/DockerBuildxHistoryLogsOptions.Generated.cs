@@ -31,7 +31,7 @@ public record DockerBuildxHistoryLogsOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? HistoryDebug { get; set; }
 
     /// <summary>
     /// Set type of progress output (plain, rawjson, tty) (default "plain")

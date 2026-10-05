@@ -30,7 +30,7 @@ public record DockerBuildxHistoryImportOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? HistoryDebug { get; set; }
 
     /// <summary>
     /// Import from a file path

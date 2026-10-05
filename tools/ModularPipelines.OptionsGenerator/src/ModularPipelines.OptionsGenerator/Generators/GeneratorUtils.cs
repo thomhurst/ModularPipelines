@@ -173,7 +173,7 @@ public static partial class GeneratorUtils
             .Trim();
     }
 
-    private static string NormalizeRunnerHomePaths(string text)
+    internal static string NormalizeRunnerHomePaths(string text)
     {
         var homeDirectories = KnownRunnerHomeDirectories
             .Append(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))

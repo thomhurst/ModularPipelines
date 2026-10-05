@@ -23,22 +23,22 @@ public record DockerContextImportOptions : DockerOptions
     /// <summary>
     /// Import a context from a tar or zip file
     /// </summary>
-    /// <param name="Context">The CONTEXT operand.</param>
+    /// <param name="ContextContext">The CONTEXT operand.</param>
     /// <param name="File">The FILE operand.</param>
     public DockerContextImportOptions(
-        string Context,
+        string ContextContext,
         string File
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Context);
-        this.Context = Context;
+        global::System.ArgumentNullException.ThrowIfNull(ContextContext);
+        this.ContextContext = ContextContext;
         global::System.ArgumentNullException.ThrowIfNull(File);
         this.File = File;
     }
 
-    public void Deconstruct(out string Context, out string File)
+    public void Deconstruct(out string ContextContext, out string File)
     {
-        Context = this.Context;
+        ContextContext = this.ContextContext;
         File = this.File;
     }
 
@@ -46,7 +46,7 @@ public record DockerContextImportOptions : DockerOptions
     /// The CONTEXT operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Context { get; private init; }
+    public string ContextContext { get; private init; }
 
     /// <summary>
     /// The FILE operand.

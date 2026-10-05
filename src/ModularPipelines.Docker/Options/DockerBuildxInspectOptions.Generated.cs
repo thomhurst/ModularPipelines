@@ -36,7 +36,7 @@ public record DockerBuildxInspectOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? BuildxDebug { get; set; }
 
     /// <summary>
     /// Override the default timeout for loading builder status (default 20s)

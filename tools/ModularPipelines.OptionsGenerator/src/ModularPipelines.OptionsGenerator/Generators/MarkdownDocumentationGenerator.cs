@@ -107,7 +107,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 ? $"`{EscapeTableCell(option.SwitchName)}`"
                 : $"[`{EscapeTableCell(option.SwitchName)}`]({option.DocumentationUrl})";
             sb.AppendLine(
-                $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableCell(option.Availability ?? "All editions")} | {EscapeTableCell(option.Description ?? string.Empty)} |");
+                $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableCell(option.Availability ?? "All editions")} | {EscapeTableCell(GeneratorUtils.NormalizeRunnerHomePaths(option.Description ?? string.Empty))} |");
         }
 
         sb.AppendLine();

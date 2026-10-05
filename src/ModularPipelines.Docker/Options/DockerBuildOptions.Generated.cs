@@ -117,7 +117,7 @@ public record DockerBuildOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? CliDebug { get; set; }
 
     /// <summary>
     /// Name of the Dockerfile (default: "PATH/Dockerfile")

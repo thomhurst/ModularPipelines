@@ -216,3 +216,5 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.ChocolateyCliScraper.Par
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.WinGetCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.WinGetCliScraper.GlobalOptionsBeforeSubcommands.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+ModularPipelines.OptionsGenerator.Scrapers.Cli.CobraCliScraper.ParseNamedOptionSection(string! helpText, string! sectionName, string![]! commandParts) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.DockerCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!

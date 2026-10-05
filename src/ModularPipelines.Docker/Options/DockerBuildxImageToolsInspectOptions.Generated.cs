@@ -47,7 +47,7 @@ public record DockerBuildxImageToolsInspectOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? ImageToolsDebug { get; set; }
 
     /// <summary>
     /// Format the output using the given Go template

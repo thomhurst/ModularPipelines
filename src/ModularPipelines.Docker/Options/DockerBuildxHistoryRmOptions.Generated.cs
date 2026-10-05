@@ -36,7 +36,7 @@ public record DockerBuildxHistoryRmOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? HistoryDebug { get; set; }
 
     /// <summary>
     /// The REF operand.

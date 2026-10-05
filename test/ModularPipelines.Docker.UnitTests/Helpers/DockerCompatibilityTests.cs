@@ -4,12 +4,57 @@ using ModularPipelines.Context;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Services;
+using ModularPipelines.TestHelpers;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Docker.UnitTests.Helpers;
 
-public class DockerCompatibilityTests
+public class DockerCompatibilityTests : TestBase
 {
+    [Test]
+    public async Task ClientOptionsRenderBeforeCommand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var arguments = builder.Build(new DockerInfoOptions
+        {
+            Context = "remote",
+            Debug = true,
+            Host = ["tcp://first:2376", "tcp://second:2376"],
+            Tlsverify = true,
+        }).Arguments;
+
+        await AssertArguments(arguments,
+            ["--context=remote", "--debug", "--host=tcp://first:2376", "--host=tcp://second:2376", "--tlsverify", "info"]);
+    }
+
+    [Test]
+    public async Task ClientContextAndBuildxOperandRemainIndependent()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var arguments = builder.Build(new DockerBuildxCreateOptions
+        {
+            Context = "client-context",
+            Debug = true,
+            BuildxDebug = true,
+            BuildxContext = "builder-context",
+        }).Arguments;
+
+        await AssertArguments(arguments,
+            ["--context=client-context", "--debug", "buildx", "create", "--debug", "builder-context"]);
+    }
+
+    [Test]
+    public async Task ClientContextDoesNotReplaceRequiredContextOperands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var arguments = builder.Build(new DockerContextRmOptions(["first", "second"])
+        {
+            Context = "client-context",
+        }).Arguments;
+
+        await AssertArguments(arguments, ["--context=client-context", "context", "rm", "first", "second"]);
+    }
+
     [Test]
     public async Task ComposeExecNoTtyRendersCanonicalSwitch()
     {

@@ -30,7 +30,7 @@ public record DockerBuildxHistoryLsOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? HistoryDebug { get; set; }
 
     /// <summary>
     /// Provide filter values (e.g., "status=error")

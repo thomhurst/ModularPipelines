@@ -36,7 +36,7 @@ public record DockerBuildxHistoryExportOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? HistoryDebug { get; set; }
 
     /// <summary>
     /// Ensure build records are finalized before exporting

@@ -30,6 +30,6 @@ public record DockerBuildxPolicyOptions : DockerOptions
     /// Enable debug logging
     /// </summary>
     [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
+    public bool? BuildxDebug { get; set; }
 
 }
