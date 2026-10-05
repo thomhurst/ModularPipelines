@@ -24,6 +24,16 @@ Resolve the service in a module, then select a command from the table below. A r
 var brew = context.Tools.Brew;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                        |
+| ----------- | --------- | ------------ | ---------------------------------- |
+| `--debug`   | `Debug`   | All editions | Display any debugging information. |
+| `--quiet`   | `Quiet`   | All editions | Make some output more quiet.       |
+| `--verbose` | `Verbose` | All editions | Make some output more verbose.     |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                       | Options record                        |
