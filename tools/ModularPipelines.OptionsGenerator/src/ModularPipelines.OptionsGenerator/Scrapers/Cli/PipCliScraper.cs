@@ -40,10 +40,12 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class PipCliScraper : CliScraperBase
 {
-    // These optparse append actions (and --group's appending callback) omit repeatability from help.
+    // These optparse append actions and accumulating callbacks omit repeatability from help.
+    // See the captured pip-26.2.1 fixtures and their parser source references.
     private static readonly HashSet<string> RepeatableOptions = new(StringComparer.Ordinal)
     {
         "--trusted-host", "--exists-action", "--use-feature", "--use-deprecated", "--group",
+        "--requirements-from-script", "--refresh-package",
     };
 
     public PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger)
@@ -71,10 +73,10 @@ public partial class PipCliScraper : CliScraperBase
             return [];
         }
 
-        // pip's requirement command accepts editable projects and dependency groups as
+        // pip's requirement command accepts editable projects, scripts, and dependency groups as
         // input sources even when the usage summary omits their standalone forms.
         return ParseOptions(helpText)
-            .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group")
+            .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group" or "--requirements-from-script")
             .Select(option => $"{string.Join(" ", commandPath)} [options] {option.SwitchName} <{option.PropertyName}>");
     }
 
