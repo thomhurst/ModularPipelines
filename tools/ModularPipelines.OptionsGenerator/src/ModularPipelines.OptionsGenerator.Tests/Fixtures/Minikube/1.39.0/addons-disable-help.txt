@@ -1,0 +1,6 @@
+Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard). For a list of available addons use: minikube addons list
+
+Usage:
+  minikube addons disable ADDON_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

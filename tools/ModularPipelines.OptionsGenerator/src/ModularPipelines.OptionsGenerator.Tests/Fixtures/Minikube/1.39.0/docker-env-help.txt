@@ -1,0 +1,30 @@
+Provides instructions to point your terminal's docker-cli to the Docker Engine inside minikube. (Useful for building docker images directly inside minikube)
+
+For example, you can do all docker operations such as docker build, docker run, and docker ps directly on the docker inside minikube.
+
+Note: You need the docker-cli to be installed on your machine.
+docker-cli install instructions: https://minikube.sigs.k8s.io/docs/tutorials/docker_desktop_replacement/#steps
+
+Options:
+    --no-proxy=false:
+	Add machine IP to NO_PROXY environment variable
+
+    -o, --output='':
+	One of 'text', 'yaml' or 'json'.
+
+    --shell='':
+	Force environment to be configured for a specified shell: [fish, cmd, powershell, tcsh, bash, zsh], default is auto-detect
+
+    --ssh-add=false:
+	Add SSH identity key to SSH authentication agent
+
+    --ssh-host=false:
+	Use SSH connection instead of HTTPS (port 2376)
+
+    -u, --unset=false:
+	Unset variables instead of setting them
+
+Usage:
+  minikube docker-env [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

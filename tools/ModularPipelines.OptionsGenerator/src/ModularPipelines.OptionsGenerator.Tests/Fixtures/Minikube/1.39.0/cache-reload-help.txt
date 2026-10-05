@@ -1,0 +1,6 @@
+reloads images previously added using the 'cache add' subcommand
+
+Usage:
+  minikube cache reload [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

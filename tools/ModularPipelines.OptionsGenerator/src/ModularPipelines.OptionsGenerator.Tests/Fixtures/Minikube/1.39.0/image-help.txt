@@ -1,0 +1,13 @@
+Manage images
+
+Available Commands:
+  build         Build a container image in minikube
+  load          Load an image into minikube
+  ls            List images
+  pull          Pull images
+  push          Push images
+  rm            Remove one or more images
+  save          Save a image from minikube
+  tag           Tag images
+
+Use "minikube image <command> --help" for more information about a given command.

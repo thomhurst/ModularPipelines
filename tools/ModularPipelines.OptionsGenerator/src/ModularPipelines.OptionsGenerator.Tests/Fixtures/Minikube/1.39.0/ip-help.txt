@@ -1,0 +1,10 @@
+Retrieves the IP address of the specified node, and writes it to STDOUT.
+
+Options:
+    -n, --node='':
+	The node to get IP. Defaults to the primary control plane.
+
+Usage:
+  minikube ip [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

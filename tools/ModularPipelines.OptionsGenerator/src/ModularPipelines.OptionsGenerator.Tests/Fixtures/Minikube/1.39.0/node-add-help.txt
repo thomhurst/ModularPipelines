@@ -1,0 +1,16 @@
+Adds a node to the given cluster config, and starts it.
+
+Options:
+    --control-plane=false:
+	If set, added node will become a control-plane. Defaults to false. Currently only supported for existing HA (multi-control plane) clusters.
+
+    --delete-on-failure=false:
+	If set, delete the current cluster if start fails and try again. Defaults to false.
+
+    --worker=true:
+	If set, added node will be available as worker. Defaults to true.
+
+Usage:
+  minikube node add [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

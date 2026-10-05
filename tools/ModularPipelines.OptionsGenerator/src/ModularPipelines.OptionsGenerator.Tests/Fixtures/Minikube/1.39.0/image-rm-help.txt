@@ -1,0 +1,15 @@
+Remove one or more images
+
+Aliases:
+rm, remove, unload
+
+Examples:
+
+$ minikube image rm image busybox
+
+$ minikube image unload image busybox
+
+Usage:
+  minikube image rm IMAGE [IMAGE...] [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

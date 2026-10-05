@@ -1,0 +1,10 @@
+Push images
+
+Examples:
+
+$ minikube image push busybox
+
+Usage:
+  minikube image push [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

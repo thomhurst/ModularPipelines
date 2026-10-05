@@ -1,0 +1,14 @@
+list displays all valid default settings for PROPERTY_NAME
+Acceptable fields: 
+
+ * driver
+ * kubernetes-version
+
+Options:
+    -o, --output='':
+	Output format. Accepted values: [json, yaml]
+
+Usage:
+  minikube config defaults PROPERTY_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

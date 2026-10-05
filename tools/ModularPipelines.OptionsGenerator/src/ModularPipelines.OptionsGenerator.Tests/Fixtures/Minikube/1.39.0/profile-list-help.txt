@@ -1,0 +1,16 @@
+Lists all valid minikube profiles and detects all possible invalid profiles.
+
+Options:
+    -d, --detailed=false:
+	If true, returns a detailed list of profiles.
+
+    -l, --light=false:
+	If true, returns list of profiles faster by skipping validating the status of the cluster.
+
+    -o, --output='table':
+	The output format. One of 'json', 'table'
+
+Usage:
+  minikube profile list [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

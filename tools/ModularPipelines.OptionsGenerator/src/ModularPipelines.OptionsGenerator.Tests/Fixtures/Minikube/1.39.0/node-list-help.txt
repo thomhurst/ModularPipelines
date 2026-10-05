@@ -1,0 +1,6 @@
+List existing minikube nodes.
+
+Usage:
+  minikube node list [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

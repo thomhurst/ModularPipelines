@@ -1,0 +1,29 @@
+Returns the Kubernetes URL(s) for service(s) in your local cluster. In the case of multiple URLs they will be printed one at a time.
+
+Available Commands:
+  list          Lists the URLs for the services in your local cluster
+
+Options:
+    --all=false:
+	Forwards all services in a namespace (defaults to "false")
+
+    --https=false:
+	Open the service URL with https instead of http (defaults to "false")
+
+    --interval=1:
+	The initial time interval for each check that wait performs in seconds
+
+    -n, --namespace='default':
+	The service namespace
+
+    --url=false:
+	Display the Kubernetes service URL in the CLI instead of opening it in the default browser
+
+    --wait=2:
+	Amount of time to wait for a service in seconds
+
+Usage:
+  minikube service [flags] SERVICE [options]
+
+Use "minikube service <command> --help" for more information about a given command.
+Use "minikube options" for a list of global command-line options (applies to all commands).

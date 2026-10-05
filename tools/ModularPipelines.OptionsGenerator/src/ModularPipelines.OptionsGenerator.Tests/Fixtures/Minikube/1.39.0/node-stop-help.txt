@@ -1,0 +1,9 @@
+Stops a node in a cluster.
+
+Examples:
+minikube node stop m02
+
+Usage:
+  minikube node stop NODE_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).
