@@ -11,6 +11,9 @@ override, or JSON definition and regenerate instead of editing generated files b
 
 ## Architecture
 
+See the [specialist CLI global-option audit](../../docs/docs/mp-packages/cli-global-options.md)
+for tool-specific evidence, root-only invocation models, and migration notes.
+
 The first-party generation path is:
 
 ```text

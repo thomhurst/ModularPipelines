@@ -95,12 +95,6 @@ public record SnykCodeTestOptions : SnykOptions
     public SnykCodeTestSeverityThreshold? SeverityThreshold { get; set; }
 
     /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
     /// Source code path to scan
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

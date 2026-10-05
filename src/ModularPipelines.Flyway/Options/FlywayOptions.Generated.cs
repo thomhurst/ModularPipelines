@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Flyway.Options;
 
@@ -22,4 +24,361 @@ namespace ModularPipelines.Flyway.Options;
 [CliGlobalOptions]
 public abstract record FlywayOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Description to tag schema with when executing baseline
+    /// </summary>
+    [CliOption("-baselineDescription", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BaselineDescription { get; set; }
+
+    /// <summary>
+    /// Baseline on migrate against uninitialized non-empty schema
+    /// </summary>
+    [CliOption("-baselineOnMigrate", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BaselineOnMigrate { get; set; }
+
+    /// <summary>
+    /// Version to tag schema with when executing baseline
+    /// </summary>
+    [CliOption("-baselineVersion", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? BaselineVersion { get; set; }
+
+    /// <summary>
+    /// [teams] Batch SQL statements when executing them Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-batch", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Batch { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of FlywayCallback classes, or locations to scan for FlywayCallback classes
+    /// </summary>
+    [CliOption("-callbacks", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Callbacks { get; set; }
+
+    /// <summary>
+    /// [teams] Comma separated list of migrations that Flyway should consider when migrating Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-cherryPick", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CherryPick { get; set; }
+
+    /// <summary>
+    /// Whether to disable clean
+    /// </summary>
+    [CliOption("-cleanDisabled", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CleanDisabled { get; set; }
+
+    /// <summary>
+    /// [Deprecated] Automatically clean on a validation error
+    /// </summary>
+    [CliOption("-cleanOnValidationError", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CleanOnValidationError { get; set; }
+
+    /// <summary>
+    /// Whether to colorize output. Values: always, never, or auto (default)
+    /// </summary>
+    [CliOption("-color", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Color { get; set; }
+
+    /// <summary>
+    /// Encoding to use when loading the config files
+    /// </summary>
+    [CliOption("-configFileEncoding", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ConfigFileEncoding { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of config files to use
+    /// </summary>
+    [CliOption("-configFiles", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ConfigFiles { get; set; }
+
+    /// <summary>
+    /// Maximum number of retries when attempting to connect to the database
+    /// </summary>
+    [CliOption("-connectRetries", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ConnectRetries { get; set; }
+
+    /// <summary>
+    /// Whether Flyway should attempt to create the schemas specified in the schemas property
+    /// </summary>
+    [CliOption("-createSchemas", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CreateSchemas { get; set; }
+
+    /// <summary>
+    /// Print debug output
+    /// </summary>
+    [CliFlag("-X")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// [teams] Whether Flyway should try to automatically detect SQL migration file encoding Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-detectEncoding", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? DetectEncoding { get; set; }
+
+    /// <summary>
+    /// Fully qualified classname of the JDBC driver
+    /// </summary>
+    [CliOption("-driver", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Driver { get; set; }
+
+    /// <summary>
+    /// [teams] File where to output the SQL statements of a migration dry run Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-dryRunOutput", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? DryRunOutput { get; set; }
+
+    /// <summary>
+    /// Encoding of SQL migrations
+    /// </summary>
+    [CliOption("-encoding", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Encoding { get; set; }
+
+    /// <summary>
+    /// [teams] Rules to override specific SQL states and errors codes Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-errorOverrides", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ErrorOverrides { get; set; }
+
+    /// <summary>
+    /// Whether SQL should execute within a transaction
+    /// </summary>
+    [CliOption("-executeInTransaction", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ExecuteInTransaction { get; set; }
+
+    /// <summary>
+    /// Whether to fail if a location specified in the flyway.locations option doesn't exist
+    /// </summary>
+    [CliOption("-failOnMissingLocations", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? FailOnMissingLocations { get; set; }
+
+    /// <summary>
+    /// Patterns of migrations and states to ignore during validate
+    /// </summary>
+    [CliOption("-ignoreMigrationPatterns", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? IgnoreMigrationPatterns { get; set; }
+
+    /// <summary>
+    /// SQL statements to run to initialize a new database connection
+    /// </summary>
+    [CliOption("-initSql", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? InitSql { get; set; }
+
+    /// <summary>
+    /// Username that will be recorded in the schema history table
+    /// </summary>
+    [CliOption("-installedBy", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? InstalledBy { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of dirs for Jdbc drivers &amp; Java migrations
+    /// </summary>
+    [CliOption("-jarDirs", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? JarDirs { get; set; }
+
+    /// <summary>
+    /// Properties to pass to the JDBC driver object
+    /// </summary>
+    [SecretValue]
+    [CliOption("-jdbcProperties.", Format = OptionFormat.NoSeparator)]
+    public virtual IReadOnlyList<KeyValue>? JdbcProperties { get; set; }
+
+    /// <summary>
+    /// [teams] Your Flyway license key Availability: Flyway Teams.
+    /// </summary>
+    [SecretValue]
+    [CliOption("-licenseKey", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LicenseKey { get; set; }
+
+    /// <summary>
+    /// Classpath locations to scan recursively for migrations
+    /// </summary>
+    [CliOption("-locations", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Locations { get; set; }
+
+    /// <summary>
+    /// The maximum number of retries when trying to obtain a lock
+    /// </summary>
+    [CliOption("-lockRetryCount", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LockRetryCount { get; set; }
+
+    /// <summary>
+    /// Allow mixing transactional and non-transactional statements
+    /// </summary>
+    [CliOption("-mixed", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Mixed { get; set; }
+
+    /// <summary>
+    /// Suppress prompting for a user and password
+    /// </summary>
+    [CliFlag("-n")]
+    public virtual bool? NonInteractive { get; set; }
+
+    /// <summary>
+    /// Allows migrations to be run "out of order"
+    /// </summary>
+    [CliOption("-outOfOrder", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutOfOrder { get; set; }
+
+    /// <summary>
+    /// Send output to the specified file alongside the console
+    /// </summary>
+    [CliOption("-outputFile", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputFile { get; set; }
+
+    /// <summary>
+    /// Serialise the output in the given format, Values: json
+    /// </summary>
+    [CliOption("-outputType", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? OutputType { get; set; }
+
+    /// <summary>
+    /// Password to use to connect to the database
+    /// </summary>
+    [SecretValue]
+    [CliOption("-password", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Password { get; set; }
+
+    /// <summary>
+    /// Prefix of every placeholder
+    /// </summary>
+    [CliOption("-placeholderPrefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PlaceholderPrefix { get; set; }
+
+    /// <summary>
+    /// Whether placeholders should be replaced
+    /// </summary>
+    [CliOption("-placeholderReplacement", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PlaceholderReplacement { get; set; }
+
+    /// <summary>
+    /// Placeholders to replace in sql migrations
+    /// </summary>
+    [CliOption("-placeholders.", Format = OptionFormat.NoSeparator)]
+    public virtual IReadOnlyList<KeyValue>? Placeholders { get; set; }
+
+    /// <summary>
+    /// Suffix of every placeholder
+    /// </summary>
+    [CliOption("-placeholderSuffix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? PlaceholderSuffix { get; set; }
+
+    /// <summary>
+    /// Suppress all output, except for errors and warnings
+    /// </summary>
+    [CliFlag("-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// File name prefix for repeatable SQL migrations
+    /// </summary>
+    [CliOption("-repeatableSqlMigrationPrefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RepeatableSqlMigrationPrefix { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of custom MigrationResolvers
+    /// </summary>
+    [CliOption("-resolvers", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Resolvers { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of the schemas managed by Flyway
+    /// </summary>
+    [CliOption("-schemas", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Schemas { get; set; }
+
+    /// <summary>
+    /// Prefix of every script placeholder
+    /// </summary>
+    [CliOption("-scriptPlaceholderPrefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ScriptPlaceholderPrefix { get; set; }
+
+    /// <summary>
+    /// Suffix of every script placeholder
+    /// </summary>
+    [CliOption("-scriptPlaceholderSuffix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ScriptPlaceholderSuffix { get; set; }
+
+    /// <summary>
+    /// Skips default callbacks (sql)
+    /// </summary>
+    [CliOption("-skipDefaultCallbacks", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SkipDefaultCallbacks { get; set; }
+
+    /// <summary>
+    /// Skips default resolvers (jdbc, sql and Spring-jdbc)
+    /// </summary>
+    [CliOption("-skipDefaultResolvers", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SkipDefaultResolvers { get; set; }
+
+    /// <summary>
+    /// Whether Flyway should skip actually executing the contents of the migrations
+    /// </summary>
+    [CliOption("-skipExecutingMigrations", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SkipExecutingMigrations { get; set; }
+
+    /// <summary>
+    /// File name prefix for versioned SQL migrations
+    /// </summary>
+    [CliOption("-sqlMigrationPrefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SqlMigrationPrefix { get; set; }
+
+    /// <summary>
+    /// File name separator for SQL migrations
+    /// </summary>
+    [CliOption("-sqlMigrationSeparator", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SqlMigrationSeparator { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of file name suffixes for SQL migrations
+    /// </summary>
+    [CliOption("-sqlMigrationSuffixes", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? SqlMigrationSuffixes { get; set; }
+
+    /// <summary>
+    /// [teams] Stream SQL migrations when executing them Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-stream", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Stream { get; set; }
+
+    /// <summary>
+    /// Name of Flyway's schema history table
+    /// </summary>
+    [CliOption("-table", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Table { get; set; }
+
+    /// <summary>
+    /// Target version up to which Flyway should use migrations
+    /// </summary>
+    [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Target { get; set; }
+
+    /// <summary>
+    /// [teams] File name prefix for undo SQL migrations Availability: Flyway Teams.
+    /// </summary>
+    [CliOption("-undoSqlMigrationPrefix", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? UndoSqlMigrationPrefix { get; set; }
+
+    /// <summary>
+    /// Jdbc url to use to connect to the database
+    /// </summary>
+    [CliOption("-url", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Url { get; set; }
+
+    /// <summary>
+    /// User to use to connect to the database
+    /// </summary>
+    [CliOption("-user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? User { get; set; }
+
+    /// <summary>
+    /// Validate file names of SQL migrations (including callbacks)
+    /// </summary>
+    [CliOption("-validateMigrationNaming", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ValidateMigrationNaming { get; set; }
+
+    /// <summary>
+    /// Validate when running migrate
+    /// </summary>
+    [CliOption("-validateOnMigrate", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ValidateOnMigrate { get; set; }
+
 }

@@ -29,12 +29,14 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// -user=                        : User to use to connect to the database
 /// ...
 /// </summary>
-public partial class FlywayCliScraper : CliScraperBase
+public partial class FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<FlywayCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public FlywayCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<FlywayCliScraper> logger)
-        : base(executor, helpCache, logger)
+    private static readonly Dictionary<string, string> FlagPropertyNames = new(StringComparer.Ordinal)
     {
-    }
+        ["-X"] = "Debug",
+        ["-q"] = "Quiet",
+        ["-n"] = "NonInteractive",
+    };
 
     public override string ToolName => "flyway";
 
@@ -180,7 +182,10 @@ public partial class FlywayCliScraper : CliScraperBase
             : ExtractDescription(helpText, commandParts);
 
         // Parse options from the help text
-        var options = ParseOptions(helpText);
+        var globalSwitches = EffectiveGlobalOptions.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        var options = ParseOptions(helpText)
+            .Where(option => !globalSwitches.Contains(option.SwitchName))
+            .ToList();
 
         var className = commandParts.Length == 0
             ? "FlywayOptions"
@@ -226,28 +231,35 @@ public partial class FlywayCliScraper : CliScraperBase
         return null;
     }
 
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) => ParseOptions(helpText);
+
     /// <summary>
     /// Parses options from Flyway help text.
     /// Format: -url=                         : Jdbc url to use to connect to the database
     ///         -user=                        : User to use to connect to the database
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
-    {
-        var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    private static List<CliOptionDefinition> ParseOptions(string helpText) =>
+        [.. ParseConfigurationOptions(helpText), .. ParseFlags(helpText)];
 
-        // Find "Configuration" section
-        var configSectionMatch = ConfigurationSectionPattern().Match(helpText);
-        if (!configSectionMatch.Success)
+    private static IEnumerable<string> ReadSectionLines(string helpText, Regex pattern, bool allowUnindentedOptions)
+    {
+        var header = pattern.Match(helpText);
+        if (!header.Success)
         {
-            return options;
+            return [];
         }
 
-        var sectionStart = configSectionMatch.Index + configSectionMatch.Length;
-        var section = helpText.Substring(sectionStart);
-        var lines = section.Split('\n');
+        return helpText[(header.Index + header.Length)..].Split('\n')
+            .TakeWhile(line => string.IsNullOrWhiteSpace(line)
+                || char.IsWhiteSpace(line[0])
+                || (allowUnindentedOptions && line.StartsWith('-')));
+    }
 
-        foreach (var line in lines)
+    private static IEnumerable<CliOptionDefinition> ParseConfigurationOptions(string helpText)
+    {
+        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var line in ReadSectionLines(helpText, ConfigurationSectionPattern(), allowUnindentedOptions: true))
         {
             var match = FlywayOptionPattern().Match(line);
             if (!match.Success)
@@ -256,43 +268,63 @@ public partial class FlywayCliScraper : CliScraperBase
             }
 
             var optionName = match.Groups["option"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
-
-            if (string.IsNullOrEmpty(optionName) || seenOptions.Contains(optionName))
+            if (string.IsNullOrEmpty(optionName) || !seenOptions.Add(optionName))
             {
                 continue;
             }
-
-            seenOptions.Add(optionName);
 
             var propertyName = NormalizePropertyName(optionName);
-            if (propertyName is null)
+            if (propertyName is not null)
+            {
+                yield return CreateConfigurationOption(optionName, propertyName, match.Groups["desc"].Value.Trim());
+            }
+        }
+    }
+
+    private static CliOptionDefinition CreateConfigurationOption(string optionName, string propertyName, string description)
+    {
+        // Map namespaces use -namespace.key=value; other settings use -key=value.
+        var isMap = optionName is "placeholders" or "jdbcProperties";
+        return new CliOptionDefinition
+        {
+            SwitchName = isMap ? $"-{optionName}." : $"-{optionName}",
+            ShortForm = null,
+            PropertyName = propertyName,
+            CSharpType = isMap ? "IReadOnlyList<KeyValue>?" : "string?",
+            Description = description,
+            Availability = description.StartsWith("[teams]", StringComparison.OrdinalIgnoreCase) ? "Flyway Teams" : null,
+            IsFlag = false,
+            IsRequired = false,
+            // List settings are comma-delimited; map entries each need their own argument.
+            AcceptsMultipleValues = isMap,
+            IsKeyValue = isMap,
+            IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
+            ValueSeparator = isMap ? string.Empty : "=",
+            EnumDefinition = null,
+            IsSecret = optionName is "jdbcProperties" or "licenseKey" || GeneratorUtils.IsSecretOption(propertyName, false),
+        };
+    }
+
+    private static IEnumerable<CliOptionDefinition> ParseFlags(string helpText)
+    {
+        foreach (var line in ReadSectionLines(helpText, FlagsSectionPattern(), allowUnindentedOptions: false))
+        {
+            var flag = FlywayFlagPattern().Match(line);
+            if (!flag.Success)
             {
                 continue;
             }
 
-            // Flyway options are key=value style, not flags
-            var csharpType = "string?";
-
-            options.Add(new CliOptionDefinition
+            var switchName = flag.Groups["flag"].Value;
+            yield return new CliOptionDefinition
             {
-                SwitchName = $"-{optionName}",
-                ShortForm = null,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = false,
-                IsRequired = false,
-                AcceptsMultipleValues = optionName.Contains("locations"),
-                IsKeyValue = false,
-                IsNumeric = optionName.Contains("batch") || optionName.Contains("timeout"),
-                ValueSeparator = "=",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, false)
-            });
+                SwitchName = switchName,
+                PropertyName = FlagPropertyNames[switchName],
+                CSharpType = "bool?",
+                Description = flag.Groups["desc"].Value.Trim(),
+                IsFlag = true,
+            };
         }
-
-        return options;
     }
 
     /// <summary>
@@ -318,8 +350,14 @@ public partial class FlywayCliScraper : CliScraperBase
     /// <summary>
     /// Matches "Configuration" section header.
     /// </summary>
-    [GeneratedRegex(@"Configuration\s*[-=]*\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^Configuration(?: parameters(?: \([^\r\n]*\))?)?[ \t]*[-=]*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex ConfigurationSectionPattern();
+
+    [GeneratedRegex(@"^Flags[ \t]*\r?\n", RegexOptions.Multiline)]
+    private static partial Regex FlagsSectionPattern();
+
+    [GeneratedRegex(@"^[ \t]+(?<flag>-X|-q|-n)[ \t]{2,}(?<desc>[^\r\n]+)")]
+    private static partial Regex FlywayFlagPattern();
 
     /// <summary>
     /// Matches Flyway command lines: "migrate  : Migrates the database"
@@ -339,7 +377,7 @@ public partial class FlywayCliScraper : CliScraperBase
     /// Matches Flyway-style option lines:
     /// -url=                         : Jdbc url to use to connect to the database
     /// </summary>
-    [GeneratedRegex(@"^\s*-(?<option>[\w.]+)=?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*-?(?<option>[\w.]+)(?:=?[ \t]*:[ \t]*|[ \t]{2,})(?<desc>[^\r\n]+)\r?$")]
     private static partial Regex FlywayOptionPattern();
 
     #endregion

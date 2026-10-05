@@ -21,10 +21,4 @@ namespace ModularPipelines.Snyk.Options;
 [CliSubCommand("log4shell")]
 public record SnykLog4shellOptions : SnykOptions
 {
-    /// <summary>
-    /// Output debug logs.
-    /// </summary>
-    [CliFlag("-d")]
-    public bool? Debug { get; set; }
-
 }

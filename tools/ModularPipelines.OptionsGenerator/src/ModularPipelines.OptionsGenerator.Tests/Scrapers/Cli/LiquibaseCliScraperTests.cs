@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -332,6 +333,11 @@ public class LiquibaseCliScraperTests
             option => option.SwitchName == "--monitor-performance");
         await Assert.That(monitorPerformance.PropertyName).IsEqualTo("MonitorPerformance");
         await Assert.That(monitorPerformance.CSharpType).IsEqualTo("string?");
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(generated).Contains("public virtual string? SearchPath { get; set; }");
+        await Assert.That(generated).Contains("public virtual string? LicenseKey { get; set; }");
+        await Assert.That(generated).Contains("[CliGlobalOptions]");
     }
 
     [Test]
