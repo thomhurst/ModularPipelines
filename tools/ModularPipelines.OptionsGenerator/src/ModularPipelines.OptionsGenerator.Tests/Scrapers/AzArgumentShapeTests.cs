@@ -222,6 +222,19 @@ public class AzArgumentShapeTests
         return command!.Options.Single();
     }
 
+    [Test]
+    [Arguments("{\"azure-cli\":null}")]
+    [Arguments("{\"azure-cli\":\"\"}")]
+    [Arguments("{\"azure-cli\":\"  \"}")]
+    [Arguments("{\"azure-cli\":\"2.90.0\",\"extensions\":{\"azure-devops\":null}}")]
+    [Arguments("{\"azure-cli\":\"2.90.0\",\"extensions\":{\"azure-devops\":\"\"}}")]
+    public async Task Empty_Version_Values_Are_Rejected(string json)
+    {
+        await Assert.That(() => new Scraper().Version(json))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("reported an invalid version");
+    }
+
     private sealed class Scraper() : AzCliScraper(
         new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
         new HelpTextCache(NullLogger<HelpTextCache>.Instance),
