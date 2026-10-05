@@ -775,7 +775,9 @@ package root namespaces. Update imports; the generated `gh` CLI namespaces are u
 
 - Use `AddDistributedWorkflow(...)` instead of `WriteDistributedWorkflow(...)` on the builder.
 - `SkipIfNoGitHubToken` becomes `SkipIfNoGitHubTokenAttribute`; the short attribute syntax
-  `[SkipIfNoGitHubToken]` remains valid.
+  `[SkipIfNoGitHubToken]` remains valid. Its reported condition name also changes from
+  `SkipIfNoGitHubToken` to `SkipIfNoGitHubTokenAttribute`; update consumers that match this
+  name in reports or logs.
 - `IAzurePipeline.Variables` becomes `EnvironmentVariables`, matching TeamCity and GitHub.
   Replace `IsRunningOnAzurePipelines` with `context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines)`
   (`BuildSystem` is in `ModularPipelines.Enums`).
