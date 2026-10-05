@@ -787,3 +787,6 @@ same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.Scale
 now require a non-null `options` argument instead of defaulting it to null. Pass
 `KubernetesPatchOptions` or `KubernetesScaleOptions` with a resource source; calls
 that omit options must be updated.
+Supply the resource source through `Filename`, `Kustomize`, or `Type` (`TypeArgument`
+for patch), including when adding manual `Arguments`; typed validation does not infer
+required values from those manual tokens.
