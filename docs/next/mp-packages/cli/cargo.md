@@ -56,6 +56,20 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                                           |
+| ----------- | --------- | ------------ | ----------------------------------------------------- |
+| `--color`   | `Color`   | All editions | Coloring                                              |
+| `--config`  | `Config`  | All editions | Override a configuration value                        |
+| `--frozen`  | `Frozen`  | All editions | Equivalent to specifying both --locked and --offline  |
+| `--locked`  | `Locked`  | All editions | Assert that `Cargo.lock` will remain unchanged        |
+| `--offline` | `Offline` | All editions | Run without accessing the network                     |
+| `--quiet`   | `Quiet`   | All editions | Do not print cargo log messages                       |
+| `--verbose` | `Verbose` | All editions | Use verbose output (-vv very verbose/build.rs output) |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command       | Options record          |
