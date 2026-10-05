@@ -50,7 +50,7 @@ instead of `Variables`, matching the TeamCity and GitHub context member name. Us
 shared build-system context instead of the removed `IsRunningOnAzurePipelines` property:
 
 ```csharp
-using ModularPipelines.Enums;
+using ModularPipelines;
 
 var isAzurePipelines = context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines);
 ```

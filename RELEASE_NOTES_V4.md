@@ -780,6 +780,6 @@ package root namespaces. Update imports; the generated `gh` CLI namespaces are u
   name in reports or logs.
 - `IAzurePipeline.Variables` becomes `EnvironmentVariables`, matching TeamCity and GitHub.
   Replace `IsRunningOnAzurePipelines` with `context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines)`
-  (`BuildSystem` is in `ModularPipelines.Enums`).
+  (`BuildSystem` is in `ModularPipelines`).
 - Handwritten `Register*Context` methods remain public for generated registration and are
   hidden from IntelliSense.
