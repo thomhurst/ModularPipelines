@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Minikube.Options;
 
@@ -22,4 +23,124 @@ namespace ModularPipelines.Minikube.Options;
 [CliGlobalOptions]
 public abstract record MinikubeOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// If true, adds the file directory to the header of the log messages
+    /// </summary>
+    [CliOption("--add_dir_header", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? AddDirHeader { get; set; }
+
+    /// <summary>
+    /// log to standard error as well as files (no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--alsologtostderr", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Alsologtostderr { get; set; }
+
+    /// <summary>
+    /// logs at or above this threshold go to stderr when -alsologtostderr=true (no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--alsologtostderrthreshold", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Alsologtostderrthreshold { get; set; }
+
+    /// <summary>
+    /// The name of the cluster bootstrapper that will set up the Kubernetes cluster.
+    /// </summary>
+    [CliOption("--bootstrapper", ShortForm = "-b", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Bootstrapper { get; set; }
+
+    /// <summary>
+    /// If true, stderrthreshold is ignored when logtostderr=true (legacy behavior). If false, stderrthreshold is honored even when logtostderr=true
+    /// </summary>
+    [CliOption("--legacy_stderr_threshold_behavior", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? LegacyStderrThresholdBehavior { get; set; }
+
+    /// <summary>
+    /// when logging hits line file:N, emit a stack trace
+    /// </summary>
+    [CliOption("--log_backtrace_at", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogBacktraceAt { get; set; }
+
+    /// <summary>
+    /// If non-empty, write log files in this directory (no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--log_dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogDir { get; set; }
+
+    /// <summary>
+    /// If non-empty, use this log file (no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--log_file", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogFile { get; set; }
+
+    /// <summary>
+    /// Defines the maximum size a log file can grow to (no effect when -logtostderr=true). Unit is megabytes. If the value is 0, the maximum file size is unlimited.
+    /// </summary>
+    [CliOption("--log_file_max_size", Format = OptionFormat.EqualsSeparated)]
+    public virtual ulong? LogFileMaxSize { get; set; }
+
+    /// <summary>
+    /// log to standard error instead of files
+    /// </summary>
+    [CliOption("--logtostderr", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Logtostderr { get; set; }
+
+    /// <summary>
+    /// If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--one_output", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? OneOutput { get; set; }
+
+    /// <summary>
+    /// The name of the minikube VM being used. This can be set to allow having multiple instances of minikube independently.
+    /// </summary>
+    [CliOption("--profile", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Profile { get; set; }
+
+    /// <summary>
+    /// Force to use rootless driver (docker and podman driver only)
+    /// </summary>
+    [CliOption("--rootless", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? Rootless { get; set; }
+
+    /// <summary>
+    /// Skip recording the current command in the audit logs.
+    /// </summary>
+    [CliOption("--skip-audit", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? SkipAudit { get; set; }
+
+    /// <summary>
+    /// If true, avoid header prefixes in the log messages
+    /// </summary>
+    [CliOption("--skip_headers", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? SkipHeaders { get; set; }
+
+    /// <summary>
+    /// If true, avoid headers when opening log files (no effect when -logtostderr=true)
+    /// </summary>
+    [CliOption("--skip_log_headers", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public virtual CliOptionValue? SkipLogHeaders { get; set; }
+
+    /// <summary>
+    /// logs at or above this threshold go to stderr when writing to files and stderr (no effect when -logtostderr=true or -alsologtostderr=true unless -legacy_stderr_threshold_behavior=false)
+    /// </summary>
+    [CliOption("--stderrthreshold", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Stderrthreshold { get; set; }
+
+    /// <summary>
+    /// Specifies the user executing the operation. Useful for auditing operations executed by 3rd party tools. Defaults to the operating system username.
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? User { get; set; }
+
+    /// <summary>
+    /// number for the log level verbosity
+    /// </summary>
+    [CliOption("--v", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? V { get; set; }
+
+    /// <summary>
+    /// comma-separated list of pattern=N settings for file-filtered logging
+    /// </summary>
+    [CliOption("--vmodule", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Vmodule { get; set; }
+
 }
