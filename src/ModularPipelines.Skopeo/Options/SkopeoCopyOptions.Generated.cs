@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines.Models;
 using ModularPipelines.Skopeo.Enums;
 
 namespace ModularPipelines.Skopeo.Options;
@@ -158,8 +159,8 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// require HTTPS and verify certificates when talking to the container registry or daemon
     /// </summary>
-    [CliFlag("--dest-tls-verify")]
-    public bool? DestTlsVerify { get; set; }
+    [CliOption("--dest-tls-verify", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DestTlsVerify { get; set; }
 
     /// <summary>
     /// Username for accessing the registry
@@ -306,8 +307,8 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// require HTTPS and verify certificates when talking to the container registry or daemon
     /// </summary>
-    [CliFlag("--src-tls-verify")]
-    public bool? SrcTlsVerify { get; set; }
+    [CliOption("--src-tls-verify", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SrcTlsVerify { get; set; }
 
     /// <summary>
     /// Username for accessing the registry
