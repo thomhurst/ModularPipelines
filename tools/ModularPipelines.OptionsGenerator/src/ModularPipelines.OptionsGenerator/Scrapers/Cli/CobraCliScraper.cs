@@ -309,7 +309,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// Parses options from Cobra-style help text.
     /// Handles both standard Cobra format (Docker, Helm) and kubectl's variant.
     /// </summary>
-    protected List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
         // Find Flags, Options, and Global Flags sections
         var flagsSections = ExtractFlagsSections(helpText);

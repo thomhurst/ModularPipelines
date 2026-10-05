@@ -38,7 +38,7 @@ public partial class YqCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
-        [.. ParseOptions(helpText, []).Where(option => option.SwitchName is not "--version" and not "--help")];
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName is not "--version" and not "--help")];
 
     /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(

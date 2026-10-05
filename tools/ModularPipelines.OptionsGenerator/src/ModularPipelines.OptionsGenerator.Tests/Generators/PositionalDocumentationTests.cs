@@ -47,7 +47,9 @@ public class PositionalDocumentationTests
             PreferredDocumentationExampleCommand = "fake eval",
         };
         var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
-        var expectedKey = localOption ? "Expression" : "ExpressionArgument";
+        var expectedKey = localOption ? "CliExpression" : "ExpressionArgument";
+        await Assert.That(resolved.Commands.Single().PositionalArguments.Single().PropertyName)
+            .IsEqualTo(localOption ? "CliExpressionArgument" : "ExpressionArgument");
         await Assert.That(resolved.Commands.Single().DocumentationExampleValues.Keys).IsEquivalentTo([expectedKey]);
         var markdown = (await new MarkdownDocumentationGenerator().GenerateAsync(resolved)).Single().Content;
         await Assert.That(markdown).Contains(expectedKey + " = \".items\"");

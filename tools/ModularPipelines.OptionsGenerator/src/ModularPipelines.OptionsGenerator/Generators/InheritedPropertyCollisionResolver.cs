@@ -81,6 +81,7 @@ internal static class InheritedPropertyCollisionResolver
             sameScopeGlobals);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
+        // Operand collisions use the same Argument suffix for local and inherited options.
         usedLocalNames.UnionWith(globalPropertyNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
@@ -90,8 +91,7 @@ internal static class InheritedPropertyCollisionResolver
                     argument.PropertyName,
                     command.CommandParts,
                     occupiedNames,
-                    renamedProperties,
-                    globalPropertyNames),
+                    renamedProperties),
             })
             .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
                 ? argument
