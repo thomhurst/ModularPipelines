@@ -5,6 +5,23 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public partial class GoCliScraperTests
 {
     [Test]
+    [Arguments("")]
+    [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -race\n        enable race detection")]
+    public async Task Missing_Directory_Declaration_Rejects_Root_Help(string buildHelp)
+    {
+        var scraper = CreateScraper(new Dictionary<string, string>
+        {
+            ["help"] = await ReadGlobalFixture(""),
+            ["help build"] = buildHelp,
+        });
+
+        await Assert.That(async () => await scraper.LoadRootHelp())
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("go help build");
+        await Assert.That(scraper.CreateToolDefinition().GetGlobalOptions()).IsEmpty();
+    }
+
+    [Test]
     public async Task Working_Directory_Is_Global_Without_Promoting_Build_Flags()
     {
         var scraper = await CreateGlobalOptionsScraper();
