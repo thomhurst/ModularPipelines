@@ -20,6 +20,7 @@ public class GhGlobalOptionsAuditTests : TestBase
         await Assert.That(typeof(GhOptions).GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)).IsEmpty();
         await Assert.That(typeof(GhAuthStatusOptions).GetProperty("Repo")).IsNull();
         await Assert.That(typeof(GhApiOptions).GetProperty("Repo")).IsNull();
+        await Assert.That(typeof(GhConfigGetOptions).GetProperty("Repo")).IsNull();
         await Assert.That(await RenderCommand(new GhAuthStatusOptions())).IsEqualTo("gh auth status");
     }
 }
