@@ -1,0 +1,17 @@
+
+  Creates manifest lists and image indexes.
+
+Usage:
+  buildah manifest create [flags]
+
+Examples:
+  buildah manifest create mylist:v1.11
+  buildah manifest create mylist:v1.11 arch-specific-image-to-add
+  buildah manifest create --all mylist:v1.11 transport:tagged-image-to-add
+
+Flags:
+      --all          add all of the lists' images if the images to add are lists
+      --amend        modify an existing list if one with the desired name already exists
+  -h, --help         help for create
+      --tls-verify   require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+

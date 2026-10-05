@@ -1,0 +1,16 @@
+  Push a source image from a specified path to a registry.
+
+  Note that the buildah-source command and all its subcommands are experimental and may be subject to future changes.
+
+Usage:
+  buildah source push [flags]
+
+Examples:
+  buildah source push /tmp/sourceimage:latest quay.io/sourceimage/example:latest
+
+Flags:
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+  -h, --help                          help for push
+  -q, --quiet                         don't output push progress information
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry (default true)
+

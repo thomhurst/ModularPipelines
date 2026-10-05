@@ -1,0 +1,17 @@
+  Create, push, pull and manage source images and associated source artifacts.  A source image contains all source artifacts an ordinary OCI image has been built with.  Those artifacts can be any kind of source artifact, such as source RPMs, an entire source tree or text files.
+
+  Note that the buildah-source command and all its subcommands are experimental and may be subject to future changes.
+
+Usage:
+  buildah source [flags]
+  buildah source [command]
+
+Available Commands:
+  add         Add a source artifact to a source image
+  create      Create a source image
+  pull        Pull a source image from a registry to a specified path
+  push        Push a source image from a specified path to a registry
+
+Flags:
+  -h, --help   help for source
+

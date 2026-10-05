@@ -1,0 +1,29 @@
+
+  Creates, modifies, and pushes manifest lists and image indexes.
+
+Usage:
+  buildah manifest [command]
+
+Examples:
+  buildah manifest create localhost/list
+  buildah manifest add localhost/list localhost/image
+  buildah manifest annotate --annotation A=B localhost/list localhost/image
+  buildah manifest annotate --annotation A=B localhost/list sha256:entryManifestDigest
+  buildah manifest inspect localhost/list
+  buildah manifest push localhost/list transport:destination
+  buildah manifest remove localhost/list sha256:entryManifestDigest
+  buildah manifest rm localhost/list
+
+Available Commands:
+  add         Add images to a manifest list or image index
+  annotate    Add or update information about an entry in a manifest list or image index
+  create      Create manifest list or image index
+  exists      Check if a manifest list exists in local storage
+  inspect     Display the contents of a manifest list or image index
+  push        Push a manifest list or image index to a registry
+  remove      Remove an entry from a manifest list or image index
+  rm          Remove manifest list or image index
+
+Flags:
+  -h, --help   help for manifest
+

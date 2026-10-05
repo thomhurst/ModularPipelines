@@ -1,0 +1,17 @@
+Unmounts the root file system of the specified working containers.
+
+Usage:
+  buildah umount [flags]
+
+Aliases:
+  umount, unmount
+
+Examples:
+  buildah umount containerID
+  buildah umount containerID1 containerID2 containerID3
+  buildah umount --all
+
+Flags:
+  -a, --all    umount all of the currently mounted containers
+  -h, --help   help for umount
+

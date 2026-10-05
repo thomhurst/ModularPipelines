@@ -1,0 +1,15 @@
+  Create and initialize a source image.  A source image is an OCI artifact; an OCI image with a custom config media type.
+
+  Note that the buildah-source command and all its subcommands are experimental and may be subject to future changes.
+
+Usage:
+  buildah source create [flags]
+
+Examples:
+  buildah source create /tmp/fedora:latest-source
+
+Flags:
+      --author string   set the author
+  -h, --help            help for create
+      --time-stamp      set the "created" time stamp (default true)
+

@@ -1,0 +1,17 @@
+
+  Removes one or more locally stored images.
+
+Usage:
+  buildah rmi [flags]
+
+Examples:
+  buildah rmi imageID
+  buildah rmi --all --force
+  buildah rmi imageID1 imageID2 imageID3
+
+Flags:
+  -a, --all     remove all images
+  -f, --force   force removal of the image and any containers using the image
+  -h, --help    help for rmi
+  -p, --prune   prune dangling images
+
