@@ -301,11 +301,11 @@ internal partial class Npm : INpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LsAsync(
-        NpmLsOptions options,
+        NpmLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmLsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -319,11 +319,11 @@ internal partial class Npm : INpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PackAsync(
-        NpmPackOptions options,
+        NpmPackOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -355,11 +355,11 @@ internal partial class Npm : INpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PublishAsync(
-        NpmPublishOptions options,
+        NpmPublishOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPublishOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -409,11 +409,11 @@ internal partial class Npm : INpm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RunAsync(
-        NpmRunOptions options,
+        NpmRunOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new NpmRunOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

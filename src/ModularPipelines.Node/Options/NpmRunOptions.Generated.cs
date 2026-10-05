@@ -22,23 +22,6 @@ namespace ModularPipelines.Node.Options;
 public record NpmRunOptions : NpmOptions
 {
     /// <summary>
-    /// Run arbitrary package scripts
-    /// </summary>
-    /// <param name="Command">The &lt;command&gt; operand.</param>
-    public NpmRunOptions(
-        string Command
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(Command);
-        this.Command = Command;
-    }
-
-    public void Deconstruct(out string Command)
-    {
-        Command = this.Command;
-    }
-
-    /// <summary>
     /// Enable running a command in the context of the configured workspaces of the
     /// </summary>
     [CliOption("--workspace", ShortForm = "-w")]
@@ -83,13 +66,13 @@ public record NpmRunOptions : NpmOptions
     /// <summary>
     /// The &lt;command&gt; operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string Command { get; private init; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? Command { get; set; }
 
     /// <summary>
     /// The &lt;args&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

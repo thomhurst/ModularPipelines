@@ -23,23 +23,6 @@ namespace ModularPipelines.Node.Options;
 public record NpmPublishOptions : NpmOptions
 {
     /// <summary>
-    /// Publish a package
-    /// </summary>
-    /// <param name="PackageSpec">The &lt;package-spec&gt; operand.</param>
-    public NpmPublishOptions(
-        string PackageSpec
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(PackageSpec);
-        this.PackageSpec = PackageSpec;
-    }
-
-    public void Deconstruct(out string PackageSpec)
-    {
-        PackageSpec = this.PackageSpec;
-    }
-
-    /// <summary>
     /// If you ask npm to install a package and don't tell it a specific version,
     /// </summary>
     [CliOption("--tag")]
@@ -94,7 +77,7 @@ public record NpmPublishOptions : NpmOptions
     /// <summary>
     /// The &lt;package-spec&gt; operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string PackageSpec { get; private init; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? PackageSpec { get; set; }
 
 }
