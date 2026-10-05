@@ -59,6 +59,7 @@ Global options are rendered before the selected subcommand.
 | `--no-cache-dir` | `NoCacheDir` | All editions | Disable the cache. |
 | `--no-color` | `NoColor` | All editions | Suppress colored output. |
 | `--no-input` | `NoInput` | All editions | Disable prompting for input. |
+| `--no-proxy-env` | `NoProxyEnv` | All editions | Do not read proxy configuration from environment variables. |
 | `--proxy` | `Proxy` | All editions | Specify a proxy in the form scheme://[user:passwd@]proxy.server:port. |
 | `--python` | `Python` | All editions | Run pip with the specified Python interpreter. |
 | `--quiet` | `Quiet` | All editions | Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels). |

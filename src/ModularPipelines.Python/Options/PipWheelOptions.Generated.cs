@@ -28,24 +28,6 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public string? WheelDir { get; set; }
 
     /// <summary>
-    /// Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all binary packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
-    /// </summary>
-    [CliOption("--no-binary")]
-    public IEnumerable<string>? NoBinary { get; set; }
-
-    /// <summary>
-    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
-    /// </summary>
-    [CliOption("--only-binary")]
-    public IEnumerable<string>? OnlyBinary { get; set; }
-
-    /// <summary>
-    /// Prefer binary packages over source packages, even if the source packages are newer.
-    /// </summary>
-    [CliFlag("--prefer-binary")]
-    public bool? PreferBinary { get; set; }
-
-    /// <summary>
     /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
     /// </summary>
     [CliFlag("--no-build-isolation")]
@@ -76,7 +58,7 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public string? Editable { get; set; }
 
     /// <summary>
-    /// Install from the given requirements file. This option can be used multiple times.
+    /// Install from the given requirements file. The file or URL can be in pip's requirements.txt format, or pylock.toml format. pylock.toml support is experimental. This option can be used multiple times.
     /// </summary>
     [CliOption("--requirement", ShortForm = "-r")]
     public IEnumerable<string>? Requirement
@@ -122,6 +104,12 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     }
 
     /// <summary>
+    /// Install dependencies of the given script file as defined by PEP 723 inline metadata.
+    /// </summary>
+    [CliOption("--requirements-from-script")]
+    public string? RequirementsFromScript { get; set; }
+
+    /// <summary>
     /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
     /// </summary>
     [CliOption("--src")]
@@ -138,6 +126,12 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     /// </summary>
     [CliFlag("--no-deps")]
     public bool? NoDeps { get; set; }
+
+    /// <summary>
+    /// Take only the dependencies of the provided requirements into account, not the requirements themselves. Cannot be used in combination with --no-deps, --group, --requirement, or --requirements-from-script. No user-supplied requirements will be handled, even if they were dependencies of other user-supplied requirements.
+    /// </summary>
+    [CliFlag("--only-deps")]
+    public bool? OnlyDeps { get; set; }
 
     /// <summary>
     /// Specify whether the progress bar should be used. In 'auto' mode, --quiet will suppress all progress bars. [auto, on, off, raw] (default: auto)
@@ -158,16 +152,16 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public IEnumerable<string>? ConfigSettings { get; set; }
 
     /// <summary>
-    /// Include pre-release and development versions. By default, pip only finds stable versions.
-    /// </summary>
-    [CliFlag("--pre")]
-    public bool? Pre { get; set; }
-
-    /// <summary>
     /// Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
     /// </summary>
     [CliFlag("--require-hashes")]
     public bool? RequireHashes { get; set; }
+
+    /// <summary>
+    /// Do not automatically enable --require-hashes when encountering a requirement with hashes.
+    /// </summary>
+    [CliFlag("--no-require-hashes")]
+    public bool? NoRequireHashes { get; set; }
 
     /// <summary>
     /// Install a named dependency-group from a "pyproject.toml" file. If a path is given, the name of the file must be "pyproject.toml". Defaults to using "pyproject.toml" in the current directory.
@@ -222,6 +216,42 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public bool? NoClean { get; set; }
 
     /// <summary>
+    /// Include pre-release and development versions. By default, pip only finds stable versions.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
+    /// Allow all release types (including pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to allow pre-releases for all packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--all-releases")]
+    public IEnumerable<string>? AllReleases { get; set; }
+
+    /// <summary>
+    /// Only allow final releases (no pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable pre-releases for all packages, ":none:" to empty the set, or one or more package names with commas between them. Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--only-final")]
+    public IEnumerable<string>? OnlyFinal { get; set; }
+
+    /// <summary>
+    /// Do not download binary packages. Cached binary packages may still be used. Can be supplied multiple times, and each time adds to the existing value. Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--no-binary")]
+    public IEnumerable<string>? NoBinary { get; set; }
+
+    /// <summary>
+    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--only-binary")]
+    public IEnumerable<string>? OnlyBinary { get; set; }
+
+    /// <summary>
+    /// Prefer binary packages over source packages, even if the source packages are newer.
+    /// </summary>
+    [CliFlag("--prefer-binary")]
+    public bool? PreferBinary { get; set; }
+
+    /// <summary>
     /// Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
     /// </summary>
     [CliOption("--index-url", ShortForm = "-i")]
@@ -240,10 +270,22 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public bool? NoIndex { get; set; }
 
     /// <summary>
+    /// Refresh package index information for the given packages instead of using cached responses. Accepts ':all:' to apply to all packages, or a comma-separated list of package names.
+    /// </summary>
+    [CliOption("--refresh-package")]
+    public string? RefreshPackage { get; set; }
+
+    /// <summary>
     /// If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files. If a local path or file:// URL that's a directory, then look for archives in the directory listing. Links to VCS project URLs are not supported.
     /// </summary>
     [CliOption("--find-links", ShortForm = "-f")]
     public string? FindLinks { get; set; }
+
+    /// <summary>
+    /// Only consider packages uploaded prior to the given value. Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago). Only effective when using indexes that provide upload-time metadata.
+    /// </summary>
+    [CliOption("--uploaded-prior-to")]
+    public string? UploadedPriorTo { get; set; }
 
     /// <summary>
     /// The &lt;requirement specifier&gt; operand.

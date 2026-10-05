@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "pip",
-  "toolVersion": "pip 25.3 from C:\\Python314\\Lib\\site-packages\\pip (python 3.14)",
+  "toolVersion": "pip 26.2.1 from /home/runner/work/_temp/cli-tools/pip/lib/python3.12/site-packages/pip (python 3.12)",
   "commandTreeSha256": "adb68e6d885d4c64ba50d370d7a8aaf1cb5813da5967d50432fd8fc35de71773",
-  "generatorSourceSha256": "e45f24099add717166f24c372ba805f1667d98da0ae1d4206876f555a181bafa"
+  "generatorSourceSha256": "3c0c6c4d860f3c914aa103a811d478c5c960d22ffca963d648d540c258753654"
 }
