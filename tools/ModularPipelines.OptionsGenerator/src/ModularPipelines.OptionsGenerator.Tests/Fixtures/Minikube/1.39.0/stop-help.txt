@@ -1,0 +1,22 @@
+Stops a local Kubernetes cluster. This command stops the underlying VM or container, but keeps user data intact. The cluster can be started again with the "start" command.
+
+Options:
+    --all=false:
+	Set flag to stop all profiles (clusters)
+
+    --cancel-scheduled=false:
+	cancel any existing scheduled stop requests
+
+    --keep-context-active=false:
+	keep the kube-context active after cluster is stopped. Defaults to false.
+
+    -o, --output='text':
+	Format to print stdout in. Options include: [text,json]
+
+    --schedule=0s:
+	Set flag to stop cluster after a set amount of time (e.g. --schedule=5m)
+
+Usage:
+  minikube stop [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

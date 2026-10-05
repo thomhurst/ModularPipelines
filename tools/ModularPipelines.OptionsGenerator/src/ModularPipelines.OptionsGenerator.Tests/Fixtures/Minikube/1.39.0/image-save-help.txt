@@ -1,0 +1,17 @@
+Save a image from minikube
+
+Examples:
+minikube image save image
+minikube image save image image.tar
+
+Options:
+    --daemon=false:
+	Cache image to docker daemon
+
+    --remote=false:
+	Cache image to remote registry
+
+Usage:
+  minikube image save IMAGE [ARCHIVE | -] [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

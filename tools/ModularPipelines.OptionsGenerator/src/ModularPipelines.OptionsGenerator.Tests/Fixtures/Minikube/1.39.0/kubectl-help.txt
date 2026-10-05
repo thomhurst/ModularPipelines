@@ -1,0 +1,21 @@
+Run the Kubernetes client, download it if necessary. Remember -- after kubectl!
+
+This will run the Kubernetes client (kubectl) with the same version as the cluster
+
+Normally it will download a binary matching the host operating system and architecture,
+but optionally you can also run it directly on the control plane over the ssh connection.
+This can be useful if you cannot run kubectl locally for some reason, like unsupported
+host. Please be aware that when using --ssh all paths will apply to the remote machine.
+
+Examples:
+minikube kubectl -- --help
+minikube kubectl -- get pods --namespace kube-system
+
+Options:
+    --ssh=false:
+	Use SSH for running kubernetes client on the node
+
+Usage:
+  minikube kubectl [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

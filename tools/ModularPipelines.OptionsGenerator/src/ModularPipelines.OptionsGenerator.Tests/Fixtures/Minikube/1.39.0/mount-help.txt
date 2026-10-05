@@ -1,0 +1,34 @@
+Mounts the specified directory into minikube.
+
+Options:
+    --9p-version='9p2000.L':
+	Specify the 9p version that the mount should use
+
+    --gid='docker':
+	Default group id used for the mount
+
+    --ip='':
+	Specify the ip that the mount should be setup on
+
+    --kill=false:
+	Kill the mount process spawned by minikube start
+
+    --msize=262144:
+	The number of bytes to use for 9p packet payload
+
+    --options=[]:
+	Additional mount options, such as cache=fscache
+
+    --port=0:
+	Specify the port that the mount should be setup on, where 0 means any free port.
+
+    --type='9p':
+	Specify the mount filesystem type (supported types: 9p)
+
+    --uid='docker':
+	Default user id used for the mount
+
+Usage:
+  minikube mount [flags] <source directory>:<target directory> [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

@@ -1,0 +1,9 @@
+Deletes a node from a cluster.
+
+Examples:
+minikube node delete m02
+
+Usage:
+  minikube node delete NODE_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

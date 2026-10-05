@@ -1,0 +1,10 @@
+Add an image to local cache.
+
+Options:
+    --all=false:
+	Add image to cache for all running minikube clusters
+
+Usage:
+  minikube cache add [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

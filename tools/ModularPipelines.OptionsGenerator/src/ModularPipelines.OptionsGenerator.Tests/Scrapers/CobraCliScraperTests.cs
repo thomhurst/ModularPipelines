@@ -9,6 +9,27 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class CobraCliScraperTests
 {
     [Test]
+    public async Task Empty_Short_Alias_Description_Does_Not_Consume_Indented_Option_Rows()
+    {
+        const string help = """
+            Usage: fake run [OPTIONS]
+
+            Options:
+              -h, --help=false:
+                  --legacy=true: Preserve legacy behavior.
+                  --trace=:0: Stop at file:N.
+                  --output='': Output path.
+            """;
+        var command = await new TestCobraCliScraper().Parse(["fake", "run"], help);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--help", "--legacy", "--trace", "--output"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--help").Description).IsEmpty();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--trace").Description)
+            .IsEqualTo("Stop at file:N.");
+    }
+
+    [Test]
     [Arguments("[https://storage.example/image.iso,https://mirror.example/image.iso]")]
     [Arguments("[http://[::1]:8080/image.iso,https://mirror.example/image.iso]")]
     [Arguments("[]")]

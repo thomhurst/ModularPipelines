@@ -1,0 +1,14 @@
+Operations on nodes
+
+Available Commands:
+  add           Adds a node to the given cluster.
+  delete        Deletes a node from a cluster.
+  list          List nodes.
+  start         Starts a node.
+  stop          Stops a node in a cluster.
+
+Usage:
+  minikube node [flags] [options]
+
+Use "minikube node <command> --help" for more information about a given command.
+Use "minikube options" for a list of global command-line options (applies to all commands).

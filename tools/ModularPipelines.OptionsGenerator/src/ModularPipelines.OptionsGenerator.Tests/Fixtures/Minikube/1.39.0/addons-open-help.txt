@@ -1,0 +1,19 @@
+Opens the addon w/ADDON_NAME within minikube (example: minikube addons open dashboard). For a list of available addons use: minikube addons list
+
+Options:
+    --https=false:
+	Open the addons URL with https instead of http
+
+    --interval=1:
+	The time interval for each check that wait performs in seconds
+
+    --url=false:
+	Display the Kubernetes addons URL in the CLI instead of opening it in the default browser
+
+    --wait=2:
+	Amount of time to wait for service in seconds
+
+Usage:
+  minikube addons open ADDON_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

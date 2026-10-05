@@ -1,0 +1,6 @@
+Delete an image from the local cache.
+
+Usage:
+  minikube cache delete [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).
