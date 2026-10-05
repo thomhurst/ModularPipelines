@@ -1,0 +1,20 @@
+Pause all the processes in one or more containers
+
+Description:
+  Pauses one or more running containers.  The container name or ID can be used.
+
+Usage:
+  podman pause [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman pause mywebserver
+  podman pause 860a4b23
+  podman pause --all
+
+Options:
+  -a, --all                   Pause all running containers
+      --cidfile stringArray   Read the container ID from the file
+  -f, --filter stringArray    Filter output based on conditions given
+  -l, --latest                Act on the latest container podman is aware of
+                              Not supported with the "--remote" flag
+

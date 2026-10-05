@@ -1,0 +1,12 @@
+Check if a pod exists in local storage
+
+Description:
+  If the named pod exists in local storage, podman pod exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman pod exists POD
+
+Examples:
+  podman pod exists podID
+  podman pod exists mypod || podman pod create --name mypod
+

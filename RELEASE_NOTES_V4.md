@@ -808,3 +808,17 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Podman root execution settings
+
+`PodmanOptions` now exposes 30 public root settings, including remote connection,
+storage, runtime, and logging configuration. They render before subcommands.
+`Remote`, `Syslog`, and `TransientStore` accept `CliOptionValue` so callers can
+send explicit false values. Repeated directory, module, runtime, and storage
+options retain separate values.
+
+Command-local identity and TLS settings retain independent values under scoped
+property names. Use inherited `Identity` for the active remote connection; the
+local identity property on `PodmanSystemConnectionAddOptions` configures the new
+connection. Compose provider settings remain on `PodmanComposeOptions`. See the
+[Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).

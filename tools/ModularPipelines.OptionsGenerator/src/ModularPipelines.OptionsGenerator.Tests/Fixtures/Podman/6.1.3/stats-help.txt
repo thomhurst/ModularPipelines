@@ -1,0 +1,23 @@
+Display a live stream of container resource usage statistics
+
+Description:
+  Display percentage of CPU, memory, network I/O, block I/O and PIDs for one or more containers.
+
+Usage:
+  podman stats [options] [CONTAINER...]
+
+Examples:
+  podman stats --all --no-stream
+  podman stats ctrID
+  podman stats --no-stream --format "table {{.ID}} {{.Name}} {{.MemUsage}}" ctrID
+
+Options:
+  -a, --all             Show all containers. Only running containers are shown by default. The default is false
+      --format string   Pretty-print container statistics to JSON or using a Go template
+  -i, --interval int    Time in seconds between stats reports (default 5)
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+      --no-reset        Disable resetting the screen between intervals
+      --no-stream       Disable streaming stats and only pull the first result, default setting is false
+      --no-trunc        Do not truncate output
+

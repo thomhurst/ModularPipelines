@@ -1,0 +1,20 @@
+Attach to a running container
+
+Description:
+  The podman attach command allows you to attach to a running container using the container's ID or name, either to view its ongoing output or to control it interactively.
+
+Usage:
+  podman attach [options] CONTAINER
+
+Examples:
+  podman attach ctrID
+  podman attach 1234
+  podman attach --no-stdin foobar
+
+Options:
+      --detach-keys [a-Z]   Select the key sequence for detaching a container. Format is a single character [a-Z] or a comma separated sequence of `ctrl-<value>`, where `<value>` is one of: `a-z`, `@`, `^`, `[`, `\`, `]`, `^` or `_` (default "ctrl-p,ctrl-q")
+  -l, --latest              Act on the latest container podman is aware of
+                            Not supported with the "--remote" flag
+      --no-stdin            Do not attach STDIN. The default is false
+      --sig-proxy           Proxy received signals to the process (default true)
+

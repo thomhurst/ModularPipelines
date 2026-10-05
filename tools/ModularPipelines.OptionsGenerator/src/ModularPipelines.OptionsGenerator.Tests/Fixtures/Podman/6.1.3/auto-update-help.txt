@@ -1,0 +1,24 @@
+Auto update containers according to their auto-update policy
+
+Description:
+  Auto update containers according to their auto-update policy.
+
+  Auto-update policies are specified with the "io.containers.autoupdate" label.
+  Containers are expected to run in systemd units created with "podman-generate-systemd --new",
+  or similar units that create new containers in order to run the updated images.
+  Please refer to the podman-auto-update(1) man page for details.
+
+Usage:
+  podman auto-update [options]
+
+Examples:
+  podman auto-update
+  podman auto-update --authfile ~/authfile.json
+
+Options:
+      --authfile string   Path to the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --dry-run           Check for pending updates
+      --format string     Change the output format to JSON or a Go template
+      --rollback          Rollback to previous image if update fails (default true)
+      --tls-verify        Require HTTPS and verify certificates when contacting registries (default true)
+

@@ -1,0 +1,16 @@
+Remove unused volumes
+
+Description:
+  By default, only anonymous (unnamed) unused volumes are removed.
+  Use --all to remove all unused volumes (anonymous and named).
+  The command prompts for confirmation which can be overridden with the --force flag.
+
+Usage:
+  podman volume prune [options]
+
+Options:
+  -a, --all                  Remove all unused volumes, both anonymous and named
+      --dry-run              Show what would be pruned without actually pruning
+      --filter stringArray   Provide filter values (e.g. 'label=<key>=<value>')
+  -f, --force                Do not prompt for confirmation
+

@@ -1,0 +1,23 @@
+Manage a virtual machine
+
+Description:
+  Manage a virtual machine. Virtual machines are used to run Podman.
+
+Usage:
+  podman machine [command]
+
+Available Commands:
+  cp          Securely copy contents between the virtual machine
+  info        Display machine host info
+  init        Initialize a virtual machine
+  inspect     Inspect an existing machine
+  list        List machines
+  os          Manage a Podman virtual machine's OS
+  reset       Remove all machines
+  restart     Restart an existing machine
+  rm          Remove an existing machine
+  set         Set a virtual machine setting
+  ssh         SSH into an existing machine
+  start       Start an existing machine
+  stop        Stop an existing machine
+

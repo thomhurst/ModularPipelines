@@ -1,0 +1,19 @@
+Remove networks
+
+Description:
+  Remove networks
+
+Usage:
+  podman network rm [options] NETWORK [NETWORK...]
+
+Aliases:
+  rm, remove
+
+Examples:
+  podman network rm podman
+
+Options:
+  -f, --force      remove any containers using network
+  -i, --ignore     ignore if a specified network does not exist
+  -t, --time int   Seconds to wait for running containers to stop before killing the container (default 10)
+

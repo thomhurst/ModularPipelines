@@ -1,0 +1,17 @@
+Install a quadlet file or quadlet application
+
+Description:
+  Install a quadlet file or quadlet application. Quadlets may be specified as local files, Web URLs, and OCI artifacts.
+
+Usage:
+  podman quadlet install [options] QUADLET-PATH-OR-URL [FILES-PATH-OR-URL...]
+
+Examples:
+  podman quadlet install /path/to/myquadlet.container
+  podman quadlet install https://github.com/containers/podman/blob/main/test/e2e/quadlet/basic.container
+
+Options:
+      --application string   Group quadlets and associated file in a directory named after the application
+      --reload-systemd       Reload systemd after installing Quadlets (default true)
+  -r, --replace              Replace the installation even if the quadlet already exists
+

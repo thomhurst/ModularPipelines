@@ -1,0 +1,23 @@
+Display the running processes of a container
+
+Description:
+  Display the running processes of a container.
+
+  The top command extends the ps(1) compatible AIX descriptors with container-specific ones as shown below.  In the presence of ps(1) specific flags (e.g, -eo), Podman will execute ps(1) inside the container.
+
+
+  Format Descriptors:
+    args,capamb,capbnd,capeff,capinh,capprm,comm,etime,group,groups,hgroup,hgroups,hpid,huid,huser,label,nice,pcpu,pgid,pid,ppid,rgroup,rss,ruser,seccomp,state,stime,time,tty,uid,user,vsz
+
+Usage:
+  podman top [options] CONTAINER [FORMAT-DESCRIPTORS|ARGS...]
+
+Examples:
+  podman top ctrID
+  podman top ctrID pid seccomp args %C
+  podman top ctrID -eo user,pid,comm
+
+Options:
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

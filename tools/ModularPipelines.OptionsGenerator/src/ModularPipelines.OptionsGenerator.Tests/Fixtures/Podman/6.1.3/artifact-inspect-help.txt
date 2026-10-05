@@ -1,0 +1,14 @@
+Inspect an OCI artifact
+
+Description:
+  Provide details on an OCI artifact
+
+Usage:
+  podman artifact inspect [options] ARTIFACT
+
+Examples:
+  podman artifact inspect quay.io/myimage/myartifact:latest
+
+Options:
+  -f, --format string   Format volume output using JSON or a Go template (default "json")
+

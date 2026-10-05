@@ -1,0 +1,24 @@
+Show podman system events
+
+Description:
+  Monitor podman system events.
+
+  By default, streaming mode is used, printing new events as they occur.  Previous events can be listed via --since and --until.
+
+Usage:
+  podman events [options]
+
+Examples:
+  podman events
+  podman events --filter event=create
+  podman events --format {{.Image}}
+  podman events --since 1h30s
+
+Options:
+  -f, --filter stringArray   filter output
+      --format string        format the output using a Go template
+      --no-trunc             do not truncate the output (default true)
+      --since string         show all events created since timestamp
+      --stream               stream events and do not exit when returning the last known event (default true)
+      --until string         show all events until timestamp
+

@@ -1,0 +1,17 @@
+Add container to a network
+
+Description:
+  Add container to a network
+
+Usage:
+  podman network connect [options] NETWORK CONTAINER
+
+Examples:
+  podman network connect web secondary
+
+Options:
+      --alias strings        network scoped alias for container
+      --ip ip                set a static ipv4 address for this container network
+      --ip6 ip               set a static ipv6 address for this container network
+      --mac-address string   set a static mac address for this container network
+

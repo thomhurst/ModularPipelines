@@ -1,0 +1,26 @@
+List destination for the Podman service(s)
+
+Description:
+  List destination information for the Podman service(s) in podman configuration
+
+Usage:
+  podman system connection list [options]
+
+Aliases:
+  list, ls
+
+Examples:
+  podman system connection list
+  # Format as table without TLS info
+  podman system connection ls
+  # Format as table with TLS info
+  podman system connection ls --format=tls
+  # Format as JSON
+  podman system connection ls --format=json
+  # Format as custom go template
+  podman system connection ls --format='{{range .}}{{.Name}}{{ "\n" }}{{ end }}'
+
+Options:
+  -f, --format string   Custom Go template for printing connections
+  -q, --quiet           Custom Go template for printing connections
+

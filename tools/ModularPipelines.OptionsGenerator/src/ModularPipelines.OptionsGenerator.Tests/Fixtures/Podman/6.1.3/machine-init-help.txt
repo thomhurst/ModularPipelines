@@ -1,0 +1,31 @@
+Initialize a virtual machine
+
+Description:
+  Initialize a virtual machine
+
+Usage:
+  podman machine init [options] [NAME]
+
+Examples:
+  podman machine init podman-machine-default
+
+Options:
+      --cpus uint              Number of CPUs (default 10)
+      --disk-size uint         Disk size in GiB (default 100)
+      --ignition-path string   Path to ignition file
+      --image string           Bootable image for machine (default "docker://quay.io/podman/machine-os")
+      --import-native-ca       Import the host trusted CA certificates into the machine
+  -m, --memory uint            Memory in MiB (default 2048)
+      --now                    Start machine now
+      --playbook string        Run an Ansible playbook after first boot
+      --provider string        Override the default machine provider
+      --rootful                Whether this machine should prefer rootful container execution
+  -s, --swap uint              Swap in MiB
+      --timezone string        Set timezone (default "local")
+      --tls-verify             Require HTTPS and verify certificates when contacting registries (default true)
+  -u, --update-connection      Set default system connection for this machine
+      --usb stringArray        USB Host passthrough: bus=$1,devnum=$2 or vendor=$1,product=$2
+      --user-mode-networking   Whether this machine should use user-mode networking, routing traffic through a host user-space process
+      --username string        Username used in image (default "core")
+  -v, --volume stringArray     Volumes to mount, source:target (default [$HOME:$HOME,/home/linuxbrew/.config/containers:/etc/containers])
+

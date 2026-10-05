@@ -1,0 +1,26 @@
+Create new image based on the changed container
+
+Description:
+  Create an image from a container's changes. Optionally tag the image created, set the author with the --author flag, set the commit message with the --message flag, and make changes to the instructions with the --change flag.
+
+Usage:
+  podman container commit [options] CONTAINER [IMAGE]
+
+Examples:
+  podman container commit -q --message "committing container to image" reverent_golick image-committed
+  podman container commit -q --author "firstName lastName" reverent_golick image-committed
+  podman container commit -q --pause=false containerID image-committed
+  podman container commit containerID
+
+Options:
+  -a, --author string        Set the author for the image committed
+  -c, --change stringArray   Apply the following possible instructions to the created image (default []): CMD | ENTRYPOINT | ENV | EXPOSE | LABEL | ONBUILD | STOPSIGNAL | USER | VOLUME | WORKDIR
+      --config file          file containing a container configuration to merge into the image
+  -f, --format Format        Format of the image manifest and metadata (default "oci")
+      --iidfile file         file to write the image ID to
+      --include-volumes      Include container volumes as image volumes
+  -m, --message string       Set commit message for imported image
+  -p, --pause                Pause container during commit (default true)
+  -q, --quiet                Suppress output
+  -s, --squash               squash newly built layers into a single new layer
+

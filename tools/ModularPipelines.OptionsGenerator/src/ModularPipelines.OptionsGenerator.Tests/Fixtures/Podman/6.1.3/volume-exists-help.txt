@@ -1,0 +1,11 @@
+Check if volume exists
+
+Description:
+  If the given volume exists, podman volume exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman volume exists VOLUME
+
+Examples:
+  podman volume exists myvol
+

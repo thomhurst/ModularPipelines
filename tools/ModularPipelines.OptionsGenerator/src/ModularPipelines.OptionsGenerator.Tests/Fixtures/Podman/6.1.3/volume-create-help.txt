@@ -1,0 +1,22 @@
+Create a new volume
+
+Description:
+  If using the default driver, "local", the volume will be created on the host in the volumes directory under container storage.
+
+Usage:
+  podman volume create [options] [NAME]
+
+Examples:
+  podman volume create myvol
+  podman volume create
+  podman volume create --label foo=bar myvol
+  podman volume create --uid 4321 --gid 1234 myvol
+
+Options:
+  -d, --driver string       Specify volume driver name (default "local")
+      --gid int             Set the GID of the volume owner
+      --ignore              Don't fail if volume already exists
+  -l, --label stringArray   Set metadata for a volume (default [])
+  -o, --opt stringArray     Set driver specific options (default [])
+      --uid int             Set the UID of the volume owner
+

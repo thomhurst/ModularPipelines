@@ -1,0 +1,31 @@
+Run a process in a running container
+
+Description:
+  Execute the specified command inside a running container.
+
+
+Usage:
+  podman container exec [options] CONTAINER COMMAND [ARG...]
+
+Examples:
+  podman container exec -it ctrID ls
+  podman container exec -it -w /tmp myCtr pwd
+  podman container exec --user root ctrID ls
+
+Options:
+      --cidfile string         File to read the container ID from
+  -d, --detach                 Run the exec session in detached mode (backgrounded)
+      --detach-keys string     Select the key sequence for detaching a container. Format is a single character [a-Z] or ctrl-<value> where <value> is one of: a-z, @, ^, [, , or _ (default "ctrl-p,ctrl-q")
+  -e, --env stringArray        Set environment variables
+      --env-file stringArray   Read in a file of environment variables
+  -i, --interactive            Make STDIN available to the contained process
+  -l, --latest                 Act on the latest container podman is aware of
+                               Not supported with the "--remote" flag
+      --no-session             Do not create a database session for the exec process
+      --preserve-fd uints      Pass a list of additional file descriptors to the container (default [])
+      --preserve-fds uint      Pass N additional file descriptors to the container
+      --privileged             Give the process extended Linux capabilities inside the container.  The default is false
+  -t, --tty                    Allocate a pseudo-TTY. The default is false
+  -u, --user string            Sets the username or UID used and optionally the groupname or GID for the specified command
+  -w, --workdir string         Working directory inside the container
+

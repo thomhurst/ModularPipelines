@@ -1,0 +1,12 @@
+Import a tarball contents into a podman volume
+
+Description:
+  Imports contents into a podman volume from specified tarball (.tar, .tar.gz, .tgz, .bzip, .tar.xz, .txz, .tar.zst).
+
+Usage:
+  podman volume import VOLUME [SOURCE]
+
+Examples:
+  podman volume import my_vol /home/user/import.tar
+  cat ctr.tar | podman volume import my_vol -
+

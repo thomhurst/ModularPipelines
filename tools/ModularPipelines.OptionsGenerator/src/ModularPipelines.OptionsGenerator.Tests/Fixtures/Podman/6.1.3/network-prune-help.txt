@@ -1,0 +1,15 @@
+Prune unused networks
+
+Description:
+  Prune unused networks
+
+Usage:
+  podman network prune [options]
+
+Examples:
+  podman network prune
+
+Options:
+      --filter stringArray   Provide filter values (e.g. 'label=<key>=<value>')
+  -f, --force                do not prompt for confirmation
+

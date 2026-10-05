@@ -1,0 +1,14 @@
+Disconnect a container from a network
+
+Description:
+  Remove container from a network
+
+Usage:
+  podman network disconnect [options] NETWORK CONTAINER
+
+Examples:
+  podman network disconnect web secondary
+
+Options:
+  -f, --force   force removal of container from network
+

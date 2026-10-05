@@ -1,0 +1,14 @@
+Create a new farm
+
+Description:
+  Create a new farm with connections added via podman system connection add.
+
+	The "podman system connection add --farm" command can be used to add a new connection to a new or existing farm.
+
+Usage:
+  podman farm create NAME [CONNECTIONS...]
+
+Examples:
+  podman farm create myfarm connection1
+  podman farm create myfarm
+

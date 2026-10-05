@@ -1,0 +1,25 @@
+Log in to a container registry
+
+Description:
+  Log in to a container registry on a specified server.
+
+Usage:
+  podman login [options] [REGISTRY]
+
+Examples:
+  podman login quay.io
+  podman login --username ... --password ... quay.io
+  podman login --authfile dir/auth.json quay.io
+
+Options:
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string           use certificates at the specified path to access the registry
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+      --get-login                 Return the current login user for the registry
+  -p, --password string           Password for registry
+      --password-stdin            Take the password from stdin
+      --secret string             Retrieve password from a podman secret
+      --tls-verify                Require HTTPS and verify certificates when contacting registries
+  -u, --username string           Username for registry
+  -v, --verbose                   Write more detailed information to stdout
+

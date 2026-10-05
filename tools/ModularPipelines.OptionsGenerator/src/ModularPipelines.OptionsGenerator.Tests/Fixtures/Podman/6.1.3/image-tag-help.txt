@@ -1,0 +1,13 @@
+Add an additional name to a local image
+
+Description:
+  Adds one or more additional names to locally-stored image.
+
+Usage:
+  podman image tag IMAGE TARGET_NAME [TARGET_NAME...]
+
+Examples:
+  podman image tag 0e3bbc2 fedora:latest
+  podman image tag imageID:latest myNewImage:newTag
+  podman image tag httpd myregistryhost:5000/fedora/httpd:v2
+

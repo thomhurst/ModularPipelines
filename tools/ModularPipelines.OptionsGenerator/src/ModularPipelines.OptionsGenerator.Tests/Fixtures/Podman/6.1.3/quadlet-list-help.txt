@@ -1,0 +1,21 @@
+List Quadlets
+
+Description:
+  List all Quadlets configured for the current user.
+
+Usage:
+  podman quadlet list [options]
+
+Aliases:
+  list, ls
+
+Examples:
+  podman quadlet list
+  podman quadlet list --format '{{ .UnitName }}'
+  podman quadlet list --filter 'name=test*'
+
+Options:
+  -f, --filter stringArray   Filter output based on conditions given
+      --format string        Pretty-print output to JSON or using a Go template (default "{{range .}}{{.Name}}\t{{.UnitName}}\t{{.Path}}\t{{.Status}}\t{{.App}}\t{{.Pod}}\n{{end -}}")
+  -n, --noheading            Do not print headers
+

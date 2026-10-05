@@ -1,0 +1,25 @@
+Unmount an image's root filesystem
+
+Description:
+  Image storage increments a mount counter each time an image is mounted.
+
+  When an image is unmounted, the mount counter is decremented. The image's root filesystem is physically unmounted only when the mount counter reaches zero indicating no other processes are using the mount.
+
+  An unmount can be forced with the --force flag.
+
+
+Usage:
+  podman image unmount [options] IMAGE [IMAGE...]
+
+Aliases:
+  unmount, umount
+
+Examples:
+  podman unmount imgID
+  podman unmount imgID1 imgID2 imgID3
+  podman unmount --all
+
+Options:
+  -a, --all     Unmount all of the currently mounted images
+  -f, --force   Force the complete unmount of the specified mounted images
+

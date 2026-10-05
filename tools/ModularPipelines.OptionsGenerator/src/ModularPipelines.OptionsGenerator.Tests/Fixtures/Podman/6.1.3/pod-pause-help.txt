@@ -1,0 +1,19 @@
+Pause one or more pods
+
+Description:
+  The pod name or ID can be used.
+
+  All running containers within each specified pod will then be paused.
+
+Usage:
+  podman pod pause [options] POD [POD...]
+
+Examples:
+  podman pod pause podID1 podID2
+  podman pod pause --all
+
+Options:
+  -a, --all      Pause all running pods
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

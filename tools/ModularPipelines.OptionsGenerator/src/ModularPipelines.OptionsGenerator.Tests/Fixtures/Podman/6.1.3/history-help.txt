@@ -1,0 +1,19 @@
+Show history of a specified image
+
+Description:
+  Displays the history of an image.
+
+  The information can be printed out in an easy to read, or user specified format, and can be truncated.
+
+Usage:
+  podman history [options] IMAGE
+
+Examples:
+  podman history quay.io/fedora/fedora
+
+Options:
+      --format string   Change the output to JSON or a Go template
+  -H, --human           Display sizes and dates in human readable format (default true)
+      --no-trunc        Do not truncate the output
+  -q, --quiet           Display the numeric IDs only
+

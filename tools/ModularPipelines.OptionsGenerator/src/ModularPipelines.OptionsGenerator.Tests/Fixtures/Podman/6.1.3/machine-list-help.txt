@@ -1,0 +1,21 @@
+List machines
+
+Description:
+  List managed virtual machines.
+
+Usage:
+  podman machine list [options]
+
+Aliases:
+  list, ls
+
+Examples:
+  podman machine list,
+  podman machine list --format json
+  podman machine ls
+
+Options:
+      --format string   Format volume output using JSON or a Go template (default "{{range .}}{{.Name}}\t{{.VMType}}\t{{.Created}}\t{{.LastUp}}\t{{.CPUs}}\t{{.Memory}}\t{{.DiskSize}}\n{{end -}}")
+  -n, --noheading       Do not print headers
+  -q, --quiet           Show only machine names
+

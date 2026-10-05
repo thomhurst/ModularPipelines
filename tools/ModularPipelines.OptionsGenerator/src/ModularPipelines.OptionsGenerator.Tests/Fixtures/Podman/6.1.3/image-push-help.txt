@@ -1,0 +1,38 @@
+Push an image to a specified destination
+
+Description:
+  Pushes a source image to a specified destination.
+
+	The Image "DESTINATION" uses a "transport":"details" format. See podman-push(1) section "DESTINATION" for the expected format.
+
+Usage:
+  podman image push [options] IMAGE [DESTINATION]
+
+Examples:
+  podman image push imageID docker://registry.example.com/repository:tag
+  podman image push imageID oci-archive:/path/to/layout:image:tag
+
+Options:
+      --authfile string                      Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string                      Path to a directory containing TLS certificates and keys
+      --compress                             Compress tarball image layers when pushing to a directory using the 'dir' transport. (default is same compression type as source)
+      --compression-format string            compression format to use (default "gzip")
+      --compression-level int                compression level to use
+      --creds Credentials                    Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+      --digestfile string                    Write the digest of the pushed image to the specified file
+      --disable-content-trust                This is a Docker specific option and is a NOOP
+      --encrypt-layer ints                   Layers to encrypt, 0-indexed layer indices with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer). If not defined, will encrypt all layers if encryption-key flag is specified
+      --encryption-key stringArray           Key with the encryption protocol to use to encrypt the image (e.g. jwe:/path/to/key.pem)
+      --force-compression                    Use the specified compression algorithm even if the destination contains a differently-compressed variant already
+  -f, --format string                        Manifest type (oci, v2s2, or v2s1) to use in the destination (default is manifest type of source, with fallbacks)
+  -q, --quiet                                Suppress output information when pushing images
+      --remove-signatures                    Discard any pre-existing signatures in the image
+      --retry uint                           number of times to retry in case of failure when performing push (default 3)
+      --retry-delay string                   delay between retries in case of push failures
+      --sign-by string                       Add a signature at the destination using the specified key
+      --sign-by-sigstore PATH                Sign the image using a sigstore parameter file at PATH
+      --sign-by-sigstore-private-key PATH    Sign the image using a sigstore private key at PATH
+      --sign-by-sq-fingerprint FINGERPRINT   Sign the image using a Sequoia-PGP key with the specified FINGERPRINT
+      --sign-passphrase-file PATH            Read a passphrase for signing an image from PATH
+      --tls-verify                           Require HTTPS and verify certificates when contacting registries (default true)
+

@@ -1,0 +1,21 @@
+Save image(s) to an archive
+
+Description:
+  Save an image to docker-archive or oci-archive on the local machine. Default is docker-archive.
+
+Usage:
+  podman save [options] IMAGE [IMAGE...]
+
+Examples:
+  podman save --quiet -o myimage.tar imageID
+  podman save --format docker-dir -o ubuntu-dir ubuntu
+  podman save > alpine-all.tar alpine:latest
+
+Options:
+      --compress              Compress tarball image layers when saving to a directory using the 'dir' transport. (default is same compression type as source)
+      --format string         Save image to oci-archive, oci-dir (directory with oci manifest type), docker-archive, docker-dir (directory with v2s2 manifest type) (default "docker-archive")
+  -m, --multi-image-archive   Interpret additional arguments as images not tags and create a multi-image-archive (only for docker-archive)
+  -o, --output string         Write to a specified file (default: stdout, which must be redirected)
+  -q, --quiet                 Suppress the output
+      --uncompressed          Accept uncompressed layers when copying OCI images
+

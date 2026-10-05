@@ -1,0 +1,17 @@
+Reload firewall rules for one or more containers
+
+Description:
+  Reload container networks, recreating firewall rules
+
+Usage:
+  podman network reload [options] [CONTAINER...]
+
+Examples:
+  podman network reload 3c13ef6dd843
+  podman network reload test1 test2
+
+Options:
+  -a, --all      Reload network configuration of all containers
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

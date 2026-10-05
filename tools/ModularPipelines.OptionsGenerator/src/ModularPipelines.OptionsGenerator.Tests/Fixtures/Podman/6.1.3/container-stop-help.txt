@@ -1,0 +1,23 @@
+Stop one or more containers
+
+Description:
+  Stops one or more running containers.  The container name or ID can be used.
+
+  A timeout to forcibly stop the container can also be set but defaults to 10 seconds otherwise.
+
+Usage:
+  podman container stop [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman container stop ctrID
+  podman container stop --time 2 mywebserver 6e534f14da9d
+
+Options:
+  -a, --all                   Stop all running containers
+      --cidfile stringArray   Read the container ID from the file
+  -f, --filter stringArray    Filter output based on conditions given
+  -i, --ignore                Ignore errors when a specified container is missing
+  -l, --latest                Act on the latest container podman is aware of
+                              Not supported with the "--remote" flag
+  -t, --time int              Seconds to wait for stop before killing the container (default 10)
+

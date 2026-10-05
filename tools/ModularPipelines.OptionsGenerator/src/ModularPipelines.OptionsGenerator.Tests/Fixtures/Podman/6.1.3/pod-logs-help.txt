@@ -1,0 +1,27 @@
+Fetch logs for pod with one or more containers
+
+Description:
+  Displays logs for pod with one or more containers.
+
+Usage:
+  podman pod logs [options] POD
+
+Examples:
+  podman pod logs podID
+  podman pod logs -c ctrname podName
+  podman pod logs --tail 2 mywebserver
+  podman pod logs --follow=true --since 10m podID
+  podman pod logs mywebserver
+
+Options:
+      --color              Output the containers within a pod with different colors in the log
+  -c, --container string   Filter logs by container name or id which belongs to pod
+  -f, --follow             Follow log output.
+  -l, --latest             Act on the latest container podman is aware of
+                           Not supported with the "--remote" flag
+  -n, --names              Output container names instead of container IDs in the log
+      --since string       Show logs since TIMESTAMP
+      --tail int           Output the specified number of LINES at the end of the logs. (default -1)
+  -t, --timestamps         Output the timestamps in the log
+      --until string       Show logs until TIMESTAMP
+

@@ -1,0 +1,16 @@
+Migrate containers
+
+Description:
+  
+        podman system migrate
+
+        Migrate existing containers to a new version of Podman.
+
+
+Usage:
+  podman system migrate [options]
+
+Options:
+      --migrate-db           Migrate database from BoltDB to SQLite
+      --new-runtime string   Specify a new runtime for all containers
+

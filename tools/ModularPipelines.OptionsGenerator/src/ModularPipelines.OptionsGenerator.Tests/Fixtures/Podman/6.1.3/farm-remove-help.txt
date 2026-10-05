@@ -1,0 +1,18 @@
+Remove one or more farms
+
+Description:
+  Remove one or more existing farms.
+
+Usage:
+  podman farm remove [options] [FARM...]
+
+Aliases:
+  remove, rm
+
+Examples:
+  podman farm rm myfarm1 myfarm2
+  podman farm rm --all
+
+Options:
+  -a, --all   Remove all farms
+

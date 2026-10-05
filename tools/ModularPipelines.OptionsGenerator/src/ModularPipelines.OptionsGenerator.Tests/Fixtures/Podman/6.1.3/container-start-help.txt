@@ -1,0 +1,22 @@
+Start one or more containers
+
+Description:
+  Starts one or more containers.  The container name or ID can be used.
+
+Usage:
+  podman container start [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman container start 860a4b231279 5421ab43b45
+  podman container start --interactive --attach imageID
+
+Options:
+      --all                  Start all containers regardless of their state or configuration
+  -a, --attach               Attach container's STDOUT and STDERR
+      --detach-keys [a-Z]    Select the key sequence for detaching a container. Format is a single character [a-Z] or a comma separated sequence of `ctrl-<value>`, where `<value>` is one of: `a-z`, `@`, `^`, `[`, `\`, `]`, `^` or `_` (default "ctrl-p,ctrl-q")
+  -f, --filter stringArray   Filter output based on conditions given
+  -i, --interactive          Make STDIN available to the contained process
+  -l, --latest               Act on the latest container podman is aware of
+                             Not supported with the "--remote" flag
+      --sig-proxy            Proxy received signals to the process (default true if attaching, false otherwise)
+

@@ -1,0 +1,29 @@
+Fetch the logs of one or more containers
+
+Description:
+  Retrieves logs for one or more containers.
+
+  This does not guarantee execution order when combined with podman run (i.e., your run may not have generated any logs at the time you execute podman logs).
+
+
+Usage:
+  podman logs [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman logs ctrID
+  podman logs --names ctrID1 ctrID2
+  podman logs --tail 2 mywebserver
+  podman logs --follow=true --since 10m ctrID
+  podman logs mywebserver mydbserver
+
+Options:
+      --color          Output the containers with different colors in the log.
+  -f, --follow         Follow log output.  The default is false
+  -l, --latest         Act on the latest container podman is aware of
+                       Not supported with the "--remote" flag
+  -n, --names          Output the container name in the log
+      --since string   Show logs since TIMESTAMP
+      --tail int       Output the specified number of LINES at the end of the logs.  Defaults to -1, which prints all lines (default -1)
+  -t, --timestamps     Output the timestamps in the log
+      --until string   Show logs until TIMESTAMP
+

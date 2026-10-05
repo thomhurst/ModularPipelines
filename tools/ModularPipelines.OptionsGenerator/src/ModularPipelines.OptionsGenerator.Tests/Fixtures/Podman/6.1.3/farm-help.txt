@@ -1,0 +1,15 @@
+Farm out builds to remote machines
+
+Description:
+  Farm out builds to remote machines that podman can connect to via podman system connection
+
+Usage:
+  podman farm [command]
+
+Available Commands:
+  build       Build a container image for multiple architectures
+  create      Create a new farm
+  list        List all existing farms
+  remove      Remove one or more farms
+  update      Update an existing farm
+
