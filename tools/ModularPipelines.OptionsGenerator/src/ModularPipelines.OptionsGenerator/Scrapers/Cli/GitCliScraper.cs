@@ -80,7 +80,7 @@ public partial class GitCliScraper(
             if (commandPath.Length == 1)
             {
                 var usage = await ExecuteAndRecordHelpCommandAsync(
-                    commandPath, ToolName, "-h", cancellationToken);
+                    commandPath, ToolName, "-h", cancellationToken, helpKind: CliHelpKind.Manual);
                 rootUsage = usage.CombinedOutput;
             }
         }
@@ -494,6 +494,17 @@ public partial class GitCliScraper(
                 option = AddDescription(option, description);
             }
 
+            if (!option.IsFlag
+                && !option.AcceptsMultipleValues
+                && HelpDeclaresRepeatableOption(helpText, option.SwitchName, option.Description ?? string.Empty))
+            {
+                option = option with
+                {
+                    CSharpType = $"IEnumerable<{option.CSharpType.TrimEnd('?')}>?",
+                    AcceptsMultipleValues = true,
+                };
+            }
+
             options.Add(option);
             if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
@@ -624,6 +635,7 @@ public partial class GitCliScraper(
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {option.Description}",
             IsFlag = true,
+            AcceptsMultipleValues = false,
             ValueArity = CliOptionValueArity.Required,
             ValueSeparator = " ",
             IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),

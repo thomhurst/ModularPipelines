@@ -1,9 +1,50 @@
 using ModularPipelines.Attributes;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
+using ModularPipelines.OptionsGenerator.Scrapers.Cli;
+using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public partial class GitCliScraperTests
 {
+    [Test]
+    public async Task Scrape_Preserves_Branch_When_Root_Switches_Overlap_Local_Switches()
+    {
+        using var logs = LoggerFactory.Create(builder => builder.AddConsole());
+        using var scraper = new GitCliScraper(new BranchHelpExecutor(), new StubHelpTextCache(), logs.CreateLogger<GitCliScraper>());
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(command => command.FullCommand)).IsEquivalentTo(["git branch"]);
+        foreach (var option in commands.Single().Options.Where(option => option.SwitchName is "--delete-merged" or "--forked"))
+        {
+            await Assert.That(option.AcceptsMultipleValues).IsTrue();
+            await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    private sealed class BranchHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null) =>
+            Task.FromResult(arguments switch
+            {
+                "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
+                "-h" => Result(ReadFixture("root-help.txt")),
+                "branch -h" => Result(ReadFixture("branch-help.txt")),
+                _ => Result(""),
+            });
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+
+        private static string ReadFixture(string name) => File.ReadAllText(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Git", "2.56.0", name));
+    }
+
     [Test]
     public async Task Root_Settings_Exclude_Reporting_Actions_And_Internal_Arguments()
     {
