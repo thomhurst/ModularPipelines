@@ -225,7 +225,7 @@ public class ArgoCdOptionsTests
     {
         var arguments = BuildArguments(new ArgoCdConfigureOptions
         {
-            PromptsEnabled = false,
+            PromptsEnabled = "false",
         });
 
         await AssertArguments(arguments, ["--prompts-enabled=false"]);
