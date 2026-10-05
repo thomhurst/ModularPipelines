@@ -1067,13 +1067,18 @@ public class CommandTests : TestBase
     public async Task ProcessTreeFixture_Reads_Identity_While_Publication_Handle_Is_Open()
     {
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        fixture.Start(await GetService<ICommandContext>(), "graceful-exit", TimeSpan.FromMilliseconds(50));
         await fixture.WaitForReadyAsync("parent", TimeSpan.FromSeconds(5));
         using var publicationHandle = new FileStream(Path.Combine(fixture.DirectoryPath, "parent.pid"),
             FileMode.Open, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
 
+        // Identity sharing needs a live process, not a concurrently starting descendant.
         var process = await fixture.WaitForProcessAsync("parent", TimeSpan.FromSeconds(5));
         await Assert.That(process.HasExited).IsFalse();
+
+        await fixture.TriggerAsync("parent-exit");
+        var result = await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5));
+        await Assert.That(result.ExitCode).IsEqualTo(0);
     }
 
     [Test]
