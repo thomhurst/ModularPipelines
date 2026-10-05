@@ -1040,6 +1040,19 @@ jobs:
             Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
           }
 
+      - name: Preserve generated CLI patch
+        if: steps.changes.outputs.has_changes == 'true'
+        shell: pwsh
+        run: git diff --staged --binary > "$env:RUNNER_TEMP/generated-${{ matrix.tool }}.patch"
+
+      - name: Upload generated CLI patch
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: generated-${{ matrix.tool }}-patch
+          path: ${{ runner.temp }}/generated-${{ matrix.tool }}.patch
+          retention-days: 7
+
       - name: Build solution to verify changes
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true'
         run: >-
