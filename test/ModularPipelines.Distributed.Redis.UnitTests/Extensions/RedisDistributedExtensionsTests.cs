@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -316,6 +317,181 @@ public class RedisDistributedExtensionsTests
         await Assert.That(async () => await builder.BuildAsync())
             .Throws<OptionsValidationException>()
             .WithMessageContaining(nameof(RedisOptions.ConnectionString));
+    }
+
+    [Test]
+    [Arguments("empty", false)]
+    [Arguments("noop", false)]
+    [Arguments("tls", false)]
+    [Arguments("remove", false)]
+    [Arguments("empty", true)]
+    [Arguments("noop", true)]
+    [Arguments("tls", true)]
+    [Arguments("remove", true)]
+    public async Task Effective_Connection_Requires_Endpoints_At_Startup(string mode, bool moduleCache)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        void Configure(RedisOptions options)
+        {
+            options.ConnectionString = mode == "remove" ? "localhost:6379" : string.Empty;
+            options.ConfigureConnection = mode switch
+            {
+                "noop" => _ =>
+                {
+                }
+                ,
+                "tls" => connection => connection.Ssl = true,
+                "remove" => connection => connection.EndPoints.Clear(),
+                _ => null,
+            };
+        }
+
+        if (moduleCache)
+        {
+            builder.AddRedisModuleCache(Configure);
+        }
+        else
+        {
+            builder.AddDistributedMode(options => options.RunId = "endpoint-validation");
+            builder.AddRedisDistributed(Configure);
+        }
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(() => builder.BuildAsync());
+        await Assert.That(exception!.Message).Contains(nameof(RedisOptions.ConnectionString));
+        await Assert.That(exception.OptionsName)
+            .IsEqualTo(moduleCache ? "ModularPipelines.RedisModuleCache" : string.Empty);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Valid_Cache_Only_Configuration_Builds_Without_Connecting(bool callbackOnly)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddRedisModuleCache(options =>
+        {
+            options.TimeToLive = TimeSpan.FromMinutes(1);
+            if (callbackOnly)
+            {
+                options.ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381);
+            }
+            else
+            {
+                options.ConnectionString = "cache.invalid:6381";
+            }
+        });
+
+        await using var pipeline = await builder.BuildAsync();
+        var cache = pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
+            .Get("ModularPipelines.RedisModuleCache");
+        await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).EndPoints.Count).IsEqualTo(1);
+        await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
+    }
+
+    [Test]
+    public async Task Validated_Configuration_Is_Reused_Without_Reinvoking_Callback()
+    {
+        var calls = 0;
+        ConfigurationOptions? callbackConfiguration = null;
+        var options = new RedisOptions
+        {
+            ConnectionString = "localhost:6379",
+            ConfigureConnection = connection =>
+            {
+                Interlocked.Increment(ref calls);
+                callbackConfiguration = connection;
+                connection.Password = "key,with=special;characters";
+                connection.Ssl = true;
+            },
+        };
+        var validator = new RedisOptionsValidator(
+            Microsoft.Extensions.Options.Options.DefaultName,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
+
+        var result = validator.Validate(Microsoft.Extensions.Options.Options.DefaultName, options);
+        await Assert.That(result.Succeeded).IsTrue();
+        await Assert.That(calls).IsEqualTo(1);
+
+        callbackConfiguration!.EndPoints.Clear();
+        var first = RedisConnectionProvider.CreateConfiguration(options);
+        first.EndPoints.Clear();
+        first.Password = "changed";
+        await using var provider = new RedisConnectionProvider(options);
+        var second = RedisConnectionProvider.CreateConfiguration(options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(calls).IsEqualTo(1);
+            await Assert.That(second.EndPoints.Count).IsEqualTo(1);
+            await Assert.That(second.Password).IsEqualTo("key,with=special;characters");
+            await Assert.That(second.Ssl).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("127.0.0.1")]
+    [Arguments("fe80::1%12")]
+    public async Task Validated_IP_Endpoints_Are_Isolated_From_Retained_And_Returned_Objects(string address)
+    {
+        var retained = new IPEndPoint(IPAddress.Parse(address), 6380);
+        var options = new RedisOptions
+        {
+            ConfigureConnection = connection => connection.EndPoints.Add(retained),
+        };
+        var validator = new RedisOptionsValidator(Microsoft.Extensions.Options.Options.DefaultName, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()));
+        await Assert.That(validator.Validate(Microsoft.Extensions.Options.Options.DefaultName, options).Succeeded).IsTrue();
+
+        retained.Port = 6381;
+        if (retained.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            retained.Address.ScopeId = 13;
+        }
+
+        retained.Address = IPAddress.Loopback;
+        var first = (IPEndPoint) RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
+        await Assert.That(first).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+
+        first.Port = 6382;
+        if (first.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+        {
+            first.Address.ScopeId = 14;
+        }
+
+        first.Address = IPAddress.Loopback;
+        var second = RedisConnectionProvider.CreateConfiguration(options).EndPoints.Single();
+        await Assert.That(second).IsEqualTo(new IPEndPoint(IPAddress.Parse(address), 6380));
+    }
+
+    [Test]
+    public async Task Callback_Endpoints_Respect_PostConfiguration_And_Named_Cache_Isolation()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<NoOpModule>();
+        builder.AddDistributedMode(options => options.RunId = "callback-endpoints");
+        builder.AddRedisDistributed(options => options.ConfigureConnection = _ => { });
+        builder.Services.PostConfigure<RedisOptions>(options =>
+            options.ConfigureConnection = connection => connection.EndPoints.Add("coordinator.invalid", 6380));
+        builder.AddRedisModuleCache(options =>
+        {
+            options.TimeToLive = TimeSpan.FromMinutes(1);
+            options.ConfigureConnection = connection => connection.EndPoints.Add("cache.invalid", 6381);
+        });
+
+        await using var pipeline = await builder.BuildAsync();
+        var distributed = pipeline.Services.GetRequiredService<IOptions<RedisOptions>>().Value;
+        var cache = pipeline.Services.GetRequiredService<IOptionsMonitor<RedisOptions>>()
+            .Get("ModularPipelines.RedisModuleCache");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(RedisConnectionProvider.CreateConfiguration(distributed).EndPoints.Single().ToString())
+                .IsEqualTo("Unspecified/coordinator.invalid:6380");
+            await Assert.That(RedisConnectionProvider.CreateConfiguration(cache).EndPoints.Single().ToString())
+                .IsEqualTo("Unspecified/cache.invalid:6381");
+            await Assert.That(cache.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(1));
+        }
     }
 
     [Test]

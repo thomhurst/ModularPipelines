@@ -1,3 +1,6 @@
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis;
@@ -9,6 +12,10 @@ namespace ModularPipelines.Distributed.Redis;
 /// </summary>
 internal sealed class RedisConnectionProvider : IAsyncDisposable
 {
+    // Keep the validated snapshot for the lifetime of each options instance without retaining
+    // replaced options. Lazy ensures concurrent callers invoke the callback only once.
+    private static readonly ConditionalWeakTable<RedisOptions, Lazy<ConfigurationOptions>> Configurations = [];
+
     private readonly Func<Task<IConnectionMultiplexer>> _connect;
     private readonly bool _ownsConnection;
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -101,12 +108,37 @@ internal sealed class RedisConnectionProvider : IAsyncDisposable
         _gate.Dispose();
     }
 
-    internal static ConfigurationOptions CreateConfiguration(RedisOptions options)
+    internal static ConfigurationOptions CreateConfiguration(RedisOptions options) =>
+        CloneConfiguration(Configurations.GetValue(options, static value => new Lazy<ConfigurationOptions>(
+            () => BuildConfiguration(value))).Value);
+
+    private static ConfigurationOptions BuildConfiguration(RedisOptions options)
     {
         var configuration = string.IsNullOrWhiteSpace(options.ConnectionString)
             ? new ConfigurationOptions()
             : ConfigurationOptions.Parse(options.ConnectionString);
         options.ConfigureConnection?.Invoke(configuration);
-        return configuration;
+        // The callback may retain its argument. Neither it nor an individual connection
+        // should be able to mutate the configuration that passed startup validation.
+        return CloneConfiguration(configuration);
+    }
+
+    private static ConfigurationOptions CloneConfiguration(ConfigurationOptions configuration)
+    {
+        var clone = configuration.Clone();
+        // StackExchange.Redis copies the collection but shares mutable IP endpoints and addresses.
+        for (var i = 0; i < clone.EndPoints.Count; i++)
+        {
+            if (clone.EndPoints[i] is IPEndPoint endpoint)
+            {
+                var address = endpoint.Address;
+                var addressCopy = address.AddressFamily == AddressFamily.InterNetworkV6
+                    ? new IPAddress(address.GetAddressBytes(), address.ScopeId)
+                    : new IPAddress(address.GetAddressBytes());
+                clone.EndPoints[i] = new IPEndPoint(addressCopy, endpoint.Port);
+            }
+        }
+
+        return clone;
     }
 }
