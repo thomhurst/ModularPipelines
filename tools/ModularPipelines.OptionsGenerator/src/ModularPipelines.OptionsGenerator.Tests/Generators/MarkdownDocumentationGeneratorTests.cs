@@ -9,6 +9,30 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class MarkdownDocumentationGeneratorTests
 {
     [Test]
+    public async Task GenerateAsync_Escapes_Mdx_In_Global_Table_Text()
+    {
+        var tool = Tool("fake", Command("fake run", "FakeRunOptions", ["run"])) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--cache-dir",
+                    PropertyName = "CacheDir",
+                    CSharpType = "string?",
+                    Description = "cache directory (default <cache>/trivy) & {value} | alternate",
+                    Availability = "<all> & {editions}",
+                },
+            ],
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+
+        await Assert.That(documentation).Contains("cache directory (default &lt;cache&gt;/trivy) &amp; &#123;value&#125; \\| alternate");
+        await Assert.That(documentation).Contains("&lt;all&gt; &amp; &#123;editions&#125;");
+    }
+
+    [Test]
     [Arguments("/home/runner")]
     [Arguments("/Users/runner")]
     [Arguments("C:/Users/runneradmin")]

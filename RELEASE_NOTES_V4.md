@@ -31,6 +31,15 @@ can set `ThrowOnNonSuccessStatusCode = false` and must dispose returned response
 Slack disposes responses internally. See the [Slack](docs/docs/mp-packages/slack.md)
 and [Teams](docs/docs/mp-packages/microsoft-teams.md) examples.
 
+## Trivy inherited settings
+
+Trivy command records now inherit eight persistent settings from `TrivyOptions`:
+`Cacert`, `CacheDir`, `Config`, `Debug`, `GenerateDefaultConfig`, `Insecure`, `Quiet`,
+and `Timeout`. Existing initializer property names remain available; these values
+now render before the command path. Root help/version controls and root version
+format are excluded, while scan formats and registry credentials remain local.
+See the [Trivy package guide](docs/docs/mp-packages/trivy.md) for migration details.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,

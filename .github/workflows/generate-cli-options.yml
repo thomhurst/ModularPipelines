@@ -301,8 +301,8 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'trivy'
         run: |
           TRIVY_ARCHIVE="$RUNNER_TEMP/trivy.tar.gz"
-          wget -q https://github.com/aquasecurity/trivy/releases/download/v0.70.0/trivy_0.70.0_Linux-64bit.tar.gz -O "$TRIVY_ARCHIVE"
-          echo "8b4376d5d6befe5c24d503f10ff136d9e0c49f9127a4279fd110b727929a5aa9  $TRIVY_ARCHIVE" | sha256sum --check
+          wget -q https://github.com/aquasecurity/trivy/releases/download/v0.75.0/trivy_0.75.0_Linux-64bit.tar.gz -O "$TRIVY_ARCHIVE"
+          echo "c6e65abddb348e25f10549df887045629cf28cc72453cd1c63acb717316b3f3f  $TRIVY_ARCHIVE" | sha256sum --check
           tar -xzf "$TRIVY_ARCHIVE" -C "$CLI_TOOLS_ROOT/bin" trivy
           chmod +x "$CLI_TOOLS_ROOT/bin/trivy"
 
