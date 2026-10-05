@@ -81,6 +81,8 @@ internal static class InheritedPropertyCollisionResolver
             sameScopeGlobals);
         var usedLocalNames = new HashSet<string>(StringComparer.Ordinal);
         options = ResolveDuplicateOptionNames(options, usedLocalNames);
+        // Reserve inherited names for operand disambiguation.
+        usedLocalNames.UnionWith(globalPropertyNames);
         var renamedArgumentNames = new Dictionary<string, string>(StringComparer.Ordinal);
         var positionalArguments = command.PositionalArguments
             .Select(argument => argument with
@@ -90,7 +92,8 @@ internal static class InheritedPropertyCollisionResolver
                     command.CommandParts,
                     occupiedNames,
                     renamedProperties,
-                    globalPropertyNames),
+                    globalPropertyNames,
+                    isPositionalArgument: true),
             })
             .Select(argument => !usedLocalNames.Contains(argument.PropertyName)
                 ? argument
@@ -121,13 +124,12 @@ internal static class InheritedPropertyCollisionResolver
             RequiredAlternativeGroups = [.. command.RequiredAlternativeGroups.Select(ResolveGroup)],
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
-                    pair => TryGetRename(
+                    pair => ResolveDocumentationExampleName(
                         pair.Key,
+                        command,
+                        positionalArguments,
                         renamedProperties,
-                        globalRenamedProperties,
-                        out var renamedProperty)
-                            ? renamedProperty
-                            : pair.Key,
+                        globalRenamedProperties),
                     pair => pair.Value,
                     StringComparer.Ordinal),
         };
@@ -231,13 +233,30 @@ internal static class InheritedPropertyCollisionResolver
         }
     }
 
-    private static bool TryGetRename(
+    private static string ResolveDocumentationExampleName(
         string propertyName,
+        CliCommandDefinition command,
+        CliPositionalArgument[] positionalArguments,
         Dictionary<string, string> commandRenames,
-        IReadOnlyDictionary<string, string> globalRenames,
-        out string renamedProperty) =>
-        commandRenames.TryGetValue(propertyName, out renamedProperty!)
-        || globalRenames.TryGetValue(propertyName, out renamedProperty!);
+        IReadOnlyDictionary<string, string> globalRenames)
+    {
+        // An existing local option keeps ownership of an ambiguous example key.
+        if (!command.Options.Any(option => option.PropertyName == propertyName))
+        {
+            for (var index = 0; index < command.PositionalArguments.Count; index++)
+            {
+                if (command.PositionalArguments[index].PropertyName == propertyName)
+                {
+                    return positionalArguments[index].PropertyName;
+                }
+            }
+        }
+
+        return commandRenames.TryGetValue(propertyName, out var renamedProperty)
+               || globalRenames.TryGetValue(propertyName, out renamedProperty)
+            ? renamedProperty
+            : propertyName;
+    }
 
     private static CliOptionDefinition[] ResolveOptions(
         IReadOnlyList<CliOptionDefinition> options,
@@ -278,7 +297,8 @@ internal static class InheritedPropertyCollisionResolver
         IReadOnlyList<string> commandParts,
         HashSet<string> occupiedNames,
         Dictionary<string, string>? renamedProperties,
-        IReadOnlySet<string>? globalPropertyNames = null)
+        IReadOnlySet<string>? globalPropertyNames = null,
+        bool isPositionalArgument = false)
     {
         if (renamedProperties?.TryGetValue(propertyName, out var existingRename) == true)
         {
@@ -301,7 +321,7 @@ internal static class InheritedPropertyCollisionResolver
             }
         }
 
-        var cliCandidate = $"Cli{propertyName}";
+        var cliCandidate = GetFallbackPropertyName(propertyName, globalPropertyNames, isPositionalArgument);
         if (TryOccupyResolvedName(cliCandidate, occupiedNames))
         {
             return RecordRename(propertyName, cliCandidate, renamedProperties);
@@ -316,6 +336,17 @@ internal static class InheritedPropertyCollisionResolver
             }
         }
     }
+
+    private static string GetFallbackPropertyName(
+        string propertyName,
+        IReadOnlySet<string>? globalPropertyNames,
+        bool isPositionalArgument) =>
+        isPositionalArgument
+        && globalPropertyNames?.Contains(propertyName) == true
+        && !IsInheritedPropertyName(propertyName)
+        && !RecordReservedPropertyNames.Contains(propertyName)
+            ? propertyName + "Argument"
+            : "Cli" + propertyName;
 
     private static bool TryOccupyResolvedName(string candidate, HashSet<string> occupiedNames) =>
         !IsInheritedPropertyName(candidate)

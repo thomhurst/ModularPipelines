@@ -26,13 +26,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -C, --colors                  force print with colors
 ///   ...
 /// </summary>
-public partial class YqCliScraper : CobraCliScraper
+public partial class YqCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YqCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public YqCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YqCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "yq";
 
     public override string NamespacePrefix => "Yq";
@@ -40,6 +35,16 @@ public partial class YqCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Yq";
 
     public override string OutputDirectory => "src/ModularPipelines.Yq";
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option => option.SwitchName is not "--version" and not "--help")];
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options) =>
+        [.. options.Where(option => !GlobalOptions.Any(global => global.SwitchName == option.SwitchName))];
 
     /// <summary>
     /// Skip utility commands.
@@ -68,12 +73,11 @@ public partial class YqCliScraper : CobraCliScraper
         IReadOnlyList<string> commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>
         commandParts is ["eval" or "eval-all"]
-            ? positionalArguments
+            ? [.. positionalArguments
                 .Select(argument => argument with
                 {
                     Phase = CommandLinePhase.Passthrough,
                     PrependOptionTerminatorIfValueStartsWithDash = true,
-                })
-                .ToArray()
+                })]
             : positionalArguments;
 }
