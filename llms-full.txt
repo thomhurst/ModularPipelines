@@ -172,7 +172,7 @@
 - [kind Package](/docs/next/mp-packages/kind.md): Strongly typed kind commands for local Kubernetes clusters.
 - [Kubernetes Package](/docs/next/mp-packages/kubernetes.md): Strongly typed kubectl and Kustomize commands.
 - [Liquibase Package](/docs/next/mp-packages/liquibase.md): The ModularPipelines.Liquibase package provides strongly typed options and services for the Liquibase command-line interface. It covers database updates, rollbacks, changelog generation, snapshots, validation, initialization, and the other commands exposed by Liquibase 5.
-- [Microsoft Teams Package](/docs/next/mp-packages/microsoft-teams.md): Microsoft Teams notification helpers.
+- [Microsoft Teams Package](/docs/next/mp-packages/microsoft-teams.md): Send adaptive cards through context.Tools.MicrosoftTeams.
 - [minikube Package](/docs/next/mp-packages/minikube.md): Strongly typed minikube commands for local Kubernetes clusters.
 - [Nerdbank.GitVersioning Package](/docs/next/mp-packages/nerdbank-gitversioning.md): ModularPipelines.NerdbankGitVersioning provides strongly typed access to the nbgv CLI.
 - [Newman Package](/docs/next/mp-packages/newman.md): Strongly typed Newman commands for Postman collections.
@@ -184,7 +184,7 @@
 - [Rust Package](/docs/next/mp-packages/rust.md): Strongly typed Cargo commands for Rust projects.
 - [ShellCheck Package](/docs/next/mp-packages/shellcheck.md): The ModularPipelines.Shellcheck package provides strongly typed access to the ShellCheck static analysis CLI.
 - [Skopeo Package](/docs/next/mp-packages/skopeo.md): Strongly typed Skopeo container-image commands.
-- [Slack Package](/docs/next/mp-packages/slack.md): Slack notification helpers.
+- [Slack Package](/docs/next/mp-packages/slack.md): Send webhook messages through context.Tools.Slack.
 - [Snyk Package](/docs/next/mp-packages/snyk.md): ModularPipelines.Snyk provides strongly typed access to the Snyk CLI for open-source,
 - [SonarScanner Package](/docs/next/mp-packages/sonar-scanner.md): ModularPipelines.SonarScanner provides strongly typed access to SonarScanner CLI for
 - [Syft Package](/docs/next/mp-packages/syft.md): Strongly typed Syft software-bill-of-materials commands.
@@ -51766,7 +51766,7 @@ CLI options use initializer properties so values may instead come from a Liquiba
 
 # Microsoft Teams Package
 
-Microsoft Teams notification helpers.
+Send adaptive cards through `context.Tools.MicrosoftTeams`.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -51774,43 +51774,39 @@ Microsoft Teams notification helpers.
 dotnet add package ModularPipelines.MicrosoftTeams
 ```
 
-## Context entry points[​](#context-entry-points "Direct link to Context entry points")
+## Send a card[​](#send-a-card "Direct link to Send a card")
 
-Use the discoverable `context.Tools` surface from a module:
-
-* `context.Tools.MicrosoftTeams`
-
-## Module example[​](#module-example "Direct link to Module example")
+Import `ModularPipelines.MicrosoftTeams` for the integration, options, and card models. Inside an asynchronous module, pass the module cancellation token:
 
 ```
-
-
-public class UseMicrosoftTeamsModule : SyncModule<None>
-
-{
-
-    protected override None Execute(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        var microsoftTeams = context.Tools.MicrosoftTeams;
+using ModularPipelines.MicrosoftTeams;
 
 
 
-        // Call the integration's strongly typed operations here.
+using var response = await context.Tools.MicrosoftTeams.PostCardAsync(
 
-        context.Logger.LogInformation("MicrosoftTeams integration is ready");
+    new MicrosoftTeamsWebHookCardOptions(
 
-        return None.Value;
+        new MicrosoftTeamsAdaptiveCard
 
-    }
+        {
 
-}
+            MsTeams = new MicrosoftTeamsProperties { Width = "Full" },
+
+        },
+
+        webhookUri),
+
+    cancellationToken);
 ```
+
+`webhookUri` is the webhook `Uri` obtained from your configuration. Treat it as a secret. Add your content to the adaptive card before posting. Cancellation stops the pending HTTP request. The caller owns and must dispose the returned response.
+
+Unsuccessful HTTP responses throw `PipelineHttpResponseException` by default. To inspect an unsuccessful response yourself, set `ThrowOnNonSuccessStatusCode = false` on `MicrosoftTeamsWebHookCardOptions`.
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+Replace `PostMicrosoftTeamsCard` with `PostCardAsync`. Replace imports of `ModularPipelines.MicrosoftTeams.Options`, `.Models`, and `.Extensions` with `ModularPipelines.MicrosoftTeams`. There are no forwarding methods for the old API. `RegisterMicrosoftTeamsContext` remains public for integration registration, but is hidden from IntelliSense with `EditorBrowsable(Never)`.
 
 
 ---
@@ -52436,7 +52432,7 @@ The package exposes generated options records for its supported CLI commands.
 
 # Slack Package
 
-Slack notification helpers.
+Send webhook messages through `context.Tools.Slack`.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -52444,43 +52440,33 @@ Slack notification helpers.
 dotnet add package ModularPipelines.Slack
 ```
 
-## Context entry points[​](#context-entry-points "Direct link to Context entry points")
+## Send a message[​](#send-a-message "Direct link to Send a message")
 
-Use the discoverable `context.Tools` surface from a module:
-
-* `context.Tools.Slack`
-
-## Module example[​](#module-example "Direct link to Module example")
+Import `ModularPipelines.Slack` for the integration and its options. Inside an asynchronous module, pass the module cancellation token:
 
 ```
+using ModularPipelines.Slack;
 
-
-public class UseSlackModule : SyncModule<None>
-
-{
-
-    protected override None Execute(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        var slack = context.Tools.Slack;
+using Slack.Webhooks;
 
 
 
-        // Call the integration's strongly typed operations here.
+await context.Tools.Slack.PostMessageAsync(
 
-        context.Logger.LogInformation("Slack integration is ready");
+    new SlackWebHookOptions(
 
-        return None.Value;
+        new SlackMessage { Text = "Build passed" },
 
-    }
+        webhookUri),
 
-}
+    cancellationToken);
 ```
+
+`webhookUri` is the webhook `Uri` obtained from your configuration. Treat it as a secret. Cancellation stops the pending HTTP request. An unsuccessful HTTP response throws `PipelineHttpResponseException`; the helper disposes the request and response.
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+Replace `PostWebHookMessage` with `PostMessageAsync`. Replace imports of `ModularPipelines.Slack.Options` and `ModularPipelines.Slack.Extensions` with `ModularPipelines.Slack`. There are no forwarding methods for the old API. `RegisterSlackContext` remains public for integration registration, but is hidden from IntelliSense with `EditorBrowsable(Never)`.
 
 
 ---

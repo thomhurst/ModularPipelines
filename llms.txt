@@ -172,7 +172,7 @@
 - [kind Package](/docs/next/mp-packages/kind.md): Strongly typed kind commands for local Kubernetes clusters.
 - [Kubernetes Package](/docs/next/mp-packages/kubernetes.md): Strongly typed kubectl and Kustomize commands.
 - [Liquibase Package](/docs/next/mp-packages/liquibase.md): The ModularPipelines.Liquibase package provides strongly typed options and services for the Liquibase command-line interface. It covers database updates, rollbacks, changelog generation, snapshots, validation, initialization, and the other commands exposed by Liquibase 5.
-- [Microsoft Teams Package](/docs/next/mp-packages/microsoft-teams.md): Microsoft Teams notification helpers.
+- [Microsoft Teams Package](/docs/next/mp-packages/microsoft-teams.md): Send adaptive cards through context.Tools.MicrosoftTeams.
 - [minikube Package](/docs/next/mp-packages/minikube.md): Strongly typed minikube commands for local Kubernetes clusters.
 - [Nerdbank.GitVersioning Package](/docs/next/mp-packages/nerdbank-gitversioning.md): ModularPipelines.NerdbankGitVersioning provides strongly typed access to the nbgv CLI.
 - [Newman Package](/docs/next/mp-packages/newman.md): Strongly typed Newman commands for Postman collections.
@@ -184,7 +184,7 @@
 - [Rust Package](/docs/next/mp-packages/rust.md): Strongly typed Cargo commands for Rust projects.
 - [ShellCheck Package](/docs/next/mp-packages/shellcheck.md): The ModularPipelines.Shellcheck package provides strongly typed access to the ShellCheck static analysis CLI.
 - [Skopeo Package](/docs/next/mp-packages/skopeo.md): Strongly typed Skopeo container-image commands.
-- [Slack Package](/docs/next/mp-packages/slack.md): Slack notification helpers.
+- [Slack Package](/docs/next/mp-packages/slack.md): Send webhook messages through context.Tools.Slack.
 - [Snyk Package](/docs/next/mp-packages/snyk.md): ModularPipelines.Snyk provides strongly typed access to the Snyk CLI for open-source,
 - [SonarScanner Package](/docs/next/mp-packages/sonar-scanner.md): ModularPipelines.SonarScanner provides strongly typed access to SonarScanner CLI for
 - [Syft Package](/docs/next/mp-packages/syft.md): Strongly typed Syft software-bill-of-materials commands.
