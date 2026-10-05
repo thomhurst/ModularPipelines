@@ -42,6 +42,9 @@ jobs:
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
+      - name: Test pruning of obsolete generated options
+        shell: pwsh
+        run: tools/ModularPipelines.OptionsGenerator/scripts/Test-UnrecognizedCommandOptions.ps1
       - name: Reject stale generated enum attributes
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
@@ -663,6 +666,17 @@ jobs:
           path: artifacts/options-generator-diagnostics
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Prune obsolete generated Git options
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'git'
+        shell: pwsh
+        run: |
+          tools/ModularPipelines.OptionsGenerator/scripts/Remove-UnrecognizedCommandOptions.ps1 `
+            -Tool "${{ matrix.tool }}" `
+            -RepositoryRoot "$env:GITHUB_WORKSPACE" `
+            -PackageDirectory "${{ matrix.outputDirectory }}" `
+            -NamespacePrefix "${{ matrix.prefix }}" `
+            -ChangeManifest "$env:RUNNER_TEMP/generated-paths.txt"
 
       - name: Record generator provenance
         if: steps.should-run.outputs.run == 'true'

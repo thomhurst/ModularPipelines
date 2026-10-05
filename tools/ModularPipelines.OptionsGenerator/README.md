@@ -94,6 +94,19 @@ path of the requested tool. The generator rejects an executable override when mo
 tool is requested. The override applies only when that tool is executed; helper programs used
 by its scraper continue to resolve independently.
 
+## Git's mixed ownership
+
+Git keeps its handwritten grouped services and options. Its CLI scraper refreshes command
+coverage without replacing those APIs. After a successful Git scrape, the workflow runs
+`scripts/Remove-UnrecognizedCommandOptions.ps1` to remove legacy generated option records
+whose `CliSubCommand` is absent from the validated coverage manifest. This removes old
+Git documentation-page types without treating handwritten options as generated output.
+Pass `-Tool` using the target package's tool from `--list-tools --json`; the script rejects
+coverage for a different tool before collecting deletion candidates. Single and nested
+`CliSubCommand` arguments are matched against complete command paths. The script also
+accepts `-WhatIf` and can reconcile an existing committed coverage manifest.
+Deleted paths are added to the generation change manifest before provenance is recorded.
+
 ## Add a scraper
 
 Prefer a CLI-first scraper because installed help is normally the authoritative source.
