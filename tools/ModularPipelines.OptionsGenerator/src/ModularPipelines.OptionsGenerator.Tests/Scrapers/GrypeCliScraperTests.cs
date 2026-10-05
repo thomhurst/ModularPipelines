@@ -39,6 +39,21 @@ public class GrypeCliScraperTests
         var status = commands.Single(command => command.CommandParts.SequenceEqual(["db", "status"]));
         await Assert.That(status.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--output"]);
         await Assert.That(status.Options.Single().CSharpType).IsEqualTo("string?");
+        var search = commands.Single(command => command.CommandParts.SequenceEqual(["db", "search"]));
+        await Assert.That(search.Options.Select(option => (option.SwitchName, option.CSharpType))).IsEquivalentTo([
+            ("--broad-cpe-matching", "bool?"), ("--distro", "IEnumerable<string>?"),
+            ("--ecosystem", "string?"), ("--fixed-state", "IEnumerable<string>?"),
+            ("--limit", "int?"), ("--modified-after", "string?"), ("--output", "string?"),
+            ("--pkg", "IEnumerable<string>?"), ("--provider", "IEnumerable<string>?"),
+            ("--published-after", "string?"), ("--vuln", "IEnumerable<string>?")]);
+        var vulnerabilities = commands.Single(command => command.CommandParts.SequenceEqual(["db", "search", "vuln"]));
+        await Assert.That(vulnerabilities.Options.Select(option => (option.SwitchName, option.CSharpType))).IsEquivalentTo([
+            ("--fixed-state", "IEnumerable<string>?"), ("--limit", "int?"),
+            ("--modified-after", "string?"), ("--output", "string?"),
+            ("--provider", "IEnumerable<string>?"), ("--published-after", "string?")]);
+        await Assert.That(vulnerabilities.Options.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
+        await Assert.That(commands.Select(command => string.Join(" ", command.CommandParts)))
+            .IsEquivalentTo(["db", "db status", "db search", "db search vuln"]);
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
         var baseCode = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
         await Assert.That(baseCode).Contains("[CliGlobalOptions]");
@@ -77,10 +92,11 @@ public class GrypeCliScraperTests
             ParseCommandAsync(commandPath, help, ParseUsageSynopsis(commandPath, help), CancellationToken.None);
 
         protected override IEnumerable<string> ExtractSubcommands(string[] commandPath, string helpText) =>
-            commandPath.Length switch
+            commandPath switch
             {
-                1 => ["db"],
-                2 => ["status"],
+                ["grype"] => ["db"],
+                ["grype", "db"] => ["status", "search"],
+                ["grype", "db", "search"] => ["vuln"],
                 _ => [],
             };
     }
@@ -97,6 +113,8 @@ public class GrypeCliScraperTests
                     "--help" => Fixture("grype-help.txt"),
                     "db --help" => Fixture("grype-db-help.txt"),
                     "db status --help" => Fixture("grype-db-status-help.txt"),
+                    "db search --help" => Fixture("grype-db-search-help.txt"),
+                    "db search vuln --help" => Fixture("grype-db-search-vuln-help.txt"),
                     "--version" => "grype 0.120.0",
                     _ => string.Empty,
                 },
