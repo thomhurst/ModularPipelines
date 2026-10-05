@@ -42,6 +42,7 @@ public partial class GrypeCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Grype";
 
     // Grype's clio setup registers these settings on Cobra's persistent flag set.
+    // See the Grype 0.120.0 fixture README for version-pinned parser evidence.
     // Other root flags configure scanning only and must not leak into db commands.
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
         [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option =>
