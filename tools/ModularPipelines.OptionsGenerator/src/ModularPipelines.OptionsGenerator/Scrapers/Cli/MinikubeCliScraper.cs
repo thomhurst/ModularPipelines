@@ -45,7 +45,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   update-context Update kubeconfig in case of an IP or port change
 ///   version        Print the version of minikube
 /// </summary>
-public partial class MinikubeCliScraper : CobraCliScraper
+public partial class MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<MinikubeCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     private const string GlobalOptionsHeading = "The following options can be passed to any command";
 
@@ -58,11 +58,6 @@ public partial class MinikubeCliScraper : CobraCliScraper
         "--log_file_max_size", "--logtostderr", "--one_output", "--profile", "--rootless",
         "--skip-audit", "--skip_headers", "--skip_log_headers", "--stderrthreshold", "--user", "--v", "--vmodule",
     ];
-
-    public MinikubeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<MinikubeCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     public override string ToolName => "minikube";
 
