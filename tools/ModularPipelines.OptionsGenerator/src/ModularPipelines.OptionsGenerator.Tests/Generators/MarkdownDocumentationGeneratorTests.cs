@@ -9,6 +9,32 @@ namespace ModularPipelines.OptionsGenerator.Tests.Generators;
 public class MarkdownDocumentationGeneratorTests
 {
     [Test]
+    [Arguments("/home/runner")]
+    [Arguments("/Users/runner")]
+    [Arguments("C:/Users/runneradmin")]
+    public async Task GenerateAsync_Normalizes_Home_Paths_In_Global_Descriptions(string home)
+    {
+        var tool = Tool("fake", Command("fake run", "FakeRunOptions", ["run"])) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--config",
+                    PropertyName = "Config",
+                    CSharpType = "string?",
+                    Description = $"Client configuration (default {home}/.docker)",
+                },
+            ],
+        };
+
+        var documentation = await GenerateDocumentation(tool);
+
+        await Assert.That(documentation).Contains("Client configuration (default ~/.docker)");
+        await Assert.That(documentation).DoesNotContain(home);
+    }
+
+    [Test]
     public async Task GenerateAsync_EmitsInstallEntryPointCommandsAndWorkedExample()
     {
         var tool = new CliToolDefinition

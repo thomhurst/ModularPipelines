@@ -72,6 +72,26 @@ operand. Similarly, Buildx-specific debug options remain command options rather
 than replacing Docker's global `Debug` setting.
 
 In V4, command members that collide with a new global property receive a scoped
-name such as `BuildxContext` or `BuildxDebug`. Update those callers using the
-[generated Docker reference](cli/docker.md). Do not move a command-specific value
-to the global property merely because its former C# name was the same.
+name based on the command scope. The following mappings apply to this generated
+Docker snapshot:
+
+| Command scope | Previous member | V4 command member |
+| --- | --- | --- |
+| `docker build`, `docker buildx` | `Debug` | `CliDebug` |
+| Direct `docker buildx` subcommands, including `build`, `create`, `history`, `dap`, `imagetools`, and `policy` | `Debug` | `BuildxDebug` |
+| `docker buildx dap build` | `Debug` | `DapDebug` |
+| Commands below `docker buildx history` | `Debug` | `HistoryDebug` |
+| `docker buildx imagetools create` and `inspect` | `Debug` | `ImageToolsDebug` |
+| `docker buildx policy eval` and `test` | `Debug` | `PolicyDebug` |
+| `docker buildx create` | `Context` operand | `BuildxContext` |
+| `docker context create`, `export`, `import`, `inspect`, `rm`, `update`, and `use` | `Context` operand | `ContextContext` |
+
+The operand rename also applies to named constructor arguments and deconstruction.
+For example, remove the named context with
+`new DockerContextRmOptions(ContextContext: ["staging"])`. Setting inherited
+`Context = "staging"` instead selects the Docker client's context; it does not
+supply the context name to remove.
+
+The [generated Docker reference](cli/docker.md) lists each command's options
+record. Use the scoped members above for command-specific values and the inherited
+`Context` or `Debug` only for Docker client settings.
