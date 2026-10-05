@@ -34,7 +34,7 @@ public class MinikubeGlobalOptionsTests : TestBase
         {
             Profile = "ci",
             Format = template,
-        }), ["--profile=ci", $"--format={template}"]);
+        }), [$"--format={template}", "--profile=ci"]);
         await Assert.That(await RenderCommand(new MinikubeStatusOptions { Profile = "ci", Format = "template" }))
             .IsEqualTo("minikube --profile=ci status --format=template");
         await Assert.That(typeof(MinikubeStatusOptions).GetProperty(nameof(MinikubeStatusOptions.Format))!
@@ -50,7 +50,7 @@ public class MinikubeGlobalOptionsTests : TestBase
         {
             Profile = "ci",
             Format = template,
-        }), ["--profile=ci", $"--format={template}"]);
+        }), [$"--format={template}", "--profile=ci"]);
         await Assert.That(await RenderCommand(new MinikubeConfigViewOptions { Profile = "ci", Format = "template" }))
             .IsEqualTo("minikube --profile=ci config view --format=template");
         await Assert.That(typeof(MinikubeConfigViewOptions).GetProperty(nameof(MinikubeConfigViewOptions.Format))!
