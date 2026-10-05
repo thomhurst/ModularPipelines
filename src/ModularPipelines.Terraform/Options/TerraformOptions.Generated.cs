@@ -22,4 +22,10 @@ namespace ModularPipelines.Terraform.Options;
 [CliGlobalOptions]
 public abstract record TerraformOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Switch to a different working directory before executing the given subcommand.
+    /// </summary>
+    [CliOption("-chdir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Chdir { get; set; }
+
 }
