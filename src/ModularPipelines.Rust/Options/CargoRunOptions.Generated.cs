@@ -29,30 +29,6 @@ public record CargoRunOptions : CargoOptions
     public IEnumerable<CargoRunMessageFormat>? MessageFormat { get; set; }
 
     /// <summary>
-    /// Use verbose output (-vv very verbose/build.rs output)
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public int? Verbose { get; set; }
-
-    /// <summary>
-    /// Do not print cargo log messages
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Coloring
-    /// </summary>
-    [CliOption("--color")]
-    public CargoRunColor? Color { get; set; }
-
-    /// <summary>
-    /// Override a configuration value
-    /// </summary>
-    [CliOption("--config")]
-    public IEnumerable<string>? Config { get; set; }
-
-    /// <summary>
     /// Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details
     /// </summary>
     [CliOption("-Z")]
@@ -153,24 +129,6 @@ public record CargoRunOptions : CargoOptions
     /// </summary>
     [CliFlag("--ignore-rust-version")]
     public bool? IgnoreRustVersion { get; set; }
-
-    /// <summary>
-    /// Assert that `Cargo.lock` will remain unchanged
-    /// </summary>
-    [CliFlag("--locked")]
-    public bool? Locked { get; set; }
-
-    /// <summary>
-    /// Run without accessing the network
-    /// </summary>
-    [CliFlag("--offline")]
-    public bool? Offline { get; set; }
-
-    /// <summary>
-    /// Equivalent to specifying both --locked and --offline
-    /// </summary>
-    [CliFlag("--frozen")]
-    public bool? Frozen { get; set; }
 
     /// <summary>
     /// The [ARGS] operand.

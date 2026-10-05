@@ -187,6 +187,7 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.PnpmCliScraper.IgnoredOp
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionDeclarationPattern() -> System.Text.RegularExpressions.Regex!
 static ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.CreateClapOption(System.Text.RegularExpressions.Match! match, string! className, string! propertyName, string! switchName, ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.ClapOptionBlock! block) -> ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CargoCliScraper.GetManualHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.CargoCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsRequired.get -> bool
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsRequired.init -> void
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.IsChoice.get -> bool

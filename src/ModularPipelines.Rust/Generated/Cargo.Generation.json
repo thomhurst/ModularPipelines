@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "cargo",
-  "toolVersion": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "toolVersion": "cargo 1.99.0 (5f94df478 2026-08-27)",
   "commandTreeSha256": "f8b1c0ec09c6f1a8fbc12f34c9e244131aa2869c068c7f752c8da91976b1ec19",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "generatorSourceSha256": "dd2fa7ba0eb7d1b9278f6854ab68dd0fc6579620b2ec0ed8023fabc95eb57d67"
 }
