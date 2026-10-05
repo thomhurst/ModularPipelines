@@ -35,7 +35,7 @@ internal sealed class S3ModuleCache : IModuleCacheStore, IDisposable
         ValidateOptions(options);
         ValidateCacheOptions(cacheOptions);
         _options = options;
-        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
+        _maximumCacheEntryBytes = cacheOptions.MaxCacheEntryBytes;
         _client = new Lazy<IAmazonS3>(createClient);
     }
 
@@ -182,11 +182,11 @@ internal sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     private static void ValidateCacheOptions(ModuleCacheOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
-        if (options.MaximumCacheEntryBytes <= 0)
+        if (options.MaxCacheEntryBytes <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+                "ModuleCacheOptions.MaxCacheEntryBytes must be positive.");
         }
     }
 }

@@ -33,7 +33,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         _connections = connections;
         _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v2";
         _chunkSize = redisOptions.ChunkSizeBytes;
-        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
+        _maximumCacheEntryBytes = cacheOptions.MaxCacheEntryBytes;
         _expiration = redisOptions.TimeToLive;
         _provisionalExpiration = _expiration > MinimumProvisionalExpiration
             ? _expiration
@@ -57,7 +57,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         {
             throw new ArgumentOutOfRangeException(
                 nameof(cacheOptions),
-                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+                "ModuleCacheOptions.MaxCacheEntryBytes must be positive.");
         }
     }
 

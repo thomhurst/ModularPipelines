@@ -95,8 +95,8 @@ builder.AddModuleCache<FileSystemModuleCache>(options => options with
 {
     WorkingDirectory = repositoryRoot,
     CacheDirectory = Path.Combine(repositoryRoot, ".cache", "modules"),
-    MaximumInputFiles = 50_000,
-    MaximumHashConcurrency = 8,
+    MaxInputFiles = 50_000,
+    MaxHashConcurrency = 8,
 });
 ```
 
@@ -104,7 +104,7 @@ builder.AddModuleCache<FileSystemModuleCache>(options => options with
 configurations from repeated calls apply in call order. Calling `AddModuleCache` again replaces the store.
 
 The file limit prevents unexpectedly broad globs. Input files are content-hashed concurrently on
-every fingerprint calculation, up to `MaximumHashConcurrency` files at a time.
+every fingerprint calculation, up to `MaxHashConcurrency` files at a time.
 
 ## Transfer artifacts between modules
 
@@ -152,12 +152,12 @@ builder.AddRedisModuleCache(redis =>
 ```
 
 Each cache backend takes its own storage options (`S3StorageOptions` or `RedisOptions`). `ModuleCacheOptions` is
-immutable, so shared cache settings such as `MaximumCacheEntryBytes` are passed as an optional transform:
+immutable, so shared cache settings such as `MaxCacheEntryBytes` are passed as an optional transform:
 
 ```csharp
 builder.AddRedisModuleCache(
     redis => redis.ConnectionString = "localhost:6379",
-    cache => cache with { MaximumCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
+    cache => cache with { MaxCacheEntryBytes = 2L * 1024 * 1024 * 1024 });
 ```
 
 The Redis cache keys every entry with the fingerprint as a Redis Cluster hash tag, so it works against clustered
@@ -172,3 +172,22 @@ Redis. Large S3 cache entries are uploaded with multipart uploads, so they are n
 - Input files are content-hashed on every fingerprint calculation. File size and timestamps are not treated as proof that content is unchanged.
 - Use `ProducesArtifact` for files a cache hit must recreate.
 - Do not cache modules whose result cannot be serialized to JSON.
+
+## V4 option names
+
+The six cache limit properties now use the `Max` prefix consistently. Update object
+initializers, `with` expressions, and any serialized configuration keys as follows:
+
+| Previous name | V4 name |
+| --- | --- |
+| `MaximumInputFiles` | `MaxInputFiles` |
+| `MaximumArtifactEntries` | `MaxArtifactEntries` |
+| `MaximumArtifactBytes` | `MaxArtifactBytes` |
+| `MaximumCacheEntryBytes` | `MaxCacheEntryBytes` |
+| `MaximumResultBytes` | `MaxResultBytes` |
+| `MaximumHashConcurrency` | `MaxHashConcurrency` |
+
+Defaults, validation, and limit enforcement are unchanged. The renamed options apply
+to local, Redis, and S3 module caches.
+Structured log properties for these limits also use the new names. Update log
+queries that reference the previous `Maximum*` property names.

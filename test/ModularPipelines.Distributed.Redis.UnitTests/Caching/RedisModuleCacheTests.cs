@@ -42,7 +42,7 @@ public class RedisModuleCacheTests
         connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
             .Returns(_database.Object);
         _connection = connection.Object;
-        _cache = CreateCache(maximumCacheEntryBytes: new ModuleCacheOptions().MaximumCacheEntryBytes);
+        _cache = CreateCache(maximumCacheEntryBytes: new ModuleCacheOptions().MaxCacheEntryBytes);
     }
 
     [Test]
@@ -321,5 +321,5 @@ public class RedisModuleCacheTests
                 ChunkSizeBytes = 3,
                 TimeToLive = TimeSpan.FromMinutes(1),
             },
-            new ModuleCacheOptions { MaximumCacheEntryBytes = maximumCacheEntryBytes });
+            new ModuleCacheOptions { MaxCacheEntryBytes = maximumCacheEntryBytes });
 }

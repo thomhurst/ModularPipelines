@@ -183,11 +183,17 @@
 *REMOVED*ModularPipelines.Attributes.SkipIfOperatingSystemAttribute.OperatingSystems.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OperatingSystemIdentifier>!
 *REMOVED*ModularPipelines.Attributes.SkipIfOperatingSystemAttribute.SkipIfOperatingSystemAttribute(params ModularPipelines.OperatingSystemIdentifier[]! operatingSystems) -> void
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.CacheDirectory.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactBytes.get -> long
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactBytes.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactEntries.get -> int
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactEntries.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumCacheEntryBytes.get -> long
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumCacheEntryBytes.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumHashConcurrency.get -> int
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumHashConcurrency.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumInputFiles.get -> int
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumInputFiles.set -> void
+*REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumResultBytes.get -> long
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.MaximumResultBytes.set -> void
 *REMOVED*ModularPipelines.Caching.ModuleCacheOptions.WorkingDirectory.set -> void
 *REMOVED*ModularPipelines.Conditions.ConditionGroup
@@ -1573,12 +1579,18 @@ ModularPipelines.Attributes.RequiresCapabilityAttribute.RequiresCapabilityAttrib
 ModularPipelines.Caching.ModuleCacheOptions.<Clone>$() -> ModularPipelines.Caching.ModuleCacheOptions!
 ModularPipelines.Caching.ModuleCacheOptions.CacheDirectory.init -> void
 ModularPipelines.Caching.ModuleCacheOptions.Equals(ModularPipelines.Caching.ModuleCacheOptions? other) -> bool
-ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactBytes.init -> void
-ModularPipelines.Caching.ModuleCacheOptions.MaximumArtifactEntries.init -> void
-ModularPipelines.Caching.ModuleCacheOptions.MaximumCacheEntryBytes.init -> void
-ModularPipelines.Caching.ModuleCacheOptions.MaximumHashConcurrency.init -> void
-ModularPipelines.Caching.ModuleCacheOptions.MaximumInputFiles.init -> void
-ModularPipelines.Caching.ModuleCacheOptions.MaximumResultBytes.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxArtifactBytes.get -> long
+ModularPipelines.Caching.ModuleCacheOptions.MaxArtifactBytes.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxArtifactEntries.get -> int
+ModularPipelines.Caching.ModuleCacheOptions.MaxArtifactEntries.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxCacheEntryBytes.get -> long
+ModularPipelines.Caching.ModuleCacheOptions.MaxCacheEntryBytes.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxHashConcurrency.get -> int
+ModularPipelines.Caching.ModuleCacheOptions.MaxHashConcurrency.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxInputFiles.get -> int
+ModularPipelines.Caching.ModuleCacheOptions.MaxInputFiles.init -> void
+ModularPipelines.Caching.ModuleCacheOptions.MaxResultBytes.get -> long
+ModularPipelines.Caching.ModuleCacheOptions.MaxResultBytes.init -> void
 ModularPipelines.Caching.ModuleCacheOptions.WorkingDirectory.init -> void
 ModularPipelines.CommandResult
 ModularPipelines.CommandResult.CommandInput.get -> string!

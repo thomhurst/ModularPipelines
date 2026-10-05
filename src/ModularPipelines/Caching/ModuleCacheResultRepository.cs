@@ -59,32 +59,32 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         _metadataRegistry = metadataRegistry;
         _logger = logger;
 
-        if (_options.MaximumArtifactEntries <= 0)
+        if (_options.MaxArtifactEntries <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "ModuleCacheOptions.MaximumArtifactEntries must be positive.");
+                "ModuleCacheOptions.MaxArtifactEntries must be positive.");
         }
 
-        if (_options.MaximumArtifactBytes <= 0)
+        if (_options.MaxArtifactBytes <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "ModuleCacheOptions.MaximumArtifactBytes must be positive.");
+                "ModuleCacheOptions.MaxArtifactBytes must be positive.");
         }
 
-        if (_options.MaximumCacheEntryBytes <= 0)
+        if (_options.MaxCacheEntryBytes <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+                "ModuleCacheOptions.MaxCacheEntryBytes must be positive.");
         }
 
-        if (_options.MaximumResultBytes <= 0)
+        if (_options.MaxResultBytes <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "ModuleCacheOptions.MaximumResultBytes must be positive.");
+                "ModuleCacheOptions.MaxResultBytes must be positive.");
         }
     }
 
@@ -139,14 +139,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                             cancellationToken: cancellationToken)
                         .ConfigureAwait(false);
 
-                    if (resultStream.Length > _options.MaximumResultBytes)
+                    if (resultStream.Length > _options.MaxResultBytes)
                     {
                         if (_logger.IsEnabled(LogLevel.Debug))
                         {
                             _logger.LogDebug(
-                                "Skipping module cache save for {Module} because its serialized result exceeded the configured limit of {MaximumResultBytes} bytes",
+                                "Skipping module cache save for {Module} because its serialized result exceeded the configured limit of {MaxResultBytes} bytes",
                                 module.GetType().Name,
-                                _options.MaximumResultBytes);
+                                _options.MaxResultBytes);
                         }
 
                         return;
@@ -297,7 +297,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         {
             var limitedStream = new MaximumLengthWriteStream(
                 stream,
-                _options.MaximumCacheEntryBytes);
+                _options.MaxCacheEntryBytes);
             using var archive = new ZipArchive(limitedStream, ZipArchiveMode.Create, leaveOpen: true);
             var resultEntry = archive.CreateEntry(ResultEntryName, CompressionLevel.Fastest);
             var resultEntryStream = resultEntry.Open();
@@ -306,7 +306,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 await CopyWithLimitAsync(
                         serializedResult,
                         resultEntryStream,
-                        _options.MaximumResultBytes,
+                        _options.MaxResultBytes,
                         "Cache result",
                         cancellationToken)
                     .ConfigureAwait(false);
@@ -320,9 +320,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             if (_logger.IsEnabled(LogLevel.Debug))
             {
                 _logger.LogDebug(
-                    "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaximumCacheEntryBytes} bytes",
+                    "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaxCacheEntryBytes} bytes",
                     moduleType.Name,
-                    _options.MaximumCacheEntryBytes);
+                    _options.MaxCacheEntryBytes);
             }
 
             return false;
@@ -344,7 +344,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var inputFiles = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             configuration.CacheInputPatterns,
-            _options.MaximumInputFiles,
+            _options.MaxInputFiles,
             _options.CacheDirectory,
             rejectLinkedPaths: true);
         var hashes = await _fileHasher.HashAsync(
@@ -552,28 +552,28 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
         var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
 
         var entryCount = checked(directories.Count + directoryLinks.Count + files.Count);
-        if (entryCount > _options.MaximumArtifactEntries)
+        if (entryCount > _options.MaxArtifactEntries)
         {
             throw new InvalidDataException(
                 $"Cache artifact entry count exceeded the configured limit of "
-                + $"{_options.MaximumArtifactEntries:N0} entries.");
+                + $"{_options.MaxArtifactEntries:N0} entries.");
         }
 
-        var byteBudget = new ArtifactByteBudget(_options.MaximumArtifactBytes);
+        var byteBudget = new ArtifactByteBudget(_options.MaxArtifactBytes);
 
         foreach (var directory in directories)
         {
@@ -668,11 +668,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         foreach (var entry in archive.Entries.Where(entry =>
                      entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal)))
         {
-            if (archivedArtifacts.Count >= _options.MaximumArtifactEntries)
+            if (archivedArtifacts.Count >= _options.MaxArtifactEntries)
             {
                 throw new InvalidDataException(
                     $"Cache artifact entry count exceeded the configured limit of "
-                    + $"{_options.MaximumArtifactEntries:N0} entries.");
+                    + $"{_options.MaxArtifactEntries:N0} entries.");
             }
 
             archivedArtifacts.Add(entry);
@@ -687,7 +687,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 IsDirectorySymbolicLink: IsDirectorySymbolicLink(entry)))
             .ToArray();
         ValidateDeclaredArtifactBytes(artifactEntries.Select(artifact => artifact.Entry));
-        var byteBudget = new ArtifactByteBudget(_options.MaximumArtifactBytes);
+        var byteBudget = new ArtifactByteBudget(_options.MaxArtifactBytes);
         var symbolicLinkTargets = new Dictionary<ZipArchiveEntry, string>();
 
         foreach (var artifact in artifactEntries)
@@ -733,7 +733,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             ModuleCacheFileResolver.ResolveDirectories(
                 root,
                 artifactPaths,
-                _options.MaximumArtifactEntries,
+                _options.MaxArtifactEntries,
                 _options.CacheDirectory),
             pathComparer);
         using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
@@ -841,12 +841,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private void ValidateArchiveEntryCount(string path)
     {
         var entryCount = ZipCentralDirectory.ReadEntryCount(path);
-        var maximumEntryCount = (long) _options.MaximumArtifactEntries + 1;
+        var maximumEntryCount = (long) _options.MaxArtifactEntries + 1;
         if (entryCount > maximumEntryCount)
         {
             throw new InvalidDataException(
                 $"Cache archive entry count exceeded the configured artifact limit of "
-                + $"{_options.MaximumArtifactEntries:N0} entries.");
+                + $"{_options.MaxArtifactEntries:N0} entries.");
         }
     }
 
@@ -866,11 +866,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     exception);
             }
 
-            if (totalBytes > _options.MaximumArtifactBytes)
+            if (totalBytes > _options.MaxArtifactBytes)
             {
                 throw new InvalidDataException(
                     $"Cache artifact data exceeded the configured limit of "
-                    + $"{_options.MaximumArtifactBytes:N0} bytes.");
+                    + $"{_options.MaxArtifactBytes:N0} bytes.");
             }
         }
     }
@@ -889,19 +889,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var artifactDirectories = ModuleCacheFileResolver.ResolveDirectories(
                 root,
                 artifactPaths,
-                _options.MaximumArtifactEntries,
+                _options.MaxArtifactEntries,
                 _options.CacheDirectory)
             .ToHashSet(pathComparer);
         var existingArtifactDestinations = artifactDirectories
             .Concat(ModuleCacheFileResolver.ResolveDirectoryLinks(
                 root,
                 artifactPaths,
-                _options.MaximumArtifactEntries,
+                _options.MaxArtifactEntries,
                 _options.CacheDirectory))
             .Concat(ModuleCacheFileResolver.ResolveFiles(
                 root,
                 artifactPaths,
-                _options.MaximumArtifactEntries,
+                _options.MaxArtifactEntries,
                 _options.CacheDirectory));
         var parentDirectories = new HashSet<string>(pathComparer);
         foreach (var destination in destinations.Concat(existingArtifactDestinations))
@@ -943,17 +943,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
         var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumArtifactEntries,
+            _options.MaxArtifactEntries,
             _options.CacheDirectory);
         MakeDirectoriesWritable(directories);
         MakeFilesWritable(files);
@@ -1181,7 +1181,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         await CopyWithLimitAsync(
                 input,
                 output,
-                _options.MaximumCacheEntryBytes,
+                _options.MaxCacheEntryBytes,
                 "Cache entry",
                 cancellationToken)
             .ConfigureAwait(false);
@@ -1194,10 +1194,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Type moduleType,
         CancellationToken cancellationToken)
     {
-        if (resultEntry.Length > _options.MaximumResultBytes)
+        if (resultEntry.Length > _options.MaxResultBytes)
         {
             throw new InvalidDataException(
-                $"Cache result exceeded the configured limit of {_options.MaximumResultBytes:N0} bytes.");
+                $"Cache result exceeded the configured limit of {_options.MaxResultBytes:N0} bytes.");
         }
 
         var temporaryResult = Path.GetTempFileName();
@@ -1218,7 +1218,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     await CopyWithLimitAsync(
                             input,
                             output,
-                            _options.MaximumResultBytes,
+                            _options.MaxResultBytes,
                             "Cache result",
                             cancellationToken)
                         .ConfigureAwait(false);

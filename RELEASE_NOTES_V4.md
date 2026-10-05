@@ -692,3 +692,11 @@ For example, Cassandra `ClusterArguments = [new CliValueGroup(["first=value",
 group to repeat the option. ARO `AssignPlatformWi` similarly preserves each operator
 and identity pair. See the Azure package guide for the DevOps extension prerequisite
 and noninteractive PAT authentication.
+
+## Module cache option names
+
+The `ModuleCacheOptions` limits use `Max` instead of `Maximum`: `MaxInputFiles`,
+`MaxArtifactEntries`, `MaxArtifactBytes`, `MaxCacheEntryBytes`, `MaxResultBytes`, and
+`MaxHashConcurrency`. Update object initializers, `with` expressions, and any serialized
+configuration keys. Defaults and enforcement are unchanged for local, Redis, and S3 caches.
+See the [cache option migration table](docs/docs/how-to/module-caching.md#v4-option-names).

@@ -10,7 +10,7 @@ internal sealed class ModuleCacheFileHasher
 
     public ModuleCacheFileHasher(IOptions<ModuleCacheOptions> options)
     {
-        _maximumConcurrency = Math.Max(1, options.Value.MaximumHashConcurrency);
+        _maximumConcurrency = Math.Max(1, options.Value.MaxHashConcurrency);
     }
 
     public async Task<IReadOnlyDictionary<string, string>> HashAsync(
