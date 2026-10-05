@@ -10,6 +10,46 @@ public class TerraformCliScraperTests
     private readonly TestTerraformCliScraper _scraper = new();
 
     [Test]
+    public async Task Captured_Root_Help_Exposes_Only_Execution_Global_Options()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "terraform-1.16.5-root-help.txt"));
+        var globals = _scraper.ParseGlobals(help);
+
+        await Assert.That(globals).Count().IsEqualTo(1);
+        var chdir = globals.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(chdir.SwitchName).IsEqualTo("-chdir");
+            await Assert.That(chdir.PropertyName).IsEqualTo("Chdir");
+            await Assert.That(chdir.CSharpType).IsEqualTo("string?");
+            await Assert.That(chdir.IsFlag).IsFalse();
+            await Assert.That(chdir.IsRequired).IsFalse();
+            await Assert.That(chdir.AcceptsMultipleValues).IsFalse();
+            await Assert.That(chdir.ValueSeparator).IsEqualTo("=");
+            await Assert.That(chdir.Description).IsEqualTo(
+                "Switch to a different working directory before executing the given subcommand.");
+        }
+    }
+
+    [Test]
+    public async Task Command_Local_Options_Are_Not_Global()
+    {
+        const string help = """
+            Usage: terraform [global options] plan [options]
+
+            Options:
+              -out=PATH   Write a plan to the given path.
+              -no-color   Disable color output.
+            """;
+
+        await Assert.That(_scraper.ParseGlobals(help)).IsEmpty();
+        var command = await _scraper.Parse(["terraform", "plan"], help);
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["-out", "-no-color"]);
+    }
+
+    [Test]
     public async Task StateIdentities_Preserves_Addresses_After_Undocumented_Json_Flag()
     {
         // Terraform v1.16.2 lists -json in its synopsis but omits it from Options.
@@ -271,6 +311,8 @@ public class TerraformCliScraperTests
             new HelpTextCache(NullLogger<HelpTextCache>.Instance),
             NullLogger<TerraformCliScraper>.Instance)
     {
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,
