@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -66,7 +67,7 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
     /// <summary>
     /// The name of the backup.
     /// </summary>
-    [CliOption("--backup-name", ShortForm = "-n")]
+    [CliOption("--backup-name", ShortForm = "-b")]
     public string BackupName { get; private init; }
 
     /// <summary>
@@ -90,14 +91,14 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Label for backup.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// The name of the snapshot.
@@ -108,7 +109,7 @@ public record AzNetappfilesAccountBackupVaultBackupCreateOptions : AzOptions
     /// <summary>
     /// Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--use-existing-snapshot")]
-    public bool? UseExistingSnapshot { get; set; }
+    [CliOption("--use-existing-snapshot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UseExistingSnapshot { get; set; }
 
 }

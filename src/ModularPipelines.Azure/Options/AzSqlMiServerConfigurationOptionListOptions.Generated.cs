@@ -45,7 +45,7 @@ public record AzSqlMiServerConfigurationOptionListOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string InstanceName { get; private init; }
 
     /// <summary>

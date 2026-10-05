@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +59,9 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// The administrator login password (required forserver creation).
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Administrator username for the server. Oncecreated it cannot be changed.
@@ -79,28 +82,34 @@ public record AzSqlServerCreateOptions : AzOptions
     public bool? EnableAdOnlyAuth { get; set; }
 
     /// <summary>
+    /// Set whether public network access to server is allowed or not. When false,only connections made through Private Links can reach this server.  Allowed values: false, true. WARNING: Argument '--enable-public-network' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePublicNetwork { get; set; }
+
+    /// <summary>
     /// Display name of the Azure AD administrator user, group or application.
     /// </summary>
-    [CliFlag("--external-admin-name")]
-    public bool? ExternalAdminName { get; set; }
+    [CliOption("--external-admin-name")]
+    public string? ExternalAdminName { get; set; }
 
     /// <summary>
     /// User, Group or Application.
     /// </summary>
-    [CliFlag("--external-admin-principal-type")]
-    public bool? ExternalAdminPrincipalType { get; set; }
+    [CliOption("--external-admin-principal-type")]
+    public string? ExternalAdminPrincipalType { get; set; }
 
     /// <summary>
     /// The unique ID of the Azure AD administrator. Object Id for User or Group, Client Id for Applications.
     /// </summary>
-    [CliFlag("--external-admin-sid")]
-    public bool? ExternalAdminSid { get; set; }
+    [CliOption("--external-admin-sid")]
+    public string? ExternalAdminSid { get; set; }
 
     /// <summary>
     /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id", ShortForm = "--fid")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -135,19 +144,31 @@ public record AzSqlServerCreateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
+
+    /// <summary>
+    /// Set whether outbound network access to server is restricted or not. When true,the outbound connections from the server will be restricted.  Allowed values: false, true. WARNING: Argument '--restrict-outbound-network-access' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--restrict-outbound-network-access", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestrictOutboundNetworkAccess { get; set; }
+
+    /// <summary>
+    /// Specify the number of days to retain soft deleted server (0-7). Set to 0 to disable soft delete. Set to 1-7 days to enable soft delete with the specified retention period. During the retention period, the server can be restored using az sql server restore. WARNING: Argument '--soft-delete-retention-days' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--sdrd")]
+    public int? Sdrd { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? UserAssignedIdentityId { get; set; }
 
 }

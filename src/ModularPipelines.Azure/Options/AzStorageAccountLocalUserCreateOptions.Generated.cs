@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,37 +69,37 @@ public record AzStorageAccountLocalUserCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether shared key exists. Set it to false to remove existing shared key.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--has-shared-key")]
-    public bool? HasSharedKey { get; set; }
+    [CliOption("--has-shared-key", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HasSharedKey { get; set; }
 
     /// <summary>
     /// Indicates whether ssh key exists. Set it to false to remove existing SSH key.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--has-ssh-key")]
-    public bool? HasSshKey { get; set; }
+    [CliOption("--has-ssh-key", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HasSshKey { get; set; }
 
     /// <summary>
     /// Indicates whether ssh password exists. Set it to false to remove existing SSH password.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--has-ssh-password")]
-    public bool? HasSshPassword { get; set; }
+    [CliOption("--has-ssh-password", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HasSshPassword { get; set; }
 
     /// <summary>
     /// The home directory.
     /// </summary>
-    [CliFlag("--home-directory")]
-    public bool? HomeDirectory { get; set; }
+    [CliOption("--home-directory")]
+    public string? HomeDirectory { get; set; }
 
     /// <summary>
     /// The permission scope argument list which includes the permissions, service, and resource_name.The permissions can be a combination of the below possible values: Read(r), Write (w), Delete (d), List (l), and Create (c). The service has possible values: blob, file. The resource-name is the container name or the file share name. Example: --permission-scope permissions=r service=blob resource-name=container1Can specify multiple permission scopes: --permission-scope permissions=rw service=blob resource-name=container1-- permission-scope permissions=rwd service=file resource- name=share2.
     /// </summary>
-    [CliOption("--permission-scope")]
-    public IEnumerable<string>? PermissionScope { get; set; }
+    [CliOption("--permission-scope", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? PermissionScope { get; set; }
 
     /// <summary>
     /// SSH authorized keys for SFTP. Includes an optional description and key. The key is the base64 encoded SSH public key , with format: `&lt;keyType&gt; &lt;keyData&gt;` e.g. ssh-rsa AAAABBBB.Example: --ssh_authorized_key description=description key="ssh-rsa AAAABBBB"or --ssh_authorized_key key="ssh-rsa AAAABBBB".
     /// </summary>
-    [CliFlag("--ssh-authorized-key")]
-    public bool? SshAuthorizedKey { get; set; }
+    [CliOption("--ssh-authorized-key", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? SshAuthorizedKey { get; set; }
 
 }

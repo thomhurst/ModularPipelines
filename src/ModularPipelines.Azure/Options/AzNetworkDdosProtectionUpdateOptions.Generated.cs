@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzNetworkDdosProtectionUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of VNets (name or IDs) to associate with the plan. This parameter can only be used if all the VNets are within the same subscription as the DDoS protection plan. If this is not the case, set the protection plan on the VNet directly using the `az network vnet update` command.
     /// </summary>
-    [CliOption("--vnets", GroupValues = true)]
-    public IEnumerable<string>? Vnets { get; set; }
+    [CliOption("--vnets", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Vnets { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

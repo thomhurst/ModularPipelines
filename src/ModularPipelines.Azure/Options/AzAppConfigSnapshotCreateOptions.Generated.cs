@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,14 +81,14 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
@@ -98,13 +99,13 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     /// <summary>
     /// Duration in seconds for which a snapshot can remain archived before expiry. A snapshot can be archived for a maximum of 7 days (604,800s) for free and developer tier stores and 90 days (7,776,000s) for standard and premium tier stores. If specified, retention period must be at least 1 hour (3600s).
     /// </summary>
-    [CliFlag("--retention-period")]
-    public bool? RetentionPeriod { get; set; }
+    [CliOption("--retention-period")]
+    public int? RetentionPeriod { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

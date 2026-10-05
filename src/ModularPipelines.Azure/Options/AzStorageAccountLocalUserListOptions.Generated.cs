@@ -57,8 +57,8 @@ public record AzStorageAccountLocalUserListOptions : AzOptions
     /// <summary>
     /// When specified, only local user names starting with the filter will be listed. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// When specified, will list local users enabled for the specific protocol. Lists all users by default. Default value is None. Allowed values: nfsv3.
@@ -69,7 +69,7 @@ public record AzStorageAccountLocalUserListOptions : AzOptions
     /// <summary>
     /// Optional, specifies the maximum number of local users that will be included in the list response. Default value is None.
     /// </summary>
-    [CliFlag("--maxpagesize")]
-    public bool? Maxpagesize { get; set; }
+    [CliOption("--maxpagesize")]
+    public string? Maxpagesize { get; set; }
 
 }

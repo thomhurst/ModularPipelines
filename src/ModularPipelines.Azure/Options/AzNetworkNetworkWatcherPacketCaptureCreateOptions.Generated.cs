@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -32,7 +33,7 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
         string Name,
         string NetworkWatcherName,
         string ResourceGroup,
-        string StorageLocation,
+        IEnumerable<string> StorageLocation,
         string Target
     )
     {
@@ -42,13 +43,24 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
         this.NetworkWatcherName = NetworkWatcherName;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        global::System.ArgumentNullException.ThrowIfNull(StorageLocation);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StorageLocation);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StorageLocation));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StorageLocation));
+            }
+
+            StorageLocation = materialized;
+        }
         this.StorageLocation = StorageLocation;
         global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
     }
 
-    public void Deconstruct(out string Name, out string NetworkWatcherName, out string ResourceGroup, out string StorageLocation, out string Target)
+    public void Deconstruct(out string Name, out string NetworkWatcherName, out string ResourceGroup, out IEnumerable<string> StorageLocation, out string Target)
     {
         Name = this.Name;
         NetworkWatcherName = this.NetworkWatcherName;
@@ -78,8 +90,8 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// The storage location for a packet capture session.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--storage-location")]
-    public string StorageLocation { get; private init; }
+    [CliOption("--storage-location", GroupValues = true)]
+    public IEnumerable<string> StorageLocation { get; private init; }
 
     /// <summary>
     /// The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.
@@ -90,26 +102,26 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Number of bytes captured per packet, the remaining bytes are truncated.
     /// </summary>
-    [CliFlag("--bytes-to-capture", ShortForm = "--bytes-to-capture-per-packet")]
-    public bool? BytesToCapture { get; set; }
+    [CliOption("--bytes-to-capture")]
+    public string? BytesToCapture { get; set; }
 
     /// <summary>
     /// The capture setting holds the 'FileCount', 'FileSizeInBytes', 'SessionTimeLimitInSeconds' values.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--capture-settings")]
-    public bool? CaptureSettings { get; set; }
+    [CliOption("--capture-settings", GroupValues = true)]
+    public IEnumerable<string>? CaptureSettings { get; set; }
 
     /// <summary>
     /// This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--continuous-capture")]
-    public bool? ContinuousCapture { get; set; }
+    [CliOption("--continuous-capture", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ContinuousCapture { get; set; }
 
     /// <summary>
     /// A list of packet capture filters.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -132,13 +144,13 @@ public record AzNetworkNetworkWatcherPacketCaptureCreateOptions : AzOptions
     /// <summary>
     /// Maximum duration of the capture session in seconds.
     /// </summary>
-    [CliFlag("--time-limit-in-seconds")]
-    public bool? TimeLimitInSeconds { get; set; }
+    [CliOption("--time-limit-in-seconds")]
+    public string? TimeLimitInSeconds { get; set; }
 
     /// <summary>
     /// Maximum size of the capture output.
     /// </summary>
-    [CliFlag("--total-bytes", ShortForm = "--total-bytes-per-session")]
-    public bool? TotalBytes { get; set; }
+    [CliOption("--total-bytes")]
+    public string? TotalBytes { get; set; }
 
 }

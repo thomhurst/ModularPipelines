@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -91,14 +92,14 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--secret")]
-    public bool? Secret { get; set; }
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Secret { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The value of the Named Value.

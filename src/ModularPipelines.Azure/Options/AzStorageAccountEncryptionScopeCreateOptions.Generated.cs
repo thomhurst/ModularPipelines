@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,14 +64,14 @@ public record AzStorageAccountEncryptionScopeCreateOptions : AzOptions
     /// <summary>
     /// The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
     /// </summary>
-    [CliFlag("--key-uri", ShortForm = "-u")]
-    public bool? KeyUri { get; set; }
+    [CliOption("--key-uri", ShortForm = "-u")]
+    public string? KeyUri { get; set; }
 
     /// <summary>
     /// A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--require-infrastructure-encryption", ShortForm = "-i")]
-    public bool? RequireInfrastructureEncryption { get; set; }
+    [CliOption("--require-infrastructure-encryption", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequireInfrastructureEncryption { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

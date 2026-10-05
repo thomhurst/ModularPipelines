@@ -90,7 +90,7 @@ public record AzApimGraphqlResolverPolicyCreateOptions : AzOptions
     /// <summary>
     /// Format of the policyContent.
     /// </summary>
-    [CliFlag("--policy-format")]
-    public bool? PolicyFormat { get; set; }
+    [CliOption("--policy-format")]
+    public string? PolicyFormat { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,14 +47,14 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge-protection", ShortForm = "-e")]
-    public bool? EnablePurgeProtection { get; set; }
+    [CliOption("--enable-purge-protection", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurgeProtection { get; set; }
 
     /// <summary>
     /// Enable user-assigned managed identities for managed HSM. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliOption("--mi-user-assigned", GroupValues = true)]
-    public IEnumerable<string>? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -76,8 +77,8 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// --secondary-locations extends/contracts an HSM pool to listed regions. The primary location where the resource was originally created CANNOT be removed.
     /// </summary>
-    [CliFlag("--secondary-locations")]
-    public bool? SecondaryLocations { get; set; }
+    [CliOption("--secondary-locations", GroupValues = true)]
+    public IEnumerable<string>? SecondaryLocations { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -106,8 +107,8 @@ public record AzKeyvaultUpdateHsmOptions : AzOptions
     /// <summary>
     /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
-    [CliOption("--bypass", GroupValues = true)]
-    public IEnumerable<string>? Bypass { get; set; }
+    [CliOption("--bypass")]
+    public string? Bypass { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.

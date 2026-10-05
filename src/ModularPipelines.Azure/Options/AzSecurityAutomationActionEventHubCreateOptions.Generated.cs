@@ -57,7 +57,7 @@ public record AzSecurityAutomationActionEventHubCreateOptions : AzOptions
     /// <summary>
     /// The target Event Hub SAS policy name.
     /// </summary>
-    [CliFlag("--sas-policy-name")]
-    public bool? SasPolicyName { get; set; }
+    [CliOption("--sas-policy-name")]
+    public string? SasPolicyName { get; set; }
 
 }

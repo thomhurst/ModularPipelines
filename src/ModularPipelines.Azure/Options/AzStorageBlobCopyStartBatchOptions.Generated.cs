@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,14 +36,14 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// The blob container where the selected source files or blobs will be copied to.
     /// </summary>
-    [CliFlag("--destination-container", ShortForm = "-c")]
-    public bool? DestinationContainer { get; set; }
+    [CliOption("--destination-container", ShortForm = "-c")]
+    public string? DestinationContainer { get; set; }
 
     /// <summary>
     /// The destination path that will be prepended to the blob name.
     /// </summary>
-    [CliFlag("--destination-path")]
-    public bool? DestinationPath { get; set; }
+    [CliOption("--destination-path")]
+    public string? DestinationPath { get; set; }
 
     /// <summary>
     /// List the files or blobs to be uploaded. No actual data transfer will occur.
@@ -53,26 +54,26 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// The pattern used for globbing files or blobs in the source. The supported patterns are '*', '?', '[seq]', and '[!seq]'. For more information, please refer to https://docs.python.org/3/library/fnmatch.html. When you use '*' in --pattern, it will match any character including the the directory separator '/'.
     /// </summary>
-    [CliFlag("--pattern")]
-    public bool? Pattern { get; set; }
+    [CliOption("--pattern")]
+    public string? Pattern { get; set; }
 
     /// <summary>
     /// Indicate the priority with which to rehydrate an archived blob.
     /// </summary>
-    [CliFlag("--rehydrate-priority", ShortForm = "-r")]
-    public bool? RehydratePriority { get; set; }
+    [CliOption("--rehydrate-priority", ShortForm = "-r")]
+    public string? RehydratePriority { get; set; }
 
     /// <summary>
     /// The tier value to set the blob to. For page blob, the tier correlates to the size of the blob and number of allowed IOPS. Possible values are P10, P15, P20, P30, P4, P40, P50, P6, P60, P70, P80 and this is only applicable to page blobs on premium storage accounts; For block blob, possible values are Archive, Cold, Cool, and Hot. This is only applicable to block blobs on standard storage accounts.
     /// </summary>
-    [CliFlag("--tier")]
-    public bool? Tier { get; set; }
+    [CliOption("--tier")]
+    public string? Tier { get; set; }
 
     /// <summary>
     /// The account key for the source storage account.
     /// </summary>
-    [CliFlag("--source-account-key")]
-    public bool? SourceAccountKey { get; set; }
+    [CliOption("--source-account-key")]
+    public string? SourceAccountKey { get; set; }
 
     /// <summary>
     /// The source storage account from which the files or blobs are copied to the destination. If omitted, the destination account is used.
@@ -89,8 +90,8 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// The shared access signature for the source storage account.
     /// </summary>
-    [CliFlag("--source-sas")]
-    public bool? SourceSas { get; set; }
+    [CliOption("--source-sas")]
+    public string? SourceSas { get; set; }
 
     /// <summary>
     /// The source share from which files are copied.
@@ -107,31 +108,32 @@ public record AzStorageBlobCopyStartBatchOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

@@ -57,20 +57,20 @@ public record AzSfClusterClientCertificateRemoveOptions : AzOptions
     /// <summary>
     /// Client certificate common name.
     /// </summary>
-    [CliFlag("--cert-common-name", ShortForm = "--certificate-common-name")]
-    public bool? CertCommonName { get; set; }
+    [CliOption("--cert-common-name")]
+    public string? CertCommonName { get; set; }
 
     /// <summary>
     /// Client certificate issuer thumbprint.
     /// </summary>
-    [CliFlag("--cert-issuer-tp", ShortForm = "--certificate-issuer-thumbprint")]
-    public bool? CertIssuerTp { get; set; }
+    [CliOption("--cert-issuer-tp")]
+    public string? CertIssuerTp { get; set; }
 
     /// <summary>
     /// JSON encoded parameters configuration. Use @{file} to load from a file. For example: [{"certificateCommonName": "test.com","certificateIssuerThumbprint": " 22B4AE296B504E512DF880A77A2CAE20200FF922"}] .
     /// </summary>
-    [CliFlag("--client-cert-cn", ShortForm = "--client-certificate-common-names")]
-    public bool? ClientCertCn { get; set; }
+    [CliOption("--client-cert-cn")]
+    public string? ClientCertCn { get; set; }
 
     /// <summary>
     /// A single or Space-separated list of client certificate thumbprint(s) to be remove.

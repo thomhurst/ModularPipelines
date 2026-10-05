@@ -30,7 +30,7 @@ public record AzSfClusterNodeRemoveOptions : AzOptions
     public AzSfClusterNodeRemoveOptions(
         string ClusterName,
         string NodeType,
-        int NodesToRemove,
+        string NodesToRemove,
         string ResourceGroup
     )
     {
@@ -38,12 +38,13 @@ public record AzSfClusterNodeRemoveOptions : AzOptions
         this.ClusterName = ClusterName;
         global::System.ArgumentNullException.ThrowIfNull(NodeType);
         this.NodeType = NodeType;
+        global::System.ArgumentNullException.ThrowIfNull(NodesToRemove);
         this.NodesToRemove = NodesToRemove;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out string NodeType, out int NodesToRemove, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out string NodeType, out string NodesToRemove, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         NodeType = this.NodeType;
@@ -66,8 +67,8 @@ public record AzSfClusterNodeRemoveOptions : AzOptions
     /// <summary>
     /// Number of nodes to remove.
     /// </summary>
-    [CliOption("--nodes-to-remove", ShortForm = "--number-of-nodes-to-remove")]
-    public int NodesToRemove { get; private init; }
+    [CliOption("--nodes-to-remove")]
+    public string NodesToRemove { get; private init; }
 
     /// <summary>
     /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

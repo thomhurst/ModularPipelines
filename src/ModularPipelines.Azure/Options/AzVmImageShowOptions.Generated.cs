@@ -35,31 +35,31 @@ public record AzVmImageShowOptions : AzOptions
     /// <summary>
     /// Image offer.
     /// </summary>
-    [CliFlag("--offer", ShortForm = "-f")]
-    public bool? Offer { get; set; }
+    [CliOption("--offer", ShortForm = "-f")]
+    public string? Offer { get; set; }
 
     /// <summary>
     /// Image publisher.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
     /// <summary>
     /// Image sku.
     /// </summary>
-    [CliFlag("--sku", ShortForm = "-s")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku", ShortForm = "-s")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// URN, in format of 'publisher:offer:sku:version' or 'publisher:offer:sku:edge_zone:version'. If specified, other argument values can be omitted.
     /// </summary>
-    [CliFlag("--urn")]
-    public bool? Urn { get; set; }
+    [CliOption("--urn")]
+    public string? Urn { get; set; }
 
     /// <summary>
     /// Image sku's version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

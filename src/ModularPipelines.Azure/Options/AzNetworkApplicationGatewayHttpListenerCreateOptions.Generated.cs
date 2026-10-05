@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzNetworkApplicationGatewayHttpListenerCreateOptions : AzOptions
     /// <summary>
     /// Host name to use for multisite gateways.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Space-separated list of host names that allows special wildcard characters as well.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -91,8 +92,8 @@ public record AzNetworkApplicationGatewayHttpListenerCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the frontend IP configuration.

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,7 +24,8 @@ public record AzFunctionappDeploymentSourceUpdateTokenOptions : AzOptions
     /// <summary>
     /// Git access token required for auto sync.
     /// </summary>
-    [CliFlag("--git-token")]
-    public bool? GitToken { get; set; }
+    [SecretValue]
+    [CliOption("--git-token")]
+    public string? GitToken { get; set; }
 
 }

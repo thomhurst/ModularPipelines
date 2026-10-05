@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// Maximum number of endpoints to be returned for MultiValue routing type.
     /// </summary>
-    [CliFlag("--max-return")]
-    public bool? MaxReturn { get; set; }
+    [CliOption("--max-return")]
+    public int? MaxReturn { get; set; }
 
     /// <summary>
     /// When record type is set, a traffic manager profile will allow only endpoints that match this type.  Allowed values: A, AAAA, CNAME.
@@ -47,14 +48,14 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// DNS config time-to-live in seconds.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public int? Ttl { get; set; }
 
     /// <summary>
     /// Space-separated list of NAME=VALUE pairs.
@@ -65,14 +66,14 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// The interval in seconds at which health checks are conducted.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
 
     /// <summary>
     /// The number of consecutive failed health checks tolerated before an endpoint is considered degraded.
     /// </summary>
-    [CliFlag("--max-failures")]
-    public bool? MaxFailures { get; set; }
+    [CliOption("--max-failures")]
+    public int? MaxFailures { get; set; }
 
     /// <summary>
     /// Path to monitor. Use ""('""' in PowerShell) for none.
@@ -83,8 +84,8 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// Port to monitor.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// Monitor protocol.  Allowed values: HTTP, HTTPS, TCP.
@@ -101,8 +102,8 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// The time in seconds allowed for endpoints to respond to a health check.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -113,8 +114,8 @@ public record AzNetworkTrafficManagerProfileUpdateOptions : AzOptions
     /// <summary>
     /// Traffic manager profile name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

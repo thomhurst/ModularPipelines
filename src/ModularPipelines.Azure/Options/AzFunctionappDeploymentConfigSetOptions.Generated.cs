@@ -23,26 +23,26 @@ public record AzFunctionappDeploymentConfigSetOptions : AzOptions
     /// <summary>
     /// The deployment storage account authentication type. Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
     /// </summary>
-    [CliOption("--deployment-storage-auth-type", ShortForm = "--dsat")]
+    [CliOption("--deployment-storage-auth-type")]
     public string? DeploymentStorageAuthType { get; set; }
 
     /// <summary>
     /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed-identity authentication type, this parameter is not applicable and should be left empty.
     /// </summary>
-    [CliOption("--deployment-storage-auth-value", ShortForm = "--dsav")]
+    [CliOption("--deployment-storage-auth-value")]
     public string? DeploymentStorageAuthValue { get; set; }
 
     /// <summary>
     /// The deployment storage account container name.
     /// </summary>
-    [CliFlag("--deployment-storage-container-name", ShortForm = "--dscn")]
-    public bool? DeploymentStorageContainerName { get; set; }
+    [CliOption("--deployment-storage-container-name")]
+    public string? DeploymentStorageContainerName { get; set; }
 
     /// <summary>
     /// The deployment storage account name.
     /// </summary>
-    [CliFlag("--deployment-storage-name", ShortForm = "--dsn")]
-    public bool? DeploymentStorageName { get; set; }
+    [CliOption("--deployment-storage-name")]
+    public string? DeploymentStorageName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

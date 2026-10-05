@@ -46,7 +46,7 @@ public record AzMonitorActionGroupEnableReceiverOptions : AzOptions
     /// <summary>
     /// The name of the action group.
     /// </summary>
-    [CliOption("--action-group", ShortForm = "--action-group-name")]
+    [CliOption("--action-group")]
     public string? ActionGroup { get; set; }
 
     /// <summary>

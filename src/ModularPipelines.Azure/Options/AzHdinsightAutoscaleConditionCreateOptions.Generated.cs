@@ -33,7 +33,7 @@ public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
         IEnumerable<string> Days,
         string ResourceGroup,
         string Time,
-        string WorkernodeCount
+        int WorkernodeCount
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
@@ -55,11 +55,10 @@ public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(Time);
         this.Time = Time;
-        global::System.ArgumentNullException.ThrowIfNull(WorkernodeCount);
         this.WorkernodeCount = WorkernodeCount;
     }
 
-    public void Deconstruct(out string ClusterName, out IEnumerable<string> Days, out string ResourceGroup, out string Time, out string WorkernodeCount)
+    public void Deconstruct(out string ClusterName, out IEnumerable<string> Days, out string ResourceGroup, out string Time, out int WorkernodeCount)
     {
         ClusterName = this.ClusterName;
         Days = this.Days;
@@ -96,7 +95,7 @@ public record AzHdinsightAutoscaleConditionCreateOptions : AzOptions
     /// The schedule workernode count.
     /// </summary>
     [CliOption("--workernode-count")]
-    public string WorkernodeCount { get; private init; }
+    public int WorkernodeCount { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

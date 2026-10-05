@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,25 +58,26 @@ public record AzEventhubsNamespaceSchemaRegistryListOptions : AzOptions
     /// <summary>
     /// Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
     /// </summary>
-    [CliFlag("--skip")]
-    public bool? Skip { get; set; }
+    [CliOption("--skip")]
+    public string? Skip { get; set; }
 
     /// <summary>
     /// May be used to limit the number of results to the most recent N usageDetails.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public string? Top { get; set; }
 
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
-    [CliFlag("--max-items")]
-    public bool? MaxItems { get; set; }
+    [CliOption("--max-items")]
+    public string? MaxItems { get; set; }
 
     /// <summary>
     /// Token to specify where to start paginating. This is the token value from a previously truncated response.
     /// </summary>
-    [CliFlag("--next-token")]
-    public bool? NextToken { get; set; }
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
 }

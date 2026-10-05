@@ -23,7 +23,7 @@ public record AzSfManagedClusterListOptions : AzOptions
     /// <summary>
     /// Specify the resource group name. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
 }

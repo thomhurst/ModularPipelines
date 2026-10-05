@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +25,8 @@ public record AzContainerappConnectionUpdateStorageTableOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the containerapp.  Allowed values: dotnet, dotnet-internal, java, nodejs, none, python.
@@ -41,20 +43,20 @@ public record AzContainerappConnectionUpdateStorageTableOptions : AzOptions
     /// <summary>
     /// The additional connection string properties used to build connection string.
     /// </summary>
-    [CliFlag("--connstr-props")]
-    public bool? ConnstrProps { get; set; }
+    [CliOption("--connstr-props", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ConnstrProps { get; set; }
 
     /// <summary>
     /// The container where the connection information will be saved (as environment variables).
     /// </summary>
-    [CliFlag("--container", ShortForm = "-c")]
-    public bool? Container { get; set; }
+    [CliOption("--container", ShortForm = "-c")]
+    public string? Container { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// The resource id of the connection. ['--resource-group', '--name', '-- connection'] are required if '--id' is not specified.
@@ -77,8 +79,8 @@ public record AzContainerappConnectionUpdateStorageTableOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliOption("--opt-out")]
-    public string? OptOut { get; set; }
+    [CliOption("--opt-out", GroupValues = true)]
+    public IEnumerable<string>? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the container app. Required if '--id' is not specified.None.
@@ -95,37 +97,38 @@ public record AzContainerappConnectionUpdateStorageTableOptions : AzOptions
     /// <summary>
     /// The secret auth info. Usage: --secret.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info. Usage: --service-principal client-id=XX secret=XX
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The flag to use system assigned identity auth info. No additional parameters are needed. Usage: --system-identity.
     /// </summary>
-    [CliFlag("--system-identity")]
-    public bool? SystemIdentity { get; set; }
+    [CliOption("--system-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SystemIdentity { get; set; }
 
     /// <summary>
     /// The user assigned identity auth info. Usage: --user-identity client-id=XX subs-id=XX
     /// </summary>
-    [CliFlag("--user-identity")]
-    public bool? UserIdentity { get; set; }
+    [CliOption("--user-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserIdentity { get; set; }
 
     /// <summary>
     /// Connect target service by private endpoint. The private endpoint in source virtual network must be created ahead.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--private-endpoint")]
-    public bool? PrivateEndpoint { get; set; }
+    [CliOption("--private-endpoint", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PrivateEndpoint { get; set; }
 
     /// <summary>
     /// Connect target service by service endpoint. Source resource must be in the VNet and target SKU must support service endpoint feature.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--service-endpoint")]
-    public bool? ServiceEndpoint { get; set; }
+    [CliOption("--service-endpoint", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ServiceEndpoint { get; set; }
 
 }

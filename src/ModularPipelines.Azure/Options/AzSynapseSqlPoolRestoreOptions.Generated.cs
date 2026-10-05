@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -40,20 +41,20 @@ public record AzSynapseSqlPoolRestoreOptions : AzOptions
     /// <summary>
     /// Name of the sql pool that will be created as the restore destination.
     /// </summary>
-    [CliOption("--dest-name", ShortForm = "--destination-name")]
+    [CliOption("--dest-name")]
     public string DestName { get; private init; }
 
     /// <summary>
     /// The performance level.
     /// </summary>
-    [CliFlag("--performance-level")]
-    public bool? PerformanceLevel { get; set; }
+    [CliOption("--performance-level")]
+    public string? PerformanceLevel { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -64,8 +65,8 @@ public record AzSynapseSqlPoolRestoreOptions : AzOptions
     /// <summary>
     /// The SQL pool name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -82,8 +83,8 @@ public record AzSynapseSqlPoolRestoreOptions : AzOptions
     /// <summary>
     /// If specified, restore from a deleted database instead of from an existing database. Must match the deleted time of a deleted database in the same server. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM-DDTHH:MM:SS".
     /// </summary>
-    [CliFlag("--deleted-time")]
-    public bool? DeletedTime { get; set; }
+    [CliOption("--deleted-time")]
+    public string? DeletedTime { get; set; }
 
     /// <summary>
     /// The point in time of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value. Either --time or --deleted-time (or both) must be specified. Time should be in following format: "YYYY-MM- DDTHH:MM:SS".

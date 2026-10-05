@@ -57,13 +57,13 @@ public record AzAmsTransformListOptions : AzOptions
     /// <summary>
     /// Restricts the set of items returned.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Specifies the key by which the result collection should be ordered.
     /// </summary>
-    [CliFlag("--orderby")]
-    public bool? Orderby { get; set; }
+    [CliOption("--orderby")]
+    public string? Orderby { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,62 +69,62 @@ public record AzServicebusTopicCreateOptions : AzOptions
     /// <summary>
     /// ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
     /// </summary>
-    [CliFlag("--auto-delete-on-idle")]
-    public bool? AutoDeleteOnIdle { get; set; }
+    [CliOption("--auto-delete-on-idle")]
+    public string? AutoDeleteOnIdle { get; set; }
 
     /// <summary>
     /// ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
     /// </summary>
-    [CliFlag("--default-message-time-to-live")]
-    public bool? DefaultMessageTimeToLive { get; set; }
+    [CliOption("--default-message-time-to-live")]
+    public string? DefaultMessageTimeToLive { get; set; }
 
     /// <summary>
     /// A value indicating if this queue requires duplicate detection.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--duplicate-detection", ShortForm = "--enable-duplicate-detection")]
-    public bool? DuplicateDetection { get; set; }
+    [CliOption("--duplicate-detection", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DuplicateDetection { get; set; }
 
     /// <summary>
     /// ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
     /// </summary>
-    [CliFlag("--duplicate-detection-history-time-window", ShortForm = "-d")]
-    public bool? DuplicateDetectionHistoryTimeWindow { get; set; }
+    [CliOption("--duplicate-detection-history-time-window", ShortForm = "-d")]
+    public string? DuplicateDetectionHistoryTimeWindow { get; set; }
 
     /// <summary>
     /// Value that indicates whether server-side batched operations are enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-batched-operations")]
-    public bool? EnableBatchedOperations { get; set; }
+    [CliOption("--enable-batched-operations", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableBatchedOperations { get; set; }
 
     /// <summary>
     /// Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-express")]
-    public bool? EnableExpress { get; set; }
+    [CliOption("--enable-express", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableExpress { get; set; }
 
     /// <summary>
     /// Value that indicates whether the topic supports ordering.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-ordering")]
-    public bool? EnableOrdering { get; set; }
+    [CliOption("--enable-ordering", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableOrdering { get; set; }
 
     /// <summary>
     /// Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-partitioning")]
-    public bool? EnablePartitioning { get; set; }
+    [CliOption("--enable-partitioning", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePartitioning { get; set; }
 
     /// <summary>
     /// Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024.
     /// </summary>
-    [CliFlag("--max-message-size", ShortForm = "--max-message-size-in-kilobytes")]
-    public bool? MaxMessageSize { get; set; }
+    [CliOption("--max-message-size")]
+    public string? MaxMessageSize { get; set; }
 
     /// <summary>
     /// Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024.
     /// </summary>
-    [CliFlag("--max-size", ShortForm = "--max-size-in-megabytes")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public string? MaxSize { get; set; }
 
     /// <summary>
     /// Enumerates the possible values for the status of a messaging entity.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
@@ -134,7 +135,7 @@ public record AzServicebusTopicCreateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
 }

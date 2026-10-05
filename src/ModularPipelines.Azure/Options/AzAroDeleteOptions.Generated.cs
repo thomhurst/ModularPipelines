@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,7 +70,7 @@ public record AzAroDeleteOptions : AzOptions
     /// <summary>
     /// Delete the cluster's associated managed identities together with the cluster.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--delete-identities")]
-    public bool? DeleteIdentities { get; set; }
+    [CliOption("--delete-identities", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DeleteIdentities { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzBatchTaskFileDeleteOptions : AzOptions
     /// <summary>
     /// Whether to delete children of a directory. If the filePath parameter represents a directory instead of a file, you can set recursive to true to delete the directory and all of the files and subdirectories in it. If recursive is false then the directory must be empty or deletion will fail. Default value is None.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--recursive")]
-    public bool? Recursive { get; set; }
+    [CliOption("--recursive", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Recursive { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

@@ -65,7 +65,7 @@ public record AzSfManagedServiceCorrelationSchemeCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>
@@ -77,13 +77,13 @@ public record AzSfManagedServiceCorrelationSchemeCreateOptions : AzOptions
     /// <summary>
     /// Specify the Arm Resource ID of the service that the correlation relationship is established with.
     /// </summary>
-    [CliOption("--correlated-name", ShortForm = "--correlated-service-name")]
+    [CliOption("--correlated-name")]
     public string CorrelatedName { get; private init; }
 
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>

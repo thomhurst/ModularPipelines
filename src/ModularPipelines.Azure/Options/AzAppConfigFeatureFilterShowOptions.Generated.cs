@@ -52,14 +52,14 @@ public record AzAppConfigFeatureFilterShowOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Name of the feature which contains the filter. If the feature flag key is different from the default key, provide the `--key` argument instead.
@@ -70,20 +70,20 @@ public record AzAppConfigFeatureFilterShowOptions : AzOptions
     /// <summary>
     /// Zero-based index of the filter to be displayed in case there are multiple instances with same filter name.
     /// </summary>
-    [CliFlag("--index")]
-    public bool? Index { get; set; }
+    [CliOption("--index")]
+    public int? Index { get; set; }
 
     /// <summary>
     /// Key of the feature flag. Key must start with the ".appconfig.featureflag/" prefix. Key cannot contain the "%" character. If both key and feature arguments are provided, only key will be used. Default key is the reserved prefix ".appconfig.featureflag/" + feature name.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// If no label specified, show the feature flag with null label by default.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzWebappVnetIntegrationAddOptions : AzOptions
     /// <summary>
     /// Skip check if you do not have permission or the VNet is in another subscription.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-delegation-check")]
-    public bool? SkipDelegationCheck { get; set; }
+    [CliOption("--skip-delegation-check", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipDelegationCheck { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

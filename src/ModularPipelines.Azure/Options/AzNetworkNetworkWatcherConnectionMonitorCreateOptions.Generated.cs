@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,26 +75,26 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Connection monitor location.
     /// </summary>
-    [CliFlag("--location")]
-    public bool? Location { get; set; }
+    [CliOption("--location")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Connection monitor tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Determines if the connection monitor will start automatically once created.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--auto-start")]
-    public bool? AutoStart { get; set; }
+    [CliOption("--auto-start", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoStart { get; set; }
 
     /// <summary>
     /// List of connection monitor endpoints.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -104,8 +105,8 @@ public record AzNetworkNetworkWatcherConnectionMonitorCreateOptions : AzOptions
     /// <summary>
     /// Optional notes to be associated with the connection monitor.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// List of connection monitor outputs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

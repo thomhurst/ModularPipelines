@@ -79,7 +79,7 @@ public record AzDmsProjectTaskShowOptions : AzOptions
     /// <summary>
     /// Expand the response to provide more details. Use with "command" to see more details of the task. Use with "output" to see the results of the task's migration.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
 }

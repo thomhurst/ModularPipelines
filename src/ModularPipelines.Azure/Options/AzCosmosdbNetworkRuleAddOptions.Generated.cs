@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,13 +47,13 @@ public record AzCosmosdbNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ignore-missing-endpoint", ShortForm = "--ignore-missing-vnet-service-endpoint")]
-    public bool? IgnoreMissingEndpoint { get; set; }
+    [CliOption("--ignore-missing-endpoint", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
     /// The name of the VNET, which must be provided in conjunction with the name of the subnet.
     /// </summary>
-    [CliOption("--virtual-network", ShortForm = "--vnet-name")]
+    [CliOption("--virtual-network")]
     public string? VirtualNetwork { get; set; }
 
     /// <summary>

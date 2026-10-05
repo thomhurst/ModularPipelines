@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Number of instances to use with the application gateway.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Space-separated list of custom error pages in `STATUS_CODE=URL` format. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -35,38 +36,38 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Whether FIPS is enabled on the application gateway resource.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-fips")]
-    public bool? EnableFips { get; set; }
+    [CliOption("--enable-fips", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFips { get; set; }
 
     /// <summary>
     /// Use HTTP2 for the application gateway.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--http2")]
-    public string? Http2 { get; set; }
+    [CliOption("--http2", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Http2 { get; set; }
 
     /// <summary>
     /// The identity of the application gateway, if configured.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity", GroupValues = true)]
+    public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
     /// Upper bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--max-capacity")]
-    public bool? MaxCapacity { get; set; }
+    [CliOption("--max-capacity")]
+    public string? MaxCapacity { get; set; }
 
     /// <summary>
     /// Lower bound on the number of application gateway instances.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name of an application gateway SKU.  Allowed values: Basic, Standard_Large, Standard_Medium, Standard_Small, Standard_v2, WAF_Large, WAF_Medium, WAF_v2.
@@ -77,8 +78,8 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://learn.microsoft.com/azure/azure-subscription-service- limits#application-gateway-limits).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ssl-profiles")]
-    public bool? SslProfiles { get; set; }
+    [CliOption("--ssl-profiles", GroupValues = true)]
+    public IEnumerable<string>? SslProfiles { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -95,8 +96,8 @@ public record AzNetworkApplicationGatewayUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

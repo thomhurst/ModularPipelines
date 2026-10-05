@@ -46,8 +46,8 @@ public record AzStorageAccountEncryptionScopeListOptions : AzOptions
     /// <summary>
     /// When specified, only encryption scope names starting with the filter will be listed.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// When specified, will list encryption scopes with the specific state. Allowed values: All, Disabled, Enabled.
@@ -64,8 +64,8 @@ public record AzStorageAccountEncryptionScopeListOptions : AzOptions
     /// <summary>
     /// The maximum number of encryption scopes that will be included in the list response.
     /// </summary>
-    [CliFlag("--maxpagesize")]
-    public bool? Maxpagesize { get; set; }
+    [CliOption("--maxpagesize")]
+    public int? Maxpagesize { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

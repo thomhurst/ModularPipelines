@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Show all information including vm sizes not available under the current subscription.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--all")]
-    public bool? All { get; set; }
+    [CliOption("--all", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? All { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -41,13 +42,13 @@ public record AzVmListSkusOptions : AzOptions
     /// <summary>
     /// Size name, partial name is accepted.
     /// </summary>
-    [CliFlag("--size", ShortForm = "-s")]
-    public bool? Size { get; set; }
+    [CliOption("--size", ShortForm = "-s")]
+    public string? Size { get; set; }
 
     /// <summary>
     /// Show skus supporting availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Zone { get; set; }
 
 }

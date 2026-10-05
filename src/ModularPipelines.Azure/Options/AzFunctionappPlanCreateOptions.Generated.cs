@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     /// <summary>
     /// Host function app on Linux worker.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-linux")]
-    public bool? IsLinux { get; set; }
+    [CliOption("--is-linux", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsLinux { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -80,20 +81,20 @@ public record AzFunctionappPlanCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of elastic workers for the plan.
     /// </summary>
-    [CliFlag("--max-burst")]
-    public bool? MaxBurst { get; set; }
+    [CliOption("--max-burst")]
+    public string? MaxBurst { get; set; }
 
     /// <summary>
     /// The number of workers for the app service plan.
     /// </summary>
-    [CliFlag("--min-instances", ShortForm = "--number-of-workers")]
-    public bool? MinInstances { get; set; }
+    [CliOption("--min-instances")]
+    public string? MinInstances { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Enable zone redundancy for high availability. Cannot be changed after plan creation. Minimum instance count is 3.

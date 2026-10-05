@@ -46,7 +46,7 @@ public record AzSecurityAutomationSourceCreateOptions : AzOptions
     /// <summary>
     /// A set of rules which evaluate upon event interception. A logical disjunction is applied between defined rule sets (logical "or").
     /// </summary>
-    [CliFlag("--rule-sets")]
-    public bool? RuleSets { get; set; }
+    [CliOption("--rule-sets")]
+    public string? RuleSets { get; set; }
 
 }

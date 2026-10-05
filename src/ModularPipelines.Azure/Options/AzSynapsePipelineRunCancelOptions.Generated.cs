@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzSynapsePipelineRunCancelOptions : AzOptions
     /// <summary>
     /// If true, cancel all the Child pipelines that are triggered by the current pipeline.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-recursive")]
-    public bool? IsRecursive { get; set; }
+    [CliOption("--is-recursive", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsRecursive { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

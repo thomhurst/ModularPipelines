@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,14 +58,14 @@ public record AzNetappfilesSnapshotRestoreFilesOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Destination folder where the files will be restored.
     /// </summary>
-    [CliFlag("--destination-path")]
-    public bool? DestinationPath { get; set; }
+    [CliOption("--destination-path")]
+    public string? DestinationPath { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -81,7 +82,7 @@ public record AzNetappfilesSnapshotRestoreFilesOptions : AzOptions
     /// <summary>
     /// The name of the snapshot.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

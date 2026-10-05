@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,13 +75,13 @@ public record AzEventgridPartnerNamespaceCreateOptions : AzOptions
     /// <summary>
     /// This determines if events published to this partner namespace should use the source attribute in the event payload or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.  Allowed values: ChannelNameHeader, SourceEventAttribute.  Default: SourceEventAttribute.
     /// </summary>
-    [CliOption("--partner-topic-routing-mode", ShortForm = "--route-mode")]
+    [CliOption("--partner-topic-routing-mode")]
     public string? PartnerTopicRoutingMode { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

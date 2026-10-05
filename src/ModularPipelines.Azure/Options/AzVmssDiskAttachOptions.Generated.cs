@@ -29,20 +29,20 @@ public record AzVmssDiskAttachOptions : AzOptions
     /// <summary>
     /// Existing disk name or ID to attach or detach from VM instances.
     /// </summary>
-    [CliFlag("--disk")]
-    public bool? Disk { get; set; }
+    [CliOption("--disk")]
+    public string? Disk { get; set; }
 
     /// <summary>
     /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.
     /// </summary>
-    [CliFlag("--lun")]
-    public bool? Lun { get; set; }
+    [CliOption("--lun")]
+    public int? Lun { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--size-gb", ShortForm = "-z")]
-    public bool? SizeGb { get; set; }
+    [CliOption("--size-gb", ShortForm = "-z")]
+    public int? SizeGb { get; set; }
 
     /// <summary>
     /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
@@ -59,8 +59,8 @@ public record AzVmssDiskAttachOptions : AzOptions
     /// <summary>
     /// Scale set VM instance id.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -71,7 +71,7 @@ public record AzVmssDiskAttachOptions : AzOptions
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--vmss-name")]
-    public bool? VmssName { get; set; }
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzMonitorLogAnalyticsWorkspaceDeleteOptions : AzOptions
     /// <summary>
     /// Deletes the workspace without the recovery option. A workspace that was deleted with this flag cannot be recovered.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
+    [CliOption("--force", ShortForm = "-f", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Force { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

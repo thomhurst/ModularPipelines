@@ -68,8 +68,8 @@ public record AzIotHubCertificateVerifyOptions : AzOptions
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--hub-name")]
-    public bool? HubName { get; set; }
+    [CliOption("--hub-name")]
+    public string? HubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

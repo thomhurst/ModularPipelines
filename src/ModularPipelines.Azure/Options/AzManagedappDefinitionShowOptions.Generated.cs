@@ -29,8 +29,8 @@ public record AzManagedappDefinitionShowOptions : AzOptions
     /// <summary>
     /// The managed application definition name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The resource group of the managed application definition.

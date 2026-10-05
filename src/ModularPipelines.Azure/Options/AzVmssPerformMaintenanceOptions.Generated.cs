@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzVmssPerformMaintenanceOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -47,7 +48,7 @@ public record AzVmssPerformMaintenanceOptions : AzOptions
     /// <summary>
     /// The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--instance-ids")]
-    public bool? InstanceIds { get; set; }
+    [CliOption("--instance-ids", GroupValues = true)]
+    public IEnumerable<string>? InstanceIds { get; set; }
 
 }

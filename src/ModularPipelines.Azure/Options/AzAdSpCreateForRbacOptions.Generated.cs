@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,20 @@ public record AzAdSpCreateForRbacOptions : AzOptions
     /// <summary>
     /// Display name of the service principal. If not present, default to azure-cli-%Y-%m-%d-%H-%M-%S where the suffix is the time of creation.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-n")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-n")]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Output service principal credential along with cloud endpoints in JSON format.  Allowed values: false, true. WARNING: Option '--sdk-auth' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--json-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? JsonAuth { get; set; }
 
     /// <summary>
     /// Role of the service principal.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Space-separated list of scopes the service principal's role assignment applies to. e.g., subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Co mpute/virtualMachines/myVM.
@@ -41,19 +48,19 @@ public record AzAdSpCreateForRbacOptions : AzOptions
     /// <summary>
     /// Set the serviceManagementReference property of the created application. Reference application or service contact information from a Service or Asset Management database.
     /// </summary>
-    [CliFlag("--service-management-reference")]
-    public bool? ServiceManagementReference { get; set; }
+    [CliOption("--service-management-reference")]
+    public string? ServiceManagementReference { get; set; }
 
     /// <summary>
     /// Create a password credential (secret) on the the application. This is the default behavior. Set this argument to false to disable creating password credential. Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--create-password")]
-    public bool? CreatePassword { get; set; }
+    [CliOption("--create-password", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CreatePassword { get; set; }
 
     /// <summary>
     /// Number of years for which the credentials will be valid. Default: 1 year.
     /// </summary>
-    [CliFlag("--years")]
-    public bool? Years { get; set; }
+    [CliOption("--years")]
+    public int? Years { get; set; }
 
 }

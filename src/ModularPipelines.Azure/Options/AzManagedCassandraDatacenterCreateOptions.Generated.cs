@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -34,7 +35,7 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
         string DataCenterLocation,
         string DataCenterName,
         string DelegatedSubnetId,
-        int NodeCount,
+        string NodeCount,
         string ResourceGroup
     )
     {
@@ -46,12 +47,13 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
         this.DataCenterName = DataCenterName;
         global::System.ArgumentNullException.ThrowIfNull(DelegatedSubnetId);
         this.DelegatedSubnetId = DelegatedSubnetId;
+        global::System.ArgumentNullException.ThrowIfNull(NodeCount);
         this.NodeCount = NodeCount;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out string DataCenterLocation, out string DataCenterName, out string DelegatedSubnetId, out int NodeCount, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out string DataCenterLocation, out string DataCenterName, out string DelegatedSubnetId, out string NodeCount, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         DataCenterLocation = this.DataCenterLocation;
@@ -89,7 +91,7 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
     /// The number of Cassandra virtual machines in this data center. The minimum value is 3.
     /// </summary>
     [CliOption("--node-count", ShortForm = "-n")]
-    public int NodeCount { get; private init; }
+    public string NodeCount { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -100,38 +102,38 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
     /// <summary>
     /// If the data center haves Availability Zone feature, apply it to the Virtual Machine ScaleSet that host the data center virtual machines. Allowed values: false, true.
     /// </summary>
-    [CliOption("--availability-zone", ShortForm = "-z")]
-    public bool? AvailabilityZone { get; set; }
+    [CliOption("--availability-zone", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AvailabilityZone { get; set; }
 
     /// <summary>
     /// Indicates the Key Uri of the customer key to use for encryption of the backup storage account.
     /// </summary>
-    [CliFlag("--backup-storage-customer-key-uri", ShortForm = "-p")]
-    public bool? BackupStorageCustomerKeyUri { get; set; }
+    [CliOption("--backup-storage-customer-key-uri", ShortForm = "-p")]
+    public string? BackupStorageCustomerKeyUri { get; set; }
 
     /// <summary>
     /// This is a Base64 encoded yaml file that is a subset of cassandra.yaml.  Supported fields will be honored and others will be ignored.
     /// </summary>
-    [CliFlag("--base64-encoded-cassandra-yaml-fragment", ShortForm = "-b")]
-    public bool? Base64EncodedCassandraYamlFragment { get; set; }
+    [CliOption("--base64-encoded-cassandra-yaml-fragment", ShortForm = "-b")]
+    public string? Base64EncodedCassandraYamlFragment { get; set; }
 
     /// <summary>
     /// Number of disk used for data centers. Default value is 4.
     /// </summary>
-    [CliFlag("--disk-capacity")]
-    public bool? DiskCapacity { get; set; }
+    [CliOption("--disk-capacity")]
+    public string? DiskCapacity { get; set; }
 
     /// <summary>
     /// Disk SKU used for data centers. Default value is P30.
     /// </summary>
-    [CliFlag("--disk-sku")]
-    public bool? DiskSku { get; set; }
+    [CliOption("--disk-sku")]
+    public string? DiskSku { get; set; }
 
     /// <summary>
     /// Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
     /// </summary>
-    [CliFlag("--managed-disk-customer-key-uri", ShortForm = "-k")]
-    public bool? ManagedDiskCustomerKeyUri { get; set; }
+    [CliOption("--managed-disk-customer-key-uri", ShortForm = "-k")]
+    public string? ManagedDiskCustomerKeyUri { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -142,7 +144,7 @@ public record AzManagedCassandraDatacenterCreateOptions : AzOptions
     /// <summary>
     /// Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
 }

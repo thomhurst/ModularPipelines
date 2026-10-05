@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzMariadbServerVnetRuleUpdateOptions : AzOptions
     /// <summary>
     /// Create vnet rule before virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
-    public bool? IgnoreMissingEndpoint { get; set; }
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
     /// The virtual network name.

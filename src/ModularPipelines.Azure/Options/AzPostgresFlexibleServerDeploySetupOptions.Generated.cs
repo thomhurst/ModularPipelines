@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -87,8 +88,8 @@ public record AzPostgresFlexibleServerDeploySetupOptions : AzOptions
     /// <summary>
     /// Push the action yml file to the remote repository. The changes will be pushed to origin repository, specified branch or current branch if not specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-push")]
-    public bool? AllowPush { get; set; }
+    [CliOption("--allow-push", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowPush { get; set; }
 
     /// <summary>
     /// The name of the branch you want upload github action file. The default will be your current branch.

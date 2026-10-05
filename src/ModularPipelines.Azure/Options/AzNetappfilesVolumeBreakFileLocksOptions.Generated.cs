@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -35,14 +36,14 @@ public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
     /// <summary>
     /// To clear file locks on a volume for a particular client.
     /// </summary>
-    [CliFlag("--client-ip")]
-    public bool? ClientIp { get; set; }
+    [CliOption("--client-ip")]
+    public string? ClientIp { get; set; }
 
     /// <summary>
     /// Break-file-locks could be a disruptive operation for application as locks on the volume will be broken, if want to process, set to true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--confirm", ShortForm = "--confirm-running-disruptive-operation")]
-    public bool? Confirm { get; set; }
+    [CliOption("--confirm", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Confirm { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -59,7 +60,7 @@ public record AzNetappfilesVolumeBreakFileLocksOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

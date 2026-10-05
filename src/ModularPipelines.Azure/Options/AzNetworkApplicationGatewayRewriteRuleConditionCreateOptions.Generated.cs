@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,25 +91,25 @@ public record AzNetworkApplicationGatewayRewriteRuleConditionCreateOptions : AzO
     /// <summary>
     /// Make comparison case-insensitive.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--ignore-case")]
-    public bool? IgnoreCase { get; set; }
+    [CliOption("--ignore-case", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreCase { get; set; }
 
     /// <summary>
     /// Check the negation of the condition.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--negate")]
-    public bool? Negate { get; set; }
+    [CliOption("--negate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Negate { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Pattern, either fixed string or regular expression, that evaluates the truthfulness of the condition.
     /// </summary>
-    [CliFlag("--pattern")]
-    public bool? Pattern { get; set; }
+    [CliOption("--pattern")]
+    public string? Pattern { get; set; }
 
 }

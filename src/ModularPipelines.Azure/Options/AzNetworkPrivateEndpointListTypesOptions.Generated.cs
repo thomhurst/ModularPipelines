@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -35,13 +36,14 @@ public record AzNetworkPrivateEndpointListTypesOptions : AzOptions
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
-    [CliFlag("--max-items")]
-    public bool? MaxItems { get; set; }
+    [CliOption("--max-items")]
+    public string? MaxItems { get; set; }
 
     /// <summary>
     /// Token to specify where to start paginating. This is the token value from a previously truncated response.
     /// </summary>
-    [CliFlag("--next-token")]
-    public bool? NextToken { get; set; }
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
 }

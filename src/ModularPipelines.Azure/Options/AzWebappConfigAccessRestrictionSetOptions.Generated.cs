@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -41,8 +42,8 @@ public record AzWebappConfigAccessRestrictionSetOptions : AzOptions
     /// <summary>
     /// Use same access restrictions for scm site.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--use-same-restrictions-for-scm-site")]
-    public bool? UseSameRestrictionsForScmSite { get; set; }
+    [CliOption("--use-same-restrictions-for-scm-site", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UseSameRestrictionsForScmSite { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

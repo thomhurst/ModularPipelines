@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -75,8 +76,8 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Length of the prefix (i.e. `XX.XX.XX.XX/&lt;Length&gt;`).
     /// </summary>
-    [CliFlag("--length")]
-    public bool? Length { get; set; }
+    [CliOption("--length")]
+    public string? Length { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -87,8 +88,8 @@ public record AzNetworkPublicIpPrefixCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

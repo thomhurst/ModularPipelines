@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
     /// <summary>
     /// The detection mode for the DDoS detection rule.
     /// </summary>
-    [CliFlag("--detection-mode")]
-    public bool? DetectionMode { get; set; }
+    [CliOption("--detection-mode")]
+    public string? DetectionMode { get; set; }
 
     /// <summary>
     /// The name of the DDoS detection rule.
@@ -75,14 +76,14 @@ public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
     /// <summary>
     /// The customized packets per second threshold.
     /// </summary>
-    [CliFlag("--packets-per-second")]
-    public bool? PacketsPerSecond { get; set; }
+    [CliOption("--packets-per-second")]
+    public string? PacketsPerSecond { get; set; }
 
     /// <summary>
     /// The traffic type (one of Tcp, Udp, TcpSyn) that the detection rule will be applied upon.
     /// </summary>
-    [CliFlag("--traffic-type")]
-    public bool? TrafficType { get; set; }
+    [CliOption("--traffic-type")]
+    public string? TrafficType { get; set; }
 
     /// <summary>
     /// Resource location.
@@ -93,7 +94,7 @@ public record AzNetworkDdosCustomPolicyCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

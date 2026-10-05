@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,7 +47,7 @@ public record AzAdUserGetMemberGroupsOptions : AzOptions
     /// <summary>
     /// True to specify that only security groups that the entity is a member of should be returned; false to specify that all groups and directory roles that the entity is a member of should be returned.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--security-enabled-only")]
-    public bool? SecurityEnabledOnly { get; set; }
+    [CliOption("--security-enabled-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SecurityEnabledOnly { get; set; }
 
 }

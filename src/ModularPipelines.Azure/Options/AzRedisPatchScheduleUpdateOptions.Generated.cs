@@ -29,29 +29,18 @@ public record AzRedisPatchScheduleUpdateOptions : AzOptions
     public AzRedisPatchScheduleUpdateOptions(
         string Name,
         string ResourceGroup,
-        IEnumerable<string> ScheduleEntries
+        string ScheduleEntries
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(ScheduleEntries);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ScheduleEntries));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(ScheduleEntries));
-            }
-
-            ScheduleEntries = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(ScheduleEntries);
         this.ScheduleEntries = ScheduleEntries;
     }
 
-    public void Deconstruct(out string Name, out string ResourceGroup, out IEnumerable<string> ScheduleEntries)
+    public void Deconstruct(out string Name, out string ResourceGroup, out string ScheduleEntries)
     {
         Name = this.Name;
         ResourceGroup = this.ResourceGroup;
@@ -73,7 +62,7 @@ public record AzRedisPatchScheduleUpdateOptions : AzOptions
     /// <summary>
     /// List of Patch schedule entries. Example Value:[{"dayOfWeek":"Monday","startHourUtc":"00","maintenanceWi ndow":"PT5H"}].
     /// </summary>
-    [CliOption("--schedule-entries", GroupValues = true)]
-    public IEnumerable<string> ScheduleEntries { get; private init; }
+    [CliOption("--schedule-entries")]
+    public string ScheduleEntries { get; private init; }
 
 }

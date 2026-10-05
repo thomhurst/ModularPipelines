@@ -71,6 +71,11 @@ public partial interface IAz
     IAzAro Aro => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the artifacts sub-domain service.
+    /// </summary>
+    IAzArtifacts Artifacts => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the backup sub-domain service.
     /// </summary>
     IAzBackup Backup => throw new System.NotSupportedException();
@@ -89,6 +94,11 @@ public partial interface IAz
     /// Gets the billing sub-domain service.
     /// </summary>
     IAzBilling Billing => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the boards sub-domain service.
+    /// </summary>
+    IAzBoards Boards => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the bot sub-domain service.
@@ -164,6 +174,11 @@ public partial interface IAz
     /// Gets the deploymentscripts sub-domain service.
     /// </summary>
     IAzDeploymentScripts DeploymentScripts => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the devops sub-domain service.
+    /// </summary>
+    IAzDevops Devops => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the disk sub-domain service.
@@ -296,6 +311,11 @@ public partial interface IAz
     IAzNetwork Network => throw new System.NotSupportedException();
 
     /// <summary>
+    /// Gets the pipelines sub-domain service.
+    /// </summary>
+    IAzPipelines Pipelines => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Gets the policy sub-domain service.
     /// </summary>
     IAzPolicy Policy => throw new System.NotSupportedException();
@@ -329,6 +349,11 @@ public partial interface IAz
     /// Gets the relay sub-domain service.
     /// </summary>
     IAzRelay Relay => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Gets the repos sub-domain service.
+    /// </summary>
+    IAzRepos Repos => throw new System.NotSupportedException();
 
     /// <summary>
     /// Gets the resource sub-domain service.

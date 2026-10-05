@@ -29,25 +29,14 @@ public record AzAksNodepoolManualScaleDeleteOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzAksNodepoolManualScaleDeleteOptions(
         string ClusterName,
-        IEnumerable<string> CurrentVmSizes,
+        string CurrentVmSizes,
         string Name,
         string ResourceGroup
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(CurrentVmSizes);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(CurrentVmSizes));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(CurrentVmSizes));
-            }
-
-            CurrentVmSizes = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(CurrentVmSizes);
         this.CurrentVmSizes = CurrentVmSizes;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -55,7 +44,7 @@ public record AzAksNodepoolManualScaleDeleteOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out IEnumerable<string> CurrentVmSizes, out string Name, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out string CurrentVmSizes, out string Name, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         CurrentVmSizes = this.CurrentVmSizes;
@@ -72,8 +61,8 @@ public record AzAksNodepoolManualScaleDeleteOptions : AzOptions
     /// <summary>
     /// Comma-separated list of sizes in the manual to be deleted.
     /// </summary>
-    [CliOption("--current-vm-sizes", GroupValues = true)]
-    public IEnumerable<string> CurrentVmSizes { get; private init; }
+    [CliOption("--current-vm-sizes")]
+    public string CurrentVmSizes { get; private init; }
 
     /// <summary>
     /// The node pool name.

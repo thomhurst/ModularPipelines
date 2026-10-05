@@ -46,8 +46,8 @@ public record AzStaticwebappUsersListOptions : AzOptions
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.  Default: all.
     /// </summary>
-    [CliFlag("--authentication-provider")]
-    public bool? AuthenticationProvider { get; set; }
+    [CliOption("--authentication-provider")]
+    public string? AuthenticationProvider { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

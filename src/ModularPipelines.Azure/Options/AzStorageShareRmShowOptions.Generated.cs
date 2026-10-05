@@ -23,19 +23,19 @@ public record AzStorageShareRmShowOptions : AzOptions
     /// <summary>
     /// Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ','.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// Optional, used to delete a snapshot.The DateTime value that specifies the share snapshot to retrieve.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "--storage-account")]
+    [CliOption("--account-name")]
     public string? AccountName { get; set; }
 
     /// <summary>

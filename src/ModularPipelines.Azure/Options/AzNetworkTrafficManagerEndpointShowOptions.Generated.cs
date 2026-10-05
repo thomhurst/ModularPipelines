@@ -29,8 +29,8 @@ public record AzNetworkTrafficManagerEndpointShowOptions : AzOptions
     /// <summary>
     /// Endpoint name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of parent profile.

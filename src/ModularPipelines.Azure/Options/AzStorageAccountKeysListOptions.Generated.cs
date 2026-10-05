@@ -44,6 +44,12 @@ public record AzStorageAccountKeysListOptions : AzOptions
     public string AccountName { get; private init; }
 
     /// <summary>
+    /// Specify the expanded key types to be listed.  Allowed values: kerb.  Default: kerb. WARNING: Argument '--expand-key-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--expand-key-type")]
+    public string? ExpandKeyType { get; set; }
+
+    /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]

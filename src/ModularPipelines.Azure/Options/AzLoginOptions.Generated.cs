@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -29,32 +30,34 @@ public record AzLoginOptions : AzOptions
     /// <summary>
     /// PEM file with key and public certificate.
     /// </summary>
-    [CliFlag("--certificate")]
-    public bool? Certificate { get; set; }
+    [CliOption("--certificate")]
+    public string? Certificate { get; set; }
 
     /// <summary>
     /// Base64-encoded claims challenge requested by a resource API in the WWW-Authenticate header.
     /// </summary>
-    [CliFlag("--claims-challenge")]
-    public bool? ClaimsChallenge { get; set; }
+    [CliOption("--claims-challenge")]
+    public string? ClaimsChallenge { get; set; }
 
     /// <summary>
     /// Federated token that can be used for OIDC token exchange.
     /// </summary>
-    [CliFlag("--federated-token")]
-    public bool? FederatedToken { get; set; }
+    [SecretValue]
+    [CliOption("--federated-token")]
+    public string? FederatedToken { get; set; }
 
     /// <summary>
     /// User password or service principal secret. Will prompt if not given.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// Used in the /authorize request. It can cover only one static resource.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope", GroupValues = true)]
+    public IEnumerable<string>? Scope { get; set; }
 
     /// <summary>
     /// Log in with a service principal.
@@ -65,14 +68,14 @@ public record AzLoginOptions : AzOptions
     /// <summary>
     /// Skip the subscription discovery process during login. Requires --tenant. Use with --subscription to fetch a single subscription without listing all.
     /// </summary>
-    [CliFlag("--skip-sub", ShortForm = "--skip-subscription-discovery")]
+    [CliFlag("--skip-sub")]
     public bool? SkipSub { get; set; }
 
     /// <summary>
     /// The Microsoft Entra tenant, must be provided when using a service principal.
     /// </summary>
-    [CliFlag("--tenant", ShortForm = "-t")]
-    public bool? Tenant { get; set; }
+    [CliOption("--tenant", ShortForm = "-t")]
+    public string? Tenant { get; set; }
 
     /// <summary>
     /// Use Subject Name + Issuer (SN+I) authentication in order to support automatic certificate rolls.
@@ -89,14 +92,14 @@ public record AzLoginOptions : AzOptions
     /// <summary>
     /// User name or service principal client ID.
     /// </summary>
-    [CliFlag("--username", ShortForm = "-u")]
-    public bool? Username { get; set; }
+    [CliOption("--username", ShortForm = "-u")]
+    public string? Username { get; set; }
 
     /// <summary>
     /// Client ID of the user-assigned managed identity.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// Log in using managed identity.
@@ -107,8 +110,8 @@ public record AzLoginOptions : AzOptions
     /// <summary>
     /// Object ID of the user-assigned managed identity.
     /// </summary>
-    [CliFlag("--object-id")]
-    public bool? ObjectId { get; set; }
+    [CliOption("--object-id")]
+    public string? ObjectId { get; set; }
 
     /// <summary>
     /// Resource ID of the user-assigned managed identity.

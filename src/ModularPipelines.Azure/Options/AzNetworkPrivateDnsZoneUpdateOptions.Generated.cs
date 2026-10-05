@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +24,20 @@ public record AzNetworkPrivateDnsZoneUpdateOptions : AzOptions
     /// <summary>
     /// ETag of the Private DNS zone. Omit this value to always overwrite the current zone. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags for the Private DNS zone.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -47,8 +48,8 @@ public record AzNetworkPrivateDnsZoneUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

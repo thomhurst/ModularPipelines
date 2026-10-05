@@ -45,6 +45,13 @@ also emits nothing. Use `CliOptionValue.Bare` explicitly when a bare switch is i
 Repeatable multi-value arguments use `IEnumerable<CliValueGroup>` to retain each occurrence.
 For example, set `AssignPlatformWi` to
 `[new CliValueGroup(["operator-one", "identity-one"]), new CliValueGroup(["operator-two", "identity-two"])]`.
+
+When migrating, follow the generated parser contract rather than the option name:
+`AzSynapseSparkJobSubmitOptions.Executors` takes a string such as `"1"`;
+`AzManagedCassandraClusterInvokeCommandOptions.ClusterArguments` takes groups;
+`AzMonitorAccountIssueUpdateOptions.ForceString` takes `"true"`, `"false"`, or
+`CliOptionValue.Bare`. An unset optional value emits nothing. A grouped assignment
+keeps all its operands together, and each additional group repeats the switch.
 This emits `--assign-platform-wi operator-one identity-one` followed by
 `--assign-platform-wi operator-two identity-two`. Each group holds separate
 argument values; do not join them into a shell string. Empty groups are accepted only for

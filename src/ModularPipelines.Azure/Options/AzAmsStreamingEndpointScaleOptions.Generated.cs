@@ -15,14 +15,34 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Set the scale of a streaming endpoint.
 /// </summary>
-/// <param name="ScaleUnits">The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ams", "streaming-endpoint", "scale")]
-public record AzAmsStreamingEndpointScaleOptions(
-    [property: CliOption("--scale-units")] int ScaleUnits
-) : AzOptions
+public record AzAmsStreamingEndpointScaleOptions : AzOptions
 {
+    /// <summary>
+    /// Set the scale of a streaming endpoint.
+    /// </summary>
+    /// <param name="ScaleUnits">The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.</param>
+    public AzAmsStreamingEndpointScaleOptions(
+        string ScaleUnits
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(ScaleUnits);
+        this.ScaleUnits = ScaleUnits;
+    }
+
+    public void Deconstruct(out string ScaleUnits)
+    {
+        ScaleUnits = this.ScaleUnits;
+    }
+
+    /// <summary>
+    /// The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.
+    /// </summary>
+    [CliOption("--scale-units")]
+    public string ScaleUnits { get; private init; }
+
     /// <summary>
     /// The name of the Azure Media Services account.
     /// </summary>

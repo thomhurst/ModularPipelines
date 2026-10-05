@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +25,9 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The administrator login password.
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this server for use with key management services like Azure KeyVault.
@@ -33,10 +36,16 @@ public record AzSqlServerUpdateOptions : AzOptions
     public bool? AssignIdentity { get; set; }
 
     /// <summary>
+    /// Set whether public network access to server is allowed or not. When false,only connections made through Private Links can reach this server.  Allowed values: false, true. WARNING: Argument '--enable-public-network' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePublicNetwork { get; set; }
+
+    /// <summary>
     /// The federated client id used in cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id", ShortForm = "--fid")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Type of Identity to be used. Possible values are SystemAsssigned,UserAssigned, SystemAssigned,UserAssigned and None.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -65,14 +74,26 @@ public record AzSqlServerUpdateOptions : AzOptions
     /// <summary>
     /// The ID of the primary user managed identity.
     /// </summary>
-    [CliOption("--pid", ShortForm = "--primary-user-assigned-identity-id")]
+    [CliOption("--pid")]
     public string? Pid { get; set; }
+
+    /// <summary>
+    /// Set whether outbound network access to server is restricted or not. When true,the outbound connections from the server will be restricted.  Allowed values: false, true. WARNING: Argument '--restrict-outbound-network-access' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--restrict-outbound-network-access", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestrictOutboundNetworkAccess { get; set; }
+
+    /// <summary>
+    /// Specify the number of days to retain soft deleted server (0-7). Set to 0 to disable soft delete. Set to 1-7 days to enable soft delete with the specified retention period. WARNING: Argument '--soft-delete-retention-days' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--sdrd")]
+    public int? Sdrd { get; set; }
 
     /// <summary>
     /// Generate and assign an User Managed Identity(UMI) for this server.
     /// </summary>
-    [CliFlag("--user-assigned-identity-id", ShortForm = "-a")]
-    public bool? UserAssignedIdentityId { get; set; }
+    [CliOption("--user-assigned-identity-id", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? UserAssignedIdentityId { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

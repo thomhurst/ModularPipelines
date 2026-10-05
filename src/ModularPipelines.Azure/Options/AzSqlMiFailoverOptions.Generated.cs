@@ -29,8 +29,8 @@ public record AzSqlMiFailoverOptions : AzOptions
     /// <summary>
     /// The type of replica to be failed over. Known values are: "Primary" and "ReadableSecondary". Default value is None.
     /// </summary>
-    [CliFlag("--replica-type")]
-    public bool? ReplicaType { get; set; }
+    [CliOption("--replica-type")]
+    public string? ReplicaType { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -41,8 +41,8 @@ public record AzSqlMiFailoverOptions : AzOptions
     /// <summary>
     /// The managed instance name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

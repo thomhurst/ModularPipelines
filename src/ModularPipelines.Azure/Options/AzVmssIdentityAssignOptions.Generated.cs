@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzVmssIdentityAssignOptions : AzOptions
     /// <summary>
     /// Space-separated identities to assign. Use '[system]' to refer to the system assigned identity. Default: '[system]'.
     /// </summary>
-    [CliOption("--identities", GroupValues = true)]
-    public IEnumerable<string>? Identities { get; set; }
+    [CliOption("--identities", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Identities { get; set; }
 
     /// <summary>
     /// Role name or id the system assigned identity will have.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope that the system assigned identity can access.
@@ -47,8 +48,8 @@ public record AzVmssIdentityAssignOptions : AzOptions
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

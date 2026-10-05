@@ -80,7 +80,7 @@ public record AzWebappConfigStorageAccountAddOptions : AzOptions
     /// <summary>
     /// Name of the file share as given in the storage account.
     /// </summary>
-    [CliOption("--share-name", ShortForm = "--sn")]
+    [CliOption("--share-name")]
     public string ShareName { get; private init; }
 
     /// <summary>

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,7 +58,7 @@ public record AzEventhubsNamespaceNetworkRuleSetIpRuleAddOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules.
     /// </summary>
-    [CliFlag("--ip-rule")]
-    public bool? IpRule { get; set; }
+    [CliOption("--ip-rule", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? IpRule { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The target regions where the Resource Profile version is going to be replicated to.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--target-regions")]
-    public bool? TargetRegions { get; set; }
+    [CliOption("--target-regions", GroupValues = true)]
+    public IEnumerable<string>? TargetRegions { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -41,8 +42,8 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -65,8 +66,8 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--exclude-from-latest")]
-    public bool? ExcludeFromLatest { get; set; }
+    [CliOption("--exclude-from-latest", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExcludeFromLatest { get; set; }
 
     /// <summary>
     /// This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. Allowed values: Audit, Disabled, Enforce.
@@ -95,7 +96,7 @@ public record AzSigInVmAccessControlProfileVersionUpdateOptions : AzOptions
     /// <summary>
     /// The name of the gallery in VM access control profile version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: MajorVersion.MinorVersion.Patch.
     /// </summary>
-    [CliOption("--profile-version", ShortForm = "--version-name")]
+    [CliOption("--profile-version")]
     public string? ProfileVersion { get; set; }
 
     /// <summary>

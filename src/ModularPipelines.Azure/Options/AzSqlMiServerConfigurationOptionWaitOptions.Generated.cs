@@ -29,7 +29,7 @@ public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
@@ -53,8 +53,8 @@ public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
     /// <summary>
     /// Wait until the condition satisfies a custom JMESPath query. E.g. provisioningState! ='InProgress', instanceView.st atuses[?code=='PowerState/runn ing'].
     /// </summary>
-    [CliFlag("--custom")]
-    public bool? Custom { get; set; }
+    [CliOption("--custom")]
+    public string? Custom { get; set; }
 
     /// <summary>
     /// Wait until deleted.
@@ -71,14 +71,14 @@ public record AzSqlMiServerConfigurationOptionWaitOptions : AzOptions
     /// <summary>
     /// Polling interval in seconds. Default: 30.
     /// </summary>
-    [CliFlag("--interval")]
-    public bool? Interval { get; set; }
+    [CliOption("--interval")]
+    public int? Interval { get; set; }
 
     /// <summary>
     /// Maximum wait in seconds. Default: 3600.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// Wait until updated with provisioningState at 'Succeeded'.

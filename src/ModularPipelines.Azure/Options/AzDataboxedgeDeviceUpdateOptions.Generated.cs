@@ -23,8 +23,8 @@ public record AzDataboxedgeDeviceUpdateOptions : AzOptions
     /// <summary>
     /// The tags attached to the Data Box Edge/Gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The device name.

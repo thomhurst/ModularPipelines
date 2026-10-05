@@ -23,8 +23,8 @@ public record AzSqlVmEnableAzureAdAuthOptions : AzOptions
     /// <summary>
     /// Virutal Machine Managed Identity Client ID.
     /// </summary>
-    [CliFlag("--msi-client-id")]
-    public bool? MsiClientId { get; set; }
+    [CliOption("--msi-client-id")]
+    public string? MsiClientId { get; set; }
 
     /// <summary>
     /// Skip client side Azure AD authentication validation, the server side validation will still happen.

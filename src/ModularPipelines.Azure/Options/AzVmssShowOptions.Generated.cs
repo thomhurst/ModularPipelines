@@ -63,7 +63,7 @@ public record AzVmssShowOptions : AzOptions
     /// <summary>
     /// VM instance ID. If missing, show the VMSS.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
 }

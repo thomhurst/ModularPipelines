@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzVmssDeallocateOptions : AzOptions
     /// <summary>
     /// Hibernate a virtual machine from the VM scale set. Available for VMSS with Flexible OrchestrationMode only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--hibernate")]
-    public bool? Hibernate { get; set; }
+    [CliOption("--hibernate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Hibernate { get; set; }
 
     /// <summary>
     /// Space-separated list of IDs (ex: 1 2 3 ...) or * for all instances. If not provided, the action will be applied on the scaleset itself.

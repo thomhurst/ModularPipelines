@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,13 +58,13 @@ public record AzAdGroupCreateOptions : AzOptions
     /// <summary>
     /// Group description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Always create a new group instead of updating the one with same display and mail nickname.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--force")]
-    public bool? Force { get; set; }
+    [CliOption("--force", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Force { get; set; }
 
 }

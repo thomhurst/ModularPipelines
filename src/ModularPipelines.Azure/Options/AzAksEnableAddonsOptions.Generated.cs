@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,14 +81,14 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-high-log-scale-mode")]
-    public bool? EnableHighLogScaleMode { get; set; }
+    [CliOption("--enable-high-log-scale-mode", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
     /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--enable-msi-auth-for-monitoring")]
-    public bool? EnableMsiAuthForMonitoring { get; set; }
+    [CliOption("--enable-msi-auth-for-monitoring", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
     /// Enable secret rotation. Use with azure-keyvault-secrets- provider addon.
@@ -104,8 +105,8 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable syslog data collection for Monitoring addon.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-syslog")]
-    public bool? EnableSyslog { get; set; }
+    [CliOption("--enable-syslog", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSyslog { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -116,8 +117,8 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Set interval of rotation poll. Use with azure-keyvault- secrets-provider addon.
     /// </summary>
-    [CliFlag("--rotation-poll-interval")]
-    public bool? RotationPollInterval { get; set; }
+    [CliOption("--rotation-poll-interval")]
+    public string? RotationPollInterval { get; set; }
 
     /// <summary>
     /// Name of an existing subnet to use with the virtual-node add- on.
@@ -158,7 +159,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Specify the namespace, which AGIC should watch. This could be a single string value, or a comma-separated list of namespaces.
     /// </summary>
-    [CliFlag("--appgw-watch-namespace")]
-    public bool? AppgwWatchNamespace { get; set; }
+    [CliOption("--appgw-watch-namespace")]
+    public string? AppgwWatchNamespace { get; set; }
 
 }

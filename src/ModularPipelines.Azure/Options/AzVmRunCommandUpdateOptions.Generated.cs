@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -41,26 +42,26 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// The name of the virtual machine run command.
     /// </summary>
-    [CliOption("--name", ShortForm = "--run-command-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
     /// Optional. If set to true, provisioning will complete as soon as the script starts and will not wait for script to complete.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--async-execution")]
-    public bool? AsyncExecution { get; set; }
+    [CliOption("--async-execution", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AsyncExecution { get; set; }
 
     /// <summary>
     /// Specify a commandId of predefined built-in script.
     /// </summary>
-    [CliFlag("--command-id")]
-    public bool? CommandId { get; set; }
+    [CliOption("--command-id")]
+    public string? CommandId { get; set; }
 
     /// <summary>
     /// Specify the Azure storage blob where script error stream will be uploaded.
     /// </summary>
-    [CliFlag("--error-blob-uri")]
-    public bool? ErrorBlobUri { get; set; }
+    [CliOption("--error-blob-uri")]
+    public string? ErrorBlobUri { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -77,20 +78,20 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// Specify the Azure storage blob (SAS URI) where script output stream will be uploaded.
     /// </summary>
-    [CliFlag("--output-blob-uri")]
-    public bool? OutputBlobUri { get; set; }
+    [CliOption("--output-blob-uri")]
+    public string? OutputBlobUri { get; set; }
 
     /// <summary>
     /// The parameters used by the script. Usage: --parameters arg1=XX arg2=XX.
     /// </summary>
-    [CliOption("--parameters")]
-    public string? Parameters { get; set; }
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
     /// The parameters used by the script. Usage: --protected-parameters credentials=somefoo secret=somebar.
     /// </summary>
-    [CliOption("--protected-parameters")]
-    public string? ProtectedParameters { get; set; }
+    [CliOption("--protected-parameters", GroupValues = true)]
+    public IEnumerable<string>? ProtectedParameters { get; set; }
 
     /// <summary>
     /// Password if needed for using run-as-user parameter. It will be encrypted and not logged.
@@ -102,26 +103,26 @@ public record AzVmRunCommandUpdateOptions : AzOptions
     /// <summary>
     /// By default script process runs under system/root user. Specify custom user to host the process.
     /// </summary>
-    [CliFlag("--run-as-user")]
-    public bool? RunAsUser { get; set; }
+    [CliOption("--run-as-user")]
+    public string? RunAsUser { get; set; }
 
     /// <summary>
     /// Specify the script content to be executed on the VM.
     /// </summary>
-    [CliFlag("--script")]
-    public bool? Script { get; set; }
+    [CliOption("--script")]
+    public string? Script { get; set; }
 
     /// <summary>
     /// Specify the script download location.
     /// </summary>
-    [CliFlag("--script-uri")]
-    public bool? ScriptUri { get; set; }
+    [CliOption("--script-uri")]
+    public string? ScriptUri { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The timeout in seconds to execute the run command.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzNetworkLbAddressPoolCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Default administrative state to backend addresses in `--backend-addresses`.  Allowed values: Down, None, Up.
@@ -80,14 +81,14 @@ public record AzNetworkLbAddressPoolCreateOptions : AzOptions
     /// <summary>
     /// An array of backend addresses.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--backend-address`.
     /// </summary>
-    [CliOption("--backend-address", ShortForm = "--backend-addresses")]
+    [CliOption("--backend-address", GroupValues = true)]
     public IEnumerable<string>? BackendAddress { get; set; }
 
     /// <summary>
     /// Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
     /// </summary>
-    [CliFlag("--drain-period", ShortForm = "--drain-period-in-seconds")]
-    public bool? DrainPeriod { get; set; }
+    [CliOption("--drain-period")]
+    public string? DrainPeriod { get; set; }
 
     /// <summary>
     /// The location of the backend address pool.
@@ -96,9 +97,15 @@ public record AzNetworkLbAddressPoolCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
+    /// Backend address synchronous mode for the backend pool.  Allowed values: Automatic, Manual. WARNING: Argument '--sync-mode' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--sync-mode")]
+    public string? SyncMode { get; set; }
+
+    /// <summary>
     /// An array of gateway load balancer tunnel interfaces. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tunnel-interfaces")]
+    [CliOption("--tunnel-interfaces", GroupValues = true)]
     public IEnumerable<string>? TunnelInterfaces { get; set; }
 
     /// <summary>

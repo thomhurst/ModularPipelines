@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,25 +58,25 @@ public record AzSfManagedClusterUpdateOptions : AzOptions
     /// <summary>
     /// Port used for client connections to the cluster.
     /// </summary>
-    [CliFlag("--client-connection-port", ShortForm = "--client-port")]
-    public bool? ClientConnectionPort { get; set; }
+    [CliOption("--client-connection-port")]
+    public string? ClientConnectionPort { get; set; }
 
     /// <summary>
     /// Cluster's dns name.
     /// </summary>
-    [CliFlag("--dns-name")]
-    public bool? DnsName { get; set; }
+    [CliOption("--dns-name")]
+    public string? DnsName { get; set; }
 
     /// <summary>
     /// Port used for http connections to the cluster.
     /// </summary>
-    [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
-    public bool? GatewayConnectionPort { get; set; }
+    [CliOption("--gateway-connection-port")]
+    public string? GatewayConnectionPort { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

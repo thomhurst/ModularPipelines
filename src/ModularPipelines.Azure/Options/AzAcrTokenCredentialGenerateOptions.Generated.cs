@@ -57,14 +57,14 @@ public record AzAcrTokenCredentialGenerateOptions : AzOptions
     /// <summary>
     /// UTC time for which the credentials will be valid. In the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2025-12-31T12:59:59Z.
     /// </summary>
-    [CliFlag("--expiration")]
-    public bool? Expiration { get; set; }
+    [CliOption("--expiration")]
+    public string? Expiration { get; set; }
 
     /// <summary>
     /// Number of days for which the credentials will be valid. If not specified, the expiration will default to the max value "9999-12-31T23:59:59.999999+00:00".
     /// </summary>
-    [CliFlag("--expiration-in-days")]
-    public bool? ExpirationInDays { get; set; }
+    [CliOption("--expiration-in-days")]
+    public int? ExpirationInDays { get; set; }
 
     /// <summary>
     /// Flag indicating if password1 should be generated.

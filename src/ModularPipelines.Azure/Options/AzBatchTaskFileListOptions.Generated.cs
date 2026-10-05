@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzBatchTaskFileListOptions : AzOptions
     /// <summary>
     /// Whether to list children of the Task directory. This parameter can be used in combination with the filter parameter to list specific type of files.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--recursive")]
-    public bool? Recursive { get; set; }
+    [CliOption("--recursive", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Recursive { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.
@@ -81,7 +82,7 @@ public record AzBatchTaskFileListOptions : AzOptions
     /// <summary>
     /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata- filters-in-batch.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
 }

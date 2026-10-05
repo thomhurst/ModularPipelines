@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,14 +47,15 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Storage account access key.
     /// </summary>
-    [CliFlag("--access-key", ShortForm = "-k")]
-    public bool? AccessKey { get; set; }
+    [SecretValue]
+    [CliOption("--access-key", ShortForm = "-k")]
+    public string? AccessKey { get; set; }
 
     /// <summary>
     /// Storage account name.
     /// </summary>
-    [CliFlag("--account-name", ShortForm = "-a")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name", ShortForm = "-a")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// The path which the web app uses to read-write data ex: /share1 or /share2.
@@ -64,7 +66,7 @@ public record AzWebappConfigStorageAccountUpdateOptions : AzOptions
     /// <summary>
     /// Name of the file share as given in the storage account.
     /// </summary>
-    [CliOption("--share-name", ShortForm = "--sn")]
+    [CliOption("--share-name")]
     public string? ShareName { get; set; }
 
     /// <summary>

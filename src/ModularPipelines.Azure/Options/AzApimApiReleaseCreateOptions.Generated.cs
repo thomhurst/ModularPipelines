@@ -79,19 +79,19 @@ public record AzApimApiReleaseCreateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Release Notes.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// Release identifier within an API. Must be unique in the current API Management service instance.
     /// </summary>
-    [CliFlag("--release-id")]
-    public bool? ReleaseId { get; set; }
+    [CliOption("--release-id")]
+    public string? ReleaseId { get; set; }
 
 }

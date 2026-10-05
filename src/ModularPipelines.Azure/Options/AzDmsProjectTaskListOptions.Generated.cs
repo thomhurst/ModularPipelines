@@ -68,7 +68,7 @@ public record AzDmsProjectTaskListOptions : AzOptions
     /// <summary>
     /// Filters the list by the type of task. For the list of possible types see "az dms check-status".
     /// </summary>
-    [CliFlag("--task-type")]
-    public bool? TaskType { get; set; }
+    [CliOption("--task-type")]
+    public string? TaskType { get; set; }
 
 }

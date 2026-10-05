@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,14 +53,14 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication metrics feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-metrics")]
-    public bool? EnableMetrics { get; set; }
+    [CliOption("--enable-metrics", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableMetrics { get; set; }
 
     /// <summary>
     /// The object replication policy definition between two storage accounts, in JSON format. Multiple rules can be defined in one policy.
     /// </summary>
-    [CliFlag("--policy", ShortForm = "-p")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy", ShortForm = "-p")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// The ID of object replication policy or "default" if the policy ID is unknown. Policy Id will be auto-generated when setting on destination account. Required when setting on source account.
@@ -70,8 +71,8 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication priority replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--priority-replication")]
-    public bool? PriorityReplication { get; set; }
+    [CliOption("--priority-replication", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PriorityReplication { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -88,8 +89,8 @@ public record AzStorageAccountOrPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether object replication tags replication feature is enabled for the policy.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--tags-replication")]
-    public bool? TagsReplication { get; set; }
+    [CliOption("--tags-replication", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TagsReplication { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

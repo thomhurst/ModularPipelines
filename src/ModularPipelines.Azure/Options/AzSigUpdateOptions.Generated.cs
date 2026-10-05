@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzSigUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Community gallery publisher eula.
     /// </summary>
-    [CliFlag("--eula")]
-    public bool? Eula { get; set; }
+    [CliOption("--eula")]
+    public string? Eula { get; set; }
 
     /// <summary>
     /// Community gallery public name prefix.
     /// </summary>
-    [CliFlag("--public-name-prefix")]
-    public bool? PublicNamePrefix { get; set; }
+    [CliOption("--public-name-prefix")]
+    public string? PublicNamePrefix { get; set; }
 
     /// <summary>
     /// Community gallery publisher contact email.
     /// </summary>
-    [CliFlag("--publisher-contact", ShortForm = "--publisher-email")]
-    public bool? PublisherContact { get; set; }
+    [CliOption("--publisher-contact")]
+    public string? PublisherContact { get; set; }
 
     /// <summary>
     /// Community gallery publisher uri.
     /// </summary>
-    [CliFlag("--publisher-uri")]
-    public bool? PublisherUri { get; set; }
+    [CliOption("--publisher-uri")]
+    public string? PublisherUri { get; set; }
 
     /// <summary>
     /// Resource location.
@@ -65,8 +66,8 @@ public record AzSigUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -107,7 +108,7 @@ public record AzSigUpdateOptions : AzOptions
     /// <summary>
     /// Enable soft-deletion for resources in this gallery, allowing them to be recovered within retention time. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--soft-delete")]
-    public bool? SoftDelete { get; set; }
+    [CliOption("--soft-delete", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SoftDelete { get; set; }
 
 }

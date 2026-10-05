@@ -669,3 +669,17 @@ keyed services and the default filesystem fallback are unchanged.
 ### kind inherited logging options
 
 `Quiet` and `Verbosity` now live on `KindOptions` and render before the subcommand. Existing initializers remain valid. Reflection code using `DeclaredOnly` should include inherited properties. Cluster-specific options remain local, and root help/version actions are not inherited settings. See the [kind package guide](docs/docs/mp-packages/kind.md).
+## Azure CLI parser contracts
+
+Azure generated properties now follow the installed argparse action. Values that
+look numeric can remain strings (for example Spark job `Executors = "1"`), while
+optional-value options use `CliOptionValue` for distinct omitted, bare, and explicit
+value forms. Replace boolean assignments to optional `ForceString` with `"true"`
+or `"false"`; use `CliOptionValue.Bare` for its bare-switch form.
+
+Repeated groups use `IEnumerable<CliValueGroup>` instead of a flat string collection.
+For example, Cassandra `ClusterArguments = [new CliValueGroup(["first=value",
+"second=value"])]` emits one `--arguments` occurrence with both operands. Add another
+group to repeat the option. ARO `AssignPlatformWi` similarly preserves each operator
+and identity pair. See the Azure package guide for the DevOps extension prerequisite
+and noninteractive PAT authentication.

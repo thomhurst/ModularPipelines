@@ -90,8 +90,8 @@ public record AzCosmosdbSqlTriggerUpdateOptions : AzOptions
     /// <summary>
     /// Trigger body, you can enter it as a string or as a file, e.g., --body @triggerbody-file.json.
     /// </summary>
-    [CliFlag("--body", ShortForm = "-b")]
-    public bool? Body { get; set; }
+    [CliOption("--body", ShortForm = "-b")]
+    public string? Body { get; set; }
 
     /// <summary>
     /// The operation of the trigger.  Allowed values: All, Create, Delete, Replace, Update.

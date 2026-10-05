@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzDiskEncryptionSetIdentityAssignOptions : AzOptions
     /// <summary>
     /// Provide this flag to use system assigned identity. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--system-assigned")]
-    public bool? SystemAssigned { get; set; }
+    [CliOption("--system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SystemAssigned { get; set; }
 
     /// <summary>
     /// User Assigned Identity ids to be used for disk encryption set. Accepts using the argument without any value. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-assigned")]
-    public bool? UserAssigned { get; set; }
+    [CliOption("--user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserAssigned { get; set; }
 
     /// <summary>
     /// Name of disk encryption set.

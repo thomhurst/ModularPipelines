@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzIdentityUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -47,8 +48,8 @@ public record AzIdentityUpdateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enum to configure regional restrictions on identity assignment, as necessary.  Allowed values: None, Regional.
@@ -59,8 +60,8 @@ public record AzIdentityUpdateOptions : AzOptions
     /// <summary>
     /// Restrictions on which resource providers this identity can be assigned to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--resource-restriction")]
-    public bool? ResourceRestriction { get; set; }
+    [CliOption("--resource-restriction", GroupValues = true)]
+    public IEnumerable<string>? ResourceRestriction { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

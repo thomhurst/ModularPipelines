@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzNetworkCustomIpPrefixUpdateOptions : AzOptions
     /// <summary>
     /// Authorization message for WAN validation.
     /// </summary>
-    [CliFlag("--authorization-message")]
-    public bool? AuthorizationMessage { get; set; }
+    [CliOption("--authorization-message")]
+    public string? AuthorizationMessage { get; set; }
 
     /// <summary>
     /// Whether to Advertise the range to Internet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-internet-advertise")]
-    public bool? NoInternetAdvertise { get; set; }
+    [CliOption("--no-internet-advertise", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoInternetAdvertise { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Signed message for WAN validation.
     /// </summary>
-    [CliFlag("--signed-message")]
-    public bool? SignedMessage { get; set; }
+    [CliOption("--signed-message")]
+    public string? SignedMessage { get; set; }
 
     /// <summary>
     /// Commissioned State of the custom ip prefix.  Allowed values: commission, decommission, deprovision, provision.
@@ -65,8 +66,8 @@ public record AzNetworkCustomIpPrefixUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

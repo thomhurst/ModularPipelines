@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +48,8 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Kafka bootstrap server url.
     /// </summary>
-    [CliFlag("--bootstrap-server")]
-    public bool? BootstrapServer { get; set; }
+    [CliOption("--bootstrap-server")]
+    public string? BootstrapServer { get; set; }
 
     /// <summary>
     /// The client type used on the connection.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
@@ -58,20 +60,21 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Kafka API-Key (key).
     /// </summary>
-    [CliFlag("--kafka-key")]
-    public bool? KafkaKey { get; set; }
+    [CliOption("--kafka-key")]
+    public string? KafkaKey { get; set; }
 
     /// <summary>
     /// Kafka API-Key (secret).
     /// </summary>
-    [CliFlag("--kafka-secret")]
-    public bool? KafkaSecret { get; set; }
+    [SecretValue]
+    [CliOption("--kafka-secret")]
+    public string? KafkaSecret { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -94,19 +97,20 @@ public record AzConnectionUpdateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Schema registry API-Key (key).
     /// </summary>
-    [CliFlag("--schema-key")]
-    public bool? SchemaKey { get; set; }
+    [CliOption("--schema-key")]
+    public string? SchemaKey { get; set; }
 
     /// <summary>
     /// Schema registry url.
     /// </summary>
-    [CliFlag("--schema-registry")]
-    public bool? SchemaRegistry { get; set; }
+    [CliOption("--schema-registry")]
+    public string? SchemaRegistry { get; set; }
 
     /// <summary>
     /// Schema registry API-Key (secret).
     /// </summary>
-    [CliFlag("--schema-secret")]
-    public bool? SchemaSecret { get; set; }
+    [SecretValue]
+    [CliOption("--schema-secret")]
+    public string? SchemaSecret { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -65,8 +66,8 @@ public record AzFunctionappConfigSslUploadOptions : AzOptions
     /// <summary>
     /// For Flex Consumption apps only. When set to true, the certificate is accessible to app code.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--load-to-code")]
-    public bool? LoadToCode { get; set; }
+    [CliOption("--load-to-code", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? LoadToCode { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

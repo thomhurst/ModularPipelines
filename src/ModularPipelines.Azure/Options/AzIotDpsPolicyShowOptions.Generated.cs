@@ -51,7 +51,7 @@ public record AzIotDpsPolicyShowOptions : AzOptions
     /// <summary>
     /// A friendly name for DPS access policy.
     /// </summary>
-    [CliOption("--pn", ShortForm = "--policy-name")]
+    [CliOption("--pn")]
     public string Pn { get; private init; }
 
     /// <summary>

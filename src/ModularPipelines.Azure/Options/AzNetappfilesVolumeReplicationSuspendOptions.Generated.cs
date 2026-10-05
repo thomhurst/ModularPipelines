@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzNetappfilesVolumeReplicationSuspendOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// If replication is in status transferring and you want to force break the replication, set to true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
+    [CliOption("--force", ShortForm = "-f", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Force { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.
@@ -47,7 +48,7 @@ public record AzNetappfilesVolumeReplicationSuspendOptions : AzOptions
     /// <summary>
     /// The name of the volume.
     /// </summary>
-    [CliOption("--name", ShortForm = "-v")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

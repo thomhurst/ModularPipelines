@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzImageBuilderErrorHandlerAddOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Defer { get; set; }
 
     /// <summary>
     /// If there is a customizer error and this field is set to "cleanup", the build VM and associated network resources will be cleaned up. This is the default behavior. If there is a customizer error and this field is set to "abort", the build VM will be preserved.  Allowed values: abort, cleanup.

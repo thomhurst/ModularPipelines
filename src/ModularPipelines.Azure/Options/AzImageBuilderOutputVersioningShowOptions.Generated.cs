@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzImageBuilderOutputVersioningShowOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Defer { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

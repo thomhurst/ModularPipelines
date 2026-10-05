@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
     /// <param name="PlanType">Cognitive Services account commitment plan type.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzCognitiveservicesAccountCommitmentPlanCreateOptions(
-        bool AutoRenew,
+        CliOptionValue AutoRenew,
         string CommitmentPlanName,
         string HostingModel,
         string Name,
@@ -38,6 +39,7 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
         string ResourceGroup
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(AutoRenew);
         this.AutoRenew = AutoRenew;
         global::System.ArgumentNullException.ThrowIfNull(CommitmentPlanName);
         this.CommitmentPlanName = CommitmentPlanName;
@@ -51,7 +53,7 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out bool AutoRenew, out string CommitmentPlanName, out string HostingModel, out string Name, out string PlanType, out string ResourceGroup)
+    public void Deconstruct(out CliOptionValue AutoRenew, out string CommitmentPlanName, out string HostingModel, out string Name, out string PlanType, out string ResourceGroup)
     {
         AutoRenew = this.AutoRenew;
         CommitmentPlanName = this.CommitmentPlanName;
@@ -64,8 +66,8 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether to apply auto renew.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--auto-renew")]
-    public bool AutoRenew { get; private init; }
+    [CliOption("--auto-renew", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue AutoRenew { get; private init; }
 
     /// <summary>
     /// Cognitive Services account commitment plan name.
@@ -100,25 +102,25 @@ public record AzCognitiveservicesAccountCommitmentPlanCreateOptions : AzOptions
     /// <summary>
     /// Cognitive Services account commitment plan current commitment period count.
     /// </summary>
-    [CliFlag("--current-count")]
-    public bool? CurrentCount { get; set; }
+    [CliOption("--current-count")]
+    public string? CurrentCount { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan current commitment period tier.
     /// </summary>
-    [CliFlag("--current-tier")]
-    public bool? CurrentTier { get; set; }
+    [CliOption("--current-tier")]
+    public string? CurrentTier { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan next commitment period count.
     /// </summary>
-    [CliFlag("--next-count")]
-    public bool? NextCount { get; set; }
+    [CliOption("--next-count")]
+    public string? NextCount { get; set; }
 
     /// <summary>
     /// Cognitive Services account commitment plan next commitment period tier.
     /// </summary>
-    [CliFlag("--next-tier")]
-    public bool? NextTier { get; set; }
+    [CliOption("--next-tier")]
+    public string? NextTier { get; set; }
 
 }

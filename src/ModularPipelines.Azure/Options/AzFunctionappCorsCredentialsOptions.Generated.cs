@@ -9,20 +9,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
 /// Enable or disable access-control-allow-credentials.
 /// </summary>
-/// <param name="Enable">Enable/disable access-control-allow-credentials.  Allowed values: false, true.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "cors", "credentials")]
-public record AzFunctionappCorsCredentialsOptions(
-    [property: CliOption("--enable")] bool Enable
-) : AzOptions
+public record AzFunctionappCorsCredentialsOptions : AzOptions
 {
+    /// <summary>
+    /// Enable or disable access-control-allow-credentials.
+    /// </summary>
+    /// <param name="Enable">Enable/disable access-control-allow-credentials.  Allowed values: false, true.</param>
+    public AzFunctionappCorsCredentialsOptions(
+        CliOptionValue Enable
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Enable);
+        this.Enable = Enable;
+    }
+
+    public void Deconstruct(out CliOptionValue Enable)
+    {
+        Enable = this.Enable;
+    }
+
+    /// <summary>
+    /// Enable/disable access-control-allow-credentials.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue Enable { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

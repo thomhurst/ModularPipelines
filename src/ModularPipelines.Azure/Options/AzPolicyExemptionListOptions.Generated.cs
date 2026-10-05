@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +25,20 @@ public record AzPolicyExemptionListOptions : AzOptions
     /// <summary>
     /// Include policy exemptions either inherited from parent scopes or at child scopes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--disable-scope-strict-match", ShortForm = "-d")]
-    public bool? DisableScopeStrictMatch { get; set; }
+    [CliOption("--disable-scope-strict-match", ShortForm = "-d", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableScopeStrictMatch { get; set; }
 
     /// <summary>
     /// Filter list results.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The management group.
     /// </summary>
-    [CliFlag("--management-group")]
-    public bool? ManagementGroup { get; set; }
+    [CliOption("--management-group")]
+    public string? ManagementGroup { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -53,13 +55,14 @@ public record AzPolicyExemptionListOptions : AzOptions
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
-    [CliFlag("--max-items")]
-    public bool? MaxItems { get; set; }
+    [CliOption("--max-items")]
+    public string? MaxItems { get; set; }
 
     /// <summary>
     /// Token to specify where to start paginating. This is the token value from a previously truncated response.
     /// </summary>
-    [CliFlag("--next-token")]
-    public bool? NextToken { get; set; }
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
 }

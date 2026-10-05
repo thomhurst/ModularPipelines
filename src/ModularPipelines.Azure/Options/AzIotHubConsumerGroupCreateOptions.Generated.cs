@@ -57,8 +57,8 @@ public record AzIotHubConsumerGroupCreateOptions : AzOptions
     /// <summary>
     /// Event hub endpoint name.  Default: events.
     /// </summary>
-    [CliFlag("--event-hub-name")]
-    public bool? EventHubName { get; set; }
+    [CliOption("--event-hub-name")]
+    public string? EventHubName { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

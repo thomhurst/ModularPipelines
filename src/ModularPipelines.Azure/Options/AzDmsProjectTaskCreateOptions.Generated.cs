@@ -130,7 +130,7 @@ public record AzDmsProjectTaskCreateOptions : AzOptions
     /// <summary>
     /// The type of data movement the task will support. The supported types are: OnlineMigration, OfflineMigration. If not provided, will default to OfflineMigration for SQL, MySQL and OnlineMigration for PostgreSQL.
     /// </summary>
-    [CliFlag("--task-type")]
-    public bool? TaskType { get; set; }
+    [CliOption("--task-type")]
+    public string? TaskType { get; set; }
 
 }

@@ -35,7 +35,7 @@ public record AzSigShowCommunityOptions : AzOptions
     /// <summary>
     /// The public name of the community gallery.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

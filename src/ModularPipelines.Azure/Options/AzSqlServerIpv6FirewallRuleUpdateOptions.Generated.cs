@@ -23,14 +23,14 @@ public record AzSqlServerIpv6FirewallRuleUpdateOptions : AzOptions
     /// <summary>
     /// The end IPv6 address of the firewall rule. Must be IPv6 format.
     /// </summary>
-    [CliFlag("--end-ipv6-address")]
-    public bool? EndIpv6Address { get; set; }
+    [CliOption("--end-ipv6-address")]
+    public string? EndIpv6Address { get; set; }
 
     /// <summary>
     /// The start IPv6 address of the firewall rule. Must be IPv6 format.
     /// </summary>
-    [CliFlag("--start-ipv6-address")]
-    public bool? StartIpv6Address { get; set; }
+    [CliOption("--start-ipv6-address")]
+    public string? StartIpv6Address { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

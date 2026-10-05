@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,38 +91,38 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// Assign system or user assigned identities separated by spaces. Use '[system]' to refer system assigned identity.
     /// </summary>
-    [CliOption("--assign-identity", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
     /// Add a database and its collection names to restore. Usage:          --databases-to-restore name=DatabaseName collections=collection1 [collection2 ...] Multiple databases can be specified by using more than one `--databases-to-restore` argument.
     /// </summary>
-    [CliFlag("--databases-to-restore")]
-    public bool? DatabasesToRestore { get; set; }
+    [CliOption("--databases-to-restore", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? DatabasesToRestore { get; set; }
 
     /// <summary>
     /// The primary identity to access key vault in CMK related features. e.g. 'FirstPartyIdentity', 'SystemAssignedIdentity' and more.
     /// </summary>
-    [CliFlag("--default-identity")]
-    public bool? DefaultIdentity { get; set; }
+    [CliOption("--default-identity")]
+    public string? DefaultIdentity { get; set; }
 
     /// <summary>
     /// Disable key-based authentication on the Cosmos DB account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Enable or disable restoring with ttl disabled. Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-ttl", ShortForm = "-d")]
-    public bool? DisableTtl { get; set; }
+    [CliOption("--disable-ttl", ShortForm = "-d", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableTtl { get; set; }
 
     /// <summary>
     /// Add a gremlin database and its graph names to restore. Usage:          --gremlin-databases-to-restore name=DatabaseName graphs=graph1 [graph2 ...].
     /// </summary>
-    [CliFlag("--gremlin-databases-to-restore")]
-    public bool? GremlinDatabasesToRestore { get; set; }
+    [CliOption("--gremlin-databases-to-restore", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? GremlinDatabasesToRestore { get; set; }
 
     /// <summary>
     /// Sets public network access in server to either Enabled or Disabled.  Allowed values: DISABLED, ENABLED.
@@ -132,13 +133,13 @@ public record AzCosmosdbRestoreOptions : AzOptions
     /// <summary>
     /// This is the location of the source account where backups are located. Provide this value if the source and target are in different locations.
     /// </summary>
-    [CliFlag("--source-backup-location")]
-    public bool? SourceBackupLocation { get; set; }
+    [CliOption("--source-backup-location")]
+    public string? SourceBackupLocation { get; set; }
 
     /// <summary>
     /// Add table names to restore. Usage:          --tables-to-restore table1 [table2 ...].
     /// </summary>
-    [CliFlag("--tables-to-restore")]
-    public bool? TablesToRestore { get; set; }
+    [CliOption("--tables-to-restore", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? TablesToRestore { get; set; }
 
 }

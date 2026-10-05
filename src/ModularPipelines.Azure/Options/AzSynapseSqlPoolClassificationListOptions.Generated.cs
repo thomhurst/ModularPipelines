@@ -68,7 +68,7 @@ public record AzSynapseSqlPoolClassificationListOptions : AzOptions
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
 }

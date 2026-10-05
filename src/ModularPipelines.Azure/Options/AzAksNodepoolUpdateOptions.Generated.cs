@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -116,8 +117,8 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// When nodes are drain how many minutes to wait for all pods to be evicted.
     /// </summary>
-    [CliFlag("--drain-timeout")]
-    public bool? DrainTimeout { get; set; }
+    [CliOption("--drain-timeout")]
+    public int? DrainTimeout { get; set; }
 
     /// <summary>
     /// Enable artifact streaming for VirtualMachineScaleSets managed by a Linux node pool, to speed up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.
@@ -164,44 +165,44 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// Set to '*' to allow a new node pool to be created, but to prevent updating an existing node pool. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// The node labels for the node pool. See https://aka.ms/node-labels for syntax of labels.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Labels { get; set; }
 
     /// <summary>
     /// Set the localDNS Profile for a nodepool with a JSON config file.
     /// </summary>
-    [CliFlag("--localdns-config")]
-    public bool? LocaldnsConfig { get; set; }
+    [CliOption("--localdns-config")]
+    public string? LocaldnsConfig { get; set; }
 
     /// <summary>
     /// Maximum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// Extra nodes used to speed upgrade. When specified, it represents the number or percent used, eg. 5 or 33%.
     /// </summary>
-    [CliFlag("--max-surge")]
-    public bool? MaxSurge { get; set; }
+    [CliOption("--max-surge")]
+    public string? MaxSurge { get; set; }
 
     /// <summary>
     /// The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. When specified, it represents the number or percent used, eg. 1 or 5%.
     /// </summary>
-    [CliFlag("--max-unavailable")]
-    public bool? MaxUnavailable { get; set; }
+    [CliOption("--max-unavailable")]
+    public string? MaxUnavailable { get; set; }
 
     /// <summary>
     /// Minimum nodes count used for autoscaler, when "--enable-cluster-autoscaler" specified. Please specify the value in the range of [0, 1000] for user nodepool, and [1,1000] for system nodepool.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// The mode for a node pool which defines a node pool's primary function. If set as "System", AKS prefers system pods scheduling to node pools with mode `System`. Learn more at https://aka.ms/aks/nodepool/mode.  Allowed values: Gateway, System, User.
@@ -218,14 +219,14 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node.
     /// </summary>
-    [CliFlag("--node-soak-duration")]
-    public bool? NodeSoakDuration { get; set; }
+    [CliOption("--node-soak-duration")]
+    public int? NodeSoakDuration { get; set; }
 
     /// <summary>
     /// The node taints for the node pool. You can update the existing node taint of a nodepool or create a new node taint for a nodepool. Pass the empty string `""` to remove all taints.
     /// </summary>
-    [CliFlag("--node-taints")]
-    public bool? NodeTaints { get; set; }
+    [CliOption("--node-taints")]
+    public string? NodeTaints { get; set; }
 
     /// <summary>
     /// The os-sku of the agent node pool.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, Ubuntu, Ubuntu2204, Ubuntu2404.
@@ -242,8 +243,8 @@ public record AzAksNodepoolUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Define the behavior for undrainable nodes during upgrade. The value should be "Cordon" or "Schedule". The default value is "Schedule".

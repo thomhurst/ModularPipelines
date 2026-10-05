@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,8 +36,8 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Underlying storage SKU.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
@@ -65,8 +66,8 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -83,8 +84,8 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Enable on-demand bursting beyond the provisioned performance target of the disk. On-demand bursting is disabled by default, and it does not apply to Ultra disks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--bursting-enabled", ShortForm = "--enable-bursting")]
-    public bool? BurstingEnabled { get; set; }
+    [CliOption("--bursting-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BurstingEnabled { get; set; }
 
     /// <summary>
     /// Specify the auth mode when exporting or uploading to a disk or snapshot.  Allowed values: AzureActiveDirectory, None.
@@ -95,44 +96,50 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-only")]
-    public bool? DiskIopsReadOnly { get; set; }
+    [CliOption("--disk-iops-read-only")]
+    public string? DiskIopsReadOnly { get; set; }
 
     /// <summary>
     /// The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
     /// </summary>
-    [CliFlag("--disk-iops-read-write")]
-    public bool? DiskIopsReadWrite { get; set; }
+    [CliOption("--disk-iops-read-write")]
+    public string? DiskIopsReadWrite { get; set; }
 
     /// <summary>
     /// The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-only")]
-    public bool? DiskMbpsReadOnly { get; set; }
+    [CliOption("--disk-mbps-read-only")]
+    public string? DiskMbpsReadOnly { get; set; }
 
     /// <summary>
     /// The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
     /// </summary>
-    [CliFlag("--disk-mbps-read-write")]
-    public bool? DiskMbpsReadWrite { get; set; }
+    [CliOption("--disk-mbps-read-write")]
+    public string? DiskMbpsReadWrite { get; set; }
 
     /// <summary>
     /// Size in GB. Max size: 4095 GB (certain preview disks can be larger).
     /// </summary>
-    [CliFlag("--disk-size-gb", ShortForm = "-z")]
-    public bool? DiskSizeGb { get; set; }
+    [CliOption("--disk-size-gb", ShortForm = "-z")]
+    public string? DiskSizeGb { get; set; }
 
     /// <summary>
     /// The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time.
     /// </summary>
-    [CliFlag("--max-shares")]
-    public bool? MaxShares { get; set; }
+    [CliOption("--max-shares")]
+    public string? MaxShares { get; set; }
 
     /// <summary>
     /// Policy for accessing the disk via network. Allowed values: AllowAll, AllowPrivate, DenyAll.
     /// </summary>
     [CliOption("--network-access-policy")]
     public string? NetworkAccessPolicy { get; set; }
+
+    /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to control the export policy on the disk. Allowed values: Disabled, Enabled. WARNING: Argument '--public-network-access' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--public-network-access")]
+    public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
     /// The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -153,6 +160,12 @@ public record AzDiskUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Customers can set on Managed Disks or Snapshots to enable the accelerated networking if the OS disk image support.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes. WARNING: Argument '--accelerated-network' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--accelerated-network", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AcceleratedNetwork { get; set; }
+
+    /// <summary>
     /// CPU architecture supported by an OS disk. Allowed values: Arm64, x64.
     /// </summary>
     [CliOption("--architecture")]
@@ -161,7 +174,7 @@ public record AzDiskUpdateOptions : AzOptions
     /// <summary>
     /// Refer to the security capability of the disk supported to create a Trusted launch or Confidential VM.  Allowed values: TrustedLaunchAndConfidentialVMSupported, TrustedLaunchSupported.
     /// </summary>
-    [CliOption("--security-option", ShortForm = "--supported-security-option")]
+    [CliOption("--security-option")]
     public string? SecurityOption { get; set; }
 
 }

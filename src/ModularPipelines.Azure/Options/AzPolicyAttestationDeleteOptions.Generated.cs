@@ -46,19 +46,19 @@ public record AzPolicyAttestationDeleteOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nameB).
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.
     /// </summary>
-    [CliOption("--resource", ShortForm = "--resource-id")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
     /// <summary>

@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,14 +76,14 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Instrumentation key of App Insights to be added.
     /// </summary>
-    [CliFlag("--app-insights-key")]
-    public bool? AppInsightsKey { get; set; }
+    [CliOption("--app-insights-key")]
+    public string? AppInsightsKey { get; set; }
 
     /// <summary>
     /// Container image name from container registry, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--deployment-container-image-name", ShortForm = "-i")]
-    public bool? DeploymentContainerImageName { get; set; }
+    [CliOption("--deployment-container-image-name", ShortForm = "-i")]
+    public string? DeploymentContainerImageName { get; set; }
 
     /// <summary>
     /// Enable local git.
@@ -92,32 +94,33 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// The branch to deploy.  Default: master.
     /// </summary>
-    [CliFlag("--deployment-source-branch", ShortForm = "-b")]
-    public bool? DeploymentSourceBranch { get; set; }
+    [CliOption("--deployment-source-branch", ShortForm = "-b")]
+    public string? DeploymentSourceBranch { get; set; }
 
     /// <summary>
     /// Git repository URL to link with manual integration.
     /// </summary>
-    [CliFlag("--deployment-source-url", ShortForm = "-u")]
-    public bool? DeploymentSourceUrl { get; set; }
+    [CliOption("--deployment-source-url", ShortForm = "-u")]
+    public string? DeploymentSourceUrl { get; set; }
 
     /// <summary>
     /// Disable creating application insights resource during logicapp create. No logs will be available.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-app-insights")]
-    public bool? DisableAppInsights { get; set; }
+    [CliOption("--disable-app-insights", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableAppInsights { get; set; }
 
     /// <summary>
     /// The container registry server password. Required for private registries.
     /// </summary>
-    [CliFlag("--docker-registry-server-password", ShortForm = "-w")]
-    public bool? DockerRegistryServerPassword { get; set; }
+    [SecretValue]
+    [CliOption("--docker-registry-server-password", ShortForm = "-w")]
+    public string? DockerRegistryServerPassword { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--docker-registry-server-user", ShortForm = "-d")]
-    public bool? DockerRegistryServerUser { get; set; }
+    [CliOption("--docker-registry-server-user", ShortForm = "-d")]
+    public string? DockerRegistryServerUser { get; set; }
 
     /// <summary>
     /// Specify the scope of uniqueness for the default hostname during resource creation.  Allowed values: NoReuse, ResourceGroupReuse, SubscriptionReuse, TenantReuse.
@@ -134,8 +137,8 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS. Allowed values: false, true.
     /// </summary>
-    [CliOption("--https-only")]
-    public bool? HttpsOnly { get; set; }
+    [CliOption("--https-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsOnly { get; set; }
 
     /// <summary>
     /// Name or resource id of the logicapp app service plan. Use 'appservice plan create' to get one. If using an App Service plan from a different resource group, the full resource id must be used and not the plan name.
@@ -152,7 +155,7 @@ public record AzLogicappCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

@@ -35,7 +35,7 @@ public record AzWebappConfigHostnameGetExternalIpOptions : AzOptions
     /// <summary>
     /// Webapp name. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--webapp-name")]
-    public bool? WebappName { get; set; }
+    [CliOption("--webapp-name")]
+    public string? WebappName { get; set; }
 
 }

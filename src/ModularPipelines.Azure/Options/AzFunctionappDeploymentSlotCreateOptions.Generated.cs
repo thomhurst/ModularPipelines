@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -72,27 +74,47 @@ public record AzFunctionappDeploymentSlotCreateOptions : AzOptions
     public string? ConfigurationSource { get; set; }
 
     /// <summary>
+    /// Container image, e.g. publisher/image-name:tag. WARNING: Option '--deployment-container-image-name' has been deprecated and will be removed in a future release. Use '--image' instead.
+    /// </summary>
+    [CliOption("--deployment-container-image-name")]
+    public string? DeploymentContainerImageName { get; set; }
+
+    /// <summary>
+    /// The container registry server password. WARNING: Option '--docker-registry-server-password' has been deprecated and will be removed in a future release. Use '--registry-password' instead.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--docker-registry-server-password")]
+    public string? DockerRegistryServerPassword { get; set; }
+
+    /// <summary>
+    /// The container registry server username. WARNING: Option '--docker-registry-server-user' has been deprecated and will be removed in a future release. Use '--registry-username' instead.
+    /// </summary>
+    [CliOption("--docker-registry-server-user")]
+    public string? DockerRegistryServerUser { get; set; }
+
+    /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true. Default: True.
     /// </summary>
-    [CliOption("--https-only")]
-    public bool? HttpsOnly { get; set; }
+    [CliOption("--https-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsOnly { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image-name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The container registry server password.
     /// </summary>
-    [CliFlag("--registry-password", ShortForm = "-d")]
-    public bool? RegistryPassword { get; set; }
+    [SecretValue]
+    [CliOption("--registry-password", ShortForm = "-d")]
+    public string? RegistryPassword { get; set; }
 
     /// <summary>
     /// The container registry server username.
     /// </summary>
-    [CliFlag("--registry-username", ShortForm = "-u")]
-    public bool? RegistryUsername { get; set; }
+    [CliOption("--registry-username", ShortForm = "-u")]
+    public string? RegistryUsername { get; set; }
 
 }

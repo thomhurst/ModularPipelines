@@ -45,7 +45,7 @@ public record AzSynapseKustoPoolDetachFollowerDatabaseOptions : AzOptions
     /// <summary>
     /// Resource name of the attached database configuration in the follower cluster.
     /// </summary>
-    [CliOption("--adcn", ShortForm = "--attached-database-configuration-name")]
+    [CliOption("--adcn")]
     public string Adcn { get; private init; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public record AzSynapseKustoPoolDetachFollowerDatabaseOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

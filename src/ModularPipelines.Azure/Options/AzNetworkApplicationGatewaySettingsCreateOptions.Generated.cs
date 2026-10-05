@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     public AzNetworkApplicationGatewaySettingsCreateOptions(
         string GatewayName,
         string Name,
-        int Port,
+        string Port,
         string ResourceGroup
     )
     {
@@ -38,12 +39,13 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
         this.GatewayName = GatewayName;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Port);
         this.Port = Port;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string GatewayName, out string Name, out int Port, out string ResourceGroup)
+    public void Deconstruct(out string GatewayName, out string Name, out string Port, out string ResourceGroup)
     {
         GatewayName = this.GatewayName;
         Name = this.Name;
@@ -67,7 +69,7 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// Number of the destination port on the backend.
     /// </summary>
     [CliOption("--port")]
-    public int Port { get; private init; }
+    public string Port { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -78,20 +80,20 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Whether to use host name of the backend server as the host header.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--backend-pool-host-name")]
-    public bool? BackendPoolHostName { get; set; }
+    [CliOption("--backend-pool-host-name", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BackendPoolHostName { get; set; }
 
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the settings.
@@ -114,13 +116,13 @@ public record AzNetworkApplicationGatewaySettingsCreateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-l4-client-ip")]
-    public bool? EnableL4ClientIp { get; set; }
+    [CliOption("--enable-l4-client-ip", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableL4ClientIp { get; set; }
 
 }

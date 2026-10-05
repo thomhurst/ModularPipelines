@@ -43,4 +43,10 @@ public record AzDeploymentGroupListOptions : AzOptions
     [CliOption("--resource-group", ShortForm = "-g")]
     public string ResourceGroup { get; private init; }
 
+    /// <summary>
+    /// Filter expression using OData notation. You can use --filter "provisioningState eq '{state}'" to filter provisioningState. To get more information, please visit https://learn.microsoft.c om/rest/api/resources/deployments/listatsubscriptionscope#uri- parameters. WARNING: Argument '--filter' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
+
 }

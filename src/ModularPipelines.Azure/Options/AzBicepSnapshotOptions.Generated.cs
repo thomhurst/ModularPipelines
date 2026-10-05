@@ -46,8 +46,8 @@ public record AzBicepSnapshotOptions : AzOptions
     /// <summary>
     /// Deployment name forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
-    [CliFlag("--deployment-name")]
-    public bool? DeploymentName { get; set; }
+    [CliOption("--deployment-name")]
+    public string? DeploymentName { get; set; }
 
     /// <summary>
     /// Location forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
@@ -58,8 +58,8 @@ public record AzBicepSnapshotOptions : AzOptions
     /// <summary>
     /// Management group ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot.
     /// </summary>
-    [CliFlag("--management-group-id")]
-    public bool? ManagementGroupId { get; set; }
+    [CliOption("--management-group-id")]
+    public string? ManagementGroupId { get; set; }
 
     /// <summary>
     /// The snapshot mode. 'Overwrite' (default) writes the snapshot file. 'Validate' compares the existing snapshot against the current template and fails if differences are detected.  Allowed values: Overwrite, Validate.
@@ -76,13 +76,13 @@ public record AzBicepSnapshotOptions : AzOptions
     /// <summary>
     /// Subscription ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot. This does not affect Azure CLI authentication; use the global `--subscription` argument to switch the active subscription.
     /// </summary>
-    [CliFlag("--subscription-id")]
-    public bool? SubscriptionId { get; set; }
+    [CliOption("--subscription-id")]
+    public string? SubscriptionId { get; set; }
 
     /// <summary>
     /// Tenant ID forwarded to the Bicep CLI as the deployment context used to resolve `existing` references when capturing the snapshot. This does not affect Azure CLI authentication.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
 }

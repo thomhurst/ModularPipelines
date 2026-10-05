@@ -23,7 +23,7 @@ public record AzPolicyMetadataListOptions : AzOptions
     /// <summary>
     /// Maximum number of records to return.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public int? Top { get; set; }
 
 }

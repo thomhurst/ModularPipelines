@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,8 +70,8 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// Filter out KBs that don't have a reboot behavior of 'NeverReboots' when this is set. Applicable to Windows VM only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--exclude-kbs-requiring-reboot")]
-    public bool? ExcludeKbsRequiringReboot { get; set; }
+    [CliOption("--exclude-kbs-requiring-reboot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExcludeKbsRequiringReboot { get; set; }
 
     /// <summary>
     /// Space-separated list of KBs to exclude in the patch operation. Applicable to Windows VM only.
@@ -87,8 +88,8 @@ public record AzVmInstallPatchesOptions : AzOptions
     /// <summary>
     /// ISO 8601 time value for install patch that were published on or before this given max published date. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliFlag("--max-patch-publish-date")]
-    public bool? MaxPatchPublishDate { get; set; }
+    [CliOption("--max-patch-publish-date", GroupValues = true)]
+    public IEnumerable<string>? MaxPatchPublishDate { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

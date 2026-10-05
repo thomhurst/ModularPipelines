@@ -35,7 +35,7 @@ public record AzNetappfilesPoolShowOptions : AzOptions
     /// <summary>
     /// The name of the capacity pool.
     /// </summary>
-    [CliOption("--name", ShortForm = "-p")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

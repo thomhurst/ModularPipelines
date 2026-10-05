@@ -50,7 +50,7 @@ public record AzAksMeshDisableEgressGatewayOptions : AzOptions
     /// <summary>
     /// Specify the name of the Istio egress gateway. This required field specifies the name of the Istio egress gateway. Must be between 1 and 253 characters, must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character.
     /// </summary>
-    [CliOption("--istio-eg-gtw-name", ShortForm = "--istio-egressgateway-name")]
+    [CliOption("--istio-eg-gtw-name")]
     public string IstioEgGtwName { get; private init; }
 
     /// <summary>
@@ -68,8 +68,8 @@ public record AzAksMeshDisableEgressGatewayOptions : AzOptions
     /// <summary>
     /// Specify the namespace of the Istio egress gateway.  Default: aks-istio- egress. This optional field specifies the namespace of the Istio egress gateway. Defaults to "aks- istio-egress" if unspecified.
     /// </summary>
-    [CliFlag("--istio-eg-gtw-ns", ShortForm = "--istio-egressgateway-namespace")]
-    public bool? IstioEgGtwNs { get; set; }
+    [CliOption("--istio-eg-gtw-ns")]
+    public string? IstioEgGtwNs { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

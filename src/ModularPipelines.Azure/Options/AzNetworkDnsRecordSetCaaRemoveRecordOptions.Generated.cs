@@ -30,7 +30,7 @@ public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
     /// <param name="Value">Value of the CAA record.</param>
     /// <param name="ZoneName">The name of the zone.</param>
     public AzNetworkDnsRecordSetCaaRemoveRecordOptions(
-        string Flags,
+        int Flags,
         string RecordSetName,
         string ResourceGroup,
         string Tag,
@@ -38,7 +38,6 @@ public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
         string ZoneName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Flags);
         this.Flags = Flags;
         global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
         this.RecordSetName = RecordSetName;
@@ -52,7 +51,7 @@ public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
         this.ZoneName = ZoneName;
     }
 
-    public void Deconstruct(out string Flags, out string RecordSetName, out string ResourceGroup, out string Tag, out string Value, out string ZoneName)
+    public void Deconstruct(out int Flags, out string RecordSetName, out string ResourceGroup, out string Tag, out string Value, out string ZoneName)
     {
         Flags = this.Flags;
         RecordSetName = this.RecordSetName;
@@ -66,7 +65,7 @@ public record AzNetworkDnsRecordSetCaaRemoveRecordOptions : AzOptions
     /// Integer flags for the record.
     /// </summary>
     [CliOption("--flags")]
-    public string Flags { get; private init; }
+    public int Flags { get; private init; }
 
     /// <summary>
     /// The name of the record set relative to the zone.

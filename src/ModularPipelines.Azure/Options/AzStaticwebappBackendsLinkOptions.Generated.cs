@@ -68,8 +68,8 @@ public record AzStaticwebappBackendsLinkOptions : AzOptions
     /// <summary>
     /// Region of the backend resource.
     /// </summary>
-    [CliFlag("--backend-region")]
-    public bool? BackendRegion { get; set; }
+    [CliOption("--backend-region")]
+    public string? BackendRegion { get; set; }
 
     /// <summary>
     /// Name of the environment of static site.  Default: default.

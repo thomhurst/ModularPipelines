@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month} /{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
     /// </summary>
-    [CliFlag("--archive-name-format")]
-    public bool? ArchiveNameFormat { get; set; }
+    [CliOption("--archive-name-format")]
+    public string? ArchiveNameFormat { get; set; }
 
     /// <summary>
     /// Blob container Name.
     /// </summary>
-    [CliFlag("--blob-container")]
-    public bool? BlobContainer { get; set; }
+    [CliOption("--blob-container")]
+    public string? BlobContainer { get; set; }
 
     /// <summary>
     /// The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
     /// </summary>
-    [CliFlag("--capture-interval")]
-    public bool? CaptureInterval { get; set; }
+    [CliOption("--capture-interval")]
+    public string? CaptureInterval { get; set; }
 
     /// <summary>
     /// The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
     /// </summary>
-    [CliFlag("--capture-size-limit")]
-    public bool? CaptureSizeLimit { get; set; }
+    [CliOption("--capture-size-limit")]
+    public string? CaptureSizeLimit { get; set; }
 
     /// <summary>
     /// Name for capture destination.
@@ -53,8 +54,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// A value that indicates whether capture description is enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-capture")]
-    public bool? EnableCapture { get; set; }
+    [CliOption("--enable-capture", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableCapture { get; set; }
 
     /// <summary>
     /// Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be deprecated in New API Version.  Allowed values: Avro, AvroDeflate.
@@ -65,8 +66,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// A value that indicates whether to Skip Empty Archives.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--skip-empty-archives")]
-    public bool? SkipEmptyArchives { get; set; }
+    [CliOption("--skip-empty-archives", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipEmptyArchives { get; set; }
 
     /// <summary>
     /// Resource id of the storage account to be used to create the blobs.
@@ -77,8 +78,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// A value that indicates whether capture description is enabled.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--identity")]
-    public string? Identity { get; set; }
+    [CliOption("--identity", GroupValues = true)]
+    public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -89,8 +90,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -114,7 +115,7 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
     /// </summary>
     [CliOption("--partition-count")]
-    public int? PartitionCount { get; set; }
+    public string? PartitionCount { get; set; }
 
     /// <summary>
     /// Enumerates the possible values for the status of the Event Hub.  Allowed values: Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, Restoring, SendDisabled, Unknown.
@@ -125,8 +126,8 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// Gets and Sets Metadata of User.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
     /// <summary>
     /// The Event Hub name.
@@ -161,19 +162,19 @@ public record AzEventhubsEventhubUpdateOptions : AzOptions
     /// <summary>
     /// The minimum time a message will remain ineligible for compaction in the log. This value is used when cleanupPolicy is Compact or DeleteOrCompact.
     /// </summary>
-    [CliFlag("--min-compaction-lag-in-mins", ShortForm = "--min-lag")]
-    public bool? MinCompactionLagInMins { get; set; }
+    [CliOption("--min-compaction-lag-in-mins")]
+    public string? MinCompactionLagInMins { get; set; }
 
     /// <summary>
     /// Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compaction the returned value of this property is Long.MaxValue.
     /// </summary>
-    [CliFlag("--retention-time", ShortForm = "--retention-time-in-hours")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public string? RetentionTime { get; set; }
 
     /// <summary>
     /// Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compaction. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub.
     /// </summary>
-    [CliFlag("--tombstone-retention-time-in-hours", ShortForm = "-t")]
-    public bool? TombstoneRetentionTimeInHours { get; set; }
+    [CliOption("--tombstone-retention-time-in-hours", ShortForm = "-t")]
+    public string? TombstoneRetentionTimeInHours { get; set; }
 
 }

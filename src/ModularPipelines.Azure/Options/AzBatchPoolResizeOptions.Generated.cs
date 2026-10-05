@@ -58,20 +58,20 @@ public record AzBatchPoolResizeOptions : AzOptions
     /// <summary>
     /// The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). ISO-8601 duration format.
     /// </summary>
-    [CliFlag("--resize-timeout")]
-    public bool? ResizeTimeout { get; set; }
+    [CliOption("--resize-timeout")]
+    public string? ResizeTimeout { get; set; }
 
     /// <summary>
     /// The desired number of dedicated Compute Nodes in the Pool.
     /// </summary>
-    [CliFlag("--target-dedicated-nodes")]
-    public bool? TargetDedicatedNodes { get; set; }
+    [CliOption("--target-dedicated-nodes")]
+    public string? TargetDedicatedNodes { get; set; }
 
     /// <summary>
     /// The desired number of Spot/Low-priority Compute Nodes in the Pool.
     /// </summary>
-    [CliFlag("--target-low-priority-nodes")]
-    public bool? TargetLowPriorityNodes { get; set; }
+    [CliOption("--target-low-priority-nodes")]
+    public string? TargetLowPriorityNodes { get; set; }
 
     /// <summary>
     /// Batch service endpoint. Alternatively, set by environment variable: AZURE_BATCH_ENDPOINT.

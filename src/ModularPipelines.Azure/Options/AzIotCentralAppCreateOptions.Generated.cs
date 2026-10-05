@@ -68,14 +68,14 @@ public record AzIotCentralAppCreateOptions : AzOptions
     /// <summary>
     /// Custom display name for the IoT Central app. This will be used in the IoT Central application manager to help you identify your app. Default value is the resource name.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Where your app's info and resources are stored. We will default to the location of the target resource group. See documentation for a full list of supported locations.
     /// </summary>
-    [CliFlag("--location", ShortForm = "-l")]
-    public bool? Location { get; set; }
+    [CliOption("--location", ShortForm = "-l")]
+    public string? Location { get; set; }
 
     /// <summary>
     /// Provide this flag to use system assigned identity.
@@ -98,7 +98,7 @@ public record AzIotCentralAppCreateOptions : AzOptions
     /// <summary>
     /// IoT Central application template name. Default is "Custom application". See documentation for a list of available templates.
     /// </summary>
-    [CliFlag("--template", ShortForm = "-t")]
-    public bool? Template { get; set; }
+    [CliOption("--template", ShortForm = "-t")]
+    public string? Template { get; set; }
 
 }

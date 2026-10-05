@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzNetworkVirtualApplianceSiteUpdateOptions : AzOptions
     /// <summary>
     /// Address Prefix of Network Virtual Appliance Site.
     /// </summary>
-    [CliFlag("--address-prefix")]
-    public bool? AddressPrefix { get; set; }
+    [CliOption("--address-prefix")]
+    public string? AddressPrefix { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Flag to control breakout of o365 allow category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow")]
-    public bool? Allow { get; set; }
+    [CliOption("--allow", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Allow { get; set; }
 
     /// <summary>
     /// Flag to control breakout of o365 default category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--default")]
-    public bool? Default { get; set; }
+    [CliOption("--default", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Default { get; set; }
 
     /// <summary>
     /// Flag to control breakout of o365 optimize category. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--optimize")]
-    public bool? Optimize { get; set; }
+    [CliOption("--optimize", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Optimize { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -59,8 +60,8 @@ public record AzNetworkVirtualApplianceSiteUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -41,14 +42,14 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// JSON encoded list of logs settings. Use '@{file}' to load from a file. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--logs")]
-    public bool? Logs { get; set; }
+    [CliOption("--logs", GroupValues = true)]
+    public IEnumerable<string>? Logs { get; set; }
 
     /// <summary>
     /// The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format '{service bus resourceID}/authorizationrules/{key name}'.
     /// </summary>
-    [CliFlag("--service-bus-rule")]
-    public bool? ServiceBusRule { get; set; }
+    [CliOption("--service-bus-rule")]
+    public string? ServiceBusRule { get; set; }
 
     /// <summary>
     /// The resource id of the storage account to which you would like to send the Activity Log.
@@ -71,8 +72,8 @@ public record AzMonitorDiagnosticSettingsSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

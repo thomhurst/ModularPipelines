@@ -57,8 +57,8 @@ public record AzWebappLogDeploymentShowOptions : AzOptions
     /// <summary>
     /// Deployment ID. If none specified, returns the deployment logs of the latest deployment.
     /// </summary>
-    [CliFlag("--deployment-id")]
-    public bool? DeploymentId { get; set; }
+    [CliOption("--deployment-id")]
+    public string? DeploymentId { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

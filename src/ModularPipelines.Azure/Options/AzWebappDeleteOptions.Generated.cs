@@ -21,6 +21,12 @@ namespace ModularPipelines.Azure.Options;
 public record AzWebappDeleteOptions : AzOptions
 {
     /// <summary>
+    /// Keep DNS registration. WARNING: Argument 'keep_dns_registration' has been deprecated and will be removed in version '3.0.0'.
+    /// </summary>
+    [CliFlag("--keep-dns-registration")]
+    public bool? KeepDnsRegistration { get; set; }
+
+    /// <summary>
     /// Keep empty app service plan.
     /// </summary>
     [CliFlag("--keep-empty-plan")]

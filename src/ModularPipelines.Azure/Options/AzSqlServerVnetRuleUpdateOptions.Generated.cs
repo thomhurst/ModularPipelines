@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzSqlServerVnetRuleUpdateOptions : AzOptions
     /// <summary>
     /// Create firewall rule before the virtual network has vnet service endpoint enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--ignore-missing-endpoint", ShortForm = "-i")]
-    public bool? IgnoreMissingEndpoint { get; set; }
+    [CliOption("--ignore-missing-endpoint", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreMissingEndpoint { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

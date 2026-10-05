@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,55 +69,55 @@ public record AzSfManagedNodeTypeUpdateOptions : AzOptions
     /// <summary>
     /// Application End port of a range of ports.
     /// </summary>
-    [CliFlag("--app-end-port", ShortForm = "--application-end-port")]
-    public bool? AppEndPort { get; set; }
+    [CliOption("--app-end-port")]
+    public string? AppEndPort { get; set; }
 
     /// <summary>
     /// Application start port of a range of ports.
     /// </summary>
-    [CliFlag("--app-start-port", ShortForm = "--application-start-port")]
-    public bool? AppStartPort { get; set; }
+    [CliOption("--app-start-port")]
+    public string? AppStartPort { get; set; }
 
     /// <summary>
     /// Capacity tags applied to the nodes in the node type as key/value pairs, the cluster resource manager uses these tags to understand how much resource a node has. Updating this will override the current values.for example: --capacity ClientConnections=65536 param2=value2.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Capacity { get; set; }
 
     /// <summary>
     /// Ephemeral end port of a range of ports.
     /// </summary>
-    [CliFlag("--ephemeral-end-port")]
-    public bool? EphemeralEndPort { get; set; }
+    [CliOption("--ephemeral-end-port")]
+    public string? EphemeralEndPort { get; set; }
 
     /// <summary>
     /// Ephemeral start port of a range of ports.
     /// </summary>
-    [CliFlag("--ephemeral-start-port")]
-    public bool? EphemeralStartPort { get; set; }
+    [CliOption("--ephemeral-start-port")]
+    public string? EphemeralStartPort { get; set; }
 
     /// <summary>
     /// "The number of nodes in the node type.
     /// </summary>
-    [CliFlag("--instance-count")]
-    public bool? InstanceCount { get; set; }
+    [CliOption("--instance-count")]
+    public string? InstanceCount { get; set; }
 
     /// <summary>
     /// Placement tags applied to nodes in the node type as key/value pairs, which can be used to indicate where certain services (workload) should run. Updating this will override the current values.for example: --placement-property NodeColor=Green SomeProperty=5.
     /// </summary>
-    [CliFlag("--placement-property")]
-    public bool? PlacementProperty { get; set; }
+    [CliOption("--placement-property", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? PlacementProperty { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The size of virtual machines in the pool. All virtual machines in a pool are the same size.
     /// </summary>
-    [CliFlag("--vm-size")]
-    public bool? VmSize { get; set; }
+    [CliOption("--vm-size")]
+    public string? VmSize { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -56,7 +57,7 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// The name of the capacity pool.
     /// </summary>
-    [CliOption("--name", ShortForm = "-p")]
+    [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -68,8 +69,8 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -80,20 +81,20 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// If enabled (true) the pool can contain cool Access enabled volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--cool-access")]
-    public bool? CoolAccess { get; set; }
+    [CliOption("--cool-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CoolAccess { get; set; }
 
     /// <summary>
     /// Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level.
     /// </summary>
-    [CliFlag("--custom-throughput", ShortForm = "--custom-throughput-mibps")]
-    public bool? CustomThroughput { get; set; }
+    [CliOption("--custom-throughput")]
+    public string? CustomThroughput { get; set; }
 
     /// <summary>
     /// Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool.  Allowed values: Double, Single.  Default: Single.
@@ -116,8 +117,8 @@ public record AzNetappfilesPoolCreateOptions : AzOptions
     /// <summary>
     /// Provisioned size of the pool. Must be an integer number of tebibytes in multiples of 4. Use either --size or --size-in-bytes, not both.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
     /// <summary>
     /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or --size-in-bytes, not both.

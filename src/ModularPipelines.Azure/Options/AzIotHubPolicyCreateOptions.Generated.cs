@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,7 +30,7 @@ public record AzIotHubPolicyCreateOptions : AzOptions
     public AzIotHubPolicyCreateOptions(
         string HubName,
         string Name,
-        IEnumerable<string> Permissions
+        IEnumerable<CliOptionValue> Permissions
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(HubName);
@@ -38,7 +39,7 @@ public record AzIotHubPolicyCreateOptions : AzOptions
         this.Name = Name;
         {
             global::System.ArgumentNullException.ThrowIfNull(Permissions);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Permissions));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Permissions));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -51,7 +52,7 @@ public record AzIotHubPolicyCreateOptions : AzOptions
         this.Permissions = Permissions;
     }
 
-    public void Deconstruct(out string HubName, out string Name, out IEnumerable<string> Permissions)
+    public void Deconstruct(out string HubName, out string Name, out IEnumerable<CliOptionValue> Permissions)
     {
         HubName = this.HubName;
         Name = this.Name;
@@ -73,8 +74,8 @@ public record AzIotHubPolicyCreateOptions : AzOptions
     /// <summary>
     /// Permissions of shared access policy. Use space-separated list for multiple permissions. Possible values: RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect.
     /// </summary>
-    [CliOption("--permissions", GroupValues = true)]
-    public IEnumerable<string> Permissions { get; private init; }
+    [CliOption("--permissions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Permissions { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

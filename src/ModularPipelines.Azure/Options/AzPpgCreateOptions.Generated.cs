@@ -57,8 +57,8 @@ public record AzPpgCreateOptions : AzOptions
     /// <summary>
     /// Specifies possible sizes of virtual machines that can be created in the proximity placement group.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--intent-vm-sizes")]
-    public bool? IntentVmSizes { get; set; }
+    [CliOption("--intent-vm-sizes", GroupValues = true)]
+    public IEnumerable<string>? IntentVmSizes { get; set; }
 
     /// <summary>
     /// The type of the proximity placement group. Allowed values: Standard. Allowed values: Standard, Ultra.
@@ -81,7 +81,7 @@ public record AzPpgCreateOptions : AzOptions
     /// <summary>
     /// Specifies the Availability Zone where virtual machine, virtual machine scale set or availability set associated with the  proximity placement group can be created.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zone { get; set; }
 
 }

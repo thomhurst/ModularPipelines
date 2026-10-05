@@ -57,26 +57,26 @@ public record AzAksMeshEnableOptions : AzOptions
     /// <summary>
     /// Intermediate cert object name in the Azure Keyvault.
     /// </summary>
-    [CliFlag("--ca-cert-object-name")]
-    public bool? CaCertObjectName { get; set; }
+    [CliOption("--ca-cert-object-name")]
+    public string? CaCertObjectName { get; set; }
 
     /// <summary>
     /// Intermediate key object name in the Azure Keyvault.
     /// </summary>
-    [CliFlag("--ca-key-object-name")]
-    public bool? CaKeyObjectName { get; set; }
+    [CliOption("--ca-key-object-name")]
+    public string? CaKeyObjectName { get; set; }
 
     /// <summary>
     /// Cert chain object name in the Azure Keyvault.
     /// </summary>
-    [CliFlag("--cert-chain-object-name")]
-    public bool? CertChainObjectName { get; set; }
+    [CliOption("--cert-chain-object-name")]
+    public string? CertChainObjectName { get; set; }
 
     /// <summary>
     /// The Azure Keyvault id with plugin CA info.
     /// </summary>
-    [CliFlag("--key-vault-id")]
-    public bool? KeyVaultId { get; set; }
+    [CliOption("--key-vault-id")]
+    public string? KeyVaultId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -93,13 +93,13 @@ public record AzAksMeshEnableOptions : AzOptions
     /// <summary>
     /// Azure Service Mesh revision to install.
     /// </summary>
-    [CliFlag("--revision")]
-    public bool? Revision { get; set; }
+    [CliOption("--revision")]
+    public string? Revision { get; set; }
 
     /// <summary>
     /// Root cert object name in the Azure Keyvault.
     /// </summary>
-    [CliFlag("--root-cert-object-name")]
-    public bool? RootCertObjectName { get; set; }
+    [CliOption("--root-cert-object-name")]
+    public string? RootCertObjectName { get; set; }
 
 }

@@ -41,7 +41,7 @@ public record AzVmRunCommandShowOptions : AzOptions
     /// <summary>
     /// The name of the virtual machine run command.
     /// </summary>
-    [CliOption("--name", ShortForm = "--run-command-name")]
+    [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>

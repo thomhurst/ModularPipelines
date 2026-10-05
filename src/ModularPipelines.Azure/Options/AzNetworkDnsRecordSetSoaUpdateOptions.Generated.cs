@@ -57,20 +57,20 @@ public record AzNetworkDnsRecordSetSoaUpdateOptions : AzOptions
     /// <summary>
     /// Email address.
     /// </summary>
-    [CliFlag("--email", ShortForm = "-e")]
-    public bool? Email { get; set; }
+    [CliOption("--email", ShortForm = "-e")]
+    public string? Email { get; set; }
 
     /// <summary>
     /// Expire time (seconds).
     /// </summary>
-    [CliFlag("--expire-time", ShortForm = "-x")]
-    public bool? ExpireTime { get; set; }
+    [CliOption("--expire-time", ShortForm = "-x")]
+    public int? ExpireTime { get; set; }
 
     /// <summary>
     /// Host name.
     /// </summary>
-    [CliFlag("--host", ShortForm = "-t")]
-    public bool? Host { get; set; }
+    [CliOption("--host", ShortForm = "-t")]
+    public string? Host { get; set; }
 
     /// <summary>
     /// Create the record set only if it does not already exist.
@@ -81,25 +81,25 @@ public record AzNetworkDnsRecordSetSoaUpdateOptions : AzOptions
     /// <summary>
     /// Minimum TTL (time-to-live, seconds).  Default: 3600.
     /// </summary>
-    [CliFlag("--minimum-ttl", ShortForm = "-m")]
-    public bool? MinimumTtl { get; set; }
+    [CliOption("--minimum-ttl", ShortForm = "-m")]
+    public int? MinimumTtl { get; set; }
 
     /// <summary>
     /// Refresh value (seconds).
     /// </summary>
-    [CliFlag("--refresh-time", ShortForm = "-f")]
-    public bool? RefreshTime { get; set; }
+    [CliOption("--refresh-time", ShortForm = "-f")]
+    public int? RefreshTime { get; set; }
 
     /// <summary>
     /// Retry time (seconds).
     /// </summary>
-    [CliFlag("--retry-time", ShortForm = "-r")]
-    public bool? RetryTime { get; set; }
+    [CliOption("--retry-time", ShortForm = "-r")]
+    public int? RetryTime { get; set; }
 
     /// <summary>
     /// Serial number.
     /// </summary>
-    [CliFlag("--serial-number", ShortForm = "-s")]
-    public bool? SerialNumber { get; set; }
+    [CliOption("--serial-number", ShortForm = "-s")]
+    public int? SerialNumber { get; set; }
 
 }

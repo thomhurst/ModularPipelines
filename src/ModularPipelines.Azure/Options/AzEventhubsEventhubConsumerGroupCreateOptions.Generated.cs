@@ -79,7 +79,7 @@ public record AzEventhubsEventhubConsumerGroupCreateOptions : AzOptions
     /// <summary>
     /// User Metadata is a placeholder to store user- defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
     /// </summary>
-    [CliFlag("--user-metadata")]
-    public bool? UserMetadata { get; set; }
+    [CliOption("--user-metadata")]
+    public string? UserMetadata { get; set; }
 
 }

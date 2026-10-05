@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,7 +30,7 @@ public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOption
     public AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions(
         IEnumerable<string> Details,
         string PeeringLocation,
-        bool SimulationSuccessful
+        CliOptionValue SimulationSuccessful
     )
     {
         {
@@ -47,10 +48,11 @@ public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOption
         this.Details = Details;
         global::System.ArgumentNullException.ThrowIfNull(PeeringLocation);
         this.PeeringLocation = PeeringLocation;
+        global::System.ArgumentNullException.ThrowIfNull(SimulationSuccessful);
         this.SimulationSuccessful = SimulationSuccessful;
     }
 
-    public void Deconstruct(out IEnumerable<string> Details, out string PeeringLocation, out bool SimulationSuccessful)
+    public void Deconstruct(out IEnumerable<string> Details, out string PeeringLocation, out CliOptionValue SimulationSuccessful)
     {
         Details = this.Details;
         PeeringLocation = this.PeeringLocation;
@@ -72,14 +74,14 @@ public record AzNetworkExpressRouteGatewayStopSiteFailoverTestOptions : AzOption
     /// <summary>
     /// Whether the failover simulation was successful or not. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--simulation-successful")]
-    public bool SimulationSuccessful { get; private init; }
+    [CliOption("--simulation-successful", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue SimulationSuccessful { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

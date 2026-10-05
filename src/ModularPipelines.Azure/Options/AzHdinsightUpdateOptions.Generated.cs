@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,14 +64,14 @@ public record AzHdinsightUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The name or ID of user assigned identity. Skip this field when assign_identity_type is SystemAssigned.
     /// </summary>
-    [CliOption("--assign-identity", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AssignIdentity { get; set; }
 
     /// <summary>
     /// The type of identity used for the cluster. Allowed values: `None`, `SystemAssigned`, `SystemAssigned,UserAssigned`, `UserAssigned`.

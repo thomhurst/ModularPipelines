@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzSignalrNetworkRuleUpdateOptions : AzOptions
     /// <summary>
     /// The allowed virtual network rule. Space-separeted list of scope to assign. Allowed values: ClientConnection, ServerConnection, RESTAPI.
     /// </summary>
-    [CliOption("--allow", GroupValues = true)]
-    public IEnumerable<string>? Allow { get; set; }
+    [CliOption("--allow", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Allow { get; set; }
 
     /// <summary>
     /// The denied virtual network rule. Space-separeted list of scope to assign. Allowed values: ClientConnection, ServerConnection, RESTAPI.
     /// </summary>
-    [CliOption("--deny", GroupValues = true)]
-    public IEnumerable<string>? Deny { get; set; }
+    [CliOption("--deny", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Deny { get; set; }
 
     /// <summary>
     /// Space-separeted list of private endpoint connection name.
     /// </summary>
-    [CliOption("--connection-name", GroupValues = true)]
-    public IEnumerable<string>? ConnectionName { get; set; }
+    [CliOption("--connection-name", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ConnectionName { get; set; }
 
     /// <summary>
     /// Set rules for public network.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--public-network")]
-    public bool? PublicNetwork { get; set; }
+    [CliOption("--public-network", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublicNetwork { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
