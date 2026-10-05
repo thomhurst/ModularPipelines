@@ -15,6 +15,11 @@ dotnet add package ModularPipelines.Git
 
 Set `NUGET_API_KEY` in the pipeline environment, then use this complete pipeline:
 
+The test commands below use Microsoft.Testing.Platform and its coverage extension.
+Select that runner in your repository's `global.json` (`test.runner` set to
+`Microsoft.Testing.Platform`). Runner-specific switches are passed through
+`Arguments`; the generated `DotNetTestOptions` properties describe VSTest defaults.
+
 ```csharp
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines;
@@ -64,9 +69,9 @@ public class RunUnitTestsModule : Module<CommandResult[]>
             .SelectAsync(testProject => context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
-                    Project = testProject.Path,
                     Arguments =
                     [
+                        "--project", testProject.Path,
                         "--coverage",
                         "--coverage-output-format", "cobertura",
                     ],

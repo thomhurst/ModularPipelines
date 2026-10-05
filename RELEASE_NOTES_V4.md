@@ -108,6 +108,29 @@ copy/move destinations still use the process directory. For pipeline-relative
 paths, use `context.Files.GetFile` or `GetFolder` and pass their absolute `Path`
 to destination parameters. See the [relative-path migration guidance](docs/docs/how-to/relative-paths.md).
 
+## .NET CLI options
+
+The .NET options generator now recognizes multiple long aliases and single-dash
+MSBuild aliases, including `UseCurrentRuntime`, `SelfContained`, and `Verbosity`.
+`DotNetPackOptions.Version` accepts the package version as a string.
+
+`DotNetTestOptions` is generated from the selected SDK's default VSTest help,
+independently of the repository's `global.json` test-runner setting. It exposes
+`Filter`, `Logger`, `Collect`, `Settings`, and the `Blame` options. `ProjectSolution`
+specifies the optional VSTest project, solution, directory, DLL, or EXE target. MTP-only members
+such as `Project`, `Solution`, `TestModules`, `PlatformOptions`, and
+`ExtensionOptions` are no longer generated. This does not change the runner chosen
+when your command executes. When using Microsoft.Testing.Platform, retain its
+`global.json` configuration and pass runner-specific switches through `Arguments`:
+
+```csharp
+new DotNetTestOptions
+{
+    Arguments = ["--project", "Tests.csproj", "--", "--filter", "Category=Unit", "--", "--report-trx"],
+    ArgumentsContainOptionTerminator = true,
+};
+```
+
 ## Pipeline summary contract
 
 `PipelineSummary` is now sealed. Its timing properties match the other result types:

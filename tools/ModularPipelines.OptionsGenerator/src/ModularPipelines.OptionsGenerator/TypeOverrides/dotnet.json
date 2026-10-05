@@ -5,10 +5,6 @@
       "type": "bool",
       "reason": "Standard help flag"
     },
-    "--version": {
-      "type": "bool",
-      "reason": "Display version info"
-    },
     "--info": {
       "type": "bool",
       "reason": "Display .NET info"

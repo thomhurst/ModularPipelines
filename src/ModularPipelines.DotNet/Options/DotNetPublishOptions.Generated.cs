@@ -22,6 +22,12 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetPublishOptions : DotNetOptions
 {
     /// <summary>
+    /// Use current runtime as the target runtime. [default: False]
+    /// </summary>
+    [CliFlag("--use-current-runtime")]
+    public bool? UseCurrentRuntime { get; set; }
+
+    /// <summary>
     /// The output directory to place the published artifacts in.
     /// </summary>
     [CliOption("--output", ShortForm = "-o")]
@@ -44,6 +50,12 @@ public record DotNetPublishOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-build")]
     public bool? NoBuild { get; set; }
+
+    /// <summary>
+    /// Publish the .NET runtime with your application so the runtime doesn't need to be installed on the target machine. The default is 'false.' However, when targeting .NET 7 or lower, the default is 'true' if a runtime identifier is specified. [default: False]
+    /// </summary>
+    [CliFlag("--self-contained")]
+    public bool? SelfContained { get; set; }
 
     /// <summary>
     /// Publish your application as a framework dependent application. A compatible .NET runtime must be installed on the target machine to run your application. [default: False]
@@ -86,6 +98,12 @@ public record DotNetPublishOptions : DotNetOptions
     /// </summary>
     [CliFlag("--no-restore")]
     public bool? NoRestore { get; set; }
+
+    /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    [CliOption("-verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     /// <summary>
     /// The target runtime to publish for. This is used when creating a self-contained deployment. The default is to publish a framework-dependent application.

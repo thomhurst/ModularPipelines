@@ -59,17 +59,93 @@ public class DotNetCommandParserTests : TestBase
     }
 
     [Test]
-    public async Task Test_Preserves_Platform_And_Extension_Option_Terminators()
+    public async Task Test_Renders_VSTest_Options()
     {
         var result = await GetResult(new DotNetTestOptions
         {
-            NoBuild = true,
-            PlatformOptions = ["--filter", "Category=Unit"],
-            ExtensionOptions = ["--report-trx"]
+            Settings = "test.runsettings",
+            Filter = "Category=Unit",
+            Logger = ["trx"],
+            Collect = ["Coverage"],
+            Blame = true,
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "dotnet test --no-build -- --filter Category=Unit -- --report-trx");
+            "dotnet test --settings test.runsettings --filter Category=Unit --logger trx --collect Coverage --blame");
+    }
+
+    [Test]
+    public async Task Test_Repeats_Logger_Collector_And_Adapter_Switches()
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            TestAdapterPath = ["adapters/first", "adapters/second"],
+            Logger = ["trx", "console;verbosity=normal"],
+            Collect = ["Code Coverage", "XPlat Code Coverage"],
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet test --test-adapter-path adapters/first --test-adapter-path adapters/second " +
+            "--logger trx --logger console;verbosity=normal " +
+            "--collect \"Code Coverage\" --collect \"XPlat Code Coverage\"");
+    }
+
+    [Test]
+    public async Task Build_Renders_Options_With_Multiple_Aliases()
+    {
+        var result = await GetResult(new DotNetBuildOptions
+        {
+            UseCurrentRuntime = true,
+            Verbosity = "normal",
+            SelfContained = true,
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet build --use-current-runtime -verbosity normal --self-contained");
+    }
+
+    [Test]
+    public async Task Test_Preserves_Explicit_MTP_Arguments()
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            Arguments = ["--project", "Tests.csproj", "--", "--filter", "Category=Unit", "--", "--report-trx"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo(
+            "dotnet test --project Tests.csproj -- --filter Category=Unit -- --report-trx");
+    }
+
+    [Test]
+    [Arguments("tests/UnitTests.csproj")]
+    [Arguments("Tests.sln")]
+    [Arguments("tests")]
+    [Arguments("Tests.dll")]
+    [Arguments("Tests.exe")]
+    public async Task Test_Renders_Positional_Target_Before_Options(string target)
+    {
+        var result = await GetResult(new DotNetTestOptions
+        {
+            ProjectSolution = target,
+            Filter = "Category=Unit",
+        });
+
+        await Assert.That(result.CommandInput).IsEqualTo($"dotnet test {target} --filter Category=Unit");
+    }
+
+    [Test]
+    public async Task Format_Renders_Version_Without_A_Value()
+    {
+        var result = await GetResult(new DotNetFormatOptions { Version = true });
+        await Assert.That(result.CommandInput).IsEqualTo("dotnet format --version");
+    }
+
+    [Test]
+    public async Task Pack_Renders_Version_Value()
+    {
+        var result = await GetResult(new DotNetPackOptions { Version = "1.2.3" });
+        await Assert.That(result.CommandInput).IsEqualTo("dotnet pack --version 1.2.3");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)

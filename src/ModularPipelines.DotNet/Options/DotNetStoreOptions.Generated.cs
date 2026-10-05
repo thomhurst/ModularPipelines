@@ -69,6 +69,18 @@ public record DotNetStoreOptions : DotNetOptions
     public string? Runtime { get; set; }
 
     /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    [CliOption("-verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
+
+    /// <summary>
+    /// Use current runtime as the target runtime. [default: False]
+    /// </summary>
+    [CliFlag("--use-current-runtime")]
+    public bool? UseCurrentRuntime { get; set; }
+
+    /// <summary>
     /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
     [CliFlag("--disable-build-servers")]

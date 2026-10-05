@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json' file). This only supports Microsoft.Testing.Platform and doesn't support VSTest. For more information, see https://aka.ms/dotnet-test.
+/// .NET Test Command for VSTest. To use Microsoft.Testing.Platform, opt-in to the Microsoft.Testing.Platform-based command via global.json. For more information, see https://aka.ms/dotnet-test.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,28 +22,64 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetTestOptions : DotNetOptions
 {
     /// <summary>
-    /// Defines the path of the project or solution file to test. Use path to the project file, or path to the directory containing the project file. If not specified, it defaults to the current directory.
+    /// The settings file to use when running tests.
     /// </summary>
-    [CliOption("--project")]
-    public string? Project { get; set; }
+    [CliOption("--settings", ShortForm = "-s")]
+    public string? Settings { get; set; }
 
     /// <summary>
-    /// Defines the path of the solution file to test. Use path to the solution file, or path to the directory containing the solution file. If not specified, it defaults to the current directory.
+    /// List the discovered tests instead of running the tests. [default: False]
     /// </summary>
-    [CliOption("--solution")]
-    public string? Solution { get; set; }
+    [CliFlag("--list-tests", ShortForm = "-t")]
+    public bool? ListTests { get; set; }
 
     /// <summary>
-    /// Run tests for the specified test modules.
+    /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This will force the tests to be run in an isolated process. This argument can be specified multiple times to provide multiple variables.
     /// </summary>
-    [CliOption("--test-modules")]
-    public string? TestModules { get; set; }
+    [CliOption("--environment", ShortForm = "-e")]
+    public IEnumerable<string>? Environment { get; set; }
 
     /// <summary>
-    /// The test modules have the specified root directory.
+    /// Run tests that match the given expression. Examples: Run tests with priority set to 1: --filter "Priority = 1" Run a test with the specified full name: --filter "FullyQualifiedName=Namespace.ClassName.MethodName" Run tests that contain the specified name: --filter "FullyQualifiedName~Namespace.Class" See https://aka.ms/vstest-filtering for more information on filtering support.
     /// </summary>
-    [CliOption("--root-directory")]
-    public string? RootDirectory { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
+
+    /// <summary>
+    /// The path to the custom adapters to use for the test run.
+    /// </summary>
+    [CliOption("--test-adapter-path")]
+    public IEnumerable<string>? TestAdapterPath { get; set; }
+
+    /// <summary>
+    /// The logger to use for test results. Examples: Log in trx format using a unique file name: --logger trx Log in trx format using the specified file name: --logger "trx;LogFileName=&lt;TestResults.trx&gt;" See https://aka.ms/vstest-report for more information on logger arguments.
+    /// </summary>
+    [CliOption("--logger", ShortForm = "-l")]
+    public IEnumerable<string>? Logger { get; set; }
+
+    /// <summary>
+    /// The output directory to place built artifacts in.
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
+
+    /// <summary>
+    /// The artifacts path. All output from the project, including build, publish, and pack output, will go in subfolders under the specified path.
+    /// </summary>
+    [CliOption("--artifacts-path")]
+    public string? ArtifactsPath { get; set; }
+
+    /// <summary>
+    /// Enable verbose logging to the specified file.
+    /// </summary>
+    [CliOption("--diag", ShortForm = "-d")]
+    public string? Diag { get; set; }
+
+    /// <summary>
+    /// Do not build the project before testing. Implies --no-restore. [default: False]
+    /// </summary>
+    [CliFlag("--no-build")]
+    public bool? NoBuild { get; set; }
 
     /// <summary>
     /// The directory where the test results will be placed. The specified directory will be created if it does not exist.
@@ -52,34 +88,58 @@ public record DotNetTestOptions : DotNetOptions
     public string? ResultsDirectory { get; set; }
 
     /// <summary>
-    /// Specifies a testconfig.json file.
+    /// The friendly name of the data collector to use for the test run. More info here: https://aka.ms/vstest-collect
     /// </summary>
-    [CliOption("--config-file")]
-    public string? ConfigFile { get; set; }
+    [CliOption("--collect")]
+    public IEnumerable<string>? Collect { get; set; }
 
     /// <summary>
-    /// Output directory of the diagnostic logging. If not specified the file will be generated inside the default 'TestResults' directory.
+    /// Runs the tests in blame mode. This option is helpful in isolating problematic tests that cause the test host to crash or hang, but it does not create a memory dump by default.
     /// </summary>
-    [CliOption("--diagnostic-output-directory")]
-    public string? DiagnosticOutputDirectory { get; set; }
+    [CliFlag("--blame")]
+    public bool? Blame { get; set; }
 
     /// <summary>
-    /// The max number of test modules that can run in parallel.
+    /// Runs the tests in blame mode and collects a crash dump when the test host exits unexpectedly. This option depends on the version of .NET used, the type of error, and the operating system.
     /// </summary>
-    [CliOption("--max-parallel-test-modules")]
-    public int? MaxParallelTestModules { get; set; }
+    [CliFlag("--blame-crash")]
+    public bool? BlameCrash { get; set; }
 
     /// <summary>
-    /// Specifies the minimum number of tests that are expected to run.
+    /// The type of crash dump to be collected. Supported values are full (default) and mini. Implies --blame-crash.
     /// </summary>
-    [CliOption("--minimum-expected-tests")]
-    public int? MinimumExpectedTests { get; set; }
+    [CliOption("--blame-crash-dump-type")]
+    public string? BlameCrashDumpType { get; set; }
 
     /// <summary>
-    /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This argument can be specified multiple times to provide multiple variables.
+    /// Enables collecting crash dump on expected as well as unexpected testhost exit. [default: False]
     /// </summary>
-    [CliOption("--environment", ShortForm = "-e")]
-    public IEnumerable<string>? Environment { get; set; }
+    [CliFlag("--blame-crash-collect-always")]
+    public bool? BlameCrashCollectAlways { get; set; }
+
+    /// <summary>
+    /// Run the tests in blame mode and enables collecting hang dump when test exceeds the given timeout. [default: False]
+    /// </summary>
+    [CliFlag("--blame-hang")]
+    public bool? BlameHang { get; set; }
+
+    /// <summary>
+    /// The type of crash dump to be collected. The supported values are full (default), mini, and none. When 'none' is used then test host is terminated on timeout, but no dump is collected. Implies --blame-hang.
+    /// </summary>
+    [CliOption("--blame-hang-dump-type")]
+    public string? BlameHangDumpType { get; set; }
+
+    /// <summary>
+    /// Per-test timeout, after which hang dump is triggered and the testhost process is terminated. Default is 1h. The timeout value is specified in the following format: 1.5h / 90m / 5400s / 5400000ms. When no unit is used (e.g. 5400000), the value is assumed to be in milliseconds. When used together with data driven tests, the timeout behavior depends on the test adapter used. For xUnit, NUnit and MSTest 2.2.4+ the timeout is renewed after every test case, For MSTest before 2.2.4, the timeout is used for all testcases.
+    /// </summary>
+    [CliOption("--blame-hang-timeout")]
+    public string? BlameHangTimeout { get; set; }
+
+    /// <summary>
+    /// Run test(s), without displaying Microsoft Testplatform banner [default: True]
+    /// </summary>
+    [CliFlag("--no-logo", ShortForm = "-nologo")]
+    public bool? NoLogo { get; set; }
 
     /// <summary>
     /// The configuration to use for running tests. The default for most projects is 'Debug'.
@@ -92,6 +152,24 @@ public record DotNetTestOptions : DotNetOptions
     /// </summary>
     [CliOption("--framework", ShortForm = "-f")]
     public string? Framework { get; set; }
+
+    /// <summary>
+    /// Do not restore the project before building. [default: False]
+    /// </summary>
+    [CliFlag("--no-restore")]
+    public bool? NoRestore { get; set; }
+
+    /// <summary>
+    /// Allows the command to stop and wait for user input or action (for example to complete authentication). [default: False]
+    /// </summary>
+    [CliFlag("--interactive")]
+    public bool? Interactive { get; set; }
+
+    /// <summary>
+    /// Set the MSBuild verbosity level. Allowed values are q[uiet], m[inimal], n[ormal], d[etailed], and diag[nostic].
+    /// </summary>
+    [CliOption("-verbosity", ShortForm = "-v")]
+    public string? Verbosity { get; set; }
 
     /// <summary>
     /// The target runtime to test for.
@@ -112,58 +190,10 @@ public record DotNetTestOptions : DotNetOptions
     public string? Os { get; set; }
 
     /// <summary>
-    /// Do not restore the project before building. [default: False]
+    /// Force the command to ignore any persistent build servers. [default: False]
     /// </summary>
-    [CliFlag("--no-restore")]
-    public bool? NoRestore { get; set; }
-
-    /// <summary>
-    /// Do not build the project before testing. Implies --no-restore. [default: False]
-    /// </summary>
-    [CliFlag("--no-build")]
-    public bool? NoBuild { get; set; }
-
-    /// <summary>
-    /// The artifacts path. All output from the project, including build, publish, and pack output, will go in subfolders under the specified path.
-    /// </summary>
-    [CliOption("--artifacts-path")]
-    public string? ArtifactsPath { get; set; }
-
-    /// <summary>
-    /// Disable ANSI output. [default: False]
-    /// </summary>
-    [CliFlag("--no-ansi")]
-    public bool? NoAnsi { get; set; }
-
-    /// <summary>
-    /// Disable progress reporting. [default: False]
-    /// </summary>
-    [CliFlag("--no-progress")]
-    public bool? NoProgress { get; set; }
-
-    /// <summary>
-    /// Verbosity of test output.
-    /// </summary>
-    [CliOption("--output")]
-    public string? Output { get; set; }
-
-    /// <summary>
-    /// List the discovered tests instead of running the tests.
-    /// </summary>
-    [CliFlag("--list-tests")]
-    public bool? ListTests { get; set; }
-
-    /// <summary>
-    /// Do not attempt to use launchSettings.json or [app].run.json to configure the application. [default: False]
-    /// </summary>
-    [CliFlag("--no-launch-profile")]
-    public bool? NoLaunchProfile { get; set; }
-
-    /// <summary>
-    /// Do not use arguments specified in launch profile to run the application. [default: False]
-    /// </summary>
-    [CliFlag("--no-launch-profile-arguments")]
-    public bool? NoLaunchProfileArguments { get; set; }
+    [CliFlag("--disable-build-servers")]
+    public bool? DisableBuildServers { get; set; }
 
     /// <summary>
     /// Set one or more MSBuild properties. Use format: PropertyName=Value
@@ -172,15 +202,9 @@ public record DotNetTestOptions : DotNetOptions
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
-    /// The platform options operand.
+    /// The project, solution, directory, DLL, or EXE to test. Defaults to the current directory.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
-    public IEnumerable<string>? PlatformOptions { get; set; }
-
-    /// <summary>
-    /// The extension options operand.
-    /// </summary>
-    [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true, RepeatOptionTerminator = true)]
-    public IEnumerable<string>? ExtensionOptions { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public string? ProjectSolution { get; set; }
 
 }

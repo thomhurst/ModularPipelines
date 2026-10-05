@@ -21,6 +21,12 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetPackageUpdateOptions : DotNetOptions
 {
     /// <summary>
+    /// Path to a project or solution file or file-based app, or a project directory.
+    /// </summary>
+    [CliOption("--project")]
+    public string? Project { get; set; }
+
+    /// <summary>
     /// Upgrade packages with known vulnerabilities. [default: False]
     /// </summary>
     [CliFlag("--vulnerable")]

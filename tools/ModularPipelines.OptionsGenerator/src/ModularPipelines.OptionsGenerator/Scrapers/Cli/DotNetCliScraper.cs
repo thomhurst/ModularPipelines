@@ -170,7 +170,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         }
 
         // Apply command-specific positional argument fixes
-        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs);
+        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs, description);
 
         // Extract enums from options
         var enums = options
@@ -279,21 +279,18 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                 continue;
             }
 
-            var shortFlag = match.Groups["short"].Value.Trim();
-            var longFlag = match.Groups["long"].Value.Trim();
+            var switches = match.Groups["switch"].Captures.Select(capture => capture.Value).ToArray();
+            var primarySwitch = switches.OrderByDescending(value => value.StartsWith("--", StringComparison.Ordinal))
+                .ThenByDescending(value => value.Length).First();
+            var shortFlag = switches.Where(value => value != primarySwitch && !value.StartsWith("--", StringComparison.Ordinal))
+                .OrderBy(value => value.Length).FirstOrDefault();
             var hasOptionalValue = match.Groups["optionalValue"].Success;
             var valueHint = (hasOptionalValue
                 ? match.Groups["optionalValue"]
                 : match.Groups["value"]).Value.Trim();
 
-            // Need at least one flag
-            if (string.IsNullOrEmpty(longFlag) && string.IsNullOrEmpty(shortFlag))
-            {
-                continue;
-            }
-
-            // Prefer long flag for naming
-            var primaryFlag = !string.IsNullOrEmpty(longFlag) ? longFlag : shortFlag;
+            // Prefer the descriptive alias, preserving single-dash MSBuild spellings.
+            var primaryFlag = primarySwitch.TrimStart('-');
 
             // Skip duplicates
             if (seenOptions.Contains(primaryFlag))
@@ -304,7 +301,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
             seenOptions.Add(primaryFlag);
 
             // Skip common global options that are on base class
-            if (!includeGlobalOptions && IsGlobalOption(primaryFlag))
+            if (!includeGlobalOptions && IsGlobalOption(primaryFlag, commandParts))
             {
                 continue;
             }
@@ -329,15 +326,17 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
                          && (declaresBooleanDefault
                              || !IsLikelyValueOption(primaryFlag, description));
             var isRequired = false;
+            // VSTest accepts repeated logger, collector, and adapter switches; its help omits that detail.
             var acceptsMultiple = description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
-                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase);
+                                  description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase) ||
+                                  (commandParts is ["test"] && primaryFlag is "logger" or "collect" or "test-adapter-path");
 
             var csharpType = DetermineType(valueHint, description, isFlag, acceptsMultiple);
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = !string.IsNullOrEmpty(longFlag) ? $"--{longFlag}" : $"-{shortFlag}",
-                ShortForm = !string.IsNullOrEmpty(shortFlag) && !string.IsNullOrEmpty(longFlag) ? $"-{shortFlag}" : null,
+                SwitchName = primarySwitch,
+                ShortForm = shortFlag,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
                 Description = description,
@@ -475,7 +474,8 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// </summary>
     private static List<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
-        List<CliPositionalArgument> args)
+        List<CliPositionalArgument> args,
+        string? description)
     {
         var commandKey = string.Join(" ", commandParts);
 
@@ -519,6 +519,26 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
 
         if (commandKey.Equals("test", StringComparison.OrdinalIgnoreCase))
         {
+            // SDK 10 VSTest help omits this operand, although the command accepts it.
+            // https://learn.microsoft.com/dotnet/core/tools/dotnet-test-vstest#arguments
+            if (description?.StartsWith(".NET Test Command for VSTest.", StringComparison.OrdinalIgnoreCase) == true
+                && !args.Any(argument => argument.Phase == CommandLinePhase.EarlyOperand))
+            {
+                args =
+                [
+                    new CliPositionalArgument
+                    {
+                        PropertyName = "ProjectSolution",
+                        CSharpType = "string?",
+                        Description = "The project, solution, directory, DLL, or EXE to test. Defaults to the current directory.",
+                        Phase = CommandLinePhase.EarlyOperand,
+                        PositionIndex = 0,
+                        IsRequired = false,
+                    },
+                    .. args.Select(argument => argument with { PositionIndex = argument.PositionIndex + 1 }),
+                ];
+            }
+
             return [.. args.Select(argument => argument.PropertyName switch
             {
                 "PlatformOptions" => argument with { PrependOptionTerminator = true },
@@ -616,8 +636,13 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// <summary>
     /// Checks if an option is a global option that should be on the base class.
     /// </summary>
-    private static bool IsGlobalOption(string optionName)
+    private static bool IsGlobalOption(string optionName, string[] commandParts)
     {
+        if (optionName.Equals("version", StringComparison.OrdinalIgnoreCase) && commandParts.Length > 0)
+        {
+            return false;
+        }
+
         var globalOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "version", "diagnostics", "d"
@@ -637,7 +662,7 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
         {
             "name", "username", "password", "source", "url", "path", "file", "directory", "dir",
             "key", "api-key", "apikey", "token", "secret", "config", "configfile", "output",
-            "timeout", "version", "protocol-version", "valid-authentication-types"
+            "timeout", "protocol-version", "valid-authentication-types"
         };
 
         if (valueOptionNames.Contains(optionName))
@@ -720,8 +745,10 @@ public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// -v, --verbosity <LEVEL>              Description    (comma + space separator)
     /// -s|--source <source>                 Description    (pipe separator, nuget style)
     /// -ss|--symbol-source <source>         Description    (multi-char short, pipe separator)
+    /// --ucr, --use-current-runtime        Description    (multiple long aliases)
+    /// -v, -verbosity <LEVEL>              Description    (single-dash MSBuild aliases)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:-(?<short>\w+)[,|]\s*)?--(?<long>[\w-]+)(?:\s+(?:<(?<value>[^>]+)>|\[<(?<optionalValue>[^>]+)>\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<switch>--?[\w?][\w?-]*)(?:[,|]\s*(?<switch>--?[\w?][\w?-]*))*(?:\s+(?:<(?<value>[^>]+)>|\[<(?<optionalValue>[^>]+)>\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex DotNetOptionPattern();
 
     /// <summary>
