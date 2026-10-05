@@ -10,7 +10,16 @@ public class GhGlobalOptionsAuditTests
     [Test]
     public async Task Root_Control_Actions_Do_Not_Become_Inherited_Settings()
     {
-        await Assert.That(new AuditScraper().Globals(Fixture("root"))).IsEmpty();
+        var rootHelp = Fixture("root");
+        var flags = rootHelp.ReplaceLineEndings("\n").Split('\n')
+            .SkipWhile(line => line != "FLAGS")
+            .Skip(1)
+            .TakeWhile(line => line != "EXAMPLES")
+            .Where(line => line.TrimStart().StartsWith("--", StringComparison.Ordinal))
+            .Select(line => line.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0]);
+
+        await Assert.That(flags).IsEquivalentTo(["--help", "--version"]);
+        await Assert.That(new AuditScraper().Globals(rootHelp)).IsEmpty();
     }
 
     [Test]
