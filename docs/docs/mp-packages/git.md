@@ -44,6 +44,48 @@ public class UseGitModule : Module<CommandResult>
 
 The package exposes generated options records for its supported CLI commands.
 
+## Shared execution options
+
+All command options inherit root execution settings from `GitOptions`. These settings
+appear before the command name. For example:
+
+```csharp
+await context.Tools.Git.Commands.WorkingTree.StatusAsync(new GitStatusOptions
+{
+    ChangeDirectories = ["checkout", "application"],
+    Configuration = [("core.quotepath", "false")],
+    NoOptionalLocks = true,
+    Short = true,
+}, cancellationToken: cancellationToken);
+```
+
+`ChangeDirectories` repeats `-C` in collection order. Each relative directory resolves
+against the previous directory; directory changes precede other root settings.
+`Configuration` repeats `-c key=value` without collapsing duplicate keys. Use an empty
+value to clear a setting or `"true"` for Git's implicit boolean form. Values use `KeyValue`
+and are registered for secret masking, including HTTP authorization headers.
+`ConfigEnv` repeats `--config-env=name=ENVIRONMENT_VARIABLE`; it contains variable names,
+not their secret contents.
+
+`GitDirectory`, `WorkTree`, `Namespace`, and `ExecPath` use equals-separated values.
+`ExecPath` requires a value; its bare path-reporting form is not an inherited setting.
+Pager controls, replacement-object controls, optional-lock controls, pathspec settings,
+`AttrSource`, `NoLazyFetch`, and `NoAdvice` are also shared. The installed Git version
+must support each selected option. Command-local switches retain their separate scope:
+`GitRevParseOptions.GitDir` reports a path, while `GitDirectory` selects the repository
+before `rev-parse` executes. `BareRepository` sets root `--bare`; command-local `Bare`
+properties such as `GitCloneOptions.Bare` still follow their command.
+
+`GitBaseOptions` retains version and path-reporting actions for `Repository.GitAsync`.
+These actions are not inherited by ordinary commands. Existing `GitBaseOptions.GitDir`
+and `.Bare` initializers migrate to `.GitDirectory` and `.BareRepository` respectively;
+other shared properties retain their names through inheritance.
+
+The Git integration deliberately retains its handwritten grouped facade and option
+ownership. Its scraper captures root usage separately from `git help -a`, validates the
+complete command tree, and refreshes coverage metadata without replacing these records.
+See the [Git command reference](https://git-scm.com/docs/git) for root-option semantics.
+
 ## Repository information
 
 When the pipeline always runs inside a repository, use `GetRequiredInfoAsync`. It throws an
