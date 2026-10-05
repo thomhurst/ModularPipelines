@@ -82,7 +82,11 @@ public record BrewDescOptions : BrewOptions
     /// Display any debugging information.
     /// </summary>
     [CliFlag("--debug")]
-    public new bool? Debug { get; set; }
+    public new bool? Debug
+    {
+        get => base.Debug;
+        set => base.Debug = value;
+    }
 
     /// <summary>
     /// The formula operand.

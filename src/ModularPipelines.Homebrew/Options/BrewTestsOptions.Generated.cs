@@ -42,7 +42,11 @@ public record BrewTestsOptions : BrewOptions
     /// Enable debugging using ruby/debug, or surface the standard odebug output.
     /// </summary>
     [CliFlag("--debug")]
-    public new bool? Debug { get; set; }
+    public new bool? Debug
+    {
+        get => base.Debug;
+        set => base.Debug = value;
+    }
 
     /// <summary>
     /// Only runs tests on files that were changed from the main branch.
