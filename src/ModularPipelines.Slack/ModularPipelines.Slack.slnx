@@ -6,4 +6,5 @@
   </Configurations>
   <Project Path="../ModularPipelines/ModularPipelines.csproj" />
   <Project Path="ModularPipelines.Slack.csproj" />
+  <Project Path="../../test/ModularPipelines.Slack.UnitTests/ModularPipelines.Slack.UnitTests.csproj" />
 </Solution>

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using AdaptiveCards;
 
-namespace ModularPipelines.MicrosoftTeams.Models;
+namespace ModularPipelines.MicrosoftTeams;
 
 [ExcludeFromCodeCoverage]
 public class MicrosoftTeamsAdaptiveCard : AdaptiveCard

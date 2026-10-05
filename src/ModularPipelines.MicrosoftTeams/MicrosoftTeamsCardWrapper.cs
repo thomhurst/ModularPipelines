@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace ModularPipelines.MicrosoftTeams.Models;
+namespace ModularPipelines.MicrosoftTeams;
 
 [ExcludeFromCodeCoverage]
 internal class MicrosoftTeamsCardWrapper

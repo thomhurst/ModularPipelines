@@ -4,7 +4,7 @@ title: Slack Package
 
 # Slack Package
 
-Slack notification helpers.
+Send webhook messages through `context.Tools.Slack`.
 
 ## Installation
 
@@ -12,27 +12,30 @@ Slack notification helpers.
 dotnet add package ModularPipelines.Slack
 ```
 
-## Context entry points
+## Send a message
 
-Use the discoverable `context.Tools` surface from a module:
-
-- `context.Tools.Slack`
-
-## Module example
+Import `ModularPipelines.Slack` for the integration and its options. Inside an
+asynchronous module, pass the module cancellation token:
 
 ```csharp
+using ModularPipelines.Slack;
+using Slack.Webhooks;
 
-public class UseSlackModule : SyncModule<None>
-{
-    protected override None Execute(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        var slack = context.Tools.Slack;
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Slack integration is ready");
-        return None.Value;
-    }
-}
+await context.Tools.Slack.PostMessageAsync(
+    new SlackWebHookOptions(
+        new SlackMessage { Text = "Build passed" },
+        webhookUri),
+    cancellationToken);
 ```
+
+`webhookUri` is the webhook `Uri` obtained from your configuration. Treat it as a
+secret. Cancellation stops the pending HTTP request. An unsuccessful HTTP response
+throws `PipelineHttpResponseException`; the helper disposes the request and response.
+
+## V4 migration
+
+Replace `PostWebHookMessage` with `PostMessageAsync`. Replace imports of
+`ModularPipelines.Slack.Options` and `ModularPipelines.Slack.Extensions` with
+`ModularPipelines.Slack`. There are no forwarding methods for the old API.
+`RegisterSlackContext` remains public for integration registration, but is hidden
+from IntelliSense with `EditorBrowsable(Never)`.

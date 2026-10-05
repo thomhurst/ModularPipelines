@@ -1,4 +1,60 @@
 #nullable enable
 *REMOVED*static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.MicrosoftTeams(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.MicrosoftTeams.IMicrosoftTeams!
-ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.get -> bool
-ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.init -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.get -> bool
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.ThrowOnNonSuccessStatusCode.init -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsExtensions
+*REMOVED*ModularPipelines.MicrosoftTeams.IMicrosoftTeams.PostMicrosoftTeamsCard(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage!>!
+ModularPipelines.MicrosoftTeams.IMicrosoftTeams.PostCardAsync(ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage!>!
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard.MicrosoftTeamsAdaptiveCard() -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard.MicrosoftTeamsAdaptiveCard() -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard.MsTeams.get -> ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsProperties?
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard.MsTeams.get -> ModularPipelines.MicrosoftTeams.MicrosoftTeamsProperties?
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard.MsTeams.set -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard.MsTeams.set -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsProperties
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsProperties
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsProperties.MicrosoftTeamsProperties() -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsProperties.MicrosoftTeamsProperties() -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsProperties.Width.get -> string?
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsProperties.Width.get -> string?
+*REMOVED*ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsProperties.Width.set -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsProperties.Width.set -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.Card.get -> ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard!
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.Card.get -> ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard!
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.Card.init -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.Card.init -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.Deconstruct(out ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard! Card, out System.Uri! WebHookUri) -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.Deconstruct(out ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard! Card, out System.Uri! WebHookUri) -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.MicrosoftTeamsWebHookCardOptions(ModularPipelines.MicrosoftTeams.Models.MicrosoftTeamsAdaptiveCard! Card, System.Uri! WebHookUri) -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.MicrosoftTeamsWebHookCardOptions(ModularPipelines.MicrosoftTeams.MicrosoftTeamsAdaptiveCard! Card, System.Uri! WebHookUri) -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.MicrosoftTeamsWebHookCardOptions(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions! original) -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.MicrosoftTeamsWebHookCardOptions(ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions! original) -> void
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.WebHookUri.get -> System.Uri!
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.WebHookUri.get -> System.Uri!
+*REMOVED*ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.WebHookUri.init -> void
+ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.WebHookUri.init -> void
+*REMOVED*override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.Equals(object? obj) -> bool
+override ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.GetHashCode() -> int
+override ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.ToString() -> string!
+override ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.ToString() -> string!
+*REMOVED*static ModularPipelines.MicrosoftTeams.Extensions.MicrosoftTeamsExtensions.RegisterMicrosoftTeamsContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.MicrosoftTeams.MicrosoftTeamsExtensions.RegisterMicrosoftTeamsContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+*REMOVED*static ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.operator !=(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? right) -> bool
+static ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.operator !=(ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions? right) -> bool
+*REMOVED*static ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.operator ==(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? right) -> bool
+static ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.operator ==(ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions? left, ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions? right) -> bool
+*REMOVED*virtual ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.<Clone>$() -> ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions!
+virtual ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.<Clone>$() -> ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions!
+*REMOVED*virtual ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.EqualityContract.get -> System.Type!
+virtual ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.Equals(ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions? other) -> bool
+virtual ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.Equals(ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.MicrosoftTeams.Options.MicrosoftTeamsWebHookCardOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.MicrosoftTeams.MicrosoftTeamsWebHookCardOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool

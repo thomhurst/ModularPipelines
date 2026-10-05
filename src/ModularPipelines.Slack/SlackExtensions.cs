@@ -1,14 +1,15 @@
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 
-namespace ModularPipelines.Slack.Extensions;
+namespace ModularPipelines.Slack;
 
 [ExcludeFromCodeCoverage]
 public static class SlackExtensions
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [ModularPipelinesIntegration]
     public static IServiceCollection RegisterSlackContext(this IServiceCollection services)
     {
