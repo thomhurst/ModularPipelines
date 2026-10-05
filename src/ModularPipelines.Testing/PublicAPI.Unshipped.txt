@@ -63,3 +63,4 @@ static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.Creat
 static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.CreateResult(string! moduleId, string! value) -> ModularPipelines.Distributed.SerializedModuleResult!
 *REMOVED*ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.Models.IModuleResult!
 ModularPipelines.Testing.ModuleTestRun.Result.get -> ModularPipelines.IModuleResult!
+ModularPipelines.Testing.InMemoryFileSystemProvider.MoveFile(string! sourcePath, string! destinationPath, bool overwrite) -> void

@@ -25,6 +25,8 @@ public class FilePath : IEquatable<FilePath>
 
     private readonly IFileSystemProvider _provider;
 
+    internal IFileSystemProvider Provider => _provider;
+
     /// <summary>
     /// Creates a file path, resolving a relative path against the process's current directory.
     /// </summary>

@@ -352,6 +352,10 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     /// <inheritdoc />
     public void MoveFile(string sourcePath, string destinationPath)
+        => MoveFile(sourcePath, destinationPath, overwrite: false);
+
+    /// <inheritdoc />
+    public void MoveFile(string sourcePath, string destinationPath, bool overwrite)
     {
         lock (_sync)
         {
@@ -363,12 +367,21 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                     $"The in-memory file '{source}' is already open.");
             }
 
-            if (_files.ContainsKey(destination))
+            if (!overwrite && _files.ContainsKey(destination))
             {
                 throw new IOException($"The in-memory file '{destination}' already exists.");
             }
 
             ValidateFileDestination(destination);
+            if (IsOpen(destination))
+            {
+                throw new IOException($"The in-memory file '{destination}' is already open.");
+            }
+
+            if (_pathComparer.Equals(source, destination) && _files.ContainsKey(source))
+            {
+                return;
+            }
 
             if (!_files.TryRemove(source, out var contents))
             {
