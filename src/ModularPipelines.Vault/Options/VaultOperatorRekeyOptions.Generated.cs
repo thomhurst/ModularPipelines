@@ -6,6 +6,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -21,9 +22,196 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("operator", "rekey")]
 public record VaultOperatorRekeyOptions : VaultOptions
 {
+    [CliFlag("-backup")]
+    public bool? Backup { get; set; }
+
+    /// <summary>
+    /// Address of the Vault server. The default is https://127.0.0.1:8200. This can also be specified via the VAULT_ADDR environment variable.
+    /// </summary>
+    [CliOption("-address", Format = OptionFormat.EqualsSeparated)]
+    public string? Address { get; set; }
+
+    /// <summary>
+    /// Address of the Agent. This can also be specified via the VAULT_AGENT_ADDR environment variable.
+    /// </summary>
+    [CliOption("-agent-address", Format = OptionFormat.EqualsSeparated)]
+    public string? AgentAddress { get; set; }
+
+    /// <summary>
+    /// Path on the local disk to a single PEM-encoded CA certificate to verify the Vault server's SSL certificate. This takes precedence over -ca-path. This can also be specified via the VAULT_CACERT environment variable.
+    /// </summary>
+    [CliOption("-ca-cert", Format = OptionFormat.EqualsSeparated)]
+    public string? CaCert { get; set; }
+
+    /// <summary>
+    /// Path on the local disk to a directory of PEM-encoded CA certificates to verify the Vault server's SSL certificate. This can also be specified via the VAULT_CAPATH environment variable.
+    /// </summary>
+    [CliOption("-ca-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CaPath { get; set; }
+
+    /// <summary>
+    /// Path on the local disk to a single PEM-encoded CA certificate to use for TLS authentication to the Vault server. If this flag is specified, -client-key is also required. This can also be specified via the VAULT_CLIENT_CERT environment variable.
+    /// </summary>
+    [CliOption("-client-cert", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientCert { get; set; }
+
+    /// <summary>
+    /// Path on the local disk to a single PEM-encoded private key matching the client certificate from -client-cert. This can also be specified via the VAULT_CLIENT_KEY environment variable.
+    /// </summary>
+    [CliOption("-client-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ClientKey { get; set; }
+
+    /// <summary>
+    /// Disable the default client behavior, which honors a single redirect response from a request The default is false. This can also be specified via the VAULT_DISABLE_REDIRECTS environment variable.
+    /// </summary>
+    [CliFlag("-disable-redirects")]
+    public bool? DisableRedirects { get; set; }
+
+    /// <summary>
+    /// Key-value pair provided as key=value to provide http header added to any request done by the CLI.Trying to add headers starting with 'X-Vault-' is forbidden and will make the command fail This can be specified multiple times.
+    /// </summary>
+    [SecretValue]
+    [CliOption("-header", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Header { get; set; }
+
+    /// <summary>
+    /// Supply MFA credentials as part of X-Vault-MFA header. This can also be specified via the VAULT_MFA environment variable.
+    /// </summary>
+    [SecretValue]
+    [CliOption("-mfa", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Mfa { get; set; }
+
+    /// <summary>
+    /// The namespace to use for the command. Setting this is not necessary but allows using relative paths. -ns can be used as shortcut. The default is (not set). This can also be specified via the VAULT_NAMESPACE environment variable.
+    /// </summary>
+    [CliOption("-namespace", ShortForm = "-ns", Format = OptionFormat.EqualsSeparated)]
+    public string? Namespace { get; set; }
+
+    /// <summary>
+    /// When set true, prevents asking the user for input via the terminal. The default is false.
+    /// </summary>
+    [CliFlag("-non-interactive")]
+    public bool? NonInteractive { get; set; }
+
+    /// <summary>
+    /// Instead of executing the request, print an equivalent cURL command string and exit. The default is false.
+    /// </summary>
+    [CliFlag("-output-curl-string")]
+    public bool? OutputCurlString { get; set; }
+
+    /// <summary>
+    /// Instead of executing the request, print an example HCL policy that would be required to run this command, and exit. The default is false.
+    /// </summary>
+    [CliFlag("-output-policy")]
+    public bool? OutputPolicy { get; set; }
+
+    /// <summary>
+    /// Override a Sentinel policy that has a soft-mandatory enforcement_level specified The default is false.
+    /// </summary>
+    [CliFlag("-policy-override")]
+    public bool? PolicyOverride { get; set; }
+
+    /// <summary>
+    /// Name to use as the SNI host when connecting to the Vault server via TLS. This can also be specified via the VAULT_TLS_SERVER_NAME environment variable.
+    /// </summary>
+    [CliOption("-tls-server-name", Format = OptionFormat.EqualsSeparated)]
+    public string? TlsServerName { get; set; }
+
+    /// <summary>
+    /// Disable verification of TLS certificates. Using this option is highly discouraged as it decreases the security of data transmissions to and from the Vault server. The default is false. This can also be specified via the VAULT_SKIP_VERIFY environment variable.
+    /// </summary>
+    [CliFlag("-tls-skip-verify")]
+    public bool? TlsSkipVerify { get; set; }
+
+    /// <summary>
+    /// Key to unlock a namespace API lock. The default is (not set).
+    /// </summary>
+    [SecretValue]
+    [CliOption("-unlock-key", Format = OptionFormat.EqualsSeparated)]
+    public string? UnlockKey { get; set; }
+
+    /// <summary>
+    /// Wraps the response in a cubbyhole token with the requested TTL. The response is available via the "vault unwrap" command. The TTL is specified as a numeric string with suffix like "30s" or "5m". This can also be specified via the VAULT_WRAP_TTL environment variable.
+    /// </summary>
+    [CliOption("-wrap-ttl", Format = OptionFormat.EqualsSeparated)]
+    public string? WrapTtl { get; set; }
+
+    /// <summary>
+    /// Print the output in the given format. Valid formats are "table", "json", "yaml", or "pretty". "raw" is allowed for 'vault read' operations only. The default is table. This can also be specified via the VAULT_FORMAT environment variable.
+    /// </summary>
+    [CliOption("-format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Reset the rekeying progress. This will discard any submitted unseal keys, recovery keys, or configuration. The default is false.
+    /// </summary>
+    [CliFlag("-cancel")]
+    public bool? Cancel { get; set; }
+
+    /// <summary>
+    /// Initialize the rekeying operation. This can only be done if no rekeying operation is in progress. Customize the new number of key shares and key threshold using the -key-shares and -key-threshold flags. The default is false.
+    /// </summary>
+    [CliFlag("-init")]
+    public bool? Init { get; set; }
+
+    /// <summary>
+    /// Number of key shares to split the generated root key into. This is the number of "unseal keys" or "recovery keys" to generate. This is aliased as "-n". The default is 5.
+    /// </summary>
+    [CliOption("-key-shares", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyShares { get; set; }
+
+    /// <summary>
+    /// Number of key shares required to reconstruct the root key. This must be less than or equal to -key-shares. This is aliased as "-t". The default is 3.
+    /// </summary>
+    [CliOption("-key-threshold", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyThreshold { get; set; }
+
+    /// <summary>
+    /// Nonce value provided at initialization. The same nonce value must be provided with each unseal or recovery key.
+    /// </summary>
+    [CliOption("-nonce", Format = OptionFormat.EqualsSeparated)]
+    public string? Nonce { get; set; }
+
+    /// <summary>
+    /// Comma-separated list of paths to files on disk containing public PGP keys OR a comma-separated list of Keybase usernames using the format "keybase:&lt;username&gt;". When supplied, the generated unseal or recovery keys will be encrypted and base64-encoded in the order specified in this list.
+    /// </summary>
+    [CliOption("-pgp-keys", Format = OptionFormat.EqualsSeparated)]
+    public string? PgpKeys { get; set; }
+
+    /// <summary>
+    /// Print the status of the current attempt without providing an unseal or recovery key. The default is false.
+    /// </summary>
+    [CliFlag("-status")]
+    public bool? Status { get; set; }
+
+    /// <summary>
+    /// Target for rekeying. "recovery" only applies when HSM support is enabled. The default is barrier.
+    /// </summary>
+    [CliOption("-target", Format = OptionFormat.EqualsSeparated)]
+    public string? Target { get; set; }
+
+    /// <summary>
+    /// Indicates that the action (-status, -cancel, or providing a key share) will be affecting verification for the current rekey attempt. The default is false.
+    /// </summary>
+    [CliFlag("-verify")]
+    public bool? Verify { get; set; }
+
+    /// <summary>
+    /// Delete any stored backup unseal or recovery keys. The default is false.
+    /// </summary>
+    [CliFlag("-backup-delete")]
+    public bool? BackupDelete { get; set; }
+
+    /// <summary>
+    /// Retrieve the backed-up unseal or recovery keys. This option is only available if the PGP keys were provided and the backup has not been deleted. The default is false.
+    /// </summary>
+    [CliFlag("-backup-retrieve")]
+    public bool? BackupRetrieve { get; set; }
+
     /// <summary>
     /// The KEY operand.
     /// </summary>
+    [SecretValue]
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Key { get; set; }
 

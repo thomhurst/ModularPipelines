@@ -102,7 +102,7 @@ public partial class VaultCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(commandParts, helpText);
 
         var className = GenerateClassName(commandPath);
 
@@ -116,7 +116,13 @@ public partial class VaultCliScraper : CliScraperBase
             Description = description,
             DocumentationUrl = "https://developer.hashicorp.com/vault/docs/commands",
             Options = options,
-            PositionalArguments = GetPositionalArguments(usage, options),
+            PositionalArguments = [.. GetPositionalArguments(usage, options).Select(argument => argument with
+            {
+                IsSecret = argument.IsSecret
+                    || commandParts is ["login"] or ["unwrap"] or ["operator", "unseal"]
+                        or ["operator", "generate-root"] or ["operator", "rekey"]
+                    || GeneratorUtils.IsSecretOption(argument.PropertyName, false, argument.Description),
+            })],
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             SubDomainGroup = null,
@@ -166,16 +172,16 @@ public partial class VaultCliScraper : CliScraperBase
     /// Format: -address=<string>    Address of the Vault server
     ///         -format=<string>     Print output in the given format
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private List<CliOptionDefinition> ParseOptions(string[] commandParts, string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         var lines = helpText.Split('\n');
 
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Length; i++)
         {
-            var match = VaultOptionPattern().Match(line);
+            var match = VaultOptionPattern().Match(lines[i]);
             if (!match.Success)
             {
                 continue;
@@ -183,7 +189,8 @@ public partial class VaultCliScraper : CliScraperBase
 
             var flagName = match.Groups["flag"].Value.Trim();
             var valueHint = match.Groups["value"].Value.Trim();
-            var description = match.Groups["desc"].Value.Trim();
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"],
+                static line => VaultOptionPattern().IsMatch(line));
 
             if (string.IsNullOrEmpty(flagName))
             {
@@ -201,29 +208,51 @@ public partial class VaultCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint) || valueHint == "bool";
-            var csharpType = isFlag ? "bool?" : "string?";
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = flagName,
-                ShortForm = null,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = false,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = "=",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-            });
+            options.Add(CreateOptionDefinition(commandParts, flagName, valueHint, propertyName, description));
         }
 
         return options;
     }
+
+    private CliOptionDefinition CreateOptionDefinition(
+        string[] commandParts,
+        string flagName,
+        string valueHint,
+        string propertyName,
+        string description)
+    {
+        var isFlag = string.IsNullOrEmpty(valueHint) || valueHint == "bool";
+        // MFA uses StringSliceVar even though its help omits the repeatability sentence.
+        var repeatable = !isFlag && (flagName == "-mfa" || IsRepeatableValueOption(description, isFlag));
+        var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", repeatable);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = flagName,
+            ShortForm = flagName == "-namespace" && description.Contains("-ns can be used", StringComparison.Ordinal) ? "-ns" : null,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = repeatable,
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = "=",
+            EnumDefinition = null,
+            IsSecret = IsSecretOption(commandParts, flagName, propertyName, description, isFlag)
+        };
+    }
+
+    private static bool IsSecretOption(
+        string[] commandParts,
+        string flagName,
+        string propertyName,
+        string description,
+        bool isFlag) =>
+        !isFlag && (flagName is "-mfa" or "-header" or "-unlock-key" or "-otp" or "-decode"
+                    || (commandParts is ["token", "create"] && flagName == "-id")
+                    || GeneratorUtils.IsSecretOption(propertyName, isFlag, description));
 
     /// <summary>
     /// Checks if help text indicates the command has options.
@@ -247,7 +276,7 @@ public partial class VaultCliScraper : CliScraperBase
     ///   -format=<string>     Print output in the given format
     ///   -tls-skip-verify     Skip TLS verification
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=<(?<value>\w+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]+(?<flag>-[\w-]+)(?:=<(?<value>[^>\r\n]+)>)?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex VaultOptionPattern();
 
     #endregion
