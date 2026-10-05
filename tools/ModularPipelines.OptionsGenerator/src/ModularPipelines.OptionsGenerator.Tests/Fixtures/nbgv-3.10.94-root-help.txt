@@ -1,0 +1,19 @@
+Description:
+  nbgv v3.10.94+dea9a6c17c
+
+Usage:
+  nbgv [command] [options]
+
+Options:
+  -?, -h, --help  Show help and usage information
+  --version       Show version information
+
+Commands:
+  install                   Prepares a project to have version stamps applied using Nerdbank.GitVersioning.
+  get-version <commit-ish>  Gets the version information for a project. [default: HEAD]
+  set-version <version>     Updates the version stamp that is applied to a project.
+  tag <versionOrRef>        Creates a git tag to mark a version. [default: HEAD]
+  get-commits <version>     Gets the commit(s) that match a given version.
+  cloud                     Communicates with the ambient cloud build to set the build number and/or other cloud build variables.
+  prepare-release <tag>     Prepares a release by creating a release branch for the current version and adjusting the version on the current branch.
+

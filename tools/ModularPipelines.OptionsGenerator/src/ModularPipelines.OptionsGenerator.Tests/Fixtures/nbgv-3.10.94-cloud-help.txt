@@ -1,0 +1,17 @@
+Description:
+  Communicates with the ambient cloud build to set the build number and/or other cloud build variables.
+
+Usage:
+  nbgv cloud [options]
+
+Options:
+  -p, --project <project>      The path to the project or project directory used to calculate the version. The default is the current directory. Ignored if the -v option is specified.
+  --metadata <metadata>        Adds an identifier to the build metadata part of a semantic version.
+  -v, --version <version>      The string to use for the cloud build number. If not specified, the computed version will be used.
+  -s, --ci-system <ci-system>  Force activation for a particular CI system. If not specified, auto-detection will be used. Supported values are: AppVeyor, VisualStudioTeamServices, GitHubActions, TeamCity, AtlassianBamboo, Jenkins, GitLab, Travis, SpaceAutomation, BitbucketCloud
+  -a, --all-vars               Defines ALL version variables as cloud build variables, with a "NBGV_" prefix.
+  -c, --common-vars            Defines a few common version variables as cloud build variables, with a "Git" prefix (e.g. GitBuildVersion, GitBuildVersionSimple, GitAssemblyInformationalVersion).
+  --skip-cloud-build-number    Do not emit the cloud build variable to set the build number. This is useful when you want to set other cloud build variables but not the build number.
+  -d, --define <define>        Additional cloud build variables to define. Each should be in the NAME=VALUE syntax.
+  -?, -h, --help               Show help and usage information
+

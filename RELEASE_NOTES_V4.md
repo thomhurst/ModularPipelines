@@ -727,3 +727,15 @@ File and folder extension methods now live beside their path types in
 
 Tests that also use TUnit's `NotInParallel` attribute should qualify it as
 `TUnit.Core.NotInParallel` to distinguish test scheduling from module scheduling.
+
+## .NET SDK and nbgv option scope
+
+Generated .NET SDK command records now inherit `Diagnostics` from `DotNetOptions`.
+`Diagnostics = true` renders `--diagnostics` before the command path; false and null
+omit it. Command verbosity, runtime-host settings, and root information actions are
+not universal SDK execution properties.
+
+The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
+help/version actions. Continue setting `Project` and other values on command
+records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
+value and is not the root version-information action.

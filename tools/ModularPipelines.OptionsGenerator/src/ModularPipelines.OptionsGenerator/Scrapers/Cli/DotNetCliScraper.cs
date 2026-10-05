@@ -46,15 +46,10 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -f, --framework &lt;FRAMEWORK&gt;          The target framework to build for.
 ///   ...
 /// </summary>
-public partial class DotNetCliScraper : CliScraperBase
+public partial class DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DotNetCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private static readonly IReadOnlySet<string> DotNetIgnoredOptionSwitches =
         new[] { "--help", "-h" }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
-
-    public DotNetCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DotNetCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     public override string ToolName => "dotnet";
 
@@ -65,6 +60,10 @@ public partial class DotNetCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.DotNet";
 
     protected override IReadOnlySet<string> IgnoredOptionSwitches => DotNetIgnoredOptionSwitches;
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseOptions(helpText, [], SdkOptionsSectionPattern(), includeGlobalOptions: true)
+            .Where(option => option.SwitchName == "--diagnostics")];
 
 
     /// <summary>
@@ -102,7 +101,7 @@ public partial class DotNetCliScraper : CliScraperBase
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
 
             // Parse command lines: "  command    description"
             var lines = section.Split('\n');
@@ -220,7 +219,7 @@ public partial class DotNetCliScraper : CliScraperBase
                 descEnd = nextSection.Index;
             }
 
-            var description = helpText.Substring(descStart, descEnd - descStart).Trim();
+            var description = helpText[descStart..descEnd].Trim();
             // Take first line only
             var firstLine = description.Split('\n')[0].Trim();
             if (!string.IsNullOrEmpty(firstLine))
@@ -236,14 +235,18 @@ public partial class DotNetCliScraper : CliScraperBase
     /// Parses options from .NET CLI help text.
     /// .NET CLI uses GNU-style: --option VALUE, --flag, -o (short forms)
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(
+        string helpText,
+        string[] commandParts,
+        Regex? sectionPattern = null,
+        bool includeGlobalOptions = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Options: section
-        var optionsMatch = OptionsSectionPattern().Match(helpText);
+        var optionsMatch = (sectionPattern ?? OptionsSectionPattern()).Match(helpText);
         if (!optionsMatch.Success)
         {
             return options;
@@ -259,7 +262,7 @@ public partial class DotNetCliScraper : CliScraperBase
             sectionEnd = nextSectionMatch.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
 
         for (var i = 0; i < lines.Length; i++)
@@ -301,7 +304,7 @@ public partial class DotNetCliScraper : CliScraperBase
             seenOptions.Add(primaryFlag);
 
             // Skip common global options that are on base class
-            if (IsGlobalOption(primaryFlag))
+            if (!includeGlobalOptions && IsGlobalOption(primaryFlag))
             {
                 continue;
             }
@@ -420,7 +423,7 @@ public partial class DotNetCliScraper : CliScraperBase
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = helpText[sectionStart..sectionEnd];
         var lines = section.Split('\n');
         var index = 0;
 
@@ -504,19 +507,19 @@ public partial class DotNetCliScraper : CliScraperBase
 
         if (commandKey.Equals("tool run", StringComparison.OrdinalIgnoreCase))
         {
-            return args.Select(argument =>
+            return [.. args.Select(argument =>
                 argument.PropertyName.Equals("ToolArguments", StringComparison.OrdinalIgnoreCase)
                     ? argument with
                     {
                         Phase = CommandLinePhase.Passthrough,
                         PrependOptionTerminator = true,
                     }
-                    : argument).ToList();
+                    : argument)];
         }
 
         if (commandKey.Equals("test", StringComparison.OrdinalIgnoreCase))
         {
-            return args.Select(argument => argument.PropertyName switch
+            return [.. args.Select(argument => argument.PropertyName switch
             {
                 "PlatformOptions" => argument with { PrependOptionTerminator = true },
                 "ExtensionOptions" => argument with
@@ -525,7 +528,7 @@ public partial class DotNetCliScraper : CliScraperBase
                     RepeatOptionTerminator = true,
                 },
                 _ => argument,
-            }).ToList();
+            })];
         }
 
         return args;
@@ -534,7 +537,7 @@ public partial class DotNetCliScraper : CliScraperBase
     private static List<CliPositionalArgument> ApplyUsageCardinality(
         List<CliPositionalArgument> arguments,
         IReadOnlyList<CliPositionalArgument> usageArguments) =>
-        arguments.Select(argument =>
+        [.. arguments.Select(argument =>
         {
             var usageArgument = usageArguments.FirstOrDefault(candidate =>
                 candidate.PropertyName.Equals(
@@ -548,7 +551,7 @@ public partial class DotNetCliScraper : CliScraperBase
                     IsVariadic = usageArgument.IsVariadic,
                 }
                 : argument;
-        }).ToList();
+        })];
 
     /// <summary>
     /// Simplifies combined positional argument names.
@@ -694,6 +697,9 @@ public partial class DotNetCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^Options?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex OptionsSectionPattern();
+
+    [GeneratedRegex(@"^sdk-options:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex SdkOptionsSectionPattern();
 
     /// <summary>
     /// Matches "Arguments:" section header.

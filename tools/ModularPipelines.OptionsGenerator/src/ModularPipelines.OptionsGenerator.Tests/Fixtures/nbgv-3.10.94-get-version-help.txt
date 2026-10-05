@@ -1,0 +1,17 @@
+Description:
+  Gets the version information for a project.
+
+Usage:
+  nbgv get-version [<commit-ish>] [options]
+
+Arguments:
+  <commit-ish>  The commit/ref to get the version information for. [default: HEAD]
+
+Options:
+  -p, --project <project>    The path to the project or project directory. The default is the current directory.
+  --metadata <metadata>      Adds an identifier to the build metadata part of a semantic version.
+  -f, --format <format>      The format to write the version information. Allowed values are: text, json. The default is text.
+  -v, --variable <variable>  The name of just one version property to print to stdout. When specified, the output is always in raw text. Useful in scripts.
+  --public-release           Specifies whether this is a public release. When specified, overrides the PublicRelease environment variable. Use --public-release=true or --public-release=false to explicitly set the value.
+  -?, -h, --help             Show help and usage information
+

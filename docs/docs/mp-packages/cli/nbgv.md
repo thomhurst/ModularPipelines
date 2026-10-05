@@ -11,7 +11,7 @@ title: nbgv CLI reference
 
 This package does not install the `nbgv` executable. Install it separately and ensure `nbgv` is available on `PATH`.
 
-The generation workflow is pinned to `nbgv` version `3.10.91`.
+The generation workflow is pinned to `nbgv` version `3.10.94`.
 
 See the [nbgv installation guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html).
 
