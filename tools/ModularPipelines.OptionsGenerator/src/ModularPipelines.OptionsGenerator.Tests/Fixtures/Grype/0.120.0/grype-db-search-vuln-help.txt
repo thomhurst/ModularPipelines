@@ -1,0 +1,22 @@
+Search for vulnerabilities within the DB (supports DB schema v6+ only)
+
+Usage:
+  grype db search vuln ID... [flags]
+
+Aliases:
+  vuln, vulnerability, vulnerabilities, vulns
+
+Flags:
+      --fixed-state stringArray   only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
+  -h, --help                      help for vuln
+      --limit int                 limit the number of results returned, use 0 for no limit (default 5000)
+      --modified-after string     only show vulnerabilities originally published or modified since the given date (format: YYYY-MM-DD)
+  -o, --output string             format to display results (available=[table, json]) (default "table")
+      --provider stringArray      only show vulnerabilities from the given provider
+      --published-after string    only show vulnerabilities originally published after the given date (format: YYYY-MM-DD)
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
