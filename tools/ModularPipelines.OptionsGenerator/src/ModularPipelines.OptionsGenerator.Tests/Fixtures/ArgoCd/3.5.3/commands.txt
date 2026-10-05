@@ -1,0 +1,166 @@
+<root>
+account
+admin
+app
+appset
+cert
+cluster
+configure
+context
+gpg
+login
+logout
+proj
+relogin
+repo
+repocreds
+account bcrypt
+account can-i
+account delete-token
+account generate-token
+account get
+account get-user-info
+account list
+account session-token
+account update-password
+admin app
+admin cluster
+admin dashboard
+admin export
+admin import
+admin initial-password
+admin notifications
+admin proj
+admin redis-initial-password
+admin repo
+admin settings
+app actions
+app add-source
+app confirm-deletion
+app create
+app delete
+app delete-resource
+app diff
+app edit
+app get
+app get-resource
+app history
+app list
+app logs
+app manifests
+app patch
+app patch-resource
+app remove-source
+app resources
+app rollback
+app set
+app sync
+app terminate-op
+app unset
+app wait
+appset create
+appset delete
+appset generate
+appset get
+appset list
+cert add-ssh
+cert add-tls
+cert list
+cert rm
+cluster add
+cluster get
+cluster list
+cluster rm
+cluster rotate-auth
+cluster set
+gpg add
+gpg get
+gpg list
+gpg rm
+proj add-destination
+proj add-destination-service-account
+proj add-orphaned-ignore
+proj add-source
+proj add-source-namespace
+proj allow-cluster-resource
+proj allow-namespace-resource
+proj create
+proj delete
+proj deny-cluster-resource
+proj deny-namespace-resource
+proj edit
+proj get
+proj list
+proj remove-destination
+proj remove-destination-service-account
+proj remove-orphaned-ignore
+proj remove-source
+proj remove-source-namespace
+proj role
+proj set
+proj source-integrity
+proj windows
+repo add
+repo get
+repo list
+repo rm
+repocreds add
+repocreds list
+repocreds rm
+admin app diff-reconcile-results
+admin app generate-spec
+admin app get-reconcile-results
+admin cluster generate-spec
+admin cluster kubeconfig
+admin cluster namespaces
+admin cluster shards
+admin cluster stats
+admin notifications template
+admin notifications trigger
+admin proj generate-allow-list
+admin proj generate-spec
+admin proj update-role-policy
+admin repo generate-spec
+admin settings rbac
+admin settings resource-overrides
+admin settings validate
+app actions list
+app actions run
+proj role add-group
+proj role add-policy
+proj role create
+proj role create-token
+proj role delete
+proj role delete-token
+proj role get
+proj role list
+proj role list-tokens
+proj role remove-group
+proj role remove-policy
+proj source-integrity git
+proj windows add
+proj windows delete
+proj windows disable-manual-sync
+proj windows disable-sync-overrun
+proj windows enable-manual-sync
+proj windows enable-sync-overrun
+proj windows list
+proj windows update
+admin cluster namespaces disable-namespaced-mode
+admin cluster namespaces enable-namespaced-mode
+admin notifications template get
+admin notifications template notify
+admin notifications trigger get
+admin notifications trigger run
+admin settings rbac can
+admin settings rbac validate
+admin settings resource-overrides health
+admin settings resource-overrides ignore-differences
+admin settings resource-overrides ignore-resource-updates
+admin settings resource-overrides list-actions
+admin settings resource-overrides run-action
+proj source-integrity git policies
+proj source-integrity git policies add
+proj source-integrity git policies delete
+proj source-integrity git policies list
+proj source-integrity git policies update
