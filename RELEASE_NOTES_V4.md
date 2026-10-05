@@ -692,3 +692,7 @@ For example, Cassandra `ClusterArguments = [new CliValueGroup(["first=value",
 group to repeat the option. ARO `AssignPlatformWi` similarly preserves each operator
 and identity pair. See the Azure package guide for the DevOps extension prerequisite
 and noninteractive PAT authentication.
+
+### Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
