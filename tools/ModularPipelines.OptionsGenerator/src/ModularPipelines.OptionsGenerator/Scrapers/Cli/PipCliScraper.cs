@@ -345,9 +345,15 @@ public partial class PipCliScraper : CliScraperBase
                 }
 
                 var isFlag = string.IsNullOrEmpty(valueHint);
+                var isCountedFlag = isFlag && description.Contains("Option is additive", StringComparison.OrdinalIgnoreCase);
                 var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
                     || RepeatableOptions.Contains(longForm);
                 var scalarType = isFlag ? "bool?" : "string?";
+                if (isCountedFlag)
+                {
+                    scalarType = "int?";
+                }
+
                 var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
                 options.Add(new CliOptionDefinition
@@ -365,7 +371,8 @@ public partial class PipCliScraper : CliScraperBase
                     IsNumeric = false,
                     ValueSeparator = " ",
                     EnumDefinition = null,
-                    IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag)
+                    IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag),
+                    ValidationConstraints = isCountedFlag ? new CliValidationConstraints { MinValue = 0 } : null,
                 });
             }
         }
