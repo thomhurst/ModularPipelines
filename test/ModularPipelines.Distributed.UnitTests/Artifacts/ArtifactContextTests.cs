@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Artifacts;
@@ -72,7 +73,7 @@ public class ArtifactContextTests
                 artifact,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => new MemoryStream("content"u8.ToArray()));
-        var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
+        var context = new ArtifactContextImpl(store.Object, new DistributedOptions());
         var destinationDirectory = Directory.CreateTempSubdirectory("artifact-context-");
         var destinationPath = Path.Combine(destinationDirectory.FullName, "output.txt");
 
@@ -97,7 +98,9 @@ public class ArtifactContextTests
     }
 
     [Test]
-    public async Task Publish_Directory_Streams_From_Deleted_Temporary_Archive()
+    [Arguments(CompressionLevel.NoCompression)]
+    [Arguments(CompressionLevel.Optimal)]
+    public async Task Configured_Pipeline_Publishes_Directory_With_Selected_Compression(CompressionLevel compressionLevel)
     {
         string? uploadedArchivePath = null;
         byte[]? uploadedContent = null;
@@ -122,22 +125,33 @@ public class ArtifactContextTests
                     UploadedAt = DateTimeOffset.UtcNow,
                 };
             });
-        var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
         var sourceDirectory = Directory.CreateTempSubdirectory("artifact-context-source-");
 
         try
         {
-            await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "output.txt"), "content");
-            using (new ModuleOutputContextScope(typeof(ProducerModule)))
-            {
-                await context.PublishDirectoryAsync("output", sourceDirectory.FullName, CancellationToken.None);
-            }
+            await File.WriteAllTextAsync(Path.Combine(sourceDirectory.FullName, "output.txt"), new string('x', 8192));
+            var builder = TestPipelineBuilder.Create().AddModule<PipelineDirectoryProducerModule>();
+            builder.Services.AddSingleton<IDistributedArtifactStore>(store.Object);
+            builder.Services.AddSingleton(new DirectoryPublishState(sourceDirectory.FullName));
+            builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = compressionLevel);
+            await using var pipeline = await builder.BuildAsync();
+
+            _ = await pipeline.RunAsync();
 
             using var archiveStream = new MemoryStream(uploadedContent!);
-            using var archive = new System.IO.Compression.ZipArchive(archiveStream, System.IO.Compression.ZipArchiveMode.Read);
+            using var archive = new ZipArchive(archiveStream, ZipArchiveMode.Read);
             await Assert.That(uploadedArchivePath).IsNotNull();
             await Assert.That(File.Exists(uploadedArchivePath!)).IsFalse();
-            await Assert.That(archive.GetEntry("output.txt")).IsNotNull();
+            var entry = archive.GetEntry("output.txt");
+            await Assert.That(entry).IsNotNull();
+            if (compressionLevel == CompressionLevel.NoCompression)
+            {
+                await Assert.That(entry!.CompressedLength).IsEqualTo(entry.Length);
+            }
+            else
+            {
+                await Assert.That(entry!.CompressedLength).IsLessThan(entry.Length);
+            }
         }
         finally
         {
@@ -166,7 +180,7 @@ public class ArtifactContextTests
                 artifact,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => new MemoryStream("content"u8.ToArray()));
-        var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
+        var context = new ArtifactContextImpl(store.Object, new DistributedOptions());
         var destinationPath = $"artifact-context-{Guid.NewGuid():N}.txt";
 
         try
@@ -196,7 +210,7 @@ public class ArtifactContextTests
                 successfulRetry,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => new MemoryStream("current"u8.ToArray()));
-        var context = new ArtifactContextImpl(store.Object, new ArtifactOptions());
+        var context = new ArtifactContextImpl(store.Object, new DistributedOptions());
         var destinationPath = Path.GetTempFileName();
 
         try
@@ -246,6 +260,16 @@ public class ArtifactContextTests
             return string.Empty;
         }
     }
+
+    private sealed class PipelineDirectoryProducerModule(DirectoryPublishState state) : Module<ArtifactReference>
+    {
+        protected internal override Task<ArtifactReference> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => context.Artifacts.PublishDirectoryAsync("output", state.DirectoryPath, cancellationToken);
+    }
+
+    private sealed record DirectoryPublishState(string DirectoryPath);
 
     private sealed record ArtifactPublishState(string FilePath);
 }

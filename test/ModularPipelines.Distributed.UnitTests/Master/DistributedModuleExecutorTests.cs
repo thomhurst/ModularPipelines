@@ -905,7 +905,7 @@ public class DistributedModuleExecutorTests
             .ThrowsAsync(new InvalidOperationException("upload failed"));
         var artifactManager = new ArtifactLifecycleManager(
             store.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             NullLogger<ArtifactLifecycleManager>.Instance,
             workingDirectory);
         var cachedResult = CreateSuccessResult(
@@ -2164,7 +2164,7 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         var artifactManager = new ArtifactLifecycleManager(
             Mock.Of<IDistributedArtifactStore>(),
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             fallbackLogger.Object,
             workingDirectory);
         var executor = CreateExecutor(
@@ -2214,7 +2214,7 @@ public class DistributedModuleExecutorTests
             .ThrowsAsync(failure);
         var artifactManager = new ArtifactLifecycleManager(
             store.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             NullLogger<ArtifactLifecycleManager>.Instance);
         var executor = CreateExecutor(
             scheduler,
@@ -2261,7 +2261,7 @@ public class DistributedModuleExecutorTests
             .Returns(Task.CompletedTask);
         var artifactManager = new ArtifactLifecycleManager(
             store.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             NullLogger<ArtifactLifecycleManager>.Instance,
             workingDirectory);
         var executor = CreateExecutor(

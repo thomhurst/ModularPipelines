@@ -21,24 +21,23 @@ public class S3ModuleCacheTests
     private const string Fingerprint = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
     [Test]
-    public async Task ArtifactOptionsUseSharedOptionsPipeline()
+    public async Task DistributedOptionsUseSharedOptionsPipeline()
     {
         var builder = Pipeline.CreateBuilder();
         builder.AddModule<NoOpModule>();
         builder.Services.Configure<DistributedOptions>(options => options.RunId = "artifact-run");
         builder.AddS3DistributedArtifactStore(options => options.BucketName = "artifact-bucket");
-        builder.Services.Configure<ArtifactOptions>(options => options.CompressionLevel = CompressionLevel.NoCompression);
+        builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = CompressionLevel.NoCompression);
         await using var pipeline = await builder.BuildAsync();
 
-        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<ArtifactOptions>>().Value;
-        var distributedOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
-        var directOptions = pipeline.Services.GetRequiredService<ArtifactOptions>();
+        var configuredOptions = pipeline.Services.GetRequiredService<IOptions<DistributedOptions>>().Value;
+        var directOptions = pipeline.Services.GetRequiredService<DistributedOptions>();
 
         using (Assert.Multiple())
         {
             await Assert.That(directOptions).IsSameReferenceAs(configuredOptions);
-            await Assert.That(distributedOptions.RunId).IsEqualTo("artifact-run");
-            await Assert.That(configuredOptions.CompressionLevel)
+            await Assert.That(configuredOptions.RunId).IsEqualTo("artifact-run");
+            await Assert.That(configuredOptions.ArtifactCompressionLevel)
                 .IsEqualTo(CompressionLevel.NoCompression);
         }
     }

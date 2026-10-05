@@ -1,19 +1,30 @@
 namespace ModularPipelines.Distributed.Configuration;
 
 /// <summary>
-/// Validates distributed options when distributed mode is enabled. Pipeline validation reports the
-/// failures, and the distributed execution backend refuses to start with them.
+/// Validates artifact options in all modes and execution options when distributed mode is enabled.
+/// Pipeline validation reports the failures, and the distributed execution backend refuses to start with them.
 /// </summary>
 internal static class DistributedOptionsValidator
 {
     public static IReadOnlyList<string> Validate(DistributedOptions options)
     {
-        if (!options.Enabled)
+        var failures = new List<string>();
+        if (!Enum.IsDefined(options.ArtifactCompressionLevel))
         {
-            return [];
+            failures.Add("Distributed.ArtifactCompressionLevel must be a defined CompressionLevel value.");
         }
 
-        var failures = new List<string>();
+        if (!options.Enabled)
+        {
+            return failures;
+        }
+
+        ValidateExecutionOptions(options, failures);
+        return failures;
+    }
+
+    private static void ValidateExecutionOptions(DistributedOptions options, List<string> failures)
+    {
         if (options.TotalInstances < 1)
         {
             failures.Add("Distributed.TotalInstances must be at least 1.");
@@ -65,7 +76,5 @@ internal static class DistributedOptionsValidator
         {
             failures.Add("Distributed.ModuleResultTimeout cannot be negative.");
         }
-
-        return failures;
     }
 }

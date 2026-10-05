@@ -13,6 +13,16 @@ namespace ModularPipelines.UnitTests.Api;
 public class ArtifactContextApiTests
 {
     [Test]
+    public async Task Artifact_Compression_Is_Configured_Through_Distributed_Options()
+    {
+        var property = typeof(DistributedOptions).GetProperty("ArtifactCompressionLevel");
+        await Assert.That(property).IsNotNull();
+        await Assert.That(property!.GetValue(new DistributedOptions())).IsEqualTo(CompressionLevel.Fastest);
+        await Assert.That(typeof(DistributedOptions).Assembly.GetType("ModularPipelines.Distributed.ArtifactOptions"))
+            .IsNull();
+    }
+
+    [Test]
     public async Task Artifact_Context_Is_A_Property_With_Optional_Cancellation_Tokens()
     {
         var artifactsProperty = typeof(IPipelineContext).GetProperty(nameof(IPipelineContext.Artifacts));
@@ -67,10 +77,10 @@ public class ArtifactContextApiTests
         using (Assert.Multiple())
         {
             // Expiry and chunking are storage-specific and live on each backend's options.
-            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLive")).IsNull();
-            await Assert.That(typeof(ArtifactOptions).GetProperty("TimeToLiveSeconds")).IsNull();
-            await Assert.That(typeof(ArtifactOptions).GetProperty("ChunkSizeBytes")).IsNull();
-            await Assert.That(typeof(ArtifactOptions).GetProperty("AutoCleanup")).IsNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("TimeToLive")).IsNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("TimeToLiveSeconds")).IsNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("ChunkSizeBytes")).IsNull();
+            await Assert.That(typeof(DistributedOptions).GetProperty("AutoCleanup")).IsNull();
             await Assert.That(typeof(DistributedOptions).GetProperty("WorkerRegistrationTimeout")!.PropertyType)
                 .IsEqualTo(typeof(TimeSpan));
             await Assert.That(typeof(DistributedOptions).GetProperty("ModuleResultTimeout")!.PropertyType)
@@ -78,7 +88,6 @@ public class ArtifactContextApiTests
             await Assert.That(typeof(DistributedOptions).GetProperty("ExecutionIdentifier")).IsNull();
             await Assert.That(typeof(WorkerRegistration).GetProperty("ExecutionIdentifier")).IsNull();
             await Assert.That(typeof(DistributedOptions).GetProperty("RunId")).IsNotNull();
-            await Assert.That(typeof(ArtifactOptions).GetProperty("RunId")).IsNull();
             await Assert.That(typeof(WorkerRegistration).GetProperty("RunId")).IsNotNull();
             await Assert.That(assembly.GetType("ModularPipelines.Distributed.ModuleAssignmentConfig"))
                 .IsNull();

@@ -16,7 +16,7 @@ namespace ModularPipelines.Distributed.Artifacts.S3;
 /// <remarks>
 /// The artifact store and the module cache each have their own <see cref="S3StorageOptions"/>, so they
 /// can target different buckets. Artifact settings that apply to every backend are configured through
-/// <see cref="ArtifactOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
+/// <see cref="DistributedOptions"/> and module cache settings through <see cref="ModuleCacheOptions"/>.
 /// </remarks>
 public static class S3DistributedExtensions
 {

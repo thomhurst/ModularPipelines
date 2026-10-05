@@ -1,3 +1,5 @@
+using System.IO.Compression;
+
 namespace ModularPipelines.Distributed;
 
 /// <summary>
@@ -5,6 +7,12 @@ namespace ModularPipelines.Distributed;
 /// </summary>
 public class DistributedOptions
 {
+    /// <summary>
+    /// Gets or sets the compression level for directory and glob artifacts across all artifact stores,
+    /// including in local mode. Defaults to <see cref="CompressionLevel.Fastest"/>.
+    /// </summary>
+    public CompressionLevel ArtifactCompressionLevel { get; set; } = CompressionLevel.Fastest;
+
     internal bool Enabled { get; set; }
 
     /// <summary>

@@ -18,6 +18,26 @@ namespace ModularPipelines.Distributed.UnitTests.Configuration;
 public class DistributedOptionsTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Invalid_Artifact_Compression_Is_Rejected_In_Local_And_Distributed_Mode(bool distributed)
+    {
+        var options = new DistributedOptions
+        {
+            ArtifactCompressionLevel = (System.IO.Compression.CompressionLevel) 99,
+        };
+        if (distributed)
+        {
+            options.EnableForTest();
+        }
+
+        var failures = DistributedOptionsValidator.Validate(options);
+
+        await Assert.That(failures.Any(failure => failure.StartsWith("Distributed.ArtifactCompressionLevel", StringComparison.Ordinal)))
+            .IsTrue();
+    }
+
+    [Test]
     public async Task ModuleResultTimeout_Defaults_To_Forty_Five_Minutes()
     {
         var options = new DistributedOptions();

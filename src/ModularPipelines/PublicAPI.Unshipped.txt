@@ -3453,3 +3453,9 @@ ModularPipelines.PipelineSummary.<Clone>$() -> ModularPipelines.PipelineSummary!
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.Equals(ModularPipelines.Models.PipelineSummary? other) -> bool
 ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other) -> bool
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.PrintMembers(System.Text.StringBuilder! builder) -> bool
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.ArtifactOptions() -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.CompressionLevel.get -> System.IO.Compression.CompressionLevel
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions.CompressionLevel.set -> void
+ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.get -> System.IO.Compression.CompressionLevel
+ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.set -> void
+*REMOVED*ModularPipelines.Distributed.ArtifactOptions

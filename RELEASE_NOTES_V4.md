@@ -607,8 +607,9 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
 - `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
   `IConfigurationSection` registration overload; options are validated at startup.
-- `ArtifactOptions` keeps only `CompressionLevel`; `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and
-  `TimeToLive` move to backend options or are removed.
+- `ArtifactOptions` is removed. Configure compression through `DistributedOptions.ArtifactCompressionLevel`;
+  `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and `TimeToLive` move to backend
+  options or are removed.
 
 ## Hooks, plugins and requirements
 
