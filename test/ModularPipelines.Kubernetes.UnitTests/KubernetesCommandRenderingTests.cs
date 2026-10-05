@@ -33,17 +33,18 @@ public class KubernetesCommandRenderingTests : TestBase
     [Arguments("--recursive=0")]
     [Arguments("-R=t")]
     [Arguments("-R=f")]
-    public async Task Annotate_Manual_Boolean_Preserves_Following_File_And_Operand(string flag)
+    public async Task Annotate_Manual_Boolean_Preserves_Following_Option_And_Operand(string flag)
     {
         var result = await GetResult(new KubernetesAnnotateOptions(null)
         {
-            Arguments = [flag, "owner=team", "--filename", "manifest.yaml", "--", "another=value"],
+            Filename = ["manifest.yaml"],
+            Arguments = [flag, "owner=team", "--output", "yaml", "--", "another=value"],
             ArgumentsContainToolOptions = true,
             ArgumentsContainOptionTerminator = true,
         });
 
         await Assert.That(result.CommandInput)
-            .IsEqualTo($"kubectl annotate {flag} --filename manifest.yaml owner=team -- another=value");
+            .IsEqualTo($"kubectl annotate --filename=manifest.yaml {flag} --output yaml owner=team -- another=value");
     }
 
     [Test]
