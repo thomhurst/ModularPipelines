@@ -20,10 +20,4 @@ namespace ModularPipelines.Kubernetes.Options;
 [CliSubCommand("edit", "add")]
 public record KustomizeEditAddOptions : KustomizeOptions
 {
-    /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
 }
