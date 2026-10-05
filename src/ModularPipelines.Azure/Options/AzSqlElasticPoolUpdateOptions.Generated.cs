@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     /// <summary>
     /// The maximum capacity (in DTUs or vcores) any one database can consume.
     /// </summary>
-    [CliFlag("--db-dtu-max", ShortForm = "--db-max-dtu")]
-    public bool? DbDtuMax { get; set; }
+    [CliOption("--db-dtu-max")]
+    public string? DbDtuMax { get; set; }
 
     /// <summary>
     /// The minumum capacity (in DTUs or vcores) each database is guaranteed.
     /// </summary>
-    [CliFlag("--db-dtu-min", ShortForm = "--db-min-dtu")]
-    public bool? DbDtuMin { get; set; }
+    [CliOption("--db-dtu-min")]
+    public string? DbDtuMin { get; set; }
 
     /// <summary>
     /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
-    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
-    public bool? HaReplicas { get; set; }
+    [CliOption("--ha-replicas")]
+    public int? HaReplicas { get; set; }
 
     /// <summary>
     /// Specified maintenance configuration id or name for this resource.
     /// </summary>
-    [CliFlag("--maint-config-id", ShortForm = "-m")]
-    public bool? MaintConfigId { get; set; }
+    [CliOption("--maint-config-id", ShortForm = "-m")]
+    public string? MaintConfigId { get; set; }
 
     /// <summary>
     /// The max storage size. If no unit is specified, defaults to bytes (B).
     /// </summary>
-    [CliFlag("--max-size", ShortForm = "--storage")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public string? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -65,8 +66,8 @@ public record AzSqlElasticPoolUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant", ShortForm = "-z")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

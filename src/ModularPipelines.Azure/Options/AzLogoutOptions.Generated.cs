@@ -23,7 +23,7 @@ public record AzLogoutOptions : AzOptions
     /// <summary>
     /// Account user, if missing, logout the current active account.
     /// </summary>
-    [CliFlag("--username")]
-    public bool? Username { get; set; }
+    [CliOption("--username")]
+    public string? Username { get; set; }
 
 }

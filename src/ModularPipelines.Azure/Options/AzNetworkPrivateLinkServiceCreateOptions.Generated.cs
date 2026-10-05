@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// The destination IP address of the private link service.
     /// </summary>
-    [CliFlag("--destination-ip-address")]
-    public bool? DestinationIpAddress { get; set; }
+    [CliOption("--destination-ip-address")]
+    public string? DestinationIpAddress { get; set; }
 
     /// <summary>
     /// The name of edge zone.
@@ -75,8 +76,8 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Enable proxy protocol for private link service.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-proxy-protocol")]
-    public bool? EnableProxyProtocol { get; set; }
+    [CliOption("--enable-proxy-protocol", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableProxyProtocol { get; set; }
 
     /// <summary>
     /// Space-separated list of FQDNs.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
@@ -105,14 +106,14 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated list of subscription IDs for which the private link service is visible.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -123,14 +124,14 @@ public record AzNetworkPrivateLinkServiceCreateOptions : AzOptions
     /// <summary>
     /// An array of private link service IP configurations.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ip-configurations")]
+    [CliOption("--ip-configurations", GroupValues = true)]
     public IEnumerable<string>? IpConfigurations { get; set; }
 
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// IP version of the private IP address.  Allowed values: IPv4, IPv6.  Default: IPv4.

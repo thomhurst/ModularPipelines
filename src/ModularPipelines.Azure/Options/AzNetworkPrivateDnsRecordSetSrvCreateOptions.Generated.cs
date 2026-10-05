@@ -68,13 +68,13 @@ public record AzNetworkPrivateDnsRecordSetSrvCreateOptions : AzOptions
     /// <summary>
     /// Metadata attached to the record set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--metadata")]
-    public bool? Metadata { get; set; }
+    [CliOption("--metadata", GroupValues = true)]
+    public IEnumerable<string>? Metadata { get; set; }
 
     /// <summary>
     /// Record set TTL (time-to-live).  Default: 3600.
     /// </summary>
-    [CliFlag("--ttl")]
-    public bool? Ttl { get; set; }
+    [CliOption("--ttl")]
+    public string? Ttl { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,14 +24,15 @@ public record AzMysqlServerShowConnectionStringOptions : AzOptions
     /// <summary>
     /// The login password of the administrator.  Default: {password}.
     /// </summary>
-    [CliFlag("--admin-password", ShortForm = "-p")]
-    public bool? AdminPassword { get; set; }
+    [SecretValue]
+    [CliOption("--admin-password", ShortForm = "-p")]
+    public string? AdminPassword { get; set; }
 
     /// <summary>
     /// The login username of the administrator.  Default: {username}.
     /// </summary>
-    [CliFlag("--admin-user", ShortForm = "-u")]
-    public bool? AdminUser { get; set; }
+    [CliOption("--admin-user", ShortForm = "-u")]
+    public string? AdminUser { get; set; }
 
     /// <summary>
     /// The name of a database.  Default: {database}.

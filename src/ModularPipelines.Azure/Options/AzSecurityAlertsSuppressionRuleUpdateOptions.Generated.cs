@@ -79,13 +79,13 @@ public record AzSecurityAlertsSuppressionRuleUpdateOptions : AzOptions
     /// <summary>
     /// Any comment regarding the rule.
     /// </summary>
-    [CliFlag("--comment")]
-    public bool? Comment { get; set; }
+    [CliOption("--comment")]
+    public string? Comment { get; set; }
 
     /// <summary>
     /// Expiration date of the rule, if value is not provided or provided as null this field will default to the maximum allowed expiration date.
     /// </summary>
-    [CliFlag("--expiration-date-utc")]
-    public bool? ExpirationDateUtc { get; set; }
+    [CliOption("--expiration-date-utc")]
+    public string? ExpirationDateUtc { get; set; }
 
 }

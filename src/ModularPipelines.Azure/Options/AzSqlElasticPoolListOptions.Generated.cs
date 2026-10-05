@@ -23,8 +23,8 @@ public record AzSqlElasticPoolListOptions : AzOptions
     /// <summary>
     /// The number of elements in the collection to skip. Default value is None.
     /// </summary>
-    [CliFlag("--skip")]
-    public bool? Skip { get; set; }
+    [CliOption("--skip")]
+    public string? Skip { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

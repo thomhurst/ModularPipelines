@@ -23,19 +23,19 @@ public record AzAdUserListOptions : AzOptions
     /// <summary>
     /// Object's display name or its prefix.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// OData filter, e.g. --filter "displayname eq 'test' and servicePrincipalType eq 'Application'".
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// User principal name, e.g. john.doe@contoso.com.
     /// </summary>
-    [CliFlag("--upn")]
-    public bool? Upn { get; set; }
+    [CliOption("--upn")]
+    public string? Upn { get; set; }
 
 }

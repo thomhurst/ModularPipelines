@@ -57,8 +57,8 @@ public record AzStaticwebappUsersUpdateOptions : AzOptions
     /// <summary>
     /// Authentication provider of the user identity such as AAD, Facebook, GitHub, Google, Twitter.
     /// </summary>
-    [CliFlag("--authentication-provider")]
-    public bool? AuthenticationProvider { get; set; }
+    [CliOption("--authentication-provider")]
+    public string? AuthenticationProvider { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -69,13 +69,13 @@ public record AzStaticwebappUsersUpdateOptions : AzOptions
     /// <summary>
     /// Email for AAD, Facebook, and Google. Account name (handle) for GitHub and Twitter.
     /// </summary>
-    [CliFlag("--user-details")]
-    public bool? UserDetails { get; set; }
+    [CliOption("--user-details")]
+    public string? UserDetails { get; set; }
 
     /// <summary>
     /// Given id of registered user.
     /// </summary>
-    [CliFlag("--user-id")]
-    public bool? UserId { get; set; }
+    [CliOption("--user-id")]
+    public string? UserId { get; set; }
 
 }

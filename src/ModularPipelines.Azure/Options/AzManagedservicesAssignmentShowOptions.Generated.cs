@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzManagedservicesAssignmentShowOptions : AzOptions
     /// <summary>
     /// Tells whether to return registration definition details also along with registration assignment details.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--include-definition")]
-    public bool? IncludeDefinition { get; set; }
+    [CliOption("--include-definition", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeDefinition { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

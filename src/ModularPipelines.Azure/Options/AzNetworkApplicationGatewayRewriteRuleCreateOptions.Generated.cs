@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,14 +80,14 @@ public record AzNetworkApplicationGatewayRewriteRuleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Request Header Actions in the Action Set.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--request-header-configurations")]
-    public bool? RequestHeaderConfigurations { get; set; }
+    [CliOption("--request-header-configurations", GroupValues = true)]
+    public IEnumerable<string>? RequestHeaderConfigurations { get; set; }
 
     /// <summary>
     /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-request- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -97,8 +98,8 @@ public record AzNetworkApplicationGatewayRewriteRuleCreateOptions : AzOptions
     /// <summary>
     /// Response Header Actions in the Action Set.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--response-header-configurations")]
-    public bool? ResponseHeaderConfigurations { get; set; }
+    [CliOption("--response-header-configurations", GroupValues = true)]
+    public IEnumerable<string>? ResponseHeaderConfigurations { get; set; }
 
     /// <summary>
     /// Space-separated list of HEADER=VALUE pairs. Values from: `az network application-gateway rewrite-rule list-response- headers`.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -109,20 +110,20 @@ public record AzNetworkApplicationGatewayRewriteRuleCreateOptions : AzOptions
     /// <summary>
     /// Determine the execution order of the rule in the rule set.
     /// </summary>
-    [CliFlag("--sequence")]
-    public bool? Sequence { get; set; }
+    [CliOption("--sequence")]
+    public string? Sequence { get; set; }
 
     /// <summary>
     /// Conditions based on which the action set execution will be evaluated.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--conditions")]
-    public bool? Conditions { get; set; }
+    [CliOption("--conditions", GroupValues = true)]
+    public IEnumerable<string>? Conditions { get; set; }
 
     /// <summary>
     /// If set as true, it will re-evaluate the url path map provided in path based request routing rules using modified path. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-reroute")]
-    public bool? EnableReroute { get; set; }
+    [CliOption("--enable-reroute", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableReroute { get; set; }
 
     /// <summary>
     /// URL path for url rewrite.

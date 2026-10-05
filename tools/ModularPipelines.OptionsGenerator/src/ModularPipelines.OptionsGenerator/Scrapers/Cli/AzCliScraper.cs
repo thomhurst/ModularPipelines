@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
@@ -61,11 +62,60 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
     public override string OutputDirectory => "src/ModularPipelines.Azure";
 
+    protected override string VersionArguments => "version --output json";
+
+    protected override string? ParseVersionOutput(CliCommandResult result)
+    {
+        using var document = JsonDocument.Parse(result.StandardOutput);
+        var root = document.RootElement;
+        var identity = $"azure-cli {ReadVersion(root.GetProperty("azure-cli"), "azure-cli")}";
+        if (root.TryGetProperty("extensions", out var extensions))
+        {
+            foreach (var extension in extensions.EnumerateObject().OrderBy(extension => extension.Name, StringComparer.Ordinal))
+            {
+                identity += $"; {extension.Name} {ReadVersion(extension.Value, extension.Name)}";
+            }
+        }
+
+        return identity;
+    }
+
+    private static string ReadVersion(JsonElement element, string component)
+    {
+        var version = element.ValueKind == JsonValueKind.String ? element.GetString() : null;
+        return !string.IsNullOrWhiteSpace(version)
+            ? version
+            : throw new InvalidOperationException($"Azure CLI reported an invalid version for '{component}'.");
+    }
+
+    public override CliToolDefinition CreateToolDefinition()
+    {
+        var definition = base.CreateToolDefinition();
+        return definition with
+        {
+            CommandCoverage = definition.CommandCoverage with
+            {
+                Exclusions =
+                [
+                    .. definition.CommandCoverage.Exclusions,
+                    new()
+                    {
+                        Command = "az devops login",
+                        Reason = "azure-devops login requires a PAT through stdin or an interactive terminal, neither exposed by CommandExecutionOptions. "
+                                 + "For automated DevOps commands, supply AZURE_DEVOPS_EXT_PAT through CommandExecutionOptions.EnvironmentVariables instead.",
+                    },
+                ],
+            },
+        };
+    }
 
     /// <summary>
     /// Azure CLI is slow, limit parallelism to avoid overwhelming the CLI.
     /// </summary>
     protected override int MaxParallelism => 10;
+
+    // Parser metadata is authoritative: omitting a command would hide incomplete verification.
+    protected override bool TreatParseErrorsAsFatal => true;
 
     /// <summary>
     /// Azure policy arguments are described as global but are registered on the selected
@@ -164,6 +214,13 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         string helpText,
         CancellationToken cancellationToken)
     {
+        if (commandPath.SequenceEqual(["az", "devops", "login"], StringComparer.Ordinal))
+        {
+            return Task.FromResult<CliCommandDefinition?>(null);
+        }
+
+        var argumentShapes = ExtractArgumentShapes(ref helpText);
+
         var commandParts = commandPath.Skip(1).ToArray(); // Skip "az"
 
         if (commandParts.Length == 0)
@@ -188,9 +245,13 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         // Parse description from help text
         var description = ExtractDescription(helpText);
+        if (commandParts[0] is "artifacts" or "boards" or "devops" or "pipelines" or "repos")
+        {
+            description = $"{description} Requires the azure-devops extension (az extension add --name azure-devops).".TrimStart();
+        }
 
         // Parse options from the help text
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(helpText, argumentShapes);
 
         // If no options, skip generating this command
         if (options.Count == 0)
@@ -224,6 +285,34 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         return Task.FromResult<CliCommandDefinition?>(command);
     }
 
+    private static IReadOnlyDictionary<string, AzArgumentMetadata>? ExtractArgumentShapes(ref string helpText)
+    {
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes = null;
+        var metadataIndex = helpText.LastIndexOf(AzCliMetadataExecutor.MetadataMarker, StringComparison.Ordinal);
+        if (metadataIndex >= 0)
+        {
+            var metadata = JsonSerializer.Deserialize<Dictionary<string, AzArgumentMetadata>>(
+                helpText[(metadataIndex + AzCliMetadataExecutor.MetadataMarker.Length)..])
+                ?? throw new InvalidOperationException("Azure CLI argument metadata was null.");
+            // Some Azure parser option strings contain trailing whitespace that help omits.
+            // Reject normalized duplicates rather than choosing potentially conflicting arity.
+            argumentShapes = metadata.ToDictionary(pair => pair.Key.Trim(), pair => pair.Value, StringComparer.Ordinal);
+            foreach (var shape in argumentShapes.Values)
+            {
+                if (shape is null)
+                {
+                    throw new InvalidOperationException("Azure CLI argument shape was null.");
+                }
+
+                shape.Validate();
+            }
+
+            helpText = helpText[..metadataIndex].TrimEnd();
+        }
+
+        return argumentShapes;
+    }
+
     /// <summary>
     /// Extracts description from help text.
     /// </summary>
@@ -243,7 +332,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText, IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -261,7 +350,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             var lines = GetSectionLines(helpText, sectionMatch);
             for (var i = 0; i < lines.Length; i++)
             {
-                var option = ParseOption(lines, ref i, sectionName, seenOptions);
+                var option = ParseOption(lines, ref i, sectionName, seenOptions, argumentShapes);
                 if (option is not null)
                 {
                     options.Add(option);
@@ -288,7 +377,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         string[] lines,
         ref int lineIndex,
         string sectionName,
-        HashSet<string> seenOptions)
+        HashSet<string> seenOptions,
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes)
     {
         var match = AzOptionPattern().Match(lines[lineIndex]);
         if (!match.Success)
@@ -304,8 +394,6 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
-        var alias = match.Groups["alias"].Value.Trim();
-        var valueHint = match.Groups["value"].Value.Trim();
         var description = AccumulateWrappedDescription(lines, ref lineIndex, match.Groups["desc"], IsOptionRow);
 
         var propertyName = NormalizePropertyName(longFlag);
@@ -314,23 +402,34 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return null;
         }
 
+        return CreateOptionDefinition(
+            match, longFlag, propertyName, sectionName, description, GetArgumentShape(argumentShapes, longFlag));
+    }
+
+    private static CliOptionDefinition CreateOptionDefinition(
+        Match match,
+        string longFlag,
+        string propertyName,
+        string sectionName,
+        string description,
+        AzArgumentMetadata? shape)
+    {
+        var alias = GetShortAlias(match);
+        var valueHint = match.Groups["value"].Value.Trim();
         var isRequired = match.Groups["required"].Success
                          || sectionName.Equals("Required Arguments", StringComparison.OrdinalIgnoreCase);
         var explicitBooleanValue = HelpDeclaresExplicitBooleanValue(description);
-        var isFlag = !isRequired && IsPresenceOnlyFlag(
-            longFlag,
-            valueHint,
-            description,
-            explicitBooleanValue);
-        var csharpType = DetermineType(
+        var isFlag = shape?.IsFlag ?? (!isRequired && IsPresenceOnlyFlag(longFlag, valueHint, description, explicitBooleanValue));
+        var csharpType = shape is null ? DetermineType(
             longFlag,
             valueHint,
             description,
             isFlag,
-            explicitBooleanValue);
+            explicitBooleanValue) : DetermineMetadataType(shape, explicitBooleanValue);
 
         return new CliOptionDefinition
         {
+            HasVerifiedValueShape = shape is not null,
             SwitchName = $"--{longFlag}",
             ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
             PropertyName = propertyName,
@@ -339,17 +438,52 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             IsFlag = isFlag,
             IsRequired = isRequired,
             AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-            GroupValues = IsGroupedAzureValueOption(longFlag)
-                          || HelpDeclaresGroupedValues(description)
-                          || IsGroupedAzureGenericUpdateOption(longFlag, description),
+            GroupValues = HasGroupedValues(shape, longFlag, description),
             IsKeyValue = false,
             IsNumeric = csharpType == "int?",
             ValueSeparator = " ",
-            ValueArity = GetValueArity(isFlag, description),
+            ValueArity = GetValueArity(isFlag, description, shape),
             EnumDefinition = null,
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
         };
     }
+
+    private static bool HasGroupedValues(AzArgumentMetadata? shape, string longFlag, string description) =>
+        shape?.GroupValues ?? (IsGroupedAzureValueOption(longFlag)
+                              || HelpDeclaresGroupedValues(description)
+                              || IsGroupedAzureGenericUpdateOption(longFlag, description));
+
+    private static string? GetShortAlias(Match match) =>
+        match.Groups["alias"].Captures
+            .Select(capture => capture.Value)
+            .FirstOrDefault(value => value.StartsWith('-') && !value.StartsWith("--", StringComparison.Ordinal));
+
+    private static AzArgumentMetadata? GetArgumentShape(
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes,
+        string longFlag)
+    {
+        if (argumentShapes is null)
+        {
+            return null;
+        }
+
+        if (argumentShapes.TryGetValue($"--{longFlag}", out var shape))
+        {
+            return shape;
+        }
+
+        throw new InvalidOperationException($"Azure CLI parser metadata does not include --{longFlag}.");
+    }
+
+    private static string DetermineMetadataType(AzArgumentMetadata shape, bool explicitBooleanValue) =>
+        shape switch
+        {
+            { IsFlag: true } => "bool?",
+            { HasRepeatedGroups: true } => "IEnumerable<CliValueGroup>?",
+            { IsCollection: true } => "IEnumerable<string>?",
+            { IsInteger: true } => "int?",
+            _ => explicitBooleanValue ? "bool?" : "string?",
+        };
 
     /// <summary>
     /// Determines whether an option is rendered without a value.
@@ -371,9 +505,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return false;
         }
 
-        return string.IsNullOrEmpty(valueHint) ||
-               valueHint.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-               valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+        // Missing placeholders do not imply flags in Azure help. Production scraping
+        // uses argparse arity; plain help fixtures need positive presence-only wording.
+        return string.IsNullOrEmpty(valueHint) && PresenceOnlyDescriptionPattern().IsMatch(description);
     }
 
     private static bool HelpDeclaresOptionValue(string switchName, string description) =>
@@ -439,8 +573,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static bool IsGroupedAzureValueOption(string switchName) =>
         switchName.Equals("assign-identity", StringComparison.OrdinalIgnoreCase);
 
-    private static CliOptionValueArity GetValueArity(bool isFlag, string description) =>
-        !isFlag && HelpDeclaresOptionalValue(description)
+    private static CliOptionValueArity GetValueArity(bool isFlag, string description, AzArgumentMetadata? shape) =>
+        (shape?.IsOptional ?? (!isFlag && HelpDeclaresOptionalValue(description)))
             ? CliOptionValueArity.Optional
             : CliOptionValueArity.Required;
 
@@ -689,8 +823,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// --option --alias     : Description
     /// --flag               : Description
     /// </summary>
-    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?:(?<required>Required)|[^\]\r\n]+)\])*\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
+
+    [GeneratedRegex(@"^(?:do not\b|don't\b|force\b|reset\b|use the current time\b|show\b|list all\b|disable colou?r\b|(?:a |the )?(?:boolean )?flag\b|DenySettings apply to child scopes\b)", RegexOptions.IgnoreCase)]
+    private static partial Regex PresenceOnlyDescriptionPattern();
 
     [GeneratedRegex(@"^(?:(?:a|an|the)\s+)?(?:path|uri|url|name|id|identifier|description|query|string|value|access token|marketplace version|template|resource|parameters?|managed identity|subnet|virtual network|default identity|install script|registry adapter|storage mount|key vault|source|related resource|related change|batch|issue|scope|list\s+of|defines?|validation level|accepts?)\b", RegexOptions.IgnoreCase)]
     private static partial Regex AzValueDescriptionPattern();

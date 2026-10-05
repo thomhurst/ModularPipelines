@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -41,8 +42,8 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -59,14 +60,14 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     /// <summary>
     /// If enabled (true) the pool can contain cool Access enabled volumes.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--cool-access")]
-    public bool? CoolAccess { get; set; }
+    [CliOption("--cool-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CoolAccess { get; set; }
 
     /// <summary>
     /// Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level.
     /// </summary>
-    [CliFlag("--custom-throughput", ShortForm = "--custom-throughput-mibps")]
-    public bool? CustomThroughput { get; set; }
+    [CliOption("--custom-throughput")]
+    public string? CustomThroughput { get; set; }
 
     /// <summary>
     /// The qos type of the pool.  Allowed values: Auto, Manual.
@@ -83,8 +84,8 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     /// <summary>
     /// Provisioned size of the pool. Must be an integer number of tebibytes in multiples of 4. Use either --size or --size-in-bytes, not both.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
     /// <summary>
     /// Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). Use either --size or --size-in-bytes, not both.
@@ -107,7 +108,7 @@ public record AzNetappfilesPoolUpdateOptions : AzOptions
     /// <summary>
     /// The name of the capacity pool.
     /// </summary>
-    [CliOption("--name", ShortForm = "-p")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

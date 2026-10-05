@@ -23,8 +23,8 @@ public record AzCognitiveservicesAccountListSkusOptions : AzOptions
     /// <summary>
     /// The API name of cognitive services account.  Values from: az cognitiveservices account list-kinds.
     /// </summary>
-    [CliFlag("--kind")]
-    public bool? Kind { get; set; }
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -35,8 +35,8 @@ public record AzCognitiveservicesAccountListSkusOptions : AzOptions
     /// <summary>
     /// Cognitive service account name. --kind and --location will be ignored when --name is specified. --resource-group is required when when --name is specified.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`. --resource-group is used when when --name is specified. In other cases it will be ignored.

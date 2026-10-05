@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -78,7 +79,7 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// The name or ID of the backend address pool.
     /// </summary>
-    [CliOption("--address-pool", ShortForm = "--backend-address-pool")]
+    [CliOption("--address-pool")]
     public string AddressPool { get; private init; }
 
     /// <summary>
@@ -90,20 +91,20 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The number of outbound ports to be used for NAT.
     /// </summary>
-    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
-    public bool? AllocatedOutboundPorts { get; set; }
+    [CliOption("--allocated-outbound-ports")]
+    public string? AllocatedOutboundPorts { get; set; }
 
     /// <summary>
     /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-tcp-reset")]
-    public bool? EnableTcpReset { get; set; }
+    [CliOption("--enable-tcp-reset", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableTcpReset { get; set; }
 
     /// <summary>
     /// The List of frontend IP configuration IDs or names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -114,7 +115,7 @@ public record AzNetworkLbOutboundRuleCreateOptions : AzOptions
     /// <summary>
     /// The timeout for the TCP idle connection.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public int? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
 }

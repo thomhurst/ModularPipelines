@@ -52,7 +52,7 @@ public record AzSqlFailoverGroupSetPrimaryOptions : AzOptions
     /// <summary>
     /// Performs a planned failover as the first step, and if it fails for any reason, then initiates a forced failover with potential data loss. This will allow the failover to proceed even if a primary database is unavailable.
     /// </summary>
-    [CliFlag("--tpbff", ShortForm = "--try-planned-before-forced-failover")]
+    [CliFlag("--tpbff")]
     public bool? Tpbff { get; set; }
 
     /// <summary>

@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,26 +65,26 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// Required parameter to use with OAuth (Azure AD) Authentication for Files. This will bypass any file/directory level permission checks and allow access, based on the allowed data actions, even if there are ACLs in place for those files/directories.
     /// </summary>
-    [CliFlag("--backup-intent", ShortForm = "--enable-file-backup-request-intent")]
+    [CliFlag("--backup-intent")]
     public bool? BackupIntent { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the source URI. Default to False.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disallow-source-trailing-dot", ShortForm = "--disallow-src-trailing")]
-    public bool? DisallowSourceTrailingDot { get; set; }
+    [CliOption("--disallow-source-trailing-dot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisallowSourceTrailingDot { get; set; }
 
     /// <summary>
     /// If true, the trailing dot will be trimmed from the target URI. Default to False.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disallow-trailing-dot")]
-    public bool? DisallowTrailingDot { get; set; }
+    [CliOption("--disallow-trailing-dot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisallowTrailingDot { get; set; }
 
     /// <summary>
     /// The mode permissions to be set on the file. Only applicable to NFS Files. Only work together with parameter `--file-mode-copy-mode Override`. Symbolic (rwxrw-rw-) is supported. The sticky bit is also supported and its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively, absence of t or T indicates sticky bit not set.".
     /// </summary>
-    [CliFlag("--file-mode")]
-    public bool? FileMode { get; set; }
+    [CliOption("--file-mode")]
+    public string? FileMode { get; set; }
 
     /// <summary>
     /// Only applicable to NFS Files. Applicable only when the copy source is a File. Determines the copy behavior of the mode bits of the destination file. If not populated, the destination file will have the default File Mode. Allowed values: override, source.
@@ -93,8 +95,8 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// Only applicable to NFS Files. Only work together with parameter `--owner-copy-mode Override`. The owner group identifier (GID) to be set on the directory. The default value is 0 (root group).
     /// </summary>
-    [CliFlag("--group")]
-    public bool? Group { get; set; }
+    [CliOption("--group")]
+    public string? Group { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
@@ -105,8 +107,8 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// Only applicable to NFS Files. Only work together with parameter `--owner-copy-mode Override`. The owner user identifier (UID) to be set on the directory. The default value is 0 (root).
     /// </summary>
-    [CliFlag("--owner")]
-    public bool? Owner { get; set; }
+    [CliOption("--owner")]
+    public string? Owner { get; set; }
 
     /// <summary>
     /// Only applicable to NFS Files. Applicable only when the copy source is a File. Determines the copy behavior of the owner and group of the destination file. If not populated, the destination file will have the default Owner and Group.  Allowed values: override, source.
@@ -117,8 +119,8 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// The file snapshot for the source storage account.
@@ -129,26 +131,26 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// The storage account key of the source blob.
     /// </summary>
-    [CliFlag("--source-account-key")]
-    public bool? SourceAccountKey { get; set; }
+    [CliOption("--source-account-key")]
+    public string? SourceAccountKey { get; set; }
 
     /// <summary>
     /// The storage account name of the source blob.
     /// </summary>
-    [CliFlag("--source-account-name")]
-    public bool? SourceAccountName { get; set; }
+    [CliOption("--source-account-name")]
+    public string? SourceAccountName { get; set; }
 
     /// <summary>
     /// The blob name for the source storage account.
     /// </summary>
-    [CliFlag("--source-blob")]
-    public bool? SourceBlob { get; set; }
+    [CliOption("--source-blob")]
+    public string? SourceBlob { get; set; }
 
     /// <summary>
     /// The container name for the source storage account.
     /// </summary>
-    [CliFlag("--source-container")]
-    public bool? SourceContainer { get; set; }
+    [CliOption("--source-container")]
+    public string? SourceContainer { get; set; }
 
     /// <summary>
     /// The file path for the source storage account.
@@ -159,20 +161,20 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// The shared access signature for the source storage account.
     /// </summary>
-    [CliFlag("--source-sas")]
-    public bool? SourceSas { get; set; }
+    [CliOption("--source-sas")]
+    public string? SourceSas { get; set; }
 
     /// <summary>
     /// The share name for the source storage account.
     /// </summary>
-    [CliFlag("--source-share")]
-    public bool? SourceShare { get; set; }
+    [CliOption("--source-share")]
+    public string? SourceShare { get; set; }
 
     /// <summary>
     /// The blob snapshot for the source storage account.
     /// </summary>
-    [CliFlag("--source-snapshot")]
-    public bool? SourceSnapshot { get; set; }
+    [CliOption("--source-snapshot")]
+    public string? SourceSnapshot { get; set; }
 
     /// <summary>
     /// A URL of up to 2 KB in length that specifies an Azure file or blob. The value should be URL-encoded as it would appear in a request URI. If the source is in another account, the source must either be public or must be authenticated via a shared access signature. If the source is public, no authentication is required. Examples: h ttps://myaccount.file.core.windows.net/ myshare/mydir/myfile https://otheraccou nt.file.core.windows.net/myshare/mydir/ myfile?sastoken.
@@ -183,31 +185,32 @@ public record AzStorageFileCopyStartOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--file-endpoint")]
-    public bool? FileEndpoint { get; set; }
+    [CliOption("--file-endpoint")]
+    public string? FileEndpoint { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

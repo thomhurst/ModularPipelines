@@ -23,8 +23,8 @@ public record AzEventhubsGeorecoveryAliasBreakPairOptions : AzOptions
     /// <summary>
     /// The Disaster Recovery configuration name.
     /// </summary>
-    [CliFlag("--alias", ShortForm = "-a")]
-    public bool? Alias { get; set; }
+    [CliOption("--alias", ShortForm = "-a")]
+    public string? Alias { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

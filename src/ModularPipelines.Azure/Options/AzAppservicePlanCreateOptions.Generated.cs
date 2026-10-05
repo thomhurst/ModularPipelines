@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Enables async scaling for the app service plan. Set to "true" to create an async operation if there are insufficient workers to scale synchronously. The SKU must be Dedicated.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--async-scaling-enabled")]
-    public bool? AsyncScalingEnabled { get; set; }
+    [CliOption("--async-scaling-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AsyncScalingEnabled { get; set; }
 
     /// <summary>
     /// Accept system or user assigned identity separated. Use '[system]' to refer system assigned identity, or a resource id to refer user assigned identity.
@@ -75,8 +76,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// If true, Linux App Service plan creation failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. This flag only applies to Linux plans and has no effect on Windows or Hyper-V plans.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enriched-errors")]
-    public bool? EnrichedErrors { get; set; }
+    [CliOption("--enriched-errors", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnrichedErrors { get; set; }
 
     /// <summary>
     /// Host Windows Container Web App on Hyper-V worker.
@@ -87,14 +88,14 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Install script configurations. Provide key-value pairs for `name=&lt;name&gt; source-uri=&lt;uri&gt; type=&lt;type&gt;`.
     /// </summary>
-    [CliOption("--install-script")]
-    public string? InstallScript { get; set; }
+    [CliOption("--install-script", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? InstallScript { get; set; }
 
     /// <summary>
     /// Host web app on Linux worker. Defaults to true unless --hyper-v is specified. Use "--is-linux false" to create a Windows plan. Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-linux")]
-    public bool? IsLinux { get; set; }
+    [CliOption("--is-linux", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsLinux { get; set; }
 
     /// <summary>
     /// Host web app on managed instance.
@@ -111,8 +112,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Enable system-assigned managed identity for this app service plan.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Enable user-assigned managed identities for this app service plan. Accepts space-separated list of identity resource IDs.
@@ -129,8 +130,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Number of workers to be allocated.  Default: 1.
     /// </summary>
-    [CliFlag("--number-of-workers")]
-    public bool? NumberOfWorkers { get; set; }
+    [CliOption("--number-of-workers")]
+    public int? NumberOfWorkers { get; set; }
 
     /// <summary>
     /// Enable per-app scaling at the App Service plan level to allow for scaling an app independently from the App Service plan that hosts it.
@@ -141,14 +142,14 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Enable RDP. Requires is-custom-mode to be true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--rdp-enabled")]
-    public bool? RdpEnabled { get; set; }
+    [CliOption("--rdp-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RdpEnabled { get; set; }
 
     /// <summary>
     /// Registry adapter configurations. Provide key-value pairs for `registry-key=&lt;key&gt; type=&lt;type&gt; secret-uri=&lt;uri&gt;`.
     /// </summary>
-    [CliOption("--registry-adapter")]
-    public string? RegistryAdapter { get; set; }
+    [CliOption("--registry-adapter", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? RegistryAdapter { get; set; }
 
     /// <summary>
     /// The pricing tiers, e.g., F1(Free), D1(Shared), B1(Basic Small), B2(Basic Medium), B3(Basic Large), S1(Standard Small), P1V2(Premium V2 Small), P2V2(Premium V2 Medium), P3V2(Premium V2 Large), P0V3(Premium V3 Extra Small), P1V3(Premium V3 Small), P2V3(Premium V3 Medium), P3V3(Premium V3 Large), P1MV3(Premium Memory Optimized V3 Small), P2MV3(Premium Memory Optimized V3 Medium), P3MV3(Premium Memory Optimized V3 Large), P4MV3(Premium Memory Optimized V3 Extra Large), P5MV3(Premium Memory Optimized V3 Extra Extra Large), P0V4(Premium V4 Extra Small), P1V4(Premium V4 Small), P2V4(Premium V4 Medium), P3V4(Premium V4 Large), P1MV4(Premium Memory Optimized V4 Small), P2MV4(Premium Memory Optimized V4 Medium), P3MV4(Premium Memory Optimized V4 Large), P4MV4(Premium Memory Optimized V4 Extra Large), P5MV4(Premium Memory Optimized V4 Extra Extra Large), I1V2 (Isolated V2 I1V2), I2V2 (Isolated V2 I2V2), I3V2 (Isolated V2 I3V2), I4V2 (Isolated V2 I4V2), I5V2 (Isolated V2 I5V2), I6V2 (Isolated V2 I6V2), I1MV2 (Isolated Memory Optimized V2 I1MV2), I2MV2 (Isolated Memory Optimized V2 I2MV2), I3MV2 (Isolated Memory Optimized V2 I3MV2), I4MV2 (Isolated Memory Optimized V2 I4MV2), I5MV2 (Isolated Memory Optimized V2 I5MV2), I1V4-I6V4 (Isolated V4), I1MV4-I5MV4 (Isolated Memory Optimized V4), WS1 (Logic Apps Workflow Standard 1), WS2 (Logic Apps Workflow Standard 2), WS3 (Logic Apps Workflow Standard 3).  Allowed values: B1, B2, B3, D1, F1, FREE, I1MV2, I1MV4, I1V2, I1V4, I2MV2, I2MV4, I2V2, I2V4, I3MV2, I3MV4, I3V2, I3V4, I4MV2, I4MV4, I4V2, I4V4, I5MV2, I5MV4, I5V2, I5V4, I6V2, I6V4, P0V3, P0V4, P1MV3, P1MV4, P1V2, P1V3, P1V4, P2MV3, P2MV4, P2V2, P2V3, P2V4, P3MV3, P3MV4, P3V2, P3V3, P3V4, P4MV3, P4MV4, P5MV3, P5MV4, S1, S2, S3, SHARED, WS1, WS2, WS3.
@@ -159,8 +160,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Storage mount configurations. Provide key-value pairs for `name=&lt;name&gt; source=&lt;source&gt; type=&lt;type&gt; destination- path=&lt;path&gt; credentials-secret-uri=&lt;uri&gt;`.
     /// </summary>
-    [CliOption("--storage-mount")]
-    public string? StorageMount { get; set; }
+    [CliOption("--storage-mount", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? StorageMount { get; set; }
 
     /// <summary>
     /// Name or resource ID of the pre-existing subnet to have the app service plan join. The --vnet is argument also needed if specifying subnet by name.
@@ -171,8 +172,8 @@ public record AzAppservicePlanCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Name or resource ID of the regional virtual network. If there are multiple vnets of the same name across different resource groups, use vnet resource id to specify which vnet to use. If vnet name is used, by default, the vnet in the same resource group as the webapp will be used. Must be used with --subnet argument.

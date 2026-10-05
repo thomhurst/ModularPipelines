@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -27,16 +28,27 @@ public record AzNetworkLbListMappingOptions : AzOptions
     /// <param name="Request">Query inbound NAT rule port mapping request.</param>
     public AzNetworkLbListMappingOptions(
         string BackendPoolName,
-        string Request
+        IEnumerable<CliOptionValue> Request
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(BackendPoolName);
         this.BackendPoolName = BackendPoolName;
-        global::System.ArgumentNullException.ThrowIfNull(Request);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Request);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Request));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Request));
+            }
+
+            Request = materialized;
+        }
         this.Request = Request;
     }
 
-    public void Deconstruct(out string BackendPoolName, out string Request)
+    public void Deconstruct(out string BackendPoolName, out IEnumerable<CliOptionValue> Request)
     {
         BackendPoolName = this.BackendPoolName;
         Request = this.Request;
@@ -51,8 +63,8 @@ public record AzNetworkLbListMappingOptions : AzOptions
     /// <summary>
     /// Query inbound NAT rule port mapping request.
     /// </summary>
-    [CliOption("--request")]
-    public string Request { get; private init; }
+    [CliOption("--request", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Request { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -63,8 +75,8 @@ public record AzNetworkLbListMappingOptions : AzOptions
     /// <summary>
     /// The load balancer name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

@@ -46,14 +46,14 @@ public record AzAccountManagementGroupUpdateOptions : AzOptions
     /// <summary>
     /// Updates the display name of the management group. If null, no change is made.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Update the parent of the management group. Can be the fully qualified id or the name of the management group. If null, no change is made.
     /// </summary>
-    [CliFlag("--parent", ShortForm = "-p")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent", ShortForm = "-p")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

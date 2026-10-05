@@ -41,13 +41,13 @@ public record AzVmssExtensionImageShowOptions : AzOptions
     /// <summary>
     /// Image publisher name.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
     /// <summary>
     /// Extension version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

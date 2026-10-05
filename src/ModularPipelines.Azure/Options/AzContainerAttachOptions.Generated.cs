@@ -23,8 +23,8 @@ public record AzContainerAttachOptions : AzOptions
     /// <summary>
     /// The container to attach to. If omitted, the first container in the container group will be chosen.
     /// </summary>
-    [CliFlag("--container-name")]
-    public bool? ContainerName { get; set; }
+    [CliOption("--container-name")]
+    public string? ContainerName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

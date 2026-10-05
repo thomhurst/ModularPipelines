@@ -46,8 +46,8 @@ public record AzSqlDbStrPolicySetOptions : AzOptions
     /// <summary>
     /// New backup short term retention policy differential backup interval in hours.Valid differential backup interval for live database can be 12 or 24 hours.
     /// </summary>
-    [CliFlag("--diffbackup-hours")]
-    public bool? DiffbackupHours { get; set; }
+    [CliOption("--diffbackup-hours")]
+    public string? DiffbackupHours { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

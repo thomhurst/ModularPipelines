@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -40,7 +41,7 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
         string ResourceGroup,
         string CompanyName,
         string ContactPerson,
-        string EmailList,
+        IEnumerable<string> EmailList,
         string Phone,
         string Status,
         string AddressLine1,
@@ -58,7 +59,18 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
         this.CompanyName = CompanyName;
         global::System.ArgumentNullException.ThrowIfNull(ContactPerson);
         this.ContactPerson = ContactPerson;
-        global::System.ArgumentNullException.ThrowIfNull(EmailList);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EmailList);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EmailList));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EmailList));
+            }
+
+            EmailList = materialized;
+        }
         this.EmailList = EmailList;
         global::System.ArgumentNullException.ThrowIfNull(Phone);
         this.Phone = Phone;
@@ -76,7 +88,7 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
         this.State = State;
     }
 
-    public void Deconstruct(out string DeviceName, out string ResourceGroup, out string CompanyName, out string ContactPerson, out string EmailList, out string Phone, out string Status, out string AddressLine1, out string City, out string Country, out string PostalCode, out string State)
+    public void Deconstruct(out string DeviceName, out string ResourceGroup, out string CompanyName, out string ContactPerson, out IEnumerable<string> EmailList, out string Phone, out string Status, out string AddressLine1, out string City, out string Country, out string PostalCode, out string State)
     {
         DeviceName = this.DeviceName;
         ResourceGroup = this.ResourceGroup;
@@ -119,8 +131,8 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
     /// <summary>
     /// The email list.  Support shorthand-syntax, json-file and yaml- file. Try "??" to show more.
     /// </summary>
-    [CliOption("--email-list")]
-    public string EmailList { get; private init; }
+    [CliOption("--email-list", GroupValues = true)]
+    public IEnumerable<string> EmailList { get; private init; }
 
     /// <summary>
     /// The phone number.
@@ -167,25 +179,25 @@ public record AzDataboxedgeOrderCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Comments related to this status change.
     /// </summary>
-    [CliFlag("--comments")]
-    public bool? Comments { get; set; }
+    [CliOption("--comments")]
+    public string? Comments { get; set; }
 
     /// <summary>
     /// The address line2.
     /// </summary>
-    [CliFlag("--address-line2")]
-    public bool? AddressLine2 { get; set; }
+    [CliOption("--address-line2")]
+    public string? AddressLine2 { get; set; }
 
     /// <summary>
     /// The address line3.
     /// </summary>
-    [CliFlag("--address-line3")]
-    public bool? AddressLine3 { get; set; }
+    [CliOption("--address-line3")]
+    public string? AddressLine3 { get; set; }
 
 }

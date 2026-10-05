@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,14 +70,14 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Indicate that the export to LA must be done to a resource specific table, a.k.a. dedicated or fixed schema table, as opposed to the default dynamic schema table called AzureDiagnostics. This argument is effective only when the argument --workspace is also given. Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--export-to-resource-specific")]
-    public bool? ExportToResourceSpecific { get; set; }
+    [CliOption("--export-to-resource-specific", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExportToResourceSpecific { get; set; }
 
     /// <summary>
     /// JSON encoded list of logs settings. Use '@{file}' to load from a file. For more information, visit: https://learn.microsoft.com/r est/api/monitor/diagnosticsettings/createorupdate#logsettings. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--logs")]
-    public bool? Logs { get; set; }
+    [CliOption("--logs", GroupValues = true)]
+    public IEnumerable<string>? Logs { get; set; }
 
     /// <summary>
     /// The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs.
@@ -111,19 +112,19 @@ public record AzMonitorDiagnosticSettingsCreateOptions : AzOptions
     /// <summary>
     /// Target resource provider namespace.
     /// </summary>
-    [CliFlag("--resource-namespace")]
-    public bool? ResourceNamespace { get; set; }
+    [CliOption("--resource-namespace")]
+    public string? ResourceNamespace { get; set; }
 
     /// <summary>
     /// Target resource parent path, if applicable.
     /// </summary>
-    [CliFlag("--resource-parent")]
-    public bool? ResourceParent { get; set; }
+    [CliOption("--resource-parent")]
+    public string? ResourceParent { get; set; }
 
     /// <summary>
     /// Target resource type. Can also accept namespace/type format (Ex: 'Microsoft.Compute/virtualMachines').
     /// </summary>
-    [CliFlag("--resource-type")]
-    public bool? ResourceType { get; set; }
+    [CliOption("--resource-type")]
+    public string? ResourceType { get; set; }
 
 }

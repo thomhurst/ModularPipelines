@@ -30,15 +30,26 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <param name="StartSearchTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
     /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
     public AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions(
-        string EndSearchTime,
+        IEnumerable<string> EndSearchTime,
         string Name,
         string ResourceGroup,
         string SearchQuery,
-        string StartSearchTime,
+        IEnumerable<string> StartSearchTime,
         string WorkspaceName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EndSearchTime);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndSearchTime);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndSearchTime));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndSearchTime));
+            }
+
+            EndSearchTime = materialized;
+        }
         this.EndSearchTime = EndSearchTime;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -46,13 +57,24 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
         this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(SearchQuery);
         this.SearchQuery = SearchQuery;
-        global::System.ArgumentNullException.ThrowIfNull(StartSearchTime);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StartSearchTime);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StartSearchTime));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StartSearchTime));
+            }
+
+            StartSearchTime = materialized;
+        }
         this.StartSearchTime = StartSearchTime;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
         this.WorkspaceName = WorkspaceName;
     }
 
-    public void Deconstruct(out string EndSearchTime, out string Name, out string ResourceGroup, out string SearchQuery, out string StartSearchTime, out string WorkspaceName)
+    public void Deconstruct(out IEnumerable<string> EndSearchTime, out string Name, out string ResourceGroup, out string SearchQuery, out IEnumerable<string> StartSearchTime, out string WorkspaceName)
     {
         EndSearchTime = this.EndSearchTime;
         Name = this.Name;
@@ -65,8 +87,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliOption("--end-search-time")]
-    public string EndSearchTime { get; private init; }
+    [CliOption("--end-search-time", GroupValues = true)]
+    public IEnumerable<string> EndSearchTime { get; private init; }
 
     /// <summary>
     /// Name of the table. The table name needs to end with _SRCH.
@@ -89,8 +111,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliOption("--start-search-time")]
-    public string StartSearchTime { get; private init; }
+    [CliOption("--start-search-time", GroupValues = true)]
+    public IEnumerable<string> StartSearchTime { get; private init; }
 
     /// <summary>
     /// Name of the Log Analytics Workspace.
@@ -101,8 +123,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// Limit the search job to return up to specified number of rows.
     /// </summary>
-    [CliFlag("--limit")]
-    public bool? Limit { get; set; }
+    [CliOption("--limit")]
+    public int? Limit { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -113,13 +135,13 @@ public record AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions : AzOpti
     /// <summary>
     /// The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.
     /// </summary>
-    [CliFlag("--retention-time")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public int? RetentionTime { get; set; }
 
     /// <summary>
     /// The table total retention in days, between 4 and 2556. Setting this property to -1 will default to table retention.
     /// </summary>
-    [CliFlag("--total-retention-time")]
-    public bool? TotalRetentionTime { get; set; }
+    [CliOption("--total-retention-time")]
+    public int? TotalRetentionTime { get; set; }
 
 }

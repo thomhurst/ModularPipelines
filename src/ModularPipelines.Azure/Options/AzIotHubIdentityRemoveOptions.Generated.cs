@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzIotHubIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Remove a system-assigned managed identity from this hub.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--system", ShortForm = "--system-assigned")]
-    public bool? System { get; set; }
+    [CliOption("--system", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? System { get; set; }
 
     /// <summary>
     /// Remove user-assigned managed identities from this hub. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliOption("--user", ShortForm = "--user-assigned", GroupValues = true)]
-    public IEnumerable<string>? User { get; set; }
+    [CliOption("--user", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? User { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -41,8 +42,8 @@ public record AzIotHubIdentityRemoveOptions : AzOptions
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

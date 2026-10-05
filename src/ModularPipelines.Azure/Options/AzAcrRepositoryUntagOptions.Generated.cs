@@ -65,8 +65,8 @@ public record AzAcrRepositoryUntagOptions : AzOptions
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
     /// </summary>
-    [CliFlag("--suffix")]
-    public bool? Suffix { get; set; }
+    [CliOption("--suffix")]
+    public string? Suffix { get; set; }
 
     /// <summary>
     /// The username used to log into a container registry.

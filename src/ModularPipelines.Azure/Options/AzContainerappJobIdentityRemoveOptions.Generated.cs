@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,8 +36,8 @@ public record AzContainerappJobIdentityRemoveOptions : AzOptions
     /// <summary>
     /// Space-separated user identities. If no user identities are specified, all user identities will be removed.
     /// </summary>
-    [CliOption("--user-assigned", GroupValues = true)]
-    public IEnumerable<string>? UserAssigned { get; set; }
+    [CliOption("--user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserAssigned { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

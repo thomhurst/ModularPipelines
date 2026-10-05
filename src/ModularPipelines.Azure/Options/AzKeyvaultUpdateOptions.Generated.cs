@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,32 +47,32 @@ public record AzKeyvaultUpdateOptions : AzOptions
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge-protection")]
-    public bool? EnablePurgeProtection { get; set; }
+    [CliOption("--enable-purge-protection", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurgeProtection { get; set; }
 
     /// <summary>
     /// Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of true. Note that management actions are always authorized with RBAC.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-rbac-authorization")]
-    public bool? EnableRbacAuthorization { get; set; }
+    [CliOption("--enable-rbac-authorization", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRbacAuthorization { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-deployment")]
-    public bool? EnabledForDeployment { get; set; }
+    [CliOption("--enabled-for-deployment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForDeployment { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-disk-encryption")]
-    public bool? EnabledForDiskEncryption { get; set; }
+    [CliOption("--enabled-for-disk-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForDiskEncryption { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-template-deployment")]
-    public bool? EnabledForTemplateDeployment { get; set; }
+    [CliOption("--enabled-for-template-deployment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForTemplateDeployment { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -94,8 +95,8 @@ public record AzKeyvaultUpdateOptions : AzOptions
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public string? RetentionDays { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -124,8 +125,8 @@ public record AzKeyvaultUpdateOptions : AzOptions
     /// <summary>
     /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
-    [CliOption("--bypass", GroupValues = true)]
-    public IEnumerable<string>? Bypass { get; set; }
+    [CliOption("--bypass")]
+    public string? Bypass { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.

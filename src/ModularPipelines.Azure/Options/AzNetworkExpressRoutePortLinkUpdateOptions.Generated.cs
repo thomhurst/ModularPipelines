@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// Enable/Disable administrative state of an ExpressRoute Link. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--admin-state")]
-    public string? AdminState { get; set; }
+    [CliOption("--admin-state", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdminState { get; set; }
 
     /// <summary>
     /// Resource ID.
@@ -80,8 +81,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -92,8 +93,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -110,8 +111,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// The connectivity association key (CAK) ID that stored in the KeyVault.
     /// </summary>
-    [CliFlag("--macsec-cak-secret-identifier")]
-    public bool? MacsecCakSecretIdentifier { get; set; }
+    [CliOption("--macsec-cak-secret-identifier")]
+    public string? MacsecCakSecretIdentifier { get; set; }
 
     /// <summary>
     /// Cipher Method.  Allowed values: GcmAes128, GcmAes256, GcmAesXpn128, GcmAesXpn256.
@@ -122,8 +123,8 @@ public record AzNetworkExpressRoutePortLinkUpdateOptions : AzOptions
     /// <summary>
     /// The connectivity key name (CKN) that stored in the KeyVault.
     /// </summary>
-    [CliFlag("--macsec-ckn-secret-identifier")]
-    public bool? MacsecCknSecretIdentifier { get; set; }
+    [CliOption("--macsec-ckn-secret-identifier")]
+    public string? MacsecCknSecretIdentifier { get; set; }
 
     /// <summary>
     /// Sci mode.  Allowed values: Disabled, Enabled.

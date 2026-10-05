@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -26,17 +27,39 @@ public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
     /// <param name="DesiredLocations">The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     /// <param name="DesiredSizes">The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzComputeRecommenderSpotPlacementScoreOptions(
-        string DesiredLocations,
-        string DesiredSizes
+        IEnumerable<string> DesiredLocations,
+        IEnumerable<string> DesiredSizes
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(DesiredLocations);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DesiredLocations);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DesiredLocations));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DesiredLocations));
+            }
+
+            DesiredLocations = materialized;
+        }
         this.DesiredLocations = DesiredLocations;
-        global::System.ArgumentNullException.ThrowIfNull(DesiredSizes);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(DesiredSizes);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(DesiredSizes));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(DesiredSizes));
+            }
+
+            DesiredSizes = materialized;
+        }
         this.DesiredSizes = DesiredSizes;
     }
 
-    public void Deconstruct(out string DesiredLocations, out string DesiredSizes)
+    public void Deconstruct(out IEnumerable<string> DesiredLocations, out IEnumerable<string> DesiredSizes)
     {
         DesiredLocations = this.DesiredLocations;
         DesiredSizes = this.DesiredSizes;
@@ -45,14 +68,14 @@ public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
     /// <summary>
     /// The desired regions  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--desired-locations")]
-    public string DesiredLocations { get; private init; }
+    [CliOption("--desired-locations", GroupValues = true)]
+    public IEnumerable<string> DesiredLocations { get; private init; }
 
     /// <summary>
     /// The desired resource SKUs.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--desired-sizes")]
-    public string DesiredSizes { get; private init; }
+    [CliOption("--desired-sizes", GroupValues = true)]
+    public IEnumerable<string> DesiredSizes { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -69,13 +92,13 @@ public record AzComputeRecommenderSpotPlacementScoreOptions : AzOptions
     /// <summary>
     /// Defines if the scope is zonal or regional.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--availability-zones")]
-    public bool? AvailabilityZones { get; set; }
+    [CliOption("--availability-zones", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AvailabilityZones { get; set; }
 
     /// <summary>
     /// Desired instance count per region/zone based on the scope.
     /// </summary>
-    [CliFlag("--desired-count")]
-    public bool? DesiredCount { get; set; }
+    [CliOption("--desired-count")]
+    public string? DesiredCount { get; set; }
 
 }

@@ -50,7 +50,7 @@ public record AzNetappfilesAccountAdShowOptions : AzOptions
     /// <summary>
     /// The name of the NetApp account.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "-n")]
+    [CliOption("--account-name", ShortForm = "-a")]
     public string AccountName { get; private init; }
 
     /// <summary>

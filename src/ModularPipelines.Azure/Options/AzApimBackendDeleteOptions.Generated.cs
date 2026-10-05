@@ -68,8 +68,8 @@ public record AzApimBackendDeleteOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

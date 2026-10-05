@@ -23,8 +23,8 @@ public record AzMonitorAccountIssueListAlertOptions : AzOptions
     /// <summary>
     /// The filter to apply on the operation. For example, to filter by relevance, use "$filter=relevance eq 'Relevant'". Note: this property is currently a placeholder and is not in use.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The name of the Azure Monitor Workspace. The name is case insensitive.

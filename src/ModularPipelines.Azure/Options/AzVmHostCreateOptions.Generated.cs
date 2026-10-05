@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzVmHostCreateOptions : AzOptions
     /// <summary>
     /// Replace the host automatically if a failure occurs.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--auto-replace")]
-    public bool? AutoReplace { get; set; }
+    [CliOption("--auto-replace", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoReplace { get; set; }
 
     /// <summary>
     /// The software license type that will be applied to the VMs deployed on the dedicated host.  Allowed values: None, Windows_Server_Hybrid, Windows_Server_Perpetual.
@@ -98,12 +99,12 @@ public record AzVmHostCreateOptions : AzOptions
     /// Fault domain of the host within a group. Allowed values: 0, 1, 2.
     /// </summary>
     [CliOption("--platform-fault-domain", ShortForm = "-d")]
-    public string? PlatformFaultDomain { get; set; }
+    public int? PlatformFaultDomain { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

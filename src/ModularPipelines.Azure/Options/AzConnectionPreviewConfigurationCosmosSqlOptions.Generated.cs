@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,19 +31,20 @@ public record AzConnectionPreviewConfigurationCosmosSqlOptions : AzOptions
     /// <summary>
     /// The secret auth info.
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secret { get; set; }
 
     /// <summary>
     /// The service principal auth info.
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ServicePrincipal { get; set; }
 
     /// <summary>
     /// The local user account auth info.
     /// </summary>
-    [CliFlag("--user-account")]
-    public bool? UserAccount { get; set; }
+    [CliOption("--user-account", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserAccount { get; set; }
 
 }

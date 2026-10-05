@@ -68,13 +68,13 @@ public record AzMariadbDbCreateOptions : AzOptions
     /// <summary>
     /// The charset of the database.
     /// </summary>
-    [CliFlag("--charset")]
-    public bool? Charset { get; set; }
+    [CliOption("--charset")]
+    public string? Charset { get; set; }
 
     /// <summary>
     /// The collation of the database.
     /// </summary>
-    [CliFlag("--collation")]
-    public bool? Collation { get; set; }
+    [CliOption("--collation")]
+    public string? Collation { get; set; }
 
 }

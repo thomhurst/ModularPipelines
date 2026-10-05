@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzAksSafeguardsDeleteOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the Managed Cluster.
     /// </summary>
-    [CliFlag("--cluster", ShortForm = "-c")]
-    public bool? Cluster { get; set; }
+    [CliOption("--cluster", ShortForm = "-c")]
+    public string? Cluster { get; set; }
 
     /// <summary>
     /// The name of the Managed Cluster.You may provide either 'managed_cluster' or both 'resource_group' and name', but not both.
@@ -35,8 +36,8 @@ public record AzAksSafeguardsDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The name of the resource group. You can configure the default group using az configure --defaults group=`&lt;name&gt;`. You may provide either 'managed_cluster' or both 'resource_group' and 'name', but not both.

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -28,16 +29,28 @@ public record AzSqlVmUpdateOptions : AzOptions
     public string? LeastPrivilegeMode { get; set; }
 
     /// <summary>
+    /// SQL Server management type. Updates from LightWeight to Full.  Allowed values: Full, LightWeight, NoAgent. WARNING: Argument 'sql_management_mode' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--sql-mgmt-type")]
+    public string? SqlMgmtType { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Do not prompt for confirmation. Requires --sql-mgmt-type.  Default: True. WARNING: Argument 'prompt' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--yes", ShortForm = "-y")]
+    public string? Yes { get; set; }
 
     /// <summary>
     /// Enable or disable R services (SQL 2016 onwards).  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-r-services")]
-    public bool? EnableRServices { get; set; }
+    [CliOption("--enable-r-services", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRServices { get; set; }
 
     /// <summary>
     /// Resource group containing the AMA resources DCE and DCR.
@@ -48,38 +61,38 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Day of the week to run assessment.  Allowed values: Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
     /// </summary>
-    [CliOption("--am-day", ShortForm = "--assessment-day-of-week")]
+    [CliOption("--am-day")]
     public string? AmDay { get; set; }
 
     /// <summary>
     /// Occurrence of the DayOfWeek day within a month to schedule assessment. Supports values 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month (for example - last Tuesday of the month).  Allowed values: -1, 1, 2, 3, 4.
     /// </summary>
-    [CliOption("--am-month-occ", ShortForm = "--assessment-monthly-occurrence")]
+    [CliOption("--am-month-occ")]
     public string? AmMonthOcc { get; set; }
 
     /// <summary>
     /// Enable or disable assessment Schedule. If any assessment schedule settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--am-schedule", ShortForm = "--enable-assessment-schedule")]
-    public bool? AmSchedule { get; set; }
+    [CliOption("--am-schedule", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AmSchedule { get; set; }
 
     /// <summary>
     /// Time of the day in HH:mm format. Examples include 17:30, 05:13.
     /// </summary>
-    [CliFlag("--am-time", ShortForm = "--assessment-start-time-local")]
-    public bool? AmTime { get; set; }
+    [CliOption("--am-time")]
+    public string? AmTime { get; set; }
 
     /// <summary>
     /// Number of weeks to schedule between 2 assessment runs. Supports value from 1-6. Allowed values: 1, 2, 3, 4, 5, 6.
     /// </summary>
-    [CliOption("--am-week-int", ShortForm = "--assessment-weekly-interval")]
-    public int? AmWeekInt { get; set; }
+    [CliOption("--am-week-int")]
+    public string? AmWeekInt { get; set; }
 
     /// <summary>
     /// Enable or disable assessment feature. If any assessment settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-assessment")]
-    public bool? EnableAssessment { get; set; }
+    [CliOption("--enable-assessment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAssessment { get; set; }
 
     /// <summary>
     /// Name of the Log Analytics workspace to associate with VM.
@@ -96,8 +109,8 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Subscription containing the Log Analytics workspace.
     /// </summary>
-    [CliFlag("--workspace-sub")]
-    public bool? WorkspaceSub { get; set; }
+    [CliOption("--workspace-sub")]
+    public string? WorkspaceSub { get; set; }
 
     /// <summary>
     /// Password for encryption on backup.
@@ -115,26 +128,26 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Include system databases on backup.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--backup-system-dbs")]
-    public bool? BackupSystemDbs { get; set; }
+    [CliOption("--backup-system-dbs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BackupSystemDbs { get; set; }
 
     /// <summary>
     /// Enable or disable autobackup on SQL virtual machine. If any backup settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-backup")]
-    public bool? EnableAutoBackup { get; set; }
+    [CliOption("--enable-auto-backup", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoBackup { get; set; }
 
     /// <summary>
     /// Enable encryption for backup on SQL virtual machine.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-encryption")]
-    public bool? EnableEncryption { get; set; }
+    [CliOption("--enable-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableEncryption { get; set; }
 
     /// <summary>
     /// Duration of the time window of a given day during which full backups can take place. 1-23 hours.
     /// </summary>
-    [CliFlag("--full-backup-duration")]
-    public bool? FullBackupDuration { get; set; }
+    [CliOption("--full-backup-duration")]
+    public int? FullBackupDuration { get; set; }
 
     /// <summary>
     /// Frequency of full backups. In both cases, full backups begin during the next scheduled time window.  Allowed values: Daily, Weekly.
@@ -145,32 +158,32 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Start time of a given day during which full backups can take place. 0-23 hours.
     /// </summary>
-    [CliFlag("--full-backup-start-hour")]
-    public bool? FullBackupStartHour { get; set; }
+    [CliOption("--full-backup-start-hour")]
+    public int? FullBackupStartHour { get; set; }
 
     /// <summary>
     /// Frequency of log backups. 5-60 minutes.
     /// </summary>
-    [CliFlag("--log-backup-frequency")]
-    public bool? LogBackupFrequency { get; set; }
+    [CliOption("--log-backup-frequency")]
+    public int? LogBackupFrequency { get; set; }
 
     /// <summary>
     /// Retention period of backup. 1-30 days.
     /// </summary>
-    [CliFlag("--retention-period")]
-    public bool? RetentionPeriod { get; set; }
+    [CliOption("--retention-period")]
+    public int? RetentionPeriod { get; set; }
 
     /// <summary>
     /// Storage account key where backup will be taken to.
     /// </summary>
-    [CliFlag("--sa-key")]
-    public bool? SaKey { get; set; }
+    [CliOption("--sa-key")]
+    public string? SaKey { get; set; }
 
     /// <summary>
     /// Storage account url where backup will be taken to.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// Day of week to apply the patch on.  Allowed values: Everyday, Friday, Monday, Saturday, Sunday, Thursday, Tuesday, Wednesday.
@@ -181,20 +194,20 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable autopatching on SQL virtual machine. If any autopatching settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-patching")]
-    public bool? EnableAutoPatching { get; set; }
+    [CliOption("--enable-auto-patching", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoPatching { get; set; }
 
     /// <summary>
     /// Duration of patching. 30-180 minutes.
     /// </summary>
-    [CliFlag("--maintenance-window-duration")]
-    public bool? MaintenanceWindowDuration { get; set; }
+    [CliOption("--maintenance-window-duration")]
+    public int? MaintenanceWindowDuration { get; set; }
 
     /// <summary>
     /// Hour of the day when patching is initiated. Local VM time 0-23 hours.
     /// </summary>
-    [CliFlag("--maintenance-window-start-hour")]
-    public bool? MaintenanceWindowStartHour { get; set; }
+    [CliOption("--maintenance-window-start-hour")]
+    public int? MaintenanceWindowStartHour { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -223,32 +236,33 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Credential name.
     /// </summary>
-    [CliFlag("--credential-name")]
-    public bool? CredentialName { get; set; }
+    [CliOption("--credential-name")]
+    public string? CredentialName { get; set; }
 
     /// <summary>
     /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-key-vault-credential")]
-    public bool? EnableKeyVaultCredential { get; set; }
+    [CliOption("--enable-key-vault-credential", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableKeyVaultCredential { get; set; }
 
     /// <summary>
     /// Azure Key Vault url.
     /// </summary>
-    [CliFlag("--key-vault")]
-    public bool? KeyVault { get; set; }
+    [CliOption("--key-vault")]
+    public string? KeyVault { get; set; }
 
     /// <summary>
     /// Service principal name to access key vault.
     /// </summary>
-    [CliFlag("--sp-name")]
-    public bool? SpName { get; set; }
+    [CliOption("--sp-name")]
+    public string? SpName { get; set; }
 
     /// <summary>
     /// Service principal name secret to access key vault.
     /// </summary>
-    [CliFlag("--sp-secret")]
-    public bool? SpSecret { get; set; }
+    [SecretValue]
+    [CliOption("--sp-secret")]
+    public string? SpSecret { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -277,8 +291,8 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// SQL Server port.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public int? Port { get; set; }
 
     /// <summary>
     /// SQL image sku.  Allowed values: Developer, Enterprise, Express, Standard, Web.

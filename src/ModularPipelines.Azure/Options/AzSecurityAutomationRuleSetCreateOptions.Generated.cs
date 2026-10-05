@@ -23,7 +23,7 @@ public record AzSecurityAutomationRuleSetCreateOptions : AzOptions
     /// <summary>
     /// A rule which is evaluated upon event interception. The rule is configured by comparing a specific value from the event model to an expected value. This comparison is done by using one of the supported operators set.
     /// </summary>
-    [CliFlag("--rules")]
-    public bool? Rules { get; set; }
+    [CliOption("--rules")]
+    public string? Rules { get; set; }
 
 }

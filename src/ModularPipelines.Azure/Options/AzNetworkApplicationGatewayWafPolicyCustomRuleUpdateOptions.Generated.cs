@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -74,8 +75,8 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions : AzOp
     /// <summary>
     /// Rule priority. Lower values are evaluated prior to higher values.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// Type of rule.  Allowed values: Invalid, MatchRule, RateLimitRule.
@@ -98,8 +99,8 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions : AzOp
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -134,7 +135,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions : AzOp
     /// <summary>
     /// Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1.
     /// </summary>
-    [CliFlag("--rate-limit-threshold")]
-    public bool? RateLimitThreshold { get; set; }
+    [CliOption("--rate-limit-threshold")]
+    public string? RateLimitThreshold { get; set; }
 
 }

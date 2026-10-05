@@ -46,13 +46,13 @@ public record AzSqlMidbCopyCancelOptions : AzOptions
     /// <summary>
     /// Name of the resource group to copy the managed database to. If unspecified, defaults to the origin resource group.
     /// </summary>
-    [CliOption("--dest-resource-group", ShortForm = "--dest-rg")]
+    [CliOption("--dest-resource-group")]
     public string? DestResourceGroup { get; set; }
 
     /// <summary>
     /// Id of the subscription to move the managed database to. If unspecified, defaults to the origin subscription id.
     /// </summary>
-    [CliOption("--dest-sub-id", ShortForm = "--dest-subscription-id")]
+    [CliOption("--dest-sub-id")]
     public string? DestSubId { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record AzSqlMidbCopyCancelOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

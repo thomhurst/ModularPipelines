@@ -29,8 +29,8 @@ public record AzWebappConfigHostnameDeleteOptions : AzOptions
     /// <summary>
     /// Hostname assigned to the site, such as custom domains.
     /// </summary>
-    [CliFlag("--hostname")]
-    public bool? Hostname { get; set; }
+    [CliOption("--hostname")]
+    public string? Hostname { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -47,7 +47,7 @@ public record AzWebappConfigHostnameDeleteOptions : AzOptions
     /// <summary>
     /// Webapp name. You can configure the default using `az configure --defaults web=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--webapp-name")]
-    public bool? WebappName { get; set; }
+    [CliOption("--webapp-name")]
+    public string? WebappName { get; set; }
 
 }

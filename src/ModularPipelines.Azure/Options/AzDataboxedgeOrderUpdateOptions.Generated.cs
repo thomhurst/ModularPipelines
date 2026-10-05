@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The name of the company.
@@ -35,26 +36,26 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// The contact person name.
     /// </summary>
-    [CliFlag("--contact-person")]
-    public bool? ContactPerson { get; set; }
+    [CliOption("--contact-person")]
+    public string? ContactPerson { get; set; }
 
     /// <summary>
     /// The email list.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--email-list")]
-    public bool? EmailList { get; set; }
+    [CliOption("--email-list", GroupValues = true)]
+    public IEnumerable<string>? EmailList { get; set; }
 
     /// <summary>
     /// The phone number.
     /// </summary>
-    [CliFlag("--phone")]
-    public bool? Phone { get; set; }
+    [CliOption("--phone")]
+    public string? Phone { get; set; }
 
     /// <summary>
     /// Comments related to this status change.
     /// </summary>
-    [CliFlag("--comments")]
-    public bool? Comments { get; set; }
+    [CliOption("--comments")]
+    public string? Comments { get; set; }
 
     /// <summary>
     /// Status of the order as per the allowed status types.  Allowed values: Arriving, AwaitingDrop, AwaitingFulfillment, AwaitingPickup, AwaitingPreparation, AwaitingReturnShipment, AwaitingShipment, CollectedAtMicrosoft, Declined, Delivered, LostDevice, PickupCompleted, ReplacementRequested, ReturnInitiated, Shipped, ShippedBack, Untracked.
@@ -71,8 +72,8 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,8 +90,8 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// The order details of a device.
     /// </summary>
-    [CliFlag("--device-name", ShortForm = "-d")]
-    public bool? DeviceName { get; set; }
+    [CliOption("--device-name", ShortForm = "-d")]
+    public string? DeviceName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -107,43 +108,43 @@ public record AzDataboxedgeOrderUpdateOptions : AzOptions
     /// <summary>
     /// The address line1.
     /// </summary>
-    [CliFlag("--address-line1")]
-    public bool? AddressLine1 { get; set; }
+    [CliOption("--address-line1")]
+    public string? AddressLine1 { get; set; }
 
     /// <summary>
     /// The address line2.
     /// </summary>
-    [CliFlag("--address-line2")]
-    public bool? AddressLine2 { get; set; }
+    [CliOption("--address-line2")]
+    public string? AddressLine2 { get; set; }
 
     /// <summary>
     /// The address line3.
     /// </summary>
-    [CliFlag("--address-line3")]
-    public bool? AddressLine3 { get; set; }
+    [CliOption("--address-line3")]
+    public string? AddressLine3 { get; set; }
 
     /// <summary>
     /// The city name.
     /// </summary>
-    [CliFlag("--city")]
-    public bool? City { get; set; }
+    [CliOption("--city")]
+    public string? City { get; set; }
 
     /// <summary>
     /// The country name.
     /// </summary>
-    [CliFlag("--country")]
-    public bool? Country { get; set; }
+    [CliOption("--country")]
+    public string? Country { get; set; }
 
     /// <summary>
     /// The postal code.
     /// </summary>
-    [CliFlag("--postal-code")]
-    public bool? PostalCode { get; set; }
+    [CliOption("--postal-code")]
+    public string? PostalCode { get; set; }
 
     /// <summary>
     /// The state name.
     /// </summary>
-    [CliFlag("--state")]
-    public bool? State { get; set; }
+    [CliOption("--state")]
+    public string? State { get; set; }
 
 }

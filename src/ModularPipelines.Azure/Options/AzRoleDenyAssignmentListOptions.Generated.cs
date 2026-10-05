@@ -23,8 +23,8 @@ public record AzRoleDenyAssignmentListOptions : AzOptions
     /// <summary>
     /// OData filter expression to apply. For example, "atScope()" to list at the current scope, or "gdprExportPrincipalId eq '{objectId}'" to list for a specific principal.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Scope at which the deny assignment applies. For example, /subscriptions/00000000-0000-0000-0000-000000000000 or /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.

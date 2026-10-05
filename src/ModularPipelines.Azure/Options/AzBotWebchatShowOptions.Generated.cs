@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,7 +58,7 @@ public record AzBotWebchatShowOptions : AzOptions
     /// <summary>
     /// Show secrets in response for the channel.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--with-secrets")]
-    public bool? WithSecrets { get; set; }
+    [CliOption("--with-secrets", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? WithSecrets { get; set; }
 
 }

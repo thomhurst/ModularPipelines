@@ -23,8 +23,8 @@ public record AzAmsAccountMruSetOptions : AzOptions
     /// <summary>
     /// The number of the encoding reserved units that you want to be provisioned for this account for concurrent tasks (one unit equals one task).
     /// </summary>
-    [CliFlag("--count")]
-    public bool? Count { get; set; }
+    [CliOption("--count")]
+    public int? Count { get; set; }
 
     /// <summary>
     /// Speed of reserved processing units. The cost of media encoding depends on the pricing tier you choose. See https://azure.microsoft.com/pricing/details/media-services/ for further details. Allowed values: S1, S2, S3.

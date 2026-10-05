@@ -57,8 +57,8 @@ public record AzDmsDeleteOptions : AzOptions
     /// <summary>
     /// Cancel any running tasks before deleting the service.
     /// </summary>
-    [CliFlag("--delete-running-tasks")]
-    public bool? DeleteRunningTasks { get; set; }
+    [CliOption("--delete-running-tasks")]
+    public string? DeleteRunningTasks { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

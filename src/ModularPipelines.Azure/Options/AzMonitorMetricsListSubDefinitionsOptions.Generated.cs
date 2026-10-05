@@ -46,7 +46,7 @@ public record AzMonitorMetricsListSubDefinitionsOptions : AzOptions
     /// <summary>
     /// Metric namespace where the metrics you want reside.
     /// </summary>
-    [CliFlag("--metricnamespace")]
-    public bool? Metricnamespace { get; set; }
+    [CliOption("--metricnamespace")]
+    public string? Metricnamespace { get; set; }
 
 }

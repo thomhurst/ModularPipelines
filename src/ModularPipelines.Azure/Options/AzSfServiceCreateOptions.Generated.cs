@@ -65,7 +65,7 @@ public record AzSfServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record AzSfServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service. The application name must be a prefix of the service name, for example: appName~serviceName.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -107,14 +107,14 @@ public record AzSfServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the instance count for the stateless service. If -1 is used, it means it will run on all the nodes.
     /// </summary>
-    [CliFlag("--instance-count")]
-    public bool? InstanceCount { get; set; }
+    [CliOption("--instance-count")]
+    public string? InstanceCount { get; set; }
 
     /// <summary>
     /// Specify the min replica set size for the stateful service.
     /// </summary>
-    [CliFlag("--min-replica", ShortForm = "--min-replica-set-size")]
-    public bool? MinReplica { get; set; }
+    [CliOption("--min-replica")]
+    public string? MinReplica { get; set; }
 
     /// <summary>
     /// Specify what partition scheme to use. Singleton partitions are typically used when the service does not require any additional routing. UniformInt64 means that each partition owns a range of int64 keys. Named is usually for services with data that can be bucketed, within a bounded set. Some common examples of data fields used as named partition keys would be regions, postal codes, customer groups, or other business boundaries.  Allowed values: named, singleton, uniformInt64.  Default: singleton.
@@ -125,7 +125,7 @@ public record AzSfServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the target replica set size for the stateful service.
     /// </summary>
-    [CliFlag("--target-replica", ShortForm = "--target-replica-set-size")]
-    public bool? TargetReplica { get; set; }
+    [CliOption("--target-replica")]
+    public string? TargetReplica { get; set; }
 
 }

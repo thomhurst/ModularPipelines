@@ -23,14 +23,14 @@ public record AzCloudUpdateOptions : AzOptions
     /// <summary>
     /// JSON encoded cloud configuration. Use @{file} to load from a file.
     /// </summary>
-    [CliFlag("--cloud-config")]
-    public bool? CloudConfig { get; set; }
+    [CliOption("--cloud-config")]
+    public string? CloudConfig { get; set; }
 
     /// <summary>
     /// The Active Directory login endpoint.
     /// </summary>
-    [CliFlag("--endpoint-active-directory")]
-    public bool? EndpointActiveDirectory { get; set; }
+    [CliOption("--endpoint-active-directory")]
+    public string? EndpointActiveDirectory { get; set; }
 
     /// <summary>
     /// The Active Directory resource ID for data lake services.
@@ -59,8 +59,8 @@ public record AzCloudUpdateOptions : AzOptions
     /// <summary>
     /// The management service endpoint.
     /// </summary>
-    [CliFlag("--endpoint-management")]
-    public bool? EndpointManagement { get; set; }
+    [CliOption("--endpoint-management")]
+    public string? EndpointManagement { get; set; }
 
     /// <summary>
     /// The Microsoft Graph resource ID.
@@ -77,8 +77,8 @@ public record AzCloudUpdateOptions : AzOptions
     /// <summary>
     /// The sql server management endpoint.
     /// </summary>
-    [CliFlag("--endpoint-sql-management")]
-    public bool? EndpointSqlManagement { get; set; }
+    [CliOption("--endpoint-sql-management")]
+    public string? EndpointSqlManagement { get; set; }
 
     /// <summary>
     /// The uri of the document which caches commonly used virtual machine images.
@@ -107,20 +107,20 @@ public record AzCloudUpdateOptions : AzOptions
     /// <summary>
     /// The Azure Container Registry login server suffix.
     /// </summary>
-    [CliFlag("--suffix-acr-login-server-endpoint")]
-    public bool? SuffixAcrLoginServerEndpoint { get; set; }
+    [CliOption("--suffix-acr-login-server-endpoint")]
+    public string? SuffixAcrLoginServerEndpoint { get; set; }
 
     /// <summary>
     /// The Data Lake analytics job and catalog service dns suffix.
     /// </summary>
-    [CliFlag("--suffix-azure-datalake-analytics-catalog-and-job-endpoint")]
-    public bool? SuffixAzureDatalakeAnalyticsCatalogAndJobEndpoint { get; set; }
+    [CliOption("--suffix-azure-datalake-analytics-catalog-and-job-endpoint")]
+    public string? SuffixAzureDatalakeAnalyticsCatalogAndJobEndpoint { get; set; }
 
     /// <summary>
     /// The Data Lake store filesystem service dns suffix.
     /// </summary>
-    [CliFlag("--suffix-azure-datalake-store-file-system-endpoint")]
-    public bool? SuffixAzureDatalakeStoreFileSystemEndpoint { get; set; }
+    [CliOption("--suffix-azure-datalake-store-file-system-endpoint")]
+    public string? SuffixAzureDatalakeStoreFileSystemEndpoint { get; set; }
 
     /// <summary>
     /// The Key Vault service dns suffix.
@@ -131,13 +131,13 @@ public record AzCloudUpdateOptions : AzOptions
     /// <summary>
     /// The dns suffix for sql servers.
     /// </summary>
-    [CliFlag("--suffix-sql-server-hostname")]
-    public bool? SuffixSqlServerHostname { get; set; }
+    [CliOption("--suffix-sql-server-hostname")]
+    public string? SuffixSqlServerHostname { get; set; }
 
     /// <summary>
     /// The endpoint suffix for storage accounts.
     /// </summary>
-    [CliFlag("--suffix-storage-endpoint")]
-    public bool? SuffixStorageEndpoint { get; set; }
+    [CliOption("--suffix-storage-endpoint")]
+    public string? SuffixStorageEndpoint { get; set; }
 
 }

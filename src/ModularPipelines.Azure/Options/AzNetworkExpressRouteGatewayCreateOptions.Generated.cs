@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Configures this gateway to accept traffic from non Virtual WAN networks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-non-vwan-traffic")]
-    public bool? AllowNonVwanTraffic { get; set; }
+    [CliOption("--allow-non-vwan-traffic", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowNonVwanTraffic { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -69,8 +70,8 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -87,13 +88,13 @@ public record AzNetworkExpressRouteGatewayCreateOptions : AzOptions
     /// <summary>
     /// Maximum number of scale units deployed for gateway.
     /// </summary>
-    [CliFlag("--max-val")]
-    public bool? MaxVal { get; set; }
+    [CliOption("--max-val")]
+    public string? MaxVal { get; set; }
 
     /// <summary>
     /// Minimum number of scale units deployed for gateway.  Default: 2.  Default: 2.
     /// </summary>
-    [CliFlag("--min-val")]
-    public bool? MinVal { get; set; }
+    [CliOption("--min-val")]
+    public string? MinVal { get; set; }
 
 }

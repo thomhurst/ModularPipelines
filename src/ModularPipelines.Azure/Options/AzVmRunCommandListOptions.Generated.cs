@@ -23,8 +23,8 @@ public record AzVmRunCommandListOptions : AzOptions
     /// <summary>
     /// The expand expression to apply on the operation.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.

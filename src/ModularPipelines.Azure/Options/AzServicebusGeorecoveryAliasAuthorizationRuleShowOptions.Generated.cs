@@ -23,8 +23,8 @@ public record AzServicebusGeorecoveryAliasAuthorizationRuleShowOptions : AzOptio
     /// <summary>
     /// The Disaster Recovery configuration name.
     /// </summary>
-    [CliFlag("--alias", ShortForm = "-a")]
-    public bool? Alias { get; set; }
+    [CliOption("--alias", ShortForm = "-a")]
+    public string? Alias { get; set; }
 
     /// <summary>
     /// The authorization rule name.

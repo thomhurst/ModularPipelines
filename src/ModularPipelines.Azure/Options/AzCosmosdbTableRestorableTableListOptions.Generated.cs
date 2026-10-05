@@ -57,13 +57,13 @@ public record AzCosmosdbTableRestorableTableListOptions : AzOptions
     /// <summary>
     /// End time of restorable tables event feed.
     /// </summary>
-    [CliFlag("--end-time", ShortForm = "-e")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time", ShortForm = "-e")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// Start time of restorable tables event feed.
     /// </summary>
-    [CliFlag("--start-time", ShortForm = "-s")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time", ShortForm = "-s")]
+    public string? StartTime { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -31,7 +32,7 @@ public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
     /// <param name="Start">The start time of the schedule in UTC.</param>
     /// <param name="Stop">The stop time of the schedule in UTC.</param>
     public AzDataboxedgeBandwidthScheduleCreateOptions(
-        string Days,
+        IEnumerable<string> Days,
         string DeviceName,
         string Name,
         string RateInMbps,
@@ -40,7 +41,18 @@ public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
         string Stop
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Days);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Days);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Days));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Days));
+            }
+
+            Days = materialized;
+        }
         this.Days = Days;
         global::System.ArgumentNullException.ThrowIfNull(DeviceName);
         this.DeviceName = DeviceName;
@@ -56,7 +68,7 @@ public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
         this.Stop = Stop;
     }
 
-    public void Deconstruct(out string Days, out string DeviceName, out string Name, out string RateInMbps, out string ResourceGroup, out string Start, out string Stop)
+    public void Deconstruct(out IEnumerable<string> Days, out string DeviceName, out string Name, out string RateInMbps, out string ResourceGroup, out string Start, out string Stop)
     {
         Days = this.Days;
         DeviceName = this.DeviceName;
@@ -70,8 +82,8 @@ public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
     /// <summary>
     /// The days of the week when this schedule is applicable.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--days")]
-    public string Days { get; private init; }
+    [CliOption("--days", GroupValues = true)]
+    public IEnumerable<string> Days { get; private init; }
 
     /// <summary>
     /// The device name.
@@ -112,7 +124,7 @@ public record AzDataboxedgeBandwidthScheduleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
 }

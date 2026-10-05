@@ -80,8 +80,8 @@ public record AzWebappConfigBackupCreateOptions : AzOptions
     /// <summary>
     /// Connection string for the database in the backup.
     /// </summary>
-    [CliFlag("--db-connection-string")]
-    public bool? DbConnectionString { get; set; }
+    [CliOption("--db-connection-string")]
+    public string? DbConnectionString { get; set; }
 
     /// <summary>
     /// Name of the database in the backup.

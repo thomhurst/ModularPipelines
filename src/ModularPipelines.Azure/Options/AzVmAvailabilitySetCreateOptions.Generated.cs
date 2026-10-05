@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,26 +58,26 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
-    public bool? AdditionalEvents { get; set; }
+    [CliOption("--additional-events", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true. Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
-    public bool? AllInstanceDown { get; set; }
+    [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllInstanceDown { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
-    public bool? EnableReboot { get; set; }
+    [CliOption("--enable-reboot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
-    public bool? EnableRedeploy { get; set; }
+    [CliOption("--enable-redeploy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRedeploy { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -93,14 +94,14 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// Fault Domain count.  Default: 2.
     /// </summary>
-    [CliFlag("--platform-fault-domain-count")]
-    public bool? PlatformFaultDomainCount { get; set; }
+    [CliOption("--platform-fault-domain-count")]
+    public int? PlatformFaultDomainCount { get; set; }
 
     /// <summary>
     /// Update Domain count. If unspecified, the server will pick the most optimal number like 5.
     /// </summary>
-    [CliFlag("--platform-update-domain-count")]
-    public bool? PlatformUpdateDomainCount { get; set; }
+    [CliOption("--platform-update-domain-count")]
+    public int? PlatformUpdateDomainCount { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the availability set should be associated with.
@@ -111,14 +112,14 @@ public record AzVmAvailabilitySetCreateOptions : AzOptions
     /// <summary>
     /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Contained VMs should use unmanaged disks.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzResourceTagOptions : AzOptions
     /// </summary>
     /// <param name="Tags">Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.</param>
     public AzResourceTagOptions(
-        IEnumerable<string> Tags
+        IEnumerable<CliOptionValue> Tags
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(Tags);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Tags));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Tags));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzResourceTagOptions : AzOptions
         this.Tags = Tags;
     }
 
-    public void Deconstruct(out IEnumerable<string> Tags)
+    public void Deconstruct(out IEnumerable<CliOptionValue> Tags)
     {
         Tags = this.Tags;
     }
@@ -51,8 +52,8 @@ public record AzResourceTagOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string> Tags { get; private init; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Tags { get; private init; }
 
     /// <summary>
     /// The option to add tags incrementally without deleting the original tags. If the key of new tag and original tag are duplicated, the original value will be overwritten.
@@ -63,14 +64,20 @@ public record AzResourceTagOptions : AzOptions
     /// <summary>
     /// The api version of the resource (omit for the latest stable version).
     /// </summary>
-    [CliFlag("--api-version")]
-    public bool? ApiVersion { get; set; }
+    [CliOption("--api-version")]
+    public string? ApiVersion { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). If provided, no other "Resource Id" arguments should be specified.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
+
+    /// <summary>
+    /// Indicate that the latest api-version will be used regardless of whether it is preview version (like 2020-01-01-preview) or not. For example, if the supported api-version of resource provider is 2020-01-01-preview and 2019-01-01: when passing in this parameter it will take the latest version 2020-01-01-preview, otherwise it will take the latest stable version 2019-01-01 without passing in this parameter. WARNING: Argument '--latest-include-preview' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliFlag("--latest-include-preview", ShortForm = "-v")]
+    public bool? LatestIncludePreview { get; set; }
 
     /// <summary>
     /// The resource name. (Ex: myC).
@@ -81,14 +88,14 @@ public record AzResourceTagOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: 'Microsoft.Provider').
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: 'resA/myA/resB/myB').
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

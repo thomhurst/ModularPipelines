@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzExtensionUpdateOptions : AzOptions
     /// <summary>
     /// Include preview packages for extension installation, if exists. Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-preview")]
-    public bool? AllowPreview { get; set; }
+    [CliOption("--allow-preview", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowPreview { get; set; }
 
     /// <summary>
     /// Space-separated list of extra URLs of package indexes to use. This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
@@ -58,7 +59,7 @@ public record AzExtensionUpdateOptions : AzOptions
     /// <summary>
     /// Proxy for pip to use for extension dependencies in the form of [user:passwd@]proxy.server:port.
     /// </summary>
-    [CliFlag("--pip-proxy")]
-    public bool? PipProxy { get; set; }
+    [CliOption("--pip-proxy")]
+    public string? PipProxy { get; set; }
 
 }

@@ -68,14 +68,14 @@ public record AzApimApiDeleteOptions : AzOptions
     /// <summary>
     /// Delete all revisions of the Api.
     /// </summary>
-    [CliFlag("--delete-revisions")]
-    public bool? DeleteRevisions { get; set; }
+    [CliOption("--delete-revisions")]
+    public string? DeleteRevisions { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

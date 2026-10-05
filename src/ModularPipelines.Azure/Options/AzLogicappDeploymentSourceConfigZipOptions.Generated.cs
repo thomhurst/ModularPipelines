@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzLogicappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Enable remote build during deployment.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--build-remote")]
-    public bool? BuildRemote { get; set; }
+    [CliOption("--build-remote", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BuildRemote { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -80,7 +81,7 @@ public record AzLogicappDeploymentSourceConfigZipOptions : AzOptions
     /// <summary>
     /// Configurable timeout in seconds for checking the status of deployment.
     /// </summary>
-    [CliFlag("--timeout", ShortForm = "-t")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout", ShortForm = "-t")]
+    public int? Timeout { get; set; }
 
 }

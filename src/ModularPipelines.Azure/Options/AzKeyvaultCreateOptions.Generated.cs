@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,38 +47,38 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [HSM Only] Administrator role for data plane operations for Managed HSM. It accepts a space separated list of OIDs that will be assigned.
     /// </summary>
-    [CliFlag("--administrators")]
-    public bool? Administrators { get; set; }
+    [CliOption("--administrators", GroupValues = true)]
+    public IEnumerable<string>? Administrators { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this vault/managed HSM pool. Setting this property to true activates protection against purge for this vault/managed HSM pool and its content - only the Key Vault/Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge-protection")]
-    public bool? EnablePurgeProtection { get; set; }
+    [CliOption("--enable-purge-protection", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurgeProtection { get; set; }
 
     /// <summary>
     /// Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of true. Note that management actions are always authorized with RBAC.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--enable-rbac-authorization")]
-    public bool? EnableRbacAuthorization { get; set; }
+    [CliOption("--enable-rbac-authorization", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRbacAuthorization { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-deployment")]
-    public bool? EnabledForDeployment { get; set; }
+    [CliOption("--enabled-for-deployment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForDeployment { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-disk-encryption")]
-    public bool? EnabledForDiskEncryption { get; set; }
+    [CliOption("--enabled-for-disk-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForDiskEncryption { get; set; }
 
     /// <summary>
     /// [Vault Only] Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled-for-template-deployment")]
-    public bool? EnabledForTemplateDeployment { get; set; }
+    [CliOption("--enabled-for-template-deployment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnabledForTemplateDeployment { get; set; }
 
     /// <summary>
     /// Name of the HSM. (--hsm-name and --name/-n are mutually exclusive, please specify just one of them).
@@ -94,8 +95,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [HSM Only] Enable user-assigned managed identities for managed HSM. Accept space-separated list of identity resource IDs.
     /// </summary>
-    [CliOption("--mi-user-assigned", GroupValues = true)]
-    public IEnumerable<string>? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Name of the Vault.
@@ -106,8 +107,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// [Vault Only] Don't add permissions for the current user/service principal in the new vault.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-self-perms")]
-    public bool? NoSelfPerms { get; set; }
+    [CliOption("--no-self-perms", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoSelfPerms { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -124,8 +125,8 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Soft delete data retention days. It accepts &gt;=7 and &lt;=90. Defaults to 90 for keyvault creation. Required for MHSM creation.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public string? RetentionDays { get; set; }
 
     /// <summary>
     /// Required. SKU details. Allowed values for Vault: premium, standard. Default: standard. Allowed values for HSM: Standard_B1, Custom_B32, Custom_B6, Custom_C42, Custom_C10. Default: Standard_B1.
@@ -136,14 +137,14 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, None.
     /// </summary>
-    [CliOption("--bypass", GroupValues = true)]
-    public IEnumerable<string>? Bypass { get; set; }
+    [CliOption("--bypass")]
+    public string? Bypass { get; set; }
 
     /// <summary>
     /// Default action to apply when no rule matches.  Allowed values: Allow, Deny.
@@ -154,19 +155,19 @@ public record AzKeyvaultCreateOptions : AzOptions
     /// <summary>
     /// Network ACLs. It accepts a JSON filename or a JSON string. JSON format: `{\"ip\":[&lt;ip1&gt;, &lt;ip2&gt;...],\"vnet\":[&lt;vnet_name _1&gt;/&lt;subnet_name_1&gt;,&lt;subnet_id2&gt;...]}`.
     /// </summary>
-    [CliFlag("--network-acls")]
-    public bool? NetworkAcls { get; set; }
+    [CliOption("--network-acls")]
+    public string? NetworkAcls { get; set; }
 
     /// <summary>
     /// Network ACLs IP rules. Space-separated list of IP addresses.
     /// </summary>
-    [CliOption("--network-acls-ips", GroupValues = true)]
-    public IEnumerable<string>? NetworkAclsIps { get; set; }
+    [CliOption("--network-acls-ips", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? NetworkAclsIps { get; set; }
 
     /// <summary>
     /// Network ACLS VNet rules. Space-separated list of Vnet/subnet pairs or subnet resource ids.
     /// </summary>
-    [CliOption("--network-acls-vnets", GroupValues = true)]
-    public IEnumerable<string>? NetworkAclsVnets { get; set; }
+    [CliOption("--network-acls-vnets", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? NetworkAclsVnets { get; set; }
 
 }

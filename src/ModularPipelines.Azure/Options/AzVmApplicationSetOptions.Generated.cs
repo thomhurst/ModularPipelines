@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzVmApplicationSetOptions : AzOptions
     /// </summary>
     /// <param name="AppVersionIds">Space-separated application version ids to set to VM.</param>
     public AzVmApplicationSetOptions(
-        IEnumerable<string> AppVersionIds
+        IEnumerable<CliOptionValue> AppVersionIds
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(AppVersionIds);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(AppVersionIds));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(AppVersionIds));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzVmApplicationSetOptions : AzOptions
         this.AppVersionIds = AppVersionIds;
     }
 
-    public void Deconstruct(out IEnumerable<string> AppVersionIds)
+    public void Deconstruct(out IEnumerable<CliOptionValue> AppVersionIds)
     {
         AppVersionIds = this.AppVersionIds;
     }
@@ -51,20 +52,20 @@ public record AzVmApplicationSetOptions : AzOptions
     /// <summary>
     /// Space-separated application version ids to set to VM.
     /// </summary>
-    [CliOption("--app-version-ids", GroupValues = true)]
-    public IEnumerable<string> AppVersionIds { get; private init; }
+    [CliOption("--app-version-ids", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> AppVersionIds { get; private init; }
 
     /// <summary>
     /// Space-separated application configuration overrides for each application version ids. It should have the same number of items as the application version ids. Null is available for a application which does not have a configuration override.
     /// </summary>
-    [CliOption("--app-config-overrides", GroupValues = true)]
-    public IEnumerable<string>? AppConfigOverrides { get; set; }
+    [CliOption("--app-config-overrides", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AppConfigOverrides { get; set; }
 
     /// <summary>
     /// Space-separated list of true or false corresponding to the application version ids. If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS.
     /// </summary>
-    [CliOption("--enable-auto-upgrade", ShortForm = "--enable-automatic-upgrade", GroupValues = true)]
-    public IEnumerable<string>? EnableAutoUpgrade { get; set; }
+    [CliOption("--enable-auto-upgrade", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? EnableAutoUpgrade { get; set; }
 
     /// <summary>
     /// Whether to set order index at each gallery application. If specified, the first app version id gets specified an order = 1, then the next one 2, and so on. This parameter is meant to be used when the VMApplications specified by app version ids must be installed in a particular order; the lowest order is installed first.
@@ -75,8 +76,8 @@ public record AzVmApplicationSetOptions : AzOptions
     /// <summary>
     /// Space-separated list of true or false corresponding to the application version ids. If set to true, failure to install or update gallery application version operation will fail this operation.
     /// </summary>
-    [CliOption("--treat-deployment-as-failure", GroupValues = true)]
-    public IEnumerable<string>? TreatDeploymentAsFailure { get; set; }
+    [CliOption("--treat-deployment-as-failure", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? TreatDeploymentAsFailure { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

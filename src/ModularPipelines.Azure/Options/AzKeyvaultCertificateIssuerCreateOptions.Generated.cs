@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,20 +70,21 @@ public record AzKeyvaultCertificateIssuerCreateOptions : AzOptions
     /// <summary>
     /// Set issuer to disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disabled")]
-    public bool? Disabled { get; set; }
+    [CliOption("--disabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disabled { get; set; }
 
     /// <summary>
     /// The issuer account id/username/etc.
     /// </summary>
-    [CliFlag("--account-id")]
-    public bool? AccountId { get; set; }
+    [CliOption("--account-id")]
+    public string? AccountId { get; set; }
 
     /// <summary>
     /// The issuer account password/secret/etc.
     /// </summary>
-    [CliFlag("--password")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// The organization id.

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -47,8 +48,8 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether delete operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--delete-enabled")]
-    public bool? DeleteEnabled { get; set; }
+    [CliOption("--delete-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DeleteEnabled { get; set; }
 
     /// <summary>
     /// The name of the image. May include a tag in the format 'name:tag' or digest in the format 'name@digest'.
@@ -59,8 +60,8 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether this item shows in list operation results.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--list-enabled")]
-    public bool? ListEnabled { get; set; }
+    [CliOption("--list-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ListEnabled { get; set; }
 
     /// <summary>
     /// The password used to log into a container registry.
@@ -72,8 +73,8 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether read operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--read-enabled")]
-    public bool? ReadEnabled { get; set; }
+    [CliOption("--read-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ReadEnabled { get; set; }
 
     /// <summary>
     /// The name of the repository.
@@ -84,8 +85,8 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
     /// </summary>
-    [CliFlag("--suffix")]
-    public bool? Suffix { get; set; }
+    [CliOption("--suffix")]
+    public string? Suffix { get; set; }
 
     /// <summary>
     /// The username used to log into a container registry.
@@ -96,7 +97,7 @@ public record AzAcrRepositoryUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether write or delete operation is allowed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--write-enabled")]
-    public bool? WriteEnabled { get; set; }
+    [CliOption("--write-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? WriteEnabled { get; set; }
 
 }

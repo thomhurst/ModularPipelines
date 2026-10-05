@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -55,28 +56,40 @@ public record AzEventgridTopicCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
+    /// The managed identity type for the resource. Will be deprecated and replaced by --mi-system-assigned-identity in future.  Allowed values: noidentity, systemassigned. WARNING: Argument 'identity' has been deprecated and will be removed in a future release. WARNING: Argument '--identity' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
+    /// <summary>
     /// List of inbound IP rules. List of inbound IP rules specifying IP Address in CIDR notation e.g., 10.0.0.0/8 along with corresponding Action to perform based on the match or no match of the IpMask. Possible values include - Allow.
     /// </summary>
     [CliOption("--inbound-ip-rules", GroupValues = true)]
-    public IEnumerable<string>? InboundIpRules { get; set; }
+    public IEnumerable<CliValueGroup>? InboundIpRules { get; set; }
 
     /// <summary>
     /// When input-schema is specified as customeventschema, this parameter can be used to specify input mappings based on default values. You can use this parameter when your custom schema does not include a field that corresponds to one of the three fields supported by this parameter. Specify space separated mappings in 'key=value' format. Allowed key names are 'subject', 'eventtype', 'dataversion'. The corresponding value names should specify the default values to be used for the mapping and they will be used only when the published event doesn't have a valid mapping for a particular field.
     /// </summary>
-    [CliOption("--input-mapping-default-values")]
-    public string? InputMappingDefaultValues { get; set; }
+    [CliOption("--input-mapping-default-values", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? InputMappingDefaultValues { get; set; }
 
     /// <summary>
     /// When input-schema is specified as customeventschema, this parameter is used to specify input mappings based on field names. Specify space separated mappings in 'key=value' format. Allowed key names are 'id', 'topic', 'eventtime', 'subject', 'eventtype', 'dataversion'. The corresponding value names should specify the names of the fields in the custom input schema. If a mapping for either 'id' or 'eventtime' is not provided, Event Grid will auto-generate a default value for these two fields.
     /// </summary>
-    [CliOption("--input-mapping-fields")]
-    public string? InputMappingFields { get; set; }
+    [CliOption("--input-mapping-fields", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? InputMappingFields { get; set; }
 
     /// <summary>
     /// Schema in which incoming events will be published to this topic/domain. If you specify customeventschema as the value for this parameter, you must also provide values for at least one of --input_mapping_default_values / --input_mapping_fields.  Allowed values: cloudeventschemav1_0, customeventschema, eventgridschema. Default: eventgridschema.
     /// </summary>
     [CliOption("--input-schema")]
     public string? InputSchema { get; set; }
+
+    /// <summary>
+    /// The kind of topic resource.  Allowed values: azure, azurearc.  Default: Azure. WARNING: Argument '--kind' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--kind")]
+    public string? Kind { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -91,15 +104,39 @@ public record AzEventgridTopicCreateOptions : AzOptions
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
+    /// Add user assigned identities when identityType is user or mixed. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--mi-user-assigned` argument. WARNING: Argument '--mi-user-assigned' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? MiUserAssigned { get; set; }
+
+    /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring.  Allowed values: disabled, enabled.
     /// </summary>
     [CliOption("--public-network-access")]
     public string? PublicNetworkAccess { get; set; }
 
     /// <summary>
+    /// The Sku name of the resource.  Allowed values: basic, premium.  Default: Basic. WARNING: Argument '--sku' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// The extended location name if kind==azurearc. WARNING: Argument '--extended-location-name' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--extended-location-name")]
+    public string? ExtendedLocationName { get; set; }
+
+    /// <summary>
+    /// The extended location type if kind==azurearc.  Allowed values: customlocation. WARNING: Argument '--extended-location-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--extended-location-type")]
+    public string? ExtendedLocationType { get; set; }
 
 }

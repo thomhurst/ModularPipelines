@@ -23,8 +23,8 @@ public record AzVmBootDiagnosticsGetBootLogUrisOptions : AzOptions
     /// <summary>
     /// Expiration duration in minutes for the SAS URIs with a value between 1 to                           1440 minutes. If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes.
     /// </summary>
-    [CliFlag("--expire")]
-    public bool? Expire { get; set; }
+    [CliOption("--expire")]
+    public string? Expire { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

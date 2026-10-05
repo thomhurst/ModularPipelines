@@ -51,7 +51,7 @@ public record AzIotDpsPolicyUpdateOptions : AzOptions
     /// <summary>
     /// A friendly name for DPS access policy.
     /// </summary>
-    [CliOption("--pn", ShortForm = "--policy-name")]
+    [CliOption("--pn")]
     public string Pn { get; private init; }
 
     /// <summary>
@@ -63,8 +63,8 @@ public record AzIotDpsPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Primary SAS key value. Set to empty string in order to regenerate a new primary key.
     /// </summary>
-    [CliFlag("--primary-key")]
-    public bool? PrimaryKey { get; set; }
+    [CliOption("--primary-key")]
+    public string? PrimaryKey { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -81,7 +81,7 @@ public record AzIotDpsPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Secondary SAS key value. Set to empty string in order to regenerate a new secondary key.
     /// </summary>
-    [CliFlag("--secondary-key")]
-    public bool? SecondaryKey { get; set; }
+    [CliOption("--secondary-key")]
+    public string? SecondaryKey { get; set; }
 
 }

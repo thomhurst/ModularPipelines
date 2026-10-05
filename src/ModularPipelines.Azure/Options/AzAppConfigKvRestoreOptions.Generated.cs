@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,8 +53,8 @@ public record AzAppConfigKvRestoreOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Preview the result of restore operation without making any changes to the App Configuration store.
@@ -64,14 +65,14 @@ public record AzAppConfigKvRestoreOptions : AzOptions
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// If no key specified, restore all keys by default. Support star sign as filters, for instance abc* means keys with abc as prefix.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// If no label specified, restore all key-value pairs with all labels. Support star sign as filters, for instance abc* means labels with abc as prefix. Use '\0' for null label.
@@ -88,8 +89,8 @@ public record AzAppConfigKvRestoreOptions : AzOptions
     /// <summary>
     /// If no tags are specified, restore all key-values with any tags. Support space-separated tags: key[=value] [key[=value] ...].
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

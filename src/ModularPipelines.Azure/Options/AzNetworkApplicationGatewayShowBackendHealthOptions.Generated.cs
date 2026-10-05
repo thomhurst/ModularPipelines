@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,62 @@ public record AzNetworkApplicationGatewayShowBackendHealthOptions : AzOptions
     /// <summary>
     /// Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
+
+    /// <summary>
+    /// The name or ID of the backend address pool. WARNING: Argument '--address-pool' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--address-pool")]
+    public string? AddressPool { get; set; }
+
+    /// <summary>
+    /// The name of the host to send the probe. WARNING: Argument '--host' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--host")]
+    public string? Host { get; set; }
+
+    /// <summary>
+    /// Use host header from HTTP settings.  Allowed values: false, true. WARNING: Argument '--host-name-from-http-settings' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--host-name-from-http-settings", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HostNameFromHttpSettings { get; set; }
+
+    /// <summary>
+    /// The name or ID of the HTTP settings. WARNING: Argument '--http-settings' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--http-settings")]
+    public string? HttpSettings { get; set; }
+
+    /// <summary>
+    /// Body that must be contained in the health response. WARNING: Argument '--match-body' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--match-body")]
+    public string? MatchBody { get; set; }
+
+    /// <summary>
+    /// Space-separated list of allowed ranges of healthy status codes for the health response. WARNING: Argument '--match-status-codes' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--match-status-codes", GroupValues = true)]
+    public IEnumerable<string>? MatchStatusCodes { get; set; }
+
+    /// <summary>
+    /// The relative path of the probe. Valid paths start from "/". WARNING: Argument '--path' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--path")]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// The HTTP settings protocol.  Allowed values: Http, Https, Tcp, Tls. WARNING: Argument '--protocol' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--protocol")]
+    public string? Protocol { get; set; }
+
+    /// <summary>
+    /// The probe timeout in seconds. WARNING: Argument '--timeout' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

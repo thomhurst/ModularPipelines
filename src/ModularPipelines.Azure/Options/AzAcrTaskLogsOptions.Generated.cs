@@ -70,7 +70,7 @@ public record AzAcrTaskLogsOptions : AzOptions
     /// <summary>
     /// The unique run identifier.
     /// </summary>
-    [CliFlag("--run-id")]
-    public bool? RunId { get; set; }
+    [CliOption("--run-id")]
+    public string? RunId { get; set; }
 
 }

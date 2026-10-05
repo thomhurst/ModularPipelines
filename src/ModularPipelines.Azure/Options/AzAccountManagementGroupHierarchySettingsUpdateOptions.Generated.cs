@@ -46,14 +46,14 @@ public record AzAccountManagementGroupHierarchySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Set the default Management Group under which new subscriptions get added in this tenant. Default setting is the Root Management Group.
     /// </summary>
-    [CliFlag("--default-management-group", ShortForm = "-m")]
-    public bool? DefaultManagementGroup { get; set; }
+    [CliOption("--default-management-group", ShortForm = "-m")]
+    public string? DefaultManagementGroup { get; set; }
 
     /// <summary>
     /// Indicate whether RBAC access is required upon group creation under the root Management Group. True means user will require Microsoft.Management/managementGroups/write action on the root Management Group. Default setting is false.
     /// </summary>
-    [CliFlag("--require-authorization-for-group-creation", ShortForm = "-r")]
-    public bool? RequireAuthorizationForGroupCreation { get; set; }
+    [CliOption("--require-authorization-for-group-creation", ShortForm = "-r")]
+    public string? RequireAuthorizationForGroupCreation { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

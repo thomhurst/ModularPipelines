@@ -46,20 +46,20 @@ public record AzSynapseRoleAssignmentListOptions : AzOptions
     /// <summary>
     /// Represent a user or service principal. Supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// Use this parameter instead of '--assignee' to bypass Graph API invocation in case of insufficient privileges. This parameter only works with object ids for users, groups, service principals, and managed identities. For managed identities use the principal id. For service principals, use the object id and not the app id.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Item granted access in the workspace. Using with --item-type to combine the scope of assignment.
     /// </summary>
-    [CliFlag("--item")]
-    public bool? Item { get; set; }
+    [CliOption("--item")]
+    public string? Item { get; set; }
 
     /// <summary>
     /// Item type granted access in the workspace. Using with --item to combine the scope of assignment.  Allowed values: bigDataPools, credentials, integrationRuntimes, linkedServices.
@@ -70,8 +70,8 @@ public record AzSynapseRoleAssignmentListOptions : AzOptions
     /// <summary>
     /// The role name/id that is assigned to the principal.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// A scope defines the resources or artifacts that the access applies to. Synapse supports hierarchical scopes. Permissions granted at a higher-level scope are inherited by objects at a lower level. In Synapse RBAC, the top-level scope is a workspace. Assigning a role with workspace scope grants permissions to all applicable objects in the workspace.

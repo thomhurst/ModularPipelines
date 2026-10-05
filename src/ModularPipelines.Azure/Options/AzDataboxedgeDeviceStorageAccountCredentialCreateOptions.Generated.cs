@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -101,26 +102,26 @@ public record AzDataboxedgeDeviceStorageAccountCredentialCreateOptions : AzOptio
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Encrypted storage key.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key", GroupValues = true)]
+    public IEnumerable<string>? AccountKey { get; set; }
 
     /// <summary>
     /// Blob end point for private clouds.
     /// </summary>
-    [CliFlag("--blob-domain-name")]
-    public bool? BlobDomainName { get; set; }
+    [CliOption("--blob-domain-name")]
+    public string? BlobDomainName { get; set; }
 
     /// <summary>
     /// Connection string for the storage account. Use this string if username and account key are not specified.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Id of the storage account.

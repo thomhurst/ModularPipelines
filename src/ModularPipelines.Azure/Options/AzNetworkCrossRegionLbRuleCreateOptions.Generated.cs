@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -33,8 +34,8 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
         string LbName,
         string Name,
         string ResourceGroup,
-        int BackendPort,
-        int FrontendPort,
+        string BackendPort,
+        string FrontendPort,
         string Protocol
     )
     {
@@ -44,13 +45,15 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(BackendPort);
         this.BackendPort = BackendPort;
+        global::System.ArgumentNullException.ThrowIfNull(FrontendPort);
         this.FrontendPort = FrontendPort;
         global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 
-    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int BackendPort, out int FrontendPort, out string Protocol)
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out string BackendPort, out string FrontendPort, out string Protocol)
     {
         LbName = this.LbName;
         Name = this.Name;
@@ -82,13 +85,13 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
     /// The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note that value 0 enables "Any Port".
     /// </summary>
     [CliOption("--backend-port")]
-    public int BackendPort { get; private init; }
+    public string BackendPort { get; private init; }
 
     /// <summary>
     /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
     /// </summary>
     [CliOption("--frontend-port")]
-    public int FrontendPort { get; private init; }
+    public string FrontendPort { get; private init; }
 
     /// <summary>
     /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
@@ -99,8 +102,8 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// ID or name of the backend address pools. If only one exists, omit to use as default.
@@ -111,13 +114,13 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
     /// <summary>
     /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
-    public bool? EnableFloatingIp { get; set; }
+    [CliOption("--enable-floating-ip", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFloatingIp { get; set; }
 
     /// <summary>
     /// The name of ID of the frontend IP configuration.
     /// </summary>
-    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
     /// <summary>
@@ -129,7 +132,7 @@ public record AzNetworkCrossRegionLbRuleCreateOptions : AzOptions
     /// <summary>
     /// The ID or Name of an existing probe to associate with this rule.
     /// </summary>
-    [CliOption("--probe", ShortForm = "--probe-name")]
+    [CliOption("--probe")]
     public string? Probe { get; set; }
 
 }

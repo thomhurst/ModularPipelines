@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,26 +30,26 @@ public record AzRoleAssignmentListOptions : AzOptions
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// The assignee's object ID (also known as principal ID). Use this argument instead of '--assignee' to bypass Microsoft Graph query in case the logged-in account has no permission or the machine has no network access to query Microsoft Graph.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Query Microsoft Graph to get the assignee's userPrincipalName (for user), servicePrincipalNames (for service principal) or displayName (for group), then fill principalName property with it. If the logged-in account has no permission or the machine has no network access to query Microsoft Graph, set this flag to false to avoid warning or error.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--fill-principal-name")]
-    public bool? FillPrincipalName { get; set; }
+    [CliOption("--fill-principal-name", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? FillPrincipalName { get; set; }
 
     /// <summary>
     /// Fill roleDefinitionName property in addition to roleDefinitionId. This operation is expensive. If you encounter performance issue, set this flag to false.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--fill-role-definition-name")]
-    public bool? FillRoleDefinitionName { get; set; }
+    [CliOption("--fill-role-definition-name", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? FillRoleDefinitionName { get; set; }
 
     /// <summary>
     /// Include extra assignments to the groups of which the user is a member (transitively).
@@ -65,14 +66,14 @@ public record AzRoleAssignmentListOptions : AzOptions
     /// <summary>
     /// Use it only if the role or assignment was added at the level of a resource group.
     /// </summary>
-    [CliFlag("--resource-group", ShortForm = "-g")]
-    public bool? ResourceGroup { get; set; }
+    [CliOption("--resource-group", ShortForm = "-g")]
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Role name or id.
     /// </summary>
-    [CliFlag("--role")]
-    public bool? Role { get; set; }
+    [CliOption("--role")]
+    public string? Role { get; set; }
 
     /// <summary>
     /// Scope at which the role assignment or definition applies to, e.g., /subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333, /subscriptions/0b1f6471-1bf0-4dda- aec3-111122223333/resourceGroups/myGroup, or /subscriptions/0b1f6471-1bf0-4dda-aec3- 111122223333/resourceGroups/myGroup/providers/Microsoft.Compute/vi rtualMachines/myVM.

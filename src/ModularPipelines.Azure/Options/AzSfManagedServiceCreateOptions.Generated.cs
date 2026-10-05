@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -65,7 +66,7 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--application", ShortForm = "--application-name")]
+    [CliOption("--application")]
     public string Application { get; private init; }
 
     /// <summary>
@@ -77,7 +78,7 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the service.
     /// </summary>
-    [CliOption("--name", ShortForm = "--service-name")]
+    [CliOption("--name")]
     public string Name { get; private init; }
 
     /// <summary>
@@ -89,7 +90,7 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the service type name of the application, it should exist in the application manifest.
     /// </summary>
-    [CliOption("--service-type", ShortForm = "--type")]
+    [CliOption("--service-type")]
     public string ServiceType { get; private init; }
 
     /// <summary>
@@ -101,8 +102,8 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the activation mode of the service package.
     /// </summary>
-    [CliFlag("--activation-mode", ShortForm = "--service-package-activation-mode")]
-    public bool? ActivationMode { get; set; }
+    [CliOption("--activation-mode")]
+    public string? ActivationMode { get; set; }
 
     /// <summary>
     /// Specify the default cost for a move. Higher costs make it less likely that the Cluster Resource Manager will move the replica when trying to balance the cluster. Allowed values: High, Low, Medium, Zero.
@@ -113,62 +114,62 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Determines whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. Allowed values: false, true.
     /// </summary>
-    [CliOption("--has-persisted-state")]
-    public bool? HasPersistedState { get; set; }
+    [CliOption("--has-persisted-state", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HasPersistedState { get; set; }
 
     /// <summary>
     /// Specify the upper bound of the partition key range that should be split between the partition ‘Count’ This is only used with UniformInt64 partition scheme.
     /// </summary>
-    [CliFlag("--high-key")]
-    public bool? HighKey { get; set; }
+    [CliOption("--high-key")]
+    public string? HighKey { get; set; }
 
     /// <summary>
     /// Specify the instance count for the stateless service. If -1 is used, it means it will run on all the nodes.
     /// </summary>
-    [CliFlag("--instance-count")]
-    public bool? InstanceCount { get; set; }
+    [CliOption("--instance-count")]
+    public string? InstanceCount { get; set; }
 
     /// <summary>
     /// Specify the definition on how long StandBy replicas should be maintained before being removed, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
-    [CliFlag("--keep-duration", ShortForm = "--stand-by-replica-keep-duration")]
-    public bool? KeepDuration { get; set; }
+    [CliOption("--keep-duration")]
+    public string? KeepDuration { get; set; }
 
     /// <summary>
     /// Specify the lower bound of the partition key range that should be split between the partition ‘Count’ This is only used with UniformInt64 partition scheme.
     /// </summary>
-    [CliFlag("--low-key")]
-    public bool? LowKey { get; set; }
+    [CliOption("--low-key")]
+    public string? LowKey { get; set; }
 
     /// <summary>
     /// Specify the minimum percentage of InstanceCount that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( Min InstanceCount, ceil( MinInstanc ePercentage/100. 0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstan cePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service. Allowed values are from 0 to 100.
     /// </summary>
-    [CliOption("--min-inst-pct", ShortForm = "--min-instance-percentage")]
+    [CliOption("--min-inst-pct")]
     public string? MinInstPct { get; set; }
 
     /// <summary>
     /// Specify the minimum number of instances that must be up to meet the Ensu reAvailability safety check during operations like upgrade or deactivate node. The actual number that is used is max( Min InstanceCount, ceil( MinInstanc ePercentage/100. 0 * InstanceCount) ). Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
     /// </summary>
-    [CliFlag("--min-instance-count")]
-    public bool? MinInstanceCount { get; set; }
+    [CliOption("--min-instance-count")]
+    public string? MinInstanceCount { get; set; }
 
     /// <summary>
     /// Specify the min replica set size for the stateful service.
     /// </summary>
-    [CliFlag("--min-replica", ShortForm = "--min-replica-set-size")]
-    public bool? MinReplica { get; set; }
+    [CliOption("--min-replica")]
+    public string? MinReplica { get; set; }
 
     /// <summary>
     /// Specify the number of partitions. This is only used with UniformInt64 partition scheme.
     /// </summary>
-    [CliFlag("--partition-count")]
-    public bool? PartitionCount { get; set; }
+    [CliOption("--partition-count")]
+    public string? PartitionCount { get; set; }
 
     /// <summary>
     /// Specify the array for the names of the partitions. This is only used with Named partition scheme.
     /// </summary>
-    [CliFlag("--partition-names")]
-    public bool? PartitionNames { get; set; }
+    [CliOption("--partition-names", GroupValues = true)]
+    public IEnumerable<string>? PartitionNames { get; set; }
 
     /// <summary>
     /// Specify what partition scheme to use. Singleton partitions are typically used when the service does not require any additional routing. UniformInt64 means that each partition owns a range of int64 keys. Named is usually for services with data that can be bucketed, within a bounded set. Some common examples of data fields used as named partition keys would be regions, postal codes, customer groups, or other business boundaries. Allowed values: Named, Singleton, Unifo rmInt64Range. Default: singleton.
@@ -179,37 +180,37 @@ public record AzSfManagedServiceCreateOptions : AzOptions
     /// <summary>
     /// Specify the placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)".
     /// </summary>
-    [CliFlag("--placement-constraints")]
-    public bool? PlacementConstraints { get; set; }
+    [CliOption("--placement-constraints")]
+    public string? PlacementConstraints { get; set; }
 
     /// <summary>
     /// Specify the duration for which replicas can stay InBuild before reporting that build is stuck, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
-    [CliFlag("--plcmt-time-limit", ShortForm = "--service-placement-time-limit")]
-    public bool? PlcmtTimeLimit { get; set; }
+    [CliOption("--plcmt-time-limit")]
+    public string? PlcmtTimeLimit { get; set; }
 
     /// <summary>
     /// Specify the maximum duration for which a partition is allowed to be in a state of quorum loss, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
-    [CliFlag("--quorum-loss-wait", ShortForm = "--quorum-loss-wait-duration")]
-    public bool? QuorumLossWait { get; set; }
+    [CliOption("--quorum-loss-wait")]
+    public string? QuorumLossWait { get; set; }
 
     /// <summary>
     /// Specify the duration between when a replica goes down and when a new replica is created, represented in ISO 8601 format "hh:mm:ss".
     /// </summary>
-    [CliFlag("--replica-restart-wait", ShortForm = "--replica-restart-wait-duration")]
-    public bool? ReplicaRestartWait { get; set; }
+    [CliOption("--replica-restart-wait")]
+    public string? ReplicaRestartWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Specify the target replica set size for the stateful service.
     /// </summary>
-    [CliFlag("--target-replica", ShortForm = "--target-replica-set-size")]
-    public bool? TargetReplica { get; set; }
+    [CliOption("--target-replica")]
+    public string? TargetReplica { get; set; }
 
 }

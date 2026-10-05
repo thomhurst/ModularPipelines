@@ -68,7 +68,7 @@ public record AzResourceMoveOptions : AzOptions
     /// <summary>
     /// The destination subscription identifier.
     /// </summary>
-    [CliFlag("--destination-subscription-id")]
-    public bool? DestinationSubscriptionId { get; set; }
+    [CliOption("--destination-subscription-id")]
+    public string? DestinationSubscriptionId { get; set; }
 
 }

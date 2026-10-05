@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Describes what response the data plane API of a Search service would send for requests that failed authentication. Allowed values: http401WithBearerChallenge, http403.
@@ -92,8 +93,8 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// A list of IP defineing the inbound network(s) allowed to access to the search service endpoint.
     /// </summary>
-    [CliOption("--ip-rules", GroupValues = true)]
-    public IEnumerable<string>? IpRules { get; set; }
+    [CliOption("--ip-rules")]
+    public string? IpRules { get; set; }
 
     /// <summary>
     /// Some Help.  Allowed values: aadOrApiKey, apiKeyOnly.
@@ -110,20 +111,20 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--data--protections", ShortForm = "--data-exfiltration-protections", GroupValues = true)]
+    [CliOption("--data--protections", GroupValues = true)]
     public IEnumerable<string>? DataProtections { get; set; }
 
     /// <summary>
     /// When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--encryption-with-cmk")]
-    public bool? EncryptionWithCmk { get; set; }
+    [CliOption("--encryption-with-cmk", GroupValues = true)]
+    public IEnumerable<string>? EncryptionWithCmk { get; set; }
 
     /// <summary>
     /// Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Allowed values: default, highDensity. Default: default.
@@ -141,19 +142,19 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.  Default: 1.
     /// </summary>
     [CliOption("--partition-count")]
-    public int? PartitionCount { get; set; }
+    public string? PartitionCount { get; set; }
 
     /// <summary>
     /// This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.  Allowed values: disabled, enabled, securedByPerimeter. Default: enabled.
     /// </summary>
-    [CliOption("--public-access", ShortForm = "--public-network-access")]
+    [CliOption("--public-access")]
     public string? PublicAccess { get; set; }
 
     /// <summary>
     /// The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.  Default: 1.
     /// </summary>
-    [CliFlag("--replica-count")]
-    public bool? ReplicaCount { get; set; }
+    [CliOption("--replica-count")]
+    public string? ReplicaCount { get; set; }
 
     /// <summary>
     /// Sets options that control the availability of semantic search. This configuration is only possible for certain Azure AI Search SKUs in certain locations.  Allowed values: disabled, free, standard.
@@ -170,7 +171,7 @@ public record AzSearchServiceCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
 }

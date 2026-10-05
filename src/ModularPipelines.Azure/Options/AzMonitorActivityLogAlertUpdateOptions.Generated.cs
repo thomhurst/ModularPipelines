@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
     /// <summary>
     /// The condition that will cause the alert rule to activate. The format is FIELD=VALUE[ and FIELD=VALUE...] The possible values for the field are 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--condition", ShortForm = "-c")]
-    public bool? Condition { get; set; }
+    [CliOption("--condition", ShortForm = "-c", GroupValues = true)]
+    public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>
     /// A description of this Activity Log Alert rule.
@@ -41,14 +42,14 @@ public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// The tags of the resource.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -59,8 +60,8 @@ public record AzMonitorActivityLogAlertUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

@@ -23,7 +23,7 @@ public record AzBotAuthsettingListProvidersOptions : AzOptions
     /// <summary>
     /// Service provider name for which to fetch details.
     /// </summary>
-    [CliFlag("--provider-name")]
-    public bool? ProviderName { get; set; }
+    [CliOption("--provider-name")]
+    public string? ProviderName { get; set; }
 
 }

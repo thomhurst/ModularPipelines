@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -85,7 +86,7 @@ public record AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSetAddOptions :
     /// <summary>
     /// The rule that will be disabled. If none specified, all rules in the group will be disabled. If provided, --group-name must be provided too. Usage: --rule rule-id=MyID state=MyState action=MyAction sensitivity=MySensitivity Allowed values for sensitivity: High, Medium, Low Multiple rules can be specified by using more than one `--rule` argument.
     /// </summary>
-    [CliOption("--rule")]
-    public string? Rule { get; set; }
+    [CliOption("--rule", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Rule { get; set; }
 
 }

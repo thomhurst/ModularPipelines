@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -101,14 +102,14 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOpt
     /// <summary>
     /// Index of match condition. If no index is provided, the default behavior is `append`.
     /// </summary>
-    [CliFlag("--index")]
-    public bool? Index { get; set; }
+    [CliOption("--index")]
+    public string? Index { get; set; }
 
     /// <summary>
     /// Match the negative of the condition.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--negate")]
-    public bool? Negate { get; set; }
+    [CliOption("--negate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Negate { get; set; }
 
     /// <summary>
     /// Space-separated list of transforms to apply when matching. Allowed values: HtmlEntityDecode, Uppercase, Lowercase, RemoveNulls, Trim, UrlDecode, UrlEncode.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.

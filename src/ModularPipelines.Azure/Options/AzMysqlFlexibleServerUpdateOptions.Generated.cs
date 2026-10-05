@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -43,7 +44,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// The interval between backups in hours. Accepted values are 24, 12 and 6. The default value is 24.
     /// </summary>
     [CliOption("--backup-interval")]
-    public string? BackupInterval { get; set; }
+    public int? BackupInterval { get; set; }
 
     /// <summary>
     /// The resource ID of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
@@ -54,14 +55,14 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Disable data encryption by removing key(s).  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-data-encryption")]
-    public bool? DisableDataEncryption { get; set; }
+    [CliOption("--disable-data-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableDataEncryption { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.
@@ -84,8 +85,8 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public int? Iops { get; set; }
 
     /// <summary>
     /// The resource ID of the primary keyvault key for data encryption.
@@ -102,14 +103,14 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The patch strategy of maintenance policy. Accepted values: Regular, VirtualCanary. Default value is Regular.  Allowed values: Regular, VirtualCanary.
     /// </summary>
-    [CliOption("--maintenance-policy-patch-strategy", ShortForm = "--patch-strategy")]
+    [CliOption("--maintenance-policy-patch-strategy")]
     public string? MaintenancePolicyPatchStrategy { get; set; }
 
     /// <summary>
     /// Period of time (UTC) designated for maintenance. Examples: "Sun:23:30" to schedule on Sunday, 11:30pm UTC. To set back to default pass in "Disabled".
     /// </summary>
-    [CliFlag("--maintenance-window")]
-    public bool? MaintenanceWindow { get; set; }
+    [CliOption("--maintenance-window")]
+    public string? MaintenanceWindow { get; set; }
 
     /// <summary>
     /// Enable or disable the public access on a server.  Allowed values: Disabled, Enabled.
@@ -120,8 +121,8 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The replication role of the server.
     /// </summary>
-    [CliFlag("--replication-role")]
-    public bool? ReplicationRole { get; set; }
+    [CliOption("--replication-role")]
+    public string? ReplicationRole { get; set; }
 
     /// <summary>
     /// The name of the compute SKU. Follows the convention Standard_{VM name}. Examples: Standard_B1ms.
@@ -132,8 +133,8 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
     /// </summary>
-    [CliFlag("--standby-zone")]
-    public bool? StandbyZone { get; set; }
+    [CliOption("--standby-zone")]
+    public string? StandbyZone { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled.
@@ -144,14 +145,14 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public int? StorageSize { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
@@ -193,7 +194,7 @@ public record AzMysqlFlexibleServerUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

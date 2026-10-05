@@ -47,20 +47,20 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// The folder of the new certificate file to be created.
     /// </summary>
-    [CliFlag("--cert-out-folder", ShortForm = "--certificate-output-folder")]
-    public bool? CertOutFolder { get; set; }
+    [CliOption("--cert-out-folder")]
+    public string? CertOutFolder { get; set; }
 
     /// <summary>
     /// The subject name of the certificate to be created.
     /// </summary>
-    [CliFlag("--cert-subject-name", ShortForm = "--certificate-subject-name")]
-    public bool? CertSubjectName { get; set; }
+    [CliOption("--cert-subject-name")]
+    public string? CertSubjectName { get; set; }
 
     /// <summary>
     /// The existing certificate file path for the primary cluster certificate.
     /// </summary>
-    [CliFlag("--certificate-file")]
-    public bool? CertificateFile { get; set; }
+    [CliOption("--certificate-file")]
+    public string? CertificateFile { get; set; }
 
     /// <summary>
     /// The password of the certificate file.
@@ -72,14 +72,14 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// Specify the name of the cluster, if not given it will be same as resource group name.
     /// </summary>
-    [CliFlag("--cluster-name", ShortForm = "-c")]
-    public bool? ClusterName { get; set; }
+    [CliOption("--cluster-name", ShortForm = "-c")]
+    public string? ClusterName { get; set; }
 
     /// <summary>
     /// The number of nodes in the cluster. Default are 5 nodes.
     /// </summary>
-    [CliFlag("--cluster-size", ShortForm = "-s")]
-    public bool? ClusterSize { get; set; }
+    [CliOption("--cluster-size", ShortForm = "-s")]
+    public string? ClusterSize { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -90,7 +90,7 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// The Operating System of the VMs that make up the cluster.  Allowed values: UbuntuServer1604, WindowsServer1709, WindowsServer1709withContainers, WindowsServer1803withContainers, WindowsServer1809withContainers, WindowsServer2012R2Datacenter, WindowsServer2016Datacenter, WindowsServer2016DatacenterwithContainers, WindowsServer2019Datacenter, WindowsServer2019DatacenterwithContainers. Default: WindowsServer2016Datacenter.
     /// </summary>
-    [CliOption("--os", ShortForm = "--vm-os")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
     /// <summary>
@@ -102,8 +102,8 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// The existing Azure key vault secret URL.
     /// </summary>
-    [CliFlag("--secret-identifier")]
-    public bool? SecretIdentifier { get; set; }
+    [CliOption("--secret-identifier")]
+    public string? SecretIdentifier { get; set; }
 
     /// <summary>
     /// The path to the template file.
@@ -114,8 +114,8 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// Azure key vault name, if not given it will be the cluster resource group name.
     /// </summary>
-    [CliFlag("--vault-name")]
-    public bool? VaultName { get; set; }
+    [CliOption("--vault-name")]
+    public string? VaultName { get; set; }
 
     /// <summary>
     /// Key vault resource group name, if not given it will be cluster resource group name.
@@ -133,13 +133,13 @@ public record AzSfClusterCreateOptions : AzOptions
     /// <summary>
     /// VM Sku.
     /// </summary>
-    [CliFlag("--vm-sku")]
-    public bool? VmSku { get; set; }
+    [CliOption("--vm-sku")]
+    public string? VmSku { get; set; }
 
     /// <summary>
     /// The user name for logging to Vm. Default will be adminuser.
     /// </summary>
-    [CliFlag("--vm-user-name")]
-    public bool? VmUserName { get; set; }
+    [CliOption("--vm-user-name")]
+    public string? VmUserName { get; set; }
 
 }

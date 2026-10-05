@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -90,19 +92,20 @@ public record AzSynapseActivityRunQueryByPipelineRunOptions : AzOptions
     /// <summary>
     /// The continuation token for getting the next page of results. Null for first page.
     /// </summary>
-    [CliFlag("--continuation-token")]
-    public bool? ContinuationToken { get; set; }
+    [SecretValue]
+    [CliOption("--continuation-token")]
+    public string? ContinuationToken { get; set; }
 
     /// <summary>
     /// List of filters.
     /// </summary>
-    [CliOption("--filters", GroupValues = true)]
-    public IEnumerable<string>? Filters { get; set; }
+    [CliOption("--filters", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Filters { get; set; }
 
     /// <summary>
     /// List of OrderBy option.
     /// </summary>
-    [CliOption("--order-by", GroupValues = true)]
-    public IEnumerable<string>? OrderBy { get; set; }
+    [CliOption("--order-by", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup>? OrderBy { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -103,26 +104,26 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// The approved Azure AD tenants which outbound data traffic allowed to. The Azure AD tenant of the current user will be included by default. Use "" or '' ('""' in PowerShell) to disable all allowed tenant ids.
     /// </summary>
-    [CliFlag("--allowed-tenant-ids")]
-    public bool? AllowedTenantIds { get; set; }
+    [CliOption("--allowed-tenant-ids", GroupValues = true)]
+    public IEnumerable<string>? AllowedTenantIds { get; set; }
 
     /// <summary>
     /// The customer-managed key used to encrypt all data at rest in the workspace. Key identifier should be in the format of: https://{keyvaultname}.v ault.azure.net/keys/{keyname}.
     /// </summary>
-    [CliFlag("--cmk", ShortForm = "--key-identifier")]
-    public bool? Cmk { get; set; }
+    [CliOption("--cmk")]
+    public string? Cmk { get; set; }
 
     /// <summary>
     /// The flag indicates whether enable managed virtual network.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-managed-virtual-network", ShortForm = "--enable-managed-vnet")]
-    public bool? EnableManagedVirtualNetwork { get; set; }
+    [CliOption("--enable-managed-virtual-network", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableManagedVirtualNetwork { get; set; }
 
     /// <summary>
     /// The workspace customer-managed key display name. All existing keys can be found using "az synapse workspace key list" cmdlet.  Default: default.
     /// </summary>
-    [CliFlag("--key-name")]
-    public bool? KeyName { get; set; }
+    [CliOption("--key-name")]
+    public string? KeyName { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -133,8 +134,8 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// Workspace managed resource group. The resource group name uniquely identifies the resource group within the user subscriptionId.
     /// </summary>
-    [CliFlag("--managed-rg-name")]
-    public bool? ManagedRgName { get; set; }
+    [CliOption("--managed-rg-name")]
+    public string? ManagedRgName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -145,14 +146,14 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// The flag indicates whether enable data exfiltration.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--prevent-data-exfiltration", ShortForm = "--prevent-exfiltration")]
-    public bool? PreventDataExfiltration { get; set; }
+    [CliOption("--prevent-data-exfiltration", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PreventDataExfiltration { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The list of User-assigned Managed Identity Id for workspace.
@@ -169,26 +170,26 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// Whether use System assigned identity in Workspace Encryption. If use uami, please set True.If not, set False.
     /// </summary>
-    [CliFlag("--use-sami-in-encrypt")]
-    public bool? UseSamiInEncrypt { get; set; }
+    [CliOption("--use-sami-in-encrypt")]
+    public string? UseSamiInEncrypt { get; set; }
 
     /// <summary>
     /// GitHub account name used for the repository or Azure devops organization name.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// The branch name where you will collaborate with others and from which you will publish.
     /// </summary>
-    [CliFlag("--collaboration-branch")]
-    public bool? CollaborationBranch { get; set; }
+    [CliOption("--collaboration-branch")]
+    public string? CollaborationBranch { get; set; }
 
     /// <summary>
     /// If using github Enterprise Server, provide sever URL. Do not use this option with GitHub Enterprise Cloud.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// The last commit ID.
@@ -199,8 +200,8 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// The project name to which you are connecting.
     /// </summary>
-    [CliFlag("--project-name")]
-    public bool? ProjectName { get; set; }
+    [CliOption("--project-name")]
+    public string? ProjectName { get; set; }
 
     /// <summary>
     /// The name of the repository to which you are connecting.
@@ -223,7 +224,7 @@ public record AzSynapseWorkspaceCreateOptions : AzOptions
     /// <summary>
     /// The tenant id used to connect Azure devops.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
 }

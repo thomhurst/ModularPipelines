@@ -68,8 +68,8 @@ public record AzDmsProjectDeleteOptions : AzOptions
     /// <summary>
     /// Cancel any running tasks before deleting the project.
     /// </summary>
-    [CliFlag("--delete-running-tasks")]
-    public bool? DeleteRunningTasks { get; set; }
+    [CliOption("--delete-running-tasks")]
+    public string? DeleteRunningTasks { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

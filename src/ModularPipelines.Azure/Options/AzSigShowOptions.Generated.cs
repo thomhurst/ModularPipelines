@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzSigShowOptions : AzOptions
     /// <summary>
     /// The expand query option to query shared gallery groups.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--sharing-groups")]
-    public bool? SharingGroups { get; set; }
+    [CliOption("--sharing-groups", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SharingGroups { get; set; }
 
     /// <summary>
     /// The name of the Shared Image Gallery.

@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,44 +59,46 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// <summary>
     /// Client tokens to be added. Use the format "--add-client-tokens [TOKEN_NAME1 TOKEN_NAME2 ...]" per token id.
     /// </summary>
-    [CliFlag("--add-client-tokens")]
-    public bool? AddClientTokens { get; set; }
+    [SecretValue]
+    [CliOption("--add-client-tokens", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AddClientTokens { get; set; }
 
     /// <summary>
     /// List of artifact pattern to be added to notifications list. Use the format "--add-notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliOption("--add-notifications", GroupValues = true)]
-    public IEnumerable<string>? AddNotifications { get; set; }
+    [CliOption("--add-notifications", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AddNotifications { get; set; }
 
     /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--gc-enabled")]
-    public bool? GcEnabled { get; set; }
+    [CliOption("--gc-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? GcEnabled { get; set; }
 
     /// <summary>
     /// Used to determine garbage collection schedule. Uses cron expression to determine the schedule. If not specified, garbage collection is set to run once a day.
     /// </summary>
-    [CliFlag("--gc-schedule")]
-    public bool? GcSchedule { get; set; }
+    [CliOption("--gc-schedule")]
+    public string? GcSchedule { get; set; }
 
     /// <summary>
     /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.
     /// </summary>
-    [CliFlag("--log-level")]
-    public bool? LogLevel { get; set; }
+    [CliOption("--log-level")]
+    public string? LogLevel { get; set; }
 
     /// <summary>
     /// Client tokens to be removed. Use the format "--remove-client-tokens [TOKEN_NAME1 TOKEN_NAME2 ...]" per token id.
     /// </summary>
-    [CliFlag("--remove-client-tokens")]
-    public bool? RemoveClientTokens { get; set; }
+    [SecretValue]
+    [CliOption("--remove-client-tokens", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? RemoveClientTokens { get; set; }
 
     /// <summary>
     /// List of artifact pattern to be removed from notifications list. Use the format "--remove-notifications [PATTERN1 PATTERN2 ...]".
     /// </summary>
-    [CliOption("--remove-notifications", GroupValues = true)]
-    public IEnumerable<string>? RemoveNotifications { get; set; }
+    [CliOption("--remove-notifications", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? RemoveNotifications { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -105,19 +109,19 @@ public record AzAcrConnectedRegistryUpdateOptions : AzOptions
     /// <summary>
     /// Determine how long the sync messages will be kept in the cloud. Uses ISO 8601 duration format.
     /// </summary>
-    [CliFlag("--sync-message-ttl")]
-    public bool? SyncMessageTtl { get; set; }
+    [CliOption("--sync-message-ttl")]
+    public string? SyncMessageTtl { get; set; }
 
     /// <summary>
     /// Optional parameter to define the sync schedule. Uses cron expression to determine the schedule. If not specified, the instance is considered always online and attempts to sync every minute.
     /// </summary>
-    [CliFlag("--sync-schedule", ShortForm = "-s")]
-    public bool? SyncSchedule { get; set; }
+    [CliOption("--sync-schedule", ShortForm = "-s")]
+    public string? SyncSchedule { get; set; }
 
     /// <summary>
     /// Used to determine the schedule duration. Uses ISO 8601 duration format.
     /// </summary>
-    [CliFlag("--sync-window", ShortForm = "-w")]
-    public bool? SyncWindow { get; set; }
+    [CliOption("--sync-window", ShortForm = "-w")]
+    public string? SyncWindow { get; set; }
 
 }

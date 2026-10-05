@@ -25,14 +25,25 @@ public record AzRedisImportOptions : AzOptions
     /// </summary>
     /// <param name="Files">SAS url for blobs that needs to be imported.</param>
     public AzRedisImportOptions(
-        string Files
+        IEnumerable<string> Files
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Files);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Files);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Files));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Files));
+            }
+
+            Files = materialized;
+        }
         this.Files = Files;
     }
 
-    public void Deconstruct(out string Files)
+    public void Deconstruct(out IEnumerable<string> Files)
     {
         Files = this.Files;
     }
@@ -40,26 +51,26 @@ public record AzRedisImportOptions : AzOptions
     /// <summary>
     /// SAS url for blobs that needs to be imported.
     /// </summary>
-    [CliOption("--files")]
-    public string Files { get; private init; }
+    [CliOption("--files", GroupValues = true)]
+    public IEnumerable<string> Files { get; private init; }
 
     /// <summary>
     /// Preferred auth method to communicate to storage account used for data archive, default value is SAS.  Allowed values: ManagedIdentity, SAS.
     /// </summary>
-    [CliOption("--auth-method", ShortForm = "--preferred-data-archive-auth-method")]
+    [CliOption("--auth-method")]
     public string? AuthMethod { get; set; }
 
     /// <summary>
     /// Format of the blob (Currently rdb is the only supported format, with other formats expected in the future).
     /// </summary>
-    [CliFlag("--file-format")]
-    public bool? FileFormat { get; set; }
+    [CliOption("--file-format")]
+    public string? FileFormat { get; set; }
 
     /// <summary>
     /// SubscriptionId of the storage account.
     /// </summary>
-    [CliFlag("--storage-sub-id", ShortForm = "--storage-subscription-id")]
-    public bool? StorageSubId { get; set; }
+    [CliOption("--storage-sub-id")]
+    public string? StorageSubId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

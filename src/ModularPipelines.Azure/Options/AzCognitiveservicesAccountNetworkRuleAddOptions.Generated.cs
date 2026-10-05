@@ -57,8 +57,8 @@ public record AzCognitiveservicesAccountNetworkRuleAddOptions : AzOptions
     /// <summary>
     /// IPv4 address or CIDR range.
     /// </summary>
-    [CliFlag("--ip-address")]
-    public bool? IpAddress { get; set; }
+    [CliOption("--ip-address")]
+    public string? IpAddress { get; set; }
 
     /// <summary>
     /// Name or ID of subnet. If name is supplied, `--vnet-name` must be supplied.

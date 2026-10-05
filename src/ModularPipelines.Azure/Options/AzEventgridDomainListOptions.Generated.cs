@@ -23,8 +23,8 @@ public record AzEventgridDomainListOptions : AzOptions
     /// <summary>
     /// The OData query used for filtering the list results. Filtering is currently allowed on the Name property only. The supported operations include: CONTAINS, eq (for equal), ne (for not equal), AND, OR and NOT.
     /// </summary>
-    [CliFlag("--odata-query")]
-    public bool? OdataQuery { get; set; }
+    [CliOption("--odata-query")]
+    public string? OdataQuery { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

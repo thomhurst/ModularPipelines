@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzNetworkRouteServerCreateOptions : AzOptions
     /// <summary>
     /// VirtualHub Router autoscale configuration. Use space-separated property=value [property=value ...]. Supported properties: min-capacity: The minimum number of scale units for VirtualHub Router.
     /// </summary>
-    [CliOption("--auto-scale-config", GroupValues = true)]
-    public IEnumerable<string>? AutoScaleConfig { get; set; }
+    [CliOption("--auto-scale-config", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? AutoScaleConfig { get; set; }
 
     /// <summary>
     /// Routing preference of the route server.  Allowed values: ASPath, ExpressRoute, VpnGateway.
@@ -97,7 +98,7 @@ public record AzNetworkRouteServerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

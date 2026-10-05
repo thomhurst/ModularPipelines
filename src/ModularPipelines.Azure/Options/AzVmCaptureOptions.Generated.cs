@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,20 +47,20 @@ public record AzVmCaptureOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Overwrite the existing disk file.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.  Default: True.
     /// </summary>
-    [CliOption("--overwrite")]
-    public bool? Overwrite { get; set; }
+    [CliOption("--overwrite", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Overwrite { get; set; }
 
     /// <summary>
     /// The storage account container name in which to save the disks. Default: vhds.
     /// </summary>
-    [CliFlag("--storage-container")]
-    public bool? StorageContainer { get; set; }
+    [CliOption("--storage-container")]
+    public string? StorageContainer { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

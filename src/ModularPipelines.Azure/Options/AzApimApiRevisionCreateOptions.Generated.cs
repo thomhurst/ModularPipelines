@@ -79,7 +79,7 @@ public record AzApimApiRevisionCreateOptions : AzOptions
     /// <summary>
     /// Description of the Api Revision.
     /// </summary>
-    [CliOption("--api-revision-description", ShortForm = "--rev-description")]
+    [CliOption("--api-revision-description")]
     public string? ApiRevisionDescription { get; set; }
 
 }

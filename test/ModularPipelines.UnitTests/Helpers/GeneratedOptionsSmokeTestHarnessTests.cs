@@ -14,7 +14,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(RepresentativeOptions));
 
         await Assert.That(result.OptionsTypesTested).IsEqualTo(1);
-        await Assert.That(result.PropertiesTested).IsEqualTo(7);
+        await Assert.That(result.PropertiesTested).IsEqualTo(9);
     }
 
     [Test]
@@ -90,6 +90,12 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
         [CliOption("--repeatable-optional", ValueArity = CliOptionValueArity.Optional)]
         public IEnumerable<CliOptionValue>? RepeatableOptional { get; init; }
+
+        [CliOption("--groups", GroupValues = true)]
+        public IEnumerable<CliValueGroup>? Groups { get; init; }
+
+        [CliOption("--optional-groups", GroupValues = true, ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<CliValueGroup>? OptionalGroups { get; init; }
     }
 
     internal sealed record ComputedGetterOptions : CommandLineToolOptions

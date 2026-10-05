@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -50,7 +51,7 @@ public record AzMonitorActionGroupTestNotificationsCreateOptions : AzOptions
     /// <summary>
     /// The name of the action group.
     /// </summary>
-    [CliOption("--action-group", ShortForm = "--action-group-name")]
+    [CliOption("--action-group")]
     public string ActionGroup { get; private init; }
 
     /// <summary>
@@ -68,14 +69,14 @@ public record AzMonitorActionGroupTestNotificationsCreateOptions : AzOptions
     /// <summary>
     /// Add receivers to the action group.
     /// </summary>
-    [CliFlag("--add-action", ShortForm = "-a")]
-    public bool? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? AddAction { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The list of incident receivers that are part of this action group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.

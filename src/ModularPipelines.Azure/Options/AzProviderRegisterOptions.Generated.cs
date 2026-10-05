@@ -46,14 +46,14 @@ public record AzProviderRegisterOptions : AzOptions
     /// <summary>
     /// A value indicating whether authorization is consented or not.
     /// </summary>
-    [CliOption("--consent-to-permissions", ShortForm = "-c")]
-    public string? ConsentToPermissions { get; set; }
+    [CliFlag("--consent-to-permissions", ShortForm = "-c")]
+    public bool? ConsentToPermissions { get; set; }
 
     /// <summary>
     /// The management group id to register.
     /// </summary>
-    [CliFlag("--management-group-id", ShortForm = "-m")]
-    public bool? ManagementGroupId { get; set; }
+    [CliOption("--management-group-id", ShortForm = "-m")]
+    public string? ManagementGroupId { get; set; }
 
     /// <summary>
     /// Wait for the registration to finish.

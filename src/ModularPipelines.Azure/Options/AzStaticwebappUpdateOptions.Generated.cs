@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -64,14 +66,14 @@ public record AzStaticwebappUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The target branch in the repository.
     /// </summary>
-    [CliFlag("--branch", ShortForm = "-b")]
-    public bool? Branch { get; set; }
+    [CliOption("--branch", ShortForm = "-b")]
+    public string? Branch { get; set; }
 
     /// <summary>
     /// URL for the repository of the static site.
@@ -82,7 +84,8 @@ public record AzStaticwebappUpdateOptions : AzOptions
     /// <summary>
     /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
     /// </summary>
-    [CliFlag("--token", ShortForm = "-t")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token", ShortForm = "-t")]
+    public string? Token { get; set; }
 
 }

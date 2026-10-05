@@ -57,14 +57,14 @@ public record AzMysqlFlexibleServerDbCreateOptions : AzOptions
     /// <summary>
     /// The charset of the database. The default value is UTF8.
     /// </summary>
-    [CliFlag("--charset")]
-    public bool? Charset { get; set; }
+    [CliOption("--charset")]
+    public string? Charset { get; set; }
 
     /// <summary>
     /// The collation of the database.
     /// </summary>
-    [CliFlag("--collation")]
-    public bool? Collation { get; set; }
+    [CliOption("--collation")]
+    public string? Collation { get; set; }
 
     /// <summary>
     /// The name of the database to be created when provisioning the database server.

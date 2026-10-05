@@ -11,6 +11,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    /// <summary>Whether the installed parser verified the type and arity, which prose or legacy overrides must not replace.</summary>
+    internal bool HasVerifiedValueShape { get; init; }
+
     /// <summary>Option-local prose for value classification, excluding inherited group documentation.</summary>
     internal string? ValueShapeDescription { get; init; }
 
@@ -63,12 +66,14 @@ public record CliOptionDefinition
     /// <summary>
     /// C# type emitted for the generated property.
     /// </summary>
-    public string PropertyType => (ValueArity, UsesCollectionShape) switch
+    public string PropertyType => UsesValueGroups ? CSharpType : (ValueArity, UsesCollectionShape) switch
     {
         (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
         (CliOptionValueArity.Optional, false) => "CliOptionValue?",
         _ => CSharpType,
     };
+
+    internal bool UsesValueGroups => CSharpType.Contains("CliValueGroup", StringComparison.Ordinal);
 
     private bool UsesCollectionShape
     {
@@ -597,6 +602,7 @@ public record CliOptionDefinition
     internal static bool TypeRequiresModelsNamespace(string cSharpType) =>
         cSharpType.Contains("KeyValue", StringComparison.Ordinal)
         || cSharpType.Contains("CliValuePair", StringComparison.Ordinal)
+        || cSharpType.Contains("CliValueGroup", StringComparison.Ordinal)
         || cSharpType.Contains("CliOptionValue", StringComparison.Ordinal);
 
     /// <summary>

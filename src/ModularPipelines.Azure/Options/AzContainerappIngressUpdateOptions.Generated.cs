@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzContainerappIngressUpdateOptions : AzOptions
     /// <summary>
     /// Allow insecure connections for ingress traffic.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-insecure")]
-    public bool? AllowInsecure { get; set; }
+    [CliOption("--allow-insecure", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowInsecure { get; set; }
 
     /// <summary>
     /// The ingress type.  Allowed values: external, internal.
@@ -35,14 +36,14 @@ public record AzContainerappIngressUpdateOptions : AzOptions
     /// <summary>
     /// Additional exposed port. Only supported by tcp transport protocol. Must be unique per environment if the app ingress is external.
     /// </summary>
-    [CliFlag("--exposed-port")]
-    public bool? ExposedPort { get; set; }
+    [CliOption("--exposed-port")]
+    public int? ExposedPort { get; set; }
 
     /// <summary>
     /// The application port used for ingress traffic.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public int? TargetPort { get; set; }
 
     /// <summary>
     /// The transport protocol used for ingress traffic.  Allowed values: auto, http, http2, tcp.

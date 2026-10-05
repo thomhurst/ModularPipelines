@@ -57,14 +57,14 @@ public record AzPolicyRemediationCreateOptions : AzOptions
     /// <summary>
     /// Policy definition reference ID inside the policy set definition. Only required when the policy assignment is assigning a policy set definition.
     /// </summary>
-    [CliFlag("--definition-reference-id")]
-    public bool? DefinitionReferenceId { get; set; }
+    [CliOption("--definition-reference-id")]
+    public string? DefinitionReferenceId { get; set; }
 
     /// <summary>
     /// Space separated list of resource locations that should be remediated (Ex: centralus westeurope).
     /// </summary>
-    [CliFlag("--location-filters")]
-    public bool? LocationFilters { get; set; }
+    [CliOption("--location-filters", GroupValues = true)]
+    public IEnumerable<string>? LocationFilters { get; set; }
 
     /// <summary>
     /// The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified.  Allowed values: ExistingNonCompliant, ReEvaluateCompliance.
@@ -75,14 +75,14 @@ public record AzPolicyRemediationCreateOptions : AzOptions
     /// <summary>
     /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nameB).
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.

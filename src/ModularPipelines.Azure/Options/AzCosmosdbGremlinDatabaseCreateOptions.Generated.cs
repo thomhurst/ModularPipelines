@@ -68,13 +68,13 @@ public record AzCosmosdbGremlinDatabaseCreateOptions : AzOptions
     /// <summary>
     /// The maximum throughput resource can scale to (RU/s). Provided when the resource is autoscale enabled. The minimum value can be 4000 (RU/s).
     /// </summary>
-    [CliFlag("--max-throughput")]
-    public bool? MaxThroughput { get; set; }
+    [CliOption("--max-throughput")]
+    public string? MaxThroughput { get; set; }
 
     /// <summary>
     /// The throughput Gremlin database (RU/s). Default value is 400.
     /// </summary>
-    [CliFlag("--throughput")]
-    public bool? Throughput { get; set; }
+    [CliOption("--throughput")]
+    public string? Throughput { get; set; }
 
 }

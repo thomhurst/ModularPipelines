@@ -1,0 +1,229 @@
+
+Command
+    az aks nodepool add : Add a node pool to the managed Kubernetes cluster.
+
+Arguments
+    --cluster-name            [Required] : The cluster name.
+    --name --nodepool-name -n [Required] : The node pool name.
+    --resource-group -g       [Required] : Name of resource group. You can configure the default
+                                           group using `az configure --defaults group=<name>`.
+    --aks-custom-headers                 : Comma-separated key-value pairs to specify custom
+                                           headers.
+    --allowed-host-ports                 : Expose host ports on the node pool. When specified,
+                                           format should be a space-separated list of ranges with
+                                           protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
+    --asg-ids                            : The IDs of the application security groups to which the
+                                           node pool's network interface should belong. When
+                                           specified, format should be a space-separated list of
+                                           IDs.
+    --crg-id                             : The crg id used to associate the new nodepool with the
+                                           existed Capacity Reservation Group resource.
+    --disable-windows-outbound-nat       : Disable Windows OutboundNAT on Windows agent node pool.
+    --drain-timeout                      : When nodes are drain how many minutes to wait for all
+                                           pods to be evicted.
+    --enable-cluster-autoscaler -e       : Enable cluster autoscaler.
+    --enable-encryption-at-host          : Enable EncryptionAtHost, default value is false.
+    --enable-fips-image                  : Use FIPS-enabled OS on agent nodes.
+    --enable-node-public-ip              : Enable VMSS or VMs node public IP.
+    --enable-secure-boot                 : Enable Secure Boot on agent node pool. Must use VMSS or
+                                           VMs agent pool type.
+    --enable-ultra-ssd                   : Enable UltraSSD, default value is false.
+    --enable-vtpm                        : Enable vTPM on agent node pool. Must use VMSS or VMs
+                                           agent pool type.
+    --eviction-policy                    : The eviction policy of the Spot node pool. It can only be
+                                           set when --priority is Spot.  Allowed values: Deallocate,
+                                           Delete.  Default: Delete.
+    --gateway-prefix-size                : The size of Public IPPrefix attached to the Gateway-mode
+                                           node pool. The node pool must be in Gateway mode.
+    --gpu-driver                         : Whether to install driver for GPU node pool. Possible
+                                           values are "Install" or "None". Default is "Install".
+                                           Allowed values: Install, None.
+    --gpu-instance-profile               : GPU instance profile to partition multi-gpu Nvidia GPUs.
+                                           Allowed values: MIG1g, MIG2g, MIG3g, MIG4g, MIG7g.
+    --host-group-id                      : The fully qualified dedicated host group id used to
+                                           provision agent node pool.
+    --if-match                           : The value provided will be compared to the ETag of the
+                                           agentpool, if it matches the operation will proceed. If
+                                           it does not match, the request will be rejected to
+                                           prevent accidental overwrites. This must not be specified
+                                           when creating a new agentpool.
+    --if-none-match                      : Set to '*' to allow a new agentpool to be created, but to
+                                           prevent updating an existing agentpool. Other values will
+                                           be ignored.
+    --kubelet-config                     : Path to JSON file containing Kubelet configurations for
+                                           agent nodes. https://aka.ms/aks/custom-node-config.
+    --kubernetes-version -k              : Version of Kubernetes to use for creating the cluster,
+                                           such as "1.16.9".  Values from: `az aks get-versions`.
+    --labels                             : The node labels for the node pool. See
+                                           https://aka.ms/node-labels for syntax of labels.
+    --linux-os-config                    : Path to JSON file containing OS configurations for Linux
+                                           agent nodes. https://aka.ms/aks/custom-node-config.
+    --localdns-config                    : Set the localDNS Profile for a nodepool with a JSON
+                                           config file.
+    --max-count                          : Maximum nodes count used for autoscaler, when "--enable-
+                                           cluster-autoscaler" specified. Please specify the value
+                                           in the range of [0, 1000] for user nodepool, and [1,1000]
+                                           for system nodepool.
+    --max-pods -m                        : The maximum number of pods deployable to a node.
+        If not specified, defaults based on network-plugin. 30 for "azure", 110 for "kubenet", or
+        250 for "none".
+    --max-surge                          : Extra nodes used to speed upgrade. When specified, it
+                                           represents the number or percent used, eg. 5 or 33%.
+    --max-unavailable                    : The maximum number or percentage of nodes that can be
+                                           simultaneously unavailable during upgrade. When
+                                           specified, it represents the number or percent used, eg.
+                                           1 or 5%.
+    --message-of-the-day                 : Path to a file containing the desired message of the day.
+                                           Only valid for linux nodes. Will be written to /etc/motd.
+    --min-count                          : Minimum nodes count used for autoscaler, when "--enable-
+                                           cluster-autoscaler" specified. Please specify the value
+                                           in the range of [0, 1000] for user nodepool, and [1,1000]
+                                           for system nodepool.
+    --mode                               : The mode for a node pool which defines a node pool's
+                                           primary function. If set as "System", AKS prefers system
+                                           pods scheduling to node pools with mode `System`. Learn
+                                           more at https://aka.ms/aks/nodepool/mode.  Allowed
+                                           values: Gateway, System, User.  Default: User.
+    --no-wait                            : Do not wait for the long-running operation to finish.
+    --node-count -c                      : Number of nodes in the Kubernetes agent pool. After
+                                           creating a cluster, you can change the size of its node
+                                           pool with `az aks scale`.  Default: 3.
+    --node-osdisk-size                   : Size in GiB of the OS disk for each node in the agent
+                                           pool. Minimum 30 GiB.
+    --node-osdisk-type                   : OS disk type to be used for machines in a given agent
+                                           pool. Defaults to 'Ephemeral' when possible in
+                                           conjunction with VM size and OS disk size. May not be
+                                           changed for this pool after creation. ('Ephemeral' or
+                                           'Managed').  Allowed values: Ephemeral, Managed.
+    --node-public-ip-prefix-id           : Public IP prefix ID used to assign public IPs to VMSS or
+                                           VMs nodes.
+    --node-public-ip-tags                : The ipTags of the node public IPs.
+    --node-soak-duration                 : The amount of time (in minutes) to wait after draining a
+                                           node and before reimaging it and moving on to next node.
+    --node-taints                        : The node taints for the node pool.
+    --node-vm-size -s                    : Size of Virtual Machines to create as Kubernetes nodes.
+                                           If the user does not specify one, server will select a
+                                           default VM size for her/him.
+    --os-sku                             : The OS SKU of the agent node pool. Ubuntu, Ubuntu2204,
+                                           Ubuntu2404, AzureLinux or AzureLinux3 for Linux.
+                                           Windows2019 or Windows2022 for Windows.  Allowed values:
+                                           AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu,
+                                           Ubuntu2204, Ubuntu2404, Windows2019, Windows2022.
+    --os-type                            : The OS Type. Linux or Windows.
+    --pod-ip-allocation-mode             : Set the ip allocation mode for how Pod IPs from the Azure
+                                           Pod Subnet are allocated to the nodes in the AKS cluster.
+                                           The choice is between dynamic batches of individual IPs
+                                           or static allocation of a set of CIDR blocks. Accepted
+                                           Values are "DynamicIndividual" or "StaticBlock".  Allowed
+                                           values: DynamicIndividual, StaticBlock.
+        Used together with the "azure" network plugin.
+        Requires --pod-subnet-id.
+    --pod-subnet-id                      : The Resource Id of a subnet in an existing VNet into
+                                           which to assign pods in the cluster (requires azure
+                                           network-plugin).
+    --ppg                                : The ID of a PPG.
+    --priority                           : The priority of the node pool.  Allowed values: Regular,
+                                           Spot.  Default: Regular.
+    --scale-down-mode                    : Describe how VMs are added to or removed from nodepools.
+                                           Allowed values: Deallocate, Delete.  Default: Delete.
+    --snapshot-id                        : The source snapshot id used to create this nodepool.
+    --spot-max-price                     : It can only be set when --priority is Spot. Specify the
+                                           maximum price you are willing to pay in US Dollars.
+                                           Possible values are any decimal value greater than zero
+                                           or -1 which indicates default price to be up-to on-
+                                           demand. It can only include up to 5 decimal places.
+                                           Default: nan.
+    --tags                               : Space-separated tags: key[=value] [key[=value] ...]. Use
+                                           "" to clear existing tags.
+    --undrainable-node-behavior          : Define the behavior for undrainable nodes during upgrade.
+                                           The value should be "Cordon" or "Schedule". The default
+                                           value is "Schedule".  Default: Schedule.
+    --vm-set-type                        : Agent pool vm set type. VirtualMachineScaleSets or
+                                           AvailabilitySet or VirtualMachines. Defaults to
+                                           'VirtualMachineScaleSets'.
+    --vm-sizes                           : Comma-separated list of VM sizes. Valid for
+                                           VirtualMachines node pool only. If `--vm-sizes` not
+                                           specified but `--node-vm-size` specified, value of
+                                           `--node-vm-size` will be used. If neither of them
+                                           specified, defaults to Standard_DS2_v2 for Linux or
+                                           Standard_D2s_v3 for Windows.
+    --vnet-subnet-id                     : The Resource Id of a subnet in an existing VNet into
+                                           which to deploy the cluster.
+    --workload-runtime                   : Set the workload runtime.  Allowed values:
+                                           KataVmIsolation.
+        Azure provides a different workload-runtime to enable Kata supported workloads in your
+        nodepools. The following values can be specified:
+          - "KataVmIsolation" for Kata.
+    --zones -z                           : Availability zones where agent nodes will be placed.
+                                           Also, to install agent nodes to more than one zone you
+                                           need to pass zone numbers separated by blanks.  For
+                                           example -  To have all 3 zones, you are expected to enter
+                                           `--zones 1 2 3`.
+
+Global Arguments
+    --debug                              : Increase logging verbosity to show all debug logs.
+    --help -h                            : Show this help message and exit.
+    --only-show-errors                   : Only show errors, suppressing warnings.
+    --output -o                          : Output format.  Allowed values: json, jsonc, none, table,
+                                           tsv, yaml, yamlc.  Default: json.
+    --query                              : JMESPath query string. See http://jmespath.org/ for more
+                                           information and examples.
+    --subscription                       : Name or ID of subscription. You can configure the default
+                                           subscription using `az account set -s NAME_OR_ID`.
+    --verbose                            : Increase logging verbosity. Use --debug for full debug
+                                           logs.
+
+Examples
+    Create a nodepool in an existing AKS cluster with ephemeral os enabled.
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster --node-
+        osdisk-type Ephemeral --node-osdisk-size 48
+
+    Create a nodepool with EncryptionAtHost enabled.
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+        --enable-encryption-at-host
+
+    Create a nodepool with UltraSSD enabled.
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+        --enable-ultra-ssd
+
+    Create a nodepool cluster with a specific OS SKU
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster --os-sku
+        Ubuntu
+
+    Create a nodepool with FIPS-enabled OS
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+        --enable-fips-image
+
+    create a kubernetes cluster with a snapshot id.
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster
+        --kubernetes-version 1.20.9 --snapshot-id "/subscriptions/00000/resourceGroups/AnotherResour
+        ceGroup/providers/Microsoft.ContainerService/snapshots/mysnapshot1"
+
+    create a nodepool in an existing AKS cluster with host group id
+        az aks nodepool add -g MyResourceGroup -n MyNodePool --cluster-name MyMC --host-group-id /su
+        bscriptions/00000/resourceGroups/AnotherResourceGroup/providers/Microsoft.ContainerService/h
+        ostGroups/myHostGroup --node-vm-size VMSize
+
+    create a nodepool with a Capacity Reservation Group(CRG) ID.
+        az aks nodepool add -g MyResourceGroup -n MyNodePool --cluster-name MyMC --node-vm-size
+        VMSize --crg-id "/subscriptions/SubID/resourceGroups/ResourceGroupName/providers/Microsoft.C
+        ontainerService/CapacityReservationGroups/MyCRGID"
+
+    Create a nodepool with ip allocation mode set to "StaticBlock" and using a pod subnet ID
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster  --os-
+        sku Ubuntu --pod-subnet-id /subscriptions/SubID/resourceGroups/AnotherResourceGroup/provider
+        s/Microsoft.Network/virtualNetworks/MyVnet/subnets/MySubnet --pod-ip-allocation-mode
+        StaticBlock
+
+    create a nodepool of type VirtualMachines
+        az aks nodepool add -g MyResourceGroup -n MyNodePool --cluster-name MyMC --vm-set-type
+        VirtualMachines --vm-sizes "VMSize1,VMSize2" --node-count 3
+
+    Create a nodepool with KataVmIsolation enabled.
+        az aks nodepool add -g MyResourceGroup -n nodepool1 --cluster-name MyManagedCluster --os-sku
+        AzureLinux --vm-size Standard_D4s_v3 --workload-runtime KataVmIsolation --node-count 1
+
+To search AI knowledge base for examples, use: az find "az aks nodepool add"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--aks-custom-headers": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--allowed-host-ports": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--asg-ids": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--cluster-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--crg-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--disable-windows-outbound-nat": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--drain-timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--enable-cluster-autoscaler": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-encryption-at-host": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-fips-image": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-node-public-ip": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-secure-boot": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-ultra-ssd": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--enable-vtpm": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--eviction-policy": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--gateway-prefix-size": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--gpu-driver": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--gpu-instance-profile": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--host-group-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-none-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--kubelet-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--kubernetes-version": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--labels": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--linux-os-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--localdns-config": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--max-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--max-pods": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--max-surge": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--max-unavailable": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--message-of-the-day": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--min-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--no-wait": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--node-count": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--node-osdisk-size": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--node-osdisk-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--node-public-ip-prefix-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--node-public-ip-tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--node-soak-duration": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--node-taints": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--node-vm-size": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--nodepool-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--os-sku": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--os-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--pod-ip-allocation-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--pod-subnet-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--ppg": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--priority": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--scale-down-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--snapshot-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--spot-max-price": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--undrainable-node-behavior": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--vm-set-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--vm-sizes": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--vnet-subnet-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--workload-runtime": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--zones": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "-c": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "-e": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-g": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-k": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-m": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-s": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-z": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}}

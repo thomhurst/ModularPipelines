@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -28,13 +29,24 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="Scopes">Space-separated list of scopes the rule applies to. The resources specified in this parameter must be of the same type and exist in the same location.</param>
     public AzMonitorMetricsAlertCreateOptions(
-        string Condition,
+        IEnumerable<CliValueGroup> Condition,
         string Name,
         string ResourceGroup,
         IEnumerable<string> Scopes
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Condition);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Condition);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(Condition));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Condition));
+            }
+
+            Condition = materialized;
+        }
         this.Condition = Condition;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -55,7 +67,7 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
         this.Scopes = Scopes;
     }
 
-    public void Deconstruct(out string Condition, out string Name, out string ResourceGroup, out IEnumerable<string> Scopes)
+    public void Deconstruct(out IEnumerable<CliValueGroup> Condition, out string Name, out string ResourceGroup, out IEnumerable<string> Scopes)
     {
         Condition = this.Condition;
         Name = this.Name;
@@ -66,8 +78,8 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// The condition which triggers the rule. It can be created by 'az monitor metrics alert condition create' command. Usage:  --condition {avg,min,max,total,count} [NAMESPACE.]METRIC [{=,!=,&gt;,&gt;=,&lt;,&lt;=} THRESHOLD] [{&gt;,&gt;&lt;,&lt;} dynamic SENSITIVITY VIOLATIONS of EVALUATIONS [since DATETIME]] [where DIMENSION {includes,excludes} VALUE [or VALUE ...] [and   DIMENSION {includes,excludes} VALUE [or VALUE ...] ...]] [with skipmetricvalidation]
     /// </summary>
-    [CliOption("--condition")]
-    public string Condition { get; private init; }
+    [CliOption("--condition", GroupValues = true)]
+    public IEnumerable<CliValueGroup> Condition { get; private init; }
 
     /// <summary>
     /// Name of the alert rule.
@@ -90,61 +102,61 @@ public record AzMonitorMetricsAlertCreateOptions : AzOptions
     /// <summary>
     /// Add an action group and optional webhook properties to fire when the alert is triggered. Usage:   --action ACTION_GROUP_NAME_OR_ID [KEY=VAL [KEY=VAL ...]]
     /// </summary>
-    [CliFlag("--action", ShortForm = "-a")]
-    public bool? Action { get; set; }
+    [CliOption("--action", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Action { get; set; }
 
     /// <summary>
     /// Automatically resolve the alert.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--auto-mitigate")]
-    public bool? AutoMitigate { get; set; }
+    [CliOption("--auto-mitigate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoMitigate { get; set; }
 
     /// <summary>
     /// Free-text description of the rule.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Create the rule in a disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disabled")]
-    public bool? Disabled { get; set; }
+    [CliOption("--disabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disabled { get; set; }
 
     /// <summary>
     /// Frequency with which to evaluate the rule in "##h##m##s" format.  Default: 1m.
     /// </summary>
-    [CliFlag("--evaluation-frequency")]
-    public bool? EvaluationFrequency { get; set; }
+    [CliOption("--evaluation-frequency")]
+    public string? EvaluationFrequency { get; set; }
 
     /// <summary>
     /// The region of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
     /// </summary>
-    [CliFlag("--region", ShortForm = "--target-resource-region")]
-    public bool? Region { get; set; }
+    [CliOption("--region")]
+    public string? Region { get; set; }
 
     /// <summary>
     /// Severity of the alert from 0 (critical) to 4 (verbose). Default: 2.
     /// </summary>
-    [CliFlag("--severity")]
-    public bool? Severity { get; set; }
+    [CliOption("--severity")]
+    public int? Severity { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The resource type of the target resource(s) in scopes. This must be provided when scopes is resource group or subscription.
     /// </summary>
-    [CliOption("--target-resource-type", ShortForm = "--type")]
+    [CliOption("--target-resource-type")]
     public string? TargetResourceType { get; set; }
 
     /// <summary>
     /// Time over which to aggregate metrics in "##h##m##s" format. Default: 5m.
     /// </summary>
-    [CliFlag("--window-size")]
-    public bool? WindowSize { get; set; }
+    [CliOption("--window-size")]
+    public string? WindowSize { get; set; }
 
 }

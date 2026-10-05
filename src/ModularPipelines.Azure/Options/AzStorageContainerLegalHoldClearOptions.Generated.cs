@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzStorageContainerLegalHoldClearOptions : AzOptions
     /// <summary>
     /// When enabled, new blocks can be written to both Append and Block Blobs while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-protected-append-writes-all", ShortForm = "--w-all")]
-    public bool? AllowProtectedAppendWritesAll { get; set; }
+    [CliOption("--allow-protected-append-writes-all", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowProtectedAppendWritesAll { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

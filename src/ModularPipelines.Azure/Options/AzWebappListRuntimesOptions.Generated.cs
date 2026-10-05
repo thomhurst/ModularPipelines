@@ -23,7 +23,7 @@ public record AzWebappListRuntimesOptions : AzOptions
     /// <summary>
     /// Limit the output to just windows or linux runtimes.  Allowed values: linux, windows.
     /// </summary>
-    [CliOption("--os", ShortForm = "--os-type")]
+    [CliOption("--os")]
     public string? Os { get; set; }
 
     /// <summary>

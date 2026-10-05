@@ -9,20 +9,41 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
 /// Configure continuous deployment via containers.
 /// </summary>
-/// <param name="EnableCd">Enable/disable continuous deployment.  Allowed values: false, true.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("functionapp", "deployment", "container", "config")]
-public record AzFunctionappDeploymentContainerConfigOptions(
-    [property: CliOption("--enable-cd", ShortForm = "-e")] bool EnableCd
-) : AzOptions
+public record AzFunctionappDeploymentContainerConfigOptions : AzOptions
 {
+    /// <summary>
+    /// Configure continuous deployment via containers.
+    /// </summary>
+    /// <param name="EnableCd">Enable/disable continuous deployment.  Allowed values: false, true.</param>
+    public AzFunctionappDeploymentContainerConfigOptions(
+        CliOptionValue EnableCd
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(EnableCd);
+        this.EnableCd = EnableCd;
+    }
+
+    public void Deconstruct(out CliOptionValue EnableCd)
+    {
+        EnableCd = this.EnableCd;
+    }
+
+    /// <summary>
+    /// Enable/disable continuous deployment.  Allowed values: false, true.
+    /// </summary>
+    [CliOption("--enable-cd", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue EnableCd { get; private init; }
+
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>

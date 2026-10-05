@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -41,14 +42,14 @@ public record AzNetworkVnetGatewayVpnClientGenerateOptions : AzOptions
     /// <summary>
     /// Public certificate data for the Radius server auth certificate in Base-64 format. Required only if external Radius auth has been configured with EAPTLS auth.
     /// </summary>
-    [CliFlag("--radius-server-auth-certificate")]
-    public bool? RadiusServerAuthCertificate { get; set; }
+    [CliOption("--radius-server-auth-certificate")]
+    public string? RadiusServerAuthCertificate { get; set; }
 
     /// <summary>
     /// Generate VPN client package using legacy implementation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--use-legacy")]
-    public bool? UseLegacy { get; set; }
+    [CliOption("--use-legacy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UseLegacy { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

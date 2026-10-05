@@ -45,6 +45,12 @@ public record AzAcrLoginOptions : AzOptions
     public string Name { get; private init; }
 
     /// <summary>
+    /// Log in to a specific regional endpoint of the container registry. Specify the region name (e.g., eastus, westus2). Only applicable when regional endpoints are enabled. WARNING: Argument '--endpoint' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
+
+    /// <summary>
     /// Expose refresh token instead of automatically logging in through Docker CLI.
     /// </summary>
     [CliFlag("--expose-token", ShortForm = "-t")]
@@ -66,8 +72,8 @@ public record AzAcrLoginOptions : AzOptions
     /// <summary>
     /// The tenant suffix in registry login server. You may specify '--suffix tenant' if your registry login server is in the format 'registry- tenant.azurecr.io'. Applicable if you're accessing the registry from a different subscription or you have permission to access images but not the permission to manage the registry resource.
     /// </summary>
-    [CliFlag("--suffix")]
-    public bool? Suffix { get; set; }
+    [CliOption("--suffix")]
+    public string? Suffix { get; set; }
 
     /// <summary>
     /// The username used to log into a container registry.

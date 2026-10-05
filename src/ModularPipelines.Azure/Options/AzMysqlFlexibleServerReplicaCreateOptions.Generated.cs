@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// The port of the database. Default value is 3306.
     /// </summary>
-    [CliFlag("--database-port")]
-    public bool? DatabasePort { get; set; }
+    [CliOption("--database-port")]
+    public int? DatabasePort { get; set; }
 
     /// <summary>
     /// Enable or disable Auto scale IOPS configuration for both the source and the newly provisioned replica server to enable faster provisioning.  Allowed values: Disabled, Enabled.
@@ -92,8 +93,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public int? Iops { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -128,8 +129,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public int? StorageSize { get; set; }
 
     /// <summary>
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
@@ -140,8 +141,8 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.
@@ -158,7 +159,7 @@ public record AzMysqlFlexibleServerReplicaCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
 }

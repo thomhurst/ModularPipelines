@@ -45,6 +45,12 @@ public record AzAcrRunOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
+    /// The name of the agent pool. WARNING: Argument '--agent-pool' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Auth mode of the source registry.  Allowed values: Default, None.
     /// </summary>
     [CliOption("--auth-mode")]
@@ -59,8 +65,14 @@ public record AzAcrRunOptions : AzOptions
     /// <summary>
     /// The task template/definition file path relative to the source context. It can be '-' to pipe a file from the standard input.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
+
+    /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry. WARNING: Argument '--log-template' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
 
     /// <summary>
     /// Indicates whether the logs should be displayed in raw format.
@@ -120,7 +132,7 @@ public record AzAcrRunOptions : AzOptions
     /// <summary>
     /// The task values file path relative to the source context.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values")]
+    public string? Values { get; set; }
 
 }

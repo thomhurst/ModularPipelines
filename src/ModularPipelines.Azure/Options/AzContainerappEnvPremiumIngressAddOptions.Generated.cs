@@ -57,8 +57,8 @@ public record AzContainerappEnvPremiumIngressAddOptions : AzOptions
     /// <summary>
     /// Limit of http headers per request. Default 100, minimum 1.
     /// </summary>
-    [CliFlag("--header-count-limit")]
-    public bool? HeaderCountLimit { get; set; }
+    [CliOption("--header-count-limit")]
+    public int? HeaderCountLimit { get; set; }
 
     /// <summary>
     /// Timeout in minutes for idle requests. Default 4, minimum 4, maximum 30.
@@ -69,8 +69,8 @@ public record AzContainerappEnvPremiumIngressAddOptions : AzOptions
     /// <summary>
     /// Time in seconds to drain requests during ingress shutdown. Default 500, minimum 0, maximum 3600.
     /// </summary>
-    [CliFlag("--termination-grace-period", ShortForm = "-t")]
-    public bool? TerminationGracePeriod { get; set; }
+    [CliOption("--termination-grace-period", ShortForm = "-t")]
+    public int? TerminationGracePeriod { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

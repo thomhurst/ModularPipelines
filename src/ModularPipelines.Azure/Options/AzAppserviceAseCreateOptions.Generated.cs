@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Do not check if subnet is sized according to recommendations. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ignore-subnet-size-validation")]
-    public bool? IgnoreSubnetSizeValidation { get; set; }
+    [CliOption("--ignore-subnet-size-validation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreSubnetSizeValidation { get; set; }
 
     /// <summary>
     /// Specify App Service Environment version.  Allowed values: ASEv3.  Default: ASEv3.
@@ -104,7 +105,7 @@ public record AzAppserviceAseCreateOptions : AzOptions
     /// <summary>
     /// Configure App Service Environment as Zone Redundant.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,13 +47,13 @@ public record AzEventgridPartnerConfigurationUpdateOptions : AzOptions
     /// <summary>
     /// Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days.
     /// </summary>
-    [CliOption("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    [CliOption("--default-maximum-expiration-time-in-days")]
     public string? DefaultMaximumExpirationTimeInDays { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

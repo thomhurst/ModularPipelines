@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,13 +30,13 @@ public record AzRestorePointCollectionUpdateOptions : AzOptions
     /// <summary>
     /// This property determines whether instant access snapshot is enabled for restore points created under this restore point collection for Premium SSD v2 or Ultra disk. Instant access snapshot for Premium SSD v2 or Ultra disk is instantaneously available for restoring disk with fast restore performance.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--instant-access")]
-    public bool? InstantAccess { get; set; }
+    [CliOption("--instant-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InstantAccess { get; set; }
 
     /// <summary>
     /// The name of the restore point collection.
     /// </summary>
-    [CliOption("--collection-name", ShortForm = "--restore-point-collection-name")]
+    [CliOption("--collection-name")]
     public string? CollectionName { get; set; }
 
     /// <summary>

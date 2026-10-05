@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -61,6 +62,12 @@ public record AzDeploymentMgCreateOptions : AzOptions
     public bool? ConfirmWithWhatIf { get; set; }
 
     /// <summary>
+    /// Support to handle extended template content including multiline and comments in deployment. WARNING: Option '--handle-extended-json-format/-j' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliFlag("--handle-extended-json-format", ShortForm = "-j")]
+    public bool? HandleExtendedJsonFormat { get; set; }
+
+    /// <summary>
     /// The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.  Allowed values: Complete, Incremental.  Default: Incremental.
     /// </summary>
     [CliOption("--mode")]
@@ -69,14 +76,14 @@ public record AzDeploymentMgCreateOptions : AzOptions
     /// <summary>
     /// The deployment name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-prompt")]
-    public bool? NoPrompt { get; set; }
+    [CliOption("--no-prompt", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoPrompt { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -88,7 +95,7 @@ public record AzDeploymentMgCreateOptions : AzOptions
     /// Supply deployment parameter values. Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<CliValueGroup>? Parameters { get; set; }
 
     /// <summary>
     /// Instruct the command to execute the deployment if the What-If result contains no resource changes. Applicable when --confirm-with-what-if is set.

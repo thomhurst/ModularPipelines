@@ -57,14 +57,14 @@ public record AzMysqlServerGeorestoreOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 7 to 35 days. Default is 7 days.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// Enable or disable geo-redundant backups. Default value is Disabled. Not supported in Basic pricing tier.
     /// </summary>
-    [CliFlag("--geo-redundant-backup")]
-    public bool? GeoRedundantBackup { get; set; }
+    [CliOption("--geo-redundant-backup")]
+    public string? GeoRedundantBackup { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,20 +58,20 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Allow classic operations. Allowed values: false, true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-classic-operations")]
-    public bool? AllowClassicOperations { get; set; }
+    [CliOption("--allow-classic-operations", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowClassicOperations { get; set; }
 
     /// <summary>
     /// Enable global reach on the circuit.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-global-reach")]
-    public bool? AllowGlobalReach { get; set; }
+    [CliOption("--allow-global-reach", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowGlobalReach { get; set; }
 
     /// <summary>
     /// Bandwidth of the circuit. Usage: INT {Mbps,Gbps}. Defaults to Mbps.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--bandwidth")]
-    public bool? Bandwidth { get; set; }
+    [CliOption("--bandwidth", GroupValues = true)]
+    public IEnumerable<string>? Bandwidth { get; set; }
 
     /// <summary>
     /// Name or ID of an ExpressRoute port.
@@ -87,8 +88,8 @@ public record AzNetworkExpressRouteCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name of the peering location.  Values from: az network express- route list-service-providers.

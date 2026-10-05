@@ -30,15 +30,26 @@ public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOption
     /// <param name="StartRestoreTime">Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).</param>
     /// <param name="WorkspaceName">Name of the Log Analytics Workspace.</param>
     public AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions(
-        string EndRestoreTime,
+        IEnumerable<string> EndRestoreTime,
         string Name,
         string ResourceGroup,
         string RestoreSourceTable,
-        string StartRestoreTime,
+        IEnumerable<string> StartRestoreTime,
         string WorkspaceName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(EndRestoreTime);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(EndRestoreTime);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(EndRestoreTime));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(EndRestoreTime));
+            }
+
+            EndRestoreTime = materialized;
+        }
         this.EndRestoreTime = EndRestoreTime;
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
@@ -46,13 +57,24 @@ public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOption
         this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(RestoreSourceTable);
         this.RestoreSourceTable = RestoreSourceTable;
-        global::System.ArgumentNullException.ThrowIfNull(StartRestoreTime);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(StartRestoreTime);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(StartRestoreTime));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(StartRestoreTime));
+            }
+
+            StartRestoreTime = materialized;
+        }
         this.StartRestoreTime = StartRestoreTime;
         global::System.ArgumentNullException.ThrowIfNull(WorkspaceName);
         this.WorkspaceName = WorkspaceName;
     }
 
-    public void Deconstruct(out string EndRestoreTime, out string Name, out string ResourceGroup, out string RestoreSourceTable, out string StartRestoreTime, out string WorkspaceName)
+    public void Deconstruct(out IEnumerable<string> EndRestoreTime, out string Name, out string ResourceGroup, out string RestoreSourceTable, out IEnumerable<string> StartRestoreTime, out string WorkspaceName)
     {
         EndRestoreTime = this.EndRestoreTime;
         Name = this.Name;
@@ -65,8 +87,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOption
     /// <summary>
     /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliOption("--end-restore-time")]
-    public string EndRestoreTime { get; private init; }
+    [CliOption("--end-restore-time", GroupValues = true)]
+    public IEnumerable<string> EndRestoreTime { get; private init; }
 
     /// <summary>
     /// Name of the table. The table name needs to end with _RST.
@@ -89,8 +111,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableRestoreCreateOptions : AzOption
     /// <summary>
     /// Datetime format. Format: date (yyyy-mm-dd) time (hh:mm:ss.xxxxx) timezone (+/-hh:mm).
     /// </summary>
-    [CliOption("--start-restore-time")]
-    public string StartRestoreTime { get; private init; }
+    [CliOption("--start-restore-time", GroupValues = true)]
+    public IEnumerable<string> StartRestoreTime { get; private init; }
 
     /// <summary>
     /// Name of the Log Analytics Workspace.

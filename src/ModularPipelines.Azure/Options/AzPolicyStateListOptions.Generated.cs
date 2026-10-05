@@ -29,62 +29,62 @@ public record AzPolicyStateListOptions : AzOptions
     /// <summary>
     /// Apply expression for aggregations using OData notation.
     /// </summary>
-    [CliFlag("--apply")]
-    public bool? Apply { get; set; }
+    [CliOption("--apply")]
+    public string? Apply { get; set; }
 
     /// <summary>
     /// Expand expression using OData notation.
     /// </summary>
-    [CliFlag("--expand")]
-    public bool? Expand { get; set; }
+    [CliOption("--expand")]
+    public string? Expand { get; set; }
 
     /// <summary>
     /// Filter expression using OData notation.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// ISO 8601 formatted timestamp specifying the start time of the interval to query.
     /// </summary>
-    [CliFlag("--from")]
-    public bool? From { get; set; }
+    [CliOption("--from")]
+    public string? From { get; set; }
 
     /// <summary>
     /// Ordering expression using OData notation.
     /// </summary>
-    [CliFlag("--order-by")]
-    public bool? OrderBy { get; set; }
+    [CliOption("--order-by")]
+    public string? OrderBy { get; set; }
 
     /// <summary>
     /// Select expression using OData notation.
     /// </summary>
-    [CliFlag("--select")]
-    public bool? Select { get; set; }
+    [CliOption("--select")]
+    public string? Select { get; set; }
 
     /// <summary>
     /// ISO 8601 formatted timestamp specifying the end time of the interval to query.
     /// </summary>
-    [CliFlag("--to")]
-    public bool? To { get; set; }
+    [CliOption("--to")]
+    public string? To { get; set; }
 
     /// <summary>
     /// Maximum number of records to return.
     /// </summary>
-    [CliFlag("--top")]
-    public bool? Top { get; set; }
+    [CliOption("--top")]
+    public int? Top { get; set; }
 
     /// <summary>
     /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nameB).
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.

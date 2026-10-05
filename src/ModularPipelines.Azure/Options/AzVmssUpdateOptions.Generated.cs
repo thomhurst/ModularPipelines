@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,158 +24,158 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Specify whether to implicitly install the ProxyAgent Extension. This option is currently applicable only for Linux OS. Use with --enable-proxy-agent.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--add-proxy-agent-ext", ShortForm = "--add-proxy-agent-extension")]
-    public bool? AddProxyAgentExt { get; set; }
+    [CliOption("--add-proxy-agent-ext", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AddProxyAgentExt { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
-    public bool? AdditionalEvents { get; set; }
+    [CliOption("--additional-events", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
     /// Specifies if Scheduled Events should be auto- approved when all instances are down. Its default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
-    public bool? AllInstanceDown { get; set; }
+    [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllInstanceDown { get; set; }
 
     /// <summary>
     /// Type of rebalance behavior that will be used for recreating virtualmachines in the scale set across availability zones.  Allowed values: CreateBeforeDelete.
     /// </summary>
-    [CliOption("--automatic-zone-balancing-behavior", ShortForm = "--balancing-behavior")]
+    [CliOption("--automatic-zone-balancing-behavior")]
     public string? AutomaticZoneBalancingBehavior { get; set; }
 
     /// <summary>
     /// Type of rebalance strategy that will be used for rebalancing virtualmachines in the scale set across availability zones.  Allowed values: Recreate.
     /// </summary>
-    [CliOption("--automatic-zone-balancing-strategy", ShortForm = "--balancing-strategy")]
+    [CliOption("--automatic-zone-balancing-strategy")]
     public string? AutomaticZoneBalancingStrategy { get; set; }
 
     /// <summary>
     /// The ID or name of the capacity reservation group that is used to allocate. Pass in "None" to disassociate the capacity reservation group. Please note that if you want to delete a VM/VMSS that has been associated with capacity reservation group, you need to disassociate the capacity reservation group first.
     /// </summary>
-    [CliOption("--capacity-reservation-group", ShortForm = "--crg")]
+    [CliOption("--capacity-reservation-group")]
     public string? CapacityReservationGroup { get; set; }
 
     /// <summary>
     /// Custom init script file or text (cloud-init, cloud- config, etc..).
     /// </summary>
-    [CliFlag("--custom-data")]
-    public bool? CustomData { get; set; }
+    [CliOption("--custom-data")]
+    public string? CustomData { get; set; }
 
     /// <summary>
     /// Specifies whether the virtual machine scale set is explicitly opted out from being associated with any capacity reservation. When set to true, its virtual machines will not be allowed to implicitly or explicitly associate with any type of capacity reservation and will consume publicly available capacity. This option applies to the parent VMSS only.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-capacity-reservation-assignment", ShortForm = "--no-cap-reservation")]
-    public bool? DisableCapacityReservationAssignment { get; set; }
+    [CliOption("--disable-capacity-reservation-assignment", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableCapacityReservationAssignment { get; set; }
 
     /// <summary>
     /// Indicate whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-os-upgrade")]
-    public bool? EnableAutoOsUpgrade { get; set; }
+    [CliOption("--enable-auto-os-upgrade", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoOsUpgrade { get; set; }
 
     /// <summary>
     /// Specify whether automatic AZ balancing should be enabled on the virtualmachine scale set.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-automatic-zone-balancing", ShortForm = "--enable-zone-balancing")]
-    public bool? EnableAutomaticZoneBalancing { get; set; }
+    [CliOption("--enable-automatic-zone-balancing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutomaticZoneBalancing { get; set; }
 
     /// <summary>
     /// Set this Boolean property will allow VMSS to ignore AZ boundaries when constructing upgrade batches, and only consider Update Domain and m axBatchInstancePerc ent to determine the batch size. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-cross-zone-upgrade")]
-    public bool? EnableCrossZoneUpgrade { get; set; }
+    [CliOption("--enable-cross-zone-upgrade", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableCrossZoneUpgrade { get; set; }
 
     /// <summary>
     /// The flag that enable or disable hibernation capability on the VMSS.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-hibernation")]
-    public bool? EnableHibernation { get; set; }
+    [CliOption("--enable-hibernation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableHibernation { get; set; }
 
     /// <summary>
     /// Specify whether the OS Image Scheduled event is enabled or disabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-osimage-notification")]
-    public bool? EnableOsimageNotification { get; set; }
+    [CliOption("--enable-osimage-notification", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableOsimageNotification { get; set; }
 
     /// <summary>
     /// Specify whether metadata security protoco (proxy agent) feature should be enabled on the virtual machine or virtual machine scale set. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-proxy-agent")]
-    public bool? EnableProxyAgent { get; set; }
+    [CliOption("--enable-proxy-agent", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableProxyAgent { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
-    public bool? EnableReboot { get; set; }
+    [CliOption("--enable-reboot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
-    public bool? EnableRedeploy { get; set; }
+    [CliOption("--enable-redeploy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRedeploy { get; set; }
 
     /// <summary>
     /// Automatically recover customers from OS Provisioning Timeout and VM Start Timeout errors experienced during a VM Create operation by deleting and recreating the affected VM. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-resilient-creation")]
-    public bool? EnableResilientCreation { get; set; }
+    [CliOption("--enable-resilient-creation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableResilientCreation { get; set; }
 
     /// <summary>
     /// Retry VM Delete requests asynchronously in the event of a failed delete operation.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-resilient-deletion")]
-    public bool? EnableResilientDeletion { get; set; }
+    [CliOption("--enable-resilient-deletion", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableResilientDeletion { get; set; }
 
     /// <summary>
     /// Enable secure boot. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-secure-boot")]
-    public bool? EnableSecureBoot { get; set; }
+    [CliOption("--enable-secure-boot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSecureBoot { get; set; }
 
     /// <summary>
     /// Enable the Spot- Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-spot-restore")]
-    public bool? EnableSpotRestore { get; set; }
+    [CliOption("--enable-spot-restore", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSpotRestore { get; set; }
 
     /// <summary>
     /// Enable terminate notification. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-terminate-notification")]
-    public bool? EnableTerminateNotification { get; set; }
+    [CliOption("--enable-terminate-notification", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableTerminateNotification { get; set; }
 
     /// <summary>
     /// Enable vTPM. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-vtpm")]
-    public bool? EnableVtpm { get; set; }
+    [CliOption("--enable-vtpm", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableVtpm { get; set; }
 
     /// <summary>
     /// Specify the ephemeral disk settings for operating system disk.  Allowed values: Local.
     /// </summary>
-    [CliOption("--ephemeral-option", ShortForm = "--ephemeral-os-disk-option")]
+    [CliOption("--ephemeral-option")]
     public string? EphemeralOption { get; set; }
 
     /// <summary>
     /// Allow you to specify the ephemeral disk settings for the operating system disk. Specify it to false to set ephemeral disk setting as empty and migrate it to non ephemeral. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ephemeral-os-disk")]
-    public bool? EphemeralOsDisk { get; set; }
+    [CliOption("--ephemeral-os-disk", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EphemeralOsDisk { get; set; }
 
     /// <summary>
     /// Only applicable when used with `--vm-sku`. Allows you to choose the Ephemeral OS disk provisioning location.  Allowed values: CacheDisk, NvmeDisk, ResourceDisk.
     /// </summary>
-    [CliOption("--ephemeral-os-disk-placement", ShortForm = "--ephemeral-placement")]
+    [CliOption("--ephemeral-os-disk-placement")]
     public string? EphemeralOsDiskPlacement { get; set; }
 
     /// <summary>
     /// List of virtual machine extensions to exclude when applying the Security Posture. Either a Json string or a file path is acceptable. Please refer to htt ps://docs.microsoft .com/rest/api/compu te/virtualmachinesc alesets/get#virtual machineextension for the data format.
     /// </summary>
-    [CliOption("--exclude-extensions", ShortForm = "--security-posture-reference-exclude-extensions", GroupValues = true)]
-    public IEnumerable<string>? ExcludeExtensions { get; set; }
+    [CliOption("--exclude-extensions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ExcludeExtensions { get; set; }
 
     /// <summary>
     /// Specify a list of availability zones that must be excluded from placement when --zone-placement-policy is set to Auto. If not specified, no availability zones are excluded.
@@ -183,9 +184,15 @@ public record AzVmssUpdateOptions : AzOptions
     public IEnumerable<string>? ExcludeZones { get; set; }
 
     /// <summary>
+    /// This property allow you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in. WARNING: Argument '--force-deletion' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliFlag("--force-deletion")]
+    public bool? ForceDeletion { get; set; }
+
+    /// <summary>
     /// Specify the access control profile version resource id resource id of imds.
     /// </summary>
-    [CliOption("--imds-access-control-profile-reference-id", ShortForm = "--imds-profile-id")]
+    [CliOption("--imds-access-control-profile-reference-id")]
     public string? ImdsAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -203,14 +210,14 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Specify whether maximum percentage of virtual machine instances per zone policy should be enabled on the virtual machine scale set.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--instance-percent-policy", ShortForm = "--ipp")]
-    public bool? InstancePercentPolicy { get; set; }
+    [CliOption("--instance-percent-policy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InstancePercentPolicy { get; set; }
 
     /// <summary>
     /// Whether the security posture can be overridden by the user. Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-overridable", ShortForm = "--security-posture-reference-is-overridable")]
-    public bool? IsOverridable { get; set; }
+    [CliOption("--is-overridable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsOverridable { get; set; }
 
     /// <summary>
     /// Specifies that the Windows image or disk was licensed on-premises. To enable Azure Hybrid Benefit for Windows Server, use 'Windows_Server'. To enable Multi- tenant Hosting Rights for Windows 10, use 'Windows_Client'. For more information see the Azure Windows VM online docs. Allowed values: None, RHEL_BASE, RHEL_BASESAPAPPS, RHEL_BASESAPHA, RHEL_BYOS, RHEL_ELS_6, RHEL_EUS, RHEL_SAPAPPS, RHEL_SAPHA, SLES, SLES_BYOS, SLES_HPC, SLES_SAP, SLES_STANDARD, UBUNTU, UBUNTU_PRO, Windows_Client, Windows_Server.
@@ -221,32 +228,44 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. Default: 20%.
     /// </summary>
-    [CliFlag("--max-batch-instance-percent")]
-    public bool? MaxBatchInstancePercent { get; set; }
+    [CliOption("--max-batch-instance-percent")]
+    public int? MaxBatchInstancePercent { get; set; }
 
     /// <summary>
     /// Specify the maximum percentage of virtual machine instances that can be allocated to a single availability zone in the virtual machine scale set. Valid values are integers between 1 and 100.
     /// </summary>
-    [CliFlag("--max-instance-percent", ShortForm = "--value-max-instance-percent-per-zone")]
-    public bool? MaxInstancePercent { get; set; }
+    [CliOption("--max-instance-percent")]
+    public int? MaxInstancePercent { get; set; }
+
+    /// <summary>
+    /// The maximum price (in US Dollars) you are willing to pay for a Spot VM/VMSS. -1 indicates that the Spot VM/VMSS should not be evicted for price reasons. WARNING: Argument '--max-price' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--max-price")]
+    public string? MaxPrice { get; set; }
+
+    /// <summary>
+    /// Specify it to create new virtual machines to upgrade the scale set, rather than updating the existing virtual machines.  Allowed values: false, true. WARNING: Argument '--max-surge' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--max-surge", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MaxSurge { get; set; }
 
     /// <summary>
     /// The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy. Default: 20%.
     /// </summary>
-    [CliFlag("--max-unhealthy-instance-percent")]
-    public bool? MaxUnhealthyInstancePercent { get; set; }
+    [CliOption("--max-unhealthy-instance-percent")]
+    public int? MaxUnhealthyInstancePercent { get; set; }
 
     /// <summary>
     /// The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. Default: 20%.
     /// </summary>
-    [CliFlag("--max-unhealthy-upgraded-instance-percent")]
-    public bool? MaxUnhealthyUpgradedInstancePercent { get; set; }
+    [CliOption("--max-unhealthy-upgraded-instance-percent")]
+    public int? MaxUnhealthyUpgradedInstancePercent { get; set; }
 
     /// <summary>
     /// Specify the maximum number of availability zones to use for this scale set. This setting is only honored for scale sets that use automatic zone placement. If not specified, all available zones in the region may be used.
     /// </summary>
-    [CliFlag("--max-zone-count")]
-    public bool? MaxZoneCount { get; set; }
+    [CliOption("--max-zone-count")]
+    public int? MaxZoneCount { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -257,8 +276,8 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// The wait time between completing the update for all virtual machines in one batch and starting the next batch. Default: 0 seconds.
     /// </summary>
-    [CliFlag("--pause-time-between-batches")]
-    public bool? PauseTimeBetweenBatches { get; set; }
+    [CliOption("--pause-time-between-batches")]
+    public string? PauseTimeBetweenBatches { get; set; }
 
     /// <summary>
     /// The name or ID of the proximity placement group the VMSS should be associated with.
@@ -269,8 +288,8 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Set this Boolean property will lead to all unhealthy instances in a scale set getting upgraded before any healthy instances. Allowed values: false, true.
     /// </summary>
-    [CliOption("--prioritize-unhealthy-instances")]
-    public bool? PrioritizeUnhealthyInstances { get; set; }
+    [CliOption("--prioritize-unhealthy-instances", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PrioritizeUnhealthyInstances { get; set; }
 
     /// <summary>
     /// Priority. Use 'Spot' to run short-lived workloads in a cost-effective way. 'Low' enum will be deprecated in the future. Please use 'Spot' to deploy Azure spot VM and/or VMSS. Default to Regular. Allowed values: Low, Regular, Spot.
@@ -279,22 +298,40 @@ public record AzVmssUpdateOptions : AzOptions
     public string? Priority { get; set; }
 
     /// <summary>
+    /// Specify the mode that proxy agent will execute on if the feature is enabled.  Allowed values: Audit, Enforce. WARNING: Option '--proxy-agent-mode' has been deprecated and will be removed in a future release. Use '--wire-server-mode' instead.
+    /// </summary>
+    [CliOption("--proxy-agent-mode")]
+    public string? ProxyAgentMode { get; set; }
+
+    /// <summary>
+    /// The base number of regular priority VMs that will be created in this scale set as it scales out. Must be greater than 0. WARNING: Argument '--regular-priority-count' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--regular-priority-count")]
+    public int? RegularPriorityCount { get; set; }
+
+    /// <summary>
+    /// The percentage of VM instances, after the base regular priority count has been reached, that are expected to use regular priority. Must be between 0 and 100. WARNING: Argument '--regular-priority-percentage' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--regular-priority-percentage")]
+    public int? RegularPriorityPercentage { get; set; }
+
+    /// <summary>
     /// Specify the scale- in policy (space delimited) that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.  Allowed values: Default, NewestVM, OldestVM.
     /// </summary>
-    [CliOption("--scale-in-policy")]
-    public string? ScaleInPolicy { get; set; }
+    [CliOption("--scale-in-policy", GroupValues = true)]
+    public IEnumerable<string>? ScaleInPolicy { get; set; }
 
     /// <summary>
     /// Specifies the api- version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// The security posture reference id in the form of / CommunityGalleries/ {communityGalleryNa me}/securityPosture s/{securityPostureN ame}/versions/{majo r.minor.patch}|{maj or.*}|latest.
     /// </summary>
-    [CliFlag("--security-posture-id", ShortForm = "--security-posture-reference-id")]
-    public bool? SecurityPostureId { get; set; }
+    [CliOption("--security-posture-id")]
+    public string? SecurityPostureId { get; set; }
 
     /// <summary>
     /// Specify the security type of the virtual machine scale set.  Allowed values: ConfidentialVM, Standard, TrustedLaunch.
@@ -305,14 +342,14 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Allocation strategy for vm sizes in SKU profile.  Allowed values: CapacityOptimized, LowestPrice, Prioritized.
     /// </summary>
-    [CliOption("--sku-allocat-strat", ShortForm = "--skuprofile-allocation-strategy")]
+    [CliOption("--sku-allocat-strat")]
     public string? SkuAllocatStrat { get; set; }
 
     /// <summary>
     /// A list for ranks associated with the SKU profile vm sizes.
     /// </summary>
-    [CliFlag("--skuprofile-rank")]
-    public bool? SkuprofileRank { get; set; }
+    [CliOption("--skuprofile-rank", GroupValues = true)]
+    public IEnumerable<string>? SkuprofileRank { get; set; }
 
     /// <summary>
     /// A list of VM sizes in the scale set. See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info.
@@ -324,19 +361,19 @@ public record AzVmssUpdateOptions : AzOptions
     /// Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances.
     /// </summary>
     [CliOption("--spot-restore-timeout")]
-    public int? SpotRestoreTimeout { get; set; }
+    public string? SpotRestoreTimeout { get; set; }
 
     /// <summary>
     /// Length of time (in minutes, between 5 and 15) a notification to be sent to the VM on the instance metadata server till the VM gets deleted.
     /// </summary>
-    [CliFlag("--terminate-notification-time")]
-    public bool? TerminateNotificationTime { get; set; }
+    [CliOption("--terminate-notification-time")]
+    public string? TerminateNotificationTime { get; set; }
 
     /// <summary>
     /// Enables or disables the capability to have 1 or more managed data disks with UltraSSD_LRS storage account. Allowed values: false, true.
     /// </summary>
-    [CliOption("--ultra-ssd-enabled")]
-    public bool? UltraSsdEnabled { get; set; }
+    [CliOption("--ultra-ssd-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UltraSsdEnabled { get; set; }
 
     /// <summary>
     /// Specify the mode of an upgrade to virtual machines in the scale set. Allowed values: Automatic, Manual, Rolling.
@@ -347,25 +384,31 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// UserData for the virtual machines in the scale set. It can be passed in as file or string. If empty string is passed in, the existing value will be deleted.
     /// </summary>
-    [CliFlag("--user-data")]
-    public bool? UserData { get; set; }
+    [CliOption("--user-data")]
+    public string? UserData { get; set; }
 
     /// <summary>
     /// Specify the number of vCPUs available.
     /// </summary>
-    [CliFlag("--v-cpus-available")]
-    public bool? VCpusAvailable { get; set; }
+    [CliOption("--v-cpus-available")]
+    public int? VCpusAvailable { get; set; }
 
     /// <summary>
     /// Specify the ratio of vCPU to physical core. Setting this property to 1 also means that hyper- threading is disabled.
     /// </summary>
-    [CliFlag("--v-cpus-per-core")]
-    public bool? VCpusPerCore { get; set; }
+    [CliOption("--v-cpus-per-core")]
+    public int? VCpusPerCore { get; set; }
+
+    /// <summary>
+    /// The new size of the virtual machine instances in the scale set. Default to "Standard_D2s_v5". See https://azure.m icrosoft.com/pricin g/details/virtual- machines/ for size info. WARNING: Argument '--vm-sku' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--vm-sku")]
+    public string? VmSku { get; set; }
 
     /// <summary>
     /// Specify the access control profile version resource id of wire server.
     /// </summary>
-    [CliOption("--wire-server-access-control-profile-reference-id", ShortForm = "--wire-server-profile-id")]
+    [CliOption("--wire-server-access-control-profile-reference-id")]
     public string? WireServerAccessControlProfileReferenceId { get; set; }
 
     /// <summary>
@@ -377,8 +420,8 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-balance")]
-    public bool? ZoneBalance { get; set; }
+    [CliOption("--zone-balance", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneBalance { get; set; }
 
     /// <summary>
     /// Specify the policy for availability zone placement of the virtual machine scale set. When set to Auto, the platform automatically selects the availability zones. Allowed values: Auto.
@@ -401,14 +444,14 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// The amount of time (in minutes, between 30 and 90) for which automatic repairs are suspended due to a state change on VM.
     /// </summary>
-    [CliFlag("--automatic-repairs-grace-period")]
-    public bool? AutomaticRepairsGracePeriod { get; set; }
+    [CliOption("--automatic-repairs-grace-period")]
+    public string? AutomaticRepairsGracePeriod { get; set; }
 
     /// <summary>
     /// Enable automatic repairs.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-automatic-repairs")]
-    public bool? EnableAutomaticRepairs { get; set; }
+    [CliOption("--enable-automatic-repairs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutomaticRepairs { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.lis tProperty &lt;key=value, string or JSON string&gt;`.
@@ -437,14 +480,14 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Protect the VM instance from scale-in operations. Allowed values: false, true.
     /// </summary>
-    [CliOption("--protect-from-scale-in")]
-    public bool? ProtectFromScaleIn { get; set; }
+    [CliOption("--protect-from-scale-in", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ProtectFromScaleIn { get; set; }
 
     /// <summary>
     /// Protect the VM instance from scale set actions (including scale- in).  Allowed values: false, true.
     /// </summary>
-    [CliOption("--protect-from-scale-set-actions")]
-    public bool? ProtectFromScaleSetActions { get; set; }
+    [CliOption("--protect-from-scale-set-actions", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ProtectFromScaleSetActions { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -455,19 +498,25 @@ public record AzVmssUpdateOptions : AzOptions
     /// <summary>
     /// Update the VM instance with this ID. If missing, update the VMSS.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Specify the disk controller type configured for the VM or VMSS. Allowed values: NVMe, SCSI. WARNING: Argument '--disk-controller-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--disk-controller-type")]
+    public string? DiskControllerType { get; set; }
 
 }

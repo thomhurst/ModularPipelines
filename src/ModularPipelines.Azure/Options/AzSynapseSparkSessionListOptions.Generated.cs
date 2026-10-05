@@ -57,13 +57,13 @@ public record AzSynapseSparkSessionListOptions : AzOptions
     /// <summary>
     /// Optional parameter specifying which index the list should begin from.
     /// </summary>
-    [CliFlag("--from-index")]
-    public bool? FromIndex { get; set; }
+    [CliOption("--from-index")]
+    public string? FromIndex { get; set; }
 
     /// <summary>
     /// The size of the returned list.By default it is 20 and that is the maximum.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
 }

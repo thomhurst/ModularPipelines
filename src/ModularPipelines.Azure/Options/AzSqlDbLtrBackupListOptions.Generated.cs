@@ -52,14 +52,14 @@ public record AzSqlDbLtrBackupListOptions : AzOptions
     /// <summary>
     /// 'All', 'Live', or 'Deleted'. Will fetch backups only from databases of specified state. If no state provied, defaults to 'All'.
     /// </summary>
-    [CliFlag("--database-state", ShortForm = "--state")]
-    public bool? DatabaseState { get; set; }
+    [CliOption("--database-state")]
+    public string? DatabaseState { get; set; }
 
     /// <summary>
     /// If true, will only return the latest backup for each database.
     /// </summary>
-    [CliFlag("--latest", ShortForm = "--only-latest-per-database")]
-    public bool? Latest { get; set; }
+    [CliOption("--latest")]
+    public string? Latest { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

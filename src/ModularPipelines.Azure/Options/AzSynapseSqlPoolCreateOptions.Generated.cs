@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,8 +80,8 @@ public record AzSynapseSqlPoolCreateOptions : AzOptions
     /// <summary>
     /// Collation defines the rules that sort and compare data, and cannot be changed after SQL pool creation. The default collation is "SQL_Latin1_General_CP1_CI_AS".
     /// </summary>
-    [CliFlag("--collation")]
-    public bool? Collation { get; set; }
+    [CliOption("--collation")]
+    public string? Collation { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -91,8 +92,8 @@ public record AzSynapseSqlPoolCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The Storage Account Type.  Allowed values: GRS, LRS.

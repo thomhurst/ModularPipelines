@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// <summary>
     /// The enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -41,8 +42,8 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -59,50 +60,50 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// <summary>
     /// The numer of instances to use. If used with --min/max- count, the default number of instances to use.
     /// </summary>
-    [CliFlag("--count")]
-    public bool? Count { get; set; }
+    [CliOption("--count")]
+    public string? Count { get; set; }
 
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public string? MaxCount { get; set; }
 
     /// <summary>
     /// The minimum number of instances.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public string? MinCount { get; set; }
 
     /// <summary>
     /// Add an action to fire when a scaling event occurs. Usage:   --add-action TYPE KEY [ARG ...] Email:   --add-action email bob@contoso.com ann@contoso.com Webhook: --add-action webhook https://www.contoso.com/alert apiKey=value Webhook: --add-action webhook https://www.contoso.com/alert?apiKey=value Multiple actions can be specified by using more than one `--add-action` argument. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--add-action", ShortForm = "-a")]
-    public string? AddAction { get; set; }
+    [CliOption("--add-action", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string>? AddAction { get; set; }
 
     /// <summary>
     /// Send email to subscription administrator on scaling. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--email-administrator")]
-    public bool? EmailAdministrator { get; set; }
+    [CliOption("--email-administrator", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EmailAdministrator { get; set; }
 
     /// <summary>
     /// Send email to subscription co-administrators on scaling. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--email-coadministrators")]
-    public bool? EmailCoadministrators { get; set; }
+    [CliOption("--email-coadministrators", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EmailCoadministrators { get; set; }
 
     /// <summary>
     /// Remove one or more actions. Usage:   --remove-action TYPE KEY [KEY ...] Email:   --remove-action email bob@contoso.com ann@contoso.com Webhook: --remove-action webhook https://contoso.com/alert https://alerts.contoso.com. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--remove-action", ShortForm = "-r")]
-    public bool? RemoveAction { get; set; }
+    [CliOption("--remove-action", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string>? RemoveAction { get; set; }
 
     /// <summary>
     /// The amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format (for example, 100 days would be P100D).
     /// </summary>
-    [CliFlag("--scale-look-ahead-time")]
-    public bool? ScaleLookAheadTime { get; set; }
+    [CliOption("--scale-look-ahead-time")]
+    public string? ScaleLookAheadTime { get; set; }
 
     /// <summary>
     /// The predictive autoscale mode.  Allowed values: Disabled, Enabled, ForecastOnly.
@@ -113,8 +114,8 @@ public record AzMonitorAutoscaleUpdateOptions : AzOptions
     /// <summary>
     /// The autoscale setting name.
     /// </summary>
-    [CliFlag("--autoscale-name", ShortForm = "-n")]
-    public bool? AutoscaleName { get; set; }
+    [CliOption("--autoscale-name", ShortForm = "-n")]
+    public string? AutoscaleName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

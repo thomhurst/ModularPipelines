@@ -46,8 +46,8 @@ public record AzNetworkExpressRoutePortGenerateLoaOptions : AzOptions
     /// <summary>
     /// Directory or the file path of the letter to be saved to. If the file name extension is not .pdf, Azure CLI will help to append. Be careful, the existing file might get overwritten.  Default: loa.pdf.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -58,8 +58,8 @@ public record AzNetworkExpressRoutePortGenerateLoaOptions : AzOptions
     /// <summary>
     /// ExpressRoute port name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

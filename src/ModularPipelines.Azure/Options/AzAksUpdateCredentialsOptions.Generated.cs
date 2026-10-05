@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -63,8 +64,9 @@ public record AzAksUpdateCredentialsOptions : AzOptions
     /// <summary>
     /// Secret associated with the service principal. This argument is required if `--service-principal` is specified.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// Reset service principal for a managed cluster.
@@ -75,7 +77,7 @@ public record AzAksUpdateCredentialsOptions : AzOptions
     /// <summary>
     /// Service principal used for authentication to Azure APIs. This argument is required if `--reset-service-principal` is specified.
     /// </summary>
-    [CliFlag("--service-principal")]
-    public bool? ServicePrincipal { get; set; }
+    [CliOption("--service-principal")]
+    public string? ServicePrincipal { get; set; }
 
 }

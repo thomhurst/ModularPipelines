@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,19 +24,19 @@ public record AzFunctionappListFlexconsumptionLocationsOptions : AzOptions
     /// <summary>
     /// Limit the output to just the specified runtime.
     /// </summary>
-    [CliFlag("--runtime")]
-    public bool? Runtime { get; set; }
+    [CliOption("--runtime")]
+    public string? Runtime { get; set; }
 
     /// <summary>
     /// Include the runtime details of the regions.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--show-details")]
-    public bool? ShowDetails { get; set; }
+    [CliOption("--show-details", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ShowDetails { get; set; }
 
     /// <summary>
     /// Filter the list to return only locations which support zone redundancy. Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
 }

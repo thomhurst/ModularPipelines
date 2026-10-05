@@ -57,8 +57,8 @@ public record AzNetappfilesCheckFilePathAvailabilityOptions : AzOptions
     /// <summary>
     /// The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed.
     /// </summary>
-    [CliFlag("--availability-zone")]
-    public bool? AvailabilityZone { get; set; }
+    [CliOption("--availability-zone")]
+    public string? AvailabilityZone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -46,14 +46,14 @@ public record AzVmssUpdateDomainWalkOptions : AzOptions
     /// <summary>
     /// The placement group id for which the manual recovery walk is requested.
     /// </summary>
-    [CliFlag("--placement-group-id")]
-    public bool? PlacementGroupId { get; set; }
+    [CliOption("--placement-group-id")]
+    public string? PlacementGroupId { get; set; }
 
     /// <summary>
     /// The zone in which the manual recovery walk is requested for cross zone virtual machine scale set.
     /// </summary>
-    [CliFlag("--zone")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,7 +24,7 @@ public record AzGroupListOptions : AzOptions
     /// <summary>
     /// A single tag in 'key[=value]' format. Use '' to clear existing tags.
     /// </summary>
-    [CliFlag("--tag")]
-    public bool? Tag { get; set; }
+    [CliOption("--tag", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Tag { get; set; }
 
 }

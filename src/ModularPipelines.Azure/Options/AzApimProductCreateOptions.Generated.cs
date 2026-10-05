@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,20 +69,20 @@ public record AzApimProductCreateOptions : AzOptions
     /// <summary>
     /// Whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product’s APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can use any of the product’s APIs. Can be present only if subscriptionRequired property is present and has a value of false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--approval-required")]
-    public bool? ApprovalRequired { get; set; }
+    [CliOption("--approval-required", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ApprovalRequired { get; set; }
 
     /// <summary>
     /// Product description. May include HTML formatting tags.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process.
     /// </summary>
-    [CliFlag("--legal-terms")]
-    public bool? LegalTerms { get; set; }
+    [CliOption("--legal-terms")]
+    public string? LegalTerms { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -92,8 +93,8 @@ public record AzApimProductCreateOptions : AzOptions
     /// <summary>
     /// Product identifier. Must be unique in the current API Management service instance.
     /// </summary>
-    [CliFlag("--product-id")]
-    public bool? ProductId { get; set; }
+    [CliOption("--product-id")]
+    public string? ProductId { get; set; }
 
     /// <summary>
     /// Whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished.  Allowed values: notPublished, published.
@@ -104,13 +105,13 @@ public record AzApimProductCreateOptions : AzOptions
     /// <summary>
     /// Whether a product subscription is required for accessing APIs included in this product.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--subscription-required", ShortForm = "-s")]
-    public bool? SubscriptionRequired { get; set; }
+    [CliOption("--subscription-required", ShortForm = "-s", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SubscriptionRequired { get; set; }
 
     /// <summary>
     /// Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false.
     /// </summary>
-    [CliFlag("--subscriptions-limit")]
-    public bool? SubscriptionsLimit { get; set; }
+    [CliOption("--subscriptions-limit")]
+    public string? SubscriptionsLimit { get; set; }
 
 }

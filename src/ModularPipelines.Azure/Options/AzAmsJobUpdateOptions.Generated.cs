@@ -23,8 +23,8 @@ public record AzAmsJobUpdateOptions : AzOptions
     /// <summary>
     /// The job description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The priority with which the job should be processed.  Allowed values: High, Low, Normal.

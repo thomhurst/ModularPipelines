@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -63,8 +64,8 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).
     /// </summary>
-    [CliFlag("--destination-lease-id")]
-    public bool? DestinationLeaseId { get; set; }
+    [CliOption("--destination-lease-id")]
+    public string? DestinationLeaseId { get; set; }
 
     /// <summary>
     /// Metadata in space-separated key=value pairs. This overwrites any existing metadata.
@@ -75,50 +76,50 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds. Applies to each call to the service.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public int? Timeout { get; set; }
 
     /// <summary>
     /// The storage account key of the source blob.
     /// </summary>
-    [CliFlag("--source-account-key")]
-    public bool? SourceAccountKey { get; set; }
+    [CliOption("--source-account-key")]
+    public string? SourceAccountKey { get; set; }
 
     /// <summary>
     /// The storage account name of the source blob.
     /// </summary>
-    [CliFlag("--source-account-name")]
-    public bool? SourceAccountName { get; set; }
+    [CliOption("--source-account-name")]
+    public string? SourceAccountName { get; set; }
 
     /// <summary>
     /// The blob name for the source storage account.
     /// </summary>
-    [CliFlag("--source-blob")]
-    public bool? SourceBlob { get; set; }
+    [CliOption("--source-blob")]
+    public string? SourceBlob { get; set; }
 
     /// <summary>
     /// The container name for the source storage account.
     /// </summary>
-    [CliFlag("--source-container")]
-    public bool? SourceContainer { get; set; }
+    [CliOption("--source-container")]
+    public string? SourceContainer { get; set; }
 
     /// <summary>
     /// Specify this to perform the Copy Blob operation only if the lease ID given matches the active lease ID of the source blob.
     /// </summary>
-    [CliFlag("--source-lease-id")]
-    public bool? SourceLeaseId { get; set; }
+    [CliOption("--source-lease-id")]
+    public string? SourceLeaseId { get; set; }
 
     /// <summary>
     /// The shared access signature for the source storage account.
     /// </summary>
-    [CliFlag("--source-sas")]
-    public bool? SourceSas { get; set; }
+    [CliOption("--source-sas")]
+    public string? SourceSas { get; set; }
 
     /// <summary>
     /// The blob snapshot for the source storage account.
     /// </summary>
-    [CliFlag("--source-snapshot")]
-    public bool? SourceSnapshot { get; set; }
+    [CliOption("--source-snapshot")]
+    public string? SourceSnapshot { get; set; }
 
     /// <summary>
     /// A URL of up to 2 KB in length that specifies an Azure page blob. The value should be URL-encoded as it would appear in a request URI. The copy source must be a snapshot and include a valid SAS token or be public. Example: `https://myaccount.blob.core.windows.net/mycont ainer/myblob?snapshot=&lt;DateTime&gt;&amp;sastoken`.
@@ -129,31 +130,32 @@ public record AzStorageBlobIncrementalCopyStartOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

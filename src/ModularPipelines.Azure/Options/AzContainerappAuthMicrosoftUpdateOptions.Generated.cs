@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,56 +24,59 @@ public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
     /// <summary>
     /// The configuration settings of the allowed list of audiences from which to validate the JWT token.
     /// </summary>
-    [CliOption("--allowed-audiences", ShortForm = "--allowed-token-audiences", GroupValues = true)]
-    public IEnumerable<string>? AllowedAudiences { get; set; }
+    [CliOption("--allowed-audiences")]
+    public string? AllowedAudiences { get; set; }
 
     /// <summary>
     /// Alternative to AAD Client Secret and thumbprint, issuer of a certificate used for signing purposes.
     /// </summary>
-    [CliFlag("--certificate-issuer", ShortForm = "--client-secret-certificate-issuer")]
-    public bool? CertificateIssuer { get; set; }
+    [CliOption("--certificate-issuer")]
+    public string? CertificateIssuer { get; set; }
 
     /// <summary>
     /// The Client ID of the app used for login.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// The client secret.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// Alternative to AAD Client Secret and thumbprint, subject alternative name of a certificate used for signing purposes.
     /// </summary>
-    [CliFlag("--client-secret-certificate-san", ShortForm = "--san")]
-    public bool? ClientSecretCertificateSan { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret-certificate-san")]
+    public string? ClientSecretCertificateSan { get; set; }
 
     /// <summary>
     /// Alternative to AAD Client Secret, thumbprint of a certificate used for signing purposes.
     /// </summary>
-    [CliFlag("--client-secret-certificate-thumbprint", ShortForm = "--thumbprint")]
-    public bool? ClientSecretCertificateThumbprint { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret-certificate-thumbprint")]
+    public string? ClientSecretCertificateThumbprint { get; set; }
 
     /// <summary>
     /// The app secret name that contains the client secret of the relying party application.
     /// </summary>
-    [CliFlag("--client-secret-name")]
-    public bool? ClientSecretName { get; set; }
+    [CliOption("--client-secret-name")]
+    public string? ClientSecretName { get; set; }
 
     /// <summary>
     /// The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
     /// </summary>
-    [CliFlag("--issuer")]
-    public bool? Issuer { get; set; }
+    [CliOption("--issuer")]
+    public string? Issuer { get; set; }
 
     /// <summary>
     /// The tenant id of the application.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -83,7 +87,7 @@ public record AzContainerappAuthMicrosoftUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

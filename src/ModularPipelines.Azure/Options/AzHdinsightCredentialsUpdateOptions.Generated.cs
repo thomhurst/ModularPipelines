@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -69,25 +70,26 @@ public record AzHdinsightCredentialsUpdateOptions : AzOptions
     /// <summary>
     /// One or more Entra user identities (object ID or user principal name) to associate with the cluster. Multiple values can be separated by spaces or commas.
     /// </summary>
-    [CliOption("--entra-uid", ShortForm = "--entra-user-identity", GroupValues = true)]
+    [CliOption("--entra-uid", GroupValues = true)]
     public IEnumerable<string>? EntraUid { get; set; }
 
     /// <summary>
     /// The Entra user information to associate with the cluster. This can be provided as a JSON string or from a file using the `@{path}` syntax. Each entry should include "objectId", "upn", and "displayName" fields. Please see: `https://github.com/Azure/azure-cli/blob/dev/src/azure-cl i/azure/cli/command_modules/hdinsight/tests/latest/entrau serconfig.json`.
     /// </summary>
-    [CliFlag("--entra-uinfo", ShortForm = "--entra-user-full-info")]
-    public bool? EntraUinfo { get; set; }
+    [CliOption("--entra-uinfo")]
+    public string? EntraUinfo { get; set; }
 
     /// <summary>
     /// HTTP password for the cluster. Will prompt if not given.
     /// </summary>
-    [CliFlag("--http-password", ShortForm = "-p")]
-    public bool? HttpPassword { get; set; }
+    [SecretValue]
+    [CliOption("--http-password", ShortForm = "-p")]
+    public string? HttpPassword { get; set; }
 
     /// <summary>
     /// HTTP username for the cluster.  Default: admin.
     /// </summary>
-    [CliFlag("--http-user", ShortForm = "-u")]
-    public bool? HttpUser { get; set; }
+    [CliOption("--http-user", ShortForm = "-u")]
+    public string? HttpUser { get; set; }
 
 }

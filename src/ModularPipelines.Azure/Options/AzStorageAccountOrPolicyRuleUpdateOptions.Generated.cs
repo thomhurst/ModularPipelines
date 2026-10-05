@@ -68,8 +68,8 @@ public record AzStorageAccountOrPolicyRuleUpdateOptions : AzOptions
     /// <summary>
     /// The destination storage container name.
     /// </summary>
-    [CliFlag("--destination-container", ShortForm = "-d")]
-    public bool? DestinationContainer { get; set; }
+    [CliOption("--destination-container", ShortForm = "-d")]
+    public string? DestinationContainer { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -86,13 +86,13 @@ public record AzStorageAccountOrPolicyRuleUpdateOptions : AzOptions
     /// <summary>
     /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
     /// </summary>
-    [CliFlag("--min-creation-time", ShortForm = "-t")]
-    public bool? MinCreationTime { get; set; }
+    [CliOption("--min-creation-time", ShortForm = "-t")]
+    public string? MinCreationTime { get; set; }
 
     /// <summary>
     /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
     /// </summary>
-    [CliFlag("--prefix", ShortForm = "--prefix-match")]
-    public bool? Prefix { get; set; }
+    [CliOption("--prefix", GroupValues = true)]
+    public IEnumerable<string>? Prefix { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -79,7 +80,7 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// The key vault key url to enable Customer Managed Keys encryption.
     /// </summary>
-    [CliOption("--cmk", ShortForm = "--cmk-key-vault-key-url")]
+    [CliOption("--cmk")]
     public string? Cmk { get; set; }
 
     /// <summary>
@@ -97,14 +98,14 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Microsoft App Tenant Id for the bot.
     /// </summary>
-    [CliFlag("--tenant-id")]
-    public bool? TenantId { get; set; }
+    [CliOption("--tenant-id")]
+    public string? TenantId { get; set; }
 
     /// <summary>
     /// The description of the bot.
@@ -115,14 +116,14 @@ public record AzBotCreateOptions : AzOptions
     /// <summary>
     /// The display name of the bot. If not specified, defaults to the name of the bot.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The messaging endpoint of the bot.
     /// </summary>
-    [CliFlag("--endpoint", ShortForm = "-e")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint", ShortForm = "-e")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// The Sku of the bot.  Allowed values: F0, S1.  Default: F0.

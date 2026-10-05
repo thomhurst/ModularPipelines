@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,14 +26,25 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions : AzOptions
     /// </summary>
     /// <param name="ActionGroup">The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.</param>
     public AzMonitorActivityLogAlertActionGroupAddOptions(
-        string ActionGroup
+        IEnumerable<string> ActionGroup
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ActionGroup);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(ActionGroup);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(ActionGroup));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(ActionGroup));
+            }
+
+            ActionGroup = materialized;
+        }
         this.ActionGroup = ActionGroup;
     }
 
-    public void Deconstruct(out string ActionGroup)
+    public void Deconstruct(out IEnumerable<string> ActionGroup)
     {
         ActionGroup = this.ActionGroup;
     }
@@ -40,20 +52,20 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions : AzOptions
     /// <summary>
     /// The names or the resource ids of the action groups to be added.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--action-group", ShortForm = "-a")]
-    public string ActionGroup { get; private init; }
+    [CliOption("--action-group", ShortForm = "-a", GroupValues = true)]
+    public IEnumerable<string> ActionGroup { get; private init; }
 
     /// <summary>
     /// Remove all the existing action groups before add new conditions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--reset")]
-    public bool? Reset { get; set; }
+    [CliOption("--reset", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Reset { get; set; }
 
     /// <summary>
     /// Fails the command if an action group to be added will change existing webhook properties.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--strict")]
-    public bool? Strict { get; set; }
+    [CliOption("--strict", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Strict { get; set; }
 
     /// <summary>
     /// Space-separated webhook properties in 'key[=value]' format. These properties are associated with the action groups added in this command. For any webhook receiver in these action group, these data are appended to the webhook payload. To attach different webhook properties to different action groups, add the action groups in separate update-action commands. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -70,8 +82,8 @@ public record AzMonitorActivityLogAlertActionGroupAddOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

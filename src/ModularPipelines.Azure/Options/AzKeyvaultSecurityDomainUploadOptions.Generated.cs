@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -54,8 +55,8 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
     [SecretValue]
-    [CliOption("--passwords", GroupValues = true)]
-    public IEnumerable<string>? Passwords { get; set; }
+    [CliOption("--passwords", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Passwords { get; set; }
 
     /// <summary>
     /// Indicator if blob is already restored.
@@ -66,14 +67,14 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// <summary>
     /// The exchange key for security domain.
     /// </summary>
-    [CliFlag("--sd-exchange-key")]
-    public bool? SdExchangeKey { get; set; }
+    [CliOption("--sd-exchange-key")]
+    public string? SdExchangeKey { get; set; }
 
     /// <summary>
     /// Space-separated file paths to PEM files containing private keys.
     /// </summary>
-    [CliOption("--sd-wrapping-keys", GroupValues = true)]
-    public IEnumerable<string>? SdWrappingKeys { get; set; }
+    [CliOption("--sd-wrapping-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SdWrappingKeys { get; set; }
 
     /// <summary>
     /// Name of the HSM. Can be omitted if --id is specified.
@@ -84,7 +85,7 @@ public record AzKeyvaultSecurityDomainUploadOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

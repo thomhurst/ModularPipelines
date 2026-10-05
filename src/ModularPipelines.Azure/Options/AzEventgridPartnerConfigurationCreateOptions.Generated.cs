@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,19 +47,19 @@ public record AzEventgridPartnerConfigurationCreateOptions : AzOptions
     /// <summary>
     /// Add authorized partner information. Multiple authorized partners can be specified by using more than one `--authorized-partner` argument. Add authorized partner information. Multiple authorized partners can be specified by using more than one `--authorized-partner` argument. `partner-name` represents the verified partner resource name corresponding to the partner if it is a verified publisher. `partner- registration-immutable-id` represents the immutable id of the publisher registration ARM resource. `partner-name` and `partner-registration-immutable-id` are optional parameters but at least one parameter should be specified when authorizing a partner. When both are present, they both should correspond to the same verified parner information.
     /// </summary>
-    [CliFlag("--authorized-partner")]
-    public bool? AuthorizedPartner { get; set; }
+    [CliOption("--authorized-partner", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? AuthorizedPartner { get; set; }
 
     /// <summary>
     /// Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days.
     /// </summary>
-    [CliOption("--default-maximum-expiration-time-in-days", ShortForm = "--max-exp-days")]
+    [CliOption("--default-maximum-expiration-time-in-days")]
     public string? DefaultMaximumExpirationTimeInDays { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

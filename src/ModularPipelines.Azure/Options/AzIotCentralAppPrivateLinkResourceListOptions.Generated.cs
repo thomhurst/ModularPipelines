@@ -29,8 +29,8 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     /// <summary>
     /// IoT Central application name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. If provided, --name and --type must be provided too.
@@ -41,7 +41,7 @@ public record AzIotCentralAppPrivateLinkResourceListOptions : AzOptions
     /// <summary>
     /// Type of the resource. If provided, --name and --resource-group must be provided too.
     /// </summary>
-    [CliFlag("--type")]
-    public bool? Type { get; set; }
+    [CliOption("--type")]
+    public string? Type { get; set; }
 
 }

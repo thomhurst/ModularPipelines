@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -59,8 +60,8 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,13 +90,13 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     /// <summary>
     /// The number of days for the retention in days. A value of 0 will retain the events indefinitely.
     /// </summary>
-    [CliFlag("--days")]
-    public bool? Days { get; set; }
+    [CliOption("--days")]
+    public string? Days { get; set; }
 
     /// <summary>
     /// Whether the retention policy is enabled.  Allowed values: false, true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
 }

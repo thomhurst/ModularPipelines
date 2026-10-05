@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -32,7 +33,7 @@ public record AzNetworkLbInboundNatRuleCreateOptions : AzOptions
         string LbName,
         string Name,
         string ResourceGroup,
-        int BackendPort,
+        string BackendPort,
         string Protocol
     )
     {
@@ -42,12 +43,13 @@ public record AzNetworkLbInboundNatRuleCreateOptions : AzOptions
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(BackendPort);
         this.BackendPort = BackendPort;
         global::System.ArgumentNullException.ThrowIfNull(Protocol);
         this.Protocol = Protocol;
     }
 
-    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out int BackendPort, out string Protocol)
+    public void Deconstruct(out string LbName, out string Name, out string ResourceGroup, out string BackendPort, out string Protocol)
     {
         LbName = this.LbName;
         Name = this.Name;
@@ -78,7 +80,7 @@ public record AzNetworkLbInboundNatRuleCreateOptions : AzOptions
     /// The port used for the internal endpoint. Acceptable values range from 1 to 65535.
     /// </summary>
     [CliOption("--backend-port")]
-    public int BackendPort { get; private init; }
+    public string BackendPort { get; private init; }
 
     /// <summary>
     /// The reference to the transport protocol used by the load balancing rule.  Allowed values: All, Tcp, Udp.
@@ -89,55 +91,55 @@ public record AzNetworkLbInboundNatRuleCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The name or ID of the backend address pool.
     /// </summary>
-    [CliOption("--backend-address-pool", ShortForm = "--backend-pool-name")]
+    [CliOption("--backend-address-pool")]
     public string? BackendAddressPool { get; set; }
 
     /// <summary>
     /// Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-floating-ip", ShortForm = "--floating-ip")]
-    public bool? EnableFloatingIp { get; set; }
+    [CliOption("--enable-floating-ip", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFloatingIp { get; set; }
 
     /// <summary>
     /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-tcp-reset")]
-    public bool? EnableTcpReset { get; set; }
+    [CliOption("--enable-tcp-reset", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableTcpReset { get; set; }
 
     /// <summary>
     /// The name of ID of the frontend IP configuration.
     /// </summary>
-    [CliOption("--frontend-ip", ShortForm = "--frontend-ip-name")]
+    [CliOption("--frontend-ip")]
     public string? FrontendIp { get; set; }
 
     /// <summary>
     /// The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.
     /// </summary>
-    [CliFlag("--frontend-port")]
-    public bool? FrontendPort { get; set; }
+    [CliOption("--frontend-port")]
+    public string? FrontendPort { get; set; }
 
     /// <summary>
     /// The port range end for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeStart. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
     /// </summary>
-    [CliFlag("--frontend-port-range-end")]
-    public bool? FrontendPortRangeEnd { get; set; }
+    [CliOption("--frontend-port-range-end")]
+    public string? FrontendPortRangeEnd { get; set; }
 
     /// <summary>
     /// The port range start for the external endpoint. This property is used together with BackendAddressPool and FrontendPortRangeEnd. Individual inbound NAT rule port mappings will be created for each backend address from BackendAddressPool. Acceptable values range from 1 to 65534.
     /// </summary>
-    [CliFlag("--frontend-port-range-start")]
-    public bool? FrontendPortRangeStart { get; set; }
+    [CliOption("--frontend-port-range-start")]
+    public string? FrontendPortRangeStart { get; set; }
 
     /// <summary>
     /// The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public int? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
 }

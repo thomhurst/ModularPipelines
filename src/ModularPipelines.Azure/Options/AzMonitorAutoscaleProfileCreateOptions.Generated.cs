@@ -32,7 +32,7 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
         string AutoscaleName,
         string Name,
         string ResourceGroup,
-        string Count,
+        int Count,
         string Timezone
     )
     {
@@ -42,13 +42,12 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        global::System.ArgumentNullException.ThrowIfNull(Count);
         this.Count = Count;
         global::System.ArgumentNullException.ThrowIfNull(Timezone);
         this.Timezone = Timezone;
     }
 
-    public void Deconstruct(out string AutoscaleName, out string Name, out string ResourceGroup, out string Count, out string Timezone)
+    public void Deconstruct(out string AutoscaleName, out string Name, out string ResourceGroup, out int Count, out string Timezone)
     {
         AutoscaleName = this.AutoscaleName;
         Name = this.Name;
@@ -79,7 +78,7 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     /// The numer of instances to use. If used with --min/max-count, the default number of instances to use.
     /// </summary>
     [CliOption("--count")]
-    public string Count { get; private init; }
+    public int Count { get; private init; }
 
     /// <summary>
     /// Timezone name.  Values from: az monitor autoscale profile list- timezones.
@@ -96,31 +95,31 @@ public record AzMonitorAutoscaleProfileCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--max-count")]
-    public bool? MaxCount { get; set; }
+    [CliOption("--max-count")]
+    public int? MaxCount { get; set; }
 
     /// <summary>
     /// The minimum number of instances.
     /// </summary>
-    [CliFlag("--min-count")]
-    public bool? MinCount { get; set; }
+    [CliOption("--min-count")]
+    public int? MinCount { get; set; }
 
     /// <summary>
     /// When the autoscale profile ends. Format depends on the type of profile. Fixed:  --end yyyy-mm-dd [hh:mm:ss] Weekly: [--end hh:mm].
     /// </summary>
-    [CliFlag("--end")]
-    public bool? End { get; set; }
+    [CliOption("--end", GroupValues = true)]
+    public IEnumerable<string>? End { get; set; }
 
     /// <summary>
     /// When the profile recurs. If omitted, a fixed (non-recurring) profile is created. Usage:     --recurrence {week} [ARG ARG ...] Weekly:    --recurrence week Sat Sun.
     /// </summary>
-    [CliFlag("--recurrence", ShortForm = "-r")]
-    public bool? Recurrence { get; set; }
+    [CliOption("--recurrence", ShortForm = "-r", GroupValues = true)]
+    public IEnumerable<string>? Recurrence { get; set; }
 
     /// <summary>
     /// When the autoscale profile begins. Format depends on the type of profile. Fixed:  --start yyyy-mm-dd [hh:mm:ss] Weekly: [--start hh:mm].
     /// </summary>
-    [CliFlag("--start")]
-    public bool? Start { get; set; }
+    [CliOption("--start", GroupValues = true)]
+    public IEnumerable<string>? Start { get; set; }
 
 }

@@ -46,8 +46,8 @@ public record AzServicebusNamespaceAuthorizationRuleKeysRenewOptions : AzOptions
     /// <summary>
     /// Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType.
     /// </summary>
-    [CliFlag("--key-value")]
-    public bool? KeyValue { get; set; }
+    [CliOption("--key-value")]
+    public string? KeyValue { get; set; }
 
     /// <summary>
     /// The authorization rule name.

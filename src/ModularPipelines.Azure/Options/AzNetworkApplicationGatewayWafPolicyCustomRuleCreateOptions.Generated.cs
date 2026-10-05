@@ -125,7 +125,7 @@ public record AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions : AzOp
     /// <summary>
     /// Rate Limit threshold to apply in case ruleType is RateLimitRule. Must be greater than or equal to 1.
     /// </summary>
-    [CliFlag("--rate-limit-threshold")]
-    public bool? RateLimitThreshold { get; set; }
+    [CliOption("--rate-limit-threshold")]
+    public string? RateLimitThreshold { get; set; }
 
 }

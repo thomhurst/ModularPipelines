@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Alternate name specified when alias and namespace names are same.
     /// </summary>
-    [CliFlag("--alternate-name")]
-    public bool? AlternateName { get; set; }
+    [CliOption("--alternate-name")]
+    public string? AlternateName { get; set; }
 
     /// <summary>
     /// Number of message units. This property is only applicable to namespaces of Premium SKU. Allowed values: 1, 16, 2, 4, 8.
@@ -69,26 +70,26 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// A boolean value that indicates whether SAS authentication is enabled/disabled for the Service Bus.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// List of KeyVaultProperties objects.
     /// </summary>
     [CliOption("--encryption-config", GroupValues = true)]
-    public IEnumerable<string>? EncryptionConfig { get; set; }
+    public IEnumerable<CliValueGroup>? EncryptionConfig { get; set; }
 
     /// <summary>
     /// A list of regions where replicas of the namespace are maintained Object.
     /// </summary>
-    [CliOption("--geo-data-replication-config", ShortForm = "--replica-config", GroupValues = true)]
-    public IEnumerable<string>? GeoDataReplicationConfig { get; set; }
+    [CliOption("--geo-data-replication-config", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? GeoDataReplicationConfig { get; set; }
 
     /// <summary>
     /// A boolean value that indicates whether Infrastructure Encryption (Double Encryption). Allowed values: false, true.
     /// </summary>
-    [CliOption("--infra-encryption")]
-    public bool? InfraEncryption { get; set; }
+    [CliOption("--infra-encryption", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InfraEncryption { get; set; }
 
     /// <summary>
     /// The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dualstack).  Allowed values: DualStack, IPv4.
@@ -105,13 +106,13 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas.
     /// </summary>
-    [CliFlag("--max-lag", ShortForm = "--max-replication-lag-duration-in-seconds")]
-    public bool? MaxLag { get; set; }
+    [CliOption("--max-lag")]
+    public int? MaxLag { get; set; }
 
     /// <summary>
     /// The minimum TLS version for the cluster to support, e.g. 1.2. Allowed values: 1.0, 1.1, 1.2.
     /// </summary>
-    [CliOption("--min-tls", ShortForm = "--minimum-tls-version")]
+    [CliOption("--min-tls")]
     public string? MinTls { get; set; }
 
     /// <summary>
@@ -121,9 +122,15 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
+    /// The number of partitions of a Service Bus namespace. This property is only applicable to Premium SKU namespaces. The default value is 1 and possible values are 1, 2 and 4. WARNING: Argument '--premium-messaging-partitions' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--premium-messaging-partitions")]
+    public int? PremiumMessagingPartitions { get; set; }
+
+    /// <summary>
     /// This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile' access rules. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--public-network", ShortForm = "--public-network-access")]
+    [CliOption("--public-network")]
     public string? PublicNetwork { get; set; }
 
     /// <summary>
@@ -135,20 +142,20 @@ public record AzServicebusNamespaceCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Enabling this property creates a ServiceBus Zone Redundant Namespace in regions supported availability zones.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// Enable System Assigned Identity. Allowed values: false, true.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// List of User Assigned Identity ids.

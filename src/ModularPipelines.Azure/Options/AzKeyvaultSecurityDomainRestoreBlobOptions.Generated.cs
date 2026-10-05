@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -32,7 +33,7 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
         string SdExchangeKey,
         string SdFile,
         string SdFileRestoreBlob,
-        IEnumerable<string> SdWrappingKeys
+        IEnumerable<CliOptionValue> SdWrappingKeys
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(SdExchangeKey);
@@ -43,7 +44,7 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
         this.SdFileRestoreBlob = SdFileRestoreBlob;
         {
             global::System.ArgumentNullException.ThrowIfNull(SdWrappingKeys);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SdWrappingKeys));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(SdWrappingKeys));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -56,7 +57,7 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
         this.SdWrappingKeys = SdWrappingKeys;
     }
 
-    public void Deconstruct(out string SdExchangeKey, out string SdFile, out string SdFileRestoreBlob, out IEnumerable<string> SdWrappingKeys)
+    public void Deconstruct(out string SdExchangeKey, out string SdFile, out string SdFileRestoreBlob, out IEnumerable<CliOptionValue> SdWrappingKeys)
     {
         SdExchangeKey = this.SdExchangeKey;
         SdFile = this.SdFile;
@@ -85,14 +86,14 @@ public record AzKeyvaultSecurityDomainRestoreBlobOptions : AzOptions
     /// <summary>
     /// Space-separated file paths to PEM files containing private keys.
     /// </summary>
-    [CliOption("--sd-wrapping-keys", GroupValues = true)]
-    public IEnumerable<string> SdWrappingKeys { get; private init; }
+    [CliOption("--sd-wrapping-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> SdWrappingKeys { get; private init; }
 
     /// <summary>
     /// Space-separated password list for --sd-wrapping-keys. CLI will match them in order. Can be omitted if your keys are without password protection.
     /// </summary>
     [SecretValue]
-    [CliOption("--passwords", GroupValues = true)]
-    public IEnumerable<string>? Passwords { get; set; }
+    [CliOption("--passwords", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Passwords { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Enable logging. Default: true.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Location to identify the exclusive Network Watcher under a region. Only one Network Watcher can be existed per subscription and region. When not specified, the location of the resource group will be used.
@@ -64,8 +65,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the network security group.
@@ -82,8 +83,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Number of days to retain logs.
     /// </summary>
-    [CliFlag("--retention")]
-    public bool? Retention { get; set; }
+    [CliOption("--retention")]
+    public string? Retention { get; set; }
 
     /// <summary>
     /// Name or ID of the storage account in which to save the flow logs. Must be in the same region of flow log.
@@ -124,26 +125,26 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Version (revision) of the flow log.
     /// </summary>
-    [CliFlag("--log-version")]
-    public bool? LogVersion { get; set; }
+    [CliOption("--log-version")]
+    public string? LogVersion { get; set; }
 
     /// <summary>
     /// FlowLog resource Managed Identity  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity", GroupValues = true)]
+    public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
     /// Optional field to filter flowlogs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all flowlogs will be logged.
     /// </summary>
-    [CliFlag("--filtering-criteria")]
-    public bool? FilteringCriteria { get; set; }
+    [CliOption("--filtering-criteria")]
+    public string? FilteringCriteria { get; set; }
 
     /// <summary>
     /// Optional field to filter network traffic logs based on flow states. Value of this field could be any comma separated combination string of letters B,C,E or D. B represents Begin, when a flow is created. C represents Continue for an ongoing flow generated at every five- minute interval. E represents End, when a flow is terminated. D represents Deny, when a flow is denied. If not specified, all network traffic will be logged.
     /// </summary>
-    [CliFlag("--record-types")]
-    public bool? RecordTypes { get; set; }
+    [CliOption("--record-types")]
+    public string? RecordTypes { get; set; }
 
     /// <summary>
     /// Interval in minutes at which to conduct flow analytics. Temporarily allowed values are 10 and 60.  Default: 60.
@@ -154,8 +155,8 @@ public record AzNetworkWatcherFlowLogCreateOptions : AzOptions
     /// <summary>
     /// Enable traffic analytics. Defaults to true if `--workspace` is provided.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--traffic-analytics")]
-    public bool? TrafficAnalytics { get; set; }
+    [CliOption("--traffic-analytics", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TrafficAnalytics { get; set; }
 
     /// <summary>
     /// Name or ID of a Log Analytics workspace. Must be in the same region of flow log.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Disk encryption set ID for the OS disk of confidential VMs. This is used to encrypt the OS disk during restore.
     /// </summary>
-    [CliFlag("--cvm-os-des-id")]
-    public bool? CvmOsDesId { get; set; }
+    [CliOption("--cvm-os-des-id")]
+    public string? CvmOsDesId { get; set; }
 
     /// <summary>
     /// Specify the disk access option for target disks.  Allowed values: EnablePrivateAccessForAllDisks, EnablePublicAccessForAllDisks, SameAsOnSourceDisks.
@@ -58,8 +59,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// The disk encryption set id is used for encrypting restored disks. Please ensure access to disk encryption set id that is specified here.
     /// </summary>
-    [CliFlag("--disk-encryption-set-id")]
-    public bool? DiskEncryptionSetId { get; set; }
+    [CliOption("--disk-encryption-set-id")]
+    public string? DiskEncryptionSetId { get; set; }
 
     /// <summary>
     /// List of disks to be excluded or included.
@@ -76,14 +77,14 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// ARM ID of the user-assigned managed identity to use for the restore operation. Specify a value for this parameter if you do not want to use a system-assigned MI for restoring the backup item.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// Set the maximum time, in days (between 10-30, both inclusive) for which the recovery point stays in hydrated state.  Default: 15.
     /// </summary>
-    [CliFlag("--rehydration-duration")]
-    public bool? RehydrationDuration { get; set; }
+    [CliOption("--rehydration-duration")]
+    public int? RehydrationDuration { get; set; }
 
     /// <summary>
     /// The type of priority to be maintained while rehydrating a recovery point.  Allowed values: High, Standard.
@@ -94,8 +95,8 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to specify to restore as unmanaged disks. Allowed values: false, true.
     /// </summary>
-    [CliOption("--restore-as-unmanaged-disks")]
-    public bool? RestoreAsUnmanagedDisks { get; set; }
+    [CliOption("--restore-as-unmanaged-disks", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestoreAsUnmanagedDisks { get; set; }
 
     /// <summary>
     /// Specify the restore mode.  Allowed values: AlternateLocation, OriginalLocation.  Default: AlternateLocation.
@@ -106,20 +107,20 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Use this flag to restore only OS disks of a backed up VM. Allowed values: false, true.
     /// </summary>
-    [CliOption("--restore-only-osdisk")]
-    public bool? RestoreOnlyOsdisk { get; set; }
+    [CliOption("--restore-only-osdisk", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestoreOnlyOsdisk { get; set; }
 
     /// <summary>
     /// Switch parameter to indicate edge zone VM restore. This parameter can't be used in cross region and cross subscription restore scenarios.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--restore-to-edge-zone")]
-    public bool? RestoreToEdgeZone { get; set; }
+    [CliOption("--restore-to-edge-zone", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestoreToEdgeZone { get; set; }
 
     /// <summary>
     /// Use this flag when you want disks to be restored to the staging storage account using the --storage-account parameter. When not specified, disks will be restored to their original storage accounts. Default: false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--restore-to-staging-storage-account")]
-    public bool? RestoreToStagingStorageAccount { get; set; }
+    [CliOption("--restore-to-staging-storage-account", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RestoreToStagingStorageAccount { get; set; }
 
     /// <summary>
     /// Name of the resource group which contains the storage account. Default value will be same as --resource-group if not specified.
@@ -130,14 +131,14 @@ public record AzBackupRestoreRestoreDisksOptions : AzOptions
     /// <summary>
     /// Specify the target disk access ID when --disk-access-option is set to EnablePrivateAccessForAllDisks.
     /// </summary>
-    [CliFlag("--target-disk-access-id")]
-    public bool? TargetDiskAccessId { get; set; }
+    [CliOption("--target-disk-access-id")]
+    public string? TargetDiskAccessId { get; set; }
 
     /// <summary>
     /// Use this to specify the target resource group in which the restored disks will be saved.
     /// </summary>
-    [CliFlag("--target-resource-group", ShortForm = "-t")]
-    public bool? TargetResourceGroup { get; set; }
+    [CliOption("--target-resource-group", ShortForm = "-t")]
+    public string? TargetResourceGroup { get; set; }
 
     /// <summary>
     /// Name of the subnet in which the target VM should be created, in the case of Alternate Location restore a new VM.

@@ -35,7 +35,7 @@ public record AzNetappfilesSnapshotShowOptions : AzOptions
     /// <summary>
     /// The name of the snapshot.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>

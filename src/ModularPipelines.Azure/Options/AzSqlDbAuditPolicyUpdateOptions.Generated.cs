@@ -23,19 +23,19 @@ public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The name of the event hub. If none is specified when providing event_hub_authorization_rule_id, the default event hub will be selected.
     /// </summary>
-    [CliOption("--eh", ShortForm = "--event-hub")]
+    [CliOption("--eh")]
     public string? Eh { get; set; }
 
     /// <summary>
     /// The resource Id for the event hub authorization rule.
     /// </summary>
-    [CliOption("--ehari", ShortForm = "--event-hub-authorization-rule-id")]
+    [CliOption("--ehari")]
     public string? Ehari { get; set; }
 
     /// <summary>
     /// Indicate whether event hub is a destination for audit records.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--ehts", ShortForm = "--event-hub-target-state")]
+    [CliOption("--ehts")]
     public string? Ehts { get; set; }
 
     /// <summary>
@@ -65,13 +65,13 @@ public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Indicate whether log analytics is a destination for audit records.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--lats", ShortForm = "--log-analytics-target-state")]
+    [CliOption("--lats")]
     public string? Lats { get; set; }
 
     /// <summary>
     /// The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Audit Logs.
     /// </summary>
-    [CliOption("--lawri", ShortForm = "--log-analytics-workspace-resource-id")]
+    [CliOption("--lawri")]
     public string? Lawri { get; set; }
 
     /// <summary>
@@ -83,8 +83,8 @@ public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The number of days to retain audit logs.
     /// </summary>
-    [CliFlag("--retention-days")]
-    public bool? RetentionDays { get; set; }
+    [CliOption("--retention-days")]
+    public string? RetentionDays { get; set; }
 
     /// <summary>
     /// Auditing policy state.  Allowed values: Disabled, Enabled.
@@ -119,7 +119,7 @@ public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// Indicate whether blob storage is a destination for audit records.  Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--blob-storage-target-state", ShortForm = "--bsts")]
+    [CliOption("--blob-storage-target-state")]
     public string? BlobStorageTargetState { get; set; }
 
     /// <summary>
@@ -131,13 +131,13 @@ public record AzSqlDbAuditPolicyUpdateOptions : AzOptions
     /// <summary>
     /// The storage account endpoint.
     /// </summary>
-    [CliFlag("--storage-endpoint")]
-    public bool? StorageEndpoint { get; set; }
+    [CliOption("--storage-endpoint")]
+    public string? StorageEndpoint { get; set; }
 
     /// <summary>
     /// Access key for the storage account.
     /// </summary>
-    [CliFlag("--storage-key")]
-    public bool? StorageKey { get; set; }
+    [CliOption("--storage-key")]
+    public string? StorageKey { get; set; }
 
 }

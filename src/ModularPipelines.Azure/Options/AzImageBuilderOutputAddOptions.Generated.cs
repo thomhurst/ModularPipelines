@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Tags that will be applied to the output artifact once it has been created by the distributor. space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--artifact-tags", GroupValues = true)]
-    public IEnumerable<string>? ArtifactTags { get; set; }
+    [CliOption("--artifact-tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ArtifactTags { get; set; }
 
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Defer { get; set; }
 
     /// <summary>
     /// Name of the image builder run output. Defaults to the name of the managed image or sig image definition.
@@ -83,8 +84,8 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Shared image gallery name, if image definition name and not ID was provided.
     /// </summary>
-    [CliFlag("--gallery-name")]
-    public bool? GalleryName { get; set; }
+    [CliOption("--gallery-name")]
+    public string? GalleryName { get; set; }
 
     /// <summary>
     /// Space-separated list of regions to replicate the image version into. Defaults to resource group's location.
@@ -101,7 +102,7 @@ public record AzImageBuilderOutputAddOptions : AzOptions
     /// <summary>
     /// Optional Azure Storage URI for the distributed VHD blob. Omit to use the default (empty string) in which case VHD would be published to the storage account in the staging resource group.
     /// </summary>
-    [CliFlag("--vhd-uri")]
-    public bool? VhdUri { get; set; }
+    [CliOption("--vhd-uri")]
+    public string? VhdUri { get; set; }
 
 }

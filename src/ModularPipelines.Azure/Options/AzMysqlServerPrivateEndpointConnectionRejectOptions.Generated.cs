@@ -23,8 +23,8 @@ public record AzMysqlServerPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// Comments for reject operation.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the Server. If specified --server-name/-s and --name/-n, this should be omitted.

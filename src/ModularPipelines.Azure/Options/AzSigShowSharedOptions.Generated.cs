@@ -23,8 +23,8 @@ public record AzSigShowSharedOptions : AzOptions
     /// <summary>
     /// The unique name of the Shared Gallery.
     /// </summary>
-    [CliFlag("--gallery-unique-name", ShortForm = "-n")]
-    public bool? GalleryUniqueName { get; set; }
+    [CliOption("--gallery-unique-name", ShortForm = "-n")]
+    public string? GalleryUniqueName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

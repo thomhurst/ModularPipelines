@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -86,7 +87,8 @@ public record AzStaticwebappReconnectOptions : AzOptions
     /// <summary>
     /// A user's GitHub or Azure Dev Ops repository token. This is used to create the Github Action or Dev Ops pipeline.
     /// </summary>
-    [CliFlag("--token", ShortForm = "-t")]
-    public bool? Token { get; set; }
+    [SecretValue]
+    [CliOption("--token", ShortForm = "-t")]
+    public string? Token { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,8 +64,8 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions : AzOptions
     /// <summary>
     /// Value that indicates whether Trusted Service Access is Enabled or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-trusted-service-access", ShortForm = "-t")]
-    public bool? EnableTrustedServiceAccess { get; set; }
+    [CliOption("--enable-trusted-service-access", ShortForm = "-t", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableTrustedServiceAccess { get; set; }
 
     /// <summary>
     /// List of IpRules  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -81,7 +82,7 @@ public record AzEventhubsNamespaceNetworkRuleSetCreateOptions : AzOptions
     /// <summary>
     /// List VirtualNetwork Rules  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--virtual-network-rules")]
-    public bool? VirtualNetworkRules { get; set; }
+    [CliOption("--virtual-network-rules", GroupValues = true)]
+    public IEnumerable<string>? VirtualNetworkRules { get; set; }
 
 }

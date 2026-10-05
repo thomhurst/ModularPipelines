@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -64,8 +65,9 @@ public record AzContainerappEnvCertificateUploadOptions : AzOptions
     /// <summary>
     /// The certificate file password.
     /// </summary>
-    [CliFlag("--password", ShortForm = "-p")]
-    public bool? Password { get; set; }
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p")]
+    public string? Password { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

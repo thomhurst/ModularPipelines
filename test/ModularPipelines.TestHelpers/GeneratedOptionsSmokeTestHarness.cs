@@ -221,41 +221,22 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = GetEffectiveName(option.Attribute);
 
-        if (value is CliValuePair pair)
+        if (GetExpectedStructuredOption(optionName, value) is { } structuredOption)
         {
-            return [optionName, pair.First!, pair.Second!];
-        }
-
-        if (value is IEnumerable<CliValuePair> pairs)
-        {
-            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First!, pairValue.Second! })];
+            return structuredOption;
         }
 
         var separator = GetSeparator(option.Attribute);
 
         if (value is CliOptionValue optionValue)
         {
-            return RenderOptionalValue(optionName, separator, optionValue).ToList();
+            return [.. RenderOptionalValue(optionName, separator, optionValue)];
         }
 
         if (option.Attribute.ValueArity == CliOptionValueArity.Optional
             && value is IEnumerable<CliOptionValue> optionValues)
         {
-            var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
-            if (option.Attribute.GroupValues && optionalValues.Count > 0)
-            {
-                return
-                [
-                    optionName,
-                    .. optionalValues
-                        .Where(static item => !item.IsBare)
-                        .Select(static item => item.Value!),
-                ];
-            }
-
-            return optionalValues
-                .SelectMany(item => RenderOptionalValue(optionName, separator, item))
-                .ToList();
+            return GetExpectedOptionalValues(option.Attribute, optionName, separator, optionValues);
         }
 
         var values = GetValues(value);
@@ -266,9 +247,53 @@ public static class GeneratedOptionsSmokeTestHarness
                 : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
         }
 
-        return values
-            .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
-            .ToList();
+        return [.. values.SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))];
+    }
+
+    private static List<string>? GetExpectedStructuredOption(string optionName, object value)
+    {
+        if (value is CliValueGroup group)
+        {
+            return [optionName, .. group.Values];
+        }
+
+        if (value is IEnumerable<CliValueGroup> groups)
+        {
+            return [.. groups.SelectMany(groupValue => new[] { optionName }.Concat(groupValue.Values))];
+        }
+
+        if (value is CliValuePair pair)
+        {
+            return [optionName, pair.First!, pair.Second!];
+        }
+
+        if (value is IEnumerable<CliValuePair> pairs)
+        {
+            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First!, pairValue.Second! })];
+        }
+
+        return null;
+    }
+
+    private static List<string> GetExpectedOptionalValues(
+        CliOptionAttribute attribute,
+        string optionName,
+        string separator,
+        IEnumerable<CliOptionValue> optionValues)
+    {
+        var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
+        if (attribute.GroupValues && optionalValues.Count > 0)
+        {
+            return
+            [
+                optionName,
+                .. optionalValues
+                    .Where(static item => !item.IsBare)
+                    .Select(static item => item.Value!),
+            ];
+        }
+
+        return [.. optionalValues.SelectMany(item => RenderOptionalValue(optionName, separator, item))];
     }
 
     private static string GetEffectiveName(CliFlagAttribute attribute) =>
@@ -340,6 +365,7 @@ public static class GeneratedOptionsSmokeTestHarness
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
         : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliValueGroup) ? new CliValueGroup(["smoke-first", "smoke-second"])
         : type == typeof(CliOptionValue) ? (CliOptionValue) "smoke-value"
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")

@@ -41,19 +41,19 @@ public record AzBatchPoolUsageMetricsListOptions : AzOptions
     /// <summary>
     /// The latest time from which to include metrics. This must be at least two hours before the current time. If not specified this defaults to the end time of the last aggregation interval currently available.
     /// </summary>
-    [CliFlag("--end-time")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// An OData $filter clause. For more information on constructing this filter,see https://learn.microsoft.com/rest/api/batchservice/odata-filters- in-batch.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The earliest time from which to include metrics. This must be at least two and a half hours before the current time. If not specified this defaults to the start time of the last aggregation interval currently available.
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTime { get; set; }
 
 }

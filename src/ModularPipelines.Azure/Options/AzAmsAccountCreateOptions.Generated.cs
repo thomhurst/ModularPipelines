@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -80,20 +81,20 @@ public record AzAmsAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Set the system managed identity on the media services account. Allowed values: false, true.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities on the media services account.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// The behavior for IP access control in Key Delivery. Allowed values: Allow,Deny.
@@ -104,7 +105,7 @@ public record AzAmsAccountCreateOptions : AzOptions
     /// <summary>
     /// The IP allow list for access control in Key Delivery. If the default action is set to Allow, the IP allow list must be empty.
     /// </summary>
-    [CliFlag("--ip-allow-list")]
-    public bool? IpAllowList { get; set; }
+    [CliOption("--ip-allow-list", GroupValues = true)]
+    public IEnumerable<string>? IpAllowList { get; set; }
 
 }

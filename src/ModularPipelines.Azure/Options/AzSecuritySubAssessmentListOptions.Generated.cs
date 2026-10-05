@@ -23,8 +23,8 @@ public record AzSecuritySubAssessmentListOptions : AzOptions
     /// <summary>
     /// The target resource for this assessment.
     /// </summary>
-    [CliFlag("--assessed-resource-id")]
-    public bool? AssessedResourceId { get; set; }
+    [CliOption("--assessed-resource-id")]
+    public string? AssessedResourceId { get; set; }
 
     /// <summary>
     /// Name of the assessment resource.

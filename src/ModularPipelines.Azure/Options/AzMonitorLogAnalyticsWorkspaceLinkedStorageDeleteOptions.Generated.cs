@@ -29,7 +29,7 @@ public record AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions : AzOptio
     /// <summary>
     /// Data source type for the linked storage account.  Allowed values: Alerts, AzureWatson, CustomLogs, Ingestion, Query.
     /// </summary>
-    [CliOption("--data-source-type", ShortForm = "--type")]
+    [CliOption("--data-source-type")]
     public string? DataSourceType { get; set; }
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -47,8 +48,8 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// <summary>
     /// Application ID of the client making request on behalf of a principal. Exposed for compound identity using on-behalf-of authentication flow.
     /// </summary>
-    [CliFlag("--application-id")]
-    public bool? ApplicationId { get; set; }
+    [CliOption("--application-id")]
+    public string? ApplicationId { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -59,8 +60,8 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// <summary>
     /// A GUID that identifies the principal that will receive permissions.
     /// </summary>
-    [CliFlag("--object-id")]
-    public bool? ObjectId { get; set; }
+    [CliOption("--object-id")]
+    public string? ObjectId { get; set; }
 
     /// <summary>
     /// Name of resource group.
@@ -83,26 +84,26 @@ public record AzKeyvaultSetPolicyOptions : AzOptions
     /// <summary>
     /// Space-separated list of certificate permissions to assign.  Allowed values: all, backup, create, delete, deleteissuers, get, getissuers, import, list, listissuers, managecontacts, manageissuers, purge, recover, restore, setissuers, update.
     /// </summary>
-    [CliOption("--certificate-permissions", GroupValues = true)]
-    public IEnumerable<string>? CertificatePermissions { get; set; }
+    [CliOption("--certificate-permissions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CertificatePermissions { get; set; }
 
     /// <summary>
     /// Space-separated list of key permissions to assign.  Allowed values: all, backup, create, decrypt, delete, encrypt, get, getrotationpolicy, import, list, purge, recover, release, restore, rotate, setrotationpolicy, sign, unwrapKey, update, verify, wrapKey.
     /// </summary>
-    [CliOption("--key-permissions", GroupValues = true)]
-    public IEnumerable<string>? KeyPermissions { get; set; }
+    [CliOption("--key-permissions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? KeyPermissions { get; set; }
 
     /// <summary>
     /// Space-separated list of secret permissions to assign.  Allowed values: all, backup, delete, get, list, purge, recover, restore, set.
     /// </summary>
     [SecretValue]
-    [CliOption("--secret-permissions", GroupValues = true)]
-    public IEnumerable<string>? SecretPermissions { get; set; }
+    [CliOption("--secret-permissions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SecretPermissions { get; set; }
 
     /// <summary>
     /// Space-separated list of storage permissions to assign.  Allowed values: all, backup, delete, deletesas, get, getsas, list, listsas, purge, recover, regeneratekey, restore, set, setsas, update.
     /// </summary>
-    [CliOption("--storage-permissions", GroupValues = true)]
-    public IEnumerable<string>? StoragePermissions { get; set; }
+    [CliOption("--storage-permissions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? StoragePermissions { get; set; }
 
 }

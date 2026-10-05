@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +24,20 @@ public record AzNetworkLocalGatewayUpdateOptions : AzOptions
     /// <summary>
     /// List of CIDR block prefixes representing the address space of the OnPremise VPN's subnet. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--address-prefixes", ShortForm = "--local-address-prefixes", GroupValues = true)]
+    [CliOption("--address-prefixes", GroupValues = true)]
     public IEnumerable<string>? AddressPrefixes { get; set; }
 
     /// <summary>
     /// Gateway's public IP address. (e.g. 10.1.1.1).
     /// </summary>
-    [CliFlag("--gateway-ip-address")]
-    public bool? GatewayIpAddress { get; set; }
+    [CliOption("--gateway-ip-address")]
+    public string? GatewayIpAddress { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -47,20 +48,20 @@ public record AzNetworkLocalGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Autonomous System Number to use for the BGP settings.
     /// </summary>
-    [CliFlag("--asn")]
-    public bool? Asn { get; set; }
+    [CliOption("--asn")]
+    public string? Asn { get; set; }
 
     /// <summary>
     /// IP address from the OnPremise VPN's subnet to use for BGP peering.
     /// </summary>
-    [CliFlag("--bgp-peering-address")]
-    public bool? BgpPeeringAddress { get; set; }
+    [CliOption("--bgp-peering-address")]
+    public string? BgpPeeringAddress { get; set; }
 
     /// <summary>
     /// Weight (0-100) added to routes learned through BGP peering.
     /// </summary>
-    [CliFlag("--peer-weight")]
-    public bool? PeerWeight { get; set; }
+    [CliOption("--peer-weight")]
+    public string? PeerWeight { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -71,8 +72,8 @@ public record AzNetworkLocalGatewayUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

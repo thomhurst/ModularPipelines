@@ -57,14 +57,14 @@ public record AzLogicappScaleOptions : AzOptions
     /// <summary>
     /// The maximum number of instances this logic app can scale out to under load.
     /// </summary>
-    [CliFlag("--max-instances")]
-    public bool? MaxInstances { get; set; }
+    [CliOption("--max-instances")]
+    public int? MaxInstances { get; set; }
 
     /// <summary>
     /// The number of instances that are always ready and warm for this logic app.
     /// </summary>
-    [CliFlag("--min-instances")]
-    public bool? MinInstances { get; set; }
+    [CliOption("--min-instances")]
+    public int? MinInstances { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

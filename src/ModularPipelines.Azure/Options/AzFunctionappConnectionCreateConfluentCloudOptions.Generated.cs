@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -104,8 +105,8 @@ public record AzFunctionappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the functionapp.  Allowed values: dotnet, dotnet-internal, go, java, none, python, springBoot.
@@ -122,8 +123,8 @@ public record AzFunctionappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Name of the function app. Required if '--source-id' is not specified.None.
@@ -140,8 +141,8 @@ public record AzFunctionappConnectionCreateConfluentCloudOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliOption("--opt-out")]
-    public string? OptOut { get; set; }
+    [CliOption("--opt-out", GroupValues = true)]
+    public IEnumerable<string>? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the function app. Required if '--source-id' is not specified.None.

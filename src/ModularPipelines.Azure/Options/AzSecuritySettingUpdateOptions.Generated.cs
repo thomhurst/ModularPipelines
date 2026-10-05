@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzSecuritySettingUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -59,13 +60,13 @@ public record AzSecuritySettingUpdateOptions : AzOptions
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--alert-sync-settings")]
-    public bool? AlertSyncSettings { get; set; }
+    [CliOption("--alert-sync-settings", GroupValues = true)]
+    public IEnumerable<string>? AlertSyncSettings { get; set; }
 
     /// <summary>
     /// Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--data-export-settings")]
-    public bool? DataExportSettings { get; set; }
+    [CliOption("--data-export-settings", GroupValues = true)]
+    public IEnumerable<string>? DataExportSettings { get; set; }
 
 }

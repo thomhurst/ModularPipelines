@@ -63,7 +63,7 @@ public record AzStorageContainerImmutabilityPolicyShowOptions : AzOptions
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
 }

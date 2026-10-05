@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,26 +59,27 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Specify the client access to the repositories in the connected registry. It can be in the format [TOKEN_NAME01] [TOKEN_NAME02]...
     /// </summary>
-    [CliFlag("--client-tokens")]
-    public bool? ClientTokens { get; set; }
+    [SecretValue]
+    [CliOption("--client-tokens", GroupValues = true)]
+    public IEnumerable<string>? ClientTokens { get; set; }
 
     /// <summary>
     /// Indicate whether garbage collection is enabled. It is enabled by default.  Allowed values: false, true.  Default: true.
     /// </summary>
-    [CliOption("--gc-enabled")]
-    public bool? GcEnabled { get; set; }
+    [CliOption("--gc-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? GcEnabled { get; set; }
 
     /// <summary>
     /// Used to determine garbage collection schedule. Uses cron expression to determine the schedule. If not specified, garbage collection is set to run once a day.  Default: 0 0 * * *.
     /// </summary>
-    [CliFlag("--gc-schedule")]
-    public bool? GcSchedule { get; set; }
+    [CliOption("--gc-schedule")]
+    public string? GcSchedule { get; set; }
 
     /// <summary>
     /// Set the log level for logging on the instance. Accepted log levels are Debug, Information, Warning, Error, and None.  Default: Information.
     /// </summary>
-    [CliFlag("--log-level")]
-    public bool? LogLevel { get; set; }
+    [CliOption("--log-level")]
+    public string? LogLevel { get; set; }
 
     /// <summary>
     /// Determine the access it will have when synchronized.  Allowed values: ReadOnly, ReadWrite.  Default: ReadOnly.
@@ -99,8 +102,8 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Specify the repositories that need to be sync to the connected registry. It can be in the format [REPO01] [REPO02]...
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository", GroupValues = true)]
+    public IEnumerable<string>? Repository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -111,26 +114,27 @@ public record AzAcrConnectedRegistryCreateOptions : AzOptions
     /// <summary>
     /// Determine how long the sync messages will be kept in the cloud. Uses ISO 8601 duration format.  Default: P2D.
     /// </summary>
-    [CliFlag("--sync-message-ttl")]
-    public bool? SyncMessageTtl { get; set; }
+    [CliOption("--sync-message-ttl")]
+    public string? SyncMessageTtl { get; set; }
 
     /// <summary>
     /// Optional parameter to define the sync schedule. Uses cron expression to determine the schedule. If not specified, the instance is considered always online and attempts to sync every minute.  Default: * * * * *.
     /// </summary>
-    [CliFlag("--sync-schedule", ShortForm = "-s")]
-    public bool? SyncSchedule { get; set; }
+    [CliOption("--sync-schedule", ShortForm = "-s")]
+    public string? SyncSchedule { get; set; }
 
     /// <summary>
     /// Specifies the sync token used to synchronize the connected registry with its parent. It most have only repo permissions and at least the actions required for its mode. It can include access for multiple repositories.
     /// </summary>
-    [CliFlag("--sync-token")]
-    public bool? SyncToken { get; set; }
+    [SecretValue]
+    [CliOption("--sync-token")]
+    public string? SyncToken { get; set; }
 
     /// <summary>
     /// Required parameter if --sync-schedule is present. Used to determine the schedule duration. Uses ISO 8601 duration format.
     /// </summary>
-    [CliFlag("--sync-window", ShortForm = "-w")]
-    public bool? SyncWindow { get; set; }
+    [CliOption("--sync-window", ShortForm = "-w")]
+    public string? SyncWindow { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

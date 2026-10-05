@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Autonomous system number of the customer/connectivity provider.
     /// </summary>
-    [CliFlag("--peer-asn")]
-    public bool? PeerAsn { get; set; }
+    [CliOption("--peer-asn")]
+    public string? PeerAsn { get; set; }
 
     /// <summary>
     /// /30(ipv4) or /126(ipv6) subnet used to configure IP addresses for primary interface.
     /// </summary>
-    [CliFlag("--primary-peer-subnet")]
-    public bool? PrimaryPeerSubnet { get; set; }
+    [CliOption("--primary-peer-subnet")]
+    public string? PrimaryPeerSubnet { get; set; }
 
     /// <summary>
     /// /30(ipv4) or /126(ipv6) subnet used to configure IP addresses for secondary interface.
     /// </summary>
-    [CliFlag("--secondary-peer-subnet")]
-    public bool? SecondaryPeerSubnet { get; set; }
+    [CliOption("--secondary-peer-subnet")]
+    public string? SecondaryPeerSubnet { get; set; }
 
     /// <summary>
     /// Key for generating an MD5 for the BGP session.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Identifier used to identify the customer.
@@ -65,8 +66,8 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,8 +90,8 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// Autonomous system number of the customer.
     /// </summary>
-    [CliFlag("--customer-asn")]
-    public bool? CustomerAsn { get; set; }
+    [CliOption("--customer-asn")]
+    public string? CustomerAsn { get; set; }
 
     /// <summary>
     /// The IP version to update Microsoft Peering settings for. Allowed values: IPv4, IPv6. Default: IPv4.  Default: IPv4.
@@ -101,8 +102,8 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// Integer representing the legacy mode of the peering.
     /// </summary>
-    [CliFlag("--legacy-mode")]
-    public bool? LegacyMode { get; set; }
+    [CliOption("--legacy-mode")]
+    public string? LegacyMode { get; set; }
 
     /// <summary>
     /// Name or ID of a route filter to apply to the peering settings.
@@ -119,8 +120,8 @@ public record AzNetworkExpressRoutePeeringUpdateOptions : AzOptions
     /// <summary>
     /// ExpressRoute circuit name.
     /// </summary>
-    [CliFlag("--circuit-name")]
-    public bool? CircuitName { get; set; }
+    [CliOption("--circuit-name")]
+    public string? CircuitName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

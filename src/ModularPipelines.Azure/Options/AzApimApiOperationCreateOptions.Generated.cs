@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -107,19 +108,19 @@ public record AzApimApiOperationCreateOptions : AzOptions
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Operation identifier within an API. Must be unique in the current API Management service instance.
     /// </summary>
-    [CliFlag("--operation-id")]
-    public bool? OperationId { get; set; }
+    [CliOption("--operation-id")]
+    public string? OperationId { get; set; }
 
     /// <summary>
     /// Collection of URL template parameters.
     /// </summary>
-    [CliFlag("--params", ShortForm = "-p")]
-    public bool? Params { get; set; }
+    [CliOption("--params", ShortForm = "-p", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Params { get; set; }
 
 }

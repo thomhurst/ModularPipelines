@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzIotHubCertificateUpdateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether or not the certificate is verified. Allowed values: false, true.
     /// </summary>
-    [CliOption("--verified", ShortForm = "-v")]
-    public bool? Verified { get; set; }
+    [CliOption("--verified", ShortForm = "-v", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Verified { get; set; }
 
     /// <summary>
     /// IoT Hub name.
     /// </summary>
-    [CliFlag("--hub-name")]
-    public bool? HubName { get; set; }
+    [CliOption("--hub-name")]
+    public string? HubName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

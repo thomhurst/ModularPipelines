@@ -58,8 +58,8 @@ public record AzBackupVaultEncryptionUpdateOptions : AzOptions
     /// <summary>
     /// UserAssigned Identity Id to be used for CMK encryption, this will be applicable for encryption using userassigned identity.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned")]
+    public string? MiUserAssigned { get; set; }
 
     /// <summary>
     /// ID of the tenant if the Resource Guard protecting the vault exists in a different tenant.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,13 +58,13 @@ public record AzSecurityPricingCreateOptions : AzOptions
     /// <summary>
     /// Pricing extensions.
     /// </summary>
-    [CliFlag("--extensions")]
-    public bool? Extensions { get; set; }
+    [CliOption("--extensions", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Extensions { get; set; }
 
     /// <summary>
     /// Bundle suplan.
     /// </summary>
-    [CliFlag("--subplan")]
-    public bool? Subplan { get; set; }
+    [CliOption("--subplan")]
+    public string? Subplan { get; set; }
 
 }

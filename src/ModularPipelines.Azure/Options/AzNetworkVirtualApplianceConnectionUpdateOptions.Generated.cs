@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,13 +54,13 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// The list of labels.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--labels", ShortForm = "--propagated-route-table-labels", GroupValues = true)]
+    [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// List of resource id of propagated route tables. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--propagated", ShortForm = "--propagated-route-table-ids", GroupValues = true)]
+    [CliOption("--propagated", GroupValues = true)]
     public IEnumerable<string>? Propagated { get; set; }
 
     /// <summary>
@@ -77,7 +78,7 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// The name of the Network Virtual Appliance.
     /// </summary>
-    [CliOption("--nva", ShortForm = "--virtual-appliance-name")]
+    [CliOption("--nva")]
     public string? Nva { get; set; }
 
     /// <summary>
@@ -89,19 +90,19 @@ public record AzNetworkVirtualApplianceConnectionUpdateOptions : AzOptions
     /// <summary>
     /// The resource id RouteTable associated with this RoutingConfiguration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--associated-route-table")]
-    public string? AssociatedRouteTable { get; set; }
+    [CliOption("--associated-route-table", GroupValues = true)]
+    public IEnumerable<string>? AssociatedRouteTable { get; set; }
 
     /// <summary>
     /// The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--inbound-route-map")]
-    public string? InboundRouteMap { get; set; }
+    [CliOption("--inbound-route-map", GroupValues = true)]
+    public IEnumerable<string>? InboundRouteMap { get; set; }
 
     /// <summary>
     /// The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--outbound-route-map")]
-    public string? OutboundRouteMap { get; set; }
+    [CliOption("--outbound-route-map", GroupValues = true)]
+    public IEnumerable<string>? OutboundRouteMap { get; set; }
 
 }

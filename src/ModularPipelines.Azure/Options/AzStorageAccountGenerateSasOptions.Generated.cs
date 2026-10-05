@@ -79,8 +79,8 @@ public record AzStorageAccountGenerateSasOptions : AzOptions
     /// <summary>
     /// A predefined encryption scope used to encrypt the data on the service.
     /// </summary>
-    [CliFlag("--encryption-scope")]
-    public bool? EncryptionScope { get; set; }
+    [CliOption("--encryption-scope")]
+    public string? EncryptionScope { get; set; }
 
     /// <summary>
     /// Only permit requests made with the HTTPS protocol. If omitted, requests from both the HTTP and HTTPS protocol are permitted.
@@ -91,8 +91,8 @@ public record AzStorageAccountGenerateSasOptions : AzOptions
     /// <summary>
     /// Specifies the IP address or range of IP addresses from which to accept requests. Supports only IPv4 style addresses.
     /// </summary>
-    [CliFlag("--ip")]
-    public bool? Ip { get; set; }
+    [CliOption("--ip")]
+    public string? Ip { get; set; }
 
     /// <summary>
     /// Specifies the UTC datetime (Y-m-d'T'H:M'Z') at which the SAS becomes valid. Defaults to the time of the request.
@@ -103,8 +103,8 @@ public record AzStorageAccountGenerateSasOptions : AzOptions
     /// <summary>
     /// Storage account name. Must be used in conjunction with either storage account key or a SAS token. Environment Variable: AZURE_STORAGE_ACCOUNT.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -115,19 +115,19 @@ public record AzStorageAccountGenerateSasOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
 }

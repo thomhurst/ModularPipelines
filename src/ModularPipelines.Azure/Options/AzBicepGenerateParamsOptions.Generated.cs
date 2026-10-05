@@ -46,8 +46,8 @@ public record AzBicepGenerateParamsOptions : AzOptions
     /// <summary>
     /// Set include params. Valid values are ( all | RequiredOnly ).
     /// </summary>
-    [CliFlag("--include-params")]
-    public bool? IncludeParams { get; set; }
+    [CliOption("--include-params")]
+    public string? IncludeParams { get; set; }
 
     /// <summary>
     /// When set, generates the parameters file without restoring external modules.
@@ -58,20 +58,20 @@ public record AzBicepGenerateParamsOptions : AzOptions
     /// <summary>
     /// When set, saves the output at the specified directory.
     /// </summary>
-    [CliFlag("--outdir")]
-    public bool? Outdir { get; set; }
+    [CliOption("--outdir")]
+    public string? Outdir { get; set; }
 
     /// <summary>
     /// When set, saves the output as the specified file path.
     /// </summary>
-    [CliFlag("--outfile")]
-    public bool? Outfile { get; set; }
+    [CliOption("--outfile")]
+    public string? Outfile { get; set; }
 
     /// <summary>
     /// Set output format. Valid values are ( json | bicepparam ).
     /// </summary>
-    [CliFlag("--output-format")]
-    public bool? OutputFormat { get; set; }
+    [CliOption("--output-format")]
+    public string? OutputFormat { get; set; }
 
     /// <summary>
     /// When set, prints all output to stdout instead of corresponding files.

@@ -66,16 +66,22 @@ public record AzRestorePointCreateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
+    /// Consistency mode of the restore point. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/Re storePoints for more details.  Allowed values: ApplicationC onsistent, CrashConsistent, Fil eSystemConsistent. WARNING: Argument '--consistency-mode' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--consistency-mode")]
+    public string? ConsistencyMode { get; set; }
+
+    /// <summary>
     /// Customer managed data disk encryption set resource id.
     /// </summary>
-    [CliOption("--data-disk-restore-point-encryption-set")]
-    public string? DataDiskRestorePointEncryptionSet { get; set; }
+    [CliOption("--data-disk-restore-point-encryption-set", GroupValues = true)]
+    public IEnumerable<string>? DataDiskRestorePointEncryptionSet { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the data disk restore point. Allowed values: Encr yptionAtRestWithCust omerKey, EncryptionA tRestWithPlatformAnd CustomerKeys, Encryp tionAtRestWithPlatfo rmKey.
     /// </summary>
-    [CliOption("--data-disk-restore-point-encryption-type")]
-    public string? DataDiskRestorePointEncryptionType { get; set; }
+    [CliOption("--data-disk-restore-point-encryption-type", GroupValues = true)]
+    public IEnumerable<string>? DataDiskRestorePointEncryptionType { get; set; }
 
     /// <summary>
     /// List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. Usage: --exclude-disks XX XX id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... Multiple actions can be specified by using more than one --exclude-disks argument.
@@ -86,8 +92,8 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// This property determines the time in minutes the snapshot is retained as instant access for restoring Premium SSD v2 or Ultra disk with fast restore performance in this restore point.
     /// </summary>
-    [CliFlag("--ia-duration", ShortForm = "--instant-access-duration-minutes")]
-    public bool? IaDuration { get; set; }
+    [CliOption("--ia-duration")]
+    public int? IaDuration { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -110,8 +116,8 @@ public record AzRestorePointCreateOptions : AzOptions
     /// <summary>
     /// Resource Id of the source data disk.
     /// </summary>
-    [CliOption("--source-data-disk-resource")]
-    public string? SourceDataDiskResource { get; set; }
+    [CliOption("--source-data-disk-resource", GroupValues = true)]
+    public IEnumerable<string>? SourceDataDiskResource { get; set; }
 
     /// <summary>
     /// Resource Id of the source OS disk.

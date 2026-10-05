@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzCapacityReservationShowOptions : AzOptions
     /// <summary>
     /// Retrieve a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--instance-view", ShortForm = "-i")]
-    public bool? InstanceView { get; set; }
+    [CliOption("--instance-view", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InstanceView { get; set; }
 
     /// <summary>
     /// The name of the capacity reservation group.

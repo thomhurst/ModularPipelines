@@ -1,0 +1,42 @@
+
+Command
+    az boards work-item create : Create a work item.
+
+Arguments
+    --title   [Required] : Title of the work item.
+    --type    [Required] : Name of the work item type (e.g. Bug).
+    --area               : Area the work item is assigned to (e.g. Demos).
+    --assigned-to        : Name of the person the work item is assigned-to (e.g. fabrikam).
+    --description -d     : Description of the work item.
+    --detect             : Automatically detect organization.  Allowed values: false, true.
+    --discussion         : Comment to add to a discussion in a work item.
+    --fields -f          : Space separated "field=value" pairs for custom fields you would like to
+                           set. In case of multiple fields : "field1=value1" "field2=value2". Refer
+                           https://aka.ms/azure-devops-cli-field-api for more details on fields.
+    --iteration          : Iteration path of the work item (e.g. Demos\Iteration 1).
+    --open               : Open the work item in the default web browser.
+    --org --organization : Azure DevOps organization URL. You can configure the default organization
+                           using az devops configure -d organization=ORG_URL. Required if not
+                           configured as default or picked up via git config. Example:
+                           `https://dev.azure.com/MyOrganizationName/`.
+    --project -p         : Name or ID of the project. You can configure the default project using az
+                           devops configure -d project=NAME_OR_ID. Required if not configured as
+                           default or picked up via git config.
+    --reason             : Reason for the state of the work item.
+
+Global Arguments
+    --debug              : Increase logging verbosity to show all debug logs.
+    --help -h            : Show this help message and exit.
+    --only-show-errors   : Only show errors, suppressing warnings.
+    --output -o          : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml,
+                           yamlc.  Default: json.
+    --query              : JMESPath query string. See http://jmespath.org/ for more information and
+                           examples.
+    --subscription       : Name or ID of subscription. You can configure the default subscription
+                           using `az account set -s NAME_OR_ID`.
+    --verbose            : Increase logging verbosity. Use --debug for full debug logs.
+
+To search AI knowledge base for examples, use: az find "az boards work-item create"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--area": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--assigned-to": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--description": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--detect": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--discussion": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--fields": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--iteration": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--open": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--org": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--organization": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--project": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--reason": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--title": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-d": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-f": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-p": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}
