@@ -208,33 +208,51 @@ public partial class VaultCliScraper : CliScraperBase
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint) || valueHint == "bool";
-            // MFA uses StringSliceVar even though its help omits the repeatability sentence.
-            var repeatable = !isFlag && (flagName == "-mfa" || IsRepeatableValueOption(description, isFlag));
-            var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", repeatable);
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = flagName,
-                ShortForm = flagName == "-namespace" && description.Contains("-ns can be used", StringComparison.Ordinal) ? "-ns" : null,
-                PropertyName = propertyName,
-                CSharpType = csharpType,
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = repeatable,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = "=",
-                EnumDefinition = null,
-                IsSecret = !isFlag && (flagName is "-mfa" or "-header" or "-unlock-key" or "-otp" or "-decode"
-                    || (commandParts is ["token", "create"] && flagName == "-id")
-                    || GeneratorUtils.IsSecretOption(propertyName, isFlag, description))
-            });
+            options.Add(CreateOptionDefinition(commandParts, flagName, valueHint, propertyName, description));
         }
 
         return options;
     }
+
+    private CliOptionDefinition CreateOptionDefinition(
+        string[] commandParts,
+        string flagName,
+        string valueHint,
+        string propertyName,
+        string description)
+    {
+        var isFlag = string.IsNullOrEmpty(valueHint) || valueHint == "bool";
+        // MFA uses StringSliceVar even though its help omits the repeatability sentence.
+        var repeatable = !isFlag && (flagName == "-mfa" || IsRepeatableValueOption(description, isFlag));
+        var csharpType = AsCSharpType(isFlag ? "bool?" : "string?", repeatable);
+
+        return new CliOptionDefinition
+        {
+            SwitchName = flagName,
+            ShortForm = flagName == "-namespace" && description.Contains("-ns can be used", StringComparison.Ordinal) ? "-ns" : null,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = repeatable,
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = "=",
+            EnumDefinition = null,
+            IsSecret = IsSecretOption(commandParts, flagName, propertyName, description, isFlag)
+        };
+    }
+
+    private static bool IsSecretOption(
+        string[] commandParts,
+        string flagName,
+        string propertyName,
+        string description,
+        bool isFlag) =>
+        !isFlag && (flagName is "-mfa" or "-header" or "-unlock-key" or "-otp" or "-decode"
+                    || (commandParts is ["token", "create"] && flagName == "-id")
+                    || GeneratorUtils.IsSecretOption(propertyName, isFlag, description));
 
     /// <summary>
     /// Checks if help text indicates the command has options.
