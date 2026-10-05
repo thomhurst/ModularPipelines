@@ -79,5 +79,5 @@ a collection: `RefreshPackage = [":none:", "first,second"]` emits each value in
 order as a separate `--refresh-package` operand, preserving pip's accumulation
 and reset semantics.
 
-The generated API reflects pip 26.2.1, inherits all 26 General Options, and includes `LockAsync`. See the
+The generated API reflects pip 26.2.1, inherits 25 General Options (excluding help), and includes `LockAsync`. See the
 [pip CLI reference](./cli/pip.md) for the complete command and global-option list.
