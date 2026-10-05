@@ -1,2 +1,48 @@
 #nullable enable
 *REMOVED*static ModularPipelines.Ftp.Extensions.FtpExtensions.Ftp(this ModularPipelines.Context.IPipelineContext! context) -> ModularPipelines.Ftp.IFtp!
+*REMOVED*ModularPipelines.Ftp.Extensions.FtpExtensions
+ModularPipelines.Ftp.FtpExtensions
+*REMOVED*ModularPipelines.Ftp.IFtp.GetFtpClientAsync(ModularPipelines.Ftp.Options.FtpOptions! options) -> System.Threading.Tasks.Task<FluentFTP.AsyncFtpClient!>!
+ModularPipelines.Ftp.IFtp.GetFtpClientAsync(ModularPipelines.Ftp.FtpOptions! options, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<FluentFTP.AsyncFtpClient!>!
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions
+ModularPipelines.Ftp.FtpOptions
+ModularPipelines.Ftp.FtpOptions.RequireEncryption.get -> bool
+ModularPipelines.Ftp.FtpOptions.RequireEncryption.init -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.ClientConfigurator.get -> System.Action<FluentFTP.IAsyncFtpClient!>?
+ModularPipelines.Ftp.FtpOptions.ClientConfigurator.get -> System.Action<FluentFTP.IAsyncFtpClient!>?
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.ClientConfigurator.init -> void
+ModularPipelines.Ftp.FtpOptions.ClientConfigurator.init -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.Credentials.get -> System.Net.NetworkCredential!
+ModularPipelines.Ftp.FtpOptions.Credentials.get -> System.Net.NetworkCredential!
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.Credentials.init -> void
+ModularPipelines.Ftp.FtpOptions.Credentials.init -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.Deconstruct(out string! Host, out System.Net.NetworkCredential! Credentials) -> void
+ModularPipelines.Ftp.FtpOptions.Deconstruct(out string! Host, out System.Net.NetworkCredential! Credentials) -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.FtpOptions(ModularPipelines.Ftp.Options.FtpOptions! original) -> void
+ModularPipelines.Ftp.FtpOptions.FtpOptions(ModularPipelines.Ftp.FtpOptions! original) -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.FtpOptions(string! Host, System.Net.NetworkCredential! Credentials) -> void
+ModularPipelines.Ftp.FtpOptions.FtpOptions(string! Host, System.Net.NetworkCredential! Credentials) -> void
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.Host.get -> string!
+ModularPipelines.Ftp.FtpOptions.Host.get -> string!
+*REMOVED*ModularPipelines.Ftp.Options.FtpOptions.Host.init -> void
+ModularPipelines.Ftp.FtpOptions.Host.init -> void
+*REMOVED*override ModularPipelines.Ftp.Options.FtpOptions.Equals(object? obj) -> bool
+override ModularPipelines.Ftp.FtpOptions.Equals(object? obj) -> bool
+*REMOVED*override ModularPipelines.Ftp.Options.FtpOptions.GetHashCode() -> int
+override ModularPipelines.Ftp.FtpOptions.GetHashCode() -> int
+*REMOVED*override ModularPipelines.Ftp.Options.FtpOptions.ToString() -> string!
+override ModularPipelines.Ftp.FtpOptions.ToString() -> string!
+*REMOVED*static ModularPipelines.Ftp.Extensions.FtpExtensions.RegisterFtpContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static ModularPipelines.Ftp.FtpExtensions.RegisterFtpContext(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+*REMOVED*static ModularPipelines.Ftp.Options.FtpOptions.operator !=(ModularPipelines.Ftp.Options.FtpOptions? left, ModularPipelines.Ftp.Options.FtpOptions? right) -> bool
+static ModularPipelines.Ftp.FtpOptions.operator !=(ModularPipelines.Ftp.FtpOptions? left, ModularPipelines.Ftp.FtpOptions? right) -> bool
+*REMOVED*static ModularPipelines.Ftp.Options.FtpOptions.operator ==(ModularPipelines.Ftp.Options.FtpOptions? left, ModularPipelines.Ftp.Options.FtpOptions? right) -> bool
+static ModularPipelines.Ftp.FtpOptions.operator ==(ModularPipelines.Ftp.FtpOptions? left, ModularPipelines.Ftp.FtpOptions? right) -> bool
+*REMOVED*virtual ModularPipelines.Ftp.Options.FtpOptions.<Clone>$() -> ModularPipelines.Ftp.Options.FtpOptions!
+virtual ModularPipelines.Ftp.FtpOptions.<Clone>$() -> ModularPipelines.Ftp.FtpOptions!
+*REMOVED*virtual ModularPipelines.Ftp.Options.FtpOptions.EqualityContract.get -> System.Type!
+virtual ModularPipelines.Ftp.FtpOptions.EqualityContract.get -> System.Type!
+*REMOVED*virtual ModularPipelines.Ftp.Options.FtpOptions.Equals(ModularPipelines.Ftp.Options.FtpOptions? other) -> bool
+virtual ModularPipelines.Ftp.FtpOptions.Equals(ModularPipelines.Ftp.FtpOptions? other) -> bool
+*REMOVED*virtual ModularPipelines.Ftp.Options.FtpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
+virtual ModularPipelines.Ftp.FtpOptions.PrintMembers(System.Text.StringBuilder! builder) -> bool
