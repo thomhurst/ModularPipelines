@@ -10,16 +10,7 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
     public ValidateOptionsResult Validate(string? name, RedisDiscoveryOptions options)
     {
         var failures = new List<string>();
-        var usesRest = !string.IsNullOrWhiteSpace(options.RestUrl);
-        if (usesRest != !string.IsNullOrWhiteSpace(options.RestToken))
-        {
-            failures.Add("RestUrl and RestToken must be configured together.");
-        }
-
-        if (!usesRest && string.IsNullOrWhiteSpace(options.ConnectionString))
-        {
-            failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is required unless RestUrl is configured.");
-        }
+        ValidateConnection(options, failures);
 
         if (string.IsNullOrWhiteSpace(options.KeyPrefix))
         {
@@ -42,5 +33,30 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
         }
 
         return failures.Count == 0 ? ValidateOptionsResult.Success : ValidateOptionsResult.Fail(failures);
+    }
+
+    internal static bool IsSupportedRestEndpoint(Uri endpoint) =>
+        endpoint.IsAbsoluteUri
+        && string.IsNullOrEmpty(endpoint.Query)
+        && string.IsNullOrEmpty(endpoint.Fragment)
+        && (endpoint.Scheme == "https" || (endpoint.Scheme == "http" && endpoint.IsLoopback));
+
+    private static void ValidateConnection(RedisDiscoveryOptions options, List<string> failures)
+    {
+        var usesRest = options.RestUrl is not null;
+        if (options.RestUrl is { } restUrl && !IsSupportedRestEndpoint(restUrl))
+        {
+            failures.Add($"{nameof(RedisDiscoveryOptions.RestUrl)} must be an absolute HTTPS URL, or an HTTP URL on loopback, without a query string or fragment.");
+        }
+
+        if (usesRest != !string.IsNullOrWhiteSpace(options.RestToken))
+        {
+            failures.Add("RestUrl and RestToken must be configured together.");
+        }
+
+        if (!usesRest && string.IsNullOrWhiteSpace(options.ConnectionString))
+        {
+            failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is required unless RestUrl is configured.");
+        }
     }
 }

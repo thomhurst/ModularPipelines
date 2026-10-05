@@ -296,7 +296,7 @@ invokes again and never misses a broadcast.
 ```csharp
 builder.AddSignalRDistributedCoordinator(options =>
 {
-    options.ListenUrl = "http://0.0.0.0:5099";
+    options.ListenUrl = new Uri("http://0.0.0.0:5099");
     options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
     options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
 });
@@ -304,7 +304,7 @@ builder.AddSignalRDistributedCoordinator(options =>
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ListenUrl` | `string` | `http://localhost:5099` | URL the master binds. Port `0` lets the operating system choose a port. |
+| `ListenUrl` | `Uri` | `http://localhost:5099` | URL the master binds. Port `0` lets the operating system choose a port. |
 | `AdvertisedUrl` | `Uri?` | `null` | URL workers connect to. The master advertises it through discovery; workers without discovery connect to it, or to `ListenUrl` when it is unset. |
 | `HubPath` | `string` | `/pipeline-hub` | Hub path, starting with `/`. |
 | `AccessToken` | `string?` | `null` | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel or a non-loopback `ListenUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
@@ -331,7 +331,8 @@ replaces an `IConnectionMultiplexer` registered by the application.
 |----------|------|---------|-------------|
 | `ConnectionString` | `string` | `localhost:6379` | Redis connection string; required unless `RestUrl` is set. |
 | `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed connection configuration, for example credentials or TLS. |
-| `RestUrl` / `RestToken` | `string?` | `null` | Upstash REST endpoint and token; configure both or neither. |
+| `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
+| `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
 | `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. |
 | `DiscoveryTimeout` | `TimeSpan` | `00:02:00` | How long workers wait for the endpoint. |
@@ -363,3 +364,26 @@ host1:6379,host2:6379,password=mysecret
 ```
 
 See the [StackExchange.Redis configuration docs](https://stackexchange.github.io/StackExchange.Redis/Configuration.html) for all connection string options.
+
+## V4 endpoint migration
+
+`SignalRDistributedOptions.ListenUrl`, `S3StorageOptions.ServiceUrl`, and
+`RedisDiscoveryOptions.RestUrl` now use `Uri` instead of `string`, matching
+`SignalRDistributedOptions.AdvertisedUrl`. In C# configuration callbacks, wrap
+endpoint strings in `new Uri("https://host.example")`. Endpoints must be absolute
+HTTP or HTTPS URLs; relative URLs and other schemes fail options validation.
+Redis REST endpoints require HTTPS except on loopback because requests include a bearer token.
+They may include a path prefix, but must not contain a query string or fragment.
+Empty or whitespace optional S3/Redis endpoints are treated as omitted.
+
+`ListenUrl` represents one endpoint, not a semicolon-separated list of Kestrel
+addresses. Kestrel wildcard hosts such as `http://+:5099` and `http://*:5099` are
+not valid `Uri` values. To listen on all IPv4 interfaces, use
+`new Uri("http://0.0.0.0:5099")` and set `AdvertisedUrl` to an address workers can reach.
+
+Configuration files and environment variables still contain URL strings; normal
+configuration binding converts them to `Uri`. SignalR retains its
+`http://localhost:5099` default and supports port `0` for an assigned port. S3's
+service endpoint and Redis's REST endpoint remain optional: `null` selects the AWS
+region endpoint or Redis TCP connection, respectively. Configure a Redis REST
+token together with its REST endpoint.

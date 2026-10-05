@@ -56,8 +56,8 @@ public static class RedisDiscoveryExtensions
         builder.Services.TryAddSingleton<IRedisDiscoveryStore>(sp =>
         {
             var options = sp.GetRequiredService<IOptions<RedisDiscoveryOptions>>().Value;
-            return !string.IsNullOrWhiteSpace(options.RestUrl)
-                ? new RestRedisDiscoveryStore(options.RestUrl!, options.RestToken!)
+            return options.RestUrl is { } restUrl
+                ? new RestRedisDiscoveryStore(restUrl, options.RestToken!)
                 : new StackExchangeRedisDiscoveryStore(options);
         });
         builder.Services.TryAddSingleton<IMasterDiscovery>(sp => new RedisMasterDiscovery(

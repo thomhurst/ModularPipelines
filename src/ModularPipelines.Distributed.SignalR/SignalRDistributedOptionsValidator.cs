@@ -10,7 +10,7 @@ internal sealed class SignalRDistributedOptionsValidator : IValidateOptions<Sign
     public ValidateOptionsResult Validate(string? name, SignalRDistributedOptions options)
     {
         var failures = new List<string>();
-        if (!Uri.TryCreate(options.ListenUrl, UriKind.Absolute, out var listenUrl)
+        if (options.ListenUrl is not { IsAbsoluteUri: true } listenUrl
             || listenUrl.Scheme is not ("http" or "https"))
         {
             failures.Add($"{nameof(SignalRDistributedOptions.ListenUrl)} must be an absolute http or https URL.");

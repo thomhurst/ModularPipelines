@@ -32,7 +32,7 @@ internal sealed class SignalRTestMaster : IAsyncDisposable
     {
         var options = new SignalRDistributedOptions
         {
-            ListenUrl = "http://127.0.0.1:0",
+            ListenUrl = new Uri("http://127.0.0.1:0"),
             MaxReconnectAttempts = 0,
             ConnectionTimeout = TimeSpan.FromSeconds(10),
         };

@@ -57,7 +57,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
             ? await discovery.DiscoverMasterEndpointAsync(cancellationToken).ConfigureAwait(false)
             : new MasterEndpoint
             {
-                Url = _options.AdvertisedUrl ?? new Uri(_options.ListenUrl, UriKind.Absolute),
+                Url = _options.AdvertisedUrl ?? _options.ListenUrl,
                 AccessToken = _options.AccessToken,
             };
         var accessToken = endpoint.AccessToken ?? _options.AccessToken;
@@ -112,7 +112,7 @@ internal sealed class SignalRDistributedCoordinatorFactory(
         // A loopback listener behind a reverse proxy is still reachable through its advertised URL.
         if (!options.Tunnel.Enabled
             && IsLoopback(options.ListenUrl)
-            && (options.AdvertisedUrl is null || IsLoopback(options.AdvertisedUrl.OriginalString)))
+            && (options.AdvertisedUrl is null || IsLoopback(options.AdvertisedUrl)))
         {
             return null;
         }
@@ -131,9 +131,9 @@ internal sealed class SignalRDistributedCoordinatorFactory(
             .Replace('/', '_');
     }
 
-    internal static bool IsLoopback(string listenUrl)
+    internal static bool IsLoopback(Uri uri)
     {
-        if (!Uri.TryCreate(listenUrl, UriKind.Absolute, out var uri))
+        if (!uri.IsAbsoluteUri)
         {
             return false;
         }

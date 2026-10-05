@@ -12,13 +12,17 @@ public class S3StorageOptions
     public string BucketName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the S3-compatible service URL.
-    /// Omit for AWS S3 (uses default endpoints).
+    /// Gets or sets the absolute HTTP or HTTPS S3-compatible service URL.
+    /// Omit for AWS S3 (uses default endpoints). Blank values are treated as omitted.
     /// Set for Cloudflare R2: "https://{account_id}.r2.cloudflarestorage.com"
     /// Set for Backblaze B2: "https://s3.{region}.backblazeb2.com"
     /// Set for MinIO: "http://localhost:9000"
     /// </summary>
-    public string? ServiceUrl { get; set; }
+    public Uri? ServiceUrl
+    {
+        get;
+        set => field = string.IsNullOrWhiteSpace(value?.OriginalString) ? null : value;
+    }
 
     /// <summary>
     /// Gets or sets the access key. Required for non-AWS providers or explicit auth.

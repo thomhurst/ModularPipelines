@@ -7,16 +7,21 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
 {
     private readonly HttpClient _httpClient;
 
-    public RestRedisDiscoveryStore(string restUrl, string restToken)
+    public RestRedisDiscoveryStore(Uri restUrl, string restToken)
         : this(restUrl, restToken, new HttpClientHandler())
     {
     }
 
-    internal RestRedisDiscoveryStore(string restUrl, string restToken, HttpMessageHandler handler)
+    internal RestRedisDiscoveryStore(Uri restUrl, string restToken, HttpMessageHandler handler)
     {
+        if (!RedisDiscoveryOptionsValidator.IsSupportedRestEndpoint(restUrl))
+        {
+            throw new ArgumentException("REST discovery requires HTTPS, except for HTTP on loopback, without a query string or fragment.", nameof(restUrl));
+        }
+
         _httpClient = new HttpClient(handler)
         {
-            BaseAddress = new Uri(restUrl.TrimEnd('/') + "/", UriKind.Absolute),
+            BaseAddress = new Uri(restUrl.OriginalString.TrimEnd('/') + "/", UriKind.Absolute),
         };
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", restToken);
     }

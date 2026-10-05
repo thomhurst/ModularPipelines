@@ -45,7 +45,7 @@ ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Region.get -> string!
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.Region.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SecretKey.get -> string?
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SecretKey.set -> void
-ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.get -> string?
+ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.get -> System.Uri?
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.ServiceUrl.set -> void
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SetLifecycleRule.get -> bool
 ModularPipelines.Distributed.Artifacts.S3.S3StorageOptions.SetLifecycleRule.set -> void

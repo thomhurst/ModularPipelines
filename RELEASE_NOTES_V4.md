@@ -56,6 +56,17 @@ TLS-only callbacks without endpoints, and callbacks that remove every endpoint f
 with `OptionsValidationException`. The callback runs once per materialized options
 instance; its validated snapshot is reused for lazy connections and retries.
 
+## Distributed endpoint options
+
+`SignalRDistributedOptions.ListenUrl` is now `Uri`; `S3StorageOptions.ServiceUrl`
+and `RedisDiscoveryOptions.RestUrl` are now `Uri?`, matching the existing
+`AdvertisedUrl` convention. Replace C# string assignments with `new Uri(...)`.
+Configuration files still use URL strings, which bind to `Uri` automatically.
+Endpoints require absolute HTTP/HTTPS URLs. Redis REST requires HTTPS except on loopback.
+Empty or whitespace optional S3/Redis endpoints are treated as omitted. Defaults, optional S3/Redis endpoints,
+and SignalR port-zero binding are preserved. See the
+[endpoint migration guidance](docs/docs/distributed/configuration.md#v4-endpoint-migration).
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
