@@ -245,6 +245,45 @@ public class NpmCliScraperTests
         await Assert.That(command.Options.Single(option => option.SwitchName == "--json").IsFlag).IsTrue();
     }
 
+    [Test]
+    [Arguments("ls", true)]
+    [Arguments("pack", true)]
+    [Arguments("publish", false)]
+    public async Task Current_Project_Commands_Accept_Optional_Package_Specs(string verb, bool variadic)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        var operand = command!.PositionalArguments.Single();
+        await Assert.That(operand.PropertyName).IsEqualTo("PackageSpec");
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.IsVariadic).IsEqualTo(variadic);
+        await Assert.That(operand.CSharpType).IsEqualTo(variadic ? "IEnumerable<string>?" : "string?");
+    }
+
+    [Test]
+    [Arguments("run")]
+    [Arguments("start")]
+    [Arguments("stop")]
+    [Arguments("test")]
+    [Arguments("restart")]
+    public async Task Script_Arguments_Preserve_Separate_Tokens_After_Separator(string verb)
+    {
+        var command = await CreateScraper().Parse(["npm", verb], await ReadNpmFixture(verb));
+        var operand = command!.PositionalArguments.Single(argument => argument.Phase == CommandLinePhase.Passthrough);
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.IsVariadic).IsTrue();
+        await Assert.That(operand.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(operand.PrependOptionTerminator).IsTrue();
+    }
+
+    [Test]
+    public async Task Run_Without_Command_Lists_Scripts()
+    {
+        var command = await CreateScraper().Parse(["npm", "run"], await ReadNpmFixture("run"));
+        var operand = command!.PositionalArguments.Single(argument => argument.PropertyName == "Command");
+        await Assert.That(operand.IsRequired).IsFalse();
+        await Assert.That(operand.CSharpType).IsEqualTo("string?");
+    }
+
     private static Task<string> ReadNpmFixture(string command) => File.ReadAllTextAsync(
         Path.Combine(AppContext.BaseDirectory, "Fixtures", "Npm", "11.11.0", $"npm-{command}.txt"));
 

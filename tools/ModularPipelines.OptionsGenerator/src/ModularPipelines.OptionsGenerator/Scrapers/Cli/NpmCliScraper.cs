@@ -159,7 +159,7 @@ public partial class NpmCliScraper(
     {
         if (commandParts is not ["init"])
         {
-            return positionalArguments;
+            return [.. positionalArguments.Select(argument => NormalizeOperand(commandParts, argument))];
         }
 
         return
@@ -173,6 +173,32 @@ public partial class NpmCliScraper(
                 IsRequired = false,
             },
         ];
+    }
+
+    private static CliPositionalArgument NormalizeOperand(string[] commandParts, CliPositionalArgument argument)
+    {
+        // npm 11's terse help omits defaults and repetition supported by its command implementations.
+        if (commandParts is ["ls" or "pack" or "publish"] && argument.PropertyName == "PackageSpec")
+        {
+            var variadic = commandParts[0] != "publish";
+            return argument with
+            {
+                IsRequired = false,
+                IsVariadic = variadic,
+                CSharpType = variadic ? "IEnumerable<string>?" : "string?",
+            };
+        }
+
+        if (commandParts is ["run" or "start" or "stop" or "test" or "restart"]
+            && argument.Phase == CommandLinePhase.Passthrough)
+        {
+            return argument with { IsVariadic = true, CSharpType = "IEnumerable<string>?", IsRequired = false };
+        }
+
+        // With no event, npm run lists the package's scripts.
+        return commandParts is ["run"] && argument.PropertyName == "Command"
+            ? argument with { IsRequired = false, CSharpType = "string?" }
+            : argument;
     }
 
     internal static string? ExtractDescription(string helpText) =>
@@ -221,40 +247,52 @@ public partial class NpmCliScraper(
                 continue;
             }
 
-            var takesValue = Regex.IsMatch(
-                normalizedHelp,
-                $@"{Regex.Escape(switchName)}\s+<[^>]+>",
-                RegexOptions.IgnoreCase)
-                || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+[a-zA-Z][\w-]*(?=[\s\]\|]|$)");
-            var acceptsMultipleValues = takesValue
-                && (HelpDeclaresRepeatableOption(normalizedHelp, switchName, description)
-                    || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+<[^>]+>\s+\.{{3}}"));
-            var isFlag = !takesValue;
-
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = switchName,
-                NegatedSwitchName = isFlag && declarations.ContainsKey("--no-" + switchName[2..])
-                    ? "--no-" + switchName[2..]
-                    : null,
-                ShortForm = declaration.Groups["short"].Success
-                    ? declaration.Groups["short"].Value
-                    : null,
-                PropertyName = propertyName,
-                CSharpType = acceptsMultipleValues ? "IEnumerable<string>?" : isFlag ? "bool?" : "string?",
-                Description = description,
-                IsFlag = isFlag,
-                IsRequired = false,
-                AcceptsMultipleValues = acceptsMultipleValues,
-                IsKeyValue = false,
-                IsNumeric = false,
-                ValueSeparator = " ",
-                EnumDefinition = null,
-                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
-            });
+            options.Add(CreateOption(switchName, propertyName, declaration, description, normalizedHelp, synopsis, declarations.Keys));
         }
 
         return options;
+    }
+
+    private static CliOptionDefinition CreateOption(
+        string switchName,
+        string propertyName,
+        Match declaration,
+        string description,
+        string normalizedHelp,
+        string synopsis,
+        ICollection<string> switches)
+    {
+        var takesValue = Regex.IsMatch(
+            normalizedHelp,
+            $@"{Regex.Escape(switchName)}\s+<[^>]+>",
+            RegexOptions.IgnoreCase)
+            || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+[a-zA-Z][\w-]*(?=[\s\]\|]|$)");
+        var acceptsMultipleValues = takesValue
+            && (HelpDeclaresRepeatableOption(normalizedHelp, switchName, description)
+                || Regex.IsMatch(synopsis, $@"{Regex.Escape(switchName)}\s+<[^>]+>\s+\.{{3}}"));
+        var isFlag = !takesValue;
+
+        return new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            NegatedSwitchName = isFlag && switches.Contains("--no-" + switchName[2..])
+                ? "--no-" + switchName[2..]
+                : null,
+            ShortForm = declaration.Groups["short"].Success
+                ? declaration.Groups["short"].Value
+                : null,
+            PropertyName = propertyName,
+            CSharpType = acceptsMultipleValues ? "IEnumerable<string>?" : isFlag ? "bool?" : "string?",
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+        };
     }
 
     private static string ReadDescription(string[] lines, int startIndex)
