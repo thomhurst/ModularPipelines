@@ -1,0 +1,12 @@
+
+  Check if a manifest list exists in local storage.
+
+Usage:
+  buildah manifest exists [flags]
+
+Examples:
+  buildah manifest exists mylist
+
+Flags:
+  -h, --help   help for exists
+

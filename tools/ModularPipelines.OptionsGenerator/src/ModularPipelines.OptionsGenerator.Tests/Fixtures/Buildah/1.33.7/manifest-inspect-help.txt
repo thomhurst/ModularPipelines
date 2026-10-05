@@ -1,0 +1,14 @@
+
+  Display the contents of a manifest list or image index.
+
+Usage:
+  buildah manifest inspect [flags]
+
+Examples:
+  buildah manifest inspect mylist:v1.11
+
+Flags:
+      --authfile string   path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+  -h, --help              help for inspect
+      --tls-verify        require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+

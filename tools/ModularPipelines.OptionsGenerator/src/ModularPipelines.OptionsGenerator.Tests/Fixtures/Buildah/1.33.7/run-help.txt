@@ -1,0 +1,38 @@
+
+  Runs a specified command using the container's root filesystem as a root
+  filesystem, using configuration settings inherited from the container's
+  image or as specified using previous calls to the config command.
+
+Usage:
+  buildah run [flags]
+
+Examples:
+  buildah run containerID -- ps -auxw
+  buildah run --terminal containerID /bin/bash
+  buildah run --volume /path/on/host:/path/in/container:ro,z containerID /bin/sh
+
+Flags:
+      --add-history            add an entry for this operation to the image's history.  Use BUILDAH_HISTORY environment variable to override. (default false)
+      --cap-add strings        add the specified capability (default [])
+      --cap-drop strings       drop the specified capability (default [])
+      --cgroupns string        'private', or 'host'
+      --contextdir string      context directory path
+  -e, --env stringArray        add environment variable to be set temporarily when running command (default [])
+  -h, --help                   help for run
+      --hostname string        set the hostname inside of the container
+      --ipc path               'private', path of IPC namespace to join, or 'host'
+      --isolation type         type of process isolation to use. Use BUILDAH_ISOLATION environment variable to override.
+      --mount stringArray      attach a filesystem mount to the container (default [])
+      --network string         'private', 'none', 'ns:path' of network namespace to join, or 'host'
+      --no-hostname            do not override the /etc/hostname file within the container
+      --no-hosts               do not override the /etc/hosts file within the container
+      --no-pivot               do not use pivot root to jail process inside rootfs
+      --pid path               private, path of PID namespace to join, or 'host'
+      --runtime path           path to an alternate OCI runtime (default "crun")
+      --runtime-flag strings   add global flags for the container runtime
+  -t, --terminal               allocate a pseudo-TTY in the container
+      --user user[:group]      user[:group] to run the command as
+      --uts path               private, :path of UTS namespace to join, or 'host'
+  -v, --volume stringArray     bind mount a host location into the container while running the command
+      --workingdir string      temporarily set working directory for command (default to container's workingdir)
+

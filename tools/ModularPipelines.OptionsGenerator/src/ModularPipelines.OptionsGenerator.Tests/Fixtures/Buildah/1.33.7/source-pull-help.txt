@@ -1,0 +1,16 @@
+  Pull a source image from a registry to a specified path.  The pull operation will fail if the image does not comply with a source-image OCI artifact.
+
+  Note that the buildah-source command and all its subcommands are experimental and may be subject to future changes.
+
+Usage:
+  buildah source pull [flags]
+
+Examples:
+  buildah source pull quay.io/sourceimage/example:latest /tmp/sourceimage:latest
+
+Flags:
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+  -h, --help                          help for pull
+  -q, --quiet                         don't output pull progress information
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry (default true)
+

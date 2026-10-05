@@ -1,0 +1,18 @@
+
+  Removes one or more working containers, unmounting them if necessary.
+
+Usage:
+  buildah rm [flags]
+
+Aliases:
+  rm, delete
+
+Examples:
+  buildah rm containerID
+  buildah rm containerID1 containerID2 containerID3
+  buildah rm --all
+
+Flags:
+  -a, --all    remove all containers
+  -h, --help   help for rm
+

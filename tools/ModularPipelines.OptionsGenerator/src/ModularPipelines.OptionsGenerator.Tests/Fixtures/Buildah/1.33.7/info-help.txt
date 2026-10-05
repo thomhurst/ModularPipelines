@@ -1,0 +1,14 @@
+
+  Display information about the host and current storage statistics which are useful when reporting issues.
+
+Usage:
+  buildah info [flags]
+
+Examples:
+  buildah info
+
+Flags:
+  -d, --debug           display additional debug information
+      --format format   use format as a Go template to format the output
+  -h, --help            help for info
+

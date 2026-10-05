@@ -40,3 +40,34 @@ public class UseBuildahModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared storage settings and local overrides
+
+Every command inherits 11 public settings from `BuildahOptions`: `CgroupManager`,
+`LogLevel`, `RegistriesConf`, `RegistriesConfDir`, `Root`, `Runroot`,
+`ShortNameAliasConf`, `StorageDriver`, `StorageOpt`, `UsernsGidMap`, and
+`UsernsUidMap`. Hidden profiling/debug settings and root help/version controls
+are not exposed as shared options.
+
+```csharp
+var options = new BuildahImagesOptions
+{
+    Root = "./container-storage",
+    Runroot = "./container-state",
+    StorageOpt = ["overlay.mount_program=/usr/bin/fuse-overlayfs"],
+};
+```
+
+Settings render after the command, for example
+`buildah images --root=./container-storage --runroot=./container-state
+--storage-opt=overlay.mount_program=/usr/bin/fuse-overlayfs` (one command line).
+Storage options and UID/GID maps accept collections and repeat their switch for
+each value.
+
+`build` and `from` retain their command-local UID/GID mapping definitions. Each
+local definition replaces the inherited default in the same CLI scope and
+renders once. Assignments through `BuildahOptions` and the command record share
+the effective value. When migrating `UsernsUidMap` or `UsernsGidMap` from a string,
+wrap the value in a collection, such as `["0:1000:1"]`. Other commands inherit
+the default mapping settings directly. Local flags such as image-list `All`
+(`-a`) remain local; existing credential annotations are preserved.

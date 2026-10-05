@@ -1,0 +1,23 @@
+
+  Copies the contents of a file, URL, or directory into a container's working
+  directory.
+
+Usage:
+  buildah copy [flags]
+
+Examples:
+  buildah copy containerID '/myapp/app.conf'
+  buildah copy containerID '/myapp/app.conf' '/myapp/app.conf'
+
+Flags:
+      --add-history          add an entry for this operation to the image's history.  Use BUILDAH_HISTORY environment variable to override. (default false)
+      --chmod string         set the access permissions of the destination content
+      --chown string         set the user and group ownership of the destination content
+      --contextdir string    context directory path
+      --from string          use the specified container's or image's root directory as the source root directory
+  -h, --help                 help for copy
+      --ignorefile string    path to .containerignore file
+  -q, --quiet                don't output a digest of the newly-added/copied content
+      --retry int            number of times to retry in case of failure when performing pull (default 3)
+      --retry-delay string   delay between retries in case of pull failures (default "2s")
+

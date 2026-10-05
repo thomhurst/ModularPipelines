@@ -1,0 +1,44 @@
+
+  Modifies the configuration values which will be saved to the image.
+
+Usage:
+  buildah config [flags]
+
+Examples:
+  buildah config --author='Jane Austen' --workingdir='/etc/mycontainers' containerID
+  buildah config --entrypoint '[ "/entrypoint.sh", "dev" ]' containerID
+  buildah config --env foo=bar --env PATH=$PATH containerID
+
+Flags:
+      --add-history                     add an entry for this operation to the image's history.  Use BUILDAH_HISTORY environment variable to override. (default false)
+  -a, --annotation annotation           add annotation e.g. annotation=value, for the target image (default [])
+      --arch architecture               set architecture of the target image
+      --author information              set image author contact information
+      --cmd command                     set the default command to run for containers based on the image
+      --comment comment                 set a comment in the target image
+      --created-by description          set description of how the image was created
+      --domainname name                 set a domain name for containers based on image
+      --entrypoint entry point          set entry point for containers based on image
+  -e, --env environment variable        add environment variable to be set when running containers based on image (default [])
+      --healthcheck healthcheck         set a healthcheck command for the target image
+      --healthcheck-interval interval   set the interval between runs of the `healthcheck` command for the target image
+      --healthcheck-retries number      set the number of times the `healthcheck` command has to fail
+      --healthcheck-start-period time   set the amount of time to wait after starting a container before a failed `healthcheck` command will count as a failure
+      --healthcheck-timeout time        set the maximum amount of time to wait for a `healthcheck` command for the target image
+  -h, --help                            help for config
+      --history-comment comment         set a comment for the history of the target image
+      --hostname name                   set a hostname for containers based on image
+  -l, --label label                     add image configuration label e.g. label=value
+      --onbuild strings                 add onbuild command to be run on images based on this image. Only supported on 'docker' formatted images
+      --os operating system             set operating system of the target image
+      --os-feature feature              set required OS feature for the target image
+      --os-version version              set required OS version for the target image
+  -p, --port port                       add port to expose when running containers based on image (default [])
+      --shell shell                     add shell to run in containers
+      --stop-signal stop signal         set stop signal for containers based on image
+      --unsetlabel strings              remove image configuration label
+  -u, --user user                       set default user to run inside containers based on image
+      --variant variant                 set architecture variant of the target image
+  -v, --volume volume                   add default volume path to be created for containers based on image (default [])
+      --workingdir directory            set working directory for containers based on image
+

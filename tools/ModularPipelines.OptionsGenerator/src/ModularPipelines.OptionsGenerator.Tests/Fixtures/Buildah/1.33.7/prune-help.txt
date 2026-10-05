@@ -1,0 +1,15 @@
+
+Cleanup intermediate images as well as build and mount cache.
+
+Usage:
+  buildah prune [flags]
+
+Examples:
+  buildah prune
+  buildah prune
+
+Flags:
+  -a, --all     remove all unused images
+  -f, --force   force removal of the image and any containers using the image
+  -h, --help    help for prune
+

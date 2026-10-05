@@ -1,0 +1,20 @@
+Convert a conventional image to a confidential workload image.
+
+Usage:
+  buildah mkcw [flags]
+
+Examples:
+  buildah mkcw localhost/repository:typical localhost/repository:cw
+
+Flags:
+  -u, --attestation-url string    attestation server URL
+  -b, --base-image string         alternate base image (default: scratch)
+  -c, --cpus int                  number of CPUs to expect
+  -f, --firmware-library string   location of libkrunfw-sev.so
+  -h, --help                      help for mkcw
+  -m, --memory int                amount of memory to expect (MB)
+  -p, --passphrase string         disk encryption passphrase
+  -s, --slop string               extra space needed for converting a container rootfs to a disk image (default "25%")
+  -t, --type string               TEE (trusted execution environment) type: SEV,SNP (default: SNP)
+  -w, --workload-id string        workload ID
+

@@ -1,0 +1,40 @@
+
+  Pushes an image to a specified location.
+
+  The Image "DESTINATION" uses a "transport":"details" format. If not specified, will reuse source IMAGE as DESTINATION.
+
+  Supported transports:
+  containers-storage,dir,docker,docker-archive,docker-daemon,oci,oci-archive,ostree,sif
+
+  See buildah-push(1) section "DESTINATION" for the expected format
+
+Usage:
+  buildah push [flags]
+
+Examples:
+  buildah push imageID docker://registry.example.com/repository:tag
+  buildah push imageID docker-daemon:image:tagi
+  buildah push imageID oci:/path/to/layout:image:tag
+
+Flags:
+      --all                           push all of the images referenced by the manifest list
+      --authfile string               path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string               use certificates at the specified path to access the registry
+      --compression-format string     compression format to use
+      --compression-level int         compression level to use
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+      --digestfile string             after copying the image, write the digest of the resulting image to the file
+  -D, --disable-compression           don't compress layers
+      --encrypt-layer ints            layers to encrypt, 0-indexed layer indices with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer). If not defined, will encrypt all layers if encryption-key flag is specified
+      --encryption-key strings        key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
+      --force-compression             use the specified compression algorithm if the destination contains a differently-compressed variant already
+  -f, --format string                 manifest type (oci, v2s1, or v2s2) to use in the destination (default is manifest type of source, with fallbacks)
+  -h, --help                          help for push
+  -q, --quiet                         don't output progress information when pushing images
+      --remove-signatures             don't copy signatures when pushing image
+      --retry int                     number of times to retry in case of failure when performing push/pull (default 3)
+      --retry-delay string            delay between retries in case of push/pull failures (default "2s")
+      --rm                            remove the manifest list if push succeeds
+      --sign-by FINGERPRINT           sign the image using a GPG key with the specified FINGERPRINT
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+

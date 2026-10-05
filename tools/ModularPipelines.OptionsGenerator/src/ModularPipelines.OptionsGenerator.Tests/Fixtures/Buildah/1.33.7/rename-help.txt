@@ -1,0 +1,13 @@
+
+  Renames a local container.
+
+Usage:
+  buildah rename [flags]
+
+Examples:
+  buildah rename containerName NewName
+  buildah rename containerID NewName
+
+Flags:
+  -h, --help   help for rename
+

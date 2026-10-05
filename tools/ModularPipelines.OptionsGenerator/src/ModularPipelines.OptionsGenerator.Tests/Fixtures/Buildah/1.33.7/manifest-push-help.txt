@@ -1,0 +1,27 @@
+
+  Pushes manifest lists and image indexes to registries.
+
+Usage:
+  buildah manifest push [flags]
+
+Examples:
+  buildah manifest push mylist:v1.11 transport:imageName
+
+Flags:
+      --add-compression strings       add instances with selected compression while pushing
+      --all                           also push the images in the list
+      --authfile string               path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string               use certificates at the specified path to access the registry
+      --compression-format string     compression format to use
+      --compression-level int         compression level to use
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+      --digestfile string             after copying the image, write the digest of the resulting digest to the file
+      --force-compression             use the specified compression algorithm if the destination contains a differently-compressed variant already
+  -f, --format string                 manifest type (oci or v2s2) to attempt to use when pushing the manifest list (default is manifest type of source)
+  -h, --help                          help for push
+  -q, --quiet                         don't output progress information when pushing lists
+      --remove-signatures             don't copy signatures when pushing images
+      --rm                            remove the manifest list if push succeeds
+      --sign-by FINGERPRINT           sign the image using a GPG key with the specified FINGERPRINT
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+
