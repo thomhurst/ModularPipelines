@@ -27,7 +27,7 @@ public class RepeatableOptionAdapterTests
         var command = tool == "packer"
             ? await new TestPackerCliScraper().Parse([tool, "build"], helpText)
             : await new TestTerraformCliScraper().Parse([tool, "build"], helpText);
-        var prefix = tool == "packer" ? "--" : "-";
+        const string prefix = "-";
         var parent = command!.Options.Single(option => option.SwitchName == prefix + "parent");
 
         await Assert.That(parent.AcceptsMultipleValues).IsFalse();
@@ -74,7 +74,7 @@ public class RepeatableOptionAdapterTests
             """;
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
 
-        await AssertRepeatable(command, "--var-file");
+        await AssertRepeatable(command, "-var-file");
     }
 
     [Test]
@@ -88,7 +88,7 @@ public class RepeatableOptionAdapterTests
             """;
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
 
-        await AssertRepeatable(command, "--var");
+        await AssertRepeatable(command, "-var");
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class RepeatableOptionAdapterTests
             """;
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
 
-        await AssertRepeatable(command, "--var-file");
+        await AssertRepeatable(command, "-var-file");
     }
 
     [Test]
@@ -116,7 +116,7 @@ public class RepeatableOptionAdapterTests
               -retry-count=count  Retry the operation multiple times before failing.
             """;
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
-        var option = command!.Options.Single(item => item.SwitchName == "--retry-count");
+        var option = command!.Options.Single(item => item.SwitchName == "-retry-count");
 
         using (Assert.Multiple())
         {
@@ -166,7 +166,7 @@ public class RepeatableOptionAdapterTests
               -var-file=path  {description}
             """;
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
-        var option = command!.Options.Single(item => item.SwitchName == "--var-file");
+        var option = command!.Options.Single(item => item.SwitchName == "-var-file");
 
         await Assert.That(option.AcceptsMultipleValues).IsEqualTo(expected);
     }

@@ -1,0 +1,23 @@
+Usage: packer fmt [options] [TEMPLATE]
+
+  Rewrites all Packer configuration files to a canonical format. Both
+  configuration files (.pkr.hcl) and variable files (.pkrvars.hcl) are updated.
+  JSON files (.json) are not modified.
+
+  If TEMPLATE is "." the current directory will be used.
+  If TEMPLATE is "-" then content will be read from STDIN.
+
+  The given content must be in Packer's HCL2 configuration language; JSON is
+  not supported.
+
+Options:
+  -check        Check if the input is formatted. Exit status will be 0 if all
+                 input is properly formatted and non-zero otherwise.
+
+  -diff         Display diffs of formatting change
+
+  -write=false  Don't write to source files
+                (always disabled if using -check)
+
+  -recursive     Also process files in subdirectories. By default, only the
+                 given directory (or current directory) is processed.

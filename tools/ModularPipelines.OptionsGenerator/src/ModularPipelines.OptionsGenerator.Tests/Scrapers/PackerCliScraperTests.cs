@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -7,6 +8,73 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class PackerCliScraperTests
 {
+    [Test]
+    public async Task Captured_Help_Produces_One_Global_Machine_Readable_Flag()
+    {
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new PackerCliScraper(new FixtureExecutor(), cache, NullLogger<PackerCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var tool = scraper.CreateToolDefinition() with { Commands = commands };
+        var globals = tool.GetGlobalOptions();
+        await Assert.That(globals.Select(option => option.SwitchName)).IsEquivalentTo(["-machine-readable"]);
+        var machineReadable = globals.Single();
+        await Assert.That(machineReadable.IsFlag).IsTrue();
+        await Assert.That(machineReadable.IsSecret).IsFalse();
+        await Assert.That(machineReadable.CSharpType).IsEqualTo("bool?");
+        await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsTrue();
+        await Assert.That(commands).Count().IsEqualTo(10);
+        await Assert.That(commands.SelectMany(command => command.Options)
+            .Any(option => option.PropertyName == "MachineReadable")).IsFalse();
+
+        var baseOptions = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+        await Assert.That(baseOptions).Contains("[CliGlobalOptions]");
+        await Assert.That(baseOptions).Contains("[CliFlag(\"-machine-readable\")]");
+        await Assert.That(baseOptions).DoesNotContain("Color");
+        await Assert.That(baseOptions).DoesNotContain("Debug");
+        var generated = await new OptionsClassGenerator().GenerateAsync(tool);
+        await Assert.That(generated.Any(file => file.Content.Contains("MachineReadable"))).IsFalse();
+    }
+
+    [Test]
+    [Arguments("build", "Color")]
+    [Arguments("fmt", "Write")]
+    public async Task Boolean_Value_Hints_Preserve_Explicit_False(string commandName, string propertyName)
+    {
+        var help = await ReadFixture(commandName);
+        var command = await new TestPackerCliScraper().Parse(["packer", commandName], help);
+        var option = command!.Options.Single(option => option.PropertyName == propertyName);
+
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        await Assert.That(option.IsSecret).IsFalse();
+        await Assert.That(option.SwitchName).IsEqualTo("-" + propertyName.ToLowerInvariant());
+    }
+
+    private static Task<string> ReadFixture(string command) => File.ReadAllTextAsync(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", "Packer", "1.16.1", $"packer-{command}-help.txt"));
+
+    private sealed class FixtureExecutor : ICliCommandExecutor
+    {
+        public async Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            var root = arguments is "--help" or "-help" or "-h";
+            var output = arguments is "--version" or "-version" or "version"
+                ? "Packer v1.16.1"
+                : await ReadFixture(root ? "root" : arguments.Split(' ')[0]);
+            return new CliCommandResult { StandardOutput = output, StandardError = string.Empty, ExitCode = 0 };
+        }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
     [Test]
     [Arguments(false, false)]
     [Arguments(false, true)]
@@ -58,15 +126,15 @@ public class PackerCliScraperTests
             + "  -force  Force a build.\n";
 
         var command = await new TestPackerCliScraper().Parse(["packer", "build"], helpText);
-        var variable = command!.Options.Single(option => option.SwitchName == "--var");
+        var variable = command!.Options.Single(option => option.SwitchName == "-var");
         await Assert.That(variable.Description).IsEqualTo("May be specified multiple times");
         await Assert.That(variable.AcceptsMultipleValues).IsTrue();
         await Assert.That(variable.CSharpType).IsEqualTo("IEnumerable<string>?");
-        await Assert.That(command.Options.Single(option => option.SwitchName == "--force").Description)
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-force").Description)
             .IsEqualTo("Force a build.");
         if (nested)
         {
-            await Assert.That(command.Options.Single(option => option.SwitchName == "--color").Description)
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-color").Description)
                 .IsEqualTo("Configure variables");
         }
     }
@@ -91,10 +159,10 @@ public class PackerCliScraperTests
         using (Assert.Multiple())
         {
             await Assert.That(command!.Options.Select(option => option.SwitchName))
-                .IsEquivalentTo(["--color", "--except", "--force"]);
-            await Assert.That(command.Options.Single(option => option.SwitchName == "--except").Description)
+                .IsEquivalentTo(["-color", "-except", "-force"]);
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-except").Description)
                 .IsEqualTo("Run all builds and post-processors other than these. Combine with -only=foo,bar  to narrow the selection further.");
-            await Assert.That(command.Options.Single(option => option.SwitchName == "--force").Description)
+            await Assert.That(command.Options.Single(option => option.SwitchName == "-force").Description)
                 .IsEqualTo("Force a build to continue if artifacts exist, deletes existing artifacts.");
         }
     }

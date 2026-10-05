@@ -1,0 +1,48 @@
+Usage: packer fix [options] TEMPLATE
+
+  Reads the JSON template and attempts to fix known backwards
+  incompatibilities. The fixed template will be outputted to standard out.
+
+  If the template cannot be fixed due to an error, the command will exit
+  with a non-zero exit status. Error messages will appear on standard error.
+
+Fixes that are run (in order):
+
+  iso-md5                    Replaces "iso_md5" in builders with "iso_checksum"
+  createtime                 Replaces ".CreateTime" in builder configs with "{{timestamp}}"
+  virtualbox-gaattach        Updates VirtualBox builders using "guest_additions_attach" to use "guest_additions_mode"
+  pp-vagrant-override        Fixes provider-specific overrides for Vagrant post-processor
+  virtualbox-rename          Updates "virtualbox" builders to "virtualbox-iso"
+  vmware-rename              Updates "vmware" builders to "vmware-iso"
+  parallels-headless         Removes unused "headless" from Parallels builders
+  parallels-deprecations     Removes deprecated "parallels_tools_host_path" from Parallels builders and changes "guest_os_distribution" to "guest_os_type".
+  sshkeypath                 Updates builders using "ssh_key_path" to use "ssh_private_key_file"
+  sshdisableagent            Updates builders using "ssh_disable_agent" to use "ssh_disable_agent_forwarding"
+  scaleway-access-key        Updates builders using "access_key" to use "organization_id"
+  manifest-filename          Updates "manifest" post-processor so any "filename" field is renamed to "output".
+  amazon-shutdown_behavior   Changes "shutdown_behaviour" to "shutdown_behavior" in Amazon builders.
+  amazon-enhanced-networking Replaces "enhanced_networking" in builders with "ena_support"
+  amazon-private-ip          Replaces `"ssh_private_ip": true` in amazon builders with `"ssh_interface": "private_ip"`
+  amazon-temp-sec-cidrs      Replaces "temporary_security_group_source_cidr" (string) with "temporary_security_group_source_cidrs" (list of strings)
+  docker-email               Removes "login_email" from the Docker builder.
+  docker-tag-tags            Updates "docker" post-processor so any "tag" field is renamed to "tags".
+  powershell-escapes         Removes PowerShell escapes from user env vars and elevated username and password strings
+  vmware-compaction          Adds "skip_compaction = true" to "vmware-iso" builders with incompatible disk_type_id
+  hyperv-deprecations        Removes the deprecated "vhd_temp_path" setting from Hyper-V ISO builder templates
+  hyperv-vmxc-typo           Fixes a typo replacing "clone_from_vmxc_path" with "clone_from_vmcx_path" in Hyper-V VMCX builder templates
+  hyperv-cpu-and-ram         Replaces "cpu" with "cpus" and "ram_size" with "memory"in Hyper-V VMCX builder templates
+  clean-image-name           Replaces /clean_(image|ami)_name/ in builder configs with "clean_resource_name"
+  spot-price-auto-product    Removes the deprecated "spot_price_auto_product" setting from Amazon builder templates
+  qemu-disk-size             Updates "disk_size" from int to string in QEMU builders.
+  galaxy-command             Replaces "galaxycommand" in ansible-local provisioner configs with "galaxy_command"
+  comm-config                Remove ssh prefixes from communicator port forwarding configuration (host_port_min, host_port_max, skip_nat_mapping)
+  ssh-wait-timeout           Replaces "ssh_wait_timeout" with "ssh_timeout"
+  vsphere-iso-net-disk       Removes deprecated network and disk fields from "vsphere-iso" builder
+  iso-checksum-type-and-url  Puts content of potential "iso_checksum_url" and "iso_checksum_url" in "iso_checksum"
+  qemu-host-port             Updates ssh_host_port_min and ssh_host_port_max to host_port_min and host_port_max
+  azure-exclude_from_latest  Changes "exlude_from_latest" to "exclude_from_latest" in Azure builders.
+  proxmox-type               Updates the builder type proxmox to proxmox-iso
+
+Options:
+
+  -validate=true      If true (default), validates the fixed template.
