@@ -79,6 +79,20 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
+    public async Task Infinite_Result_Timeout_Preserves_Finite_Key_Expiration()
+    {
+        var options = new RedisOptions { TimeToLive = TimeSpan.FromMinutes(5) };
+        RedisDistributedCoordinator.ValidateKeyExpiration(options, new DistributedOptions
+        {
+            ModuleResultTimeout = Timeout.InfiniteTimeSpan,
+            WorkerTimeout = TimeSpan.FromMinutes(1),
+            MasterTimeout = TimeSpan.FromMinutes(1),
+        });
+
+        await Assert.That(options.TimeToLive).IsEqualTo(TimeSpan.FromMinutes(5));
+    }
+
+    [Test]
     public async Task Default_Key_Expiration_Is_Valid()
     {
         RedisDistributedCoordinator.ValidateKeyExpiration(new RedisOptions(), new DistributedOptions());
