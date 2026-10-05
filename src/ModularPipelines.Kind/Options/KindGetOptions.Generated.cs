@@ -20,16 +20,4 @@ namespace ModularPipelines.Kind.Options;
 [CliSubCommand("get")]
 public record KindGetOptions : KindOptions
 {
-    /// <summary>
-    /// silence all stderr output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// info log verbosity, higher value produces more output
-    /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
-
 }

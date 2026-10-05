@@ -32,16 +32,4 @@ public record KindDeleteClustersOptions : KindOptions
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
     public string? KubeConfig { get; set; }
 
-    /// <summary>
-    /// silence all stderr output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// info log verbosity, higher value produces more output
-    /// </summary>
-    [CliOption("--verbosity", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbosity { get; set; }
-
 }
