@@ -23,7 +23,7 @@ public class GlobalOptionsTests : TestBase
             TlsVerify = "false",
         };
         await AssertArguments(BuildArguments(options),
-            ["--command-timeout=0s", "--debug=false", "--registries.d=registries", "docker://example/image", "--tls-verify=false"]);
+            ["docker://example/image", "--tls-verify=false", "--command-timeout=0s", "--debug=false", "--registries.d=registries"]);
         await Assert.That(await RenderCommand(options))
             .IsEqualTo("skopeo --command-timeout=0s --debug=false --registries.d=registries inspect docker://example/image --tls-verify=false");
     }
