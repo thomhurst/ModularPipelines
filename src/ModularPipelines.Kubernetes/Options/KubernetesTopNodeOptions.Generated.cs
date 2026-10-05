@@ -23,7 +23,7 @@ public record KubernetesTopNodeOptions : KubernetesOptions
     /// <summary>
     /// If present, print output without headers
     /// </summary>
-    [CliFlag("--no-headers")]
+    [CliFlag("--no-headers", NegatedName = "--no-headers=false")]
     public bool? NoHeaders { get; set; }
 
     /// <summary>
@@ -35,13 +35,13 @@ public record KubernetesTopNodeOptions : KubernetesOptions
     /// <summary>
     /// Print node resources based on Capacity instead of Allocatable(default) of the nodes.
     /// </summary>
-    [CliFlag("--show-capacity")]
+    [CliFlag("--show-capacity", NegatedName = "--show-capacity=false")]
     public bool? ShowCapacity { get; set; }
 
     /// <summary>
     /// Print node resources related to swap memory.
     /// </summary>
-    [CliFlag("--show-swap")]
+    [CliFlag("--show-swap", NegatedName = "--show-swap=false")]
     public bool? ShowSwap { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record KubernetesTopNodeOptions : KubernetesOptions
     /// <summary>
     /// Enables using protocol-buffers to access Metrics API.
     /// </summary>
-    [CliOption("--use-protocol-buffers", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--use-protocol-buffers", NegatedName = "--use-protocol-buffers=false")]
     public bool? UseProtocolBuffers { get; set; }
 
     /// <summary>

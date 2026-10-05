@@ -46,13 +46,13 @@ public record KubernetesConfigSetClusterOptions : KubernetesOptions
     /// <summary>
     /// embed-certs for the cluster entry in kubeconfig
     /// </summary>
-    [CliFlag("--embed-certs")]
+    [CliFlag("--embed-certs", NegatedName = "--embed-certs=false")]
     public bool? EmbedCerts { get; set; }
 
     /// <summary>
     /// insecure-skip-tls-verify for the cluster entry in kubeconfig
     /// </summary>
-    [CliFlag("--insecure-skip-tls-verify")]
+    [CliFlag("--insecure-skip-tls-verify", NegatedName = "--insecure-skip-tls-verify=false")]
     public bool? InsecureSkipTlsVerify { get; set; }
 
     /// <summary>

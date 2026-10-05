@@ -51,7 +51,7 @@ public record KubernetesCpOptions : KubernetesOptions
     /// <summary>
     /// The copied file/directory's ownership and permissions will not be preserved in the container
     /// </summary>
-    [CliFlag("--no-preserve")]
+    [CliFlag("--no-preserve", NegatedName = "--no-preserve=false")]
     public bool? NoPreserve { get; set; }
 
     /// <summary>

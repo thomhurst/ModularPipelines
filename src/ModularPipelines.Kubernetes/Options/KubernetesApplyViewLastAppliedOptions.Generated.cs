@@ -24,7 +24,7 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     /// <summary>
     /// Select all resources in the namespace of the specified resource types
     /// </summary>
-    [CliFlag("--all")]
+    [CliFlag("--all", NegatedName = "--all=false")]
     public bool? All { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>

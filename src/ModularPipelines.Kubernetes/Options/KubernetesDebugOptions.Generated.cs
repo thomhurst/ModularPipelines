@@ -26,13 +26,13 @@ public record KubernetesDebugOptions(
     /// <summary>
     /// If specified, everything after -- will be passed to the new container as Args instead of Command.
     /// </summary>
-    [CliFlag("--arguments-only")]
+    [CliFlag("--arguments-only", NegatedName = "--arguments-only=false")]
     public bool? ArgumentsOnly { get; set; }
 
     /// <summary>
     /// If true, wait for the container to start running, and then attach as if 'kubectl attach ...' were called.  Default false, unless '-i/--stdin' is set, in which case the default is true.
     /// </summary>
-    [CliFlag("--attach")]
+    [CliFlag("--attach", NegatedName = "--attach=false")]
     public bool? Attach { get; set; }
 
     /// <summary>
@@ -80,37 +80,37 @@ public record KubernetesDebugOptions(
     /// <summary>
     /// If true, keep the original pod annotations.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliFlag("--keep-annotations")]
+    [CliFlag("--keep-annotations", NegatedName = "--keep-annotations=false")]
     public bool? KeepAnnotations { get; set; }
 
     /// <summary>
     /// Run the init containers for the pod. Defaults to true.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliOption("--keep-init-containers", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--keep-init-containers", NegatedName = "--keep-init-containers=false")]
     public bool? KeepInitContainers { get; set; }
 
     /// <summary>
     /// If true, keep the original pod labels.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliFlag("--keep-labels")]
+    [CliFlag("--keep-labels", NegatedName = "--keep-labels=false")]
     public bool? KeepLabels { get; set; }
 
     /// <summary>
     /// If true, keep the original pod liveness probes.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliFlag("--keep-liveness")]
+    [CliFlag("--keep-liveness", NegatedName = "--keep-liveness=false")]
     public bool? KeepLiveness { get; set; }
 
     /// <summary>
     /// If true, keep the original pod readiness probes.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliFlag("--keep-readiness")]
+    [CliFlag("--keep-readiness", NegatedName = "--keep-readiness=false")]
     public bool? KeepReadiness { get; set; }
 
     /// <summary>
     /// If true, keep the original startup probes.(This flag only works when used with '--copy-to')
     /// </summary>
-    [CliFlag("--keep-startup")]
+    [CliFlag("--keep-startup", NegatedName = "--keep-startup=false")]
     public bool? KeepStartup { get; set; }
 
     /// <summary>
@@ -122,19 +122,19 @@ public record KubernetesDebugOptions(
     /// <summary>
     /// If true, suppress informational messages.
     /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
+    [CliFlag("--quiet", ShortForm = "-q", NegatedName = "--quiet=false")]
     public bool? Quiet { get; set; }
 
     /// <summary>
     /// When used with '--copy-to', delete the original Pod.
     /// </summary>
-    [CliFlag("--replace")]
+    [CliFlag("--replace", NegatedName = "--replace=false")]
     public bool? Replace { get; set; }
 
     /// <summary>
     /// When used with '--copy-to', schedule the copy of target Pod on the same node.
     /// </summary>
-    [CliFlag("--same-node")]
+    [CliFlag("--same-node", NegatedName = "--same-node=false")]
     public bool? SameNode { get; set; }
 
     /// <summary>
@@ -146,13 +146,13 @@ public record KubernetesDebugOptions(
     /// <summary>
     /// When used with '--copy-to', enable process namespace sharing in the copy.
     /// </summary>
-    [CliOption("--share-processes", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--share-processes", NegatedName = "--share-processes=false")]
     public bool? ShareProcesses { get; set; }
 
     /// <summary>
     /// Keep stdin open on the container(s) in the pod, even if nothing is attached.
     /// </summary>
-    [CliFlag("--stdin", ShortForm = "-i")]
+    [CliFlag("--stdin", ShortForm = "-i", NegatedName = "--stdin=false")]
     public bool? Stdin { get; set; }
 
     /// <summary>
@@ -164,7 +164,7 @@ public record KubernetesDebugOptions(
     /// <summary>
     /// Allocate a TTY for the debugging container.
     /// </summary>
-    [CliFlag("--tty", ShortForm = "-t")]
+    [CliFlag("--tty", ShortForm = "-t", NegatedName = "--tty=false")]
     public bool? Tty { get; set; }
 
     /// <summary>

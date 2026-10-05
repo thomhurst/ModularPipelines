@@ -23,7 +23,7 @@ public record KubernetesDescribeOptions : KubernetesOptions
     /// <summary>
     /// If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
     /// </summary>
-    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    [CliFlag("--all-namespaces", ShortForm = "-A", NegatedName = "--all-namespaces=false")]
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record KubernetesDescribeOptions : KubernetesOptions
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record KubernetesDescribeOptions : KubernetesOptions
     /// <summary>
     /// If true, display events related to the described object. Defaults to true for a single object, false for multiple objects and prefix matching.
     /// </summary>
-    [CliOption("--show-events", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--show-events", NegatedName = "--show-events=false")]
     public bool? ShowEvents { get; set; }
 
 }

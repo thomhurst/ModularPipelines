@@ -29,7 +29,7 @@ public record KubernetesConfigSetContextOptions : KubernetesOptions
     /// <summary>
     /// Modify the current context
     /// </summary>
-    [CliFlag("--current")]
+    [CliFlag("--current", NegatedName = "--current=false")]
     public bool? Current { get; set; }
 
     /// <summary>

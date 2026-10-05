@@ -65,7 +65,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// <summary>
     /// Embed client cert/key for the user entry in kubeconfig
     /// </summary>
-    [CliFlag("--embed-certs")]
+    [CliFlag("--embed-certs", NegatedName = "--embed-certs=false")]
     public bool? EmbedCerts { get; set; }
 
     /// <summary>
@@ -101,7 +101,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// <summary>
     /// ProvideClusterInfo of the exec credentials plugin for the user entry in kubeconfig
     /// </summary>
-    [CliFlag("--exec-provide-cluster-info")]
+    [CliFlag("--exec-provide-cluster-info", NegatedName = "--exec-provide-cluster-info=false")]
     public bool? ExecProvideClusterInfo { get; set; }
 
     /// <summary>

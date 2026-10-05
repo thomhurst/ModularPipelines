@@ -58,19 +58,19 @@ public record KubernetesAttachOptions : KubernetesOptions
     /// <summary>
     /// Only print output from the remote session
     /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
+    [CliFlag("--quiet", ShortForm = "-q", NegatedName = "--quiet=false")]
     public bool? Quiet { get; set; }
 
     /// <summary>
     /// Pass stdin to the container
     /// </summary>
-    [CliFlag("--stdin", ShortForm = "-i")]
+    [CliFlag("--stdin", ShortForm = "-i", NegatedName = "--stdin=false")]
     public bool? Stdin { get; set; }
 
     /// <summary>
     /// Stdin is a TTY
     /// </summary>
-    [CliFlag("--tty", ShortForm = "-t")]
+    [CliFlag("--tty", ShortForm = "-t", NegatedName = "--tty=false")]
     public bool? Tty { get; set; }
 
     /// <summary>
