@@ -31,7 +31,8 @@ public class KustomizeCliScraperTests
     {
         var scraper = new TestKustomizeCliScraper();
         var root = scraper.ParseGlobals(Fixture("root"));
-        var inherited = scraper.ParseGlobals(Fixture(fixture));
+        var command = (await scraper.Parse(["kustomize", .. fixture.Split('-')], Fixture(fixture)))!;
+        var inherited = command.Options.Where(option => option.SwitchName == "--stack-trace").ToList();
         await Assert.That(inherited.Count).IsEqualTo(1);
         await Assert.That(CliGlobalOptionMerger.Merge(root, inherited).Count).IsEqualTo(1);
     }
