@@ -258,6 +258,7 @@ internal static class InheritedPropertyCollisionResolver
                 {
                     PropertyName = RecordRename(option.PropertyName, inherited.PropertyName, renamedProperties),
                     ShadowsGlobalOption = true,
+                    GlobalOptionPropertyType = inherited.PropertyType,
                 };
             }
 

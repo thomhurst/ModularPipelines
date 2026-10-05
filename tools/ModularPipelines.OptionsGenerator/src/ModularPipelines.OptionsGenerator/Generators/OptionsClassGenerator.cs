@@ -733,6 +733,17 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
+        if (option?.GlobalOptionPropertyType == propertyType)
+        {
+            // Keep command-specific metadata separate while base-typed callers use the same value.
+            sb.AppendLine(declaration);
+            sb.AppendLine("    {");
+            sb.AppendLine($"        get => base.{propertyName};");
+            sb.AppendLine($"        {GetPropertyAccessor(isRequired)} => base.{propertyName} = value;");
+            sb.AppendLine("    }");
+            return;
+        }
+
         // Required collections are already materialized by their constructor. Optional
         // alternative inputs must retain the same values for validation and rendering.
         if (!isRequired && participatesInAlternative
