@@ -193,7 +193,8 @@ A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
 and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and
 artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's
-heartbeat go stale before it expires.
+heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key
+expiration: keys retain their configured TTL, so choose a TTL that covers the required retention period.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 

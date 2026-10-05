@@ -33,7 +33,8 @@ public class RedisOptions
     /// <summary>
     /// Gets or sets how long Redis keys live. Distributed run keys and artifacts must outlive the
     /// run, so this must exceed <see cref="DistributedOptions.ModuleResultTimeout"/> when the
-    /// coordinator or artifact store is registered. Default: 1 hour.
+    /// coordinator or artifact store is registered. An infinite module result timeout does not disable
+    /// key expiration; choose a TTL that covers the required retention period. Default: 1 hour.
     /// </summary>
     public TimeSpan TimeToLive { get; set; } = TimeSpan.FromHours(1);
 
