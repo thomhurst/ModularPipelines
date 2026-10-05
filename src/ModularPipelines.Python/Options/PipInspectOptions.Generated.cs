@@ -13,7 +13,7 @@ using ModularPipelines.Python.Options;
 namespace ModularPipelines.Python.Options;
 
 /// <summary>
-/// Inspect the content of a Python environment and produce a report in JSON format.
+/// Inspect the content of a Python environment and produce a report in JSON
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]

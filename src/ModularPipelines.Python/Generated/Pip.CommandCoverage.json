@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "pip",
-  "toolVersion": "pip 25.3 from C:\\Python314\\Lib\\site-packages\\pip (python 3.14)",
+  "toolVersion": "pip 26.2.1 from C:\\git\\ModularPipelines-worktrees\\pr-5724-pip-26-arity\\artifacts\\pip26\\Lib\\site-packages\\pip (python 3.14)",
   "commandCount": 15,
   "commandTreeSha256": "adb68e6d885d4c64ba50d370d7a8aaf1cb5813da5967d50432fd8fc35de71773",
   "commands": [
