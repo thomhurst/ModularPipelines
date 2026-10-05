@@ -41,6 +41,14 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `-chdir` | `Chdir` | All editions | Switch to a different working directory before executing the given subcommand. |
+
 ## Commands
 
 | CLI command | Options record |
