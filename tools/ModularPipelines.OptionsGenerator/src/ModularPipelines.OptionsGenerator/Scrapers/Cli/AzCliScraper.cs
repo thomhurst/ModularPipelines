@@ -219,27 +219,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             return Task.FromResult<CliCommandDefinition?>(null);
         }
 
-        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes = null;
-        var metadataIndex = helpText.LastIndexOf(AzCliMetadataExecutor.MetadataMarker, StringComparison.Ordinal);
-        if (metadataIndex >= 0)
-        {
-            var metadata = JsonSerializer.Deserialize<Dictionary<string, AzArgumentMetadata>>(
-                helpText[(metadataIndex + AzCliMetadataExecutor.MetadataMarker.Length)..])
-                ?? throw new InvalidOperationException("Azure CLI argument metadata was null.");
-            // Some Azure parser option strings contain trailing whitespace that help omits.
-            // Reject normalized duplicates rather than choosing potentially conflicting arity.
-            argumentShapes = metadata.ToDictionary(pair => pair.Key.Trim(), pair => pair.Value, StringComparer.Ordinal);
-            foreach (var shape in argumentShapes.Values)
-            {
-                if (shape is null)
-                {
-                    throw new InvalidOperationException("Azure CLI argument shape was null.");
-                }
-
-                shape.Validate();
-            }
-            helpText = helpText[..metadataIndex].TrimEnd();
-        }
+        var argumentShapes = ExtractArgumentShapes(ref helpText);
 
         var commandParts = commandPath.Skip(1).ToArray(); // Skip "az"
 
@@ -303,6 +283,34 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
+    }
+
+    private static IReadOnlyDictionary<string, AzArgumentMetadata>? ExtractArgumentShapes(ref string helpText)
+    {
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes = null;
+        var metadataIndex = helpText.LastIndexOf(AzCliMetadataExecutor.MetadataMarker, StringComparison.Ordinal);
+        if (metadataIndex >= 0)
+        {
+            var metadata = JsonSerializer.Deserialize<Dictionary<string, AzArgumentMetadata>>(
+                helpText[(metadataIndex + AzCliMetadataExecutor.MetadataMarker.Length)..])
+                ?? throw new InvalidOperationException("Azure CLI argument metadata was null.");
+            // Some Azure parser option strings contain trailing whitespace that help omits.
+            // Reject normalized duplicates rather than choosing potentially conflicting arity.
+            argumentShapes = metadata.ToDictionary(pair => pair.Key.Trim(), pair => pair.Value, StringComparer.Ordinal);
+            foreach (var shape in argumentShapes.Values)
+            {
+                if (shape is null)
+                {
+                    throw new InvalidOperationException("Azure CLI argument shape was null.");
+                }
+
+                shape.Validate();
+            }
+
+            helpText = helpText[..metadataIndex].TrimEnd();
+        }
+
+        return argumentShapes;
     }
 
     /// <summary>
@@ -419,9 +427,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             IsFlag = isFlag,
             IsRequired = isRequired,
             AcceptsMultipleValues = csharpType.StartsWith("IEnumerable"),
-            GroupValues = shape?.GroupValues ?? (IsGroupedAzureValueOption(longFlag)
-                          || HelpDeclaresGroupedValues(description)
-                          || IsGroupedAzureGenericUpdateOption(longFlag, description)),
+            GroupValues = HasGroupedValues(shape, longFlag, description),
             IsKeyValue = false,
             IsNumeric = csharpType == "int?",
             ValueSeparator = " ",
@@ -430,6 +436,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
         };
     }
+
+    private static bool HasGroupedValues(AzArgumentMetadata? shape, string longFlag, string description) =>
+        shape?.GroupValues ?? (IsGroupedAzureValueOption(longFlag)
+                              || HelpDeclaresGroupedValues(description)
+                              || IsGroupedAzureGenericUpdateOption(longFlag, description));
 
     private static string? GetShortAlias(Match match) =>
         match.Groups["alias"].Captures
