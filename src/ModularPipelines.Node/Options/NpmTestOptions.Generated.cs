@@ -37,6 +37,6 @@ public record NpmTestOptions : NpmOptions
     /// The &lt;args&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
-    public string? Args { get; set; }
+    public IEnumerable<string>? Args { get; set; }
 
 }

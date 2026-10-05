@@ -7,6 +7,60 @@ namespace ModularPipelines.Node.UnitTests.Api;
 public class NpmCommandRenderingTests : TestBase
 {
     [Test]
+    [Arguments("ls")]
+    [Arguments("pack")]
+    [Arguments("publish")]
+    [Arguments("run")]
+    public async Task Current_Project_Commands_Render_Without_Operands(string verb)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        NpmOptions options = verb switch
+        {
+            "ls" => new NpmLsOptions(),
+            "pack" => new NpmPackOptions(),
+            "publish" => new NpmPublishOptions(),
+            _ => new NpmRunOptions(),
+        };
+        await Assert.That(builder.Build(options).ToString()).IsEqualTo($"npm {verb}");
+    }
+
+    [Test]
+    [Arguments("run")]
+    [Arguments("start")]
+    [Arguments("stop")]
+    [Arguments("test")]
+    [Arguments("restart")]
+    public async Task Script_Arguments_Render_As_Separate_Tokens(string verb)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        string[] arguments = ["--output", "dist", "--watch"];
+        NpmOptions options = verb switch
+        {
+            "run" => new NpmRunOptions { Command = "build", Args = arguments },
+            "start" => new NpmStartOptions { Args = arguments },
+            "stop" => new NpmStopOptions { Args = arguments },
+            "test" => new NpmTestOptions { Args = arguments },
+            _ => new NpmRestartOptions { Args = arguments },
+        };
+        string[] expected = verb == "run"
+            ? [verb, "build", "--", .. arguments]
+            : [verb, "--", .. arguments];
+        await Assert.That(builder.Build(options).Arguments.SequenceEqual(expected)).IsTrue();
+    }
+
+    [Test]
+    public async Task Package_Filters_And_Pack_Specifications_Remain_Separate_Operands()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        await Assert.That(builder.Build(new NpmLsOptions { PackageSpec = ["one", "two"] }).Arguments
+            .SequenceEqual(["ls", "one", "two"])).IsTrue();
+        await Assert.That(builder.Build(new NpmPackOptions { PackageSpec = ["one", "two"] }).Arguments
+            .SequenceEqual(["pack", "one", "two"])).IsTrue();
+        await Assert.That(builder.Build(new NpmPublishOptions { PackageSpec = "./package.tgz" }).Arguments
+            .SequenceEqual(["publish", "./package.tgz"])).IsTrue();
+    }
+
+    [Test]
     public async Task Version_Preid_Renders_A_Value()
     {
         var builder = await GetService<ICommandLineBuilder>();

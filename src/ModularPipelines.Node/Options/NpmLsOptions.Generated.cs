@@ -22,23 +22,6 @@ namespace ModularPipelines.Node.Options;
 public record NpmLsOptions : NpmOptions
 {
     /// <summary>
-    /// List installed packages
-    /// </summary>
-    /// <param name="PackageSpec">The &lt;package-spec&gt; operand.</param>
-    public NpmLsOptions(
-        string PackageSpec
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(PackageSpec);
-        this.PackageSpec = PackageSpec;
-    }
-
-    public void Deconstruct(out string PackageSpec)
-    {
-        PackageSpec = this.PackageSpec;
-    }
-
-    /// <summary>
     /// When running `npm outdated` and `npm ls`, setting `--all` will show
     /// </summary>
     [CliFlag("--all", ShortForm = "-a")]
@@ -131,7 +114,7 @@ public record NpmLsOptions : NpmOptions
     /// <summary>
     /// The &lt;package-spec&gt; operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string PackageSpec { get; private init; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? PackageSpec { get; set; }
 
 }
