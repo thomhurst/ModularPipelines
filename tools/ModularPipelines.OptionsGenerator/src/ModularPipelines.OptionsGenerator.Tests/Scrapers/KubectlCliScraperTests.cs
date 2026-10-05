@@ -8,6 +8,51 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class KubectlCliScraperTests
 {
     [Test]
+    [Arguments("annotate-windows.txt", "annotate", "--recursive")]
+    [Arguments("annotate-windows.txt", "annotate", "--all")]
+    [Arguments("apply-edit-last-applied-windows.txt", "apply edit-last-applied", "--windows-line-endings")]
+    public async Task Captured_Boolean_Options_Preserve_Bare_And_False_Forms(
+        string fixture, string commandPath, string switchName)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Kubectl", "1.37.1", fixture));
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", .. commandPath.Split(' ')], help);
+        var option = command!.Options.Single(option => option.SwitchName == switchName);
+
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.NegatedSwitchName).IsEqualTo(switchName + "=false");
+    }
+
+    [Test]
+    public async Task Platform_Default_Does_Not_Change_Boolean_Metadata()
+    {
+        var windowsHelp = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Kubectl", "1.37.1", "apply-edit-last-applied-windows.txt"));
+        foreach (var help in new[] { windowsHelp, windowsHelp.Replace("--windows-line-endings=true:", "--windows-line-endings=false:") })
+        {
+            var command = await new TestKubectlCliScraper().Parse(["kubectl", "apply", "edit-last-applied"], help);
+            var option = command!.Options.Single(option => option.SwitchName == "--windows-line-endings");
+            await Assert.That(option.IsFlag).IsTrue();
+            await Assert.That(option.NegatedSwitchName).IsEqualTo("--windows-line-endings=false");
+        }
+    }
+
+    [Test]
+    public async Task Captured_Descriptions_Preserve_Current_Upstream_Wording()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "Kubectl", "1.37.1", "annotate-windows.txt"));
+        var command = await new TestKubectlCliScraper().Parse(["kubectl", "annotate"], help);
+
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "--filename").Description)
+            .IsEqualTo("identifying the resource.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--selector").Description)
+            .IsEqualTo("Selector (label query) to filter on, supports '=', '==', and '!='.(e.g. -l key1=value1,key2=value2)");
+    }
+
+    [Test]
     public async Task Uses_Version_Subcommand_For_Availability_And_Version()
     {
         var executor = new RecordingExecutor();
