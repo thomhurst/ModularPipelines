@@ -82,6 +82,18 @@ public class PackerCliScraperTests
         await Assert.That(generated).Contains("[CliOption(\"-config-type\", Format = OptionFormat.EqualsSeparated)]");
     }
 
+    [Test]
+    public async Task Build_On_Error_Preserves_Value_With_One_Space_Before_Description()
+    {
+        var command = (await new TestPackerCliScraper().Parse(["packer", "build"], await ReadFixture("build")))!;
+        await Assert.That(command.Options.Select(option => option.SwitchName)).Contains("-on-error");
+        var option = command.Options.Single(option => option.SwitchName == "-on-error");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.IsFlag).IsFalse();
+        await Assert.That(option.ValueSeparator).IsEqualTo("=");
+        await Assert.That(option.Description).StartsWith("If the build fails do:");
+    }
+
     private static Task<string> ReadFixture(string command) => File.ReadAllTextAsync(
         Path.Combine(AppContext.BaseDirectory, "Fixtures", "Packer", "1.16.1", $"packer-{command}-help.txt"));
 

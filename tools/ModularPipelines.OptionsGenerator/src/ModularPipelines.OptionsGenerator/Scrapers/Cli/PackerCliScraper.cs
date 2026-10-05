@@ -349,7 +349,7 @@ public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCac
     ///   -debug             Debug mode enabled
     ///   -var 'key=value'   Variable for templates
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'(?<value>[^']+)')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:(?:=(?<value>\S+)|\s+'(?<value>[^']+)')\s+|\s{2,})(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex PackerOptionPattern();
 
     #endregion
