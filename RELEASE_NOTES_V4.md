@@ -808,3 +808,28 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Generated CLI operand names
+
+Generated identifiers beginning with a digit now use a `Number` prefix. For example,
+`_404Document` becomes `Number404Document`; the emitted CLI switch remains
+`--404-document`. The same rule applies to digit-leading name segments:
+`Use_32bitWorkerProcess` becomes `UseNumber32bitWorkerProcess`, while
+`--use-32bit-worker-process` is unchanged. Azure static-website options remain available
+in the current generated storage service commands.
+
+Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` produce one collection.
+`KubernetesLabelOptions` now takes one `Labels` collection instead of `Key_1Val_1`
+and `KeyNValN`. Label and annotate options expose `Type` and `Name` for resource
+selection, alongside the existing file and selector options. Combined references such
+as `Type = "pod/example"` (or `TypeArgument` for patch) do not require a separate
+`Name`. For label and annotate, a bare `Type` requires `Name`, `All = true`, or a
+nonblank `Selector`/`FieldSelector`. `Kustomize = "overlay"` is also accepted as a
+resource source. Kubectl validates the resource identity itself. Patch and scale recover their resource operands from the
+same generic alternative parser. `IKubernetes.PatchAsync` and `IKubernetes.ScaleAsync`
+now require a non-null `options` argument instead of defaulting it to null. Pass
+`KubernetesPatchOptions` or `KubernetesScaleOptions` with a resource source; calls
+that omit options must be updated.
+Supply the resource source through `Filename`, `Kustomize`, or `Type` (`TypeArgument`
+for patch), including when adding manual `Arguments`; typed validation does not infer
+required values from those manual tokens.

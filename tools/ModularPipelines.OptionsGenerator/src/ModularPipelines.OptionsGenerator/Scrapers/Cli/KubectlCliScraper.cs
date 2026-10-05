@@ -8,7 +8,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// CLI-first scraper for kubectl.
 /// kubectl is a Cobra-based CLI with consistent help formatting.
 /// </summary>
-public class KubectlCliScraper : CobraCliScraper
+public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
     public override string ToolName => "kubectl";
     public override string NamespacePrefix => "Kubernetes";
@@ -27,11 +27,6 @@ public class KubectlCliScraper : CobraCliScraper
                 ? option with { IsFlag = true, NegatedSwitchName = option.SwitchName + "=false" }
                 : option)];
 
-    public KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
@@ -48,6 +43,51 @@ public class KubectlCliScraper : CobraCliScraper
                                || unparsedOperandTokens.Count > 0,
             PositionalArguments = positionalArguments,
             UnparsedOperandTokens = unparsedOperandTokens,
+        };
+    }
+
+    protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) =>
+        [.. groups.Select(group => NormalizeResourceInputs(group, command.Options,
+            command.CommandParts is ["annotate" or "label"]))];
+
+    // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
+    // A bare TYPE still needs a name or selector; a combined TYPE/NAME supplies both.
+    private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options, bool requireSelection)
+    {
+        var members = group.Members;
+        var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, requireSelection)).ToList();
+        if (!group.IsChoice
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type)
+        {
+            var name = members.FirstOrDefault(member => member.PositionalPropertyName == "Name");
+            members = [.. members.Where(member => member.PositionalPropertyName != "Name")];
+            if (requireSelection && name is not null)
+            {
+                groups.Add(new UsageRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        name,
+                        type with { ValuePattern = @"\A[^/\s]+/[^/\s]+\z" },
+                        .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
+                            .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName }),
+                    ],
+                });
+            }
+        }
+
+        if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
+            && options.Any(option => option.SwitchName == "--kustomize"))
+        {
+            members = [.. members, new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" }];
+        }
+
+        return group with
+        {
+            Members = members,
+            Groups = groups,
         };
     }
 
@@ -71,11 +111,7 @@ public class KubectlCliScraper : CobraCliScraper
         commandParts switch
         {
             ["annotate"] => AllowOmittedValue(
-                CollapseNumberedRepeat(
-                    positionalArguments,
-                    "Key_1Val_1",
-                    "KeyNValN",
-                    "Annotations"),
+                RenameArgument(positionalArguments, "KeyVal", "Annotations"),
                 "Annotations"),
             ["auth", "can-i"] => AllowOmittedValue(positionalArguments, "Verb"),
             ["cordon" or "drain" or "uncordon"] => AllowOmittedValue(positionalArguments, "Node"),
@@ -84,7 +120,7 @@ public class KubectlCliScraper : CobraCliScraper
                 "Pod"),
             ["events"] => RemoveArgument(positionalArguments, "O"),
             ["exec"] => AllowOmittedValue(positionalArguments, "Pod"),
-            ["label"] => NormalizeLabelArguments(positionalArguments),
+            ["label"] => AllowOmittedValue(RenameArgument(positionalArguments, "KeyVal", "Labels"), "Labels"),
             ["logs"] => AllowOmittedValue(positionalArguments, "Pod"),
             ["port-forward"] => CollapseNumberedRepeat(
                 positionalArguments,
@@ -127,40 +163,22 @@ public class KubectlCliScraper : CobraCliScraper
         ]);
     }
 
-    private static IReadOnlyList<CliPositionalArgument> NormalizeLabelArguments(
-        IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments
-            .Select(argument => argument.PropertyName switch
-            {
-                "Key_1Val_1" => argument with
-                {
-                    CSharpType = "IEnumerable<string>",
-                    IsRequired = true,
-                    IsVariadic = true,
-                    IsValidationRequired = false,
-                },
-                "KeyNValN" => argument with
-                {
-                    IsValidationRequired = false,
-                },
-                _ => argument,
-            })
-            .ToArray();
+    private static IReadOnlyList<CliPositionalArgument> RenameArgument(
+        IReadOnlyList<CliPositionalArgument> arguments, string sourceName, string targetName) =>
+        [.. arguments.Select(argument => argument.PropertyName == sourceName
+            ? argument with { PropertyName = targetName }
+            : argument)];
 
     private static IReadOnlyList<CliPositionalArgument> NormalizeTaintArguments(
         IReadOnlyList<CliPositionalArgument> arguments) =>
         AllowOmittedValue(
-            CollapseNumberedRepeat(
-                arguments,
-                "Key_1Val_1TaintEffect_1",
-                "KeyNValNTaintEffectN",
-                "Taints"),
+            RenameArgument(arguments, "KeyValTaintEffect", "Taints"),
             "Name");
 
     private static IReadOnlyList<CliPositionalArgument> AllowOmittedValue(
         IReadOnlyList<CliPositionalArgument> arguments,
         params string[] propertyNames) =>
-        arguments
+        [.. arguments
             .Select(argument => propertyNames.Contains(
                 argument.PropertyName,
                 StringComparer.OrdinalIgnoreCase)
@@ -168,8 +186,7 @@ public class KubectlCliScraper : CobraCliScraper
                 {
                     IsValidationRequired = false,
                 }
-                : argument)
-            .ToArray();
+                : argument)];
 
     private static IReadOnlyList<CliPositionalArgument> RemoveArgument(
         IReadOnlyList<CliPositionalArgument> arguments,

@@ -602,6 +602,10 @@ public abstract partial class CliScraperBase : ICliScraper
 
             usage = NormalizeUsageSynopsis(command, usage);
             usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(command.Options));
+            usage = usage with
+            {
+                RequiredAlternativeGroups = NormalizeRequiredAlternativeGroups(command, usage.RequiredAlternativeGroups),
+            };
             var requiredAlternatives = ResolveRequiredAlternativeGroups(command, usage);
             usage = RemoveIgnoredOptionValues(usage, command.Options);
             command = command with
@@ -1075,6 +1079,12 @@ public abstract partial class CliScraperBase : ICliScraper
         UsageSynopsisParseResult usage) =>
         usage;
 
+    /// <summary>
+    /// Refines usage choices after option-value resolution has rebuilt their members.
+    /// </summary>
+    protected virtual IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) => groups;
+
     private static IReadOnlyList<CliRequiredAlternativeGroup> ResolveRequiredAlternativeGroups(
         CliCommandDefinition command,
         UsageSynopsisParseResult usage)
@@ -1149,6 +1159,7 @@ public abstract partial class CliScraperBase : ICliScraper
             {
                 PropertyName = command.Options[optionIndex].PropertyName,
                 OptionSwitch = command.Options[optionIndex].SwitchName,
+                ValuePattern = member.ValuePattern,
             };
         }
 
@@ -1169,6 +1180,7 @@ public abstract partial class CliScraperBase : ICliScraper
                 PropertyName = command.PositionalArguments[argumentIndex].PropertyName,
                 PositionalArgumentPhase = command.PositionalArguments[argumentIndex].Phase,
                 PositionalArgumentPositionIndex = command.PositionalArguments[argumentIndex].PositionIndex,
+                ValuePattern = member.ValuePattern,
             };
         }
 

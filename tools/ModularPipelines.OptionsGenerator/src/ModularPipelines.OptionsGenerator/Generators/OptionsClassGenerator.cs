@@ -548,7 +548,9 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetCompleteUsageExpression(CliRequiredAlternativeGroup group, Func<string, string> presence)
     {
-        var expressions = group.Members.Select(member => presence(member.PropertyName))
+        var expressions = group.Members.Select(member => member.ValuePattern is { } pattern
+                ? $"({presence(member.PropertyName)} && global::System.Text.RegularExpressions.Regex.IsMatch({member.PropertyName}!, {GeneratorUtils.FormatStringLiteral(pattern)}, global::System.Text.RegularExpressions.RegexOptions.CultureInvariant, global::System.TimeSpan.FromSeconds(1)))"
+                : presence(member.PropertyName))
             .Concat(group.Groups.Select(nested => GetCompleteUsageExpression(nested, presence)));
         return $"({string.Join(group.IsChoice ? " || " : " && ", expressions)})";
     }

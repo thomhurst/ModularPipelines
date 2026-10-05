@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.RegularExpressions;
 using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -8,7 +9,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// <summary>
 /// Parses positional operands from CLI usage and synopsis text.
 /// </summary>
-public static class UsageSynopsisParser
+public static partial class UsageSynopsisParser
 {
     private static readonly string[] DefaultUsageHeadings = ["usage"];
 
@@ -166,11 +167,51 @@ public static class UsageSynopsisParser
     internal static bool IsCommandGroupPlaceholder(CliPositionalArgument argument) =>
         CommandGroupPlaceholderNames.Contains(argument.PropertyName);
 
+    // Numbered endpoints describe one repeated operand, not two independent properties.
+    private static List<string> CollapseNumberedRepeats(List<string> tokens)
+    {
+        var result = new List<string>();
+        for (var index = 0; index < tokens.Count; index++)
+        {
+            var token = tokens[index];
+            if (index + 2 < tokens.Count && tokens[index + 1] is "..." or "…"
+                && !TrimControlWrappers(token).StartsWith('-'))
+            {
+                var first = NumberedFirstOperandPattern().Replace(token, "");
+                var last = NumberedLastOperandPattern().Replace(tokens[index + 2], "");
+                if (first != token && last != tokens[index + 2] && first == last)
+                {
+                    result.Add(first + "...");
+                    index += 2;
+                    continue;
+                }
+            }
+
+            if (IsWrapped(token))
+            {
+                var inner = Tokenize(TrimWrapper(token));
+                var collapsed = CollapseNumberedRepeats(inner);
+                if (!inner.SequenceEqual(collapsed))
+                {
+                    token = token[0] + string.Join(" ", collapsed) + token[^1];
+                }
+            }
+            result.Add(token);
+        }
+        return result;
+    }
+
+    [GeneratedRegex(@"_1(?=\W|$)")]
+    private static partial Regex NumberedFirstOperandPattern();
+
+    [GeneratedRegex(@"_N(?=\W|$)")]
+    private static partial Regex NumberedLastOperandPattern();
+
     private static UsageSynopsisParseResult ParseSynopsis(
         string synopsis,
         IReadOnlyList<string> commandPath)
     {
-        var tokens = Tokenize(synopsis);
+        var tokens = CollapseNumberedRepeats(Tokenize(synopsis));
         var commandMatch = FindCommand(tokens, commandPath);
         if (commandMatch is null)
         {
@@ -1537,8 +1578,31 @@ public static class UsageSynopsisParser
     private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
     {
         var operandBranches = alternatives.Select(TokenizeNestedGroup)
-            .Where(branch => !ContainsOnlyInlineOptions(branch)).ToArray();
+            .Where(HasUnboundOperand).ToArray();
         return operandBranches is [var branch] && branch.Count > 1 ? branch : null;
+    }
+
+    private static bool HasUnboundOperand(List<string> tokens)
+    {
+        var consumesOptionValue = false;
+        foreach (var token in tokens)
+        {
+            if (GetOptionSwitches(token).Count > 0)
+            {
+                consumesOptionValue = !HasInlineOptionValue(token) && !IsWrapped(token);
+                continue;
+            }
+            if (consumesOptionValue)
+            {
+                consumesOptionValue = false;
+                continue;
+            }
+            if (!IsNonOperandSyntax(token))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
@@ -2566,6 +2630,9 @@ public sealed record UsageRequiredAlternativeGroup
 /// </summary>
 public sealed record UsageRequiredAlternativeMember
 {
+    // Distinguishes a combined operand from a bare value in a usage alternative.
+    internal string? ValuePattern { get; init; }
+
     /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
     public bool IsRequired { get; init; } = true;
 
