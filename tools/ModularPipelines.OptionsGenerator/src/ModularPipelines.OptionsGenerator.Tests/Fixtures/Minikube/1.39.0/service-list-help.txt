@@ -1,0 +1,13 @@
+Lists the URLs for the services in your local cluster
+
+Options:
+    -n, --namespace='':
+	The services namespace
+
+    -o, --output='table':
+	The output format. One of 'json', 'table'
+
+Usage:
+  minikube service list [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

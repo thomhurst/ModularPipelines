@@ -1,0 +1,7 @@
+Retrieves the IP address of the running cluster, checks it
+			with IP in kubeconfig, and corrects kubeconfig if incorrect.
+
+Usage:
+  minikube update-context [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

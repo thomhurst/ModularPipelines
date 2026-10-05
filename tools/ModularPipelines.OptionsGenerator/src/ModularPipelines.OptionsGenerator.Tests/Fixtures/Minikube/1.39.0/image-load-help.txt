@@ -1,0 +1,23 @@
+Load an image into minikube
+
+Examples:
+minikube image load image
+minikube image load image.tar
+
+Options:
+    --daemon=false:
+	Cache image from docker daemon
+
+    --overwrite=true:
+	Overwrite image even if same image:tag name exists
+
+    --pull=false:
+	Pull the remote image (no caching)
+
+    --remote=false:
+	Cache image from remote registry
+
+Usage:
+  minikube image load IMAGE | ARCHIVE | - [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

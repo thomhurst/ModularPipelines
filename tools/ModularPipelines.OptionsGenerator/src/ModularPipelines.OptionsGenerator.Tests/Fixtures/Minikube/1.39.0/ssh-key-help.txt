@@ -1,0 +1,10 @@
+Retrieve the ssh identity key path of the specified node, and writes it to STDOUT.
+
+Options:
+    -n, --node='':
+	The node to get ssh-key path. Defaults to the primary control plane.
+
+Usage:
+  minikube ssh-key [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

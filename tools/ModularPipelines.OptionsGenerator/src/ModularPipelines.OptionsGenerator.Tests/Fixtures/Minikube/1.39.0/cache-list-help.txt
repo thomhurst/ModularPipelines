@@ -1,0 +1,10 @@
+List all available images from the local cache.
+
+Options:
+    --format='{{.CacheImage}}
+	': Go template format string for the cache list output.  The format for Go templates can be found here: https://pkg.go.dev/text/template For the list of accessible variables for the template, see the struct values here: https://pkg.go.dev/k8s.io/minikube/cmd/minikube/cmd#CacheListTemplate
+
+Usage:
+  minikube cache list [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

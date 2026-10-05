@@ -1,0 +1,10 @@
+Configures the addon w/ADDON_NAME within minikube (example: minikube addons configure registry-creds). For a list of available addons use: minikube addons list
+
+Options:
+    -f, --config-file='':
+	An optional configuration file to read addon specific configs from instead of being prompted each time.
+
+Usage:
+  minikube addons configure ADDON_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

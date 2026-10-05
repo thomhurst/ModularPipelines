@@ -1,0 +1,7 @@
+Sets the PROPERTY_NAME config value to PROPERTY_VALUE
+	These values can be overwritten by flags or environment variables at runtime.
+
+Usage:
+  minikube config set PROPERTY_NAME PROPERTY_VALUE [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

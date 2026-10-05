@@ -1,0 +1,22 @@
+Enables the addon w/ADDON_NAME within minikube. For a list of available addons use: minikube addons list
+
+Examples:
+minikube addons enable dashboard
+
+Options:
+    --force=false:
+	If true, will perform potentially dangerous operations. Use with discretion.
+
+    --images='':
+	Images used by this addon. Separated by commas.
+
+    --refresh=false:
+	If true, pods might get deleted and restarted on addon enable
+
+    --registries='':
+	Registries used by this addon. Separated by commas.
+
+Usage:
+  minikube addons enable ADDON_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

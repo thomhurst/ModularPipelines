@@ -1,0 +1,13 @@
+Tag images
+
+Aliases:
+tag, list
+
+Examples:
+
+$ minikube image tag source target
+
+Usage:
+  minikube image tag [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

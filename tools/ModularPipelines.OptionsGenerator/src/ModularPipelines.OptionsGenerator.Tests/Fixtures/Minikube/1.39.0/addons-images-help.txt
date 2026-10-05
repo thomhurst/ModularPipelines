@@ -1,0 +1,13 @@
+List image names the addon w/ADDON_NAME used. For a list of available addons use: minikube addons list
+
+Examples:
+minikube addons images ingress
+
+Options:
+    -o, --output='table':
+	minikube addons images ADDON_NAME --output OUTPUT. table, json
+
+Usage:
+  minikube addons images ADDON_NAME [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

@@ -1,0 +1,13 @@
+Access the Kubernetes dashboard running within the minikube cluster
+
+Options:
+    --port=0:
+	Exposed port of the proxyfied dashboard. Set to 0 to pick a random port.
+
+    --url=false:
+	Display dashboard URL instead of opening a browser
+
+Usage:
+  minikube dashboard [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

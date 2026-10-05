@@ -1,0 +1,13 @@
+Sets up podman env variables; similar to '$(podman-machine env)'.
+
+Options:
+    --shell='':
+	Force environment to be configured for a specified shell: [fish, cmd, powershell, tcsh, bash, zsh], default is auto-detect
+
+    -u, --unset=false:
+	Unset variables instead of setting them
+
+Usage:
+  minikube podman-env [flags] [options]
+
+Use "minikube options" for a list of global command-line options (applies to all commands).

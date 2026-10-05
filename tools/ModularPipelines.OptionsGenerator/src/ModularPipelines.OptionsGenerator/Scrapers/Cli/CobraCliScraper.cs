@@ -357,7 +357,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
 
                 // Consumes the description wrapped beneath the declaration so it is not re-read as a row.
                 var description = NormalizeOptionDescription(
-                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow));
+                    AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow, CaptureOptionDescription));
 
                 if (string.IsNullOrEmpty(longForm))
                 {
@@ -609,6 +609,12 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     }
 
     private static bool IsOptionRow(string line) => MatchOptionRow(line).Success;
+
+    private static Group? CaptureOptionDescription(string line)
+    {
+        var match = MatchOptionRow(line);
+        return match.Success ? match.Groups["desc"] : null;
+    }
 
     /// <summary>
     /// Tries to detect enum values from description.
@@ -953,7 +959,7 @@ public abstract partial class CobraCliScraper(ICliCommandExecutor executor, IHel
     /// </summary>
     // Quoted defaults and bracketed lists are captured whole so their colons do not start
     // the description. A list item may contain its own brackets, as in an IPv6 URL.
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^:\s]*))?:\s*(?<desc>.*)?$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:(?<default>=)(?<type>'[^']*'|""[^""]*""|\[(?:[^\[\]\r\n]|\[[^\[\]\r\n]*\])*\]|[^\s]*?))?:(?=[ \t\r]|$)\s*(?<desc>.*)?$", RegexOptions.Multiline)]
     private static partial Regex KubectlOptionPattern();
 
     [GeneratedRegex(@"allowed values:\s*(?<values>[\w-]+(?:\s*,\s*[\w-]+)+|(?:-\s*[\w-]+\s*){2,})", RegexOptions.IgnoreCase)]
