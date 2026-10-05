@@ -59,7 +59,7 @@ public class MinikubeGlobalOptionsTests
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var globals = scraper.CreateToolDefinition().GlobalOptions;
 
-        await Assert.That(commands).Count().IsEqualTo(48);
+        await Assert.That(commands).Count().IsEqualTo(49);
         await Assert.That(globals.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         await Assert.That(executor.OptionsCalls).IsEqualTo(1);
         await Assert.That(commands.SelectMany(command => command.Options)
@@ -68,7 +68,8 @@ public class MinikubeGlobalOptionsTests
             .Options.Any(option => option.SwitchName == "--output")).IsTrue();
         await Assert.That(commands.Single(command => command.FullCommand == "minikube start")
             .Options.Any(option => option.SwitchName == "--driver")).IsTrue();
-        await Assert.That(commands.Any(command => command.FullCommand == "minikube version")).IsFalse();
+        await Assert.That(commands.Single(command => command.FullCommand == "minikube version")
+            .Options.Select(option => option.SwitchName)).IsEquivalentTo(["--components", "--output", "--short"]);
     }
 
     [Test]

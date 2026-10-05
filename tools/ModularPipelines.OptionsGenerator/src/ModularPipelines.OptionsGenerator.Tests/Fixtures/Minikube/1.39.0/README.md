@@ -1,8 +1,8 @@
 # Minikube 1.39.0 inherited-option evidence
 
 Captured from the official Windows amd64 executable, with an isolated temporary
-`MINIKUBE_HOME`. Help captures cover all 48 generated command paths and their
-parent groups and discovered commands omitted by the current generator (58 help
+`MINIKUBE_HOME`. Help captures cover all 49 generated command paths and their
+parent groups and discovered commands omitted by the current generator (59 help
 pages), plus `minikube options` and `version --short`.
 Only line endings and trailing whitespace were normalized. No cluster was started.
 
@@ -33,5 +33,5 @@ options to the base class.
 
 The verified executable accepted `--stderrthreshold=WARNING`,
 `--alsologtostderrthreshold=ERROR`, and `--logtostderr=false` before
-`version --short`, returning `v1.39.0`. The existing version-command exclusion is
-preserved; version API generation remains coordinated through #5687.
+`version --short`, returning `v1.39.0`. Version help is now captured too; #5687 includes its command API and preserves
+the command-local components, output, and short options.
