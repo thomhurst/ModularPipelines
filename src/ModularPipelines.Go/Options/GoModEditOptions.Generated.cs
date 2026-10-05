@@ -143,12 +143,6 @@ public record GoModEditOptions : GoOptions
     /// <summary>
     /// Edit also provides the -C, -n, and -x build flags.
     /// </summary>
-    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? C { get; set; }
-
-    /// <summary>
-    /// Edit also provides the -C, -n, and -x build flags.
-    /// </summary>
     [CliFlag("-n")]
     public bool? N { get; set; }
 

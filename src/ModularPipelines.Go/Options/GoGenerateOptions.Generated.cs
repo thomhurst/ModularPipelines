@@ -51,12 +51,6 @@ public record GoGenerateOptions : GoOptions
     public string? Skip { get; set; }
 
     /// <summary>
-    /// Change to dir before running the command. Any files named on the command line are interpreted after changing directories. If used, this flag must be the first one in the command line.
-    /// </summary>
-    [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
-    public string? C { get; set; }
-
-    /// <summary>
     /// force rebuilding of packages that are already up-to-date.
     /// </summary>
     [CliFlag("-a")]
