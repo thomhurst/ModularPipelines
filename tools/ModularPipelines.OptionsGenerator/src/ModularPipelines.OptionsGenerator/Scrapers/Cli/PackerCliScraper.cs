@@ -20,12 +20,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///     fix         fixes templates from old versions
 ///     ...
 /// </summary>
-public partial class PackerCliScraper : CliScraperBase
+public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PackerCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public PackerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PackerCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    private const string MachineReadableSwitch = "-machine-readable";
 
     public override string ToolName => "packer";
 
@@ -46,6 +43,21 @@ public partial class PackerCliScraper : CliScraperBase
         Logger.LogWarning("Could not extract stable {Tool} version identity", ToolName);
         return null;
     }
+
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
+    [
+        new()
+        {
+            // Packer's main.extractMachineReadable consumes this exact token before dispatch.
+            SwitchName = MachineReadableSwitch,
+            PropertyName = "MachineReadable",
+            CSharpType = "bool?",
+            IsFlag = true,
+            Description = "Produce machine-readable output. Do not combine with build debug mode.",
+            DocumentationUrl = "https://developer.hashicorp.com/packer/docs/commands#machine-readable-output",
+        },
+    ];
 
     /// <summary>
     /// Skip utility commands.
@@ -68,7 +80,7 @@ public partial class PackerCliScraper : CliScraperBase
         if (commandsSectionMatch.Success)
         {
             var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-            var section = helpText.Substring(sectionStart);
+            var section = helpText[sectionStart..];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -116,6 +128,7 @@ public partial class PackerCliScraper : CliScraperBase
 
         var description = ExtractDescription(helpText);
         var options = ParseOptions(helpText);
+        options.RemoveAll(option => option.SwitchName == MachineReadableSwitch && option.IsFlag);
 
         var className = GenerateClassName(commandPath);
 
@@ -147,9 +160,7 @@ public partial class PackerCliScraper : CliScraperBase
         {
             return usage with
             {
-                PositionalArguments = usage.PositionalArguments
-                    .Select(argument => argument with { Phase = CommandLinePhase.Passthrough })
-                    .ToArray(),
+                PositionalArguments = [.. usage.PositionalArguments.Select(argument => argument with { Phase = CommandLinePhase.Passthrough })],
             };
         }
 
@@ -160,7 +171,7 @@ public partial class PackerCliScraper : CliScraperBase
 
         return usage with
         {
-            PositionalArguments = usage.PositionalArguments
+            PositionalArguments = [.. usage.PositionalArguments
                 .Select(argument => argument.PropertyName is "Args" or "Arguments" or "CliArguments"
                     ? argument with
                     {
@@ -169,8 +180,7 @@ public partial class PackerCliScraper : CliScraperBase
                             : "IEnumerable<string>?",
                         IsVariadic = true,
                     }
-                    : argument)
-                .ToArray(),
+                    : argument)],
         };
     }
 
@@ -215,7 +225,7 @@ public partial class PackerCliScraper : CliScraperBase
     /// Format: -color=false       Disables colored output
     ///         -debug             Debug mode enabled
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private static List<CliOptionDefinition> ParseOptions(string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -226,7 +236,7 @@ public partial class PackerCliScraper : CliScraperBase
         if (optionsSectionMatch.Success)
         {
             var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
+            section = helpText[sectionStart..];
         }
         else
         {
@@ -252,14 +262,12 @@ public partial class PackerCliScraper : CliScraperBase
                 continue;
             }
 
-            var longForm = flagName.StartsWith("--") ? flagName : $"--{flagName.TrimStart('-')}";
-
-            if (seenOptions.Contains(longForm))
+            if (seenOptions.Contains(flagName))
             {
                 continue;
             }
 
-            seenOptions.Add(longForm);
+            seenOptions.Add(flagName);
 
             var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow,
                 static candidate =>
@@ -268,22 +276,22 @@ public partial class PackerCliScraper : CliScraperBase
                     return candidateMatch.Success ? candidateMatch.Groups["desc"] : null;
                 });
 
-            var propertyName = NormalizePropertyName(longForm);
+            var propertyName = NormalizePropertyName(flagName);
             if (propertyName is null)
             {
                 continue;
             }
 
-            var isFlag = string.IsNullOrEmpty(valueHint)
-                         || valueHint.Equals("true", StringComparison.OrdinalIgnoreCase)
-                         || valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
+            var isFlag = string.IsNullOrEmpty(valueHint);
+            var isBooleanValue = valueHint.Equals("true", StringComparison.OrdinalIgnoreCase)
+                                 || valueHint.Equals("false", StringComparison.OrdinalIgnoreCase);
             var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
-            var scalarType = isFlag ? "bool?" : "string?";
+            var scalarType = isFlag || isBooleanValue ? "bool?" : "string?";
             var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
             options.Add(new CliOptionDefinition
             {
-                SwitchName = longForm,
+                SwitchName = flagName,
                 ShortForm = null,
                 PropertyName = propertyName,
                 CSharpType = csharpType,
@@ -309,7 +317,7 @@ public partial class PackerCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("Options:") || helpText.Contains("-");
+        return helpText.Contains("Options:") || helpText.Contains('-');
     }
 
     #region Regex Patterns
@@ -341,7 +349,7 @@ public partial class PackerCliScraper : CliScraperBase
     ///   -debug             Debug mode enabled
     ///   -var 'key=value'   Variable for templates
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:=(?<value>\S+)|\s+'(?<value>[^']+)')?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?<flag>-[\w-]+)(?:(?:=(?<value>\S+)|\s+'(?<value>[^']+)')\s+|\s{2,})(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex PackerOptionPattern();
 
     #endregion

@@ -41,13 +41,13 @@ public record PackerHcl2UpgradeOptions : PackerOptions
     /// <summary>
     /// Set output file name. By default this will be the TEMPLATE name with ".pkr.hcl" appended to it. To be a valid Packer HCL template, it must have the suffix ".pkr.hcl"
     /// </summary>
-    [CliOption("--output-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-output-file", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFile { get; set; }
 
     /// <summary>
     /// Add helper annotation comments to the file to help new HCL2 users understand the template format.
     /// </summary>
-    [CliFlag("--with-annotations")]
+    [CliFlag("-with-annotations")]
     public bool? WithAnnotations { get; set; }
 
     /// <summary>

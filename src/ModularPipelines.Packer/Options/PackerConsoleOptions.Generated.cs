@@ -24,25 +24,25 @@ public record PackerConsoleOptions : PackerOptions
     /// <summary>
     /// Variable for templates, can be used multiple times.
     /// </summary>
-    [CliOption("--var", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-var", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Var { get; set; }
 
     /// <summary>
     /// JSON or HCL2 file containing user variables.
     /// </summary>
-    [CliOption("--var-file", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("-var-file", Format = OptionFormat.EqualsSeparated)]
     public string? VarFile { get; set; }
 
     /// <summary>
     /// Set to 'hcl2' to run in HCL2 mode when no file is passed. Defaults to json.
     /// </summary>
-    [CliFlag("--config-type")]
-    public bool? ConfigType { get; set; }
+    [CliOption("-config-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigType { get; set; }
 
     /// <summary>
     /// Fallback to using a sequential approach for local/datasource evaluation.
     /// </summary>
-    [CliFlag("--use-sequential-evaluation")]
+    [CliFlag("-use-sequential-evaluation")]
     public bool? UseSequentialEvaluation { get; set; }
 
     /// <summary>

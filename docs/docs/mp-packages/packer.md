@@ -40,3 +40,51 @@ public class UsePackerModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Global output setting
+
+Every command inherits `MachineReadable` from `PackerOptions`:
+
+```csharp
+using ModularPipelines.Packer.Options;
+
+var options = new PackerBuildOptions("image.pkr.hcl")
+{
+    MachineReadable = true,
+    Color = false,
+};
+// packer -machine-readable build -color=false image.pkr.hcl
+```
+
+Packer's [root argument parser](https://github.com/hashicorp/packer/blob/v1.16.1/main.go)
+consumes the exact `-machine-readable` token before command dispatch. The generated
+flag therefore uses one hyphen and appears before the command. `false` or `null`
+omits it; Packer does not accept `-machine-readable=false` as a root setting.
+The root help does not list this flag, so its inherited definition comes from
+Packer's [documented machine-readable mode](https://developer.hashicorp.com/packer/docs/commands#machine-readable-output).
+
+Color, timestamps, and debug are command-specific settings. They are not promoted
+to the base record. Follow Packer's documented restriction against combining
+machine-readable output with interactive build debug mode. Help and version are
+operations, not inherited settings.
+
+### V4 migration
+
+`MachineReadable` moves from individual command records to their base record;
+existing initializers keep the same property name. Reflection code that reads only
+declared properties should also inspect inherited properties.
+
+`Color` on build options and `Write` on formatting options remain nullable
+booleans, but now render explicit values. `Color = false` emits `-color=false`,
+and `Write = false` emits `-write=false`; neither silently omits the option.
+Leaving either property `null` preserves Packer's default. Other switches retain
+their documented single-hyphen spelling and stay after their command.
+
+`PackerConsoleOptions.ConfigType` now accepts a string rather than a nullable
+boolean. Set `ConfigType = "hcl2"` to emit `-config-type=hcl2`; leave it `null`
+to preserve Packer's default. Packer's console help omits the value placeholder,
+but its argument parser requires a configuration type.
+
+`PackerBuildOptions.OnError` accepts the CLI's error policy, such as `"abort"` or
+`"run-cleanup-provisioner"`, and renders `-on-error=value`. Leave it `null` to
+preserve Packer's default cleanup behavior.

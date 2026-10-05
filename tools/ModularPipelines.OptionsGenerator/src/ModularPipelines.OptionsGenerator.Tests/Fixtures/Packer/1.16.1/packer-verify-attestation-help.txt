@@ -1,0 +1,20 @@
+Usage: packer verify-attestation [options] ATTESTATION
+
+  Verifies a signed DSSE attestation and optionally enforces policy checks
+  such as predicate type, builder identity, source URI, and subject digest.
+
+Options:
+
+  -signing-mode=MODE            Signing mode: key, kms, keyless. Auto-detected when possible.
+  -key=PATH_OR_URI              PEM key path or KMS/Vault URI used for verification when no verifier is supplied.
+  -verifier=PATH                PEM verifier path.
+  -predicate-type=TYPE          Expected attestation predicate type.
+  -builder-id=ID                Expected SLSA builder ID.
+  -source-uri=URI               Expected resolved source URI.
+  -artifact=PATH                Artifact path to match against attestation subjects.
+  -trusted-root-path=PATH       Optional Sigstore trusted-root JSON for keyless verification.
+  -keyless-identity=IDENTITY    Expected keyless signing identity.
+  -keyless-oidc-issuer=ISSUER   Expected keyless OIDC issuer.
+  -bundle=PATH                  Optional Sigstore bundle JSON for Rekor or timestamp verification.
+  -require-rekor                Require Rekor transparency log verification from the bundle.
+  -require-timestamp            Require a trusted observer timestamp from Rekor integrated time or RFC3161 evidence.
