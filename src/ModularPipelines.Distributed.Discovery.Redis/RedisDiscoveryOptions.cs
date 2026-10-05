@@ -7,15 +7,22 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// </summary>
 public class RedisDiscoveryOptions
 {
+    private readonly Lock _configurationLock = new();
+    private ConfigurationOptions? _connectionConfiguration;
+
     /// <summary>
-    /// Gets or sets the Redis connection string. Required unless <see cref="RestUrl"/> is set.
+    /// Gets or sets the Redis connection string. Defaults to empty; configure it explicitly unless
+    /// <see cref="ConfigureConnection"/> supplies endpoints or both <see cref="RestUrl"/> and <see cref="RestToken"/> are set.
     /// Discovery opens its own connection; it does not use or replace a connection registered by the application.
     /// </summary>
-    public string ConnectionString { get; set; } = "localhost:6379";
+    public string ConnectionString { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets an optional callback that adjusts the connection configuration parsed from
     /// <see cref="ConnectionString"/>, for example to set credentials or TLS options.
+    /// When the connection string is empty, the callback must supply the endpoints.
+    /// Runs during options validation for TCP discovery; the resulting configuration is reused when connecting.
+    /// REST discovery does not invoke this callback.
     /// </summary>
     public Action<ConfigurationOptions>? ConfigureConnection { get; set; }
 
@@ -50,4 +57,21 @@ public class RedisDiscoveryOptions
     /// Gets or sets how often workers check for the master endpoint. Default: 500 milliseconds.
     /// </summary>
     public TimeSpan PollInterval { get; set; } = TimeSpan.FromMilliseconds(500);
+
+    internal ConfigurationOptions GetConnectionConfiguration()
+    {
+        lock (_configurationLock)
+        {
+            if (_connectionConfiguration is not null)
+            {
+                return _connectionConfiguration;
+            }
+
+            var configuration = string.IsNullOrWhiteSpace(ConnectionString)
+                ? new ConfigurationOptions()
+                : ConfigurationOptions.Parse(ConnectionString);
+            ConfigureConnection?.Invoke(configuration);
+            return _connectionConfiguration = configuration;
+        }
+    }
 }

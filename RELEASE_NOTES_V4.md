@@ -578,6 +578,9 @@ Use `[CliArgument]` only for positional values that follow the command chain.
 - S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, `SetLifecycleRule`
   defaults to `false` and merges with existing rules, and large objects use multipart uploads.
 - Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
+  `RedisDiscoveryOptions.ConnectionString` now defaults to empty. Set it explicitly (including `localhost:6379`
+  for local Redis), supply endpoints through `ConfigureConnection`, or configure both `RestUrl` and `RestToken`.
+  Missing connection configuration fails during pipeline construction; REST discovery does not require a TCP connection.
 - `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
   `IConfigurationSection` registration overload; options are validated at startup.
 - `ArtifactOptions` keeps only `CompressionLevel`; `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and

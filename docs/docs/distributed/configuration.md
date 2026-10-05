@@ -329,8 +329,8 @@ replaces an `IConnectionMultiplexer` registered by the application.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | `localhost:6379` | Redis connection string; required unless `RestUrl` is set. |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed connection configuration, for example credentials or TLS. |
+| `ConnectionString` | `string` | Empty | Explicit Redis connection string; required unless `ConfigureConnection` supplies endpoints or both REST options are set. |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts TCP configuration during validation, for example credentials or TLS; must leave at least one endpoint. The configuration is reused when connecting. Ignored for REST. |
 | `RestUrl` / `RestToken` | `string?` | `null` | Upstash REST endpoint and token; configure both or neither. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
 | `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. |

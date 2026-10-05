@@ -16,9 +16,13 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
             failures.Add("RestUrl and RestToken must be configured together.");
         }
 
-        if (!usesRest && string.IsNullOrWhiteSpace(options.ConnectionString))
+        if (!usesRest && string.IsNullOrWhiteSpace(options.ConnectionString) && options.ConfigureConnection is null)
         {
-            failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is required unless RestUrl is configured.");
+            failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is required unless ConfigureConnection supplies endpoints or RestUrl and RestToken are configured.");
+        }
+        else if (!usesRest && options.GetConnectionConfiguration().EndPoints.Count == 0)
+        {
+            failures.Add("Redis discovery requires at least one TCP endpoint.");
         }
 
         if (string.IsNullOrWhiteSpace(options.KeyPrefix))
