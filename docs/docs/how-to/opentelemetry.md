@@ -45,7 +45,9 @@ The integration subscribes to these activity sources:
 
 Failures include an `exception` event with `exception.type` and a masked
 `exception.message`, plus an `error.type` span attribute. Raw exception objects and
-stack traces are not exported. Pipeline and module status attributes use lowercase
+stack traces are not exported. Ignored failures include the same sanitized event and
+`error.type`, but keep an `Ok` span status and do not increment the failed-module
+counter. Pipeline and module status attributes use lowercase
 snake case, such as `succeeded`, `failed`, `timed_out`, and `restored_from_cache`.
 
 ## Metrics

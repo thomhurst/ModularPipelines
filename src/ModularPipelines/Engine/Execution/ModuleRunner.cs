@@ -1048,7 +1048,6 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        _ = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks - module is starting execution.
