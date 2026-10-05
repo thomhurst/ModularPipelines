@@ -1,5 +1,14 @@
 # ModularPipelines V4 Release Notes
 
+## Pulumi inherited settings
+
+Pulumi command records inherit thirteen persistent settings from `PulumiOptions`.
+Initializers retain their names and types; reflection must include inherited
+properties. Global settings now render before the command path. `Emoji = false`
+emits `--emoji=false`, preserving control over the macOS default. Environment,
+stack, and resource-operation settings retain their command/group scope. See the
+[Pulumi migration guidance](docs/docs/mp-packages/pulumi.md#inherited-settings-and-v4-migration).
+
 ## Grype persistent settings
 
 `GrypeOptions` now declares `Config`, `Profile`, `Quiet`, and `Verbose` for every
