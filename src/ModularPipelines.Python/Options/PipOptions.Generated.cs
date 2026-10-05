@@ -97,6 +97,12 @@ public abstract record PipOptions : CommandLineToolOptions
     public virtual bool? NoInput { get; set; }
 
     /// <summary>
+    /// Do not read proxy configuration from environment variables.
+    /// </summary>
+    [CliFlag("--no-proxy-env")]
+    public virtual bool? NoProxyEnv { get; set; }
+
+    /// <summary>
     /// Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
     /// </summary>
     [SecretValue]

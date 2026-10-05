@@ -10,6 +10,13 @@ namespace ModularPipelines.Python.UnitTests;
 public class PipGlobalOptionsTests : TestBase
 {
     [Test]
+    public async Task Proxy_Environment_Flag_Renders_Before_Command()
+    {
+        var command = await RenderCommand(new PipCheckOptions { NoProxyEnv = true });
+        await Assert.That(command).IsEqualTo("pip --no-proxy-env check");
+    }
+
+    [Test]
     [Arguments(2, 3, "pip --quiet --quiet --verbose --verbose --verbose check")]
     [Arguments(0, 4, "pip --verbose --verbose --verbose --verbose check")]
     [Arguments(0, 0, "pip check")]
