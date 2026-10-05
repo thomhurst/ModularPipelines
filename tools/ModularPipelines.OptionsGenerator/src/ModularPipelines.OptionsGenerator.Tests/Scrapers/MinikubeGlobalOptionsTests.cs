@@ -68,6 +68,15 @@ public class MinikubeGlobalOptionsTests
             .Options.Any(option => option.SwitchName == "--output")).IsTrue();
         await Assert.That(commands.Single(command => command.FullCommand == "minikube start")
             .Options.Any(option => option.SwitchName == "--driver")).IsTrue();
+        foreach (var commandName in new[] { "minikube status", "minikube config view" })
+        {
+            var format = commands.Single(command => command.FullCommand == commandName)
+                .Options.Single(option => option.SwitchName == "--format");
+            await Assert.That(format.CSharpType).IsEqualTo("string?");
+            await Assert.That(format.IsFlag).IsFalse();
+            await Assert.That(format.ShortForm).IsEqualTo(commandName == "minikube status" ? "-f" : null);
+            await Assert.That(format.Description!.StartsWith("Go template format string", StringComparison.Ordinal)).IsTrue();
+        }
         await Assert.That(commands.Any(command => command.FullCommand == "minikube version")).IsFalse();
     }
 
