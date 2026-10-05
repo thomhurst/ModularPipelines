@@ -709,3 +709,7 @@ collection with one `--config` per entry and is now masked as secret-bearing inp
 Replace per-command color enum names (for example `CargoBuildColor`) with `CargoColor`.
 Command-specific manifest/build settings and nightly `Z` options stay on their
 applicable records. No unconditional `-C` or rustup `+toolchain` property is added.
+
+### Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).
