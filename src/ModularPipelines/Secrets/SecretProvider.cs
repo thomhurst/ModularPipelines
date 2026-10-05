@@ -789,6 +789,16 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
     private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
+        if (value is CliValueGroup group)
+        {
+            foreach (var groupValue in group.Values)
+            {
+                yield return groupValue;
+            }
+
+            yield break;
+        }
+
         if (value is CliValuePair pair)
         {
             yield return pair.First;
@@ -804,7 +814,14 @@ internal class SecretProvider : ISecretProvider, ISecretEmissionGuard, ISecretRe
 
         foreach (var item in enumerable)
         {
-            if (item is CliValuePair itemPair)
+            if (item is CliValueGroup itemGroup)
+            {
+                foreach (var groupValue in itemGroup.Values)
+                {
+                    yield return groupValue;
+                }
+            }
+            else if (item is CliValuePair itemPair)
             {
                 yield return itemPair.First;
                 yield return itemPair.Second;

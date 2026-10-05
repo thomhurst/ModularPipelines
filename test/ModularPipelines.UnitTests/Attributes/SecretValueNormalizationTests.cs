@@ -79,6 +79,12 @@ internal sealed class GeneratedKeyedSecretOptions
 internal sealed class GeneratedPairSecretOptions
 {
     [SecretValue]
+    public CliValueGroup Group { get; init; } = new(["group-first-secret", "group-second-secret"]);
+
+    [SecretValue]
+    public IReadOnlyList<CliValueGroup> Groups { get; init; } = [new(["repeated-group-secret"])];
+
+    [SecretValue]
     public CliValuePair Pair { get; init; } = new("pair-name", "pair-secret");
 
     [SecretValue]
@@ -482,6 +488,9 @@ public class SecretValueNormalizationTests
             "collection-name",
             "collection-secret",
             "key-value-secret",
+            "group-first-secret",
+            "group-second-secret",
+            "repeated-group-secret",
         ]);
     }
 

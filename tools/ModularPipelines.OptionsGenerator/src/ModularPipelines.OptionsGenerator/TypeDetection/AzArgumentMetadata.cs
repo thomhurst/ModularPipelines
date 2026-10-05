@@ -17,6 +17,8 @@ internal sealed record AzArgumentMetadata
 
     public bool IsCollection => GroupValues || IsRepeated;
 
+    public bool HasRepeatedGroups => GroupValues && IsRepeated;
+
     public void Validate()
     {
         if (Nargs is not ("?" or "*" or "+") && (!int.TryParse(Nargs, out var count) || count < 0))
