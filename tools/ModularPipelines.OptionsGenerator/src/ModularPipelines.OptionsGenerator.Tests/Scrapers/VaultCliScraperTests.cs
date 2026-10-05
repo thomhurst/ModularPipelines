@@ -112,6 +112,59 @@ public class VaultCliScraperTests
         }
     }
 
+    [Test]
+    public async Task Captured_Help_Preserves_Http_Arity_Descriptions_And_Secrets()
+    {
+        var command = await ParseFixture("read");
+        var header = command.Options.Single(option => option.SwitchName == "-header");
+        await Assert.That(header.IsFlag).IsFalse();
+        await Assert.That(header.AcceptsMultipleValues).IsTrue();
+        await Assert.That(header.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-address").Description)
+            .Contains("VAULT_ADDR");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-namespace").ShortForm)
+            .IsEqualTo("-ns");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-mfa").IsSecret).IsTrue();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-client-key").IsSecret).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-unlock-key").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Captured_Help_Preserves_Command_Specific_Applicability()
+    {
+        var server = await ParseFixture("server");
+        var print = await ParseFixture("print token");
+        await Assert.That(server.Options.Any(option => option.SwitchName == "-address")).IsTrue();
+        await Assert.That(server.Options.Any(option => option.SwitchName == "-format")).IsFalse();
+        await Assert.That(server.Options.Single(option => option.SwitchName == "-dev-root-token-id").IsSecret).IsTrue();
+        await Assert.That(print.Options).IsEmpty();
+        await Assert.That(new TestVaultCliScraper().ParseGlobals(Fixture("root"))).IsEmpty();
+    }
+
+    [Test]
+    public async Task Captured_Help_Preserves_Public_Key_Value_And_Masks_Root_Credentials()
+    {
+        var command = await ParseFixture("operator generate-root");
+        var key = command.Options.Single(option => option.SwitchName == "-pgp-key");
+        await Assert.That(key.IsFlag).IsFalse();
+        await Assert.That(key.IsSecret).IsFalse();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-otp").IsSecret).IsTrue();
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-decode").IsSecret).IsTrue();
+    }
+
+    [Test]
+    public async Task Login_Authentication_Arguments_Are_Secret()
+    {
+        var command = await ParseFixture("login");
+        await Assert.That(command.PositionalArguments.Single().IsSecret).IsTrue();
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(Path.Combine(
+        AppContext.BaseDirectory, "Fixtures", "Vault", "2.1.1", command.Replace(' ', '-') + ".txt"));
+
+    private static async Task<CliCommandDefinition> ParseFixture(string command) =>
+        (await new TestVaultCliScraper().ParseGroup(["vault", .. command.Split(' ')], Fixture(command)))!;
+
     private sealed class TestVaultCliScraper : VaultCliScraper
     {
         public TestVaultCliScraper()
@@ -121,6 +174,8 @@ public class VaultCliScraperTests
                 NullLogger<VaultCliScraper>.Instance)
         {
         }
+
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
 
         public Task<CliCommandDefinition?> ParseGroup(string[] commandPath, string helpText)
         {

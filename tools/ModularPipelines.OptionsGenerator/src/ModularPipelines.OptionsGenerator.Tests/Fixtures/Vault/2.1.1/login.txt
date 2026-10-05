@@ -1,0 +1,161 @@
+Usage: vault login [options] [AUTH K=V...]
+
+  Authenticates users or machines to Vault using the provided arguments. A
+  successful authentication results in a Vault token - conceptually similar to
+  a session token on a website. By default, this token is cached on the local
+  machine for future requests.
+
+  The default auth method is "token". If not supplied via the CLI,
+  Vault will prompt for input. If the argument is "-", the values are read
+  from stdin.
+
+  The -method flag allows using other auth methods, such as userpass, github, or
+  cert. For these, additional "K=V" pairs may be required. For example, to
+  authenticate to the userpass auth method:
+
+      $ vault login -method=userpass username=my-username
+
+  For more information about the list of configuration parameters available for
+  a given auth method, use the "vault auth help TYPE" command. You can also use
+  "vault auth list" to see the list of enabled auth methods.
+
+  If an auth method is enabled at a non-standard path, the -method flag still
+  refers to the canonical type, but the -path flag refers to the enabled path.
+  If a github auth method was enabled at "github-prod", authenticate like this:
+
+      $ vault login -method=github -path=github-prod
+
+  If the authentication is requested with response wrapping (via -wrap-ttl),
+  the returned token is automatically unwrapped unless:
+
+    - The -token-only flag is used, in which case this command will output
+      the wrapping token.
+
+    - The -no-store flag is used, in which case this command will output the
+      details of the wrapping token.
+
+HTTP Options:
+
+  -address=<string>
+      Address of the Vault server. The default is https://127.0.0.1:8200. This
+      can also be specified via the VAULT_ADDR environment variable.
+
+  -agent-address=<string>
+      Address of the Agent. This can also be specified via the
+      VAULT_AGENT_ADDR environment variable.
+
+  -ca-cert=<string>
+      Path on the local disk to a single PEM-encoded CA certificate to verify
+      the Vault server's SSL certificate. This takes precedence over -ca-path.
+      This can also be specified via the VAULT_CACERT environment variable.
+
+  -ca-path=<string>
+      Path on the local disk to a directory of PEM-encoded CA certificates to
+      verify the Vault server's SSL certificate. This can also be specified
+      via the VAULT_CAPATH environment variable.
+
+  -client-cert=<string>
+      Path on the local disk to a single PEM-encoded CA certificate to use
+      for TLS authentication to the Vault server. If this flag is specified,
+      -client-key is also required. This can also be specified via the
+      VAULT_CLIENT_CERT environment variable.
+
+  -client-key=<string>
+      Path on the local disk to a single PEM-encoded private key matching the
+      client certificate from -client-cert. This can also be specified via the
+      VAULT_CLIENT_KEY environment variable.
+
+  -disable-redirects
+      Disable the default client behavior, which honors a single redirect
+      response from a request The default is false. This can also be specified
+      via the VAULT_DISABLE_REDIRECTS environment variable.
+
+  -header=<key=value>
+      Key-value pair provided as key=value to provide http header added to any
+      request done by the CLI.Trying to add headers starting with 'X-Vault-'
+      is forbidden and will make the command fail This can be specified
+      multiple times.
+
+  -mfa=<string>
+      Supply MFA credentials as part of X-Vault-MFA header. This can also be
+      specified via the VAULT_MFA environment variable.
+
+  -namespace=<string>
+      The namespace to use for the command. Setting this is not necessary
+      but allows using relative paths. -ns can be used as shortcut. The
+      default is (not set). This can also be specified via the VAULT_NAMESPACE
+      environment variable.
+
+  -non-interactive
+      When set true, prevents asking the user for input via the terminal. The
+      default is false.
+
+  -output-curl-string
+      Instead of executing the request, print an equivalent cURL command
+      string and exit. The default is false.
+
+  -output-policy
+      Instead of executing the request, print an example HCL policy that would
+      be required to run this command, and exit. The default is false.
+
+  -policy-override
+      Override a Sentinel policy that has a soft-mandatory enforcement_level
+      specified The default is false.
+
+  -tls-server-name=<string>
+      Name to use as the SNI host when connecting to the Vault server via TLS.
+      This can also be specified via the VAULT_TLS_SERVER_NAME environment
+      variable.
+
+  -tls-skip-verify
+      Disable verification of TLS certificates. Using this option is highly
+      discouraged as it decreases the security of data transmissions to and
+      from the Vault server. The default is false. This can also be specified
+      via the VAULT_SKIP_VERIFY environment variable.
+
+  -unlock-key=<string>
+      Key to unlock a namespace API lock. The default is (not set).
+
+  -wrap-ttl=<duration>
+      Wraps the response in a cubbyhole token with the requested TTL. The
+      response is available via the "vault unwrap" command. The TTL is
+      specified as a numeric string with suffix like "30s" or "5m". This can
+      also be specified via the VAULT_WRAP_TTL environment variable.
+
+Output Options:
+
+  -field=<string>
+      Print only the field with the given name. Specifying this option will
+      take precedence over other formatting directives. The result will not
+      have a trailing newline making it ideal for piping to other processes.
+
+  -format=<string>
+      Print the output in the given format. Valid formats are "table", "json",
+      "yaml", or "pretty". "raw" is allowed for 'vault read' operations only.
+      The default is table. This can also be specified via the VAULT_FORMAT
+      environment variable.
+
+Command Options:
+
+  -method=<string>
+      Type of authentication to use such as "userpass" or "ldap". Note this
+      corresponds to the TYPE, not the enabled path. Use -path to specify the
+      path where the authentication is enabled. The default is token.
+
+  -no-print
+      Do not display the token. The token will be still be stored to the
+      configured token helper. The default is false.
+
+  -no-store
+      Do not persist the token to the token helper (usually the local
+      filesystem) after authentication for use in future requests. The token
+      will only be displayed in the command output. The default is false.
+
+  -path=<string>
+      Remote path in Vault where the auth method is enabled. This defaults to
+      the TYPE of method (e.g. userpass -> userpass/).
+
+  -token-only
+      Output only the token with no verification. This flag is a shortcut for
+      "-field=token -no-store". Setting those flags to other values will have
+      no affect. The default is false.
