@@ -1,0 +1,20 @@
+show the grype configuration
+
+Usage:
+  grype config [flags]
+  grype config [command]
+
+Available Commands:
+  locations   shows all locations and the order in which grype will look for a configuration file
+
+Flags:
+  -h, --help   help for config
+      --load   load and validate the grype configuration
+
+Global Flags:
+  -c, --config stringArray    grype configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
+
+Use "grype config [command] --help" for more information about a command.

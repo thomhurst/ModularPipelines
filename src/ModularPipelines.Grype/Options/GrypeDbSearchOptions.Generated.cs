@@ -86,28 +86,4 @@ public record GrypeDbSearchOptions : GrypeOptions
     [CliOption("--vuln", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vuln { get; set; }
 
-    /// <summary>
-    /// grype configuration file(s) to use
-    /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Config { get; set; }
-
-    /// <summary>
-    /// configuration profiles to use
-    /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Profile { get; set; }
-
-    /// <summary>
-    /// suppress all logging output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// increase verbosity (-v = info, -vv = debug)
-    /// </summary>
-    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
-    public int? Verbose { get; set; }
-
 }

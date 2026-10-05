@@ -22,4 +22,28 @@ namespace ModularPipelines.Grype.Options;
 [CliGlobalOptions]
 public abstract record GrypeOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// grype configuration file(s) to use
+    /// </summary>
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? Config { get; set; }
+
+    /// <summary>
+    /// configuration profiles to use
+    /// </summary>
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? Profile { get; set; }
+
+    /// <summary>
+    /// suppress all logging output
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// increase verbosity (-v = info, -vv = debug)
+    /// </summary>
+    [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? Verbose { get; set; }
+
 }

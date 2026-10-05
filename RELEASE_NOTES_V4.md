@@ -1,5 +1,13 @@
 # ModularPipelines V4 Release Notes
 
+## Grype persistent settings
+
+`GrypeOptions` now declares `Config`, `Profile`, `Quiet`, and `Verbose` for every
+command. Existing initializers retain their names and types; reflection must
+include inherited properties. Repeated configuration files and profiles render
+before the command path. Scan-specific flags remain local. See the
+[Grype migration guidance](docs/docs/mp-packages/grype.md#migration).
+
 ## Docker client global options
 
 Generated `DockerOptions` now exposes the Docker client's global configuration,
