@@ -564,19 +564,32 @@ public class CliAttributeTests
     [Test]
     [Arguments(false)]
     [Arguments(true)]
-    public async Task Parser_Rejects_Bare_Grouped_Optional_Values(bool includeExplicitValue)
+    public async Task Parser_Rejects_Combined_Bare_Grouped_Optional_Values(bool includeExplicitValue)
     {
         var options = new TestCliOptionsWithGroupedOptionalValues
         {
             Output = includeExplicitValue
                 ? [CliOptionValue.Bare, "json"]
-                : [CliOptionValue.Bare],
+                : [CliOptionValue.Bare, CliOptionValue.Bare],
         };
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
             .And.HasMessageContaining(
                 $"{typeof(TestCliOptionsWithGroupedOptionalValues).FullName}.Output");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Parser_Renders_Lone_Bare_Grouped_Optional_Value(bool includeNull)
+    {
+        var options = new TestCliOptionsWithGroupedOptionalValues
+        {
+            Output = includeNull ? [null!, CliOptionValue.Bare] : [CliOptionValue.Bare],
+        };
+
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--output"]);
     }
 
     [Test]

@@ -1,0 +1,163 @@
+
+Command
+    az storage blob upload : Upload a file to a storage blob.
+        Create a new blob from a file path, or updates the content of an existing blob with
+        automatic chunking and progress notifications.
+
+Arguments
+    --auth-mode                             : The mode in which to run the command. "login" mode
+                                              will directly use your login credentials for the
+                                              authentication. The legacy "key" mode will attempt to
+                                              query for an account key if no authentication
+                                              parameters for the account are provided. Environment
+                                              variable: AZURE_STORAGE_AUTH_MODE.  Allowed values:
+                                              key, login.
+    --blob-url                              : The full endpoint URL to the Blob, including SAS token
+                                              and snapshot if used. This could be either the primary
+                                              endpoint, or the secondary endpoint depending on the
+                                              current `location_mode`.
+    --container-name -c                     : The container name.
+    --data                        [Preview] : The blob data to upload.
+        WARNING: Argument '--data' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --file -f                               : Path of the file to upload as the blob content.
+    --lease-id                              : Required if the blob has an active lease.
+    --length                      [Preview] : Number of bytes to read from the stream. This is
+                                              optional, but should be supplied for optimal
+                                              performance. Cooperate with --data.
+        WARNING: Argument '--length' is in preview and under development. Reference and support
+        levels: https://aka.ms/CLI_refstatus
+    --name -n                               : The blob name.
+    --socket-timeout                        : The socket timeout(secs), used by the service to
+                                              regulate data flow.
+
+Additional Flags Arguments
+    --encryption-scope                      : A predefined encryption scope used to encrypt the data
+                                              on the service.
+    --max-connections                       : Maximum number of parallel connections to use when the
+                                              blob size exceeds 64MB.  Default: 2.
+    --metadata                              : Metadata in space-separated key=value pairs. This
+                                              overwrites any existing metadata.
+    --no-progress                           : Include this flag to disable progress reporting for
+                                              the command.
+    --overwrite                             : Whether the blob to be uploaded should overwrite the
+                                              current data. If True, blob upload operation will
+                                              overwrite the existing data. If set to False, the
+                                              operation will fail with ResourceExistsError. The
+                                              exception to the above is with Append blob types: if
+                                              set to False and the data already exists, an error
+                                              will not be raised and the data will be appended to
+                                              the existing blob. If set overwrite=True, then the
+                                              existing append blob will be deleted, and a new one
+                                              created. Defaults to False.  Allowed values: false,
+                                              true.
+    --tags                                  : Space-separated tags: key[=value] [key[=value] ...].
+                                              Use "" to clear existing tags.
+    --tier                                  : The tier value to set the blob to. For page blob, the
+                                              tier correlates to the size of the blob and number of
+                                              allowed IOPS. Possible values are P10, P15, P20, P30,
+                                              P4, P40, P50, P6, P60, P70, P80 and this is only
+                                              applicable to page blobs on premium storage accounts;
+                                              For block blob, possible values are Archive, Cold,
+                                              Cool, and Hot. This is only applicable to block blobs
+                                              on standard storage accounts.
+    --timeout                               : Request timeout in seconds. Applies to each call to
+                                              the service.
+    --type -t                               : Default to 'page' for *.vhd files, or 'block'
+                                              otherwise.  Allowed values: append, block, page.
+
+Content Control Arguments
+    --content-cache --content-cache-control : The cache control string.
+    --content-disposition                   : Conveys additional information about how to process
+                                              the response payload, and can also be used to attach
+                                              additional metadata.
+    --content-encoding                      : The content encoding type.
+    --content-language                      : The content language.
+    --content-md5                           : The content's MD5 hash.
+    --content-type                          : The content MIME type.
+    --maxsize-condition                     : The max length in bytes permitted for an append blob.
+    --validate-content                      : Specify that an MD5 hash shall be calculated for each
+                                              chunk of the blob and verified by the service when the
+                                              chunk has arrived.
+
+Precondition Arguments
+    --if-match                              : An ETag value, or the wildcard character (*). Specify
+                                              this header to perform the operation only if the
+                                              resource's ETag matches the value specified.
+    --if-modified-since                     : Commence only if modified since supplied UTC datetime
+                                              (Y-m-d'T'H:M'Z').
+    --if-none-match                         : An ETag value, or the wildcard character (*). Specify
+                                              this header to perform the operation only if the
+                                              resource's ETag does not match the value specified.
+                                              Specify the wildcard character (*) to perform the
+                                              operation only if the resource does not exist, and
+                                              fail the operation if it does exist.
+    --if-unmodified-since                   : Commence only if unmodified since supplied UTC
+                                              datetime (Y-m-d'T'H:M'Z').
+    --tags-condition                        : Specify a SQL where clause on blob tags to operate
+                                              only on blobs with a matching value.
+
+Storage Account Arguments
+    --account-key                           : Storage account key. Must be used in conjunction with
+                                              storage account name or service endpoint. Environment
+                                              variable: AZURE_STORAGE_KEY.
+    --account-name                          : Storage account name. Related environment variable:
+                                              AZURE_STORAGE_ACCOUNT. Must be used in conjunction
+                                              with either storage account key or a SAS token. If
+                                              neither are present, the command will try to query the
+                                              storage account key using the authenticated Azure
+                                              account. If a large number of storage commands are
+                                              executed the API quota may be hit.
+    --blob-endpoint                         : Storage data service endpoint. Must be used in
+                                              conjunction with either storage account key or a SAS
+                                              token. You can find each service primary endpoint with
+                                              `az storage account show`. Environment variable:
+                                              AZURE_STORAGE_SERVICE_ENDPOINT.
+    --connection-string                     : Storage account connection string. Environment
+                                              variable: AZURE_STORAGE_CONNECTION_STRING.
+    --sas-token                             : A Shared Access Signature (SAS). Must be used in
+                                              conjunction with storage account name or service
+                                              endpoint. Environment variable:
+                                              AZURE_STORAGE_SAS_TOKEN.
+
+Global Arguments
+    --debug                                 : Increase logging verbosity to show all debug logs.
+    --help -h                               : Show this help message and exit.
+    --only-show-errors                      : Only show errors, suppressing warnings.
+    --output -o                             : Output format.  Allowed values: json, jsonc, none,
+                                              table, tsv, yaml, yamlc.  Default: json.
+    --query                                 : JMESPath query string. See http://jmespath.org/ for
+                                              more information and examples.
+    --subscription                          : Name or ID of subscription. You can configure the
+                                              default subscription using `az account set -s
+                                              NAME_OR_ID`.
+    --verbose                               : Increase logging verbosity. Use --debug for full debug
+                                              logs.
+
+Examples
+    Upload to a blob.
+        az storage blob upload -f /path/to/file -c mycontainer -n MyBlob
+
+    Upload to a blob with blob sas url.
+        az storage blob upload -f /path/to/file --blob-url https://mystorageaccount.blob.core.window
+        s.net/mycontainer/myblob?sv=2019-02-02&st=2020-12-22T07%3A07%3A29Z&se=2020-12-
+        23T07%3A07%3A29Z&sr=b&sp=racw&sig=redacted
+
+    Upload a file to a storage blob. (autogenerated)
+        az storage blob upload --account-name mystorageaccount --account-key 0000-0000 --container-
+        name mycontainer --file /path/to/file --name myblob
+
+
+    Upload a string to a blob.
+        az storage blob upload --data "teststring" -c mycontainer -n myblob --account-name
+        mystorageaccount --account-key 0000-0000
+
+    Upload to a through pipe.
+        echo $data | az storage blob upload --data @- -c mycontainer -n myblob --account-name
+        mystorageaccount --account-key 0000-0000
+
+
+To search AI knowledge base for examples, use: az find "az storage blob upload"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--__PROGRESS_CALLBACK": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--account-key": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--account-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--auth-mode": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--blob-endpoint": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--blob-url": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--connection-string": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--container-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-cache": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-cache-control": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-disposition": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-encoding": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-language": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-md5": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--content-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--data": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--encryption-scope": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--file": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--if-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-modified-since": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-none-match": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--if-unmodified-since": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--lease-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--length": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--max-connections": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--maxsize-condition": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--metadata": {"IsInteger": false, "IsRepeated": false, "Nargs": "+"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--no-progress": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--overwrite": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--sas-token": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--socket-timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--tags-condition": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tier": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--timeout": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--validate-content": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-c": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-f": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-t": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

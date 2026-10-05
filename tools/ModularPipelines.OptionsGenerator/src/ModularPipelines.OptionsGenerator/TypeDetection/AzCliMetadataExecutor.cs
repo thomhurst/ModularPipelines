@@ -7,14 +7,14 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// <summary>Obtains help and argument arity from the same installed Azure CLI parser.</summary>
 internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) : ICliCommandExecutor
 {
-    internal const string MetadataMarker = "__MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:";
+    internal const string MetadataMarker = "__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:";
 
     private readonly ConcurrentDictionary<string, Lazy<Task<string>>> _pythonPaths = new(StringComparer.Ordinal);
 
     // Invoking --help loads the selected command's argparse actions without executing it.
     // Keep help on stdout so the normal cache and provenance capture both help and metadata.
     private const string Script = """
-        import json, sys
+        import argparse, json, sys
         from azure.cli.core import get_default_cli
         cli = get_default_cli()
         try:
@@ -26,8 +26,15 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         parser = cli.invocation.parser
         command = ' '.join(sys.argv[1:-1])
         selected = parser.subparser_map.get(command, parser)
-        flags = {option: action.nargs == 0 for action in selected._actions for option in action.option_strings}
-        print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:' + json.dumps(flags, sort_keys=True))
+        shapes = {
+            option: {
+                'Nargs': str(action.nargs) if action.nargs is not None else '1',
+                'IsInteger': action.type is int,
+                'IsRepeated': isinstance(action, argparse._AppendAction)
+            }
+            for action in selected._actions for option in action.option_strings
+        }
+        print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:' + json.dumps(shapes, sort_keys=True))
         """;
 
     public async Task<CliCommandResult> ExecuteAsync(
