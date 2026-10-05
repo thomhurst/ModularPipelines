@@ -713,7 +713,9 @@ applicable records. No unconditional `-C` or rustup `+toolchain` property is add
 ### Git root execution settings
 
 Git command options now inherit root execution settings, including repeated `-C` directory
-changes and ordered `-c` configuration overrides. Configuration values are masked in logs.
+changes and ordered `-c` configuration overrides. Configuration values are masked in logs
+but remain visible in process arguments. Use `ConfigEnv` for credential-bearing values
+that must not appear in process arguments.
 Root settings render before subcommands; command-local switches keep their existing meaning.
 On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareRepository` to
 distinguish repository selection from command-local reporting or clone options. Other shared
