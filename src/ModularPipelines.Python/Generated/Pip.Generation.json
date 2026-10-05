@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "pip",
-  "toolVersion": "pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.12)",
-  "commandTreeSha256": "a9b92993f96a5cee7b1131d5da44c679e8bd64ee6a736a1d92dc95e915bd18ac",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "toolVersion": "pip 26.2.1 from /home/runner/work/_temp/cli-tools/pip/lib/python3.12/site-packages/pip (python 3.12)",
+  "commandTreeSha256": "adb68e6d885d4c64ba50d370d7a8aaf1cb5813da5967d50432fd8fc35de71773",
+  "generatorSourceSha256": "a0567161efe40515c7efefe931d042318e36741af6e6c3890fdaa3c790148013"
 }

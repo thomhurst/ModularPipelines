@@ -14,48 +14,18 @@ using System.ComponentModel.DataAnnotations;
 namespace ModularPipelines.Python.Options;
 
 /// <summary>
-/// Build Wheel archives for your requirements and dependencies.
+/// EXPERIMENTAL - Lock packages and their dependencies from:
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("wheel")]
-public record PipWheelOptions : PipOptions, IValidatableObject
+[CliSubCommand("lock")]
+public record PipLockOptions : PipOptions, IValidatableObject
 {
     /// <summary>
-    /// Build wheels into &lt;dir&gt;, where the default is the current working directory.
+    /// Lock file name (default=pylock.toml). Use - for stdout.
     /// </summary>
-    [CliOption("--wheel-dir", ShortForm = "-w")]
-    public string? WheelDir { get; set; }
-
-    /// <summary>
-    /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
-    /// </summary>
-    [CliFlag("--no-build-isolation")]
-    public bool? NoBuildIsolation { get; set; }
-
-    /// <summary>
-    /// Check the build dependencies.
-    /// </summary>
-    [CliFlag("--check-build-dependencies")]
-    public bool? CheckBuildDependencies { get; set; }
-
-    /// <summary>
-    /// Constrain versions using the given constraints file. This option can be used multiple times.
-    /// </summary>
-    [CliOption("--constraint", ShortForm = "-c")]
-    public IEnumerable<string>? Constraint { get; set; }
-
-    /// <summary>
-    /// Constrain build dependencies using the given constraints file. This option can be used multiple times.
-    /// </summary>
-    [CliOption("--build-constraint")]
-    public IEnumerable<string>? BuildConstraint { get; set; }
-
-    /// <summary>
-    /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
-    /// </summary>
-    [CliOption("--editable", ShortForm = "-e")]
-    public string? Editable { get; set; }
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Install from the given requirements file. The file or URL can be in pip's requirements.txt format, or pylock.toml format. pylock.toml support is experimental. This option can be used multiple times.
@@ -150,16 +120,16 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     }
 
     /// <summary>
-    /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
+    /// Constrain versions using the given constraints file. This option can be used multiple times.
     /// </summary>
-    [CliOption("--src")]
-    public string? Src { get; set; }
+    [CliOption("--constraint", ShortForm = "-c")]
+    public IEnumerable<string>? Constraint { get; set; }
 
     /// <summary>
-    /// Ignore the Requires-Python information.
+    /// Constrain build dependencies using the given constraints file. This option can be used multiple times.
     /// </summary>
-    [CliFlag("--ignore-requires-python")]
-    public bool? IgnoreRequiresPython { get; set; }
+    [CliOption("--build-constraint")]
+    public IEnumerable<string>? BuildConstraint { get; set; }
 
     /// <summary>
     /// Don't install package dependencies.
@@ -174,16 +144,34 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public bool? OnlyDeps { get; set; }
 
     /// <summary>
-    /// Specify whether the progress bar should be used. In 'auto' mode, --quiet will suppress all progress bars. [auto, on, off, raw] (default: auto)
+    /// Install a project in editable mode (i.e. setuptools "develop mode") from a local project path or a VCS url.
     /// </summary>
-    [CliOption("--progress-bar")]
-    public string? ProgressBar { get; set; }
+    [CliOption("--editable", ShortForm = "-e")]
+    public string? Editable { get; set; }
 
     /// <summary>
-    /// Don't verify if built wheel is valid.
+    /// Directory to check out editable projects into. The default in a virtualenv is "&lt;venv path&gt;/src". The default for global installs is "&lt;current dir&gt;/src".
     /// </summary>
-    [CliFlag("--no-verify")]
-    public bool? NoVerify { get; set; }
+    [CliOption("--src")]
+    public string? Src { get; set; }
+
+    /// <summary>
+    /// Ignore the Requires-Python information.
+    /// </summary>
+    [CliFlag("--ignore-requires-python")]
+    public bool? IgnoreRequiresPython { get; set; }
+
+    /// <summary>
+    /// Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
+    /// </summary>
+    [CliFlag("--no-build-isolation")]
+    public bool? NoBuildIsolation { get; set; }
+
+    /// <summary>
+    /// Check the build dependencies.
+    /// </summary>
+    [CliFlag("--check-build-dependencies")]
+    public bool? CheckBuildDependencies { get; set; }
 
     /// <summary>
     /// Configuration settings to be passed to the build backend. Settings take the form KEY=VALUE. Use multiple --config-settings options to pass multiple keys to the backend.
@@ -202,6 +190,12 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     /// </summary>
     [CliFlag("--no-require-hashes")]
     public bool? NoRequireHashes { get; set; }
+
+    /// <summary>
+    /// Specify whether the progress bar should be used. In 'auto' mode, --quiet will suppress all progress bars. [auto, on, off, raw] (default: auto)
+    /// </summary>
+    [CliOption("--progress-bar")]
+    public string? ProgressBar { get; set; }
 
     /// <summary>
     /// Install a named dependency-group from a "pyproject.toml" file. If a path is given, the name of the file must be "pyproject.toml". Defaults to using "pyproject.toml" in the current directory.
@@ -328,16 +322,16 @@ public record PipWheelOptions : PipOptions, IValidatableObject
     public string? UploadedPriorTo { get; set; }
 
     /// <summary>
-    /// The &lt;requirement specifier&gt; operand.
+    /// The &lt;local project path&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
-    public IEnumerable<string>? RequirementSpecifier
+    public IEnumerable<string>? LocalProjectPath
     {
         get;
-        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __RequirementSpecifierSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
+        set => field = value is { } values ? (object)values is global::System.Collections.Generic.IEnumerable<char> ? values : ((object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> keyValues ? new __LocalProjectPathSnapshotKeyValue(values, default(global::System.Collections.Immutable.ImmutableArray<global::ModularPipelines.Models.KeyValue>).Equals((object)keyValues) ? global::System.Array.Empty<global::ModularPipelines.Models.KeyValue>() : keyValues) : (default(global::System.Collections.Immutable.ImmutableArray<string>).Equals((object)values) ? global::System.Array.Empty<string>() : global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(values)))) : default;
     }
 
-    private sealed class __RequirementSpecifierSnapshotKeyValue(
+    private sealed class __LocalProjectPathSnapshotKeyValue(
         IEnumerable<string> source,
         global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> values)
         : IEnumerable<string>, global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>
@@ -363,9 +357,9 @@ public record PipWheelOptions : PipOptions, IValidatableObject
             yield return new ValidationResult("Group cannot contain null, empty, or whitespace values.", [nameof(Group)]);
         }
 
-        if (!(((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementSpecifier is not string || !string.IsNullOrWhiteSpace(RequirementSpecifier?.ToString()) : ((object?)RequirementSpecifier is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementSpecifier, static item => item is not null) : (RequirementSpecifier is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementSpecifier), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RequirementsFromScript, static item => item is not null) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementsFromScript is not string || !string.IsNullOrWhiteSpace(RequirementsFromScript?.ToString()) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementsFromScript, static item => item is not null) : (RequirementsFromScript is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementsFromScript), static item => item is not null))))) || ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Group, static item => item is not null) : ((object?)Group is global::System.Collections.Generic.IEnumerable<char> ? (object?)Group is not string || !string.IsNullOrWhiteSpace(Group?.ToString()) : ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Group, static item => item is not null) : (Group is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Group), static item => item is not null)))))))
+        if (!(((object?)LocalProjectPath is global::System.Collections.Generic.IEnumerable<char> ? (object?)LocalProjectPath is not string || !string.IsNullOrWhiteSpace(LocalProjectPath?.ToString()) : ((object?)LocalProjectPath is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)LocalProjectPath, static item => item is not null) : (LocalProjectPath is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)LocalProjectPath), static item => item is not null)))) || ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Requirement, static item => item is not null) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<char> ? (object?)Requirement is not string || !string.IsNullOrWhiteSpace(Requirement?.ToString()) : ((object?)Requirement is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Requirement, static item => item is not null) : (Requirement is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Requirement), static item => item is not null))))) || ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)RequirementsFromScript, static item => item is not null) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<char> ? (object?)RequirementsFromScript is not string || !string.IsNullOrWhiteSpace(RequirementsFromScript?.ToString()) : ((object?)RequirementsFromScript is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)RequirementsFromScript, static item => item is not null) : (RequirementsFromScript is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)RequirementsFromScript), static item => item is not null))))) || !string.IsNullOrWhiteSpace(Editable) || ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair>)(object)Group, static item => item is not null) : ((object?)Group is global::System.Collections.Generic.IEnumerable<char> ? (object?)Group is not string || !string.IsNullOrWhiteSpace(Group?.ToString()) : ((object?)Group is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue> ? global::System.Linq.Enumerable.Any((global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.KeyValue>)(object)Group, static item => item is not null) : (Group is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>((global::System.Collections.IEnumerable)(object)Group), static item => item is not null)))))))
         {
-            yield return new ValidationResult("At least one of RequirementSpecifier, Requirement, Editable, RequirementsFromScript, or Group must be specified.", [nameof(RequirementSpecifier), nameof(Requirement), nameof(Editable), nameof(RequirementsFromScript), nameof(Group)]);
+            yield return new ValidationResult("At least one of LocalProjectPath, Requirement, RequirementsFromScript, Editable, or Group must be specified.", [nameof(LocalProjectPath), nameof(Requirement), nameof(RequirementsFromScript), nameof(Editable), nameof(Group)]);
         }
         yield break;
     }

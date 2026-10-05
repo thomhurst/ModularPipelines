@@ -38,12 +38,16 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   -c, --constraint &lt;file&gt;     Constrain versions using the given constraints file.
 ///   ...
 /// </summary>
-public partial class PipCliScraper : CliScraperBase
+public partial class PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public PipCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PipCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
+    // These optparse append actions and accumulating callbacks omit repeatability from help.
+    // See the captured pip-26.2.1 fixtures and their parser source references.
+    private static readonly HashSet<string> RepeatableOptions =
+    [
+        with(StringComparer.Ordinal),
+        "--trusted-host", "--exists-action", "--use-feature", "--use-deprecated", "--group",
+        "--requirements-from-script", "--refresh-package",
+    ];
 
     public override string ToolName => "pip";
 
@@ -54,6 +58,10 @@ public partial class PipCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Python";
 
     /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        ParseOptions(helpText, globalsOnly: true);
+
+    /// <inheritdoc />
     protected override IEnumerable<string> GetAdditionalUsageSynopses(string[] commandPath, string helpText)
     {
         if (commandPath is not ["pip", "install" or "download" or "wheel" or "lock"])
@@ -61,10 +69,10 @@ public partial class PipCliScraper : CliScraperBase
             return [];
         }
 
-        // pip's requirement command accepts editable projects and dependency groups as
+        // pip's requirement command accepts editable projects, scripts, and dependency groups as
         // input sources even when the usage summary omits their standalone forms.
-        return ParseOptions(helpText, commandPath.Skip(1).ToArray())
-            .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group")
+        return ParseOptions(helpText)
+            .Where(static option => !option.IsFlag && option.SwitchName is "--editable" or "--group" or "--requirements-from-script")
             .Select(option => $"{string.Join(" ", commandPath)} [options] {option.SwitchName} <{option.PropertyName}>");
     }
 
@@ -97,7 +105,7 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -157,7 +165,7 @@ public partial class PipCliScraper : CliScraperBase
 
         usage = NormalizeParentGroupUsage(commandParts, usage);
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText, commandParts);
+        var options = ParseOptions(helpText);
         var enums = options
             .Where(o => o.EnumDefinition is not null)
             .Select(o => o.EnumDefinition!)
@@ -218,7 +226,7 @@ public partial class PipCliScraper : CliScraperBase
             return arguments;
         }
 
-        return arguments
+        return [.. arguments
                 .Where(argument => !argument.PropertyName.Equals(
                     "PackageIndexOptions",
                     StringComparison.Ordinal))
@@ -232,8 +240,7 @@ public partial class PipCliScraper : CliScraperBase
                             : "IEnumerable<string>?",
                         IsVariadic = true,
                     }
-                    : argument)
-                .ToArray();
+                    : argument)];
     }
 
     /// <inheritdoc />
@@ -260,7 +267,7 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -281,7 +288,7 @@ public partial class PipCliScraper : CliScraperBase
     /// Format: -r, --requirement &lt;file&gt;    Install from the given requirements file.
     ///         --no-deps                    Don't install package dependencies.
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, bool globalsOnly = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -290,6 +297,12 @@ public partial class PipCliScraper : CliScraperBase
         var optionsSectionMatches = OptionsSectionPattern().Matches(helpText);
         foreach (Match optionsMatch in optionsSectionMatches)
         {
+            var isGeneral = optionsMatch.Groups["section"].Value.Equals("General Options", StringComparison.OrdinalIgnoreCase);
+            if ((globalsOnly && !isGeneral) || (!globalsOnly && isGeneral && GlobalOptions.Count > 0))
+            {
+                continue;
+            }
+
             var sectionStart = optionsMatch.Index + optionsMatch.Length;
             var sectionEnd = helpText.Length;
 
@@ -299,107 +312,80 @@ public partial class PipCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-            var lines = section.Split('\n');
-
-            for (var i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i];
-                var match = PipOptionPattern().Match(line);
-                if (!match.Success)
-                {
-                    continue;
-                }
-
-                var shortForm = match.Groups["short"].Value.Trim();
-                var longForm = match.Groups["long"].Value.Trim();
-                var valueHint = match.Groups["value"].Value.Trim();
-
-                if (string.IsNullOrEmpty(longForm))
-                {
-                    if (!string.IsNullOrEmpty(shortForm))
-                    {
-                        longForm = shortForm;
-                        shortForm = string.Empty;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                if (seenOptions.Contains(longForm))
-                {
-                    continue;
-                }
-
-                seenOptions.Add(longForm);
-
-                var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
-
-                var propertyName = NormalizePropertyName(longForm);
-                if (propertyName is null)
-                {
-                    continue;
-                }
-
-                var isFlag = string.IsNullOrEmpty(valueHint) && IsBooleanOption(longForm, description);
-                var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag);
-                var scalarType = isFlag ? "bool?" : "string?";
-                var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
-
-                options.Add(new CliOptionDefinition
-                {
-                    SwitchName = longForm,
-                    ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
-                    PropertyName = propertyName,
-                    CSharpType = csharpType,
-                    Description = description,
-                    IsFlag = isFlag,
-                    IsRequired = false,
-                    AcceptsMultipleValues = acceptsMultipleValues,
-                    IsKeyValue = false,
-                    IsNumeric = false,
-                    ValueSeparator = isFlag ? " " : " ",
-                    EnumDefinition = null,
-                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
-                });
-            }
+            var section = helpText[sectionStart..sectionEnd];
+            ParseOptionSection(section, seenOptions, options);
         }
 
         return options;
     }
 
-    /// <summary>
-    /// Determines if an option is a boolean flag.
-    /// </summary>
-    private static bool IsBooleanOption(string optionName, string description)
+    private static void ParseOptionSection(string section, HashSet<string> seenOptions, List<CliOptionDefinition> options)
     {
-        var cleanName = optionName.TrimStart('-').ToLowerInvariant();
+        var lines = section.Split('\n');
 
-        // Options that typically take values
-        var valueOptions = new[] { "requirement", "constraint", "index-url", "extra-index-url", "target", "src", "root", "prefix" };
-        if (valueOptions.Any(v => cleanName.Contains(v)))
+        for (var i = 0; i < lines.Length; i++)
         {
-            return false;
+            var line = lines[i];
+            var match = PipOptionPattern().Match(line);
+            if (!match.Success)
+            {
+                continue;
+            }
+
+            var shortForm = match.Groups["short"].Value.Trim();
+            var longForm = match.Groups["long"].Value.Trim();
+            var valueHint = match.Groups["value"].Value.Trim();
+
+            if (!seenOptions.Add(longForm))
+            {
+                continue;
+            }
+
+            var description = AccumulateWrappedDescription(lines, ref i, match.Groups["desc"], IsOptionRow);
+
+            var propertyName = NormalizePropertyName(longForm);
+            if (propertyName is null)
+            {
+                continue;
+            }
+
+            options.Add(CreateOptionDefinition(shortForm, longForm, valueHint, propertyName, description));
+        }
+    }
+
+    private static CliOptionDefinition CreateOptionDefinition(
+        string shortForm, string longForm, string valueHint, string propertyName, string description)
+    {
+        var isFlag = string.IsNullOrEmpty(valueHint);
+        var isCountedFlag = isFlag && description.Contains("Option is additive", StringComparison.OrdinalIgnoreCase);
+        var acceptsMultipleValues = IsRepeatableValueOption(description, isFlag)
+            || RepeatableOptions.Contains(longForm);
+        var scalarType = isFlag ? "bool?" : "string?";
+        if (isCountedFlag)
+        {
+            scalarType = "int?";
         }
 
-        // Common boolean option patterns
-        if (cleanName.StartsWith("no-") ||
-            cleanName == "quiet" ||
-            cleanName == "verbose" ||
-            cleanName == "upgrade" ||
-            cleanName == "force-reinstall" ||
-            cleanName == "ignore-installed" ||
-            cleanName == "require-hashes" ||
-            cleanName == "pre" ||
-            cleanName == "user" ||
-            cleanName == "editable")
-        {
-            return true;
-        }
+        var csharpType = AsCSharpType(scalarType, acceptsMultipleValues);
 
-        return false;
+        return new CliOptionDefinition
+        {
+            SwitchName = longForm,
+            ShortForm = string.IsNullOrEmpty(shortForm) ? null : shortForm,
+            PropertyName = propertyName,
+            CSharpType = csharpType,
+            Description = description,
+            IsFlag = isFlag,
+            IsRequired = false,
+            AcceptsMultipleValues = acceptsMultipleValues,
+            RejectBlankCollectionValues = longForm == "--group",
+            IsKeyValue = false,
+            IsNumeric = false,
+            ValueSeparator = " ",
+            EnumDefinition = null,
+            IsSecret = longForm == "--proxy" || GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            ValidationConstraints = isCountedFlag ? new CliValidationConstraints { MinValue = 0 } : null,
+        };
     }
 
     private static bool IsOptionRow(string line) => PipOptionPattern().IsMatch(line);
@@ -436,7 +422,7 @@ public partial class PipCliScraper : CliScraperBase
     /// <summary>
     /// Matches Options sections like "Install Options:", "General Options:", etc.
     /// </summary>
-    [GeneratedRegex(@"(?:\w+\s+)?Options:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?<section>(?:\w+[ \t]+)*Options):[ \t]*\r?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
@@ -450,7 +436,7 @@ public partial class PipCliScraper : CliScraperBase
     /// -r, --requirement &lt;file&gt;    Install from the given requirements file.
     /// --no-deps                    Don't install package dependencies.
     /// </summary>
-    [GeneratedRegex(@"^\s*(?:(?<short>-\w),\s*)?(?<long>--[\w-]+)(?:\s+(?<value><[^>]+>|\[[^\]]+\]))?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]*(?:(?<short>-\w),[ \t]*)?(?<long>--[\w-]+)(?:[ \t]+(?<value><[^>]+>|\[[^\]]+\]))?(?:[ \t]{2,}(?<desc>.*))?[ \t]*\r?$", RegexOptions.Multiline)]
     private static partial Regex PipOptionPattern();
 
     #endregion

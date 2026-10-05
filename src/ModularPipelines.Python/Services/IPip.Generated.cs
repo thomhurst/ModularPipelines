@@ -91,7 +91,7 @@ public partial interface IPip
         => throw new System.NotSupportedException();
 
     /// <summary>
-    /// Inspect the content of a Python environment and produce a report in JSON format.
+    /// Inspect the content of a Python environment and produce a report in JSON
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -118,6 +118,16 @@ public partial interface IPip
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> ListAsync(PipListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// EXPERIMENTAL - Lock packages and their dependencies from:
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> LockAsync(PipLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>

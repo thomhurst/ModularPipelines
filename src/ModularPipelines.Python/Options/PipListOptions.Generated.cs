@@ -23,14 +23,14 @@ public record PipListOptions : PipOptions
     /// <summary>
     /// List outdated packages
     /// </summary>
-    [CliOption("--outdated", ShortForm = "-o")]
-    public string? Outdated { get; set; }
+    [CliFlag("--outdated", ShortForm = "-o")]
+    public bool? Outdated { get; set; }
 
     /// <summary>
     /// List uptodate packages
     /// </summary>
-    [CliOption("--uptodate", ShortForm = "-u")]
-    public string? Uptodate { get; set; }
+    [CliFlag("--uptodate", ShortForm = "-u")]
+    public bool? Uptodate { get; set; }
 
     /// <summary>
     /// List editable projects.
@@ -41,8 +41,8 @@ public record PipListOptions : PipOptions
     /// <summary>
     /// If in a virtualenv that has global access, do not list globally-installed packages.
     /// </summary>
-    [CliOption("--local", ShortForm = "-l")]
-    public string? Local { get; set; }
+    [CliFlag("--local", ShortForm = "-l")]
+    public bool? Local { get; set; }
 
     /// <summary>
     /// Only output packages installed in user-site.
@@ -57,12 +57,6 @@ public record PipListOptions : PipOptions
     public IEnumerable<string>? Path { get; set; }
 
     /// <summary>
-    /// Include pre-release and development versions. By default, pip only finds stable versions.
-    /// </summary>
-    [CliFlag("--pre")]
-    public bool? Pre { get; set; }
-
-    /// <summary>
     /// Select the output format among: columns (default), freeze, or json. The 'freeze' format cannot be used with the --outdated option.
     /// </summary>
     [CliOption("--format")]
@@ -71,26 +65,62 @@ public record PipListOptions : PipOptions
     /// <summary>
     /// List packages that are not dependencies of installed packages.
     /// </summary>
-    [CliOption("--not-required")]
-    public string? NotRequired { get; set; }
+    [CliFlag("--not-required")]
+    public bool? NotRequired { get; set; }
 
     /// <summary>
     /// Exclude editable package from output.
     /// </summary>
-    [CliOption("--exclude-editable")]
-    public string? ExcludeEditable { get; set; }
+    [CliFlag("--exclude-editable")]
+    public bool? ExcludeEditable { get; set; }
 
     /// <summary>
-    /// Include editable package from output.
+    /// Include editable package in output.
     /// </summary>
-    [CliOption("--include-editable")]
-    public string? IncludeEditable { get; set; }
+    [CliFlag("--include-editable")]
+    public bool? IncludeEditable { get; set; }
 
     /// <summary>
     /// Exclude specified package from the output
     /// </summary>
     [CliOption("--exclude")]
     public string? Exclude { get; set; }
+
+    /// <summary>
+    /// Include pre-release and development versions. By default, pip only finds stable versions.
+    /// </summary>
+    [CliFlag("--pre")]
+    public bool? Pre { get; set; }
+
+    /// <summary>
+    /// Allow all release types (including pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to allow pre-releases for all packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--all-releases")]
+    public IEnumerable<string>? AllReleases { get; set; }
+
+    /// <summary>
+    /// Only allow final releases (no pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable pre-releases for all packages, ":none:" to empty the set, or one or more package names with commas between them. Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--only-final")]
+    public IEnumerable<string>? OnlyFinal { get; set; }
+
+    /// <summary>
+    /// Do not download binary packages. Cached binary packages may still be used. Can be supplied multiple times, and each time adds to the existing value. Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--no-binary")]
+    public IEnumerable<string>? NoBinary { get; set; }
+
+    /// <summary>
+    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--only-binary")]
+    public IEnumerable<string>? OnlyBinary { get; set; }
+
+    /// <summary>
+    /// Prefer binary packages over source packages, even if the source packages are newer.
+    /// </summary>
+    [CliFlag("--prefer-binary")]
+    public bool? PreferBinary { get; set; }
 
     /// <summary>
     /// Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
@@ -111,135 +141,21 @@ public record PipListOptions : PipOptions
     public bool? NoIndex { get; set; }
 
     /// <summary>
+    /// Refresh package index information for the given packages instead of using cached responses. Accepts ':all:' to apply to all packages, or a comma-separated list of package names.
+    /// </summary>
+    [CliOption("--refresh-package")]
+    public IEnumerable<string>? RefreshPackage { get; set; }
+
+    /// <summary>
     /// If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files. If a local path or file:// URL that's a directory, then look for archives in the directory listing. Links to VCS project URLs are not supported.
     /// </summary>
     [CliOption("--find-links", ShortForm = "-f")]
     public string? FindLinks { get; set; }
 
     /// <summary>
-    /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
+    /// Only consider packages uploaded prior to the given value. Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago). Only effective when using indexes that provide upload-time metadata.
     /// </summary>
-    [CliOption("--debug")]
-    public string? Debug { get; set; }
-
-    /// <summary>
-    /// Run pip in an isolated mode, ignoring environment variables and user configuration.
-    /// </summary>
-    [CliOption("--isolated")]
-    public string? Isolated { get; set; }
-
-    /// <summary>
-    /// Allow pip to only run in a virtual environment; exit with an error otherwise.
-    /// </summary>
-    [CliOption("--require-virtualenv")]
-    public string? RequireVirtualenv { get; set; }
-
-    /// <summary>
-    /// Run pip with the specified Python interpreter.
-    /// </summary>
-    [CliOption("--python")]
-    public string? Python { get; set; }
-
-    /// <summary>
-    /// Give more output. Option is additive, and can be used up to 3 times.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show version and exit.
-    /// </summary>
-    [CliOption("--version", ShortForm = "-V")]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Path to a verbose appending log.
-    /// </summary>
-    [CliOption("--log")]
-    public string? Log { get; set; }
-
-    /// <summary>
-    /// Disable prompting for input.
-    /// </summary>
-    [CliFlag("--no-input")]
-    public bool? NoInput { get; set; }
-
-    /// <summary>
-    /// Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Maximum number of retries each connection should attempt (default 5 times).
-    /// </summary>
-    [CliOption("--retries")]
-    public string? Retries { get; set; }
-
-    /// <summary>
-    /// Set the socket timeout (default 15 seconds).
-    /// </summary>
-    [CliOption("--timeout")]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
-    /// </summary>
-    [CliOption("--exists-action")]
-    public string? ExistsAction { get; set; }
-
-    /// <summary>
-    /// Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
-    /// </summary>
-    [CliOption("--trusted-host")]
-    public string? TrustedHost { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information.
-    /// </summary>
-    [CliOption("--cert")]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
-    /// </summary>
-    [CliOption("--client-cert")]
-    public string? ClientCert { get; set; }
-
-    /// <summary>
-    /// Store the cache data in &lt;dir&gt;.
-    /// </summary>
-    [CliOption("--cache-dir")]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// Disable the cache.
-    /// </summary>
-    [CliFlag("--no-cache-dir")]
-    public bool? NoCacheDir { get; set; }
-
-    /// <summary>
-    /// Suppress colored output.
-    /// </summary>
-    [CliFlag("--no-color")]
-    public bool? NoColor { get; set; }
-
-    /// <summary>
-    /// Enable new functionality, that may be backward incompatible.
-    /// </summary>
-    [CliOption("--use-feature")]
-    public string? UseFeature { get; set; }
-
-    /// <summary>
-    /// Enable deprecated functionality, that will be removed in the future.
-    /// </summary>
-    [CliOption("--use-deprecated")]
-    public string? UseDeprecated { get; set; }
+    [CliOption("--uploaded-prior-to")]
+    public string? UploadedPriorTo { get; set; }
 
 }

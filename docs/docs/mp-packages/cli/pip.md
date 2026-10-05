@@ -41,6 +41,38 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--cache-dir` | `CacheDir` | All editions | Store the cache data in &lt;dir&gt;. |
+| `--cert` | `Cert` | All editions | Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information. |
+| `--client-cert` | `ClientCert` | All editions | Path to SSL client certificate, a single file containing the private key and the certificate in PEM format. |
+| `--debug` | `Debug` | All editions | Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr. |
+| `--disable-pip-version-check` | `DisablePipVersionCheck` | All editions | Don't periodically check PyPI to determine whether a new version of pip is available for download. Implied with --no-index. |
+| `--exists-action` | `ExistsAction` | All editions | Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort. |
+| `--isolated` | `Isolated` | All editions | Run pip in an isolated mode, ignoring environment variables and user configuration. |
+| `--keyring-provider` | `KeyringProvider` | All editions | Enable the credential lookup via the keyring library if user input is allowed. Specify which mechanism to use [auto, disabled, import, subprocess]. (default: auto) |
+| `--log` | `Log` | All editions | Path to a verbose appending log. |
+| `--no-cache-dir` | `NoCacheDir` | All editions | Disable the cache. |
+| `--no-color` | `NoColor` | All editions | Suppress colored output. |
+| `--no-input` | `NoInput` | All editions | Disable prompting for input. |
+| `--no-proxy-env` | `NoProxyEnv` | All editions | Do not read proxy configuration from environment variables. |
+| `--proxy` | `Proxy` | All editions | Specify a proxy in the form scheme://[user:passwd@]proxy.server:port. |
+| `--python` | `Python` | All editions | Run pip with the specified Python interpreter. |
+| `--quiet` | `Quiet` | All editions | Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels). |
+| `--require-virtualenv` | `RequireVirtualenv` | All editions | Allow pip to only run in a virtual environment; exit with an error otherwise. |
+| `--resume-retries` | `ResumeRetries` | All editions | Maximum attempts to resume or restart an incomplete download. (default: 5) |
+| `--retries` | `Retries` | All editions | Maximum attempts to establish a new HTTP connection. (default: 5) |
+| `--timeout` | `Timeout` | All editions | Set the socket timeout (default 15 seconds). |
+| `--trusted-host` | `TrustedHost` | All editions | Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS. |
+| `--use-deprecated` | `UseDeprecated` | All editions | Enable deprecated functionality, that will be removed in the future. |
+| `--use-feature` | `UseFeature` | All editions | Enable new functionality, that may be backward incompatible. |
+| `--verbose` | `Verbose` | All editions | Give more output. Option is additive, and can be used up to 3 times. |
+| `--version` | `Version` | All editions | Show version and exit. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -55,6 +87,7 @@ public class RunCommandModule : Module<CommandResult>
 | `pip inspect` | `PipInspectOptions` |
 | `pip install` | `PipInstallOptions` |
 | `pip list` | `PipListOptions` |
+| `pip lock` | `PipLockOptions` |
 | `pip search` | `PipSearchOptions` |
 | `pip show` | `PipShowOptions` |
 | `pip uninstall` | `PipUninstallOptions` |

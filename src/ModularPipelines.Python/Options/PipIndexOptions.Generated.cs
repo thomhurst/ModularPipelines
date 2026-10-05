@@ -27,6 +27,18 @@ public record PipIndexOptions : PipOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
+    /// The Python interpreter version to use for wheel and "Requires-Python" compatibility checks. Defaults to a version derived from the running interpreter. The version can be specified using up to three dot-separated integers (e.g. "3" for 3.0.0, "3.7" for 3.7.0, or "3.7.3"). A major- minor version can also be given as a string without dots (e.g. "37" for 3.7.0).
+    /// </summary>
+    [CliOption("--python-version")]
+    public string? PythonVersion { get; set; }
+
+    /// <summary>
+    /// Only use wheels compatible with Python implementation &lt;implementation&gt;, e.g. 'pp', 'jy', 'cp',  or 'ip'. If not specified, then the current interpreter implementation is used.  Use 'py' to force implementation-agnostic wheels.
+    /// </summary>
+    [CliOption("--implementation")]
+    public string? Implementation { get; set; }
+
+    /// <summary>
     /// Only use wheels compatible with Python abi &lt;abi&gt;, e.g. 'pypy_41'. If not specified, then the current interpreter abi tag is used. Use this option multiple times to specify multiple abis supported by the target interpreter. Generally you will need to specify --implementation, --platform, and --python-version when using this option.
     /// </summary>
     [CliOption("--abi")]
@@ -35,14 +47,50 @@ public record PipIndexOptions : PipOptions
     /// <summary>
     /// Ignore the Requires-Python information.
     /// </summary>
-    [CliOption("--ignore-requires-python")]
-    public string? IgnoreRequiresPython { get; set; }
+    [CliFlag("--ignore-requires-python")]
+    public bool? IgnoreRequiresPython { get; set; }
+
+    /// <summary>
+    /// Output data in a machine-readable JSON format.
+    /// </summary>
+    [CliFlag("--json")]
+    public bool? Json { get; set; }
 
     /// <summary>
     /// Include pre-release and development versions. By default, pip only finds stable versions.
     /// </summary>
     [CliFlag("--pre")]
     public bool? Pre { get; set; }
+
+    /// <summary>
+    /// Allow all release types (including pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to allow pre-releases for all packages, ":none:" to empty the set (notice the colons), or one or more package names with commas between them (no colons). Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--all-releases")]
+    public IEnumerable<string>? AllReleases { get; set; }
+
+    /// <summary>
+    /// Only allow final releases (no pre-releases) for a package. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable pre-releases for all packages, ":none:" to empty the set, or one or more package names with commas between them. Cannot be used with --pre.
+    /// </summary>
+    [CliOption("--only-final")]
+    public IEnumerable<string>? OnlyFinal { get; set; }
+
+    /// <summary>
+    /// Do not download binary packages. Cached binary packages may still be used. Can be supplied multiple times, and each time adds to the existing value. Accepts either ':all:' to disable all binary packages, ':none:' to empty the set (notice the colons), or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--no-binary")]
+    public IEnumerable<string>? NoBinary { get; set; }
+
+    /// <summary>
+    /// Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either ":all:" to disable all source packages, ":none:" to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+    /// </summary>
+    [CliOption("--only-binary")]
+    public IEnumerable<string>? OnlyBinary { get; set; }
+
+    /// <summary>
+    /// Prefer binary packages over source packages, even if the source packages are newer.
+    /// </summary>
+    [CliFlag("--prefer-binary")]
+    public bool? PreferBinary { get; set; }
 
     /// <summary>
     /// Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
@@ -63,135 +111,21 @@ public record PipIndexOptions : PipOptions
     public bool? NoIndex { get; set; }
 
     /// <summary>
+    /// Refresh package index information for the given packages instead of using cached responses. Accepts ':all:' to apply to all packages, or a comma-separated list of package names.
+    /// </summary>
+    [CliOption("--refresh-package")]
+    public IEnumerable<string>? RefreshPackage { get; set; }
+
+    /// <summary>
     /// If a URL or path to an html file, then parse for links to archives such as sdist (.tar.gz) or wheel (.whl) files. If a local path or file:// URL that's a directory, then look for archives in the directory listing. Links to VCS project URLs are not supported.
     /// </summary>
     [CliOption("--find-links", ShortForm = "-f")]
     public string? FindLinks { get; set; }
 
     /// <summary>
-    /// Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.
+    /// Only consider packages uploaded prior to the given value. Accepts an ISO 8601 datetime (e.g., '2023-01-01T00:00:00Z', uses local timezone if none specified) or a duration in days (e.g., 'P3D' for packages uploaded at least 3 days ago). Only effective when using indexes that provide upload-time metadata.
     /// </summary>
-    [CliOption("--debug")]
-    public string? Debug { get; set; }
-
-    /// <summary>
-    /// Run pip in an isolated mode, ignoring environment variables and user configuration.
-    /// </summary>
-    [CliOption("--isolated")]
-    public string? Isolated { get; set; }
-
-    /// <summary>
-    /// Allow pip to only run in a virtual environment; exit with an error otherwise.
-    /// </summary>
-    [CliOption("--require-virtualenv")]
-    public string? RequireVirtualenv { get; set; }
-
-    /// <summary>
-    /// Run pip with the specified Python interpreter.
-    /// </summary>
-    [CliOption("--python")]
-    public string? Python { get; set; }
-
-    /// <summary>
-    /// Give more output. Option is additive, and can be used up to 3 times.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
-    /// Show version and exit.
-    /// </summary>
-    [CliOption("--version", ShortForm = "-V")]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Path to a verbose appending log.
-    /// </summary>
-    [CliOption("--log")]
-    public string? Log { get; set; }
-
-    /// <summary>
-    /// Disable prompting for input.
-    /// </summary>
-    [CliFlag("--no-input")]
-    public bool? NoInput { get; set; }
-
-    /// <summary>
-    /// Specify a proxy in the form scheme://[user:passwd@]proxy.server:port.
-    /// </summary>
-    [CliOption("--proxy")]
-    public string? Proxy { get; set; }
-
-    /// <summary>
-    /// Maximum number of retries each connection should attempt (default 5 times).
-    /// </summary>
-    [CliOption("--retries")]
-    public string? Retries { get; set; }
-
-    /// <summary>
-    /// Set the socket timeout (default 15 seconds).
-    /// </summary>
-    [CliOption("--timeout")]
-    public string? Timeout { get; set; }
-
-    /// <summary>
-    /// Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
-    /// </summary>
-    [CliOption("--exists-action")]
-    public string? ExistsAction { get; set; }
-
-    /// <summary>
-    /// Mark this host or host:port pair as trusted, even though it does not have valid or any HTTPS.
-    /// </summary>
-    [CliOption("--trusted-host")]
-    public string? TrustedHost { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information.
-    /// </summary>
-    [CliOption("--cert")]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.
-    /// </summary>
-    [CliOption("--client-cert")]
-    public string? ClientCert { get; set; }
-
-    /// <summary>
-    /// Store the cache data in &lt;dir&gt;.
-    /// </summary>
-    [CliOption("--cache-dir")]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// Disable the cache.
-    /// </summary>
-    [CliFlag("--no-cache-dir")]
-    public bool? NoCacheDir { get; set; }
-
-    /// <summary>
-    /// Suppress colored output.
-    /// </summary>
-    [CliFlag("--no-color")]
-    public bool? NoColor { get; set; }
-
-    /// <summary>
-    /// Enable new functionality, that may be backward incompatible.
-    /// </summary>
-    [CliOption("--use-feature")]
-    public string? UseFeature { get; set; }
-
-    /// <summary>
-    /// Enable deprecated functionality, that will be removed in the future.
-    /// </summary>
-    [CliOption("--use-deprecated")]
-    public string? UseDeprecated { get; set; }
+    [CliOption("--uploaded-prior-to")]
+    public string? UploadedPriorTo { get; set; }
 
 }

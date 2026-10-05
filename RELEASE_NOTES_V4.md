@@ -202,6 +202,38 @@ await context.Installers.InstallFromWebAsync(new WebInstallerOptions(downloadUri
 contexts, and their platform-specific option types have been removed. Use the
 dedicated Brew, Chocolatey, Winget, Node, or other tool integration instead of the
 removed core package-manager wrappers.
+
+## Pip general options
+
+Pip's General Options are now inherited from `PipOptions` and render before the
+subcommand. Existing property initializers continue to work, except repeatable
+`TrustedHost`, `ExistsAction`, `UseFeature`, and `UseDeprecated` now accept
+`IEnumerable<string>`: replace `TrustedHost = "packages.example"` with
+`TrustedHost = ["packages.example"]`.
+Command-specific dependency groups also accept collections: use
+`Group = ["development", "testing"]` on install, download, wheel, or lock options.
+
+`Quiet` and `Verbose` are nullable integer counters instead of booleans. Replace
+`true` with `1` and `false` with `0` or `null`; positive values repeat the flag,
+zero/null omit it, and negative values fail validation.
+
+`Debug`, `Isolated`, `RequireVirtualenv`, `Version`, and `DisablePipVersionCheck` are boolean
+flags. `Python`, `KeyringProvider`, and `ResumeRetries` take values. Proxy URLs are
+masked in command logging because they can contain credentials. Install-specific
+and Package Index Options remain on their command records, after the subcommand.
+Command-local switches without a value placeholder also become boolean flags;
+for example, use `PipConfigOptions.Global = true` and `PipUninstallOptions.Yes = true`.
+The pip 25.3 help no longer exposes `UsePep517`, `BuildOption`, or `GlobalOption`;
+their generated properties are removed. Use the current pip build configuration
+options, such as `ConfigSettings`, where appropriate for the build backend.
+
+The Python integration was regenerated from pip 26.2.1, retaining all 15 commands,
+including `LockAsync` / `PipLockOptions`. `NoProxyEnv` is an inherited boolean flag.
+`RequirementsFromScript` and `RefreshPackage` accept collections and repeat their
+switch for each value. Script files can serve as the complete input source for
+install, download, wheel, and lock commands. The generated
+[pip reference](docs/docs/mp-packages/cli/pip.md) lists the current options.
+
 ## Logging surface
 
 - `context.Logger` now exposes the standard Microsoft.Extensions.Logging `ILogger`

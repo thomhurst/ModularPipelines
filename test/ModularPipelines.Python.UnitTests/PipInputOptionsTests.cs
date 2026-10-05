@@ -11,6 +11,129 @@ public class PipInputOptionsTests : TestBase
     private static readonly string[] sourceArray = new[] { "first", "second" };
 
     [Test]
+    [MatrixDataSource]
+    public async Task Script_Files_Are_Repeatable_Standalone_Inputs(
+        [Matrix("install", "download", "wheel", "lock")] string verb,
+        [Matrix(false, true)] bool empty)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var scripts = new SingleUseValues(empty ? [] : ["first.py", "second script.py"]);
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { RequirementsFromScript = scripts },
+            "download" => new PipDownloadOptions { RequirementsFromScript = scripts },
+            "wheel" => new PipWheelOptions { RequirementsFromScript = scripts },
+            "lock" => new PipLockOptions { RequirementsFromScript = scripts },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            if (empty)
+            {
+                await Assert.That(() => builder.Build(options)).Throws<CommandOptionsValidationException>();
+            }
+            else
+            {
+                await OptionsRenderingTestHelper.AssertArguments(builder.Build(options).Arguments,
+                    [verb, "--requirements-from-script", "first.py", "--requirements-from-script", "second script.py"]);
+            }
+        }
+
+        await Assert.That(scripts.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
+    [Arguments("install")]
+    [Arguments("download")]
+    [Arguments("wheel")]
+    [Arguments("lock")]
+    [Arguments("index")]
+    [Arguments("list")]
+    public async Task Refresh_Values_Preserve_Order_And_Comma_Delimited_Operands(string verb)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        string[] values = [":none:", "first,second"];
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { RequirementSpecifier = ["example"], RefreshPackage = values },
+            "download" => new PipDownloadOptions { RequirementSpecifier = ["example"], RefreshPackage = values },
+            "wheel" => new PipWheelOptions { RequirementSpecifier = ["example"], RefreshPackage = values },
+            "lock" => new PipLockOptions { LocalProjectPath = ["example"], RefreshPackage = values },
+            "index" => new PipIndexOptions { RefreshPackage = values },
+            "list" => new PipListOptions { RefreshPackage = values },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+        var operand = verb is "index" or "list" ? string.Empty : " example";
+        await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+            $"pip {verb} --refresh-package :none: --refresh-package first,second{operand}");
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Dependency_Groups_Reject_Blank_Entries(
+        [Matrix("install", "download", "wheel", "lock")] string verb,
+        [Matrix("", " ", "\t")] string blank,
+        [Matrix(false, true)] bool includeValidGroup)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var groups = new SingleUseValues(includeValidGroup ? ["development", blank] : [blank]);
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { Group = groups },
+            "download" => new PipDownloadOptions { Group = groups },
+            "wheel" => new PipWheelOptions { Group = groups },
+            "lock" => new PipLockOptions { Group = groups },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            await Assert.That(() => builder.Build(options)).Throws<CommandOptionsValidationException>();
+        }
+
+        await Assert.That(groups.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
+    [Arguments("install", false)]
+    [Arguments("install", true)]
+    [Arguments("download", false)]
+    [Arguments("download", true)]
+    [Arguments("wheel", false)]
+    [Arguments("wheel", true)]
+    [Arguments("lock", false)]
+    [Arguments("lock", true)]
+    public async Task Dependency_Groups_Are_A_Repeatable_Standalone_Input(string verb, bool empty)
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        var groups = new SingleUseValues(empty ? [] : ["development", "testing"]);
+        PipOptions options = verb switch
+        {
+            "install" => new PipInstallOptions { Group = groups },
+            "download" => new PipDownloadOptions { Group = groups },
+            "wheel" => new PipWheelOptions { Group = groups },
+            "lock" => new PipLockOptions { Group = groups },
+            _ => throw new ArgumentOutOfRangeException(nameof(verb)),
+        };
+
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            if (empty)
+            {
+                await Assert.That(() => builder.Build(options)).Throws<CommandOptionsValidationException>();
+            }
+            else
+            {
+                await Assert.That(builder.Build(options).ToString()).IsEqualTo(
+                    $"pip {verb} --group development --group testing");
+            }
+        }
+
+        await Assert.That(groups.EnumerationCount).IsEqualTo(1);
+    }
+
+    [Test]
     [Arguments(false, false, 0)]
     [Arguments(false, false, 1)]
     [Arguments(false, false, 2)]
