@@ -13,45 +13,45 @@ using ModularPipelines.Kubernetes.Options;
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Sets replicas count for resources in the kustomization file
+/// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("edit", "set", "replicas")]
-public record KustomizeEditSetReplicasOptions : KustomizeOptions
+[CliSubCommand("edit", "add", "configuration")]
+public record KustomizeEditAddConfigurationOptions : KustomizeOptions
 {
     /// <summary>
-    /// Sets replicas count for resources in the kustomization file
+    /// Add the name of a file containing a configuration (e.g., a Kubernetes configuration resource)
     /// </summary>
-    /// <param name="Replicas">The &lt;replicas&gt; operand.</param>
-    public KustomizeEditSetReplicasOptions(
-        IEnumerable<string> Replicas
+    /// <param name="File">The &lt;file&gt; operand.</param>
+    public KustomizeEditAddConfigurationOptions(
+        IEnumerable<string> File
     )
     {
         {
-            global::System.ArgumentNullException.ThrowIfNull(Replicas);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Replicas));
+            global::System.ArgumentNullException.ThrowIfNull(File);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(File));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
                     "Required collection must contain at least one value.",
-                    nameof(Replicas));
+                    nameof(File));
             }
 
-            Replicas = materialized;
+            File = materialized;
         }
-        this.Replicas = Replicas;
+        this.File = File;
     }
 
-    public void Deconstruct(out IEnumerable<string> Replicas)
+    public void Deconstruct(out IEnumerable<string> File)
     {
-        Replicas = this.Replicas;
+        File = this.File;
     }
 
     /// <summary>
-    /// The &lt;replicas&gt; operand.
+    /// The &lt;file&gt; operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public IEnumerable<string> Replicas { get; private init; }
+    public IEnumerable<string> File { get; private init; }
 
 }
