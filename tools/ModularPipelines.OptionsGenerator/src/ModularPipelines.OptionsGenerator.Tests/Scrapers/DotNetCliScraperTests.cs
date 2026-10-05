@@ -408,16 +408,11 @@ public class DotNetCliScraperTests
         }
     }
 
-    private sealed class TestDotNetCliScraper : DotNetCliScraper
+    private sealed class TestDotNetCliScraper(ICliCommandExecutor? executor = null) : DotNetCliScraper(
+            executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<DotNetCliScraper>.Instance)
     {
-        public TestDotNetCliScraper(ICliCommandExecutor? executor = null)
-            : base(
-                executor ?? new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance),
-                new HelpTextCache(NullLogger<HelpTextCache>.Instance),
-                NullLogger<DotNetCliScraper>.Instance)
-        {
-        }
-
         public IReadOnlyList<string> Extract(string helpText) => [.. ExtractSubcommands(helpText)];
 
         public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
