@@ -107,7 +107,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 ? $"`{EscapeTableCell(option.SwitchName)}`"
                 : $"[`{EscapeTableCell(option.SwitchName)}`]({option.DocumentationUrl})";
             sb.AppendLine(
-                $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableCell(option.Availability ?? "All editions")} | {EscapeTableCell(GeneratorUtils.NormalizeRunnerHomePaths(option.Description ?? string.Empty))} |");
+                $"| {optionName} | `{EscapeTableCell(option.PropertyName)}` | {EscapeTableText(option.Availability ?? "All editions")} | {EscapeTableText(GeneratorUtils.NormalizeRunnerHomePaths(option.Description ?? string.Empty))} |");
         }
 
         sb.AppendLine();
@@ -129,7 +129,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                      .OrderBy(item => item.Command, StringComparer.OrdinalIgnoreCase))
         {
             sb.AppendLine(
-                $"| `{EscapeTableCell(exclusion.Command)}` | {EscapeTableCell(exclusion.Reason)} |");
+                $"| `{EscapeTableCell(exclusion.Command)}` | {EscapeTableText(exclusion.Reason)} |");
         }
 
         sb.AppendLine();
@@ -496,6 +496,13 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                  exposedRootCommands.Contains(command.ClassName)))
             .DistinctBy(command => command.ClassName)];
     }
+
+    private static string EscapeTableText(string value) => EscapeTableCell(value)
+        .Replace("&", "&amp;", StringComparison.Ordinal)
+        .Replace("<", "&lt;", StringComparison.Ordinal)
+        .Replace(">", "&gt;", StringComparison.Ordinal)
+        .Replace("{", "&#123;", StringComparison.Ordinal)
+        .Replace("}", "&#125;", StringComparison.Ordinal);
 
     private static string EscapeTableCell(string value) => value.Replace("|", "\\|", StringComparison.Ordinal);
 
