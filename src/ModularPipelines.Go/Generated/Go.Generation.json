@@ -3,5 +3,5 @@
   "toolName": "go",
   "toolVersion": "go version go1.27.1 windows/amd64",
   "commandTreeSha256": "548eeaf55d8f76eaffb8b5deb06e1abb41e16c60a69466a4358433d5ecd3df4f",
-  "generatorSourceSha256": "4994e1e8309c6d19dc0fd8178a7089cc998ab6260477c73e882dbd85e8353180"
+  "generatorSourceSha256": "431a80e991b544aa60d2d8a4aba2f53763de3d3e2fe5cc429c41f7636f947dac"
 }
