@@ -4,7 +4,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 
-namespace ModularPipelines.Email.Options;
+namespace ModularPipelines.Email;
 
 [ExcludeFromCodeCoverage]
 public record EmailSendOptions(

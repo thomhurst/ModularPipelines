@@ -766,3 +766,12 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+## Email package namespaces
+
+`EmailSendOptions` and `EmailExtensions` now live in `ModularPipelines.Email` alongside
+`IEmail`. Replace imports of `ModularPipelines.Email.Options` and
+`ModularPipelines.Email.Extensions` with the root namespace. The generated
+`context.Tools.Email` entry point and `SendAsync` behavior are unchanged.
+`RegisterEmailContext` remains public for generated registration and is hidden from
+IntelliSense.

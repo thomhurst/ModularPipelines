@@ -1,6 +1,5 @@
 using MailKit.Net.Smtp;
 using MimeKit;
-using ModularPipelines.Email.Options;
 
 namespace ModularPipelines.Email;
 
