@@ -130,6 +130,32 @@ public class VaultCliScraperTests
     }
 
     [Test]
+    public async Task Token_Create_Id_Is_A_Credential_Value()
+    {
+        var command = await ParseFixture("token create");
+        var id = command.Options.Single(option => option.SwitchName == "-id");
+
+        await Assert.That(id.IsSecret).IsTrue();
+        await Assert.That(id.IsFlag).IsFalse();
+        await Assert.That(id.CSharpType).IsEqualTo("string?");
+        await Assert.That(id.ValueSeparator).IsEqualTo("=");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "-display-name").IsSecret).IsFalse();
+    }
+
+    [Test]
+    public async Task Other_Command_Ids_Are_Not_Classified_As_Token_Credentials()
+    {
+        var command = await new TestVaultCliScraper().ParseGroup(["vault", "other"], """
+            Usage: vault other [options]
+
+            Options:
+              -id=<string>  Identifier of the resource.
+            """);
+
+        await Assert.That(command!.Options.Single(option => option.SwitchName == "-id").IsSecret).IsFalse();
+    }
+
+    [Test]
     public async Task Captured_Help_Preserves_Command_Specific_Applicability()
     {
         var server = await ParseFixture("server");

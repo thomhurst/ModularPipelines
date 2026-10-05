@@ -102,7 +102,7 @@ public partial class VaultCliScraper : CliScraperBase
         }
 
         var description = ExtractDescription(helpText);
-        var options = ParseOptions(helpText);
+        var options = ParseOptions(commandParts, helpText);
 
         var className = GenerateClassName(commandPath);
 
@@ -172,7 +172,7 @@ public partial class VaultCliScraper : CliScraperBase
     /// Format: -address=<string>    Address of the Vault server
     ///         -format=<string>     Print output in the given format
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText)
+    private List<CliOptionDefinition> ParseOptions(string[] commandParts, string helpText)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -228,6 +228,7 @@ public partial class VaultCliScraper : CliScraperBase
                 ValueSeparator = "=",
                 EnumDefinition = null,
                 IsSecret = !isFlag && (flagName is "-mfa" or "-header" or "-unlock-key" or "-otp" or "-decode"
+                    || (commandParts is ["token", "create"] && flagName == "-id")
                     || GeneratorUtils.IsSecretOption(propertyName, isFlag, description))
             });
         }

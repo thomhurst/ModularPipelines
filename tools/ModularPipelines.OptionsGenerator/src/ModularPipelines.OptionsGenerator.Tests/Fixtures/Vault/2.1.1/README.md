@@ -7,3 +7,7 @@ The release archive SHA256 is `e07a39059d7c7380d6dc776fb5bee2183cbc3344cf9387d4c
 [Vault CLI documentation](https://developer.hashicorp.com/vault/docs/commands) distinguishes environment configuration from per-command flags. The root parser exposes control actions, not universally inherited HTTP settings. `server` and even offline snapshot inspection expose HTTP options, but `print token` does not; output options also vary by command. Keep each command's advertised flags after its command path.
 
 The tagged [BaseCommand parser](https://github.com/hashicorp/vault/blob/v2.1.1/command/base.go) confirms that `mfa` uses StringSliceVar, `header` uses StringMapVar, and `ns` is a hidden namespace alias. Client keys are file paths, while MFA, header values, unlock keys, root-token decoding values, OTPs, and authentication operands can contain secrets. The fixtures contain help examples only.
+
+`token-create.txt` captures `vault token create -help` from the same verified binary.
+Its `-id` option supplies the token credential itself, unlike ordinary resource identifiers.
+The token value must be masked; the display name remains public.
