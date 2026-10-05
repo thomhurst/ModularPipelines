@@ -937,7 +937,7 @@ public static partial class GeneratorUtils
     private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
     private static readonly string[] CredentialCodePropertyNames =
-        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode", "AuthorizationCode"];
+        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode", "AuthorizationCode", "CodeVerifier"];
 
     private static readonly string[] SecretMetadataSuffixes =
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
@@ -1110,7 +1110,7 @@ public static partial class GeneratorUtils
         // "Description of the secret contents" names metadata about the secret, not the secret itself.
         description = SecretMetadataPhrasePattern().Replace(description, " ");
         return OneTimeCredentialDescriptionPattern().IsMatch(description)
-               || AuthorizationCodeValueDescriptionPattern().IsMatch(description)
+               || CredentialValueDescriptionPattern().IsMatch(description)
                || SecretMaterialDescriptionPattern().IsMatch(description)
                || (InlineFileContentDescriptionPattern().IsMatch(description)
                    && SecretKeywordDescriptionPattern().IsMatch(description));
@@ -1125,9 +1125,11 @@ public static partial class GeneratorUtils
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex OneTimeCredentialDescriptionPattern();
 
-    [GeneratedRegex(@"(?:\A|[.!?]\s+)\s*(?:the\s+)?short[\s-]+lived\s+code\s+is\s+used\s+to\s+identify\s+(?:this|the|an?)\s+authorization\s+request\b",
+    [GeneratedRegex(@"(?:\A|[.!?]\s+)\s*(?:(?:the|this)\s+)?short[\s-]+lived\s+code\s+is\s+used\s+to\s+identify\s+(?:this|the|an?)\s+authorization\s+request\b"
+        + @"|\A\s*(?:the\s+)?code\s+query\s+parameter\s+(?:that\s+was\s+)?provided\s+by\s+[\w -]+\s+in\s+(?:the\s+)?redirectUri\b"
+        + @"|(?:\A|[.!?]\s+)\s*(?:this|the)\s+value\s+(?:specifies|contains|is)\s+(?:the\s+|a\s+)?(?:JSON\s+Web\s+Token|JWT)\b",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex AuthorizationCodeValueDescriptionPattern();
+    private static partial Regex CredentialValueDescriptionPattern();
 
     [GeneratedRegex(
         @"\b(?:description|summary|type|kind|format|encoding|content[\s-]*type|mime[\s-]*type|label|name|tags?|metadata|size|length|version)"
