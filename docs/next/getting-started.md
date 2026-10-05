@@ -53,8 +53,6 @@ using ModularPipelines;
 
 using ModularPipelines.DotNet.Options;
 
-using ModularPipelines.Extensions;
-
 
 
 var builder = Pipeline.CreateBuilder(args);

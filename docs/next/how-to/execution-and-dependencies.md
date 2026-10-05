@@ -75,7 +75,9 @@ dotnet run -- --graph json --graph-path branch=main.json
 You can also export programmatically:
 
 ```
-using ModularPipelines.Enums;
+using ModularPipelines;
+
+using ModularPipelines.Reporting;
 
 
 

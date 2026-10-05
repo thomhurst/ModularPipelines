@@ -4406,8 +4406,6 @@ using ModularPipelines;
 
 using ModularPipelines.DotNet.Options;
 
-using ModularPipelines.Extensions;
-
 
 
 var builder = Pipeline.CreateBuilder(args);
@@ -5503,7 +5501,9 @@ dotnet run -- --graph json --graph-path branch=main.json
 You can also export programmatically:
 
 ```
-using ModularPipelines.Enums;
+using ModularPipelines;
+
+using ModularPipelines.Reporting;
 
 
 
