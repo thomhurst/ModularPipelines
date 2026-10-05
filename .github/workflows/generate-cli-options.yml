@@ -390,7 +390,7 @@ jobs:
       - name: Install nbgv
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'nbgv'
         run: |
-          dotnet tool install --tool-path "$CLI_TOOLS_ROOT/bin" nbgv --version 3.10.91
+          dotnet tool install --tool-path "$CLI_TOOLS_ROOT/bin" nbgv --version 3.10.94
           nbgv --version
 
       - name: Install jq
