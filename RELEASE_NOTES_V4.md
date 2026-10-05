@@ -170,6 +170,7 @@ await context.Installers.InstallFromWebAsync(new WebInstallerOptions(downloadUri
 contexts, and their platform-specific option types have been removed. Use the
 dedicated Brew, Chocolatey, Winget, Node, or other tool integration instead of the
 removed core package-manager wrappers.
+
 ## Pip general options
 
 Pip's General Options are now inherited from `PipOptions` and render before the
