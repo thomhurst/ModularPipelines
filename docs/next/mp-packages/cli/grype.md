@@ -24,6 +24,17 @@ Resolve the service in a module, then select a command from the table below. A r
 var grype = context.Tools.Grype;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                                 |
+| ----------- | --------- | ------------ | ------------------------------------------- |
+| `--config`  | `Config`  | All editions | grype configuration file(s) to use          |
+| `--profile` | `Profile` | All editions | configuration profiles to use               |
+| `--quiet`   | `Quiet`   | All editions | suppress all logging output                 |
+| `--verbose` | `Verbose` | All editions | increase verbosity (-v = info, -vv = debug) |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command            | Options record             |
