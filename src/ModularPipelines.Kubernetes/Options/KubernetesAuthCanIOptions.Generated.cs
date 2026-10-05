@@ -26,25 +26,25 @@ public record KubernetesAuthCanIOptions(
     /// <summary>
     /// If true, check the specified action in all namespaces.
     /// </summary>
-    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    [CliFlag("--all-namespaces", ShortForm = "-A", NegatedName = "--all-namespaces=false")]
     public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// If true, prints all allowed actions.
     /// </summary>
-    [CliFlag("--list")]
+    [CliFlag("--list", NegatedName = "--list=false")]
     public bool? List { get; set; }
 
     /// <summary>
     /// If true, prints allowed actions without headers
     /// </summary>
-    [CliFlag("--no-headers")]
+    [CliFlag("--no-headers", NegatedName = "--no-headers=false")]
     public bool? NoHeaders { get; set; }
 
     /// <summary>
     /// If true, suppress output and just return the exit code.
     /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
+    [CliFlag("--quiet", ShortForm = "-q", NegatedName = "--quiet=false")]
     public bool? Quiet { get; set; }
 
     /// <summary>

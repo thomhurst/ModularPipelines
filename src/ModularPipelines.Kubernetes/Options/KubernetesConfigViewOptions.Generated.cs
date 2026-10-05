@@ -24,25 +24,25 @@ public record KubernetesConfigViewOptions : KubernetesOptions
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
     /// Flatten the resulting kubeconfig file into self-contained output (useful for creating portable kubeconfig files)
     /// </summary>
-    [CliFlag("--flatten")]
+    [CliFlag("--flatten", NegatedName = "--flatten=false")]
     public bool? Flatten { get; set; }
 
     /// <summary>
     /// Merge the full hierarchy of kubeconfig files
     /// </summary>
-    [CliOption("--merge", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--merge", NegatedName = "--merge=false")]
     public bool? Merge { get; set; }
 
     /// <summary>
     /// Remove all information not used by current-context from the output
     /// </summary>
-    [CliFlag("--minify")]
+    [CliFlag("--minify", NegatedName = "--minify=false")]
     public bool? Minify { get; set; }
 
     /// <summary>
@@ -54,13 +54,13 @@ public record KubernetesConfigViewOptions : KubernetesOptions
     /// <summary>
     /// Display raw byte data and sensitive data
     /// </summary>
-    [CliFlag("--raw")]
+    [CliFlag("--raw", NegatedName = "--raw=false")]
     public bool? Raw { get; set; }
 
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>

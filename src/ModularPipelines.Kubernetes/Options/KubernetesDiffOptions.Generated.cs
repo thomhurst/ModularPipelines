@@ -41,7 +41,7 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// If true, server-side apply will force the changes against conflicts.
     /// </summary>
-    [CliFlag("--force-conflicts")]
+    [CliFlag("--force-conflicts", NegatedName = "--force-conflicts=false")]
     public bool? ForceConflicts { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// Include resources that would be deleted by pruning. Can be used with -l and default shows all resources would be pruned
     /// </summary>
-    [CliFlag("--prune")]
+    [CliFlag("--prune", NegatedName = "--prune=false")]
     public bool? Prune { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -77,19 +77,19 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// If true, apply runs in the server instead of the client.
     /// </summary>
-    [CliFlag("--server-side")]
+    [CliFlag("--server-side", NegatedName = "--server-side=false")]
     public bool? ServerSide { get; set; }
 
     /// <summary>
     /// If true, include managed fields in the diff.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>
     /// If true, do not mask secret values in the diff.
     /// </summary>
-    [CliFlag("--show-secrets")]
+    [CliFlag("--show-secrets", NegatedName = "--show-secrets=false")]
     public bool? ShowSecrets { get; set; }
 
 }

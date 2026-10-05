@@ -26,13 +26,13 @@ public record KubernetesLogsOptions(
     /// <summary>
     /// Get all containers' logs in the pod(s).
     /// </summary>
-    [CliFlag("--all-containers")]
+    [CliFlag("--all-containers", NegatedName = "--all-containers=false")]
     public bool? AllContainers { get; set; }
 
     /// <summary>
     /// Get logs from all pod(s). Sets prefix to true.
     /// </summary>
-    [CliFlag("--all-pods")]
+    [CliFlag("--all-pods", NegatedName = "--all-pods=false")]
     public bool? AllPods { get; set; }
 
     /// <summary>
@@ -44,19 +44,19 @@ public record KubernetesLogsOptions(
     /// <summary>
     /// Specify if the logs should be streamed.
     /// </summary>
-    [CliFlag("--follow", ShortForm = "-f")]
+    [CliFlag("--follow", ShortForm = "-f", NegatedName = "--follow=false")]
     public bool? Follow { get; set; }
 
     /// <summary>
     /// If watching / following pod logs, allow for any errors that occur to be non-fatal
     /// </summary>
-    [CliFlag("--ignore-errors")]
+    [CliFlag("--ignore-errors", NegatedName = "--ignore-errors=false")]
     public bool? IgnoreErrors { get; set; }
 
     /// <summary>
     /// Skip verifying the identity of the kubelet that logs are requested from.  In theory, an attacker could provide invalid log content back. You might want to use this if your kubelet serving certificates have expired.
     /// </summary>
-    [CliFlag("--insecure-skip-tls-verify-backend")]
+    [CliFlag("--insecure-skip-tls-verify-backend", NegatedName = "--insecure-skip-tls-verify-backend=false")]
     public bool? InsecureSkipTlsVerifyBackend { get; set; }
 
     /// <summary>
@@ -80,13 +80,13 @@ public record KubernetesLogsOptions(
     /// <summary>
     /// Prefix each log line with the log source (pod name and container name)
     /// </summary>
-    [CliFlag("--prefix")]
+    [CliFlag("--prefix", NegatedName = "--prefix=false")]
     public bool? Prefix { get; set; }
 
     /// <summary>
     /// If true, print the logs for the previous instance of the container in a pod if it exists.
     /// </summary>
-    [CliFlag("--previous", ShortForm = "-p")]
+    [CliFlag("--previous", ShortForm = "-p", NegatedName = "--previous=false")]
     public bool? Previous { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record KubernetesLogsOptions(
     /// <summary>
     /// Include timestamps on each line in the log output
     /// </summary>
-    [CliFlag("--timestamps")]
+    [CliFlag("--timestamps", NegatedName = "--timestamps=false")]
     public bool? Timestamps { get; set; }
 
 }

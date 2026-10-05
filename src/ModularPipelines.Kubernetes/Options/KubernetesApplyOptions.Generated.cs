@@ -25,13 +25,13 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// Select all resources in the namespace of the specified resource types.
     /// </summary>
-    [CliFlag("--all")]
+    [CliFlag("--all", NegatedName = "--all=false")]
     public bool? All { get; set; }
 
     /// <summary>
     /// If true, ignore any errors in templates when a field or map key is missing in the template. Only applies to golang and jsonpath output formats.
     /// </summary>
-    [CliOption("--allow-missing-template-keys", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--allow-missing-template-keys", NegatedName = "--allow-missing-template-keys=false")]
     public bool? AllowMissingTemplateKeys { get; set; }
 
     /// <summary>
@@ -101,13 +101,13 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// If true, immediately remove resources from API and bypass graceful deletion. Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation.
     /// </summary>
-    [CliFlag("--force")]
+    [CliFlag("--force", NegatedName = "--force=false")]
     public bool? Force { get; set; }
 
     /// <summary>
     /// If true, server-side apply will force the changes against conflicts.
     /// </summary>
-    [CliFlag("--force-conflicts")]
+    [CliFlag("--force-conflicts", NegatedName = "--force-conflicts=false")]
     public bool? ForceConflicts { get; set; }
 
     /// <summary>
@@ -125,7 +125,7 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// If true, use openapi to calculate diff when the openapi presents and the resource can be found in the openapi spec. Otherwise, fall back to use baked-in types.
     /// </summary>
-    [CliOption("--openapi-patch", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--openapi-patch", NegatedName = "--openapi-patch=false")]
     public bool? OpenapiPatch { get; set; }
 
     /// <summary>
@@ -137,13 +137,13 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// Automatically resolve conflicts between the modified and live configuration by using values from the modified configuration
     /// </summary>
-    [CliFlag("--overwrite")]
+    [CliFlag("--overwrite", NegatedName = "--overwrite=false")]
     public bool? Overwrite { get; set; }
 
     /// <summary>
     /// Automatically delete resource objects, that do not appear in the configs and are created by either apply or create --save-config. Should be used with either -l or --all.
     /// </summary>
-    [CliFlag("--prune")]
+    [CliFlag("--prune", NegatedName = "--prune=false")]
     public bool? Prune { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// Process the directory used in -f, --filename recursively. Useful when you want to manage related manifests organized within the same directory.
     /// </summary>
-    [CliFlag("--recursive", ShortForm = "-R")]
+    [CliFlag("--recursive", ShortForm = "-R", NegatedName = "--recursive=false")]
     public bool? Recursive { get; set; }
 
     /// <summary>
@@ -167,13 +167,13 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// If true, apply runs in the server instead of the client.
     /// </summary>
-    [CliFlag("--server-side")]
+    [CliFlag("--server-side", NegatedName = "--server-side=false")]
     public bool? ServerSide { get; set; }
 
     /// <summary>
     /// If true, keep the managedFields when printing objects in JSON or YAML format.
     /// </summary>
-    [CliFlag("--show-managed-fields")]
+    [CliFlag("--show-managed-fields", NegatedName = "--show-managed-fields=false")]
     public bool? ShowManagedFields { get; set; }
 
     /// <summary>
@@ -203,7 +203,7 @@ public record KubernetesApplyOptions : KubernetesOptions, IValidatableObject
     /// <summary>
     /// If true, wait for resources to be gone before returning. This waits for finalizers.
     /// </summary>
-    [CliFlag("--wait")]
+    [CliFlag("--wait", NegatedName = "--wait=false")]
     public bool? Wait { get; set; }
 
     /// <inheritdoc />
