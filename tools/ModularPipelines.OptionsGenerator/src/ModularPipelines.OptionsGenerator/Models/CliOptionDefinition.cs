@@ -66,12 +66,14 @@ public record CliOptionDefinition
     /// <summary>
     /// C# type emitted for the generated property.
     /// </summary>
-    public string PropertyType => (ValueArity, UsesCollectionShape) switch
+    public string PropertyType => UsesValueGroups ? CSharpType : (ValueArity, UsesCollectionShape) switch
     {
         (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
         (CliOptionValueArity.Optional, false) => "CliOptionValue?",
         _ => CSharpType,
     };
+
+    internal bool UsesValueGroups => CSharpType.Contains("CliValueGroup", StringComparison.Ordinal);
 
     private bool UsesCollectionShape
     {
@@ -600,6 +602,7 @@ public record CliOptionDefinition
     internal static bool TypeRequiresModelsNamespace(string cSharpType) =>
         cSharpType.Contains("KeyValue", StringComparison.Ordinal)
         || cSharpType.Contains("CliValuePair", StringComparison.Ordinal)
+        || cSharpType.Contains("CliValueGroup", StringComparison.Ordinal)
         || cSharpType.Contains("CliOptionValue", StringComparison.Ordinal);
 
     /// <summary>

@@ -449,6 +449,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         shape switch
         {
             { IsFlag: true } => "bool?",
+            { HasRepeatedGroups: true } => "IEnumerable<CliValueGroup>?",
             { IsCollection: true } => "IEnumerable<string>?",
             { IsInteger: true } => "int?",
             _ => explicitBooleanValue ? "bool?" : "string?",
@@ -792,7 +793,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// --option --alias     : Description
     /// --flag               : Description
     /// </summary>
-    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?<required>Required)\])?\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+--(?<long>[\w-]+)(?:\s+(?<alias>-{1,2}[\w-]+))*(?:\s+(?<value>[A-Z_]+))?(?:\s+\[(?:(?<required>Required)|[^\]\r\n]+)\])*\s*:\s*(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex AzOptionPattern();
 
     [GeneratedRegex(@"^(?:do not\b|don't\b|force\b|reset\b|use the current time\b|show\b|list all\b|disable colou?r\b|(?:a |the )?(?:boolean )?flag\b|DenySettings apply to child scopes\b)", RegexOptions.IgnoreCase)]

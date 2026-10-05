@@ -626,6 +626,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (option?.ValueArity == CliOptionValueArity.Optional)
         {
+            if (option.UsesValueGroups)
+            {
+                return GetTypedCollectionPresenceExpression(propertyName, "CliValueGroup", "false");
+            }
+
             return GetTypedCollectionPresenceExpression(propertyName, "CliOptionValue", "false");
         }
 

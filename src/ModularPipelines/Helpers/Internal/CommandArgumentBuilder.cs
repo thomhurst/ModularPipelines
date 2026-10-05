@@ -287,6 +287,18 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         ValidateGroupedOptionFormat(optionPart, optionsType);
         ValidateCollectionSeparator(optionPart, optionsType);
 
+        if (rawValue is CliValueGroup group)
+        {
+            AddOptionValueGroups(args, optionPart, [group], optionsType);
+            return;
+        }
+
+        if (rawValue is IEnumerable<CliValueGroup> groups)
+        {
+            AddOptionValueGroups(args, optionPart, groups, optionsType);
+            return;
+        }
+
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
             if (optionPart.Attribute.GroupValues)
@@ -336,6 +348,39 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             throw new InvalidOperationException(
                 $"Grouped CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
                 + "must use OptionFormat.SpaceSeparated.");
+        }
+    }
+
+    private static void AddOptionValueGroups(
+        List<string> args,
+        OptionPart optionPart,
+        IEnumerable<CliValueGroup> groups,
+        Type optionsType)
+    {
+        if (optionPart.Attribute.Format != OptionFormat.SpaceSeparated
+            || !optionPart.Attribute.GroupValues
+            || optionPart.Attribute.CollectionSeparator is not null)
+        {
+            throw new InvalidOperationException(
+                $"CliValueGroup CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + "must use OptionFormat.SpaceSeparated with GroupValues and without CollectionSeparator.");
+        }
+
+        foreach (var group in groups)
+        {
+            if (group is null)
+            {
+                throw CreateNullRequiredValueException(optionsType, optionPart);
+            }
+
+            if (group.Values.Count == 0 && optionPart.Attribute.ValueArity != CliOptionValueArity.Optional)
+            {
+                throw new InvalidOperationException(
+                    $"CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' requires a non-empty value group.");
+            }
+
+            args.Add(GetEffectiveName(optionPart.Attribute));
+            args.AddRange(group.Values);
         }
     }
 

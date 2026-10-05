@@ -244,7 +244,9 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     {
         propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
         return propertyType == typeof(ModularPipelines.Models.CliOptionValue)
-               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>));
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliOptionValue>))
+               || propertyType == typeof(ModularPipelines.Models.CliValueGroup)
+               || propertyType.IsAssignableTo(typeof(IEnumerable<ModularPipelines.Models.CliValueGroup>));
     }
 
     private static void ValidateModel(
@@ -339,7 +341,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 when optionalValueOption.IsSupportedPropertyType is not true:
                 throw new InvalidOperationException(
                     $"Optional-value CLI option property '{propertyName}' must use "
-                    + "CliOptionValue or IEnumerable<CliOptionValue>.");
+                    + "CliOptionValue, CliValueGroup, or a collection of either type.");
         }
     }
 
