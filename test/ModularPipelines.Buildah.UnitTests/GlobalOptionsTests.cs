@@ -1,13 +1,14 @@
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines.TestHelpers;
 using TUnit.Assertions;
 using TUnit.Core;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Buildah.UnitTests;
 
-public class GlobalOptionsTests
+public class GlobalOptionsTests : TestBase
 {
     [Test]
     public async Task Persistent_Storage_Settings_Render_After_Command_With_Repeated_Values()
