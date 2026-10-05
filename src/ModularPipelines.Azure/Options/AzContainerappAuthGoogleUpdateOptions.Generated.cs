@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,32 +24,33 @@ public record AzContainerappAuthGoogleUpdateOptions : AzOptions
     /// <summary>
     /// The configuration settings of the allowed list of audiences from which to validate the JWT token.
     /// </summary>
-    [CliOption("--allowed-audiences", ShortForm = "--allowed-token-audiences", GroupValues = true)]
-    public IEnumerable<string>? AllowedAudiences { get; set; }
+    [CliOption("--allowed-audiences")]
+    public string? AllowedAudiences { get; set; }
 
     /// <summary>
     /// The Client ID of the app used for login.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// The client secret.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// The app secret name that contains the client secret of the relying party application.
     /// </summary>
-    [CliFlag("--client-secret-name")]
-    public bool? ClientSecretName { get; set; }
+    [CliOption("--client-secret-name")]
+    public string? ClientSecretName { get; set; }
 
     /// <summary>
     /// A list of the scopes that should be requested while authenticating.
     /// </summary>
-    [CliOption("--scopes", GroupValues = true)]
-    public IEnumerable<string>? Scopes { get; set; }
+    [CliOption("--scopes")]
+    public string? Scopes { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

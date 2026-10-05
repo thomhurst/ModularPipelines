@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzVmssReimageOptions : AzOptions
     /// <summary>
     /// Force update ephemeral OS disk for a virtual machine scale set VM.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--force-update-os-disk-for-ephemeral", ShortForm = "--update-os-disk")]
-    public bool? ForceUpdateOsDiskForEphemeral { get; set; }
+    [CliOption("--force-update-os-disk-for-ephemeral", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceUpdateOsDiskForEphemeral { get; set; }
 
     /// <summary>
     /// Space-separated list of VM instance ID. If missing, reimage all instances.
@@ -41,14 +42,14 @@ public record AzVmssReimageOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

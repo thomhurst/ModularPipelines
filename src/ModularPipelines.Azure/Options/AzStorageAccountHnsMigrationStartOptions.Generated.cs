@@ -40,7 +40,7 @@ public record AzStorageAccountHnsMigrationStartOptions : AzOptions
     /// <summary>
     /// Start a validation request for migration or start a migration request.  Allowed values: upgrade, validation.
     /// </summary>
-    [CliOption("--request-type", ShortForm = "--type")]
+    [CliOption("--request-type")]
     public string RequestType { get; private init; }
 
     /// <summary>
@@ -58,8 +58,8 @@ public record AzStorageAccountHnsMigrationStartOptions : AzOptions
     /// <summary>
     /// The storage account name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

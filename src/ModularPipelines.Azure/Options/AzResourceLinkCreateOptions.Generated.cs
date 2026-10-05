@@ -57,7 +57,7 @@ public record AzResourceLinkCreateOptions : AzOptions
     /// <summary>
     /// Notes for the link.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
 }

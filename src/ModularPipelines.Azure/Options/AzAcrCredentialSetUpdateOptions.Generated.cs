@@ -57,8 +57,8 @@ public record AzAcrCredentialSetUpdateOptions : AzOptions
     /// <summary>
     /// The Azure Key Vault secret ID of the secret containing the password to the upstream registry.
     /// </summary>
-    [CliFlag("--password-id", ShortForm = "-p")]
-    public bool? PasswordId { get; set; }
+    [CliOption("--password-id", ShortForm = "-p")]
+    public string? PasswordId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -69,8 +69,8 @@ public record AzAcrCredentialSetUpdateOptions : AzOptions
     /// <summary>
     /// The Azure Key Vault secret ID of the secret containing the username to the upstream registry.
     /// </summary>
-    [CliFlag("--username-id", ShortForm = "-u")]
-    public bool? UsernameId { get; set; }
+    [CliOption("--username-id", ShortForm = "-u")]
+    public string? UsernameId { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

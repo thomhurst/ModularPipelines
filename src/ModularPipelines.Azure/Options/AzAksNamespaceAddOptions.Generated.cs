@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -118,14 +119,14 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Send custom headers. When specified, format should be Key1=Value1,Key2=Value2.
     /// </summary>
-    [CliFlag("--aks-custom-headers")]
-    public bool? AksCustomHeaders { get; set; }
+    [CliOption("--aks-custom-headers")]
+    public string? AksCustomHeaders { get; set; }
 
     /// <summary>
     /// Annotations for the managed namespace.
     /// </summary>
-    [CliFlag("--annotations")]
-    public bool? Annotations { get; set; }
+    [CliOption("--annotations", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Annotations { get; set; }
 
     /// <summary>
     /// Delete options of a namespace. The default value is Keep. Allowed values: Delete, Keep.
@@ -148,8 +149,8 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// Labels for the managed namespace.
     /// </summary>
-    [CliFlag("--labels")]
-    public bool? Labels { get; set; }
+    [CliOption("--labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Labels { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -160,7 +161,7 @@ public record AzAksNamespaceAddOptions : AzOptions
     /// <summary>
     /// The tags of the managed namespace.
     /// </summary>
-    [CliFlag("--tags")]
-    public bool? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

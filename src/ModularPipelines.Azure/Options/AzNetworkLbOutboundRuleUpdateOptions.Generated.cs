@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzNetworkLbOutboundRuleUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -80,8 +81,8 @@ public record AzNetworkLbOutboundRuleUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -98,20 +99,20 @@ public record AzNetworkLbOutboundRuleUpdateOptions : AzOptions
     /// <summary>
     /// The name or ID of the backend address pool.
     /// </summary>
-    [CliOption("--address-pool", ShortForm = "--backend-address-pool")]
+    [CliOption("--address-pool")]
     public string? AddressPool { get; set; }
 
     /// <summary>
     /// The number of outbound ports to be used for NAT.
     /// </summary>
-    [CliFlag("--allocated-outbound-ports", ShortForm = "--outbound-ports")]
-    public bool? AllocatedOutboundPorts { get; set; }
+    [CliOption("--allocated-outbound-ports")]
+    public string? AllocatedOutboundPorts { get; set; }
 
     /// <summary>
     /// Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-tcp-reset")]
-    public bool? EnableTcpReset { get; set; }
+    [CliOption("--enable-tcp-reset", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableTcpReset { get; set; }
 
     /// <summary>
     /// The List of frontend IP configuration IDs or names.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -122,8 +123,8 @@ public record AzNetworkLbOutboundRuleUpdateOptions : AzOptions
     /// <summary>
     /// The timeout for the TCP idle connection.
     /// </summary>
-    [CliOption("--idle-timeout", ShortForm = "--idle-timeout-in-minutes")]
-    public int? IdleTimeout { get; set; }
+    [CliOption("--idle-timeout")]
+    public string? IdleTimeout { get; set; }
 
     /// <summary>
     /// The protocol for the outbound rule in load balancer.  Allowed values: All, Tcp, Udp.

@@ -30,7 +30,7 @@ public record AzRedisUpdateOptions : AzOptions
     /// Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.
     /// </summary>
     [CliOption("--vm-size")]
-    public int? VmSize { get; set; }
+    public string? VmSize { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

@@ -52,7 +52,7 @@ public record AzKeyvaultSettingShowOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

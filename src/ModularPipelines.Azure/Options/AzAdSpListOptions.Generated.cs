@@ -29,14 +29,14 @@ public record AzAdSpListOptions : AzOptions
     /// <summary>
     /// Object's display name or its prefix.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// OData filter, e.g. --filter "displayname eq 'test' and servicePrincipalType eq 'Application'".
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// List entities owned by the current user.
@@ -47,7 +47,7 @@ public record AzAdSpListOptions : AzOptions
     /// <summary>
     /// Service principal name.
     /// </summary>
-    [CliFlag("--spn")]
-    public bool? Spn { get; set; }
+    [CliOption("--spn")]
+    public string? Spn { get; set; }
 
 }

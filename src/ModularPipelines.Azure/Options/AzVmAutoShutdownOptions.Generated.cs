@@ -23,8 +23,8 @@ public record AzVmAutoShutdownOptions : AzOptions
     /// <summary>
     /// The email recipient to send notifications to (can be a list of semi- colon separated email addresses).
     /// </summary>
-    [CliFlag("--email")]
-    public bool? Email { get; set; }
+    [CliOption("--email")]
+    public string? Email { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -41,14 +41,14 @@ public record AzVmAutoShutdownOptions : AzOptions
     /// <summary>
     /// The UTC time of day the schedule will occur every day. Format: hhmm. Example: 1730.
     /// </summary>
-    [CliFlag("--time")]
-    public bool? Time { get; set; }
+    [CliOption("--time")]
+    public string? Time { get; set; }
 
     /// <summary>
     /// The webhook URL to which the notification will be sent.
     /// </summary>
-    [CliFlag("--webhook")]
-    public bool? Webhook { get; set; }
+    [CliOption("--webhook")]
+    public string? Webhook { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

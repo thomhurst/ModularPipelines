@@ -67,9 +67,21 @@ public record AzContainerappEnvCertificateListOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
+    /// List managed certificates only. WARNING: Argument '--managed-certificates-only' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliFlag("--managed-certificates-only", ShortForm = "-m")]
+    public bool? ManagedCertificatesOnly { get; set; }
+
+    /// <summary>
+    /// List private-key certificates only. WARNING: Argument '--private-key-certificates-only' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliFlag("--private-key-certificates-only", ShortForm = "-p")]
+    public bool? PrivateKeyCertificatesOnly { get; set; }
+
+    /// <summary>
     /// Thumbprint of the certificate.
     /// </summary>
-    [CliFlag("--thumbprint", ShortForm = "-t")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint", ShortForm = "-t")]
+    public string? Thumbprint { get; set; }
 
 }

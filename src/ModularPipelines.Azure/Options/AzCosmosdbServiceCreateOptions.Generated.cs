@@ -68,8 +68,8 @@ public record AzCosmosdbServiceCreateOptions : AzOptions
     /// <summary>
     /// Instance Count.  Default: 1.
     /// </summary>
-    [CliFlag("--count", ShortForm = "-c")]
-    public bool? Count { get; set; }
+    [CliOption("--count", ShortForm = "-c")]
+    public string? Count { get; set; }
 
     /// <summary>
     /// Dedicated Gateway Type. Valid only for SqlDedicatedGateway service kind.  Allowed values: DistributedQuery, IntegratedCache.  Default: IntegratedCache.
@@ -86,7 +86,7 @@ public record AzCosmosdbServiceCreateOptions : AzOptions
     /// <summary>
     /// Instance Size. Possible values are: Cosmos.D4s, Cosmos.D8s, Cosmos.D16s etc.  Default: Cosmos.D4s.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public string? Size { get; set; }
 
 }

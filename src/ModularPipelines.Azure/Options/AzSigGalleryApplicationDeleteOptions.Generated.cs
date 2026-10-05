@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzSigGalleryApplicationDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -41,13 +42,13 @@ public record AzSigGalleryApplicationDeleteOptions : AzOptions
     /// <summary>
     /// Gallery name.
     /// </summary>
-    [CliFlag("--gallery-name", ShortForm = "-r")]
-    public bool? GalleryName { get; set; }
+    [CliOption("--gallery-name", ShortForm = "-r")]
+    public string? GalleryName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

@@ -29,8 +29,8 @@ public record AzVmssSimulateEvictionOptions : AzOptions
     /// <summary>
     /// The instance ID of the virtual machine.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// The name of the VM scale set.

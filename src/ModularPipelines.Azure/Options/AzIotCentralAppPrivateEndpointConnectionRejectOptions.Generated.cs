@@ -29,8 +29,8 @@ public record AzIotCentralAppPrivateEndpointConnectionRejectOptions : AzOptions
     /// <summary>
     /// Comments for the reject operation.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The ID of the private endpoint connection associated with the IoT Central application. If --account-name --resource-group/-g and --name/-n are specified, this should be omitted.

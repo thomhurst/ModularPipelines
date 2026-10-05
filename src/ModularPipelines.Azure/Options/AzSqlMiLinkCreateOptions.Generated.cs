@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -50,7 +51,7 @@ public record AzSqlMiLinkCreateOptions : AzOptions
     /// <summary>
     /// Name of the managed instance.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string InstanceName { get; private init; }
 
     /// <summary>
@@ -68,14 +69,14 @@ public record AzSqlMiLinkCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Databases in the distributed availability group Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--databases")]
-    public bool? Databases { get; set; }
+    [CliOption("--databases", GroupValues = true)]
+    public IEnumerable<string>? Databases { get; set; }
 
     /// <summary>
     /// The link failover mode - can be Manual if intended to be used for two- way failover with a supported SQL Server, or None for one-way failover to Azure.  Allowed values: Manual, None.
@@ -86,8 +87,8 @@ public record AzSqlMiLinkCreateOptions : AzOptions
     /// <summary>
     /// Managed instance side availability group name.
     /// </summary>
-    [CliFlag("--instance-ag-name", ShortForm = "--instance-availability-group-name")]
-    public bool? InstanceAgName { get; set; }
+    [CliOption("--instance-ag-name")]
+    public string? InstanceAgName { get; set; }
 
     /// <summary>
     /// Managed instance side link role. Allowed values: Primary, Secondary.
@@ -104,14 +105,14 @@ public record AzSqlMiLinkCreateOptions : AzOptions
     /// <summary>
     /// SQL server side availability group name.
     /// </summary>
-    [CliFlag("--partner-ag-name", ShortForm = "--partner-availability-group-name")]
-    public bool? PartnerAgName { get; set; }
+    [CliOption("--partner-ag-name")]
+    public string? PartnerAgName { get; set; }
 
     /// <summary>
     /// SQL server side endpoint - IP or DNS resolvable name.
     /// </summary>
-    [CliFlag("--partner-endpoint")]
-    public bool? PartnerEndpoint { get; set; }
+    [CliOption("--partner-endpoint")]
+    public string? PartnerEndpoint { get; set; }
 
     /// <summary>
     /// Database seeding mode – can be Automatic (default), or Manual for supported scenarios.  Allowed values: Automatic, Manual.  Default: Automatic.

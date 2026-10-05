@@ -15,34 +15,14 @@ namespace ModularPipelines.Azure.Options;
 /// <summary>
 /// Detach managed data disks from a scale set or its instances.
 /// </summary>
+/// <param name="Lun">0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.</param>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmss", "disk", "detach")]
-public record AzVmssDiskDetachOptions : AzOptions
+public record AzVmssDiskDetachOptions(
+    [property: CliOption("--lun")] int Lun
+) : AzOptions
 {
-    /// <summary>
-    /// Detach managed data disks from a scale set or its instances.
-    /// </summary>
-    /// <param name="Lun">0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.</param>
-    public AzVmssDiskDetachOptions(
-        string Lun
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(Lun);
-        this.Lun = Lun;
-    }
-
-    public void Deconstruct(out string Lun)
-    {
-        Lun = this.Lun;
-    }
-
-    /// <summary>
-    /// 0-based logical unit number (LUN). Max value depends on the Virtual Machine instance size.
-    /// </summary>
-    [CliOption("--lun")]
-    public string Lun { get; private init; }
-
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
@@ -52,8 +32,8 @@ public record AzVmssDiskDetachOptions : AzOptions
     /// <summary>
     /// Scale set VM instance id.
     /// </summary>
-    [CliFlag("--instance-id")]
-    public bool? InstanceId { get; set; }
+    [CliOption("--instance-id")]
+    public string? InstanceId { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -64,7 +44,7 @@ public record AzVmssDiskDetachOptions : AzOptions
     /// <summary>
     /// Scale set name. You can configure the default using `az configure --defaults vmss=&lt;name&gt;`.
     /// </summary>
-    [CliFlag("--vmss-name")]
-    public bool? VmssName { get; set; }
+    [CliOption("--vmss-name")]
+    public string? VmssName { get; set; }
 
 }

@@ -29,13 +29,13 @@ public record AzSigImageVersionShowCommunityOptions : AzOptions
     /// <summary>
     /// Gallery image version in semantic version pattern. The allowed characters are digit and period. Digits must be within the range of a 32-bit integer, e.g. `&lt;MajorVersion&gt;.&lt; MinorVersion&gt;.&lt;Patch&gt;`.
     /// </summary>
-    [CliFlag("--gallery-image-version", ShortForm = "-e")]
-    public bool? GalleryImageVersion { get; set; }
+    [CliOption("--gallery-image-version", ShortForm = "-e")]
+    public string? GalleryImageVersion { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record AzSigImageVersionShowCommunityOptions : AzOptions
     /// <summary>
     /// The public name of the community gallery.
     /// </summary>
-    [CliFlag("--public-gallery-name")]
-    public bool? PublicGalleryName { get; set; }
+    [CliOption("--public-gallery-name")]
+    public string? PublicGalleryName { get; set; }
 
 }

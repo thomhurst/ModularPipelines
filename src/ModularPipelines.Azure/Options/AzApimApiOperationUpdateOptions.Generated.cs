@@ -85,26 +85,26 @@ public record AzApimApiOperationUpdateOptions : AzOptions
     /// <summary>
     /// Required. Operation Name.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// ETag of the Entity.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Required. A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
     /// </summary>
-    [CliFlag("--method")]
-    public bool? Method { get; set; }
+    [CliOption("--method")]
+    public string? Method { get; set; }
 
     /// <summary>
     /// Relative URL template identifying the target resource for this operation. May include parameters.
     /// </summary>
-    [CliFlag("--url-template")]
-    public bool? UrlTemplate { get; set; }
+    [CliOption("--url-template")]
+    public string? UrlTemplate { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

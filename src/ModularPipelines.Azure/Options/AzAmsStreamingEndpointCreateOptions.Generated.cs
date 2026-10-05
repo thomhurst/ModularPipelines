@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -31,7 +32,7 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
         string AccountName,
         string Name,
         string ResourceGroup,
-        int ScaleUnits
+        string ScaleUnits
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AccountName);
@@ -40,10 +41,11 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
         this.Name = Name;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
+        global::System.ArgumentNullException.ThrowIfNull(ScaleUnits);
         this.ScaleUnits = ScaleUnits;
     }
 
-    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup, out int ScaleUnits)
+    public void Deconstruct(out string AccountName, out string Name, out string ResourceGroup, out string ScaleUnits)
     {
         AccountName = this.AccountName;
         Name = this.Name;
@@ -73,7 +75,7 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// The number of scale units for Premium StreamingEndpoints. For Standard StreamingEndpoints, set this value to 0. Use the Scale operation to adjust this value for Premium StreamingEndpoints.
     /// </summary>
     [CliOption("--scale-units")]
-    public int ScaleUnits { get; private init; }
+    public string ScaleUnits { get; private init; }
 
     /// <summary>
     /// The flag indicates if the resource should be automatically started on creation.
@@ -96,14 +98,14 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// The streaming endpoint description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Max cache age.
     /// </summary>
-    [CliFlag("--max-cache-age")]
-    public bool? MaxCacheAge { get; set; }
+    [CliOption("--max-cache-age")]
+    public string? MaxCacheAge { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -114,8 +116,8 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated IP addresses for access control. Allowed IP addresses can be specified as either a single IP address (e.g. "10.0.0.1") or as an IP range using an IP address and a CIDR subnet mask (e.g. "10.0.0.1/22"). Use "" to clear existing list. If no IP addresses are specified any IP address will be allowed.
@@ -126,8 +128,8 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// The CDN profile name.
     /// </summary>
-    [CliFlag("--cdn-profile")]
-    public bool? CdnProfile { get; set; }
+    [CliOption("--cdn-profile")]
+    public string? CdnProfile { get; set; }
 
     /// <summary>
     /// The CDN provider name. Allowed values: StandardVerizon, PremiumVerizon, StandardAkamai.
@@ -138,13 +140,13 @@ public record AzAmsStreamingEndpointCreateOptions : AzOptions
     /// <summary>
     /// The XML representing the clientaccesspolicy data used by Microsoft Silverlight and Adobe Flash. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://learn.microsoft.com/rest/api/ media/operations/crosssiteaccesspolicies.
     /// </summary>
-    [CliFlag("--client-access-policy")]
-    public bool? ClientAccessPolicy { get; set; }
+    [CliOption("--client-access-policy")]
+    public string? ClientAccessPolicy { get; set; }
 
     /// <summary>
     /// The XML representing the crossdomain data used by Silverlight. Use @{file} to load from a file. For further information about the XML structure please refer to documentation on https://lear n.microsoft.com/rest/api/media/operations/crosssiteaccesspolici es.
     /// </summary>
-    [CliFlag("--cross-domain-policy")]
-    public bool? CrossDomainPolicy { get; set; }
+    [CliOption("--cross-domain-policy")]
+    public string? CrossDomainPolicy { get; set; }
 
 }

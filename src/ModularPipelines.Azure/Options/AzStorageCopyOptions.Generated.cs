@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -33,6 +35,12 @@ public record AzStorageCopyOptions : AzOptions
     public string? Destination { get; set; }
 
     /// <summary>
+    /// The path/url of copy destination. It can be a local path, an url to azure storage server. If you provide destination parameter here, you do not need to provide arguments in copy destination arguments group and copy destination arguments will be deprecated in future. WARNING: Option '--destination-local-path' has been deprecated and will be removed in a future release. Use '--destination' instead.
+    /// </summary>
+    [CliOption("--destination-local-path")]
+    public string? DestinationLocalPath { get; set; }
+
+    /// <summary>
     /// Look into sub-directories recursively.
     /// </summary>
     [CliFlag("--recursive", ShortForm = "-r")]
@@ -45,6 +53,12 @@ public record AzStorageCopyOptions : AzOptions
     public string? Source { get; set; }
 
     /// <summary>
+    /// The path/url of copy source. It can be a local path, an url to azure storage server or AWS S3 buckets. If you provide source parameter here, you do not need to provide arguments in copy source arguments group and copy source arguments will be deprecated in future. WARNING: Option '--source-local-path' has been deprecated and will be removed in a future release. Use '--source' instead.
+    /// </summary>
+    [CliOption("--source-local-path")]
+    public string? SourceLocalPath { get; set; }
+
+    /// <summary>
     /// The type of blob at the destination.  Allowed values: AppendBlob, BlockBlob, PageBlob.
     /// </summary>
     [CliOption("--blob-type")]
@@ -53,26 +67,26 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Caps the transfer rate, in megabits per second. Moment-by-moment throughput might vary slightly from the cap. If this option is set to zero, or it is omitted, the throughput isn't capped.
     /// </summary>
-    [CliFlag("--cap-mbps")]
-    public bool? CapMbps { get; set; }
+    [CliOption("--cap-mbps")]
+    public string? CapMbps { get; set; }
 
     /// <summary>
     /// Specify content type of the file.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Exclude these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example: myFolder;myFolder/subDirName/file.pdf.
     /// </summary>
-    [CliFlag("--exclude-path")]
-    public bool? ExcludePath { get; set; }
+    [CliOption("--exclude-path")]
+    public string? ExcludePath { get; set; }
 
     /// <summary>
     /// Exclude these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
     /// </summary>
-    [CliFlag("--exclude-pattern")]
-    public bool? ExcludePattern { get; set; }
+    [CliOption("--exclude-pattern")]
+    public string? ExcludePattern { get; set; }
 
     /// <summary>
     /// Follow symbolic links when uploading from local file system.
@@ -83,20 +97,20 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Include only these paths. This option does not support wildcard characters (*). Checks relative path prefix. For example:myFolder;myFolder/subDirName/file.pdf.
     /// </summary>
-    [CliFlag("--include-path")]
-    public bool? IncludePath { get; set; }
+    [CliOption("--include-path")]
+    public string? IncludePath { get; set; }
 
     /// <summary>
     /// Include only these files where the name matches the pattern list. For example: *.jpg;*.pdf;exactName. This option supports wildcard characters (*).
     /// </summary>
-    [CliFlag("--include-pattern")]
-    public bool? IncludePattern { get; set; }
+    [CliOption("--include-pattern")]
+    public string? IncludePattern { get; set; }
 
     /// <summary>
     /// Preserve access tier during service to service copy. Please refer to https://learn.microsoft.com/azure/stor age/blobs/storage-blob-storage-tiers to ensure destination storage account support setting access tier. In the cases that setting access tier is not supported, please use `--preserve-s2s-access-tier false` to bypass copying access tier. (Default true). Allowed values: false, true.
     /// </summary>
-    [CliOption("--preserve-s2s-access-tier")]
-    public bool? PreserveS2sAccessTier { get; set; }
+    [CliOption("--preserve-s2s-access-tier", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PreserveS2sAccessTier { get; set; }
 
     /// <summary>
     /// Create an MD5 hash of each file, and save the hash as the Content-MD5 property of the destination blob/file.Only available when uploading.
@@ -107,14 +121,14 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Blob name in blob container of copy destination storage account.
     /// </summary>
-    [CliFlag("--destination-blob")]
-    public bool? DestinationBlob { get; set; }
+    [CliOption("--destination-blob")]
+    public string? DestinationBlob { get; set; }
 
     /// <summary>
     /// Container name of copy destination storage account.
     /// </summary>
-    [CliFlag("--destination-container")]
-    public bool? DestinationContainer { get; set; }
+    [CliOption("--destination-container")]
+    public string? DestinationContainer { get; set; }
 
     /// <summary>
     /// File path in file share of copy destination storage account.
@@ -131,32 +145,32 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Account key of copy source storage account. Must be used in conjunction with source storage account name.
     /// </summary>
-    [CliFlag("--source-account-key")]
-    public bool? SourceAccountKey { get; set; }
+    [CliOption("--source-account-key")]
+    public string? SourceAccountKey { get; set; }
 
     /// <summary>
     /// Account name of copy source storage account.
     /// </summary>
-    [CliFlag("--source-account-name")]
-    public bool? SourceAccountName { get; set; }
+    [CliOption("--source-account-name")]
+    public string? SourceAccountName { get; set; }
 
     /// <summary>
     /// Blob name in blob container of copy source storage account.
     /// </summary>
-    [CliFlag("--source-blob")]
-    public bool? SourceBlob { get; set; }
+    [CliOption("--source-blob")]
+    public string? SourceBlob { get; set; }
 
     /// <summary>
     /// Connection string of source storage account.
     /// </summary>
-    [CliFlag("--source-connection-string", ShortForm = "--src-conn")]
-    public bool? SourceConnectionString { get; set; }
+    [CliOption("--source-connection-string")]
+    public string? SourceConnectionString { get; set; }
 
     /// <summary>
     /// Container name of copy source storage account.
     /// </summary>
-    [CliFlag("--source-container")]
-    public bool? SourceContainer { get; set; }
+    [CliOption("--source-container")]
+    public string? SourceContainer { get; set; }
 
     /// <summary>
     /// File path in file share of copy source storage account.
@@ -167,8 +181,8 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Shared Access Signature (SAS) token of copy source. Must be used in conjunction with source storage account name.
     /// </summary>
-    [CliFlag("--source-sas")]
-    public bool? SourceSas { get; set; }
+    [CliOption("--source-sas")]
+    public string? SourceSas { get; set; }
 
     /// <summary>
     /// File share name of copy source storage account.
@@ -179,31 +193,38 @@ public record AzStorageCopyOptions : AzOptions
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name of copy destination.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
+
+    /// <summary>
+    /// Storage account name of copy destination. WARNING: Option '--destination-account-name' has been deprecated and will be removed in a future release. Use '--account-name' instead.
+    /// </summary>
+    [CliOption("--destination-account-name")]
+    public string? DestinationAccountName { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--service-endpoint")]
-    public bool? ServiceEndpoint { get; set; }
+    [CliOption("--service-endpoint")]
+    public string? ServiceEndpoint { get; set; }
 
 }

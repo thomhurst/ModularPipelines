@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -75,7 +76,7 @@ public record AzContainerappExecOptions : AzOptions
     /// <summary>
     /// The startup command (bash, zsh, sh, etc.).  Default: sh.
     /// </summary>
-    [CliFlag("--command")]
-    public bool? Command { get; set; }
+    [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Command { get; set; }
 
 }

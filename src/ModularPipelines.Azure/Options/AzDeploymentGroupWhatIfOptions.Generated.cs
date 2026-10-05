@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,8 +47,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// Auxiliary tenants which will be used during deployment across tenants.
     /// </summary>
-    [CliFlag("--aux-tenants")]
-    public bool? AuxTenants { get; set; }
+    [CliOption("--aux-tenants", GroupValues = true)]
+    public IEnumerable<string>? AuxTenants { get; set; }
 
     /// <summary>
     /// Space-separated list of resource change types to be excluded from What-If results.  Allowed values: Create, Delete, Deploy, Ignore, Modify, NoChange, Unsupported.
@@ -64,8 +65,8 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// The deployment name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Disable pretty-print for What-If results. When set, the output format type will be used.
@@ -76,14 +77,14 @@ public record AzDeploymentGroupWhatIfOptions : AzOptions
     /// <summary>
     /// The option to disable the prompt of missing parameters for ARM template. When the value is true, the prompt requiring users to provide missing parameter will be ignored. The default value is false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-prompt")]
-    public bool? NoPrompt { get; set; }
+    [CliOption("--no-prompt", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoPrompt { get; set; }
 
     /// <summary>
     /// Supply deployment parameter values. Parameters may be supplied from a file using the `@{path}` syntax, a JSON string, or as `&lt;KEY=VALUE&gt;` pairs. Parameters are evaluated in order, so when a value is assigned twice, the latter value will be used. It is recommended that you supply your parameters file first, and then override selectively using KEY=VALUE syntax.
     /// </summary>
     [CliOption("--parameters", ShortForm = "-p", GroupValues = true)]
-    public IEnumerable<string>? Parameters { get; set; }
+    public IEnumerable<CliValueGroup>? Parameters { get; set; }
 
     /// <summary>
     /// The query string (a SAS token) to be used with the template-uri in the case of linked templates.

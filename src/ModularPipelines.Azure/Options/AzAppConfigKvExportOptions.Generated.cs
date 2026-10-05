@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,8 +53,8 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Preview the result of export operation without making any changes to the App Configuration store.
@@ -64,20 +65,20 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// If no key specified, return all keys by default. Support star sign as filters, for instance abc* means keys with abc as prefix. Key filtering not applicable for feature flags. By default, all feature flags with specified label will be exported.
     /// </summary>
-    [CliFlag("--key")]
-    public bool? Key { get; set; }
+    [CliOption("--key")]
+    public string? Key { get; set; }
 
     /// <summary>
     /// Only keys and feature flags with this label will be exported. If no label specified, export keys and feature flags with null label by default. When export destination is appconfig, or when export destination is file with `appconfig/kvset` profile, this argument supports asterisk and comma signs for label filtering, for instance, * means all labels, abc* means labels with abc as prefix, and abc,xyz means labels with abc or xyz.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
@@ -88,32 +89,32 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Prefix to be trimmed from keys. Prefix will be ignored for feature flags.
     /// </summary>
-    [CliFlag("--prefix")]
-    public bool? Prefix { get; set; }
+    [CliOption("--prefix")]
+    public string? Prefix { get; set; }
 
     /// <summary>
     /// Export items excluding all feature flags. By default, all features with the specified label will be exported to file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-features")]
-    public bool? SkipFeatures { get; set; }
+    [CliOption("--skip-features", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipFeatures { get; set; }
 
     /// <summary>
     /// Export items excluding all key vault references. By default, all key vault references with the specified label will be exported. Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-keyvault")]
-    public bool? SkipKeyvault { get; set; }
+    [CliOption("--skip-keyvault", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipKeyvault { get; set; }
 
     /// <summary>
     /// Export all keys in a given snapshot of the App Configuration store. If no snapshot is specified, the keys currently in the store are exported based on the specified key and label filters.
     /// </summary>
-    [CliFlag("--snapshot")]
-    public bool? Snapshot { get; set; }
+    [CliOption("--snapshot")]
+    public string? Snapshot { get; set; }
 
     /// <summary>
     /// Key-values which contain the specified tags in source AppConfig will be exported. If no tags are specified, all key-values with any tags can be exported. Support space-separated tag filters: key[=value] [key[=value] ...].
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for preview.
@@ -130,20 +131,20 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the destination store.
     /// </summary>
-    [CliFlag("--dest-connection-string")]
-    public bool? DestConnectionString { get; set; }
+    [CliOption("--dest-connection-string")]
+    public string? DestConnectionString { get; set; }
 
     /// <summary>
     /// If --dest-auth-mode is "login", provide endpoint URL of the destination App Configuration store.
     /// </summary>
-    [CliFlag("--dest-endpoint")]
-    public bool? DestEndpoint { get; set; }
+    [CliOption("--dest-endpoint")]
+    public string? DestEndpoint { get; set; }
 
     /// <summary>
     /// Exported KVs will be labeled with this destination label. If neither --dest-label nor --preserve-labels is specified, will assign null label.
     /// </summary>
-    [CliFlag("--dest-label")]
-    public bool? DestLabel { get; set; }
+    [CliOption("--dest-label")]
+    public string? DestLabel { get; set; }
 
     /// <summary>
     /// The name of the destination App Configuration store.
@@ -154,26 +155,26 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Exported KVs and feature flags will be assigned with these tags. If no tags are specified, exported KVs and features will retain existing tags. Support space-separated tags: key[=value] [key[=value] ...]. Use  to clear existing tags.
     /// </summary>
-    [CliOption("--dest-tags", GroupValues = true)]
-    public IEnumerable<string>? DestTags { get; set; }
+    [CliOption("--dest-tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? DestTags { get; set; }
 
     /// <summary>
     /// Flag to preserve labels from source AppConfig. This argument should NOT be specified along with --dest-label.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--preserve-labels")]
-    public bool? PreserveLabels { get; set; }
+    [CliOption("--preserve-labels", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PreserveLabels { get; set; }
 
     /// <summary>
     /// ARM ID for AppService OR the name of the AppService, assuming it is in the same subscription and resource group as the App Configuration store. Required for AppService arguments.
     /// </summary>
-    [CliFlag("--appservice-account")]
-    public bool? AppserviceAccount { get; set; }
+    [CliOption("--appservice-account")]
+    public string? AppserviceAccount { get; set; }
 
     /// <summary>
     /// Export key-values as App Configuration references. For more information, see https://learn.microsoft.com/en-us/azure/app- service/app-service-configuration-references.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--export-as-reference", ShortForm = "-r")]
-    public bool? ExportAsReference { get; set; }
+    [CliOption("--export-as-reference", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExportAsReference { get; set; }
 
     /// <summary>
     /// File format exporting to. Required for file arguments. Currently, feature flags are not supported in properties format.  Allowed values: json, properties, yaml.
@@ -190,8 +191,8 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Local configuration file path. Required for file arguments.
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliOption("--path")]
+    public string? Path { get; set; }
 
     /// <summary>
     /// Export profile to be used for exporting the key-values. Options 'depth', 'separator', 'naming-convention', 'prefix', 'dest-label' , 'dest-tags' and, 'resolve-keyvault' are not supported when using 'appconfig/kvset' profile.  Allowed values: appconfig/default, appconfig/kvset.  Default: appconfig/default.
@@ -202,8 +203,8 @@ public record AzAppConfigKvExportOptions : AzOptions
     /// <summary>
     /// Resolve the content of key vault reference.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--resolve-keyvault")]
-    public bool? ResolveKeyvault { get; set; }
+    [CliOption("--resolve-keyvault", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ResolveKeyvault { get; set; }
 
     /// <summary>
     /// Delimiter for flattening the key-value pairs to json or yaml file. Required for exporting hierarchical structure. Separator will be ignored for property files and feature flags. Supported values: '.', ',', ';', '-', '_', '__', '/', ':'.

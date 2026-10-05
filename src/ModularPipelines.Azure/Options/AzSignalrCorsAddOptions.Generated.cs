@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,14 +26,25 @@ public record AzSignalrCorsAddOptions : AzOptions
     /// </summary>
     /// <param name="AllowedOrigins">Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".</param>
     public AzSignalrCorsAddOptions(
-        string AllowedOrigins
+        IEnumerable<CliOptionValue> AllowedOrigins
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(AllowedOrigins);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(AllowedOrigins));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(AllowedOrigins));
+            }
+
+            AllowedOrigins = materialized;
+        }
         this.AllowedOrigins = AllowedOrigins;
     }
 
-    public void Deconstruct(out string AllowedOrigins)
+    public void Deconstruct(out IEnumerable<CliOptionValue> AllowedOrigins)
     {
         AllowedOrigins = this.AllowedOrigins;
     }
@@ -40,8 +52,8 @@ public record AzSignalrCorsAddOptions : AzOptions
     /// <summary>
     /// Space separated origins that should be allowed to make cross- origin calls (for example: http://example.com:12345). To allow all, use "*".
     /// </summary>
-    [CliOption("--allowed-origins", ShortForm = "-a")]
-    public string AllowedOrigins { get; private init; }
+    [CliOption("--allowed-origins", ShortForm = "-a", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> AllowedOrigins { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

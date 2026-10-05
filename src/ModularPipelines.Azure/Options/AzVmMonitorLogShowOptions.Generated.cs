@@ -46,8 +46,8 @@ public record AzVmMonitorLogShowOptions : AzOptions
     /// <summary>
     /// Timespan over which to query. Defaults to querying all available data.
     /// </summary>
-    [CliFlag("--timespan")]
-    public bool? Timespan { get; set; }
+    [CliOption("--timespan")]
+    public string? Timespan { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

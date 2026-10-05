@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzTsUpdateOptions : AzOptions
     /// <summary>
     /// The display name of the template spec.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The name of the template spec.
@@ -47,8 +48,8 @@ public record AzTsUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// A path to a template file or Bicep file in the file system.
@@ -65,8 +66,8 @@ public record AzTsUpdateOptions : AzOptions
     /// <summary>
     /// The uiFormDefinition file path in the file system for the template spec version.
     /// </summary>
-    [CliFlag("--ui-form-definition")]
-    public bool? UiFormDefinition { get; set; }
+    [CliOption("--ui-form-definition")]
+    public string? UiFormDefinition { get; set; }
 
     /// <summary>
     /// The template spec version.

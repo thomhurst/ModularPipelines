@@ -33,7 +33,7 @@ public record AzAksNodepoolManualScaleAddOptions : AzOptions
         string Name,
         int NodeCount,
         string ResourceGroup,
-        IEnumerable<string> VmSizes
+        string VmSizes
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
@@ -43,22 +43,11 @@ public record AzAksNodepoolManualScaleAddOptions : AzOptions
         this.NodeCount = NodeCount;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
-        {
-            global::System.ArgumentNullException.ThrowIfNull(VmSizes);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(VmSizes));
-            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
-            {
-                throw new global::System.ArgumentException(
-                    "Required collection must contain at least one value.",
-                    nameof(VmSizes));
-            }
-
-            VmSizes = materialized;
-        }
+        global::System.ArgumentNullException.ThrowIfNull(VmSizes);
         this.VmSizes = VmSizes;
     }
 
-    public void Deconstruct(out string ClusterName, out string Name, out int NodeCount, out string ResourceGroup, out IEnumerable<string> VmSizes)
+    public void Deconstruct(out string ClusterName, out string Name, out int NodeCount, out string ResourceGroup, out string VmSizes)
     {
         ClusterName = this.ClusterName;
         Name = this.Name;
@@ -94,8 +83,8 @@ public record AzAksNodepoolManualScaleAddOptions : AzOptions
     /// <summary>
     /// Comma-separated list of sizes in the manual.
     /// </summary>
-    [CliOption("--vm-sizes", GroupValues = true)]
-    public IEnumerable<string> VmSizes { get; private init; }
+    [CliOption("--vm-sizes")]
+    public string VmSizes { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

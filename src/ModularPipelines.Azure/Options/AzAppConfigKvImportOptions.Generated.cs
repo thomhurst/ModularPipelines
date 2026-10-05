@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -52,14 +53,14 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the App Configuration store. Can be found using 'az appconfig credential list'. Users can preset it using `az configure --defaults appconfig_connection_string=&lt;connection_string&gt;` or environment variable with the name AZURE_APPCONFIG_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Content type of all imported items.
     /// </summary>
-    [CliFlag("--content-type")]
-    public bool? ContentType { get; set; }
+    [CliOption("--content-type")]
+    public string? ContentType { get; set; }
 
     /// <summary>
     /// Preview the result of import operation without making any changes to the App Configuration store.
@@ -70,8 +71,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// If import mode is "ignore-match", only source key-values that do not already exist or whose value, content-type or tags are different from that of an existing key-value with the same key and label, will be written. Import mode "all" writes all key-values to the destination regardless of whether they exist or not.  Allowed values: all, ignore- match.  Default: ignore-match.
@@ -82,8 +83,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Imported KVs and feature flags will be assigned with this label. If no label specified, will assign null label.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// Name of the App Configuration store. You can configure the default name using `az configure --defaults app_configuration_store=&lt;name&gt;`.
@@ -94,20 +95,20 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// This prefix will be appended to the front of imported keys. Prefix will be ignored for feature flags.
     /// </summary>
-    [CliFlag("--prefix")]
-    public bool? Prefix { get; set; }
+    [CliOption("--prefix")]
+    public string? Prefix { get; set; }
 
     /// <summary>
     /// Import only key values and exclude all feature flags. By default, all feature flags will be imported from file or appconfig. Not applicable for appservice.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-features")]
-    public bool? SkipFeatures { get; set; }
+    [CliOption("--skip-features", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipFeatures { get; set; }
 
     /// <summary>
     /// Imported KVs and feature flags will be assigned with these tags. If no tags are specified, imported KVs and feature flags will retain existing tags. Support space-separated tags: key[=value] [key[=value] ...]. Use  to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for preview.
@@ -118,8 +119,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// ARM ID for AKS OR the name of the AKS, assuming it is in the same subscription and resource group as the App Configuration store. Required for AKS arguments.
     /// </summary>
-    [CliFlag("--aks-cluster")]
-    public bool? AksCluster { get; set; }
+    [CliOption("--aks-cluster")]
+    public string? AksCluster { get; set; }
 
     /// <summary>
     /// Name of the ConfigMap. Required for AKS arguments.
@@ -130,14 +131,14 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Namespace of the ConfigMap. default to "default" namespace if not specified.  Default: default.
     /// </summary>
-    [CliFlag("--configmap-namespace")]
-    public bool? ConfigmapNamespace { get; set; }
+    [CliOption("--configmap-namespace")]
+    public string? ConfigmapNamespace { get; set; }
 
     /// <summary>
     /// Flag to preserve labels from source AppConfig. This argument should NOT be specified along with --label.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--preserve-labels")]
-    public bool? PreserveLabels { get; set; }
+    [CliOption("--preserve-labels", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PreserveLabels { get; set; }
 
     /// <summary>
     /// Auth mode for connecting to source App Configuration store. For details, refer to "--auth-mode" argument.  Allowed values: anonymous, key, login.  Default: key.
@@ -148,26 +149,26 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Combination of access key and endpoint of the source store.
     /// </summary>
-    [CliFlag("--src-connection-string")]
-    public bool? SrcConnectionString { get; set; }
+    [CliOption("--src-connection-string")]
+    public string? SrcConnectionString { get; set; }
 
     /// <summary>
     /// If --src-auth-mode is "login", provide endpoint URL of the source App Configuration store.
     /// </summary>
-    [CliFlag("--src-endpoint")]
-    public bool? SrcEndpoint { get; set; }
+    [CliOption("--src-endpoint")]
+    public string? SrcEndpoint { get; set; }
 
     /// <summary>
     /// If no key specified, import all keys by default. Support star sign as filters, for instance abc* means keys with abc as prefix. Key filtering not applicable for feature flags. By default, all feature flags with specified label will be imported.
     /// </summary>
-    [CliFlag("--src-key")]
-    public bool? SrcKey { get; set; }
+    [CliOption("--src-key")]
+    public string? SrcKey { get; set; }
 
     /// <summary>
     /// Only keys with this label in source AppConfig will be imported. If no value specified, import keys with null label by default. Support star sign as filters, for instance * means all labels, abc* means labels with abc as prefix.
     /// </summary>
-    [CliFlag("--src-label")]
-    public bool? SrcLabel { get; set; }
+    [CliOption("--src-label")]
+    public string? SrcLabel { get; set; }
 
     /// <summary>
     /// The name of the source App Configuration store.
@@ -178,20 +179,20 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Import all keys in a given snapshot of the source App Configuration store. If no snapshot is specified, the keys currently in the store are imported based on the specified key and label filters.
     /// </summary>
-    [CliFlag("--src-snapshot")]
-    public bool? SrcSnapshot { get; set; }
+    [CliOption("--src-snapshot")]
+    public string? SrcSnapshot { get; set; }
 
     /// <summary>
     /// Key-values which contain the specified tags in source AppConfig will be imported. If no tags are specified, all key-values with any tags can be imported. Support space-separated tag filters: key[=value] [key[=value] ...].
     /// </summary>
-    [CliOption("--src-tags", GroupValues = true)]
-    public IEnumerable<string>? SrcTags { get; set; }
+    [CliOption("--src-tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SrcTags { get; set; }
 
     /// <summary>
     /// ARM ID for AppService OR the name of the AppService, assuming it is in the same subscription and resource group as the App Configuration store. Required for AppService arguments.
     /// </summary>
-    [CliFlag("--appservice-account")]
-    public bool? AppserviceAccount { get; set; }
+    [CliOption("--appservice-account")]
+    public string? AppserviceAccount { get; set; }
 
     /// <summary>
     /// Depth for flattening the json or yaml file to key-value pairs. Flatten to the deepest level by default if --separator is provided. Not applicable for property files or feature flags.
@@ -208,8 +209,8 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Local configuration file path. Required for file arguments.
     /// </summary>
-    [CliFlag("--path")]
-    public bool? Path { get; set; }
+    [CliOption("--path")]
+    public string? Path { get; set; }
 
     /// <summary>
     /// Import profile to be used for importing the key-values. Options 'depth', 'separator', 'content-type', 'label', 'skip-features', 'tags' and, 'prefix' are not supported when using 'appconfig/kvset' profile. Allowed values: appconfig/default, appconfig/kvset.  Default: appconfig/default.
@@ -226,7 +227,7 @@ public record AzAppConfigKvImportOptions : AzOptions
     /// <summary>
     /// Delete all other key-values in the store with specified prefix and label.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--strict")]
-    public bool? Strict { get; set; }
+    [CliOption("--strict", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Strict { get; set; }
 
 }

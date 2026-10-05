@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzIotDpsCreateOptions : AzOptions
     /// <summary>
     /// Enforce data residency for this IoT Hub Device Provisioning Service by disabling cross geo-pair disaster recovery. This property is immutable once set on the resource. Only available in select regions. Learn more at https://aka.ms/dpsdr.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--edr", ShortForm = "--enforce-data-residency")]
-    public bool? Edr { get; set; }
+    [CliOption("--edr", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Edr { get; set; }
 
     /// <summary>
     /// Location of your IoT Hub Device Provisioning Service. Default is the location of target resource group.
@@ -75,13 +76,13 @@ public record AzIotDpsCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Units in your IoT Hub Device Provisioning Service.  Default: 1.
     /// </summary>
-    [CliFlag("--unit")]
-    public bool? Unit { get; set; }
+    [CliOption("--unit")]
+    public int? Unit { get; set; }
 
 }

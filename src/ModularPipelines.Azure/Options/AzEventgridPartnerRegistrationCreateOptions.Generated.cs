@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -61,9 +62,69 @@ public record AzEventgridPartnerRegistrationCreateOptions : AzOptions
     public IEnumerable<string>? AuthorizedSubscriptionIds { get; set; }
 
     /// <summary>
+    /// The extension of the customer service number of the publisher. Only digits are allowed and number of digits should not exceed 10. WARNING: Argument 'customer_service_extension' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--customer-service-extension")]
+    public string? CustomerServiceExtension { get; set; }
+
+    /// <summary>
+    /// The customer service number of the publisher. The expected phone format should start with a '+' sign followed by the country code. The remaining digits are then followed. Only digits and spaces are allowed and its length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1 515 123 4567 and +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and +966 121 5115 24 7 551 1234 43. WARNING: Argument 'customer_service_number' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--customer-service-number")]
+    public string? CustomerServiceNumber { get; set; }
+
+    /// <summary>
+    /// The customer service URI of the publisher. WARNING: Argument 'customer_service_uri' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--customer-service-uri")]
+    public string? CustomerServiceUri { get; set; }
+
+    /// <summary>
+    /// Description of the partner topic type. WARNING: Argument 'description' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Display name for the partner topic type. WARNING: Argument 'display_name' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// URI of the partner logo. WARNING: Argument 'logo_uri' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--logo-uri")]
+    public string? LogoUri { get; set; }
+
+    /// <summary>
+    /// Description of the custom scenarios and integration. Length of this description should not exceed 2048 characters. WARNING: Argument 'long_description' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--long-description")]
+    public string? LongDescription { get; set; }
+
+    /// <summary>
+    /// Official name of the partner. WARNING: Argument 'partner_name' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--partner-name")]
+    public string? PartnerName { get; set; }
+
+    /// <summary>
+    /// Name of the partner topic resource type. This name should be unique among all partner topic types names. WARNING: Argument 'resource_type_name' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--resource-type-name")]
+    public string? ResourceTypeName { get; set; }
+
+    /// <summary>
+    /// URI of the partner website that can be used by Azure customers to setup Event Grid integration on an event source. WARNING: Argument 'setup_uri' has been deprecated and will be removed in a future release.
+    /// </summary>
+    [CliOption("--setup-uri")]
+    public string? SetupUri { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

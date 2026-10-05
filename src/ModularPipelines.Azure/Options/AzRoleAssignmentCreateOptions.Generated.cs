@@ -57,14 +57,14 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Represent a user, group, or service principal. supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// The assignee's object ID (also known as principal ID). Use this argument instead of '--assignee' to bypass Microsoft Graph query in case the logged-in account has no permission or the machine has no network access to query Microsoft Graph.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Use with --assignee-object-id to avoid errors caused by propagation latency in Microsoft Graph.  Allowed values: ForeignGroup, Group, ServicePrincipal, User.
@@ -73,9 +73,27 @@ public record AzRoleAssignmentCreateOptions : AzOptions
     public string? AssigneePrincipalType { get; set; }
 
     /// <summary>
+    /// Condition under which the user can be granted permission. WARNING: Argument '--condition' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--condition")]
+    public string? Condition { get; set; }
+
+    /// <summary>
+    /// Version of the condition syntax. If --condition is specified without --condition-version, default to 2.0. WARNING: Argument '--condition-version' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--condition-version")]
+    public string? ConditionVersion { get; set; }
+
+    /// <summary>
+    /// Description of role assignment. WARNING: Argument '--description' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// A GUID for the role assignment. It must be unique and different for each role assignment. If omitted, a new GUID is generated.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
 }

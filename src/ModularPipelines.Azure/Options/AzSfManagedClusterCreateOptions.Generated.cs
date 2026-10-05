@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -70,68 +71,68 @@ public record AzSfManagedClusterCreateOptions : AzOptions
     /// <summary>
     /// Admin user used for the virtual machines.  Default: vmadmin.
     /// </summary>
-    [CliFlag("--admin-user-name")]
-    public bool? AdminUserName { get; set; }
+    [CliOption("--admin-user-name")]
+    public string? AdminUserName { get; set; }
 
     /// <summary>
     /// Client certificate common name.
     /// </summary>
-    [CliFlag("--cert-common-name", ShortForm = "--client-cert-common-name")]
-    public bool? CertCommonName { get; set; }
+    [CliOption("--cert-common-name")]
+    public string? CertCommonName { get; set; }
 
     /// <summary>
     /// Client authentication type. Allowed values: false, true.
     /// </summary>
-    [CliOption("--cert-is-admin", ShortForm = "--client-cert-is-admin")]
-    public bool? CertIsAdmin { get; set; }
+    [CliOption("--cert-is-admin", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CertIsAdmin { get; set; }
 
     /// <summary>
     /// Space-separated list of issuer thumbprints.
     /// </summary>
-    [CliOption("--cert-issuer-thumbprint", ShortForm = "--client-cert-issuer-thumbprint", GroupValues = true)]
+    [CliOption("--cert-issuer-thumbprint", GroupValues = true)]
     public IEnumerable<string>? CertIssuerThumbprint { get; set; }
 
     /// <summary>
     /// Client certificate thumbprint.
     /// </summary>
-    [CliFlag("--cert-thumbprint", ShortForm = "--client-cert-thumbprint")]
-    public bool? CertThumbprint { get; set; }
+    [CliOption("--cert-thumbprint")]
+    public string? CertThumbprint { get; set; }
 
     /// <summary>
     /// Port used for client connections to the cluster.  Default: 19000.
     /// </summary>
-    [CliFlag("--client-connection-port", ShortForm = "--client-port")]
-    public bool? ClientConnectionPort { get; set; }
+    [CliOption("--client-connection-port")]
+    public string? ClientConnectionPort { get; set; }
 
     /// <summary>
     /// Cluster service fabric code version. Only use if upgrade mode is Manual.
     /// </summary>
-    [CliFlag("--cluster-code-version", ShortForm = "--code-version")]
-    public bool? ClusterCodeVersion { get; set; }
+    [CliOption("--cluster-code-version")]
+    public string? ClusterCodeVersion { get; set; }
 
     /// <summary>
     /// The upgrade mode of the cluster when new Service Fabric runtime version is available Wave0: Cluster upgrade starts immediately after a new version is rolled out. Recommended for Test/Dev clusters.Wave1: Cluster upgrade starts 7 days after a new version is rolled out. Recommended for Pre- prod clusters.Wave2: Cluster upgrade starts 14 days after a new version is rolled out. Recommended for Production clusters. Allowed values: Wave0, Wave1, Wave2.
     /// </summary>
-    [CliOption("--cluster-upgrade-cadence", ShortForm = "--upgrade-cadence")]
+    [CliOption("--cluster-upgrade-cadence")]
     public string? ClusterUpgradeCadence { get; set; }
 
     /// <summary>
     /// The upgrade mode of the cluster when new Service Fabric runtime version is available Automatic: The cluster will be automatically upgraded to the latest Service Fabric runtime version, upgrade_cadence will determine when the upgrade starts after the new version becomes available.Manual: The cluster will not be automatically upgraded to the latest Service Fabric runtime version. The cluster is upgraded by setting the code_version property in the cluster resource. Allowed values: Automatic, Manual.
     /// </summary>
-    [CliOption("--cluster-upgrade-mode", ShortForm = "--upgrade-mode")]
+    [CliOption("--cluster-upgrade-mode")]
     public string? ClusterUpgradeMode { get; set; }
 
     /// <summary>
     /// Cluster's dns name.
     /// </summary>
-    [CliFlag("--dns-name")]
-    public bool? DnsName { get; set; }
+    [CliOption("--dns-name")]
+    public string? DnsName { get; set; }
 
     /// <summary>
     /// Port used for http connections to the cluster.  Default: 19080.
     /// </summary>
-    [CliFlag("--gateway-connection-port", ShortForm = "--gateway-port")]
-    public bool? GatewayConnectionPort { get; set; }
+    [CliOption("--gateway-connection-port")]
+    public string? GatewayConnectionPort { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location= &lt;location&gt;`.
@@ -142,13 +143,13 @@ public record AzSfManagedClusterCreateOptions : AzOptions
     /// <summary>
     /// Cluster's Sku, the options are Basic: it will have a minimum of 3 seed nodes and only allows 1 node type and Standard: it will have a minimum of 5 seed nodes and allows multiple node types.  Default: Basic.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
 }

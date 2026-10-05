@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,26 +30,32 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Enables sending session affinity cookies. Allowed values: false, true.
     /// </summary>
-    [CliOption("--client-affinity-enabled")]
-    public bool? ClientAffinityEnabled { get; set; }
+    [CliOption("--client-affinity-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ClientAffinityEnabled { get; set; }
 
     /// <summary>
     /// Enable or disable end-to-end encryption between the Front End and the Workers.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e")]
-    public bool? EndToEndEncryptionEnabled { get; set; }
+    [CliOption("--end-to-end-encryption-enabled", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EndToEndEncryptionEnabled { get; set; }
+
+    /// <summary>
+    /// If true, web app hostname is force registered with DNS.  Allowed values: false, true. WARNING: Argument 'force_dns_registration' has been deprecated and will be removed in version '3.0.0'.
+    /// </summary>
+    [CliOption("--force-dns-registration", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceDnsRegistration { get; set; }
 
     /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--https-only")]
-    public bool? HttpsOnly { get; set; }
+    [CliOption("--https-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsOnly { get; set; }
 
     /// <summary>
     /// Minimum number of instances. App must be in an elastic scale App Service Plan.
     /// </summary>
-    [CliFlag("--minimum-elastic-instance-count", ShortForm = "-i")]
-    public bool? MinimumElasticInstanceCount { get; set; }
+    [CliOption("--minimum-elastic-instance-count", ShortForm = "-i")]
+    public int? MinimumElasticInstanceCount { get; set; }
 
     /// <summary>
     /// Set the platform release channel for the web app. Possible values: Latest, Standard, Extended.  Allowed values: Extended, Latest, Standard.
@@ -59,20 +66,38 @@ public record AzWebappUpdateOptions : AzOptions
     /// <summary>
     /// Number of preWarmed instances. App must be in an elastic scale App Service Plan.
     /// </summary>
-    [CliFlag("--prewarmed-instance-count", ShortForm = "-w")]
-    public bool? PrewarmedInstanceCount { get; set; }
+    [CliOption("--prewarmed-instance-count", ShortForm = "-w")]
+    public int? PrewarmedInstanceCount { get; set; }
 
     /// <summary>
     /// Enable or disable site-scoped certificates. Allowed values: false, true.
     /// </summary>
-    [CliOption("--site-scoped-certs")]
-    public bool? SiteScopedCerts { get; set; }
+    [CliOption("--site-scoped-certs", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SiteScopedCerts { get; set; }
+
+    /// <summary>
+    /// If true, custom (non *.azurewebsites.net) domains associated with web app are not verified.  Allowed values: false, true. WARNING: Argument 'skip_custom_domain_verification' has been deprecated and will be removed in version '3.0.0'.
+    /// </summary>
+    [CliOption("--skip-custom-domain-verification", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipCustomDomainVerification { get; set; }
+
+    /// <summary>
+    /// If true web app hostname is not registered with DNS on creation.  Allowed values: false, true. WARNING: Argument 'skip_dns_registration' has been deprecated and will be removed in version '3.0.0'.
+    /// </summary>
+    [CliOption("--skip-dns-registration", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipDnsRegistration { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
     public string? Slot { get; set; }
+
+    /// <summary>
+    /// Time to live in seconds for web app's default domain name.  Allowed values: false, true. WARNING: Argument 'ttl_in_seconds' has been deprecated and will be removed in version '3.0.0'.
+    /// </summary>
+    [CliOption("--ttl-in-seconds", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TtlInSeconds { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

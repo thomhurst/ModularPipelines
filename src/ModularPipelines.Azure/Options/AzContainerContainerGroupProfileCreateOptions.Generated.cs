@@ -59,8 +59,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The required number of CPU cores of the containers, accurate to one decimal place.  Default: 1.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// A list of environment variable for the container. Space- separated values in 'key=value' format.
@@ -77,8 +77,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The container image name.
     /// </summary>
-    [CliFlag("--image")]
-    public bool? Image { get; set; }
+    [CliOption("--image")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// The IP address type of the container group.  Allowed values: Private, Public.
@@ -95,8 +95,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The required memory of the containers in GB, accurate to one decimal place.  Default: 1.5.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// The name of the container group.
@@ -125,8 +125,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The priority of the container group.
     /// </summary>
-    [CliFlag("--priority")]
-    public bool? Priority { get; set; }
+    [CliOption("--priority")]
+    public string? Priority { get; set; }
 
     /// <summary>
     /// The network protocol to use.  Allowed values: TCP, UDP.
@@ -162,20 +162,20 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The SKU of the container group.
     /// </summary>
-    [CliFlag("--sku")]
-    public bool? Sku { get; set; }
+    [CliOption("--sku")]
+    public string? Sku { get; set; }
 
     /// <summary>
     /// The zone to place the container group.
     /// </summary>
-    [CliFlag("--zone")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// The storage account access key used to access the Azure File share.
     /// </summary>
-    [CliFlag("--azure-file-volume-account-key")]
-    public bool? AzureFileVolumeAccountKey { get; set; }
+    [CliOption("--azure-file-volume-account-key")]
+    public string? AzureFileVolumeAccountKey { get; set; }
 
     /// <summary>
     /// The name of the storage account that contains the Azure File share.
@@ -210,8 +210,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The CCE policy for the confidential container group.
     /// </summary>
-    [CliFlag("--cce-policy")]
-    public bool? CcePolicy { get; set; }
+    [CliOption("--cce-policy")]
+    public string? CcePolicy { get; set; }
 
     /// <summary>
     /// A List of security context capabilities to be dropped.
@@ -228,26 +228,26 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// Set the User UID for the container.
     /// </summary>
-    [CliFlag("--run-as-group")]
-    public bool? RunAsGroup { get; set; }
+    [CliOption("--run-as-group")]
+    public string? RunAsGroup { get; set; }
 
     /// <summary>
     /// Set the User GID for the container.
     /// </summary>
-    [CliFlag("--run-as-user")]
-    public bool? RunAsUser { get; set; }
+    [CliOption("--run-as-user")]
+    public string? RunAsUser { get; set; }
 
     /// <summary>
     /// A base64 encoded string containing the contents of the JSON in the seccomp profile.
     /// </summary>
-    [CliFlag("--seccomp-profile")]
-    public bool? SeccompProfile { get; set; }
+    [CliOption("--seccomp-profile")]
+    public string? SeccompProfile { get; set; }
 
     /// <summary>
     /// The target directory path in the git repository. Must not contain '..'.  Default: ..
     /// </summary>
-    [CliFlag("--gitrepo-dir")]
-    public bool? GitrepoDir { get; set; }
+    [CliOption("--gitrepo-dir")]
+    public string? GitrepoDir { get; set; }
 
     /// <summary>
     /// The path within the container where the git repo volume should be mounted. Must not contain colon ':'.
@@ -258,8 +258,8 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The commit hash for the specified revision.
     /// </summary>
-    [CliFlag("--gitrepo-revision")]
-    public bool? GitrepoRevision { get; set; }
+    [CliOption("--gitrepo-revision")]
+    public string? GitrepoRevision { get; set; }
 
     /// <summary>
     /// The URL of a git repository to be mounted as a volume.
@@ -270,14 +270,14 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The identity with access to the container registry.
     /// </summary>
-    [CliFlag("--acr-identity")]
-    public bool? AcrIdentity { get; set; }
+    [CliOption("--acr-identity")]
+    public string? AcrIdentity { get; set; }
 
     /// <summary>
     /// The container image registry login server.
     /// </summary>
-    [CliFlag("--registry-login-server")]
-    public bool? RegistryLoginServer { get; set; }
+    [CliOption("--registry-login-server")]
+    public string? RegistryLoginServer { get; set; }
 
     /// <summary>
     /// The password to log in container image registry server.
@@ -295,13 +295,13 @@ public record AzContainerContainerGroupProfileCreateOptions : AzOptions
     /// <summary>
     /// The Log Analytics workspace name or id. Use the current subscription or use --subscription flag to set the desired subscription.
     /// </summary>
-    [CliFlag("--log-analytics-workspace")]
-    public bool? LogAnalyticsWorkspace { get; set; }
+    [CliOption("--log-analytics-workspace")]
+    public string? LogAnalyticsWorkspace { get; set; }
 
     /// <summary>
     /// The Log Analytics workspace key.
     /// </summary>
-    [CliFlag("--log-analytics-workspace-key")]
-    public bool? LogAnalyticsWorkspaceKey { get; set; }
+    [CliOption("--log-analytics-workspace-key")]
+    public string? LogAnalyticsWorkspaceKey { get; set; }
 
 }

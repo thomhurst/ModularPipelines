@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,8 +24,8 @@ public record AzKeyvaultKeyRestoreOptions : AzOptions
     /// <summary>
     /// Local key backup from which to restore key.
     /// </summary>
-    [CliFlag("--file", ShortForm = "-f")]
-    public bool? File { get; set; }
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -41,8 +42,8 @@ public record AzKeyvaultKeyRestoreOptions : AzOptions
     /// <summary>
     /// Full URI of the Vault or HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the Vault.
@@ -65,8 +66,9 @@ public record AzKeyvaultKeyRestoreOptions : AzOptions
     /// <summary>
     /// The SAS token pointing to an Azure Blob storage container.
     /// </summary>
-    [CliFlag("--storage-container-SAS-token", ShortForm = "-t")]
-    public bool? StorageContainerSasToken { get; set; }
+    [SecretValue]
+    [CliOption("--storage-container-SAS-token", ShortForm = "-t")]
+    public string? StorageContainerSasToken { get; set; }
 
     /// <summary>
     /// Name of Blob Container.
@@ -83,7 +85,7 @@ public record AzKeyvaultKeyRestoreOptions : AzOptions
     /// <summary>
     /// Azure Blob storage container Uri. If specified, all other 'Storage Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--storage-resource-uri", ShortForm = "-u")]
-    public bool? StorageResourceUri { get; set; }
+    [CliOption("--storage-resource-uri", ShortForm = "-u")]
+    public string? StorageResourceUri { get; set; }
 
 }

@@ -68,7 +68,7 @@ public record AzSfClusterUpgradeTypeSetOptions : AzOptions
     /// <summary>
     /// Cluster code version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
 }

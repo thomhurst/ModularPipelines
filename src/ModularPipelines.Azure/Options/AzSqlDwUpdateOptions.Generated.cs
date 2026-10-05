@@ -23,14 +23,14 @@ public record AzSqlDwUpdateOptions : AzOptions
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// The max storage size. If no unit is specified, defaults to bytes (B).
     /// </summary>
-    [CliFlag("--max-size")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public string? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -41,8 +41,8 @@ public record AzSqlDwUpdateOptions : AzOptions
     /// <summary>
     /// The service objective of the data warehouse. For example: DW100, DW1000c.
     /// </summary>
-    [CliFlag("--service-objective")]
-    public bool? ServiceObjective { get; set; }
+    [CliOption("--service-objective")]
+    public string? ServiceObjective { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

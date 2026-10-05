@@ -68,19 +68,19 @@ public record AzKeyvaultCertificateIssuerAdminAddOptions : AzOptions
     /// <summary>
     /// Admin first name.
     /// </summary>
-    [CliFlag("--first-name")]
-    public bool? FirstName { get; set; }
+    [CliOption("--first-name")]
+    public string? FirstName { get; set; }
 
     /// <summary>
     /// Admin last name.
     /// </summary>
-    [CliFlag("--last-name")]
-    public bool? LastName { get; set; }
+    [CliOption("--last-name")]
+    public string? LastName { get; set; }
 
     /// <summary>
     /// Admin phone number.
     /// </summary>
-    [CliFlag("--phone")]
-    public bool? Phone { get; set; }
+    [CliOption("--phone")]
+    public string? Phone { get; set; }
 
 }

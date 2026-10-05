@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzSignalrReplicaUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable region endpoint for a SignalR Service. Allowed values: false, true.
     /// </summary>
-    [CliOption("--region-endpoint-enabled")]
-    public bool? RegionEndpointEnabled { get; set; }
+    [CliOption("--region-endpoint-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RegionEndpointEnabled { get; set; }
 
     /// <summary>
     /// The number of signalr service unit count.
     /// </summary>
-    [CliFlag("--unit-count")]
-    public bool? UnitCount { get; set; }
+    [CliOption("--unit-count")]
+    public int? UnitCount { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

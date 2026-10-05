@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,44 +69,44 @@ public record AzFunctionappFlexMigrationStartOptions : AzOptions
     /// <summary>
     /// The maximum number of instances.
     /// </summary>
-    [CliFlag("--maximum-instance-count")]
-    public bool? MaximumInstanceCount { get; set; }
+    [CliOption("--maximum-instance-count")]
+    public int? MaximumInstanceCount { get; set; }
 
     /// <summary>
     /// Skip migrating access restrictions.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--sar", ShortForm = "--skip-access-restrictions")]
-    public bool? Sar { get; set; }
+    [CliOption("--sar", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Sar { get; set; }
 
     /// <summary>
     /// Skip migrating CORS settings.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--sc", ShortForm = "--skip-cors")]
-    public bool? Sc { get; set; }
+    [CliOption("--sc", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Sc { get; set; }
 
     /// <summary>
     /// Skip migrating hostnames.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--sh", ShortForm = "--skip-hostnames")]
-    public bool? Sh { get; set; }
+    [CliOption("--sh", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Sh { get; set; }
 
     /// <summary>
     /// Skip migrating managed identities.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-managed-identities", ShortForm = "--smi")]
-    public bool? SkipManagedIdentities { get; set; }
+    [CliOption("--skip-managed-identities", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipManagedIdentities { get; set; }
 
     /// <summary>
     /// Skip migrating storage mounts.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--skip-storage-mount", ShortForm = "--ssm")]
-    public bool? SkipStorageMount { get; set; }
+    [CliOption("--skip-storage-mount", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SkipStorageMount { get; set; }
 
     /// <summary>
     /// The storage account to use for the target function app. If no storage account is provided, the storage account of the source function app will be used.
     /// </summary>
-    [CliFlag("--storage-account")]
-    public bool? StorageAccount { get; set; }
+    [CliOption("--storage-account")]
+    public string? StorageAccount { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

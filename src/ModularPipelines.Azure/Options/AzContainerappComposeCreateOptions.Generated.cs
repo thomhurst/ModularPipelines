@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -70,14 +71,20 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Transport options per Container App instance (servicename=transportsetting). WARNING: Option '--transport' has been deprecated and will be removed in a future release. Use '--transport-mapping' instead.
+    /// </summary>
+    [CliOption("--transport", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Transport { get; set; }
 
     /// <summary>
     /// Transport options per Container App instance (servicename=transportsetting).
     /// </summary>
-    [CliFlag("--transport-mapping")]
-    public bool? TransportMapping { get; set; }
+    [CliOption("--transport-mapping", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? TransportMapping { get; set; }
 
     /// <summary>
     /// The password to log in to container registry. If stored as a secret, value must start with 'secretref:' followed by the secret name.
@@ -89,8 +96,8 @@ public record AzContainerappComposeCreateOptions : AzOptions
     /// <summary>
     /// The container registry server hostname, e.g. myregistry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-server")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The username to log in to container registry.

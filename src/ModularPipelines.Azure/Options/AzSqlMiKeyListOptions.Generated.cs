@@ -23,8 +23,8 @@ public record AzSqlMiKeyListOptions : AzOptions
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -35,7 +35,7 @@ public record AzSqlMiKeyListOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -84,14 +85,14 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// Name of the Sku of Cognitive Services account/deployment.  Values from: az cognitiveservices account list-skus.
     /// </summary>
-    [CliOption("--sku", ShortForm = "--sku-name")]
+    [CliOption("--sku")]
     public string Sku { get; private init; }
 
     /// <summary>
     /// Api properties in JSON format or a=b c=d format. Some cognitive services (i.e. QnA Maker) require extra api properties to create the account.
     /// </summary>
-    [CliFlag("--api-properties")]
-    public bool? ApiProperties { get; set; }
+    [CliOption("--api-properties", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ApiProperties { get; set; }
 
     /// <summary>
     /// Generate and assign an Azure Active Directory Identity for this account.
@@ -102,26 +103,26 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// User domain assigned to the account. Name is the CNAME source.
     /// </summary>
-    [CliFlag("--custom-domain")]
-    public bool? CustomDomain { get; set; }
+    [CliOption("--custom-domain")]
+    public string? CustomDomain { get; set; }
 
     /// <summary>
     /// The encryption properties for this resource, in JSON format.
     /// </summary>
-    [CliFlag("--encryption")]
-    public bool? Encryption { get; set; }
+    [CliOption("--encryption")]
+    public string? Encryption { get; set; }
 
     /// <summary>
     /// The storage accounts for this resource, in JSON array format.
     /// </summary>
-    [CliFlag("--storage")]
-    public bool? Storage { get; set; }
+    [CliOption("--storage")]
+    public string? Storage { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Do not prompt for terms confirmation.
@@ -132,7 +133,7 @@ public record AzCognitiveservicesAccountCreateOptions : AzOptions
     /// <summary>
     /// AIServices kind only. Enables project management. Default true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-project-management", ShortForm = "--manage-projects")]
-    public bool? AllowProjectManagement { get; set; }
+    [CliOption("--allow-project-management", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowProjectManagement { get; set; }
 
 }

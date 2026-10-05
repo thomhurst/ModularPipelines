@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,19 +47,19 @@ public record AzEventgridEventSubscriptionShowOptions : AzOptions
     /// <summary>
     /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
-    public bool? IncludeAttribSecret { get; set; }
+    [CliOption("--include-attrib-secret", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeAttribSecret { get; set; }
 
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-full-endpoint-url")]
-    public bool? IncludeFullEndpointUrl { get; set; }
+    [CliOption("--include-full-endpoint-url", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeFullEndpointUrl { get; set; }
 
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be shown. Usage:                      --source-resource-id Azure-Resource-ID For Azure subscription:     --source-resource-id /subscriptions/{SubID} For resource group:         --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1 For EventGrid topic:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/topics/t1 For storage account:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.Storage/storageaccounts/sa1 For EventGrid domain:       --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/domains/d1 For EventGrid domain topic: --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/p roviders/Microsoft.EventGrid/domains/d1/topics/t1.
     /// </summary>
-    [CliFlag("--source-resource-id")]
-    public bool? SourceResourceId { get; set; }
+    [CliOption("--source-resource-id")]
+    public string? SourceResourceId { get; set; }
 
 }

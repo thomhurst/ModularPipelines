@@ -23,8 +23,8 @@ public record AzMonitorLogAnalyticsWorkspaceDataExportShowOptions : AzOptions
     /// <summary>
     /// The data export rule name.
     /// </summary>
-    [CliFlag("--data-export-name", ShortForm = "-n")]
-    public bool? DataExportName { get; set; }
+    [CliOption("--data-export-name", ShortForm = "-n")]
+    public string? DataExportName { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

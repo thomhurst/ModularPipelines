@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzAccountGetAccessTokenOptions : AzOptions
     /// <summary>
     /// Name or ID of subscription.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
     /// <summary>
     /// Azure resource endpoints in Microsoft Entra v1.0.
     /// </summary>
-    [CliFlag("--resource")]
-    public bool? Resource { get; set; }
+    [CliOption("--resource")]
+    public string? Resource { get; set; }
 
     /// <summary>
     /// Type of well-known resource.  Allowed values: aad-graph, arm, batch, data-lake, media, ms-graph, oss-rdbms.
@@ -41,13 +42,13 @@ public record AzAccountGetAccessTokenOptions : AzOptions
     /// <summary>
     /// Space-separated scopes in Microsoft Entra v2.0. Default to Azure Resource Manager.
     /// </summary>
-    [CliOption("--scope", GroupValues = true)]
-    public IEnumerable<string>? Scope { get; set; }
+    [CliOption("--scope", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Scope { get; set; }
 
     /// <summary>
     /// Tenant ID for which the token is acquired. Only available for user and service principal account, not for managed identity or Cloud Shell account.
     /// </summary>
-    [CliFlag("--tenant", ShortForm = "-t")]
-    public bool? Tenant { get; set; }
+    [CliOption("--tenant", ShortForm = "-t")]
+    public string? Tenant { get; set; }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -32,7 +33,7 @@ public record AzCosmosdbPostgresRoleCreateOptions : AzOptions
         string ClusterName,
         string Name,
         string ResourceGroup,
-        string Password
+        CliOptionValue Password
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
@@ -45,7 +46,7 @@ public record AzCosmosdbPostgresRoleCreateOptions : AzOptions
         this.Password = Password;
     }
 
-    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out string Password)
+    public void Deconstruct(out string ClusterName, out string Name, out string ResourceGroup, out CliOptionValue Password)
     {
         ClusterName = this.ClusterName;
         Name = this.Name;
@@ -75,13 +76,13 @@ public record AzCosmosdbPostgresRoleCreateOptions : AzOptions
     /// The password of the cluster role.  If value is blank it's asked from the tty.
     /// </summary>
     [SecretValue]
-    [CliOption("--password")]
-    public string Password { get; private init; }
+    [CliOption("--password", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue Password { get; private init; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
 }

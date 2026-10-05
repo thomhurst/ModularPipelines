@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,20 +58,20 @@ public record AzStorageContainerImmutabilityPolicyCreateOptions : AzOptions
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-protected-append-writes", ShortForm = "-w")]
-    public bool? AllowProtectedAppendWrites { get; set; }
+    [CliOption("--allow-protected-append-writes", ShortForm = "-w", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowProtectedAppendWrites { get; set; }
 
     /// <summary>
     /// This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Block Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-protected-append-writes-all", ShortForm = "--w-all")]
-    public bool? AllowProtectedAppendWritesAll { get; set; }
+    [CliOption("--allow-protected-append-writes-all", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowProtectedAppendWritesAll { get; set; }
 
     /// <summary>
     /// The immutability period for the blobs in the container since the policy creation, in days.
     /// </summary>
-    [CliFlag("--period")]
-    public bool? Period { get; set; }
+    [CliOption("--period")]
+    public int? Period { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -81,7 +82,7 @@ public record AzStorageContainerImmutabilityPolicyCreateOptions : AzOptions
     /// <summary>
     /// An ETag value, or the wildcard character (*). Specify this header to perform the operation only if the resource's ETag matches the value specified.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     /// <summary>
     /// Revision to copy from. Default: latest revision.
     /// </summary>
-    [CliFlag("--from-revision")]
-    public bool? FromRevision { get; set; }
+    [CliOption("--from-revision")]
+    public string? FromRevision { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image- name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The friendly name for the workload profile.
     /// </summary>
-    [CliFlag("--workload-profile-name", ShortForm = "-w")]
-    public bool? WorkloadProfileName { get; set; }
+    [CliOption("--workload-profile-name", ShortForm = "-w")]
+    public string? WorkloadProfileName { get; set; }
 
     /// <summary>
     /// Path to a .yaml file with the configuration of a container app. All other parameters will be ignored. For an example, see  https:/ /learn.microsoft.com/ azure/container- apps/azure-resource- manager-api- spec#examples.
@@ -53,14 +54,14 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     /// <summary>
     /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--args", GroupValues = true)]
-    public IEnumerable<string>? Args { get; set; }
+    [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Args { get; set; }
 
     /// <summary>
     /// A list of supported commands on the container that will executed during startup. Space- separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--command", GroupValues = true)]
-    public IEnumerable<string>? Command { get; set; }
+    [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Command { get; set; }
 
     /// <summary>
     /// Name of the container.
@@ -71,20 +72,20 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     /// <summary>
     /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// User friendly suffix that is appended to the revision name.
     /// </summary>
-    [CliFlag("--revision-suffix")]
-    public bool? RevisionSuffix { get; set; }
+    [CliOption("--revision-suffix")]
+    public string? RevisionSuffix { get; set; }
 
     /// <summary>
     /// Remove all environment variable(s) from container..
@@ -95,25 +96,25 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     /// <summary>
     /// Remove environment variable(s) from container. Space- separated environment variable names.
     /// </summary>
-    [CliFlag("--remove-env-vars")]
-    public bool? RemoveEnvVars { get; set; }
+    [CliOption("--remove-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? RemoveEnvVars { get; set; }
 
     /// <summary>
     /// Replace environment variable(s) in container. Other existing environment variables are removed. Space- separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
     /// </summary>
-    [CliOption("--replace-env-vars")]
-    public string? ReplaceEnvVars { get; set; }
+    [CliOption("--replace-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ReplaceEnvVars { get; set; }
 
     /// <summary>
     /// Add or update environment variable(s) in container. Existing environment variables are not modified. Space-separated values in 'key=value' format. If stored as a secret, value must start with 'secretref:' followed by the secret name.
     /// </summary>
-    [CliOption("--set-env-vars", GroupValues = true)]
-    public IEnumerable<string>? SetEnvVars { get; set; }
+    [CliOption("--set-env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SetEnvVars { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
@@ -131,43 +132,43 @@ public record AzContainerappRevisionCopyOptions : AzOptions
     /// <summary>
     /// The maximum number of replicas.
     /// </summary>
-    [CliFlag("--max-replicas")]
-    public bool? MaxReplicas { get; set; }
+    [CliOption("--max-replicas")]
+    public int? MaxReplicas { get; set; }
 
     /// <summary>
     /// The minimum number of replicas.
     /// </summary>
-    [CliFlag("--min-replicas")]
-    public bool? MinReplicas { get; set; }
+    [CliOption("--min-replicas")]
+    public int? MinReplicas { get; set; }
 
     /// <summary>
     /// Scale rule auth parameters. Auth parameters must be in format "{triggerParam eter}={secretRef} {tr iggerParameter}={secr etRef} ...".
     /// </summary>
-    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
-    public bool? ScaleRuleAuth { get; set; }
+    [CliOption("--scale-rule-auth", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleAuth { get; set; }
 
     /// <summary>
     /// The maximum number of concurrent requests before scale out. Only supported for http and tcp scale rules.
     /// </summary>
-    [CliFlag("--scale-rule-http-concurrency", ShortForm = "--srtc")]
-    public bool? ScaleRuleHttpConcurrency { get; set; }
+    [CliOption("--scale-rule-http-concurrency")]
+    public int? ScaleRuleHttpConcurrency { get; set; }
 
     /// <summary>
     /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
     /// </summary>
-    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
-    public bool? ScaleRuleMetadata { get; set; }
+    [CliOption("--scale-rule-metadata", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleMetadata { get; set; }
 
     /// <summary>
     /// The name of the scale rule.
     /// </summary>
-    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    [CliOption("--scale-rule-name")]
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
     /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
     /// </summary>
-    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
-    public bool? ScaleRuleType { get; set; }
+    [CliOption("--scale-rule-type")]
+    public string? ScaleRuleType { get; set; }
 
 }

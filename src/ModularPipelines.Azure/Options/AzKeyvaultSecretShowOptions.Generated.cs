@@ -41,7 +41,7 @@ public record AzKeyvaultSecretShowOptions : AzOptions
     /// <summary>
     /// The secret version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

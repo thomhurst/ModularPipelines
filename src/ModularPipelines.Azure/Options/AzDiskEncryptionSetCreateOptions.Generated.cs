@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
-    public bool? AutoRotation { get; set; }
+    [CliOption("--auto-rotation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoRotation { get; set; }
 
     /// <summary>
     /// The type of key used to encrypt the data of the disk. EncryptionAtRestWithCustomerKey: Disk is encrypted at rest with Customer managed key that can be changed and revoked by a customer. EncryptionAtRestWithPlatformAndCustomerKeys: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed. ConfidentialVmEncryptedWithCustomerKey: An additional encryption type accepted for confidential VM. Disk is encrypted at rest with Customer managed key.  Allowed values: ConfidentialVmEncryptedWithCustomerKey, EncryptionAtRestWithCustomerKey, EncryptionAtRestWithPlatformAndCustomerKeys.
@@ -80,8 +81,8 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// The federated client id used in cross tenant scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Resource location  When not specified, the location of the resource group will be used.
@@ -92,8 +93,8 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the KeyVault containing the key or secret.
@@ -104,19 +105,19 @@ public record AzDiskEncryptionSetCreateOptions : AzOptions
     /// <summary>
     /// Resource tags  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Provide this flag to use system assigned identity.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--mi-system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Space separated resource IDs to add user- assigned identities.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<string>? MiUserAssigned { get; set; }
 
 }

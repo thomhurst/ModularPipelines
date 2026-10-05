@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,61 +31,62 @@ public record AzStorageFsServicePropertiesUpdateOptions : AzOptions
     /// <summary>
     /// Enable soft-delete.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--delete-retention")]
-    public bool? DeleteRetention { get; set; }
+    [CliOption("--delete-retention", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DeleteRetention { get; set; }
 
     /// <summary>
     /// Number of days that soft-deleted fs will be retained. Must be in range [1,365].
     /// </summary>
-    [CliFlag("--delete-retention-period", ShortForm = "--period")]
-    public bool? DeleteRetentionPeriod { get; set; }
+    [CliOption("--delete-retention-period")]
+    public int? DeleteRetentionPeriod { get; set; }
 
     /// <summary>
     /// Represent the path to the error document that should be shown when an error 404 is issued, in other words, when a browser requests a page that does not exist.
     /// </summary>
-    [CliFlag("--404-document")]
-    public bool? _404Document { get; set; }
+    [CliOption("--404-document")]
+    public string? _404Document { get; set; }
 
     /// <summary>
     /// Represent the name of the index document. This is commonly "index.html".
     /// </summary>
-    [CliFlag("--index-document")]
-    public bool? IndexDocument { get; set; }
+    [CliOption("--index-document")]
+    public string? IndexDocument { get; set; }
 
     /// <summary>
     /// Enable static-website.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--static-website")]
-    public bool? StaticWebsite { get; set; }
+    [CliOption("--static-website", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? StaticWebsite { get; set; }
 
     /// <summary>
     /// Storage account key. Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_KEY.
     /// </summary>
-    [CliFlag("--account-key")]
-    public bool? AccountKey { get; set; }
+    [CliOption("--account-key")]
+    public string? AccountKey { get; set; }
 
     /// <summary>
     /// Storage account name. Related environment variable: AZURE_STORAGE_ACCOUNT. Must be used in conjunction with either storage account key or a SAS token. If neither are present, the command will try to query the storage account key using the authenticated Azure account. If a large number of storage commands are executed the API quota may be hit.
     /// </summary>
-    [CliFlag("--account-name")]
-    public bool? AccountName { get; set; }
+    [CliOption("--account-name")]
+    public string? AccountName { get; set; }
 
     /// <summary>
     /// Storage data service endpoint. Must be used in conjunction with either storage account key or a SAS token. You can find each service primary endpoint with `az storage account show`. Environment variable: AZURE_STORAGE_SERVICE_ENDPOINT.
     /// </summary>
-    [CliFlag("--blob-endpoint")]
-    public bool? BlobEndpoint { get; set; }
+    [CliOption("--blob-endpoint")]
+    public string? BlobEndpoint { get; set; }
 
     /// <summary>
     /// Storage account connection string. Environment variable: AZURE_STORAGE_CONNECTION_STRING.
     /// </summary>
-    [CliFlag("--connection-string")]
-    public bool? ConnectionString { get; set; }
+    [CliOption("--connection-string")]
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// A Shared Access Signature (SAS). Must be used in conjunction with storage account name or service endpoint. Environment variable: AZURE_STORAGE_SAS_TOKEN.
     /// </summary>
-    [CliFlag("--sas-token")]
-    public bool? SasToken { get; set; }
+    [SecretValue]
+    [CliOption("--sas-token")]
+    public string? SasToken { get; set; }
 
 }

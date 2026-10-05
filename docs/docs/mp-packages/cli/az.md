@@ -50,6 +50,12 @@ Global options are rendered after the selected subcommand.
 | `--acquire-policy-token` | `AcquirePolicyToken` | All editions | Acquire an Azure Policy token automatically for this resource operation. |
 | `--change-reference` | `ChangeReference` | All editions | The related change reference ID for this resource operation. |
 
+## Intentionally excluded commands
+
+| CLI command | Reason |
+| --- | --- |
+| `az devops login` | azure-devops login requires a PAT through stdin or an interactive terminal, neither exposed by CommandExecutionOptions. For automated DevOps commands, supply AZURE_DEVOPS_EXT_PAT through CommandExecutionOptions.EnvironmentVariables instead. |
+
 ## Commands
 
 | CLI command | Options record |
@@ -599,6 +605,8 @@ Global options are rendered after the selected subcommand.
 | `az aro update` | `AzAroUpdateOptions` |
 | `az aro validate` | `AzAroValidateOptions` |
 | `az aro wait` | `AzAroWaitOptions` |
+| `az artifacts universal download` | `AzArtifactsUniversalDownloadOptions` |
+| `az artifacts universal publish` | `AzArtifactsUniversalPublishOptions` |
 | `az backup container list` | `AzBackupContainerListOptions` |
 | `az backup container re-register` | `AzBackupContainerReRegisterOptions` |
 | `az backup container register` | `AzBackupContainerRegisterOptions` |
@@ -781,6 +789,37 @@ Global options are rendered after the selected subcommand.
 | `az billing transfer accept-transfer` | `AzBillingTransferAcceptTransferOptions` |
 | `az billing transfer list` | `AzBillingTransferListOptions` |
 | `az billing transfer show` | `AzBillingTransferShowOptions` |
+| `az boards area project create` | `AzBoardsAreaProjectCreateOptions` |
+| `az boards area project delete` | `AzBoardsAreaProjectDeleteOptions` |
+| `az boards area project list` | `AzBoardsAreaProjectListOptions` |
+| `az boards area project show` | `AzBoardsAreaProjectShowOptions` |
+| `az boards area project update` | `AzBoardsAreaProjectUpdateOptions` |
+| `az boards area team add` | `AzBoardsAreaTeamAddOptions` |
+| `az boards area team list` | `AzBoardsAreaTeamListOptions` |
+| `az boards area team remove` | `AzBoardsAreaTeamRemoveOptions` |
+| `az boards area team update` | `AzBoardsAreaTeamUpdateOptions` |
+| `az boards iteration project create` | `AzBoardsIterationProjectCreateOptions` |
+| `az boards iteration project delete` | `AzBoardsIterationProjectDeleteOptions` |
+| `az boards iteration project list` | `AzBoardsIterationProjectListOptions` |
+| `az boards iteration project show` | `AzBoardsIterationProjectShowOptions` |
+| `az boards iteration project update` | `AzBoardsIterationProjectUpdateOptions` |
+| `az boards iteration team add` | `AzBoardsIterationTeamAddOptions` |
+| `az boards iteration team list` | `AzBoardsIterationTeamListOptions` |
+| `az boards iteration team list-work-items` | `AzBoardsIterationTeamListWorkItemsOptions` |
+| `az boards iteration team remove` | `AzBoardsIterationTeamRemoveOptions` |
+| `az boards iteration team set-backlog-iteration` | `AzBoardsIterationTeamSetBacklogIterationOptions` |
+| `az boards iteration team set-default-iteration` | `AzBoardsIterationTeamSetDefaultIterationOptions` |
+| `az boards iteration team show-backlog-iteration` | `AzBoardsIterationTeamShowBacklogIterationOptions` |
+| `az boards iteration team show-default-iteration` | `AzBoardsIterationTeamShowDefaultIterationOptions` |
+| `az boards query` | `AzBoardsQueryOptions` |
+| `az boards work-item create` | `AzBoardsWorkItemCreateOptions` |
+| `az boards work-item delete` | `AzBoardsWorkItemDeleteOptions` |
+| `az boards work-item relation add` | `AzBoardsWorkItemRelationAddOptions` |
+| `az boards work-item relation list-type` | `AzBoardsWorkItemRelationListTypeOptions` |
+| `az boards work-item relation remove` | `AzBoardsWorkItemRelationRemoveOptions` |
+| `az boards work-item relation show` | `AzBoardsWorkItemRelationShowOptions` |
+| `az boards work-item show` | `AzBoardsWorkItemShowOptions` |
+| `az boards work-item update` | `AzBoardsWorkItemUpdateOptions` |
 | `az bot authsetting create` | `AzBotAuthsettingCreateOptions` |
 | `az bot authsetting delete` | `AzBotAuthsettingDeleteOptions` |
 | `az bot authsetting list` | `AzBotAuthsettingListOptions` |
@@ -1441,6 +1480,7 @@ Global options are rendered after the selected subcommand.
 | `az deployment sub create` | `AzDeploymentSubCreateOptions` |
 | `az deployment sub delete` | `AzDeploymentSubDeleteOptions` |
 | `az deployment sub export` | `AzDeploymentSubExportOptions` |
+| `az deployment sub list` | `AzDeploymentSubListOptions` |
 | `az deployment sub show` | `AzDeploymentSubShowOptions` |
 | `az deployment sub validate` | `AzDeploymentSubValidateOptions` |
 | `az deployment sub wait` | `AzDeploymentSubWaitOptions` |
@@ -1449,6 +1489,7 @@ Global options are rendered after the selected subcommand.
 | `az deployment tenant create` | `AzDeploymentTenantCreateOptions` |
 | `az deployment tenant delete` | `AzDeploymentTenantDeleteOptions` |
 | `az deployment tenant export` | `AzDeploymentTenantExportOptions` |
+| `az deployment tenant list` | `AzDeploymentTenantListOptions` |
 | `az deployment tenant show` | `AzDeploymentTenantShowOptions` |
 | `az deployment tenant validate` | `AzDeploymentTenantValidateOptions` |
 | `az deployment tenant wait` | `AzDeploymentTenantWaitOptions` |
@@ -1457,6 +1498,65 @@ Global options are rendered after the selected subcommand.
 | `az deployment-scripts list` | `AzDeploymentScriptsListOptions` |
 | `az deployment-scripts show` | `AzDeploymentScriptsShowOptions` |
 | `az deployment-scripts show-log` | `AzDeploymentScriptsShowLogOptions` |
+| `az devops admin banner add` | `AzDevopsAdminBannerAddOptions` |
+| `az devops admin banner list` | `AzDevopsAdminBannerListOptions` |
+| `az devops admin banner remove` | `AzDevopsAdminBannerRemoveOptions` |
+| `az devops admin banner show` | `AzDevopsAdminBannerShowOptions` |
+| `az devops admin banner update` | `AzDevopsAdminBannerUpdateOptions` |
+| `az devops extension disable` | `AzDevopsExtensionDisableOptions` |
+| `az devops extension enable` | `AzDevopsExtensionEnableOptions` |
+| `az devops extension install` | `AzDevopsExtensionInstallOptions` |
+| `az devops extension list` | `AzDevopsExtensionListOptions` |
+| `az devops extension search` | `AzDevopsExtensionSearchOptions` |
+| `az devops extension show` | `AzDevopsExtensionShowOptions` |
+| `az devops extension uninstall` | `AzDevopsExtensionUninstallOptions` |
+| `az devops invoke` | `AzDevopsInvokeOptions` |
+| `az devops logout` | `AzDevopsLogoutOptions` |
+| `az devops project create` | `AzDevopsProjectCreateOptions` |
+| `az devops project delete` | `AzDevopsProjectDeleteOptions` |
+| `az devops project list` | `AzDevopsProjectListOptions` |
+| `az devops project show` | `AzDevopsProjectShowOptions` |
+| `az devops security group create` | `AzDevopsSecurityGroupCreateOptions` |
+| `az devops security group delete` | `AzDevopsSecurityGroupDeleteOptions` |
+| `az devops security group list` | `AzDevopsSecurityGroupListOptions` |
+| `az devops security group membership add` | `AzDevopsSecurityGroupMembershipAddOptions` |
+| `az devops security group membership list` | `AzDevopsSecurityGroupMembershipListOptions` |
+| `az devops security group membership remove` | `AzDevopsSecurityGroupMembershipRemoveOptions` |
+| `az devops security group show` | `AzDevopsSecurityGroupShowOptions` |
+| `az devops security group update` | `AzDevopsSecurityGroupUpdateOptions` |
+| `az devops security permission list` | `AzDevopsSecurityPermissionListOptions` |
+| `az devops security permission namespace list` | `AzDevopsSecurityPermissionNamespaceListOptions` |
+| `az devops security permission namespace show` | `AzDevopsSecurityPermissionNamespaceShowOptions` |
+| `az devops security permission reset` | `AzDevopsSecurityPermissionResetOptions` |
+| `az devops security permission reset-all` | `AzDevopsSecurityPermissionResetAllOptions` |
+| `az devops security permission show` | `AzDevopsSecurityPermissionShowOptions` |
+| `az devops security permission update` | `AzDevopsSecurityPermissionUpdateOptions` |
+| `az devops service-endpoint azurerm create` | `AzDevopsServiceEndpointAzurermCreateOptions` |
+| `az devops service-endpoint create` | `AzDevopsServiceEndpointCreateOptions` |
+| `az devops service-endpoint delete` | `AzDevopsServiceEndpointDeleteOptions` |
+| `az devops service-endpoint github create` | `AzDevopsServiceEndpointGithubCreateOptions` |
+| `az devops service-endpoint list` | `AzDevopsServiceEndpointListOptions` |
+| `az devops service-endpoint show` | `AzDevopsServiceEndpointShowOptions` |
+| `az devops service-endpoint update` | `AzDevopsServiceEndpointUpdateOptions` |
+| `az devops team create` | `AzDevopsTeamCreateOptions` |
+| `az devops team delete` | `AzDevopsTeamDeleteOptions` |
+| `az devops team list` | `AzDevopsTeamListOptions` |
+| `az devops team list-member` | `AzDevopsTeamListMemberOptions` |
+| `az devops team show` | `AzDevopsTeamShowOptions` |
+| `az devops team update` | `AzDevopsTeamUpdateOptions` |
+| `az devops user add` | `AzDevopsUserAddOptions` |
+| `az devops user list` | `AzDevopsUserListOptions` |
+| `az devops user remove` | `AzDevopsUserRemoveOptions` |
+| `az devops user show` | `AzDevopsUserShowOptions` |
+| `az devops user update` | `AzDevopsUserUpdateOptions` |
+| `az devops wiki create` | `AzDevopsWikiCreateOptions` |
+| `az devops wiki delete` | `AzDevopsWikiDeleteOptions` |
+| `az devops wiki list` | `AzDevopsWikiListOptions` |
+| `az devops wiki page create` | `AzDevopsWikiPageCreateOptions` |
+| `az devops wiki page delete` | `AzDevopsWikiPageDeleteOptions` |
+| `az devops wiki page show` | `AzDevopsWikiPageShowOptions` |
+| `az devops wiki page update` | `AzDevopsWikiPageUpdateOptions` |
+| `az devops wiki show` | `AzDevopsWikiShowOptions` |
 | `az disk config update` | `AzDiskConfigUpdateOptions` |
 | `az disk create` | `AzDiskCreateOptions` |
 | `az disk delete` | `AzDiskDeleteOptions` |
@@ -3444,6 +3544,57 @@ Global options are rendered after the selected subcommand.
 | `az network watcher test-ip-flow` | `AzNetworkWatcherTestIpFlowOptions` |
 | `az network watcher troubleshooting show` | `AzNetworkWatcherTroubleshootingShowOptions` |
 | `az network watcher troubleshooting start` | `AzNetworkWatcherTroubleshootingStartOptions` |
+| `az pipelines agent list` | `AzPipelinesAgentListOptions` |
+| `az pipelines agent show` | `AzPipelinesAgentShowOptions` |
+| `az pipelines build cancel` | `AzPipelinesBuildCancelOptions` |
+| `az pipelines build definition list` | `AzPipelinesBuildDefinitionListOptions` |
+| `az pipelines build definition show` | `AzPipelinesBuildDefinitionShowOptions` |
+| `az pipelines build list` | `AzPipelinesBuildListOptions` |
+| `az pipelines build queue` | `AzPipelinesBuildQueueOptions` |
+| `az pipelines build show` | `AzPipelinesBuildShowOptions` |
+| `az pipelines build tag add` | `AzPipelinesBuildTagAddOptions` |
+| `az pipelines build tag delete` | `AzPipelinesBuildTagDeleteOptions` |
+| `az pipelines build tag list` | `AzPipelinesBuildTagListOptions` |
+| `az pipelines create` | `AzPipelinesCreateOptions` |
+| `az pipelines delete` | `AzPipelinesDeleteOptions` |
+| `az pipelines folder create` | `AzPipelinesFolderCreateOptions` |
+| `az pipelines folder delete` | `AzPipelinesFolderDeleteOptions` |
+| `az pipelines folder list` | `AzPipelinesFolderListOptions` |
+| `az pipelines folder update` | `AzPipelinesFolderUpdateOptions` |
+| `az pipelines list` | `AzPipelinesListOptions` |
+| `az pipelines pool list` | `AzPipelinesPoolListOptions` |
+| `az pipelines pool show` | `AzPipelinesPoolShowOptions` |
+| `az pipelines queue list` | `AzPipelinesQueueListOptions` |
+| `az pipelines queue show` | `AzPipelinesQueueShowOptions` |
+| `az pipelines release create` | `AzPipelinesReleaseCreateOptions` |
+| `az pipelines release definition list` | `AzPipelinesReleaseDefinitionListOptions` |
+| `az pipelines release definition show` | `AzPipelinesReleaseDefinitionShowOptions` |
+| `az pipelines release list` | `AzPipelinesReleaseListOptions` |
+| `az pipelines release show` | `AzPipelinesReleaseShowOptions` |
+| `az pipelines run` | `AzPipelinesRunOptions` |
+| `az pipelines runs artifact download` | `AzPipelinesRunsArtifactDownloadOptions` |
+| `az pipelines runs artifact list` | `AzPipelinesRunsArtifactListOptions` |
+| `az pipelines runs artifact upload` | `AzPipelinesRunsArtifactUploadOptions` |
+| `az pipelines runs list` | `AzPipelinesRunsListOptions` |
+| `az pipelines runs show` | `AzPipelinesRunsShowOptions` |
+| `az pipelines runs tag add` | `AzPipelinesRunsTagAddOptions` |
+| `az pipelines runs tag delete` | `AzPipelinesRunsTagDeleteOptions` |
+| `az pipelines runs tag list` | `AzPipelinesRunsTagListOptions` |
+| `az pipelines show` | `AzPipelinesShowOptions` |
+| `az pipelines update` | `AzPipelinesUpdateOptions` |
+| `az pipelines variable create` | `AzPipelinesVariableCreateOptions` |
+| `az pipelines variable delete` | `AzPipelinesVariableDeleteOptions` |
+| `az pipelines variable list` | `AzPipelinesVariableListOptions` |
+| `az pipelines variable update` | `AzPipelinesVariableUpdateOptions` |
+| `az pipelines variable-group create` | `AzPipelinesVariableGroupCreateOptions` |
+| `az pipelines variable-group delete` | `AzPipelinesVariableGroupDeleteOptions` |
+| `az pipelines variable-group list` | `AzPipelinesVariableGroupListOptions` |
+| `az pipelines variable-group show` | `AzPipelinesVariableGroupShowOptions` |
+| `az pipelines variable-group update` | `AzPipelinesVariableGroupUpdateOptions` |
+| `az pipelines variable-group variable create` | `AzPipelinesVariableGroupVariableCreateOptions` |
+| `az pipelines variable-group variable delete` | `AzPipelinesVariableGroupVariableDeleteOptions` |
+| `az pipelines variable-group variable list` | `AzPipelinesVariableGroupVariableListOptions` |
+| `az pipelines variable-group variable update` | `AzPipelinesVariableGroupVariableUpdateOptions` |
 | `az policy assignment create` | `AzPolicyAssignmentCreateOptions` |
 | `az policy assignment delete` | `AzPolicyAssignmentDeleteOptions` |
 | `az policy assignment identity assign` | `AzPolicyAssignmentIdentityAssignOptions` |
@@ -3665,6 +3816,52 @@ Global options are rendered after the selected subcommand.
 | `az relay wcfrelay list` | `AzRelayWcfrelayListOptions` |
 | `az relay wcfrelay show` | `AzRelayWcfrelayShowOptions` |
 | `az relay wcfrelay update` | `AzRelayWcfrelayUpdateOptions` |
+| `az repos create` | `AzReposCreateOptions` |
+| `az repos delete` | `AzReposDeleteOptions` |
+| `az repos import create` | `AzReposImportCreateOptions` |
+| `az repos list` | `AzReposListOptions` |
+| `az repos policy approver-count create` | `AzReposPolicyApproverCountCreateOptions` |
+| `az repos policy approver-count update` | `AzReposPolicyApproverCountUpdateOptions` |
+| `az repos policy build create` | `AzReposPolicyBuildCreateOptions` |
+| `az repos policy build update` | `AzReposPolicyBuildUpdateOptions` |
+| `az repos policy case-enforcement create` | `AzReposPolicyCaseEnforcementCreateOptions` |
+| `az repos policy case-enforcement update` | `AzReposPolicyCaseEnforcementUpdateOptions` |
+| `az repos policy comment-required create` | `AzReposPolicyCommentRequiredCreateOptions` |
+| `az repos policy comment-required update` | `AzReposPolicyCommentRequiredUpdateOptions` |
+| `az repos policy create` | `AzReposPolicyCreateOptions` |
+| `az repos policy delete` | `AzReposPolicyDeleteOptions` |
+| `az repos policy file-size create` | `AzReposPolicyFileSizeCreateOptions` |
+| `az repos policy file-size update` | `AzReposPolicyFileSizeUpdateOptions` |
+| `az repos policy list` | `AzReposPolicyListOptions` |
+| `az repos policy merge-strategy create` | `AzReposPolicyMergeStrategyCreateOptions` |
+| `az repos policy merge-strategy update` | `AzReposPolicyMergeStrategyUpdateOptions` |
+| `az repos policy required-reviewer create` | `AzReposPolicyRequiredReviewerCreateOptions` |
+| `az repos policy required-reviewer update` | `AzReposPolicyRequiredReviewerUpdateOptions` |
+| `az repos policy show` | `AzReposPolicyShowOptions` |
+| `az repos policy update` | `AzReposPolicyUpdateOptions` |
+| `az repos policy work-item-linking create` | `AzReposPolicyWorkItemLinkingCreateOptions` |
+| `az repos policy work-item-linking update` | `AzReposPolicyWorkItemLinkingUpdateOptions` |
+| `az repos pr checkout` | `AzReposPrCheckoutOptions` |
+| `az repos pr create` | `AzReposPrCreateOptions` |
+| `az repos pr list` | `AzReposPrListOptions` |
+| `az repos pr policy list` | `AzReposPrPolicyListOptions` |
+| `az repos pr policy queue` | `AzReposPrPolicyQueueOptions` |
+| `az repos pr reviewer add` | `AzReposPrReviewerAddOptions` |
+| `az repos pr reviewer list` | `AzReposPrReviewerListOptions` |
+| `az repos pr reviewer remove` | `AzReposPrReviewerRemoveOptions` |
+| `az repos pr set-vote` | `AzReposPrSetVoteOptions` |
+| `az repos pr show` | `AzReposPrShowOptions` |
+| `az repos pr update` | `AzReposPrUpdateOptions` |
+| `az repos pr work-item add` | `AzReposPrWorkItemAddOptions` |
+| `az repos pr work-item list` | `AzReposPrWorkItemListOptions` |
+| `az repos pr work-item remove` | `AzReposPrWorkItemRemoveOptions` |
+| `az repos ref create` | `AzReposRefCreateOptions` |
+| `az repos ref delete` | `AzReposRefDeleteOptions` |
+| `az repos ref list` | `AzReposRefListOptions` |
+| `az repos ref lock` | `AzReposRefLockOptions` |
+| `az repos ref unlock` | `AzReposRefUnlockOptions` |
+| `az repos show` | `AzReposShowOptions` |
+| `az repos update` | `AzReposUpdateOptions` |
 | `az resource create` | `AzResourceCreateOptions` |
 | `az resource delete` | `AzResourceDeleteOptions` |
 | `az resource invoke-action` | `AzResourceInvokeActionOptions` |

@@ -63,8 +63,8 @@ public record AzIdentityCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Enum to configure regional restrictions on identity assignment, as necessary.  Allowed values: None, Regional.
@@ -75,7 +75,7 @@ public record AzIdentityCreateOptions : AzOptions
     /// <summary>
     /// Restrictions on which resource providers this identity can be assigned to.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--resource-restriction")]
-    public bool? ResourceRestriction { get; set; }
+    [CliOption("--resource-restriction", GroupValues = true)]
+    public IEnumerable<string>? ResourceRestriction { get; set; }
 
 }

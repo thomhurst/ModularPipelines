@@ -52,19 +52,19 @@ public record AzAdAppCredentialResetOptions : AzOptions
     /// <summary>
     /// Friendly name for the credential.
     /// </summary>
-    [CliFlag("--display-name")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// Finer grain of expiry time if '--years' is insufficient, e.g. '2020-12-31T11:59:59+00:00' or '2299-12-31'.
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// Number of years for which the credentials will be valid. Default: 1 year.
     /// </summary>
-    [CliFlag("--years")]
-    public bool? Years { get; set; }
+    [CliOption("--years")]
+    public int? Years { get; set; }
 
 }

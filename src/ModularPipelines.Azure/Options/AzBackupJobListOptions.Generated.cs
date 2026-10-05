@@ -63,8 +63,8 @@ public record AzBackupJobListOptions : AzOptions
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// User initiated operation.  Allowed values: Backup, ConfigureBackup, DeleteBackupData, DisableBackup, Restore.
@@ -75,8 +75,8 @@ public record AzBackupJobListOptions : AzOptions
     /// <summary>
     /// The start date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// Status of the Job.  Allowed values: Cancelled, Completed, CompletedWithWarnings, Failed, InProgress.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,13 +58,13 @@ public record AzEventhubsClusterCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Setting to Enable or Disable Confidential Compute. Allowed values: Disabled, Enabled.
     /// </summary>
-    [CliOption("--confidential-compute-mode", ShortForm = "--mode")]
+    [CliOption("--confidential-compute-mode")]
     public string? ConfidentialComputeMode { get; set; }
 
     /// <summary>
@@ -75,32 +76,32 @@ public record AzEventhubsClusterCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Provisioning state of the Cluster.
     /// </summary>
-    [CliFlag("--provisioning-state")]
-    public bool? ProvisioningState { get; set; }
+    [CliOption("--provisioning-state")]
+    public string? ProvisioningState { get; set; }
 
     /// <summary>
     /// A value that indicates whether Scaling is Supported. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--supports-scaling")]
-    public bool? SupportsScaling { get; set; }
+    [CliOption("--supports-scaling", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? SupportsScaling { get; set; }
 
     /// <summary>
     /// A value that indicates whether the cluster is zone redundant.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--zone-redundant")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// The quantity of Event Hubs Cluster Capacity Units contained in this cluster.  Default: 1.
     /// </summary>
-    [CliFlag("--capacity")]
-    public bool? Capacity { get; set; }
+    [CliOption("--capacity")]
+    public string? Capacity { get; set; }
 
     /// <summary>
     /// Name of this SKU.  Allowed values: Dedicated.  Default: Dedicated.

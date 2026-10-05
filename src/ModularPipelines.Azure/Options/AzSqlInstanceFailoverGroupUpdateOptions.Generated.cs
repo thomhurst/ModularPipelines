@@ -74,14 +74,14 @@ public record AzSqlInstanceFailoverGroupUpdateOptions : AzOptions
     /// <summary>
     /// Interval in hours before automatic failover is initiated if an outage occurs on the primary server. This indicates that Azure SQL Database will not initiate automatic failover before the grace period expires. Please note that failover operation with --allow-data-loss option might cause data loss due to the nature of asynchronous synchronization.
     /// </summary>
-    [CliFlag("--grace-period")]
-    public bool? GracePeriod { get; set; }
+    [CliOption("--grace-period")]
+    public string? GracePeriod { get; set; }
 
     /// <summary>
     /// Intended usage of the secondary instance in the Failover Group. Standby indicates that the secondary instance will be used as a passive replica for disaster recovery only.
     /// </summary>
-    [CliFlag("--secondary-type")]
-    public bool? SecondaryType { get; set; }
+    [CliOption("--secondary-type")]
+    public string? SecondaryType { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

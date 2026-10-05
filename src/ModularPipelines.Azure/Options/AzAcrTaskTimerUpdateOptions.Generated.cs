@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzAcrTaskTimerUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the timer trigger is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -80,7 +81,7 @@ public record AzAcrTaskTimerUpdateOptions : AzOptions
     /// <summary>
     /// The schedule of the timer trigger represented as a cron expression.
     /// </summary>
-    [CliFlag("--schedule")]
-    public bool? Schedule { get; set; }
+    [CliOption("--schedule")]
+    public string? Schedule { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -28,14 +29,14 @@ public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
     /// <param name="SecurityDomainFile">Path to a file where the JSON blob returned by this command is stored.</param>
     public AzKeyvaultSecurityDomainDownloadOptions(
         int SdQuorum,
-        IEnumerable<string> SdWrappingKeys,
+        IEnumerable<CliOptionValue> SdWrappingKeys,
         string SecurityDomainFile
     )
     {
         this.SdQuorum = SdQuorum;
         {
             global::System.ArgumentNullException.ThrowIfNull(SdWrappingKeys);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(SdWrappingKeys));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(SdWrappingKeys));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -50,7 +51,7 @@ public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
         this.SecurityDomainFile = SecurityDomainFile;
     }
 
-    public void Deconstruct(out int SdQuorum, out IEnumerable<string> SdWrappingKeys, out string SecurityDomainFile)
+    public void Deconstruct(out int SdQuorum, out IEnumerable<CliOptionValue> SdWrappingKeys, out string SecurityDomainFile)
     {
         SdQuorum = this.SdQuorum;
         SdWrappingKeys = this.SdWrappingKeys;
@@ -66,8 +67,8 @@ public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
     /// <summary>
     /// Space-separated file paths to PEM files containing public keys.
     /// </summary>
-    [CliOption("--sd-wrapping-keys", GroupValues = true)]
-    public IEnumerable<string> SdWrappingKeys { get; private init; }
+    [CliOption("--sd-wrapping-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> SdWrappingKeys { get; private init; }
 
     /// <summary>
     /// Path to a file where the JSON blob returned by this command is stored.
@@ -90,7 +91,7 @@ public record AzKeyvaultSecurityDomainDownloadOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

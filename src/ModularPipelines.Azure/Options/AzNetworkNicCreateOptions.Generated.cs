@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Whether to enable accelerated networking. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--accelerated-networking")]
-    public bool? AcceleratedNetworking { get; set; }
+    [CliOption("--accelerated-networking", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AcceleratedNetworking { get; set; }
 
     /// <summary>
     /// Name of edge zone.
@@ -80,8 +81,8 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Whether to enable IP forwarding.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--ip-forwarding")]
-    public bool? IpForwarding { get; set; }
+    [CliOption("--ip-forwarding", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IpForwarding { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -98,8 +99,8 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...].  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -110,7 +111,7 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    [CliOption("--ag-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
 
     /// <summary>
@@ -134,14 +135,14 @@ public record AzNetworkNicCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    [CliOption("--application-security-groups", GroupValues = true)]
     public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
 
     /// <summary>
     /// Static private IP address to use.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// Version of private IP address to use.  Allowed values: IPv4, IPv6.  Default: IPv4.

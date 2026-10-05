@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long- running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Indicates if NFS Protocol version 3 is preferred for data backup and log backup volumes. Default is False. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--backup-nfsv3")]
-    public bool? BackupNfsv3 { get; set; }
+    [CliOption("--backup-nfsv3", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BackupNfsv3 { get; set; }
 
     /// <summary>
     /// Resource location.
@@ -86,14 +87,14 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// Availability Zone  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--zones")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
     /// Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Allowed values: Microsoft.KeyVault, Microsoft.NetApp.  Default: Microsoft.NetApp.
@@ -104,7 +105,7 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'.
     /// </summary>
-    [CliOption("--key-vault-private-endpoint-resource-id", ShortForm = "--kv-private-endpoint-id")]
+    [CliOption("--key-vault-private-endpoint-resource-id")]
     public string? KeyVaultPrivateEndpointResourceId { get; set; }
 
     /// <summary>
@@ -116,20 +117,20 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Capacity (in GiB) for data backup volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--data-backup-size")]
-    public bool? DataBackupSize { get; set; }
+    [CliOption("--data-backup-size")]
+    public string? DataBackupSize { get; set; }
 
     /// <summary>
     /// ResourceId of the data backup source volume.
     /// </summary>
-    [CliFlag("--data-backup-src-id")]
-    public bool? DataBackupSrcId { get; set; }
+    [CliOption("--data-backup-src-id")]
+    public string? DataBackupSrcId { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for data backup volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--data-backup-throughput")]
-    public bool? DataBackupThroughput { get; set; }
+    [CliOption("--data-backup-throughput")]
+    public string? DataBackupThroughput { get; set; }
 
     /// <summary>
     /// Replication Schedule for data volume.  Allowed values: _10minutely, daily, hourly.
@@ -140,26 +141,26 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Capacity (in GiB) for data volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--data-size")]
-    public bool? DataSize { get; set; }
+    [CliOption("--data-size")]
+    public string? DataSize { get; set; }
 
     /// <summary>
     /// ResourceId of the data source volume.
     /// </summary>
-    [CliFlag("--data-src-id")]
-    public bool? DataSrcId { get; set; }
+    [CliOption("--data-src-id")]
+    public string? DataSrcId { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for data volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--data-throughput")]
-    public bool? DataThroughput { get; set; }
+    [CliOption("--data-throughput")]
+    public string? DataThroughput { get; set; }
 
     /// <summary>
     /// Application specific identifier.
     /// </summary>
-    [CliFlag("--application-identifier", ShortForm = "--sap-sid")]
-    public bool? ApplicationIdentifier { get; set; }
+    [CliOption("--application-identifier")]
+    public string? ApplicationIdentifier { get; set; }
 
     /// <summary>
     /// Application Type.  Allowed values: ORACLE, SAP-HANA. Default: SAP-HANA.
@@ -170,32 +171,32 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Application specific placement rules for the volume group.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--gp-rules")]
-    public bool? GpRules { get; set; }
+    [CliOption("--gp-rules", GroupValues = true)]
+    public IEnumerable<string>? GpRules { get; set; }
 
     /// <summary>
     /// Group Description.
     /// </summary>
-    [CliFlag("--group-description")]
-    public bool? GroupDescription { get; set; }
+    [CliOption("--group-description")]
+    public string? GroupDescription { get; set; }
 
     /// <summary>
     /// Capacity (in GiB) for log backup volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-backup-size")]
-    public bool? LogBackupSize { get; set; }
+    [CliOption("--log-backup-size")]
+    public string? LogBackupSize { get; set; }
 
     /// <summary>
     /// ResourceId of the log backup source volume.
     /// </summary>
-    [CliFlag("--log-backup-src-id")]
-    public bool? LogBackupSrcId { get; set; }
+    [CliOption("--log-backup-src-id")]
+    public string? LogBackupSrcId { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for log backup volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-backup-throughput")]
-    public bool? LogBackupThroughput { get; set; }
+    [CliOption("--log-backup-throughput")]
+    public string? LogBackupThroughput { get; set; }
 
     /// <summary>
     /// Replication Schedule for Log backup volume.  Allowed values: _10minutely, daily, hourly.
@@ -206,38 +207,38 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Capacity (in GiB) for log volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-size")]
-    public bool? LogSize { get; set; }
+    [CliOption("--log-size")]
+    public string? LogSize { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for log volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-throughput")]
-    public bool? LogThroughput { get; set; }
+    [CliOption("--log-throughput")]
+    public string? LogThroughput { get; set; }
 
     /// <summary>
     /// Capacity (in GiB) for binary volume. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--binary-size")]
-    public bool? BinarySize { get; set; }
+    [CliOption("--binary-size")]
+    public string? BinarySize { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for log binary volume. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--binary-throughput")]
-    public bool? BinaryThroughput { get; set; }
+    [CliOption("--binary-throughput")]
+    public string? BinaryThroughput { get; set; }
 
     /// <summary>
     /// Capacity (in GiB) for log mirror volume. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-mirror-size")]
-    public bool? LogMirrorSize { get; set; }
+    [CliOption("--log-mirror-size")]
+    public string? LogMirrorSize { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for log mirror volume. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--log-mirror-throughput")]
-    public bool? LogMirrorThroughput { get; set; }
+    [CliOption("--log-mirror-throughput")]
+    public string? LogMirrorThroughput { get; set; }
 
     /// <summary>
     /// List of volumes from group Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -248,7 +249,7 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Network features available to the volumes in the volume group.  Allowed values: Basic, Standard.  Default: Basic.
     /// </summary>
-    [CliOption("--network-features", ShortForm = "--shared-network-features")]
+    [CliOption("--network-features")]
     public string? NetworkFeatures { get; set; }
 
     /// <summary>
@@ -260,56 +261,56 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Capacity (in GiB) for shared volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--shared-size")]
-    public bool? SharedSize { get; set; }
+    [CliOption("--shared-size")]
+    public string? SharedSize { get; set; }
 
     /// <summary>
     /// ResourceId of the shared source volume.
     /// </summary>
-    [CliFlag("--shared-src-id")]
-    public bool? SharedSrcId { get; set; }
+    [CliOption("--shared-src-id")]
+    public string? SharedSrcId { get; set; }
 
     /// <summary>
     /// Throughput in MiB/s for shared volumes. If not provided size will automatically be calculated.
     /// </summary>
-    [CliFlag("--shared-throughput")]
-    public bool? SharedThroughput { get; set; }
+    [CliOption("--shared-throughput")]
+    public string? SharedThroughput { get; set; }
 
     /// <summary>
     /// Oracle database size in (TiB), used to auto compute storage size and throughput. Default: 100.
     /// </summary>
-    [CliFlag("--database-size")]
-    public bool? DatabaseSize { get; set; }
+    [CliOption("--database-size")]
+    public string? DatabaseSize { get; set; }
 
     /// <summary>
     /// Oracle database throughput in (MiB/s), used to auto compute storage size and throughput.  Default: 1.
     /// </summary>
-    [CliFlag("--database-throughput")]
-    public bool? DatabaseThroughput { get; set; }
+    [CliOption("--database-throughput")]
+    public string? DatabaseThroughput { get; set; }
 
     /// <summary>
     /// Total Number of Oracle data volumes (currently min 2 and max 8 nodes can be configured).
     /// </summary>
-    [CliFlag("--number-of-volumes")]
-    public bool? NumberOfVolumes { get; set; }
+    [CliOption("--number-of-volumes")]
+    public string? NumberOfVolumes { get; set; }
 
     /// <summary>
     /// System (SAP-HANA) memory in GiB (max 12000 GiB), used to auto compute storage size and throughput.  Default: 100.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// Total Number of system (SAP- HANA) host in this deployment (currently max 3 nodes can be configured). Default: 1.
     /// </summary>
-    [CliFlag("--number-of-hosts", ShortForm = "--number-of-hots")]
-    public bool? NumberOfHosts { get; set; }
+    [CliOption("--number-of-hosts")]
+    public string? NumberOfHosts { get; set; }
 
     /// <summary>
     /// Additional memory to store snapshots, must be specified as % of RAM (range 0-200). This is used to auto compute storage size.  Default: 50. Default: 50.
     /// </summary>
-    [CliFlag("--add-snapshot-capacity")]
-    public bool? AddSnapshotCapacity { get; set; }
+    [CliOption("--add-snapshot-capacity")]
+    public string? AddSnapshotCapacity { get; set; }
 
     /// <summary>
     /// Name of the ANF capacity pool.
@@ -320,14 +321,14 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// The resource id of the Proximity Placement Group for volume placement.
     /// </summary>
-    [CliOption("--ppg", ShortForm = "--proximity-placement-group")]
+    [CliOption("--ppg")]
     public string? Ppg { get; set; }
 
     /// <summary>
     /// All volume names will be prefixed with the given text. The default values for prefix text depends on system role. For PRIMARY it will be `""` and HA it will be `"HA-"`.
     /// </summary>
-    [CliFlag("--prefix")]
-    public bool? Prefix { get; set; }
+    [CliOption("--prefix")]
+    public string? Prefix { get; set; }
 
     /// <summary>
     /// Enables access based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
@@ -344,14 +345,14 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// Starting SAP-HANA Host ID. Host ID 1 indicates Master Host. Shared, Data Backup and Log Backup volumes are only provisioned for Master Host i.e. `HostID == 1`. Default: 1.
     /// </summary>
-    [CliFlag("--start-host-id")]
-    public bool? StartHostId { get; set; }
+    [CliOption("--start-host-id")]
+    public string? StartHostId { get; set; }
 
     /// <summary>
     /// The delegated Subnet name. Default: Default.
     /// </summary>
-    [CliFlag("--subnet")]
-    public bool? Subnet { get; set; }
+    [CliOption("--subnet")]
+    public string? Subnet { get; set; }
 
     /// <summary>
     /// Type of role for the storage account. Primary indicates first of a SAP-HANA Replication (HSR) setup or No HSR. High Availability (HA) specifies local scenario. Default is PRIMARY.  Allowed values: DR, HA, PRIMARY.  Allowed values: DR, HA, PRIMARY. Default: PRIMARY.
@@ -362,7 +363,7 @@ public record AzNetappfilesVolumeGroupCreateOptions : AzOptions
     /// <summary>
     /// The ARM Id or name of the vnet for the volumes.
     /// </summary>
-    [CliFlag("--vnet")]
-    public bool? Vnet { get; set; }
+    [CliOption("--vnet")]
+    public string? Vnet { get; set; }
 
 }

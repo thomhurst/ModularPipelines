@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -23,32 +24,33 @@ public record AzContainerappAuthFacebookUpdateOptions : AzOptions
     /// <summary>
     /// The App ID of the app used for login.
     /// </summary>
-    [CliFlag("--app-id")]
-    public bool? AppId { get; set; }
+    [CliOption("--app-id")]
+    public string? AppId { get; set; }
 
     /// <summary>
     /// The app secret.
     /// </summary>
-    [CliFlag("--app-secret")]
-    public bool? AppSecret { get; set; }
+    [SecretValue]
+    [CliOption("--app-secret")]
+    public string? AppSecret { get; set; }
 
     /// <summary>
     /// The app secret name that contains the app secret.
     /// </summary>
-    [CliFlag("--app-secret-name", ShortForm = "--secret-name")]
-    public bool? AppSecretName { get; set; }
+    [CliOption("--app-secret-name")]
+    public string? AppSecretName { get; set; }
 
     /// <summary>
     /// The version of the Facebook api to be used while logging in.
     /// </summary>
-    [CliFlag("--graph-api-version")]
-    public bool? GraphApiVersion { get; set; }
+    [CliOption("--graph-api-version")]
+    public string? GraphApiVersion { get; set; }
 
     /// <summary>
     /// A list of the scopes that should be requested while authenticating.
     /// </summary>
-    [CliOption("--scopes", GroupValues = true)]
-    public IEnumerable<string>? Scopes { get; set; }
+    [CliOption("--scopes")]
+    public string? Scopes { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

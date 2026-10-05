@@ -68,13 +68,13 @@ public record AzContainerappEnvWorkloadProfileUpdateOptions : AzOptions
     /// <summary>
     /// The maximum node count for the workload profile.
     /// </summary>
-    [CliFlag("--max-nodes")]
-    public bool? MaxNodes { get; set; }
+    [CliOption("--max-nodes")]
+    public string? MaxNodes { get; set; }
 
     /// <summary>
     /// The minimum node count for the workload profile.
     /// </summary>
-    [CliFlag("--min-nodes")]
-    public bool? MinNodes { get; set; }
+    [CliOption("--min-nodes")]
+    public string? MinNodes { get; set; }
 
 }

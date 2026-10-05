@@ -85,14 +85,14 @@ public record AzBackupRecoveryPointShowLogChainOptions : AzOptions
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// The start date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// Use this flag to list recoverypoints in secondary region.

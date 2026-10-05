@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,7 +31,7 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
     /// <param name="ZoneName">Name of the private DNS zone.</param>
     public AzNetworkPrivateDnsLinkVnetCreateOptions(
         string Name,
-        bool RegistrationEnabled,
+        CliOptionValue RegistrationEnabled,
         string ResourceGroup,
         string VirtualNetwork,
         string ZoneName
@@ -38,6 +39,7 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
     {
         global::System.ArgumentNullException.ThrowIfNull(Name);
         this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(RegistrationEnabled);
         this.RegistrationEnabled = RegistrationEnabled;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
@@ -47,7 +49,7 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
         this.ZoneName = ZoneName;
     }
 
-    public void Deconstruct(out string Name, out bool RegistrationEnabled, out string ResourceGroup, out string VirtualNetwork, out string ZoneName)
+    public void Deconstruct(out string Name, out CliOptionValue RegistrationEnabled, out string ResourceGroup, out string VirtualNetwork, out string ZoneName)
     {
         Name = this.Name;
         RegistrationEnabled = this.RegistrationEnabled;
@@ -65,8 +67,8 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
     /// <summary>
     /// Specify if the link is registration enabled.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--registration-enabled", ShortForm = "-e")]
-    public bool RegistrationEnabled { get; private init; }
+    [CliOption("--registration-enabled", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue RegistrationEnabled { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -89,14 +91,14 @@ public record AzNetworkPrivateDnsLinkVnetCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Resource tags for the virtual network link.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The resolution policy on the virtual network link. Only applicable for virtual network links to privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public resolution if private dns query resolution results in non-existent domain response.  Allowed values: Default, NxDomainRedirect.

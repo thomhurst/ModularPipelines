@@ -71,7 +71,7 @@ public record AzApimRestoreOptions : AzOptions
     /// <summary>
     /// The name of the storage account container used to retrieve the backup from.
     /// </summary>
-    [CliOption("--container-name", ShortForm = "--storage-account-container")]
+    [CliOption("--container-name")]
     public string ContainerName { get; private init; }
 
     /// <summary>

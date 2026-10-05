@@ -23,7 +23,7 @@ public record AzAccountShowOptions : AzOptions
     /// <summary>
     /// Name or ID of subscription.
     /// </summary>
-    [CliOption("--name", ShortForm = "-s")]
+    [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }
 
 }

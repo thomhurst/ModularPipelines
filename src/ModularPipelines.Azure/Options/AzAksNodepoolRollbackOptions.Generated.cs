@@ -80,8 +80,8 @@ public record AzAksNodepoolRollbackOptions : AzOptions
     /// <summary>
     /// Set to '*' to allow a new node pool to be created, but to prevent updating an existing node pool. Other values will be ignored.
     /// </summary>
-    [CliFlag("--if-none-match")]
-    public bool? IfNoneMatch { get; set; }
+    [CliOption("--if-none-match")]
+    public string? IfNoneMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

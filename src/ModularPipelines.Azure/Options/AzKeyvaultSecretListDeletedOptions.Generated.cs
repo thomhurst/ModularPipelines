@@ -23,14 +23,14 @@ public record AzKeyvaultSecretListDeletedOptions : AzOptions
     /// <summary>
     /// Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
     /// <summary>
     /// Full URI of the Vault. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the Key Vault. Required if --id is not specified.

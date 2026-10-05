@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -45,7 +46,7 @@ public record AzNetappfilesAccountCreateOptions : AzOptions
     /// <summary>
     /// The name of the NetApp account.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "-n")]
+    [CliOption("--account-name", ShortForm = "-a")]
     public string AccountName { get; private init; }
 
     /// <summary>
@@ -57,8 +58,8 @@ public record AzNetappfilesAccountCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -69,8 +70,8 @@ public record AzNetappfilesAccountCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The name of KeyVault key.
@@ -87,7 +88,7 @@ public record AzNetappfilesAccountCreateOptions : AzOptions
     /// <summary>
     /// The resource ID of KeyVault.
     /// </summary>
-    [CliOption("--key-vault-resource-id", ShortForm = "--keyvault-resource-id")]
+    [CliOption("--key-vault-resource-id")]
     public string? KeyVaultResourceId { get; set; }
 
     /// <summary>
@@ -99,49 +100,49 @@ public record AzNetappfilesAccountCreateOptions : AzOptions
     /// <summary>
     /// ClientId of the multi-tenant AAD Application. Used to access cross-tenant keyvaults.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities.
     /// </summary>
-    [CliFlag("--user-assigned-identity", ShortForm = "-u")]
-    public bool? UserAssignedIdentity { get; set; }
+    [CliOption("--user-assigned-identity", ShortForm = "-u")]
+    public string? UserAssignedIdentity { get; set; }
 
     /// <summary>
     /// Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
     /// Set the system managed identity.
     /// </summary>
-    [CliFlag("--mi-system-assigned", ShortForm = "--system-assigned")]
-    public bool? MiSystemAssigned { get; set; }
+    [CliOption("--mi-system-assigned", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MiSystemAssigned { get; set; }
 
     /// <summary>
     /// Set the user managed identities.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--mi-user-assigned", ShortForm = "--user-assigned")]
-    public bool? MiUserAssigned { get; set; }
+    [CliOption("--mi-user-assigned", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? MiUserAssigned { get; set; }
 
     /// <summary>
     /// The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resource Groups/{resourceGroupName}/providers/Microsoft. ManagedIdentity/userAssignedIdentities/{identit yName}. The dictionary values can be empty objects ({}) in requests.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-assigned-identities", ShortForm = "--user-ids")]
-    public bool? UserAssignedIdentities { get; set; }
+    [CliOption("--user-assigned-identities", GroupValues = true)]
+    public IEnumerable<string>? UserAssignedIdentities { get; set; }
 
     /// <summary>
     /// Active Directories  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--active-directories")]
-    public bool? ActiveDirectories { get; set; }
+    [CliOption("--active-directories", GroupValues = true)]
+    public IEnumerable<string>? ActiveDirectories { get; set; }
 
     /// <summary>
     /// Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes.
     /// </summary>
-    [CliFlag("--nfs-v4-id-domain")]
-    public bool? NfsV4IdDomain { get; set; }
+    [CliOption("--nfs-v4-id-domain")]
+    public string? NfsV4IdDomain { get; set; }
 
 }

@@ -85,13 +85,13 @@ public record AzStorageAccountOrPolicyRuleAddOptions : AzOptions
     /// <summary>
     /// Blobs created after the time will be replicated to the destination. It must be in datetime format 'yyyy-MM- ddTHH:mm:ssZ'. Example: 2020-02-19T16:05:00Z.
     /// </summary>
-    [CliFlag("--min-creation-time", ShortForm = "-t")]
-    public bool? MinCreationTime { get; set; }
+    [CliOption("--min-creation-time", ShortForm = "-t")]
+    public string? MinCreationTime { get; set; }
 
     /// <summary>
     /// Optional. Filter the results to replicate only blobs whose names begin with the specified prefix.
     /// </summary>
-    [CliFlag("--prefix", ShortForm = "--prefix-match")]
-    public bool? Prefix { get; set; }
+    [CliOption("--prefix", GroupValues = true)]
+    public IEnumerable<string>? Prefix { get; set; }
 
 }

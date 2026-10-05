@@ -68,8 +68,8 @@ public record AzBackupRestoreRestoreAzurewlOptions : AzOptions
     /// <summary>
     /// Set the maximum time, in days (between 10-30, both inclusive) for which the recovery point stays in hydrated state.  Default: 15.
     /// </summary>
-    [CliFlag("--rehydration-duration")]
-    public bool? RehydrationDuration { get; set; }
+    [CliOption("--rehydration-duration")]
+    public int? RehydrationDuration { get; set; }
 
     /// <summary>
     /// The type of priority to be maintained while rehydrating a recovery point.  Allowed values: High, Standard.

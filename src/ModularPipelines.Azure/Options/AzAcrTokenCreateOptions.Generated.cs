@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,32 +58,32 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// <summary>
     /// UTC time for which the credentials will be valid. In the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2025-12-31T12:59:59Z.
     /// </summary>
-    [CliFlag("--expiration")]
-    public bool? Expiration { get; set; }
+    [CliOption("--expiration")]
+    public string? Expiration { get; set; }
 
     /// <summary>
     /// Number of days for which the credentials will be valid. If not specified, the expiration will default to the max value "9999-12-31T23:59:59.999999+00:00".
     /// </summary>
-    [CliFlag("--expiration-in-days")]
-    public bool? ExpirationInDays { get; set; }
+    [CliOption("--expiration-in-days")]
+    public int? ExpirationInDays { get; set; }
 
     /// <summary>
     /// Gateway permissions. Use the format "--gateway GATEWAY [ACTION1 ACTION2 ...]" per flag. Valid actions are ['config/read', 'config/write', 'message/read', 'message/write'].
     /// </summary>
-    [CliFlag("--gateway")]
-    public bool? Gateway { get; set; }
+    [CliOption("--gateway", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Gateway { get; set; }
 
     /// <summary>
     /// Do not generate passwords during token creation. You can generate the passwords after the token is created by using `az acr token credentials generate` command.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-passwords")]
-    public bool? NoPasswords { get; set; }
+    [CliOption("--no-passwords", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoPasswords { get; set; }
 
     /// <summary>
     /// Repository permissions. Use the format "--repository REPO [ACTION1 ACTION2 ...]" per flag. Valid actions are ['content/delete', 'content/read', 'content/write', 'metadata/read', 'metadata/write'].
     /// </summary>
-    [CliFlag("--repository")]
-    public bool? Repository { get; set; }
+    [CliOption("--repository", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Repository { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

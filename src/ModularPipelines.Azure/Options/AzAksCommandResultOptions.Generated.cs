@@ -57,7 +57,7 @@ public record AzAksCommandResultOptions : AzOptions
     /// <summary>
     /// CommandId returned from 'aks command invoke'.
     /// </summary>
-    [CliFlag("--command-id", ShortForm = "-i")]
-    public bool? CommandId { get; set; }
+    [CliOption("--command-id", ShortForm = "-i")]
+    public string? CommandId { get; set; }
 
 }

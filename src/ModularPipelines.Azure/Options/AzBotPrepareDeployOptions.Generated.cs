@@ -46,8 +46,8 @@ public record AzBotPrepareDeployOptions : AzOptions
     /// <summary>
     /// The directory to place the generated deployment files in. Defaults to the current directory the command is called from.
     /// </summary>
-    [CliFlag("--code-dir")]
-    public bool? CodeDir { get; set; }
+    [CliOption("--code-dir")]
+    public string? CodeDir { get; set; }
 
     /// <summary>
     /// The path to the .csproj file relative to --code-dir.

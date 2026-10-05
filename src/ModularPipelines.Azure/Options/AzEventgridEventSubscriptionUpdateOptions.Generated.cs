@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -50,6 +51,12 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     public string? DeadletterEndpoint { get; set; }
 
     /// <summary>
+    /// The identity type of the deadletter destination resource.  Allowed values: systemassigned. WARNING: Argument '--deadletter-identity' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--deadletter-identity")]
+    public string? DeadletterIdentity { get; set; }
+
+    /// <summary>
     /// The Azure resource ID of an Azure Storage blob container destination with identity where EventGrid should deadletter undeliverable events for this event subscription.
     /// </summary>
     [CliOption("--deadletter-identity-endpoint")]
@@ -58,20 +65,38 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// Add delivery attribute mapping to send additional information via HTTP headers when delivering events. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--delivery-attribute-mapping` argument. Usage:                        --delivery-attribute-mapping attribute-name attribute-type attribute-value [attribute-is-secret] Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue false Static Attribute Mapping:     --delivery-attribute-mapping somename static somevalue true Dynamic Attribute Mapping:    --delivery-attribute-mapping somename dynamic somevalue Both Static and Dynamic:      --delivery-attribute-mapping somename dynamic somevalue --delivery-attribute-mapping somename2 static somevalue.
     /// </summary>
-    [CliFlag("--delivery-attribute-mapping")]
-    public bool? DeliveryAttributeMapping { get; set; }
+    [CliOption("--delivery-attribute-mapping", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? DeliveryAttributeMapping { get; set; }
+
+    /// <summary>
+    /// The identity type of the delivery destination resource (e.g., storage queue, or eventhub).  Allowed values: systemassigned. WARNING: Argument '--delivery-identity' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--delivery-identity")]
+    public string? DeliveryIdentity { get; set; }
+
+    /// <summary>
+    /// Endpoint with identity where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint. WARNING: Argument '--delivery-identity-endpoint' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--delivery-identity-endpoint")]
+    public string? DeliveryIdentityEndpoint { get; set; }
+
+    /// <summary>
+    /// The type of the destination endpoint with resource identity.  Allowed values: azurefunction, eventhub, hybridconnection, servicebusqueue, servicebustopic, storagequeue, webhook. WARNING: Argument '--delivery-identity-endpoint-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--delivery-identity-endpoint-type")]
+    public string? DeliveryIdentityEndpointType { get; set; }
 
     /// <summary>
     /// Endpoint where EventGrid should deliver events matching this event subscription. For webhook endpoint type, this should be the corresponding webhook URL. For other endpoint types, this should be the Azure resource identifier of the endpoint. It is expected that the destination endpoint to be already created and available for use before executing any Event Grid command.
     /// </summary>
-    [CliFlag("--endpoint")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// The type of the destination endpoint. Default: webhook.
     /// </summary>
-    [CliFlag("--endpoint-type")]
-    public bool? EndpointType { get; set; }
+    [CliOption("--endpoint-type")]
+    public string? EndpointType { get; set; }
 
     /// <summary>
     /// A space-separated list of labels to associate with this event subscription.
@@ -82,26 +107,26 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// Storage queue message time to live in seconds.
     /// </summary>
-    [CliFlag("--qttl", ShortForm = "--storage-queue-msg-ttl")]
-    public bool? Qttl { get; set; }
+    [CliOption("--qttl")]
+    public int? Qttl { get; set; }
 
     /// <summary>
     /// Fully qualified identifier of the Azure resource whose event subscription needs to be updated. Usage:                      --source-resource-id Azure-Resource-ID For Azure subscription:     --source-resource-id /subscriptions/{SubID} For resource group:         --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1 For EventGrid topic:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/topics/t1 For storage account:        --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.Storage/storageaccounts/sa1 For EventGrid domain:       --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/providers/Microsoft.EventGrid/domains/d1 For EventGrid domain topic: --source-resource-id /subscriptions/{SubID}/resourceGroups/rg1/p roviders/Microsoft.EventGrid/domains/d1/topics/t1.
     /// </summary>
-    [CliFlag("--source-resource-id")]
-    public bool? SourceResourceId { get; set; }
+    [CliOption("--source-resource-id")]
+    public string? SourceResourceId { get; set; }
 
     /// <summary>
     /// An advanced filter enables filtering of events based on a specific event property. Usage:                     --advanced-filter KEY[.INNERKEY] FILTEROPERATOR VALUE [VALUE ...] StringIn:                  --advanced-filter data.Color StringIn Blue Red Orange Yellow StringNotIn:               --advanced-filter data.Color StringNotIn Blue Red Orange Yellow StringContains:            --advanced-filter subject StringContains Blue Red StringNotContains:         --advanced-filter subject StringNotContains Blue Red StringBeginsWith:          --advanced-filter subject StringBeginsWith Blue Red StringNotBeginsWith:       --advanced-filter subject StringNotBeginsWith Blue Red StringEndsWith:            --advanced-filter subject StringEndsWith img png jpg StringNotEndsWith:         --advanced-filter subject StringNotEndsWith img png jpg NumberIn:                  --advanced-filter data.property1 NumberIn 5 10 20 NumberInRange              --advanced-filter data.property1 NumberInRange 5,10 20,30 40,50 NumberNotIn:               --advanced-filter data.property2 NumberNotIn 100 200 300 NumberNotInRange:          --advanced-filter data.property2 NumberNotInRange 100,110 200,210 300,310 NumberLessThan:            --advanced-filter data.property3 NumberLessThan 100 NumberLessThanOrEquals:    --advanced-filter data.property2 NumberLessThanOrEquals 100 NumberGreaterThan:         --advanced-filter data.property3 NumberGreaterThan 100 NumberGreaterThanOrEquals: --advanced-filter data.property2 NumberGreaterThanOrEquals 100 BoolEquals:                --advanced-filter data.property3 BoolEquals true IsNullOrUndefined:         --advanced-filter data.property3 IsNullOrUndefined IsNotNull:                 --advanced-filter data.property3 IsNotNull Multiple advanced filters can be specified by using more than one `--advanced-filter` argument.
     /// </summary>
-    [CliFlag("--advanced-filter")]
-    public bool? AdvancedFilter { get; set; }
+    [CliOption("--advanced-filter", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? AdvancedFilter { get; set; }
 
     /// <summary>
     /// Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-advanced-filtering-on-arrays", ShortForm = "--enable-af-arr")]
-    public IEnumerable<string>? EnableAdvancedFilteringOnArrays { get; set; }
+    [CliOption("--enable-advanced-filtering-on-arrays", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAdvancedFilteringOnArrays { get; set; }
 
     /// <summary>
     /// A space-separated list of event types (e.g., Microsoft.Storage.BlobCreated and Microsoft.Storage.BlobDeleted). In order to subscribe to all default event types, do not specify any value for this argument. For event grid topics, event types are customer defined. For Azure events, e.g., Storage Accounts, IoT Hub, etc., you can query their event types using this CLI command 'az eventgrid topic-type list-event-types'.
@@ -112,14 +137,14 @@ public record AzEventgridEventSubscriptionUpdateOptions : AzOptions
     /// <summary>
     /// An optional string to filter events for an event subscription based on a prefix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-begins-with")]
-    public bool? SubjectBeginsWith { get; set; }
+    [CliOption("--subject-begins-with")]
+    public string? SubjectBeginsWith { get; set; }
 
     /// <summary>
     /// An optional string to filter events for an event subscription based on a suffix. Wildcard characters are not supported.
     /// </summary>
-    [CliFlag("--subject-ends-with")]
-    public bool? SubjectEndsWith { get; set; }
+    [CliOption("--subject-ends-with")]
+    public string? SubjectEndsWith { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.

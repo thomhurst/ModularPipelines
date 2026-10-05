@@ -57,32 +57,32 @@ public record AzSynapseRoleAssignmentCreateOptions : AzOptions
     /// <summary>
     /// Represent a user or service principal. Supported format: object id, user sign-in name, or service principal name.
     /// </summary>
-    [CliFlag("--assignee")]
-    public bool? Assignee { get; set; }
+    [CliOption("--assignee")]
+    public string? Assignee { get; set; }
 
     /// <summary>
     /// Use this parameter instead of '--assignee' to bypass Graph API invocation in case of insufficient privileges. This parameter only works with object ids for users, groups, service principals, and managed identities. For managed identities use the principal id. For service principals, use the object id and not the app id.
     /// </summary>
-    [CliFlag("--assignee-object-id")]
-    public bool? AssigneeObjectId { get; set; }
+    [CliOption("--assignee-object-id")]
+    public string? AssigneeObjectId { get; set; }
 
     /// <summary>
     /// Use with --assignee-object-id to avoid errors caused by propagation latency in AAD Graph.  Allowed values: Group, ServicePrincipal, User.
     /// </summary>
-    [CliOption("--assignee-principal-type", ShortForm = "--assignee-type")]
+    [CliOption("--assignee-principal-type")]
     public string? AssigneePrincipalType { get; set; }
 
     /// <summary>
     /// Custom role assignment id in guid format, if not specified, assignment id will be randomly generated.
     /// </summary>
-    [CliFlag("--assignment-id")]
-    public bool? AssignmentId { get; set; }
+    [CliOption("--assignment-id")]
+    public string? AssignmentId { get; set; }
 
     /// <summary>
     /// Item granted access in the workspace. Using with --item-type to combine the scope of assignment.
     /// </summary>
-    [CliFlag("--item")]
-    public bool? Item { get; set; }
+    [CliOption("--item")]
+    public string? Item { get; set; }
 
     /// <summary>
     /// Item type granted access in the workspace. Using with --item to combine the scope of assignment. Allowed values: bigDataPools, credentials, integrationRuntimes, linkedServices.

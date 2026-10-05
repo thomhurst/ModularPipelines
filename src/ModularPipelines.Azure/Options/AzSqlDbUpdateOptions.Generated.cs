@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,56 +24,56 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Assign identity for database. Allowed values: false, true.
     /// </summary>
-    [CliOption("--assign-identity", ShortForm = "-i", GroupValues = true)]
-    public IEnumerable<string>? AssignIdentity { get; set; }
+    [CliOption("--assign-identity", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AssignIdentity { get; set; }
 
     /// <summary>
     /// Backup storage redundancy used to store backups. Allowed values include: Local, Zone, Geo, GeoZone.
     /// </summary>
-    [CliOption("--backup-storage-redundancy", ShortForm = "--bsr")]
+    [CliOption("--backup-storage-redundancy")]
     public string? BackupStorageRedundancy { get; set; }
 
     /// <summary>
     /// Specifies the Azure key vault key to be used as database encryption protector key.
     /// </summary>
-    [CliFlag("--encryption-protector")]
-    public bool? EncryptionProtector { get; set; }
+    [CliOption("--encryption-protector")]
+    public string? EncryptionProtector { get; set; }
 
     /// <summary>
     /// Specifies the database encryption protector key auto rotation flag. Can be either true, false or null.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--encryption-protector-auto-rotation", ShortForm = "--epauto")]
-    public bool? EncryptionProtectorAutoRotation { get; set; }
+    [CliOption("--encryption-protector-auto-rotation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EncryptionProtectorAutoRotation { get; set; }
 
     /// <summary>
     /// Specifies the behavior when monthly free limits are exhausted for the free database.AutoPause: The database will be auto paused upon exhaustion of free limits for remainder of the month.BillForUsage: The database will continue to be online upon exhaustion of free limitsand any overage will be billed.  Allowed values: AutoPause, BillOverUsage.
     /// </summary>
-    [CliOption("--exhaustion-behavior", ShortForm = "--free-limit-exhaustion-behavior")]
+    [CliOption("--exhaustion-behavior")]
     public string? ExhaustionBehavior { get; set; }
 
     /// <summary>
     /// The federated client id for the SQL Database. It is used for cross tenant CMK scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// An OData filter expression that filters elements in the collection. Default value is None.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Whether or not the database uses free monthly limits. Allowed on one database in a subscription. Allowed values: false, true.
     /// </summary>
-    [CliOption("--free-limit", ShortForm = "--use-free-limit")]
-    public bool? FreeLimit { get; set; }
+    [CliOption("--free-limit", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? FreeLimit { get; set; }
 
     /// <summary>
     /// The number of high availability replicas to provision for the database. Only settable for Hyperscale edition.
     /// </summary>
-    [CliFlag("--ha-replicas", ShortForm = "--read-replicas")]
-    public bool? HaReplicas { get; set; }
+    [CliOption("--ha-replicas")]
+    public int? HaReplicas { get; set; }
 
     /// <summary>
     /// The list of AKV keys for the SQL Database.
@@ -89,20 +90,20 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Specified maintenance configuration id or name for this resource.
     /// </summary>
-    [CliFlag("--maint-config-id", ShortForm = "-m")]
-    public bool? MaintConfigId { get; set; }
+    [CliOption("--maint-config-id", ShortForm = "-m")]
+    public string? MaintConfigId { get; set; }
 
     /// <summary>
     /// Whether to do manual cutover during Update SLO. Allowed when updating database to Hyperscale tier.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--manual-cutover")]
-    public bool? ManualCutover { get; set; }
+    [CliOption("--manual-cutover", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ManualCutover { get; set; }
 
     /// <summary>
     /// The new maximum size of the database expressed in bytes.
     /// </summary>
-    [CliFlag("--max-size")]
-    public bool? MaxSize { get; set; }
+    [CliOption("--max-size")]
+    public string? MaxSize { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -113,8 +114,8 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Whether to perform cutover when updating database to Hyperscale tier is in progress.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--perform-cutover")]
-    public bool? PerformCutover { get; set; }
+    [CliOption("--perform-cutover", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PerformCutover { get; set; }
 
     /// <summary>
     /// Specifies type of enclave for this resource.  Allowed values: Default, VBS.
@@ -131,14 +132,14 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// The list of user assigned identity for the SQL Database.
     /// </summary>
-    [CliOption("--umi", ShortForm = "--user-assigned-identity-id", GroupValues = true)]
+    [CliOption("--umi", GroupValues = true)]
     public IEnumerable<string>? Umi { get; set; }
 
     /// <summary>
     /// Specifies whether to enable zone redundancy. Default is true if no value is specified.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--zone-redundant", ShortForm = "-z")]
-    public bool? ZoneRedundant { get; set; }
+    [CliOption("--zone-redundant", ShortForm = "-z", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ZoneRedundant { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -179,7 +180,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
@@ -203,8 +204,8 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled.
     /// </summary>
-    [CliFlag("--auto-pause-delay")]
-    public bool? AutoPauseDelay { get; set; }
+    [CliOption("--auto-pause-delay")]
+    public string? AutoPauseDelay { get; set; }
 
     /// <summary>
     /// The compute model of the database.  Allowed values: Provisioned, Serverless.
@@ -215,7 +216,7 @@ public record AzSqlDbUpdateOptions : AzOptions
     /// <summary>
     /// Minimal capacity that database will always have allocated, if not paused.
     /// </summary>
-    [CliFlag("--min-capacity")]
-    public bool? MinCapacity { get; set; }
+    [CliOption("--min-capacity")]
+    public string? MinCapacity { get; set; }
 
 }

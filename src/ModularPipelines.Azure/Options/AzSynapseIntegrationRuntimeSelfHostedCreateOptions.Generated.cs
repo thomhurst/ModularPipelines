@@ -68,14 +68,14 @@ public record AzSynapseIntegrationRuntimeSelfHostedCreateOptions : AzOptions
     /// <summary>
     /// The integration runtime description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// ETag of the integration runtime entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
     /// </summary>
-    [CliFlag("--if-match")]
-    public bool? IfMatch { get; set; }
+    [CliOption("--if-match")]
+    public string? IfMatch { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

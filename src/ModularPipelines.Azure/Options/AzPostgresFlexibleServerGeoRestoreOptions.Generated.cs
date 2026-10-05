@@ -57,8 +57,8 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// The client ID of the geo backup federated identity.
     /// </summary>
-    [CliFlag("--backup-federated-client-id", ShortForm = "-f")]
-    public bool? BackupFederatedClientId { get; set; }
+    [CliOption("--backup-federated-client-id", ShortForm = "-f")]
+    public string? BackupFederatedClientId { get; set; }
 
     /// <summary>
     /// The name or resource identifier of the geo backup user identity for data encryption. The identity needs to be in the same region as the backup region.
@@ -75,8 +75,8 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// The client ID of the federated identity.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -105,8 +105,8 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// This parameter only applies for a server with private access and is required when using --vnet or --subnet. The name or resource identifier of an existing private DNS zone. You can use a private DNS zone from the same resource group, a different resource group, or a different subscription. If you want to use a zone from a different resource group or subscription, please provide its resource identifier.
     /// </summary>
-    [CliFlag("--private-dns-zone")]
-    public bool? PrivateDnsZone { get; set; }
+    [CliOption("--private-dns-zone")]
+    public string? PrivateDnsZone { get; set; }
 
     /// <summary>
     /// The point in time in UTC to restore from (ISO8601 format), e.g., 2026-03-22T18:20:22+00:00 The default value is set to current time.  Default: computed at run time.
@@ -135,8 +135,8 @@ public record AzPostgresFlexibleServerGeoRestoreOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

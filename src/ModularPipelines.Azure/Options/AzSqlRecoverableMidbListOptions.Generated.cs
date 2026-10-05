@@ -45,7 +45,7 @@ public record AzSqlRecoverableMidbListOptions : AzOptions
     /// <summary>
     /// The name of the managed instance. Required.
     /// </summary>
-    [CliOption("--instance-name", ShortForm = "--mi")]
+    [CliOption("--instance-name")]
     public string InstanceName { get; private init; }
 
     /// <summary>

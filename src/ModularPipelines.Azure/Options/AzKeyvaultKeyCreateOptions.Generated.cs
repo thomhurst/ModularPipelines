@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,32 +36,32 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Use default policy under which the key can be exported for data disk encryption.
     /// </summary>
-    [CliFlag("--default-data-disk-policy", ShortForm = "--default-dd-policy")]
+    [CliFlag("--default-data-disk-policy")]
     public bool? DefaultDataDiskPolicy { get; set; }
 
     /// <summary>
     /// Create key in disabled state.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disabled")]
-    public bool? Disabled { get; set; }
+    [CliOption("--disabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Disabled { get; set; }
 
     /// <summary>
     /// Expiration UTC datetime  (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--expires")]
-    public bool? Expires { get; set; }
+    [CliOption("--expires")]
+    public string? Expires { get; set; }
 
     /// <summary>
     /// Whether the private key can be exported. To create key with release policy, "exportable" must be true and caller must have "export" permission.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--exportable")]
-    public bool? Exportable { get; set; }
+    [CliOption("--exportable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Exportable { get; set; }
 
     /// <summary>
     /// Mark a release policy as immutable. An immutable release policy cannot be changed or updated after being marked immutable. Release policies are mutable by default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--immutable")]
-    public bool? Immutable { get; set; }
+    [CliOption("--immutable", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Immutable { get; set; }
 
     /// <summary>
     /// The type of key to create. For valid values, see: https://learn.microsoft.com/rest/api/keyva ult/keys/create-key/create-key#jsonwebkeytype. Allowed values: EC, EC-HSM, RSA, RSA-HSM, oct, oct-HSM.
@@ -71,20 +72,20 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// Key not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z').
     /// </summary>
-    [CliFlag("--not-before")]
-    public bool? NotBefore { get; set; }
+    [CliOption("--not-before")]
+    public string? NotBefore { get; set; }
 
     /// <summary>
     /// Space-separated list of permitted JSON web key operations.  Allowed values: decrypt, encrypt, export, import, sign, unwrapKey, verify, wrapKey.
     /// </summary>
-    [CliOption("--ops", GroupValues = true)]
-    public IEnumerable<string>? Ops { get; set; }
+    [CliOption("--ops", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Ops { get; set; }
 
     /// <summary>
     /// The policy rules under which the key can be exported. Policy definition as JSON, or a path to a file containing JSON policy definition.
     /// </summary>
-    [CliFlag("--policy")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Specifies the type of key protection.  Allowed values: hsm, software.
@@ -95,14 +96,20 @@ public record AzKeyvaultKeyCreateOptions : AzOptions
     /// <summary>
     /// The key size in bits. For example: 2048, 3072, or 4096 for RSA. 128, 192, or 256 for oct.
     /// </summary>
-    [CliFlag("--size")]
-    public bool? Size { get; set; }
+    [CliOption("--size")]
+    public int? Size { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Create an external Managed HSM key backed by an External Key Manager (EKM) key id. WARNING: Argument '--external-key-id' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--external-key-id")]
+    public string? ExternalKeyId { get; set; }
 
     /// <summary>
     /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).

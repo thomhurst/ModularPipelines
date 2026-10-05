@@ -23,13 +23,13 @@ public record AzRoleAssignmentListChangelogsOptions : AzOptions
     /// <summary>
     /// The end time of the query in the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2000-12-31T12:59:59Z. Defaults to the current time.
     /// </summary>
-    [CliFlag("--end-time")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// The start time of the query in the format of %Y-%m-%dT%H:%M:%SZ, e.g. 2000-12-31T12:59:59Z. Defaults to 1 Hour prior to the current time.
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTime { get; set; }
 
 }

@@ -31,18 +31,16 @@ public record AzNetworkDnsRecordSetSrvAddRecordOptions : AzOptions
     /// <param name="Weight">Weight metric.</param>
     /// <param name="ZoneName">The name of the zone.</param>
     public AzNetworkDnsRecordSetSrvAddRecordOptions(
-        string Port,
-        string Priority,
+        int Port,
+        int Priority,
         string RecordSetName,
         string ResourceGroup,
         string Target,
-        string Weight,
+        int Weight,
         string ZoneName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Port);
         this.Port = Port;
-        global::System.ArgumentNullException.ThrowIfNull(Priority);
         this.Priority = Priority;
         global::System.ArgumentNullException.ThrowIfNull(RecordSetName);
         this.RecordSetName = RecordSetName;
@@ -50,13 +48,12 @@ public record AzNetworkDnsRecordSetSrvAddRecordOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(Target);
         this.Target = Target;
-        global::System.ArgumentNullException.ThrowIfNull(Weight);
         this.Weight = Weight;
         global::System.ArgumentNullException.ThrowIfNull(ZoneName);
         this.ZoneName = ZoneName;
     }
 
-    public void Deconstruct(out string Port, out string Priority, out string RecordSetName, out string ResourceGroup, out string Target, out string Weight, out string ZoneName)
+    public void Deconstruct(out int Port, out int Priority, out string RecordSetName, out string ResourceGroup, out string Target, out int Weight, out string ZoneName)
     {
         Port = this.Port;
         Priority = this.Priority;
@@ -71,13 +68,13 @@ public record AzNetworkDnsRecordSetSrvAddRecordOptions : AzOptions
     /// Service port.
     /// </summary>
     [CliOption("--port", ShortForm = "-r")]
-    public string Port { get; private init; }
+    public int Port { get; private init; }
 
     /// <summary>
     /// Priority metric.
     /// </summary>
     [CliOption("--priority", ShortForm = "-p")]
-    public string Priority { get; private init; }
+    public int Priority { get; private init; }
 
     /// <summary>
     /// The name of the record set relative to the zone. Creates a new record set if one does not exist.
@@ -101,7 +98,7 @@ public record AzNetworkDnsRecordSetSrvAddRecordOptions : AzOptions
     /// Weight metric.
     /// </summary>
     [CliOption("--weight", ShortForm = "-w")]
-    public string Weight { get; private init; }
+    public int Weight { get; private init; }
 
     /// <summary>
     /// The name of the zone.

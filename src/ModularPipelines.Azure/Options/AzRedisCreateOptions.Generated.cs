@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -33,7 +34,7 @@ public record AzRedisCreateOptions : AzOptions
         string Name,
         string ResourceGroup,
         string Sku,
-        int VmSize
+        string VmSize
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(Location);
@@ -44,10 +45,11 @@ public record AzRedisCreateOptions : AzOptions
         this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(Sku);
         this.Sku = Sku;
+        global::System.ArgumentNullException.ThrowIfNull(VmSize);
         this.VmSize = VmSize;
     }
 
-    public void Deconstruct(out string Location, out string Name, out string ResourceGroup, out string Sku, out int VmSize)
+    public void Deconstruct(out string Location, out string Name, out string ResourceGroup, out string Sku, out string VmSize)
     {
         Location = this.Location;
         Name = this.Name;
@@ -84,13 +86,13 @@ public record AzRedisCreateOptions : AzOptions
     /// Size of Redis cache to deploy. Basic and Standard Cache sizes start with C. Premium Cache sizes start with P.  Allowed values: c0, c1, c2, c3, c4, c5, c6, p1, p2, p3, p4, p5.
     /// </summary>
     [CliOption("--vm-size")]
-    public int VmSize { get; private init; }
+    public string VmSize { get; private init; }
 
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-access-keys")]
-    public bool? DisableAccessKeys { get; set; }
+    [CliOption("--disable-access-keys", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableAccessKeys { get; set; }
 
     /// <summary>
     /// If specified, then the non-ssl redis server port (6379) will be enabled.
@@ -107,7 +109,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// One or more space separated resource IDs of user assigned identities.
     /// </summary>
-    [CliOption("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned", GroupValues = true)]
     public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>
@@ -119,32 +121,32 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// A json file used to set redis-configuration settings. You may encounter parse errors if the json file is invalid. Usage: --redis-configuration @"{config_file.json}"
     /// </summary>
-    [CliFlag("--redis-configuration")]
-    public bool? RedisConfiguration { get; set; }
+    [CliOption("--redis-configuration")]
+    public string? RedisConfiguration { get; set; }
 
     /// <summary>
     /// Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'.
     /// </summary>
-    [CliFlag("--redis-version")]
-    public bool? RedisVersion { get; set; }
+    [CliOption("--redis-version")]
+    public string? RedisVersion { get; set; }
 
     /// <summary>
     /// The number of replicas to be created per master.
     /// </summary>
-    [CliFlag("--replicas-per-master")]
-    public bool? ReplicasPerMaster { get; set; }
+    [CliOption("--replicas-per-master")]
+    public string? ReplicasPerMaster { get; set; }
 
     /// <summary>
     /// The number of shards to be created on a Premium Cluster Cache.
     /// </summary>
-    [CliFlag("--shard-count")]
-    public bool? ShardCount { get; set; }
+    [CliOption("--shard-count")]
+    public int? ShardCount { get; set; }
 
     /// <summary>
     /// Specify a static ip if required for the VNET. If you do not specify a static IP then an IP address is chosen automatically.
     /// </summary>
-    [CliFlag("--static-ip")]
-    public bool? StaticIp { get; set; }
+    [CliOption("--static-ip")]
+    public string? StaticIp { get; set; }
 
     /// <summary>
     /// The full resource ID of a subnet in a virtual network to deploy the redis cache in. Example format /subscriptions/{subid}/resourceGroups/{res ourceGroupName}/providers/Microsoft.{Network|Clas sicNetwork}/virtualNetworks/vnet1/subnets/subnet1 .
@@ -155,14 +157,14 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Space-separated tenant settings in key[=value] format.
     /// </summary>
-    [CliOption("--tenant-settings", GroupValues = true)]
-    public IEnumerable<string>? TenantSettings { get; set; }
+    [CliOption("--tenant-settings", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? TenantSettings { get; set; }
 
     /// <summary>
     /// Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using "Preview" update channel get latest Redis updates at least 4 weeks ahead of "Stable" channel caches. Default value is "Stable". Allowed values: Preview, Stable.
@@ -173,7 +175,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Specifies how availability zones are allocated to the Redis cache. "Automatic" enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. "UserDefined" will select availability zones passed in by you using the "zones" parameter. "NoZones" will produce a non-zonal cache. If "zonal-allocation-policy" is not passed, it will be set to "UserDefined" when zones are passed in, otherwise, it will be set to "Automatic in regions where zones are supported and "NoZones" in regions where zones are not supported.  Allowed values: Automatic, NoZones, UserDefined.
     /// </summary>
-    [CliOption("--zonal-allocation", ShortForm = "--zonal-allocation-policy")]
+    [CliOption("--zonal-allocation")]
     public string? ZonalAllocation { get; set; }
 
     /// <summary>

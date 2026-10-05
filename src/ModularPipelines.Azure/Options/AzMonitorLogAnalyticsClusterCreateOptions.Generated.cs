@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,13 +58,13 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Type of managed service identity.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned. Default: SystemAssigned.
     /// </summary>
-    [CliOption("--identity-type", ShortForm = "--type")]
+    [CliOption("--identity-type")]
     public string? IdentityType { get; set; }
 
     /// <summary>
@@ -81,8 +82,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Selected key minimum required size.
     /// </summary>
-    [CliFlag("--key-rsa-size")]
-    public bool? KeyRsaSize { get; set; }
+    [CliOption("--key-rsa-size")]
+    public string? KeyRsaSize { get; set; }
 
     /// <summary>
     /// The Key Vault uri which holds they key associated with the Log Analytics cluster.
@@ -93,8 +94,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// The version of the key associated with the Log Analytics cluster.
     /// </summary>
-    [CliFlag("--key-version")]
-    public bool? KeyVersion { get; set; }
+    [CliOption("--key-version")]
+    public string? KeyVersion { get; set; }
 
     /// <summary>
     /// The geo-location where the resource lives  When not specified, the location of the resource group will be used.
@@ -105,8 +106,8 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The cluster's billing type.  Allowed values: Cluster, Workspaces.
@@ -117,14 +118,14 @@ public record AzMonitorLogAnalyticsClusterCreateOptions : AzOptions
     /// <summary>
     /// Specifies whether the replication is enabled or not. When true the cluster is replicate to the specified location. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--replication-enabled")]
-    public bool? ReplicationEnabled { get; set; }
+    [CliOption("--replication-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ReplicationEnabled { get; set; }
 
     /// <summary>
     /// The secondary location of the replication. If replication is being enabled, enabled must be provided.
     /// </summary>
-    [CliFlag("--replication-location")]
-    public bool? ReplicationLocation { get; set; }
+    [CliOption("--replication-location")]
+    public string? ReplicationLocation { get; set; }
 
     /// <summary>
     /// The capacity of the SKU. It can be decreased only after 31 days.  Allowed values: 100, 1000, 10000, 200, 2000, 25000, 300, 400, 500, 5000, 50000.

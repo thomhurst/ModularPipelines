@@ -57,7 +57,7 @@ public record AzKeyvaultSettingUpdateOptions : AzOptions
     /// <summary>
     /// Type of the setting value.  Allowed values: boolean, string.
     /// </summary>
-    [CliOption("--setting-type", ShortForm = "--type")]
+    [CliOption("--setting-type")]
     public string? SettingType { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record AzKeyvaultSettingUpdateOptions : AzOptions
     /// <summary>
     /// Full URI of the HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
 }

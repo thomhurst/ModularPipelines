@@ -29,7 +29,7 @@ public record AzNetappfilesAccountBackupVaultBackupShowOptions : AzOptions
     /// <summary>
     /// The name of the backup.
     /// </summary>
-    [CliOption("--backup-name", ShortForm = "-n")]
+    [CliOption("--backup-name", ShortForm = "-b")]
     public string? BackupName { get; set; }
 
     /// <summary>

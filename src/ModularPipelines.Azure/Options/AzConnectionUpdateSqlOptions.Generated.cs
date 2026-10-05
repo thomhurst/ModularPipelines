@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -35,8 +37,8 @@ public record AzConnectionUpdateSqlOptions : AzOptions
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// The id of connection.
@@ -65,13 +67,14 @@ public record AzConnectionUpdateSqlOptions : AzOptions
     /// <summary>
     /// The secret auth info. Usage: --secret name=XX secret=XX --secret name=XX secret-uri=XX --secret name=XX secret-name=XX
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secret { get; set; }
 
     /// <summary>
     /// The user account auth info. Usage: --user-account object-id=XX
     /// </summary>
-    [CliFlag("--user-account")]
-    public bool? UserAccount { get; set; }
+    [CliOption("--user-account", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? UserAccount { get; set; }
 
 }

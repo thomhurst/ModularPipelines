@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,38 +24,38 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// If true, the artifact is deployed asynchronously. (The command will exit once the artifact is pushed to the web app.). Synchronous deployments are not yet supported when using "--src-url".  Allowed values: false, true.
     /// </summary>
-    [CliOption("--async")]
-    public bool? Async { get; set; }
+    [CliOption("--async", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Async { get; set; }
 
     /// <summary>
     /// If true, cleans the target directory prior to deploying the file(s). Default value is determined based on artifact type.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--clean")]
-    public bool? Clean { get; set; }
+    [CliOption("--clean", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Clean { get; set; }
 
     /// <summary>
     /// If true, kudu will be warmed up before performing deployment for a linux webapp.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--enable-kudu-warmup")]
-    public bool? EnableKuduWarmup { get; set; }
+    [CliOption("--enable-kudu-warmup", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableKuduWarmup { get; set; }
 
     /// <summary>
     /// If true, deployment failures will show context-enriched diagnostics with error codes, suggested fixes, and Copilot prompts. Enabled by default; use --enriched-errors false to disable.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--enriched-errors")]
-    public bool? EnrichedErrors { get; set; }
+    [CliOption("--enriched-errors", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnrichedErrors { get; set; }
 
     /// <summary>
     /// If true, any stack-specific defaults are ignored.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--ignore-stack")]
-    public bool? IgnoreStack { get; set; }
+    [CliOption("--ignore-stack", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IgnoreStack { get; set; }
 
     /// <summary>
     /// If true, the web app will be restarted following the deployment. Set this to false if you are deploying multiple artifacts and do not want to restart the site on the earlier deployments.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--restart")]
-    public bool? Restart { get; set; }
+    [CliOption("--restart", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Restart { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
@@ -77,14 +78,14 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// Linux only. A friendly name used to identify the deployment.
     /// </summary>
-    [CliFlag("--tag")]
-    public bool? Tag { get; set; }
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
 
     /// <summary>
     /// Absolute path that the artifact should be deployed to. Defaults to "home/site/wwwroot/" Ex: "/home/site/deployments/tools/", "/home/site/scripts/startup-script.sh".
     /// </summary>
-    [CliFlag("--target-path")]
-    public bool? TargetPath { get; set; }
+    [CliOption("--target-path")]
+    public string? TargetPath { get; set; }
 
     /// <summary>
     /// Timeout for the deployment operation in milliseconds. Ignored when using "--src-url" since synchronous deployments are not yet supported when using "--src-url".
@@ -95,8 +96,8 @@ public record AzWebappDeployOptions : AzOptions
     /// <summary>
     /// If true, web app startup status during deployment will be tracked for linux web apps.  Allowed values: false, true.  Default: True.
     /// </summary>
-    [CliOption("--track-status")]
-    public bool? TrackStatus { get; set; }
+    [CliOption("--track-status", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TrackStatus { get; set; }
 
     /// <summary>
     /// Used to override the type of artifact being deployed.  Allowed values: ear, jar, lib, startup, static, war, zip.

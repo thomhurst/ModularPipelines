@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -21,16 +22,28 @@ namespace ModularPipelines.Azure.Options;
 public record AzEventgridSystemTopicUpdateOptions : AzOptions
 {
     /// <summary>
+    /// The managed identity type for the resource. Will be deprecated and replaced by --mi-system-assigned-identity in future.  Allowed values: noidentity, systemassigned. WARNING: Argument 'identity' has been deprecated and will be removed in a future release. WARNING: Argument '--identity' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--identity")]
+    public string? Identity { get; set; }
+
+    /// <summary>
     /// Presence of this param indicates that SystemAssigned managed identity will be used.
     /// </summary>
     [CliFlag("--mi-system-assigned")]
     public bool? MiSystemAssigned { get; set; }
 
     /// <summary>
+    /// Add user assigned identities when identityType is user or mixed. This attribute is valid for all destination types except StorageQueue. Multiple attributes can be specified by using more than one `--mi-user-assigned` argument. WARNING: Argument '--mi-user-assigned' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--mi-user-assigned", GroupValues = true)]
+    public IEnumerable<CliValueGroup>? MiUserAssigned { get; set; }
+
+    /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

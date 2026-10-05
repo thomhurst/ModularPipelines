@@ -68,14 +68,14 @@ public record AzSqlDbClassificationUpdateOptions : AzOptions
     /// <summary>
     /// The information type.
     /// </summary>
-    [CliFlag("--information-type")]
-    public bool? InformationType { get; set; }
+    [CliOption("--information-type")]
+    public string? InformationType { get; set; }
 
     /// <summary>
     /// The label name.
     /// </summary>
-    [CliFlag("--label")]
-    public bool? Label { get; set; }
+    [CliOption("--label")]
+    public string? Label { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

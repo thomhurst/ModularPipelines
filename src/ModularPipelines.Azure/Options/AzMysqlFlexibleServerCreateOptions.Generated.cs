@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -30,8 +31,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The IP address prefix to use when creating a new virtual network in CIDR format. Default value is 10.0.0.0/16.
     /// </summary>
-    [CliFlag("--address-prefixes")]
-    public bool? AddressPrefixes { get; set; }
+    [CliOption("--address-prefixes")]
+    public string? AddressPrefixes { get; set; }
 
     /// <summary>
     /// Enable or disable the auto scale iops. Default value is Enabled.  Allowed values: Disabled, Enabled.  Default: Enabled.
@@ -49,7 +50,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// The interval between backups in hours. Accepted values are 24, 12 and 6. The default value is 24.
     /// </summary>
     [CliOption("--backup-interval")]
-    public string? BackupInterval { get; set; }
+    public int? BackupInterval { get; set; }
 
     /// <summary>
     /// The resource ID of the geo backup keyvault key for data encryption. The key needs to be in the same region as the backup region.
@@ -60,8 +61,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The number of days a backup is retained. Range of 1 to 35 days. Default is 7 days. Default: 7.
     /// </summary>
-    [CliFlag("--backup-retention")]
-    public bool? BackupRetention { get; set; }
+    [CliOption("--backup-retention")]
+    public int? BackupRetention { get; set; }
 
     /// <summary>
     /// The name of the database to be created when provisioning the database server.
@@ -72,8 +73,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The port of the database. Default value is 3306.
     /// </summary>
-    [CliFlag("--database-port")]
-    public bool? DatabasePort { get; set; }
+    [CliOption("--database-port")]
+    public int? DatabasePort { get; set; }
 
     /// <summary>
     /// Whether or not geo redundant backup is enabled.  Allowed values: Disabled, Enabled.  Default: Disabled.
@@ -96,8 +97,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Number of IOPS to be allocated for this server. You will get certain amount of free IOPS based on compute and storage provisioned. The default value for IOPS is free IOPS. To learn more about IOPS based on compute and storage, refer to IOPS in Azure Database for MySQL Flexible Server.
     /// </summary>
-    [CliFlag("--iops")]
-    public bool? Iops { get; set; }
+    [CliOption("--iops")]
+    public int? Iops { get; set; }
 
     /// <summary>
     /// The resource ID of the primary keyvault key for data encryption.
@@ -114,7 +115,7 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The patch strategy of maintenance policy. Accepted values: Regular, VirtualCanary. Default value is Regular.  Allowed values: Regular, VirtualCanary.
     /// </summary>
-    [CliOption("--maintenance-policy-patch-strategy", ShortForm = "--patch-strategy")]
+    [CliOption("--maintenance-policy-patch-strategy")]
     public string? MaintenancePolicyPatchStrategy { get; set; }
 
     /// <summary>
@@ -132,8 +133,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Determines the public access. Enter single or range of IP addresses to be included in the allowed list of IPs. IP address ranges must be dash-separated and not contain any spaces. Specifying 0.0.0.0 allows public access from any resources deployed within Azure to access your server. Setting it to "None" sets the server in public access mode but does not create a firewall rule.
     /// </summary>
-    [CliFlag("--public-access")]
-    public bool? PublicAccess { get; set; }
+    [CliOption("--public-access")]
+    public string? PublicAccess { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -150,8 +151,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The availability zone information of the standby server when high availability is enabled.
     /// </summary>
-    [CliFlag("--standby-zone")]
-    public bool? StandbyZone { get; set; }
+    [CliOption("--standby-zone")]
+    public string? StandbyZone { get; set; }
 
     /// <summary>
     /// Enable or disable autogrow of the storage. Default value is Enabled. Allowed values: Disabled, Enabled. Default: Enabled.
@@ -162,8 +163,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// The storage capacity of the server. Minimum is 32 GiB and max is 16 TiB. Default: 32.
     /// </summary>
-    [CliFlag("--storage-size")]
-    public bool? StorageSize { get; set; }
+    [CliOption("--storage-size")]
+    public int? StorageSize { get; set; }
 
     /// <summary>
     /// Name or resource ID of a new or existing subnet. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a subnet from different resource group or subscription, please provide resource ID instead of name. Please note that the subnet will be delegated to flexibleServers. After delegation, this subnet cannot be used for any other type of Azure resources.
@@ -180,8 +181,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Compute tier of the server. Accepted values: Burstable, GeneralPurpose, MemoryOptimized.  Default: Burstable.
@@ -192,8 +193,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Server major version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or ID of a new or existing virtual network. This parameter only applies if you are creating cross region replica server with private access. For in-region read replica with private access, source server settings are carried over and this parameter is ignored. If you want to use a vnet from different resource group or subscription, please provide a resource ID. The name must be between 2 to 64 characters. The name must begin with a letter or number, end with a letter, number or underscore, and may contain only letters, numbers, underscores, periods, or hyphens.
@@ -210,8 +211,8 @@ public record AzMysqlFlexibleServerCreateOptions : AzOptions
     /// <summary>
     /// Availability zone into which to provision the resource.
     /// </summary>
-    [CliFlag("--zone", ShortForm = "-z")]
-    public bool? Zone { get; set; }
+    [CliOption("--zone", ShortForm = "-z")]
+    public string? Zone { get; set; }
 
     /// <summary>
     /// The password of the administrator. Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.

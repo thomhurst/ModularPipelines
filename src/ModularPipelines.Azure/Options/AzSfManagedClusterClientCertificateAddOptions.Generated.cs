@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,14 +58,14 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client certificate common name.
     /// </summary>
-    [CliFlag("--common-name")]
-    public bool? CommonName { get; set; }
+    [CliOption("--common-name")]
+    public string? CommonName { get; set; }
 
     /// <summary>
     /// Client authentication type.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-admin")]
-    public bool? IsAdmin { get; set; }
+    [CliOption("--is-admin", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsAdmin { get; set; }
 
     /// <summary>
     /// Space-separated list of issuer thumbprints.
@@ -75,7 +76,7 @@ public record AzSfManagedClusterClientCertificateAddOptions : AzOptions
     /// <summary>
     /// Client certificate thumbprint.
     /// </summary>
-    [CliFlag("--thumbprint")]
-    public bool? Thumbprint { get; set; }
+    [CliOption("--thumbprint")]
+    public string? Thumbprint { get; set; }
 
 }

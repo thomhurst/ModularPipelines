@@ -45,13 +45,13 @@ public record AzSqlMidbLogReplayStartOptions : AzOptions
     /// <summary>
     /// The authorization Sas token to access storage container where backups are.
     /// </summary>
-    [CliOption("--ss", ShortForm = "--storage-sas")]
+    [CliOption("--ss")]
     public string Ss { get; private init; }
 
     /// <summary>
     /// The URI of the storage container where backups are.
     /// </summary>
-    [CliOption("--storage-uri", ShortForm = "--su")]
+    [CliOption("--storage-uri")]
     public string StorageUri { get; private init; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public record AzSqlMidbLogReplayStartOptions : AzOptions
     /// <summary>
     /// The name of the last backup to restore.
     /// </summary>
-    [CliOption("--last-backup-name", ShortForm = "--last-bn")]
+    [CliOption("--last-backup-name")]
     public string? LastBackupName { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public record AzSqlMidbLogReplayStartOptions : AzOptions
     /// <summary>
     /// The storage container identity to use.  Allowed values: ManagedIdentity, SharedAccessSignature.
     /// </summary>
-    [CliOption("--si", ShortForm = "--storage-identity")]
+    [CliOption("--si")]
     public string? Si { get; set; }
 
     /// <summary>
@@ -87,7 +87,7 @@ public record AzSqlMidbLogReplayStartOptions : AzOptions
     /// <summary>
     /// Name of the Azure SQL Managed Instance.
     /// </summary>
-    [CliOption("--managed-instance", ShortForm = "--mi")]
+    [CliOption("--managed-instance")]
     public string? ManagedInstance { get; set; }
 
     /// <summary>

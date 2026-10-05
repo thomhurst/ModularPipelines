@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -26,16 +27,17 @@ public record AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions : AzO
     /// <param name="FetchLatest">Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.</param>
     /// <param name="Type">The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.</param>
     public AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions(
-        bool FetchLatest,
+        CliOptionValue FetchLatest,
         string Type
     )
     {
+        global::System.ArgumentNullException.ThrowIfNull(FetchLatest);
         this.FetchLatest = FetchLatest;
         global::System.ArgumentNullException.ThrowIfNull(Type);
         this.Type = Type;
     }
 
-    public void Deconstruct(out bool FetchLatest, out string Type)
+    public void Deconstruct(out CliOptionValue FetchLatest, out string Type)
     {
         FetchLatest = this.FetchLatest;
         Type = this.Type;
@@ -44,8 +46,8 @@ public record AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions : AzO
     /// <summary>
     /// Fetch only the latest tests for each peering location.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--fetch-latest")]
-    public bool FetchLatest { get; private init; }
+    [CliOption("--fetch-latest", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue FetchLatest { get; private init; }
 
     /// <summary>
     /// The type of failover test.  Allowed values: All, LinkFailover, MultiSiteFailover, SingleSiteFailover.
@@ -56,8 +58,8 @@ public record AzNetworkExpressRouteGatewayGetFailoverAllTestsDetailOptions : AzO
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzKeyvaultKeyListOptions : AzOptions
     /// <summary>
     /// Include managed keys.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-managed")]
-    public bool? IncludeManaged { get; set; }
+    [CliOption("--include-managed", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeManaged { get; set; }
 
     /// <summary>
     /// Maximum number of results to return.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
     /// <summary>
     /// Name of the HSM. Can be omitted if --id is specified.
@@ -41,8 +42,8 @@ public record AzKeyvaultKeyListOptions : AzOptions
     /// <summary>
     /// Full URI of the Vault or HSM. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the Vault.

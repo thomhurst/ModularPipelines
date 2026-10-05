@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// The flag of force operation.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--force")]
-    public bool? Force { get; set; }
+    [CliOption("--force", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Force { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -35,38 +36,38 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The delay time whose unit is minute.
     /// </summary>
-    [CliFlag("--delay")]
-    public bool? Delay { get; set; }
+    [CliOption("--delay")]
+    public string? Delay { get; set; }
 
     /// <summary>
     /// The flag of enabling auto pause.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-pause")]
-    public bool? EnableAutoPause { get; set; }
+    [CliOption("--enable-auto-pause", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoPause { get; set; }
 
     /// <summary>
     /// The flag of enabling auto scale.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-scale")]
-    public bool? EnableAutoScale { get; set; }
+    [CliOption("--enable-auto-scale", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoScale { get; set; }
 
     /// <summary>
     /// The max node count.
     /// </summary>
-    [CliFlag("--max-node-count")]
-    public bool? MaxNodeCount { get; set; }
+    [CliOption("--max-node-count")]
+    public int? MaxNodeCount { get; set; }
 
     /// <summary>
     /// The min node count.
     /// </summary>
-    [CliFlag("--min-node-count")]
-    public bool? MinNodeCount { get; set; }
+    [CliOption("--min-node-count")]
+    public int? MinNodeCount { get; set; }
 
     /// <summary>
     /// List of workspace packages name.
@@ -83,38 +84,38 @@ public record AzSynapseSparkPoolUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether Dynamic Executor Allocation is enabled or not. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-dynamic-exec")]
-    public bool? EnableDynamicExec { get; set; }
+    [CliOption("--enable-dynamic-exec", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableDynamicExec { get; set; }
 
     /// <summary>
     /// The maximum number of executors alloted.
     /// </summary>
-    [CliFlag("--max-executors")]
-    public bool? MaxExecutors { get; set; }
+    [CliOption("--max-executors")]
+    public int? MaxExecutors { get; set; }
 
     /// <summary>
     /// The minimum number of executors alloted.
     /// </summary>
-    [CliFlag("--min-executors")]
-    public bool? MinExecutors { get; set; }
+    [CliOption("--min-executors")]
+    public int? MinExecutors { get; set; }
 
     /// <summary>
     /// The library requirements file.
     /// </summary>
-    [CliFlag("--library-requirements")]
-    public bool? LibraryRequirements { get; set; }
+    [CliOption("--library-requirements")]
+    public string? LibraryRequirements { get; set; }
 
     /// <summary>
     /// Absolute path of Spark pool properties configuration file.
     /// </summary>
-    [CliFlag("--spark-config-file-path")]
-    public bool? SparkConfigFilePath { get; set; }
+    [CliOption("--spark-config-file-path")]
+    public string? SparkConfigFilePath { get; set; }
 
     /// <summary>
     /// The number of node.
     /// </summary>
-    [CliFlag("--node-count")]
-    public bool? NodeCount { get; set; }
+    [CliOption("--node-count")]
+    public int? NodeCount { get; set; }
 
     /// <summary>
     /// The level of compute power that each node in the Big Data pool has.. Allowed values: Large, Medium, None, Small, XLarge, XXLarge, XXXLarge.

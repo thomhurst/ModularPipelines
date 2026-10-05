@@ -23,8 +23,8 @@ public record AzKeyvaultCertificateRecoverOptions : AzOptions
     /// <summary>
     /// The recovery id of the certificate. If specified all other 'Id' arguments should be omitted.
     /// </summary>
-    [CliFlag("--id")]
-    public bool? Id { get; set; }
+    [CliOption("--id")]
+    public string? Id { get; set; }
 
     /// <summary>
     /// Name of the certificate. Required if --id is not specified.

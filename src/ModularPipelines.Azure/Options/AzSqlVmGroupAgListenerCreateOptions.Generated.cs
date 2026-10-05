@@ -39,7 +39,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
         string ResourceGroup,
         string IpAddress,
         string LoadBalancer,
-        string ProbePort,
+        int ProbePort,
         IEnumerable<string> Sqlvms,
         string Subnet
     )
@@ -56,7 +56,6 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
         this.IpAddress = IpAddress;
         global::System.ArgumentNullException.ThrowIfNull(LoadBalancer);
         this.LoadBalancer = LoadBalancer;
-        global::System.ArgumentNullException.ThrowIfNull(ProbePort);
         this.ProbePort = ProbePort;
         {
             global::System.ArgumentNullException.ThrowIfNull(Sqlvms);
@@ -75,7 +74,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
         this.Subnet = Subnet;
     }
 
-    public void Deconstruct(out string AgName, out string GroupName, out string Name, out string ResourceGroup, out string IpAddress, out string LoadBalancer, out string ProbePort, out IEnumerable<string> Sqlvms, out string Subnet)
+    public void Deconstruct(out string AgName, out string GroupName, out string Name, out string ResourceGroup, out string IpAddress, out string LoadBalancer, out int ProbePort, out IEnumerable<string> Sqlvms, out string Subnet)
     {
         AgName = this.AgName;
         GroupName = this.GroupName;
@@ -128,7 +127,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
     /// Probe port.
     /// </summary>
     [CliOption("--probe-port", ShortForm = "-e")]
-    public string ProbePort { get; private init; }
+    public int ProbePort { get; private init; }
 
     /// <summary>
     /// Space-separated list of SQL virtual machine instance name or resource IDs that are enrolled into the availability group.
@@ -157,7 +156,7 @@ public record AzSqlVmGroupAgListenerCreateOptions : AzOptions
     /// <summary>
     /// Listener port.  Default: 1433.
     /// </summary>
-    [CliFlag("--port", ShortForm = "-p")]
-    public bool? Port { get; set; }
+    [CliOption("--port", ShortForm = "-p")]
+    public int? Port { get; set; }
 
 }

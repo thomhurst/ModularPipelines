@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// Enable automatic rotation of keys.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--auto-rotation", ShortForm = "--enable-auto-key-rotation")]
-    public bool? AutoRotation { get; set; }
+    [CliOption("--auto-rotation", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoRotation { get; set; }
 
     /// <summary>
     /// The federated client id used in cross tenant scenario.
     /// </summary>
-    [CliFlag("--federated-client-id")]
-    public bool? FederatedClientId { get; set; }
+    [CliOption("--federated-client-id")]
+    public string? FederatedClientId { get; set; }
 
     /// <summary>
     /// URL pointing to a key or secret in KeyVault.
@@ -41,8 +42,8 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Name or ID of the KeyVault containing the key or secret.
@@ -59,8 +60,8 @@ public record AzDiskEncryptionSetUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

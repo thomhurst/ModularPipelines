@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -58,8 +59,8 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Allow insecure connections for ingress traffic. Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-insecure")]
-    public bool? AllowInsecure { get; set; }
+    [CliOption("--allow-insecure", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowInsecure { get; set; }
 
     /// <summary>
     /// Name or resource ID of the container app's environment.
@@ -82,14 +83,14 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Duration in seconds a replica is given to gracefully shut down before it is forcefully terminated. (Default: 30).
     /// </summary>
-    [CliFlag("--termination-grace-period", ShortForm = "--tgp")]
-    public bool? TerminationGracePeriod { get; set; }
+    [CliOption("--termination-grace-period")]
+    public int? TerminationGracePeriod { get; set; }
 
     /// <summary>
     /// Name of the workload profile to run the app on.
@@ -119,8 +120,8 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// The container registry server hostname, e.g. myregi stry.azurecr.io.
     /// </summary>
-    [CliFlag("--registry-server")]
-    public bool? RegistryServer { get; set; }
+    [CliOption("--registry-server")]
+    public string? RegistryServer { get; set; }
 
     /// <summary>
     /// The username to log in to container registry.
@@ -138,20 +139,20 @@ public record AzContainerappCreateOptions : AzOptions
     /// A list of secret(s) for the container app. Space-separated values in 'key=value' format.
     /// </summary>
     [SecretValue]
-    [CliOption("--secrets", ShortForm = "-s", GroupValues = true)]
-    public IEnumerable<string>? Secrets { get; set; }
+    [CliOption("--secrets", ShortForm = "-s", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secrets { get; set; }
 
     /// <summary>
     /// A list of container startup command argument(s). Space- separated values e.g. "-c" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--args", GroupValues = true)]
-    public IEnumerable<string>? Args { get; set; }
+    [CliOption("--args", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Args { get; set; }
 
     /// <summary>
     /// A list of supported commands on the container that will executed during startup. Space- separated values e.g. "/bin/queue" "mycommand". Empty string to clear existing values.
     /// </summary>
-    [CliOption("--command", GroupValues = true)]
-    public IEnumerable<string>? Command { get; set; }
+    [CliOption("--command", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Command { get; set; }
 
     /// <summary>
     /// Name of the container.
@@ -162,50 +163,50 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Required CPU in cores from 0.25 - 2.0, e.g. 0.5.
     /// </summary>
-    [CliFlag("--cpu")]
-    public bool? Cpu { get; set; }
+    [CliOption("--cpu")]
+    public string? Cpu { get; set; }
 
     /// <summary>
     /// A list of environment variable(s) for the container. Space- separated values in 'key=value' format. Empty string to clear existing values. Prefix value with 'secretref:' to reference a secret.
     /// </summary>
-    [CliOption("--env-vars", GroupValues = true)]
-    public IEnumerable<string>? EnvVars { get; set; }
+    [CliOption("--env-vars", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? EnvVars { get; set; }
 
     /// <summary>
     /// Container image, e.g. publisher/image- name:tag.
     /// </summary>
-    [CliFlag("--image", ShortForm = "-i")]
-    public bool? Image { get; set; }
+    [CliOption("--image", ShortForm = "-i")]
+    public string? Image { get; set; }
 
     /// <summary>
     /// Required memory from 0.5 - 4.0 ending with "Gi", e.g. 1.0Gi.
     /// </summary>
-    [CliFlag("--memory")]
-    public bool? Memory { get; set; }
+    [CliOption("--memory")]
+    public string? Memory { get; set; }
 
     /// <summary>
     /// User friendly suffix that is appended to the revision name.
     /// </summary>
-    [CliFlag("--revision-suffix")]
-    public bool? RevisionSuffix { get; set; }
+    [CliOption("--revision-suffix")]
+    public string? RevisionSuffix { get; set; }
 
     /// <summary>
     /// Enable API logging for the Dapr sidecar.
     /// </summary>
-    [CliFlag("--dal", ShortForm = "--dapr-enable-api-logging")]
+    [CliFlag("--dal")]
     public bool? Dal { get; set; }
 
     /// <summary>
     /// The Dapr application identifier.
     /// </summary>
-    [CliFlag("--dapr-app-id")]
-    public bool? DaprAppId { get; set; }
+    [CliOption("--dapr-app-id")]
+    public string? DaprAppId { get; set; }
 
     /// <summary>
     /// The port Dapr uses to talk to the application.
     /// </summary>
-    [CliFlag("--dapr-app-port")]
-    public bool? DaprAppPort { get; set; }
+    [CliOption("--dapr-app-port")]
+    public int? DaprAppPort { get; set; }
 
     /// <summary>
     /// The protocol Dapr uses to talk to the application.  Allowed values: grpc, http.
@@ -216,14 +217,14 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Increase max size of request body http and grpc servers parameter in MB to handle uploading of big files.
     /// </summary>
-    [CliFlag("--dapr-http-max-request-size", ShortForm = "--dhmrs")]
-    public bool? DaprHttpMaxRequestSize { get; set; }
+    [CliOption("--dapr-http-max-request-size")]
+    public int? DaprHttpMaxRequestSize { get; set; }
 
     /// <summary>
     /// Dapr max size of http header read buffer in KB to handle when sending multi-KB headers..
     /// </summary>
-    [CliFlag("--dapr-http-read-buffer-size", ShortForm = "--dhrbs")]
-    public bool? DaprHttpReadBufferSize { get; set; }
+    [CliOption("--dapr-http-read-buffer-size")]
+    public int? DaprHttpReadBufferSize { get; set; }
 
     /// <summary>
     /// Set the log level for the Dapr sidecar. Allowed values: debug, error, info, warn.
@@ -234,8 +235,8 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Boolean indicating if the Dapr side car is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-dapr")]
-    public bool? EnableDapr { get; set; }
+    [CliOption("--enable-dapr", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableDapr { get; set; }
 
     /// <summary>
     /// Boolean indicating whether to assign system-assigned identity.
@@ -252,8 +253,8 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// Additional exposed port. Only supported by tcp transport protocol. Must be unique per environment if the app ingress is external.
     /// </summary>
-    [CliFlag("--exposed-port")]
-    public bool? ExposedPort { get; set; }
+    [CliOption("--exposed-port")]
+    public int? ExposedPort { get; set; }
 
     /// <summary>
     /// The ingress type. Allowed values: external, internal.
@@ -264,8 +265,8 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// The application port used for ingress traffic.
     /// </summary>
-    [CliFlag("--target-port")]
-    public bool? TargetPort { get; set; }
+    [CliOption("--target-port")]
+    public int? TargetPort { get; set; }
 
     /// <summary>
     /// The transport protocol used for ingress traffic. Allowed values: auto, http, http2, tcp. Default: auto.
@@ -276,43 +277,43 @@ public record AzContainerappCreateOptions : AzOptions
     /// <summary>
     /// The maximum number of replicas.
     /// </summary>
-    [CliFlag("--max-replicas")]
-    public bool? MaxReplicas { get; set; }
+    [CliOption("--max-replicas")]
+    public int? MaxReplicas { get; set; }
 
     /// <summary>
     /// The minimum number of replicas.
     /// </summary>
-    [CliFlag("--min-replicas")]
-    public bool? MinReplicas { get; set; }
+    [CliOption("--min-replicas")]
+    public int? MinReplicas { get; set; }
 
     /// <summary>
     /// Scale rule auth parameters. Auth parameters must be in format "{triggerParam eter}={secretRef} {tr iggerParameter}={secr etRef} ...".
     /// </summary>
-    [CliFlag("--scale-rule-auth", ShortForm = "--sra")]
-    public bool? ScaleRuleAuth { get; set; }
+    [CliOption("--scale-rule-auth", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleAuth { get; set; }
 
     /// <summary>
     /// The maximum number of concurrent requests before scale out. Only supported for http and tcp scale rules.
     /// </summary>
-    [CliFlag("--scale-rule-http-concurrency", ShortForm = "--srtc")]
-    public bool? ScaleRuleHttpConcurrency { get; set; }
+    [CliOption("--scale-rule-http-concurrency")]
+    public int? ScaleRuleHttpConcurrency { get; set; }
 
     /// <summary>
     /// Scale rule metadata. Metadata must be in format "{key}={value} {key}={value} ...".
     /// </summary>
-    [CliFlag("--scale-rule-metadata", ShortForm = "--srm")]
-    public bool? ScaleRuleMetadata { get; set; }
+    [CliOption("--scale-rule-metadata", GroupValues = true)]
+    public IEnumerable<string>? ScaleRuleMetadata { get; set; }
 
     /// <summary>
     /// The name of the scale rule.
     /// </summary>
-    [CliOption("--scale-rule-name", ShortForm = "--srn")]
+    [CliOption("--scale-rule-name")]
     public string? ScaleRuleName { get; set; }
 
     /// <summary>
     /// The type of the scale rule. Default: http. For more information please visit https:// learn.microsoft.com/a zure/container- apps/scale-app#scale- triggers.
     /// </summary>
-    [CliFlag("--scale-rule-type", ShortForm = "--srt")]
-    public bool? ScaleRuleType { get; set; }
+    [CliOption("--scale-rule-type")]
+    public string? ScaleRuleType { get; set; }
 
 }

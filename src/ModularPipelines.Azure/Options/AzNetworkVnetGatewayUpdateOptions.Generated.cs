@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +25,20 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-remote-vnet-traffic")]
-    public bool? AllowRemoteVnetTraffic { get; set; }
+    [CliOption("--allow-remote-vnet-traffic", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowRemoteVnetTraffic { get; set; }
 
     /// <summary>
     /// Configures this gateway to accept traffic from remote Virtual WAN networks.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-vwan-traffic")]
-    public bool? AllowVwanTraffic { get; set; }
+    [CliOption("--allow-vwan-traffic", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowVwanTraffic { get; set; }
 
     /// <summary>
     /// Whether private IP needs to be enabled on this gateway for connections or not.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-private-ip")]
-    public bool? EnablePrivateIp { get; set; }
+    [CliOption("--enable-private-ip", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePrivateIp { get; set; }
 
     /// <summary>
     /// Name or ID of a local network gateway representing a local network site with default routes.
@@ -53,25 +55,25 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Maximum scale units for auto-scale configuration.
     /// </summary>
-    [CliFlag("--max-scale-unit")]
-    public bool? MaxScaleUnit { get; set; }
+    [CliOption("--max-scale-unit")]
+    public string? MaxScaleUnit { get; set; }
 
     /// <summary>
     /// Minimum scale units for auto-scale configuration.
     /// </summary>
-    [CliFlag("--min-scale-unit")]
-    public bool? MinScaleUnit { get; set; }
+    [CliOption("--min-scale-unit")]
+    public string? MinScaleUnit { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Specify a single public IP (name or ID) for an active-standby gateway. Specify two space-separated public IPs for an active-active gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--public-ip-address", ShortForm = "--public-ip-addresses", GroupValues = true)]
+    [CliOption("--public-ip-address", GroupValues = true)]
     public IEnumerable<string>? PublicIpAddress { get; set; }
 
     /// <summary>
@@ -101,8 +103,8 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// VPN authentication types enabled for the virtual network gateway.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--vpn-auth-type")]
-    public bool? VpnAuthType { get; set; }
+    [CliOption("--vpn-auth-type", GroupValues = true)]
+    public IEnumerable<string>? VpnAuthType { get; set; }
 
     /// <summary>
     /// VPN routing type.  Allowed values: PolicyBased, RouteBased.
@@ -113,44 +115,44 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// The AADAudience ID of the VirtualNetworkGateway.
     /// </summary>
-    [CliFlag("--aad-audience")]
-    public bool? AadAudience { get; set; }
+    [CliOption("--aad-audience")]
+    public string? AadAudience { get; set; }
 
     /// <summary>
     /// The AAD Issuer URI of the VirtualNetworkGateway.
     /// </summary>
-    [CliFlag("--aad-issuer")]
-    public bool? AadIssuer { get; set; }
+    [CliOption("--aad-issuer")]
+    public string? AadIssuer { get; set; }
 
     /// <summary>
     /// The AAD Tenant URI of the VirtualNetworkGateway.
     /// </summary>
-    [CliFlag("--aad-tenant")]
-    public bool? AadTenant { get; set; }
+    [CliOption("--aad-tenant")]
+    public string? AadTenant { get; set; }
 
     /// <summary>
     /// Autonomous System Number to use for the BGP settings.
     /// </summary>
-    [CliFlag("--asn")]
-    public bool? Asn { get; set; }
+    [CliOption("--asn")]
+    public string? Asn { get; set; }
 
     /// <summary>
     /// IP address to use for BGP peering.
     /// </summary>
-    [CliFlag("--bgp-peering-address")]
-    public bool? BgpPeeringAddress { get; set; }
+    [CliOption("--bgp-peering-address")]
+    public string? BgpPeeringAddress { get; set; }
 
     /// <summary>
     /// Enable BGP (Border Gateway Protocol).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-bgp")]
-    public bool? EnableBgp { get; set; }
+    [CliOption("--enable-bgp", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableBgp { get; set; }
 
     /// <summary>
     /// Weight (0-100) added to routes learned through BGP peering.
     /// </summary>
-    [CliFlag("--peer-weight")]
-    public bool? PeerWeight { get; set; }
+    [CliOption("--peer-weight")]
+    public string? PeerWeight { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -161,8 +163,8 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -197,26 +199,26 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Base64 contents of the root certificate file or file path.
     /// </summary>
-    [CliFlag("--root-cert-data")]
-    public bool? RootCertData { get; set; }
+    [CliOption("--root-cert-data")]
+    public string? RootCertData { get; set; }
 
     /// <summary>
     /// Root certificate name.
     /// </summary>
-    [CliFlag("--root-cert-name")]
-    public bool? RootCertName { get; set; }
+    [CliOption("--root-cert-name")]
+    public string? RootCertName { get; set; }
 
     /// <summary>
     /// Space-separated list of CIDR prefixes representing the address space for the P2S Vpnclient.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.  Singular flags: `--address-prefix`.
     /// </summary>
-    [CliOption("--address-prefix", ShortForm = "--address-prefixes", GroupValues = true)]
+    [CliOption("--address-prefix", GroupValues = true)]
     public IEnumerable<string>? AddressPrefix { get; set; }
 
     /// <summary>
     /// Protocols to use for connecting.  Allowed values: IkeV2, OpenVPN, SSTP.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--client-protocol")]
-    public string? ClientProtocol { get; set; }
+    [CliOption("--client-protocol", GroupValues = true)]
+    public IEnumerable<string>? ClientProtocol { get; set; }
 
     /// <summary>
     /// Space-separated list of CIDR prefixes representing the custom routes address space specified by the customer for VpnClient.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -227,13 +229,14 @@ public record AzNetworkVnetGatewayUpdateOptions : AzOptions
     /// <summary>
     /// Radius secret to use for authentication.
     /// </summary>
-    [CliFlag("--radius-secret")]
-    public bool? RadiusSecret { get; set; }
+    [SecretValue]
+    [CliOption("--radius-secret")]
+    public string? RadiusSecret { get; set; }
 
     /// <summary>
     /// Radius server address to connect to.
     /// </summary>
-    [CliFlag("--radius-server")]
-    public bool? RadiusServer { get; set; }
+    [CliOption("--radius-server")]
+    public string? RadiusServer { get; set; }
 
 }

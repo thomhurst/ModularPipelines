@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -56,28 +57,40 @@ public record AzAppConfigUpdateOptions : AzOptions
     public string? ArmAuthMode { get; set; }
 
     /// <summary>
+    /// Resource ID of an Azure Front Door profile to link to this App Configuration store. Pass "" to unlink a Front Door profile. WARNING: Argument '--azure-front-door-profile' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--azure-front-door-profile")]
+    public string? AzureFrontDoorProfile { get; set; }
+
+    /// <summary>
     /// Disable all authentication methods other than AAD authentication.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--disable-local-auth")]
-    public bool? DisableLocalAuth { get; set; }
+    [CliOption("--disable-local-auth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DisableLocalAuth { get; set; }
 
     /// <summary>
     /// Enable access to the App Configuration store via ARM Private Link if resource is restricted to private network access. Requires Pass-through ARM authentication mode.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-arm-private-network-access")]
-    public bool? EnableArmPrivateNetworkAccess { get; set; }
+    [CliOption("--enable-arm-private-network-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableArmPrivateNetworkAccess { get; set; }
+
+    /// <summary>
+    /// When true, requests coming from public networks have permission to access this store while private endpoint is enabled. When false, only requests made through Private Links can reach this store.  Allowed values: false, true. WARNING: Argument 'enable_public_network' has been deprecated and will be removed in a future release. Use '--public-network-access' instead.
+    /// </summary>
+    [CliOption("--enable-public-network", ShortForm = "-e", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePublicNetwork { get; set; }
 
     /// <summary>
     /// Property specifying whether protection against purge is enabled for this App Configuration store. Setting this property to true activates protection against purge for this App Configuration store and its contents. Enabling this functionality is irreversible. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-purge-protection", ShortForm = "-p")]
-    public bool? EnablePurgeProtection { get; set; }
+    [CliOption("--enable-purge-protection", ShortForm = "-p", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnablePurgeProtection { get; set; }
 
     /// <summary>
     /// Duration in seconds to retain key-value revisions in the App Configuration store. For Free and Developer sku stores, revisions can be retained for a maximum of 7 days (604,800s); for Standard and Premium sku stores, up to 30 days (2,592,000s). Only Non-Free tiers can update this value. If specified, retention period must be at least 1 hour (3600s).
     /// </summary>
-    [CliFlag("--kv-revision-retention-period")]
-    public bool? KvRevisionRetentionPeriod { get; set; }
+    [CliOption("--kv-revision-retention-period")]
+    public int? KvRevisionRetentionPeriod { get; set; }
 
     /// <summary>
     /// Control permission for data plane traffic coming from public networks.  Allowed values: Disabled, Enabled, SecuredByPerimeter.
@@ -100,8 +113,8 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The name of the KeyVault key.
@@ -118,13 +131,13 @@ public record AzAppConfigUpdateOptions : AzOptions
     /// <summary>
     /// The version of the KeyVault key. Use the latest version by default.
     /// </summary>
-    [CliFlag("--encryption-key-version")]
-    public bool? EncryptionKeyVersion { get; set; }
+    [CliOption("--encryption-key-version")]
+    public string? EncryptionKeyVersion { get; set; }
 
     /// <summary>
     /// Client ID of the managed identity with wrap and unwrap access to encryption key. Use system-assigned managed identity by default.
     /// </summary>
-    [CliFlag("--identity-client-id")]
-    public bool? IdentityClientId { get; set; }
+    [CliOption("--identity-client-id")]
+    public string? IdentityClientId { get; set; }
 
 }

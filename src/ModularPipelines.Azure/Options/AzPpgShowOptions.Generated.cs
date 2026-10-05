@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzPpgShowOptions : AzOptions
     /// <summary>
     /// Enable fetching the colocation status of all the resources in the proximity placement group. Allowed values: False, True.
     /// </summary>
-    [CliOption("--include-colocation-status")]
-    public bool? IncludeColocationStatus { get; set; }
+    [CliOption("--include-colocation-status", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeColocationStatus { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

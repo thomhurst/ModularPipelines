@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -101,14 +102,14 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Azure container mapping for the share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--azure-container-info")]
-    public bool? AzureContainerInfo { get; set; }
+    [CliOption("--azure-container-info", GroupValues = true)]
+    public IEnumerable<string>? AzureContainerInfo { get; set; }
 
     /// <summary>
     /// List of IP addresses and corresponding access rights on the share(required for NFS protocol).  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -131,13 +132,13 @@ public record AzDataboxedgeDeviceShareCreateOptions : AzOptions
     /// <summary>
     /// Details of the refresh job on this share.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--refresh-details")]
-    public bool? RefreshDetails { get; set; }
+    [CliOption("--refresh-details", GroupValues = true)]
+    public IEnumerable<string>? RefreshDetails { get; set; }
 
     /// <summary>
     /// Mapping of users and corresponding access rights on the share (required for SMB protocol).  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--user-access-rights")]
-    public bool? UserAccessRights { get; set; }
+    [CliOption("--user-access-rights", GroupValues = true)]
+    public IEnumerable<string>? UserAccessRights { get; set; }
 
 }

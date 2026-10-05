@@ -23,7 +23,7 @@ public record AzBackupDeletedVaultGetOptions : AzOptions
     /// <summary>
     /// ID of the deleted vault.
     /// </summary>
-    [CliOption("--deleted-vault-id", ShortForm = "--ids")]
+    [CliOption("--deleted-vault-id")]
     public string? DeletedVaultId { get; set; }
 
     /// <summary>

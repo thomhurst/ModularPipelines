@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,7 +59,7 @@ public record AzBotUpdateOptions : AzOptions
     /// <summary>
     /// The key vault key url to enable Customer Managed Keys encryption.
     /// </summary>
-    [CliOption("--cmk", ShortForm = "--cmk-key-vault-key-url")]
+    [CliOption("--cmk")]
     public string? Cmk { get; set; }
 
     /// <summary>
@@ -69,26 +71,26 @@ public record AzBotUpdateOptions : AzOptions
     /// <summary>
     /// The bot's new description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The bot's new display name.
     /// </summary>
-    [CliFlag("--display-name", ShortForm = "-d")]
-    public bool? DisplayName { get; set; }
+    [CliOption("--display-name", ShortForm = "-d")]
+    public string? DisplayName { get; set; }
 
     /// <summary>
     /// The new endpoint of the bot. Must start with "https://".
     /// </summary>
-    [CliFlag("--endpoint", ShortForm = "-e")]
-    public bool? Endpoint { get; set; }
+    [CliOption("--endpoint", ShortForm = "-e")]
+    public string? Endpoint { get; set; }
 
     /// <summary>
     /// Icon URL for bot avatar. Accepts PNG files with file size limit of 30KB.
     /// </summary>
-    [CliFlag("--icon-url")]
-    public bool? IconUrl { get; set; }
+    [CliOption("--icon-url")]
+    public string? IconUrl { get; set; }
 
     /// <summary>
     /// The Sku of the bot.  Allowed values: F0, S1.
@@ -99,25 +101,26 @@ public record AzBotUpdateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Azure Application Insights API Key used to read bot analytics data. Provide a key if you want to view analytics about your bot in the Analytics blade.
     /// </summary>
-    [CliFlag("--ai-api-key", ShortForm = "--app-insights-api-key")]
-    public bool? AiApiKey { get; set; }
+    [SecretValue]
+    [CliOption("--ai-api-key")]
+    public string? AiApiKey { get; set; }
 
     /// <summary>
     /// Azure Application Insights Application ID used to read bot analytics data. Provide an Id if you want to view analytics about your bot in the Analytics blade.
     /// </summary>
-    [CliFlag("--ai-app-id", ShortForm = "--app-insights-app-id")]
-    public bool? AiAppId { get; set; }
+    [CliOption("--ai-app-id")]
+    public string? AiAppId { get; set; }
 
     /// <summary>
     /// Azure Application Insights Key used to write bot analytics data. Provide a key if you want to receive bot analytics.
     /// </summary>
-    [CliFlag("--ai-key", ShortForm = "--app-insights-key")]
-    public bool? AiKey { get; set; }
+    [CliOption("--ai-key")]
+    public string? AiKey { get; set; }
 
 }

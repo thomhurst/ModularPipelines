@@ -52,8 +52,8 @@ public record AzPolicyEnrollmentDeleteOptions : AzOptions
     /// <summary>
     /// The fully qualified Azure Resource manager identifier of the resource.
     /// </summary>
-    [CliFlag("--scope")]
-    public bool? Scope { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

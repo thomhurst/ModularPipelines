@@ -74,8 +74,8 @@ public record AzMonitorLogAnalyticsWorkspaceTableCreateOptions : AzOptions
     /// <summary>
     /// Schema description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -92,13 +92,13 @@ public record AzMonitorLogAnalyticsWorkspaceTableCreateOptions : AzOptions
     /// <summary>
     /// The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention.
     /// </summary>
-    [CliFlag("--retention-time")]
-    public bool? RetentionTime { get; set; }
+    [CliOption("--retention-time")]
+    public int? RetentionTime { get; set; }
 
     /// <summary>
     /// The table total retention in days, between 4 and 2556. Setting this property to -1 will default to table retention.
     /// </summary>
-    [CliFlag("--total-retention-time")]
-    public bool? TotalRetentionTime { get; set; }
+    [CliOption("--total-retention-time")]
+    public int? TotalRetentionTime { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzVmExtensionSetOptions : AzOptions
     /// <summary>
     /// Indicate the extension should be automatically upgraded by the platform if there is a newer version of the extension available.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-auto-upgrade")]
-    public bool? EnableAutoUpgrade { get; set; }
+    [CliOption("--enable-auto-upgrade", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAutoUpgrade { get; set; }
 
     /// <summary>
     /// Name of extension instance, which can be customized. Default: name of the extension.
@@ -73,10 +74,16 @@ public record AzVmExtensionSetOptions : AzOptions
     public bool? ForceUpdate { get; set; }
 
     /// <summary>
+    /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true. WARNING: Option '--no-auto-upgrade' has been deprecated and will be removed in a future release. Use '--no-auto-upgrade-minor-version' instead.
+    /// </summary>
+    [CliOption("--no-auto-upgrade", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoAutoUpgrade { get; set; }
+
+    /// <summary>
     /// If set, the extension service will not automatically pick or upgrade to the latest minor version, even if the extension is redeployed.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-auto-upgrade-minor-version")]
-    public bool? NoAutoUpgradeMinorVersion { get; set; }
+    [CliOption("--no-auto-upgrade-minor-version", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoAutoUpgradeMinorVersion { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -87,20 +94,20 @@ public record AzVmExtensionSetOptions : AzOptions
     /// <summary>
     /// Protected settings in JSON format for sensitive information like credentials. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--protected-settings")]
-    public bool? ProtectedSettings { get; set; }
+    [CliOption("--protected-settings")]
+    public string? ProtectedSettings { get; set; }
 
     /// <summary>
     /// Extension settings in JSON format. A JSON file path is also accepted.
     /// </summary>
-    [CliFlag("--settings")]
-    public bool? Settings { get; set; }
+    [CliOption("--settings")]
+    public string? Settings { get; set; }
 
     /// <summary>
     /// The version of the extension. To pin extension version to this value, please specify --no-auto-upgrade-minor-version.
     /// </summary>
-    [CliFlag("--version")]
-    public bool? Version { get; set; }
+    [CliOption("--version")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

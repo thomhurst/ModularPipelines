@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,26 +24,26 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     /// <summary>
     /// Allows forwarded traffic from the local VNet to the remote VNet. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-forwarded-traffic")]
-    public bool? AllowForwardedTraffic { get; set; }
+    [CliOption("--allow-forwarded-traffic", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowForwardedTraffic { get; set; }
 
     /// <summary>
     /// Allows gateway link to be used in the remote VNet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-gateway-transit")]
-    public bool? AllowGatewayTransit { get; set; }
+    [CliOption("--allow-gateway-transit", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowGatewayTransit { get; set; }
 
     /// <summary>
     /// Allows access from the local VNet to the remote VNet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--allow-vnet-access")]
-    public bool? AllowVnetAccess { get; set; }
+    [CliOption("--allow-vnet-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowVnetAccess { get; set; }
 
     /// <summary>
     /// Whether only Ipv6 address space is peered for subnet peering. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-only-ipv6")]
-    public bool? EnableOnlyIpv6 { get; set; }
+    [CliOption("--enable-only-ipv6", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableOnlyIpv6 { get; set; }
 
     /// <summary>
     /// List of local subnet names that are subnet peered with remote virtual network.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -53,14 +54,14 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Whether complete virtual network address space is peered.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--peer-complete-vnets")]
-    public bool? PeerCompleteVnets { get; set; }
+    [CliOption("--peer-complete-vnets", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PeerCompleteVnets { get; set; }
 
     /// <summary>
     /// List of remote subnet names from remote virtual network that are subnet peered.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -83,8 +84,8 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     /// <summary>
     /// Allows VNet to use the remote VNet's gateway. Remote VNet gateway must have --allow-gateway-transit enabled for remote peering. Only 1 peering can have this flag enabled. Cannot be set if the VNet already has a gateway.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--use-remote-gateways")]
-    public bool? UseRemoteGateways { get; set; }
+    [CliOption("--use-remote-gateways", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UseRemoteGateways { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -95,8 +96,8 @@ public record AzNetworkVnetPeeringUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -69,19 +70,19 @@ public record AzCapacityReservationGroupCreateOptions : AzOptions
     /// <summary>
     /// Space-separated subscription resource IDs or nothing. Specify the settings to enable sharing across subscriptions for the capacity reservation group resource. Specify it to nothing to unsharing.
     /// </summary>
-    [CliOption("--sharing-profile", GroupValues = true)]
-    public IEnumerable<string>? SharingProfile { get; set; }
+    [CliOption("--sharing-profile", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? SharingProfile { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Availability Zones to use for this capacity reservation group. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
     /// </summary>
-    [CliFlag("--zones", ShortForm = "-z")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
 }

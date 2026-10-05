@@ -57,7 +57,7 @@ public class AzureCommandTests : TestBase
     {
         var arguments = BuildArguments(new AzSynapseSparkJobSubmitOptions(
             ExecutorSize: "Small",
-            Executors: 1,
+            Executors: "1",
             MainDefinitionFile: "main.py",
             Name: "job",
             SparkPoolName: "pool",
@@ -90,7 +90,11 @@ public class AzureCommandTests : TestBase
             Host: "host",
             ResourceGroup: "resource-group")
         {
-            ClusterArguments = ["first=value", "second=value"],
+            ClusterArguments =
+            [
+                new CliValueGroup(["first=value", "second=value"]),
+                new CliValueGroup(["third=value"]),
+            ],
         });
 
         await Assert.That(arguments).IsEquivalentTo(
@@ -100,6 +104,7 @@ public class AzureCommandTests : TestBase
                 "--host", "host",
                 "--resource-group", "resource-group",
                 "--arguments", "first=value", "second=value",
+                "--arguments", "third=value",
             ],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(typeof(AzManagedCassandraClusterInvokeCommandOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
@@ -186,16 +191,50 @@ public class AzureCommandTests : TestBase
     }
 
     [Test]
-    public async Task Expanded_Boolean_Option_Renders_Its_Value()
+    [Arguments("true")]
+    [Arguments("false")]
+    public async Task Expanded_Boolean_Option_Renders_Its_Value(string value)
     {
         var arguments = BuildArguments(new AzMonitorAccountIssueUpdateOptions
         {
-            ForceString = true,
+            ForceString = value,
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--force-string", "true"],
+            ["--force-string", value],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Expanded_Boolean_Option_Accepts_A_Bare_Switch()
+    {
+        var arguments = BuildArguments(new AzMonitorAccountIssueUpdateOptions
+        {
+            ForceString = CliOptionValue.Bare,
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(["--force-string"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Aro_Workload_Identity_Pairs_Keep_Separate_Option_Occurrences()
+    {
+        var arguments = BuildArguments(new AzAroCreateOptions("master", "cluster", "group", "worker")
+        {
+            AssignPlatformWi =
+            [
+                new CliValueGroup(["cloud-controller-manager", "/identities/first"]),
+                new CliValueGroup(["ingress", "/identities/second"]),
+            ],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--master-subnet", "master", "--name", "cluster", "--resource-group", "group", "--worker-subnet", "worker",
+                "--assign-platform-wi", "cloud-controller-manager", "/identities/first",
+                "--assign-platform-wi", "ingress", "/identities/second",
+            ], TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     private static void RegisterArmClient(IServiceCollection services)

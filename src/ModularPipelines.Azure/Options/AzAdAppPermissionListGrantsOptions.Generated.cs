@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     /// <summary>
     /// OData filter, e.g. --filter "displayname eq 'test' and servicePrincipalType eq 'Application'".
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Identifier uri, application id, or object id.
@@ -35,7 +36,7 @@ public record AzAdAppPermissionListGrantsOptions : AzOptions
     /// <summary>
     /// Show resource's display name.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--show-resource-name", ShortForm = "-r")]
-    public bool? ShowResourceName { get; set; }
+    [CliOption("--show-resource-name", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ShowResourceName { get; set; }
 
 }

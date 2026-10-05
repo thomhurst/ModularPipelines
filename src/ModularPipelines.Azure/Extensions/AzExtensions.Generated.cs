@@ -38,10 +38,12 @@ public static class AzExtensions
         services.TryAddScoped<IAzAppConfig, AzAppConfig>();
         services.TryAddScoped<IAzAppservice, AzAppservice>();
         services.TryAddScoped<IAzAro, AzAro>();
+        services.TryAddScoped<IAzArtifacts, AzArtifacts>();
         services.TryAddScoped<IAzBackup, AzBackup>();
         services.TryAddScoped<IAzBatch, AzBatch>();
         services.TryAddScoped<IAzBicep, AzBicep>();
         services.TryAddScoped<IAzBilling, AzBilling>();
+        services.TryAddScoped<IAzBoards, AzBoards>();
         services.TryAddScoped<IAzBot, AzBot>();
         services.TryAddScoped<IAzCache, AzCache>();
         services.TryAddScoped<IAzCapacity, AzCapacity>();
@@ -57,6 +59,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzDataboxedge, AzDataboxedge>();
         services.TryAddScoped<IAzDeployment, AzDeployment>();
         services.TryAddScoped<IAzDeploymentScripts, AzDeploymentScripts>();
+        services.TryAddScoped<IAzDevops, AzDevops>();
         services.TryAddScoped<IAzDisk, AzDisk>();
         services.TryAddScoped<IAzDiskAccess, AzDiskAccess>();
         services.TryAddScoped<IAzDiskEncryptionSet, AzDiskEncryptionSet>();
@@ -83,6 +86,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzMysql, AzMysql>();
         services.TryAddScoped<IAzNetappfiles, AzNetappfiles>();
         services.TryAddScoped<IAzNetwork, AzNetwork>();
+        services.TryAddScoped<IAzPipelines, AzPipelines>();
         services.TryAddScoped<IAzPolicy, AzPolicy>();
         services.TryAddScoped<IAzPostgres, AzPostgres>();
         services.TryAddScoped<IAzPpg, AzPpg>();
@@ -90,6 +94,7 @@ public static class AzExtensions
         services.TryAddScoped<IAzProvider, AzProvider>();
         services.TryAddScoped<IAzRedis, AzRedis>();
         services.TryAddScoped<IAzRelay, AzRelay>();
+        services.TryAddScoped<IAzRepos, AzRepos>();
         services.TryAddScoped<IAzResource, AzResource>();
         services.TryAddScoped<IAzResourceManagement, AzResourceManagement>();
         services.TryAddScoped<IAzRestorePoint, AzRestorePoint>();

@@ -28,19 +28,18 @@ public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzHdinsightAutoscaleConditionUpdateOptions(
         string ClusterName,
-        string Index,
+        int Index,
         string ResourceGroup
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ClusterName);
         this.ClusterName = ClusterName;
-        global::System.ArgumentNullException.ThrowIfNull(Index);
         this.Index = Index;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
     }
 
-    public void Deconstruct(out string ClusterName, out string Index, out string ResourceGroup)
+    public void Deconstruct(out string ClusterName, out int Index, out string ResourceGroup)
     {
         ClusterName = this.ClusterName;
         Index = this.Index;
@@ -57,7 +56,7 @@ public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
     /// The schedule condition index which starts with 0.
     /// </summary>
     [CliOption("--index")]
-    public string Index { get; private init; }
+    public int Index { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -80,13 +79,13 @@ public record AzHdinsightAutoscaleConditionUpdateOptions : AzOptions
     /// <summary>
     /// The 24-hour time in the form xx:xx in days.
     /// </summary>
-    [CliFlag("--time")]
-    public bool? Time { get; set; }
+    [CliOption("--time")]
+    public string? Time { get; set; }
 
     /// <summary>
     /// The schedule workernode count.
     /// </summary>
-    [CliFlag("--workernode-count")]
-    public bool? WorkernodeCount { get; set; }
+    [CliOption("--workernode-count")]
+    public int? WorkernodeCount { get; set; }
 
 }

@@ -23,8 +23,8 @@ public record AzKeyvaultKeyListVersionsOptions : AzOptions
     /// <summary>
     /// Maximum number of results to return.
     /// </summary>
-    [CliFlag("--maxresults")]
-    public bool? Maxresults { get; set; }
+    [CliOption("--maxresults")]
+    public int? Maxresults { get; set; }
 
     /// <summary>
     /// Name of the HSM. (--hsm-name and --vault-name are mutually exclusive, please specify just one of them).

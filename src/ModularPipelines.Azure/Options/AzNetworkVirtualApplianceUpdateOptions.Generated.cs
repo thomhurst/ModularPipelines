@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -35,8 +36,8 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -53,8 +54,8 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// The service principal that has read access to cloud-init and config blob.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--identity")]
-    public bool? Identity { get; set; }
+    [CliOption("--identity", GroupValues = true)]
+    public IEnumerable<string>? Identity { get; set; }
 
     /// <summary>
     /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
@@ -71,44 +72,44 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// Details required for Additional Network Interface.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--additional-nics")]
-    public bool? AdditionalNics { get; set; }
+    [CliOption("--additional-nics", GroupValues = true)]
+    public IEnumerable<string>? AdditionalNics { get; set; }
 
     /// <summary>
     /// VirtualAppliance ASN. The valid value ranges from 1 to 4294967295.
     /// </summary>
-    [CliFlag("--asn")]
-    public bool? Asn { get; set; }
+    [CliOption("--asn")]
+    public string? Asn { get; set; }
 
     /// <summary>
     /// Space-separated list of BootStrapConfigurationBlobs storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--boot-blobs", ShortForm = "--boot-strap-config-blobs", GroupValues = true)]
+    [CliOption("--boot-blobs", GroupValues = true)]
     public IEnumerable<string>? BootBlobs { get; set; }
 
     /// <summary>
     /// Space-separated list of CloudInitConfigurationBlob storage URLs. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--cloud-blobs", ShortForm = "--cloud-init-config-blobs", GroupValues = true)]
+    [CliOption("--cloud-blobs", GroupValues = true)]
     public IEnumerable<string>? CloudBlobs { get; set; }
 
     /// <summary>
     /// CloudInitConfiguration scripts that will be run during cloud initialization.
     /// </summary>
-    [CliFlag("--cloud-init-config", ShortForm = "--init-config")]
-    public bool? CloudInitConfig { get; set; }
+    [CliOption("--cloud-init-config")]
+    public string? CloudInitConfig { get; set; }
 
     /// <summary>
     /// The delegation for the Virtual Appliance Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--delegation")]
-    public bool? Delegation { get; set; }
+    [CliOption("--delegation", GroupValues = true)]
+    public IEnumerable<string>? Delegation { get; set; }
 
     /// <summary>
     /// The NVA in VNet interface configurations Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--interface-configs", ShortForm = "--nva-interface-configurations")]
-    public bool? InterfaceConfigs { get; set; }
+    [CliOption("--interface-configs", GroupValues = true)]
+    public IEnumerable<string>? InterfaceConfigs { get; set; }
 
     /// <summary>
     /// List of Resource Uri of Public IPs for Internet Ingress Scenario.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
@@ -119,8 +120,8 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// Network Profile containing configurations for Public and Private NIC.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--network-profile")]
-    public bool? NetworkProfile { get; set; }
+    [CliOption("--network-profile", GroupValues = true)]
+    public IEnumerable<string>? NetworkProfile { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -143,20 +144,20 @@ public record AzNetworkVirtualApplianceUpdateOptions : AzOptions
     /// <summary>
     /// Virtual Appliance Scale Unit.
     /// </summary>
-    [CliFlag("--scale-unit")]
-    public bool? ScaleUnit { get; set; }
+    [CliOption("--scale-unit")]
+    public string? ScaleUnit { get; set; }
 
     /// <summary>
     /// Virtual Appliance Vendor.
     /// </summary>
-    [CliFlag("--vendor")]
-    public bool? Vendor { get; set; }
+    [CliOption("--vendor")]
+    public string? Vendor { get; set; }
 
     /// <summary>
     /// Virtual Appliance Version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Name or ID of the virtual hub to which the Security Partner Provider belongs.

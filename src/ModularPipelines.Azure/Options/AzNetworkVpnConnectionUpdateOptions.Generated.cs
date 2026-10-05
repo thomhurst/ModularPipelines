@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,32 +24,32 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Enable BGP (Border Gateway Protocol).  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-bgp")]
-    public bool? EnableBgp { get; set; }
+    [CliOption("--enable-bgp", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableBgp { get; set; }
 
     /// <summary>
     /// Bypass ExpressRoute gateway for data forwarding. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--express-route-gateway-bypass")]
-    public bool? ExpressRouteGatewayBypass { get; set; }
+    [CliOption("--express-route-gateway-bypass", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ExpressRouteGatewayBypass { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Connection routing weight.
     /// </summary>
-    [CliFlag("--routing-weight")]
-    public bool? RoutingWeight { get; set; }
+    [CliOption("--routing-weight")]
+    public string? RoutingWeight { get; set; }
 
     /// <summary>
     /// Shared IPSec key.
     /// </summary>
-    [CliFlag("--shared-key")]
-    public bool? SharedKey { get; set; }
+    [CliOption("--shared-key")]
+    public string? SharedKey { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
@@ -59,8 +60,8 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Enable policy-based traffic selectors.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--use-policy-based-traffic-selectors")]
-    public bool? UsePolicyBasedTrafficSelectors { get; set; }
+    [CliOption("--use-policy-based-traffic-selectors", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? UsePolicyBasedTrafficSelectors { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -71,8 +72,8 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,14 +90,14 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Gateway connection authentication type.  Allowed values: Certificate, PSK.
     /// </summary>
-    [CliOption("--auth-type", ShortForm = "--authentication-type")]
+    [CliOption("--auth-type")]
     public string? AuthType { get; set; }
 
     /// <summary>
     /// Certificate Authentication information for a certificate based authentication connection.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--cert-auth", ShortForm = "--certificate-authentication")]
-    public bool? CertAuth { get; set; }
+    [CliOption("--cert-auth", GroupValues = true)]
+    public IEnumerable<string>? CertAuth { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
@@ -107,8 +108,8 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     /// <summary>
     /// Connection name.
     /// </summary>
-    [CliFlag("--name", ShortForm = "-n")]
-    public bool? Name { get; set; }
+    [CliOption("--name", ShortForm = "-n")]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

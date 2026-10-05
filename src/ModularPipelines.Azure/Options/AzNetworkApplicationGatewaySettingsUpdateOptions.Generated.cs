@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,26 +69,26 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Whether to use host name of the backend server as the host header.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--backend-pool-host-name")]
-    public bool? BackendPoolHostName { get; set; }
+    [CliOption("--backend-pool-host-name", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BackendPoolHostName { get; set; }
 
     /// <summary>
     /// Host header sent to the backend servers.
     /// </summary>
-    [CliFlag("--host-name")]
-    public bool? HostName { get; set; }
+    [CliOption("--host-name")]
+    public string? HostName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Number of the destination port on the backend.
     /// </summary>
-    [CliFlag("--port")]
-    public bool? Port { get; set; }
+    [CliOption("--port")]
+    public string? Port { get; set; }
 
     /// <summary>
     /// Name or ID of the probe to associate with the settings.
@@ -110,8 +111,8 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Request timeout in seconds.
     /// </summary>
-    [CliFlag("--timeout")]
-    public bool? Timeout { get; set; }
+    [CliOption("--timeout")]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -122,8 +123,8 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -140,7 +141,7 @@ public record AzNetworkApplicationGatewaySettingsUpdateOptions : AzOptions
     /// <summary>
     /// Whether to send Proxy Protocol header to backend servers over TCP or TLS protocols. Default value is false.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-l4-client-ip")]
-    public bool? EnableL4ClientIp { get; set; }
+    [CliOption("--enable-l4-client-ip", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableL4ClientIp { get; set; }
 
 }

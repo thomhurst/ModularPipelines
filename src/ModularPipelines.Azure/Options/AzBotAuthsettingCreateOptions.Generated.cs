@@ -114,7 +114,7 @@ public record AzBotAuthsettingCreateOptions : AzOptions
     /// <summary>
     /// Parameter values for service provider parameters. Usage: --parameters key=value key1=value1.
     /// </summary>
-    [CliOption("--parameters")]
-    public string? Parameters { get; set; }
+    [CliOption("--parameters", GroupValues = true)]
+    public IEnumerable<string>? Parameters { get; set; }
 
 }

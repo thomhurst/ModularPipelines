@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions : AzOptions
     /// </summary>
     /// <param name="PolicyConfig">List of Throttling Policy Objects.</param>
     public AzEventhubsNamespaceApplicationGroupPolicyAddOptions(
-        IEnumerable<string> PolicyConfig
+        IEnumerable<CliValueGroup> PolicyConfig
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(PolicyConfig);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(PolicyConfig));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliValueGroup>(PolicyConfig));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions : AzOptions
         this.PolicyConfig = PolicyConfig;
     }
 
-    public void Deconstruct(out IEnumerable<string> PolicyConfig)
+    public void Deconstruct(out IEnumerable<CliValueGroup> PolicyConfig)
     {
         PolicyConfig = this.PolicyConfig;
     }
@@ -51,13 +52,13 @@ public record AzEventhubsNamespaceApplicationGroupPolicyAddOptions : AzOptions
     /// <summary>
     /// List of Throttling Policy Objects.
     /// </summary>
-    [CliOption("--policy-config", ShortForm = "--throttling-policy-config", GroupValues = true)]
-    public IEnumerable<string> PolicyConfig { get; private init; }
+    [CliOption("--policy-config", GroupValues = true)]
+    public IEnumerable<CliValueGroup> PolicyConfig { get; private init; }
 
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

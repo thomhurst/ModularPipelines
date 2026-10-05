@@ -46,8 +46,8 @@ public record AzFunctionappConfigSslUnbindOptions : AzOptions
     /// <summary>
     /// The custom domain name. If empty, hostnames will be selected automatically.
     /// </summary>
-    [CliFlag("--hostname")]
-    public bool? Hostname { get; set; }
+    [CliOption("--hostname")]
+    public string? Hostname { get; set; }
 
     /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.

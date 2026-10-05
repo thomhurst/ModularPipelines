@@ -27,12 +27,23 @@ public record AzVmNicSetOptions : AzOptions
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     /// <param name="VmName">The name of the Virtual Machine. You can configure the default using `az configure --defaults vm=&lt;name&gt;`.</param>
     public AzVmNicSetOptions(
-        string Nics,
+        IEnumerable<string> Nics,
         string ResourceGroup,
         string VmName
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Nics);
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Nics);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Nics));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Nics));
+            }
+
+            Nics = materialized;
+        }
         this.Nics = Nics;
         global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
         this.ResourceGroup = ResourceGroup;
@@ -40,7 +51,7 @@ public record AzVmNicSetOptions : AzOptions
         this.VmName = VmName;
     }
 
-    public void Deconstruct(out string Nics, out string ResourceGroup, out string VmName)
+    public void Deconstruct(out IEnumerable<string> Nics, out string ResourceGroup, out string VmName)
     {
         Nics = this.Nics;
         ResourceGroup = this.ResourceGroup;
@@ -50,8 +61,8 @@ public record AzVmNicSetOptions : AzOptions
     /// <summary>
     /// Names or IDs of NICs.
     /// </summary>
-    [CliOption("--nics")]
-    public string Nics { get; private init; }
+    [CliOption("--nics", GroupValues = true)]
+    public IEnumerable<string> Nics { get; private init; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

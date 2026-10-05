@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +25,8 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The app configuration id to store configuration.
     /// </summary>
-    [CliFlag("--appconfig-id")]
-    public bool? AppConfigId { get; set; }
+    [CliOption("--appconfig-id")]
+    public string? AppConfigId { get; set; }
 
     /// <summary>
     /// The client type used on the webapp.  Allowed values: django, dotnet, dotnet-internal, go, java, nodejs, none, php, python, ruby, springBoot.
@@ -41,14 +43,14 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The additional connection string properties used to build connection string.
     /// </summary>
-    [CliFlag("--connstr-props")]
-    public bool? ConnstrProps { get; set; }
+    [CliOption("--connstr-props", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? ConnstrProps { get; set; }
 
     /// <summary>
     /// The customized keys used to change default configuration names. Key is the original name, value is the customized name.
     /// </summary>
-    [CliFlag("--customized-keys")]
-    public bool? CustomizedKeys { get; set; }
+    [CliOption("--customized-keys", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? CustomizedKeys { get; set; }
 
     /// <summary>
     /// Name of the webapp. Required if '--source-id' is not specified.None.
@@ -59,8 +61,8 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// Skip executing creation operation when no updates to an existing connection.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-recreate")]
-    public bool? NoRecreate { get; set; }
+    [CliOption("--no-recreate", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoRecreate { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.
@@ -71,8 +73,8 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// Whether to disable some configuration steps. Use configinfo to disbale configuration information changes on source. Use publicnetwork to disable public network access configuration.Use auth to skip auth configuration such as enabling managed identity and granting RBAC roles.  Allowed values: auth, configinfo, publicnetwork.
     /// </summary>
-    [CliOption("--opt-out")]
-    public string? OptOut { get; set; }
+    [CliOption("--opt-out", GroupValues = true)]
+    public IEnumerable<string>? OptOut { get; set; }
 
     /// <summary>
     /// The resource group which contains the webapp. Required if '-- source-id' is not specified.None.
@@ -101,7 +103,7 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The resource group which contains the MongoDB Atlas. Required if '--target-id' is not specified.
     /// </summary>
-    [CliOption("--target-resource-group", ShortForm = "--tg")]
+    [CliOption("--target-resource-group")]
     public string? TargetResourceGroup { get; set; }
 
     /// <summary>
@@ -113,7 +115,8 @@ public record AzWebappConnectionCreateMongodbAtlasOptions : AzOptions
     /// <summary>
     /// The connection string for secret auth. Usage: --secret secret=XX
     /// </summary>
-    [CliFlag("--secret")]
-    public bool? Secret { get; set; }
+    [SecretValue]
+    [CliOption("--secret", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Secret { get; set; }
 
 }

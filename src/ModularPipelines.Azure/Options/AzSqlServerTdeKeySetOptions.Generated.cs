@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -46,14 +47,14 @@ public record AzSqlServerTdeKeySetOptions : AzOptions
     /// <summary>
     /// The key auto rotation opt in status. Can be either true or false.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--auto-rotation-enabled")]
-    public bool? AutoRotationEnabled { get; set; }
+    [CliOption("--auto-rotation-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AutoRotationEnabled { get; set; }
 
     /// <summary>
     /// The Azure Key Vault key identifier of the server key. An example key identifier is "https://YourVaultName.vault.azure.n et/keys/YourKeyName/01234567890123456789012345678901".
     /// </summary>
-    [CliFlag("--kid", ShortForm = "-k")]
-    public bool? Kid { get; set; }
+    [CliOption("--kid", ShortForm = "-k")]
+    public string? Kid { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

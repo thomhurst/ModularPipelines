@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -29,8 +30,8 @@ public record AzMonitorAccountUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -47,8 +48,8 @@ public record AzMonitorAccountUpdateOptions : AzOptions
     /// <summary>
     /// Flag that indicates whether to enable access using resource permissions.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-access-using-resource-permissions", ShortForm = "--enable-res-perm")]
-    public bool? EnableAccessUsingResourcePermissions { get; set; }
+    [CliOption("--enable-access-using-resource-permissions", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAccessUsingResourcePermissions { get; set; }
 
     /// <summary>
     /// Gets or sets allow or disallow public network access to Azure Monitor Workspace.  Allowed values: Disabled, Enabled.
@@ -59,8 +60,8 @@ public record AzMonitorAccountUpdateOptions : AzOptions
     /// <summary>
     /// Resource tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--tags")]
-    public string? Tags { get; set; }
+    [CliOption("--tags", GroupValues = true)]
+    public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
     /// The name of the Azure Monitor workspace.  The name is case insensitive.
@@ -71,7 +72,7 @@ public record AzMonitorAccountUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

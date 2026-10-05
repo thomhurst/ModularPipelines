@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzAcrReplicationCreateOptions : AzOptions
     /// <summary>
     /// Allow routing to this replication via the registry global endpoint. If disabled, requests to the global endpoint will not be routed to the replica. Data syncing to the replica will continue regardless of the global endpoint routing status. Default: true. Allowed values: false, true.
     /// </summary>
-    [CliOption("--global-endpoint-routing")]
-    public bool? GlobalEndpointRouting { get; set; }
+    [CliOption("--global-endpoint-routing", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? GlobalEndpointRouting { get; set; }
 
     /// <summary>
     /// The name of the replication. Default to the location name.
@@ -75,7 +76,13 @@ public record AzAcrReplicationCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
+
+    /// <summary>
+    /// Indicates whether or not zone redundancy should be enabled for this registry or replication. For more information, such as supported locations, please visit https://aka.ms/acr/az. Zone- redundancy cannot be updated. Defaults to 'Disabled'.  Allowed values: Disabled, Enabled. WARNING: Argument '--zone-redundancy' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--zone-redundancy")]
+    public string? ZoneRedundancy { get; set; }
 
 }

@@ -68,20 +68,20 @@ public record AzSynapseSqlScriptImportOptions : AzOptions
     /// <summary>
     /// The SQL script additional properties.
     /// </summary>
-    [CliFlag("--additional-properties")]
-    public bool? AdditionalProperties { get; set; }
+    [CliOption("--additional-properties")]
+    public string? AdditionalProperties { get; set; }
 
     /// <summary>
     /// The SQL script description.
     /// </summary>
-    [CliFlag("--description")]
-    public bool? Description { get; set; }
+    [CliOption("--description")]
+    public string? Description { get; set; }
 
     /// <summary>
     /// The folder that this SQL script is in. If not specified, this SQL script will appear at the root level. Eg: folder/subfolder1.
     /// </summary>
-    [CliFlag("--folder-name")]
-    public bool? FolderName { get; set; }
+    [CliOption("--folder-name")]
+    public string? FolderName { get; set; }
 
     /// <summary>
     /// Do not wait for the long-running operation to finish.

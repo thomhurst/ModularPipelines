@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +24,20 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// Enable the certificate.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enabled")]
-    public bool? Enabled { get; set; }
+    [CliOption("--enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Enabled { get; set; }
 
     /// <summary>
     /// JSON encoded policy definition. Use @{file} to load from a file(e.g. @my_policy.json).
     /// </summary>
-    [CliFlag("--policy", ShortForm = "-p")]
-    public bool? Policy { get; set; }
+    [CliOption("--policy", ShortForm = "-p")]
+    public string? Policy { get; set; }
 
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// Id of the certificate. If specified all other 'Id' arguments should be omitted.
@@ -59,7 +60,7 @@ public record AzKeyvaultCertificateSetAttributesOptions : AzOptions
     /// <summary>
     /// The certificate version. If omitted, uses the latest version.
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
 }

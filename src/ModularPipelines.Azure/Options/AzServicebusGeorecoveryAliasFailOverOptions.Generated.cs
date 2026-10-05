@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzServicebusGeorecoveryAliasFailOverOptions : AzOptions
     /// <summary>
     /// Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--is-safe-failover")]
-    public bool? IsSafeFailover { get; set; }
+    [CliOption("--is-safe-failover", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsSafeFailover { get; set; }
 
     /// <summary>
     /// The Disaster Recovery configuration name.
     /// </summary>
-    [CliFlag("--alias", ShortForm = "-a")]
-    public bool? Alias { get; set; }
+    [CliOption("--alias", ShortForm = "-a")]
+    public string? Alias { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -55,7 +55,7 @@ public record AzApimApiExportOptions : AzOptions
     /// <summary>
     /// Specify the format of the exporting API.  Allowed values: OpenApiJsonFile, OpenApiJsonUrl, OpenApiYamlFile, OpenApiYamlUrl, SwaggerFile, SwaggerUrl, WadlFile, WadlUrl, WsdlFile, WsdlUrl.
     /// </summary>
-    [CliOption("--ef", ShortForm = "--export-format")]
+    [CliOption("--ef")]
     public string Ef { get; private init; }
 
     /// <summary>

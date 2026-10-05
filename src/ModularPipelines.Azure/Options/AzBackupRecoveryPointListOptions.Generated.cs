@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -85,14 +86,14 @@ public record AzBackupRecoveryPointListOptions : AzOptions
     /// <summary>
     /// The end date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--end-date")]
-    public bool? EndDate { get; set; }
+    [CliOption("--end-date")]
+    public string? EndDate { get; set; }
 
     /// <summary>
     /// Use this flag to retrieve the recoverypoints that are ready to be moved to destination-tier.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--is-ready-for-move")]
-    public bool? IsReadyForMove { get; set; }
+    [CliOption("--is-ready-for-move", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IsReadyForMove { get; set; }
 
     /// <summary>
     /// Use this flag to retrieve recommended archivable recoverypoints.
@@ -103,8 +104,8 @@ public record AzBackupRecoveryPointListOptions : AzOptions
     /// <summary>
     /// The start date of the range in UTC (d-m-Y).
     /// </summary>
-    [CliFlag("--start-date")]
-    public bool? StartDate { get; set; }
+    [CliOption("--start-date")]
+    public string? StartDate { get; set; }
 
     /// <summary>
     /// The destination/target tier to which a particular recovery point has to be moved.  Allowed values: VaultArchive.

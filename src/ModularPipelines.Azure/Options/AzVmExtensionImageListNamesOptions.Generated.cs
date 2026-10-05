@@ -35,7 +35,7 @@ public record AzVmExtensionImageListNamesOptions : AzOptions
     /// <summary>
     /// Image publisher name.
     /// </summary>
-    [CliFlag("--publisher", ShortForm = "-p")]
-    public bool? Publisher { get; set; }
+    [CliOption("--publisher", ShortForm = "-p")]
+    public string? Publisher { get; set; }
 
 }

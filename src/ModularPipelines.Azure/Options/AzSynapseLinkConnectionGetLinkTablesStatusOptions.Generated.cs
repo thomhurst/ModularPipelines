@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -57,13 +58,14 @@ public record AzSynapseLinkConnectionGetLinkTablesStatusOptions : AzOptions
     /// <summary>
     /// Continuation token to query table status.
     /// </summary>
-    [CliFlag("--continuation-token")]
-    public bool? ContinuationToken { get; set; }
+    [SecretValue]
+    [CliOption("--continuation-token")]
+    public string? ContinuationToken { get; set; }
 
     /// <summary>
     /// Max segment count to query table status.  Default: 50.
     /// </summary>
-    [CliFlag("--max-segment-count")]
-    public bool? MaxSegmentCount { get; set; }
+    [CliOption("--max-segment-count")]
+    public string? MaxSegmentCount { get; set; }
 
 }

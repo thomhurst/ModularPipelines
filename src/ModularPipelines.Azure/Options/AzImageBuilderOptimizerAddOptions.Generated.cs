@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,14 +24,14 @@ public record AzImageBuilderOptimizerAddOptions : AzOptions
     /// <summary>
     /// Temporarily store the object in the local cache instead of sending to Azure. Use `az cache` commands to view/clear.
     /// </summary>
-    [CliFlag("--defer")]
-    public bool? Defer { get; set; }
+    [CliOption("--defer", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? Defer { get; set; }
 
     /// <summary>
     /// If this parameter is set to true, VM boot time will be improved by optimizing the final customized image output.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-vm-boot")]
-    public bool? EnableVmBoot { get; set; }
+    [CliOption("--enable-vm-boot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableVmBoot { get; set; }
 
     /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.

@@ -46,8 +46,8 @@ public record AzResourceLinkUpdateOptions : AzOptions
     /// <summary>
     /// Notes for the link.
     /// </summary>
-    [CliFlag("--notes")]
-    public bool? Notes { get; set; }
+    [CliOption("--notes")]
+    public string? Notes { get; set; }
 
     /// <summary>
     /// Fully-qualified resource ID of the resource link target.

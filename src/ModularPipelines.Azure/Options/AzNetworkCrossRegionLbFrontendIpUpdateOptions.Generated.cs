@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,8 +69,8 @@ public record AzNetworkCrossRegionLbFrontendIpUpdateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs. Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -80,8 +81,8 @@ public record AzNetworkCrossRegionLbFrontendIpUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list. Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -98,19 +99,19 @@ public record AzNetworkCrossRegionLbFrontendIpUpdateOptions : AzOptions
     /// <summary>
     /// The DDoS protection settings associated with the frontend IP configuration.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--ddos-settings")]
-    public bool? DdosSettings { get; set; }
+    [CliOption("--ddos-settings", GroupValues = true)]
+    public IEnumerable<string>? DdosSettings { get; set; }
 
     /// <summary>
     /// Set this property to false to disable default outbound connectivity for all VMs in the subnet.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--default-outbound", ShortForm = "--default-outbound-access")]
-    public bool? DefaultOutbound { get; set; }
+    [CliOption("--default-outbound", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? DefaultOutbound { get; set; }
 
     /// <summary>
     /// A list of IPAM Pools for allocating IP address prefixes.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ipam-allocations", ShortForm = "--ipam-pool-prefix-allocations", GroupValues = true)]
+    [CliOption("--ipam-allocations", GroupValues = true)]
     public IEnumerable<string>? IpamAllocations { get; set; }
 
     /// <summary>
@@ -128,8 +129,8 @@ public record AzNetworkCrossRegionLbFrontendIpUpdateOptions : AzOptions
     /// <summary>
     /// Reference to an existing service gateway. Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliFlag("--service-gateway")]
-    public bool? ServiceGateway { get; set; }
+    [CliOption("--service-gateway", GroupValues = true)]
+    public IEnumerable<string>? ServiceGateway { get; set; }
 
     /// <summary>
     /// Set this property to Tenant to allow sharing subnet with other subscriptions in your AAD tenant. This property can only be set if defaultOutboundAccess is set to false, both properties can only be set if subnet is empty.  Allowed values: DelegatedServices, Tenant.

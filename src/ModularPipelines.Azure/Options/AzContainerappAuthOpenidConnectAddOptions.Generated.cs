@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -46,32 +47,33 @@ public record AzContainerappAuthOpenidConnectAddOptions : AzOptions
     /// <summary>
     /// The Client ID of the app used for login.
     /// </summary>
-    [CliFlag("--client-id")]
-    public bool? ClientId { get; set; }
+    [CliOption("--client-id")]
+    public string? ClientId { get; set; }
 
     /// <summary>
     /// The client secret.
     /// </summary>
-    [CliFlag("--client-secret")]
-    public bool? ClientSecret { get; set; }
+    [SecretValue]
+    [CliOption("--client-secret")]
+    public string? ClientSecret { get; set; }
 
     /// <summary>
     /// The app secret name that contains the client secret of the relying party application.
     /// </summary>
-    [CliFlag("--client-secret-name")]
-    public bool? ClientSecretName { get; set; }
+    [CliOption("--client-secret-name")]
+    public string? ClientSecretName { get; set; }
 
     /// <summary>
     /// The endpoint that contains all the configuration endpoints for the provider.
     /// </summary>
-    [CliFlag("--openid-configuration")]
-    public bool? OpenidConfiguration { get; set; }
+    [CliOption("--openid-configuration")]
+    public string? OpenidConfiguration { get; set; }
 
     /// <summary>
     /// A list of the scopes that should be requested while authenticating.
     /// </summary>
-    [CliOption("--scopes", GroupValues = true)]
-    public IEnumerable<string>? Scopes { get; set; }
+    [CliOption("--scopes")]
+    public string? Scopes { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.

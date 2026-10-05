@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,13 +69,13 @@ public record AzNetworkNicIpConfigCreateOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Space-separated list of names or IDs of application gateway backend address pools to associate with the NIC. If names are used, `--gateway-name` must be specified.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--ag-address-pools", ShortForm = "--app-gateway-address-pools", GroupValues = true)]
+    [CliOption("--ag-address-pools", GroupValues = true)]
     public IEnumerable<string>? AgAddressPools { get; set; }
 
     /// <summary>
@@ -86,26 +87,26 @@ public record AzNetworkNicIpConfigCreateOptions : AzOptions
     /// <summary>
     /// Space-separated list of application security groups.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
-    [CliOption("--application-security-groups", ShortForm = "--asgs", GroupValues = true)]
+    [CliOption("--application-security-groups", GroupValues = true)]
     public IEnumerable<string>? ApplicationSecurityGroups { get; set; }
 
     /// <summary>
     /// Set to make this configuration the primary one for the NIC.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--make-primary")]
-    public bool? MakePrimary { get; set; }
+    [CliOption("--make-primary", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? MakePrimary { get; set; }
 
     /// <summary>
     /// Static IP address to use or ""('""' in PowerShell) to use a dynamic address.
     /// </summary>
-    [CliFlag("--private-ip-address")]
-    public bool? PrivateIpAddress { get; set; }
+    [CliOption("--private-ip-address")]
+    public string? PrivateIpAddress { get; set; }
 
     /// <summary>
     /// The private IP address prefix length. If specified and the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP address.
     /// </summary>
-    [CliFlag("--private-ip-address-prefix-length", ShortForm = "--private-ip-prefix-len")]
-    public bool? PrivateIpAddressPrefixLength { get; set; }
+    [CliOption("--private-ip-address-prefix-length")]
+    public string? PrivateIpAddressPrefixLength { get; set; }
 
     /// <summary>
     /// Version of private IP address to use.  Allowed values: IPv4, IPv6. Default: IPv4.

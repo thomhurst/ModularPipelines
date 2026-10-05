@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,8 +24,8 @@ public record AzNetappfilesAccountBackupVaultBackupDeleteOptions : AzOptions
     /// <summary>
     /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Do not prompt for confirmation.
@@ -41,7 +42,7 @@ public record AzNetappfilesAccountBackupVaultBackupDeleteOptions : AzOptions
     /// <summary>
     /// The name of the backup.
     /// </summary>
-    [CliOption("--backup-name", ShortForm = "-n")]
+    [CliOption("--backup-name", ShortForm = "-b")]
     public string? BackupName { get; set; }
 
     /// <summary>

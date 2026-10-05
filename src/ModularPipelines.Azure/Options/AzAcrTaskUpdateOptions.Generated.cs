@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -56,6 +57,12 @@ public record AzAcrTaskUpdateOptions : AzOptions
     public string Registry { get; private init; }
 
     /// <summary>
+    /// The name of the agent pool. WARNING: Argument '--agent-pool' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--agent-pool")]
+    public string? AgentPool { get; set; }
+
+    /// <summary>
     /// Build argument in '--arg name[=value]' format. Multiples are supported by passing '--arg name[=value]' multiple times. IMPORTANT: This parameter should not include passwords, access tokens, or sensitive information of any kind. This parameter value will be visible to the ACR team for debugging purposes.
     /// </summary>
     [CliOption("--arg")]
@@ -76,14 +83,14 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// The full URL to the source code repository (Requires '.git' suffix for a github repo) or a remote tarball (e.g., 'http://server/context.tar.gz'), or the repository of an OCI artifact in an Azure container registry (e.g., 'oci://myregistry.azurecr.io/myartifact:mytag'). If '/dev/null' is specified, the value will be set to None and ignored. This is a required argument if the task is not a system task.
     /// </summary>
-    [CliFlag("--context", ShortForm = "-c")]
-    public bool? Context { get; set; }
+    [CliOption("--context", ShortForm = "-c")]
+    public string? Context { get; set; }
 
     /// <summary>
     /// The CPU configuration in terms of number of cores required for the run.
     /// </summary>
     [CliOption("--cpu")]
-    public string? Cpu { get; set; }
+    public int? Cpu { get; set; }
 
     /// <summary>
     /// Relative path of the the task/docker file to the source code root folder. Task files must be suffixed with '.yaml' or piped from the standard input using '-'.
@@ -98,16 +105,22 @@ public record AzAcrTaskUpdateOptions : AzOptions
     public IEnumerable<string>? Image { get; set; }
 
     /// <summary>
+    /// The repository and tag template for run log artifact using the format: 'log/repo:tag' (e.g., 'acr/logs:{{.Run.ID}}'). Only applicable to CMK enabled registry. WARNING: Argument '--log-template' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--log-template")]
+    public string? LogTemplate { get; set; }
+
+    /// <summary>
     /// Indicates whether the image cache is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-cache")]
-    public bool? NoCache { get; set; }
+    [CliOption("--no-cache", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoCache { get; set; }
 
     /// <summary>
     /// Indicates whether the image built should be pushed to the registry.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-push")]
-    public bool? NoPush { get; set; }
+    [CliOption("--no-push", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoPush { get; set; }
 
     /// <summary>
     /// The platform where build/task is run, Eg, 'windows' and 'linux'. When it's used in build commands, it also can be specified in 'os/arch/variant' format for the resulting image. Eg, linux/arm/v7. The 'arch' and 'variant' parts are optional.
@@ -168,14 +181,14 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// The task values/parameters file path relative to the source context.
     /// </summary>
-    [CliFlag("--values")]
-    public bool? Values { get; set; }
+    [CliOption("--values")]
+    public string? Values { get; set; }
 
     /// <summary>
     /// Indicates whether the base image trigger is enabled. Allowed values: false, true.
     /// </summary>
-    [CliOption("--base-image-trigger-enabled")]
-    public bool? BaseImageTriggerEnabled { get; set; }
+    [CliOption("--base-image-trigger-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BaseImageTriggerEnabled { get; set; }
 
     /// <summary>
     /// The type of the auto trigger for base image dependency updates.  Allowed values: All, Runtime.
@@ -186,8 +199,8 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the source control commit trigger is enabled.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--commit-trigger-enabled")]
-    public bool? CommitTriggerEnabled { get; set; }
+    [CliOption("--commit-trigger-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? CommitTriggerEnabled { get; set; }
 
     /// <summary>
     /// The access token used to access the source control provider.
@@ -199,7 +212,19 @@ public record AzAcrTaskUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether the source control pull request trigger is enabled. The trigger is disabled by default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--pull-request-trigger-enabled")]
-    public bool? PullRequestTriggerEnabled { get; set; }
+    [CliOption("--pull-request-trigger-enabled", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PullRequestTriggerEnabled { get; set; }
+
+    /// <summary>
+    /// The full URL of the endpoint to receive base image update trigger notifications. WARNING: Argument '--update-trigger-endpoint' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--update-trigger-endpoint")]
+    public string? UpdateTriggerEndpoint { get; set; }
+
+    /// <summary>
+    /// Indicates whether to include metadata about the base image trigger in the payload alongwith the update trigger token, when a notification is sent.  Allowed values: Default, Token. WARNING: Argument '--update-trigger-payload-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--update-trigger-payload-type")]
+    public string? UpdateTriggerPayloadType { get; set; }
 
 }

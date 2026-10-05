@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -63,20 +64,20 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Allow or disallow public access to all blobs or containers in the storage account. If not specified, the default value is false for new accounts to follow best security practices. When true, containers in the account may be configured for public access. Note that setting this property to true does not enable anonymous access to any data in the account. The additional step of configuring the public access setting for a container is required to enable anonymous access.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-blob-public-access")]
-    public bool? AllowBlobPublicAccess { get; set; }
+    [CliOption("--allow-blob-public-access", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowBlobPublicAccess { get; set; }
 
     /// <summary>
     /// Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. If not specified, the default value is false for new accounts to follow best security practices.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-cross-tenant-replication", ShortForm = "-r")]
-    public bool? AllowCrossTenantReplication { get; set; }
+    [CliOption("--allow-cross-tenant-replication", ShortForm = "-r", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowCrossTenantReplication { get; set; }
 
     /// <summary>
     /// Indicate whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-shared-key-access", ShortForm = "-k")]
-    public bool? AllowSharedKeyAccess { get; set; }
+    [CliOption("--allow-shared-key-access", ShortForm = "-k", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowSharedKeyAccess { get; set; }
 
     /// <summary>
     /// Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. Allowed values: AAD, All, PrivateLink.
@@ -93,19 +94,19 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Indicates whether Blob Geo Priority Replication is enabled for the storage account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--blob-geo-sla", ShortForm = "--enable-blob-geo-priority-replication")]
-    public bool? BlobGeoSla { get; set; }
+    [CliOption("--blob-geo-sla", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? BlobGeoSla { get; set; }
 
     /// <summary>
     /// User domain assigned to the storage account. Name is the CNAME source.
     /// </summary>
-    [CliFlag("--custom-domain")]
-    public bool? CustomDomain { get; set; }
+    [CliOption("--custom-domain")]
+    public string? CustomDomain { get; set; }
 
     /// <summary>
     /// Allow you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. Allowed values: AzureDnsZone, Standard.
     /// </summary>
-    [CliOption("--dns-endpoint-type", ShortForm = "--endpoint")]
+    [CliOption("--dns-endpoint-type")]
     public string? DnsEndpointType { get; set; }
 
     /// <summary>
@@ -117,8 +118,8 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Allow the blob service to exhibit filesystem semantics. This property can be enabled only when storage account kind is StorageV2.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-hierarchical-namespace", ShortForm = "--hns")]
-    public bool? EnableHierarchicalNamespace { get; set; }
+    [CliOption("--enable-hierarchical-namespace", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableHierarchicalNamespace { get; set; }
 
     /// <summary>
     /// Enable the capability to support large file shares with more than 5 TiB capacity for storage account.Once the property is enabled, the feature cannot be disabled. Currently only supported for LRS and ZRS replication types, hence account conversions to geo-redundant accounts would not be possible. For more information, please refer to https://go.microsoft. com/fwlink/?linkid=2086047.
@@ -129,20 +130,20 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Enable local user features.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-local-user")]
-    public bool? EnableLocalUser { get; set; }
+    [CliOption("--enable-local-user", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableLocalUser { get; set; }
 
     /// <summary>
     /// NFS 3.0 protocol support enabled if sets to true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-nfs-v3")]
-    public bool? EnableNfsV3 { get; set; }
+    [CliOption("--enable-nfs-v3", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableNfsV3 { get; set; }
 
     /// <summary>
     /// Enable Secure File Transfer Protocol. Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-sftp")]
-    public bool? EnableSftp { get; set; }
+    [CliOption("--enable-sftp", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSftp { get; set; }
 
     /// <summary>
     /// Set the encryption key type for Queue service. "Account": Queue will be encrypted with account-scoped encryption key. "Service": Queue will always be encrypted with service- scoped keys. Currently the default encryption key type is "Service". Allowed values: Account, Service.
@@ -159,14 +160,20 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Specifies which service(s) to encrypt.  Allowed values: blob, file, queue, table.
     /// </summary>
-    [CliOption("--encryption-services")]
-    public string? EncryptionServices { get; set; }
+    [CliOption("--encryption-services", GroupValues = true)]
+    public IEnumerable<string>? EncryptionServices { get; set; }
 
     /// <summary>
     /// Allow https traffic only to storage service if set to true. The default value is true.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--https-only")]
-    public bool? HttpsOnly { get; set; }
+    [CliOption("--https-only", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? HttpsOnly { get; set; }
+
+    /// <summary>
+    /// Expiration period in days of the Key Policy assigned to the storage account. WARNING: Argument '--key-expiration-period-in-days' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--key-exp-days")]
+    public int? KeyExpDays { get; set; }
 
     /// <summary>
     /// Indicate the type of storage account. Allowed values: BlobStorage, BlockBlobStorage, FileStorage, Storage, StorageV2.  Default: StorageV2.
@@ -195,19 +202,19 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--require-infrastructure-encryption", ShortForm = "-i")]
-    public bool? RequireInfrastructureEncryption { get; set; }
+    [CliOption("--require-infrastructure-encryption", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? RequireInfrastructureEncryption { get; set; }
 
     /// <summary>
     /// Expiration period of the SAS Policy assigned to the storage account, DD.HH:MM:SS.
     /// </summary>
-    [CliFlag("--sas-exp", ShortForm = "--sas-expiration-period")]
-    public bool? SasExp { get; set; }
+    [CliOption("--sas-exp")]
+    public string? SasExp { get; set; }
 
     /// <summary>
     /// The action to be performed when --sas-expiration-period is violated. The 'Log' action can be used for audit purposes and the 'Block' action can be used to block and deny the usage of SAS tokens that do not adhere to the sas policy expiration period. The default action is 'Log'. Allowed values: Block, Log.
     /// </summary>
-    [CliOption("--sas-exp-action", ShortForm = "--sas-expiration-action")]
+    [CliOption("--sas-exp-action")]
     public string? SasExpAction { get; set; }
 
     /// <summary>
@@ -219,8 +226,8 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
-    [CliOption("--tags", GroupValues = true)]
-    public IEnumerable<string>? Tags { get; set; }
+    [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
     /// The availability zone pinning policy for the storage account.  Allowed values: Any, None.
@@ -231,26 +238,26 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Describes the available zones for the product where storage account resource can be created.
     /// </summary>
-    [CliFlag("--zones")]
-    public bool? Zones { get; set; }
+    [CliOption("--zones", GroupValues = true)]
+    public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
     /// This property can only be changed for disabled and unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. Allowed values: false, true.
     /// </summary>
-    [CliOption("--allow-append", ShortForm = "-w")]
-    public bool? AllowAppend { get; set; }
+    [CliOption("--allow-append", ShortForm = "-w", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllowAppend { get; set; }
 
     /// <summary>
     /// The account level immutability property. The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-alw")]
-    public bool? EnableAlw { get; set; }
+    [CliOption("--enable-alw", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableAlw { get; set; }
 
     /// <summary>
     /// The immutability period for the blobs in the container since the policy creation, in days.
     /// </summary>
-    [CliFlag("--immutability-period", ShortForm = "--immutability-period-in-days")]
-    public bool? ImmutabilityPeriod { get; set; }
+    [CliOption("--immutability-period")]
+    public string? ImmutabilityPeriod { get; set; }
 
     /// <summary>
     /// Defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allow- protected-append-write property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.  Allowed values: Disabled, Locked, Unlocked.
@@ -267,44 +274,44 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Specify the security identifier (SID) for Azure Storage. Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--azure-storage-sid")]
-    public bool? AzureStorageSid { get; set; }
+    [CliOption("--azure-storage-sid")]
+    public string? AzureStorageSid { get; set; }
 
     /// <summary>
     /// Specify the domain GUID. Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--domain-guid")]
-    public bool? DomainGuid { get; set; }
+    [CliOption("--domain-guid")]
+    public string? DomainGuid { get; set; }
 
     /// <summary>
     /// Specify the primary domain that the AD DNS server is authoritative for. Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--domain-name")]
-    public bool? DomainName { get; set; }
+    [CliOption("--domain-name")]
+    public string? DomainName { get; set; }
 
     /// <summary>
     /// Specify the security identifier (SID). Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--domain-sid")]
-    public bool? DomainSid { get; set; }
+    [CliOption("--domain-sid")]
+    public string? DomainSid { get; set; }
 
     /// <summary>
     /// Specify the Active Directory forest to get. Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--forest-name")]
-    public bool? ForestName { get; set; }
+    [CliOption("--forest-name")]
+    public string? ForestName { get; set; }
 
     /// <summary>
     /// Specify the NetBIOS domain name. Required when --enable-files-adds is set to True.
     /// </summary>
-    [CliFlag("--net-bios-domain-name")]
-    public bool? NetBiosDomainName { get; set; }
+    [CliOption("--net-bios-domain-name")]
+    public string? NetBiosDomainName { get; set; }
 
     /// <summary>
     /// Specify the Active Directory SAMAccountName for Azure Storage.
     /// </summary>
-    [CliFlag("--sam-account-name")]
-    public bool? SamAccountName { get; set; }
+    [CliOption("--sam-account-name")]
+    public string? SamAccountName { get; set; }
 
     /// <summary>
     /// Default share permission for users using Kerberos authentication if RBAC role is not assigned.  Allowed values: None, StorageFileDataSmbShareContributor, S torageFileDataSmbShareElevatedContrib utor, StorageFileDataSmbShareReader.
@@ -315,26 +322,26 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// Enable Azure Active Directory Domain Services authentication for Azure Files.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-files-aadds")]
-    public bool? EnableFilesAadds { get; set; }
+    [CliOption("--enable-files-aadds", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFilesAadds { get; set; }
 
     /// <summary>
     /// Enable Azure Files Active Directory Domain Service Kerberos Authentication for the storage account.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-files-aadkerb")]
-    public bool? EnableFilesAadkerb { get; set; }
+    [CliOption("--enable-files-aadkerb", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFilesAadkerb { get; set; }
 
     /// <summary>
     /// Enable Azure Files Active Directory Domain Service Authentication for storage account. When --enable-files-adds is set to true, Azure Active Directory Properties arguments must be provided.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-files-adds")]
-    public bool? EnableFilesAdds { get; set; }
+    [CliOption("--enable-files-adds", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableFilesAdds { get; set; }
 
     /// <summary>
     /// Specifies if managed identities can access SMB shares using OAuth. The default interpretation is false for this property.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--enable-smb-oauth")]
-    public bool? EnableSmbOauth { get; set; }
+    [CliOption("--enable-smb-oauth", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableSmbOauth { get; set; }
 
     /// <summary>
     /// The name of the KeyVault key.
@@ -357,20 +364,26 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// The version of the KeyVault key to use, which will opt out of implicit key rotation. Please use "" to opt in key auto-rotation again.
     /// </summary>
-    [CliFlag("--encryption-key-version")]
-    public bool? EncryptionKeyVersion { get; set; }
+    [CliOption("--encryption-key-version")]
+    public string? EncryptionKeyVersion { get; set; }
 
     /// <summary>
     /// ClientId of the multi-tenant application to be used in conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
     /// </summary>
-    [CliFlag("--key-vault-federated-client-id", ShortForm = "-f")]
-    public bool? KeyVaultFederatedClientId { get; set; }
+    [CliOption("--key-vault-federated-client-id", ShortForm = "-f")]
+    public string? KeyVaultFederatedClientId { get; set; }
 
     /// <summary>
     /// Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account.
     /// </summary>
     [CliOption("--key-vault-user-identity-id", ShortForm = "-u")]
     public string? KeyVaultUserIdentityId { get; set; }
+
+    /// <summary>
+    /// A boolean flag which indicates whether IPv6 storage endpoints are to be published.  Allowed values: false, true. WARNING: Argument '--publish-ipv6-endpoint' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--publish-ipv6-endpoint", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublishIpv6Endpoint { get; set; }
 
     /// <summary>
     /// The identity type.  Allowed values: None, SystemAssigned, SystemAssigned,UserAssigned, UserAssigned.
@@ -381,14 +394,14 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here.
     /// </summary>
-    [CliFlag("--user-identity-id")]
-    public bool? UserIdentityId { get; set; }
+    [CliOption("--user-identity-id")]
+    public string? UserIdentityId { get; set; }
 
     /// <summary>
     /// The action of virtual network rule. Possible value is Allow.  Default: Allow.
     /// </summary>
-    [CliFlag("--action")]
-    public bool? Action { get; set; }
+    [CliOption("--action")]
+    public string? Action { get; set; }
 
     /// <summary>
     /// Bypass traffic for space-separated uses.  Allowed values: AzureServices, Logging, Metrics, None.
@@ -417,14 +430,14 @@ public record AzStorageAccountCreateOptions : AzOptions
     /// <summary>
     /// A boolean flag which indicates whether internet routing storage endpoints are to be published. Allowed values: false, true.
     /// </summary>
-    [CliOption("--publish-internet-endpoints")]
-    public bool? PublishInternetEndpoints { get; set; }
+    [CliOption("--publish-internet-endpoints", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublishInternetEndpoints { get; set; }
 
     /// <summary>
     /// A boolean flag which indicates whether microsoft routing storage endpoints are to be published. Allowed values: false, true.
     /// </summary>
-    [CliOption("--publish-microsoft-endpoints")]
-    public bool? PublishMicrosoftEndpoints { get; set; }
+    [CliOption("--publish-microsoft-endpoints", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? PublishMicrosoftEndpoints { get; set; }
 
     /// <summary>
     /// Routing Choice defines the kind of network routing opted by the user. Allowed values: InternetRouting, MicrosoftRouting.

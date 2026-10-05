@@ -29,7 +29,7 @@ public record AzRedisIdentityAssignOptions : AzOptions
     /// <summary>
     /// One or more space separated resource IDs of user assigned identities.
     /// </summary>
-    [CliOption("--mi-user-assigned")]
+    [CliOption("--mi-user-assigned", GroupValues = true)]
     public IEnumerable<string>? MiUserAssigned { get; set; }
 
     /// <summary>

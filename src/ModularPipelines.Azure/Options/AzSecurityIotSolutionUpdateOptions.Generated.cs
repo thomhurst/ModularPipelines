@@ -63,7 +63,7 @@ public record AzSecurityIotSolutionUpdateOptions : AzOptions
     /// <summary>
     /// IoT Hub resource IDs.
     /// </summary>
-    [CliFlag("--iot-hubs")]
-    public bool? IotHubs { get; set; }
+    [CliOption("--iot-hubs")]
+    public string? IotHubs { get; set; }
 
 }

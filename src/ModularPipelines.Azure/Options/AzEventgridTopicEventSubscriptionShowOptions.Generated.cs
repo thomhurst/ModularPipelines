@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,13 +69,13 @@ public record AzEventgridTopicEventSubscriptionShowOptions : AzOptions
     /// <summary>
     /// Specify to indicate whether the full endpoint URL should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--full-ed-url", ShortForm = "--include-full-endpoint-url")]
-    public bool? FullEdUrl { get; set; }
+    [CliOption("--full-ed-url", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? FullEdUrl { get; set; }
 
     /// <summary>
     /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--include-attrib-secret", ShortForm = "--include-static-delivery-attribute-secret")]
-    public bool? IncludeAttribSecret { get; set; }
+    [CliOption("--include-attrib-secret", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeAttribSecret { get; set; }
 
 }

@@ -59,8 +59,8 @@ public record AzVmSecretFormatOptions : AzOptions
     /// <summary>
     /// Windows certificate store names. Default: My.
     /// </summary>
-    [CliFlag("--certificate-store")]
-    public bool? CertificateStore { get; set; }
+    [CliOption("--certificate-store")]
+    public string? CertificateStore { get; set; }
 
     /// <summary>
     /// Name or ID of the key vault.

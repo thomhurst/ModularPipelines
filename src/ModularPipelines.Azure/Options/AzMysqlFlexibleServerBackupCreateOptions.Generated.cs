@@ -68,7 +68,7 @@ public record AzMysqlFlexibleServerBackupCreateOptions : AzOptions
     /// <summary>
     /// The required parameters for creating and exporting backup of the given server. Is either a ServerBackupV2 type or a IO[bytes] type. Default value is None.
     /// </summary>
-    [CliFlag("--parameters")]
-    public bool? Parameters { get; set; }
+    [CliOption("--parameters")]
+    public string? Parameters { get; set; }
 
 }

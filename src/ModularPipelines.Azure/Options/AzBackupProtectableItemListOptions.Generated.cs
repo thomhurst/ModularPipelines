@@ -86,7 +86,7 @@ public record AzBackupProtectableItemListOptions : AzOptions
     /// <summary>
     /// Parent Server name of the item.
     /// </summary>
-    [CliFlag("--server-name")]
-    public bool? ServerName { get; set; }
+    [CliOption("--server-name")]
+    public string? ServerName { get; set; }
 
 }

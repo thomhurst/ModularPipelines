@@ -33,6 +33,12 @@ public record AzContainerappIngressTrafficSetOptions : AzOptions
     public IEnumerable<string>? RevisionWeight { get; set; }
 
     /// <summary>
+    /// A list of revision weight(s) for the container app. Space- separated values in 'revision_name=weight' format. For latest revision, use 'latest=weight'. WARNING: Option '--traffic-weight' has been deprecated and will be removed in a future release. Use '--revision-weight' instead.
+    /// </summary>
+    [CliOption("--traffic-weight", GroupValues = true)]
+    public IEnumerable<string>? TrafficWeight { get; set; }
+
+    /// <summary>
     /// One or more resource IDs (space-delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
     [CliOption("--ids", GroupValues = true)]

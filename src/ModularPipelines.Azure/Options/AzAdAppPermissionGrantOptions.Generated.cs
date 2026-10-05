@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -25,12 +26,12 @@ public record AzAdAppPermissionGrantOptions : AzOptions
     /// </summary>
     /// <param name="Scope">A space-separated list of the claim values for delegated permissions which should be included in access tokens for the resource application (the API). For example, openid User.Read GroupMember.Read.All. Each claim value should match the value field of one of the delegated permissions defined by the API, listed in the oauth2PermissionScopes property of the resource service principal.</param>
     public AzAdAppPermissionGrantOptions(
-        IEnumerable<string> Scope
+        IEnumerable<CliOptionValue> Scope
     )
     {
         {
             global::System.ArgumentNullException.ThrowIfNull(Scope);
-            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Scope));
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<CliOptionValue>(Scope));
             if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
             {
                 throw new global::System.ArgumentException(
@@ -43,7 +44,7 @@ public record AzAdAppPermissionGrantOptions : AzOptions
         this.Scope = Scope;
     }
 
-    public void Deconstruct(out IEnumerable<string> Scope)
+    public void Deconstruct(out IEnumerable<CliOptionValue> Scope)
     {
         Scope = this.Scope;
     }
@@ -51,8 +52,8 @@ public record AzAdAppPermissionGrantOptions : AzOptions
     /// <summary>
     /// A space-separated list of the claim values for delegated permissions which should be included in access tokens for the resource application (the API). For example, openid User.Read GroupMember.Read.All. Each claim value should match the value field of one of the delegated permissions defined by the API, listed in the oauth2PermissionScopes property of the resource service principal.
     /// </summary>
-    [CliOption("--scope", GroupValues = true)]
-    public IEnumerable<string> Scope { get; private init; }
+    [CliOption("--scope", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue> Scope { get; private init; }
 
     /// <summary>
     /// Indicates whether authorization is granted for the client application to impersonate all users or only a specific user. 'AllPrincipals' indicates authorization to impersonate all users. 'Principal' indicates authorization to impersonate a specific user. Consent on behalf of all users can be granted by an administrator. Non-admin users may be authorized to consent on behalf of themselves in some cases, for some delegated permissions.  Allowed values: AllPrincipals, Principal.  Default: AllPrincipals.

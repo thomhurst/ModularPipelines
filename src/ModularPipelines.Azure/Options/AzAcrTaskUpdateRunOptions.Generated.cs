@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,8 +58,8 @@ public record AzAcrTaskUpdateRunOptions : AzOptions
     /// <summary>
     /// Indicates whether the run should be archived.  Allowed values: false, true.
     /// </summary>
-    [CliOption("--no-archive")]
-    public bool? NoArchive { get; set; }
+    [CliOption("--no-archive", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoArchive { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.

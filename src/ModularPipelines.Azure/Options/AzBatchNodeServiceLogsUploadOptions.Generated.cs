@@ -87,14 +87,14 @@ public record AzBatchNodeServiceLogsUploadOptions : AzOptions
     /// <summary>
     /// The end of the time range from which to upload Batch Service log file(s). Any log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. If omitted, the default is to upload all logs available after the startTime. Expected format is an ISO-8601 timestamp.
     /// </summary>
-    [CliFlag("--end-time")]
-    public bool? EndTime { get; set; }
+    [CliOption("--end-time")]
+    public string? EndTime { get; set; }
 
     /// <summary>
     /// The start of the time range from which to upload Batch Service log file(s). Any log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. Required. Expected format is an ISO-8601 timestamp.
     /// </summary>
-    [CliFlag("--start-time")]
-    public bool? StartTime { get; set; }
+    [CliOption("--start-time")]
+    public string? StartTime { get; set; }
 
     /// <summary>
     /// The ARM resource id of the user assigned identity.

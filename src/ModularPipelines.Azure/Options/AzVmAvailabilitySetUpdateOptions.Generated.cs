@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -23,20 +24,20 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// The configuration parameter used while creating event grid and resource graph scheduled event setting.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--additional-events", ShortForm = "--additional-scheduled-events")]
-    public bool? AdditionalEvents { get; set; }
+    [CliOption("--additional-events", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AdditionalEvents { get; set; }
 
     /// <summary>
     /// The configuration parameter used while publishing scheduled events additional publishing targets. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-reboot", ShortForm = "--enable-user-reboot-scheduled-events")]
-    public bool? EnableReboot { get; set; }
+    [CliOption("--enable-reboot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableReboot { get; set; }
 
     /// <summary>
     /// The configuration parameter used while creating user initiated redeploy scheduled event setting creation.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--enable-redeploy", ShortForm = "--enable-user-redeploy-scheduled-events")]
-    public bool? EnableRedeploy { get; set; }
+    [CliOption("--enable-redeploy", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? EnableRedeploy { get; set; }
 
     /// <summary>
     /// Name or ID of the proximity placement group that the availability set should be associated with.
@@ -47,14 +48,14 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// Specify if Scheduled Events should be auto-approved when all instances are down. Its default value is true. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--all-instance-down", ShortForm = "--enable-all-instance-down")]
-    public bool? AllInstanceDown { get; set; }
+    [CliOption("--all-instance-down", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? AllInstanceDown { get; set; }
 
     /// <summary>
     /// Specify the api-version to determine which Scheduled Events configuration schema version will be delivered.
     /// </summary>
-    [CliFlag("--scheduled-events-api-version", ShortForm = "--se-api-version")]
-    public bool? ScheduledEventsApiVersion { get; set; }
+    [CliOption("--scheduled-events-api-version")]
+    public string? ScheduledEventsApiVersion { get; set; }
 
     /// <summary>
     /// Add an object to a list of objects by specifying a path and key value pairs.  Example: `--add property.listProperty &lt;key=value, string or JSON string&gt;`.
@@ -65,8 +66,8 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// When using 'set' or 'add', preserve string literals instead of attempting to convert to JSON. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--force-string")]
-    public bool? ForceString { get; set; }
+    [CliOption("--force-string", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? ForceString { get; set; }
 
     /// <summary>
     /// Remove a property or an element from a list.  Example: `--remove property.list &lt;indexToRemove&gt;` OR `--remove propertyToRemove`.
@@ -89,7 +90,7 @@ public record AzVmAvailabilitySetUpdateOptions : AzOptions
     /// <summary>
     /// One or more resource IDs (space- delimited). It should be a complete resource ID containing all information of 'Resource Id' arguments. You should provide either --ids or other 'Resource Id' arguments.
     /// </summary>
-    [CliOption("--ids")]
+    [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>

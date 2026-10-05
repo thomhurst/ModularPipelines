@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -40,32 +42,32 @@ public record AzStorageShareRmListOptions : AzOptions
     /// <summary>
     /// The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
     /// </summary>
-    [CliOption("--account-name", ShortForm = "--storage-account")]
+    [CliOption("--account-name")]
     public string AccountName { get; private init; }
 
     /// <summary>
     /// Optional. When specified, only share names starting with the filter will be listed.
     /// </summary>
-    [CliFlag("--filter")]
-    public bool? Filter { get; set; }
+    [CliOption("--filter")]
+    public string? Filter { get; set; }
 
     /// <summary>
     /// Include soft deleted file shares when specified. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--include-deleted")]
-    public bool? IncludeDeleted { get; set; }
+    [CliOption("--include-deleted", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeDeleted { get; set; }
 
     /// <summary>
     /// Include file share snapshots when specified. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--include-snapshot")]
-    public bool? IncludeSnapshot { get; set; }
+    [CliOption("--include-snapshot", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? IncludeSnapshot { get; set; }
 
     /// <summary>
     /// Optional. Specified maximum number of shares that can be included in the list.
     /// </summary>
-    [CliFlag("--maxpagesize")]
-    public bool? Maxpagesize { get; set; }
+    [CliOption("--maxpagesize")]
+    public string? Maxpagesize { get; set; }
 
     /// <summary>
     /// Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.
@@ -76,13 +78,14 @@ public record AzStorageShareRmListOptions : AzOptions
     /// <summary>
     /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
     /// </summary>
-    [CliFlag("--max-items")]
-    public bool? MaxItems { get; set; }
+    [CliOption("--max-items")]
+    public string? MaxItems { get; set; }
 
     /// <summary>
     /// Token to specify where to start paginating. This is the token value from a previously truncated response.
     /// </summary>
-    [CliFlag("--next-token")]
-    public bool? NextToken { get; set; }
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
 }

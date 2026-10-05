@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -68,14 +69,14 @@ public record AzNetappfilesAccountBackupVaultBackupRestoreFileOptions : AzOption
     /// <summary>
     /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
-    [CliOption("--no-wait")]
-    public bool? NoWait { get; set; }
+    [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? NoWait { get; set; }
 
     /// <summary>
     /// Destination folder where the files will be restored. The path name should start with a forward slash. If it is omitted from request then restore is done at the root folder of the destination volume by default.
     /// </summary>
-    [CliFlag("--restore-file-path")]
-    public bool? RestoreFilePath { get; set; }
+    [CliOption("--restore-file-path")]
+    public string? RestoreFilePath { get; set; }
 
     /// <summary>
     /// The name of the NetApp account.

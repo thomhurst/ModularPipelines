@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Azure.Options;
 
@@ -57,14 +58,14 @@ public record AzPolicyAttestationCreateOptions : AzOptions
     /// <summary>
     /// The time the evidence was assessed.
     /// </summary>
-    [CliFlag("--assessment-date")]
-    public bool? AssessmentDate { get; set; }
+    [CliOption("--assessment-date")]
+    public string? AssessmentDate { get; set; }
 
     /// <summary>
     /// Comments describing why this attestation was created.
     /// </summary>
-    [CliFlag("--comments")]
-    public bool? Comments { get; set; }
+    [CliOption("--comments")]
+    public string? Comments { get; set; }
 
     /// <summary>
     /// The compliance state that should be set on the resource.  Allowed values: Compliant, NonCompliant, Unknown.
@@ -75,49 +76,49 @@ public record AzPolicyAttestationCreateOptions : AzOptions
     /// <summary>
     /// The policy definition reference ID from a policy set definition that the attestation is setting the state for. If the policy assignment assigns a policy set definition the attestation can choose a definition within the set definition with this property or omit this and set the state for the entire set definition.
     /// </summary>
-    [CliFlag("--definition-reference-id")]
-    public bool? DefinitionReferenceId { get; set; }
+    [CliOption("--definition-reference-id")]
+    public string? DefinitionReferenceId { get; set; }
 
     /// <summary>
     /// The evidence supporting the compliance state set in this attestation.
     /// </summary>
-    [CliFlag("--evidence")]
-    public bool? Evidence { get; set; }
+    [CliOption("--evidence", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliValueGroup>? Evidence { get; set; }
 
     /// <summary>
     /// The time the compliance state should expire.
     /// </summary>
-    [CliFlag("--expires-on")]
-    public bool? ExpiresOn { get; set; }
+    [CliOption("--expires-on")]
+    public string? ExpiresOn { get; set; }
 
     /// <summary>
     /// Additional metadata in space- separated key=value pairs for an attestation. This overwrites any existing metadata for the attestation.
     /// </summary>
-    [CliOption("--metadata")]
-    public string? Metadata { get; set; }
+    [CliOption("--metadata", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
+    public IEnumerable<CliOptionValue>? Metadata { get; set; }
 
     /// <summary>
     /// The person responsible for setting the state of the resource. This value is typically an Azure Active Directory object ID.
     /// </summary>
-    [CliFlag("--owner")]
-    public bool? Owner { get; set; }
+    [CliOption("--owner")]
+    public string? Owner { get; set; }
 
     /// <summary>
     /// Provider namespace (Ex: Microsoft.Provider).
     /// </summary>
-    [CliFlag("--namespace")]
-    public bool? Namespace { get; set; }
+    [CliOption("--namespace")]
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// The parent path (Ex: resourceTypeA/nameA/resourceTypeB/nam eB).
     /// </summary>
-    [CliFlag("--parent")]
-    public bool? Parent { get; set; }
+    [CliOption("--parent")]
+    public string? Parent { get; set; }
 
     /// <summary>
     /// Resource ID or resource name. If a name is given, please provide the resource group and other relevant resource id arguments.
     /// </summary>
-    [CliOption("--resource", ShortForm = "--resource-id")]
+    [CliOption("--resource")]
     public string? Resource { get; set; }
 
     /// <summary>
