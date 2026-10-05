@@ -1,0 +1,160 @@
+
+Usage:
+  pip list [options]
+
+Description:
+  List installed packages, including editables.
+
+  Packages are listed in a case-insensitive sorted order.
+
+List Options:
+  -o, --outdated              List outdated packages
+  -u, --uptodate              List uptodate packages
+  -e, --editable              List editable projects.
+  -l, --local                 If in a virtualenv that has global access, do
+                              not list globally-installed packages.
+  --user                      Only output packages installed in user-site.
+  --path <path>               Restrict to the specified installation path for
+                              listing packages (can be used multiple times).
+  --format <list_format>      Select the output format among: columns
+                              (default), freeze, or json. The 'freeze' format
+                              cannot be used with the
+                              --outdated option.
+  --not-required              List packages that are not dependencies of
+                              installed packages.
+  --exclude-editable          Exclude editable package from output.
+  --include-editable          Include editable package in output.
+  --exclude <package>         Exclude specified package from the output
+
+Package Selection Options:
+  --pre                       Include pre-release and development versions. By
+                              default, pip only finds stable versions.
+  --all-releases <release_control>
+                              Allow all release types (including pre-releases)
+                              for a package. Can be supplied multiple times,
+                              and each time adds to the existing value.
+                              Accepts either ":all:" to allow pre-releases for
+                              all packages, ":none:" to empty the set (notice
+                              the colons), or one or more package names with
+                              commas between them (no colons). Cannot be used
+                              with --pre.
+  --only-final <release_control>
+                              Only allow final releases (no pre-releases) for
+                              a package. Can be supplied multiple times, and
+                              each time adds to the existing value. Accepts
+                              either ":all:" to disable pre-releases for all
+                              packages, ":none:" to empty the set, or one or
+                              more package names with commas between them.
+                              Cannot be used with --pre.
+  --no-binary <format_control>
+                              Do not download binary packages. Cached binary
+                              packages may still be used. Can be supplied
+                              multiple times, and each time adds to the
+                              existing value. Accepts either ':all:' to
+                              disable all binary packages, ':none:' to empty
+                              the set (notice the colons), or one or more
+                              package names with commas between them (no
+                              colons). Note that some packages are tricky to
+                              compile and may fail to install when this option
+                              is used on them.
+  --only-binary <format_control>
+                              Do not use source packages. Can be supplied
+                              multiple times, and each time adds to the
+                              existing value. Accepts either ":all:" to
+                              disable all source packages, ":none:" to empty
+                              the set, or one or more package names with
+                              commas between them. Packages without binary
+                              distributions will fail to install when this
+                              option is used on them.
+  --prefer-binary             Prefer binary packages over source packages,
+                              even if the source packages are newer.
+
+Package Index Options:
+  -i, --index-url <url>       Base URL of the Python Package Index (default
+                              https://pypi.org/simple). This should point to a
+                              repository compliant with PEP 503 (the simple
+                              repository API) or a local directory laid out in
+                              the same format.
+  --extra-index-url <url>     Extra URLs of package indexes to use in addition
+                              to --index-url. Should
+                              follow the same rules as
+                              --index-url.
+  --no-index                  Ignore package index (only looking
+                              at --find-links URLs
+                              instead).
+  --refresh-package <refresh_package>
+                              Refresh package index information for the given
+                              packages instead of using cached responses.
+                              Accepts ':all:' to apply to all packages, or a
+                              comma-separated list of package names.
+  -f, --find-links <url>      If a URL or path to an html file, then parse for
+                              links to archives such as sdist (.tar.gz) or
+                              wheel (.whl) files. If a local path or file://
+                              URL that's a directory, then look for archives
+                              in the directory listing. Links to VCS project
+                              URLs are not supported.
+  --uploaded-prior-to <datetime_or_duration>
+                              Only consider packages uploaded prior to the
+                              given value. Accepts an ISO 8601 datetime (e.g.,
+                              '2023-01-01T00:00:00Z', uses local timezone if
+                              none specified) or a duration in days (e.g.,
+                              'P3D' for packages uploaded at least 3 days
+                              ago). Only effective when using indexes that
+                              provide upload-time metadata.
+
+General Options:
+  -h, --help                  Show help.
+  --debug                     Let unhandled exceptions propagate outside the
+                              main subroutine, instead of logging them to
+                              stderr.
+  --isolated                  Run pip in an isolated mode, ignoring
+                              environment variables and user configuration.
+  --require-virtualenv        Allow pip to only run in a virtual environment;
+                              exit with an error otherwise.
+  --python <python>           Run pip with the specified Python interpreter.
+  -v, --verbose               Give more output. Option is additive, and can be
+                              used up to 3 times.
+  -V, --version               Show version and exit.
+  -q, --quiet                 Give less output. Option is additive, and can be
+                              used up to 3 times (corresponding to WARNING,
+                              ERROR, and CRITICAL logging levels).
+  --log <path>                Path to a verbose appending log.
+  --no-input                  Disable prompting for input.
+  --keyring-provider <keyring_provider>
+                              Enable the credential lookup via the keyring
+                              library if user input is allowed. Specify which
+                              mechanism to use [auto, disabled, import,
+                              subprocess]. (default: auto)
+  --proxy <proxy>             Specify a proxy in the form
+                              scheme://[user:passwd@]proxy.server:port.
+  --no-proxy-env              Do not read proxy configuration from environment
+                              variables.
+  --retries <retries>         Maximum attempts to establish a new HTTP
+                              connection. (default: 5)
+  --timeout <sec>             Set the socket timeout (default 15 seconds).
+  --exists-action <action>    Default action when a path already exists:
+                              (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+  --trusted-host <hostname>   Mark this host or host:port pair as trusted,
+                              even though it does not have valid or any HTTPS.
+  --cert <path>               Path to PEM-encoded CA certificate bundle. If
+                              provided, overrides the default. See 'SSL
+                              Certificate Verification' in pip documentation
+                              for more information.
+  --client-cert <path>        Path to SSL client certificate, a single file
+                              containing the private key and the certificate
+                              in PEM format.
+  --cache-dir <dir>           Store the cache data in <dir>.
+  --no-cache-dir              Disable the cache.
+  --disable-pip-version-check
+                              Don't periodically check PyPI to determine
+                              whether a new version of pip is available for
+                              download. Implied with --no-
+                              index.
+  --no-color                  Suppress colored output.
+  --use-feature <feature>     Enable new functionality, that may be backward
+                              incompatible.
+  --use-deprecated <feature>  Enable deprecated functionality, that will be
+                              removed in the future.
+  --resume-retries <resume_retries>
+                              Maximum attempts to resume or restart an
+                              incomplete download. (default: 5)

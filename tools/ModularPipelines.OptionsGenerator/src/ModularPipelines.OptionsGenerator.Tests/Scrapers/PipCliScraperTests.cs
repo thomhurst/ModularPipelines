@@ -9,6 +9,60 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class PipCliScraperTests
 {
     [Test]
+    [Arguments("install")]
+    [Arguments("download")]
+    [Arguments("wheel")]
+    [Arguments("lock")]
+    public async Task Current_Script_Inputs_Are_Repeatable_And_Satisfy_Required_Input(string verb)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", $"pip-26.2.1-{verb}-help.txt"));
+        var scraper = new PipCliScraper(new RequirementHelpExecutor(verb, help),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<PipCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        var leaf = commands.Single(command => command.FullCommand == $"pip {verb}");
+        var scripts = leaf.Options.Single(option => option.SwitchName == "--requirements-from-script");
+        await Assert.That(scripts.AcceptsMultipleValues).IsTrue();
+        await Assert.That(scripts.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(leaf.RequiredAlternativeGroups.Single().PropertyNames).Contains("RequirementsFromScript");
+    }
+
+    [Test]
+    [Arguments("install")]
+    [Arguments("download")]
+    [Arguments("wheel")]
+    [Arguments("lock")]
+    [Arguments("index")]
+    [Arguments("list")]
+    public async Task Current_Refresh_Option_Preserves_Accumulating_Callback(string verb)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", $"pip-26.2.1-{verb}-help.txt"));
+        var command = await new TestPipCliScraper().Parse(["pip", verb], help);
+        var refresh = command!.Options.Single(option => option.SwitchName == "--refresh-package");
+        await Assert.That(refresh.AcceptsMultipleValues).IsTrue();
+        await Assert.That(refresh.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(refresh.IsFlag).IsFalse();
+    }
+
+    [Test]
+    public async Task Current_General_Options_Include_Proxy_Environment_Flag()
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(
+            AppContext.BaseDirectory, "Fixtures", "pip-26.2.1-root-help.txt"));
+        var options = new TestPipCliScraper().ParseGlobals(help);
+        var proxyEnvironment = options.Single(option => option.SwitchName == "--no-proxy-env");
+        await Assert.That(options).Count().IsEqualTo(26);
+        await Assert.That(proxyEnvironment.IsFlag).IsTrue();
+        await Assert.That(proxyEnvironment.CSharpType).IsEqualTo("bool?");
+    }
+
+    [Test]
     [Arguments("--verbose", "-v")]
     [Arguments("--quiet", "-q")]
     public async Task Additive_General_Flags_Preserve_Counts(string name, string alias)
