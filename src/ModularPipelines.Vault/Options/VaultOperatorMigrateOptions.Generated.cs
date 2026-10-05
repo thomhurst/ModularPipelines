@@ -21,4 +21,34 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("operator", "migrate")]
 public record VaultOperatorMigrateOptions : VaultOptions
 {
+    /// <summary>
+    /// Path to a configuration file. This configuration file should contain only migrator directives.
+    /// </summary>
+    [CliOption("-config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// Log verbosity level. Supported values (in order of detail) are "trace", "debug", "info", "warn", and "error". These are not case sensitive. The default is info. This can also be specified via the VAULT_LOG_LEVEL environment variable.
+    /// </summary>
+    [CliOption("-log-level", Format = OptionFormat.EqualsSeparated)]
+    public string? LogLevel { get; set; }
+
+    /// <summary>
+    /// Specifies the maximum number of parallel migration threads (goroutines) that may be used when migrating. This can speed up the migration process on slow backends but uses more resources. The default is 10.
+    /// </summary>
+    [CliOption("-max-parallel", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxParallel { get; set; }
+
+    /// <summary>
+    /// Reset the migration lock. No migration will occur. The default is false.
+    /// </summary>
+    [CliFlag("-reset")]
+    public bool? Reset { get; set; }
+
+    /// <summary>
+    /// Only copy keys lexicographically at or after this value.
+    /// </summary>
+    [CliOption("-start", Format = OptionFormat.EqualsSeparated)]
+    public string? Start { get; set; }
+
 }

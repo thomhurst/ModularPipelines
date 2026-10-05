@@ -21,4 +21,28 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("operator", "diagnose")]
 public record VaultOperatorDiagnoseOptions : VaultOptions
 {
+    /// <summary>
+    /// Path to a Vault configuration file or directory of configuration files. This flag can be specified multiple times to load multiple configurations. If the path is a directory, all files which end in .hcl or .json are loaded.
+    /// </summary>
+    [CliOption("-config", Format = OptionFormat.EqualsSeparated)]
+    public IEnumerable<string>? Config { get; set; }
+
+    /// <summary>
+    /// Dump all information collected by Diagnose. The default is false.
+    /// </summary>
+    [CliFlag("-debug")]
+    public bool? Debug { get; set; }
+
+    /// <summary>
+    /// The output format
+    /// </summary>
+    [CliOption("-format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Skip the health checks named as arguments. May be 'listener', 'storage', or 'autounseal'.
+    /// </summary>
+    [CliOption("-skip", Format = OptionFormat.EqualsSeparated)]
+    public string? Skip { get; set; }
+
 }
