@@ -21,6 +21,7 @@ public partial class DotNetCliScraper
         var directory = Directory.CreateTempSubdirectory("dotnet-test-help-");
         try
         {
+            // Resolve sdk.paths against the original invocation directory before running help in isolation.
             var settings = await CreateIsolatedSdkSettingsAsync(Environment.CurrentDirectory, version, cancellationToken).ConfigureAwait(false);
             await File.WriteAllTextAsync(Path.Combine(directory.FullName, "global.json"), settings, cancellationToken).ConfigureAwait(false);
             return await ExecuteAndRecordHelpCommandAsync(commandPath, ExecutablePath, GetHelpArguments(commandPath),
