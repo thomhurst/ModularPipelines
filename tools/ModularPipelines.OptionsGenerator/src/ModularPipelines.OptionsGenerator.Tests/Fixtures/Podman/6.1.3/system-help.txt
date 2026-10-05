@@ -1,0 +1,20 @@
+Manage podman
+
+Description:
+  Manage podman
+
+Usage:
+  podman system [command]
+
+Available Commands:
+  check       Check storage consistency
+  connection  Manage remote API service destinations
+  df          Show podman disk usage
+  events      Show podman system events
+  info        Display podman system information
+  migrate     Migrate containers
+  prune       Remove unused data
+  renumber    Migrate lock numbers
+  reset       Reset podman storage
+  service     Run API service
+

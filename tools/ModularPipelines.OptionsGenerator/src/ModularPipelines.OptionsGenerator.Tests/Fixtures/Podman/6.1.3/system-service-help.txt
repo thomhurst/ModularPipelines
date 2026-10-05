@@ -1,0 +1,24 @@
+Run API service
+
+Description:
+  Run an API service
+
+Enable a listening service for API access to Podman commands.
+
+
+Usage:
+  podman system service [options] [URI]
+
+Examples:
+  podman system service --time=0 unix:///tmp/podman.sock
+  podman system service --time=0 tcp://localhost:8888
+  podman system service --time=0 --tls-cert=tls.crt --tls-key=tls.key tcp://localhost:8888
+  podman system service --time=0 --tls-cert=tls.crt --tls-key=tls.key --tls-client-ca=ca.crt tcp://localhost:8888
+
+Options:
+      --cors string            Set CORS Headers
+  -t, --time uint              Time until the service session expires in seconds.  Use 0 to disable the timeout (default 5)
+      --tls-cert string        PEM file containing TLS serving certificate.
+      --tls-client-ca string   Only trust client connections with certificates signed by this CA PEM file
+      --tls-key string         PEM file containing TLS serving certificate private key
+

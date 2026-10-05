@@ -1,0 +1,12 @@
+Check if an image exists in local storage
+
+Description:
+  If the named image exists in local storage, podman image exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman image exists IMAGE
+
+Examples:
+  podman image exists ID
+  podman image exists IMAGE && podman pull IMAGE
+

@@ -1,0 +1,7 @@
+Usage:  docker compose stop [OPTIONS] [SERVICE...]
+
+Stop services
+
+Options:
+      --dry-run       Execute command in dry run mode
+  -t, --timeout int   Specify a shutdown timeout in seconds

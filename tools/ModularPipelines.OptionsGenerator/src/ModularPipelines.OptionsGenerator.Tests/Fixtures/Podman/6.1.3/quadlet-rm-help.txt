@@ -1,0 +1,21 @@
+Remove Quadlets
+
+Description:
+  Remove one or more installed Quadlets from the current user
+
+Usage:
+  podman quadlet rm [options] [QUADLET|APPLICATION...]
+
+Examples:
+  podman quadlet rm test.container
+  podman quadlet rm --force mysql.container
+  podman quadlet rm --all --reload-systemd=false
+  podman quadlet rm --recursive app
+
+Options:
+  -a, --all              Remove all Quadlets for the current user
+  -f, --force            Remove running quadlets
+  -i, --ignore           Do not error for Quadlets that do not exist
+      --recursive        Remove all Quadlets belonging to the specified application and its directory
+      --reload-systemd   Reload systemd after removal (default true)
+

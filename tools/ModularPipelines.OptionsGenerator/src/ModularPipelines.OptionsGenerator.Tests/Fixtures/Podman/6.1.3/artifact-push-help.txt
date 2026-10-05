@@ -1,0 +1,26 @@
+Push an OCI artifact
+
+Description:
+  Push an OCI artifact from local storage to an image registry
+
+Usage:
+  podman artifact push [options] ARTIFACT.
+
+Examples:
+  podman artifact push quay.io/myimage/myartifact:latest
+
+Options:
+      --authfile string                      Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string                      Path to a directory containing TLS certificates and keys
+      --creds Credentials                    Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+      --digestfile string                    Write the digest of the pushed image to the specified file
+  -q, --quiet                                Suppress output information when pushing images
+      --retry uint                           number of times to retry in case of failure when performing push (default 3)
+      --retry-delay string                   delay between retries in case of push failures
+      --sign-by string                       Add a signature at the destination using the specified key
+      --sign-by-sigstore PATH                Sign the image using a sigstore parameter file at PATH
+      --sign-by-sigstore-private-key PATH    Sign the image using a sigstore private key at PATH
+      --sign-by-sq-fingerprint FINGERPRINT   Sign the image using a Sequoia-PGP key with the specified FINGERPRINT
+      --sign-passphrase-file PATH            Read a passphrase for signing an image from PATH
+      --tls-verify                           Require HTTPS and verify certificates when contacting registries (default true)
+

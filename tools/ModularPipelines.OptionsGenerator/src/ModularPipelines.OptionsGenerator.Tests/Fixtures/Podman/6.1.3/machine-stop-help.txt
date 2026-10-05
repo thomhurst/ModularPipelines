@@ -1,0 +1,11 @@
+Stop an existing machine
+
+Description:
+  Stop a managed virtual machine 
+
+Usage:
+  podman machine stop [MACHINE]
+
+Examples:
+  podman machine stop podman-machine-default
+

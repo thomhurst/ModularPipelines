@@ -1,0 +1,17 @@
+Initialize one or more containers
+
+Description:
+  Initialize one or more containers, creating the OCI spec and mounts for inspection. Container names or IDs can be used.
+
+Usage:
+  podman container init [options] CONTAINER [CONTAINER...]
+
+Examples:
+  podman container init 3c45ef19d893
+  podman container init test1
+
+Options:
+  -a, --all      Initialize all containers
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

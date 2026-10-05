@@ -1,0 +1,18 @@
+Remove unused images
+
+Description:
+  Removes dangling or unused images from local storage.
+
+Usage:
+  podman image prune [options]
+
+Examples:
+  podman image prune
+
+Options:
+  -a, --all                  Remove all images not in use by containers, not just dangling ones
+      --build-cache          Remove persistent build cache created by --mount=type=cache
+      --external             Remove images even when they are used by external containers (e.g., by build containers)
+      --filter stringArray   Provide filter values (e.g. 'label=<key>=<value>')
+  -f, --force                Do not prompt for confirmation
+

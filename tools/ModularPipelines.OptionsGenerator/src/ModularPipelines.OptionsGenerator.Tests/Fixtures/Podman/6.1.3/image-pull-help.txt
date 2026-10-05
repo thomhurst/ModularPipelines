@@ -1,0 +1,31 @@
+Pull an image from a registry
+
+Description:
+  Pulls an image from a registry and stores it locally.
+
+  An image can be pulled by tag or digest. If a tag is not specified, the image with the 'latest' tag is pulled.
+
+Usage:
+  podman image pull [options] IMAGE [IMAGE...]
+
+Examples:
+  podman image pull imageName
+  podman image pull fedora:latest
+
+Options:
+  -a, --all-tags                     All tagged images in the repository will be pulled
+      --arch ARCH                    Use ARCH instead of the architecture of the machine for choosing images
+      --authfile string              Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir Pathname            Pathname of a directory containing TLS certificates and keys
+      --creds Credentials            Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+      --decryption-key stringArray   Key needed to decrypt the image (e.g. /path/to/key.pem)
+      --disable-content-trust        This is a Docker specific option and is a NOOP
+      --os OS                        Use OS instead of the running OS for choosing images
+      --platform string              Specify the platform for selecting the image.  (Conflicts with arch and os)
+      --policy string                Pull image policy ("always"|"missing"|"never"|"newer") (default "always")
+  -q, --quiet                        Suppress output information when pulling images
+      --retry uint                   number of times to retry in case of failure when performing pull (default 3)
+      --retry-delay string           delay between retries in case of pull failures
+      --tls-verify                   Require HTTPS and verify certificates when contacting registries (default true)
+      --variant string               Use VARIANT instead of the running architecture variant for choosing images
+

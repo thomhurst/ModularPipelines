@@ -1,0 +1,32 @@
+Add images or artifacts to a manifest list or image index
+
+Description:
+  Adds an image or artifact to a manifest list or image index.
+
+Usage:
+  podman manifest add [options] LIST IMAGEORARTIFACT [IMAGEORARTIFACT...]
+
+Examples:
+  podman manifest add mylist:v1.11 image:v1.11-amd64
+  podman manifest add mylist:v1.11 transport:imageName
+
+Options:
+      --all                           add all of the list's images if the image is a list
+      --annotation annotation         set an annotation for the specified image
+      --arch architecture             override the architecture of the specified image
+      --artifact                      add all arguments as artifact files rather than as images
+      --artifact-config string        artifact configuration file
+      --artifact-config-type string   artifact configuration media type
+      --artifact-exclude-titles       refrain from setting "org.opencontainers.image.title" annotations on "layers"
+      --artifact-layer-type string    artifact layer media type
+      --artifact-subject string       artifact subject reference
+      --artifact-type string          override the artifactType value
+      --authfile string               path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string               use certificates at the specified path to access the registry
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+      --features features             override the features of the specified image
+      --os OS                         override the OS of the specified image
+      --os-version version            override the OS version of the specified image
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry (default true)
+      --variant Variant               override the Variant of the specified image
+

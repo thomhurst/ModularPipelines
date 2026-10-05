@@ -1,0 +1,122 @@
+Build a container image for multiple architectures
+
+Description:
+  Build images on farm nodes, then bundle them into a manifest list
+
+Usage:
+  podman farm build [options] [CONTEXT]
+
+Examples:
+  podman farm build [flags] buildContextDirectory
+
+Options:
+      --add-host host:ip                             add a custom host-to-IP mapping (host:ip) (default [])
+      --annotation stringArray                       set metadata for an image (default [])
+      --authfile string                              path of the authentication file.
+      --build-arg argument=value                     argument=value to supply to the builder
+      --build-arg-file argfile.conf                  argfile.conf containing lines of argument=value to supply to the builder
+      --build-context argument=value                 argument=value to supply additional build context to the builder
+      --cache-from stringArray                       remote repository list to utilise as potential cache source.
+      --cache-to stringArray                         remote repository list to utilise as potential cache destination.
+      --cache-ttl string                             only consider cache images under specified duration.
+      --cap-add strings                              add the specified capability when running (default [])
+      --cap-drop strings                             drop the specified capability when running (default [])
+      --cert-dir string                              use certificates at the specified path to access the registry
+      --cgroup-parent string                         optional parent cgroup for the container
+      --cgroupns string                              'private', or 'host'
+      --cleanup                                      Remove built images from farm nodes on success
+      --compat-volumes                               preserve the contents of VOLUMEs during RUN instructions
+      --compression-format string                    compression format to use for layers and cache
+      --compression-level int                        compression level to use for layers and cache
+      --cpp-flag stringArray                         set additional flag to pass to C preprocessor (cpp)
+      --cpu-period uint                              limit the CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                                limit the CPU CFS (Completely Fair Scheduler) quota
+  -c, --cpu-shares uint                              CPU shares (relative weight)
+      --cpuset-cpus string                           CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string                           memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
+      --created-annotation                           set an "org.opencontainers.image.created" annotation in the image (default true)
+      --creds [username[:password]]                  use [username[:password]] for accessing the registry
+      --decryption-key strings                       key needed to decrypt the image
+      --device stringArray                           additional devices to provide
+  -D, --disable-compression                          don't compress layers by default (default true)
+      --dns /etc/resolv.conf                         set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation of /etc/resolv.conf.
+      --dns-option strings                           set custom DNS options
+      --dns-search strings                           set custom DNS search domains
+      --env stringArray                              set environment variable for the image
+      --farm string                                  Farm to use for builds
+  -f, --file pathname or URL                         pathname or URL of a Dockerfile
+      --force-compression                            use the specified compression algorithm even if the destination contains a differently-compressed variant already
+      --force-rm                                     always remove intermediate containers after a build, even if the build is unsuccessful. (default true)
+      --format format                                format of the built image's manifest and metadata. Use BUILDAH_FORMAT environment variable to override. (default "oci")
+      --from string                                  image name used to replace the value in the first FROM instruction in the Containerfile
+      --group-add strings                            add additional groups to the primary container process. 'keep-groups' allows container processes to use supplementary groups.
+      --hooks-dir stringArray                        set the OCI hooks directory path (may be set multiple times)
+      --http-proxy                                   pass through HTTP Proxy environment variables (default true)
+      --identity-label                               add default identity label (default true)
+      --ignorefile string                            path to an alternate .dockerignore file
+      --iidfile file                                 file to write the image ID to
+      --iidfile-raw file                             file to write the image ID to (without algorithm prefix)
+      --inherit-annotations                          inherit the annotations from the base image or base stages. (default true)
+      --inherit-labels                               inherit the labels from the base image or base stages. (default true)
+      --ipc path                                     'private', path of IPC namespace to join, or 'host'
+      --isolation type                               type of process isolation to use. Use BUILDAH_ISOLATION environment variable to override. (default "rootless")
+      --jobs int                                     how many stages to run in parallel (default 1)
+      --label stringArray                            set metadata for an image (default [])
+      --layer-label stringArray                      set metadata for an intermediate image (default [])
+      --layers                                       use intermediate layers during build. Use BUILDAH_LAYERS environment variable to override. (default true)
+  -l, --local                                        Build image on local machine as well as on farm nodes (default true)
+      --logfile file                                 log to file instead of stdout/stderr
+  -m, --memory string                                memory limit (format: <number>[<unit>], where unit = b, k, m or g)
+      --memory-swap string                           swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --mount stringArray                            set transient mounts for each RUN instruction, e.g. type=secret,id=mysecret
+      --network string                               'private', 'none', 'ns:path' of network namespace to join, or 'host'
+      --no-cache                                     do not use existing cached images for the container build. Build from the start with a new set of cached layers.
+      --no-hostname                                  do not create new /etc/hostname file for RUN instructions, use the one from the base image.
+      --no-hosts                                     do not create new /etc/hosts file for RUN instructions, use the one from the base image.
+      --omit-history                                 omit build history information from built image
+      --os-feature feature                           set required OS feature for the target image in addition to values from the base image
+      --os-version version                           set required OS version for the target image instead of the value from the base image
+      --pid path                                     private, path of PID namespace to join, or 'host'
+      --platforms strings                            Build only on farm nodes that match the given platforms
+      --pull string[="always"]                       Pull image policy ("always"|"missing"|"never"|"newer") (default "missing")
+  -q, --quiet                                        refrain from announcing build instructions and image read/write progress
+      --retry int                                    number of times to retry in case of failure when performing push/pull (default 3)
+      --retry-delay string                           delay between retries in case of push/pull failures
+      --rewrite-timestamp                            set timestamps in layers to no later than the value for --source-date-epoch
+      --rm                                           remove intermediate containers after a successful build (default true)
+      --runtime-flag strings                         add global flags for the container runtime
+      --save-stages                                  save intermediate stage images.
+      --sbom preset                                  scan working container using preset configuration
+      --sbom-image-output path                       add scan results to image as path
+      --sbom-image-purl-output path                  add scan results to image as path
+      --sbom-merge-strategy strategy                 merge scan results using strategy
+      --sbom-output file                             save scan results to file
+      --sbom-purl-output file                        save scan results to file`
+      --sbom-scanner-command command                 scan working container using command in scanner image
+      --sbom-scanner-image image                     scan working container using scanner command from image
+      --secret stringArray                           secret file to expose to the build
+      --security-opt stringArray                     security options (default [])
+      --shm-size <number><unit>                      size of '/dev/shm'. The format is <number><unit>. (default "65536k")
+      --skip-unused-stages                           skips stages in multi-stage builds which do not affect the final target (default true)
+      --source-date-epoch seconds                    set new timestamps in image info to seconds after the epoch, defaults to current time
+      --source-policy-file pathname                  pathname of source policy file for controlling source references during build
+      --squash                                       squash all image layers into a single layer
+      --squash-all                                   Squash all layers into a single layer
+      --ssh stringArray                              SSH agent socket or keys to expose to the build. (format: default|<id>[=<socket>|<key>[,<key>]])
+      --stage-labels                                 add metadata labels to intermediate stage images (requires --save-stages).
+  -t, --tag name                                     tagged name to apply to the built image
+      --target string                                set the target build stage to build
+      --timestamp seconds                            set new timestamps in image info and layer to seconds after the epoch, defaults to current times
+      --tls-verify                                   require HTTPS and verify certificates when accessing the registry (default true)
+      --ulimit strings                               ulimit options
+      --unsetannotation strings                      unset annotation when inheriting annotations from base image
+      --unsetenv strings                             unset environment variable from final image
+      --unsetlabel strings                           unset label when inheriting labels from base image
+      --userns path                                  'container', path of user namespace to join, or 'host'
+      --userns-gid-map containerGID:hostGID:length   containerGID:hostGID:length GID mapping to use in user namespace
+      --userns-gid-map-group name                    name of entries from /etc/subgid to use to set user namespace GID mapping
+      --userns-uid-map containerUID:hostUID:length   containerUID:hostUID:length UID mapping to use in user namespace
+      --userns-uid-map-user name                     name of entries from /etc/subuid to use to set user namespace UID mapping
+      --uts path                                     private, :path of UTS namespace to join, or 'host'
+  -v, --volume stringArray                           bind mount a volume into the container
+

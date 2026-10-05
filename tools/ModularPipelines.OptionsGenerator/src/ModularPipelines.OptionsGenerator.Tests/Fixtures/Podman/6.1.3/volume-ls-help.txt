@@ -1,0 +1,21 @@
+List volumes
+
+Description:
+  
+podman volume ls
+
+List all available volumes. The output of the volumes can be filtered
+and the output format can be changed to JSON or a user specified Go template.
+
+Usage:
+  podman volume ls [options]
+
+Aliases:
+  ls, list
+
+Options:
+  -f, --filter stringArray   Filter volume output
+      --format string        Format volume output using Go template (default "{{range .}}{{.Driver}}\t{{.Name}}\n{{end -}}")
+  -n, --noheading            Do not print headers
+  -q, --quiet                Print volume output in quiet mode
+

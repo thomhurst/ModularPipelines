@@ -1,0 +1,30 @@
+Record destination for the Podman service
+
+Description:
+  Add destination to podman configuration.
+  "destination" is one of the form:
+    [user@]hostname (will default to ssh)
+    ssh://[user@]hostname[:port][/path] (will obtain socket path from service, if not given.)
+    tcp://hostname:port (not secured without TLS enabled)
+    unix://path (absolute path required)
+
+
+Usage:
+  podman system connection add [options] NAME DESTINATION
+
+Examples:
+  podman system connection add laptop server.fubar.com
+  podman system connection add --identity ~/.ssh/dev_rsa testing ssh://root@server.fubar.com:2222
+  podman system connection add --identity ~/.ssh/dev_rsa --port 22 production root@server.fubar.com
+  podman system connection add debug tcp://localhost:8080
+  podman system connection add production-tls --tls-ca=ca.crt --tls-cert=tls.crt --tls-key=tls.key tcp://localhost:8080
+
+Options:
+  -d, --default              Set connection to be default
+      --identity string      path to SSH identity file
+  -p, --port int             SSH port number for destination (default 22)
+      --socket-path string   path to podman socket on remote host. (default '/run/podman/podman.sock' or '/run/user/{uid}/podman/podman.sock)
+      --tls-ca string        path to TLS certificate Authority PEM file
+      --tls-cert string      path to TLS client certificate PEM file
+      --tls-key string       path to TLS client certificate private key PEM file
+

@@ -1,0 +1,14 @@
+Usage:  docker compose bridge [OPTIONS] COMMAND
+
+Convert compose files into another model
+
+Options:
+      --dry-run   Execute command in dry run mode
+
+Management Commands:
+  transformations Manage transformation images
+
+Commands:
+  convert         Convert compose files to Kubernetes manifests, Helm charts, or another model
+
+Run 'docker compose bridge COMMAND --help' for more information on a command.

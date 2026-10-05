@@ -1,0 +1,15 @@
+Restart an existing machine
+
+Description:
+  Restart a managed virtual machine
+
+Usage:
+  podman machine restart [options] [MACHINE]
+
+Examples:
+  podman machine restart podman-machine-default
+
+Options:
+      --no-info   Suppress informational tips
+  -q, --quiet     Suppress machine restarting status output
+

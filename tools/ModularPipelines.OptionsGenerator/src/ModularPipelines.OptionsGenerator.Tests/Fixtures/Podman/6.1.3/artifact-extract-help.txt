@@ -1,0 +1,16 @@
+Extract an OCI artifact to a local path
+
+Description:
+  Extract the blobs of an OCI artifact to a local file or directory
+
+Usage:
+  podman artifact extract [options] ARTIFACT PATH
+
+Examples:
+  podman artifact Extract quay.io/myimage/myartifact:latest /tmp/foobar.txt
+  podman artifact Extract quay.io/myimage/myartifact:latest /home/paul/mydir
+
+Options:
+      --digest string   Only extract blob with the given digest
+      --title string    Only extract blob with the given title
+

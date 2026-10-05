@@ -1,0 +1,39 @@
+[DEPRECATED] Generate systemd units
+
+Description:
+  Generate systemd units for a pod or container.
+  The generated units can later be controlled via systemctl(1).
+
+DEPRECATED command:
+It is recommended to use Quadlets for running containers and pods under systemd.
+
+Please refer to podman-systemd.unit(5) for details.
+
+
+Usage:
+  podman generate systemd [options] {CONTAINER|POD}
+
+Examples:
+  podman generate systemd CTR
+  podman generate systemd --new --time 10 CTR
+  podman generate systemd --files --name POD
+
+Options:
+      --after stringArray         Add dependencies order to the generated unit file
+      --container-prefix string   Systemd unit name prefix for containers (default "container")
+  -e, --env stringArray           Set environment variables to the systemd unit files
+  -f, --files                     Generate .service files instead of printing to stdout
+      --format string             Print the created units in specified format (json)
+  -n, --name                      Use container/pod names instead of IDs
+      --new                       Create a new container or pod instead of starting an existing one
+      --no-header                 Skip header generation
+      --pod-prefix string         Systemd unit name prefix for pods (default "pod")
+      --requires stringArray      Similar to wants, but declares stronger requirement dependencies
+      --restart-policy string     Systemd restart-policy (default "on-failure")
+      --restart-sec uint          Systemd restart-sec
+      --separator string          Systemd unit name separator between name/id and prefix (default "-")
+      --start-timeout uint        Start timeout override
+      --stop-timeout uint         Stop timeout override (default 10)
+      --template                  Make it a template file and use %i and %I specifiers. Working only for containers
+      --wants stringArray         Add (weak) requirement dependencies to the generated unit file
+

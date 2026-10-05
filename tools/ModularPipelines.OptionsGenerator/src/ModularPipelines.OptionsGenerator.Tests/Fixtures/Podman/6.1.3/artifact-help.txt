@@ -1,0 +1,17 @@
+Manage OCI artifacts
+
+Description:
+  Manage OCI artifacts
+
+Usage:
+  podman artifact [command]
+
+Available Commands:
+  add         Add an OCI artifact to the local store
+  extract     Extract an OCI artifact to a local path
+  inspect     Inspect an OCI artifact
+  ls          List OCI artifacts
+  pull        Pull an OCI artifact
+  push        Push an OCI artifact
+  rm          Remove one or more OCI artifacts
+

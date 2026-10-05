@@ -1,0 +1,20 @@
+Set a virtual machine setting
+
+Description:
+  Set an updatable virtual machine setting
+
+Usage:
+  podman machine set [options] [NAME]
+
+Examples:
+  podman machine set --rootful=false
+
+Options:
+      --cpus uint              Number of CPUs
+      --disk-size uint         Disk size in GiB
+      --import-native-ca       Import the host trusted CA certificates into the machine
+  -m, --memory uint            Memory in MiB
+      --rootful                Whether this machine should prefer rootful container execution
+      --usb stringArray        USBs bus=$1,devnum=$2 or vendor=$1,product=$2
+      --user-mode-networking   Whether this machine should use user-mode networking, routing traffic through a host user-space process
+

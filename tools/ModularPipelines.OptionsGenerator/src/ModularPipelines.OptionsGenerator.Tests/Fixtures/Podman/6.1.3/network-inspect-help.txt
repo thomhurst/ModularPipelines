@@ -1,0 +1,14 @@
+Inspect network
+
+Description:
+  Displays the network configuration for one or more networks.
+
+Usage:
+  podman network inspect [options] NETWORK [NETWORK...]
+
+Examples:
+  podman network inspect podman
+
+Options:
+  -f, --format string   Pretty-print network to JSON or using a Go template
+

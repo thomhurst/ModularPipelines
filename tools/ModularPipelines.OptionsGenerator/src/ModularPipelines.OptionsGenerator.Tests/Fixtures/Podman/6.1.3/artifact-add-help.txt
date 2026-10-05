@@ -1,0 +1,20 @@
+Add an OCI artifact to the local store
+
+Description:
+  Add an OCI artifact to the local store from the local filesystem
+
+Usage:
+  podman artifact add [options] ARTIFACT PATH [...PATH]
+
+Examples:
+  podman artifact add quay.io/myimage/myartifact:latest /tmp/foobar.txt
+  podman artifact add --file-type text/yaml quay.io/myimage/myartifact:latest /tmp/foobar.yaml
+  podman artifact add --append quay.io/myimage/myartifact:latest /tmp/foobar.tar.gz
+
+Options:
+      --annotation annotation   set an annotation for the specified files of artifact
+  -a, --append                  Append files to an existing artifact
+      --file-type string        Set file type to use for the artifact (layer)
+      --replace                 Replace an existing artifact
+      --type string             Use type to describe an artifact
+

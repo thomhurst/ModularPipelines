@@ -1,0 +1,15 @@
+Display the contents of a manifest list or image index
+
+Description:
+  Display the contents of a manifest list or image index.
+
+Usage:
+  podman manifest inspect [options] IMAGE
+
+Examples:
+  podman manifest inspect localhost/list
+
+Options:
+      --authfile string   path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --tls-verify        require HTTPS and verify certificates when accessing the registry (default true)
+

@@ -1,0 +1,15 @@
+Update an existing podman network
+
+Description:
+  Update an existing podman network
+
+Usage:
+  podman network update [options] NETWORK
+
+Examples:
+  podman network update podman1
+
+Options:
+      --dns-add strings    add network level nameservers
+      --dns-drop strings   remove network level nameservers
+

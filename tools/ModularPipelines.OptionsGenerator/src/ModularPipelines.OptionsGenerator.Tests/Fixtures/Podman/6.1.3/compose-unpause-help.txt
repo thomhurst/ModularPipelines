@@ -1,0 +1,6 @@
+Usage:  docker compose unpause [SERVICE...]
+
+Unpause services
+
+Options:
+      --dry-run   Execute command in dry run mode

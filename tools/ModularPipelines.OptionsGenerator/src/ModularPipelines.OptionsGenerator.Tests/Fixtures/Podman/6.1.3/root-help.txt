@@ -1,0 +1,106 @@
+Manage pods, containers and images
+
+Usage:
+  podman [options] [command]
+
+Available Commands:
+  artifact    Manage OCI artifacts
+  attach      Attach to a running container
+  auto-update Auto update containers according to their auto-update policy
+  build       Build an image using instructions from Containerfiles
+  commit      Create new image based on the changed container
+  compose     Run compose workloads via an external provider such as docker-compose or podman-compose
+  container   Manage containers
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create but do not start a container
+  diff        Display the changes to the object's file system
+  events      Show podman system events
+  exec        Run a process in a running container
+  export      Export container's filesystem contents as a tar archive
+  farm        Farm out builds to remote machines
+  generate    Generate structured data based on containers, pods or volumes
+  healthcheck Manage health checks on containers
+  help        Help about any command
+  history     Show history of a specified image
+  image       Manage images
+  images      List images in local storage
+  import      Import a tarball to create a filesystem image
+  info        Display podman system information
+  init        Initialize one or more containers
+  inspect     Display the configuration of object denoted by ID
+  kill        Kill one or more running containers with a specific signal
+  kube        Play containers, pods or volumes from a structured file
+  load        Load image(s) from a tar archive
+  login       Log in to a container registry
+  logout      Log out of a container registry
+  logs        Fetch the logs of one or more containers
+  machine     Manage a virtual machine
+  manifest    Manipulate manifest lists and image indexes
+  mount       Mount a working container's root filesystem
+  network     Manage networks
+  pause       Pause all the processes in one or more containers
+  pod         Manage pods
+  port        List port mappings or a specific mapping for the container
+  ps          List containers
+  pull        Pull an image from a registry
+  push        Push an image to a specified destination
+  quadlet     Allows users to manage Quadlets
+  rename      Rename an existing container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images from local storage
+  run         Run a command in a new container
+  save        Save image(s) to an archive
+  search      Search registry for image
+  secret      Manage secrets
+  start       Start one or more containers
+  stats       Display a live stream of container resource usage statistics
+  stop        Stop one or more containers
+  system      Manage podman
+  tag         Add an additional name to a local image
+  top         Display the running processes of a container
+  unmount     Unmount working container's root filesystem
+  unpause     Unpause the processes in one or more containers
+  unshare     Run a command in a modified user namespace
+  untag       Remove a name from a local image
+  update      Update an existing container
+  version     Display the Podman version information
+  volume      Manage volumes
+  wait        Block on one or more containers
+
+Options:
+      --cdi-spec-dir stringArray    Set the CDI spec directory path (may be set multiple times) (default [/etc/cdi,/var/run/cdi])
+      --cgroup-manager string       Cgroup manager to use ("cgroupfs"|"systemd") (default "cgroupfs")
+      --config string               Path to directory containing authentication config file
+      --conmon string               Path of the conmon binary
+  -c, --connection string           Connection to use for remote Podman service (CONTAINER_CONNECTION)
+      --events-backend string       Events backend to use ("file"|"journald"|"none") (default "file")
+      --help                        Help for podman
+      --hooks-dir stringArray       Set the OCI hooks directory path (may be set multiple times) (default [/usr/share/containers/oci/hooks.d])
+      --identity string             path to SSH identity file, (CONTAINER_SSHKEY)
+      --imagestore string           Path to the 'image store', different from 'graph root', use this to split storing the image into a separate 'image store', see 'man containers-storage.conf' for details
+      --log-level string            Log messages above specified level (trace, debug, info, warn, warning, error, fatal, panic) (default "warn")
+      --module stringArray          Load the containers.conf(5) module
+      --network-config-dir string   Path of the configuration directory for networks
+      --out string                  Send output (stdout) from podman to a file
+  -r, --remote                      Access remote Podman service
+      --root string                 Path to the graph root directory where images, containers, etc. are stored
+      --runroot string              Path to the 'run directory' where all state information is stored
+      --runtime string              Path to the OCI-compatible binary used to run containers. (default "crun")
+      --runtime-flag stringArray    add global flags for the container runtime
+      --ssh string                  define the ssh mode (default "golang")
+      --storage-driver string       Select which storage driver is used to manage storage of images and containers
+      --storage-opt stringArray     Used to pass an option to the storage driver
+      --syslog                      Output podman-internal logs to syslog as well as the console (default false)
+      --tls-ca string               path to TLS certificate Authority PEM file for remote.
+      --tls-cert string             path to TLS client certificate PEM file for remote.
+      --tls-details string          Path to a containers-tls-details.yaml(5) file
+      --tls-key string              path to TLS client certificate private key PEM file for remote.
+      --tmpdir string               Path to the tmp directory for libpod state content.
+                                    
+                                    Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'.
+                                     (default "/tmp/storage-run-1000/libpod/tmp")
+      --transient-store             Enable transient container storage
+      --url string                  URL to access Podman service (CONTAINER_HOST) (default "unix:///tmp/storage-run-1000/podman/podman.sock")
+  -v, --version                     version for podman
+      --volumepath string           Path to the volume directory in which volume data is stored

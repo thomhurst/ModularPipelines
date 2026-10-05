@@ -1,0 +1,13 @@
+Migrate lock numbers
+
+Description:
+  
+        podman system renumber
+
+        Migrate lock numbers to handle a change in maximum number of locks.
+        Mandatory after the number of locks in containers.conf is changed.
+
+
+Usage:
+  podman system renumber
+

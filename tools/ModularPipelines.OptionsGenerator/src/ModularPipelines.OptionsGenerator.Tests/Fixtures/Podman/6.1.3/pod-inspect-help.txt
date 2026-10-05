@@ -1,0 +1,18 @@
+Display a pod configuration
+
+Description:
+  Display the configuration for a pod by name or id
+
+	By default, this will render all results in a JSON array.
+
+Usage:
+  podman pod inspect [options] POD [POD...]
+
+Examples:
+  podman pod inspect podID
+
+Options:
+  -f, --format string   Format the output to a Go template or json (default "json")
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+
