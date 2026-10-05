@@ -1,0 +1,55 @@
+Manage stacks and view stack state
+
+A stack is a named update target, and a single project may have many of them.
+Each stack has a configuration and update history associated with it, stored in
+the workspace, in addition to a full checkpoint of the last known good update.
+
+Usage:
+  pulumi stack [flags]
+  pulumi stack [command]
+
+Available Commands:
+  change-secrets-provider Change the secrets provider for a stack
+  drift                   [EXPERIMENTAL] Inspect stack drift detection results
+  export                  Export a stack's deployment to standard out
+  get                     [EXPERIMENTAL] Retrieve detailed information about a stack
+  graph                   Export a stack's dependency graph to a file
+  history                 Display history for a stack
+  import                  Import a deployment from standard in into an existing stack
+  list                    List stacks
+  migrate                 Migrate a stack from another backend to the currently logged-in backend
+  new                     Create an empty stack with the given name, ready for updates
+  output                  Show a stack's output properties
+  remove                  Remove a stack and its configuration
+  rename                  Rename an existing stack
+  schedule                [EXPERIMENTAL] Manage scheduled deployment actions for a stack.
+  select                  Switch the current workspace to the given stack
+  tag                     Manage stack tags
+  unselect                Resets stack selection from the current workspace
+  webhook                 [EXPERIMENTAL] Manage stack webhooks
+
+Flags:
+  -h, --help            help for stack
+      --output string   Output format. Supported values are: default and json (default "default")
+  -i, --show-ids        Display each resource's provider-assigned unique ID
+      --show-name       Display only the stack name
+      --show-secrets    Display stack outputs which are marked as secret in plaintext
+  -u, --show-urns       Display each resource's Pulumi-assigned globally unique URN
+  -s, --stack string    The name of the stack to operate on. Defaults to the current stack
+
+Global Flags:
+      --color string                 Colorize output. Choices are: always, never, raw, auto (default "auto")
+  -C, --cwd string                   Run pulumi as if it had been started in another directory
+      --disable-integrity-checking   Disable integrity checking of checkpoint files
+  -e, --emoji                        Enable emojis in the output
+  -Q, --fully-qualify-stack-names    Show fully-qualified stack names
+      --logflow                      Flow log settings to child processes (like plugins)
+      --logtostderr                  Log to stderr instead of to files
+      --memprofilerate int           Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+      --non-interactive              Disable interactive mode for all commands
+      --otel-traces string           Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
+      --profiling string             Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+      --tracing file:                Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file
+  -v, --verbose int                  Enable verbose logging (e.g., v=3); anything >3 is very verbose
+
+Use "pulumi stack [command] --help" for more information about a command.

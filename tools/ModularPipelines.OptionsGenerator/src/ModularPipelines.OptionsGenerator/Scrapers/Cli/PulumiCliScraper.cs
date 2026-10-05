@@ -27,13 +27,9 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Subcommand help (pulumi up --help):
 /// Deploy resources to a stack...
 /// </summary>
-public partial class PulumiCliScraper : CobraCliScraper
+public partial class PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PulumiCliScraper> logger)
+    : CobraCliScraper(executor, helpCache, logger)
 {
-    public PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PulumiCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "pulumi";
 
     public override string NamespacePrefix => "Pulumi";
@@ -41,6 +37,26 @@ public partial class PulumiCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Pulumi";
 
     public override string OutputDirectory => "src/ModularPipelines.Pulumi";
+
+    // Pulumi registers every public root flag except help/version on PersistentFlags.
+    // See Fixtures/Pulumi/3.267.0/README.md for the version-pinned parser evidence.
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        [.. ParseNamedOptionSection(helpText, "Flags", []).Where(option =>
+            option.SwitchName is not ("--help" or "--version"))];
+
+    protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
+        string[] commandParts,
+        IReadOnlyList<CliOptionDefinition> options)
+    {
+        var globals = EffectiveGlobalOptions;
+        var globalSwitches = globals.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        CliGlobalOptionMerger.Merge(globals, options.Where(option => globalSwitches.Contains(option.SwitchName)));
+        return [.. options.Where(option => !globalSwitches.Contains(option.SwitchName))];
+    }
+
+    // Emoji defaults to true on macOS and false elsewhere. Always retain explicit false.
+    protected override bool IsBooleanValueOption(string[] commandParts, string switchName, string description) =>
+        switchName == "--emoji" || base.IsBooleanValueOption(commandParts, switchName, description);
 
     /// <summary>
     /// Skip utility commands.
@@ -80,7 +96,7 @@ public partial class PulumiCliScraper : CobraCliScraper
             ? usage with { PositionalArguments = NormalizeEnvRunArguments(usage.PositionalArguments) }
             : usage;
 
-    private static IReadOnlyList<CliPositionalArgument> NormalizeEnvRunArguments(
+    private static List<CliPositionalArgument> NormalizeEnvRunArguments(
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var arguments = positionalArguments
