@@ -808,3 +808,7 @@ The .NET `nbgv` 3.10.94 audit requires no global API change: its root has only
 help/version actions. Continue setting `Project` and other values on command
 records. In particular, `NbgvCloudOptions.Version` remains the cloud build-number
 value and is not the root version-information action.
+
+### Kustomize inherited error diagnostics
+
+`StackTrace` now lives on `KustomizeOptions` and renders before the command path. Existing initializers remain valid; reflection consumers should include inherited properties. Build/plugin settings and edit options remain local. The separate kubectl hierarchy is unchanged. See the [Kubernetes package guide](docs/docs/mp-packages/kubernetes.md).

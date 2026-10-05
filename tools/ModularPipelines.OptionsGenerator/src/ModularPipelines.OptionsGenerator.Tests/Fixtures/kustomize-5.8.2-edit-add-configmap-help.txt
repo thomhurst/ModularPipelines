@@ -1,0 +1,34 @@
+Adds a configmap to the kustomization file
+
+Usage:
+  kustomize edit add configmap NAME [--namespace=namespace-name] [--behavior={create|merge|replace}] [--from-file=[key=]source] [--from-literal=key1=value1] [flags]
+
+Examples:
+
+	# Adds a configmap to the kustomization file (with a specified key)
+	kustomize edit add configmap my-configmap --from-file=my-key=file/path --from-literal=my-literal=12345
+
+	# Adds a configmap to the kustomization file (key is the filename)
+	kustomize edit add configmap my-configmap --from-file=file/path
+
+	# Adds a configmap from env-file
+	kustomize edit add configmap my-configmap --from-env-file=env/path.env
+
+	# Adds a configmap from env-file with behavior merge
+	kustomize edit add configmap my-configmap --behavior=merge --from-env-file=env/path.env
+
+	# Adds a configmap to the kustomization file with a specific namespace
+	kustomize edit add configmap my-configmap --namespace test-ns --from-literal=my-key=my-value
+
+
+Flags:
+      --behavior string            Specify the behavior for config map generation, i.e whether to create a new configmap (the default),  to merge with a previously defined one, or to replace an existing one. Merge and replace should be used only  when overriding an existing configmap defined in a base
+      --disableNameSuffixHash      Disable the name suffix for the configmap
+      --from-env-file string       Specify the path to a file to read lines of key=val pairs to create a configmap (i.e. a Docker .env file).
+      --from-file strings          Key file can be specified using its file path, in which case file basename will be used as configmap key, or optionally with a key and file path, in which case the given key will be used.  Specifying a directory will iterate each named file in the directory whose basename is a valid configmap key.
+      --from-literal stringArray   Specify a key and literal value to insert in configmap (i.e. mykey=somevalue)
+  -h, --help                       help for configmap
+      --namespace string           Specify the namespace of the ConfigMap
+
+Global Flags:
+      --stack-trace   print a stack-trace on error
