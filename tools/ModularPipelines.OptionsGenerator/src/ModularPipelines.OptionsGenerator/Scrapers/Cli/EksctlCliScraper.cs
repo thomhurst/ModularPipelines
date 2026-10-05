@@ -21,13 +21,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   eksctl delete            Delete resource(s)
 ///   ...
 /// </summary>
-public partial class EksctlCliScraper : CobraCliScraper
+public partial class EksctlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<EksctlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public EksctlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<EksctlCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "eksctl";
 
     public override string NamespacePrefix => "Eksctl";
@@ -89,7 +84,7 @@ public partial class EksctlCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "info"
+        "--help", "-h", "--version", "help", "completion", "info"
     };
 
     [GeneratedRegex(@"^\s*eksctl (?<path>[\w-]+(?: [\w-]+)*) {2,}", RegexOptions.Multiline)]

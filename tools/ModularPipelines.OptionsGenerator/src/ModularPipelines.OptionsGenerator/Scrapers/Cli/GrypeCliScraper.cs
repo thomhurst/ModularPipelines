@@ -59,6 +59,6 @@ public partial class GrypeCliScraper(ICliCommandExecutor executor, IHelpTextCach
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "config"
+        "--help", "-h", "--version", "help", "completion", "config"
     };
 }

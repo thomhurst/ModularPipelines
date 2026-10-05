@@ -20,13 +20,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   create        Create or update sources and resources
 ///   ...
 /// </summary>
-public partial class FluxCliScraper : CobraCliScraper
+public partial class FluxCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<FluxCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public FluxCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<FluxCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "flux";
 
     public override string NamespacePrefix => "Flux";
@@ -40,6 +35,6 @@ public partial class FluxCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 }

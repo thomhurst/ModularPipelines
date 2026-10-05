@@ -2,8 +2,8 @@
   "formatVersion": 1,
   "toolName": "cosign",
   "toolVersion": "v3.1.3",
-  "commandCount": 29,
-  "commandTreeSha256": "1973081916b34287502c8fc7331d2ed8753564b45fb33dfcbf974028d53beb6b",
+  "commandCount": 30,
+  "commandTreeSha256": "c7a6f8688fb67f86f6c9549bc8dc6e587dae01e58d38be135d3808da9216e1a4",
   "commands": [
     "cosign attest",
     "cosign attest-blob",
@@ -33,7 +33,8 @@
     "cosign verify",
     "cosign verify-attestation",
     "cosign verify-blob",
-    "cosign verify-blob-attestation"
+    "cosign verify-blob-attestation",
+    "cosign version"
   ],
   "commandGroups": [
     "cosign bundle",

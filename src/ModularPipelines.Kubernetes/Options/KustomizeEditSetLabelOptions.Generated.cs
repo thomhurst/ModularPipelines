@@ -21,9 +21,43 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetLabelOptions : KustomizeOptions
 {
     /// <summary>
+    /// Sets one or more commonLabels in kustomization.yaml
+    /// </summary>
+    /// <param name="Label">The &lt;label&gt; operand.</param>
+    public KustomizeEditSetLabelOptions(
+        IEnumerable<string> Label
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Label);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Label));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Label));
+            }
+
+            Label = materialized;
+        }
+        this.Label = Label;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Label)
+    {
+        Label = this.Label;
+    }
+
+    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;label&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Label { get; private init; }
 
 }

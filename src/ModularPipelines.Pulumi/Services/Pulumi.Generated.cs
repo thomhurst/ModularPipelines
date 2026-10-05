@@ -226,6 +226,15 @@ internal partial class Pulumi : IPulumi
     }
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        PulumiVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> WatchAsync(
         PulumiWatchOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

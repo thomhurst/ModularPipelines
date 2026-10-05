@@ -119,3 +119,4 @@ Global options are rendered before the selected subcommand.
 | `flyway snapshot` | `FlywaySnapshotOptions` |
 | `flyway undo` | `FlywayUndoOptions` |
 | `flyway validate` | `FlywayValidateOptions` |
+| `flyway version` | `FlywayVersionOptions` |

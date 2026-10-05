@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "eksctl",
-  "toolVersion": "0.230.0",
-  "commandTreeSha256": "84fec058d6a4a16c205233e11b13a4ffb48fce85b9cb074d731bba5dc937d7a5",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "toolVersion": "0.231.0",
+  "commandTreeSha256": "21ac0b9f406bf22197be4bf485d2777e8dd651fb696908af668166644fdbff76",
+  "generatorSourceSha256": "fe748bd2c02a3dac67382ca394edf15cdf4e46cf2b9af748628a3ae5eb9c3b65"
 }

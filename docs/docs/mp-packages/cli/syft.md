@@ -42,3 +42,4 @@ var syft = context.Tools.Syft;
 | `syft convert` | `SyftConvertOptions` |
 | `syft login` | `SyftLoginOptions` |
 | `syft scan` | `SyftScanOptions` |
+| `syft version` | `SyftVersionOptions` |

@@ -20,13 +20,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   list-tags   List tags in the repository
 ///   ...
 /// </summary>
-public partial class SkopeoCliScraper : CobraCliScraper
+public partial class SkopeoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SkopeoCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public SkopeoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<SkopeoCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "skopeo";
 
     public override string NamespacePrefix => "Skopeo";
@@ -40,6 +35,6 @@ public partial class SkopeoCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 }

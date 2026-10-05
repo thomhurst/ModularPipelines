@@ -39,13 +39,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///       --enable-alpha-plugins  enable alpha plugins
 ///       ...
 /// </summary>
-public partial class KustomizeCliScraper : CobraCliScraper
+public partial class KustomizeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KustomizeCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public KustomizeCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KustomizeCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "kustomize";
 
     public override string NamespacePrefix => "Kustomize";
@@ -92,7 +87,7 @@ public partial class KustomizeCliScraper : CobraCliScraper
             return options;
         }
 
-        return options
+        return [.. options
             .Select(option => option is
             {
                 SwitchName: "--annotations" or "--labels",
@@ -104,8 +99,7 @@ public partial class KustomizeCliScraper : CobraCliScraper
                         CollectionSeparator = ",",
                         IsKeyValue = false,
                     }
-                    : option)
-            .ToArray();
+                    : option)];
     }
 
     /// <summary>
@@ -170,6 +164,6 @@ public partial class KustomizeCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "docs"
+        "--help", "-h", "--version", "help", "completion", "docs"
     };
 }

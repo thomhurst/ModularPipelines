@@ -199,3 +199,4 @@ var argoCd = context.Tools.ArgoCd;
 | `argocd repocreds add` | `ArgoCdRepocredsAddOptions` |
 | `argocd repocreds list` | `ArgoCdRepocredsListOptions` |
 | `argocd repocreds rm` | `ArgoCdRepocredsRmOptions` |
+| `argocd version` | `ArgoCdVersionOptions` |

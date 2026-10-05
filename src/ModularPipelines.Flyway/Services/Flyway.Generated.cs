@@ -202,5 +202,14 @@ internal partial class Flyway : IFlyway
         return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayValidateOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        FlywayVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FlywayVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

@@ -582,9 +582,15 @@ public abstract partial class CliScraperBase : ICliScraper
         string[] path,
         string helpText,
         IReadOnlyCollection<string> subcommands,
-        UsageSynopsisParseResult usage) =>
-        (!HasOptions(helpText) && !usage.HasOperandTokens)
-        || (path.Length == 1 && subcommands.Count > 0);
+        UsageSynopsisParseResult usage)
+    {
+        // A discovered version command can be useful without flags or operands.
+        // Root commands remain subject to the ordinary filtering rules.
+        var isVersionSubcommand = path.Length > 1
+                                  && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase);
+        return (!HasOptions(helpText) && !usage.HasOperandTokens && !isVersionSubcommand)
+               || (path.Length == 1 && subcommands.Count > 0);
+    }
 
     private async Task<CliCommandDefinition?> TryParseCommandAsync(
         string[] path,
@@ -1250,7 +1256,7 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Default subcommands to always skip.
     /// </summary>
     private static readonly HashSet<string> DefaultSkipSubcommands =
-    [with(StringComparer.OrdinalIgnoreCase), "help", "completion", "version", "__complete", "__completeNoDesc"];
+    [with(StringComparer.OrdinalIgnoreCase), "help", "completion", "__complete", "__completeNoDesc"];
 
     /// <summary>
     /// Checks if a subcommand should be skipped (e.g., "help", "completion").

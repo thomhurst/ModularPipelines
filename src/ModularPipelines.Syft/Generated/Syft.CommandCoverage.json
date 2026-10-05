@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
   "toolName": "syft",
-  "toolVersion": "syft 1.52.0",
-  "commandCount": 8,
-  "commandTreeSha256": "312b56070505f8e9227e5762adaba7ae25213d326283923b5592ce0281c0c868",
+  "toolVersion": "syft 1.54.0",
+  "commandCount": 9,
+  "commandTreeSha256": "d4f2412c51bd5d7423421cfe0733e39e63a63b0c4b3b45eab48cd65e9cda2600",
   "commands": [
     "syft attest",
     "syft cataloger",
@@ -12,7 +12,8 @@
     "syft config locations",
     "syft convert",
     "syft login",
-    "syft scan"
+    "syft scan",
+    "syft version"
   ],
   "commandGroups": [
     "syft cataloger",

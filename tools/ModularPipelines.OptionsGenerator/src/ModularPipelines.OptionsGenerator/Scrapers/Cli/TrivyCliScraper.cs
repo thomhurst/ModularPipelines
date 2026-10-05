@@ -36,13 +36,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   convert     Convert Trivy JSON report into a different format
 ///   version     Print the version
 /// </summary>
-public partial class TrivyCliScraper : CobraCliScraper
+public partial class TrivyCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TrivyCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public TrivyCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<TrivyCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "trivy";
 
     public override string NamespacePrefix => "Trivy";
@@ -72,7 +67,7 @@ public partial class TrivyCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
@@ -91,9 +86,8 @@ public partial class TrivyCliScraper : CobraCliScraper
 
         if (commandParts is ["image"] && positionalArguments.Count > 0)
         {
-            return positionalArguments
-                .Select(argument => argument with { CSharpType = "string?", IsRequired = false })
-                .ToList();
+            return [.. positionalArguments
+                .Select(argument => argument with { CSharpType = "string?", IsRequired = false })];
         }
 
         if (positionalArguments.Count > 0)
@@ -115,13 +109,12 @@ public partial class TrivyCliScraper : CobraCliScraper
             ? positionalArguments
             : [defaultArgument];
 
-        return arguments
+        return [.. arguments
             .Select(argument => argument with
             {
                 CSharpType = "IEnumerable<string>?",
                 IsRequired = false,
-            })
-            .ToList();
+            })];
     }
 
     private static IReadOnlyList<CliPositionalArgument> CreatePluginRunArguments(

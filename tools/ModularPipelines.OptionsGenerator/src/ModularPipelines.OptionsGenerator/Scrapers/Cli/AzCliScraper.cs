@@ -152,7 +152,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "help", "version", "upgrade", "feedback", "find", "interactive", "rest", "configure"
+        "help", "upgrade", "feedback", "find", "interactive", "rest", "configure"
     };
 
     /// <summary>
@@ -253,8 +253,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         // Parse options from the help text
         var options = ParseOptions(helpText, argumentShapes);
 
-        // If no options, skip generating this command
-        if (options.Count == 0)
+        // az version has only inherited global arguments and still needs a command wrapper.
+        if (options.Count == 0 && !commandParts.SequenceEqual(["version"], StringComparer.OrdinalIgnoreCase))
         {
             return Task.FromResult<CliCommandDefinition?>(null);
         }

@@ -27,13 +27,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// Subcommand help (pulumi up --help):
 /// Deploy resources to a stack...
 /// </summary>
-public partial class PulumiCliScraper : CobraCliScraper
+public partial class PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PulumiCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public PulumiCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<PulumiCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "pulumi";
 
     public override string NamespacePrefix => "Pulumi";
@@ -47,7 +42,7 @@ public partial class PulumiCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "about", "gen-completion", "schema"
+        "--help", "-h", "--version", "help", "completion", "about", "gen-completion", "schema"
     };
 
     /// <summary>

@@ -25,13 +25,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   --list                    List installed commands
 ///   ...
 /// </summary>
-public partial class CargoCliScraper : CliScraperBase
+public partial class CargoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<CargoCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public CargoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<CargoCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "cargo";
 
     public override string NamespacePrefix => "Cargo";
@@ -53,7 +48,7 @@ public partial class CargoCliScraper : CliScraperBase
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "help", "version", "--version", "-V"
+        "--help", "-h", "help", "--version", "-V"
     };
 
     /// <summary>
@@ -78,7 +73,7 @@ public partial class CargoCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)

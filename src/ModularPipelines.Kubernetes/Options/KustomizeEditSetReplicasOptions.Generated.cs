@@ -21,9 +21,43 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetReplicasOptions : KustomizeOptions
 {
     /// <summary>
+    /// Sets replicas count for resources in the kustomization file
+    /// </summary>
+    /// <param name="Replicas">The &lt;replicas&gt; operand.</param>
+    public KustomizeEditSetReplicasOptions(
+        IEnumerable<string> Replicas
+    )
+    {
+        {
+            global::System.ArgumentNullException.ThrowIfNull(Replicas);
+            var materialized = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<string>(Replicas));
+            if (!global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<object>(materialized), static value => value is not null))
+            {
+                throw new global::System.ArgumentException(
+                    "Required collection must contain at least one value.",
+                    nameof(Replicas));
+            }
+
+            Replicas = materialized;
+        }
+        this.Replicas = Replicas;
+    }
+
+    public void Deconstruct(out IEnumerable<string> Replicas)
+    {
+        Replicas = this.Replicas;
+    }
+
+    /// <summary>
     /// print a stack-trace on error
     /// </summary>
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
+
+    /// <summary>
+    /// The &lt;replicas&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public IEnumerable<string> Replicas { get; private init; }
 
 }
