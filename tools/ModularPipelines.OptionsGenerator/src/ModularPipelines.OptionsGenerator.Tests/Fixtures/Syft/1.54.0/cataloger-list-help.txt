@@ -1,0 +1,17 @@
+List available catalogers
+
+Usage:
+  syft cataloger list [OPTIONS] [flags]
+
+Flags:
+  -h, --help                                      help for list
+  -o, --output string                             format to output the cataloger list (available: table, json)
+      --override-default-catalogers stringArray   set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source) (default [all])
+      --select-catalogers stringArray             add, remove, and filter the catalogers to be used
+  -s, --show-hidden                               show catalogers that have been de-selected
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
