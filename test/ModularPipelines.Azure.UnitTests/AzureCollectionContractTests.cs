@@ -1,4 +1,5 @@
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Azure.UnitTests;
@@ -24,19 +25,35 @@ public class AzureCollectionContractTests
     }
 
     [Test]
-    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "Allow", "--allow")]
-    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "Deny", "--deny")]
-    [Arguments(typeof(AzSignalrNetworkRuleUpdateOptions), "ConnectionName", "--connection-name")]
+    [Arguments("Allow", "--allow")]
+    [Arguments("Deny", "--deny")]
+    [Arguments("ConnectionName", "--connection-name")]
+    public async Task Signalr_Optional_Lists_Render_Grouped_Values_And_Bare(string propertyName, string switchName)
+    {
+        var options = new AzSignalrNetworkRuleUpdateOptions();
+        var property = options.GetType().GetProperty(propertyName)!;
+        var values = switchName is "--allow" or "--deny" ? ScopeNames : UserNames;
+        await Assert.That(property.PropertyType).IsEqualTo(typeof(IEnumerable<CliOptionValue>));
+        property.SetValue(options, values.Select(value => (CliOptionValue) value).ToArray());
+        await AssertArguments(BuildArguments(options), [switchName, .. values]);
+
+        property.SetValue(options, new[] { CliOptionValue.Bare });
+        await AssertArguments(BuildArguments(options), [switchName]);
+        property.SetValue(options, null);
+        await AssertArguments(BuildArguments(options), []);
+    }
+
+    [Test]
     [Arguments(typeof(AzContainerappAuthGoogleUpdateOptions), "AllowedAudiences", "--allowed-audiences")]
     [Arguments(typeof(AzContainerappAuthMicrosoftUpdateOptions), "AllowedAudiences", "--allowed-audiences")]
-    public async Task Qualified_Lists_Render_As_Grouped_Values(Type optionsType, string propertyName, string switchName)
+    public async Task Audience_Lists_Are_One_Parser_Value(Type optionsType, string propertyName, string switchName)
     {
         var options = Activator.CreateInstance(optionsType)!;
         var property = optionsType.GetProperty(propertyName)!;
-        var values = switchName is "--allow" or "--deny" ? ScopeNames : UserNames;
-        await Assert.That(property.PropertyType).IsEqualTo(typeof(IEnumerable<string>));
-        property.SetValue(options, values);
+        const string value = "first audience second audience";
+        await Assert.That(property.PropertyType).IsEqualTo(typeof(string));
+        property.SetValue(options, value);
 
-        await AssertArguments(BuildArguments(options), [switchName, .. values]);
+        await AssertArguments(BuildArguments(options), [switchName, value]);
     }
 }
