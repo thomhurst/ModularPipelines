@@ -63,7 +63,8 @@ Install options such as `Target` and Package Index Options such as `IndexUrl`
 remain command-specific and render after `install`.
 Dependency groups are repeatable on install, download, wheel, and lock commands:
 `Group = ["development", "testing"]` renders two `--group` switches and can serve
-as the command's complete input source.
+as the command's complete input source. Null, empty, and whitespace-only entries
+are rejected before starting pip, including when mixed with valid group names.
 
 The generated API reflects pip 25.3 and includes `LockAsync`. See the
 [pip CLI reference](./cli/pip.md) for the complete command and global-option list.
