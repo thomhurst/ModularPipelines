@@ -1113,7 +1113,8 @@ public static partial class GeneratorUtils
 
     [GeneratedRegex(
         @"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies))\s+)?(?:the\s+|a\s+|an\s+)?"
-        + @"one[\s-]+time[\s-]+(?:passcode|password)\b",
+        + @"(?:one[\s-]+time[\s-]+(?:passcode|password)\b"
+        + @"|(?:subsequent\s+)?authentication\s+code\s+(?:emitted|generated)\s+by\b)",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex OneTimeCredentialDescriptionPattern();
 

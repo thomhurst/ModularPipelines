@@ -898,6 +898,8 @@ public class GeneratorUtilsTests
 
     [Test]
     [Arguments("Code", "The one-time password value.")]
+    [Arguments("AuthenticationCode1", "An authentication code emitted by the device. The format for this parameter is a string of six digits.")]
+    [Arguments("AuthenticationCode2", "A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits.")]
     [Arguments("Custom", "The authentication token value. The maximum number of uses is one.")]
     [Arguments("Token", "The maximum number of uses of this token value is one.")]
     [Arguments("SecretMessage", "Message containing secret material.")]

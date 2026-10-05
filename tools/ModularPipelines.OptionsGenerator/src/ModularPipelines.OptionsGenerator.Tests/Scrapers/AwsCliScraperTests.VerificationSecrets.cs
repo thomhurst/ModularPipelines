@@ -9,6 +9,10 @@ public partial class AwsCliScraperTests
     [Test]
     [Arguments("The one-time passcode that the recipient submitted for validation.", true)]
     [Arguments("The one-time password that the recipient submitted for validation.", true)]
+    [Arguments("An authentication code emitted by the device. The format for this parameter is a string of six digits.", true)]
+    [Arguments("A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits.", true)]
+    [Arguments("The authentication code status returned by the device.", false)]
+    [Arguments("The number of authentication codes emitted by the device.", false)]
     [Arguments("The status code returned after validating a one-time passcode.", false)]
     [Arguments("The number of attempts to validate a one-time passcode.", false)]
     public async Task Verification_Code_Secrets_Follow_Value_Description(string description, bool expectedSecret)
