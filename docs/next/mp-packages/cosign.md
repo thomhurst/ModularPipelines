@@ -57,3 +57,29 @@ var result = await context.Tools.Cosign.VerifyAsync(
 ```
 
 Generated password, token, OIDC secret, PIN, PUK, and hardware-management-key properties are marked as secrets so Modular Pipelines masks their values in command logs.
+
+## Shared logging and timeout settings[​](#shared-logging-and-timeout-settings "Direct link to Shared logging and timeout settings")
+
+Every generated command inherits `OutputFile`, `Timeout`, and `Verbose` from `CosignOptions`. These are Cosign's root persistent flags and render before the subcommand. Signing, verification, registry, and key settings remain local to the commands that advertise them.
+
+```
+var options = new CosignVerifyOptions(["registry.example/app@sha256:..."])
+
+{
+
+    OutputFile = "verification.log",
+
+    Timeout = "45s",
+
+    Verbose = true,
+
+    Key = "cosign.pub",
+
+};
+
+// cosign --output-file=verification.log --timeout=45s --verbose verify registry.example/app@sha256:... --key=cosign.pub
+```
+
+`Timeout` is a Cosign duration string such as `45s` or `2m30s`, not the framework's process timeout in execution options. Leaving it `null` preserves Cosign's own three-minute default. `Verbose = false` or `null` omits the flag. `OutputFile` selects the CLI log destination; it is not a signature or bundle output path. The CLI aliases `-t` and `-d` are retained in generated metadata.
+
+For V4 migration, these three properties move from individual command records to `CosignOptions` without changing their names or types. Existing object initializers remain valid. Reflection code using `DeclaredOnly` must inspect inherited properties. The audit uses Cosign 3.1.3; help/version operations and the command tree remain unchanged.
