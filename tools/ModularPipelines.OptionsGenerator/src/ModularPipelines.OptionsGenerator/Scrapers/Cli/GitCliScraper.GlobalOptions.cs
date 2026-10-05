@@ -6,60 +6,56 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 public partial class GitCliScraper
 {
+    private static readonly Dictionary<string, RootOptionShape> RootOptionShapes = new(StringComparer.Ordinal)
+    {
+        ["-C"] = new("ChangeDirectories", "string[]?", Phase: CommandLinePhase.EarlyOperand),
+        ["-c"] = new("Configuration", "KeyValue[]?", IsSecret: true),
+        ["--config-env"] = new("ConfigEnv", "string[]?"),
+        ["--exec-path"] = new("ExecPath", "string?"),
+        ["--git-dir"] = new("GitDirectory", "string?"),
+        ["--work-tree"] = new("WorkTree", "string?"),
+        ["--namespace"] = new("Namespace", "string?"),
+        ["--bare"] = new("BareRepository"),
+        ["--paginate"] = new("Paginate"),
+        ["--no-pager"] = new("NoPager"),
+        ["--no-replace-objects"] = new("NoReplaceObjects"),
+        ["--no-lazy-fetch"] = new("NoLazyFetch"),
+        ["--no-optional-locks"] = new("NoOptionalLocks"),
+        ["--no-advice"] = new("NoAdvice"),
+    };
+
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
     {
         // Only root usage declares inherited settings; command help reuses short switches.
         var synopsis = helpText.Split("These are common Git commands", StringSplitOptions.None)[0];
-        var options = new List<CliOptionDefinition>();
-        foreach (var match in RootOptionPattern().Matches(synopsis).Cast<Match>())
-        {
-            var name = match.Groups[1].Value;
-            var property = name switch
-            {
-                "-C" => "ChangeDirectories",
-                "-c" => "Configuration",
-                "--config-env" => "ConfigEnv",
-                "--exec-path" => "ExecPath",
-                "--git-dir" => "GitDirectory",
-                "--work-tree" => "WorkTree",
-                "--namespace" => "Namespace",
-                "--bare" => "BareRepository",
-                "--paginate" => "Paginate",
-                "--no-pager" => "NoPager",
-                "--no-replace-objects" => "NoReplaceObjects",
-                "--no-lazy-fetch" => "NoLazyFetch",
-                "--no-optional-locks" => "NoOptionalLocks",
-                "--no-advice" => "NoAdvice",
-                _ => null,
-            };
-            if (property is null || options.Any(option => option.SwitchName == name))
-            {
-                continue;
-            }
-
-            var collection = name is "-C" or "-c" or "--config-env";
-            var value = collection || name is "--exec-path" or "--git-dir" or "--work-tree" or "--namespace";
-            options.Add(new CliOptionDefinition
-            {
-                SwitchName = name,
-                PropertyName = property,
-                CSharpType = name switch
-                {
-                    "-c" => "KeyValue[]?",
-                    _ when collection => "string[]?",
-                    _ when value => "string?",
-                    _ => "bool?",
-                },
-                IsFlag = !value,
-                AcceptsMultipleValues = collection,
-                IsSecret = name == "-c",
-                ValueSeparator = value && name.StartsWith("--", StringComparison.Ordinal) ? "=" : " ",
-                Phase = name == "-C" ? CommandLinePhase.EarlyOperand : CommandLinePhase.Normal,
-            });
-        }
-
-        return options;
+        return [.. RootOptionPattern().Matches(synopsis)
+            .Select(match => match.Groups[1].Value)
+            .Distinct(StringComparer.Ordinal)
+            .Where(RootOptionShapes.ContainsKey)
+            .Select(name => CreateRootOption(name, RootOptionShapes[name]))];
     }
+
+    private static CliOptionDefinition CreateRootOption(string name, RootOptionShape shape)
+    {
+        var isFlag = shape.CSharpType == "bool?";
+        return new CliOptionDefinition
+        {
+            SwitchName = name,
+            PropertyName = shape.PropertyName,
+            CSharpType = shape.CSharpType,
+            IsFlag = isFlag,
+            AcceptsMultipleValues = shape.CSharpType.EndsWith("[]?", StringComparison.Ordinal),
+            IsSecret = shape.IsSecret,
+            ValueSeparator = !isFlag && name.StartsWith("--", StringComparison.Ordinal) ? "=" : " ",
+            Phase = shape.Phase,
+        };
+    }
+
+    private sealed record RootOptionShape(
+        string PropertyName,
+        string CSharpType = "bool?",
+        bool IsSecret = false,
+        CommandLinePhase Phase = CommandLinePhase.Normal);
 
     [GeneratedRegex(@"(?<![\w-])(--[a-z][a-z-]*|-[Cc])(?=[\s=\[\]|])")]
     private static partial Regex RootOptionPattern();
