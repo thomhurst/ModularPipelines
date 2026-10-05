@@ -1,0 +1,16 @@
+Start a package
+
+Usage:
+npm start [-- <args>]
+
+Options:
+[--ignore-scripts] [--script-shell <script-shell>]
+
+  --ignore-scripts
+    If true, npm does not run scripts specified in package.json files.
+
+  --script-shell
+    The shell to use for scripts run with the `npm exec`,
+
+
+Run "npm help start" for more info

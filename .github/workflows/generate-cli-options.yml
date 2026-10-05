@@ -371,8 +371,10 @@ jobs:
       - name: Install pinned npm and npx
         if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
         run: |
-          test "$(npm view npm@11.11.0 dist.integrity)" = "sha512-82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw=="
-          npm install -g npm@11.11.0
+          npm_tarball="$RUNNER_TEMP/npm-11.11.0.tgz"
+          curl --fail --location --retry 3 https://registry.npmjs.org/npm/-/npm-11.11.0.tgz --output "$npm_tarball"
+          test "$(openssl dgst -sha512 -binary "$npm_tarball" | openssl base64 -A)" = "82gRxKrh/eY5UnNorkTFcdBQAGpgjWehkfGVqAGlJjejEtJZGGJUqjo3mbBTNbc5BTnPKGVtGPBZGhElujX5cw=="
+          npm install -g --ignore-scripts "$npm_tarball"
           npm --version
           npx --version
 
