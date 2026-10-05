@@ -29,31 +29,31 @@ public record TrivyImageOptions : TrivyOptions
     public string? CacheBackend { get; set; }
 
     /// <summary>
-    /// cache TTL when using redis as cache backend
+    /// cache TTL when using Redis as cache backend
     /// </summary>
     [CliOption("--cache-ttl", Format = OptionFormat.EqualsSeparated)]
     public string? CacheTtl { get; set; }
 
     /// <summary>
-    /// redis ca file location, if using redis as cache backend
+    /// Redis CA file location, if using Redis as cache backend
     /// </summary>
     [CliOption("--redis-ca", Format = OptionFormat.EqualsSeparated)]
     public string? RedisCa { get; set; }
 
     /// <summary>
-    /// redis certificate file location, if using redis as cache backend
+    /// Redis certificate file location, if using Redis as cache backend
     /// </summary>
     [CliOption("--redis-cert", Format = OptionFormat.EqualsSeparated)]
     public string? RedisCert { get; set; }
 
     /// <summary>
-    /// redis key file location, if using redis as cache backend
+    /// Redis key file location, if using Redis as cache backend
     /// </summary>
     [CliOption("--redis-key", Format = OptionFormat.EqualsSeparated)]
     public string? RedisKey { get; set; }
 
     /// <summary>
-    /// enable redis TLS with public certificates, if using redis as cache backend
+    /// enable Redis TLS with public certificates, if using Redis as cache backend
     /// </summary>
     [CliFlag("--redis-tls")]
     public bool? RedisTls { get; set; }
@@ -149,7 +149,7 @@ public record TrivyImageOptions : TrivyOptions
     public bool? RemovedPkgs { get; set; }
 
     /// <summary>
-    /// specify a list of license to ignore
+    /// specify a list of licenses to ignore
     /// </summary>
     [CliOption("--ignored-licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IgnoredLicenses { get; set; }
@@ -173,7 +173,7 @@ public record TrivyImageOptions : TrivyOptions
     public IEnumerable<string>? AnsibleExtraVars { get; set; }
 
     /// <summary>
-    /// specify inventory host path or comma separated host list
+    /// specify inventory host path or a comma-separated host list
     /// </summary>
     [CliOption("--ansible-inventory", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AnsibleInventory { get; set; }
@@ -269,7 +269,7 @@ public record TrivyImageOptions : TrivyOptions
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
+    /// specify the directory of the WASM modules to load (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }
@@ -417,7 +417,7 @@ public record TrivyImageOptions : TrivyOptions
     public string? IgnorePolicy { get; set; }
 
     /// <summary>
-    /// specify .trivyignore file (default ".trivyignore")
+    /// specify .trivyignore file (empty string disables loading) (default ".trivyignore")
     /// </summary>
     [CliOption("--ignorefile", Format = OptionFormat.EqualsSeparated)]
     public string? Ignorefile { get; set; }
@@ -519,7 +519,7 @@ public record TrivyImageOptions : TrivyOptions
     public IEnumerable<TrivyImageSbomSources>? SbomSources { get; set; }
 
     /// <summary>
-    /// comma-separated list of what security issues to detect (allowed values: vuln,misconfig,secret,license) (default [vuln,secret])
+    /// comma-separated list of what security issues to detect Allowed values: - vuln - misconfig - secret - license - crypto (default [vuln,secret])
     /// </summary>
     [CliOption("--scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyImageScanners>? Scanners { get; set; }
@@ -543,13 +543,13 @@ public record TrivyImageOptions : TrivyOptions
     public bool? SkipVersionCheck { get; set; }
 
     /// <summary>
-    /// specify a path to config file for secret scanning (default "trivy-secret.yaml")
+    /// specify a path to config file for secret scanning (empty string disables loading) (default "trivy-secret.yaml")
     /// </summary>
     [CliOption("--secret-config", Format = OptionFormat.EqualsSeparated)]
     public string? SecretConfig { get; set; }
 
     /// <summary>
-    /// comma-separated list of vulnerability status to ignore Allowed values: - unknown - not_affected - affected - fixed - under_investigation - will_not_fix - fix_deferred - end_of_life
+    /// comma-separated list of vulnerability statuses to ignore Allowed values: - unknown - not_affected - affected - fixed - under_investigation - will_not_fix - fix_deferred - end_of_life
     /// </summary>
     [CliOption("--ignore-status", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyImageIgnoreStatus>? IgnoreStatus { get; set; }
@@ -561,7 +561,7 @@ public record TrivyImageOptions : TrivyOptions
     public bool? IgnoreUnfixed { get; set; }
 
     /// <summary>
-    /// [EXPERIMENTAL] Skip VEX Repository update
+    /// [EXPERIMENTAL] skip VEX repository update
     /// </summary>
     [CliFlag("--skip-vex-repo-update")]
     public bool? SkipVexRepoUpdate { get; set; }
@@ -573,58 +573,10 @@ public record TrivyImageOptions : TrivyOptions
     public IEnumerable<string>? Vex { get; set; }
 
     /// <summary>
-    /// order of data sources for selecting vulnerability severity level Allowed values: - nvd - redhat - redhat-oval - debian - ubuntu - alpine - amazon - oracle-oval - suse-cvrf - photon - arch-linux - alma - rocky - cbl-mariner - azure - ruby-advisory-db - php-security-advisories - nodejs-security-wg - ghsa - glad - aqua - osv - k8s - wolfi - chainguard - bitnami - govulndb - julia - echo - minimos - rootio - auto (default [auto])
+    /// order of data sources for selecting vulnerability severity level Allowed values: - nvd - redhat - redhat-oval - debian - ubuntu - alpine - amazon - oracle-oval - suse-cvrf - photon - arch-linux - alma - rocky - cbl-mariner - azure - ruby-advisory-db - php-security-advisories - nodejs-security-wg - ghsa - glad - aqua - osv - k8s - wolfi - chainguard - bitnami - govulndb - julia - bottlerocket - echo - echo-osv - minimos - rootio - rapidfort - auto (default [auto])
     /// </summary>
     [CliOption("--vuln-severity-source", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VulnSeveritySource { get; set; }
-
-    /// <summary>
-    /// Path to PEM-encoded CA certificate file
-    /// </summary>
-    [CliOption("--cacert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cacert { get; set; }
-
-    /// <summary>
-    /// cache directory (default "&lt;cache&gt;/trivy")
-    /// </summary>
-    [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheDir { get; set; }
-
-    /// <summary>
-    /// config path (default "trivy.yaml")
-    /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Config { get; set; }
-
-    /// <summary>
-    /// debug mode
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// write the default config to trivy-default.yaml
-    /// </summary>
-    [CliFlag("--generate-default-config")]
-    public bool? GenerateDefaultConfig { get; set; }
-
-    /// <summary>
-    /// allow insecure server connections
-    /// </summary>
-    [CliFlag("--insecure")]
-    public bool? Insecure { get; set; }
-
-    /// <summary>
-    /// suppress progress bar and log output
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// timeout (default 5m0s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
 
     /// <summary>
     /// show version

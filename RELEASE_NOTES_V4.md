@@ -17,6 +17,15 @@ commands. These flags follow the command path (`brew list --verbose`). Existing
 property initializers retain their names; reflection over command records must
 include inherited properties. Cask-only options remain command-specific.
 
+## Trivy inherited settings
+
+Trivy command records now inherit eight persistent settings from `TrivyOptions`:
+`Cacert`, `CacheDir`, `Config`, `Debug`, `GenerateDefaultConfig`, `Insecure`, `Quiet`,
+and `Timeout`. Existing initializer property names remain available; these values
+now render before the command path. Root help/version controls and root version
+format are excluded, while scan formats and registry credentials remain local.
+See the [Trivy package guide](docs/docs/mp-packages/trivy.md) for migration details.
+
 ## Asynchronous file operations
 
 `IHashContext` now provides cancellable async file hashing for MD5, SHA-1,
