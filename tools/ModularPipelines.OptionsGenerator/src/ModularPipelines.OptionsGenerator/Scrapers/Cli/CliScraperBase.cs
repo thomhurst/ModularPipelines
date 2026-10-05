@@ -585,6 +585,7 @@ public abstract partial class CliScraperBase : ICliScraper
         UsageSynopsisParseResult usage)
     {
         // A discovered version command can be useful without flags or operands.
+        // Root commands remain subject to the ordinary filtering rules.
         var isVersionSubcommand = path.Length > 1
                                   && path[^1].Equals("version", StringComparison.OrdinalIgnoreCase);
         return (!HasOptions(helpText) && !usage.HasOperandTokens && !isVersionSubcommand)
