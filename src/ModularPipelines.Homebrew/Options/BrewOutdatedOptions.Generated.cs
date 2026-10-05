@@ -21,18 +21,6 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewOutdatedOptions : BrewOptions
 {
     /// <summary>
-    /// List only the names of outdated kegs (takes precedence over --verbose).
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Include detailed version information.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
-
-    /// <summary>
     /// List only outdated formulae.
     /// </summary>
     [CliFlag("--formula")]
@@ -79,12 +67,6 @@ public record BrewOutdatedOptions : BrewOptions
     /// </summary>
     [CliFlag("--greedy-auto-updates")]
     public bool? GreedyAutoUpdates { get; set; }
-
-    /// <summary>
-    /// Display any debugging information.
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-d")]
-    public bool? Debug { get; set; }
 
     /// <summary>
     /// The formula operand.

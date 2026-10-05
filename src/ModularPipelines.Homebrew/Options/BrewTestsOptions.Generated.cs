@@ -42,7 +42,7 @@ public record BrewTestsOptions : BrewOptions
     /// Enable debugging using ruby/debug, or surface the standard odebug output.
     /// </summary>
     [CliFlag("--debug")]
-    public bool? Debug { get; set; }
+    public new bool? Debug { get; set; }
 
     /// <summary>
     /// Only runs tests on files that were changed from the main branch.
@@ -109,17 +109,5 @@ public record BrewTestsOptions : BrewOptions
     /// </summary>
     [CliOption("--seed", Format = OptionFormat.EqualsSeparated)]
     public string? Seed { get; set; }
-
-    /// <summary>
-    /// Make some output more quiet.
-    /// </summary>
-    [CliFlag("--quiet", ShortForm = "-q")]
-    public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Make some output more verbose.
-    /// </summary>
-    [CliFlag("--verbose", ShortForm = "-v")]
-    public bool? Verbose { get; set; }
 
 }
