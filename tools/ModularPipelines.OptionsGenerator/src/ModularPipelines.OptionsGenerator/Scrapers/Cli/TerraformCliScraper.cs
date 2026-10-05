@@ -48,6 +48,12 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
 
     public override string OutputDirectory => "src/ModularPipelines.Terraform";
 
+    /// <inheritdoc />
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        ParseOptions(helpText, [], GlobalOptionsSectionPattern())
+            // Help and version select informational actions rather than modifying execution.
+            .Where(option => option.SwitchName is not ("-help" or "-version"))
+            .ToList();
 
     /// <summary>
     /// Skip less useful commands.
@@ -305,14 +311,14 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// Parses options from Terraform help text.
     /// Terraform uses single-dash flags: -flag or -option=value
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts, Regex? sectionPattern = null)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find Options: section
-        var optionsMatch = OptionsSectionPattern().Match(helpText);
+        var optionsMatch = (sectionPattern ?? OptionsSectionPattern()).Match(helpText);
         if (!optionsMatch.Success)
         {
             return options;
@@ -475,6 +481,9 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
     /// </summary>
     [GeneratedRegex(@"^Options?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex OptionsSectionPattern();
+
+    [GeneratedRegex(@"^Global options(?:\s+\([^\r\n]*\))?:\s*\n", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    private static partial Regex GlobalOptionsSectionPattern();
 
     /// <summary>
     /// Matches Terraform-style option lines:
