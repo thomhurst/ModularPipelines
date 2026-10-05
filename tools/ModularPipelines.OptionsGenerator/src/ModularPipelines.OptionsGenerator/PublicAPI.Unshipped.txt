@@ -202,6 +202,11 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.ParseUs
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.ParseUsageSynopsis(string![]! commandPath, string! helpText) -> ModularPipelines.OptionsGenerator.Scrapers.Cli.UsageSynopsisParseResult!
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.RequiredWhen.get -> ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeMember?
 ModularPipelines.OptionsGenerator.Models.CliRequiredAlternativeGroup.RequiredWhen.init -> void
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.TreatParseErrorsAsFatal.get -> bool
+virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TreatParseErrorsAsFatal.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.VersionArguments.get -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.GetHelpTextAsync(string![]! commandPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.DelayBeforeRepeatAsync(System.TimeSpan delay, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GcloudCliScraper.PreserveCommandGroupPlaceholders.get -> bool
@@ -225,8 +230,3 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.TrivyCliScraper.ParseGlo
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TrivyCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KindCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.KindCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.TreatParseErrorsAsFatal.get -> bool
-virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.CliScraperBase.TreatParseErrorsAsFatal.get -> bool
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.VersionArguments.get -> string!
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
-override ModularPipelines.OptionsGenerator.Scrapers.Cli.AzCliScraper.CreateToolDefinition() -> ModularPipelines.OptionsGenerator.Models.CliToolDefinition!
