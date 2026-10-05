@@ -24,6 +24,33 @@ Resolve the service in a module, then select a command from the table below. A r
 var minikube = context.Tools.Minikube;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                           | Property                        | Availability | Description                                                                                                                                                                                 |
+| ------------------------------------ | ------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--add_dir_header`                   | `AddDirHeader`                  | All editions | If true, adds the file directory to the header of the log messages                                                                                                                          |
+| `--alsologtostderr`                  | `Alsologtostderr`               | All editions | log to standard error as well as files (no effect when -logtostderr=true)                                                                                                                   |
+| `--alsologtostderrthreshold`         | `Alsologtostderrthreshold`      | All editions | logs at or above this threshold go to stderr when -alsologtostderr=true (no effect when -logtostderr=true)                                                                                  |
+| `--bootstrapper`                     | `Bootstrapper`                  | All editions | The name of the cluster bootstrapper that will set up the Kubernetes cluster.                                                                                                               |
+| `--legacy_stderr_threshold_behavior` | `LegacyStderrThresholdBehavior` | All editions | If true, stderrthreshold is ignored when logtostderr=true (legacy behavior). If false, stderrthreshold is honored even when logtostderr=true                                                |
+| `--logtostderr`                      | `Logtostderr`                   | All editions | log to standard error instead of files                                                                                                                                                      |
+| `--log_backtrace_at`                 | `LogBacktraceAt`                | All editions | when logging hits line file<!-- -->:N<!-- -->, emit a stack trace                                                                                                                           |
+| `--log_dir`                          | `LogDir`                        | All editions | If non-empty, write log files in this directory (no effect when -logtostderr=true)                                                                                                          |
+| `--log_file`                         | `LogFile`                       | All editions | If non-empty, use this log file (no effect when -logtostderr=true)                                                                                                                          |
+| `--log_file_max_size`                | `LogFileMaxSize`                | All editions | Defines the maximum size a log file can grow to (no effect when -logtostderr=true). Unit is megabytes. If the value is 0, the maximum file size is unlimited.                               |
+| `--one_output`                       | `OneOutput`                     | All editions | If true, only write logs to their native severity level (vs also writing to each lower severity level; no effect when -logtostderr=true)                                                    |
+| `--profile`                          | `Profile`                       | All editions | The name of the minikube VM being used. This can be set to allow having multiple instances of minikube independently.                                                                       |
+| `--rootless`                         | `Rootless`                      | All editions | Force to use rootless driver (docker and podman driver only)                                                                                                                                |
+| `--skip-audit`                       | `SkipAudit`                     | All editions | Skip recording the current command in the audit logs.                                                                                                                                       |
+| `--skip_headers`                     | `SkipHeaders`                   | All editions | If true, avoid header prefixes in the log messages                                                                                                                                          |
+| `--skip_log_headers`                 | `SkipLogHeaders`                | All editions | If true, avoid headers when opening log files (no effect when -logtostderr=true)                                                                                                            |
+| `--stderrthreshold`                  | `Stderrthreshold`               | All editions | logs at or above this threshold go to stderr when writing to files and stderr (no effect when -logtostderr=true or -alsologtostderr=true unless -legacy\_stderr\_threshold\_behavior=false) |
+| `--user`                             | `User`                          | All editions | Specifies the user executing the operation. Useful for auditing operations executed by 3rd party tools. Defaults to the operating system username.                                          |
+| `--v`                                | `V`                             | All editions | number for the log level verbosity                                                                                                                                                          |
+| `--vmodule`                          | `Vmodule`                       | All editions | comma-separated list of pattern=N settings for file-filtered logging                                                                                                                        |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                 | Options record                   |
