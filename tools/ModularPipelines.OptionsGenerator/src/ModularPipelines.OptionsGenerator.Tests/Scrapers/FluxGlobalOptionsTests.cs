@@ -51,13 +51,13 @@ public class FluxGlobalOptionsTests
         await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
         await Assert.That(commands.Select(command => string.Join(' ', command.CommandParts))).IsEquivalentTo(
-            new[] { "get", "get sources", "get sources git", "create", "create secret", "create secret receiver", "trigger", "trigger receiver", "bootstrap", "bootstrap github", "envsubst" });
+            ["get", "get sources", "get sources git", "create", "create secret", "create secret receiver", "trigger", "trigger receiver", "bootstrap", "bootstrap github", "envsubst"]);
         foreach (var command in commands)
         {
             var locals = command.Options.Where(option => GlobalSwitches.Contains(option.SwitchName)).ToArray();
             if (command.CommandParts is ["create", "secret", "receiver"] or ["trigger", "receiver"])
             {
-                await Assert.That(locals.Select(option => option.SwitchName)).IsEquivalentTo(new[] { "--token" });
+                await Assert.That(locals.Select(option => option.SwitchName)).IsEquivalentTo(["--token"]);
                 await Assert.That(locals.Single().IsSecret).IsTrue();
                 await Assert.That(locals.Single().Description).Contains("token");
             }
@@ -69,7 +69,7 @@ public class FluxGlobalOptionsTests
 
         var getGit = commands.Single(command => command.CommandParts.SequenceEqual(["get", "sources", "git"]));
         await Assert.That(getGit.Options.Select(option => option.SwitchName)).IsEquivalentTo(
-            new[] { "--all-namespaces", "--label-selector", "--no-header", "--status-selector", "--watch" });
+            ["--all-namespaces", "--label-selector", "--no-header", "--status-selector", "--watch"]);
         var bootstrap = commands.Single(command => command.CommandParts.SequenceEqual(["bootstrap", "github"]));
         await Assert.That(bootstrap.Options.Any(option => option.SwitchName == "--branch")).IsTrue();
         await Assert.That(bootstrap.Options.Any(option => option.SwitchName == "--token-auth")).IsTrue();
