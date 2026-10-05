@@ -55,6 +55,11 @@ public sealed record CliRequiredAlternativeGroup
 public sealed record CliRequiredAlternativeMember
 {
     /// <summary>
+    /// The flag value that activates a named conditional requirement, when only one spelling is a trigger.
+    /// </summary>
+    public bool? RequiredFlagValue { get; init; }
+
+    /// <summary>
     /// Whether this member must be present when its containing argument bundle is selected.
     /// </summary>
     public bool IsRequired { get; init; }

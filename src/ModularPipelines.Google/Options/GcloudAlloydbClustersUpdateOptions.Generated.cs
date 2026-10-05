@@ -60,14 +60,8 @@ public record GcloudAlloydbClustersUpdateOptions : GcloudOptions, IValidatableOb
     /// <summary>
     /// Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
     /// </summary>
-    [CliFlag("--enable-dataplex-integration")]
+    [CliFlag("--enable-dataplex-integration", NegatedName = "--no-enable-dataplex-integration")]
     public bool? EnableDataplexIntegration { get; set; }
-
-    /// <summary>
-    /// Negates --enable-dataplex-integration. Enable or disable Dataplex integration for this cluster (Enabled by default). Use --enable-dataplex-integration to enable and --no-enable-dataplex-integration to disable.
-    /// </summary>
-    [CliFlag("--no-enable-dataplex-integration")]
-    public bool? NoEnableDataplexIntegration { get; set; }
 
     /// <summary>
     /// Maintenance version to update the cluster to. Use latest to apply the latest available maintenance version.

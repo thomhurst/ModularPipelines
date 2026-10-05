@@ -66,14 +66,8 @@ public record GcloudLoggingSinksUpdateOptions : GcloudOptions, IValidatableObjec
     /// <summary>
     /// Disable the sink. Disabled sinks do not route logs to the sink destination. Specify --no-disabled to enable a disabled sink. If this flag is not specified, the value will not be updated.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Disable the sink. Disabled sinks do not route logs to the sink destination. Specify --no-disabled to enable a disabled sink. If this flag is not specified, the value will not be updated.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// Whether to export logs from all child projects and folders. Only applies to sinks for organizations and folders.

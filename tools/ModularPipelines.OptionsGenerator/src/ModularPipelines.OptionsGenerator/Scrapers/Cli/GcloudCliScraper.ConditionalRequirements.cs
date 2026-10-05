@@ -11,7 +11,10 @@ public partial class GcloudCliScraper
         var bySwitch = new Dictionary<string, CliOptionDefinition>(options.Count, StringComparer.Ordinal);
         foreach (var option in options)
         {
-            bySwitch.TryAdd(option.SwitchName, option);
+            foreach (var switchName in option.GetSwitchNames())
+            {
+                bySwitch.TryAdd(switchName, option);
+            }
         }
 
         var dependencies = options.SelectMany(option => GetNamedRequirements(option, bySwitch))
@@ -50,7 +53,13 @@ public partial class GcloudCliScraper
             constraints.Add(conditional with
             {
                 IsRequired = true,
-                RequiredWhen = new() { PropertyName = trigger.PropertyName, OptionSwitch = trigger.SwitchName },
+                RequiredWhen = new()
+                {
+                    PropertyName = trigger.PropertyName,
+                    OptionSwitch = trigger.SwitchName,
+                    RequiredFlagValue = trigger is { IsFlag: true, NegatedSwitchName: not null }
+                        ? dependency.Key != trigger.NegatedSwitchName : null,
+                },
             });
         }
     }

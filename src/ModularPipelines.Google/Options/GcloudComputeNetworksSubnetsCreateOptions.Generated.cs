@@ -54,14 +54,8 @@ public record GcloudComputeNetworksSubnetsCreateOptions : GcloudOptions
     /// <summary>
     /// Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
     /// </summary>
-    [CliFlag("--allow-cidr-routes-overlap")]
+    [CliFlag("--allow-cidr-routes-overlap", NegatedName = "--no-allow-cidr-routes-overlap")]
     public bool? AllowCidrRoutesOverlap { get; set; }
-
-    /// <summary>
-    /// Negates --allow-cidr-routes-overlap. Allow/disallow this subnetwork's IP address ranges to conflict with existing custom routes. Use --allow-cidr-routes-overlap to enable and --no-allow-cidr-routes-overlap to disable.
-    /// </summary>
-    [CliFlag("--no-allow-cidr-routes-overlap")]
-    public bool? NoAllowCidrRoutesOverlap { get; set; }
 
     /// <summary>
     /// An optional description of this subnetwork.

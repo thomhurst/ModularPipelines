@@ -25,14 +25,8 @@ public record GcloudRunComposeUpOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
     /// </summary>
-    [CliFlag("--allow-unauthenticated")]
+    [CliFlag("--allow-unauthenticated", NegatedName = "--no-allow-unauthenticated")]
     public bool? AllowUnauthenticated { get; set; }
-
-    /// <summary>
-    /// Negates --allow-unauthenticated. Whether to enable allowing unauthenticated access to the service. This may take a few moments to take effect. Use --allow-unauthenticated to enable and --no-allow-unauthenticated to disable.
-    /// </summary>
-    [CliFlag("--no-allow-unauthenticated")]
-    public bool? NoAllowUnauthenticated { get; set; }
 
     /// <summary>
     /// If set to true, only validates the configuration. The configuration is not applied.

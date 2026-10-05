@@ -103,14 +103,8 @@ public record GcloudComputeMachineImagesImportOptions : GcloudOptions, IValidata
     /// <summary>
     /// The guest environment will be installed on the machine image. Enabled by default, use --no-guest-environment to disable.
     /// </summary>
-    [CliFlag("--guest-environment")]
+    [CliFlag("--guest-environment", NegatedName = "--no-guest-environment")]
     public bool? GuestEnvironment { get; set; }
-
-    /// <summary>
-    /// Negates --guest-environment. The guest environment will be installed on the machine image. Enabled by default, use --no-guest-environment to disable.
-    /// </summary>
-    [CliFlag("--no-guest-environment")]
-    public bool? NoGuestEnvironment { get; set; }
 
     /// <summary>
     /// Create an application-consistent machine image by informing the OS to prepare for the snapshot process.
@@ -163,14 +157,8 @@ public record GcloudComputeMachineImagesImportOptions : GcloudOptions, IValidata
     /// <summary>
     /// The VMs created from the imported machine image are restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
     /// </summary>
-    [CliFlag("--restart-on-failure")]
+    [CliFlag("--restart-on-failure", NegatedName = "--no-restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
-
-    /// <summary>
-    /// Negates --restart-on-failure. The VMs created from the imported machine image are restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Enabled by default, use --no-restart-on-failure to disable.
-    /// </summary>
-    [CliFlag("--no-restart-on-failure")]
-    public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
     /// Google Cloud Storage location, either regional or multi-regional, where machine image's content is to be stored. If absent, a nearby regional or multi-regional location is chosen automatically.

@@ -72,26 +72,14 @@ public record GcloudOracleDatabaseAutonomousDatabasesUpdateOptions : GcloudOptio
     /// <summary>
     /// Arguments for the local data guard enabled. Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
     /// </summary>
-    [CliFlag("--properties-local-data-guard-enabled")]
+    [CliFlag("--properties-local-data-guard-enabled", NegatedName = "--no-properties-local-data-guard-enabled")]
     public bool? PropertiesLocalDataGuardEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --properties-local-data-guard-enabled. Arguments for the local data guard enabled. Indicates whether the Autonomous Database has a local (in-region) standby database. Not applicable to cross-region Data Guard or dedicated Exadata infrastructure. Use --properties-local-data-guard-enabled to enable and --no-properties-local-data-guard-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-properties-local-data-guard-enabled")]
-    public bool? NoPropertiesLocalDataGuardEnabled { get; set; }
 
     /// <summary>
     /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
     /// </summary>
-    [CliFlag("--properties-refreshable-clone")]
+    [CliFlag("--properties-refreshable-clone", NegatedName = "--no-properties-refreshable-clone")]
     public bool? PropertiesRefreshableClone { get; set; }
-
-    /// <summary>
-    /// Negates --properties-refreshable-clone. Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. Indicates if the Autonomous Database is a refreshable clone. This field is used in update flow to connect / disconnect a refreshable clone from its source database. Use --properties-refreshable-clone to enable and --no-properties-refreshable-clone to disable.
-    /// </summary>
-    [CliFlag("--no-properties-refreshable-clone")]
-    public bool? NoPropertiesRefreshableClone { get; set; }
 
     /// <summary>
     /// Arguments for the refreshable clone. The encryption key used to encrypt the Autonomous Database. All arguments needed to update encryption_key_kms. The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one of: google-managed Google Managed KMS key, if selected, please provide the KMS key name. oracle-managed Oracle Managed.

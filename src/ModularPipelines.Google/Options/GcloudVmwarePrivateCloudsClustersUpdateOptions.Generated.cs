@@ -54,14 +54,8 @@ public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// (DEPRECATED) Information about the type and number of nodes associated with the cluster. type (required): canonical identifier of the node type. count (required): number of nodes of this type in the cluster. custom_core_count: can be passed, but the value will be ignored. Updating custom core count is not supported. The --node-type-config option is deprecated; please use --update-nodes-config and --remove-nodes-config instead.

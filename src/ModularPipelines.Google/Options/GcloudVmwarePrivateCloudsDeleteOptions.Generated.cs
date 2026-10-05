@@ -47,14 +47,8 @@ public record GcloudVmwarePrivateCloudsDeleteOptions : GcloudOptions
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Number of hours to wait before deleting the private cloud. Specifying a value of 0 for this field begins the deletion process immediately. DELAY_HOURS must be one of: 0, 1, 2, 3, 4, 5, 6, 7, 8.

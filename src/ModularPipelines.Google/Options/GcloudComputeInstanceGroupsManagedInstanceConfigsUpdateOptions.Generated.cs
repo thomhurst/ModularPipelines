@@ -108,14 +108,8 @@ public record GcloudComputeInstanceGroupsManagedInstanceConfigsUpdateOptions : G
     /// <summary>
     /// Apply the configuration changes immediately to the instance. If you disable this flag, the managed instance group will apply the configuration update when you next recreate or update the instance. Example: say you have an instance with a disk attached to it and you created a stateful configuration for the disk. If you decide to delete the stateful configuration for the disk and you provide this flag, the group immediately refreshes the instance and removes the stateful configuration for the disk. Similarly if you have attached a new disk or changed its definition, with this flag the group immediately refreshes the instance with the new configuration. Enabled by default, use --no-update-instance to disable.
     /// </summary>
-    [CliFlag("--update-instance")]
+    [CliFlag("--update-instance", NegatedName = "--no-update-instance")]
     public bool? UpdateInstance { get; set; }
-
-    /// <summary>
-    /// Negates --update-instance. Apply the configuration changes immediately to the instance. If you disable this flag, the managed instance group will apply the configuration update when you next recreate or update the instance. Example: say you have an instance with a disk attached to it and you created a stateful configuration for the disk. If you decide to delete the stateful configuration for the disk and you provide this flag, the group immediately refreshes the instance and removes the stateful configuration for the disk. Similarly if you have attached a new disk or changed its definition, with this flag the group immediately refreshes the instance with the new configuration. Enabled by default, use --no-update-instance to disable.
-    /// </summary>
-    [CliFlag("--no-update-instance")]
-    public bool? NoUpdateInstance { get; set; }
 
     /// <summary>
     /// At most one of these can be specified: Region of the managed instance group to update per-instance config for. If not specified, you might be prompted to select a region (interactive mode only). A list of regions can be fetched by running: $ gcloud compute regions list Overrides the default compute/region property value for this command invocation.

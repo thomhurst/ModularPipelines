@@ -100,26 +100,14 @@ public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions, IValid
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// If provided, allows the restored instances to send and receive packets with non-matching destination or source IP addresses. Use --can-ip-forward to enable and --no-can-ip-forward to disable.
     /// </summary>
-    [CliFlag("--can-ip-forward")]
+    [CliFlag("--can-ip-forward", NegatedName = "--no-can-ip-forward")]
     public bool? CanIpForward { get; set; }
-
-    /// <summary>
-    /// Negates --can-ip-forward. If provided, allows the restored instances to send and receive packets with non-matching destination or source IP addresses. Use --can-ip-forward to enable and --no-can-ip-forward to disable.
-    /// </summary>
-    [CliFlag("--no-can-ip-forward")]
-    public bool? NoCanIpForward { get; set; }
 
     /// <summary>
     /// Clears the CMEK encryption of the restored disks and defaults to GMEK unless the kms-key is specified in the --create-disk flag.
@@ -142,14 +130,8 @@ public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions, IValid
     /// <summary>
     /// Enables deletion protection for the restored instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enables deletion protection for the restored instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// Specifies a textual description of the restored instance.
@@ -160,26 +142,14 @@ public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions, IValid
     /// <summary>
     /// Enable a display device on the restored VM instances. Disabled by default. Use --enable-display-device to enable and --no-enable-display-device to disable.
     /// </summary>
-    [CliFlag("--enable-display-device")]
+    [CliFlag("--enable-display-device", NegatedName = "--no-enable-display-device")]
     public bool? EnableDisplayDevice { get; set; }
-
-    /// <summary>
-    /// Negates --enable-display-device. Enable a display device on the restored VM instances. Disabled by default. Use --enable-display-device to enable and --no-enable-display-device to disable.
-    /// </summary>
-    [CliFlag("--no-enable-display-device")]
-    public bool? NoEnableDisplayDevice { get; set; }
 
     /// <summary>
     /// If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
     /// </summary>
-    [CliFlag("--enable-uefi-networking")]
+    [CliFlag("--enable-uefi-networking", NegatedName = "--no-enable-uefi-networking")]
     public bool? EnableUefiNetworking { get; set; }
-
-    /// <summary>
-    /// Negates --enable-uefi-networking. If set to true, enables UEFI networking for the instance creation. Use --enable-uefi-networking to enable and --no-enable-uefi-networking to disable.
-    /// </summary>
-    [CliFlag("--no-enable-uefi-networking")]
-    public bool? NoEnableUefiNetworking { get; set; }
 
     /// <summary>
     /// Specify the hostname of the restore instance to be created. The specified hostname must be RFC1035 compliant. If hostname is not specified, the default hostname is [INSTANCE_NAME].c.[TARGET_PROJECT_ID].internal when using the global DNS, and [INSTANCE_NAME].[ZONE].c.[TARGET_PROJECT_ID].internal when using zonal DNS.
@@ -262,14 +232,8 @@ public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions, IValid
     /// <summary>
     /// If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
     /// </summary>
-    [CliFlag("--preemptible")]
+    [CliFlag("--preemptible", NegatedName = "--no-preemptible")]
     public bool? Preemptible { get; set; }
-
-    /// <summary>
-    /// Negates --preemptible. If provided, instances will be preemptible and time-limited. Instances might be preempted to free up resources for standard VM instances, and will only be able to run for a limited amount of time. Preemptible instances can not be restarted and will not migrate. Use --preemptible to enable and --no-preemptible to disable.
-    /// </summary>
-    [CliFlag("--no-preemptible")]
-    public bool? NoPreemptible { get; set; }
 
     /// <summary>
     /// The private IPv6 Google access type for the restored VM. PRIVATE_IPV6_GOOGLE_ACCESS_TYPE must be one of: inherit-subnetwork, enable-bidirectional-access, enable-outbound-vm-access
@@ -298,14 +262,8 @@ public record GcloudBackupDrBackupsRestoreComputeOptions : GcloudOptions, IValid
     /// <summary>
     /// The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
     /// </summary>
-    [CliFlag("--restart-on-failure")]
+    [CliFlag("--restart-on-failure", NegatedName = "--no-restart-on-failure")]
     public bool? RestartOnFailure { get; set; }
-
-    /// <summary>
-    /// Negates --restart-on-failure. The instances will be restarted if they are terminated by Compute Engine. This does not affect terminations performed by the user. Use --restart-on-failure to enable and --no-restart-on-failure to disable.
-    /// </summary>
-    [CliFlag("--no-restart-on-failure")]
-    public bool? NoRestartOnFailure { get; set; }
 
     /// <summary>
     /// A service account is an identity attached to the instance. Its access tokens can be accessed through the instance metadata server and are used to authenticate applications on the instance. The account can be set using an email address corresponding to the required service account. If not provided, the instance will use the project's default service account.

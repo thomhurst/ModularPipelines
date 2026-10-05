@@ -54,14 +54,8 @@ public record GcloudComputeHealthChecksUpdateGrpcOptions : GcloudOptions, IValid
     /// <summary>
     /// Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Enable logging of health check probe results to Stackdriver. Logging is disabled by default. Use --no-enable-logging to disable logging.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// An optional gRPC service name string of up to 1024 characters to include in the gRPC health check request. Pass in an empty string to unset. Only ASCII characters are allowed.

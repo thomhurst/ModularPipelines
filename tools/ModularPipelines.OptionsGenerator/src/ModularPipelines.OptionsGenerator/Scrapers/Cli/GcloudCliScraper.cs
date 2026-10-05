@@ -406,6 +406,12 @@ public partial class GcloudCliScraper : CliScraperBase
             }
         }
 
+        // Help can list a negated flag separately as well as name it on the positive
+        // flag. Coalesce after parsing all sections so declaration order is irrelevant.
+        var negatedSwitches = options.Where(option => option.IsFlag)
+            .Select(option => option.NegatedSwitchName).OfType<string>().ToHashSet(StringComparer.Ordinal);
+        options.RemoveAll(option => option.IsFlag && negatedSwitches.Contains(option.SwitchName));
+
         usage = UsageSynopsisParser.ResolveOptionUsage(usage, GetUsageOptions(options));
         var positionalArguments = ParsePositionalArguments(usage, commandPath, argumentGroups, options);
         foreach (var (name, argumentGroup) in sections)
@@ -427,7 +433,7 @@ public partial class GcloudCliScraper : CliScraperBase
         {
             var switches = syntax.EnumerateMembers().Select(member => member.OptionSwitch!).ToArray();
             if (switches.Distinct(StringComparer.Ordinal).Count() != switches.Length
-                || switches.Any(optionSwitch => !options.Any(option => option.SwitchName == optionSwitch)))
+                || switches.Any(optionSwitch => CliOptionDefinition.FindIndexBySwitch(options, optionSwitch) < 0))
             {
                 continue;
             }
@@ -514,7 +520,7 @@ public partial class GcloudCliScraper : CliScraperBase
             IsRequired = syntax.IsRequired,
             IsChoice = syntax.IsChoice,
             IsMutuallyExclusive = syntax.IsChoice,
-            Members = members,
+            Members = CoalesceAlternativeMembers(members),
             Groups = groups,
         };
     }
@@ -689,10 +695,15 @@ public partial class GcloudCliScraper : CliScraperBase
                          && (group.Kind.HasFlag(CliArgumentGroupKind.AtLeastOne) || DescribesRequiredBundle(group)),
             IsChoice = isChoice,
             IsMutuallyExclusive = group.Kind.HasFlag(CliArgumentGroupKind.AtMostOne),
-            Members = members,
+            Members = CoalesceAlternativeMembers(members),
             Groups = nestedGroups,
         };
     }
+
+    private static CliRequiredAlternativeMember[] CoalesceAlternativeMembers(IEnumerable<CliRequiredAlternativeMember> members) =>
+        [.. members.GroupBy(member => (member.PropertyName, member.OptionSwitch,
+            member.PositionalArgumentPhase, member.PositionalArgumentPositionIndex))
+            .Select(group => group.First() with { IsRequired = group.Any(member => member.IsRequired) })];
 
     private static bool ArgumentIsRequiredInGroup(CliArgumentGroup group, CliArgumentDefinition argument) =>
         (group.Kind.HasFlag(CliArgumentGroupKind.Resource) && group.Arguments.Count == 1)
@@ -736,7 +747,8 @@ public partial class GcloudCliScraper : CliScraperBase
                 continue;
             }
 
-            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName);
+            var index = options.FindIndex(option => option.SwitchName == argument.SwitchName
+                || option.NegatedSwitchName == argument.SwitchName);
             if (index >= 0)
             {
                 if (options[index].IsFlag || members.Length > 1)
@@ -774,6 +786,7 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         return options.Where(option => option.SwitchName == argument.SwitchName
+                || option.NegatedSwitchName == argument.SwitchName
                 || (option.IsGeneratedNegation && option.IsFlag && option.SwitchName == $"--no-{argument.SwitchName[2..]}"))
             .Select(option => new CliRequiredAlternativeMember
             {
@@ -827,9 +840,18 @@ public partial class GcloudCliScraper : CliScraperBase
         }
 
         var option = CreateOptionDefinition(argument, longForm, propertyName, commandParts, helpText);
+        var negativeSwitch = GetNegativeSwitch(argument);
+        if (option.IsFlag && negativeSwitch is not null)
+        {
+            yield return option with { NegatedSwitchName = negativeSwitch };
+            yield break;
+        }
+
         yield return option;
 
-        if (GetNegativeSwitch(argument) is { } negativeSwitch)
+        // A value-taking option can have a separate reset flag. It cannot be
+        // represented by a nullable boolean without losing its value contract.
+        if (negativeSwitch is not null)
         {
             yield return CreateNegatedOption(option, negativeSwitch, argument.Documentation);
         }

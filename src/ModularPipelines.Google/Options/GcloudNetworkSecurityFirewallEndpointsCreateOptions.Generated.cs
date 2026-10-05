@@ -54,14 +54,8 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// The Google Cloud project ID to use for API enablement check, quota, and endpoint uptime billing. Overrides the default billing/quota_project property value for this command invocation.
@@ -78,14 +72,8 @@ public record GcloudNetworkSecurityFirewallEndpointsCreateOptions : GcloudOption
     /// <summary>
     /// Enable jumbo frames for the firewall endpoint. To disable jumbo frames, use --no-enable-jumbo-frames.
     /// </summary>
-    [CliFlag("--enable-jumbo-frames")]
+    [CliFlag("--enable-jumbo-frames", NegatedName = "--no-enable-jumbo-frames")]
     public bool? EnableJumboFrames { get; set; }
-
-    /// <summary>
-    /// Negates --enable-jumbo-frames. Enable jumbo frames for the firewall endpoint. To disable jumbo frames, use --no-enable-jumbo-frames.
-    /// </summary>
-    [CliFlag("--no-enable-jumbo-frames")]
-    public bool? NoEnableJumboFrames { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

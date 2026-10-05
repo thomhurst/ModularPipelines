@@ -86,14 +86,8 @@ public record GcloudMonitoringPoliciesCreateOptions : GcloudOptions, IValidatabl
     /// <summary>
     /// If the policy is enabled. Enabled by default, use --no-enabled to disable.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
-
-    /// <summary>
-    /// Negates --enabled. If the policy is enabled. Enabled by default, use --no-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-enabled")]
-    public bool? NoEnabled { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. If the policy was given as a JSON/YAML object from a string or file, this flag will replace the labels value in the given policy. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

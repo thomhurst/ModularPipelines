@@ -72,14 +72,8 @@ public record GcloudBeyondcorpSecurityGatewaysUpdateOptions : GcloudOptions, IVa
     /// <summary>
     /// Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
     /// </summary>
-    [CliFlag("--proxy-protocol-config-client-ip")]
+    [CliFlag("--proxy-protocol-config-client-ip", NegatedName = "--no-proxy-protocol-config-client-ip")]
     public bool? ProxyProtocolConfigClientIp { get; set; }
-
-    /// <summary>
-    /// Negates --proxy-protocol-config-client-ip. Client IP configuration. The client IP address is included if true. Use --proxy-protocol-config-client-ip to enable and --no-proxy-protocol-config-client-ip to disable.
-    /// </summary>
-    [CliFlag("--no-proxy-protocol-config-client-ip")]
-    public bool? NoProxyProtocolConfigClientIp { get; set; }
 
     /// <summary>
     /// The security gateway identity configuration. PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is supported): resource-name Resource name for gateway identity, in the format: projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}

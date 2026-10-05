@@ -86,14 +86,8 @@ public record GcloudBackupDrBackupPlanAssociationsCreateOptions : GcloudOptions
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// Backup Plan Association resource - Name of the backup plan association to be created. Once the backup plan association is created, this name can't be changed. The name must be unique for a project and location. To create backup plan associations in a project that's different from the backup plan, use the --workload-project flag. The arguments in this group can be used to specify the attributes of this resource. This must be specified. ID of the Backup Plan Association or fully qualified identifier for the Backup Plan Association. To set the name attribute: ▸ provide the argument BACKUP_PLAN_ASSOCIATION on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

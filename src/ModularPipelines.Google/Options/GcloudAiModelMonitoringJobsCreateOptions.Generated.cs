@@ -99,14 +99,8 @@ public record GcloudAiModelMonitoringJobsCreateOptions : GcloudOptions, IValidat
     /// <summary>
     /// If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
     /// </summary>
-    [CliFlag("--anomaly-cloud-logging")]
+    [CliFlag("--anomaly-cloud-logging", NegatedName = "--no-anomaly-cloud-logging")]
     public bool? AnomalyCloudLogging { get; set; }
-
-    /// <summary>
-    /// Negates --anomaly-cloud-logging. If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
-    /// </summary>
-    [CliFlag("--no-anomaly-cloud-logging")]
-    public bool? NoAnomalyCloudLogging { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add. Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

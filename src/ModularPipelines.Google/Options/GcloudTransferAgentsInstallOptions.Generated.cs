@@ -65,14 +65,8 @@ public record GcloudTransferAgentsInstallOptions : GcloudOptions
     /// <summary>
     /// Split up files and transfer the resulting chunks in parallel before merging them at the destination. Can be used make transfers of large files faster as long as the network and disk speed are not limiting factors. If unset, agent decides when to use the feature. Use --enable-multipart to enable and --no-enable-multipart to disable.
     /// </summary>
-    [CliFlag("--enable-multipart")]
+    [CliFlag("--enable-multipart", NegatedName = "--no-enable-multipart")]
     public bool? EnableMultipart { get; set; }
-
-    /// <summary>
-    /// Negates --enable-multipart. Split up files and transfer the resulting chunks in parallel before merging them at the destination. Can be used make transfers of large files faster as long as the network and disk speed are not limiting factors. If unset, agent decides when to use the feature. Use --enable-multipart to enable and --no-enable-multipart to disable.
-    /// </summary>
-    [CliFlag("--no-enable-multipart")]
-    public bool? NoEnableMultipart { get; set; }
 
     /// <summary>
     /// An optional prefix to add to the agent ID to help identify the agent.

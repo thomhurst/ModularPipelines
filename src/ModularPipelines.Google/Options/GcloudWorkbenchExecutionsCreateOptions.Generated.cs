@@ -142,14 +142,8 @@ public record GcloudWorkbenchExecutionsCreateOptions : GcloudOptions, IValidatab
     /// <summary>
     /// The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
     /// </summary>
-    [CliFlag("--enable-internet-access")]
+    [CliFlag("--enable-internet-access", NegatedName = "--no-enable-internet-access")]
     public bool? EnableInternetAccess { get; set; }
-
-    /// <summary>
-    /// Negates --enable-internet-access. The network configuration for the runtime. Enable public internet access for the runtime. Enabled by default, use --no-enable-internet-access to disable.
-    /// </summary>
-    [CliFlag("--no-enable-internet-access")]
-    public bool? NoEnableInternetAccess { get; set; }
 
     /// <summary>
     /// Network resource - The name of the VPC that this runtime is in. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ▸ provide the argument --network on the command line with a fully specified name; ▸ provide the argument --project on the command line; ▸ set the property core/project. ID of the network or fully qualified identifier for the network. To set the network attribute: ▸ provide the argument --network on the command line.

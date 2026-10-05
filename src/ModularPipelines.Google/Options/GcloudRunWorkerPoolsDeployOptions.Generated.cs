@@ -63,14 +63,8 @@ public record GcloudRunWorkerPoolsDeployOptions : GcloudOptions, IValidatableObj
     /// <summary>
     /// Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
     /// </summary>
-    [CliFlag("--gpu-zonal-redundancy")]
+    [CliFlag("--gpu-zonal-redundancy", NegatedName = "--no-gpu-zonal-redundancy")]
     public bool? GpuZonalRedundancy { get; set; }
-
-    /// <summary>
-    /// Negates --gpu-zonal-redundancy. Set GPU zonal redundancy. Use --gpu-zonal-redundancy to enable and --no-gpu-zonal-redundancy to disable.
-    /// </summary>
-    [CliFlag("--no-gpu-zonal-redundancy")]
-    public bool? NoGpuZonalRedundancy { get; set; }
 
     /// <summary>
     /// The number of instances to run for this WorkerPool. Flag value should be a positive integer to configure manual scaling with the given integer as a fixed instance count.

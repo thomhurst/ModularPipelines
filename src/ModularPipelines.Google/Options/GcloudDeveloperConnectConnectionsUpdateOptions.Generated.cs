@@ -42,14 +42,8 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// If set to true, and the connection is not found a new connection will be created. In this situation update_mask is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). Use --allow-missing to enable and --no-allow-missing to disable.
     /// </summary>
-    [CliFlag("--allow-missing")]
+    [CliFlag("--allow-missing", NegatedName = "--no-allow-missing")]
     public bool? AllowMissing { get; set; }
-
-    /// <summary>
-    /// Negates --allow-missing. If set to true, and the connection is not found a new connection will be created. In this situation update_mask is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). Use --allow-missing to enable and --no-allow-missing to disable.
-    /// </summary>
-    [CliFlag("--no-allow-missing")]
-    public bool? NoAllowMissing { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
@@ -60,14 +54,8 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. Use --disabled to enable and --no-disabled to disable.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. Use --disabled to enable and --no-disabled to disable.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding.
@@ -102,14 +90,8 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
     /// </summary>
-    [CliFlag("--validate-only")]
+    [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
-
-    /// <summary>
-    /// Negates --validate-only. If set, validate the request, but do not actually post it. Use --validate-only to enable and --no-validate-only to disable.
-    /// </summary>
-    [CliFlag("--no-validate-only")]
-    public bool? NoValidateOnly { get; set; }
 
     /// <summary>
     /// Update annotations. At most one of these can be specified: Set annotations to new value. Allows clients to store small amounts of arbitrary data. KEY Sets KEY value. VALUE Sets VALUE value. Shorthand Example: --annotations=string=string JSON Example: --annotations='{"string": "string"}' File Example: --annotations=path_to_file.(yaml|json)
@@ -482,14 +464,8 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions, IV
     /// <summary>
     /// CryptoKey resource - The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --location on the command line. The git proxy configuration. Setting this to true allows the git proxy to be used for performing git operations on the repositories linked in the connection. Use --git-proxy-config-enabled to enable and --no-git-proxy-config-enabled to disable.
     /// </summary>
-    [CliFlag("--git-proxy-config-enabled")]
+    [CliFlag("--git-proxy-config-enabled", NegatedName = "--no-git-proxy-config-enabled")]
     public bool? GitProxyConfigEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --git-proxy-config-enabled. CryptoKey resource - The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. To set the location attribute: ◆ provide the argument --crypto-key-config-reference on the command line with a fully specified name; ◆ provide the argument --location on the command line. The git proxy configuration. Setting this to true allows the git proxy to be used for performing git operations on the repositories linked in the connection. Use --git-proxy-config-enabled to enable and --no-git-proxy-config-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-git-proxy-config-enabled")]
-    public bool? NoGitProxyConfigEnabled { get; set; }
 
     /// <summary>
     /// Update labels. At most one of these can be specified: Set labels to new value. Labels as key value pairs. KEY Keys must start with a lowercase character and contain only hyphens (-), underscores (_), lowercase characters, and numbers. VALUE Values must contain only hyphens (-), underscores (_), lowercase characters, and numbers. Shorthand Example: --labels=string=string JSON Example: --labels='{"string": "string"}' File Example: --labels=path_to_file.(yaml|json)

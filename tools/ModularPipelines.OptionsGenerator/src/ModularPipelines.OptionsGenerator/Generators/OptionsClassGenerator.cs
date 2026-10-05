@@ -542,7 +542,9 @@ public class OptionsClassGenerator : ICodeGenerator
             return (required, activation);
         }
 
-        var triggerPresence = presence(trigger.PropertyName);
+        var triggerPresence = trigger.RequiredFlagValue is { } flagValue
+            ? $"{trigger.PropertyName} == {(flagValue ? "true" : "false")}"
+            : presence(trigger.PropertyName);
         return (true, activation is null ? triggerPresence : $"({activation}) && ({triggerPresence})");
     }
 
@@ -605,7 +607,7 @@ public class OptionsClassGenerator : ICodeGenerator
                          ?? throw new InvalidOperationException(
                              $"Required alternative property {propertyName} was not generated for {command.FullCommand}.");
 
-        if (option?.IsFlag == true)
+        if (option is { IsFlag: true, NegatedSwitchName: null })
         {
             return $"{propertyName} == true";
         }

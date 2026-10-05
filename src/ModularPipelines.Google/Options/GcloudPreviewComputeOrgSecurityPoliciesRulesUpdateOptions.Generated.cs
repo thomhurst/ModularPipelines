@@ -84,14 +84,8 @@ public record GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions : Gcloud
     /// <summary>
     /// Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
     /// </summary>
-    [CliFlag("--enable-logging")]
+    [CliFlag("--enable-logging", NegatedName = "--no-enable-logging")]
     public bool? EnableLogging { get; set; }
-
-    /// <summary>
-    /// Negates --enable-logging. Use this flag to enable logging of connections that allowed or denied by this rule. Use --enable-logging to enable and --no-enable-logging to disable.
-    /// </summary>
-    [CliFlag("--no-enable-logging")]
-    public bool? NoEnableLogging { get; set; }
 
     /// <summary>
     /// A list of destination protocols and ports to which the firewall rule will apply. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).
@@ -114,14 +108,8 @@ public record GcloudPreviewComputeOrgSecurityPoliciesRulesUpdateOptions : Gcloud
     /// <summary>
     /// If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
     /// </summary>
-    [CliFlag("--preview")]
+    [CliFlag("--preview", NegatedName = "--no-preview")]
     public bool? Preview { get; set; }
-
-    /// <summary>
-    /// Negates --preview. If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
-    /// </summary>
-    [CliFlag("--no-preview")]
-    public bool? NoPreview { get; set; }
 
     /// <summary>
     /// List of URLs of target resources to which the rule is applied. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

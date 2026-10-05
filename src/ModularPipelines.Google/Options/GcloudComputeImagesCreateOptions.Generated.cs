@@ -140,14 +140,8 @@ public record GcloudComputeImagesCreateOptions : GcloudOptions, IValidatableObje
     /// <summary>
     /// (DEPRECATED) Refuse to create images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating images with no user managed key. Disabling the check allows creation of some images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
     /// </summary>
-    [CliFlag("--require-csek-key-create")]
+    [CliFlag("--require-csek-key-create", NegatedName = "--no-require-csek-key-create")]
     public bool? RequireCsekKeyCreate { get; set; }
-
-    /// <summary>
-    /// Negates --require-csek-key-create. (DEPRECATED) Refuse to create images not protected by a user managed key in the key file when --csek-key-file is given. This behavior is enabled by default to prevent incorrect gcloud invocations from accidentally creating images with no user managed key. Disabling the check allows creation of some images without a matching Customer-Supplied Encryption Key in the supplied --csek-key-file. See https://cloud.google.com/compute/docs/disks/customer-supplied-encryption for more details. The --require-csek-key-create flag is deprecated. Enabled by default, use --no-require-csek-key-create to disable.
-    /// </summary>
-    [CliFlag("--no-require-csek-key-create")]
-    public bool? NoRequireCsekKeyCreate { get; set; }
 
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the image. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

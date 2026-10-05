@@ -91,14 +91,8 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions : GcloudOptions
     /// <summary>
     /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
     /// </summary>
-    [CliFlag("--csv-header")]
+    [CliFlag("--csv-header", NegatedName = "--no-csv-header")]
     public bool? CsvHeader { get; set; }
-
-    /// <summary>
-    /// Negates --csv-header. Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Indicates whether or not headers are included in the inventory report CSV file. Default is None. Use --csv-header to enable and --no-csv-header to disable.
-    /// </summary>
-    [CliFlag("--no-csv-header")]
-    public bool? NoCsvHeader { get; set; }
 
     /// <summary>
     /// Report format configuration. Any combination of CSV flags is valid as long as the Parquet flag is not present. At most one of these can be specified: Or at least one of these can be specified: Flags for setting CSV format options. Sets the character used to separate the records in the inventory report CSV file. For example, ``\n``. SEPARATOR must be one of: \n, \r\n.
@@ -115,13 +109,9 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions : GcloudOptions
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((Parquet == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) ? 1 : 0) > 1)
+        if ((Parquet == true ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CsvDelimiter) || (object?)CsvHeader is not null || !string.IsNullOrWhiteSpace(CsvSeparator)) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of Parquet or (CsvDelimiter, CsvSeparator, CsvHeader, or NoCsvHeader) may be specified.", [nameof(Parquet), nameof(CsvDelimiter), nameof(CsvSeparator), nameof(CsvHeader), nameof(NoCsvHeader)]);
-        }
-        if ((Parquet == true || !string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && (!string.IsNullOrWhiteSpace(CsvDelimiter) || !string.IsNullOrWhiteSpace(CsvSeparator) || CsvHeader == true || NoCsvHeader == true) && ((CsvHeader == true ? 1 : 0) + (NoCsvHeader == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of CsvHeader or NoCsvHeader may be specified.", [nameof(CsvHeader), nameof(NoCsvHeader)]);
+            yield return new ValidationResult("At most one of Parquet or (CsvDelimiter, CsvHeader, or CsvSeparator) may be specified.", [nameof(Parquet), nameof(CsvDelimiter), nameof(CsvHeader), nameof(CsvSeparator)]);
         }
         yield break;
     }

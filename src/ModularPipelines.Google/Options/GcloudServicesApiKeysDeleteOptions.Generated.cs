@@ -53,14 +53,8 @@ public record GcloudServicesApiKeysDeleteOptions : GcloudOptions
     /// <summary>
     /// If true, existing usage will be checked before the key is deleted. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
     /// </summary>
-    [CliFlag("--check-existing-usage")]
+    [CliFlag("--check-existing-usage", NegatedName = "--no-check-existing-usage")]
     public bool? CheckExistingUsage { get; set; }
-
-    /// <summary>
-    /// Negates --check-existing-usage. If true, existing usage will be checked before the key is deleted. If the key has traffic in the last 7 days that is incompatible with the requested change, the request fails with an error. Defaults to true. Set to false (--no-check-existing-usage) to skip the check. Use --check-existing-usage to enable and --no-check-existing-usage to disable.
-    /// </summary>
-    [CliFlag("--no-check-existing-usage")]
-    public bool? NoCheckExistingUsage { get; set; }
 
     /// <summary>
     /// Key resource - The name of the key to delete. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument key on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the key or fully qualified identifier for the key. To set the key attribute: ▸ provide the argument key on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

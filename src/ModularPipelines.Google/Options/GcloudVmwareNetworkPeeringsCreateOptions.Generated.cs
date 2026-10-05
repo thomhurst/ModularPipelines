@@ -80,14 +80,8 @@ public record GcloudVmwareNetworkPeeringsCreateOptions : GcloudOptions
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// User-provided description of the VPC network peering.
@@ -98,62 +92,32 @@ public record GcloudVmwareNetworkPeeringsCreateOptions : GcloudOptions
     /// <summary>
     /// True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE. Enabled by default, use --no-exchange-subnet-routes to disable.
     /// </summary>
-    [CliFlag("--exchange-subnet-routes")]
+    [CliFlag("--exchange-subnet-routes", NegatedName = "--no-exchange-subnet-routes")]
     public bool? ExchangeSubnetRoutes { get; set; }
-
-    /// <summary>
-    /// Negates --exchange-subnet-routes. True if full-mesh connectivity is created and managed automatically between peered VPC networks; false otherwise. This field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when the peering state is ACTIVE. Enabled by default, use --no-exchange-subnet-routes to disable.
-    /// </summary>
-    [CliFlag("--no-exchange-subnet-routes")]
-    public bool? NoExchangeSubnetRoutes { get; set; }
 
     /// <summary>
     /// True if custom routes are exported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes to disable.
     /// </summary>
-    [CliFlag("--export-custom-routes")]
+    [CliFlag("--export-custom-routes", NegatedName = "--no-export-custom-routes")]
     public bool? ExportCustomRoutes { get; set; }
-
-    /// <summary>
-    /// Negates --export-custom-routes. True if custom routes are exported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes to disable.
-    /// </summary>
-    [CliFlag("--no-export-custom-routes")]
-    public bool? NoExportCustomRoutes { get; set; }
 
     /// <summary>
     /// True if all subnet routes with public IP address range are exported; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes-with-public-ip to disable.
     /// </summary>
-    [CliFlag("--export-custom-routes-with-public-ip")]
+    [CliFlag("--export-custom-routes-with-public-ip", NegatedName = "--no-export-custom-routes-with-public-ip")]
     public bool? ExportCustomRoutesWithPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --export-custom-routes-with-public-ip. True if all subnet routes with public IP address range are exported; false otherwise. The default value is true. Enabled by default, use --no-export-custom-routes-with-public-ip to disable.
-    /// </summary>
-    [CliFlag("--no-export-custom-routes-with-public-ip")]
-    public bool? NoExportCustomRoutesWithPublicIp { get; set; }
 
     /// <summary>
     /// True if custom routes are imported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes to disable.
     /// </summary>
-    [CliFlag("--import-custom-routes")]
+    [CliFlag("--import-custom-routes", NegatedName = "--no-import-custom-routes")]
     public bool? ImportCustomRoutes { get; set; }
-
-    /// <summary>
-    /// Negates --import-custom-routes. True if custom routes are imported to the peered VPC network; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes to disable.
-    /// </summary>
-    [CliFlag("--no-import-custom-routes")]
-    public bool? NoImportCustomRoutes { get; set; }
 
     /// <summary>
     /// True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes-with-public-ip to disable.
     /// </summary>
-    [CliFlag("--import-custom-routes-with-public-ip")]
+    [CliFlag("--import-custom-routes-with-public-ip", NegatedName = "--no-import-custom-routes-with-public-ip")]
     public bool? ImportCustomRoutesWithPublicIp { get; set; }
-
-    /// <summary>
-    /// Negates --import-custom-routes-with-public-ip. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. Enabled by default, use --no-import-custom-routes-with-public-ip to disable.
-    /// </summary>
-    [CliFlag("--no-import-custom-routes-with-public-ip")]
-    public bool? NoImportCustomRoutesWithPublicIp { get; set; }
 
     /// <summary>
     /// Maximum transmission unit (MTU) in bytes.

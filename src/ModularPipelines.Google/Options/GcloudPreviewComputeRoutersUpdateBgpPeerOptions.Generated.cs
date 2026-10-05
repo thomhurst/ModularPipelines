@@ -83,38 +83,20 @@ public record GcloudPreviewComputeRoutersUpdateBgpPeerOptions : GcloudOptions, I
     /// <summary>
     /// If IPv4 is enabled, the peer connection can be established with IPv4 route exchange. If disabled, no IPv4 route exchange is allowed on any active session. Use --enable-ipv4 to enable and --no-enable-ipv4 to disable.
     /// </summary>
-    [CliFlag("--enable-ipv4")]
+    [CliFlag("--enable-ipv4", NegatedName = "--no-enable-ipv4")]
     public bool? EnableIpv4 { get; set; }
-
-    /// <summary>
-    /// Negates --enable-ipv4. If IPv4 is enabled, the peer connection can be established with IPv4 route exchange. If disabled, no IPv4 route exchange is allowed on any active session. Use --enable-ipv4 to enable and --no-enable-ipv4 to disable.
-    /// </summary>
-    [CliFlag("--no-enable-ipv4")]
-    public bool? NoEnableIpv4 { get; set; }
 
     /// <summary>
     /// If IPv6 is enabled, the peer connection can be established with IPv6 route exchange. If disabled, no IPv6 route exchange is allowed on any active session. Use --enable-ipv6 to enable and --no-enable-ipv6 to disable.
     /// </summary>
-    [CliFlag("--enable-ipv6")]
+    [CliFlag("--enable-ipv6", NegatedName = "--no-enable-ipv6")]
     public bool? EnableIpv6 { get; set; }
-
-    /// <summary>
-    /// Negates --enable-ipv6. If IPv6 is enabled, the peer connection can be established with IPv6 route exchange. If disabled, no IPv6 route exchange is allowed on any active session. Use --enable-ipv6 to enable and --no-enable-ipv6 to disable.
-    /// </summary>
-    [CliFlag("--no-enable-ipv6")]
-    public bool? NoEnableIpv6 { get; set; }
 
     /// <summary>
     /// If enabled, the peer connection can be established with routing information. If disabled, any active session with the peer is terminated and all associated routing information is removed. Use --enabled to enable and --no-enabled to disable.
     /// </summary>
-    [CliFlag("--enabled")]
+    [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
-
-    /// <summary>
-    /// Negates --enabled. If enabled, the peer connection can be established with routing information. If disabled, any active session with the peer is terminated and all associated routing information is removed. Use --enabled to enable and --no-enabled to disable.
-    /// </summary>
-    [CliFlag("--no-enabled")]
-    public bool? NoEnabled { get; set; }
 
     /// <summary>
     /// Comma-separated list of export policies. Passing an empty string removes all export policies. Collection entries are joined with commas into one option value. For entries containing commas, supply one pre-escaped list value using gcloud topic escaping (https://cloud.google.com/sdk/gcloud/reference/topic/escaping).

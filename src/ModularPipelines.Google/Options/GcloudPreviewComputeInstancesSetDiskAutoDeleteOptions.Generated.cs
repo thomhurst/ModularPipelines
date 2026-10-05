@@ -54,14 +54,8 @@ public record GcloudPreviewComputeInstancesSetDiskAutoDeleteOptions : GcloudOpti
     /// <summary>
     /// Enables auto-delete for the given disk. Enabled by default, use --no-auto-delete to disable.
     /// </summary>
-    [CliFlag("--auto-delete")]
+    [CliFlag("--auto-delete", NegatedName = "--no-auto-delete")]
     public bool? AutoDelete { get; set; }
-
-    /// <summary>
-    /// Negates --auto-delete. Enables auto-delete for the given disk. Enabled by default, use --no-auto-delete to disable.
-    /// </summary>
-    [CliFlag("--no-auto-delete")]
-    public bool? NoAutoDelete { get; set; }
 
     /// <summary>
     /// Zone of the instance to operate on. If not specified, you might be prompted to select a zone (interactive mode only). gcloud attempts to identify the appropriate zone by searching for resources in your currently active project. If the zone cannot be determined, gcloud prompts you for a selection with all available Google Cloud Platform zones. To avoid prompting when this flag is omitted, the user can set the compute/zone property: $ gcloud config set compute/zone ZONE A list of zones can be fetched by running: $ gcloud compute zones list To unset the property, run: $ gcloud config unset compute/zone Alternatively, the zone can be stored in the environment variable CLOUDSDK_COMPUTE_ZONE.

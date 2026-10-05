@@ -74,14 +74,8 @@ public record GcloudPreviewComputeInterconnectsWireGroupsCreateOptions : GcloudO
     /// <summary>
     /// Administrative status of the wire group. If not provided on creation, defaults to enabled. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
     /// </summary>
-    [CliFlag("--admin-enabled")]
+    [CliFlag("--admin-enabled", NegatedName = "--no-admin-enabled")]
     public bool? AdminEnabled { get; set; }
-
-    /// <summary>
-    /// Negates --admin-enabled. Administrative status of the wire group. If not provided on creation, defaults to enabled. When this is enabled, the wire group is operational and will carry traffic. Use --no-admin-enabled to disable it.
-    /// </summary>
-    [CliFlag("--no-admin-enabled")]
-    public bool? NoAdminEnabled { get; set; }
 
     /// <summary>
     /// An optional, textual description for the wire group.

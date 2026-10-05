@@ -41,14 +41,8 @@ public record GcloudPubsubSubscriptionsPullOptions : GcloudOptions
     /// <summary>
     /// Automatically ACK every message pulled from this subscription. Use --no-auto-ack to disable this flag.
     /// </summary>
-    [CliFlag("--auto-ack")]
+    [CliFlag("--auto-ack", NegatedName = "--no-auto-ack")]
     public bool? AutoAck { get; set; }
-
-    /// <summary>
-    /// Negates --auto-ack. Automatically ACK every message pulled from this subscription. Use --no-auto-ack to disable this flag.
-    /// </summary>
-    [CliFlag("--no-auto-ack")]
-    public bool? NoAutoAck { get; set; }
 
     /// <summary>
     /// Subscription resource - Name of the subscription to pull messages from. This represents a Cloud resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument subscription on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the subscription or fully qualified identifier for the subscription. To set the subscription attribute: ▸ provide the argument subscription on the command line.

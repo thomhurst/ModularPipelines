@@ -90,14 +90,8 @@ public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
     /// </summary>
-    [CliFlag("--assign-ip")]
+    [CliFlag("--assign-ip", NegatedName = "--no-assign-ip")]
     public bool? AssignIp { get; set; }
-
-    /// <summary>
-    /// Negates --assign-ip. Assign a public IP address to the instance. This is a public, externally available IPv4 address that you can use to connect to your instance when properly authorized. Use --assign-ip to enable and --no-assign-ip to disable.
-    /// </summary>
-    [CliFlag("--no-assign-ip")]
-    public bool? NoAssignIp { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete.
@@ -138,14 +132,8 @@ public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enables daily backup. Enabled by default, use --no-backup to disable.
     /// </summary>
-    [CliFlag("--backup")]
+    [CliFlag("--backup", NegatedName = "--no-backup")]
     public bool? Backup { get; set; }
-
-    /// <summary>
-    /// Negates --backup. Enables daily backup. Enabled by default, use --no-backup to disable.
-    /// </summary>
-    [CliFlag("--no-backup")]
-    public bool? NoBackup { get; set; }
 
     /// <summary>
     /// The ID of the instance that the backup was taken from. This argument must be specified when the backup instance is different from the restore instance. If it is not specified, the backup instance is considered the same as the restore instance. This flag is not supported when restore happens from backup name, only supported when restore happens from backup ID in timestamp format.
@@ -222,14 +210,8 @@ public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enable deletion protection on a Cloud SQL instance. Use --deletion-protection to enable and --no-deletion-protection to disable.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// Date when the deny maintenance period ends, that is 2021-01-10.
@@ -276,14 +258,8 @@ public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
     /// </summary>
-    [CliFlag("--final-backup")]
+    [CliFlag("--final-backup", NegatedName = "--no-final-backup")]
     public bool? FinalBackup { get; set; }
-
-    /// <summary>
-    /// Negates --final-backup. Enables the final backup to be taken at the time of instance deletion. Use --final-backup to enable and --no-final-backup to disable.
-    /// </summary>
-    [CliFlag("--no-final-backup")]
-    public bool? NoFinalBackup { get; set; }
 
     /// <summary>
     /// Specifies number of days to retain final backup. The valid range is between 1 and 365. For instances managed by BackupDR, the valid range is between 1 day and 10 years (3653 days). Default value is 30 days.
@@ -384,14 +360,8 @@ public record GcloudSqlBackupsRestoreOptions : GcloudOptions, IValidatableObject
     /// <summary>
     /// Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
     /// </summary>
-    [CliFlag("--storage-auto-increase")]
+    [CliFlag("--storage-auto-increase", NegatedName = "--no-storage-auto-increase")]
     public bool? StorageAutoIncrease { get; set; }
-
-    /// <summary>
-    /// Negates --storage-auto-increase. Storage size can be increased, but it cannot be decreased; storage increases are permanent for the life of the instance. With this setting enabled, a spike in storage requirements can result in permanently increased storage costs for your instance. However, if an instance runs out of available space, it can result in the instance going offline, dropping existing connections. This setting is enabled by default. Use --storage-auto-increase to enable and --no-storage-auto-increase to disable.
-    /// </summary>
-    [CliFlag("--no-storage-auto-increase")]
-    public bool? NoStorageAutoIncrease { get; set; }
 
     /// <summary>
     /// Indicates how many IOPS to provision for the data disk. This sets the number of I/O operations per second that the disk can handle.

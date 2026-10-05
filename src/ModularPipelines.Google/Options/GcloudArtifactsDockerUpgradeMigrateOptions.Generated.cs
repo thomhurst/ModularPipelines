@@ -102,13 +102,7 @@ public record GcloudArtifactsDockerUpgradeMigrateOptions : GcloudOptions
     /// <summary>
     /// Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
     /// </summary>
-    [CliFlag("--use-analyze-iam")]
+    [CliFlag("--use-analyze-iam", NegatedName = "--no-use-analyze-iam")]
     public bool? UseAnalyzeIam { get; set; }
-
-    /// <summary>
-    /// Negates --use-analyze-iam. Use analyzeIAMPolicy to get IAM bindings. If false, tooling iterates through IAM bindings itself, which is slower, but doesn't require anlayzeIAMPolicy quota. Enabled by default, use --no-use-analyze-iam to disable.
-    /// </summary>
-    [CliFlag("--no-use-analyze-iam")]
-    public bool? NoUseAnalyzeIam { get; set; }
 
 }

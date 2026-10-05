@@ -114,14 +114,8 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions : GcloudOptions
     /// <summary>
     /// If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
     /// </summary>
-    [CliFlag("--preview")]
+    [CliFlag("--preview", NegatedName = "--no-preview")]
     public bool? Preview { get; set; }
-
-    /// <summary>
-    /// Negates --preview. If specified, the action will not be enforced. Use --preview to enable and --no-preview to disable.
-    /// </summary>
-    [CliFlag("--no-preview")]
-    public bool? NoPreview { get; set; }
 
     /// <summary>
     /// Number of HTTP(S) requests for calculating the threshold for rate limiting requests.

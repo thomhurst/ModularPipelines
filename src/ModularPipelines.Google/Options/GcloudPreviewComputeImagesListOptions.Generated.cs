@@ -42,14 +42,8 @@ public record GcloudPreviewComputeImagesListOptions : GcloudOptions
     /// <summary>
     /// List images from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
     /// </summary>
-    [CliFlag("--standard-images")]
+    [CliFlag("--standard-images", NegatedName = "--no-standard-images")]
     public bool? StandardImages { get; set; }
-
-    /// <summary>
-    /// Negates --standard-images. List images from public image projects. The public image projects that are available include the following: cos-cloud, debian-cloud, rocky-linux-cloud, ubuntu-os-cloud, almalinux-cloud, centos-cloud, fedora-coreos-cloud, opensuse-cloud, oracle-linux-cloud, rhel-cloud, rhel-sap-cloud, rocky-linux-accelerator-cloud, suse-cloud, suse-sap-cloud, ubuntu-os-accelerator-images, ubuntu-os-pro-cloud, windows-cloud, windows-sql-cloud. Enabled by default, use --no-standard-images to disable.
-    /// </summary>
-    [CliFlag("--no-standard-images")]
-    public bool? NoStandardImages { get; set; }
 
     /// <summary>
     /// (DEPRECATED) If provided, show details for the specified names and/or URIs of resources. Argument NAME is deprecated. Use --filter="name=( 'NAME' ... )" instead.

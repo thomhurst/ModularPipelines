@@ -47,14 +47,8 @@ public record GcloudVmwareNetworksDeleteOptions : GcloudOptions
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
     /// </summary>
-    [CliFlag("--async")]
+    [CliFlag("--async", NegatedName = "--no-async")]
     public bool? Async { get; set; }
-
-    /// <summary>
-    /// Negates --async. Return immediately, without waiting for the operation in progress to complete. The default is True. Enabled by default, use --no-async to disable.
-    /// </summary>
-    [CliFlag("--no-async")]
-    public bool? NoAsync { get; set; }
 
     /// <summary>
     /// VMware Engine network resource - vmware_engine_network. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument vmware_engine_network on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the VMware Engine network or fully qualified identifier for the VMware Engine network. To set the vmware-engine-network attribute: ▸ provide the argument vmware_engine_network on the command line. This positional argument must be specified if any of the other arguments in this group are specified.

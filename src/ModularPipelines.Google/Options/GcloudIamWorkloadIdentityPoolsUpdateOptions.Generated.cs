@@ -97,14 +97,8 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions, IVali
     /// <summary>
     /// At most one of these can be specified: Or at least one of these can be specified: Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
     /// </summary>
-    [CliFlag("--use-default-shared-ca")]
+    [CliFlag("--use-default-shared-ca", NegatedName = "--no-use-default-shared-ca")]
     public bool? UseDefaultSharedCa { get; set; }
-
-    /// <summary>
-    /// Negates --use-default-shared-ca. At most one of these can be specified: Or at least one of these can be specified: Use the default shared certificate authorities (CAs) to issue certificates. If enabled, Google Cloud automatically provisions certificates from a default shared CA in the same region as the workload. Enabling this flag clears any existing CA pools configuration. Use --use-default-shared-ca to enable and --no-use-default-shared-ca to disable.
-    /// </summary>
-    [CliFlag("--no-use-default-shared-ca")]
-    public bool? NoUseDefaultSharedCa { get; set; }
 
     /// <summary>
     /// Workload identity pool resource - The workload identity pool to update. The arguments in this group can be used to specify the attributes of this resource. (NOTE) Some attributes are not given arguments in this group but can be set in other ways. To set the project attribute: ◆ provide the argument workload_identity_pool on the command line with a fully specified name; ◆ provide the argument --project on the command line; ◆ set the property core/project. This must be specified. ID of the workload identity pool or fully qualified identifier for the workload identity pool. To set the workload_identity_pool attribute: ▸ provide the argument workload_identity_pool on the command line. This positional argument must be specified if any of the other arguments in this group are specified.
@@ -115,13 +109,9 @@ public record GcloudIamWorkloadIdentityPoolsUpdateOptions : GcloudOptions, IVali
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
     {
-        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) ? 1 : 0) > 1)
+        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) ? 1 : 0) + ((!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || (object?)UseDefaultSharedCa is not null) ? 1 : 0) > 1)
         {
-            yield return new ValidationResult("At most one of InlineCertificateIssuanceConfigFile or (CertificateLifetime, KeyAlgorithm, RotationWindowPercentage, UseDefaultSharedCa, or NoUseDefaultSharedCa) may be specified.", [nameof(InlineCertificateIssuanceConfigFile), nameof(CertificateLifetime), nameof(KeyAlgorithm), nameof(RotationWindowPercentage), nameof(UseDefaultSharedCa), nameof(NoUseDefaultSharedCa)]);
-        }
-        if ((!string.IsNullOrWhiteSpace(InlineCertificateIssuanceConfigFile) || !string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) && (!string.IsNullOrWhiteSpace(CertificateLifetime) || (object?)KeyAlgorithm is not null || !string.IsNullOrWhiteSpace(RotationWindowPercentage) || UseDefaultSharedCa == true || NoUseDefaultSharedCa == true) && ((UseDefaultSharedCa == true ? 1 : 0) + (NoUseDefaultSharedCa == true ? 1 : 0) > 1))
-        {
-            yield return new ValidationResult("At most one of UseDefaultSharedCa or NoUseDefaultSharedCa may be specified.", [nameof(UseDefaultSharedCa), nameof(NoUseDefaultSharedCa)]);
+            yield return new ValidationResult("At most one of InlineCertificateIssuanceConfigFile or (CertificateLifetime, KeyAlgorithm, RotationWindowPercentage, or UseDefaultSharedCa) may be specified.", [nameof(InlineCertificateIssuanceConfigFile), nameof(CertificateLifetime), nameof(KeyAlgorithm), nameof(RotationWindowPercentage), nameof(UseDefaultSharedCa)]);
         }
         yield break;
     }

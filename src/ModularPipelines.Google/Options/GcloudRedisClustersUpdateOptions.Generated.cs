@@ -86,14 +86,8 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions, IValidatableObje
     /// <summary>
     /// Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
     /// </summary>
-    [CliFlag("--deletion-protection")]
+    [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
-
-    /// <summary>
-    /// Negates --deletion-protection. Enable deletion protection for the Redis Cluster. Use --deletion-protection/--no-deletion-protection to enable/disable it.
-    /// </summary>
-    [CliFlag("--no-deletion-protection")]
-    public bool? NoDeletionProtection { get; set; }
 
     /// <summary>
     /// The maintenance version of the cluster.

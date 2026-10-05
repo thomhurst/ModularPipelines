@@ -130,14 +130,8 @@ public record GcloudIamOauthClientsCreateOptions : GcloudOptions
     /// <summary>
     /// Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Disables the OAuth client. You cannot use a disabled OAuth client for login. Include --no-disabled to enable a disabled OAuth client.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// A display name for the OAuth client. Cannot exceed 32 characters.

@@ -87,26 +87,14 @@ public record GcloudIamWorkforcePoolsProvidersUpdateOidcOptions : GcloudOptions,
     /// <summary>
     /// Enables detailed audit logging for this provider, which populates additional debug information in STS Cloud Audit Logs. Specify --no-detailed-audit-logging to disable it.
     /// </summary>
-    [CliFlag("--detailed-audit-logging")]
+    [CliFlag("--detailed-audit-logging", NegatedName = "--no-detailed-audit-logging")]
     public bool? DetailedAuditLogging { get; set; }
-
-    /// <summary>
-    /// Negates --detailed-audit-logging. Enables detailed audit logging for this provider, which populates additional debug information in STS Cloud Audit Logs. Specify --no-detailed-audit-logging to disable it.
-    /// </summary>
-    [CliFlag("--no-detailed-audit-logging")]
-    public bool? NoDetailedAuditLogging { get; set; }
 
     /// <summary>
     /// Disables the workforce pool provider. You cannot use a disabled provider to perform new token exchanges or sign-ins. However, existing tokens still grant access. Specify --no-disabled to enable a disabled pool.
     /// </summary>
-    [CliFlag("--disabled")]
+    [CliFlag("--disabled", NegatedName = "--no-disabled")]
     public bool? Disabled { get; set; }
-
-    /// <summary>
-    /// Negates --disabled. Disables the workforce pool provider. You cannot use a disabled provider to perform new token exchanges or sign-ins. However, existing tokens still grant access. Specify --no-disabled to enable a disabled pool.
-    /// </summary>
-    [CliFlag("--no-disabled")]
-    public bool? NoDisabled { get; set; }
 
     /// <summary>
     /// A display name for the workforce pool provider. Cannot exceed 32 characters in length.

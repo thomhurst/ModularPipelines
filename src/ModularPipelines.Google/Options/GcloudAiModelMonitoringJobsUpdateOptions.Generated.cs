@@ -55,14 +55,8 @@ public record GcloudAiModelMonitoringJobsUpdateOptions : GcloudOptions, IValidat
     /// <summary>
     /// If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
     /// </summary>
-    [CliFlag("--anomaly-cloud-logging")]
+    [CliFlag("--anomaly-cloud-logging", NegatedName = "--no-anomaly-cloud-logging")]
     public bool? AnomalyCloudLogging { get; set; }
-
-    /// <summary>
-    /// Negates --anomaly-cloud-logging. If true, anomaly will be sent to Cloud Logging. Use --anomaly-cloud-logging to enable and --no-anomaly-cloud-logging to disable.
-    /// </summary>
-    [CliFlag("--no-anomaly-cloud-logging")]
-    public bool? NoAnomalyCloudLogging { get; set; }
 
     /// <summary>
     /// Display name of the model deployment monitoring job.
