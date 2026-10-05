@@ -1,0 +1,33 @@
+Manage plugins
+
+Usage:
+  trivy plugin [command]
+
+Aliases:
+  plugin, p
+
+Available Commands:
+  info        Show information about the specified plugin
+  install     Install a plugin
+  list        List installed plugin
+  run         Run a plugin on the fly
+  search      List Trivy plugins available on the plugin index and search among them
+  uninstall   Uninstall a plugin
+  update      Update the local copy of the plugin index
+  upgrade     Upgrade installed plugins to newer versions
+
+Flags:
+  -h, --help   help for plugin
+
+Global Flags:
+      --cacert string             Path to PEM-encoded CA certificate file
+      --cache-dir string          cache directory (default "C:\\Users\\thomh\\AppData\\Local\\trivy")
+  -c, --config string             config path (empty string disables loading) (default "trivy.yaml")
+  -d, --debug                     debug mode
+      --generate-default-config   write the default config to trivy-default.yaml
+      --insecure                  allow insecure server connections
+  -q, --quiet                     suppress progress bar and log output
+      --timeout duration          timeout (default 5m0s)
+  -v, --version                   show version
+
+Use "trivy plugin [command] --help" for more information about a command.
