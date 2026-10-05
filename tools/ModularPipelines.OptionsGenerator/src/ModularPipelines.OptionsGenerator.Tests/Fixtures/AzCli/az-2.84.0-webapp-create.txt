@@ -1,0 +1,175 @@
+
+Command
+    az webapp create : Create a web app.
+        The web app's name must be able to produce a unique FQDN as AppName.azurewebsites.net.
+
+Arguments
+    --name -n                              [Required] : Name of the new web app. Web app name can
+                                                        contain only allow alphanumeric characters
+                                                        and hyphens, it cannot start or end in a
+                                                        hyphen, and must be less than 64 characters.
+    --plan -p                              [Required] : Name or resource id of the app service plan.
+                                                        Use 'appservice plan create' to get one.
+    --resource-group -g                    [Required] : Name of resource group. You can configure
+                                                        the default group using `az configure
+                                                        --defaults group=<name>`.
+    --acr-identity                                    : Accept system or user assigned identity
+                                                        which will be set for acr image pull. Use
+                                                        '[system]' to refer system assigned
+                                                        identity, or a resource id to refer user
+                                                        assigned identity.
+    --acr-use-identity                                : Enable or disable pull image from acr use
+                                                        managed identity.
+    --assign-identity                                 : Accept system or user assigned identities
+                                                        separated by spaces. Use '[system]' to refer
+                                                        system assigned identity, or a resource id
+                                                        to refer user assigned identity. Check out
+                                                        help for more examples.
+    --basic-auth                                      : Enable or disable basic auth for both SCM
+                                                        and FTP Basic Auth Publishing Credentials.
+                                                        Defaults to Enabled if not specified. See
+                                                        https://aka.ms/app-service-basic-auth to
+                                                        learn more.  Allowed values: Disabled,
+                                                        Enabled.
+    --container-image-name -c                         : The container custom image name and
+                                                        optionally the tag name (e.g., `<registry-
+                                                        name>/<image-name>:<tag>`).
+    --container-registry-password -w                  : The container registry server password.
+                                                        Required for private registries.
+    --container-registry-url                          : The container registry server url.
+    --container-registry-user -s                      : The container registry server username.
+    --deployment-container-image-name -i [Deprecated] : Container image name from container
+                                                        registry, e.g. publisher/image-name:tag.
+        WARNING: Option '--deployment-container-image-name' has been deprecated and will be removed
+        in a future release.
+    --deployment-local-git -l                         : Enable local git.
+    --deployment-source-branch -b                     : The branch to deploy.  Default: master.
+    --deployment-source-url -u                        : Git repository URL to link with manual
+                                                        integration.
+    --docker-registry-server-password    [Deprecated] : The container registry server password.
+                                                        Required for private registries.
+        WARNING: Option '--docker-registry-server-password' has been deprecated and will be removed
+        in a future release. Use '--container-registry-password' instead.
+    --docker-registry-server-user        [Deprecated] : The container registry server username.
+        WARNING: Option '--docker-registry-server-user' has been deprecated and will be removed in a
+        future release. Use '--container-registry-user' instead.
+    --domain-name-scope                               : Specify the scope of uniqueness for the
+                                                        default hostname during resource creation.
+                                                        Allowed values: NoReuse, ResourceGroupReuse,
+                                                        SubscriptionReuse, TenantReuse.
+    --end-to-end-encryption-enabled -e                : Enable or disable end-to-end encryption
+                                                        between the Front End and the Workers.
+                                                        Allowed values: false, true.
+    --https-only                                      : Redirect all traffic made to an app using
+                                                        HTTP to HTTPS.  Allowed values: false, true.
+    --min-tls-cipher-suite                            : The minimum TLS Cipher Suite required for
+                                                        requests, e.g.,
+                                                        'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'.
+    --min-tls-version                                 : The minimum version of TLS required for SSL
+                                                        requests, e.g., '1.0', '1.1', '1.2'.
+    --multicontainer-config-file                      : Linux only. Config file for multicontainer
+                                                        apps. (local or remote).
+    --multicontainer-config-type                      : Linux only.  Allowed values: COMPOSE, KUBE.
+    --public-network-access                           : Enable or disable public access to the web
+                                                        app.  Allowed values: Disabled, Enabled.
+    --role                                            : Role name or id the system assigned identity
+                                                        will have.  Default: Contributor.
+    --runtime -r                                      : Canonicalized web runtime in the format of
+                                                        Framework:Version, e.g. "PHP:7.2".Use `az
+                                                        webapp list-runtimes` for available list.
+    --scope                                           : Scope that the system assigned identity can
+                                                        access.
+    --sitecontainers-app                              : If true, a webapp which supports
+                                                        sitecontainers will be created.  Allowed
+                                                        values: false, true.
+    --startup-file                                    : Linux only. The web's startup file.
+    --subnet                                          : Name or resource ID of the pre-existing
+                                                        subnet to have the webapp join. The --vnet
+                                                        is argument also needed if specifying subnet
+                                                        by name.
+    --tags                                            : Space-separated tags: key[=value]
+                                                        [key[=value] ...]. Use "" to clear existing
+                                                        tags.
+    --vnet                                            : Name or resource ID of the regional virtual
+                                                        network. If there are multiple vnets of the
+                                                        same name across different resource groups,
+                                                        use vnet resource id to specify which vnet
+                                                        to use. If vnet name is used, by default,
+                                                        the vnet in the same resource group as the
+                                                        webapp will be used. Must be used with
+                                                        --subnet argument.
+
+Global Arguments
+    --debug                                           : Increase logging verbosity to show all debug
+                                                        logs.
+    --help -h                                         : Show this help message and exit.
+    --only-show-errors                                : Only show errors, suppressing warnings.
+    --output -o                                       : Output format.  Allowed values: json, jsonc,
+                                                        none, table, tsv, yaml, yamlc.  Default:
+                                                        json.
+    --query                                           : JMESPath query string. See
+                                                        http://jmespath.org/ for more information
+                                                        and examples.
+    --subscription                                    : Name or ID of subscription. You can
+                                                        configure the default subscription using `az
+                                                        account set -s NAME_OR_ID`.
+    --verbose                                         : Increase logging verbosity. Use --debug for
+                                                        full debug logs.
+
+Examples
+    Create a web app with the default configuration.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName
+
+
+    Create a web app with a Java 21 runtime.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --runtime "JAVA:21-java21"
+
+
+    Create a web app with a NodeJS 20 runtime and deployed from a local git repository.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --runtime "node:20LTS"
+        --deployment-local-git
+
+
+    Create a web app with both SCM and FTP Basic Auth Publishing Credentials disabled.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --basic-auth Disabled
+
+
+    Create a web app which supports sitecontainers.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --sitecontainers-app
+
+
+    Create a web app with an image from DockerHub.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName -i nginx
+
+
+    Create a web app with an image from a private DockerHub registry.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName -i MyImageName -s username
+        -w password
+
+
+    Create a web app with an image from a private Azure Container Registry.
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName -i
+        myregistry.azurecr.io/docker-image:tag
+
+
+    create a WebApp using shared App Service Plan that is in a different resource group.
+        AppServicePlanID=$(az appservice plan show -n SharedAppServicePlan -g MyASPRG --query "id"
+        --out tsv) az webapp create -g MyResourceGroup -p "$AppServicePlanID" -n MyUniqueAppName
+
+
+    Create a container webapp with an image pulled from a private Azure Container Registry using a
+    User Assigned Managed Identity
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --container-image-name
+        myregistry.azurecr.io/docker-image:tag --assign-identity MyAssignIdentities --acr-use-
+        identity --acr-identity MyUserAssignedIdentityResourceId
+
+
+    Create a web app with end-to-end encryption enabled and minimum TLS version 1.2
+        az webapp create -g MyResourceGroup -p MyPlan -n MyUniqueAppName --end-to-end-encryption-
+        enabled true --min-tls-version 1.2
+
+
+To search AI knowledge base for examples, use: az find "az webapp create"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--__LANGUAGE": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--__USING_WEBAPP_UP": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--acr-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--acr-use-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--assign-identity": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--basic-auth": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--cmd": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--container-image-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--container-registry-password": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--container-registry-url": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--container-registry-user": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--deployment-container-image-name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--deployment-local-git": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--deployment-source-branch": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--deployment-source-url": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--docker-registry-server-password": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--docker-registry-server-user": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--domain-name-scope": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--end-to-end-encryption-enabled": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--https-only": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--min-tls-cipher-suite": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--min-tls-version": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--multicontainer-config-file": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--multicontainer-config-type": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--plan": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--public-network-access": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--resource-group": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--role": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--runtime": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--scope": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--sitecontainers-app": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--startup-file": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subnet": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--tags": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--vnet": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-b": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-c": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-e": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "-g": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-i": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-l": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-n": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-p": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-r": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-s": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-u": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-w": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

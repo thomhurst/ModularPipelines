@@ -149,7 +149,7 @@ public class OptionTypeEnhancer
                 : await _pipeline.DetectTypeAsync(context, cancellationToken).ConfigureAwait(false);
             detectionResult = result;
 
-            if (result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
+            if (!option.HasVerifiedValueShape && result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
             {
                 // Check if we detected enum values - create an enum definition
                 var hasDetectedChoices = result.Type == CliOptionType.Enum && result.EnumValues is { Length: > 0 };

@@ -1,0 +1,41 @@
+
+Command
+    az pipelines run : Queue (run) a pipeline.
+
+Arguments
+    --branch             : Name of the branch on which the pipeline run is to be queued. Example:
+                           refs/heads/master or master or refs/pull/1/merge or refs/tags/tag.
+    --commit-id          : Commit-id on which the pipeline run is to be queued.
+    --detect             : Automatically detect organization.  Allowed values: false, true.
+    --folder-path        : Folder path of pipeline. Default is root level folder.
+    --id                 : ID of the pipeline to queue. Required if --name is not supplied.
+    --name               : Name of the pipeline to queue. Ignored if --id is supplied.
+    --open               : Open the pipeline results page in your web browser.
+    --org --organization : Azure DevOps organization URL. You can configure the default organization
+                           using az devops configure -d organization=ORG_URL. Required if not
+                           configured as default or picked up via git config. Example:
+                           `https://dev.azure.com/MyOrganizationName/`.
+    --parameters         : Space separated "name=value" pairs for the parameters you would like to
+                           set.
+    --project -p         : Name or ID of the project. You can configure the default project using az
+                           devops configure -d project=NAME_OR_ID. Required if not configured as
+                           default or picked up via git config.
+    --variables          : Space separated "name=value" pairs for the variables you would like to
+                           set.
+
+Global Arguments
+    --debug              : Increase logging verbosity to show all debug logs.
+    --help -h            : Show this help message and exit.
+    --only-show-errors   : Only show errors, suppressing warnings.
+    --output -o          : Output format.  Allowed values: json, jsonc, none, table, tsv, yaml,
+                           yamlc.  Default: json.
+    --query              : JMESPath query string. See http://jmespath.org/ for more information and
+                           examples.
+    --subscription       : Name or ID of subscription. You can configure the default subscription
+                           using `az account set -s NAME_OR_ID`.
+    --verbose            : Increase logging verbosity. Use --debug for full debug logs.
+
+To search AI knowledge base for examples, use: az find "az pipelines run"
+
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--branch": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--commit-id": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--detect": {"IsInteger": false, "IsRepeated": false, "Nargs": "?"}, "--folder-path": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--id": {"IsInteger": true, "IsRepeated": false, "Nargs": "1"}, "--name": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--open": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--org": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--organization": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--parameters": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--project": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--variables": {"IsInteger": false, "IsRepeated": false, "Nargs": "*"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "-p": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

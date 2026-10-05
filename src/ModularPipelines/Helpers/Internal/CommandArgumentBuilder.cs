@@ -436,9 +436,15 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         if (optionValues.Any(static value => value.IsBare))
         {
+            if (optionValues.Count == 1)
+            {
+                args.Add(GetEffectiveName(optionPart.Attribute));
+                return;
+            }
+
             throw new InvalidOperationException(
                 $"Grouped optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + $"cannot contain {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)}.");
+                + $"cannot combine {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} with other values.");
         }
 
         args.Add(GetEffectiveName(optionPart.Attribute));

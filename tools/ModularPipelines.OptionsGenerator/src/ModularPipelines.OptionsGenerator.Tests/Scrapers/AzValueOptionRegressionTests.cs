@@ -34,7 +34,7 @@ public class AzValueOptionRegressionTests
                 --future-flag : Opaque action.
                 --future-value : Force a particular value.
                 --explicit-bool : Allowed values: false, true.
-            __MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:{"--future-flag":true,"--future-value":false,"--explicit-bool":false}
+            __MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--future-flag":{"Nargs":"0","IsInteger":false,"IsRepeated":false},"--future-value":{"Nargs":"1","IsInteger":false,"IsRepeated":false},"--explicit-bool":{"Nargs":"1","IsInteger":false,"IsRepeated":false}}
             """;
         var command = await new Scraper().Parse(help);
         await Assert.That(command!.Options.Single(x => x.SwitchName == "--future-flag").IsFlag).IsTrue();
@@ -52,7 +52,7 @@ public class AzValueOptionRegressionTests
         // Azure CLI 2.84.0 registers managedservices definition create's option
         // with a trailing space, while its help renders the trimmed name.
         var help = "Command\n    az managedservices definition create : Create.\nArguments\n    --role-definition-id : Role definition.\n"
-            + AzCliMetadataExecutor.MetadataMarker + "{\"--role-definition-id \":" + isFlag.ToString().ToLowerInvariant() + "}";
+            + AzCliMetadataExecutor.MetadataMarker + System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, object> { ["--role-definition-id "] = new { Nargs = isFlag ? "0" : "1", IsInteger = false, IsRepeated = false } });
         var command = await new Scraper().Parse(help);
         var option = command!.Options.Single();
         await Assert.That(option.SwitchName).IsEqualTo("--role-definition-id");
@@ -67,7 +67,7 @@ public class AzValueOptionRegressionTests
                 az test run : Run.
             Arguments
                 --value : Value.
-            __MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:{"--value":true,"--value ":false}
+            __MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--value":{"Nargs":"0","IsInteger":false,"IsRepeated":false},"--value ":{"Nargs":"1","IsInteger":false,"IsRepeated":false}}
             """;
         await Assert.That(() => new Scraper().Parse(help)).Throws<ArgumentException>();
     }
@@ -85,7 +85,7 @@ public class AzValueOptionRegressionTests
     [Test]
     public async Task IncompleteMetadataFailsInsteadOfGuessing()
     {
-        await Assert.That(() => new Scraper().Parse("Command\n    az test run : Run.\nArguments\n    --unknown : Value.\n__MODULAR_PIPELINES_AZ_ARGUMENT_FLAGS__:{}"))
+        await Assert.That(() => new Scraper().Parse("Command\n    az test run : Run.\nArguments\n    --unknown : Value.\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{}"))
             .Throws<InvalidOperationException>();
     }
 
@@ -112,7 +112,7 @@ public class AzValueOptionRegressionTests
     [Test]
     public async Task CompleteMetadataPreservesDiscoveredCommands()
     {
-        var scraper = new TraversalScraper(new TraversalExecutor("{\"--unknown\":false}"));
+        var scraper = new TraversalScraper(new TraversalExecutor("""{"--unknown":{"Nargs":"1","IsInteger":false,"IsRepeated":false}}"""));
         var commands = new List<CliCommandDefinition>();
         await foreach (var command in scraper.ScrapeAsync())
         {
