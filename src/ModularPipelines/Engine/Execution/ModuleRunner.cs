@@ -108,7 +108,7 @@ internal class ModuleRunner : IModuleRunner
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled;
         var registeredModules = modules.ToArray();
-        _registeredModuleTypes = registeredModules.Select(static module => module.GetType()).ToArray();
+        _registeredModuleTypes = [.. registeredModules.Select(static module => module.GetType())];
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
     }
 
@@ -662,9 +662,7 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         return _artifactDemandPlanCache.GetAsync(
-            () => _registeredModuleTypes
-                .Where(moduleType => scheduler.GetModuleCompletionTask(moduleType)?.IsCompleted == true)
-                .ToHashSet(),
+            () => [.. _registeredModuleTypes.Where(moduleType => scheduler.GetModuleCompletionTask(moduleType)?.IsCompleted == true)],
             async () =>
             {
                 var requiredProducerTypes = await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
@@ -963,7 +961,7 @@ internal class ModuleRunner : IModuleRunner
             _moduleEstimatedTimeProvider);
 
         var telemetryStart = Stopwatch.GetTimestamp();
-        var telemetryStatus = "Failed";
+        var telemetryStatus = ModuleStatus.Failed;
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
         executionContext.ModuleActivity = activity;
 
@@ -985,33 +983,35 @@ internal class ModuleRunner : IModuleRunner
             // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == ModuleStatus.Skipped)
             {
-                telemetryStatus = "Skipped";
+                telemetryStatus = ModuleStatus.Skipped;
                 ModuleActivityTracing.RecordSkipped(activity);
             }
             else if (executionContext.Status == ModuleStatus.FailureIgnored)
             {
-                telemetryStatus = ModuleStatus.FailureIgnored.ToString();
-                activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
-                activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
+                telemetryStatus = ModuleStatus.FailureIgnored;
+                ModuleActivityTracing.RecordFailureIgnored(
+                    activity,
+                    executionContext.Exception,
+                    _secretObfuscator.Obfuscate(executionContext.Exception?.Message ?? "Module execution failed", null));
             }
             else if (executionContext.Status == ModuleStatus.RestoredFromHistory)
             {
-                telemetryStatus = ModuleStatus.RestoredFromHistory.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromHistory;
                 ModuleActivityTracing.RecordRestoredFromHistory(activity);
             }
             else if (executionContext.Status == ModuleStatus.RestoredFromCache)
             {
-                telemetryStatus = ModuleStatus.RestoredFromCache.ToString();
+                telemetryStatus = ModuleStatus.RestoredFromCache;
                 ModuleActivityTracing.RecordRestoredFromCache(activity);
             }
             else if (executionContext.Status == ModuleStatus.Canceled)
             {
-                telemetryStatus = ModuleStatus.Canceled.ToString();
+                telemetryStatus = ModuleStatus.Canceled;
                 ModuleActivityTracing.RecordCanceled(activity);
             }
             else
             {
-                telemetryStatus = ModuleStatus.Succeeded.ToString();
+                telemetryStatus = ModuleStatus.Succeeded;
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
@@ -1020,7 +1020,7 @@ internal class ModuleRunner : IModuleRunner
             var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
             if (executionContext.Status == ModuleStatus.TimedOut)
             {
-                telemetryStatus = "TimedOut";
+                telemetryStatus = ModuleStatus.TimedOut;
                 ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
             }
             else
@@ -1048,7 +1048,6 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks - module is starting execution.
@@ -1348,7 +1347,7 @@ internal class ModuleRunner : IModuleRunner
             : ModuleResultFactory.CreateException(module.ResultType, exception, executionContext);
     }
 
-    private ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
+    private static ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
     {
         // Use compiled delegate factory instead of Activator.CreateInstance
         return ExecutionContextFactory.Create(module, moduleType);
@@ -1377,11 +1376,10 @@ internal class ModuleRunner : IModuleRunner
         }
 
         executionContext.SkipResult = DependencySkipDecisionFactory.Create(
-            skippedDependencies
+            [.. skippedDependencies
                 .Select(dependency => (
                     ModuleType: dependency.Type,
-                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))
-                .ToArray());
+                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))]);
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(

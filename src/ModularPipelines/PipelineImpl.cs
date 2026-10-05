@@ -166,7 +166,7 @@ internal sealed class PipelineImpl : IPipeline
 
             ModuleActivityTracing.RecordPipelineCompletion(
                 activity,
-                summary.Status.ToString(),
+                summary.Status,
                 summary.Status == ModuleStatus.Failed);
             return summary;
         }

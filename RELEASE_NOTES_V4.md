@@ -134,6 +134,15 @@ The handwritten grouped Git API and handwritten options remain available. Git
 refreshes now prune obsolete generated option records after command coverage
 validation, preventing documentation-page types from lingering in the package.
 
+## Telemetry conventions
+
+- Exceptions are now `exception` span events with masked messages, rather than `exception.type` and `exception.message` span attributes. Failed exception spans also expose `error.type`.
+- The failed-module counter is now `modular_pipelines.module.failed` (formerly `modular_pipelines.modules.failed`).
+- Pipeline and module status attributes use lowercase snake case, for example `succeeded`, `timed_out`, and `restored_from_cache`.
+- The redundant `modular_pipelines.command.duration_ms` attribute and `PipelineTelemetry.CommandDurationTag` constant are removed. Use span duration instead.
+
+Update dashboards and telemetry queries for these v4 changes.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2

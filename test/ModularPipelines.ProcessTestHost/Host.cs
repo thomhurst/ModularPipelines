@@ -7,6 +7,16 @@ public static class Host
 {
     public static async Task<int> Main(string[] args)
     {
+        if (args[0] == "write-output")
+        {
+            foreach (var line in args.Skip(1))
+            {
+                Console.WriteLine(line);
+            }
+
+            return 0;
+        }
+
         Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         var role = args[0];
         var directory = args[1];
