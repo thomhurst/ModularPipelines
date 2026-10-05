@@ -51,7 +51,7 @@ public class OptionsClassGenerator : ICodeGenerator
             IsCollectionParameter(parameter)
             || RequiresNullGuard(parameter));
         var usesExplicitRequiredConstructor = supportsAlternateInputModes || requiresValueValidation
-            || command.RequiredOptions.Any(static option => option.IsFlag || option.InheritedOptionPropertyType is not null);
+            || command.RequiredOptions.Any(static option => option.IsFlag || option.ShadowsGlobalOption);
 
         // Parameter tags belong on the primary declaration or the explicit constructor.
         GeneratorUtils.GenerateConstructorXmlDocumentation(
@@ -731,7 +731,7 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb, string propertyType, string propertyName, bool isRequired, bool participatesInAlternative, bool? collectionOverride = null,
         CliOptionDefinition? option = null)
     {
-        var modifier = GetPropertyModifier(propertyName, propertyType, isRequired, option);
+        var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
         // Required collections are already materialized by their constructor. Optional
         // alternative inputs must retain the same values for validation and rendering.
@@ -872,17 +872,9 @@ public class OptionsClassGenerator : ICodeGenerator
     private static string GetPropertyAccessor(bool isRequired) =>
         isRequired ? "private init" : "set";
 
-    private static string GetPropertyModifier(
-        string propertyName, string propertyType, bool isRequired, CliOptionDefinition? option)
-    {
-        if (option?.InheritedOptionPropertyType is not { } inheritedType)
-        {
-            return GetNewModifier(propertyName);
-        }
-
-        // Required properties use init accessors and cannot override the mutable base property.
-        return !isRequired && inheritedType == propertyType ? "override " : "new ";
-    }
+    // A new slot keeps command metadata independent of the inherited command attribute.
+    private static string GetPropertyModifier(string propertyName, CliOptionDefinition? option) =>
+        option?.ShadowsGlobalOption == true ? "new " : GetNewModifier(propertyName);
 
     private static string GetNewModifier(string propertyName) =>
         InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";

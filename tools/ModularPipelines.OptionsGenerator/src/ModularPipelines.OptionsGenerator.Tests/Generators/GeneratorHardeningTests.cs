@@ -1797,12 +1797,12 @@ public class GeneratorHardeningTests
     }
 
     [Test]
-    [Arguments("bool?", false, "override bool?")]
+    [Arguments("bool?", false, "new bool?")]
     [Arguments("bool?", true, "new bool")]
     [Arguments("string?", false, "new string?")]
     [Arguments("string?", true, "new string")]
     [Arguments("int?", true, "new int")]
-    public async Task Same_Scope_Global_Overrides_Compile(string localType, bool required, string declaration)
+    public async Task Same_Scope_Global_Shadows_Compile(string localType, bool required, string declaration)
     {
         var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
         {
