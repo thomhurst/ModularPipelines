@@ -1,5 +1,3 @@
-using ModularPipelines.Email.Options;
-
 namespace ModularPipelines.Email;
 
 public interface IEmail

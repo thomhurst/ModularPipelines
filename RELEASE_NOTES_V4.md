@@ -957,3 +957,12 @@ the separator in relative paths. Its default follows the host. Providers using W
 separators on Unix must override it so artifact extraction validates traversal with the
 same separator semantics as the backing store; slash-based providers retain literal
 backslashes in filenames.
+
+## Email package namespaces
+
+`EmailSendOptions` and `EmailExtensions` now live in `ModularPipelines.Email` alongside
+`IEmail`. Replace imports of `ModularPipelines.Email.Options` and
+`ModularPipelines.Email.Extensions` with the root namespace. The generated
+`context.Tools.Email` entry point and `SendAsync` behavior are unchanged.
+`RegisterEmailContext` remains public for generated registration and is hidden from
+IntelliSense.
