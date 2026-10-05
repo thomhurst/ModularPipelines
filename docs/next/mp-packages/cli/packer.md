@@ -24,6 +24,14 @@ Resolve the service in a module, then select a command from the table below. A r
 var packer = context.Tools.Packer;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                                                                                          | Property          | Availability | Description                                                            |
+| --------------------------------------------------------------------------------------------------- | ----------------- | ------------ | ---------------------------------------------------------------------- |
+| [`-machine-readable`](https://developer.hashicorp.com/packer/docs/commands#machine-readable-output) | `MachineReadable` | All editions | Produce machine-readable output. Do not combine with build debug mode. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                 | Options record                   |
