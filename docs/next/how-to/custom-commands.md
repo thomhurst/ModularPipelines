@@ -24,6 +24,8 @@ This is the equivalent to running:
 
 By default, `Arguments` appears after generated non-terminal options and operands. It appears before `RunSettings` (and its `--` marker) and before options in the `Terminal` phase. When `ArgumentsContainToolOptions` is enabled, recognized tool options can be hoisted ahead of a structured or declared end-of-options marker.
 
+If a switch exists both globally and on the selected command, manual `Arguments` use the command-local definition, including its value arity and short aliases. Set the typed global property or use `AdditionalArguments` with `IsGlobalOption: true` to place that switch before the subcommand explicitly.
+
 When you need to configure the options object, construct `CommandLineToolOptions` directly:
 
 ```
@@ -77,6 +79,8 @@ Static command identities use one source for each part:
 * Optionally use `[CliCommandAlias("short-form", IsPreferred = true)]` for the preferred subcommand alias.
 
 For dynamic commands, set `Tool` and `CommandParts` at runtime. Non-null runtime values override attributes; otherwise a preferred alias overrides `CliSubCommand`.
+
+Mark a shared options base with `[CliGlobalOptions]` when its declared settings belong before the subcommand. Global and command-local properties may use the same CLI switch with different C# property names. Long names, short aliases, and negated names must remain unique within each scope. `Terminal` properties render after the command regardless of their declaring base, so they share the command-local scope for collision checks.
 
 ### Migrating from `CliCommandAttribute`[​](#migrating-from-clicommandattribute "Direct link to migrating-from-clicommandattribute")
 
