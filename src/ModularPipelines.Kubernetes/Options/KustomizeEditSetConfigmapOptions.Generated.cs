@@ -56,12 +56,6 @@ public record KustomizeEditSetConfigmapOptions : KustomizeOptions
     public string? NewNamespace { get; set; }
 
     /// <summary>
-    /// print a stack-trace on error
-    /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
-
-    /// <summary>
     /// The NAME operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]

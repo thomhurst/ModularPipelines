@@ -30,6 +30,14 @@ Resolve the service in a module, then select a command from the table below. A r
 var kustomize = context.Tools.Kustomize;
 ```
 
+## Global options
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--stack-trace` | `StackTrace` | All editions | print a stack-trace on error |
+
 ## Commands
 
 | CLI command | Options record |
@@ -48,6 +56,7 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit add buildmetadata` | `KustomizeEditAddBuildmetadataOptions` |
 | `kustomize edit add component` | `KustomizeEditAddComponentOptions` |
 | `kustomize edit add configmap` | `KustomizeEditAddConfigmapOptions` |
+| `kustomize edit add configuration` | `KustomizeEditAddConfigurationOptions` |
 | `kustomize edit add generator` | `KustomizeEditAddGeneratorOptions` |
 | `kustomize edit add label` | `KustomizeEditAddLabelOptions` |
 | `kustomize edit add patch` | `KustomizeEditAddPatchOptions` |
@@ -59,6 +68,7 @@ var kustomize = context.Tools.Kustomize;
 | `kustomize edit remove` | `KustomizeEditRemoveOptions` |
 | `kustomize edit remove annotation` | `KustomizeEditRemoveAnnotationOptions` |
 | `kustomize edit remove buildmetadata` | `KustomizeEditRemoveBuildmetadataOptions` |
+| `kustomize edit remove component` | `KustomizeEditRemoveComponentOptions` |
 | `kustomize edit remove configmap` | `KustomizeEditRemoveConfigmapOptions` |
 | `kustomize edit remove label` | `KustomizeEditRemoveLabelOptions` |
 | `kustomize edit remove patch` | `KustomizeEditRemovePatchOptions` |
