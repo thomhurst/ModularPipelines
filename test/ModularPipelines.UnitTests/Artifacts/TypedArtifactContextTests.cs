@@ -1,5 +1,6 @@
 using System.IO.Abstractions.TestingHelpers;
 using System.IO.Compression;
+using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.Distributed;
@@ -12,10 +13,14 @@ namespace ModularPipelines.UnitTests.Artifacts;
 public class TypedArtifactContextTests
 {
     [Test]
-    [Arguments("/")]
-    [Arguments("\\")]
-    public async Task Directory_Archive_Uses_Provider_Relative_Paths_For_Canonicalized_Entries(string separator)
+    [Arguments("/", CompressionLevel.NoCompression)]
+    [Arguments("\\", CompressionLevel.NoCompression)]
+    [Arguments("/", CompressionLevel.Optimal)]
+    [Arguments("\\", CompressionLevel.Optimal)]
+    public async Task Directory_Archive_Preserves_Provider_Paths_And_Configured_Compression(
+        string separator, CompressionLevel compressionLevel)
     {
+        var payload = new string('a', 8192);
         var requestedRoot = Path.Combine(Path.GetTempPath(), "artifact-alias");
         var canonicalRoot = Path.Combine(Path.GetTempPath(), "artifact-canonical");
         var canonicalDirectory = Path.Combine(canonicalRoot, "empty");
@@ -27,17 +32,28 @@ public class TypedArtifactContextTests
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalDirectory)).Returns($"nested{separator}empty");
         provider.Setup(p => p.GetRelativePath(requestedRoot, canonicalFile)).Returns($"nested{separator}payload.txt");
         provider.Setup(p => p.GetLastWriteTimeUtc(canonicalFile)).Returns(new DateTime(2026, 10, 4, 12, 0, 0, DateTimeKind.Utc));
-        provider.Setup(p => p.OpenRead(canonicalFile)).Returns(() => new MemoryStream("provider payload"u8.ToArray()));
+        provider.Setup(p => p.OpenRead(canonicalFile)).Returns(() => new MemoryStream(Encoding.UTF8.GetBytes(payload)));
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions { ArtifactCompressionLevel = compressionLevel })
+            .ForModule(typeof(ArtifactProducer));
 
         var reference = await context.PublishDirectoryAsync("directory", new FolderPath(requestedRoot, provider.Object));
 
         await using var data = await store.DownloadAsync(reference, CancellationToken.None);
         using var archive = new ZipArchive(data, ZipArchiveMode.Read);
         await Assert.That(archive.Entries.Select(entry => entry.FullName)).IsEquivalentTo(["nested/empty/", "nested/payload.txt"]);
-        using var reader = new StreamReader(archive.GetEntry("nested/payload.txt")!.Open());
-        await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("provider payload");
+        var entry = archive.GetEntry("nested/payload.txt")!;
+        if (compressionLevel == CompressionLevel.NoCompression)
+        {
+            await Assert.That(entry.CompressedLength).IsEqualTo(entry.Length);
+        }
+        else
+        {
+            await Assert.That(entry.CompressedLength).IsLessThan(entry.Length);
+        }
+
+        using var reader = new StreamReader(entry.Open());
+        await Assert.That(await reader.ReadToEndAsync()).IsEqualTo(payload);
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalDirectory), Times.Once);
         provider.Verify(p => p.GetRelativePath(requestedRoot, canonicalFile), Times.Once);
     }
@@ -55,7 +71,7 @@ public class TypedArtifactContextTests
         provider.Setup(p => p.GetLastWriteTimeUtc(file)).Returns(new DateTime(2026, 1, 1));
         provider.Setup(p => p.OpenRead(file)).Returns(() => new MemoryStream("literal"u8.ToArray()));
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
         var reference = await context.PublishDirectoryAsync("literal", new FolderPath(root, provider.Object));
         await using var data = await store.DownloadAsync(reference, CancellationToken.None);
         using var result = new ZipArchive(data, ZipArchiveMode.Read);
@@ -89,7 +105,7 @@ public class TypedArtifactContextTests
         }
         using var written = new MemoryStream();
         provider.Setup(p => p.Open(It.IsAny<string>(), FileMode.CreateNew, FileAccess.Write)).Returns(written);
-        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
             .ForModule(typeof(ArtifactProducer));
         await context.PublishDirectoryAsync("literal", new FolderPath(source, provider.Object));
         var folder = new FolderPath(destination, provider.Object);
@@ -126,7 +142,7 @@ public class TypedArtifactContextTests
             : throw new DirectoryNotFoundException(parent));
         var source = root + separator + "source.txt";
         provider.Setup(p => p.OpenRead(source)).Returns(() => new MemoryStream("file content"u8.ToArray()));
-        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
             .ForModule(typeof(ArtifactProducer));
         await context.PublishFileAsync("file", new FilePath(source, provider.Object));
 
@@ -212,7 +228,7 @@ public class TypedArtifactContextTests
         var destination = new FilePath(Path.Combine("typed-artifacts", "output.txt"), provider);
         fileSystem.AddFile(source.Path, new MockFileData("payload"));
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
 
         var reference = await context.PublishFileAsync("package", source);
         var result = generic
@@ -237,7 +253,7 @@ public class TypedArtifactContextTests
         fileSystem.AddFile(Path.Combine(source.Path, "nested", "file.txt"), new MockFileData("payload"));
         fileSystem.AddDirectory(Path.Combine(source.Path, "empty"));
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
 
         var reference = await context.PublishDirectoryAsync("directory", source);
         var result = generic
@@ -260,7 +276,7 @@ public class TypedArtifactContextTests
             var source = new FilePath(Path.Combine(directory.FullName, "input.txt"));
             await File.WriteAllTextAsync(source.Path, "payload");
             var store = new InMemoryDistributedArtifactStore();
-            var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+            var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
             await context.PublishFileAsync("typed", source);
             var stringDestination = Path.Combine(directory.FullName, "string.txt");
             var stringResult = await context.DownloadAsync<ArtifactProducer>("typed", stringDestination);
@@ -289,7 +305,7 @@ public class TypedArtifactContextTests
         var source = new FilePath(Path.Combine("typed-artifacts", "input.txt"), provider);
         fileSystem.AddFile(source.Path, new MockFileData("payload"));
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
         await context.PublishFileAsync("file", source);
         await context.PublishDirectoryAsync("folder", source.Folder!);
         var destinationFile = new FilePath(Path.Combine("typed-artifacts", "new.txt"), provider);
@@ -308,7 +324,7 @@ public class TypedArtifactContextTests
         var file = new FilePath("typed-file", provider.Object);
         var folder = new FolderPath("typed-folder", provider.Object);
         var store = new InMemoryDistributedArtifactStore();
-        var context = new ArtifactContextImpl(store, new ArtifactOptions()).ForModule(typeof(ArtifactProducer));
+        var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
         var token = new CancellationToken(canceled: true);
 
         await Assert.ThrowsAsync<OperationCanceledException>(() => context.PublishFileAsync("file", file, token));
@@ -325,7 +341,7 @@ public class TypedArtifactContextTests
         var workingDirectory = Path.Combine(Path.GetTempPath(), $"artifact-working-directory-{Guid.NewGuid():N}");
         var files = new FilesContext(provider, new PipelineWorkingDirectory(workingDirectory), Mock.Of<IZipContext>());
         fileSystem.AddFile(Path.Combine(workingDirectory, "input.txt"), new MockFileData("pipeline content"));
-        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
             .ForModule(typeof(ArtifactProducer));
 
         await context.PublishFileAsync("file", files.GetFile("input.txt"));
@@ -354,7 +370,7 @@ public class TypedArtifactContextTests
             ModuleId = ModuleId.FromType(typeof(ArtifactProducer)),
             ContentType = "application/zip",
         }, data, CancellationToken.None);
-        IArtifactContext context = new ArtifactContextImpl(store, new ArtifactOptions());
+        IArtifactContext context = new ArtifactContextImpl(store, new DistributedOptions());
 
         await Assert.ThrowsAsync<IOException>(() => context.DownloadAsync<ArtifactProducer>("traversal", destination));
         await Assert.That(fileSystem.FileExists(Path.GetFullPath(Path.Combine(destination.Path, "..", "outside.txt")))).IsFalse();
@@ -395,7 +411,7 @@ public class TypedArtifactContextTests
         fileSystem.AddFile(target, new MockFileData("old"));
         Mock.Get(provider).Setup(p => p.MoveFile(It.IsAny<string>(), It.IsAny<string>(), true))
             .Throws<NotSupportedException>();
-        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new ArtifactOptions())
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
             .ForModule(typeof(ArtifactProducer));
         await context.PublishDirectoryAsync("directory", source);
 
