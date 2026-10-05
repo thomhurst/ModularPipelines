@@ -1,0 +1,39 @@
+Build a set of KRM resources using a 'kustomization.yaml' file.
+The DIR argument must be a path to a directory containing
+'kustomization.yaml', or a git repository URL with a path suffix
+specifying same with respect to the repository root.
+If DIR is omitted, '.' is assumed.
+
+Usage:
+  kustomize build DIR [flags]
+
+Examples:
+# Build the current working directory
+  kustomize build
+
+# Build some shared configuration directory
+  kustomize build /home/config/production
+
+# Build from github
+  kustomize build https://github.com/kubernetes-sigs/kustomize.git/examples/helloWorld?ref=v1.0.6
+
+
+Flags:
+      --as-current-user                 use the uid and gid of the command executor to run the function in the container
+      --enable-alpha-plugins            enable kustomize plugins
+      --enable-exec                     enable support for exec functions (raw executables); do not use for untrusted configs! (Alpha)
+      --enable-helm                     Enable use of the Helm chart inflator generator.
+  -e, --env stringArray                 a list of environment variables to be used by functions
+      --helm-api-versions stringArray   Kubernetes api versions used by Helm for Capabilities.APIVersions
+      --helm-command string             helm command (path to executable) (default "helm")
+      --helm-debug                      Enable debug output from the Helm chart inflator generator.
+      --helm-kube-version string        Kubernetes version used by Helm for Capabilities.KubeVersion
+  -h, --help                            help for build
+      --load-restrictor string          if set to 'LoadRestrictionsNone', local kustomizations may load files from outside their root. This does, however, break the relocatability of the kustomization. (default "LoadRestrictionsRootOnly")
+      --mount stringArray               a list of storage options read from the filesystem
+      --network                         enable network access for functions that declare it
+      --network-name string             the docker network to run the container in (default "bridge")
+  -o, --output string                   If specified, write output to this path.
+
+Global Flags:
+      --stack-trace   print a stack-trace on error
