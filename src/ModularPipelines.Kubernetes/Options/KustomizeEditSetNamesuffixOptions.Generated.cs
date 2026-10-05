@@ -21,9 +21,26 @@ namespace ModularPipelines.Kubernetes.Options;
 public record KustomizeEditSetNamesuffixOptions : KustomizeOptions
 {
     /// <summary>
-    /// print a stack-trace on error
+    /// Sets the value of the nameSuffix field in the kustomization file
     /// </summary>
-    [CliFlag("--stack-trace")]
-    public bool? StackTrace { get; set; }
+    /// <param name="Suffix">The &lt;suffix&gt; operand.</param>
+    public KustomizeEditSetNamesuffixOptions(
+        string Suffix
+    )
+    {
+        global::System.ArgumentNullException.ThrowIfNull(Suffix);
+        this.Suffix = Suffix;
+    }
+
+    public void Deconstruct(out string Suffix)
+    {
+        Suffix = this.Suffix;
+    }
+
+    /// <summary>
+    /// The &lt;suffix&gt; operand.
+    /// </summary>
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
+    public string Suffix { get; private init; }
 
 }
