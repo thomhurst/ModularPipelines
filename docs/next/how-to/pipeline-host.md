@@ -226,7 +226,7 @@ var summary = await pipeline.RunAsync();
 
 // Check results
 
-if (summary.Status == ModularPipelines.ModuleStatus.Failed)
+if (!summary.Succeeded)
 
 {
 
@@ -246,6 +246,8 @@ if (summary.Status == ModularPipelines.ModuleStatus.Failed)
 ```
 
 Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect the returned summary after a module fails. Fail-fast mode rethrows the module exception.
+
+`summary.Succeeded` is true when the pipeline completes without unignored failures. Skipped, cached, restored, and ignored-failure results permit success; incomplete and canceled runs do not. The sealed summary exposes `StartTime`, `EndTime`, and `Duration` for timing.
 
 `summary.Failures` contains the results that failed the pipeline. Results whose failures were ignored, for example through `WithIgnoreFailuresWhen`, are in `summary.IgnoredFailures` instead.
 
