@@ -22,23 +22,6 @@ namespace ModularPipelines.Node.Options;
 public record NpmPackOptions : NpmOptions
 {
     /// <summary>
-    /// Create a tarball from a package
-    /// </summary>
-    /// <param name="PackageSpec">The &lt;package-spec&gt; operand.</param>
-    public NpmPackOptions(
-        string PackageSpec
-    )
-    {
-        global::System.ArgumentNullException.ThrowIfNull(PackageSpec);
-        this.PackageSpec = PackageSpec;
-    }
-
-    public void Deconstruct(out string PackageSpec)
-    {
-        PackageSpec = this.PackageSpec;
-    }
-
-    /// <summary>
     /// Indicates that you don't want npm to make any changes and that it should
     /// </summary>
     [CliFlag("--dry-run")]
@@ -83,7 +66,7 @@ public record NpmPackOptions : NpmOptions
     /// <summary>
     /// The &lt;package-spec&gt; operand.
     /// </summary>
-    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)]
-    public string PackageSpec { get; private init; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? PackageSpec { get; set; }
 
 }
