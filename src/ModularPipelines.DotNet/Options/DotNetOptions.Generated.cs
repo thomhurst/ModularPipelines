@@ -22,4 +22,10 @@ namespace ModularPipelines.DotNet.Options;
 [CliGlobalOptions]
 public abstract record DotNetOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Enable diagnostic output.
+    /// </summary>
+    [CliFlag("--diagnostics", ShortForm = "-d")]
+    public virtual bool? Diagnostics { get; set; }
+
 }
