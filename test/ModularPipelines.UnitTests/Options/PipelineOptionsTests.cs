@@ -550,7 +550,7 @@ public class PipelineOptionsTests
             await Assert.That(providers).Count().IsEqualTo(2);
             await Assert.That(providers.Contains(loggerProvider)).IsTrue();
             await Assert.That(providers.OfType<BuildSystemLogIssueLoggerProvider>()).HasSingleItem();
-            await Assert.That(summary.Status).IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That(summary.Succeeded).IsTrue();
         }
     }
 

@@ -172,7 +172,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithProgrammaticDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -192,7 +192,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithTypeDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     #endregion
@@ -207,7 +207,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithOptionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -217,7 +217,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithOptionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     #endregion
@@ -232,7 +232,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithActiveConditionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -251,7 +251,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithInactiveConditionalDependency>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     #endregion
@@ -267,7 +267,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -278,7 +278,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -290,7 +290,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithChainedDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -301,7 +301,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .AddModule<ModuleWithChainedDependencies>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     #endregion

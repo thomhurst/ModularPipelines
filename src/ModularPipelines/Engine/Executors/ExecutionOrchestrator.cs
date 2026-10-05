@@ -167,7 +167,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         if (summary.Status == ModuleStatus.Failed && _options.Value.ThrowOnPipelineFailure)
         {
             var failedModules = summary.Results
-                .Where(result => result.ExceptionOrDefault is not null)
+                .Where(PipelineSummary.IsFailure)
                 .Select(r => r.Name)
                 .ToList();
 

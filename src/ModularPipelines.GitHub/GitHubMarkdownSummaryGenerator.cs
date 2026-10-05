@@ -126,7 +126,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         return $"\n\n```\n{exception}\n```";
     }
 
-    private static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
+    internal static string GenerateMermaidSummary(PipelineSummary pipelineSummary)
     {
         var stepStringList = pipelineSummary.Results
             .Where(x => x.Duration != TimeSpan.Zero)
@@ -165,7 +165,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
         return text;
     }
 
-    private static string GenerateTableSummary(PipelineSummary pipelineSummary)
+    internal static string GenerateTableSummary(PipelineSummary pipelineSummary)
     {
         var stepStringList = pipelineSummary.Results.OrderBy(x => x.EndTime)
             .ThenBy(s => s.StartTime)
@@ -179,8 +179,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
                 }
             ).ToList();
 
-        var isSameDay = pipelineSummary.Start.Date == pipelineSummary.End.Date;
-        var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.Start, pipelineSummary.End, pipelineSummary.TotalDuration);
+        var isSameDay = pipelineSummary.StartTime.Date == pipelineSummary.EndTime.Date;
+        var (globalStartTime, globalEndTime, globalDuration) = (pipelineSummary.StartTime, pipelineSummary.EndTime, pipelineSummary.Duration);
         var pipelineStatusString = GetStatusString(pipelineSummary.Status);
         var overallSummaryString = $"| **Total** | **{pipelineStatusString}** | **{GetTime(globalStartTime, isSameDay)}** | **{GetTime(globalEndTime, isSameDay)}** | **{globalDuration}** |";
         var text = $"""
@@ -196,7 +196,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineEventHandler
 
     private static string AddCritIfFailed(IModuleResult moduleResult)
     {
-        return moduleResult.ExceptionOrDefault is not null
+        return PipelineSummary.IsFailure(moduleResult)
             ? "crit,"
             : string.Empty;
     }

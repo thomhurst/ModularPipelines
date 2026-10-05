@@ -2217,7 +2217,7 @@ ModularPipelines.PipelineSummary.IgnoredFailures.get -> System.Collections.Gener
 ModularPipelines.PipelineSummary.Metrics.get -> ModularPipelines.Reporting.PipelineMetrics?
 ModularPipelines.PipelineSummary.ModuleTimelines.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Reporting.ModuleTimeline!>?
 ModularPipelines.PipelineSummary.RunReport.get -> ModularPipelines.Reporting.PipelineRunReport?
-ModularPipelines.PipelineSummary.Status.get -> ModularPipelines.ModuleStatus
+ModularPipelines.PipelineSummary.Succeeded.get -> bool
 ModularPipelines.Models.RequirementDecision.IsSatisfied.get -> bool
 ModularPipelines.Module
 ModularPipelines.Module.Module() -> void
@@ -3425,15 +3425,14 @@ ModularPipelines.IModuleResult.ValueOrDefault.get -> object?
 *REMOVED*ModularPipelines.Models.PipelineSummary
 ModularPipelines.PipelineSummary
 *REMOVED*ModularPipelines.Models.PipelineSummary.End.get -> System.DateTimeOffset
-ModularPipelines.PipelineSummary.End.get -> System.DateTimeOffset
+ModularPipelines.PipelineSummary.EndTime.get -> System.DateTimeOffset
 *REMOVED*ModularPipelines.Models.PipelineSummary.PipelineSummary(ModularPipelines.Models.PipelineSummary! original) -> void
-ModularPipelines.PipelineSummary.PipelineSummary(ModularPipelines.PipelineSummary! original) -> void
 *REMOVED*ModularPipelines.Models.PipelineSummary.Results.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.IModuleResult!>!
 ModularPipelines.PipelineSummary.Results.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.IModuleResult!>!
 *REMOVED*ModularPipelines.Models.PipelineSummary.Start.get -> System.DateTimeOffset
-ModularPipelines.PipelineSummary.Start.get -> System.DateTimeOffset
+ModularPipelines.PipelineSummary.StartTime.get -> System.DateTimeOffset
 *REMOVED*ModularPipelines.Models.PipelineSummary.TotalDuration.get -> System.TimeSpan
-ModularPipelines.PipelineSummary.TotalDuration.get -> System.TimeSpan
+ModularPipelines.PipelineSummary.Duration.get -> System.TimeSpan
 *REMOVED*override ModularPipelines.Models.PipelineSummary.Equals(object? obj) -> bool
 override ModularPipelines.PipelineSummary.Equals(object? obj) -> bool
 *REMOVED*override ModularPipelines.Models.PipelineSummary.GetHashCode() -> int
@@ -3449,10 +3448,8 @@ static ModularPipelines.PipelineBuilderExtensions.ExportDependencyGraphAsync(thi
 *REMOVED*static ModularPipelines.PipelineBuilderExtensions.RunAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.Models.PipelineSummary!>!
 static ModularPipelines.PipelineBuilderExtensions.RunAsync(this ModularPipelines.PipelineBuilder! builder, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.PipelineSummary!>!
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.<Clone>$() -> ModularPipelines.Models.PipelineSummary!
-virtual ModularPipelines.PipelineSummary.<Clone>$() -> ModularPipelines.PipelineSummary!
+ModularPipelines.PipelineSummary.<Clone>$() -> ModularPipelines.PipelineSummary!
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.EqualityContract.get -> System.Type!
-virtual ModularPipelines.PipelineSummary.EqualityContract.get -> System.Type!
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.Equals(ModularPipelines.Models.PipelineSummary? other) -> bool
-virtual ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other) -> bool
+ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other) -> bool
 *REMOVED*virtual ModularPipelines.Models.PipelineSummary.PrintMembers(System.Text.StringBuilder! builder) -> bool
-virtual ModularPipelines.PipelineSummary.PrintMembers(System.Text.StringBuilder! builder) -> bool

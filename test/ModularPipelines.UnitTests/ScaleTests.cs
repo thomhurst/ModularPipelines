@@ -293,7 +293,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         await Assert.That(tracker.CompletedCount).IsEqualTo(expectedModuleCount);
     }
 
@@ -448,7 +448,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         await Assert.That(tracker.CompletedCount).IsEqualTo(chainDepth);
 
         // Verify all chain modules executed
@@ -588,7 +588,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed
@@ -764,7 +764,7 @@ public class ScaleTests : TestBase
         var pipelineSummary = await builder.RunAsync();
 
         // Assert
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed

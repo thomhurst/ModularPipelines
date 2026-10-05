@@ -126,7 +126,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;
@@ -145,7 +145,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDepForCategoryFilter>().Single();
         var result = await testModule;
@@ -163,7 +163,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigureOptions(options => options with { RunOnlyCategories = ["test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
 
         var requiredResult = await pipelineSummary.Modules
             .OfType<TestModuleWithRequiredDep>()
@@ -209,7 +209,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigureOptions(options => options with { RunOnlyCategories = ["compile"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         await Assert.That(pipelineSummary.Modules.Count(module => ReferenceEquals(module, compileModule)))
             .IsEqualTo(1);
         await Assert.That((await compileModule).ValueOrDefault).IsEqualTo("compiled");
@@ -276,7 +276,7 @@ public class CategoryFilterDependencyTests : TestBase
             .ConfigureOptions(options => options with { RunOnlyCategories = ["compile", "test"] })
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
 
         var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;

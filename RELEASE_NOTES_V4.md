@@ -108,6 +108,23 @@ copy/move destinations still use the process directory. For pipeline-relative
 paths, use `context.Files.GetFile` or `GetFolder` and pass their absolute `Path`
 to destination parameters. See the [relative-path migration guidance](docs/docs/how-to/relative-paths.md).
 
+## Pipeline summary contract
+
+`PipelineSummary` is now sealed. Its timing properties match the other result types:
+`Start` becomes `StartTime`, `End` becomes `EndTime`, and `TotalDuration` becomes `Duration`.
+The JSON property names change with them.
+
+Replace comparisons against `PipelineSummary.Status` with `summary.Succeeded` (or
+`!summary.Succeeded`). Success means the pipeline completed without unignored failures;
+skipped, cached, restored, and ignored-failure results permit success. Incomplete, failed,
+and canceled runs are not successful. `Failures` and `IgnoredFailures` provide module-level
+details. The success value survives JSON serialization even though module results are omitted.
+
+`ThrowOnPipelineFailure` also applies when a module result reports `Failed`, `TimedOut`,
+`DependencyFailed`, or `Canceled` without a captured exception. When enabled, the completed
+run throws `PipelineFailedException`; set it to `false` to inspect the unsuccessful summary.
+The exception's `FailedModules` identifies these results and excludes ignored failures.
+
 ## Generated runtime metadata
 
 Generated runtime metadata now requires the v4 contracts: secret metadata schema 2
@@ -305,9 +322,11 @@ The custom JSON converters use the same new property names. Consumers of persist
 distributed `ModuleResult` JSON must migrate those five field names together with the
 .NET API.
 
-`PipelineSummary.Failures` returns the results that failed the pipeline: results with an
-exception whose status is not `FailureIgnored`. `PipelineSummary.IgnoredFailures` returns
-the results whose failures were ignored. Use them instead of filtering `Results` by hand.
+`PipelineSummary.Failures` returns results with a `Failed`, `TimedOut`, `DependencyFailed`,
+or `Canceled` status, even when no exception was captured. It also includes other results
+with an exception unless their status is `FailureIgnored`. `PipelineSummary.IgnoredFailures`
+returns the results whose failures were ignored. Use them instead of filtering `Results`
+by hand. GitHub Mermaid summaries use the same failure criteria for critical styling.
 
 ## Git repository information
 

@@ -79,7 +79,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -89,7 +89,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module3>()
             .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -100,7 +100,7 @@ public class DependsOnTests : TestBase
             .AddModule<Module2>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         // Module1 should have been auto-registered
         await Assert.That(pipelineSummary.Modules.Count()).IsEqualTo(2);
     }
@@ -112,7 +112,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3>()
             .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         // Only Module3 should be registered (Module1 not auto-registered for optional dep)
         await Assert.That(pipelineSummary.Modules.Count()).IsEqualTo(1);
     }
@@ -123,7 +123,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3WithGetIfRegistered>()
             .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -172,7 +172,7 @@ public class DependsOnTests : TestBase
         var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOptionalDep>()
             .RunAsync();
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [ModularPipelines.DependsOn<Module1>]  // Required by default
@@ -189,7 +189,7 @@ public class DependsOnTests : TestBase
             .AddModule<ModuleWithRequiredDep>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
         // Module1 was auto-registered
         var module1 = pipelineSummary.Modules.OfType<Module1>().SingleOrDefault();
         await Assert.That(module1).IsNotNull();
@@ -213,6 +213,6 @@ public class DependsOnTests : TestBase
             .AddModule<ModuleCheckingUnregisteredDep>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 }

@@ -133,7 +133,7 @@ internal class SpectreResultsPrinter(
                 : $"[bold]Pipeline {pipelineSummary.Status}[/]";
 
         AnsiConsole.MarkupLine(headerText);
-        AnsiConsole.MarkupLine($"[dim]Duration:[/] [bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]  {summaryLine}");
+        AnsiConsole.MarkupLine($"[dim]Duration:[/] [bold]{pipelineSummary.Duration.ToDisplayString()}[/]  {summaryLine}");
         System.Console.WriteLine();
     }
 
@@ -328,7 +328,7 @@ internal class SpectreResultsPrinter(
         PipelineSummary pipelineSummary,
         bool showDeltas)
     {
-        var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
+        var isSameDayTotal = pipelineSummary.StartTime.Date == pipelineSummary.EndTime.Date;
 
         var statusFormatted = pipelineSummary.Status == ModuleStatus.Succeeded
             ? "[bold green]Passed[/]"
@@ -340,7 +340,7 @@ internal class SpectreResultsPrinter(
         {
             "[bold]Total[/]",
             statusFormatted,
-            $"[bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]",
+            $"[bold]{pipelineSummary.Duration.ToDisplayString()}[/]",
         };
         if (showDeltas)
         {
@@ -349,8 +349,8 @@ internal class SpectreResultsPrinter(
 
         cells.AddRange(
         [
-            $"[dim]{FormatTime(pipelineSummary.Start, isSameDayTotal)}[/]",
-            $"[dim]{FormatTime(pipelineSummary.End, isSameDayTotal)}[/]",
+            $"[dim]{FormatTime(pipelineSummary.StartTime, isSameDayTotal)}[/]",
+            $"[dim]{FormatTime(pipelineSummary.EndTime, isSameDayTotal)}[/]",
         ]);
         table.AddRow(cells.ToArray());
     }

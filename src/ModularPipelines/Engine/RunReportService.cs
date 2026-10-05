@@ -171,9 +171,9 @@ internal sealed class RunReportService(
                 RunId = runId,
                 PipelineIdentity = pipelineIdentity,
                 Status = pipelineException is null ? summary.Status : ModuleStatus.Failed,
-                Start = summary.Start,
-                End = summary.End,
-                TotalDuration = summary.TotalDuration,
+                Start = summary.StartTime,
+                End = summary.EndTime,
+                TotalDuration = summary.Duration,
                 Metrics = summary.Metrics,
                 Exception = CreateFallbackExceptionDetails(pipelineException),
             };

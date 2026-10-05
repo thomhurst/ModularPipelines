@@ -13,6 +13,16 @@ namespace ModularPipelines.GitHub.UnitTests;
 [TUnit.Core.NotInParallel]
 public class GitHubMarkdownSummaryGeneratorTests
 {
+    [Test]
+    public async Task IncompleteSummaryRetainsUnknownOutcome()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var summary = new PipelineSummary([new DependencyModule()], [], TimeSpan.Zero, now, now);
+        var table = GitHubMarkdownSummaryGenerator.GenerateTableSummary(summary);
+        await Assert.That(table).Contains("Unknown");
+        await Assert.That(table).DoesNotContain("Failed");
+    }
+
     private static int _skipConditionEvaluations;
 
     private sealed class DependencyModule : Module<string>

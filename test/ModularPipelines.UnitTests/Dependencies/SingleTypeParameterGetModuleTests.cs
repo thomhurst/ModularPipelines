@@ -143,7 +143,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<ConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -154,7 +154,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<ComplexConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -165,7 +165,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<OptionalConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]
@@ -175,7 +175,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             .AddModule<OptionalConsumerModule>()
             .RunAsync();
 
-        await Assert.That(pipelineSummary.Status).IsEqualTo(ModuleStatus.Succeeded);
+        await Assert.That(pipelineSummary.Succeeded).IsTrue();
     }
 
     [Test]

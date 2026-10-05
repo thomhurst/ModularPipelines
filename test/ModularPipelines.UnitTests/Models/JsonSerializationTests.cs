@@ -73,9 +73,9 @@ public class JsonSerializationTests : TestBase
         {
             await Assert.That(pipelineJson).IsNotNull().And.IsNotEmpty();
             await Assert.That(deserializedSummary).IsNotNull();
-            await Assert.That(deserializedSummary!.Start).IsEqualTo(pipelineSummary.Start);
-            await Assert.That(deserializedSummary.End).IsEqualTo(pipelineSummary.End);
-            await Assert.That(deserializedSummary.TotalDuration).IsEqualTo(pipelineSummary.TotalDuration);
+            await Assert.That(deserializedSummary!.StartTime).IsEqualTo(pipelineSummary.StartTime);
+            await Assert.That(deserializedSummary.EndTime).IsEqualTo(pipelineSummary.EndTime);
+            await Assert.That(deserializedSummary.Duration).IsEqualTo(pipelineSummary.Duration);
             // Modules are not serialized (interface types can't be deserialized)
             await Assert.That(deserializedSummary.Modules).Count().IsEqualTo(0);
             await Assert.That(deserializedSummary.Results).Count().IsEqualTo(0);

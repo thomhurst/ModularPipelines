@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -14,6 +15,69 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class ExecutionOrchestratorTests
 {
+    [Test]
+    [Arguments(ModuleStatus.Failed, true)]
+    [Arguments(ModuleStatus.Failed, false)]
+    [Arguments(ModuleStatus.TimedOut, true)]
+    [Arguments(ModuleStatus.TimedOut, false)]
+    [Arguments(ModuleStatus.DependencyFailed, true)]
+    [Arguments(ModuleStatus.DependencyFailed, false)]
+    [Arguments(ModuleStatus.Canceled, true)]
+    [Arguments(ModuleStatus.Canceled, false)]
+    public async Task FailureStatusWithoutException_RespectsThrowOnPipelineFailure(
+        ModuleStatus status,
+        bool throwOnFailure)
+    {
+        var module = Mock.Of<IModule>();
+        var ignoredModule = Mock.Of<IModule>();
+        var organizedModules = new OrganizedModules(
+            [new RunnableModule(module, TimeSpan.Zero), new RunnableModule(ignoredModule, TimeSpan.Zero)], []);
+        var result = Mock.Of<IModuleResult>(x => x.Status == status && x.Name == "StatusOnlyFailure");
+        var ignoredResult = Mock.Of<IModuleResult>(x => x.Status == ModuleStatus.FailureIgnored
+            && x.Name == "IgnoredFailure" && x.ExceptionOrDefault == new InvalidOperationException("ignored"));
+        var summary = new PipelineSummary(
+            [module, ignoredModule], [result, ignoredResult], TimeSpan.Zero, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow);
+        var initializer = new Mock<IPipelineInitializer>();
+        initializer.Setup(x => x.Initialize(It.IsAny<CancellationToken>())).ReturnsAsync(organizedModules);
+        var registrar = new Mock<IIgnoredModuleResultRegistrar>();
+        registrar.Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules)).ReturnsAsync(organizedModules);
+        var executor = new Mock<IPipelineExecutor>();
+        executor.Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules)).ReturnsAsync(summary);
+        var output = new Mock<IPipelineOutputCoordinator>();
+        output.Setup(x => x.InitializeAsync()).ReturnsAsync(Mock.Of<IPipelineOutputScope>());
+        using var engineCancellationToken = new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var orchestrator = new ExecutionOrchestrator(
+            initializer.Object,
+            Mock.Of<IModuleDisposeExecutor>(),
+            executor.Object,
+            output.Object,
+            registrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            Mock.Of<IPipelineSummaryFactory>(),
+            engineCancellationToken,
+            Mock.Of<IThreadPoolConfigurator>(),
+            Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions { ThrowOnPipelineFailure = throwOnFailure }),
+            Mock.Of<ILogger<ExecutionOrchestrator>>(),
+            CreateRunReportService());
+
+        if (throwOnFailure)
+        {
+            var exception = (await Assert.ThrowsAsync<PipelineFailedException>(() => orchestrator.ExecuteAsync()))!;
+            await Assert.That(exception.Summary.Succeeded).IsFalse();
+            await Assert.That(exception.Summary.Failures).IsEquivalentTo([result]);
+            await Assert.That(exception.Summary.IgnoredFailures).IsEquivalentTo([ignoredResult]);
+            await Assert.That(exception.FailedModules).IsEquivalentTo(["StatusOnlyFailure"]);
+        }
+        else
+        {
+            var returnedSummary = await orchestrator.ExecuteAsync();
+            await Assert.That(returnedSummary.Succeeded).IsFalse();
+            await Assert.That(returnedSummary.Failures).IsEquivalentTo([result]);
+            await Assert.That(returnedSummary.IgnoredFailures).IsEquivalentTo([ignoredResult]);
+        }
+    }
+
     [Test]
     public async Task FlushesConsoleBeforeCompletingRunReport()
     {
