@@ -723,7 +723,7 @@ jobs:
         if: steps.changes.outputs.has_changes == 'true'
         env:
           GENERATION_TOOL: ${{ matrix.tool }}
-        run: git diff --staged --binary > "$RUNNER_TEMP/generated-${GENERATION_TOOL}.patch"
+        run: git diff --staged --binary --output="$RUNNER_TEMP/generated-${GENERATION_TOOL}.patch"
 
       - name: Upload generated CLI patch
         if: steps.changes.outputs.has_changes == 'true'
@@ -1081,7 +1081,7 @@ jobs:
         shell: pwsh
         env:
           GENERATION_TOOL: ${{ matrix.tool }}
-        run: git diff --staged --binary > "$env:RUNNER_TEMP/generated-${env:GENERATION_TOOL}.patch"
+        run: git diff --staged --binary --output="$env:RUNNER_TEMP/generated-${env:GENERATION_TOOL}.patch"
 
       - name: Upload generated CLI patch
         if: steps.changes.outputs.has_changes == 'true'
