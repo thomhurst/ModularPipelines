@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Skopeo.Options;
 
@@ -58,8 +59,8 @@ public record SkopeoLogoutOptions : SkopeoOptions
     /// <summary>
     /// require HTTPS and verify certificates when accessing the registry
     /// </summary>
-    [CliFlag("--tls-verify")]
-    public bool? TlsVerify { get; set; }
+    [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? TlsVerify { get; set; }
 
     /// <summary>
     /// The command options operand.
