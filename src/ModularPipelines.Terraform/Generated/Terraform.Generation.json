@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "terraform",
-  "toolVersion": "Terraform v1.16.5 on linux_amd64",
-  "commandTreeSha256": "68f2991aabc4276d9134b5e632ec9fd9e0613705bb3edfc0c0b5b39c4f665dc7",
-  "generatorSourceSha256": "a4c463d842b24d92470d1bb6b729abca764ef6e10b1e7dd3461160d9d26d707e"
+  "toolVersion": "Terraform v1.16.5",
+  "commandTreeSha256": "27469ab79a53dfa5bfb971a7e8e2dc64cdc419731cd022d0d5317cace378c2a1",
+  "generatorSourceSha256": "f90126e3a066822b771dad693cf38f60576d5c9cc9b00feaaf37def979bf2872"
 }
