@@ -14,7 +14,7 @@ namespace ModularPipelines.Rust.Enums;
 /// Allowed values for --color.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum CargoBuildColor
+public enum CargoColor
 {
     [EnumValue("always")]
     Always,

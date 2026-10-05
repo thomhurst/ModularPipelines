@@ -5,10 +5,12 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Rust.Enums;
 
 namespace ModularPipelines.Rust.Options;
 
@@ -22,4 +24,47 @@ namespace ModularPipelines.Rust.Options;
 [CliGlobalOptions]
 public abstract record CargoOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Coloring
+    /// </summary>
+    [CliOption("--color")]
+    public virtual CargoColor? Color { get; set; }
+
+    /// <summary>
+    /// Override a configuration value
+    /// </summary>
+    [SecretValue]
+    [CliOption("--config")]
+    public virtual IEnumerable<string>? Config { get; set; }
+
+    /// <summary>
+    /// Equivalent to specifying both --locked and --offline
+    /// </summary>
+    [CliFlag("--frozen")]
+    public virtual bool? Frozen { get; set; }
+
+    /// <summary>
+    /// Assert that `Cargo.lock` will remain unchanged
+    /// </summary>
+    [CliFlag("--locked")]
+    public virtual bool? Locked { get; set; }
+
+    /// <summary>
+    /// Run without accessing the network
+    /// </summary>
+    [CliFlag("--offline")]
+    public virtual bool? Offline { get; set; }
+
+    /// <summary>
+    /// Do not print cargo log messages
+    /// </summary>
+    [CliFlag("--quiet", ShortForm = "-q")]
+    public virtual bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Use verbose output (-vv very verbose/build.rs output)
+    /// </summary>
+    [CliFlag("--verbose", ShortForm = "-v")]
+    public virtual int? Verbose { get; set; }
+
 }

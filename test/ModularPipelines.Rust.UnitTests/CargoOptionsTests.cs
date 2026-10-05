@@ -76,6 +76,6 @@ public class CargoOptionsTests : TestBase
         });
 
         await Assert.That(commandLine.ToString())
-            .IsEqualTo("cargo test --color=never -- filter");
+            .IsEqualTo("cargo --color=never test -- filter");
     }
 }
