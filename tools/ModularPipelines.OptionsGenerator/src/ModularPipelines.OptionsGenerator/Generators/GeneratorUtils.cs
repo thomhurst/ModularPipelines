@@ -936,6 +936,9 @@ public static partial class GeneratorUtils
 
     private static readonly string[] IdentifierPropertySuffixes = ["Id", "Identifier"];
 
+    private static readonly string[] CredentialCodePropertyNames =
+        ["ActivationCode", "VerificationCode", "ValidationCode", "ConfirmationCode"];
+
     private static readonly string[] SecretMetadataSuffixes =
         ["Count", "Length", "Size", "Age", "Duration", "Validity", "Lifetime", "Seconds", "Minutes", "Hours", "Days"];
 
@@ -992,7 +995,8 @@ public static partial class GeneratorUtils
                                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
                                || ContainsIdentifierSegment(propertyName, "Otp")
                                || ContainsIdentifierSegment(propertyName, "Pwd")
-                               || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase);
+                               || propertyName.EndsWith("Creds", StringComparison.OrdinalIgnoreCase)
+                               || CredentialCodePropertyNames.Contains(propertyName, StringComparer.OrdinalIgnoreCase);
         if (hasSecretKeyword)
         {
             return true;
@@ -1114,7 +1118,9 @@ public static partial class GeneratorUtils
     [GeneratedRegex(
         @"\A\s*(?:(?:sets?|specif(?:y|ies)|provides?|suppl(?:y|ies))\s+)?(?:the\s+|a\s+|an\s+)?"
         + @"(?:one[\s-]+time[\s-]+(?:passcode|password)\b"
-        + @"|(?:subsequent\s+)?authentication\s+code\s+(?:emitted|generated)\s+by\b)",
+        + @"|(?:subsequent\s+)?authentication\s+code\s+(?:emitted|generated)\s+by\b"
+        + @"|(?:activation|verification|validation|confirmation)\s+code"
+        + @"(?:\s+(?:for|that|received|sent|delivered|provided|generated|used|to|value)\b|[.!]|\s*$))",
         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
     private static partial Regex OneTimeCredentialDescriptionPattern();
 

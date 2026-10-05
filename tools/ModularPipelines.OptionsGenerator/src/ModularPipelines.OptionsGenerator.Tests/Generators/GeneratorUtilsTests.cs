@@ -910,6 +910,21 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("ActivationCode", "The code sent to the contact channel when it was created in the contact.", true)]
+    [Arguments("VerificationCode", null, true)]
+    [Arguments("ValidationCode", null, true)]
+    [Arguments("ConfirmationCode", null, true)]
+    [Arguments("ActivationCodeStatus", null, false)]
+    [Arguments("VerificationCodeCount", null, false)]
+    [Arguments("ValidationCodeFormat", null, false)]
+    [Arguments("ConfirmationCodeLength", null, false)]
+    public async Task IsSecretOption_Distinguishes_Credential_Code_Names_From_Metadata(
+        string propertyName, string? description, bool expectedSecret)
+    {
+        await Assert.That(GeneratorUtils.IsSecretOption(propertyName, false, description)).IsEqualTo(expectedSecret);
+    }
+
+    [Test]
     [Arguments("PasswordLength")]
     [Arguments("TokenDuration")]
     [Arguments("RefreshTokenValidity")]
