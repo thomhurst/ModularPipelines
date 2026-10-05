@@ -15,7 +15,8 @@ public record GitOptions : CommandLineToolOptions
     [CliOption("-C", Phase = CommandLinePhase.EarlyOperand)]
     public virtual string[]? ChangeDirectories { get; set; }
 
-    /// <summary>Overrides configuration in order. Values are masked because configuration can contain credentials.</summary>
+    /// <summary>Overrides configuration in order. Values are masked in logs but remain visible in process arguments.</summary>
+    /// <remarks>Use <see cref="ConfigEnv"/> for credential-bearing values that must not appear in process arguments.</remarks>
     [CliOption("-c")]
     [SecretValue]
     public virtual KeyValue[]? Configuration { get; set; }
