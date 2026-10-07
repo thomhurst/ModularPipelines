@@ -290,7 +290,7 @@ jobs:
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedGlobalOptions.ps1
       - name: Upload OptionsGenerator test results
         if: always() && steps.generated_integration.outputs.is_generated_integration != 'true'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: options-generator-test-results-${{ github.run_attempt }}
           path: ${{ runner.temp }}/options-generator-test-results
@@ -458,7 +458,7 @@ jobs:
           REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
           REDIS_KEY: ${{ secrets.REDIS_KEY }}
         run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --redis-info
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: pipeline-host-${{ github.run_attempt }}
           path: ${{ runner.temp }}/pipeline-host
