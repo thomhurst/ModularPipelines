@@ -515,12 +515,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Download portable pipeline host
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: ${{ needs.pipeline-host.outputs.artifact_name }}
           path: ${{ runner.temp }}/pipeline-host
       - name: Restore OptionsGenerator test results
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: ${{ needs.fast-fail.outputs.test_results_artifact }}
           path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/TestResults
