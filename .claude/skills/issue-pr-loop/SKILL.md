@@ -24,7 +24,23 @@ Stop on the user's stop/pause, or when a fresh survey finds no queueable issue, 
 
 Use commentary while active. Preserve item IDs, worktree, lock identity/script, owned services, and unresolved validation across compaction.
 
-Delegate only when the user explicitly authorizes subagents: one item/iteration, this skill, shared checkout, and canonical lock script. Require a confirmed `merged #N`, `pushed fixes to #N`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying.
+### Single-unit mode
+
+When the invocation asks for single-unit mode (for example "run once" or "single unit"), it overrides the loop above. Run the cleanup script, survey, and complete exactly one unit in priority order. Release every lock you hold and stop owned services. Then print one final line and stop:
+
+```text
+RESULT: merged #N | pushed fixes to #N | opened #N closing #M | deferred #N: reason | failed #N: reason | queue-empty
+```
+
+Do not survey again, start a second item, or wait for CI or reviews. Print `RESULT: queue-empty` when the survey finds nothing actionable now, including when only pending CI or reviews remain. Record anything a later run needs, such as a defer reason, on the issue or PR, not in agent memory. `scripts/Start-IssuePrLoop.ps1` runs this mode repeatedly, with a fresh agent process and context for each unit.
+
+### Context and delegation
+
+Model latency grows with context size, and it dominates loop time: tools account for a small fraction of wall time. Keep each unit's context small.
+
+- When the runtime can start subagents or fresh threads, invoking this loop authorizes one per unit. Detect the runtime from the environment: `CLAUDECODE=1` means Claude Code, so use the Agent tool with a `general-purpose` subagent. `CODEX_THREAD_ID` set means Codex, so use its subagent or thread tool. The coordinator surveys, chooses one item, and hands over the item ID, this skill in single-unit mode for that item, the shared checkout, and the canonical lock script. The subagent acquires the lock and does the unit. Require a confirmed `merged #N`, `pushed fixes to #N`, `deferred #N: reason`, `opened #N closing #M`, or `failed #N: reason`; then continue surveying. Keep only queue state in the coordinator, never diffs, logs, or review bodies.
+- When a runtime lets you pick reasoning effort, use a lower effort for mechanical units: merges, surveys, conflict-free rebases, and disposition replies. Keep high effort for implementation, conflict resolution in shared code, and CI failure diagnosis.
+- Without subagents, drop the previous item's details once it is pushed or deferred. In both modes, send long command output (builds, tests, `gh api` dumps, logs) to a file and read only the lines you need. Use `--jq` to select fields.
 
 ## Isolation and ownership
 
@@ -49,7 +65,7 @@ Acquire the Redis lock before acting on an item: `pr-<N>` for PR work or recover
 | `pwsh $agentLocks status -LockName $lockName` | Read-only `FREE` / `HELD` / `HELD-BY-ME`; verify ownership before pushing or merging. |
 | `pwsh $agentLocks release -LockName $lockName` | Release in cleanup/finally; exit 0 confirms release, 5 means stale ownership, leave the key alone. |
 
-Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`; other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Required `renew -Worktree $worktree` after checkout records the path for release cleanup; keep explicit lock names. The issue's `in-progress` label persists independently.
+Redis is authoritative: never steal locks based on PIDs/files/inactivity or add another backend. Do not print/manage cached tokens. Codex supplies `CODEX_THREAD_ID`, and `scripts/Start-IssuePrLoop.ps1` sets the lock script's owner variable for each run. In an interactive Claude Code session, pass `-OwnerId $env:CLAUDE_CODE_SESSION_ID` on every verb. Other automation needs the same stable unique `-OwnerId` on every verb. Renew when needed, without periodic heartbeats. Required `renew -Worktree $worktree` after checkout records the path for release cleanup; keep explicit lock names. The issue's `in-progress` label persists independently.
 
 After claiming an issue, create branch/worktree `issue-<N>-<short-desc>` from freshly fetched `origin/main`. For PR fixes, create a detached worktree from `origin/main` with `git worktree add --detach --lock --reason 'PR checkout setup'`, then run `gh pr checkout <N>` with that worktree as `workdir`. Wrap checkout and lock-path registration in `try/finally`: in `finally`, run `git worktree unlock <absolute-path>` for the temporary Git lock created by this setup, including when checkout or registration fails, before the outer Redis release. Report an unlock failure and preserve the path for recovery. The temporary Git lock protects setup from concurrent cleanup; Redis remains the ownership authority. PR directories use `pr-<N>-<description>`; never rename or reuse them for another PR. A separate local review/rebase branch must retain the same `pr-<N>` identity.
 
@@ -63,7 +79,7 @@ Immediately after checkout, run `pwsh $agentLocks renew -LockName $lockName -Wor
 
 ## Maintain PRs
 
-Survey with `gh pr list --author @me --state open --json number,title,headRefName,headRefOid,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`. Include other authors only when the user's queue scope includes them. Paginate or increase limits so an incomplete first page cannot make the queue appear empty.
+Survey with `gh pr list --author @me --state open --json number,title,headRefName,headRefOid,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,isDraft`. Include other authors only when the user's queue scope includes them. Paginate or increase limits so an incomplete first page cannot make the queue appear empty. Skip PRs labeled `needs-human` (see [Rework budget](#rework-budget)).
 
 Inspect all review surfaces, including pagination and replies: REST `pulls/<N>/reviews`, `pulls/<N>/comments`, `issues/<N>/comments` under `repos/{owner}/{repo}`, and GraphQL `reviewThreads` with IDs, resolution state, bodies, authors, and timestamps.
 
@@ -73,11 +89,22 @@ A `COMMENTED` review body can block with zero unresolved threads. Address outsta
 | --- | --- |
 | Conflicts | Rebase onto fresh `origin/main`, inspect the diff for lost changes at shared insertion points, validate, and push. Abort and defer conflicts that cannot be resolved confidently. |
 | CI failure | Read failed logs and fix the cause. Investigate timing/synchronization failures. At most one rerun for a demonstrated infrastructure problem or diagnosed flake when local rules permit; never rerun for green, skip/delete failing tests, or mask a failure. |
-| Feedback | Verify the finding against code, address useful minor and blocking suggestions, and reply to each finding with the fix or technical disposition. Discuss disagreement once; implement reaffirmed feedback unless it violates repository contracts or performance requirements, in which case document and defer the conflict. |
+| Feedback | Verify every finding against code and classify it. **Blocking**: a correctness, concurrency, security, contract, or performance defect, or missing tests for changed behavior. Fix each valid blocking finding in this PR. **Non-blocking**: naming, style, wording, optional refactors, extra tests for unchanged behavior, and "consider" suggestions. Implement a non-blocking suggestion only when it is small and you already push a blocking fix. Otherwise decline it in the disposition with a one-line reason and push nothing for it. Decline a wrong finding with evidence from the code. Move architectural work that is genuinely out of scope to a filed follow-up issue, linked in the reply. "Not done" or "left as is" without a classification, reason, or linked issue is not a disposition. Reply once per review covering each finding, and reply on each thread. Discuss disagreement once; implement reaffirmed blocking feedback. A disposition-only reply on the current head needs no new push, so it does not start another review cycle. |
 | Pending | Take another item. After a fix push, allow a subsequent bot review/CI cycle before considering merge in a later iteration. |
 | Merge candidate | Confirm every condition below, then invoke the wrapper. |
 
 Resolve every review thread under the PR lock, whether a human or a bot opened it, as soon as it is dispositioned: the fix commit is in the remote PR head and the reply names it, or the reply pushes back on the finding with evidence. Do not wait for another review/CI cycle to resolve a dispositioned thread; that cycle still gates merging. Leave a thread open only while it has no disposition: the fix is not pushed, the item waits on the user, or the reviewer replied after your disposition. On each later review cycle, re-fetch every thread, resolved ones included; a reviewer reply newer than your disposition reopens it: run GraphQL `unresolveReviewThread` and handle it as reaffirmed feedback. Reply to addressed review-body findings and request re-review when an outstanding changes-requested review needs updating; do not dismiss reviews to bypass approval requirements. Use GraphQL `resolveReviewThread`, then re-fetch reviews, threads, checks, and head SHA.
+
+### Rework budget
+
+A PR that keeps getting new heads never reaches the merge gate, because each push needs a new review and disposition. Before working a PR, count its automated review rounds (for Claude Code Review, `issues/<N>/comments` bodies containing `<!-- claude-code-review -->`) and its force-pushes. A PR is over budget when either condition is true:
+
+- It has 6 or more automated review rounds, and the latest review still has a blocking finding.
+- It has 3 or more force-pushes (`head_ref_force_pushed` events in `issues/<N>/timeline`) after it first had conflicts.
+
+Do not push to an over-budget PR. Ensure the `needs-human` label exists, add it to the PR, and post one comment. The comment states the open blocking findings, the files that keep conflicting, and a proposed split into smaller PRs that can each merge on their own. Release the lock and skip the PR in later surveys while it has `needs-human`. A human removes the label to return it to the queue. Do not open split PRs yourself unless the user authorizes them.
+
+Keep new PRs small enough to converge. When an issue's change would touch many files across separate subsystems, split it into sub-issues as described in [Pick an issue](#pick-an-issue) instead of opening one large PR.
 
 ### Merge gate
 
