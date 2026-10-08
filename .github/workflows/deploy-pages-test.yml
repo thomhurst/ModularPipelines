@@ -32,7 +32,7 @@ jobs:
       - name: Detect generated integration pull request
         id: generated_integration
         uses: ./.github/actions/detect-generated-integration
-      - uses: actions/setup-node@v7.0.0
+      - uses: actions/setup-node@v7.1.0
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         with:
           node-version: 24
