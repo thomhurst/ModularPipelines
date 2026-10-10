@@ -5594,7 +5594,7 @@ ignore@^5.2.0, ignore@^5.2.4:
 
 image-size@^2.0.2:
   version "2.0.4"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.4.tgz#bbc1933173e4ee1adbbdf9d4958ded15fdb710e3"
+  resolved "https://registry.npmjs.org/image-size/-/image-size-2.0.4.tgz"
   integrity sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==
 
 immediate@^3.2.3:
@@ -9092,7 +9092,7 @@ undici-types@~6.11.1:
 
 undici@^7.19.0:
   version "7.30.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-7.30.0.tgz#64a947266eb7e21dbeac8b99f8720feef308bbe0"
+  resolved "https://registry.npmjs.org/undici/-/undici-7.30.0.tgz"
   integrity sha512-dkrQXeHSaoamnItlYbmzG0wFYrM0ZwDxCIg0A7aKjTyyhh9svRzCNFEzV+Vm05/yehjCzjDZ31KXfGEjYSztDQ==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
@@ -9263,10 +9263,10 @@ utils-merge@1.0.1:
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
 
-uuid@14.0.2, uuid@^8.3.2:
-  version "14.0.2"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-14.0.2.tgz"
-  integrity sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==
+uuid@14.0.3, uuid@^8.3.2:
+  version "14.0.3"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-14.0.3.tgz"
+  integrity sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==
 
 value-equal@^1.0.1:
   version "1.0.1"
