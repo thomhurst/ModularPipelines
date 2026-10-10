@@ -55,13 +55,13 @@
     "http-proxy-middleware": "4.2.0",
     "picomatch": "4.0.7",
     "serialize-javascript": "7.1.2",
-    "uuid": "14.0.2"
+    "uuid": "14.0.3"
   },
   "resolutions": {
     "ajv": "8.20.0",
     "http-proxy-middleware": "4.2.0",
     "picomatch": "4.0.7",
     "serialize-javascript": "7.1.2",
-    "uuid": "14.0.2"
+    "uuid": "14.0.3"
   }
 }
