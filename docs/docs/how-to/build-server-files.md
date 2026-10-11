@@ -62,7 +62,7 @@ The following optional properties customize the generated file:
 | --- | --- |
 | `ModularPipelinesBuildBranch` | `main` |
 | `ModularPipelinesDotNetVersion` | `11.0.x` |
-| `ModularPipelinesDotNetSdkImage` | `mcr.microsoft.com/dotnet/sdk:10.0` |
+| `ModularPipelinesDotNetSdkImage` | `mcr.microsoft.com/dotnet/sdk:11.0` (the `ModularPipelinesDotNetVersion` channel without `.x`) |
 | `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry |
 
 For a multi-target pipeline project, set `ModularPipelinesTargetFramework` to

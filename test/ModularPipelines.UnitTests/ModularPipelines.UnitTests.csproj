@@ -42,6 +42,9 @@
     <None Update="Data\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="../../src/ModularPipelines/buildTransitive/ModularPipelines.targets" Link="BuildTransitive/ModularPipelines.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.targets" />
 </Project>
