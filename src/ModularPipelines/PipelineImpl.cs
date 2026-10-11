@@ -74,10 +74,7 @@ internal sealed class PipelineImpl : IPipeline
                 await beforeInitialization(pipeline.Services).ConfigureAwait(false);
             }
 
-            foreach (var startupValidator in services.GetServices<IAsyncStartupValidator>())
-            {
-                await startupValidator.ValidateAsync(CancellationToken.None).ConfigureAwait(false);
-            }
+            await ValidateOptionsOnStartAsync(services).ConfigureAwait(false);
             var modules = services.GetServices<IModule>().ToArray();
             ValidateModuleIds(modules);
 
@@ -315,6 +312,55 @@ internal sealed class PipelineImpl : IPipeline
         public bool IsActive => Volatile.Read(ref _isActive) == 1;
 
         public void Deactivate() => Interlocked.Exchange(ref _isActive, 0);
+    }
+
+    /// <summary>
+    /// Runs startup options validation with the same validator selection as the .NET 11 host:
+    /// a sync-only <see cref="IStartupValidator"/> replacement takes precedence for compatibility;
+    /// otherwise every <see cref="IAsyncStartupValidator"/> runs and failures are aggregated.
+    /// </summary>
+    private static async Task ValidateOptionsOnStartAsync(IServiceProvider services)
+    {
+#pragma warning disable SYSLIB0066 // IStartupValidator is obsolete but consumers may still replace it.
+        var startupValidator = services.GetService<IStartupValidator>();
+#pragma warning restore SYSLIB0066
+        var asyncValidators = startupValidator is not null and not IAsyncStartupValidator
+            ? []
+            : services.GetServices<IAsyncStartupValidator>().Distinct(ReferenceEqualityComparer.Instance).Cast<IAsyncStartupValidator>().ToArray();
+
+        if (startupValidator is not null
+            && !asyncValidators.Any(asyncValidator => ReferenceEquals(asyncValidator, startupValidator)))
+        {
+            startupValidator.Validate();
+            return;
+        }
+
+        List<Exception> failures = [];
+        foreach (var asyncValidator in asyncValidators)
+        {
+            try
+            {
+                await asyncValidator.ValidateAsync(CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (OptionsValidationException exception)
+            {
+                failures.Add(exception);
+            }
+            catch (AggregateException exception)
+            {
+                failures.AddRange(exception.InnerExceptions);
+            }
+        }
+
+        if (failures.Count == 1)
+        {
+            ExceptionDispatchInfo.Capture(failures[0]).Throw();
+        }
+
+        if (failures.Count > 1)
+        {
+            throw new AggregateException(failures);
+        }
     }
 
     private static void ValidateModuleIds(IEnumerable<IModule> modules)

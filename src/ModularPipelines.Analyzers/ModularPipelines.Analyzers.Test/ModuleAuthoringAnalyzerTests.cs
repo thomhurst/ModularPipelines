@@ -77,7 +77,7 @@ public class ModuleAuthoringAnalyzerTests
     {
         var test = new VerifyRegistrationCS.Test
         {
-            ReferenceAssemblies = Net.Net100,
+            ReferenceAssemblies = Net.Net110,
             TestCode = """
                 using ModularPipelines;
                 new PipelineBuilder().AddModule<BuildModule>();

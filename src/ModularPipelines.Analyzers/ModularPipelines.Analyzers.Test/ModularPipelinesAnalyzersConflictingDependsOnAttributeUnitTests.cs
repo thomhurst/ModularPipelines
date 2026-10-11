@@ -309,7 +309,7 @@ public class Module2 : Module<List<string>>
         var test = new GeneratedDependencyAnalyzerTest
         {
             TestCode = GeneratedCycleSource,
-            ReferenceAssemblies = Net.Net100,
+            ReferenceAssemblies = Net.Net110,
             TestState =
             {
                 AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
