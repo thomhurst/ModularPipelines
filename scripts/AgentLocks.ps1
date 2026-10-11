@@ -35,6 +35,15 @@
 #   status   [-LockName pr-1234]
 #              stdout = HELD-BY-ME | HELD | FREE, exit 0
 #              read-only; unavailable Redis returns exit 1 without starting infrastructure
+#   ping                                  (no lock name or owner needed)
+#              exit 0                    -> lock Redis answers; exit 1 -> it does not
+#   defer    -LockName pr-1234 -Fingerprint <text> [-DeferSeconds n]
+#              exit 0                    -> records that the item was deferred while its
+#                                           GitHub state matched <text>; expires after n s
+#   deferred -LockName pr-1234[,issue-56,...]
+#              stdout = one `<lock name>=<fingerprint>` line per recorded deferral; exit 0
+#   Deferral records are advisory. Start-IssuePrLoop.ps1 skips an item while its current
+#   fingerprint equals the recorded one, so an unchanged blocker is not re-examined.
 #
 # Common failure exit: 1 (docker/redis unavailable, or no cached token for
 # renew/release). 2 = bad usage / lock name or owner identity could not be resolved.
@@ -62,12 +71,15 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory, Position = 0)]
-    [ValidateSet('acquire', 'release', 'renew', 'status')]
+    [ValidateSet('acquire', 'release', 'renew', 'status', 'ping', 'defer', 'deferred')]
     [string]$Verb,
 
     [string]$LockName = '',
     [string]$Worktree = '',
-    [string]$OwnerId = ''
+    [string]$OwnerId = '',
+    [string]$Fingerprint = '',
+    [ValidateRange(60, 604800)]
+    [int]$DeferSeconds = 21600
 )
 
 $ErrorActionPreference = 'Stop'
@@ -123,22 +135,29 @@ function Resolve-LockName([string]$Explicit) {
     return $null
 }
 
-$LockName = Resolve-LockName $LockName
-if (-not $LockName) {
-    Die 2 "cannot resolve lock name: pass -LockName (e.g. pr-1234 / issue-1234), or run inside an issue-<N>-* worktree"
+$needsOwner = $Verb -in 'acquire', 'release', 'renew', 'status'
+
+if ($Verb -ne 'ping') {
+    $LockName = Resolve-LockName $LockName
+    if (-not $LockName) {
+        Die 2 "cannot resolve lock name: pass -LockName (e.g. pr-1234 / issue-1234), or run inside an issue-<N>-* worktree"
+    }
 }
 
-$OwnerId = Resolve-OwnerIdentity $OwnerId
-if (-not $OwnerId) {
-    Die 2 'cannot resolve lock owner identity: pass -OwnerId or set MODULARPIPELINES_AGENT_LOCK_OWNER_ID (CODEX_THREAD_ID is used automatically in Codex)'
-}
+if ($needsOwner) {
+    $OwnerId = Resolve-OwnerIdentity $OwnerId
+    if (-not $OwnerId) {
+        Die 2 'cannot resolve lock owner identity: pass -OwnerId or set MODULARPIPELINES_AGENT_LOCK_OWNER_ID (CODEX_THREAD_ID is used automatically in Codex)'
+    }
 
-$ownerIdBytes = [System.Text.Encoding]::UTF8.GetBytes($OwnerId)
-$ownerIdHash = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($ownerIdBytes)).ToLowerInvariant()
-$stateDir = Join-Path $stateRoot $ownerIdHash
+    $ownerIdBytes = [System.Text.Encoding]::UTF8.GetBytes($OwnerId)
+    $ownerIdHash = [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($ownerIdBytes)).ToLowerInvariant()
+    $stateDir = Join-Path $stateRoot $ownerIdHash
+    $tokenFile = Join-Path $stateDir ("{0}.token" -f ($LockName -replace '[\\/:*?"<>| ]', '_'))
+}
 $lockKey = "modularpipelines:agent-lock:$LockName"
 $metaKey = "modularpipelines:agent-lock-meta:$LockName"
-$tokenFile = Join-Path $stateDir ("{0}.token" -f ($LockName -replace '[\\/:*?"<>| ]', '_'))
+$deferKey = "modularpipelines:agent-defer:$LockName"
 
 function Ensure-AgentRedis {
     # One inspect tells missing vs stopped vs running: error exit = missing,
@@ -249,6 +268,28 @@ switch ($Verb) {
         $held = Redis GET $lockKey
         if (-not $held) { Write-Output 'FREE'; exit 0 }
         if ($held -eq (Read-Token)) { Write-Output 'HELD-BY-ME' } else { Write-Output 'HELD' }
+        exit 0
+    }
+
+    'ping' {
+        if ((Redis PING) -ne 'PONG') { Die 1 "redis PING failed on $redisContainer" }
+        exit 0
+    }
+
+    'defer' {
+        if (-not $Fingerprint) { Die 2 'defer requires -Fingerprint' }
+        if ((Redis SET $deferKey $Fingerprint EX $DeferSeconds) -ne 'OK') { Die 1 "could not record deferral for $LockName" }
+        exit 0
+    }
+
+    'deferred' {
+        # Accepts a comma-separated list so a survey checks every candidate in one call.
+        # Prints one `<lock name>=<fingerprint>` line per recorded deferral.
+        $names = @($LockName -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+        $keys = @($names | ForEach-Object { "modularpipelines:agent-defer:$_" })
+        $script = "local r = {}; for i, k in ipairs(KEYS) do local v = redis.call('GET', k); if v then r[#r + 1] = ARGV[i] .. '=' .. v; end; end; return r"
+        $recorded = Redis EVAL $script $keys.Count @keys @names
+        if ($recorded) { Write-Output $recorded }
         exit 0
     }
 }

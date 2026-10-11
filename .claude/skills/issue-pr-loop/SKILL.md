@@ -34,6 +34,10 @@ RESULT: merged #N | pushed fixes to #N | opened #N closing #M | deferred #N: rea
 
 Do not survey again, start a second item, or wait for CI or reviews. Print `RESULT: queue-empty` when the survey finds nothing actionable now, including when only pending CI or reviews remain. Record anything a later run needs, such as a defer reason, on the issue or PR, not in agent memory. `scripts/Start-IssuePrLoop.ps1` runs this mode repeatedly, with a fresh agent process and context for each unit.
 
+A lock held by another owner is not a unit. When `acquire` exits 3, skip that item and try the next candidate in priority order. Report `deferred` only for an item you acquired and examined.
+
+When the invocation assigns an item and says the loop driver holds its lock, skip the cleanup script, the survey, and `acquire`. The driver already did them, and the lock belongs to the owner variable it set for this run. Work only the assigned item. Re-check its state before acting, because the driver's survey is mechanical. Release the lock when done. After a `deferred` or `failed` result the driver records the item's GitHub state, and it skips the item until that state changes. A clear blocker comment on the item is still required, because the driver's record is not visible to people.
+
 ### Context and delegation
 
 Model latency grows with context size, and it dominates loop time: tools account for a small fraction of wall time. Keep each unit's context small.

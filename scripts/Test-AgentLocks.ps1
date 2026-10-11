@@ -135,6 +135,17 @@ try {
     Assert-ExitZero -Result (Invoke-AgentLocks $worktreeB @('release', '-LockName', $explicitLock)) -Operation 'explicit release override'
     Assert-Status $repo @('status', '-LockName', $explicitLock) 'FREE' 'explicit lock released'
 
+    # Deferral records: ping needs no lock name, and a batch lookup lists only recorded items.
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('ping')) -Operation 'ping'
+    $deferA = "pr-agentlocks-defer-a-$suffix"
+    $deferB = "pr-agentlocks-defer-b-$suffix"
+    Assert-ExitZero -Result (Invoke-AgentLocks $repo @('defer', '-LockName', $deferA, '-Fingerprint', 'fp-a', '-DeferSeconds', '60')) -Operation 'defer A'
+    $deferred = Invoke-AgentLocks $repo @('deferred', '-LockName', "$deferB,$deferA")
+    Assert-ExitZero -Result $deferred -Operation 'batch deferred lookup'
+    if ($deferred.Output -ne "$deferA=fp-a") { throw "batch deferred lookup returned '$($deferred.Output)'" }
+    $missing = Invoke-AgentLocks $repo @('defer', '-LockName', $deferB)
+    if ($missing.ExitCode -ne 2) { throw "defer without a fingerprint exited $($missing.ExitCode)" }
+
     Write-Host 'OK AgentLocks worktree marker tests passed.'
 }
 finally {
