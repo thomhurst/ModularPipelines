@@ -68,6 +68,11 @@ The following optional properties customize the generated file:
 For a multi-target pipeline project, set `ModularPipelinesTargetFramework` to
 choose which target framework the generated job runs.
 
+A wildcard `ModularPipelinesDotNetVersion` such as `11.0.x` installs the newest SDK in that
+channel, including preview and release candidate SDKs. `actions/setup-dotnet` already does this,
+and the generated Azure Pipelines step sets `includePreviewVersions: true` to match. To pin
+an exact SDK instead, set `ModularPipelinesDotNetVersion` to a full version such as `11.0.100`.
+
 Existing YAML is preserved. To intentionally regenerate and replace it, build
 once with:
 

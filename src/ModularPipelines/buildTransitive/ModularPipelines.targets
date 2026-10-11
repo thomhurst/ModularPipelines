@@ -171,6 +171,8 @@ steps:
     inputs:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
+      # Match actions/setup-dotnet, whose A.B.x wildcards include preview and RC SDKs.
+      includePreviewVersions: true
   - script: |
       PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
       PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`
