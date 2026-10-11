@@ -174,20 +174,36 @@ function Get-IssueFingerprint($Issue) {
 $prFields = 'number,title,headRefOid,updatedAt,mergeable,mergeStateStatus,statusCheckRollup,isDraft,labels'
 $issueFields = 'number,title,updatedAt,labels,assignees'
 
+# Counts why the last survey skipped items, so an idle survey can say why nothing was actionable.
+$surveyStats = [ordered]@{}
+
+function Reset-SurveyStats {
+    foreach ($key in 'issues', 'issue-deferred', 'issue-locked', 'prs', 'pr-deferred', 'pr-locked', 'pr-pending', 'pr-needs-human', 'pr-draft') {
+        $surveyStats[$key] = 0
+    }
+}
+
+function Format-SurveyStats {
+    $s = $surveyStats
+    'issues: {0} surveyed, {1} deferred, {2} locked; PRs: {3} open, {4} deferred, {5} locked, {6} pending checks, {7} needs-human, {8} draft' -f `
+        $s['issues'], $s['issue-deferred'], $s['issue-locked'], $s['prs'], $s['pr-deferred'], $s['pr-locked'], $s['pr-pending'], $s['pr-needs-human'], $s['pr-draft']
+}
+
 function Get-Candidates {
     $candidates = [Collections.Generic.List[object]]::new()
 
     $prs = gh pr list --repo $repoSlug --author '@me' --state open --limit 500 --json $prFields | ConvertFrom-Json
     if ($LASTEXITCODE -ne 0) { throw 'gh pr list failed.' }
+    $surveyStats['prs'] = @($prs).Count
     $ranked = foreach ($pr in $prs) {
-        if ($pr.isDraft) { continue }
-        if (@($pr.labels | Where-Object name -eq 'needs-human').Count -gt 0) { continue }
+        if ($pr.isDraft) { $surveyStats['pr-draft']++; continue }
+        if (@($pr.labels | Where-Object name -eq 'needs-human').Count -gt 0) { $surveyStats['pr-needs-human']++; continue }
         $checks = @($pr.statusCheckRollup)
         $pending = @($checks | Where-Object { (Get-CheckState $_) -in 'PENDING', 'EXPECTED', 'QUEUED', 'IN_PROGRESS', 'WAITING', 'REQUESTED', '' })
         $failed = @($checks | Where-Object { (Get-CheckState $_) -in 'FAILURE', 'ERROR', 'TIMED_OUT', 'CANCELLED', 'ACTION_REQUIRED', 'STARTUP_FAILURE' })
         $conflicting = $pr.mergeable -eq 'CONFLICTING'
         # Running checks leave nothing to do yet; the next survey picks the PR up.
-        if ($pending.Count -gt 0 -and -not $conflicting) { continue }
+        if ($pending.Count -gt 0 -and -not $conflicting) { $surveyStats['pr-pending']++; continue }
         $rank = if ($pr.mergeStateStatus -eq 'CLEAN' -and $failed.Count -eq 0) { 0 }
         elseif ($conflicting) { 1 }
         elseif ($failed.Count -gt 0) { 2 }
@@ -205,9 +221,13 @@ function Get-Candidates {
     }
     foreach ($c in @($ranked | Sort-Object Rank, Number)) { $candidates.Add($c) }
 
+    # Pass each qualifier as its own argument; gh quotes a single argument with spaces as a
+    # phrase, which silently drops every label exclusion.
+    $excluded = @('in-progress', 'wontfix', 'duplicate', 'question', 'needs-human') | ForEach-Object { "-label:$_" }
     $issues = gh search issues --repo $repoSlug --state open --no-assignee --limit 200 --json "commentsCount,$issueFields" `
-        -- '-label:in-progress -label:wontfix -label:duplicate -label:question -label:needs-human' | ConvertFrom-Json
+        -- @excluded | ConvertFrom-Json
     if ($LASTEXITCODE -ne 0) { throw 'gh search issues failed.' }
+    $surveyStats['issues'] = @($issues).Count
     # Prefer issues with less discussion; they are usually smaller and clearer.
     foreach ($issue in @($issues | Sort-Object commentsCount, number)) {
         $candidates.Add([pscustomobject]@{
@@ -254,12 +274,13 @@ function Test-Deferred($Item, [hashtable]$Deferrals) {
 # Returns the claimed item, $null when nothing is actionable, or throws when the lock
 # service fails mid-survey.
 function Select-Item {
+    Reset-SurveyStats
     $candidates = @(Get-Candidates)
     $deferrals = Get-Deferrals $candidates
     foreach ($item in $candidates) {
-        if (Test-Deferred $item $deferrals) { continue }
+        if (Test-Deferred $item $deferrals) { $surveyStats["$($item.Kind)-deferred"]++; continue }
         $r = Invoke-Locks @('acquire', '-LockName', $item.LockName)
-        if ($r.ExitCode -eq 3) { continue }
+        if ($r.ExitCode -eq 3) { $surveyStats["$($item.Kind)-locked"]++; continue }
         if ($r.ExitCode -ne 0) { throw "lock acquire for $($item.LockName) failed (exit $($r.ExitCode)): $($r.Output)" }
         return $item
     }
@@ -363,8 +384,9 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
         continue
     }
     if (-not $item) {
+        Write-Host "issue-pr-loop: nothing actionable ($(Format-SurveyStats))"
         if ($IdleSeconds -gt 0) {
-            Write-Host "issue-pr-loop: nothing actionable, next survey in $IdleSeconds s"
+            Write-Host "issue-pr-loop: next survey in $IdleSeconds s"
             Start-Sleep -Seconds $IdleSeconds
         }
         continue
