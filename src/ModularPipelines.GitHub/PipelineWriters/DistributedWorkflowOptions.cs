@@ -45,7 +45,7 @@ public sealed record DistributedWorkflowOptions
     /// <summary>
     /// Gets the .NET SDK version installed by the workflow.
     /// </summary>
-    public string DotNetVersion { get; init; } = "10.0.x";
+    public string DotNetVersion { get; init; } = "11.0.x";
 
     /// <summary>
     /// Gets the optional target framework passed to <c>dotnet run</c>.

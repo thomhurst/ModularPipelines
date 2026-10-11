@@ -70,7 +70,7 @@ installed and resolvable through `PATH`.
     '--project',
     'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj',
     '--framework',
-    'net10.0',
+    'net11.0',
     '--',
     '--tools',
     'helm',
@@ -214,7 +214,7 @@ Run the generator test project:
     '--project',
     'tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj',
     '--framework',
-    'net10.0',
+    'net11.0',
     '--'
   )
 ```

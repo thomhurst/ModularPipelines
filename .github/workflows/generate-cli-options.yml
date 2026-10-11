@@ -64,7 +64,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Build generator
         run: >-
           dotnet build
@@ -178,7 +178,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'
@@ -759,7 +759,7 @@ jobs:
         run: >-
           dotnet run
           --project test/ModularPipelines.Azure.UnitTests/ModularPipelines.Azure.UnitTests.csproj
-          --framework net10.0 --configuration Release --no-build
+          --framework net11.0 --configuration Release --no-build
 
       - name: Revalidate generated changes before PR
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
@@ -895,7 +895,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
 
       - name: Cache NuGet
         if: steps.should-run.outputs.run == 'true'

@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "microsoft.dotnet.apicompat.tool": {
-      "version": "10.0.401",
+      "version": "11.0.100-rc.1.26425.128",
       "commands": [
         "apicompat"
       ],

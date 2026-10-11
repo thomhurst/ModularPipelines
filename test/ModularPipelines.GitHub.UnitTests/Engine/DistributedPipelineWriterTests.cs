@@ -27,7 +27,7 @@ public class DistributedPipelineWriterTests : TestBase
             {
                 OutputPath = outputPath,
                 PipelineProjectPath = new FilePath("src/MyPipeline"),
-                DotNetRunFramework = "net10.0",
+                DotNetRunFramework = "net11.0",
                 ExtraWorkers = 1,
             })
             .RunAsync();
@@ -37,7 +37,7 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains("uses: actions/checkout@v7.0.1");
         await Assert.That(yaml).Contains("uses: actions/setup-dotnet@v6.0.0");
         await Assert.That(yaml).Contains("uses: actions/cache@v6.1.0");
-        await Assert.That(yaml).Contains("dotnet-version: 10.0.x");
+        await Assert.That(yaml).Contains("dotnet-version: 11.0.x");
         await Assert.That(yaml).Contains("runs-on: ${{ matrix.os }}");
         var matrixLines = yaml.Split('\n')
             .Select(line => line.Trim())
@@ -65,7 +65,7 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains(
             "Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix.");
         await Assert.That(yaml).Contains(
-            "run: dotnet run --project 'src/MyPipeline' -c Release --framework net10.0");
+            "run: dotnet run --project 'src/MyPipeline' -c Release --framework net11.0");
         var lines = yaml.Split('\n');
         var runPipelineStepIndex = Array.FindIndex(
             lines,

@@ -27,7 +27,7 @@ if (!File.Exists(FilePath)
     <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' != '0'">true</_ModularPipelinesPipelineProjectSpecified>
     <ModularPipelinesRepositoryRoot Condition="'$(ModularPipelinesRepositoryRoot.Length)' == '0'">$(MSBuildProjectDirectory)</ModularPipelinesRepositoryRoot>
     <ModularPipelinesBuildBranch Condition="'$(ModularPipelinesBuildBranch.Length)' == '0'">main</ModularPipelinesBuildBranch>
-    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
+    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">11.0.x</ModularPipelinesDotNetVersion>
     <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFramework.Length)' != '0'">$(TargetFramework)</ModularPipelinesTargetFramework>
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFrameworks.Length)' != '0'">$(TargetFrameworks.Split(';')[0])</ModularPipelinesTargetFramework>

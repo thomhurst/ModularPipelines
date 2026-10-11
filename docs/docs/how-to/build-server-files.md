@@ -61,7 +61,7 @@ The following optional properties customize the generated file:
 | Property | Default |
 | --- | --- |
 | `ModularPipelinesBuildBranch` | `main` |
-| `ModularPipelinesDotNetVersion` | `10.0.x` |
+| `ModularPipelinesDotNetVersion` | `11.0.x` |
 | `ModularPipelinesDotNetSdkImage` | `mcr.microsoft.com/dotnet/sdk:10.0` |
 | `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry |
 

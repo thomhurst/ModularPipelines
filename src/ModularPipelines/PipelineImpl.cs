@@ -74,7 +74,10 @@ internal sealed class PipelineImpl : IPipeline
                 await beforeInitialization(pipeline.Services).ConfigureAwait(false);
             }
 
-            services.GetService<IStartupValidator>()?.Validate();
+            foreach (var startupValidator in services.GetServices<IAsyncStartupValidator>())
+            {
+                await startupValidator.ValidateAsync(CancellationToken.None).ConfigureAwait(false);
+            }
             var modules = services.GetServices<IModule>().ToArray();
             ValidateModuleIds(modules);
 
