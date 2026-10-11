@@ -42,6 +42,26 @@ public class BuildServerFileDefaultsTests
     [Test]
     public async Task Azure_Pipeline_Resolves_Preview_Sdks_For_Wildcard_Versions()
     {
+        var pipeline = await GenerateAsync("AzurePipelines", "azure-pipelines.yml");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(pipeline).Contains($"version: \"{Environment.Version.Major}.0.x\"");
+            await Assert.That(pipeline).Contains("includePreviewVersions: true");
+        }
+    }
+
+    [Test]
+    public async Task GitHub_Workflow_Uses_The_Wildcard_Channel()
+    {
+        // actions/setup-dotnet includes preview and RC SDKs for A.B.x wildcards, so no quality input is needed.
+        var workflow = await GenerateAsync("GitHubActions", Path.Combine(".github", "workflows", "modular-pipelines.yml"));
+
+        await Assert.That(workflow).Contains($"dotnet-version: \"{Environment.Version.Major}.0.x\"");
+    }
+
+    private static async Task<string> GenerateAsync(string buildSystem, string relativeOutputPath)
+    {
         var directory = Directory.CreateTempSubdirectory("modularpipelines-targets-");
         try
         {
@@ -51,16 +71,10 @@ public class BuildServerFileDefaultsTests
                 directory.FullName,
                 projectPath,
                 "-t:GenerateModularPipelinesBuildServerFiles",
-                "-p:ModularPipelinesBuildSystem=AzurePipelines",
+                $"-p:ModularPipelinesBuildSystem={buildSystem}",
                 "-p:ModularPipelinesTargetFramework=net11.0");
 
-            var pipeline = await File.ReadAllTextAsync(Path.Combine(directory.FullName, "azure-pipelines.yml"));
-
-            using (Assert.Multiple())
-            {
-                await Assert.That(pipeline).Contains($"version: \"{Environment.Version.Major}.0.x\"");
-                await Assert.That(pipeline).Contains("includePreviewVersions: true");
-            }
+            return await File.ReadAllTextAsync(Path.Combine(directory.FullName, relativeOutputPath));
         }
         finally
         {

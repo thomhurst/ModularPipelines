@@ -350,6 +350,12 @@ internal sealed class PipelineImpl : IPipeline
             {
                 failures.AddRange(exception.InnerExceptions);
             }
+            catch (Exception exception)
+            {
+                // Like the host, keep earlier validation failures and stop at an unexpected fault.
+                failures.Add(exception);
+                break;
+            }
         }
 
         if (failures.Count == 1)

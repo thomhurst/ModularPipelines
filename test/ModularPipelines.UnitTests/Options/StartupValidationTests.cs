@@ -57,7 +57,32 @@ public class StartupValidationTests
         await Assert.That(exception!.InnerExceptions.Count).IsEqualTo(2);
     }
 
+    [Test]
+    public async Task Validator_Fault_Keeps_Earlier_Failures_And_Stops()
+    {
+        var skipped = new RecordingAsyncStartupValidator();
+        var builder = TestPipelineBuilder.Create();
+        builder.Services.AddSingleton<IAsyncStartupValidator>(new FailingAsyncStartupValidator("one"));
+        builder.Services.AddSingleton<IAsyncStartupValidator>(new FaultingAsyncStartupValidator());
+        builder.Services.AddSingleton<IAsyncStartupValidator>(skipped);
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() => builder.BuildAsync());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.InnerExceptions.Select(inner => inner.GetType()))
+                .IsEquivalentTo([typeof(OptionsValidationException), typeof(InvalidOperationException)]);
+            await Assert.That(skipped.Calls).IsEqualTo(0);
+        }
+    }
+
     private sealed class SampleOptions;
+
+    private sealed class FaultingAsyncStartupValidator : IAsyncStartupValidator
+    {
+        public Task ValidateAsync(CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("validator fault");
+    }
 
     private sealed class NoOpModule : Module<bool>
     {
