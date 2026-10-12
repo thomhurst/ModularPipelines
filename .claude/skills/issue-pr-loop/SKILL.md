@@ -101,12 +101,24 @@ Resolve every review thread under the PR lock, whether a human or a bot opened i
 
 ### Rework budget
 
-A PR that keeps getting new heads never reaches the merge gate, because each push needs a new review and disposition. Before working a PR, count its automated review rounds (for Claude Code Review, `issues/<N>/comments` bodies containing `<!-- claude-code-review -->`) and its force-pushes. A PR is over budget when either condition is true:
+The loop runs unattended, so keep working a PR until it merges. A PR that keeps getting new heads can still fail to converge, because each push needs a new review and disposition. Before working a PR, count its automated review rounds (for Claude Code Review, `issues/<N>/comments` bodies containing `<!-- claude-code-review -->`) and its force-pushes. A PR is over budget when either condition is true:
 
-- It has 6 or more automated review rounds, and the latest review still has a blocking finding.
-- It has 3 or more force-pushes (`head_ref_force_pushed` events in `issues/<N>/timeline`) after it first had conflicts.
+- It has 20 or more automated review rounds, and the latest review still has a blocking finding.
+- It has 10 or more force-pushes (`head_ref_force_pushed` events in `issues/<N>/timeline`) after it first had conflicts.
 
-Do not push to an over-budget PR. Ensure the `needs-human` label exists, add it to the PR, and post one comment. The comment states the open blocking findings, the files that keep conflicting, and a proposed split into smaller PRs that can each merge on their own. Release the lock and skip the PR in later surveys while it has `needs-human`. A human removes the label to return it to the queue. Do not open split PRs yourself unless the user authorizes them.
+Do not push more fixes to an over-budget PR. Split it yourself instead:
+
+1. File one native sub-issue of the PR's linked issue per part that can merge on its own, as described in [Pick an issue](#pick-an-issue). Each sub-issue names the files it owns, the blocking findings it must resolve, and the PR branch whose commits it can reuse. Put `<!-- split-from-pr #<N> -->` in each sub-issue body.
+2. Post one comment on the PR. It lists the open blocking findings, the files that keep conflicting, and the sub-issues.
+3. Close the PR without merging and keep its branch. Remove `in-progress` from the linked issue.
+4. Release the lock. Later units pick up the sub-issues like any other issue.
+
+Add the `needs-human` label only as a last resort, when either condition is true:
+
+- The PR's linked issue body contains `<!-- split-from-pr #<N> -->`, so the PR is already a split, and it is over budget again.
+- The remaining blocker needs a decision that no code or evidence can settle, such as a public API break, an upstream dependency change, or a security trade-off.
+
+Before you add `needs-human`, ensure the label exists. Post one comment that states the decision needed and the options. Release the lock. Later surveys skip the PR while it has `needs-human`, and a human removes the label to return it to the queue.
 
 Keep new PRs small enough to converge. When an issue's change would touch many files across separate subsystems, split it into sub-issues as described in [Pick an issue](#pick-an-issue) instead of opening one large PR.
 
