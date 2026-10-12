@@ -11,29 +11,6 @@ permissions:
   issues: write
 
 jobs:
-  probe:
-    name: probe proc_listchildpids
-    runs-on: macos-latest
-    timeout-minutes: 10
-    steps:
-      - name: Probe
-        shell: bash
-        run: |
-          echo "pgid of this shell: $(ps -o pgid= -p $$)  runner listener: $(pgrep -f Runner.Listener | xargs -I{} ps -o pid=,pgid= -p {})"
-          sleep 30 & sleep 30 & sleep 30 &
-          python3 - <<'PY'
-          import ctypes, os
-          lib = ctypes.CDLL("/usr/lib/libproc.dylib")
-          f = lib.proc_listchildpids
-          f.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
-          ppid = os.getppid()
-          n = f(ppid, None, 0)
-          print("null-buffer return:", n)
-          buf = (ctypes.c_int * max(n, 1))()
-          m = f(ppid, buf, ctypes.sizeof(buf))
-          print("filled return:", m, "buffer:", list(buf)[:max(n,1)])
-          PY
-
   repro:
     name: command tests (${{ matrix.attempt }})
     runs-on: macos-latest
@@ -41,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3]
+        attempt: [1, 2, 3, 4, 5]
     env:
       MSBUILDDISABLENODEREUSE: "1"
       GH_TOKEN: ${{ github.token }}
@@ -72,14 +49,10 @@ jobs:
           echo "build" > "$RUNNER_TEMP/phase"
       - name: Build core tests
         run: dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
-      - name: Run process-tree command tests only
+      - name: Run full core unit tests
         shell: bash
         run: |
           echo "test" > "$RUNNER_TEMP/phase"
-          for i in 1 2 3 4 5; do
-            echo "test-loop-$i" > "$RUNNER_TEMP/phase"
-            dotnet run --configuration Release --framework net10.0 \
-              --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build -- \
-              --treenode-filter "/*/*/CommandTests/*" || true
-          done
+          unset GITHUB_ACTIONS GITHUB_STEP_SUMMARY
+          dotnet run --configuration Release --framework net10.0             --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build --             --hangdump --hangdump-timeout 20m --report-trx             --diagnostic --diagnostic-verbosity Debug
           echo "done" > "$RUNNER_TEMP/phase"
