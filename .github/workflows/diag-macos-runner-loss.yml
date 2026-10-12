@@ -1,5 +1,6 @@
-# Temporary diagnostic workflow for #5926: compares the runtime's process-tree kill with
-# ModularPipelines' ProcessTree.Kill workaround on macOS arm64 runners.
+# Temporary diagnostic workflow for #5926 / dotnet/runtime#131944: freezes a macOS runner with
+# Process.Kill(entireProcessTree: true) and captures process state, stacks and a dump from a
+# root watchdog outside the job's process tree.
 name: Diag macOS runner loss
 
 on:
@@ -7,23 +8,57 @@ on:
     branches: ["diag/macos-runner-loss"]
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
 
 jobs:
-  repro:
-    name: ${{ matrix.mode }} (${{ matrix.attempt }})
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure diagnostics prerelease exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view diag-runtime-131944 -R "$GITHUB_REPOSITORY" > /dev/null 2>&1 ||
+            gh release create diag-runtime-131944 -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease               --title "Diagnostics: dotnet/runtime#131944 macOS process-tree kill freeze"               --notes "Temporary diagnostics for dotnet/runtime#131944 and #5926. Not a release."
+
+  capture:
+    needs: release
+    name: capture (${{ matrix.attempt }})
     runs-on: macos-latest
-    timeout-minutes: 8
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        mode: [runtime, workaround]
-        attempt: [1, 2, 3]
+        attempt: [1, 2, 3, 4]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: 10.0.x
-      - name: Kill 200 process trees
-        timeout-minutes: 5
-        run: dotnet run diag/repro.cs -- ${{ matrix.mode }}
+      - name: Build repro
+        run: |
+          dotnet --info | head -20
+          dotnet build diag/hang.cs -c Release -o "$RUNNER_TEMP/hang"
+      - name: Start root watchdog outside the job tree
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          chmod +x diag/watchdog.sh
+          label="capture-${{ matrix.attempt }}-${GITHUB_RUN_ID}"
+          sudo --preserve-env=GH_TOKEN,GITHUB_REPOSITORY,GITHUB_RUN_ID python3 -c '
+          import os, sys
+          if os.fork(): sys.exit(0)
+          os.setsid()
+          if os.fork(): sys.exit(0)
+          fd = os.open("/dev/null", os.O_RDWR)
+          for i in (0, 1, 2): os.dup2(fd, i)
+          os.execv(sys.argv[1], sys.argv[1:])
+          ' "$PWD/diag/watchdog.sh" "$RUNNER_TEMP/heartbeat.txt" "/tmp/diag-out" "diag-runtime-131944" "$label" "$DOTNET_ROOT"
+          sleep 2; ps -axo pid,ppid,user,command | grep [w]atchdog
+      - name: Run repro with a minimal environment
+        timeout-minutes: 6
+        run: |
+          env -i PATH="$PATH" HOME="$HOME" TMPDIR="$TMPDIR" DOTNET_ROOT="$DOTNET_ROOT" \
+            dotnet "$RUNNER_TEMP/hang/hang.dll" "$RUNNER_TEMP/heartbeat.txt"
+          tail -2 "$RUNNER_TEMP/heartbeat.txt"
