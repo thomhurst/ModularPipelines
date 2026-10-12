@@ -1,5 +1,5 @@
-# Temporary diagnostic workflow for #5926: loops the macOS-flaky process fixture tests on main
-# and on the fix branch.
+# Temporary diagnostic workflow for #5926: checks that the orphaned fixture child regression test
+# fails without self-published PIDs and passes with them.
 name: Diag macOS runner loss
 
 on:
@@ -10,33 +10,38 @@ permissions:
   contents: read
 
 jobs:
-  flake:
-    name: ${{ matrix.ref }} (${{ matrix.attempt }})
-    runs-on: macos-latest
+  regression:
+    name: ${{ matrix.os }} ${{ matrix.variant }}
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        ref: [main, fix/5926-log-process-tree-kills]
-        attempt: [1, 2, 3]
+        os: [macos-latest, ubuntu-latest]
+        variant: [fix, without-self-pid]
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ matrix.ref }}
+          ref: fix/5926-log-process-tree-kills
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: 10.0.x
+      - name: Remove self-published PIDs
+        if: matrix.variant == 'without-self-pid'
+        shell: bash
+        run: |
+          perl -0pi -e 's/Publish\(directory, name == "parent" \? "parent\.pid" : name \+ "\.self\.pid",/if (name == "parent") Publish(directory, "parent.pid",/' test/ModularPipelines.ProcessTestHost/Host.cs
+          grep -n 'Publish(directory, "parent.pid"' test/ModularPipelines.ProcessTestHost/Host.cs
       - name: Build core tests
         run: dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
-      - name: Loop process fixture tests
+      - name: Run regression test 5 times
         shell: bash
         run: |
           failures=0
-          for i in $(seq 1 30); do
-            if ! dotnet run --configuration Release --framework net10.0 --no-build \
-                --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -- \
-                --treenode-filter "/*/*/CommandTests/ProcessTreeFixture_Reads_Identity_While_Publication_Handle_Is_Open" > "run-$i.log" 2>&1; then
-              failures=$((failures+1)); echo "iteration $i FAILED"; grep -m3 -E "failed|Exception" "run-$i.log"
-            fi
+          for i in 1 2 3 4 5; do
+            dotnet run --configuration Release --framework net10.0 --no-build \
+              --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -- \
+              --treenode-filter "/*/*/CommandTests/ProcessTreeFixture_Cleans_Up_Child_Whose_Parent_Never_Published_It" > "run-$i.log" 2>&1 \
+              || { failures=$((failures+1)); grep -m2 -E "Exception|failed " "run-$i.log"; }
           done
-          echo "RESULT ${{ matrix.ref }}: $failures of 30 failed"
+          echo "RESULT ${{ matrix.os }} ${{ matrix.variant }}: $failures of 5 failed"
