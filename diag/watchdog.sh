@@ -11,7 +11,20 @@ echo "watchdog pid $$ started $(date -u +%T)" > "$log"
 while true; do
   sleep 5
   [ -f "$hb" ] || continue
-  grep -q "completed 200 iterations" "$hb" && { echo "repro completed $(date -u +%T)" >> "$log"; exit 0; }
+  if grep -q "completed 200 iterations" "$hb"; then
+    echo "repro completed $(date -u +%T); Runner.Listener: $(pgrep -f Runner.Listener || echo GONE)" >> "$log"
+    ps -axo pid,ppid,pgid,user,stat,wchan,etime,command > "$out/ps-after.txt"
+    cp "$hb" "$out/heartbeat.txt"
+    ( cd "$(dirname "$out")" && tar czf "/tmp/$label.tar.gz" "$(basename "$out")" )
+    gh release upload "$tag" "/tmp/$label.tar.gz" --clobber -R "$GITHUB_REPOSITORY" >> "$log" 2>&1
+    gh api "repos/$GITHUB_REPOSITORY/issues/5926/comments" -f body="$(printf 'dump capture %s (run %s)
+```
+%s
+--- heartbeat signals ---
+%s
+```' "$label" "$GITHUB_RUN_ID" "$(cat "$log")" "$(grep -E 'SIG|iteration 1:|completed' "$hb" | head -40)")" > /dev/null 2>&1
+    exit 0
+  fi
   age=$(( $(date +%s) - $(stat -f %m "$hb") ))
   (( age < 20 )) && continue
   pid=$(head -1 "$hb" | awk '{print $2}')
