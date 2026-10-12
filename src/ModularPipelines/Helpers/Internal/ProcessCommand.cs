@@ -25,7 +25,7 @@ internal sealed record ProcessCommand(
     {
         var startInfo = new ProcessStartInfo
         {
-            FileName = TargetFilePath,
+            FileName = ResolveFileName(TargetFilePath),
             WorkingDirectory = WorkingDirPath,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
@@ -82,4 +82,57 @@ internal sealed record ProcessCommand(
     }
 
     public override string ToString() => $"{TargetFilePath} {Arguments}";
+
+    /// <summary>
+    /// Resolves an extensionless Windows tool name through the pipeline's directory, its current directory and
+    /// <c>PATH</c>. CreateProcess searches the system directories before <c>PATH</c>, so <c>bash</c> would start
+    /// WSL's <c>System32\bash.exe</c> instead of the bash that <c>PATH</c> selects.
+    /// </summary>
+    internal static string ResolveFileName(string targetFilePath)
+    {
+        if (!OperatingSystem.IsWindows()
+            || Path.IsPathFullyQualified(targetFilePath)
+            || !string.IsNullOrWhiteSpace(Path.GetExtension(targetFilePath)))
+        {
+            return targetFilePath;
+        }
+
+        foreach (var directory in GetProbeDirectories())
+        {
+            if (!Directory.Exists(directory))
+            {
+                continue;
+            }
+
+            var basePath = Path.Combine(directory, targetFilePath);
+            foreach (var extension in (ReadOnlySpan<string>) ["exe", "cmd", "bat"])
+            {
+                var candidate = Path.ChangeExtension(basePath, extension);
+                if (File.Exists(candidate))
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return targetFilePath;
+    }
+
+    private static IEnumerable<string> GetProbeDirectories()
+    {
+        if (Path.GetDirectoryName(Environment.ProcessPath) is { Length: > 0 } processDirectory)
+        {
+            yield return processDirectory;
+        }
+
+        yield return Directory.GetCurrentDirectory();
+
+        foreach (var directory in Environment.GetEnvironmentVariable("PATH")?.Split(Path.PathSeparator) ?? [])
+        {
+            if (!string.IsNullOrWhiteSpace(directory))
+            {
+                yield return directory;
+            }
+        }
+    }
 }
