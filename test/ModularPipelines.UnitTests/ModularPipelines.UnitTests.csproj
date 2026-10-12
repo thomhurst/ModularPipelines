@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
     <!-- Test fixtures intentionally exercise reflection fallbacks and nullable legacy module shapes. -->
@@ -40,6 +40,9 @@
     <Compile Include="../../src/ModularPipelines.Build/Helpers/BuildOutputSharing.cs" Link="Build/BuildOutputSharing.cs" />
     <Compile Include="../../src/ModularPipelines.Build/Helpers/BuildOutputArchive.cs" Link="Build/BuildOutputArchive.cs" />
     <None Update="Data\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="../../src/ModularPipelines/buildTransitive/ModularPipelines.targets" Link="BuildTransitive/ModularPipelines.targets">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

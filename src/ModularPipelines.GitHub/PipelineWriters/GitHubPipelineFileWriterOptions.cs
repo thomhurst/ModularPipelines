@@ -17,7 +17,7 @@ public record GitHubPipelineFileWriterOptions
     /// <summary>
     /// Gets the .NET SDK version installed by the generated workflow.
     /// </summary>
-    public string DotNetVersion { get; init; } = "10.0.x";
+    public string DotNetVersion { get; init; } = "11.0.x";
 
     public string Runner { get; init; } = "ubuntu-latest";
 

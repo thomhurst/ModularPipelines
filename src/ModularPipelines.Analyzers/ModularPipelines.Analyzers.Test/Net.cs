@@ -5,15 +5,15 @@ namespace ModularPipelines.Analyzers.Test;
 
 internal static class Net
 {
-    private static readonly Lazy<ReferenceAssemblies> LazyNet100 = new(() =>
+    private static readonly Lazy<ReferenceAssemblies> LazyNet110 = new(() =>
         new ReferenceAssemblies(
-                "net10.0",
+                "net11.0",
                 new PackageIdentity(
                     "Microsoft.NETCore.App.Ref",
-                    "10.0.10"),
-                Path.Combine("ref", "net10.0"))
-            .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Extensions.Logging", "10.0.10")))
+                    "11.0.0-rc.1.26425.128"),
+                Path.Combine("ref", "net11.0"))
+            .AddPackages(ImmutableArray.Create(new PackageIdentity("Microsoft.Extensions.Logging", "11.0.0-rc.1.26425.128")))
         );
 
-    public static ReferenceAssemblies Net100 => LazyNet100.Value;
+    public static ReferenceAssemblies Net110 => LazyNet110.Value;
 }

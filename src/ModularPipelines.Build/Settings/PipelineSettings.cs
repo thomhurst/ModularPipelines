@@ -11,9 +11,9 @@ public record PipelineSettings
     public bool BuildAlreadyCompleted { get; init; }
 
     /// <summary>
-    /// The target framework for running tests. Defaults to "net10.0".
+    /// The target framework for running tests. Defaults to "net11.0".
     /// </summary>
-    public string TestFramework { get; init; } = "net10.0";
+    public string TestFramework { get; init; } = "net11.0";
 
     /// <summary>
     /// The product header value used when creating GitHub API clients. Defaults to "ModularPipelinesBuild".

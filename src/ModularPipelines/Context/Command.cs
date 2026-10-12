@@ -1393,7 +1393,15 @@ internal sealed class Command : ICommandContext
             {
                 // The process is remote.
             }
+            catch (AggregateException exception) when (exception.Flatten().InnerExceptions.All(IsBestEffortKillFailure))
+            {
+                // .NET 11 reports descendants that exit during the tree walk as an aggregate. This runs from
+                // cancellation callbacks, so an escaping exception would crash the process.
+            }
         }
+
+        private static bool IsBestEffortKillFailure(Exception exception) =>
+            exception is InvalidOperationException or Win32Exception or NotSupportedException;
 
         // Termination runs from cancellation callbacks: a failing logger must never stop the kill.
         private void LogTermination(

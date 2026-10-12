@@ -18,7 +18,7 @@ ModularPipelines is a C# pipeline framework with dependency-driven, parallel mod
   -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 
 & scripts/Invoke-AgentDotNet.ps1 `
-  -DotNetArguments @('run', '--project', 'test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj', '--framework', 'net10.0', '--', '--coverage', '--coverage-output-format', 'cobertura')
+  -DotNetArguments @('run', '--project', 'test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj', '--framework', 'net11.0', '--', '--coverage', '--coverage-output-format', 'cobertura')
 
 # Format the affected solution before committing code changes.
 & scripts/Invoke-AgentDotNet.ps1 `

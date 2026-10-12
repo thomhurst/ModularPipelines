@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Getting Started
 
-ModularPipelines pipelines are .NET console applications. Install the .NET 10 SDK first. The
+ModularPipelines pipelines are .NET console applications. Install the .NET 11 SDK first. The
 quickest path is the project template; you can also add the packages to an existing project manually.
 
 ## Create a pipeline from the template

@@ -163,7 +163,7 @@ public class DistributedOptionsTests
         {
             await Assert.That(provider.GetRequiredService<IOptions<DistributedOptions>>().Value.RequireExplicitRunId)
                 .IsTrue();
-            await Assert.That(provider.GetService<IStartupValidator>()).IsNotNull();
+            await Assert.That(provider.GetServices<IAsyncStartupValidator>()).IsNotEmpty();
         }
     }
 

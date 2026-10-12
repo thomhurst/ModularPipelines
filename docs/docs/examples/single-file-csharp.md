@@ -7,7 +7,7 @@ They are useful for quick scripts and small utilities.
 
 ## Using File-Based C# Application with ModularPipelines
 
-Install the .NET 10 SDK, then follow these steps:
+Install the .NET 11 SDK, then follow these steps:
 
 1. **Create a C# file**: Create `example.cs` (or another file with a `.cs` extension).
 2. **Reference ModularPipelines**: Add the v4 DotNet integration package at the top of the file.

@@ -54,7 +54,7 @@ public class PipelineWriterTests : TestBase
                 PipelineProjectPath = RandomFilePath.Path!,
                 Environment = "${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}",
                 CacheNuGet = true,
-                DotNetRunFramework = "net10.0",
+                DotNetRunFramework = "net11.0",
                 ValuesToMask =
                 [
                     "${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}", "${{ secrets.NuGet__ApiKey }}",
@@ -135,7 +135,7 @@ public class PipelineWriterTests : TestBase
                            - name: Setup .NET SDK
                              uses: actions/setup-dotnet@v6.0.0
                              with:
-                               dotnet-version: 10.0.x
+                               dotnet-version: 11.0.x
                            - name: Cache NuGet
                              uses: actions/cache@v6.1.0
                              with:
@@ -143,7 +143,7 @@ public class PipelineWriterTests : TestBase
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                                restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
-                             run: dotnet run --project {{{RandomFilePath}}} -c Release --framework net10.0
+                             run: dotnet run --project {{{RandomFilePath}}} -c Release --framework net11.0
                              env:
                                DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
                                NuGet__ApiKey: ${{ secrets.NuGet__ApiKey }}

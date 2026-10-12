@@ -116,7 +116,7 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
@@ -252,7 +252,7 @@ jobs:
           dotnet run \
             --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj \
             --configuration Release \
-            --framework net10.0 \
+            --framework net11.0 \
             --no-restore \
             -- \
             --coverage \
@@ -323,7 +323,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         uses: actions/cache@v6
         with:
@@ -445,12 +445,12 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       # Identical assemblies give every worker the same module/schema identity.
       # Run these files outside the checkout so Windows can rebuild the Build project.
       - name: Publish portable host
         shell: bash
-        run: dotnet publish src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release --framework net10.0 --no-self-contained -p:UseAppHost=false -o "$RUNNER_TEMP/pipeline-host"
+        run: dotnet publish src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release --framework net11.0 --no-self-contained -p:UseAppHost=false -o "$RUNNER_TEMP/pipeline-host"
       - name: Record Redis capacity
         if: needs.fast-fail.outputs.distributed == 'true'
         shell: bash
@@ -523,7 +523,7 @@ jobs:
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: ${{ needs.fast-fail.outputs.test_results_artifact }}
-          path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/TestResults
+          path: tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net11.0/TestResults
       - name: Increase swap space
         if: runner.os == 'Linux'
         shell: bash
@@ -540,7 +540,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         uses: actions/cache@v6
         with:
@@ -707,7 +707,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         uses: actions/cache@v6
         with:
@@ -733,7 +733,7 @@ jobs:
           # Match the pipeline test runner: its diagnostics without coverage (collected on Linux),
           # and no GitHub Actions detection, which switches console rendering to styled output.
           Remove-Item Env:GITHUB_ACTIONS, Env:GITHUB_STEP_SUMMARY -ErrorAction SilentlyContinue
-          dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net10.0 --no-build -- `
+          dotnet run --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj -c Release --framework net11.0 --no-build -- `
             --hangdump --hangdump-filename 'hangdump-{pname}-{pid}-{time}.dmp' --hangdump-timeout 20m `
             --report-trx --report-trx-filename test-results.trx
           exit $LASTEXITCODE
@@ -773,7 +773,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         uses: actions/cache@v6
         with:
@@ -808,7 +808,7 @@ jobs:
 
           if [[ -n "$TEST_PROJECT" ]]; then
             dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"
-            dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build
+            dotnet run --project "$TEST_PROJECT" -c Release --framework net11.0 --no-build
           fi
 
   required-pipeline:
@@ -864,7 +864,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: 10.0.x
+          global-json-file: global.json
       - name: Cache NuGet
         uses: actions/cache@v6
         with:

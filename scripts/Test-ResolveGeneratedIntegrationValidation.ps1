@@ -334,7 +334,7 @@ foreach ($testCommand in @(
              'TEST_PROJECT: ${{ needs.fast-fail.outputs.integration_test_project }}',
              'if [[ -n "$TEST_PROJECT" ]]; then',
              'dotnet build "$TEST_PROJECT" -c Release "${BUILD_ARGS[@]}"',
-             'dotnet run --project "$TEST_PROJECT" -c Release --framework net10.0 --no-build'
+             'dotnet run --project "$TEST_PROJECT" -c Release --framework net11.0 --no-build'
          )) {
     if (-not $generatedJob.Contains($testCommand, [StringComparison]::Ordinal)) {
         throw "Generated integration validation omitted package test command '$testCommand'."

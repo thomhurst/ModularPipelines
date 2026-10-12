@@ -157,7 +157,7 @@ public class CliPropertyAttributeAnalyzerTests
         var test = new VerifyCS.Test
         {
             TestCode = source,
-            ReferenceAssemblies = Net.Net100,
+            ReferenceAssemblies = Net.Net110,
         };
 
         test.ExpectedDiagnostics.Add(expected);

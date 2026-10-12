@@ -148,7 +148,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v6.0.0
         with:
-          dotnet-version: "10.0.x"
+          dotnet-version: "11.0.x"
 
       - name: Run Pipeline
         env:

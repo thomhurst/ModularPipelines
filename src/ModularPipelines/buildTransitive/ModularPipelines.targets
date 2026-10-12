@@ -27,8 +27,8 @@ if (!File.Exists(FilePath)
     <_ModularPipelinesPipelineProjectSpecified Condition="'$(ModularPipelinesPipelineProject.Length)' != '0'">true</_ModularPipelinesPipelineProjectSpecified>
     <ModularPipelinesRepositoryRoot Condition="'$(ModularPipelinesRepositoryRoot.Length)' == '0'">$(MSBuildProjectDirectory)</ModularPipelinesRepositoryRoot>
     <ModularPipelinesBuildBranch Condition="'$(ModularPipelinesBuildBranch.Length)' == '0'">main</ModularPipelinesBuildBranch>
-    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">10.0.x</ModularPipelinesDotNetVersion>
-    <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:10.0</ModularPipelinesDotNetSdkImage>
+    <ModularPipelinesDotNetVersion Condition="'$(ModularPipelinesDotNetVersion.Length)' == '0'">11.0.x</ModularPipelinesDotNetVersion>
+    <ModularPipelinesDotNetSdkImage Condition="'$(ModularPipelinesDotNetSdkImage.Length)' == '0'">mcr.microsoft.com/dotnet/sdk:$(ModularPipelinesDotNetVersion.Replace('.x', ''))</ModularPipelinesDotNetSdkImage>
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFramework.Length)' != '0'">$(TargetFramework)</ModularPipelinesTargetFramework>
     <ModularPipelinesTargetFramework Condition="'$(ModularPipelinesTargetFramework.Length)' == '0' and '$(TargetFrameworks.Length)' != '0'">$(TargetFrameworks.Split(';')[0])</ModularPipelinesTargetFramework>
     <ModularPipelinesOverwriteBuildServerFiles Condition="'$(ModularPipelinesOverwriteBuildServerFiles.Length)' == '0'">false</ModularPipelinesOverwriteBuildServerFiles>
@@ -171,6 +171,8 @@ steps:
     inputs:
       packageType: sdk
       version: "$(_ModularPipelinesYamlDotNetVersion)"
+      # Match actions/setup-dotnet, whose A.B.x wildcards include preview and RC SDKs.
+      includePreviewVersions: true
   - script: |
       PIPELINE_PROJECT=`printf '%s' "$PIPELINE_PROJECT_BASE64" | base64 -d`
       PIPELINE_FRAMEWORK=`printf '%s' "$PIPELINE_FRAMEWORK_BASE64" | base64 -d`

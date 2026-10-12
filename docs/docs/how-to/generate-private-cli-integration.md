@@ -113,7 +113,7 @@ finds uncommitted output:
 ```yaml
 - uses: actions/setup-dotnet@v6.0.0
   with:
-    dotnet-version: 10.0.x
+    dotnet-version: 11.0.x
 - run: dotnet tool restore
 - run: >-
     dotnet tool run modular-pipelines-options --
