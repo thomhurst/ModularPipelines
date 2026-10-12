@@ -1,6 +1,5 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using CliWrap;
 using CommandResult = ModularPipelines.CommandResult;
 
 namespace ModularPipelines.UnitTests.Models;
@@ -23,7 +22,7 @@ public class CommandResultTests
     public async Task Dry_Run_Result_Contains_Completed_Result_Data()
     {
         var result = new CommandResult(
-            Cli.Wrap("tool"),
+            Environment.CurrentDirectory,
             "tool",
             new Dictionary<string, string?>());
 

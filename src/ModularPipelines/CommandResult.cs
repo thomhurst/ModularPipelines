@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using CliWrap;
 
 namespace ModularPipelines;
 
@@ -76,14 +75,14 @@ public record CommandResult
 
     [SetsRequiredMembers]
     internal CommandResult(
-        Command command,
+        string workingDirectory,
         string commandInput,
         IReadOnlyDictionary<string, string?> environmentVariables)
     {
         var completedAt = DateTimeOffset.UtcNow;
 
         CommandInput = commandInput;
-        WorkingDirectory = command.WorkingDirPath;
+        WorkingDirectory = workingDirectory;
         EnvironmentVariables = environmentVariables;
         StandardOutput = string.Empty;
         StandardError = string.Empty;
@@ -91,28 +90,6 @@ public record CommandResult
         StartTime = completedAt;
         EndTime = completedAt;
         Duration = TimeSpan.Zero;
-    }
-
-    [SetsRequiredMembers]
-    internal CommandResult(
-        Command command,
-        CliWrap.CommandResult commandResult,
-        string commandInput,
-        string standardOutput,
-        string standardError,
-        IReadOnlyDictionary<string, string?> environmentVariables)
-    {
-        CommandInput = commandInput;
-        WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = environmentVariables;
-
-        StandardOutput = standardOutput;
-        StandardError = standardError;
-        StartTime = commandResult.StartTime;
-        EndTime = commandResult.ExitTime;
-        Duration = commandResult.RunTime;
-
-        ExitCode = commandResult.ExitCode;
     }
 
     /// <summary>

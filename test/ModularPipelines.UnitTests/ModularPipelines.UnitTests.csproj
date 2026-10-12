@@ -10,7 +10,6 @@
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CliWrap" PrivateAssets="all" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
     <PackageReference Include="NReco.Logging.File" />

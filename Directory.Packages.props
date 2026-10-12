@@ -31,7 +31,6 @@
     <PackageVersion Include="Azure.Security.KeyVault.Certificates" Version="4.9.2" />
     <PackageVersion Include="Azure.Security.KeyVault.Keys" Version="4.10.2" />
     <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.11.2" />
-    <PackageVersion Include="CliWrap" Version="3.10.5" />
     <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="EnumerableAsyncProcessor" Version="4.0.0" />
     <PackageVersion Include="FluentFTP" Version="55.0.0" />

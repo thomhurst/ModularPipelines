@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using CliWrap.Builders;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.Secrets;
 
@@ -33,7 +33,7 @@ internal static class SecretMaskingPatternGenerator
 
     private static void AddArgumentEscapedPatterns(ISet<string> patterns, string secret)
     {
-        var escaped = ArgumentsBuilder.Escape(secret);
+        var escaped = CommandLineArguments.Escape(secret);
         patterns.Add(escaped);
 
         if (escaped.Length >= 2 && escaped[0] == '"' && escaped[^1] == '"')

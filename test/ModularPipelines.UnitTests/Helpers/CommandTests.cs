@@ -298,6 +298,23 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
+    [Timeout(30_000)]
+    public async Task Command_Reading_Standard_Input_Sees_End_Of_Input(CancellationToken cancellationToken)
+    {
+        var command = await GetService<ICommandContext>();
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new CommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", "[Console]::In.ReadToEnd().Length"],
+            },
+            cancellationToken: cancellationToken);
+
+        await Assert.That(result.StandardOutput.Trim()).IsEqualTo("0");
+    }
+
+    [Test]
     public async Task Missing_Executable_Throws_Actionable_Exception()
     {
         var executable = $"modular-pipelines-missing-{Guid.NewGuid():N}";
