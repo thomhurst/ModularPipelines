@@ -50,14 +50,16 @@ The project path in the generated command is calculated relative to this root. O
 
 The following optional properties customize the generated file:
 
-| Property                          | Default                                                  |
-| --------------------------------- | -------------------------------------------------------- |
-| `ModularPipelinesBuildBranch`     | `main`                                                   |
-| `ModularPipelinesDotNetVersion`   | `10.0.x`                                                 |
-| `ModularPipelinesDotNetSdkImage`  | `mcr.microsoft.com/dotnet/sdk:10.0`                      |
-| `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry |
+| Property                          | Default                                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `ModularPipelinesBuildBranch`     | `main`                                                                                         |
+| `ModularPipelinesDotNetVersion`   | `11.0.x`                                                                                       |
+| `ModularPipelinesDotNetSdkImage`  | `mcr.microsoft.com/dotnet/sdk:11.0` (the `ModularPipelinesDotNetVersion` channel without `.x`) |
+| `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry                                       |
 
 For a multi-target pipeline project, set `ModularPipelinesTargetFramework` to choose which target framework the generated job runs.
+
+A wildcard `ModularPipelinesDotNetVersion` such as `11.0.x` installs the newest SDK in that channel, including preview and release candidate SDKs. `actions/setup-dotnet` already does this, and the generated Azure Pipelines step sets `includePreviewVersions: true` to match. To pin an exact SDK instead, set `ModularPipelinesDotNetVersion` to a full version such as `11.0.100`.
 
 Existing YAML is preserved. To intentionally regenerate and replace it, build once with:
 

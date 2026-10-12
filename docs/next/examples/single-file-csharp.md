@@ -4,7 +4,7 @@ Starting with .NET 10, file-based apps let you write and run C# without creating
 
 ## Using File-Based C# Application with ModularPipelines[​](#using-file-based-c-application-with-modularpipelines "Direct link to Using File-Based C# Application with ModularPipelines")
 
-Install the .NET 10 SDK, then follow these steps:
+Install the .NET 11 SDK, then follow these steps:
 
 1. **Create a C# file**: Create `example.cs` (or another file with a `.cs` extension).
 

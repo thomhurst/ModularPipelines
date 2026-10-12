@@ -53,7 +53,7 @@
 - [F# Interactive Example](/docs/next/examples/fsharp-interactive.md): F# Interactive (FSI) is a powerful tool for executing F# code snippets and scripts in an interactive environment. It allows you to quickly test and iterate on your F# code without needing to create a full project structure.
 - [Single File C# Example](/docs/next/examples/single-file-csharp.md): Starting with .NET 10, file-based apps let you write and run C# without creating a project file.
 - [Fundamentals](/docs/next/fundamentals.md): Pipeline Builder
-- [Getting Started](/docs/next/getting-started.md): ModularPipelines pipelines are .NET console applications. Install the .NET 10 SDK first. The
+- [Getting Started](/docs/next/getting-started.md): ModularPipelines pipelines are .NET console applications. Install the .NET 11 SDK first. The
 - [Always Run](/docs/next/how-to/always-run.md): Module Run Types
 - [Analyzers](/docs/next/how-to/analyzers.md): Modular Pipelines includes Roslyn analyzers that catch pipeline authoring mistakes at compile time. Each rule uses the MP#### ID family, so it can be configured with standard .NET analyzer settings.
 - [Asynchronous file hashing and ZIP operations](/docs/next/how-to/async-file-operations.md): Use the async file helpers for cancellable stream copying and hashing. Pass the
@@ -2893,7 +2893,7 @@ jobs:
 
         with:
 
-          dotnet-version: "10.0.x"
+          dotnet-version: "11.0.x"
 
 
 
@@ -3970,7 +3970,7 @@ Starting with .NET 10, file-based apps let you write and run C# without creating
 
 ## Using File-Based C# Application with ModularPipelines[​](#using-file-based-c-application-with-modularpipelines "Direct link to Using File-Based C# Application with ModularPipelines")
 
-Install the .NET 10 SDK, then follow these steps:
+Install the .NET 11 SDK, then follow these steps:
 
 1. **Create a C# file**: Create `example.cs` (or another file with a `.cs` extension).
 
@@ -4364,7 +4364,7 @@ return await myModule.Match(
 
 # Getting Started
 
-ModularPipelines pipelines are .NET console applications. Install the .NET 10 SDK first. The quickest path is the project template; you can also add the packages to an existing project manually.
+ModularPipelines pipelines are .NET console applications. Install the .NET 11 SDK first. The quickest path is the project template; you can also add the packages to an existing project manually.
 
 ## Create a pipeline from the template[​](#create-a-pipeline-from-the-template "Direct link to Create a pipeline from the template")
 
@@ -4718,14 +4718,16 @@ The project path in the generated command is calculated relative to this root. O
 
 The following optional properties customize the generated file:
 
-| Property                          | Default                                                  |
-| --------------------------------- | -------------------------------------------------------- |
-| `ModularPipelinesBuildBranch`     | `main`                                                   |
-| `ModularPipelinesDotNetVersion`   | `10.0.x`                                                 |
-| `ModularPipelinesDotNetSdkImage`  | `mcr.microsoft.com/dotnet/sdk:10.0`                      |
-| `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry |
+| Property                          | Default                                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `ModularPipelinesBuildBranch`     | `main`                                                                                         |
+| `ModularPipelinesDotNetVersion`   | `11.0.x`                                                                                       |
+| `ModularPipelinesDotNetSdkImage`  | `mcr.microsoft.com/dotnet/sdk:11.0` (the `ModularPipelinesDotNetVersion` channel without `.x`) |
+| `ModularPipelinesTargetFramework` | `TargetFramework`, or the first `TargetFrameworks` entry                                       |
 
 For a multi-target pipeline project, set `ModularPipelinesTargetFramework` to choose which target framework the generated job runs.
+
+A wildcard `ModularPipelinesDotNetVersion` such as `11.0.x` installs the newest SDK in that channel, including preview and release candidate SDKs. `actions/setup-dotnet` already does this, and the generated Azure Pipelines step sets `includePreviewVersions: true` to match. To pin an exact SDK instead, set `ModularPipelinesDotNetVersion` to a full version such as `11.0.100`.
 
 Existing YAML is preserved. To intentionally regenerate and replace it, build once with:
 
@@ -5999,7 +6001,7 @@ For CI, restore the manifest and run the same command, then fail when `git diff 
 
   with:
 
-    dotnet-version: 10.0.x
+    dotnet-version: 11.0.x
 
 - run: dotnet tool restore
 

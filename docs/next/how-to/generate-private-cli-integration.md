@@ -133,7 +133,7 @@ For CI, restore the manifest and run the same command, then fail when `git diff 
 
   with:
 
-    dotnet-version: 10.0.x
+    dotnet-version: 11.0.x
 
 - run: dotnet tool restore
 
