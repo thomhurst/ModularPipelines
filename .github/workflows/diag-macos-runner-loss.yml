@@ -62,10 +62,7 @@ jobs:
             fi
             n=$((n+1))
             if (( n % 2 == 0 )); then
-              body=$(printf 'repro %s (run %s), last samples:
-```
-%s
-```' "$ATTEMPT" "$GITHUB_RUN_ID" "$(tail -n 120 "$log")")
+              body=$(printf 'repro %s (run %s), last samples:\n```\n%s\n```' "$ATTEMPT" "$GITHUB_RUN_ID" "$(tail -n 120 "$log")")
               gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -f body="$body" > /dev/null 2>&1 &
             fi
             sleep 1
