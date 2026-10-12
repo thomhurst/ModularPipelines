@@ -12,13 +12,14 @@ permissions:
 
 jobs:
   repro:
-    name: command tests (${{ matrix.attempt }})
+    name: full ${{ matrix.variant }} (${{ matrix.attempt }})
     runs-on: macos-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         attempt: [1, 2, 3, 4, 5]
+        variant: [plain, gcserver-tee]
     env:
       MSBUILDDISABLENODEREUSE: "1"
       GH_TOKEN: ${{ github.token }}
@@ -31,7 +32,7 @@ jobs:
         shell: bash
         run: |
           comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/5926/comments" \
-            -f body="pgkill repro ${{ matrix.attempt }} (run ${GITHUB_RUN_ID}): starting" --jq .id)
+            -f body="pgkill repro ${{ matrix.variant }}-${{ matrix.attempt }} (run ${GITHUB_RUN_ID}): starting" --jq .id)
           cat > "$RUNNER_TEMP/sample.sh" <<'EOF'
           #!/bin/bash
           log="$RUNNER_TEMP/samples.log"
@@ -45,14 +46,24 @@ jobs:
           EOF
           chmod +x "$RUNNER_TEMP/sample.sh"
           # Own session and process group, so a process-group kill from the tests cannot reach it.
-          ATTEMPT=${{ matrix.attempt }} python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1], sys.argv[1:])' "$RUNNER_TEMP/sample.sh" "$comment_id" > /dev/null 2>&1 &
+          ATTEMPT=${{ matrix.variant }}-${{ matrix.attempt }} python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1], sys.argv[1:])' "$RUNNER_TEMP/sample.sh" "$comment_id" > /dev/null 2>&1 &
           echo "build" > "$RUNNER_TEMP/phase"
       - name: Build core tests
         run: dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
       - name: Run full core unit tests
         shell: bash
+        env:
+          VARIANT: ${{ matrix.variant }}
         run: |
           echo "test" > "$RUNNER_TEMP/phase"
           unset GITHUB_ACTIONS GITHUB_STEP_SUMMARY
-          dotnet run --configuration Release --framework net10.0             --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build --             --hangdump --hangdump-timeout 20m --report-trx             --diagnostic --diagnostic-verbosity Debug
+          args=(run --configuration Release --framework net10.0
+            --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build --
+            --hangdump --hangdump-timeout 20m --report-trx
+            --diagnostic --diagnostic-verbosity Debug)
+          if [ "$VARIANT" = "gcserver-tee" ]; then
+            DOTNET_gcServer=0 dotnet "${args[@]}" 2>&1 | tee "$RUNNER_TEMP/test.log"
+          else
+            dotnet "${args[@]}"
+          fi
           echo "done" > "$RUNNER_TEMP/phase"
