@@ -85,4 +85,26 @@ internal interface ICommandLogger
         string standardOutput,
         string standardError,
         string commandWorkingDirPath);
+
+    /// <summary>
+    /// Logs that the framework is about to terminate a command process or one of its descendants.
+    /// </summary>
+    /// <remarks>
+    /// Terminations are always logged, regardless of command logging verbosity, so that a killed
+    /// process can be traced back to the command that owned it.
+    /// </remarks>
+    /// <param name="target">The process being terminated.</param>
+    /// <param name="reason">Why the process is being terminated.</param>
+    /// <param name="method">How the process is being terminated.</param>
+    void LogProcessTermination(
+        ProcessTerminationTarget target,
+        ProcessTerminationReason reason,
+        ProcessTerminationMethod method);
+
+    /// <summary>
+    /// Logs that the operating system rejected a process termination.
+    /// </summary>
+    /// <param name="target">The process that could not be terminated.</param>
+    /// <param name="exception">The error the operating system reported.</param>
+    void LogProcessTerminationFailure(ProcessTerminationTarget target, Exception exception);
 }

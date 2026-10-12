@@ -59,6 +59,28 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             obfuscatedInput);
     }
 
+    public void LogProcessTermination(
+        ProcessTerminationTarget target,
+        ProcessTerminationReason reason,
+        ProcessTerminationMethod method)
+    {
+        Logger.LogWarning(
+            "Terminating process {ProcessId} ({ProcessName}) via {TerminationMethod}: {TerminationReason}",
+            target.ProcessId,
+            target.ProcessName,
+            method,
+            reason);
+    }
+
+    public void LogProcessTerminationFailure(ProcessTerminationTarget target, Exception exception)
+    {
+        Logger.LogWarning(
+            exception,
+            "Could not terminate process {ProcessId} ({ProcessName})",
+            target.ProcessId,
+            target.ProcessName);
+    }
+
     public void LogCommandCompletion(
         CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,

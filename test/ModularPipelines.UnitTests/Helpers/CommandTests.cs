@@ -11,6 +11,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
@@ -912,6 +913,27 @@ public class CommandTests : TestBase
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
         await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_LogsEachTermination()
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+
+        commandLogger.Verify(logger => logger.LogProcessTermination(
+            It.Is<ProcessTerminationTarget>(target => target.ProcessId == parent.Id && target.ProcessName != null),
+            ProcessTerminationReason.ForcefulCancellation,
+            It.IsAny<ProcessTerminationMethod>()), Times.AtLeastOnce());
     }
 
     [Test]

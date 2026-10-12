@@ -606,7 +606,7 @@ internal sealed class Command : ICommandContext
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
-        using var processTreeTerminator = new ProcessTreeTerminator();
+        using var processTreeTerminator = new ProcessTreeTerminator(_commandLogger);
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
@@ -1106,7 +1106,7 @@ internal sealed class Command : ICommandContext
         }
     }
 
-    private sealed class ProcessTreeTerminator : IDisposable
+    private sealed class ProcessTreeTerminator(ICommandLogger commandLogger) : IDisposable
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
@@ -1132,7 +1132,7 @@ internal sealed class Command : ICommandContext
                 }
             }
 
-            TryKill(process, windowsJob);
+            TryKill(process, windowsJob, ProcessTerminationReason.StartedAfterCancellation);
         }
 
         public void BeginGracefulShutdown()
@@ -1203,12 +1203,12 @@ internal sealed class Command : ICommandContext
 
             if (process is not null)
             {
-                TryKill(process, windowsJob);
+                TryKill(process, windowsJob, ProcessTerminationReason.ForcefulCancellation);
             }
 
             foreach (var descendant in descendants)
             {
-                TryKill(descendant, null);
+                TryKill(descendant, null, ProcessTerminationReason.ForcefulCancellation);
             }
         }
 
@@ -1294,7 +1294,7 @@ internal sealed class Command : ICommandContext
 
                         if (killDescendant)
                         {
-                            TryKill(capturedDescendant, null);
+                            TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
                         }
                     }
                     catch (ArgumentException)
@@ -1409,31 +1409,54 @@ internal sealed class Command : ICommandContext
             return null;
         }
 
-        private static void TryKill(Process process, SafeFileHandle? windowsJob)
+        private void TryKill(Process process, SafeFileHandle? windowsJob, ProcessTerminationReason reason)
         {
+            var target = DescribeProcess(process);
             try
             {
                 if (OperatingSystem.IsWindows() &&
-                    windowsJob is { IsInvalid: false, IsClosed: false } &&
-                    WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
+                    windowsJob is { IsInvalid: false, IsClosed: false })
                 {
-                    return;
+                    commandLogger.LogProcessTermination(target, reason, ProcessTerminationMethod.WindowsJob);
+                    if (WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
+                    {
+                        return;
+                    }
                 }
 
+                commandLogger.LogProcessTermination(target, reason, ProcessTerminationMethod.ProcessTree);
                 process.Kill(entireProcessTree: true);
             }
             catch (InvalidOperationException)
             {
                 // The process already exited.
             }
-            catch (Win32Exception)
+            catch (Win32Exception exception)
             {
                 // The process already exited or could not be terminated.
+                commandLogger.LogProcessTerminationFailure(target, exception);
             }
             catch (NotSupportedException)
             {
                 // The process is remote.
             }
+        }
+
+        private static ProcessTerminationTarget DescribeProcess(Process process)
+        {
+            int? processId = null;
+            string? processName = null;
+            try
+            {
+                processId = process.Id;
+                processName = process.ProcessName;
+            }
+            catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+            {
+                // The process exited or is inaccessible; log whatever was read.
+            }
+
+            return new ProcessTerminationTarget(processId, processName);
         }
 
         private static class WindowsNativeMethods
