@@ -171,6 +171,38 @@ function Get-IssueFingerprint($Issue) {
     Get-Hash ((@($Issue.updatedAt, ($labels -join ','), ($assignees -join ','))) -join '|')
 }
 
+# Returns number -> state (OPEN, CLOSED, MERGED, MISSING) for issues and PRs, in one query.
+# Returns $null when the lookup fails, so callers can fall back to the item's own fingerprint.
+function Get-ReferenceStates([int[]]$Numbers) {
+    $Numbers = @($Numbers | Sort-Object -Unique)
+    $states = @{}
+    if ($Numbers.Count -eq 0) { return $states }
+    $owner, $name = $repoSlug -split '/', 2
+    $fields = ($Numbers | ForEach-Object { "n${_}: issueOrPullRequest(number: $_) { ... on Issue { state } ... on PullRequest { state } }" }) -join ' '
+    $query = 'query($owner: String!, $name: String!) { repository(owner: $owner, name: $name) { ' + $fields + ' } }'
+    # A missing number makes gh exit 1, but stdout still carries the data for the rest.
+    $json = gh api graphql -f "query=$query" -f "owner=$owner" -f "name=$name" 2>$null
+    try { $repository = ($json | ConvertFrom-Json -ErrorAction Stop).data.repository }
+    catch { return $null }
+    if (-not $repository) { return $null }
+    foreach ($n in $Numbers) {
+        $node = $repository."n$n"
+        $states[$n] = if ($node) { [string]$node.state } else { 'MISSING' }
+    }
+    return $states
+}
+
+# A deferral reason names its blockers as #N. Recording their states lets a survey retry
+# the item as soon as a blocker closes or merges, even though the item itself is unchanged.
+function Get-ReasonReferences([string]$Reason, [int]$Self) {
+    @([regex]::Matches($Reason, '#(\d+)') | ForEach-Object { [int]$_.Groups[1].Value } |
+        Where-Object { $_ -ne $Self } | Sort-Object -Unique | Select-Object -First 20)
+}
+
+function Format-References([int[]]$Numbers, [hashtable]$States) {
+    ($Numbers | ForEach-Object { '{0}:{1}' -f $_, $States[$_] }) -join ','
+}
+
 $prFields = 'number,title,headRefOid,updatedAt,mergeable,mergeStateStatus,statusCheckRollup,isDraft,labels'
 $issueFields = 'number,title,updatedAt,labels,assignees'
 
@@ -267,8 +299,20 @@ function Get-Deferrals([object[]]$Items) {
     return $deferrals
 }
 
-function Test-Deferred($Item, [hashtable]$Deferrals) {
-    return $Item.Fingerprint -and $Deferrals[$Item.LockName] -eq $Item.Fingerprint
+# A recorded deferral is `<fingerprint>` or `<fingerprint>|refs=<n>:<state>,...`.
+function Split-Deferral([string]$Recorded) {
+    $fingerprint, $refs = $Recorded -split '\|refs=', 2
+    $numbers = @(if ($refs) { $refs -split ',' | ForEach-Object { [int]($_ -split ':', 2)[0] } })
+    [pscustomobject]@{ Fingerprint = $fingerprint; Refs = $refs; Numbers = $numbers }
+}
+
+function Test-Deferred($Item, [hashtable]$Deferrals, $States) {
+    if (-not $Item.Fingerprint -or -not $Deferrals[$Item.LockName]) { return $false }
+    $deferral = Split-Deferral $Deferrals[$Item.LockName]
+    if ($deferral.Fingerprint -ne $Item.Fingerprint) { return $false }
+    # Without fresh blocker states, fall back to the item's own fingerprint.
+    if (-not $deferral.Refs -or $null -eq $States) { return $true }
+    return (Format-References $deferral.Numbers $States) -eq $deferral.Refs
 }
 
 # Returns the claimed item, $null when nothing is actionable, or throws when the lock
@@ -277,8 +321,9 @@ function Select-Item {
     Reset-SurveyStats
     $candidates = @(Get-Candidates)
     $deferrals = Get-Deferrals $candidates
+    $states = Get-ReferenceStates @($deferrals.Values | ForEach-Object { (Split-Deferral $_).Numbers })
     foreach ($item in $candidates) {
-        if (Test-Deferred $item $deferrals) { $surveyStats["$($item.Kind)-deferred"]++; continue }
+        if (Test-Deferred $item $deferrals $states) { $surveyStats["$($item.Kind)-deferred"]++; continue }
         $r = Invoke-Locks @('acquire', '-LockName', $item.LockName)
         if ($r.ExitCode -eq 3) { $surveyStats["$($item.Kind)-locked"]++; continue }
         if ($r.ExitCode -ne 0) { throw "lock acquire for $($item.LockName) failed (exit $($r.ExitCode)): $($r.Output)" }
@@ -416,6 +461,11 @@ while (-not (Test-Path -LiteralPath $stopFile)) {
     # Remember an unchanged blocker so later units do not re-examine it.
     if (-not $result -or $result -match '^(deferred|failed)\b' -or ($item.Kind -eq 'recovery' -and $result -eq 'queue-empty')) {
         $fingerprint = if ($item.Kind -eq 'recovery') { $item.Fingerprint } else { Get-CurrentFingerprint $item }
+        $refs = if ($fingerprint -and $item.Kind -ne 'recovery') { Get-ReasonReferences $result $item.Number } else { @() }
+        if ($refs.Count -gt 0) {
+            $refStates = Get-ReferenceStates $refs
+            if ($refStates) { $fingerprint += '|refs=' + (Format-References $refs $refStates) }
+        }
         # A crash says nothing about the item, so retry it sooner.
         $ttl = if ($result) { $DeferSeconds } else { [Math]::Min($DeferSeconds, 3600) }
         if ($fingerprint) {
