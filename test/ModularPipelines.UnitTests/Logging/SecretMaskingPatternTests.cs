@@ -1,10 +1,10 @@
 using ModularPipelines.Secrets;
-using CliWrap;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Moq;
@@ -70,13 +70,11 @@ public class SecretMaskingPatternTests
     [Arguments("abc\"def")]
     [Arguments("abc\\\"def")]
     [Arguments("abc \\")]
-    public async Task CliWrapEscapedCommandInput_MasksEmbeddedSecret(string secret)
+    public async Task EscapedCommandInput_MasksEmbeddedSecret(string secret)
     {
         var provider = CreateProvider(out _);
         provider.AddSecret(secret);
-        var commandInput = Cli.Wrap("tool")
-            .WithArguments([$"--value={secret}"])
-            .ToString();
+        var commandInput = $"tool {CommandLineArguments.Join([$"--value={secret}"])}";
 
         await Assert.That(CreateObfuscator(provider).Obfuscate(commandInput, null))
             .IsEqualTo("tool \"--value=**********\"");

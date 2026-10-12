@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
-using CliWrap;
-using CliWrap.Exceptions;
 using Microsoft.Extensions.Options;
 using Microsoft.Win32.SafeHandles;
 using ModularPipelines.Constants;
@@ -37,7 +35,7 @@ internal sealed class Command : ICommandContext
         string RawCommandInput,
         string WorkingDirectory,
         IReadOnlyDictionary<string, string?> RawEnvironmentVariables,
-        CliWrap.Command Command,
+        ProcessCommand Command,
         Lazy<string> InputToLog);
 
     private readonly ICommandLogger _commandLogger;
@@ -84,7 +82,7 @@ internal sealed class Command : ICommandContext
                 : _pipelineWorkingDirectory.Path,
         };
         RegisterSecrets(options, execOpts);
-        (CliWrap.Command Command, string CommandInput, string Tool, List<string> ParsedArgs) commandDetails;
+        (ProcessCommand Command, string CommandInput, string Tool, List<string> ParsedArgs) commandDetails;
         try
         {
             commandDetails = CreateCommand(options, execOpts);
@@ -161,7 +159,7 @@ internal sealed class Command : ICommandContext
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions.CommandLineCredentials));
     }
 
-    private (CliWrap.Command Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
+    private (ProcessCommand Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions)
     {
@@ -178,24 +176,13 @@ internal sealed class Command : ICommandContext
         return (command, input, tool, arguments);
     }
 
-    private static (CliWrap.Command Command, string Input) CreateCliCommand(
+    private static (ProcessCommand Command, string Input) CreateCliCommand(
         string tool,
         IEnumerable<string> arguments,
         CommandExecutionOptions executionOptions)
     {
         var preparedCommand = CliCommandFactory.Create(tool, arguments, executionOptions);
-        var command = preparedCommand.Command;
-        if (executionOptions.WorkingDirectory is not null)
-        {
-            command = command.WithWorkingDirectory(executionOptions.WorkingDirectory);
-        }
-
-        if (executionOptions.CommandLineCredentials is not null)
-        {
-            command = command.WithCredentials(executionOptions.CommandLineCredentials.ToCliWrapCredentials());
-        }
-
-        return (command, preparedCommand.Input);
+        return (preparedCommand.Command, preparedCommand.Input);
     }
 
     private Lazy<string> CreateInputToLog(
@@ -520,7 +507,7 @@ internal sealed class Command : ICommandContext
     }
 
     private CommandResult ExecuteDryRun(
-        CliWrap.Command command,
+        ProcessCommand command,
         string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
@@ -538,14 +525,14 @@ internal sealed class Command : ICommandContext
             commandWorkingDirPath: command.WorkingDirPath);
 
         return new CommandResult(
-            command,
+            command.WorkingDirPath,
             _secretObfuscator.Obfuscate(commandInput, executionOptions),
             ObfuscateEnvironmentVariables(rawEnvironmentVariables, executionOptions));
     }
 
     private CommandResult ApplyCommandMetadata(
         CommandResult result,
-        CliWrap.Command command,
+        ProcessCommand command,
         PreparedCommandInvocation invocation,
         CommandExecutionOptions executionOptions)
     {
@@ -578,7 +565,7 @@ internal sealed class Command : ICommandContext
     }
 
     private async Task<CommandResult> Of(
-        CliWrap.Command command,
+        ProcessCommand command,
         string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
@@ -623,26 +610,21 @@ internal sealed class Command : ICommandContext
                 command.WorkingDirPath));
         await using (registration.ConfigureAwait(false))
         {
-            CliWrap.CommandResult result;
+            ProcessRunResult result;
             try
             {
-                var executionTask = command
-                    .WithStandardOutputPipe(CreateOutputTarget(
+                var executionTask = ProcessRunner.RunAsync(
+                    command,
+                    new CommandOutputTarget(
                         standardOutputBuffer,
                         completeStandardOutputBuffer,
-                        CreateStandardOutputLogger(
-                            deferredOutputLogger)))
-                    .WithStandardErrorPipe(CreateOutputTarget(
+                        CreateStandardOutputLogger(deferredOutputLogger)),
+                    new CommandOutputTarget(
                         standardErrorBuffer,
                         completeStandardErrorBuffer,
-                        CreateStandardErrorLogger(
-                            deferredOutputLogger)))
-                    .WithValidation(CommandResultValidation.None)
-                    .ExecuteAsync(
-                        configureProcessStartInfo: ConfigureStartInfo,
-                        configureProcess: processTreeTerminator.Attach,
-                        forcefulCancellationToken: CancellationToken.None,
-                        gracefulCancellationToken: executionCancellationToken);
+                        CreateStandardErrorLogger(deferredOutputLogger)),
+                    processTreeTerminator.Attach,
+                    executionCancellationToken);
                 using var descendantCaptureRegistration =
                     executionCancellationToken.Register(processTreeTerminator.BeginGracefulShutdown);
                 result = await executionTask.ConfigureAwait(false);
@@ -655,44 +637,7 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
             }
-            catch (CommandExecutionException e)
-            {
-                await WaitForForcefulCancellationAsync(
-                    processTreeTerminator,
-                    executionCancellationToken,
-                    forcefulCancellationToken.Token).ConfigureAwait(false);
-
-                standardOutput = standardOutputBuffer.ToString();
-                standardError = standardErrorBuffer.ToString();
-
-                loggingFailures.Capture(
-                    () => LogCommandCompletion(
-                        options,
-                        execOpts,
-                        inputToLog,
-                        e.ExitCode,
-                        stopwatch.Elapsed,
-                        standardOutput,
-                        standardError,
-                        completeStandardOutputBuffer,
-                        completeStandardErrorBuffer,
-                        deferredOutputLogger,
-                        command.WorkingDirPath));
-                var failure = loggingFailures.CombineWith(e);
-
-                throw CommandException.FromAlreadyObfuscatedResult(
-                    CreateFailureResult(
-                        command,
-                        execOpts,
-                        commandInput,
-                        e.ExitCode,
-                        stopwatch.Elapsed,
-                        standardOutput,
-                        standardError,
-                        rawEnvironmentVariables),
-                    failure);
-            }
-            catch (Exception e) when (e is not CommandExecutionException and not CommandException)
+            catch (Exception e) when (e is not CommandException)
             {
                 await WaitForForcefulCancellationAsync(
                     processTreeTerminator,
@@ -769,12 +714,15 @@ internal sealed class Command : ICommandContext
 
             loggingFailures.Throw();
             return new CommandResult(
-                command,
-                result,
-                _secretObfuscator.Obfuscate(commandInput, execOpts),
-                standardOutput,
-                standardError,
-                ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts));
+                commandInput: _secretObfuscator.Obfuscate(commandInput, execOpts),
+                workingDirectory: command.WorkingDirPath,
+                standardOutput: standardOutput,
+                standardError: standardError,
+                environmentVariables: ObfuscateEnvironmentVariables(rawEnvironmentVariables, execOpts),
+                startTime: result.StartTime,
+                endTime: result.ExitTime,
+                duration: result.RunTime,
+                exitCode: result.ExitCode);
         }
     }
 
@@ -823,7 +771,7 @@ internal sealed class Command : ICommandContext
     private Exception CreateExecutionFailure(
         Exception executionFailure,
         Exception combinedFailure,
-        CliWrap.Command command,
+        ProcessCommand command,
         CommandExecutionOptions execOpts,
         string input,
         TimeSpan duration,
@@ -889,7 +837,7 @@ internal sealed class Command : ICommandContext
     }
 
     private CommandResult CreateFailureResult(
-        CliWrap.Command command,
+        ProcessCommand command,
         CommandExecutionOptions execOpts,
         string input,
         int exitCode,
@@ -914,7 +862,7 @@ internal sealed class Command : ICommandContext
             exitCode: exitCode);
     }
 
-    private static Dictionary<string, string?> GetRawEnvironmentVariables(CliWrap.Command command)
+    private static Dictionary<string, string?> GetRawEnvironmentVariables(ProcessCommand command)
     {
         return command.EnvironmentVariables
             .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
@@ -941,8 +889,8 @@ internal sealed class Command : ICommandContext
     }
 
     private CommandException? CreateCommandFailure(
-        CliWrap.Command command,
-        CliWrap.CommandResult result,
+        ProcessCommand command,
+        ProcessRunResult result,
         CommandExecutionOptions execOpts,
         string input,
         string standardOutput,
@@ -1072,14 +1020,6 @@ internal sealed class Command : ICommandContext
         return outputLogger is null
             ? null
             : outputLogger.LogStandardErrorLine;
-    }
-
-    private static void ConfigureStartInfo(ProcessStartInfo startInfo)
-    {
-        if (OperatingSystem.IsWindows())
-        {
-            startInfo.CreateNewProcessGroup = true;
-        }
     }
 
     private static async Task WaitForForcefulCancellationAsync(
@@ -1506,17 +1446,6 @@ internal sealed class Command : ICommandContext
         }
     }
 
-    private static PipeTarget CreateOutputTarget(
-        BoundedCommandOutputBuffer buffer,
-        BoundedCommandOutputBuffer? completeOutputBuffer,
-        Action<string>? logLine)
-    {
-        var captureTarget = CreateCaptureTarget(buffer, completeOutputBuffer);
-        return logLine is null
-            ? captureTarget
-            : PipeTarget.Merge(captureTarget, PipeTarget.ToDelegate(logLine));
-    }
-
     private void LogCommandCompletion(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
@@ -1547,27 +1476,5 @@ internal sealed class Command : ICommandContext
                 ? string.Empty
                 : completeStandardErrorBuffer?.ToString() ?? standardError,
             workingDirectory);
-    }
-
-    private static PipeTarget CreateCaptureTarget(
-        BoundedCommandOutputBuffer buffer,
-        BoundedCommandOutputBuffer? completeOutputBuffer)
-    {
-        return PipeTarget.Create(async (stream, cancellationToken) =>
-        {
-            using var reader = new StreamReader(
-                stream,
-                Encoding.Default,
-                detectEncodingFromByteOrderMarks: true,
-                bufferSize: 4096,
-                leaveOpen: true);
-            var characters = new char[4096];
-            int charactersRead;
-            while ((charactersRead = await reader.ReadAsync(characters, cancellationToken).ConfigureAwait(false)) > 0)
-            {
-                buffer.Append(characters.AsSpan(0, charactersRead));
-                completeOutputBuffer?.Append(characters.AsSpan(0, charactersRead));
-            }
-        });
     }
 }

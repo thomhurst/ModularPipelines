@@ -1,4 +1,3 @@
-using CliWrap;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Helpers.Internal;
@@ -19,9 +18,13 @@ internal static class CliCommandFactory
             executionOptions?.EnvironmentVariables);
         if (commandScript is null)
         {
-            var directCommand = ApplyEnvironmentVariables(
-                Cli.Wrap(tool).WithArguments(argumentList),
-                executionOptions?.EnvironmentVariables);
+            var directCommand = new ProcessCommand(
+                tool,
+                argumentList,
+                CommandLineArguments.Join(argumentList),
+                ResolveWorkingDirectory(executionOptions),
+                CopyEnvironmentVariables(executionOptions?.EnvironmentVariables),
+                executionOptions?.CommandLineCredentials);
 
             return new PreparedCommand(directCommand, directCommand.ToString());
         }
@@ -46,13 +49,15 @@ internal static class CliCommandFactory
 
         var invocation = string.Join(" ", variableNames.Select(name => $"\"%{name}%\""));
 
-        var wrappedCommand = Cli.Wrap(Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe")
-            .WithArguments($"/d /s /v:off /c \"{invocation}\"")
-            .WithEnvironmentVariables(environmentVariables);
+        var wrappedCommand = new ProcessCommand(
+            Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe",
+            ArgumentList: null,
+            $"/d /s /v:off /c \"{invocation}\"",
+            ResolveWorkingDirectory(executionOptions),
+            environmentVariables,
+            executionOptions?.CommandLineCredentials);
 
-        var displayCommand = Cli.Wrap(commandScript)
-            .WithArguments(argumentList)
-            .ToString();
+        var displayCommand = $"{commandScript} {CommandLineArguments.Join(argumentList)}";
 
         return new PreparedCommand(wrappedCommand, displayCommand);
     }
@@ -60,14 +65,15 @@ internal static class CliCommandFactory
     internal static bool IsInternalEnvironmentVariable(string name) =>
         name.StartsWith(InternalEnvironmentVariablePrefix, StringComparison.OrdinalIgnoreCase);
 
-    private static Command ApplyEnvironmentVariables(
-        Command command,
+    private static string ResolveWorkingDirectory(CommandExecutionOptions? executionOptions) =>
+        executionOptions?.WorkingDirectory ?? Directory.GetCurrentDirectory();
+
+    private static Dictionary<string, string?> CopyEnvironmentVariables(
         IReadOnlyDictionary<string, string?>? environmentVariables)
     {
         return environmentVariables is null
-            ? command
-            : command.WithEnvironmentVariables(
-                environmentVariables.ToDictionary(pair => pair.Key, pair => pair.Value));
+            ? []
+            : environmentVariables.ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     private static void AddCommandValue(
@@ -117,4 +123,4 @@ internal static class CliCommandFactory
     }
 }
 
-internal readonly record struct PreparedCommand(Command Command, string Input);
+internal readonly record struct PreparedCommand(ProcessCommand Command, string Input);
