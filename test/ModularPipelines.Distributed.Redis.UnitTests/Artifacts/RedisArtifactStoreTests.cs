@@ -192,12 +192,14 @@ public class RedisArtifactStoreTests
             retryBaseDelay: TimeSpan.FromMinutes(5));
         var reference = new ArtifactReference { ArtifactId = "slow", Name = "test", ModuleId = "Test.Module", SizeBytes = 3, UploadedAt = DateTimeOffset.UtcNow };
         _mockDb.Setup(db => db.StringGetAsync(_keys.ArtifactData("slow"), It.IsAny<CommandFlags>()))
-            .Callback(() => cancellation.CancelAfter(TimeSpan.FromMilliseconds(50)))
+            .Callback(() => cancellation.CancelAfter(TimeSpan.FromSeconds(2)))
             .ThrowsAsync(new RedisTimeoutException(CommandFlags.None, "Timeout awaiting response", CommandStatus.Sent));
 
-        // The first retry would wait minutes; cancellation must end that wait instead.
+        // The first retry would wait minutes; cancellation must end that wait instead. Cancelling
+        // before the retry decision surfaces the timeout itself, so the delay leaves a cold, loaded
+        // runner time to enter the backoff first.
         await Assert.That(async () => await store.DownloadAsync(reference, cancellation.Token)
-                .WaitAsync(TimeSpan.FromSeconds(10)))
+                .WaitAsync(TimeSpan.FromSeconds(30)))
             .Throws<OperationCanceledException>();
         _mockDb.Verify(
             db => db.StringGetAsync(_keys.ArtifactData("slow"), It.IsAny<CommandFlags>()),
