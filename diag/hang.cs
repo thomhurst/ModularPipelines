@@ -8,6 +8,7 @@ var heartbeat = args[0];
 void Log(string line) => File.AppendAllText(heartbeat, $"{DateTime.UtcNow:HH:mm:ss.fff} {line}\n");
 File.WriteAllText(heartbeat, $"pid {Environment.ProcessId}\n");
 using var hup = PosixSignalRegistration.Create(PosixSignal.SIGHUP, context => { Log("received SIGHUP (cancelled)"); context.Cancel = true; });
+using var term = PosixSignalRegistration.Create(PosixSignal.SIGTERM, context => { Log("received SIGTERM (cancelled)"); context.Cancel = true; });
 using var cont = PosixSignalRegistration.Create(PosixSignal.SIGCONT, _ => Log("received SIGCONT"));
 for (var i = 1; i <= 200; i++)
 {

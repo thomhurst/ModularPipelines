@@ -59,6 +59,7 @@ jobs:
           sleep 2; ps -axo pid,ppid,user,command | grep [w]atchdog
       - name: Show ancestor process groups
         run: |
+          echo "--- /opt/hca/start_hca.sh ---"; cat /opt/hca/start_hca.sh 2>&1 | head -80; echo "--- end ---"
           pid=$$
           while [ "$pid" -gt 1 ]; do ps -o pid=,ppid=,pgid=,sess=,user=,command= -p "$pid" | cut -c1-150; pid=$(ps -o ppid= -p "$pid" | tr -d ' '); done
       - name: Run repro with a minimal environment
@@ -71,6 +72,8 @@ jobs:
           # A sibling in the job's process group that logs any SIGHUP it receives.
           ( trap 'echo "$(date -u +%T) sibling received SIGHUP" >> "$RUNNER_TEMP/heartbeat.txt"' HUP
             trap 'echo "$(date -u +%T) sibling received SIGCONT" >> "$RUNNER_TEMP/heartbeat.txt"' CONT
+            trap 'echo "$(date -u +%T) sibling received SIGTERM" >> "$RUNNER_TEMP/heartbeat.txt"' TERM
+            trap 'echo "$(date -u +%T) sibling received SIGINT" >> "$RUNNER_TEMP/heartbeat.txt"' INT
             while true; do sleep 1; done ) &
           if [ "$GROUP" = "setsid" ]; then
             # New session and process group; the step waits for the repro to finish.
