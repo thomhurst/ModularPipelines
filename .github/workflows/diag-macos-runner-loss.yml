@@ -24,13 +24,14 @@ jobs:
 
   capture:
     needs: release
-    name: capture (${{ matrix.attempt }})
+    name: capture ${{ matrix.group }} (${{ matrix.attempt }})
     runs-on: macos-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3, 4]
+        attempt: [1, 2, 3]
+        group: [shared, setsid]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-dotnet@v6.0.0
@@ -45,7 +46,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           chmod +x diag/watchdog.sh
-          label="capture-${{ matrix.attempt }}-${GITHUB_RUN_ID}"
+          label="capture-${{ matrix.group }}-${{ matrix.attempt }}-${GITHUB_RUN_ID}"
           sudo --preserve-env=GH_TOKEN,GITHUB_REPOSITORY,GITHUB_RUN_ID python3 -c '
           import os, sys
           if os.fork(): sys.exit(0)
@@ -56,9 +57,22 @@ jobs:
           os.execv(sys.argv[1], sys.argv[1:])
           ' "$PWD/diag/watchdog.sh" "$RUNNER_TEMP/heartbeat.txt" "/tmp/diag-out" "diag-runtime-131944" "$label" "$DOTNET_ROOT"
           sleep 2; ps -axo pid,ppid,user,command | grep [w]atchdog
+      - name: Show ancestor process groups
+        run: |
+          pid=$$
+          while [ "$pid" -gt 1 ]; do ps -o pid=,ppid=,pgid=,sess=,user=,command= -p "$pid" | cut -c1-150; pid=$(ps -o ppid= -p "$pid" | tr -d ' '); done
       - name: Run repro with a minimal environment
         timeout-minutes: 6
+        env:
+          GROUP: ${{ matrix.group }}
         run: |
-          env -i PATH="$PATH" HOME="$HOME" TMPDIR="$TMPDIR" DOTNET_ROOT="$DOTNET_ROOT" \
-            dotnet "$RUNNER_TEMP/hang/hang.dll" "$RUNNER_TEMP/heartbeat.txt"
-          tail -2 "$RUNNER_TEMP/heartbeat.txt"
+          cmd=(env -i PATH="$PATH" HOME="$HOME" TMPDIR="$TMPDIR" DOTNET_ROOT="$DOTNET_ROOT"
+            dotnet "$RUNNER_TEMP/hang/hang.dll" "$RUNNER_TEMP/heartbeat.txt")
+          if [ "$GROUP" = "setsid" ]; then
+            # New session and process group; the step waits for the repro to finish.
+            python3 -c 'import os, sys; os.setsid(); os.execvp(sys.argv[1], sys.argv[1:])' "${cmd[@]}" || echo "repro exited with $?"
+          else
+            "${cmd[@]}"
+          fi
+          echo "runner still alive after repro"
+          tail -3 "$RUNNER_TEMP/heartbeat.txt"

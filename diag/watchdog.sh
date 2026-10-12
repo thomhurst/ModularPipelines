@@ -21,7 +21,7 @@ while true; do
   to 60 sample "$pid" 5 -file "$out/sample-repro.txt" >> "$log" 2>&1
   to 120 spindump "$pid" 5 10 -file "$out/spindump-repro.txt" >> "$log" 2>&1
   to 120 spindump -notarget 5 10 -file "$out/spindump-system.txt" >> "$log" 2>&1
-  createdump=$(ls "$dotnet_root"/shared/Microsoft.NETCore.App/*/createdump 2>/dev/null | tail -1)
+  createdump=$(ls -d "$dotnet_root"/shared/Microsoft.NETCore.App/10.*/createdump 2>/dev/null | sort -V | tail -1)
   echo "createdump: $createdump" >> "$log"
   [ -n "$createdump" ] && to 300 "$createdump" --withheap -f "$out/repro.%p.dmp" "$pid" >> "$log" 2>&1
   stopped=$(ps -axo pid=,stat=,user= | awk '$3=="runner" && $2 ~ /T/ {print $1}' | tr '\n' ' ')
