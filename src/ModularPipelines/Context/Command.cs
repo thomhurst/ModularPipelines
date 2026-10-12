@@ -606,7 +606,7 @@ internal sealed class Command : ICommandContext
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
-        using var processTreeTerminator = new ProcessTreeTerminator();
+        using var processTreeTerminator = new ProcessTreeTerminator(_commandLogger);
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
@@ -1106,7 +1106,7 @@ internal sealed class Command : ICommandContext
         }
     }
 
-    private sealed class ProcessTreeTerminator : IDisposable
+    private sealed class ProcessTreeTerminator(ICommandLogger commandLogger) : IDisposable
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
@@ -1132,7 +1132,7 @@ internal sealed class Command : ICommandContext
                 }
             }
 
-            TryKill(process, windowsJob);
+            TryKill(process, windowsJob, ProcessTerminationReason.StartedAfterCancellation);
         }
 
         public void BeginGracefulShutdown()
@@ -1203,12 +1203,12 @@ internal sealed class Command : ICommandContext
 
             if (process is not null)
             {
-                TryKill(process, windowsJob);
+                TryKill(process, windowsJob, ProcessTerminationReason.ForcefulCancellation);
             }
 
             foreach (var descendant in descendants)
             {
-                TryKill(descendant, null);
+                TryKill(descendant, null, ProcessTerminationReason.ForcefulCancellation);
             }
         }
 
@@ -1264,7 +1264,7 @@ internal sealed class Command : ICommandContext
 
             try
             {
-                foreach (var processId in processIds.SelectMany(GetDescendantProcessIds).Distinct())
+                foreach (var processId in processIds.SelectMany(ProcessTree.GetDescendantProcessIds).Distinct())
                 {
                     Process? descendant = null;
 
@@ -1294,7 +1294,7 @@ internal sealed class Command : ICommandContext
 
                         if (killDescendant)
                         {
-                            TryKill(capturedDescendant, null);
+                            TryKill(capturedDescendant, null, ProcessTerminationReason.DescendantCapturedAfterCancellation);
                         }
                     }
                     catch (ArgumentException)
@@ -1333,56 +1333,6 @@ internal sealed class Command : ICommandContext
             }
         }
 
-        private static HashSet<int> GetDescendantProcessIds(int rootProcessId)
-        {
-            var pendingProcessIds = new Queue<int>();
-            var descendantProcessIds = new HashSet<int>();
-            pendingProcessIds.Enqueue(rootProcessId);
-
-            while (pendingProcessIds.TryDequeue(out var parentProcessId))
-            {
-                foreach (var childProcessId in GetChildProcessIds(parentProcessId))
-                {
-                    if (descendantProcessIds.Add(childProcessId))
-                    {
-                        pendingProcessIds.Enqueue(childProcessId);
-                    }
-                }
-            }
-
-            return descendantProcessIds;
-        }
-
-        private static int[] GetChildProcessIds(int parentProcessId)
-        {
-            if (OperatingSystem.IsLinux())
-            {
-                var childrenFile = $"/proc/{parentProcessId}/task/{parentProcessId}/children";
-
-                try
-                {
-                    var processIds = File.ReadAllText(childrenFile)
-                        .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
-                    return Array.ConvertAll(processIds, int.Parse);
-                }
-                catch (IOException)
-                {
-                    return [];
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return [];
-                }
-            }
-
-            if (OperatingSystem.IsMacOS())
-            {
-                return MacNativeMethods.GetChildProcessIds(parentProcessId);
-            }
-
-            return [];
-        }
-
         [SupportedOSPlatform("windows")]
         private static SafeFileHandle? TryCreateWindowsJob(Process process)
         {
@@ -1409,26 +1359,35 @@ internal sealed class Command : ICommandContext
             return null;
         }
 
-        private static void TryKill(Process process, SafeFileHandle? windowsJob)
+        private void TryKill(Process process, SafeFileHandle? windowsJob, ProcessTerminationReason reason)
         {
+            var target = DescribeProcess(process);
             try
             {
                 if (OperatingSystem.IsWindows() &&
-                    windowsJob is { IsInvalid: false, IsClosed: false } &&
-                    WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
+                    windowsJob is { IsInvalid: false, IsClosed: false })
                 {
-                    return;
+                    LogTermination(target, reason, ProcessTerminationMethod.WindowsJob);
+                    if (WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
+                    {
+                        return;
+                    }
                 }
 
-                process.Kill(entireProcessTree: true);
+                LogTermination(target, reason, ProcessTerminationMethod.ProcessTree);
+                ProcessTree.Kill(
+                    process,
+                    descendant => LogTermination(DescribeProcess(descendant), reason, ProcessTerminationMethod.SingleProcess),
+                    (descendant, exception) => LogTerminationFailure(DescribeProcess(descendant), exception));
             }
             catch (InvalidOperationException)
             {
                 // The process already exited.
             }
-            catch (Win32Exception)
+            catch (Win32Exception exception)
             {
                 // The process already exited or could not be terminated.
+                LogTerminationFailure(target, exception);
             }
             catch (NotSupportedException)
             {
@@ -1443,6 +1402,51 @@ internal sealed class Command : ICommandContext
 
         private static bool IsBestEffortKillFailure(Exception exception) =>
             exception is InvalidOperationException or Win32Exception or NotSupportedException;
+
+        // Termination runs from cancellation callbacks: a failing logger must never stop the kill.
+        private void LogTermination(
+            ProcessTerminationTarget target,
+            ProcessTerminationReason reason,
+            ProcessTerminationMethod method)
+        {
+            try
+            {
+                commandLogger.LogProcessTermination(target, reason, method);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                Trace.TraceError("Process termination logging failed: {0}", exception);
+            }
+        }
+
+        private void LogTerminationFailure(ProcessTerminationTarget target, Exception terminationException)
+        {
+            try
+            {
+                commandLogger.LogProcessTerminationFailure(target, terminationException);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                Trace.TraceError("Process termination logging failed: {0}", exception);
+            }
+        }
+
+        private static ProcessTerminationTarget DescribeProcess(Process process)
+        {
+            int? processId = null;
+            string? processName = null;
+            try
+            {
+                processId = process.Id;
+                processName = process.ProcessName;
+            }
+            catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+            {
+                // The process exited or is inaccessible; log whatever was read.
+            }
+
+            return new ProcessTerminationTarget(processId, processName);
+        }
 
         private static class WindowsNativeMethods
         {
@@ -1499,34 +1503,6 @@ internal sealed class Command : ICommandContext
                 public uint ActiveProcesses;
                 public uint TotalTerminatedProcesses;
             }
-        }
-
-        [SupportedOSPlatform("macos")]
-        private static class MacNativeMethods
-        {
-            public static int[] GetChildProcessIds(int parentProcessId)
-            {
-                var processCount = ProcListChildPids(parentProcessId, null, 0);
-                if (processCount <= 0)
-                {
-                    return [];
-                }
-
-                var processIds = new int[processCount];
-                var actualProcessCount =
-                    ProcListChildPids(parentProcessId, processIds, processIds.Length * sizeof(int));
-                return actualProcessCount > 0
-                    ? processIds[..Math.Min(actualProcessCount, processIds.Length)]
-                    : [];
-            }
-
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
-            [DllImport("libproc", EntryPoint = "proc_listchildpids")]
-            private static extern int ProcListChildPids(
-                int parentProcessId,
-                int[]? processIds,
-                int byteCount);
-#pragma warning restore SYSLIB1054
         }
     }
 

@@ -11,6 +11,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
@@ -916,6 +917,67 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_LogsEachTermination()
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+
+        commandLogger.Verify(logger => logger.LogProcessTermination(
+            It.Is<ProcessTerminationTarget>(target => target.ProcessId == parent.Id && target.ProcessName != null),
+            ProcessTerminationReason.ForcefulCancellation,
+            It.IsAny<ProcessTerminationMethod>()), Times.AtLeastOnce());
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsWhenTerminationLoggingThrows()
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        commandLogger
+            .Setup(logger => logger.LogProcessTermination(
+                It.IsAny<ProcessTerminationTarget>(),
+                It.IsAny<ProcessTerminationReason>(),
+                It.IsAny<ProcessTerminationMethod>()))
+            .Throws(new InvalidOperationException("logger failed"));
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTree_Kill_Kills_Process_And_Descendants()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+
+        ModularPipelines.Helpers.Internal.ProcessTree.Kill(parent);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+        }
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         await using var fixture = new ProcessTreeFixture();
@@ -1091,6 +1153,22 @@ public class CommandTests : TestBase
         await Assert.That(exception!.Message).Contains("parent.pid:");
         await fixture.DisposeAsync();
         await Assert.That(observer.HasExited).IsTrue();
+        await Assert.That(childObserver.HasExited).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Cleans_Up_Child_Whose_Parent_Never_Published_It()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "orphaning-parent", TimeSpan.FromMilliseconds(50));
+        await fixture.WaitForReadyAsync("child", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForProcessAsync("child.self", TimeSpan.FromSeconds(5));
+        using var childObserver = Process.GetProcessById(child.Id);
+
+        // The orphan holds the command's output pipes, so cleanup only completes if it finds the child.
+        await fixture.DisposeAsync();
+
         await Assert.That(childObserver.HasExited).IsTrue();
     }
 
