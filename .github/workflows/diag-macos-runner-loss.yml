@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         attempt: [1, 2, 3]
-        group: [shared, setsid]
+        group: [shared]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-dotnet@v6.0.0
@@ -68,6 +68,10 @@ jobs:
         run: |
           cmd=(env -i PATH="$PATH" HOME="$HOME" TMPDIR="$TMPDIR" DOTNET_ROOT="$DOTNET_ROOT"
             dotnet "$RUNNER_TEMP/hang/hang.dll" "$RUNNER_TEMP/heartbeat.txt")
+          # A sibling in the job's process group that logs any SIGHUP it receives.
+          ( trap 'echo "$(date -u +%T) sibling received SIGHUP" >> "$RUNNER_TEMP/heartbeat.txt"' HUP
+            trap 'echo "$(date -u +%T) sibling received SIGCONT" >> "$RUNNER_TEMP/heartbeat.txt"' CONT
+            while true; do sleep 1; done ) &
           if [ "$GROUP" = "setsid" ]; then
             # New session and process group; the step waits for the repro to finish.
             python3 -c 'import os, sys; os.setsid(); os.execvp(sys.argv[1], sys.argv[1:])' "${cmd[@]}" || echo "repro exited with $?"
