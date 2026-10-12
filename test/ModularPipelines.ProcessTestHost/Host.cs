@@ -21,11 +21,13 @@ public static class Host
         var role = args[0];
         var directory = args[1];
         var runtimeConfiguration = args[2];
-        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" ? "parent" : role;
-        if (name == "parent")
+        var name = role is "parent-exit" or "graceful-exit" or "grace-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" ? "parent" : role;
+        // Every fixture process publishes its own identity. A parent killed between starting a
+        // child and publishing its PID would otherwise leave an orphan that cleanup cannot find,
+        // holding the command's output pipes open.
+        using (var currentProcess = Process.GetCurrentProcess())
         {
-            using var currentProcess = Process.GetCurrentProcess();
-            Publish(directory, name + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(currentProcess)));
+            Publish(directory, name == "parent" ? "parent.pid" : name + ".self.pid", JsonSerializer.Serialize(ProcessIdentity.Capture(currentProcess)));
         }
         try
         {
@@ -58,6 +60,10 @@ public static class Host
         Publish(directory, name + ".ready", "ready");
         switch (role)
         {
+            case "orphaning-parent":
+                // Simulates a parent killed after starting a child but before publishing its PID.
+                CreateChildProcess("child", directory, runtimeConfiguration).Dispose();
+                break;
             case "graceful-exit":
                 await WaitForTrigger(directory, "parent-exit");
                 break;
@@ -106,7 +112,7 @@ public static class Host
         }
     }
 
-    private static Process StartChild(string role, string directory, string runtimeConfiguration)
+    private static Process CreateChildProcess(string role, string directory, string runtimeConfiguration)
     {
         var startInfo = new ProcessStartInfo(Environment.ProcessPath!)
         {
@@ -118,7 +124,12 @@ public static class Host
             startInfo.ArgumentList.Add(argument);
         }
 
-        var child = Process.Start(startInfo)!;
+        return Process.Start(startInfo)!;
+    }
+
+    private static Process StartChild(string role, string directory, string runtimeConfiguration)
+    {
+        var child = CreateChildProcess(role, directory, runtimeConfiguration);
         try
         {
             Publish(directory, role + ".pid", JsonSerializer.Serialize(ProcessIdentity.Capture(child)));

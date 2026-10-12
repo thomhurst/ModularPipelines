@@ -1158,6 +1158,22 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ProcessTreeFixture_Cleans_Up_Child_Whose_Parent_Never_Published_It()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "orphaning-parent", TimeSpan.FromMilliseconds(50));
+        await fixture.WaitForReadyAsync("child", TimeSpan.FromSeconds(10));
+        var child = await fixture.WaitForProcessAsync("child.self", TimeSpan.FromSeconds(5));
+        using var childObserver = Process.GetProcessById(child.Id);
+
+        // The orphan holds the command's output pipes, so cleanup only completes if it finds the child.
+        await fixture.DisposeAsync();
+
+        await Assert.That(childObserver.HasExited).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ProcessTreeFixture_Does_Not_Kill_A_Reused_Process_Id()
     {
         await using var otherFixture = new ProcessTreeFixture();

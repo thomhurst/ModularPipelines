@@ -182,7 +182,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
         if (cleanupErrors.Count > 0)
         {
-            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}.", cleanupErrors);
+            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}. {DescribeState()}", cleanupErrors);
         }
 
         Directory.Delete(DirectoryPath, recursive: true);
@@ -246,7 +246,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
         if (cleanupErrors.Count > 0)
         {
-            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}.", cleanupErrors);
+            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}. {DescribeState()}", cleanupErrors);
         }
     }
 
