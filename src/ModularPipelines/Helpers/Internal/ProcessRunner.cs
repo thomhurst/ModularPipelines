@@ -38,10 +38,19 @@ internal static class ProcessRunner
         using var process = new Process { StartInfo = command.CreateStartInfo() };
         process.Start();
         var startTime = DateTimeOffset.Now;
-        onStarted(process);
+        try
+        {
+            onStarted(process);
 
-        // Commands get no input, so tools that read standard input see its end instead of waiting.
-        CloseStandardInput(process);
+            // Commands get no input, so tools that read standard input see its end instead of waiting.
+            CloseStandardInput(process);
+        }
+        catch
+        {
+            // Disposing the Process does not end the child, and nothing would wait for it.
+            TryKill(process);
+            throw;
+        }
 
         var outputTask = ReadOutputAsync(process, process.StandardOutput.BaseStream, standardOutput);
         var errorTask = ReadOutputAsync(process, process.StandardError.BaseStream, standardError);

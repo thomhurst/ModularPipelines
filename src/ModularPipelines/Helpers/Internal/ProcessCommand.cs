@@ -60,16 +60,16 @@ internal sealed record ProcessCommand(
 
         // KillOnParentExit is deliberately not set: on .NET 11 RC1 every Windows start fails with
         // "Access is denied" when the pipeline itself runs inside a job object, as CI runners do.
-        if (Credentials is null)
+        if (Credentials is not null)
         {
-            // Pass only the standard handles, which speeds up parallel starts on Windows.
-            startInfo.InheritedHandles = [];
-        }
-        else
-        {
-            // Windows starts processes with credentials through CreateProcessWithLogonW rather than
-            // CreateProcess, so a command with credentials keeps the default handle inheritance.
             CommandLineCredentialsMapper.Apply(Credentials, startInfo);
+        }
+        else if (OperatingSystem.IsWindows())
+        {
+            // Passing only the standard handles speeds up parallel starts on Windows. Unix hosts without
+            // close_range or posix_spawn support fall back to a slow descriptor walk, so they keep the default.
+            // Credentials start through CreateProcessWithLogonW, which keeps the default inheritance.
+            startInfo.InheritedHandles = [];
         }
 
         if (OperatingSystem.IsWindows())
