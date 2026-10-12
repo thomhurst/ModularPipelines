@@ -1,5 +1,5 @@
-# Temporary diagnostic workflow: reproduces the macOS worker's build and core unit test
-# run, and streams resource snapshots to an issue comment so the state survives runner loss.
+# Temporary diagnostic workflow for #5926: tests whether the macOS runner dies because a
+# process-group kill reaches the runner, and probes proc_listchildpids return values.
 name: Diag macOS runner loss
 
 on:
@@ -11,99 +11,75 @@ permissions:
   issues: write
 
 jobs:
-  repro:
-    name: repro (${{ matrix.attempt }})
+  probe:
+    name: probe proc_listchildpids
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
+    steps:
+      - name: Probe
+        shell: bash
+        run: |
+          echo "pgid of this shell: $(ps -o pgid= -p $$)  runner listener: $(pgrep -f Runner.Listener | xargs -I{} ps -o pid=,pgid= -p {})"
+          sleep 30 & sleep 30 & sleep 30 &
+          python3 - <<'PY'
+          import ctypes, os
+          lib = ctypes.CDLL("/usr/lib/libproc.dylib")
+          f = lib.proc_listchildpids
+          f.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+          ppid = os.getppid()
+          n = f(ppid, None, 0)
+          print("null-buffer return:", n)
+          buf = (ctypes.c_int * max(n, 1))()
+          m = f(ppid, buf, ctypes.sizeof(buf))
+          print("filled return:", m, "buffer:", list(buf)[:max(n,1)])
+          PY
+
+  repro:
+    name: command tests (${{ matrix.attempt }})
+    runs-on: macos-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3, 4, 5, 6]
+        attempt: [1, 2, 3]
     env:
       MSBUILDDISABLENODEREUSE: "1"
-      DOTNET_gcServer: "0"
       GH_TOKEN: ${{ github.token }}
-      DIAG_ISSUE: "5926"
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: 10.0.x
-      - name: Install diagnostics tools
-        shell: bash
-        run: dotnet tool install --tool-path "$RUNNER_TEMP/tools" dotnet-gcdump
-      - name: Start resource sampler and memory watchdog
+      - name: Start detached sampler
         shell: bash
         run: |
-          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${DIAG_ISSUE}/comments"             -f body="repro ${{ matrix.attempt }} (run ${GITHUB_RUN_ID}): starting" --jq .id)
-          echo "comment id $comment_id"
+          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/5926/comments" \
+            -f body="pgkill repro ${{ matrix.attempt }} (run ${GITHUB_RUN_ID}): starting" --jq .id)
           cat > "$RUNNER_TEMP/sample.sh" <<'EOF'
           #!/bin/bash
-          comment_id="$1"
           log="$RUNNER_TEMP/samples.log"
-          n=0
-          dumped=0
+          echo "sampler pid $$ pgid $(ps -o pgid= -p $$) listener $(pgrep -f Runner.Listener | xargs -I{} ps -o pid=,pgid= -p {})" >> "$log"
           while true; do
-            top=$(ps -Ao pid=,rss=,comm= -m | head -1)
-            read -r top_pid top_rss top_comm <<< "$top"
-            {
-              echo "=== $(date -u +%H:%M:%S) phase=$(cat "$RUNNER_TEMP/phase" 2>/dev/null) $(sysctl -n vm.loadavg) free=$(memory_pressure 2>/dev/null | tail -1 | grep -o '[0-9]*%') procs=$(ps -A | wc -l | tr -d ' ') top=${top_pid}:$((top_rss/1024))MB:$(basename "$top_comm")"
-            } >> "$log" 2>&1
-            if [[ "$top_comm" == *UnitTests* ]]; then
-              if (( top_rss > 2097152 && dumped == 0 )); then
-                dumped=1
-                echo "WATCHDOG: gcdump of $top_pid at $((top_rss/1024))MB" >> "$log"
-                "$RUNNER_TEMP/tools/dotnet-gcdump" collect -p "$top_pid" -o "$RUNNER_TEMP/diag/heap.gcdump" > "$RUNNER_TEMP/gcdump.log" 2>&1 &
-              fi
-              if (( top_rss > 3670016 )); then
-                echo "WATCHDOG: killing $top_pid at $((top_rss/1024))MB" >> "$log"
-                kill -9 "$top_pid"
-              fi
-            fi
-            n=$((n+1))
-            if (( n % 2 == 0 )); then
-              body=$(printf 'repro %s (run %s), last samples:\n```\n%s\n```' "$ATTEMPT" "$GITHUB_RUN_ID" "$(tail -n 120 "$log")")
-              gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -f body="$body" > /dev/null 2>&1 &
-            fi
-            sleep 1
+            echo "=== $(date -u +%H:%M:%S) phase=$(cat "$RUNNER_TEMP/phase" 2>/dev/null) listener=$(pgrep -f Runner.Listener || echo DEAD) worker=$(pgrep -f Runner.Worker || echo DEAD) testhost=$(pgrep -f ModularPipelines.UnitTests | tr '\n' ',')" >> "$log"
+            body=$(printf 'pgkill repro %s (run %s):\n```\n%s\n```' "$ATTEMPT" "$GITHUB_RUN_ID" "$(tail -n 40 "$log")")
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/$1" -f body="$body" > /dev/null 2>&1 &
+            sleep 2
           done
           EOF
           chmod +x "$RUNNER_TEMP/sample.sh"
-          mkdir -p "$RUNNER_TEMP/diag"
-          ATTEMPT=${{ matrix.attempt }} nohup "$RUNNER_TEMP/sample.sh" "$comment_id" > /dev/null 2>&1 &
-          echo "restore" > "$RUNNER_TEMP/phase"
-      - name: Build core tests
-        shell: bash
-        run: |
+          # Own session and process group, so a process-group kill from the tests cannot reach it.
+          ATTEMPT=${{ matrix.attempt }} python3 -c 'import os,sys; os.setsid(); os.execv(sys.argv[1], sys.argv[1:])' "$RUNNER_TEMP/sample.sh" "$comment_id" > /dev/null 2>&1 &
           echo "build" > "$RUNNER_TEMP/phase"
-          dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
-      - name: Run core unit tests
-        continue-on-error: true
+      - name: Build core tests
+        run: dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
+      - name: Run process-tree command tests only
         shell: bash
         run: |
           echo "test" > "$RUNNER_TEMP/phase"
-          unset GITHUB_ACTIONS GITHUB_STEP_SUMMARY
-          dotnet run --configuration Release --framework net10.0 \
-            --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build \
-            -p:RunAnalyzersDuringBuild=false -p:RunAnalyzers=false -- \
-            --hangdump --hangdump-timeout 20m --report-trx \
-            --diagnostic --diagnostic-verbosity Debug --diagnostic-output-directory "$RUNNER_TEMP/diag" 2>&1 | tee "$RUNNER_TEMP/test.log"
+          for i in 1 2 3 4 5; do
+            echo "test-loop-$i" > "$RUNNER_TEMP/phase"
+            dotnet run --configuration Release --framework net10.0 \
+              --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build -- \
+              --treenode-filter "/*/*/CommandTests/*" || true
+          done
           echo "done" > "$RUNNER_TEMP/phase"
-      - name: Report
-        if: always()
-        shell: bash
-        run: |
-          sleep 5
-          grep -E "WATCHDOG" "$RUNNER_TEMP/samples.log" || echo "watchdog never fired"
-          tail -n 40 "$RUNNER_TEMP/samples.log"
-          cat "$RUNNER_TEMP/gcdump.log" 2>/dev/null
-          if [ -f "$RUNNER_TEMP/diag/heap.gcdump" ]; then "$RUNNER_TEMP/tools/dotnet-gcdump" report "$RUNNER_TEMP/diag/heap.gcdump" | head -40; fi
-          ls -la "$RUNNER_TEMP/diag"
-      - uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: diag-${{ matrix.attempt }}
-          path: |
-            ${{ runner.temp }}/diag
-            ${{ runner.temp }}/samples.log
-            ${{ runner.temp }}/test.log
