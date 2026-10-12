@@ -182,7 +182,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
         if (cleanupErrors.Count > 0)
         {
-            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}.", cleanupErrors);
+            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}. {DescribeState()}", cleanupErrors);
         }
 
         Directory.Delete(DirectoryPath, recursive: true);
@@ -224,7 +224,9 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
                 using var currentProcess = TryOpenProcess(identity);
                 if (currentProcess is { HasExited: false })
                 {
-                    currentProcess.Kill(entireProcessTree: true);
+                    // Every fixture process is tracked here, so kill each one alone: a tree kill
+                    // can freeze macOS arm64 runners (dotnet/runtime#131944).
+                    currentProcess.Kill();
                     await currentProcess.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
                 }
             }
@@ -244,7 +246,7 @@ internal sealed class ProcessTreeFixture : IAsyncDisposable
 
         if (cleanupErrors.Count > 0)
         {
-            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}.", cleanupErrors);
+            throw new AggregateException($"Process fixture cleanup failed. Diagnostics remain in {DirectoryPath}. {DescribeState()}", cleanupErrors);
         }
     }
 
