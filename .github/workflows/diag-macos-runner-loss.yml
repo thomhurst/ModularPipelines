@@ -1,5 +1,5 @@
-# Temporary diagnostic workflow: reproduces the macOS worker's build and core unit test
-# run, and streams resource snapshots to an issue comment so the state survives runner loss.
+# Temporary diagnostic workflow for #5926: compares the runtime's process-tree kill with
+# ModularPipelines' ProcessTree.Kill workaround on macOS arm64 runners.
 name: Diag macOS runner loss
 
 on:
@@ -8,80 +8,22 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 jobs:
   repro:
-    name: repro (${{ matrix.attempt }})
+    name: ${{ matrix.mode }} (${{ matrix.attempt }})
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 8
     strategy:
       fail-fast: false
       matrix:
-        attempt: [1, 2, 3, 4, 5]
-    env:
-      MSBUILDDISABLENODEREUSE: "1"
-      DOTNET_gcServer: "0"
-      GH_TOKEN: ${{ github.token }}
-      DIAG_ISSUE: "5926"
+        mode: [runtime, workaround]
+        attempt: [1, 2, 3]
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: 10.0.x
-      - name: Start resource sampler
-        shell: bash
-        run: |
-          comment_id=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${DIAG_ISSUE}/comments" \
-            -f body="ingroup repro ${{ matrix.attempt }} (run ${GITHUB_RUN_ID}): starting" --jq .id)
-          echo "comment id $comment_id"
-          cat > "$RUNNER_TEMP/sample.sh" <<'EOF'
-          #!/bin/bash
-          comment_id="$1"
-          log="$RUNNER_TEMP/samples.log"
-          n=0
-          while true; do
-            {
-              echo "=== $(date -u +%H:%M:%S) phase: $(cat "$RUNNER_TEMP/phase" 2>/dev/null)"
-              uptime
-              memory_pressure 2>/dev/null | tail -1
-              sysctl -n vm.swapusage
-              vm_stat | grep -E "Pages (free|active|wired|occupied by compressor)|Swapouts|Pageouts"
-              echo "procs: $(ps -A | wc -l)  tcp-established: $(netstat -anp tcp | grep -c ESTABLISHED)  time-wait: $(netstat -anp tcp | grep -c TIME_WAIT)  open-files: $(sysctl -n kern.num_files)"
-              df -h / "$RUNNER_TEMP" | tail -2
-              echo "top rss (KB):"
-              ps -Ao pid,ppid,rss,%cpu,etime,comm -m | head -12
-              echo "test output tail:"
-              tail -3 "$RUNNER_TEMP/test.log" 2>/dev/null | cut -c1-200
-            } >> "$log" 2>&1
-            n=$((n+1))
-            if (( n % 3 == 0 )); then
-              body=$(printf 'ingroup repro %s (run %s), last samples:\n```\n%s\n```' "$ATTEMPT" "$GITHUB_RUN_ID" "$(tail -c 60000 "$log" | tail -n 150)")
-              gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" -f body="$body" > /dev/null 2>&1 || true
-            fi
-            sleep 5
-          done
-          EOF
-          chmod +x "$RUNNER_TEMP/sample.sh"
-          ATTEMPT=${{ matrix.attempt }} nohup "$RUNNER_TEMP/sample.sh" "$comment_id" > /dev/null 2>&1 &
-          echo "restore" > "$RUNNER_TEMP/phase"
-      - name: Build core tests
-        shell: bash
-        run: |
-          echo "build" > "$RUNNER_TEMP/phase"
-          dotnet build ModularPipelines.Tests.slnf --configuration Release -p:UseSharedCompilation=false
-      - name: Run core unit tests
-        shell: bash
-        run: |
-          echo "test" > "$RUNNER_TEMP/phase"
-          unset GITHUB_ACTIONS GITHUB_STEP_SUMMARY
-          dotnet run --configuration Release --framework net10.0 \
-            --project test/ModularPipelines.UnitTests/ModularPipelines.UnitTests.csproj --no-build \
-            -p:RunAnalyzersDuringBuild=false -p:RunAnalyzers=false -- \
-            --hangdump --hangdump-timeout 20m --report-trx \
-            --diagnostic --diagnostic-verbosity Debug 2>&1 | tee "$RUNNER_TEMP/test.log"
-          echo "done" > "$RUNNER_TEMP/phase"
-      - name: Final sample
-        if: always()
-        shell: bash
-        run: sleep 20; tail -n 80 "$RUNNER_TEMP/samples.log"
+      - name: Kill 200 process trees
+        timeout-minutes: 5
+        run: dotnet run diag/repro.cs -- ${{ matrix.mode }}
