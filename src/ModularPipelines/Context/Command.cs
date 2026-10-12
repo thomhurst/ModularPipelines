@@ -1367,15 +1367,17 @@ internal sealed class Command : ICommandContext
                 if (OperatingSystem.IsWindows() &&
                     windowsJob is { IsInvalid: false, IsClosed: false })
                 {
-                    commandLogger.LogProcessTermination(target, reason, ProcessTerminationMethod.WindowsJob);
+                    LogTermination(target, reason, ProcessTerminationMethod.WindowsJob);
                     if (WindowsNativeMethods.TerminateJobObject(windowsJob, 1))
                     {
                         return;
                     }
                 }
 
-                commandLogger.LogProcessTermination(target, reason, ProcessTerminationMethod.ProcessTree);
-                ProcessTree.Kill(process);
+                LogTermination(target, reason, ProcessTerminationMethod.ProcessTree);
+                ProcessTree.Kill(
+                    process,
+                    descendant => LogTermination(DescribeProcess(descendant), reason, ProcessTerminationMethod.SingleProcess));
             }
             catch (InvalidOperationException)
             {
@@ -1384,11 +1386,39 @@ internal sealed class Command : ICommandContext
             catch (Win32Exception exception)
             {
                 // The process already exited or could not be terminated.
-                commandLogger.LogProcessTerminationFailure(target, exception);
+                LogTerminationFailure(target, exception);
             }
             catch (NotSupportedException)
             {
                 // The process is remote.
+            }
+        }
+
+        // Termination runs from cancellation callbacks: a failing logger must never stop the kill.
+        private void LogTermination(
+            ProcessTerminationTarget target,
+            ProcessTerminationReason reason,
+            ProcessTerminationMethod method)
+        {
+            try
+            {
+                commandLogger.LogProcessTermination(target, reason, method);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                Trace.TraceError("Process termination logging failed: {0}", exception);
+            }
+        }
+
+        private void LogTerminationFailure(ProcessTerminationTarget target, Exception terminationException)
+        {
+            try
+            {
+                commandLogger.LogProcessTerminationFailure(target, terminationException);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                Trace.TraceError("Process termination logging failed: {0}", exception);
             }
         }
 

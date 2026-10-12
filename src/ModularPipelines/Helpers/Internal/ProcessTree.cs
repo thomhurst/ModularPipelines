@@ -20,7 +20,11 @@ internal static class ProcessTree
     /// Kills a process and every descendant found when the call starts.
     /// </summary>
     /// <param name="process">The root of the process tree.</param>
-    public static void Kill(Process process)
+    /// <param name="onDescendantKill">
+    /// Called before each descendant is killed individually, which only happens on macOS.
+    /// Exceptions it throws are ignored so that the remaining descendants are still killed.
+    /// </param>
+    public static void Kill(Process process, Action<Process>? onDescendantKill = null)
     {
         if (!OperatingSystem.IsMacOS())
         {
@@ -29,12 +33,19 @@ internal static class ProcessTree
         }
 
         // Snapshot first: once the root dies, its children are reparented to launchd.
-        var descendantProcessIds = GetDescendantProcessIds(process.Id);
-        process.Kill();
-
-        foreach (var descendantProcessId in descendantProcessIds)
+        var descendants = CaptureProcesses(GetDescendantProcessIds(process.Id));
+        try
         {
-            TryKill(descendantProcessId);
+            process.Kill();
+        }
+        finally
+        {
+            // Kill the descendants even when the root already exited or could not be killed;
+            // the root's exception still propagates afterwards.
+            foreach (var descendant in descendants)
+            {
+                KillDescendant(descendant, onDescendantKill);
+            }
         }
     }
 
@@ -92,26 +103,55 @@ internal static class ProcessTree
         return [];
     }
 
-    private static void TryKill(int processId)
+    private static List<CapturedProcess> CaptureProcesses(IEnumerable<int> processIds)
+    {
+        var captured = new List<CapturedProcess>();
+        foreach (var processId in processIds)
+        {
+            try
+            {
+                using var process = Process.GetProcessById(processId);
+                captured.Add(new CapturedProcess(processId, process.StartTime));
+            }
+            catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
+            {
+                // The process exited while the snapshot was taken.
+            }
+        }
+
+        return captured;
+    }
+
+    private static void KillDescendant(CapturedProcess descendant, Action<Process>? onDescendantKill)
     {
         try
         {
-            using var process = Process.GetProcessById(processId);
+            using var process = Process.GetProcessById(descendant.ProcessId);
+
+            // A different start time means the snapshotted process exited and its ID was reused.
+            if (process.StartTime != descendant.StartTime)
+            {
+                return;
+            }
+
+            try
+            {
+                onDescendantKill?.Invoke(process);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                Trace.TraceError("Process termination callback failed: {0}", exception);
+            }
+
             process.Kill();
         }
-        catch (ArgumentException)
+        catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
         {
-            // The process already exited.
-        }
-        catch (InvalidOperationException)
-        {
-            // The process already exited.
-        }
-        catch (Win32Exception)
-        {
-            // The process exited or could not be terminated.
+            // The process already exited or could not be terminated.
         }
     }
+
+    private readonly record struct CapturedProcess(int ProcessId, DateTime StartTime);
 
     [SupportedOSPlatform("macos")]
     private static class MacNativeMethods

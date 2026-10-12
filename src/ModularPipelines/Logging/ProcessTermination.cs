@@ -27,8 +27,14 @@ internal enum ProcessTerminationReason
 /// </summary>
 internal enum ProcessTerminationMethod
 {
-    /// <summary>Kills the process and every descendant the runtime can find.</summary>
+    /// <summary>
+    /// Kills the process and its descendants. On macOS, descendants come from a snapshot taken
+    /// before the kill and are each logged with <see cref="SingleProcess"/>.
+    /// </summary>
     ProcessTree,
+
+    /// <summary>Kills one descendant of a process tree being killed on macOS.</summary>
+    SingleProcess,
 
     /// <summary>Terminates the Windows job object that contains the process tree.</summary>
     WindowsJob,

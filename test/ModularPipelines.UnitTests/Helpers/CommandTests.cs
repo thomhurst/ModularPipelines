@@ -938,6 +938,28 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsWhenTerminationLoggingThrows()
+    {
+        var commandLogger = new Mock<ICommandLogger>();
+        commandLogger
+            .Setup(logger => logger.LogProcessTermination(
+                It.IsAny<ProcessTerminationTarget>(),
+                It.IsAny<ProcessTerminationReason>(),
+                It.IsAny<ProcessTerminationMethod>()))
+            .Throws(new InvalidOperationException("logger failed"));
+        var (command, _) = await GetService<ICommandContext>(services =>
+            services.Replace(ServiceDescriptor.Scoped(_ => commandLogger.Object)));
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(command, "parent", TimeSpan.FromMilliseconds(50));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        fixture.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await fixture.Execution);
+        await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(2))).IsTrue();
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ProcessTree_Kill_Kills_Process_And_Descendants()
     {
         await using var fixture = new ProcessTreeFixture();
