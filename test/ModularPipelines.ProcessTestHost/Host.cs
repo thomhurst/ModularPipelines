@@ -132,7 +132,9 @@ public static class Host
                 {
                     if (!child.HasExited)
                     {
-                        child.Kill(entireProcessTree: true);
+                        // The child has not started any processes yet. A tree kill can freeze
+                        // macOS arm64 runners (dotnet/runtime#131944).
+                        child.Kill();
                     }
 
                     if (!child.WaitForExit(5000))

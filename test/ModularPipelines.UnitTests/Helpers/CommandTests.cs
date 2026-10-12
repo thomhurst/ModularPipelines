@@ -938,6 +938,24 @@ public class CommandTests : TestBase
 
     [Test]
     [RequiresTool("dotnet")]
+    public async Task ProcessTree_Kill_Kills_Process_And_Descendants()
+    {
+        await using var fixture = new ProcessTreeFixture();
+        fixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
+        var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+
+        ModularPipelines.Helpers.Internal.ProcessTree.Kill(parent);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await WaitForExitAsync(parent, TimeSpan.FromSeconds(5))).IsTrue();
+            await Assert.That(await WaitForExitAsync(child, TimeSpan.FromSeconds(5))).IsTrue();
+        }
+    }
+
+    [Test]
+    [RequiresTool("dotnet")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         await using var fixture = new ProcessTreeFixture();

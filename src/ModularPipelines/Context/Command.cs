@@ -1264,7 +1264,7 @@ internal sealed class Command : ICommandContext
 
             try
             {
-                foreach (var processId in processIds.SelectMany(GetDescendantProcessIds).Distinct())
+                foreach (var processId in processIds.SelectMany(ProcessTree.GetDescendantProcessIds).Distinct())
                 {
                     Process? descendant = null;
 
@@ -1333,56 +1333,6 @@ internal sealed class Command : ICommandContext
             }
         }
 
-        private static HashSet<int> GetDescendantProcessIds(int rootProcessId)
-        {
-            var pendingProcessIds = new Queue<int>();
-            var descendantProcessIds = new HashSet<int>();
-            pendingProcessIds.Enqueue(rootProcessId);
-
-            while (pendingProcessIds.TryDequeue(out var parentProcessId))
-            {
-                foreach (var childProcessId in GetChildProcessIds(parentProcessId))
-                {
-                    if (descendantProcessIds.Add(childProcessId))
-                    {
-                        pendingProcessIds.Enqueue(childProcessId);
-                    }
-                }
-            }
-
-            return descendantProcessIds;
-        }
-
-        private static int[] GetChildProcessIds(int parentProcessId)
-        {
-            if (OperatingSystem.IsLinux())
-            {
-                var childrenFile = $"/proc/{parentProcessId}/task/{parentProcessId}/children";
-
-                try
-                {
-                    var processIds = File.ReadAllText(childrenFile)
-                        .Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries);
-                    return Array.ConvertAll(processIds, int.Parse);
-                }
-                catch (IOException)
-                {
-                    return [];
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return [];
-                }
-            }
-
-            if (OperatingSystem.IsMacOS())
-            {
-                return MacNativeMethods.GetChildProcessIds(parentProcessId);
-            }
-
-            return [];
-        }
-
         [SupportedOSPlatform("windows")]
         private static SafeFileHandle? TryCreateWindowsJob(Process process)
         {
@@ -1425,7 +1375,7 @@ internal sealed class Command : ICommandContext
                 }
 
                 commandLogger.LogProcessTermination(target, reason, ProcessTerminationMethod.ProcessTree);
-                process.Kill(entireProcessTree: true);
+                ProcessTree.Kill(process);
             }
             catch (InvalidOperationException)
             {
@@ -1514,34 +1464,6 @@ internal sealed class Command : ICommandContext
                 public uint ActiveProcesses;
                 public uint TotalTerminatedProcesses;
             }
-        }
-
-        [SupportedOSPlatform("macos")]
-        private static class MacNativeMethods
-        {
-            public static int[] GetChildProcessIds(int parentProcessId)
-            {
-                var processCount = ProcListChildPids(parentProcessId, null, 0);
-                if (processCount <= 0)
-                {
-                    return [];
-                }
-
-                var processIds = new int[processCount];
-                var actualProcessCount =
-                    ProcListChildPids(parentProcessId, processIds, processIds.Length * sizeof(int));
-                return actualProcessCount > 0
-                    ? processIds[..Math.Min(actualProcessCount, processIds.Length)]
-                    : [];
-            }
-
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
-            [DllImport("libproc", EntryPoint = "proc_listchildpids")]
-            private static extern int ProcListChildPids(
-                int parentProcessId,
-                int[]? processIds,
-                int byteCount);
-#pragma warning restore SYSLIB1054
         }
     }
 

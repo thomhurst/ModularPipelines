@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.Distributed.SignalR.Server;
 
@@ -105,7 +106,7 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         {
             try
             {
-                _process.Kill(entireProcessTree: true);
+                ProcessTree.Kill(_process);
                 await _process.WaitForExitAsync().ConfigureAwait(false);
             }
             catch
