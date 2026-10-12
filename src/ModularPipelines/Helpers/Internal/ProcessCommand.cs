@@ -7,25 +7,30 @@ namespace ModularPipelines.Helpers.Internal;
 /// <summary>
 /// A process to start: the executable, its arguments, working directory, environment and credentials.
 /// </summary>
-/// <param name="TargetFilePath">The executable to start.</param>
+/// <param name="TargetFilePath">The executable as the caller named it, shown in the command input.</param>
 /// <param name="ArgumentList">The individual arguments, or <see langword="null"/> when <paramref name="Arguments"/> is a raw command line.</param>
 /// <param name="Arguments">The arguments as they appear on the command line.</param>
 /// <param name="WorkingDirPath">The working directory of the process.</param>
 /// <param name="EnvironmentVariables">Variables to set, or to remove when the value is <see langword="null"/>.</param>
 /// <param name="Credentials">The credentials to start the process with.</param>
+/// <param name="ResolvedFilePath">
+/// The full path to start, when it was resolved. CreateProcess searches the system directories before
+/// <c>PATH</c>, so <c>bash</c> would otherwise start WSL's <c>System32\bash.exe</c> on Windows.
+/// </param>
 internal sealed record ProcessCommand(
     string TargetFilePath,
     IReadOnlyList<string>? ArgumentList,
     string Arguments,
     string WorkingDirPath,
     IReadOnlyDictionary<string, string?> EnvironmentVariables,
-    CommandLineCredentials? Credentials)
+    CommandLineCredentials? Credentials,
+    string? ResolvedFilePath = null)
 {
     public ProcessStartInfo CreateStartInfo()
     {
         var startInfo = new ProcessStartInfo
         {
-            FileName = ResolveFileName(TargetFilePath),
+            FileName = ResolvedFilePath ?? TargetFilePath,
             WorkingDirectory = WorkingDirPath,
             RedirectStandardInput = true,
             RedirectStandardOutput = true,
@@ -82,57 +87,4 @@ internal sealed record ProcessCommand(
     }
 
     public override string ToString() => $"{TargetFilePath} {Arguments}";
-
-    /// <summary>
-    /// Resolves an extensionless Windows tool name through the pipeline's directory, its current directory and
-    /// <c>PATH</c>. CreateProcess searches the system directories before <c>PATH</c>, so <c>bash</c> would start
-    /// WSL's <c>System32\bash.exe</c> instead of the bash that <c>PATH</c> selects.
-    /// </summary>
-    internal static string ResolveFileName(string targetFilePath)
-    {
-        if (!OperatingSystem.IsWindows()
-            || Path.IsPathFullyQualified(targetFilePath)
-            || !string.IsNullOrWhiteSpace(Path.GetExtension(targetFilePath)))
-        {
-            return targetFilePath;
-        }
-
-        foreach (var directory in GetProbeDirectories())
-        {
-            if (!Directory.Exists(directory))
-            {
-                continue;
-            }
-
-            var basePath = Path.Combine(directory, targetFilePath);
-            foreach (var extension in (ReadOnlySpan<string>) ["exe", "cmd", "bat"])
-            {
-                var candidate = Path.ChangeExtension(basePath, extension);
-                if (File.Exists(candidate))
-                {
-                    return candidate;
-                }
-            }
-        }
-
-        return targetFilePath;
-    }
-
-    private static IEnumerable<string> GetProbeDirectories()
-    {
-        if (Path.GetDirectoryName(Environment.ProcessPath) is { Length: > 0 } processDirectory)
-        {
-            yield return processDirectory;
-        }
-
-        yield return Directory.GetCurrentDirectory();
-
-        foreach (var directory in Environment.GetEnvironmentVariable("PATH")?.Split(Path.PathSeparator) ?? [])
-        {
-            if (!string.IsNullOrWhiteSpace(directory))
-            {
-                yield return directory;
-            }
-        }
-    }
 }
