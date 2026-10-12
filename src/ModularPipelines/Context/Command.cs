@@ -1377,7 +1377,8 @@ internal sealed class Command : ICommandContext
                 LogTermination(target, reason, ProcessTerminationMethod.ProcessTree);
                 ProcessTree.Kill(
                     process,
-                    descendant => LogTermination(DescribeProcess(descendant), reason, ProcessTerminationMethod.SingleProcess));
+                    descendant => LogTermination(DescribeProcess(descendant), reason, ProcessTerminationMethod.SingleProcess),
+                    (descendant, exception) => LogTerminationFailure(DescribeProcess(descendant), exception));
             }
             catch (InvalidOperationException)
             {

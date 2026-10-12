@@ -24,7 +24,14 @@ internal static class ProcessTree
     /// Called before each descendant is killed individually, which only happens on macOS.
     /// Exceptions it throws are ignored so that the remaining descendants are still killed.
     /// </param>
-    public static void Kill(Process process, Action<Process>? onDescendantKill = null)
+    /// <param name="onDescendantKillFailure">
+    /// Called when the operating system rejects the kill of a descendant. The remaining
+    /// descendants are still killed.
+    /// </param>
+    public static void Kill(
+        Process process,
+        Action<Process>? onDescendantKill = null,
+        Action<Process, Exception>? onDescendantKillFailure = null)
     {
         if (!OperatingSystem.IsMacOS())
         {
@@ -44,7 +51,7 @@ internal static class ProcessTree
             // the root's exception still propagates afterwards.
             foreach (var descendant in descendants)
             {
-                KillDescendant(descendant, onDescendantKill);
+                KillDescendant(descendant, onDescendantKill, onDescendantKillFailure);
             }
         }
     }
@@ -122,7 +129,10 @@ internal static class ProcessTree
         return captured;
     }
 
-    private static void KillDescendant(CapturedProcess descendant, Action<Process>? onDescendantKill)
+    private static void KillDescendant(
+        CapturedProcess descendant,
+        Action<Process>? onDescendantKill,
+        Action<Process, Exception>? onDescendantKillFailure)
     {
         try
         {
@@ -134,20 +144,32 @@ internal static class ProcessTree
                 return;
             }
 
+            InvokeCallback(() => onDescendantKill?.Invoke(process));
             try
             {
-                onDescendantKill?.Invoke(process);
+                process.Kill();
             }
-            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            catch (Win32Exception exception)
             {
-                Trace.TraceError("Process termination callback failed: {0}", exception);
+                // The operating system rejected the kill; report it and carry on with the snapshot.
+                InvokeCallback(() => onDescendantKillFailure?.Invoke(process, exception));
             }
-
-            process.Kill();
         }
         catch (Exception exception) when (exception is ArgumentException or InvalidOperationException or Win32Exception)
         {
-            // The process already exited or could not be terminated.
+            // The process already exited or its details could not be read.
+        }
+    }
+
+    private static void InvokeCallback(Action callback)
+    {
+        try
+        {
+            callback();
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            Trace.TraceError("Process termination callback failed: {0}", exception);
         }
     }
 
