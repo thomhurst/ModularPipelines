@@ -378,10 +378,10 @@ public static partial class GeneratorUtils
         var result = sb.ToString();
 
         // Ensure the result is a valid C# identifier (must start with a letter or underscore)
-        // Handles cases like "9p" (filesystem protocol) -> "_9p"
+        // A word prefix keeps numeric names readable without inventing tool-specific semantics.
         if (result.Length > 0 && !char.IsLetter(result[0]))
         {
-            result = "_" + result;
+            result = "Number" + result;
         }
 
         return result;

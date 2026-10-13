@@ -10,6 +10,28 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class AzCliScraperTests
 {
     [Test]
+    [Arguments("--404-document", "Number404Document")]
+    [Arguments("--use-32bit-worker-process", "UseNumber32bitWorkerProcess")]
+    public async Task Digit_Leading_Option_Segments_Use_Shared_Names_Without_Changing_Switches(
+        string switchName,
+        string propertyName)
+    {
+        var command = await new TestAzCliScraper().Parse(
+            ["az", "storage", "blob", "service-properties", "update"],
+            $"""
+            Command
+                az storage blob service-properties update : Update service properties.
+
+            Arguments
+                {switchName} : The option value.
+            """);
+        var option = command!.Options.Single();
+
+        await Assert.That(option.PropertyName).IsEqualTo(propertyName);
+        await Assert.That(option.SwitchName).IsEqualTo(switchName);
+    }
+
+    [Test]
     public async Task Boolean_Accepted_Values_Require_An_Explicit_Value()
     {
         const string helpText = """

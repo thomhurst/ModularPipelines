@@ -1,5 +1,14 @@
 # ModularPipelines V4 Release Notes
 
+## Generated CLI numeric names
+
+Generated identifiers beginning with a digit now use a `Number` prefix. For example,
+`_404Document` becomes `Number404Document`; the emitted CLI switch remains
+`--404-document`. The same rule applies to digit-leading name segments:
+`Use_32bitWorkerProcess` becomes `UseNumber32bitWorkerProcess`, while
+`--use-32bit-worker-process` is unchanged. Azure static-website options remain available
+in the current generated storage service commands.
+
 ## Eksctl inherited settings
 
 `EksctlOptions` now declares `Color`, `Dumplogs`, and `Verbose` for all command
