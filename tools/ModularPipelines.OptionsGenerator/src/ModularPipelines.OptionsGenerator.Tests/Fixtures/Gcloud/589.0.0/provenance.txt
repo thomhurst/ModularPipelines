@@ -1,0 +1,32 @@
+Google Cloud SDK 589.0.0 command-removal evidence, captured 2026-10-13.
+Issues: https://github.com/thomhurst/ModularPipelines/issues/5999 and #6000.
+
+Source: official, unmodified Linux x86_64 SDK archive:
+https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-589.0.0-linux-x86_64.tar.gz
+SHA256: f865da648f6fdae2015abb5b32eaa0eb10520e88f0ca735cfb33795868c8d26f
+The archive's VERSION file and `--version` report 589.0.0 (core 2026.10.09).
+
+Invocations use Windows with Python 3.14.3, executing the archive's
+google-cloud-sdk/lib/gcloud.py directly. No component update or login was run.
+An isolated CLOUDSDK_CONFIG directory and disabled prompts, usage reporting,
+and pagers avoid dependence on user configuration. The JSON records the
+environment, every command's exact arguments, exit code, stdout, and stderr.
+Only CRLF normalization and trailing-whitespace removal were applied to output.
+
+To reproduce, extract the archive and run:
+  python google-cloud-sdk/lib/gcloud.py <arguments from each JSON response>
+with the environment recorded in the JSON (CLOUDSDK_CONFIG set to a fresh
+directory). These help commands do not invoke a cloud operation.
+
+All seven assured v2 paths reject 'v2'; all nine telco-automation paths reject
+'telco-automation', each with exit 2. Root and assured help agree with discovery;
+assured workloads, assured workloads list, and compute instances list still
+return help with exit 0. This distinguishes real absent commands from failed
+help execution or discovery. These exclusions approve only the 16 exact paths.
+
+The SDK archive's RELEASE_NOTES entries for 588.0.0 and 589.0.0 do not explicitly
+announce these removals. This evidence establishes absence in 589.0.0, without
+claiming which release first removed them or approving other descendants.
+The 587.0.0 baseline and failing 589.0.0 scrape are recorded in:
+https://github.com/thomhurst/ModularPipelines/actions/runs/38415633567/job/115359838000
+Package regeneration remains a separate deliverable in issue #6001.

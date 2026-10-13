@@ -35,6 +35,20 @@ public class CobraCliScraperTests
     }
 
     [Test]
+    [Arguments("--registries.d DIR    Registry directory.")]
+    [Arguments("--registries.d='/etc/containers/registries.d': Registry directory.")]
+    public async Task Dotted_Switches_Preserve_Spelling_And_Generate_Valid_Property_Names(string declaration)
+    {
+        var help = $"Usage: fake inspect [flags]\n\nFlags:\n  {declaration}\n  --next string    Next option.\n";
+        var command = await new TestCobraCliScraper().Parse(["fake", "inspect"], help);
+        var option = command!.Options.Single(option => option.SwitchName == "--registries.d");
+        await Assert.That(option.PropertyName).IsEqualTo("RegistriesD");
+        await Assert.That(option.CSharpType).IsEqualTo("string?");
+        await Assert.That(option.Description).IsEqualTo("Registry directory.");
+        await Assert.That(command.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--registries.d", "--next"]);
+    }
+
+    [Test]
     public async Task Empty_Short_Alias_Description_Does_Not_Consume_Indented_Option_Rows()
     {
         const string help = """
@@ -77,6 +91,47 @@ public class CobraCliScraperTests
         await Assert.That(urls.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(command.Options.Single(option => option.SwitchName == "--nodes").Description)
             .IsEqualTo("Number of nodes.");
+    }
+
+    [Test]
+    [Arguments("'", "\n")]
+    [Arguments("\"", "\n")]
+    [Arguments("'", "\r\n")]
+    [Arguments("\"", "\r\n")]
+    public async Task Multiline_Quoted_Defaults_Preserve_Descriptions_And_Adjacent_Options(string quote, string newline)
+    {
+        var helpText = $"""
+            Usage: fake status [OPTIONS]
+
+            Options:
+              --before=1: Previous option.
+              -f, --format={quote}name: name-value
+            Template:
+              --literal template content
+            host: host-value{quote}: Render the template.
+                Preserve this wrapped description.
+              --after=false: Following option.
+
+            Global Flags:
+              --verbose   Show more details
+            """.ReplaceLineEndings(newline);
+        var command = await new TestCobraCliScraper().Parse(["fake", "status"], helpText);
+        var format = command!.Options.Single(option => option.SwitchName == "--format");
+
+        await Assert.That(command.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--before", "--format", "--after", "--verbose"]);
+        await Assert.That(format.ShortForm).IsEqualTo("-f");
+        await Assert.That(format.CSharpType).IsEqualTo("string?");
+        await Assert.That(format.IsFlag).IsFalse();
+        await Assert.That(format.Description)
+            .IsEqualTo("Render the template. Preserve this wrapped description.");
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--after").Description)
+            .IsEqualTo("Following option.");
+        var namedOptions = new TestCobraCliScraper().NamedOptions(helpText);
+        await Assert.That(namedOptions.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--before", "--format", "--after"]);
+        await Assert.That(namedOptions.Single(option => option.SwitchName == "--format").Description)
+            .IsEqualTo(format.Description);
     }
 
     [Test]
@@ -254,6 +309,9 @@ public class CobraCliScraperTests
         public override string TargetNamespace => "ModularPipelines.Fake";
 
         public override string OutputDirectory => "src/ModularPipelines.Fake";
+
+        public IReadOnlyList<CliOptionDefinition> NamedOptions(string helpText) =>
+            ParseNamedOptionSection(helpText, "Options", ["status"]);
 
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {

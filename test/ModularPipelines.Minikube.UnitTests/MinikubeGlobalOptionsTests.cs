@@ -27,6 +27,37 @@ public class MinikubeGlobalOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Status_Template_Preserves_Multiline_Value_And_Local_Scope()
+    {
+        const string template = "{{.Name}}\nhost: {{.Host}}";
+        await AssertArguments(BuildArguments(new MinikubeStatusOptions
+        {
+            Profile = "ci",
+            Format = template,
+        }), [$"--format={template}", "--profile=ci"]);
+        await Assert.That(await RenderCommand(new MinikubeStatusOptions { Profile = "ci", Format = "template" }))
+            .IsEqualTo("minikube --profile=ci status --format=template");
+        await Assert.That(typeof(MinikubeStatusOptions).GetProperty(nameof(MinikubeStatusOptions.Format))!
+            .GetCustomAttribute<CliOptionAttribute>()!.ShortForm).IsEqualTo("-f");
+        await Assert.That(typeof(MinikubeOptions).GetProperty("Format")).IsNull();
+    }
+
+    [Test]
+    public async Task Config_View_Template_Preserves_Multiline_Value_And_Nested_Command()
+    {
+        const string template = "{{.ConfigKey}}:\n{{.ConfigValue}}";
+        await AssertArguments(BuildArguments(new MinikubeConfigViewOptions
+        {
+            Profile = "ci",
+            Format = template,
+        }), [$"--format={template}", "--profile=ci"]);
+        await Assert.That(await RenderCommand(new MinikubeConfigViewOptions { Profile = "ci", Format = "template" }))
+            .IsEqualTo("minikube --profile=ci config view --format=template");
+        await Assert.That(typeof(MinikubeConfigViewOptions).GetProperty(nameof(MinikubeConfigViewOptions.Format))!
+            .GetCustomAttribute<CliOptionAttribute>()!.ShortForm).IsNull();
+    }
+
+    [Test]
     public async Task Bare_Boolean_Does_Not_Consume_Command()
     {
         var command = await RenderCommand(new MinikubeConfigViewOptions { Rootless = CliOptionValue.Bare });
@@ -77,7 +108,7 @@ public class MinikubeGlobalOptionsTests : TestBase
             .Select(property => property.Name)).IsEquivalentTo(expected);
         var commands = typeof(MinikubeOptions).Assembly.GetTypes()
             .Where(type => !type.IsAbstract && typeof(MinikubeOptions).IsAssignableFrom(type)).ToArray();
-        await Assert.That(commands).Count().IsEqualTo(48);
+        await Assert.That(commands).Count().IsEqualTo(49);
         foreach (var command in commands)
         {
             foreach (var name in expected)

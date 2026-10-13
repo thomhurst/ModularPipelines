@@ -1,0 +1,13 @@
+Generate a sigstore public/private key pair
+
+Usage:
+skopeo generate-sigstore-key [command options] --output-prefix PREFIX
+
+Examples:
+skopeo generate-sigstore-key --output-prefix my-key
+
+Flags:
+  -h, --help                   help for generate-sigstore-key
+      --output-prefix PREFIX   Write the keys to PREFIX.pub and `PREFIX`.private
+      --passphrase-file PATH   Read a passphrase for the private key from PATH
+

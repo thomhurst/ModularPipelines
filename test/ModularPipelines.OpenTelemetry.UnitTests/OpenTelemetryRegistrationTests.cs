@@ -1,8 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Extensions;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
 using OpenTelemetry;
@@ -71,6 +69,8 @@ public class OpenTelemetryRegistrationTests
         var result = builder.AddOpenTelemetry();
 
         await Assert.That(result).IsSameReferenceAs(builder);
+        await Assert.That(typeof(OpenTelemetryPipelineBuilderExtensions).Namespace)
+            .IsEqualTo("ModularPipelines.OpenTelemetry");
     }
 
     private sealed class RecordingActivityProcessor : BaseProcessor<Activity>

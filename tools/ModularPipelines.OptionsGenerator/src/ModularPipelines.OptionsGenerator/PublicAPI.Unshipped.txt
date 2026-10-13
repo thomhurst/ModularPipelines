@@ -274,3 +274,7 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.Vers
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GoCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.GitCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.SkopeoCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.SkopeoCliScraper.TreatParseErrorsAsFatal.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.SkopeoCliScraper.IsSecretOption(string! propertyName, bool isFlag, string! description) -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.SkopeoCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
