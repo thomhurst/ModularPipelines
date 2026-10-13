@@ -88,14 +88,14 @@ public class OptionsClassGenerator : ICodeGenerator
             GenerateAlternateInputFactories(sb, command);
         }
 
-        GenerateProperties(
+        var emittedOptions = GenerateProperties(
             sb,
             command,
             positionalArguments,
             existingPropertyNames,
             usesExplicitRequiredConstructor,
             requiredPropertiesAreNonNullable: usesExplicitRequiredConstructor && !supportsAlternateInputModes);
-        GenerateValidation(sb, command, positionalArguments);
+        GenerateValidation(sb, command, positionalArguments, emittedOptions);
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -152,7 +152,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
     }
 
-    private static void GenerateProperties(
+    private static List<CliOptionDefinition> GenerateProperties(
         StringBuilder sb,
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
@@ -160,6 +160,8 @@ public class OptionsClassGenerator : ICodeGenerator
         bool includeRequiredProperties,
         bool requiredPropertiesAreNonNullable)
     {
+        // Primary-constructor options already have properties; explicit constructors do not.
+        List<CliOptionDefinition> emittedOptions = includeRequiredProperties ? [] : [.. command.RequiredOptions];
         // Required definitions own colliding names, including with explicit constructors.
         var alternativeProperties = command.RequiredAlternativeGroups
             .SelectMany(static group => group.PropertyNames).ToHashSet(StringComparer.Ordinal);
@@ -173,6 +175,7 @@ public class OptionsClassGenerator : ICodeGenerator
             }
             GenerateProperty(sb, option, requiredPropertiesAreNonNullable,
                 alternativeProperties.Contains(option.PropertyName));
+            emittedOptions.Add(option);
             sb.AppendLine();
         }
 
@@ -189,6 +192,8 @@ public class OptionsClassGenerator : ICodeGenerator
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
+
+        return emittedOptions;
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)
@@ -247,6 +252,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static bool RequiresCommandValidation(CliCommandDefinition command) =>
         command.RequiredAlternativeGroups.Count > 0
+        || command.Options.Any(static option => option.RejectBlankCollectionValues)
         || SupportsAlternateInputModes(command, CliPositionalArgument.MergeDuplicates(command.PositionalArguments));
 
     private static bool SupportsAlternateInputModes(
@@ -430,10 +436,11 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateValidation(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<CliPositionalArgument> positionalArguments)
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> emittedOptions)
     {
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
-        if (command.RequiredAlternativeGroups.Count == 0 && !supportsAlternateInputModes)
+        if (!RequiresCommandValidation(command))
         {
             return;
         }
@@ -441,6 +448,33 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <inheritdoc />");
         sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
+        foreach (var option in emittedOptions
+                     .Where(static option => option.RejectBlankCollectionValues))
+        {
+            // Use the ordinary non-generic view explicitly; Cast<object> can select
+            // a covariant renderer view on collections exposing multiple views.
+            sb.AppendLine($$"""
+                    if ({{option.PropertyName}} is not null)
+                    {
+                        foreach (var item in (global::System.Collections.IEnumerable){{option.PropertyName}})
+                        {
+                            if (item is not null and not string)
+                            {
+                                yield return new ValidationResult("{{option.PropertyName}} cannot contain non-string values.", [nameof({{option.PropertyName}})]);
+                                break;
+                            }
+
+                            if (string.IsNullOrWhiteSpace((string?)item))
+                            {
+                                yield return new ValidationResult("{{option.PropertyName}} cannot contain null, empty, or whitespace values.", [nameof({{option.PropertyName}})]);
+                                break;
+                            }
+                        }
+                    }
+                """);
+            sb.AppendLine();
+        }
+
         if (supportsAlternateInputModes)
         {
             List<string> alternateInputs = [];
@@ -738,7 +772,18 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
-        if (option?.GlobalOptionPropertyType == propertyType)
+        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType;
+        // Constructors materialize required collections, but forwarding properties can
+        // receive later base assignments. Retain those values for validation and rendering.
+        if ((!isRequired || forwardsToGlobal) && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
+            && (!forwardsToGlobal || option?.RejectBlankCollectionValues == true)
+            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
+        {
+            GenerateCollectionSnapshotProperty(sb, declaration, propertyType, propertyName, isRequired, option, forwardsToGlobal);
+            return;
+        }
+
+        if (forwardsToGlobal)
         {
             // Keep command-specific metadata separate while base-typed callers use the same value.
             sb.AppendLine(declaration);
@@ -749,46 +794,72 @@ public class OptionsClassGenerator : ICodeGenerator
             return;
         }
 
-        // Required collections are already materialized by their constructor. Optional
-        // alternative inputs must retain the same values for validation and rendering.
-        if (!isRequired && participatesInAlternative
-            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
-        {
-            var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
-            var preserveValuePairs = option is not null && option.CollectionSeparator is null;
-            var typedSnapshotPrefix = $"__{propertyName}Snapshot";
-            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
-            if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
-                && option.ValueSeparator != " ")
-            {
-                // The renderer checks pair format before joining the selected values.
-                // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
-                snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
-            }
-
-            sb.AppendLine(declaration);
-            sb.AppendLine("    {");
-            sb.AppendLine("        get;");
-            sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
-            sb.AppendLine("    }");
-            if (valueArity != CliOptionValueArity.Optional)
-            {
-                GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
-            }
-
-            return;
-        }
-
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
-    private static void GenerateTypedSnapshotAdapters(StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs)
+    private static void GenerateCollectionSnapshotProperty(
+        StringBuilder sb, string declaration, string propertyType, string propertyName, bool isRequired, CliOptionDefinition? option, bool forwardsToGlobal)
     {
-        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType);
+        var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
+        var preserveValuePairs = option is not null && option.CollectionSeparator is null;
+        var snapshotDeclaredValues = option?.RejectBlankCollectionValues == true;
+        var typedSnapshotPrefix = $"__{propertyName}Snapshot";
+        var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+            propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity, snapshotDeclaredValues);
+        if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
+            && option.ValueSeparator != " ")
+        {
+            // The renderer checks pair format before joining the selected values.
+            // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
+            snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+        }
+
+        var storage = forwardsToGlobal ? $"base.{propertyName}" : "field";
+        sb.AppendLine(declaration);
+        sb.AppendLine("    {");
+        sb.AppendLine(forwardsToGlobal ? $"        get => {storage};" : "        get;");
+        sb.AppendLine(forwardsToGlobal
+            ? $"        {GetPropertyAccessor(isRequired)} => {storage} = value;"
+            : $"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
+        sb.AppendLine("    }");
+        if (forwardsToGlobal)
+        {
+            // Keep a separate metadata slot while intercepting assignments through the base setter.
+            sb.AppendLine();
+            sb.AppendLine("    /// <inheritdoc />");
+            sb.AppendLine($"    protected override {propertyType} {GetGlobalCollectionSnapshotMethodName(propertyName)}({propertyType} value) =>");
+            sb.AppendLine($"        value is {{ }} values ? {snapshot} : default;");
+        }
+
+        if (valueArity != CliOptionValueArity.Optional)
+        {
+            GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs,
+                snapshotDeclaredValues);
+        }
+    }
+
+    private static void GenerateTypedSnapshotAdapters(
+        StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs, bool snapshotDeclaredValues)
+    {
+        var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType, snapshotDeclaredValues);
+        if (snapshotDeclaredValues)
+        {
+            var characterCollectionType = CliOptionDefinition.GetCharacterSnapshotCollectionType(propertyType);
+            if (characterCollectionType is not null)
+            {
+                GenerateSnapshotAdapterForCollection(sb, propertyType, typePrefix, "Characters", characterCollectionType, snapshotDeclaredValues: true);
+            }
+        }
+
         if (collectionType is null or "HashSet")
         {
             return;
+        }
+
+        if (collectionType == "IReadOnlySet" && snapshotDeclaredValues)
+        {
+            GenerateReadOnlySetSnapshotMethod(sb, propertyType, typePrefix);
+            GenerateReadOnlySetSnapshotAdapter(sb, propertyType, typePrefix);
         }
 
         foreach (var elementName in new[] { "KeyValue", "CliValuePair" })
@@ -799,23 +870,37 @@ public class OptionsClassGenerator : ICodeGenerator
                 continue;
             }
 
-            if (collectionType == "List")
-            {
+            GenerateSnapshotAdapterForCollection(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
+        }
+    }
+
+    private static void GenerateSnapshotAdapterForCollection(
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType, bool snapshotDeclaredValues)
+    {
+        switch (collectionType)
+        {
+            case "List":
                 GenerateTypedSnapshotAdapter(sb, typePrefix, elementName);
-            }
-            else
-            {
-                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType);
-            }
+                break;
+            case "ListWithDeclaredValues":
+                GenerateMutableDeclaredSnapshotAdapter(sb, propertyType, typePrefix, elementName);
+                break;
+            default:
+                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
+                break;
         }
     }
 
     private static void GenerateReadOnlyTypedSnapshotAdapter(
-        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType)
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType, bool snapshotDeclaredValues)
     {
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var elementType = GetSnapshotRendererElementType(elementName);
         var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
         var sourceType = propertyType.TrimEnd('?');
+        var retainedSource = snapshotDeclaredValues ? "_source" : "source";
+        var enumerableSource = snapshotDeclaredValues
+            ? $"((global::System.Collections.Generic.IEnumerable<{declaredElement}>)_source)"
+            : "source";
         sb.AppendLine();
         sb.AppendLine($$"""
                 private sealed class {{typePrefix}}{{elementName}}(
@@ -824,12 +909,30 @@ public class OptionsClassGenerator : ICodeGenerator
                     : {{sourceType}}, global::System.Collections.Generic.IEnumerable<{{elementType}}>
                 {
                     private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+            """);
+        if (snapshotDeclaredValues)
+        {
+            // Validation reads the declared view, independently of the renderer view.
+            sb.AppendLine(collectionType == "IReadOnlySet"
+                ? $"        private readonly {sourceType} _source = {typePrefix}Set(source);"
+                : $"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
+        }
 
-                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
-                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => source.GetEnumerator();
+        GenerateCharacterScalarSnapshot(sb, elementName);
+
+        if (collectionType != "NonGenericIEnumerable")
+        {
+            sb.AppendLine($$"""
+
+                        global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                            global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => {{enumerableSource}}.GetEnumerator();
+                """);
+        }
+
+        sb.AppendLine($$"""
 
                     global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
-                        ((global::System.Collections.IEnumerable)source).GetEnumerator();
+                        ((global::System.Collections.IEnumerable){{retainedSource}}).GetEnumerator();
 
                     global::System.Collections.Generic.IEnumerator<{{elementType}}>
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
@@ -838,27 +941,132 @@ public class OptionsClassGenerator : ICodeGenerator
         if (collectionType is "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             sb.AppendLine();
-            sb.AppendLine("        public int Count => source.Count;");
+            var count = snapshotDeclaredValues
+                ? collectionType switch { "IReadOnlySet" => "_source.Count", _ => "_source.Length" }
+                : "source.Count";
+            sb.AppendLine($"        public int Count => {count};");
         }
 
         if (collectionType == "IReadOnlyList")
         {
             sb.AppendLine();
-            sb.AppendLine($"        public {declaredElement} this[int index] => source[index];");
+            sb.AppendLine($"        public {declaredElement} this[int index] => {retainedSource}[index];");
         }
 
         if (collectionType == "IReadOnlySet")
         {
-            sb.AppendLine();
-            sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
-            foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
-            {
-                sb.AppendLine();
-                sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
-            }
+            GenerateDelegatedSetOperations(sb, declaredElement, retainedSource);
         }
 
         sb.AppendLine("    }");
+    }
+
+    private static void GenerateReadOnlySetSnapshotAdapter(StringBuilder sb, string propertyType, string typePrefix)
+    {
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}DeclaredValues({{sourceType}} source) : {{sourceType}}
+                {
+                    private readonly {{sourceType}} _values = {{typePrefix}}Set(source);
+
+                    public int Count => _values.Count;
+
+                    public global::System.Collections.Generic.IEnumerator<{{declaredElement}}> GetEnumerator() =>
+                        ((global::System.Collections.Generic.IEnumerable<{{declaredElement}}>)_values).GetEnumerator();
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+                        ((global::System.Collections.IEnumerable)_values).GetEnumerator();
+            """);
+        GenerateDelegatedSetOperations(sb, declaredElement, "_values");
+        sb.AppendLine("    }");
+    }
+
+    private static void GenerateReadOnlySetSnapshotMethod(StringBuilder sb, string propertyType, string typePrefix)
+    {
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        // IReadOnlySet does not expose equality semantics. Clone known mutable sets with their
+        // comparer; retain opaque sets consistently rather than mix live membership with copied values.
+        sb.AppendLine($$"""
+                private static {{sourceType}} {{typePrefix}}Set({{sourceType}} source) => source switch
+                {
+                    global::System.Collections.Generic.HashSet<{{declaredElement}}> set =>
+                        new global::System.Collections.Generic.HashSet<{{declaredElement}}>(
+                            global::System.Linq.Enumerable.Select(source, static item => item), set.Comparer),
+                    global::System.Collections.Generic.SortedSet<{{declaredElement}}> set =>
+                        new global::System.Collections.Generic.SortedSet<{{declaredElement}}>(
+                            global::System.Linq.Enumerable.Select(source, static item => item), set.Comparer),
+                    _ => source,
+                };
+            """);
+    }
+
+    private static void GenerateDelegatedSetOperations(StringBuilder sb, string declaredElement, string retainedSource)
+    {
+        sb.AppendLine();
+        sb.AppendLine($"        public bool Contains({declaredElement} item) => {retainedSource}.Contains(item);");
+        foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => {retainedSource}.{method}(other);");
+        }
+    }
+
+    private static void GenerateMutableDeclaredSnapshotAdapter(StringBuilder sb, string propertyType, string typePrefix, string elementName)
+    {
+        var elementType = GetSnapshotRendererElementType(elementName);
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        sb.AppendLine();
+        // Keep mutable ordinary values separate from the reusable renderer view.
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}{{elementName}}(
+                    global::System.Collections.IEnumerable source,
+                    global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
+                    : global::System.Collections.Generic.List<{{declaredElement}}>(EnumerateSource(source)),
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>,
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>
+                {
+                    private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+
+                    private static global::System.Collections.Generic.IEnumerable<{{declaredElement}}> EnumerateSource(global::System.Collections.IEnumerable source)
+                    {
+                        foreach (var item in source)
+                        {
+                            yield return ({{declaredElement}})item;
+                        }
+                    }
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() => base.GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => base.GetEnumerator();
+
+                    global::System.Collections.Generic.IEnumerator<{{elementType}}>
+                        global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
+                            ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
+            """);
+        GenerateCharacterScalarSnapshot(sb, elementName);
+        sb.AppendLine("    }");
+    }
+
+    private static string GetSnapshotRendererElementType(string elementName) =>
+        elementName == "Characters" ? "char" : $"global::ModularPipelines.Models.{elementName}";
+
+    private static void GenerateCharacterScalarSnapshot(StringBuilder sb, string elementName)
+    {
+        if (elementName != "Characters")
+        {
+            return;
+        }
+
+        // The renderer recognizes IEnumerable<char> but obtains its scalar value through ToString.
+        sb.AppendLine();
+        sb.AppendLine("        private readonly string? _scalarValue = source.ToString();");
+        sb.AppendLine();
+        sb.AppendLine("        public override string? ToString() => _scalarValue;");
     }
 
     private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
@@ -887,6 +1095,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPropertyAccessor(bool isRequired) =>
         isRequired ? "private init" : "set";
+
+    internal static string GetGlobalCollectionSnapshotMethodName(string propertyName) => $"__{propertyName}SnapshotValue";
 
     // A new slot keeps command metadata independent of the inherited command attribute.
     private static string GetPropertyModifier(string propertyName, CliOptionDefinition? option) =>

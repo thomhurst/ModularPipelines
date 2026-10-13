@@ -12,6 +12,13 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
+        if (!tool.GlobalOptionsBeforeSubcommands && tool.Commands
+                .SelectMany(static command => command.Options)
+                .Any(static option => option.RejectBlankCollectionValues))
+        {
+            tool = InheritedPropertyCollisionResolver.Resolve(tool);
+        }
+
         // Always generate a base class - it's needed even without global options
         var content = GenerateBaseOptionsClass(tool);
         var fileName = $"{tool.NamespacePrefix}Options.Generated.cs";
@@ -94,7 +101,12 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         // Properties for global options
         foreach (var option in globalOptions.OrderBy(o => o.PropertyName))
         {
-            GenerateProperty(sb, option);
+            var interceptCollectionAssignments = !tool.GlobalOptionsBeforeSubcommands && tool.Commands
+                .SelectMany(static command => command.Options)
+                .Any(local => local.RejectBlankCollectionValues
+                    && local.PropertyName == option.PropertyName && local.GlobalOptionPropertyType == option.PropertyType
+                    && CliOptionDefinition.IsCollectionType(local.PropertyType, local.IsCollection));
+            GenerateProperty(sb, option, interceptCollectionAssignments);
             sb.AppendLine();
         }
 
@@ -105,7 +117,8 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
 
     private static void GenerateProperty(
         StringBuilder sb,
-        CliOptionDefinition option)
+        CliOptionDefinition option,
+        bool interceptCollectionAssignments)
     {
         // XML documentation
         GeneratorUtils.GenerateXmlDocumentation(sb, GetDescription(option));
@@ -130,7 +143,25 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
+        if (!interceptCollectionAssignments)
+        {
+            sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
+            return;
+        }
+
+        var snapshotMethod = OptionsClassGenerator.GetGlobalCollectionSnapshotMethodName(option.PropertyName);
+        sb.AppendLine($$"""
+                public virtual {{option.PropertyType}} {{option.PropertyName}}
+                {
+                    get;
+                    set => field = {{snapshotMethod}}(value);
+                }
+
+                /// <summary>Retains values for command-specific collection validation.</summary>
+                /// <param name="value">The assigned collection.</param>
+                /// <returns>The collection retained by the global property.</returns>
+                protected virtual {{option.PropertyType}} {{snapshotMethod}}({{option.PropertyType}} value) => value;
+            """);
     }
 
     private static string? GetDescription(CliOptionDefinition option)
