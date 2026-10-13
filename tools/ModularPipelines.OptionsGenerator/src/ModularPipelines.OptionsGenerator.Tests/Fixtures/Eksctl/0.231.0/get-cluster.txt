@@ -1,0 +1,28 @@
+Get cluster(s)
+
+Usage: eksctl get cluster [flags]
+
+Aliases: cluster, clusters
+
+General flags:
+  -n, --name string          EKS cluster name
+  -A, --all-regions          List clusters across all supported regions
+  -r, --region string        AWS region. Defaults to the value set in your AWS config (~/.aws/config)
+      --chunk-size int       return large lists in chunks rather than all at once, pass 0 to disable (default 100)
+  -o, --output string        specifies the output format (valid option: table, json, yaml) (default "table")
+      --timeout duration     maximum waiting time for any long-running operation (default 25m0s)
+  -f, --config-file string   load configuration from a file (or stdin if set to '-')
+
+AWS client flags:
+  -p, --profile string   AWS credentials profile to use (defaults to the value of the AWS_PROFILE environment variable)
+
+Common flags:
+  -C, --color string   toggle colorized logs (valid options: true, false, fabulous) (default "true")
+  -d, --dumpLogs       dump logs to disk on failure if set to true
+  -h, --help           help for this command
+  -v, --verbose int    set log level, use 0 to silence, 4 for debugging and 5 for debugging with AWS debug logging (default 3)
+
+Use 'eksctl get cluster [command] --help' for more information about a command.
+
+
+For detailed docs go to https://eksctl.io/
