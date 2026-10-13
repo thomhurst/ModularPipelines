@@ -6,8 +6,8 @@ The archive SHA-256 was checked against the published checksum file:
 `version.txt` records the binary's version, commit, and build details.
 
 Each help fixture is the output of `syft <command> --help`; `root-help.txt`
-comes from `syft --help`. The eight production commands and both command groups
-are covered. Only line endings and trailing whitespace were normalized.
+comes from `syft --help`. All nine command definitions, including both command
+groups, are covered. Only line endings and trailing whitespace were normalized.
 
 The root command also runs a scan, so its Flags section mixes scan options with
 four persistent settings: `--config/-c`, `--profile`, `--quiet/-q`, and
@@ -19,8 +19,11 @@ with `syft --verbose=2 config locations --all` (exit 0).
 Scan output, cataloger selection, and source settings stay command-local.
 `config --load` does not apply to `config locations`; its `--all` flag stays local.
 Login passwords remain secret metadata on login, not inherited settings.
-Help/version control flags remain outside the shared surface. Existing command
-and version API coverage is unchanged; #5687 owns the separate version audit.
+Help/version control flags remain outside the shared surface. `version-help.txt`
+captures `syft version --help`, including its command-local `--output` option.
+The fixture executor keeps this help separate from the version metadata probe
+in `version.txt`, so traversal can generate the version command without losing
+version metadata coverage.
 
 Authoritative parser evidence:
 
