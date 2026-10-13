@@ -54,6 +54,8 @@ public class SyftCliScraperTests
         var version = tool.Commands.Single(command => command.FullCommand == "syft version");
         await Assert.That(version.Options.Select(option => option.SwitchName)).IsEquivalentTo(["--output"]);
         await Assert.That(version.Options.Single().CSharpType).IsEqualTo("string?");
+        await Assert.That(version.Options.Single().ShortForm).IsEqualTo("-o");
+        await Assert.That(version.Options.Single().IsFlag).IsFalse();
 
         var baseCode = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
         await Assert.That(baseCode).Contains("public virtual int? Verbose");
