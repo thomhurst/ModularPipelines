@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text.Json;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -155,41 +156,92 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
     }
 
     /// <summary>
-    /// Deletes every object stored for the run, including artifacts uploaded by other processes.
+    /// Deletes every object stored for the run, including artifacts uploaded by other processes. In a
+    /// versioned bucket every version and delete marker is deleted, so no data stays recoverable.
     /// </summary>
     public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(context);
 
         // The trailing separator keeps a run from matching another run whose identifier it prefixes.
+        var prefix = $"{_runPrefix}/";
+        try
+        {
+            await DeleteVersionsAsync(prefix, cancellationToken).ConfigureAwait(false);
+        }
+        catch (AmazonS3Exception exception) when (exception.StatusCode == HttpStatusCode.NotImplemented)
+        {
+            // Some S3-compatible providers, such as Cloudflare R2, have no versioning API.
+            await DeleteObjectsAsync(prefix, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    private async Task DeleteVersionsAsync(string prefix, CancellationToken cancellationToken)
+    {
+        var request = new ListVersionsRequest
+        {
+            BucketName = _bucketName,
+            Prefix = prefix,
+        };
+
+        ListVersionsResponse response;
+        do
+        {
+            response = await _s3.ListVersionsAsync(request, cancellationToken).ConfigureAwait(false);
+            await DeleteBatchAsync(
+                    [.. (response.Versions ?? []).Select(static version => new KeyVersion
+                    {
+                        Key = version.Key,
+                        VersionId = version.VersionId,
+                    })],
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            request.KeyMarker = response.NextKeyMarker;
+            request.VersionIdMarker = response.NextVersionIdMarker;
+        }
+        while (response.IsTruncated == true);
+    }
+
+    private async Task DeleteObjectsAsync(string prefix, CancellationToken cancellationToken)
+    {
         var request = new ListObjectsV2Request
         {
             BucketName = _bucketName,
-            Prefix = $"{_runPrefix}/",
+            Prefix = prefix,
         };
 
         ListObjectsV2Response response;
         do
         {
             response = await _s3.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
-            var objects = response.S3Objects ?? [];
-            if (objects.Count > 0)
-            {
-                // A listing page holds at most 1,000 keys, the DeleteObjects limit.
-                await _s3.DeleteObjectsAsync(
-                        new DeleteObjectsRequest
-                        {
-                            BucketName = _bucketName,
-                            Objects = [.. objects.Select(static s3Object => new KeyVersion { Key = s3Object.Key })],
-                            Quiet = true,
-                        },
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            }
+            await DeleteBatchAsync(
+                    [.. (response.S3Objects ?? []).Select(static s3Object => new KeyVersion { Key = s3Object.Key })],
+                    cancellationToken)
+                .ConfigureAwait(false);
 
             request.ContinuationToken = response.NextContinuationToken;
         }
         while (response.IsTruncated == true);
+    }
+
+    // A listing page holds at most 1,000 entries, the DeleteObjects limit.
+    private async Task DeleteBatchAsync(List<KeyVersion> objects, CancellationToken cancellationToken)
+    {
+        if (objects.Count == 0)
+        {
+            return;
+        }
+
+        await _s3.DeleteObjectsAsync(
+                new DeleteObjectsRequest
+                {
+                    BucketName = _bucketName,
+                    Objects = objects,
+                    Quiet = true,
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public void Dispose() => _s3.Dispose();

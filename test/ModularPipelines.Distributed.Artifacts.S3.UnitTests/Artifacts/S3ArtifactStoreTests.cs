@@ -334,13 +334,73 @@ public class S3ArtifactStoreTests
     }
 
     [Test]
-    public async Task Run_Cleanup_Deletes_Every_Page_Under_The_Run_Prefix()
+    public async Task Run_Cleanup_Deletes_Every_Version_And_Delete_Marker_Under_The_Run_Prefix()
     {
-        var listRequests = new List<(string Prefix, string? ContinuationToken)>();
+        var listRequests = new List<(string Prefix, string? KeyMarker, string? VersionIdMarker)>();
+        var deleted = new List<(string Key, string VersionId)>();
+        _mockS3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<ListVersionsRequest, CancellationToken>((request, _) =>
+                listRequests.Add((request.Prefix, request.KeyMarker, request.VersionIdMarker)))
+            .ReturnsAsync((ListVersionsRequest request, CancellationToken _) => request.KeyMarker is null
+                ? new ListVersionsResponse
+                {
+                    Versions =
+                    [
+                        new S3ObjectVersion { Key = "modpipe/artifacts/run123/A/output/1", VersionId = "v2" },
+                        new S3ObjectVersion { Key = "modpipe/artifacts/run123/A/output/1", VersionId = "v1" },
+                    ],
+                    IsTruncated = true,
+                    NextKeyMarker = "modpipe/artifacts/run123/A/output/1",
+                    NextVersionIdMarker = "v1",
+                }
+                : new ListVersionsResponse
+                {
+                    Versions =
+                    [
+                        new S3ObjectVersion
+                        {
+                            Key = "modpipe/artifacts/run123/A/meta/1.json",
+                            VersionId = "marker",
+                            IsDeleteMarker = true,
+                        },
+                    ],
+                    IsTruncated = false,
+                });
+        _mockS3.Setup(s => s.DeleteObjectsAsync(It.IsAny<DeleteObjectsRequest>(), It.IsAny<CancellationToken>()))
+            .Callback<DeleteObjectsRequest, CancellationToken>((request, _) =>
+                deleted.AddRange(request.Objects.Select(item => (item.Key, item.VersionId))))
+            .ReturnsAsync(new DeleteObjectsResponse());
+
+        await _store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        List<(string, string?, string?)> expectedListRequests =
+        [
+            ("modpipe/artifacts/run123/", null, null),
+            ("modpipe/artifacts/run123/", "modpipe/artifacts/run123/A/output/1", "v1"),
+        ];
+        List<(string, string)> expectedDeleted =
+        [
+            ("modpipe/artifacts/run123/A/output/1", "v2"),
+            ("modpipe/artifacts/run123/A/output/1", "v1"),
+            ("modpipe/artifacts/run123/A/meta/1.json", "marker"),
+        ];
+        await Assert.That(listRequests).IsEquivalentTo(expectedListRequests);
+        await Assert.That(deleted).IsEquivalentTo(expectedDeleted);
+        _mockS3.Verify(s => s.DeleteObjectsAsync(
+            It.Is<DeleteObjectsRequest>(request => request.BucketName == "test-bucket"),
+            It.IsAny<CancellationToken>()), Times.Exactly(2));
+        _mockS3.Verify(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
+    public async Task Run_Cleanup_Falls_Back_To_Object_Listing_Without_A_Versioning_Api()
+    {
         var deletedKeys = new List<string>();
+        _mockS3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new AmazonS3Exception("Not implemented") { StatusCode = HttpStatusCode.NotImplemented });
         _mockS3.Setup(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
-            .Callback<ListObjectsV2Request, CancellationToken>((request, _) =>
-                listRequests.Add((request.Prefix, request.ContinuationToken)))
             .ReturnsAsync((ListObjectsV2Request request, CancellationToken _) => request.ContinuationToken is null
                 ? new ListObjectsV2Response
                 {
@@ -355,37 +415,29 @@ public class S3ArtifactStoreTests
                 });
         _mockS3.Setup(s => s.DeleteObjectsAsync(It.IsAny<DeleteObjectsRequest>(), It.IsAny<CancellationToken>()))
             .Callback<DeleteObjectsRequest, CancellationToken>((request, _) =>
-            {
-                deletedKeys.AddRange(request.Objects.Select(item => item.Key));
-            })
+                deletedKeys.AddRange(request.Objects.Select(item => item.Key)))
             .ReturnsAsync(new DeleteObjectsResponse());
 
         await _store.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true },
             CancellationToken.None);
 
-        List<(string, string?)> expectedListRequests =
-        [
-            ("modpipe/artifacts/run123/", null),
-            ("modpipe/artifacts/run123/", "page-2"),
-        ];
         List<string> expectedDeletedKeys =
         [
             "modpipe/artifacts/run123/A/output/1",
             "modpipe/artifacts/run123/A/meta/1.json",
         ];
-        await Assert.That(listRequests).IsEquivalentTo(expectedListRequests);
         await Assert.That(deletedKeys).IsEquivalentTo(expectedDeletedKeys);
-        _mockS3.Verify(s => s.DeleteObjectsAsync(
-            It.Is<DeleteObjectsRequest>(request => request.BucketName == "test-bucket"),
+        _mockS3.Verify(s => s.ListObjectsV2Async(
+            It.Is<ListObjectsV2Request>(request => request.Prefix == "modpipe/artifacts/run123/"),
             It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
     [Test]
     public async Task Run_Cleanup_Of_An_Empty_Run_Deletes_Nothing()
     {
-        _mockS3.Setup(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ListObjectsV2Response { S3Objects = null, IsTruncated = false });
+        _mockS3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ListVersionsResponse { Versions = null, IsTruncated = false });
 
         await _store.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true },

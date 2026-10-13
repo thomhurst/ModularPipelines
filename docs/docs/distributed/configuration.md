@@ -197,7 +197,7 @@ The built-in backends clean up as follows:
 |---------|---------|
 | Redis coordinator | Every run coordination key except the completion flag, which expires with `TimeToLive` so a worker that starts late sees a completed master and exits. |
 | Redis artifact store | Every artifact uploaded in the run, by any process, and the indexes that list them. |
-| S3 artifact store | Every object under `{KeyPrefix}/artifacts/{RunId}/`. |
+| S3 artifact store | Every object under `{KeyPrefix}/artifacts/{RunId}/`. In a versioned bucket it deletes every version and delete marker, so no artifact stays recoverable. Providers without a versioning API, such as Cloudflare R2, fall back to deleting the current objects. |
 | Redis master discovery | The endpoint and access token this master advertised. |
 
 To make a custom coordinator, artifact store or discovery service clean up, implement `IDistributedRunCleanup` on it.
