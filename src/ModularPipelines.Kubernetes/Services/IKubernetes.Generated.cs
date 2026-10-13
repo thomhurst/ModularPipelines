@@ -201,7 +201,7 @@ public partial interface IKubernetes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> PatchAsync(KubernetesPatchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> PatchAsync(KubernetesPatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -241,7 +241,7 @@ public partial interface IKubernetes
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ScaleAsync(KubernetesScaleOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+    public Task<CommandResult> ScaleAsync(KubernetesScaleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
@@ -262,6 +262,16 @@ public partial interface IKubernetes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public Task<CommandResult> UncordonAsync(KubernetesUncordonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// Print the client and server version information for the current context.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> VersionAsync(KubernetesVersionOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
         => throw new System.NotSupportedException();
 
     /// <summary>
