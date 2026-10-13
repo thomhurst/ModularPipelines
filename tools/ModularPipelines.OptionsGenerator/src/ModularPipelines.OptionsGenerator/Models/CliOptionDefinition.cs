@@ -274,13 +274,19 @@ public record CliOptionDefinition
         }
 
         var readOnlyCollectionType = GetReadOnlySnapshotCollectionType(propertyType);
+        if (snapshotDeclaredValues && elementType.SpecialType == SpecialType.System_String
+            && IsMutableListCollection(compilation, propertyType, elementType))
+        {
+            return "ListWithDeclaredValues";
+        }
+
         if (elementType.SpecialType != SpecialType.System_Object
             || (snapshotDeclaredValues && readOnlyCollectionType is not null))
         {
             return readOnlyCollectionType;
         }
 
-        if (IsMutableObjectCollection(compilation, propertyType, elementType))
+        if (IsMutableListCollection(compilation, propertyType, elementType))
         {
             return snapshotDeclaredValues ? "ListWithDeclaredValues" : "List";
         }
@@ -322,20 +328,15 @@ public record CliOptionDefinition
             : null;
     }
 
-    private static bool IsMutableObjectCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
+    private static bool IsMutableListCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
     {
-        if (elementType.SpecialType != SpecialType.System_Object)
-        {
-            return false;
-        }
-
         if (IsMutableCollectionInterface(compilation, propertyType))
         {
             return true;
         }
 
-        var objectListType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
-        return SymbolEqualityComparer.Default.Equals(propertyType, objectListType);
+        var listType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        return SymbolEqualityComparer.Default.Equals(propertyType, listType);
     }
 
     private static string GetOptionalSnapshotExpression(

@@ -111,16 +111,8 @@ public partial class RequiredConstructorValidationTests
                 .IsEquivalentTo(expected);
         }
 
-        if (collectionType == "List<string>?")
-        {
-            // Mutable contracts retain incompatible typed views rather than replace the source.
-            await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
-        }
-        else
-        {
-            await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
-            await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
-        }
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
     }
 
     [Test]
@@ -624,20 +616,23 @@ public partial class RequiredConstructorValidationTests
 
     [Test]
     [MatrixDataSource]
-    public async Task Validated_Mutable_Object_Collections_Preserve_Ordinary_And_Renderer_Views(
-        [Matrix("IList<object>?", "ICollection<object>?", "List<object>?", "System.Collections.IList?")] string collectionType,
+    public async Task Validated_Mutable_Collections_Preserve_Ordinary_And_Renderer_Views(
+        [Matrix("IList<object>?", "ICollection<object>?", "List<object>?", "System.Collections.IList?",
+            "IList<string>?", "ICollection<string>?", "List<string>?")] string collectionType,
         [Matrix(false, true)] bool joined,
-        [Matrix(false, true)] bool inherited,
+        [Matrix(0, 1, 2)] int assignment,
         [Matrix(null, "", " ", "valid")] string? entry)
     {
         var separator = joined ? "," : null;
         var generated = await GenerateValidatedStringCollection(collectionType: collectionType,
-            collectionSeparator: separator, inherited: inherited);
+            collectionSeparator: separator, inherited: assignment != 0);
         var options = Compile(generated)
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
-        var input = new MutableObjectRendererViews(entry);
-        var property = options.GetProperty("Values")!;
+        object input = collectionType.Contains("string", StringComparison.Ordinal)
+            ? new MutableStringRendererViews(entry)
+            : new MutableObjectRendererViews(entry);
+        var property = (assignment == 2 ? options.BaseType! : options).GetProperty("Values")!;
         property.SetValue(instance, input);
         var retained = (System.Collections.IList) property.GetValue(instance)!;
         for (var pass = 0; pass < 2; pass++)
@@ -657,14 +652,135 @@ public partial class RequiredConstructorValidationTests
         string[] renderedAfterMutation = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
         await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
             .IsEquivalentTo(renderedAfterMutation);
-        if (inherited)
+        if (assignment != 0)
         {
             await Assert.That(options.BaseType!.GetProperty("Values")!.GetValue(instance)).IsSameReferenceAs(retained);
+        }
+
+        var counts = input is MutableStringRendererViews strings
+            ? (strings.OrdinaryEnumerationCount, strings.PairEnumerationCount, strings.KeyValueEnumerationCount)
+            : (((MutableObjectRendererViews) input).OrdinaryEnumerationCount,
+                ((MutableObjectRendererViews) input).PairEnumerationCount, ((MutableObjectRendererViews) input).KeyValueEnumerationCount);
+        await Assert.That(counts.OrdinaryEnumerationCount).IsEqualTo(1);
+        await Assert.That(counts.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(counts.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+    }
+
+    private sealed class MutableStringRendererViews(string? entry) : List<string>(["first", entry!]),
+        IEnumerable<string>, IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public int OrdinaryEnumerationCount { get; private set; }
+        public int PairEnumerationCount { get; private set; }
+        public int KeyValueEnumerationCount { get; private set; }
+
+        IEnumerator<string> IEnumerable<string>.GetEnumerator() => OrdinaryValues();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => OrdinaryValues();
+
+        private IEnumerator<string> OrdinaryValues()
+        {
+            if (++OrdinaryEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("Ordinary input can only be enumerated once.");
+            }
+
+            return base.GetEnumerator();
+        }
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++PairEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            if (++KeyValueEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Mutable_String_Renderer_Snapshot_Is_Opt_In(
+        [Matrix("List<string>?", "IList<string>?", "ICollection<string>?")] string collectionType,
+        [Matrix(false, true)] bool joined,
+        [Matrix(0, 1, 2)] int assignment)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(rejectBlank: false,
+                collectionType: collectionType, collectionSeparator: separator, inherited: assignment != 0))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new MutableStringRendererViews("valid");
+        var property = (assignment == 2 ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, input);
+        await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+        await Assert.That(input.OrdinaryEnumerationCount).IsEqualTo(0);
+        string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+        await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+            .IsEquivalentTo(expected);
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Required_Mutable_String_Renderer_Snapshots_Intercept_Base_Assignments(
+        [Matrix("List<string>?", "IList<string>?", "ICollection<string>?")] string collectionType,
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool factory,
+        [Matrix(null, "valid")] string? entry)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: collectionType,
+                collectionSeparator: separator, inherited: true, required: true))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = factory
+            ? options.GetMethod("FromCliInputJson")!.Invoke(null, ["{}"])!
+            : Activator.CreateInstance(options, [new List<string> { "initial" }])!;
+        var input = new MutableStringRendererViews(entry);
+        options.BaseType!.GetProperty("Values")!.SetValue(instance, input);
+        var retained = (IList<string>) options.GetProperty("Values")!.GetValue(instance)!;
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(retained).IsEquivalentTo(["first", entry]);
+            string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
         }
 
         await Assert.That(input.OrdinaryEnumerationCount).IsEqualTo(1);
         await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
         await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_Object_Collections_Report_Non_String_Entries(
+        [Matrix("IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?",
+            "List<object>?", "IList<object>?", "ICollection<object>?", "System.Collections.IEnumerable?",
+            "System.Collections.IList?")] string collectionType,
+        [Matrix(0, 1, 2)] int assignment)
+    {
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: collectionType,
+                inherited: assignment != 0)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var property = (assignment == 2 ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, new List<object> { "first", 42 });
+        for (var pass = 0; pass < 2; pass++)
+        {
+            var error = ((IValidatableObject) instance).Validate(new(instance)).Single();
+            await Assert.That(error.ErrorMessage).IsEqualTo("Values cannot contain non-string values.");
+            await Assert.That(error.MemberNames).IsEquivalentTo(["Values"]);
+        }
     }
 
     private sealed class MutableObjectRendererViews(string? entry) : List<object>(["first", entry!]),

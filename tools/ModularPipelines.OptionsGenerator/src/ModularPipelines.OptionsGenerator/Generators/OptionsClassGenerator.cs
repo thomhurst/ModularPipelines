@@ -451,10 +451,27 @@ public class OptionsClassGenerator : ICodeGenerator
         foreach (var option in emittedOptions
                      .Where(static option => option.RejectBlankCollectionValues))
         {
-            sb.AppendLine($"        if ({option.PropertyName} is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<string>((global::System.Collections.IEnumerable){option.PropertyName}), static item => string.IsNullOrWhiteSpace(item)))");
-            sb.AppendLine("        {");
-            sb.AppendLine($"            yield return new ValidationResult(\"{option.PropertyName} cannot contain null, empty, or whitespace values.\", [nameof({option.PropertyName})]);");
-            sb.AppendLine("        }");
+            // Use the ordinary non-generic view explicitly; Cast<object> can select
+            // a covariant renderer view on collections exposing multiple views.
+            sb.AppendLine($$"""
+                    if ({{option.PropertyName}} is not null)
+                    {
+                        foreach (var item in (global::System.Collections.IEnumerable){{option.PropertyName}})
+                        {
+                            if (item is not null and not string)
+                            {
+                                yield return new ValidationResult("{{option.PropertyName}} cannot contain non-string values.", [nameof({{option.PropertyName}})]);
+                                break;
+                            }
+
+                            if (string.IsNullOrWhiteSpace((string?)item))
+                            {
+                                yield return new ValidationResult("{{option.PropertyName}} cannot contain null, empty, or whitespace values.", [nameof({{option.PropertyName}})]);
+                                break;
+                            }
+                        }
+                    }
+                """);
             sb.AppendLine();
         }
 
@@ -825,16 +842,13 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType, snapshotDeclaredValues);
-        var characterCollectionType = snapshotDeclaredValues
-            ? CliOptionDefinition.GetCharacterSnapshotCollectionType(propertyType)
-            : null;
-        if (characterCollectionType == "ListWithDeclaredValues")
+        if (snapshotDeclaredValues)
         {
-            GenerateMutableDeclaredSnapshotAdapter(sb, propertyType, typePrefix, "Characters");
-        }
-        else if (characterCollectionType is not null)
-        {
-            GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, "Characters", characterCollectionType, snapshotDeclaredValues: true);
+            var characterCollectionType = CliOptionDefinition.GetCharacterSnapshotCollectionType(propertyType);
+            if (characterCollectionType is not null)
+            {
+                GenerateSnapshotAdapterForCollection(sb, propertyType, typePrefix, "Characters", characterCollectionType, snapshotDeclaredValues: true);
+            }
         }
 
         if (collectionType is null or "HashSet")
@@ -856,18 +870,24 @@ public class OptionsClassGenerator : ICodeGenerator
                 continue;
             }
 
-            if (collectionType == "List")
-            {
+            GenerateSnapshotAdapterForCollection(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
+        }
+    }
+
+    private static void GenerateSnapshotAdapterForCollection(
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType, bool snapshotDeclaredValues)
+    {
+        switch (collectionType)
+        {
+            case "List":
                 GenerateTypedSnapshotAdapter(sb, typePrefix, elementName);
-            }
-            else if (collectionType == "ListWithDeclaredValues")
-            {
+                break;
+            case "ListWithDeclaredValues":
                 GenerateMutableDeclaredSnapshotAdapter(sb, propertyType, typePrefix, elementName);
-            }
-            else
-            {
+                break;
+            default:
                 GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
-            }
+                break;
         }
     }
 
