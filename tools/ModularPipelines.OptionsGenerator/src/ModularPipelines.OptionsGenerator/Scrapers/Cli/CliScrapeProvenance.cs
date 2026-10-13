@@ -21,7 +21,7 @@ internal sealed class CliScrapeProvenance
     /// <summary>
     /// Help paths whose latest invocation never produced a real response: it timed out after
     /// every retry, was rejected by the circuit breaker, or its process could not execute.
-    /// Required supplemental manuals and usage also count as unavailable when empty or unsuccessful.
+    /// Required discovery, supplemental manuals and usage also count as unavailable when empty or unsuccessful.
     /// Those commands are unavailable in this scrape rather than absent from the tool, so
     /// coverage validation must not report them as removals.
     /// </summary>
@@ -54,7 +54,9 @@ internal sealed class CliScrapeProvenance
             Unavailable = result.Unavailable || (helpKind == CliHelpKind.Manual
                 && (!result.Success || string.IsNullOrWhiteSpace(result.StandardOutput)))
                 || (helpKind == CliHelpKind.Usage
-                    && (result.ExitCode is not (0 or 129) || string.IsNullOrWhiteSpace(result.CombinedOutput))),
+                    && (result.ExitCode is not (0 or 129) || string.IsNullOrWhiteSpace(result.CombinedOutput)))
+                || (helpKind == CliHelpKind.Discovery
+                    && (!result.Success || string.IsNullOrWhiteSpace(result.CombinedOutput))),
         };
         if (helpKind == CliHelpKind.Manual)
         {
@@ -185,6 +187,7 @@ internal enum CliHelpKind
     Help,
     Manual,
     Usage,
+    Discovery,
 }
 
 internal sealed record CliHelpInvocation
