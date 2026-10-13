@@ -970,3 +970,12 @@ options type. Empty calls do not compile when the generated options parameter is
 required; compatibility overloads are not retained for commands that require input.
 `Edit.Add.PatchAsync()` and `Edit.Remove.PatchAsync()` still compile because their
 options parameters default to `null`.
+
+## Go working-directory options
+
+All generated Go commands now inherit `GoOptions.WorkingDirectory`, rendered as
+`-C` before the command path. Replace command-specific `C` or `UpperC` directory
+properties with `WorkingDirectory`; reflection must include inherited properties.
+Lowercase `-c` remains a command-local flag, and `GoTestOptions.Args` still passes
+its values after package operands. Shared build flags remain limited to commands
+that support them. See the [Go migration guidance](docs/docs/mp-packages/go.md#migration).
