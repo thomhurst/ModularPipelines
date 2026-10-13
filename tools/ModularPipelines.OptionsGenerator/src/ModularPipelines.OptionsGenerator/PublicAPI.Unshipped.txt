@@ -261,3 +261,4 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.ApplyOpti
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.NormalizeOptionDescription(string! description) -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.TreatParseErrorsAsFatal.get -> bool
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GitCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!

@@ -7,7 +7,7 @@ using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
-public class GitCliScraperTests
+public partial class GitCliScraperTests
 {
     [Test]
     public async Task Tool_Definition_Preserves_The_Hand_Written_Grouped_Facade()
@@ -410,6 +410,8 @@ public class GitCliScraperTests
         {
         }
 
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText) =>
             ParseCommandAsync(
                 commandPath,
@@ -427,6 +429,7 @@ public class GitCliScraperTests
             string? workingDirectory = null) =>
             Task.FromResult(arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result(
                     "Main Porcelain Commands\n   switch                  Switch branches"),
                 "switch -h" => Result(
@@ -471,6 +474,7 @@ public class GitCliScraperTests
             return Task.FromResult(arguments switch
             {
                 "init --quiet" => Result(string.Empty),
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result(
                     "Main Porcelain Commands\n"
                     + "   stash                   Stash changes\n"
@@ -519,6 +523,7 @@ public class GitCliScraperTests
             cancellationToken.ThrowIfCancellationRequested();
             return arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result("Main Porcelain Commands\n   stash                   Stash changes"),
                 "stash -h" => Result("usage: git stash\n   or: git stash pop [--index]"),
                 "stash pop -h" => Result("usage: git stash pop [--index]"),
@@ -535,7 +540,7 @@ public class GitCliScraperTests
     private sealed class StubHelpTextCache : IHelpTextCache
     {
         private readonly Dictionary<string, string> _entries =
-            new(StringComparer.OrdinalIgnoreCase);
+            [with(StringComparer.OrdinalIgnoreCase)];
 
         public bool TryGet(string cacheKey, out string? helpText) =>
             _entries.TryGetValue(cacheKey, out helpText);
