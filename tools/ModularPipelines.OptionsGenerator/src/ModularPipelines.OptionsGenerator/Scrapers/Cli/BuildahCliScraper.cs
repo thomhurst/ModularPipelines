@@ -58,7 +58,9 @@ public partial class BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCa
         // Current Buildah templates omit inherited help rows. Validate and remove
         // them only when an explicit Global Flags section exposes them in future.
         var globals = EffectiveGlobalOptions;
-        var inherited = ParseNamedOptionSection(helpText, "Global Flags", commandParts)
+        // Inherited enum names must match the root scope while their values still
+        // come from the command's help, so conflicting definitions remain fatal.
+        var inherited = ParseNamedOptionSection(helpText, "Global Flags", [])
             .Where(option => globals.Any(global => global.SwitchName == option.SwitchName))
             .Select(NormalizeMappingOption).ToArray();
         CliGlobalOptionMerger.Merge(globals, inherited);
@@ -70,9 +72,13 @@ public partial class BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCa
         var localSwitches = ParseNamedOptionSection(helpText, "Flags", commandParts)
             .Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
         var inheritedSwitches = inherited.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
+        var options = command.Options
+            .Where(option => localSwitches.Contains(option.SwitchName) || !inheritedSwitches.Contains(option.SwitchName))
+            .ToArray();
         return command with
         {
-            Options = [.. command.Options.Where(option => localSwitches.Contains(option.SwitchName) || !inheritedSwitches.Contains(option.SwitchName))],
+            Options = options,
+            Enums = [.. options.Where(option => option.EnumDefinition is not null).Select(option => option.EnumDefinition!)],
         };
     }
 

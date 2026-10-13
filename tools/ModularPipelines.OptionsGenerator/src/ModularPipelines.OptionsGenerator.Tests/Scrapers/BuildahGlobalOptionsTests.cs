@@ -85,6 +85,66 @@ public class BuildahGlobalOptionsTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Explicit_Inherited_Enums_Use_Root_Scope_And_Validate_Values(bool conflict)
+    {
+        var scraper = new TestScraper();
+        await scraper.ScrapeAsync().ToListAsync();
+        var logLevelRow = Fixture("root-help").Split('\n')
+            .Single(line => line.Contains("--log-level", StringComparison.Ordinal));
+        if (conflict)
+        {
+            logLevelRow = logLevelRow.Replace("\"trace\"", "\"verbose\"", StringComparison.Ordinal);
+        }
+
+        var help = $"Usage: buildah images [flags]\n\nGlobal Flags:\n{logLevelRow}\n";
+        if (conflict)
+        {
+            await Assert.That(async () => await scraper.Parse(help)).Throws<InvalidOperationException>();
+        }
+        else
+        {
+            var command = await scraper.Parse(help);
+            await Assert.That(command!.Options).IsEmpty();
+            await Assert.That(command.Enums).IsEmpty();
+            await Assert.That(scraper.CreateToolDefinition().GlobalOptions.Single(option => option.SwitchName == "--log-level")
+                .EnumDefinition!.EnumName).IsEqualTo("BuildahLogLevel");
+            var enums = await new EnumGenerator().GenerateAsync(scraper.CreateToolDefinition() with { Commands = [command] });
+            await Assert.That(enums.Select(file => Path.GetFileName(file.RelativePath)))
+                .IsEquivalentTo(["BuildahLogLevel.Generated.cs"]);
+        }
+    }
+
+    [Test]
+    public async Task Explicit_Inherited_Enums_Preserve_Local_And_Group_Enums()
+    {
+        var scraper = new TestScraper();
+        await scraper.ScrapeAsync().ToListAsync();
+        var logLevelRow = Fixture("root-help").Split('\n')
+            .Single(line => line.Contains("--log-level", StringComparison.Ordinal));
+        var command = await scraper.Parse($"""
+            Usage: buildah images [flags]
+
+            Flags:
+              --log-level string    Local log level, one of "debug", "info"
+
+            Global Flags:
+            {logLevelRow}
+              --group-level string    Group log level, one of "debug", "info"
+            """);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--log-level", "--group-level"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--log-level").Description)
+            .StartsWith("Local log level");
+        await Assert.That(command.Enums).Count().IsEqualTo(2);
+        await Assert.That(command.Enums.Any(definition => definition.EnumName == "BuildahLogLevel")).IsFalse();
+        await Assert.That(scraper.CreateToolDefinition().GlobalOptions.Any(option => option.SwitchName == "--group-level"))
+            .IsFalse();
+    }
+
+    [Test]
     public async Task Explicit_Inherited_Rows_Do_Not_Remove_Local_Overrides_Or_Group_Settings()
     {
         var scraper = new TestScraper();
