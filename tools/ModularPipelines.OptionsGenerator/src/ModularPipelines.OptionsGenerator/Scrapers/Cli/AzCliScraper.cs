@@ -249,12 +249,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         // Get the first subcommand for grouping (e.g., "account" for "az account show")
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
 
-        // Parse description from help text
-        var description = ExtractDescription(helpText);
-        if (commandParts[0] is "artifacts" or "boards" or "devops" or "pipelines" or "repos")
-        {
-            description = $"{description} Requires the azure-devops extension (az extension add --name azure-devops).".TrimStart();
-        }
+        var description = ExtractCommandDescription(commandParts, helpText);
 
         // Parse options from the help text
         var options = ParseOptions(helpText, argumentShapes);
@@ -297,6 +292,17 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         };
 
         return Task.FromResult<CliCommandDefinition?>(command);
+    }
+
+    private static string? ExtractCommandDescription(string[] commandParts, string helpText)
+    {
+        var description = ExtractDescription(helpText);
+        if (commandParts[0] is "artifacts" or "boards" or "devops" or "pipelines" or "repos")
+        {
+            description = $"{description} Requires the azure-devops extension (az extension add --name azure-devops).".TrimStart();
+        }
+
+        return description;
     }
 
     private static IReadOnlyDictionary<string, AzArgumentMetadata>? ExtractArgumentShapes(ref string helpText)
