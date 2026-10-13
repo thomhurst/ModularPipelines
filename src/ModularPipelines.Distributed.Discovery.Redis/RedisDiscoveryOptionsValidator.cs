@@ -54,24 +54,31 @@ internal sealed class RedisDiscoveryOptionsValidator : IValidateOptions<RedisDis
             failures.Add("RestUrl and RestToken must be configured together.");
         }
 
-        if (!usesRest && string.IsNullOrWhiteSpace(options.ConnectionString) && options.ConfigureConnection is null)
+        if (!usesRest)
+        {
+            ValidateTcpConnection(options, failures);
+        }
+    }
+
+    private static void ValidateTcpConnection(RedisDiscoveryOptions options, List<string> failures)
+    {
+        if (string.IsNullOrWhiteSpace(options.ConnectionString) && options.ConfigureConnection is null)
         {
             failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is required unless ConfigureConnection supplies endpoints or RestUrl and RestToken are configured.");
+            return;
         }
-        else if (!usesRest)
+
+        try
         {
-            try
+            if (options.GetConnectionConfiguration().Endpoints.Count == 0)
             {
-                if (options.GetConnectionConfiguration().Endpoints.Count == 0)
-                {
-                    failures.Add("Redis discovery requires at least one TCP endpoint.");
-                }
+                failures.Add("Redis discovery requires at least one TCP endpoint.");
             }
-            catch (ArgumentException exception)
-            {
-                // Respire rejects unknown or malformed connection string options, such as abortConnect.
-                failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is invalid: {exception.Message}");
-            }
+        }
+        catch (ArgumentException exception)
+        {
+            // Respire rejects unknown or malformed connection string options, such as abortConnect.
+            failures.Add($"{nameof(RedisDiscoveryOptions.ConnectionString)} is invalid: {exception.Message}");
         }
     }
 }
