@@ -286,6 +286,12 @@ public record CliOptionDefinition
             return readOnlyCollectionType;
         }
 
+        return GetObjectTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable, snapshotDeclaredValues);
+    }
+
+    private static string? GetObjectTypedSnapshotCollectionType(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, bool snapshotDeclaredValues)
+    {
         if (IsMutableListCollection(compilation, propertyType, elementType))
         {
             return snapshotDeclaredValues ? "ListWithDeclaredValues" : "List";
