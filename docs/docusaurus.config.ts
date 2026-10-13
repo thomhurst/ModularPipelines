@@ -104,10 +104,6 @@ const config: Config = {
           label: 'Documentation',
         },
         {
-          type: 'docsVersionDropdown',
-          position: 'right',
-        },
-        {
           href: 'https://www.nuget.org/packages/ModularPipelines',
           label: 'NuGet',
           position: 'right',
@@ -132,7 +128,7 @@ const config: Config = {
           items: [
             {
               label: 'Getting started',
-              to: '/docs/next/getting-started',
+              to: '/docs/getting-started',
             },
             {
               label: 'Core concepts',
