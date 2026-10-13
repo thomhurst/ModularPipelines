@@ -79,7 +79,7 @@ Use repository scripts for merged-worktree cleanup; `[gone]` or ancestry alone i
 
 Stop only services/processes/containers started for this worktree. Never blanket-delete containers/volumes or stop shared lock Redis. Follow local lifecycle guidance; use Aspire only where an AppHost exists.
 
-Immediately after checkout, run `pwsh $agentLocks renew -LockName $lockName -Worktree $worktree` once to register its path. Stop owned processes, archive needed evidence outside the worktree, then release from the shared checkout in `finally`. Release removes clean checkouts even for open PRs; branches and detached commits remain available for re-checkout. See [local worktree lifecycle](../../../scripts/WorktreeLifecycle.md) for preservation rules and crash behavior.
+Immediately after checkout, run `pwsh $agentLocks renew -LockName $lockName -Worktree $worktree` once to register its path. Stop owned processes, archive needed evidence outside the worktree, then release in `finally` from a command whose `workdir` is the shared checkout, never the worktree: on Windows a shell whose current directory is inside the worktree blocks its deletion. Run `Merge-Pr.ps1` the same way. Release removes clean checkouts even for open PRs; branches and detached commits remain available for re-checkout. Never `git worktree lock` a checkout to keep it, except for the temporary setup lock; commit and push work you need. See [local worktree lifecycle](../../../scripts/WorktreeLifecycle.md) for preservation rules and crash behavior.
 
 ## Maintain PRs
 

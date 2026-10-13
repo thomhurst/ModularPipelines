@@ -68,6 +68,39 @@ try {
     Assert (-not (Test-Path $path)) 'Detached checkout survived release.'
     Assert ((& git -C $repo rev-parse "refs/heads/retained-worktrees/$head") -eq $head) 'Detached commit was lost.'
 
+    if ($IsWindows) {
+        # A parent shell started inside the worktree blocks deletion of that directory.
+        # Release must leave a pending removal that the sweep finishes after it exits.
+        . (Join-Path $PSScriptRoot 'WorktreeCleanup.ps1')
+        New-Item -ItemType Directory (Join-Path $repo 'scripts') -Force | Out-Null
+        Copy-Item $agentLocks (Join-Path $repo 'scripts/AgentLocks.ps1')
+        foreach ($kind in @('busy', 'busy-new-work')) {
+            $path = New-Checkout $kind
+            New-Item -ItemType Directory (Join-Path $path 'bin') | Out-Null
+            Set-Content (Join-Path $path 'bin/generated.dll') 'generated'
+            $key = Claim $kind $path
+            $holder = Start-Process pwsh -ArgumentList '-NoProfile', '-Command', 'Start-Sleep 300' -WorkingDirectory $path -WindowStyle Hidden -PassThru
+            try {
+                Start-Sleep -Seconds 2
+                Lock release -LockName $key
+                Assert (Test-Path $path) "$kind checkout was removed while a process used it; the test cannot reproduce the lock."
+                $records = @(Get-ChildItem (Join-Path $repo '.git/agent-pending-removals') -Filter '*.json')
+                Assert ($records.Count -eq 1) "$kind release did not record a pending removal."
+                if ($kind -eq 'busy-new-work') { Set-Content (Join-Path $path 'notes.md') 'written after release' }
+            }
+            finally { Stop-Process -Id $holder.Id -Force -ErrorAction SilentlyContinue; $holder.WaitForExit() }
+            $null = Complete-PendingWorktreeRemovals -Repo $repo
+            Assert (-not (Test-Path (Join-Path $repo '.git/agent-pending-removals/*.json'))) "$kind pending removal record survived the sweep."
+            if ($kind -eq 'busy') {
+                Assert (-not (Test-Path $path)) 'Pending removal was not completed after the process exited.'
+                Assert ((& git -C $repo worktree list --porcelain) -notcontains "worktree $($path -replace '\\', '/')") 'Pending removal left a registration.'
+            }
+            else {
+                Assert (Test-Path (Join-Path $path 'notes.md')) 'Pending removal deleted work written after release.'
+            }
+        }
+    }
+
     foreach ($kind in @('tracked', 'untracked', 'ignored', 'locked', 'main', 'foreign', 'harness', 'reassigned')) {
         $path = switch ($kind) {
             main { $repo }
@@ -96,7 +129,7 @@ try {
         $status = & pwsh -NoProfile -File $agentLocks status -LockName $key -OwnerId $owner
         Assert ($status -eq 'FREE') "$kind lock was not released."
     }
-    Write-Host 'OK released worktree cleanup: generated output, unpublished branches, detached commits, re-checkout, dirty/ignored/locked/main/foreign/harness/reassigned preservation.'
+    Write-Host 'OK released worktree cleanup: generated output, unpublished branches, detached commits, re-checkout, busy-directory pending removal, dirty/ignored/locked/main/foreign/harness/reassigned preservation.'
 } finally {
     if (Test-Path $repo) {
         Set-Location $repo

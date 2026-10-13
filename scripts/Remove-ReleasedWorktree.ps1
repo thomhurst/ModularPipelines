@@ -67,10 +67,17 @@ function Remove-ReleasedWorktree {
             throw "Retention branch has moved: $branch"
         }
     }
-    # Move this child shell out of the directory before deleting it on Windows.
+    # Move this child shell out of the directory before deleting it on Windows. A parent
+    # shell started inside the worktree still blocks deletion; the sweep retries it.
     Set-Location -LiteralPath $repo
     [Environment]::CurrentDirectory = $repo
+    $pending = Register-PendingWorktreeRemoval -Repo $repo -Worktree $target -LockNames @($LockName)
     git -C $repo -c core.longpaths=true worktree remove --force -- $target
-    if ($LASTEXITCODE -ne 0) { throw "Could not remove released worktree: $target" }
+    if ($LASTEXITCODE -ne 0) {
+        if (-not $pending) { throw "Could not remove released worktree: $target" }
+        Write-Host "Released worktree removal is pending: $target is in use. Remove-MergedWorktrees.ps1 retries it; release from the shared checkout to avoid this."
+        return
+    }
+    if ($pending) { Remove-Item -LiteralPath $pending -Force -ErrorAction SilentlyContinue }
     Write-Host "Removed released worktree: $target"
 }
