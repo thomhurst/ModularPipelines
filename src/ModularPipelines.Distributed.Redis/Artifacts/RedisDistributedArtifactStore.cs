@@ -47,6 +47,23 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
         ArgumentNullException.ThrowIfNull(data);
 
         var artifactId = Guid.NewGuid().ToString("N");
+
+        // Index before writing content, so run cleanup also finds an upload that fails part way. Listing skips
+        // an indexed artifact until its metadata is written.
+        var indexKey = _keys.ArtifactIndex(descriptor.ModuleId);
+        await _database.SetAddAsync(indexKey, artifactId)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        await _database.KeyExpireAsync(indexKey, _timeToLive)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        await _database.SetAddAsync(_keys.ArtifactModules, descriptor.ModuleId.Value)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        await _database.KeyExpireAsync(_keys.ArtifactModules, _timeToLive)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+
         var buffer = new byte[_chunkSize];
         var bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken).ConfigureAwait(false);
         var totalBytes = 0L;
@@ -96,22 +113,6 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
         var metaJson = JsonSerializer.Serialize(reference);
         await _database.StringSetAsync(_keys.ArtifactMeta(artifactId), metaJson, _timeToLive)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        var indexKey = _keys.ArtifactIndex(descriptor.ModuleId);
-        await _database.SetAddAsync(indexKey, artifactId)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyExpireAsync(indexKey, _timeToLive)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-
-        // Run cleanup finds every module's index through this set.
-        await _database.SetAddAsync(_keys.ArtifactModules, descriptor.ModuleId.Value)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyExpireAsync(_keys.ArtifactModules, _timeToLive)
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 

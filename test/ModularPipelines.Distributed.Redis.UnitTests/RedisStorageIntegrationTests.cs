@@ -107,6 +107,46 @@ public class RedisStorageIntegrationTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Deletes_The_Chunks_Of_A_Failed_Upload()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
+        var database = connection.GetDatabase();
+        var store = new RedisDistributedArtifactStore(database, keys, options, retryBaseDelay: TimeSpan.Zero);
+
+        await using var source = new FailAfterStream(new byte[16]);
+        await Assert.That(async () => await store.UploadAsync(
+                new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" },
+                source,
+                CancellationToken.None))
+            .Throws<IOException>();
+        var artifactId = (await database.SetMembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single().ToString();
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
+
+        await store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "partial", PipelineSucceeded = false },
+            CancellationToken.None);
+
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsFalse();
+    }
+
+    // Returns its content, then fails, like a source that breaks part way through an upload.
+    private sealed class FailAfterStream(byte[] content) : MemoryStream(content)
+    {
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            var read = await base.ReadAsync(buffer, cancellationToken);
+            return read > 0 ? read : throw new IOException("Simulated read failure");
+        }
+    }
+
+    [Test]
     public async Task ModuleCache_RoundTrips()
     {
         await using var connection = await ConnectAsync();

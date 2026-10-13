@@ -61,6 +61,33 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task Upload_Indexes_The_Artifact_Before_A_Failed_Content_Read()
+    {
+        await using var stream = new FailingStream();
+
+        await Assert.That(async () => await _store.UploadAsync(
+                new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+                stream,
+                CancellationToken.None))
+            .Throws<IOException>();
+
+        _mockDb.Verify(db => db.SetAddAsync(
+            (RedisKey) _keys.ArtifactIndex("Test.Module"),
+            It.IsAny<RedisValue>(),
+            It.IsAny<CommandFlags>()), Times.Once());
+        _mockDb.Verify(db => db.SetAddAsync(
+            (RedisKey) _keys.ArtifactModules,
+            (RedisValue) "Test.Module",
+            It.IsAny<CommandFlags>()), Times.Once());
+    }
+
+    private sealed class FailingStream : MemoryStream
+    {
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+            ValueTask.FromException<int>(new IOException("Simulated read failure"));
+    }
+
+    [Test]
     public async Task Upload_LargeArtifact_ReturnsCorrectSize()
     {
         var descriptor = new ArtifactDescriptor
