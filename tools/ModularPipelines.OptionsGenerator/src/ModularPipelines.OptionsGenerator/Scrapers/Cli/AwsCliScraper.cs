@@ -334,7 +334,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
                 }
             }
 
-            if (subcommands.Count > 0)
+            if (subcommands.Count > 0 && Logger.IsEnabled(LogLevel.Debug))
             {
                 if (Logger.IsEnabled(LogLevel.Debug))
                 {
