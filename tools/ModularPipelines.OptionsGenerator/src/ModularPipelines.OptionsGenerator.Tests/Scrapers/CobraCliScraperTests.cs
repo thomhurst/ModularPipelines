@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;

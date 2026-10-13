@@ -8,6 +8,11 @@ The official Ubuntu image digest was
 Only help/version commands were executed after installation. The capture container
 was removed; no registry login, image transfer, or signing operation was performed.
 
+Revalidated on 2026-10-13 in a fresh Ubuntu 24.04 container: the installed package,
+root help, and all 11 leaf help pages match these fixtures exactly. Complete
+regeneration with the current generator retains all 11 commands and the existing
+command-tree hash. This tool has no command groups or group-local options.
+
 Pinned parser evidence:
 https://github.com/podman-container-tools/skopeo/blob/v1.13.3/cmd/skopeo/main.go
 

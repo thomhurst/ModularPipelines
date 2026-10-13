@@ -32,6 +32,14 @@ public class SkopeoGlobalOptionsTests
     }
 
     [Test]
+    public async Task Deprecated_Root_Tls_Does_Not_Override_Command_Local_Tls()
+    {
+        var help = Fixture("root-help") + "      --tls-verify bool    Deprecated root TLS setting.\n";
+        var options = new TestScraper().Globals(help);
+        await Assert.That(options.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
+    }
+
+    [Test]
     public async Task Full_Traversal_Preserves_Local_Tls_Credentials_And_Aliases()
     {
         var scraper = new TestScraper();
@@ -48,6 +56,9 @@ public class SkopeoGlobalOptionsTests
         await Assert.That(inspect.Options.Single(option => option.SwitchName == "--creds").IsSecret).IsTrue();
         await Assert.That(inspect.Options.Single(option => option.SwitchName == "--authfile").IsSecret).IsFalse();
         var copy = commands.Single(command => command.FullCommand == "skopeo copy");
+        var additionalTag = copy.Options.Single(option => option.SwitchName == "--additional-tag");
+        await Assert.That(additionalTag.AcceptsMultipleValues).IsTrue();
+        await Assert.That(additionalTag.CSharpType).IsEqualTo("IEnumerable<string>?");
         foreach (var name in new[] { "--src-creds", "--dest-creds" })
         {
             await Assert.That(copy.Options.Single(option => option.SwitchName == name).IsSecret).IsTrue();
