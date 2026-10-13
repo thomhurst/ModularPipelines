@@ -1,0 +1,39 @@
+List stacks
+
+This command lists stacks. By default only stacks with the same project name as the
+current workspace will be returned. By passing --all, all stacks you have access to
+will be listed.
+
+Results may be further filtered by passing additional flags. Tag filters may include
+the tag name as well as the tag value, separated by an equals sign. For example
+'environment=production' or just 'gcp:project'.
+
+Usage:
+  pulumi stack list [flags]
+
+Aliases:
+  list, ls
+
+Flags:
+  -a, --all                   List all stacks instead of just stacks for the current project
+  -h, --help                  help for list
+  -o, --organization string   Filter returned stacks to those in a specific organization
+      --output string         Output format. Supported values are: default and json (default "default")
+  -p, --project string        Filter returned stacks to those with a specific project name
+  -t, --tag string            Filter returned stacks to those in a specific tag (tag-name or tag-name=tag-value)
+
+Global Flags:
+      --color string                 Colorize output. Choices are: always, never, raw, auto (default "auto")
+  -C, --cwd string                   Run pulumi as if it had been started in another directory
+      --disable-integrity-checking   Disable integrity checking of checkpoint files
+  -e, --emoji                        Enable emojis in the output
+  -Q, --fully-qualify-stack-names    Show fully-qualified stack names
+      --logflow                      Flow log settings to child processes (like plugins)
+      --logtostderr                  Log to stderr instead of to files
+      --memprofilerate int           Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate
+      --non-interactive              Disable interactive mode for all commands
+      --otel-traces string           Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
+      --profiling string             Emit CPU and memory profiles and an execution trace to '[filename].[pid].{cpu,mem,trace}', respectively
+  -s, --stack string                 The name of the stack to operate on. Defaults to the current stack
+      --tracing file:                Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file
+  -v, --verbose int                  Enable verbose logging (e.g., v=3); anything >3 is very verbose

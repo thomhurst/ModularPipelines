@@ -19,7 +19,7 @@ public class PulumiOptionsTests : TestBase
         });
 
         await Assert.That(commandLine.ToString())
-            .IsEqualTo("pulumi package info --color=never aws -- param");
+            .IsEqualTo("pulumi --color=never package info aws -- param");
     }
 
     [Test]
