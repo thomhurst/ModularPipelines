@@ -194,9 +194,9 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
 
     private static IEnumerable<ExpressionSyntax> GetGitGroupReceivers(ITypeSymbol receiver, ExpressionSyntax expression)
     {
-        if (receiver.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == "ModularPipelines.Git.IGit")
+        if (FindInterface(receiver, "ModularPipelines.Git.IGit") is { } git)
         {
-            var commands = receiver.GetMembers("Commands").OfType<IPropertySymbol>().FirstOrDefault();
+            var commands = git.GetMembers("Commands").OfType<IPropertySymbol>().FirstOrDefault();
             if (commands is null)
             {
                 yield break;
@@ -207,16 +207,54 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
                 expression, SyntaxFactory.IdentifierName(commands.Name));
         }
 
-        if (receiver.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() != "ModularPipelines.Git.IGitCommands")
+        if (FindInterface(receiver, "ModularPipelines.Git.IGitCommands") is not { } gitCommands)
         {
             yield break;
         }
 
-        foreach (var group in receiver.GetMembers().OfType<IPropertySymbol>().Where(property => !property.IsStatic))
+        foreach (var group in gitCommands.GetMembers().OfType<IPropertySymbol>().Where(property => !property.IsStatic))
         {
             yield return SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                 expression, SyntaxFactory.IdentifierName(group.Name));
         }
+    }
+
+    private static INamedTypeSymbol? FindInterface(ITypeSymbol receiver, string name)
+    {
+        var pending = new Stack<ITypeSymbol>();
+        var visited = new HashSet<ITypeSymbol>(SymbolEqualityComparer.Default);
+        pending.Push(receiver);
+        while (pending.Count > 0)
+        {
+            var type = pending.Pop();
+            if (!visited.Add(type))
+            {
+                continue;
+            }
+
+            if (type is INamedTypeSymbol { TypeKind: TypeKind.Interface } named
+                && named.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == name)
+            {
+                return named;
+            }
+
+            var inherited = type.AllInterfaces.FirstOrDefault(@interface =>
+                @interface.WithNullableAnnotation(NullableAnnotation.None).ToDisplayString() == name);
+            if (inherited is not null)
+            {
+                return inherited;
+            }
+
+            if (type is ITypeParameterSymbol parameter)
+            {
+                foreach (var constraint in parameter.ConstraintTypes)
+                {
+                    pending.Push(constraint);
+                }
+            }
+        }
+
+        return null;
     }
 
     private static async Task<Document?> BindReplacementAsync(Document document, SyntaxNode root,

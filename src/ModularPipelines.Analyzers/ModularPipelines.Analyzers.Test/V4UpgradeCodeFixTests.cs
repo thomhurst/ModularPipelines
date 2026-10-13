@@ -55,6 +55,17 @@ public class V4UpgradeCodeFixTests
         }
         """;
 
+    private const string InheritedGitReceivers = """
+        interface DerivedCommands : ModularPipelines.Git.IGitCommands { }
+        interface DerivedGit : ModularPipelines.Git.IGit { }
+        abstract class CommandImplementation : DerivedCommands
+        {
+            public abstract ModularPipelines.Git.IRepository Repository { get; }
+            public abstract ModularPipelines.Git.IHistory History { get; }
+            public abstract ModularPipelines.Git.IRemotes Remotes { get; }
+        }
+        """;
+
     [TestMethod]
     [DataRow("context.Service()", "context.Tools.Service")]
     [DataRow("context.Tools.Service.Ping()", "context.Tools.Service.PingAsync()")]
@@ -120,6 +131,42 @@ public class V4UpgradeCodeFixTests
         var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
             .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
         Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("Run(DerivedCommands commands)", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedCommands? commands)", "commands?.Config(\"option\", token: default)", "commands?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(CommandImplementation commands)", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGitCommands", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T? commands) where T : class, DerivedCommands", "commands?.Config(\"option\", token: default)", "commands?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T, U>(T commands) where T : U where U : DerivedCommands", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedGit commands)", "commands.Push(\"option\", token: default)", "commands.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedGit? commands)", "commands?.Push(\"option\", token: default)", "commands?.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGit", "commands.Push(\"option\", token: default)", "commands.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    public async Task Upgrades_Inherited_Git_Receivers(string signature, string original, string expected)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync("#nullable enable\n" + Api + InheritedGitReceivers + $$"""
+            class Example { object? {{signature}} => {{original}}; }
+            """);
+        Assert.AreEqual(1, changes, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
+        Assert.IsEmpty(errors);
+        var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("Run(DerivedCommands commands)", "commands.Shared()")]
+    [DataRow("Run(DerivedCommands? commands)", "commands?.Shared()")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGitCommands", "commands.Shared()")]
+    [DataRow("Run<T>(T commands) where T : DerivedGit", "commands.Shared()")]
+    [DataRow("Run<T, U>(T commands) where T : U where U : T", "commands.Shared()")]
+    public async Task Leaves_Inherited_Ambiguous_And_Invalid_Git_Calls_Unchanged(string signature, string original)
+    {
+        var (_, changes, _) = await ApplyFixesAsync("#nullable enable\n" + Api + InheritedGitReceivers + $$"""
+            class Example { object? {{signature}} => {{original}}; }
+            """);
+        Assert.AreEqual(0, changes);
     }
 
     [TestMethod]
