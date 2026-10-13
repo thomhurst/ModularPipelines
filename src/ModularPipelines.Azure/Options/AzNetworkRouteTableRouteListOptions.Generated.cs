@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -53,6 +54,19 @@ public record AzNetworkRouteTableRouteListOptions : AzOptions
     /// </summary>
     [CliOption("--route-table-name")]
     public string RouteTableName { get; private init; }
+
+    /// <summary>
+    /// Total number of items to return in the command's output. If the total number of items available is more than the value specified, a token is provided in the command's output. To resume pagination, provide the token value in `--next-token` argument of a subsequent command.
+    /// </summary>
+    [CliOption("--max-items")]
+    public string? MaxItems { get; set; }
+
+    /// <summary>
+    /// Token to specify where to start paginating. This is the token value from a previously truncated response.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--next-token")]
+    public string? NextToken { get; set; }
 
     /// <summary>
     /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.

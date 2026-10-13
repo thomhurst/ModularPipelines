@@ -24,7 +24,7 @@ public record AzNetworkApplicationGatewaySettingsShowOptions : AzOptions
     /// Get the details of settings.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the backend settings.</param>
+    /// <param name="Name">Name of the backend settings that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewaySettingsShowOptions(
         string GatewayName,
@@ -54,7 +54,7 @@ public record AzNetworkApplicationGatewaySettingsShowOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the backend settings.
+    /// Name of the backend settings that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

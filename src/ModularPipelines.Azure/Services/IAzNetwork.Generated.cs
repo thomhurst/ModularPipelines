@@ -62,6 +62,11 @@ public interface IAzNetwork
     AzNetworkExpressRoute ExpressRoute => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az first-party-service-tag sub-commands.
+    /// </summary>
+    AzNetworkFirstPartyServiceTag FirstPartyServiceTag => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az lb sub-commands.
     /// </summary>
     AzNetworkLb Lb => throw new System.NotSupportedException();

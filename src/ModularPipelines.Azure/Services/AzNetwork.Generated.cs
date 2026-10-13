@@ -28,6 +28,7 @@ public class AzNetwork : IAzNetwork
     private AzNetworkDdosProtection? _ddosProtection;
     private AzNetworkDns? _dns;
     private AzNetworkExpressRoute? _expressRoute;
+    private AzNetworkFirstPartyServiceTag? _firstPartyServiceTag;
     private AzNetworkLb? _lb;
     private AzNetworkLocalGateway? _localGateway;
     private AzNetworkNat? _nat;
@@ -101,6 +102,11 @@ public class AzNetwork : IAzNetwork
     /// az express-route sub-commands.
     /// </summary>
     public AzNetworkExpressRoute ExpressRoute => _expressRoute ??= new AzNetworkExpressRoute(_command);
+
+    /// <summary>
+    /// az first-party-service-tag sub-commands.
+    /// </summary>
+    public AzNetworkFirstPartyServiceTag FirstPartyServiceTag => _firstPartyServiceTag ??= new AzNetworkFirstPartyServiceTag(_command);
 
     /// <summary>
     /// az lb sub-commands.

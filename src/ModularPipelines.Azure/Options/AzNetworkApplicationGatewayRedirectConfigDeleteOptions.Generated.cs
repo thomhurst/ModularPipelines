@@ -25,7 +25,7 @@ public record AzNetworkApplicationGatewayRedirectConfigDeleteOptions : AzOptions
     /// Delete a redirect configuration.
     /// </summary>
     /// <param name="GatewayName">Name of the application gateway.</param>
-    /// <param name="Name">Name of the redirect configuration.</param>
+    /// <param name="Name">Name of the redirect configuration that is unique within an Application Gateway.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzNetworkApplicationGatewayRedirectConfigDeleteOptions(
         string GatewayName,
@@ -55,7 +55,7 @@ public record AzNetworkApplicationGatewayRedirectConfigDeleteOptions : AzOptions
     public string GatewayName { get; private init; }
 
     /// <summary>
-    /// Name of the redirect configuration.
+    /// Name of the redirect configuration that is unique within an Application Gateway.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string Name { get; private init; }

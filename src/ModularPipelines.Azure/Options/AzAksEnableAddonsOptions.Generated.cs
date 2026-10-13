@@ -24,7 +24,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     /// <summary>
     /// Enable Kubernetes addons.
     /// </summary>
-    /// <param name="Addons">Enable the Kubernetes addons in a comma-separated list.</param>
+    /// <param name="Addons">Enable the Kubernetes addons in a comma- separated list.</param>
     /// <param name="Name">Name of the managed cluster.</param>
     /// <param name="ResourceGroup">Name of resource group. You can configure the default group using `az configure --defaults group=&lt;name&gt;`.</param>
     public AzAksEnableAddonsOptions(
@@ -49,7 +49,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     }
 
     /// <summary>
-    /// Enable the Kubernetes addons in a comma-separated list.
+    /// Enable the Kubernetes addons in a comma- separated list.
     /// </summary>
     [CliOption("--addons", ShortForm = "-a")]
     public string Addons { get; private init; }
@@ -85,13 +85,13 @@ public record AzAksEnableAddonsOptions : AzOptions
     public CliOptionValue? EnableHighLogScaleMode { get; set; }
 
     /// <summary>
-    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True.
+    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True. WARNING: Option '--enable-msi-auth-for-monitoring' has been deprecated and will be removed in a future release. Use '--enable-azure-monitor-logs' instead.
     /// </summary>
     [CliOption("--enable-msi-auth-for-monitoring", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableMsiAuthForMonitoring { get; set; }
 
     /// <summary>
-    /// Enable secret rotation. Use with azure-keyvault-secrets- provider addon.
+    /// Enable secret rotation. Use with azure-keyvault- secrets-provider addon.
     /// </summary>
     [CliFlag("--enable-secret-rotation")]
     public bool? EnableSecretRotation { get; set; }
@@ -115,13 +115,13 @@ public record AzAksEnableAddonsOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure-keyvault- secrets-provider addon.
+    /// Set interval of rotation poll. Use with azure- keyvault-secrets-provider addon.
     /// </summary>
     [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }
 
     /// <summary>
-    /// Name of an existing subnet to use with the virtual-node add- on.
+    /// Name of an existing subnet to use with the virtual-node add-on.
     /// </summary>
     [CliOption("--subnet-name", ShortForm = "-s")]
     public string? SubnetName { get; set; }
@@ -157,7 +157,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     public string? AppgwSubnetId { get; set; }
 
     /// <summary>
-    /// Specify the namespace, which AGIC should watch. This could be a single string value, or a comma-separated list of namespaces.
+    /// Specify the namespace, which AGIC should watch. This could be a single string value, or a comma- separated list of namespaces.
     /// </summary>
     [CliOption("--appgw-watch-namespace")]
     public string? AppgwWatchNamespace { get; set; }

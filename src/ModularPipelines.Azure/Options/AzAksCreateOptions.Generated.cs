@@ -177,7 +177,7 @@ public record AzAksCreateOptions : AzOptions
     public string? AzureMonitorWorkspaceResourceId { get; set; }
 
     /// <summary>
-    /// Configure artifact source when bootstraping the cluster.  Allowed values: Cache, Direct.  Default: Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
+    /// Configure artifact source when bootstraping the cluster. Allowed values: Cache, Direct. Default: Direct. The artifacts include the addon image. Use "Direct" to download artifacts from MCR, "Cache" to downalod artifacts from Azure Container Registry.
     /// </summary>
     [CliOption("--bootstrap-artifact-source")]
     public string? BootstrapArtifactSource { get; set; }
@@ -208,7 +208,7 @@ public record AzAksCreateOptions : AzOptions
     public string? ClientSecret { get; set; }
 
     /// <summary>
-    /// Set azure container storage version, the latest version will be installed by default.  Allowed values: 1, 2.
+    /// Set azure container storage version, the latest version will be installed by default. Allowed values: 1, 2.
     /// </summary>
     [CliOption("--container-storage-version")]
     public string? ContainerStorageVersion { get; set; }
@@ -260,6 +260,24 @@ public record AzAksCreateOptions : AzOptions
     /// </summary>
     [CliFlag("--disable-local-accounts")]
     public bool? DisableLocalAccounts { get; set; }
+
+    /// <summary>
+    /// Disable the OpenTelemetry (OTLP) logs and traces receiver.
+    /// </summary>
+    [CliFlag("--disable-opentelemetry-logs-traces")]
+    public bool? DisableOpentelemetryLogsTraces { get; set; }
+
+    /// <summary>
+    /// Disable the OpenTelemetry (OTLP) metrics receiver.
+    /// </summary>
+    [CliFlag("--disable-opentelemetry-metrics")]
+    public bool? DisableOpentelemetryMetrics { get; set; }
+
+    /// <summary>
+    /// Disable Prometheus metrics scraping by the Azure Monitor agent. Requires --enable-azure-monitor-logs.
+    /// </summary>
+    [CliFlag("--disable-prometheus-metrics-scraping")]
+    public bool? DisablePrometheusMetricsScraping { get; set; }
 
     /// <summary>
     /// Disable public fqdn feature for private cluster.
@@ -316,7 +334,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableAcns { get; set; }
 
     /// <summary>
-    /// Enable the Kubernetes addons in a comma- separated list. These addons are available: - http_application_routing : configure ingress with automatic public DNS name creation. - monitoring               : turn on Log Analytics monitoring. Uses the Log Analytics Default Workspace if it exists, else creates one. Specify "--workspace-resource-id" to use an existing workspace. Specify "--enable-msi-auth-for-monitoring" to use Managed Identity Auth. Specify "--enable-syslog" to enable syslog data collection from nodes. Note MSI must be enabled Specify "--data-collection-settings" to configure data collection settings Specify "--ampls-resource-id" for private link. Note MSI must be enabled. Specify "--enable-high-log-scale-mode" to enable high log scale mode for container logs. Note MSI must be enabled. If monitoring addon is enabled --no-wait argument will have no effect - azure-policy             : enable Azure policy. The Azure Policy add-on for AKS enables at-scale enforcements and safeguards on your clusters in a centralized, consistent manner. Learn more at aka.ms/aks/policy. - virtual-node             : enable AKS Virtual Node. Requires --aci-subnet-name to provide the name of an existing subnet for the Virtual Node to use. aci-subnet-name must be in the same vnet which is specified by --vnet-subnet-id (required as well). - confcom                  : enable confcom addon, this will enable SGX device plugin by default. - open-service-mesh        : enable Open Service Mesh addon. - azure-keyvault-secrets-provider : enable Azure Keyvault Secrets Provider addon.
+    /// Enable the Kubernetes addons in a comma-separated list. These addons are available: - http_application_routing : configure ingress with automatic public DNS name creation. - monitoring               : turn on Log Analytics monitoring. Uses the Log Analytics Default Workspace if it exists, else creates one. Specify "--workspace-resource-id" to use an existing workspace. Specify "--enable-msi-auth-for-monitoring" to use Managed Identity Auth. Specify "--enable-syslog" to enable syslog data collection from nodes. Note MSI must be enabled Specify "--data-collection-settings" to configure data collection settings Specify "--ampls-resource-id" for private link. Note MSI must be enabled. Specify "--enable-high-log-scale-mode" to enable high log scale mode for container logs. Note MSI must be enabled. If monitoring addon is enabled --no-wait argument will have no effect - azure-policy             : enable Azure policy. The Azure Policy add-on for AKS enables at-scale enforcements and safeguards on your clusters in a centralized, consistent manner. Learn more at aka.ms/aks/policy. - virtual-node             : enable AKS Virtual Node. Requires --aci-subnet-name to provide the name of an existing subnet for the Virtual Node to use. aci-subnet-name must be in the same vnet which is specified by --vnet-subnet-id (required as well). - confcom                  : enable confcom addon, this will enable SGX device plugin by default. - open-service-mesh        : enable Open Service Mesh addon. - azure-keyvault-secrets-provider : enable Azure Keyvault Secrets Provider addon.
     /// </summary>
     [CliOption("--enable-addons", ShortForm = "-a")]
     public string? EnableAddons { get; set; }
@@ -376,6 +394,12 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableAzureMonitorAppMonitoring { get; set; }
 
     /// <summary>
+    /// Enable Azure Monitor logs (Container Insights) for the cluster using managed identity authentication. Configures Container Insights through the cluster's Azure Monitor profile instead of the monitoring addon. Cannot be combined with "--enable-addons monitoring" or with "--enable-msi-auth-for-monitoring". Requires the cluster to use a managed identity; clusters created with service principal authentication are not supported.
+    /// </summary>
+    [CliFlag("--enable-azure-monitor-logs")]
+    public bool? EnableAzureMonitorLogs { get; set; }
+
+    /// <summary>
     /// Enable a kubernetes cluster with the Azure Monitor managed service for Prometheus integration.
     /// </summary>
     [CliFlag("--enable-azure-monitor-metrics")]
@@ -406,13 +430,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableContainerNetworkLogs { get; set; }
 
     /// <summary>
-    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane- apiserver and controlplane-etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
+    /// Enable collection of Azure Monitor managed Prometheus control plane metrics for managed cluster components (controlplane-apiserver and controlplane-etcd targets by default). Requires Azure Monitor metrics to be enabled (already enabled or via --enable-azure-monitor-metrics).
     /// </summary>
     [CliFlag("--enable-control-plane-metrics")]
     public bool? EnableControlPlaneMetrics { get; set; }
 
     /// <summary>
-    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost- analysis.
+    /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost-analysis.
     /// </summary>
     [CliFlag("--enable-cost-analysis")]
     public bool? EnableCostAnalysis { get; set; }
@@ -460,7 +484,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableImageCleaner { get; set; }
 
     /// <summary>
-    /// Enable KEDA workload auto-scaler.
+    /// Enable KEDA workload auto- scaler.
     /// </summary>
     [CliFlag("--enable-keda")]
     public bool? EnableKeda { get; set; }
@@ -472,7 +496,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableManagedIdentity { get; set; }
 
     /// <summary>
-    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true. Default: True.
+    /// Enable Managed Identity Auth for Monitoring addon.  Allowed values: false, true.  Default: True. WARNING: Option '--enable-msi-auth-for-monitoring' has been deprecated and will be removed in a future release. Use '--enable-azure-monitor-logs' instead.
     /// </summary>
     [CliOption("--enable-msi-auth-for-monitoring", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableMsiAuthForMonitoring { get; set; }
@@ -490,13 +514,31 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableOidcIssuer { get; set; }
 
     /// <summary>
+    /// Enable the OpenTelemetry (OTLP) logs and traces receiver. Requires --enable-azure-monitor-logs.
+    /// </summary>
+    [CliFlag("--enable-opentelemetry-logs-traces")]
+    public bool? EnableOpentelemetryLogsTraces { get; set; }
+
+    /// <summary>
+    /// Enable the OpenTelemetry (OTLP) metrics receiver. Requires --enable-azure-monitor-metrics.
+    /// </summary>
+    [CliFlag("--enable-opentelemetry-metrics")]
+    public bool? EnableOpentelemetryMetrics { get; set; }
+
+    /// <summary>
     /// Enable private cluster.
     /// </summary>
     [CliFlag("--enable-private-cluster")]
     public bool? EnablePrivateCluster { get; set; }
 
     /// <summary>
-    /// Enable secret rotation. Use with azure- keyvault-secrets-provider addon.
+    /// Enable Prometheus metrics scraping by the Azure Monitor agent. Requires --enable-azure-monitor-logs.
+    /// </summary>
+    [CliFlag("--enable-prometheus-metrics-scraping")]
+    public bool? EnablePrometheusMetricsScraping { get; set; }
+
+    /// <summary>
+    /// Enable secret rotation. Use with azure-keyvault-secrets-provider addon.
     /// </summary>
     [CliFlag("--enable-secret-rotation")]
     public bool? EnableSecretRotation { get; set; }
@@ -568,13 +610,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableWorkloadIdentity { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values: Basic, Premium, Standard.
+    /// Set ephemeral disk volume type for azure container storage. Allowed values: Basic, Premium, Standard.
     /// </summary>
     [CliOption("--ephemeral-disk-nvme-perf-tier")]
     public string? EphemeralDiskNvmePerfTier { get; set; }
 
     /// <summary>
-    /// Set ephemeral disk volume type for azure container storage.  Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
+    /// Set ephemeral disk volume type for azure container storage. Allowed values: EphemeralVolumeOnly, PersistentVolumeWithAnnotation.
     /// </summary>
     [CliOption("--ephemeral-disk-volume-type")]
     public string? EphemeralDiskVolumeType { get; set; }
@@ -604,7 +646,7 @@ public record AzAksCreateOptions : AzOptions
     public string? GmsaRootDomainName { get; set; }
 
     /// <summary>
-    /// GPU instance profile to partition multi-gpu Nvidia GPUs.  Allowed values: MIG1g, MIG2g, MIG3g, MIG4g, MIG7g.
+    /// GPU instance profile to partition multi-gpu Nvidia GPUs. Allowed values: MIG1g, MIG2g, MIG3g, MIG4g, MIG7g.
     /// </summary>
     [CliOption("--gpu-instance-profile")]
     public string? GpuInstanceProfile { get; set; }
@@ -652,25 +694,25 @@ public record AzAksCreateOptions : AzOptions
     public string? IpFamilies { get; set; }
 
     /// <summary>
-    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs.  Allowed values: AKSLongTermSupport, KubernetesOfficial.
+    /// Choose from "KubernetesOfficial" or "AKSLongTermSupport", with "AKSLongTermSupport" you get 1 extra year of CVE patchs. Allowed values: AKSLongTermSupport, KubernetesOfficial.
     /// </summary>
     [CliOption("--k8s-support-plan")]
     public string? K8sSupportPlan { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=namespa ces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g.'=na mespaces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-annotations-allow-list")]
     public string? KsmMetricAnnotationsAllowList { get; set; }
 
     /// <summary>
-    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=namesp aces=[k8s-label-1,k8s-label- n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
+    /// Comma-separated list of additional Kubernetes label keys that will be used in the resource' labels metric. By default the metric contains only name and namespace labels. To include additional labels provide a list of resource names in their plural form and Kubernetes label keys you would like to allow for them (e.g. '=n amespaces=[k8s-label-1,k8s- label-n,...],pods=[app],...)'. A single '*' can be provided per resource instead to allow any labels, but that has severe performance implications (e.g. '=pods=[*]').
     /// </summary>
     [CliOption("--ksm-metric-labels-allow-list")]
     public string? KsmMetricLabelsAllowList { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node-config.
+    /// Path to JSON file containing Kubelet configurations for agent nodes. https://aka.ms/aks/custom-node- config.
     /// </summary>
     [CliOption("--kubelet-config")]
     public string? KubeletConfig { get; set; }
@@ -682,13 +724,13 @@ public record AzAksCreateOptions : AzOptions
     public string? KubernetesVersion { get; set; }
 
     /// <summary>
-    /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node-config.
+    /// Path to JSON file containing OS configurations for Linux agent nodes. https://aka.ms/aks/custom-node- config.
     /// </summary>
     [CliOption("--linux-os-config")]
     public string? LinuxOsConfig { get; set; }
 
     /// <summary>
-    /// Load balancer backend pool type.  Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
+    /// Load balancer backend pool type. Allowed values: nodeIP, nodeIPConfiguration. Define the LoadBalancer backend pool type of managed inbound backend pool. The nodeIP means the VMs will be attached to the LoadBalancer by adding its private IP address to the backend pool. The nodeIPConfiguration means the VMs will be attached to the LoadBalancer by referencing the backend pool ID in the VM's NIC.
     /// </summary>
     [CliOption("--load-balancer-backend-pool-type")]
     public string? LoadBalancerBackendPoolType { get; set; }
@@ -736,7 +778,7 @@ public record AzAksCreateOptions : AzOptions
     public string? LoadBalancerSku { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list- locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliOption("--location", ShortForm = "-l")]
     public string? Location { get; set; }
@@ -778,19 +820,37 @@ public record AzAksCreateOptions : AzOptions
     public int? NatGatewayManagedOutboundIpCount { get; set; }
 
     /// <summary>
-    /// The network dataplane to use.  Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
+    /// NAT gateway managed outbound IPv6 count. Only valid with --outbound-type managedNATGateway and --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-managed-outbound-ipv6-count")]
+    public int? NatGatewayManagedOutboundIpv6Count { get; set; }
+
+    /// <summary>
+    /// Comma-separated public IP prefix resource IDs for the cluster NAT gateway. Only valid with --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-outbound-ip-prefixes")]
+    public string? NatGatewayOutboundIpPrefixes { get; set; }
+
+    /// <summary>
+    /// Comma-separated public IP resource IDs for the cluster NAT gateway. Only valid with --outbound-type-sku StandardV2.
+    /// </summary>
+    [CliOption("--nat-gateway-outbound-ips")]
+    public string? NatGatewayOutboundIps { get; set; }
+
+    /// <summary>
+    /// The network dataplane to use. Allowed values: azure, cilium. Network dataplane used in the Kubernetes cluster. Specify "azure" to use the Azure dataplane (default) or "cilium" to enable Cilium dataplane.
     /// </summary>
     [CliOption("--network-dataplane")]
     public string? NetworkDataplane { get; set; }
 
     /// <summary>
-    /// The Kubernetes network plugin to use. Allowed values: azure, kubenet, none. Specify "azure" for highly scalable networking, "kubenet" for IP assignment from subnet NAT- based routing, or "none" for no networking configured. Defaults to "azure".
+    /// The Kubernetes network plugin to use.  Allowed values: azure, kubenet, none. Specify "azure" for highly scalable networking, "kubenet" for IP assignment from subnet NAT- based routing, or "none" for no networking configured. Defaults to "azure".
     /// </summary>
     [CliOption("--network-plugin")]
     public string? NetworkPlugin { get; set; }
 
     /// <summary>
-    /// The network plugin mode to use.  Allowed values: overlay. Used to control the mode the network plugin should operate in. Defaults to "overlay". If not specified with "azure" as network plugin, pods are given routable IPs from VNET.
+    /// The network plugin mode to use. Allowed values: overlay. Used to control the mode the network plugin should operate in. Defaults to "overlay". If not specified with "azure" as network plugin, pods are given routable IPs from VNET.
     /// </summary>
     [CliOption("--network-plugin-mode")]
     public string? NetworkPluginMode { get; set; }
@@ -838,7 +898,7 @@ public record AzAksCreateOptions : AzOptions
     public int? NodeOsdiskSize { get; set; }
 
     /// <summary>
-    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation.  Allowed values: Ephemeral, Managed.
+    /// OS disk type to be used for machines in a given agent pool: Ephemeral or Managed. Defaults to 'Ephemeral' when possible in conjunction with VM size and OS disk size. May not be changed for this pool after creation. Allowed values: Ephemeral, Managed.
     /// </summary>
     [CliOption("--node-osdisk-type")]
     public string? NodeOsdiskType { get; set; }
@@ -886,25 +946,25 @@ public record AzAksCreateOptions : AzOptions
     public string? NodeVmSize { get; set; }
 
     /// <summary>
-    /// Expose host ports on the node pool. When specified, format should be a space- separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
+    /// Expose host ports on the node pool. When specified, format should be a space-separated list of ranges with protocol, eg. `80/TCP 443/TCP 4000-5000/TCP`.
     /// </summary>
     [CliOption("--nodepool-allowed-host-ports", GroupValues = true)]
     public IEnumerable<string>? NodepoolAllowedHostPorts { get; set; }
 
     /// <summary>
-    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space-separated list of IDs.
+    /// The IDs of the application security groups to which the node pool's network interface should belong. When specified, format should be a space- separated list of IDs.
     /// </summary>
     [CliOption("--nodepool-asg-ids", GroupValues = true)]
     public IEnumerable<string>? NodepoolAsgIds { get; set; }
 
     /// <summary>
-    /// The node labels for all node pool. See https://aka.ms/node-labels for syntax of labels.
+    /// The node labels for all node pool. See https://aka.ms/node- labels for syntax of labels.
     /// </summary>
     [CliOption("--nodepool-labels", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? NodepoolLabels { get; set; }
 
     /// <summary>
-    /// Node pool name, up to 12 alphanumeric characters.  Default: nodepool1.
+    /// Node pool name, up to 12 alphanumeric characters. Default: nodepool1.
     /// </summary>
     [CliOption("--nodepool-name")]
     public string? NodepoolName { get; set; }
@@ -928,16 +988,46 @@ public record AzAksCreateOptions : AzOptions
     public string? NrgLockdownRestrictionLevel { get; set; }
 
     /// <summary>
+    /// GRPC port for the OpenTelemetry logs and traces receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-logs-traces-port-grpc")]
+    public int? OpentelemetryLogsTracesPortGrpc { get; set; }
+
+    /// <summary>
+    /// HTTP/protobuf port for the OpenTelemetry logs and traces receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-logs-traces-port-http")]
+    public int? OpentelemetryLogsTracesPortHttp { get; set; }
+
+    /// <summary>
+    /// GRPC port for the OpenTelemetry metrics receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-metrics-port-grpc")]
+    public int? OpentelemetryMetricsPortGrpc { get; set; }
+
+    /// <summary>
+    /// HTTP/protobuf port for the OpenTelemetry metrics receiver.
+    /// </summary>
+    [CliOption("--opentelemetry-metrics-port-http")]
+    public int? OpentelemetryMetricsPortHttp { get; set; }
+
+    /// <summary>
     /// The OS SKU of the agent node pool. Ubuntu, AzureLinux, AzureLinux3, AzureContainerLinux, Ubuntu2204, or Ubuntu2404.  Allowed values: AzureContainerLinux, AzureLinux, AzureLinux3, CBLMariner, Mariner, Ubuntu, Ubuntu2204, Ubuntu2404.
     /// </summary>
     [CliOption("--os-sku")]
     public string? OsSku { get; set; }
 
     /// <summary>
-    /// How outbound traffic will be configured for a cluster.  Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. Select between loadBalancer, userDefinedRouting, managedNATGateway, userAssignedNATGateway and none. If not set, defaults to type loadBalancer. Requires --vnet-subnet-id to be provided with a preconfigured route table and --load-balancer-sku to be Standard.
+    /// How outbound traffic will be configured for a cluster. Allowed values: loadBalancer, managedNATGateway, none, userAssignedNATGateway, userDefinedRouting. Select between loadBalancer, userDefinedRouting, managedNATGateway, userAssignedNATGateway and none. If not set, defaults to type loadBalancer. Requires --vnet-subnet-id to be provided with a preconfigured route table and --load-balancer-sku to be Standard.
     /// </summary>
     [CliOption("--outbound-type")]
     public string? OutboundType { get; set; }
+
+    /// <summary>
+    /// SKU of the managed NAT Gateway (Standard or StandardV2). Allowed values: Standard, StandardV2. Only valid with --outbound-type managedNATGateway. Omit to default to StandardV2 where the region supports it, otherwise Standard. StandardV2 adds zone resiliency, IPv6 support, and higher bandwidth.
+    /// </summary>
+    [CliOption("--outbound-type-sku")]
+    public string? OutboundTypeSku { get; set; }
 
     /// <summary>
     /// A CIDR notation IP range from which to assign pod IPs when Azure CNI Overlay or Kubenet is used (On 31 March 2028, Kubenet will be retired). This range must not overlap with any Subnet IP ranges. For example, 172.244.0.0/16. See https://aka.ms/aks/azure-cni-overlay.
@@ -952,7 +1042,7 @@ public record AzAksCreateOptions : AzOptions
     public string? PodCidrs { get; set; }
 
     /// <summary>
-    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock". Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
+    /// Set the ip allocation mode for how Pod IPs from the Azure Pod Subnet are allocated to the nodes in the AKS cluster. The choice is between dynamic batches of individual IPs or static allocation of a set of CIDR blocks. Accepted Values are "DynamicIndividual" or "StaticBlock".  Allowed values: DynamicIndividual, StaticBlock. Used together with the "azure" network plugin. Requires --pod-subnet-id.
     /// </summary>
     [CliOption("--pod-ip-allocation-mode")]
     public string? PodIpAllocationMode { get; set; }
@@ -982,7 +1072,7 @@ public record AzAksCreateOptions : AzOptions
     public string? Revision { get; set; }
 
     /// <summary>
-    /// Set interval of rotation poll. Use with azure-keyvault-secrets-provider addon.
+    /// Set interval of rotation poll. Use with azure-keyvault-secrets- provider addon.
     /// </summary>
     [CliOption("--rotation-poll-interval")]
     public string? RotationPollInterval { get; set; }
@@ -1012,7 +1102,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? SkipSubnetRoleAssignment { get; set; }
 
     /// <summary>
-    /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster.  Allowed values: automatic, base.
+    /// Specify SKU name for managed clusters. Use '--sku base' enables a base managed cluster. Use '--sku automatic' enables an automatic managed cluster. Allowed values: automatic, base.
     /// </summary>
     [CliOption("--sku")]
     public string? Sku { get; set; }
@@ -1024,7 +1114,7 @@ public record AzAksCreateOptions : AzOptions
     public string? SnapshotId { get; set; }
 
     /// <summary>
-    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'.  Default: ~\.ssh\id_rsa.pub. If omitted: - The CLI will use '~/.ssh/id_rsa.pub' when present - If that file is not present the CLI will default to server-side generated keys (equivalent to using --no-ssh-key).
+    /// Public key path or key contents to install on node VMs for SSH access. For example, 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'.  Default: ~/.ssh/id_rsa.pub. If omitted: - The CLI will use '~/.ssh/id_rsa.pub' when present - If that file is not present the CLI will default to server-side generated keys (equivalent to using --no-ssh-key).
     /// </summary>
     [CliOption("--ssh-key-value")]
     public string? SshKeyValue { get; set; }
@@ -1048,10 +1138,16 @@ public record AzAksCreateOptions : AzOptions
     public string? StoragePoolSize { get; set; }
 
     /// <summary>
-    /// Set azure disk type storage pool sku for azure container storage.  Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
+    /// Set azure disk type storage pool sku for azure container storage. Allowed values: PremiumV2_LRS, Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS, UltraSSD_LRS.
     /// </summary>
     [CliOption("--storage-pool-sku")]
     public string? StoragePoolSku { get; set; }
+
+    /// <summary>
+    /// TCP port that the Azure Monitor agent listens on for syslog data. Requires --enable-azure-monitor-logs.
+    /// </summary>
+    [CliOption("--syslog-port")]
+    public int? SyslogPort { get; set; }
 
     /// <summary>
     /// (Automatic SKU) The ID of a subnet in an existing VNet to be used by the Managed System Pool in an Automatic cluster. Bring-your-own VNet for an Automatic cluster requires three subnets supplied together: `--system-node-subnet-id` (this flag, for the Managed System Pool), `--node-subnet-id` (for user node pools), and `--apiserver-subnet-id` (for the control plane API server). All three subnets must belong to the same VNet and can only be used with `--sku automatic`.
@@ -1066,7 +1162,7 @@ public record AzAksCreateOptions : AzOptions
     public IEnumerable<CliOptionValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specify SKU tier for managed clusters. '-- tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' does not have a financially backed SLA.  Allowed values: free, premium, standard.
+    /// Specify SKU tier for managed clusters. '--tier standard' enables a standard managed cluster service with a financially backed SLA. '--tier free' does not have a financially backed SLA.  Allowed values: free, premium, standard.
     /// </summary>
     [CliOption("--tier")]
     public string? Tier { get; set; }
@@ -1103,7 +1199,7 @@ public record AzAksCreateOptions : AzOptions
     public string? WindowsAdminUsername { get; set; }
 
     /// <summary>
-    /// Set the workload runtime.  Allowed values: KataVmIsolation. Azure provides a different workload-runtime to enable Kata supported workloads in your nodepools. The following values can be specified: - "KataVmIsolation" for Kata.
+    /// Set the workload runtime. Allowed values: KataVmIsolation. Azure provides a different workload-runtime to enable Kata supported workloads in your nodepools. The following values can be specified: - "KataVmIsolation" for Kata.
     /// </summary>
     [CliOption("--workload-runtime")]
     public string? WorkloadRuntime { get; set; }
@@ -1121,13 +1217,13 @@ public record AzAksCreateOptions : AzOptions
     public bool? Yes { get; set; }
 
     /// <summary>
-    /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zones you need to pass zone numbers (1,2 or 3) separated by blanks. For example -  To have all 3 zones, you are expected to enter `--zones 1 2 3`.
+    /// Availability zones where agent nodes will be placed. Also, to install agent nodes to more than one zones you need to pass zone numbers (1,2 or 3) separated by blanks.  For example -  To have all 3 zones, you are expected to enter `--zones 1 2 3`.
     /// </summary>
     [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
-    /// Resource Id of an existing Application Gateway to use with AGIC. Use with ingress- azure addon.
+    /// Resource Id of an existing Application Gateway to use with AGIC. Use with ingress-azure addon.
     /// </summary>
     [CliOption("--appgw-id")]
     public string? AppgwId { get; set; }

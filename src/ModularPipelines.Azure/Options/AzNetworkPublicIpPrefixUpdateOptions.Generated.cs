@@ -22,7 +22,19 @@ namespace ModularPipelines.Azure.Options;
 public record AzNetworkPublicIpPrefixUpdateOptions : AzOptions
 {
     /// <summary>
-    /// Do not wait for the long-running operation to finish.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// The resource ID of the first party service tag associated with the IP tag.
+    /// </summary>
+    [CliOption("--first-party-service-tag-id")]
+    public string? FirstPartyServiceTagId { get; set; }
+
+    /// <summary>
+    /// The list of tags associated with the public IP prefix in 'TYPE=VAL' format.  Support shorthand-syntax, json- file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--ip-tags", GroupValues = true)]
+    public IEnumerable<string>? IpTags { get; set; }
+
+    /// <summary>
+    /// Do not wait for the long-running operation to finish. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--no-wait", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoWait { get; set; }
@@ -46,7 +58,7 @@ public record AzNetworkPublicIpPrefixUpdateOptions : AzOptions
     public IEnumerable<string>? Remove { get; set; }
 
     /// <summary>
-    /// Update an object by specifying a property path and value to set. Example: `--set property1.property2=&lt;value&gt;`.
+    /// Update an object by specifying a property path and value to set.  Example: `--set property1.property2=&lt;value&gt;`.
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }

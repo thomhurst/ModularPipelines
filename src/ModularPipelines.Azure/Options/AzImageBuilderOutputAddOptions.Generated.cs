@@ -22,7 +22,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzImageBuilderOutputAddOptions : AzOptions
 {
     /// <summary>
-    /// Tags that will be applied to the output artifact once it has been created by the distributor. space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Tags that will be applied to the output artifact once it has been created by the distributor. space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--artifact-tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? ArtifactTags { get; set; }

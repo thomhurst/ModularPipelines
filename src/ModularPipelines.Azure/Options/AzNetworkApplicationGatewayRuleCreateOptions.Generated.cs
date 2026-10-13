@@ -91,6 +91,12 @@ public record AzNetworkApplicationGatewayRuleCreateOptions : AzOptions
     public string? AddressPool { get; set; }
 
     /// <summary>
+    /// Entra JWT validation configuration resource of the application gateway.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--entra-jwt-config", GroupValues = true)]
+    public IEnumerable<string>? EntraJwtConfig { get; set; }
+
+    /// <summary>
     /// Name or ID of the HTTP listener. If only one exists, omit to use as default.
     /// </summary>
     [CliOption("--http-listener")]

@@ -64,6 +64,12 @@ public record AzNetworkPrivateEndpointUpdateOptions : AzOptions
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
+    /// The billing sku of the private endpoint.  Allowed values: Fixed, PayAsYouGo.
+    /// </summary>
+    [CliOption("--billing-sku")]
+    public string? BillingSku { get; set; }
+
+    /// <summary>
     /// Specifies the IP version type for the private IPs of the private endpoint. If not defined, this defaults to IPv4.  Allowed values: DualStack, IPv4, IPv6.
     /// </summary>
     [CliOption("--ip-version-type")]

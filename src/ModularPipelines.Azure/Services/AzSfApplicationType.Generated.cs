@@ -20,6 +20,7 @@ namespace ModularPipelines.Azure.Services;
 public class AzSfApplicationType
 {
     private readonly ICommandContext _command;
+    private AzSfApplicationTypeVersion? _version;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfApplicationType"/> class.
@@ -28,6 +29,15 @@ public class AzSfApplicationType
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// az version sub-commands.
+    /// </summary>
+    public AzSfApplicationTypeVersion Version => _version ??= new AzSfApplicationTypeVersion(_command);
+
+    #endregion
 
     #region Commands
 
