@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "flux",
-  "toolVersion": "flux version 2.9.5",
+  "toolVersion": "flux version 2.9.6",
   "commandTreeSha256": "cce64ef09e13559016b9deee8b350b34916ce2e46c6e248c25ab24ae62a04c00",
-  "generatorSourceSha256": "edf6a065ad58aa236f1493421521e6d0ce67593e6d870362e043a521271c4248"
+  "generatorSourceSha256": "9dcf6aadf262271430bcbf02b5a7f52d3d6a7a1983182356be9de1fcce4f8e33"
 }
