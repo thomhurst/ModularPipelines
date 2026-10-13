@@ -23,13 +23,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   app         Manage applications
 ///   ...
 /// </summary>
-public partial class ArgoCdCliScraper : CobraCliScraper
+public partial class ArgoCdCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ArgoCdCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public ArgoCdCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<ArgoCdCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "argocd";
 
     public override string NamespacePrefix => "ArgoCd";
@@ -91,6 +86,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             if (inheritedSwitches.Contains(option.SwitchName)
                 && normalized.Description == global.Description)
             {
+                // Validate inherited metadata before omitting the duplicate command declaration.
                 CliGlobalOptionMerger.Merge([global], [normalized]);
             }
             else
@@ -128,9 +124,7 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        positionalArguments = positionalArguments
-            .Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))
-            .ToArray();
+        positionalArguments = [.. positionalArguments.Where(argument => !UsageSynopsisParser.IsCommandGroupPlaceholder(argument))];
         var commandSpecificArguments = GetCommandSpecificArguments(commandParts, positionalArguments);
         if (commandSpecificArguments is not null)
         {
@@ -158,12 +152,11 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             }
         }
 
-        return positionalArguments
+        return [.. positionalArguments
             .Select(argument => argument with
             {
                 PropertyName = NormalizePositionalArgumentName(argument.PropertyName),
-            })
-            .ToList();
+            })];
     }
 
     protected override UsageSynopsisParseResult NormalizeUsageSynopsis(
@@ -175,16 +168,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments) => commandParts switch
         {
-            ["context"] => positionalArguments
-                .Select(argument => argument with { PropertyName = "ContextName" })
-                .ToList(),
-            ["admin", "cluster", "kubeconfig"] => positionalArguments
+            ["context"] => [.. positionalArguments.Select(argument => argument with { PropertyName = "ContextName" })],
+            ["admin", "cluster", "kubeconfig"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     CSharpType = "string?",
                     IsRequired = false,
-                })
-                .ToList(),
+                })],
             ["app", "delete"] or ["app", "sync"] or ["app", "wait"] => [ApplicationNamesArgument()],
             ["app", "unset"] =>
             [
@@ -200,22 +190,20 @@ public partial class ArgoCdCliScraper : CobraCliScraper
                     "IEnumerable<string>",
                     "One or more repository URLs."),
             ],
-            ["cluster", "set"] => positionalArguments
+            ["cluster", "set"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     PropertyName = argument.PropertyName == "Name"
                         ? "ClusterName"
                         : NormalizePositionalArgumentName(argument.PropertyName),
-                })
-                .ToList(),
-            ["cert", "add-tls"] => positionalArguments
+                })],
+            ["cert", "add-tls"] => [.. positionalArguments
                 .Select(argument => argument with
                 {
                     PropertyName = argument.PropertyName == "Servername"
                         ? "RepositoryServerName"
                         : NormalizePositionalArgumentName(argument.PropertyName),
-                })
-                .ToList(),
+                })],
             ["cluster", "get"] or ["cluster", "rm"] or ["cluster", "rotate-auth"] =>
             [
                 RequiredArgument(
@@ -225,14 +213,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             ],
             ["proj", "remove-destination"]
                 or ["proj", "add-destination-service-account"]
-                or ["proj", "remove-destination-service-account"] => positionalArguments
+                or ["proj", "remove-destination-service-account"] => [.. positionalArguments
                     .Select(argument => argument with
                     {
                         PropertyName = argument.PropertyName == "Server"
                             ? "DestinationServer"
                             : NormalizePositionalArgumentName(argument.PropertyName),
-                    })
-                    .ToList(),
+                    })],
             ["proj", "add-destination"] => ProjectDestinationArguments(),
             ["admin", "settings", "rbac", "can"] => RbacCanArguments(),
             _ => null,
