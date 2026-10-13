@@ -1093,6 +1093,28 @@ public class AzCliScraperTests
             contentType.Description)).IsFalse();
     }
 
+    [Test]
+    [Arguments("version", true)]
+    [Arguments("VERSION", true)]
+    [Arguments("show", false)]
+    public async Task Only_Version_Command_Is_Retained_Without_Local_Options(string commandName, bool retained)
+    {
+        var helpText = $"""
+            Command
+                az {commandName} : Display information.
+
+            Global Arguments
+                --debug : Increase logging verbosity.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", commandName], helpText);
+
+        await Assert.That(command is not null).IsEqualTo(retained);
+        if (retained)
+        {
+            await Assert.That(command!.Options).IsEmpty();
+        }
+    }
+
     private sealed class HelpFetchingAzCliScraper(ICliCommandExecutor executor)
         : AzCliScraper(
             executor,

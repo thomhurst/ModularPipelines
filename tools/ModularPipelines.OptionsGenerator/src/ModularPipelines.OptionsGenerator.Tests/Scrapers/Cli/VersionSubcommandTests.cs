@@ -151,6 +151,43 @@ public class VersionSubcommandTests
         await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "version --help"]);
     }
 
+    [Test]
+    public async Task Azure_Version_Without_Local_Options_Reaches_Generated_Options_And_Services()
+    {
+        var executor = new HelpExecutor(new Dictionary<string, string>
+        {
+            ["--help"] = """
+                Group
+                    az : Manage Azure resources.
+
+                Commands:
+                    version : Show Azure CLI version information.
+                """,
+            ["version --help"] = """
+                Command
+                    az version : Show Azure CLI version information.
+
+                Global Arguments
+                    --debug : Increase logging verbosity.
+                    --output -o : Output format. Allowed values: json, table, tsv.
+                """,
+        });
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new AzCliScraper(executor, cache, NullLogger<AzCliScraper>.Instance);
+        var commands = await Scrape(scraper);
+        var command = commands.Single();
+        var definition = scraper.CreateToolDefinition() with { Commands = commands };
+        var optionFiles = await new OptionsClassGenerator().GenerateAsync(definition);
+        var serviceFiles = await new ServiceInterfaceGenerator().GenerateAsync(definition);
+
+        await Assert.That(command.FullCommand).IsEqualTo("az version");
+        await Assert.That(command.Options).IsEmpty();
+        await Assert.That(optionFiles.Single().Content).Contains("CliSubCommand(\"version\")");
+        await Assert.That(serviceFiles.Select(file => file.Content))
+            .Contains(content => content.Contains($"VersionAsync({command.ClassName}"));
+        await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "version --help"]);
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> Scrape(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
