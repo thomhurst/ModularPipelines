@@ -188,6 +188,40 @@ public class VersionSubcommandTests
         await Assert.That(executor.Arguments).IsEquivalentTo(["--help", "version --help"]);
     }
 
+    [Test]
+    [Arguments("empty-help")]
+    [Arguments("failed-help")]
+    [Arguments("wrong-help")]
+    [Arguments("parse-exception")]
+    [Arguments("null-definition")]
+    public async Task Discovered_Version_Without_Valid_Definition_Fails_Scrape(string failure)
+    {
+        var executor = new HelpExecutor(new Dictionary<string, string>
+        {
+            ["--help"] = """
+                Usage: fake [command]
+
+                Available Commands:
+                  version           Print version information
+
+                Global Flags:
+                  -V, --version     Print tool version
+                """,
+            ["version --help"] = failure switch
+            {
+                "empty-help" => string.Empty,
+                "wrong-help" => "Usage: fake run [flags]",
+                _ => "Usage: fake version",
+            },
+        }, failVersionHelp: failure == "failed-help");
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        var scraper = new FailingVersionScraper(executor, cache, failure);
+
+        await Assert.That(async () => { await Scrape(scraper); })
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("fake version was discovered, but no valid command definition was produced");
+    }
+
     private static async Task<IReadOnlyList<CliCommandDefinition>> Scrape(ICliScraper scraper)
     {
         var commands = new List<CliCommandDefinition>();
@@ -199,7 +233,7 @@ public class VersionSubcommandTests
         return commands;
     }
 
-    private sealed class VersionScraper(ICliCommandExecutor executor, IHelpTextCache cache)
+    private class VersionScraper(ICliCommandExecutor executor, IHelpTextCache cache)
         : CobraCliScraper(executor, cache, NullLogger<VersionScraper>.Instance)
     {
         public override string ToolName => "fake";
@@ -214,7 +248,21 @@ public class VersionSubcommandTests
         [new() { SwitchName = "--version", ShortForm = "-V", PropertyName = "Version", CSharpType = "bool?", IsFlag = true }];
     }
 
-    private sealed class HelpExecutor(IReadOnlyDictionary<string, string> help) : ICliCommandExecutor
+    private sealed class FailingVersionScraper(ICliCommandExecutor executor, IHelpTextCache cache, string failure)
+        : VersionScraper(executor, cache)
+    {
+        protected override Task<CliCommandDefinition?> ParseCommandAsync(
+            string[] commandPath, string helpText, UsageSynopsisParseResult usage,
+            CancellationToken cancellationToken) => failure switch
+            {
+                "parse-exception" => throw new InvalidOperationException("Invalid version help"),
+                "null-definition" => Task.FromResult<CliCommandDefinition?>(null),
+                _ => base.ParseCommandAsync(commandPath, helpText, usage, cancellationToken),
+            };
+    }
+
+    private sealed class HelpExecutor(IReadOnlyDictionary<string, string> help, bool failVersionHelp = false)
+        : ICliCommandExecutor
     {
         public List<string> Arguments { get; } = [];
 
@@ -228,7 +276,8 @@ public class VersionSubcommandTests
             Arguments.Add(arguments);
             return Task.FromResult(new CliCommandResult
             {
-                ExitCode = 0,
+                ExitCode = failVersionHelp && arguments == "version --help" ? 1 : 0,
+                ExecutionFailed = failVersionHelp && arguments == "version --help",
                 StandardOutput = help[arguments],
                 StandardError = string.Empty,
             });

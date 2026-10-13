@@ -24,13 +24,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///     auth        Interact with auth methods
 ///     ...
 /// </summary>
-public partial class VaultCliScraper : CliScraperBase
+public partial class VaultCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<VaultCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public VaultCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<VaultCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "vault";
 
     public override string NamespacePrefix => "Vault";

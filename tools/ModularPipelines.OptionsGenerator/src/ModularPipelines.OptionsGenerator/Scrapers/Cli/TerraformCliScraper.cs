@@ -50,10 +50,9 @@ public partial class TerraformCliScraper(ICliCommandExecutor executor, IHelpText
 
     /// <inheritdoc />
     protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
-        ParseOptions(helpText, [], GlobalOptionsSectionPattern())
+        [.. ParseOptions(helpText, [], GlobalOptionsSectionPattern())
             // Help and version select informational actions rather than modifying execution.
-            .Where(option => option.SwitchName is not ("-help" or "-version"))
-            .ToList();
+            .Where(option => option.SwitchName is not ("-help" or "-version"))];
 
     /// <summary>
     /// Skip less useful commands.

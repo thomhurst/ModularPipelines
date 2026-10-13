@@ -283,6 +283,8 @@ public abstract partial class CliScraperBase : ICliScraper
     public virtual async IAsyncEnumerable<CliCommandDefinition> ScrapeAsync(
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        _hasVersionSubcommand = false;
+
         if (Logger.IsEnabled(LogLevel.Information))
         {
             Logger.LogInformation("Discovering {Tool} commands via CLI (executable: {Path}, parallelism: {Parallelism})...",
@@ -345,14 +347,30 @@ public abstract partial class CliScraperBase : ICliScraper
 
         // Yield commands as they're discovered
         var commandCount = 0;
+        var generatedVersionSubcommand = false;
         await foreach (var command in commandChannel.Reader.ReadAllAsync(cancellationToken))
         {
+            if (command.CommandParts.Length == 1
+                && command.CommandParts[0].Equals("version", StringComparison.OrdinalIgnoreCase))
+            {
+                generatedVersionSubcommand = true;
+            }
+
             commandCount++;
             if (Logger.IsEnabled(LogLevel.Information))
             {
                 Logger.LogInformation("Yielding command {Count}: {Command}", commandCount, command.FullCommand);
             }
             yield return command;
+        }
+
+        // Root discovery filters the global version flag before child parsing. Fail the
+        // complete scrape if that child was lost, so regeneration cannot remove both APIs.
+        if (_hasVersionSubcommand && !generatedVersionSubcommand)
+        {
+            throw new InvalidOperationException(
+                $"{ToolName} version was discovered, but no valid command definition was produced. "
+                + "Refusing to generate partial output.");
         }
 
         if (Logger.IsEnabled(LogLevel.Information))

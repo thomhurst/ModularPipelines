@@ -23,13 +23,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   run <collection> [options]  Run a collection
 ///   ...
 /// </summary>
-public partial class NewmanCliScraper : CliScraperBase
+public partial class NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<NewmanCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
-    public NewmanCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<NewmanCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "newman";
 
     public override string NamespacePrefix => "Newman";
@@ -66,7 +61,7 @@ public partial class NewmanCliScraper : CliScraperBase
         if (commandsSectionMatch.Success)
         {
             var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-            var section = helpText.Substring(sectionStart);
+            var section = helpText[sectionStart..];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -186,7 +181,7 @@ public partial class NewmanCliScraper : CliScraperBase
         if (optionsSectionMatch.Success)
         {
             var sectionStart = optionsSectionMatch.Index + optionsSectionMatch.Length;
-            section = helpText.Substring(sectionStart);
+            section = helpText[sectionStart..];
         }
         else
         {
