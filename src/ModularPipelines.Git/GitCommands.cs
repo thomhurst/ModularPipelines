@@ -8,7 +8,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Git;
 
 [ExcludeFromCodeCoverage]
-public class GitCommands :
+public class GitCommands(ICommandContext command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper) :
     IGitCommands,
     IGitRepositoryCommands,
     IGitWorkingTreeCommands,
@@ -17,16 +17,9 @@ public class GitCommands :
     IGitHistoryCommands,
     IGitMaintenanceCommands
 {
-    private readonly ICommandContext _command;
-    private readonly IGitCommandRunner _gitCommandRunner;
-    private readonly IGitCommitMapper _gitCommitMapper;
-
-    public GitCommands(ICommandContext command, IGitCommandRunner gitCommandRunner, IGitCommitMapper gitCommitMapper)
-    {
-        _command = command;
-        _gitCommandRunner = gitCommandRunner;
-        _gitCommitMapper = gitCommitMapper;
-    }
+    private readonly ICommandContext _command = command;
+    private readonly IGitCommandRunner _gitCommandRunner = gitCommandRunner;
+    private readonly IGitCommitMapper _gitCommitMapper = gitCommitMapper;
 
     public IGitRepositoryCommands Repository => this;
 
@@ -518,8 +511,10 @@ public class GitCommands :
     public virtual IAsyncEnumerable<GitCommit> CommitsAsync(string? branch, GitOptions? options = null, CancellationToken cancellationToken = default) =>
         GitCommitPager.EnumerateAsync(
             _gitCommandRunner,
+            _command,
             _gitCommitMapper,
             branch,
+            options,
             null,
             cancellationToken);
 }

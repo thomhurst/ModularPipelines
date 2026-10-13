@@ -264,6 +264,107 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CommitsAsync_Preserves_Global_Options_On_Every_Page(bool useHistoryCommands)
+    {
+        var observedOptions = new List<GitOptions>();
+        var command = new Mock<ICommandContext>();
+        using var cancellation = new CancellationTokenSource();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<GitOptions>(),
+                It.Is<CommandExecutionOptions>(options =>
+                    options.MaxCapturedOutputLength <= 0 &&
+                    options.ThrowOnNonZeroExitCode &&
+                    options.Logging == CommandLoggingOptions.Silent),
+                cancellation.Token))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>((options, _, _) =>
+            {
+                observedOptions.Add((GitOptions) options);
+                var count = observedOptions.Count == 1 ? 50 : 1;
+                return Task.FromResult(CommandResult.Ok(string.Concat(Enumerable.Repeat(
+                    $"{CreateCommitOutput("subject", '1')}\0", count))));
+            });
+        var services = await GetService<IGit>(collection =>
+            collection.AddSingleton(command.Object));
+        var options = new GitOptions
+        {
+            ChangeDirectories = ["parent directory", "child directory"],
+            Configuration = [("custom.value", "first value"), ("custom.value", "second value")],
+            GitDirectory = "repository directory",
+            NoPager = true,
+        };
+        var commits = useHistoryCommands
+            ? services.T.Commands.History.CommitsAsync("main", options, cancellation.Token)
+            : services.T.Information.CommitsAsync("main", options, cancellation.Token);
+        var count = 0;
+        await foreach (var _ in commits)
+        {
+            count++;
+        }
+
+        await Assert.That(count).IsEqualTo(51);
+        await Assert.That(observedOptions).Count().IsEqualTo(2);
+        var builder = services.Pipeline.Services.GetRequiredService<ICommandLineBuilder>();
+        for (var page = 0; page < observedOptions.Count; page++)
+        {
+            var arguments = builder.Build(observedOptions[page]).Arguments.ToArray();
+            await Assert.That(arguments.Take(12).SequenceEqual([
+                "-C", "parent directory", "-C", "child directory",
+                "-c", "custom.value=first value", "-c", "custom.value=second value",
+                "--no-pager", "--git-dir=repository directory", "log", "main",
+            ])).IsTrue();
+            await Assert.That(arguments).Contains($"--skip={page * 50}");
+        }
+
+        await Assert.That(options.CommandParts).IsNull();
+        await Assert.That(options.Arguments).IsNull();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CommitsAsync_With_Global_Options_Propagates_Cancellation(bool useHistoryCommands)
+    {
+        using var cancellation = new CancellationTokenSource();
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<GitOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                cancellation.Token))
+            .ThrowsAsync(new OperationCanceledException(cancellation.Token));
+        var services = await GetService<IGit>(collection => collection.AddSingleton(command.Object));
+        var options = new GitOptions { NoPager = true };
+        var commits = useHistoryCommands
+            ? services.T.Commands.History.CommitsAsync(options, cancellation.Token)
+            : services.T.Information.CommitsAsync(options, cancellation.Token);
+        await using var enumerator = commits.GetAsyncEnumerator();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CommitsAsync_With_Global_Options_Returns_No_Commits_When_Git_Fails(bool useHistoryCommands)
+    {
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<GitOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("git unavailable"));
+        var services = await GetService<IGit>(collection => collection.AddSingleton(command.Object));
+        var options = new GitOptions { NoPager = true };
+        var commits = useHistoryCommands
+            ? services.T.Commands.History.CommitsAsync(options)
+            : services.T.Information.CommitsAsync(options);
+        await using var enumerator = commits.GetAsyncEnumerator();
+
+        await Assert.That(await enumerator.MoveNextAsync()).IsFalse();
+    }
+
+    [Test]
     public async Task Git_Command_Runner_Preserves_Output_Capture_Limit()
     {
         CommandExecutionOptions? observedOptions = null;

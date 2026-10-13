@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Context;
 using ModularPipelines.Git.Models;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -11,8 +13,10 @@ internal static class GitCommitPager
 
     public static async IAsyncEnumerable<GitCommit> EnumerateAsync(
         IGitCommandRunner gitCommandRunner,
+        ICommandContext command,
         IGitCommitMapper gitCommitMapper,
         string? branch,
+        GitOptions? options,
         CommandExecutionOptions? commandExecutionOptions,
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
@@ -21,10 +25,12 @@ internal static class GitCommitPager
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var output = await gitCommandRunner.RunCommandsOrNull(
+            var output = await GetPageOutputAsync(
+                gitCommandRunner,
+                command,
+                options,
                 completeOutputOptions,
                 cancellationToken,
-                "log",
                 branch,
                 $"--skip={skip}",
                 $"--max-count={PageSize}",
@@ -53,6 +59,44 @@ internal static class GitCommitPager
             }
 
             skip += records.Length;
+        }
+    }
+
+    private static async Task<string?> GetPageOutputAsync(
+        IGitCommandRunner gitCommandRunner,
+        ICommandContext command,
+        GitOptions? options,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken,
+        params string?[] arguments)
+    {
+        if (options is null)
+        {
+            // Preserve custom low-level runners for calls without typed options.
+            return await gitCommandRunner.RunCommandsOrNull(
+                executionOptions, cancellationToken, ["log", .. arguments]).ConfigureAwait(false);
+        }
+
+        try
+        {
+            var pageOptions = options with
+            {
+                CommandParts = ["log"],
+                Arguments = [.. arguments.OfType<string>()],
+            };
+            var result = await command.ExecuteCommandLineToolAsync(
+                pageOptions,
+                executionOptions with
+                {
+                    Logging = CommandLoggingOptions.Silent,
+                    ThrowOnNonZeroExitCode = true,
+                },
+                cancellationToken).ConfigureAwait(false);
+            return result.StandardOutput;
+        }
+        catch (Exception exception) when (exception is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
+        {
+            return null;
         }
     }
 

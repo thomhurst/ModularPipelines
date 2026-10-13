@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Options;
@@ -17,13 +18,18 @@ public class GitGlobalOptionsTests : TestBase
             ChangeDirectories = ["parent directory", "child directory"],
             Configuration = [("http.extraHeader", "Authorization: Bearer test-secret")],
         };
-        var builder = await GetService<ICommandLineBuilder>();
+        var services = await GetService<ICommandContext>((Action<IServiceCollection>?) null);
+        var builder = services.Pipeline.Services.GetRequiredService<ICommandLineBuilder>();
         await Assert.That(builder.Build(options).Arguments.SequenceEqual([
             "-C", "parent directory", "-C", "child directory",
             "-c", "http.extraHeader=Authorization: Bearer test-secret", "status",
         ])).IsTrue();
-        var secrets = await GetService<ISecretProvider>();
-        await Assert.That(secrets.GetSecretsInObject(options))
+        using var cancellation = new CancellationTokenSource();
+        cancellation.Cancel();
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            services.T.ExecuteCommandLineToolAsync(options, cancellationToken: cancellation.Token));
+        var secrets = services.Pipeline.Services.GetRequiredService<ISecretProvider>();
+        await Assert.That(secrets.GetSnapshot().Secrets)
             .Contains("Authorization: Bearer test-secret");
     }
 
