@@ -1,0 +1,31 @@
+Edits a kustomization file
+
+Usage:
+  kustomize edit [command]
+
+Examples:
+
+	# Adds a configmap to the kustomization file
+	kustomize edit add configmap NAME --from-literal=k=v
+
+	# Sets the nameprefix field
+	kustomize edit set nameprefix <prefix-value>
+
+	# Sets the namesuffix field
+	kustomize edit set namesuffix <suffix-value>
+
+
+Available Commands:
+  add                       Adds an item to the kustomization file
+  alpha-list-builtin-plugin [Alpha] List the builtin plugins
+  fix                       Fix the missing fields in kustomization file
+  remove                    Removes items from the kustomization file
+  set                       Sets the value of different fields in kustomization file
+
+Flags:
+  -h, --help   help for edit
+
+Global Flags:
+      --stack-trace   print a stack-trace on error
+
+Use "kustomize edit [command] --help" for more information about a command.
