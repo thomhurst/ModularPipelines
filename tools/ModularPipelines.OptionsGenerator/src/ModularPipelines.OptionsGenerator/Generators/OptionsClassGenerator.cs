@@ -832,6 +832,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (collectionType == "IReadOnlySet" && snapshotDeclaredValues)
         {
+            GenerateReadOnlySetSnapshotMethod(sb, propertyType, typePrefix);
             GenerateReadOnlySetSnapshotAdapter(sb, propertyType, typePrefix);
         }
 
@@ -880,7 +881,9 @@ public class OptionsClassGenerator : ICodeGenerator
         if (snapshotDeclaredValues)
         {
             // Validation reads the declared view, independently of the renderer view.
-            sb.AppendLine($"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
+            sb.AppendLine(collectionType == "IReadOnlySet"
+                ? $"        private readonly {sourceType} _source = {typePrefix}Set(source);"
+                : $"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
         }
 
         if (collectionType != "NonGenericIEnumerable")
@@ -904,7 +907,9 @@ public class OptionsClassGenerator : ICodeGenerator
         if (collectionType is "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             sb.AppendLine();
-            var count = snapshotDeclaredValues ? "_source.Length" : "source.Count";
+            var count = snapshotDeclaredValues
+                ? collectionType switch { "IReadOnlySet" => "_source.Count", _ => "_source.Length" }
+                : "source.Count";
             sb.AppendLine($"        public int Count => {count};");
         }
 
@@ -916,7 +921,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (collectionType == "IReadOnlySet")
         {
-            GenerateDelegatedSetOperations(sb, declaredElement);
+            GenerateDelegatedSetOperations(sb, declaredElement, retainedSource);
         }
 
         sb.AppendLine("    }");
@@ -930,28 +935,49 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($$"""
                 private sealed class {{typePrefix}}DeclaredValues({{sourceType}} source) : {{sourceType}}
                 {
-                    private readonly {{declaredElement}}[] _values = global::System.Linq.Enumerable.ToArray(source);
+                    private readonly {{sourceType}} _values = {{typePrefix}}Set(source);
 
-                    public int Count => _values.Length;
+                    public int Count => _values.Count;
 
                     public global::System.Collections.Generic.IEnumerator<{{declaredElement}}> GetEnumerator() =>
                         ((global::System.Collections.Generic.IEnumerable<{{declaredElement}}>)_values).GetEnumerator();
 
-                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() => _values.GetEnumerator();
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
+                        ((global::System.Collections.IEnumerable)_values).GetEnumerator();
             """);
-        GenerateDelegatedSetOperations(sb, declaredElement);
+        GenerateDelegatedSetOperations(sb, declaredElement, "_values");
         sb.AppendLine("    }");
     }
 
-    private static void GenerateDelegatedSetOperations(StringBuilder sb, string declaredElement)
+    private static void GenerateReadOnlySetSnapshotMethod(StringBuilder sb, string propertyType, string typePrefix)
+    {
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        // IReadOnlySet does not expose equality semantics. Clone known mutable sets with their
+        // comparer; retain opaque sets consistently rather than mix live membership with copied values.
+        sb.AppendLine($$"""
+                private static {{sourceType}} {{typePrefix}}Set({{sourceType}} source) => source switch
+                {
+                    global::System.Collections.Generic.HashSet<{{declaredElement}}> set =>
+                        new global::System.Collections.Generic.HashSet<{{declaredElement}}>(
+                            global::System.Linq.Enumerable.Select(source, static item => item), set.Comparer),
+                    global::System.Collections.Generic.SortedSet<{{declaredElement}}> set =>
+                        new global::System.Collections.Generic.SortedSet<{{declaredElement}}>(
+                            global::System.Linq.Enumerable.Select(source, static item => item), set.Comparer),
+                    _ => source,
+                };
+            """);
+    }
+
+    private static void GenerateDelegatedSetOperations(StringBuilder sb, string declaredElement, string retainedSource)
     {
         sb.AppendLine();
-        // Set operations retain the source's equality contract, which need not use the default comparer.
-        sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
+        sb.AppendLine($"        public bool Contains({declaredElement} item) => {retainedSource}.Contains(item);");
         foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
         {
             sb.AppendLine();
-            sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
+            sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => {retainedSource}.{method}(other);");
         }
     }
 

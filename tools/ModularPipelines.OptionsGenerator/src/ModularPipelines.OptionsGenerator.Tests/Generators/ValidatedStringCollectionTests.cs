@@ -140,7 +140,7 @@ public partial class RequiredConstructorValidationTests
         var instance = Activator.CreateInstance(options)!;
         var input = new SingleUseStringRendererViews(entry);
         var property = options.GetProperty("Values")!;
-        property.SetValue(instance, input);
+        property.SetValue(instance, collectionType == "IReadOnlySet<string>?" ? new ComparerAwareRendererSet(entry, input) : input);
         var retained = property.GetValue(instance);
         for (var pass = 0; pass < 2; pass++)
         {
@@ -230,7 +230,7 @@ public partial class RequiredConstructorValidationTests
         var input = new SingleUseStringRendererViews(entry);
         var baseProperty = options.BaseType!.GetProperty("Values")!;
         var property = options.GetProperty("Values")!;
-        baseProperty.SetValue(instance, input);
+        baseProperty.SetValue(instance, collectionType == "IReadOnlySet<string>?" ? new ComparerAwareRendererSet(entry, input) : input);
         var retained = property.GetValue(instance);
         await Assert.That(baseProperty.GetValue(instance)).IsSameReferenceAs(retained);
         var attribute = Attribute.GetCustomAttributes(property, inherit: true)
@@ -320,7 +320,7 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(new System.Reflection.NullabilityInfoContext().Create(property).ReadState)
             .IsEqualTo(System.Reflection.NullabilityState.Nullable);
         var input = new SingleUseStringRendererViews(entry);
-        baseProperty.SetValue(instance, input);
+        baseProperty.SetValue(instance, collectionType == "IReadOnlySet<string>?" ? new ComparerAwareRendererSet(entry, input) : input);
         var retained = property.GetValue(instance);
         await Assert.That(baseProperty.GetValue(instance)).IsSameReferenceAs(retained);
         for (var pass = 0; pass < 2; pass++)
@@ -381,31 +381,193 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
     }
 
-    private sealed class SingleUseReadOnlySet(string entry) : IReadOnlySet<string>
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_ReadOnly_Set_Operations_Use_Retained_Values(
+        [Matrix(false, true)] bool sorted,
+        [Matrix("local", "command", "base")] string assignment,
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool ignoreCase)
     {
-        private readonly HashSet<string> _members = new(["first", entry], StringComparer.OrdinalIgnoreCase);
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: "IReadOnlySet<string>?",
+                collectionSeparator: separator, inherited: assignment != "local"))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var comparer = ignoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+        ISet<string> input = sorted
+            ? new SortedSet<string>(["first", "valid"], comparer)
+            : new HashSet<string>(["first", "valid"], comparer);
+        var property = (assignment == "base" ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = (IReadOnlySet<string>) property.GetValue(instance)!;
+        input.Clear();
+        input.Add(" ");
 
+        await Assert.That(retained).IsEquivalentTo(["first", "valid"]);
+        await Assert.That(retained.Count).IsEqualTo(2);
+        await Assert.That(retained.Contains("FIRST")).IsEqualTo(ignoreCase);
+        await Assert.That(retained.Contains(" ")).IsFalse();
+        await Assert.That(retained.IsProperSubsetOf(["FIRST", "VALID", "extra"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.IsProperSupersetOf(["FIRST"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.IsSubsetOf(["FIRST", "VALID"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.IsSupersetOf(["FIRST", "VALID"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.Overlaps(["VALID"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.SetEquals(["FIRST", "VALID", "first"])).IsEqualTo(ignoreCase);
+        await Assert.That(retained.SetEquals(["first", "valid", "first"])).IsTrue();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+        string[] expected = joined ? ["--requirement", "first,valid"] : ["--requirement", "first", "--requirement", "valid"];
+        await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+            .IsEquivalentTo(expected);
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_ReadOnly_Set_Renderer_Adapters_Use_Retained_Values(
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool baseAssignment)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: "IReadOnlySet<string>?",
+                collectionSeparator: separator, inherited: true))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new MutableRendererSet();
+        var property = (baseAssignment ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = (IReadOnlySet<string>) property.GetValue(instance)!;
+        input.Clear();
+        input.Add(" ");
+        input.RendererValue = "changed";
+
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(retained).IsEquivalentTo(["first", "valid"]);
+            await Assert.That(retained.Count).IsEqualTo(2);
+            await Assert.That(retained.Contains("FIRST")).IsTrue();
+            await Assert.That(retained.Contains(" ")).IsFalse();
+            await Assert.That(retained.IsProperSubsetOf(["FIRST", "VALID", "extra"])).IsTrue();
+            await Assert.That(retained.IsProperSupersetOf(["FIRST"])).IsTrue();
+            await Assert.That(retained.IsSubsetOf(["FIRST", "VALID"])).IsTrue();
+            await Assert.That(retained.IsSupersetOf(["FIRST", "VALID"])).IsTrue();
+            await Assert.That(retained.Overlaps(["VALID"])).IsTrue();
+            await Assert.That(retained.SetEquals(["FIRST", "VALID", "first"])).IsTrue();
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+            string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_Opaque_ReadOnly_Sets_Retain_Consistent_Source_Semantics(
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool rendererView)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: "IReadOnlySet<string>?",
+                collectionSeparator: separator))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var members = new HashSet<string>(["first", "valid"], StringComparer.OrdinalIgnoreCase);
+        var source = new OpaqueReadOnlySet(members);
+        object input = rendererView ? new OpaqueRendererSet(members) : source;
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = (IReadOnlySet<string>) property.GetValue(instance)!;
+        members.Clear();
+        members.Add(" ");
+
+        await Assert.That(retained).IsEquivalentTo([" "]);
+        await Assert.That(retained.Count).IsEqualTo(1);
+        await Assert.That(retained.Contains("FIRST")).IsFalse();
+        await Assert.That(retained.Contains(" ")).IsTrue();
+        await Assert.That(retained.SetEquals([" "])).IsTrue();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any()).IsTrue();
+        string[] expected = ["--requirement", " "];
+        if (rendererView)
+        {
+            expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+        }
+        await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+            .IsEquivalentTo(expected);
+    }
+
+    private class OpaqueReadOnlySet(HashSet<string> members) : IReadOnlySet<string>
+    {
+        public int Count => members.Count;
+        public bool Contains(string item) => members.Contains(item);
+        public bool IsProperSubsetOf(IEnumerable<string> other) => members.IsProperSubsetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<string> other) => members.IsProperSupersetOf(other);
+        public bool IsSubsetOf(IEnumerable<string> other) => members.IsSubsetOf(other);
+        public bool IsSupersetOf(IEnumerable<string> other) => members.IsSupersetOf(other);
+        public bool Overlaps(IEnumerable<string> other) => members.Overlaps(other);
+        public bool SetEquals(IEnumerable<string> other) => members.SetEquals(other);
+        public IEnumerator<string> GetEnumerator() => members.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    private sealed class OpaqueRendererSet(HashSet<string> members) : OpaqueReadOnlySet(members),
+        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.CliValuePair>) [new ModularPipelines.Models.CliValuePair("typed", "value")]).GetEnumerator();
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.KeyValue>) [new ModularPipelines.Models.KeyValue("typed", "value")]).GetEnumerator();
+    }
+
+    private sealed class MutableRendererSet() : HashSet<string>(["first", "valid"], StringComparer.OrdinalIgnoreCase),
+        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        public string RendererValue { get; set; } = "value";
+        public int PairEnumerationCount { get; private set; }
+        public int KeyValueEnumerationCount { get; private set; }
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            PairEnumerationCount++;
+            yield return new("typed", RendererValue);
+        }
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            KeyValueEnumerationCount++;
+            yield return new("typed", RendererValue);
+        }
+    }
+
+    private sealed class SingleUseReadOnlySet(string entry) : HashSet<string>(["first", entry], StringComparer.OrdinalIgnoreCase), IReadOnlySet<string>
+    {
         public int EnumerationCount { get; private set; }
-        public int Count => _members.Count;
-        public bool Contains(string item) => _members.Contains(item);
-        public bool IsProperSubsetOf(IEnumerable<string> other) => _members.IsProperSubsetOf(other);
-        public bool IsProperSupersetOf(IEnumerable<string> other) => _members.IsProperSupersetOf(other);
-        public bool IsSubsetOf(IEnumerable<string> other) => _members.IsSubsetOf(other);
-        public bool IsSupersetOf(IEnumerable<string> other) => _members.IsSupersetOf(other);
-        public bool Overlaps(IEnumerable<string> other) => _members.Overlaps(other);
-        public bool SetEquals(IEnumerable<string> other) => _members.SetEquals(other);
 
-        public IEnumerator<string> GetEnumerator()
+        IEnumerator<string> IEnumerable<string>.GetEnumerator()
         {
             if (++EnumerationCount > 1)
             {
                 throw new InvalidOperationException("Set input can only be enumerated once.");
             }
 
-            return _members.GetEnumerator();
+            return base.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => ((IEnumerable<string>) this).GetEnumerator();
+    }
+
+    private sealed class ComparerAwareRendererSet(string entry, SingleUseStringRendererViews values)
+        : HashSet<string>(["first", entry], StringComparer.OrdinalIgnoreCase), IReadOnlySet<string>,
+            IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        IEnumerator<string> IEnumerable<string>.GetEnumerator() => values.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => values.GetEnumerator();
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.CliValuePair>) values).GetEnumerator();
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.KeyValue>) values).GetEnumerator();
     }
 
     private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>,
