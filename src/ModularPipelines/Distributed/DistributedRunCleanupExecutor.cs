@@ -68,6 +68,11 @@ internal sealed class DistributedRunCleanupExecutor(
     /// heartbeat when execution ends but publishes the final status only after its pipeline end handlers, so
     /// the final status is the only proof that it no longer uses the run's data.
     /// </summary>
+    /// <remarks>
+    /// A worker whose heartbeat expired drops out of the live registrations while its end handlers can still be
+    /// running, so participants also include every worker with a reported status. Coordinators record a status
+    /// when a worker registers and keep it after the heartbeat expires.
+    /// </remarks>
     /// <returns><see langword="false"/> when a worker did not finish in time, so the run's data is kept.</returns>
     private async Task<bool> WaitForWorkersToFinishAsync(DistributedOptions distributedOptions)
     {
@@ -82,15 +87,17 @@ internal sealed class DistributedRunCleanupExecutor(
 
             var token = timeoutSource.Token;
             var expected = (await coordinator.GetRegisteredWorkersAsync(token).WaitAsync(token).ConfigureAwait(false))
-                .Where(worker => worker.WorkerId != distributedOptions.LocalWorkerId
-                                 && IsCurrentRun(worker.RunId, distributedOptions.RunId))
+                .Where(worker => IsCurrentRun(worker.RunId, distributedOptions.RunId))
                 .Select(static worker => worker.WorkerId)
                 .ToHashSet();
             while (true)
             {
-                var finished = (await coordinator.GetWorkerStatusesAsync(token).WaitAsync(token).ConfigureAwait(false))
-                    .Where(status => status.IsFinal && IsCurrentRun(status.RunId, distributedOptions.RunId))
-                    .Select(static status => status.WorkerId);
+                var statuses = (await coordinator.GetWorkerStatusesAsync(token).WaitAsync(token).ConfigureAwait(false))
+                    .Where(status => IsCurrentRun(status.RunId, distributedOptions.RunId))
+                    .ToArray();
+                expected.UnionWith(statuses.Select(static status => status.WorkerId));
+                expected.Remove(distributedOptions.LocalWorkerId);
+                var finished = statuses.Where(static status => status.IsFinal).Select(static status => status.WorkerId);
                 pending = [.. expected.Except(finished)];
                 if (pending.Count == 0)
                 {

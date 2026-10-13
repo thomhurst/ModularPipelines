@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.UnitTests.Configuration;
 using ModularPipelines.Engine;
@@ -163,17 +164,24 @@ public class RunCleanupPipelineTests
         builder.AddDistributedCoordinator<CleanableCoordinator>();
         builder.Services.AddSingleton<IDistributedRunCleanup>(_ =>
         {
-            release.Wait(TimeSpan.FromSeconds(10));
+            release.Wait();
             return new RecordingCleanup();
         });
         builder.AddModule<SucceedingModule>();
 
         await using var pipeline = await builder.BuildAsync();
-        var summary = await pipeline.RunAsync(cancellationToken);
-        release.Set();
+        try
+        {
+            // Finishing well before the factory is released proves the resolution timeout was applied.
+            var summary = await pipeline.RunAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
 
-        await Assert.That(summary.Succeeded).IsTrue();
-        await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
+            await Assert.That(summary.Succeeded).IsTrue();
+            await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
+        }
+        finally
+        {
+            release.Set();
+        }
     }
 
     [Test]
@@ -194,6 +202,26 @@ public class RunCleanupPipelineTests
 
         await Assert.That(calledBeforeFinalStatus).IsEqualTo(0);
         await Assert.That(cleanup.Calls).HasSingleItem();
+    }
+
+    [Test]
+    public async Task Cleanup_Waits_For_A_Worker_Whose_Heartbeat_Expired()
+    {
+        var time = new FakeTimeProvider();
+        var coordinator = new InMemoryDistributedCoordinator(
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { WorkerTimeout = TimeSpan.FromSeconds(30) }),
+            time);
+        await coordinator.RegisterWorkerAsync(Registration("instance-1"), CancellationToken.None);
+
+        // Still running its end handlers, but no longer a live registration.
+        time.Advance(TimeSpan.FromMinutes(1));
+        await Assert.That(await coordinator.GetRegisteredWorkersAsync(CancellationToken.None)).IsEmpty();
+        var cleanup = new RecordingCleanup();
+        var executor = CreateMasterExecutor(coordinator, cleanup, TimeSpan.FromMilliseconds(300));
+
+        await executor.CleanupAsync(pipelineSucceeded: true);
+
+        await Assert.That(cleanup.Calls).IsEmpty();
     }
 
     [Test]
