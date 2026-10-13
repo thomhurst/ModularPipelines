@@ -106,6 +106,12 @@ public record AzNetworkExpressRouteGatewayConnectionUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The resource id of route table associated with this routing configuration. WARNING: Argument '--associated-route-table' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--associated")]

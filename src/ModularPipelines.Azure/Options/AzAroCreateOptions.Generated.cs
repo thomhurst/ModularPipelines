@@ -254,4 +254,10 @@ public record AzAroCreateOptions : AzOptions
     [CliOption("--enable-managed-identity", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableManagedIdentity { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

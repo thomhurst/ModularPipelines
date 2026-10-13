@@ -75,11 +75,7 @@ public record AzLoginOptions : AzOptions
     /// Subscription ID or name to set as the default. When combined with --skip-subscription-discovery, only this subscription is retrieved via a direct API call (must be a subscription ID, not a name).
     /// </summary>
     [CliOption("--subscription", ShortForm = "-s")]
-    public new string? Subscription
-    {
-        get => base.Subscription;
-        set => base.Subscription = value;
-    }
+    public string? Subscription { get; set; }
 
     /// <summary>
     /// The Microsoft Entra tenant, must be provided when using a service principal.

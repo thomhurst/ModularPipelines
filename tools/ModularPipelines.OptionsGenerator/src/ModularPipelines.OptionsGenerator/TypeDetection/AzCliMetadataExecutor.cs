@@ -14,7 +14,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
     // Invoking --help loads the selected command's argparse actions without executing it.
     // Keep help on stdout so the normal cache and provenance capture both help and metadata.
     private const string Script = """
-        import argparse, contextlib, io, json, sys
+        import argparse, json, sys
         from azure.cli.core import get_default_cli
         cli = get_default_cli()
         try:
@@ -28,19 +28,8 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         selected = parser.subparser_map.get(command, parser)
         actions = list(selected._actions)
         if sys.argv[1:] == ['--help']:
-            # Root help hides globals. Read the root parser and the subscription action
-            # registered on resource commands, using the same installed CLI.
-            resource_cli = get_default_cli()
-            with contextlib.redirect_stdout(io.StringIO()):
-                try:
-                    resource_code = resource_cli.invoke(['group', 'show', '--help'])
-                except SystemExit as exit:
-                    resource_code = exit.code
-            if resource_code not in (None, 0):
-                sys.exit(resource_code)
-            resource_parser = resource_cli.invocation.parser.subparser_map['group show']
-            actions.append(next(action for action in resource_parser._actions
-                                if '--subscription' in action.option_strings))
+            # Root help hides globals. Only root parser actions are universal;
+            # subscription is registered separately by commands that support it.
             print('\nGlobal Arguments')
             for action in actions:
                 long_options = [option for option in action.option_strings if option.startswith('--')]

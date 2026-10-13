@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -76,7 +75,6 @@ public record AzApimNvUpdateOptions : AzOptions
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--secret", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Secret { get; set; }
 
@@ -115,5 +113,11 @@ public record AzApimNvUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--set", GroupValues = true)]
     public IEnumerable<string>? Set { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

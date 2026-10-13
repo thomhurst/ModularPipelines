@@ -298,6 +298,12 @@ public record AzVmUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Specify the disk controller type configured for the VM or VMSS. Allowed values: NVMe, SCSI. WARNING: Argument '--disk-controller-type' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--disk-controller-type")]

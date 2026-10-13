@@ -20,4 +20,10 @@ namespace ModularPipelines.Azure.Options;
 [CliSubCommand("security", "regulatory-compliance-standards", "list")]
 public record AzSecurityRegulatoryComplianceStandardsListOptions : AzOptions
 {
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

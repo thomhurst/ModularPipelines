@@ -65,4 +65,10 @@ public record AzContainerappEnvWorkloadProfileDeleteOptions : AzOptions
     [CliOption("--workload-profile-name", ShortForm = "-w")]
     public string WorkloadProfileName { get; private init; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

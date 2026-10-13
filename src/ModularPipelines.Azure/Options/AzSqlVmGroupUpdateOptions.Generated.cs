@@ -70,6 +70,12 @@ public record AzSqlVmGroupUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain).
     /// </summary>
     [CliOption("--bootstrap-acc")]

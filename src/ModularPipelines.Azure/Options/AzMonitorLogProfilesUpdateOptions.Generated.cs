@@ -88,6 +88,12 @@ public record AzMonitorLogProfilesUpdateOptions : AzOptions
     public string? Name { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// The number of days for the retention in days. A value of 0 will retain the events indefinitely.
     /// </summary>
     [CliOption("--days")]

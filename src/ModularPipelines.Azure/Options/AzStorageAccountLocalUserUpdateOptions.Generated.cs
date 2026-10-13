@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -82,7 +81,6 @@ public record AzStorageAccountLocalUserUpdateOptions : AzOptions
     /// <summary>
     /// Indicates whether ssh password exists. Set it to false to remove existing SSH password.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--has-ssh-password", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? HasSshPassword { get; set; }
 
@@ -103,5 +101,11 @@ public record AzStorageAccountLocalUserUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--ssh-authorized-key", GroupValues = true)]
     public IEnumerable<CliValueGroup>? SshAuthorizedKey { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

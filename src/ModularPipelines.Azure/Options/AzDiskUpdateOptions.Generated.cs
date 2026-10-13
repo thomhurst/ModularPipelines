@@ -160,6 +160,12 @@ public record AzDiskUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Customers can set on Managed Disks or Snapshots to enable the accelerated networking if the OS disk image support.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes. WARNING: Argument '--accelerated-network' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
     /// </summary>
     [CliOption("--accelerated-network", ValueArity = CliOptionValueArity.Optional)]

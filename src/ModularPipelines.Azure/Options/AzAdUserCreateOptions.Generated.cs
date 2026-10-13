@@ -71,7 +71,6 @@ public record AzAdUserCreateOptions : AzOptions
     /// <summary>
     /// Marks this user as needing to update their password the next time they authenticate. If omitted, false will be used.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--force-change-password-next-sign-in", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? ForceChangePasswordNextSignIn { get; set; }
 

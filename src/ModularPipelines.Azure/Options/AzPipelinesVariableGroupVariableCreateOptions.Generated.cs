@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -77,7 +76,6 @@ public record AzPipelinesVariableGroupVariableCreateOptions : AzOptions
     /// <summary>
     /// If the value of the variable is a secret.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--secret", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Secret { get; set; }
 
@@ -86,5 +84,11 @@ public record AzPipelinesVariableGroupVariableCreateOptions : AzOptions
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

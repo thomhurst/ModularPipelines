@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -77,7 +76,6 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// <summary>
     /// Do not generate passwords during token creation. You can generate the passwords after the token is created by using `az acr token credentials generate` command.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--no-passwords", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? NoPasswords { get; set; }
 
@@ -104,5 +102,11 @@ public record AzAcrTokenCreateOptions : AzOptions
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

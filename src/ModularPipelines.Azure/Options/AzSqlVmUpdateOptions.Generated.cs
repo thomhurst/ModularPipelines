@@ -242,7 +242,6 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--enable-key-vault-credential", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableKeyVaultCredential { get; set; }
 
@@ -282,6 +281,12 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
     /// <summary>
     /// SQL Server connectivity option.  Allowed values: LOCAL, PRIVATE, PUBLIC.

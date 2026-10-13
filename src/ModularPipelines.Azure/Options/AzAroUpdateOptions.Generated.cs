@@ -84,7 +84,6 @@ public record AzAroUpdateOptions : AzOptions
     /// <summary>
     /// Refresh cluster application credentials.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--refresh-credentials", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? RefreshCredentials { get; set; }
 
@@ -105,5 +104,11 @@ public record AzAroUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--upgradeable-to")]
     public string? UpgradeableTo { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

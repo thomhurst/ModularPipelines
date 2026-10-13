@@ -130,6 +130,12 @@ public record AzNetappfilesCacheUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume. Allowed values: Disabled, Enabled.
     /// </summary>
     [CliOption("--smb-access-based-enumeration")]

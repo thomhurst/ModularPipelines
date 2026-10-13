@@ -258,6 +258,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
 
         // Parse options from the help text
         var options = ParseOptions(helpText, argumentShapes);
+        // Command help also lists globals that are not registered on the root parser.
+        // Keep those local, and prefer an Arguments definition over a duplicate global row.
+        var commandSwitches = options.SelectMany(option => option.GetSwitchNames()).ToHashSet(StringComparer.Ordinal);
+        options.AddRange(ParseOptions(helpText, argumentShapes, globalOnly: true)
+            .Where(option => !option.GetSwitchNames().Any(commandSwitches.Contains)));
 
         var globalOptions = EffectiveGlobalOptions;
         options.RemoveAll(option => globalOptions.Any(global => CliGlobalOptionMerger.HasSameShape(global, option)));
@@ -460,7 +465,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             ValueSeparator = " ",
             ValueArity = GetValueArity(isFlag, description, shape),
             EnumDefinition = null,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description),
+            IsSecret = !explicitBooleanValue && GeneratorUtils.IsSecretOption(propertyName, isFlag, description),
         };
     }
 

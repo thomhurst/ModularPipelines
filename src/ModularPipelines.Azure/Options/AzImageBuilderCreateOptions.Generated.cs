@@ -175,4 +175,10 @@ public record AzImageBuilderCreateOptions : AzOptions
     [CliOption("--shared-image-destinations", GroupValues = true)]
     public IEnumerable<string>? SharedImageDestinations { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

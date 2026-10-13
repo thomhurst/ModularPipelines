@@ -104,7 +104,6 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Boolean indicating if token store is enabled for the app.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--token-store", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? TokenStore { get; set; }
 
@@ -131,5 +130,11 @@ public record AzContainerappAuthUpdateOptions : AzOptions
     /// </summary>
     [CliOption("--resource-group", ShortForm = "-g")]
     public string? ResourceGroup { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

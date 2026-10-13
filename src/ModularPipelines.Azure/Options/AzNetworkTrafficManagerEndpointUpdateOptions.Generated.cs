@@ -129,6 +129,12 @@ public record AzNetworkTrafficManagerEndpointUpdateOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Endpoint type.  Allowed values: azureEndpoints, externalEndpoints, nestedEndpoints.
     /// </summary>
     [CliOption("--type", ShortForm = "-t")]

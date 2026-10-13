@@ -1,9 +1,140 @@
+
+Group
+    az
+
+Subgroups:
+    account               : Manage Azure subscription information.
+    acr                   : Manage private registries with Azure Container Registries.
+    ad                    : Manage Microsoft Entra ID (formerly known as Azure Active Directory,
+                            Azure AD, AAD) entities needed for Azure role-based access control
+                            (Azure RBAC) through Microsoft Graph API.
+    advisor               : Manage Azure Advisor.
+    aks                   : Azure Kubernetes Service.
+    ams                   : Manage Azure Media Services resources.
+    apim                  : Manage Azure API Management services.
+    appconfig             : Manage App Configurations.
+    appservice            : Manage Appservice.
+    aro                   : Manage Azure Red Hat OpenShift clusters.
+    artifacts             : Manage Azure Artifacts.
+    backup                : Manage Azure Backups.
+    batch                 : Manage Azure Batch.
+    bicep                 : Bicep CLI command group.
+    billing               : Manage Azure Billing.
+    boards                : Manage Azure Boards.
+    bot                   : Manage Microsoft Azure Bot Service.
+    cache                 : Commands to manage CLI objects cached using the `--defer` argument.
+    capacity              : Manage capacity.
+    cloud                 : Manage registered Azure clouds.
+    cognitiveservices     : Manage Azure Cognitive Services accounts.
+    compute-fleet         : Manage for Azure Compute Fleet.
+    compute-recommender   : Manage sku/zone/region recommender info for compute resources.
+    config [Experimental] : Manage Azure CLI configuration.
+    connection            : Commands to manage Service Connector local connections which allow local
+                            environment to connect Azure Resource. If you want to manage connection
+                            for compute service, please run 'az webapp/containerapp/spring
+                            connection'.
+    consumption [Preview] : Manage consumption of Azure resources.
+    container             : Manage Azure Container Instances.
+    containerapp          : Manage Azure Container Apps.
+    cosmosdb              : Manage Azure Cosmos DB database accounts.
+    data-boundary         : Data boundary operations.
+    databoxedge           : Manage device with databoxedge.
+    deployment            : Manage Azure Resource Manager template deployment at subscription scope.
+    deployment-scripts    : Manage deployment scripts at subscription or resource group scope.
+    devops                : Manage Azure DevOps organization level operations.
+    disk                  : Manage Azure Managed Disks.
+    disk-access           : Manage disk access resources.
+    disk-encryption-set   : Disk Encryption Set resource.
+    dls         [Preview] : Manage Data Lake Store accounts and filesystems.
+    dms                   : Manage Azure Data Migration Service (classic) instances.
+    eventgrid             : Manage Azure Event Grid topics, domains, domain topics, system topics
+                            partner topics, event subscriptions, system topic event subscriptions
+                            and partner topic event subscriptions.
+    eventhubs             : Manage Event Hub.
+    extension             : Manage and update CLI extensions.
+    feature               : Manage resource provider features.
+    functionapp           : Manage function apps. To install the Azure Functions Core tools see
+                            https://github.com/Azure/azure-functions-core-tools.
+    group                 : Manage resource groups and template deployments.
+    hdinsight             : Manage HDInsight resources.
+    identity              : Manage Managed Identity.
+    image                 : Manage custom virtual machine images.
+    iot                   : Manage Internet of Things (IoT) assets.
+    keyvault              : Manage KeyVault keys, secrets, and certificates.
+    lab         [Preview] : Manage azure devtest labs.
+    lock                  : Manage Azure locks.
+    logicapp              : Manage logic apps.
+    managed-cassandra     : Azure Managed Cassandra.
+    managedapp            : Manage template solutions provided and maintained by Independent
+                            Software Vendors (ISVs).
+    managedservices       : Manage the registration assignments and definitions in Azure.
+    maps                  : Manage Azure Maps.
+    mariadb               : Manage Azure Database for MariaDB servers.
+    monitor               : Manage the Azure Monitor Service.
+    mysql                 : Manage Azure Database for MySQL servers.
+    netappfiles           : Manage Azure NetApp Files (ANF) Resources.
+    network               : Manage Azure Network resources.
+    pipelines             : Manage Azure Pipelines.
+    policy                : Manage resources defined and used by the Azure Policy service.
+    postgres              : Manage Azure Database for PostgreSQL.
+    ppg                   : Manage Proximity Placement Groups.
+    private-link          : Private-link association CLI command group.
+    provider              : Manage resource providers.
+    redis                 : Manage dedicated Redis caches for your Azure applications.
+    relay                 : Manage Azure Relay Service namespaces, WCF relays, hybrid connections,
+                            and rules.
+    repos                 : Manage Azure Repos.
+    resource              : Manage Azure resources.
+    resourcemanagement    : Resourcemanagement CLI command group.
+    restore-point         : Manage restore point with res.
+    role                  : Manage Azure role-based access control (Azure RBAC).
+    search                : Manage Azure AI Search.
+    security              : Manage your security posture with Microsoft Defender for Cloud.
+    servicebus            : Manage Service Bus.
+    sf                    : Manage and administer Azure Service Fabric clusters.
+    sig                   : Manage shared image gallery.
+    signalr               : Manage Azure SignalR Service.
+    snapshot              : Manage point-in-time copies of managed disks, native blobs, or other
+                            snapshots.
+    sql                   : Manage Azure SQL Databases and Data Warehouses.
+    sshkey                : Manage ssh public key with vm.
+    stack                 : A deployment stack is a native Azure resource type that enables you to
+                            perform operations on a resource collection as an atomic unit.
+    stack-whatif          : A deployment stack What-If is a preview of an operation to be performed
+                            on a new or existing deployment stack.
+    staticwebapp          : Manage static apps.
+    storage               : Manage Azure Cloud Storage resources.
+    synapse               : Manage and operate Synapse Workspace, Spark Pool, SQL Pool.
+    tag                   : Tag Management on a resource.
+    term   [Experimental] : Manage marketplace agreement with marketplaceordering.
+    ts                    : Manage template specs at subscription or resource group scope.
+    vm                    : Manage Linux or Windows virtual machines.
+    vmss                  : Manage groupings of virtual machines in an Azure Virtual Machine Scale
+                            Set (VMSS).
+    webapp                : Manage web apps.
+
+Commands:
+    configure             : Manage Azure CLI configuration. This command is interactive.
+    feedback              : Send feedback to the Azure CLI Team.
+    find                  : I'm an AI assistant, my advice is based on Microsoft Learn documentation
+                            as well as the usage patterns of Azure CLI and Azure ARM users. Using me
+                            improves Azure products and documentation.
+    interactive [Preview] : Start interactive mode. Installs the Interactive extension if not
+                            installed already.
+    login                 : Log in to Azure.
+    logout                : Log out to remove access to Azure subscriptions.
+    rest                  : Invoke a custom request.
+    survey                : Take Azure CLI survey.
+    upgrade     [Preview] : Upgrade Azure CLI and extensions.
+    version               : Show the versions of Azure CLI modules and extensions in JSON format by
+                            default or format configured by --output.
+
+
 Global Arguments
     --verbose : Increase logging verbosity. Use --debug for full debug logs.
     --debug : Increase logging verbosity to show all debug logs.
     --only-show-errors : Only show errors, suppressing warnings.
     --output -o : Output format. Allowed values: json, jsonc, yaml, yamlc, table, tsv, none.
     --query : JMESPath query string. See http://jmespath.org/ for more information and examples.
-    --subscription : Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
 
-__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

@@ -39,6 +39,12 @@ public record AzVmAvailabilitySetValidateMigrationToVmssOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Specify resource id about the Virtual Machine Scale Set that the Availability Set should be migrated to.
     /// </summary>
     [CliOption("--vmss-flexible-id")]

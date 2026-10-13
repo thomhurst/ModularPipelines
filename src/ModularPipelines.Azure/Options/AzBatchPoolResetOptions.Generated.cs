@@ -109,4 +109,10 @@ public record AzBatchPoolResetOptions : AzOptions
     [CliFlag("--start-task-wait-for-success")]
     public bool? StartTaskWaitForSuccess { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

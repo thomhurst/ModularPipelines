@@ -32,8 +32,10 @@ separately before the pipeline. Environment-variable authentication does not pop
 
 ## Global arguments
 
-Azure CLI parser metadata supplies `AzOptions.Subscription`, `Output`, `Query`, `Debug`,
-`Verbose`, and `OnlyShowErrors`. Set them directly on the selected command options:
+Azure CLI parser metadata supplies `AzOptions.Output`, `Query`, `Debug`, `Verbose`,
+and `OnlyShowErrors`. `Subscription` is generated on commands whose parser supports it;
+commands such as `az extension list` do not expose it. Set these properties directly on
+the selected command options:
 
 ```csharp
 var options = new AzGroupShowOptions("my-resource-group")
@@ -45,16 +47,16 @@ var options = new AzGroupShowOptions("my-resource-group")
 ```
 
 Global arguments follow the complete subcommand path, for example
-`az group show --name my-resource-group --output json --query name --subscription my-subscription`.
+`az group show --name my-resource-group --subscription my-subscription --output json --query name`.
 The supplemental `AcquirePolicyToken` and `ChangeReference` properties remain available.
 
 When migrating, replace additional arguments for these switches with their typed properties.
-Reflection code using `DeclaredOnly` must include inherited properties. A command-specific
-definition replaces the inherited property when its aliases, requiredness, or value arity
-differ. For example, `AzAccountSetOptions` requires `Subscription` in its constructor and
+Reflection code using `DeclaredOnly` must include inherited properties. Command-specific
+definitions retain their own aliases, requiredness, and value arity.
+For example, `AzAccountSetOptions` requires `Name` in its constructor and
 renders the parser's primary `--name` spelling; its `-n`, `--subscription`, and `-s` spellings
-identify the same parser argument. `AzAccountShowOptions.Subscription` replaces its former
-`Name` property. Resource names on other commands retain their own properties.
+identify the same parser argument. `AzAccountShowOptions.Name` also renders `--name`.
+Resource names on other commands retain their own properties.
 Management-group subscription add, remove, and show commands now require both `Name`
 and `Subscription` constructor arguments, matching the CLI's required arguments.
 

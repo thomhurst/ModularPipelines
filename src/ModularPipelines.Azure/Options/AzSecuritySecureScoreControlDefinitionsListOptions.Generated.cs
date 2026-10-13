@@ -20,4 +20,10 @@ namespace ModularPipelines.Azure.Options;
 [CliSubCommand("security", "secure-score-control-definitions", "list")]
 public record AzSecuritySecureScoreControlDefinitionsListOptions : AzOptions
 {
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

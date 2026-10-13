@@ -24,10 +24,6 @@ public record AzAccountShowOptions : AzOptions
     /// Name or ID of subscription.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public new string? Subscription
-    {
-        get => base.Subscription;
-        set => base.Subscription = value;
-    }
+    public string? Name { get; set; }
 
 }

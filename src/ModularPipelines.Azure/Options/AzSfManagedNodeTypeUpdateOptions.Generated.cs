@@ -120,4 +120,10 @@ public record AzSfManagedNodeTypeUpdateOptions : AzOptions
     [CliOption("--vm-size")]
     public string? VmSize { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }

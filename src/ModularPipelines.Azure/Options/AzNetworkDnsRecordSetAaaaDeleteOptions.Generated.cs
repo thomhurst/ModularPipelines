@@ -51,6 +51,12 @@ public record AzNetworkDnsRecordSetAaaaDeleteOptions : AzOptions
     public string? ResourceGroup { get; set; }
 
     /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
+    /// <summary>
     /// Name of the DNS zone.
     /// </summary>
     [CliOption("--zone-name", ShortForm = "-z")]

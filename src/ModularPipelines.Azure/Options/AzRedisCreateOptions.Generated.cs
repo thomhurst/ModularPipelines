@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -92,7 +91,6 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
-    [SecretValue]
     [CliOption("--disable-access-keys", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? DisableAccessKeys { get; set; }
 
@@ -185,5 +183,11 @@ public record AzRedisCreateOptions : AzOptions
     /// </summary>
     [CliOption("--zones", ShortForm = "-z", GroupValues = true)]
     public IEnumerable<string>? Zones { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
 
 }

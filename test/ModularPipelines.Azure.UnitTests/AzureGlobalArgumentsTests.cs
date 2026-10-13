@@ -30,39 +30,56 @@ public class AzureGlobalArgumentsTests : TestBase
         await Assert.That(arguments).Contains("--verbose");
         await Assert.That(arguments).Contains("--acquire-policy-token");
         await Assert.That(arguments).Contains("--change-reference");
-        await Assert.That(typeof(AzGroupShowOptions).GetProperty(nameof(AzOptions.Subscription))!.DeclaringType)
+        await Assert.That(typeof(AzGroupShowOptions).GetProperty(nameof(AzGroupShowOptions.Subscription))!.DeclaringType)
+            .IsEqualTo(typeof(AzGroupShowOptions));
+        await Assert.That(typeof(AzGroupShowOptions).GetProperty(nameof(AzOptions.Output))!.DeclaringType)
             .IsEqualTo(typeof(AzOptions));
     }
 
     [Test]
-    public async Task Required_Local_Subscription_Replaces_Inherited_Subscription()
+    public async Task Account_Subscription_Alias_Uses_The_Parser_Primary_Name()
     {
         var options = new AzAccountSetOptions("local");
-        ((AzOptions) options).Subscription = "inherited";
         var arguments = BuildArguments(options);
         await Assert.That(arguments).IsEquivalentTo(["--name", "local"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
-    public async Task Local_Subscription_Alias_Shares_Inherited_Storage()
+    public async Task Optional_Account_Subscription_Alias_Uses_The_Parser_Primary_Name()
     {
-        var options = new AzAccountShowOptions { Subscription = "local" };
-        ((AzOptions) options).Subscription = "inherited";
-        await Assert.That(options.Subscription).IsEqualTo("inherited");
-        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--name", "inherited"],
+        var options = new AzAccountShowOptions { Name = "local" };
+        await Assert.That(BuildArguments(options)).IsEquivalentTo(["--name", "local"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
     public async Task Globals_Follow_The_Complete_Subcommand_Path()
     {
-        var command = await RenderCommand(new AzAccountManagementGroupListOptions
+        var command = await RenderCommand(new AzAcrTokenListOptions("registry")
         {
             Subscription = "subscription",
             Output = "json",
         });
         await Assert.That(command)
-            .IsEqualTo("az account management-group list --output json --subscription subscription");
+            .IsEqualTo("az acr token list --registry registry --subscription subscription --output json");
+    }
+
+    [Test]
+    public async Task Unsupported_Commands_Do_Not_Expose_Subscription()
+    {
+        await Assert.That(typeof(AzOptions).GetProperty("Subscription")).IsNull();
+        await Assert.That(typeof(AzExtensionListOptions).GetProperty("Subscription")).IsNull();
+        await Assert.That(await RenderCommand(new AzExtensionListOptions { Output = "json" }))
+            .IsEqualTo("az extension list --output json");
+    }
+
+    [Test]
+    public async Task Optional_Boolean_Controls_Do_Not_Mask_Their_Values()
+    {
+        await Assert.That(typeof(AzAcrTokenCreateOptions).GetProperty("NoPasswords")!
+            .IsDefined(typeof(ModularPipelines.Secrets.SecretValueAttribute), inherit: true)).IsFalse();
+        await Assert.That(typeof(AzPipelinesVariableCreateOptions).GetProperty("Secret")!
+            .IsDefined(typeof(ModularPipelines.Secrets.SecretValueAttribute), inherit: true)).IsFalse();
     }
 }

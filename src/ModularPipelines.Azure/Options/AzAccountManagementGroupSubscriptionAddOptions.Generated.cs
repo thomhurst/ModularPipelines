@@ -52,6 +52,6 @@ public record AzAccountManagementGroupSubscriptionAddOptions : AzOptions
     /// Subscription Id or Name.
     /// </summary>
     [CliOption("--subscription", ShortForm = "-s")]
-    public new string Subscription { get; private init; }
+    public string Subscription { get; private init; }
 
 }

@@ -53,7 +53,6 @@ Global options are rendered after the selected subcommand.
 | `--only-show-errors` | `OnlyShowErrors` | All editions | Only show errors, suppressing warnings. |
 | `--output` | `Output` | All editions | Output format. Allowed values: json, jsonc, yaml, yamlc, table, tsv, none. |
 | `--query` | `Query` | All editions | JMESPath query string. See http://jmespath.org/ for more information and examples. |
-| `--subscription` | `Subscription` | All editions | Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID` |
 | `--verbose` | `Verbose` | All editions | Increase logging verbosity. Use --debug for full debug logs. |
 
 ## Intentionally excluded commands

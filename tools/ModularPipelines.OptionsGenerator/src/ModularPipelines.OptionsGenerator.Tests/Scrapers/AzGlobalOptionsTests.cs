@@ -16,7 +16,6 @@ public class AzGlobalOptionsTests
             --only-show-errors : Only show errors, suppressing warnings.
             --output -o        : Output format. Allowed values: json, table, tsv.
             --query            : JMESPath query string.
-            --subscription -s  : Name or ID of subscription.
             --verbose          : Increase logging verbosity.
         """;
 
@@ -35,16 +34,17 @@ public class AzGlobalOptionsTests
         var globals = tool.GetGlobalOptions();
         await Assert.That(globals.Select(option => option.SwitchName)).IsEquivalentTo(
             ["--acquire-policy-token", "--change-reference", "--debug", "--only-show-errors",
-                "--output", "--query", "--subscription", "--verbose"]);
+                "--output", "--query", "--verbose"]);
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
-        var subscription = globals.Single(option => option.SwitchName == "--subscription");
+        var subscription = commands.Single(command => command.FullCommand == "az group show").Options
+            .Single(option => option.SwitchName == "--subscription");
         await Assert.That(subscription.ShortForm).IsEqualTo("-s");
         await Assert.That(subscription.HasVerifiedValueShape).IsTrue();
         await Assert.That(subscription.PropertyType).IsEqualTo("string?");
         await Assert.That(globals.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
         await Assert.That(globals.Single(option => option.SwitchName == "--debug").IsFlag).IsTrue();
         await Assert.That(commands.Single(command => command.FullCommand == "az group show").Options
-            .Select(option => option.SwitchName)).IsEquivalentTo(["--name"]);
+            .Select(option => option.SwitchName)).IsEquivalentTo(["--name", "--subscription"]);
         await Assert.That(commands.Single(command => command.FullCommand == "az group clear").Options).IsEmpty();
 
         var set = commands.Single(command => command.FullCommand == "az group set");
@@ -57,10 +57,10 @@ public class AzGlobalOptionsTests
         var resolved = InheritedPropertyCollisionResolver.Resolve(tool);
         var shadow = resolved.Commands.Single(command => command.FullCommand == set.FullCommand).Options
             .Single(option => option.SwitchName == "--subscription");
-        await Assert.That(shadow.ShadowsGlobalOption).IsTrue();
+        await Assert.That(shadow.ShadowsGlobalOption).IsFalse();
         await Assert.That(shadow.PropertyName).IsEqualTo("Subscription");
         var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(resolved)).Single().Content;
-        await Assert.That(generated).Contains("public virtual string? Subscription");
+        await Assert.That(generated).DoesNotContain(" Subscription");
         await Assert.That(generated).Contains("public virtual string? Output");
         await Assert.That(generated).DoesNotContain("[CliGlobalOptions]");
     }
@@ -71,11 +71,11 @@ public class AzGlobalOptionsTests
         var directory = Path.Combine(AppContext.BaseDirectory, "Fixtures", "AzCli");
         var scraper = new TestScraper();
         var globals = scraper.ParseGlobals(await File.ReadAllTextAsync(Path.Combine(directory, "az-2.90.0-globals.txt")));
-        await Assert.That(globals).Count().IsEqualTo(6);
-        await Assert.That(globals.Single(option => option.SwitchName == "--subscription").ShortForm).IsNull();
+        await Assert.That(globals).Count().IsEqualTo(5);
+        await Assert.That(globals.Any(option => option.SwitchName == "--subscription")).IsFalse();
         await Assert.That(globals.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
         var command = await scraper.Parse(await File.ReadAllTextAsync(Path.Combine(directory, "az-2.90.0-account-set.txt")));
-        var local = command!.Options.Single();
+        var local = command!.Options.Single(option => option.SwitchName == "--name");
         await Assert.That(local.SwitchName).IsEqualTo("--name");
         await Assert.That(local.ShortForm).IsEqualTo("-n");
         await Assert.That(local.Aliases).IsEquivalentTo(["--subscription", "-s"]);
@@ -84,11 +84,11 @@ public class AzGlobalOptionsTests
             GlobalOptions = globals,
             Commands = [command],
         });
-        var replacement = resolved.Commands.Single().Options.Single();
-        await Assert.That(replacement.PropertyName).IsEqualTo("Subscription");
+        var replacement = resolved.Commands.Single().Options.Single(option => option.SwitchName == "--name");
+        await Assert.That(replacement.PropertyName).IsEqualTo("Name");
         await Assert.That(replacement.SwitchName).IsEqualTo("--name");
         await Assert.That(replacement.ShortForm).IsEqualTo("-n");
-        await Assert.That(replacement.ShadowsGlobalOption).IsTrue();
+        await Assert.That(replacement.ShadowsGlobalOption).IsFalse();
         await Assert.That(replacement.IsRequired).IsTrue();
     }
 
@@ -108,6 +108,43 @@ public class AzGlobalOptionsTests
         var scraper = new TestScraper();
         await Assert.That(() => scraper.ParseGlobals(Globals + "\n" + AzCliMetadataExecutor.MetadataMarker + "{}"))
             .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task Subscription_In_Command_Global_Arguments_Remains_Command_Specific()
+    {
+        var scraper = new TestScraper();
+        var supported = await scraper.Parse("Command\n    az account set : Set.\n"
+            + Globals + "\n    --subscription -s : Name or ID of subscription.\n" + Metadata());
+        var unsupported = await scraper.Parse("Command\n    az account set : Set.\n" + Globals + "\n" + Metadata());
+        await Assert.That(supported!.Options.Single(option => option.SwitchName == "--subscription").HasVerifiedValueShape).IsTrue();
+        await Assert.That(unsupported!.Options.Any(option => option.SwitchName == "--subscription")).IsFalse();
+    }
+
+    [Test]
+    [Arguments("az-2.90.0-group-show.txt", true)]
+    [Arguments("az-2.90.0-extension-list.txt", false)]
+    public async Task Captured_Command_Parsers_Control_Subscription_Support(string fixture, bool supported)
+    {
+        var help = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "AzCli", fixture));
+        var command = await new TestScraper().Parse(help);
+        await Assert.That(command!.Options.Any(option => option.SwitchName == "--subscription")).IsEqualTo(supported);
+    }
+
+    [Test]
+    [Arguments("no-passwords", "Do not generate passwords. Allowed values: false, true.")]
+    [Arguments("secret", "Whether the variable is a secret. Allowed values: false, true.")]
+    [Arguments("enable-access-token-issuance", "Enable access tokens. Allowed values: false, true.")]
+    [Arguments("allow-credentials", "Allow credentials. Allowed values: false, true.")]
+    public async Task Optional_Boolean_Values_Are_Not_Secrets(string name, string description)
+    {
+        var help = $"Command\n    az account set : Set.\nArguments\n    --{name} : {description}\n"
+            + AzCliMetadataExecutor.MetadataMarker
+            + $"{{\"--{name}\":{{\"IsInteger\":false,\"IsRepeated\":false,\"Nargs\":\"?\"}}}}";
+        var option = (await new TestScraper().Parse(help))!.Options.Single();
+        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
+        await Assert.That(option.IsSecret).IsFalse();
     }
 
     private sealed class TestScraper() : AzCliScraper(new Executor(),

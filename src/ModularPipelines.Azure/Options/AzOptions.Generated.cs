@@ -59,12 +59,6 @@ public abstract record AzOptions : CommandLineToolOptions
     public virtual string? Query { get; set; }
 
     /// <summary>
-    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
-    /// </summary>
-    [CliOption("--subscription")]
-    public virtual string? Subscription { get; set; }
-
-    /// <summary>
     /// Increase logging verbosity. Use --debug for full debug logs.
     /// </summary>
     [CliFlag("--verbose")]

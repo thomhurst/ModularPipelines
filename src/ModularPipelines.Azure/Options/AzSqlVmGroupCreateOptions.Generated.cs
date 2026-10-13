@@ -163,4 +163,10 @@ public record AzSqlVmGroupCreateOptions : AzOptions
     [CliOption("--sa-key", ShortForm = "-k")]
     public string? SaKey { get; set; }
 
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`.
+    /// </summary>
+    [CliOption("--subscription")]
+    public string? Subscription { get; set; }
+
 }
