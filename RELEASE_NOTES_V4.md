@@ -945,13 +945,13 @@ same transform style. See the [distributed configuration guide](docs/docs/distri
 
 ## Kustomize edit operands
 
-Regenerated Kustomize edit methods now require options when the CLI requires an
-operand. For example, replace `Edit.Set.NamespaceAsync()` with
+When adopting regenerated Kustomize edit APIs that require an operand, supply
+the corresponding options. For example, replace `Edit.Set.NamespaceAsync()` with
 `Edit.Set.NamespaceAsync(new KustomizeEditSetNamespaceOptions("production"))`, and
 replace `Edit.Add.BaseAsync()` with
 `Edit.Add.BaseAsync(new KustomizeEditAddBaseOptions("../base"))`. Other add, remove,
 and set subcommands whose generated options require an operand similarly need their
-options type. Empty calls no longer compile for those subcommands; generated
-compatibility overloads are not retained for commands that require input.
+options type. Empty calls do not compile when the generated options parameter is
+required; compatibility overloads are not retained for commands that require input.
 `Edit.Add.PatchAsync()` and `Edit.Remove.PatchAsync()` still compile because their
 options parameters default to `null`.
