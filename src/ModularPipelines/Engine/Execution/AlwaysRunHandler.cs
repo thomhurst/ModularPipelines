@@ -77,7 +77,7 @@ internal class AlwaysRunHandler(
 
                 if (deferredModules.Count > 0 && processedModules.Count == 0)
                 {
-                    if (_schedulerProgressTimeout > TimeSpan.Zero)
+                    if (_schedulerProgressTimeout != Timeout.InfiniteTimeSpan)
                     {
                         schedulerProgressTimeoutSource ??= new CancellationTokenSource(
                             _schedulerProgressTimeout,

@@ -334,7 +334,9 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
-    public async Task WaitForAlwaysRunModulesAsync_UsesDedicatedProgressTimeoutWhenModuleTimeoutsAreDisabled()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task WaitForAlwaysRunModulesAsync_UsesDedicatedProgressTimeoutWhenModuleTimeoutsAreDisabled(bool disableWatchdog)
     {
         var timeProvider = TestPipelineBuilder.CreateFakeTimeProvider();
         var module = new FirstAlwaysRunModule();
@@ -357,17 +359,36 @@ public class AlwaysRunHandlerTests
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
                 moduleState,
                 CancellationToken.None))
-            .Returns(Task.CompletedTask);
+            .Returns(() =>
+            {
+                if (blockerState.State == ModuleExecutionState.Completed)
+                {
+                    moduleState.State = ModuleExecutionState.Completed;
+                    moduleState.CompletionSource.TrySetResult(module);
+                }
+
+                return Task.CompletedTask;
+            });
 
         var pipelineOptions = new PipelineOptions
         {
-            DefaultModuleTimeout = TimeSpan.Zero,
+            DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
+            AlwaysRunProgressTimeout = disableWatchdog ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(30),
         };
         var handler = CreateHandler(moduleRunner.Object, pipelineOptions, timeProvider);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
 
         await progressWaitObserved.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         timeProvider.Advance(TimeSpan.FromSeconds(30));
+        if (disableWatchdog)
+        {
+            await Assert.That(handlerTask.IsCompleted).IsFalse();
+            blockerState.State = ModuleExecutionState.Completed;
+            blockerState.CompletionSource.TrySetResult(blocker);
+            await handlerTask.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            return;
+        }
+
         var exception = await Assert.ThrowsAsync<AggregateException>(() => handlerTask);
 
         await Assert.That(exception!.InnerExceptions).Contains(x => x is TimeoutException);

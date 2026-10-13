@@ -31,37 +31,26 @@ namespace ModularPipelines.Engine;
 /// <item>AlwaysRun behavior (run even on pipeline failure)</item>
 /// </list>
 /// </remarks>
-internal class ModuleExecutionPipeline : IModuleExecutionPipeline
+internal class ModuleExecutionPipeline(
+    IModuleResultRepository resultRepository,
+    EngineCancellationToken engineCancellationToken,
+    IDirectHookInvoker directHookInvoker,
+    IModuleConditionHandler moduleConditionHandler,
+    IOptions<PipelineOptions> pipelineOptions,
+    IModuleCacheResultRepository? cacheResultRepository = null,
+    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null) : IModuleExecutionPipeline
 {
-    private readonly IModuleResultRepository _resultRepository;
-    private readonly IModuleCacheResultRepository? _cacheResultRepository;
-    private readonly EngineCancellationToken _engineCancellationToken;
-    private readonly IDirectHookInvoker _directHookInvoker;
-    private readonly IModuleConditionHandler _moduleConditionHandler;
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly bool _groupHeadersShowStatus;
+    private readonly IModuleResultRepository _resultRepository = resultRepository;
+    private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
+    private readonly EngineCancellationToken _engineCancellationToken = engineCancellationToken;
+    private readonly IDirectHookInvoker _directHookInvoker = directHookInvoker;
+    private readonly IModuleConditionHandler _moduleConditionHandler = moduleConditionHandler;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
 
-    public ModuleExecutionPipeline(
-        IModuleResultRepository resultRepository,
-        EngineCancellationToken engineCancellationToken,
-        IDirectHookInvoker directHookInvoker,
-        IModuleConditionHandler moduleConditionHandler,
-        IOptions<PipelineOptions> pipelineOptions,
-        IModuleCacheResultRepository? cacheResultRepository = null,
-        IBuildSystemFormatterProvider? buildSystemFormatterProvider = null)
-    {
-        _resultRepository = resultRepository;
-        _cacheResultRepository = cacheResultRepository;
-        _engineCancellationToken = engineCancellationToken;
-        _directHookInvoker = directHookInvoker;
-        _moduleConditionHandler = moduleConditionHandler;
-        _pipelineOptions = pipelineOptions;
-
-        // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
-        // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
-        _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
-            .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
-    }
+    // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
+    // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
+    private readonly bool _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
+        .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
         Module<T> module,
@@ -551,7 +540,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             return;
         }
 
-        if (timeout == TimeSpan.Zero)
+        if (timeout == Timeout.InfiniteTimeSpan)
         {
             logger.LogTrace("No module timeout configured. The pipeline default timeout is disabled");
             return;
@@ -578,7 +567,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
             attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
-            timeout == TimeSpan.Zero ? null : timeout,
+            timeout == Timeout.InfiniteTimeSpan ? null : timeout,
             cancellationToken,
             $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
 

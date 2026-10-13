@@ -1368,7 +1368,7 @@ public class DistributedModuleExecutorTests
             resultRegistry: resultRegistry,
             coordinator: coordinator,
             distributedOptions: options,
-            pipelineOptions: new PipelineOptions { DefaultModuleTimeout = TimeSpan.Zero });
+            pipelineOptions: new PipelineOptions { DefaultModuleTimeout = Timeout.InfiniteTimeSpan });
 
         var execution = executor.ExecuteAsync(
             [module],
@@ -1636,7 +1636,7 @@ public class DistributedModuleExecutorTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task Zero_Result_Timeout_Waits_Until_Result_Is_Published(CancellationToken testCancellation)
+    public async Task Infinite_Result_Timeout_Waits_Until_Result_Is_Published(CancellationToken testCancellation)
     {
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
@@ -1644,7 +1644,7 @@ public class DistributedModuleExecutorTests
         var resultRegistry = new ModuleResultRegistry();
         var innerCoordinator = new InMemoryDistributedCoordinator();
         var coordinator = new ResultTrackingCoordinator(innerCoordinator);
-        var options = new DistributedOptions { ModuleResultTimeout = TimeSpan.Zero };
+        var options = new DistributedOptions { ModuleResultTimeout = Timeout.InfiniteTimeSpan };
         var executor = CreateExecutor(
             scheduler,
             resultRegistry: resultRegistry,
