@@ -31,37 +31,26 @@ namespace ModularPipelines.Engine;
 /// <item>AlwaysRun behavior (run even on pipeline failure)</item>
 /// </list>
 /// </remarks>
-internal class ModuleExecutionPipeline : IModuleExecutionPipeline
+internal class ModuleExecutionPipeline(
+    IModuleResultRepository resultRepository,
+    EngineCancellationToken engineCancellationToken,
+    IDirectHookInvoker directHookInvoker,
+    IModuleConditionHandler moduleConditionHandler,
+    IOptions<PipelineOptions> pipelineOptions,
+    IModuleCacheResultRepository? cacheResultRepository = null,
+    IBuildSystemFormatterProvider? buildSystemFormatterProvider = null) : IModuleExecutionPipeline
 {
-    private readonly IModuleResultRepository _resultRepository;
-    private readonly IModuleCacheResultRepository? _cacheResultRepository;
-    private readonly EngineCancellationToken _engineCancellationToken;
-    private readonly IDirectHookInvoker _directHookInvoker;
-    private readonly IModuleConditionHandler _moduleConditionHandler;
-    private readonly IOptions<PipelineOptions> _pipelineOptions;
-    private readonly bool _groupHeadersShowStatus;
+    private readonly IModuleResultRepository _resultRepository = resultRepository;
+    private readonly IModuleCacheResultRepository? _cacheResultRepository = cacheResultRepository;
+    private readonly EngineCancellationToken _engineCancellationToken = engineCancellationToken;
+    private readonly IDirectHookInvoker _directHookInvoker = directHookInvoker;
+    private readonly IModuleConditionHandler _moduleConditionHandler = moduleConditionHandler;
+    private readonly IOptions<PipelineOptions> _pipelineOptions = pipelineOptions;
 
-    public ModuleExecutionPipeline(
-        IModuleResultRepository resultRepository,
-        EngineCancellationToken engineCancellationToken,
-        IDirectHookInvoker directHookInvoker,
-        IModuleConditionHandler moduleConditionHandler,
-        IOptions<PipelineOptions> pipelineOptions,
-        IModuleCacheResultRepository? cacheResultRepository = null,
-        IBuildSystemFormatterProvider? buildSystemFormatterProvider = null)
-    {
-        _resultRepository = resultRepository;
-        _cacheResultRepository = cacheResultRepository;
-        _engineCancellationToken = engineCancellationToken;
-        _directHookInvoker = directHookInvoker;
-        _moduleConditionHandler = moduleConditionHandler;
-        _pipelineOptions = pipelineOptions;
-
-        // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
-        // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
-        _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
-            .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
-    }
+    // Module output groups are headed "<Module> ✓ (<duration>)" when the build system supports
+    // collapsible blocks, so a trailing "completed successfully" line would only repeat it.
+    private readonly bool _groupHeadersShowStatus = buildSystemFormatterProvider?.GetFormatter()
+        .GetStartBlockCommand(nameof(ModuleExecutionPipeline)) is not null;
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
         Module<T> module,

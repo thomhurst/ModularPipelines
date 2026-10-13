@@ -1266,7 +1266,7 @@ internal class DistributedModuleExecutor(
             statusOverride: skipped?.Status ?? ModuleStatus.Skipped);
     }
 
-    private IModuleResult? RegisterSkippedResult(
+    private static IModuleResult? RegisterSkippedResult(
         IModule module,
         Type moduleType,
         SkipDecision skipDecision,
