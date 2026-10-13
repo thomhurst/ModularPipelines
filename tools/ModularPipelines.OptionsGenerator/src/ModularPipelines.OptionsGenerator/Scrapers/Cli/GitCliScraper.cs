@@ -63,6 +63,7 @@ public partial class GitCliScraper(
         await _helpCommandUsage.WaitAsync(cancellationToken);
 
         CliCommandResult result;
+        string? rootUsage = null;
         try
         {
             ThrowIfDisposed();
@@ -75,6 +76,19 @@ public partial class GitCliScraper(
                 arguments,
                 cancellationToken,
                 workingDirectory);
+            if (commandPath.Length == 1)
+            {
+                var usage = await ExecuteAndRecordHelpCommandAsync(
+                    commandPath, ExecutablePath, "-h", cancellationToken, helpKind: CliHelpKind.Usage);
+                if (usage.Unavailable || usage.ExitCode is not (0 or 129)
+                    || string.IsNullOrWhiteSpace(usage.CombinedOutput))
+                {
+                    LogRejectedHelp(usage, cacheKey, failedCommand: usage.Unavailable || usage.ExitCode is not (0 or 129));
+                    return null;
+                }
+
+                rootUsage = usage.CombinedOutput;
+            }
         }
         finally
         {
@@ -82,7 +96,7 @@ public partial class GitCliScraper(
         }
 
         // Git sends short help to either stream and commonly exits with its usage code.
-        var helpText = result.CombinedOutput;
+        var helpText = rootUsage is null ? result.CombinedOutput : rootUsage + "\n" + result.CombinedOutput;
         if (string.IsNullOrWhiteSpace(helpText))
         {
             LogRejectedHelp(result, cacheKey);
