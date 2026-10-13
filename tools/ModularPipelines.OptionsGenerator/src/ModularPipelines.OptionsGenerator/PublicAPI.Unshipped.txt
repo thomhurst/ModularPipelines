@@ -294,3 +294,4 @@ virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.JqCliScraper.ParseOptions
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.LiquibaseCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 *REMOVED*ModularPipelines.OptionsGenerator.Scrapers.Cli.MavenCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 virtual ModularPipelines.OptionsGenerator.Scrapers.Cli.MavenCliScraper.ParseOptions(string! helpText) -> System.Collections.Generic.List<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.AwsCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
