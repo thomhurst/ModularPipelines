@@ -154,6 +154,14 @@ public class VersionSubcommandTests
     [Test]
     public async Task Azure_Version_Without_Local_Options_Reaches_Generated_Options_And_Services()
     {
+        var globals = """
+
+            Global Arguments
+                --debug : Increase logging verbosity.
+                --output -o : Output format. Allowed values: json, table, tsv.
+            """ + "\n" + AzCliMetadataExecutor.MetadataMarker + """
+            {"--debug":{"IsInteger":false,"IsRepeated":false,"Nargs":"0"},"--output":{"IsInteger":false,"IsRepeated":false,"Nargs":"1"}}
+            """;
         var executor = new HelpExecutor(new Dictionary<string, string>
         {
             ["--help"] = """
@@ -162,15 +170,12 @@ public class VersionSubcommandTests
 
                 Commands:
                     version : Show Azure CLI version information.
-                """,
+                """ + "\n" + globals,
             ["version --help"] = """
                 Command
                     az version : Show Azure CLI version information.
 
-                Global Arguments
-                    --debug : Increase logging verbosity.
-                    --output -o : Output format. Allowed values: json, table, tsv.
-                """,
+                """ + "\n" + globals,
         });
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new AzCliScraper(executor, cache, NullLogger<AzCliScraper>.Instance);
@@ -182,6 +187,8 @@ public class VersionSubcommandTests
 
         await Assert.That(command.FullCommand).IsEqualTo("az version");
         await Assert.That(command.Options).IsEmpty();
+        await Assert.That(definition.GlobalOptions.Single(option => option.SwitchName == "--debug").IsFlag).IsTrue();
+        await Assert.That(definition.GlobalOptions.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
         await Assert.That(optionFiles.Single().Content).Contains("CliSubCommand(\"version\")");
         await Assert.That(serviceFiles.Select(file => file.Content))
             .Contains(content => content.Contains($"VersionAsync({command.ClassName}"));
