@@ -73,3 +73,21 @@ Command-local settings retain their scope: for example, `Driver` belongs to `Min
 ### Migration[​](#migration "Direct link to Migration")
 
 Replace manually supplied persistent flags in `Arguments` with the corresponding typed properties. Do not supply the same setting through both mechanisms. Code reflecting over a command record with `BindingFlags.DeclaredOnly` must also inspect `MinikubeOptions` to discover inherited settings. Existing command and version APIs are unchanged by this scope audit.
+
+## Output templates[​](#output-templates "Direct link to Output templates")
+
+`MinikubeStatusOptions.Format` and `MinikubeConfigViewOptions.Format` accept Go output templates, including templates containing newlines. These properties are command-local; `Format` is not a persistent setting on `MinikubeOptions`. The status command also documents the `-f` alias.
+
+```
+await context.Tools.Minikube.StatusAsync(new MinikubeStatusOptions
+
+{
+
+    Profile = "ci",
+
+    Format = "{{.Name}}\nhost: {{.Host}}",
+
+}, cancellationToken: cancellationToken);
+```
+
+Replace an equivalent manually supplied `--format` argument with `Format` rather than supplying both. The template remains one argument, preserving its spaces, colons, and newline characters.

@@ -103,3 +103,4 @@ Global options are rendered before the selected subcommand.
 | `minikube stop`             | `MinikubeStopOptions`            |
 | `minikube tunnel`           | `MinikubeTunnelOptions`          |
 | `minikube unpause`          | `MinikubeUnpauseOptions`         |
+| `minikube version`          | `MinikubeVersionOptions`         |
