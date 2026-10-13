@@ -7,6 +7,101 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 
 public class KustomizeCliScraperTests
 {
+    // Fixtures are unmodified --help output from the official Kustomize v5.8.2 release.
+    // Root inheritance: https://github.com/kubernetes-sigs/kustomize/blob/kustomize/v5.8.2/kustomize/commands/commands.go
+    // Persistent stack-trace registration:
+    // https://github.com/kubernetes-sigs/kustomize/blob/kustomize/v5.8.2/cmd/config/configcobra/cmds.go
+    // Build flags use cmd.Flags(), not PersistentFlags():
+    // https://github.com/kubernetes-sigs/kustomize/blob/kustomize/v5.8.2/kustomize/commands/build/build.go
+    [Test]
+    [Arguments("\n")]
+    [Arguments("\r\n")]
+    public async Task Root_Inherits_Only_Stack_Trace(string newline)
+    {
+        var options = new TestKustomizeCliScraper().ParseGlobals(Fixture("root").ReplaceLineEndings(newline));
+        var option = options.Single();
+        await Assert.That(option.SwitchName).IsEqualTo("--stack-trace");
+        await Assert.That(option.CSharpType).IsEqualTo("bool?");
+        await Assert.That(option.IsFlag).IsTrue();
+        await Assert.That(option.ShortForm).IsNull();
+        await Assert.That(option.IsSecret || option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    [Arguments("build", "\n")]
+    [Arguments("build", "\r\n")]
+    [Arguments("edit", "\n")]
+    [Arguments("edit", "\r\n")]
+    [Arguments("edit-add-configmap", "\n")]
+    [Arguments("edit-add-configmap", "\r\n")]
+    [Arguments("cfg", "\n")]
+    [Arguments("cfg", "\r\n")]
+    [Arguments("fn", "\n")]
+    [Arguments("fn", "\r\n")]
+    public async Task Groups_And_Leaves_Confirm_Global_Shape(string fixture, string newline)
+    {
+        var scraper = new TestKustomizeCliScraper();
+        var root = scraper.ParseGlobals(Fixture("root"));
+        var command = (await scraper.Parse(["kustomize", .. fixture.Split('-')], Fixture(fixture).ReplaceLineEndings(newline)))!;
+        var inherited = command.Options.Where(option => option.SwitchName == "--stack-trace").ToList();
+        await Assert.That(inherited.Count).IsEqualTo(1);
+        await Assert.That(CliGlobalOptionMerger.Merge(root, inherited).Count).IsEqualTo(1);
+    }
+
+    private static string Fixture(string command) => File.ReadAllText(
+        Path.Combine(AppContext.BaseDirectory, "Fixtures", $"kustomize-5.8.2-{command}-help.txt"));
+
+    [Test]
+    public async Task Conflicting_Inherited_Shape_Fails_Before_Deduplication()
+    {
+        var scraper = new TestKustomizeCliScraper(new KustomizeHelpExecutor(false, conflictingGlobal: true));
+        // Traversal records parse failures; directly exercise the parser after root discovery.
+        await foreach (var _ in scraper.ScrapeAsync())
+        {
+        }
+
+        await Assert.That(() => scraper.Parse(["kustomize", "build"],
+                Fixture("build").Replace("--stack-trace   ", "--stack-trace string   ", StringComparison.Ordinal)))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--stack-trace");
+    }
+
+    [Test]
+    public async Task Scraped_Commands_Inherit_Stack_Trace_Once_And_Keep_Local_Options()
+    {
+        var scraper = new TestKustomizeCliScraper(new KustomizeHelpExecutor(false));
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(scraper.CreateToolDefinition().GlobalOptions.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--stack-trace"]);
+        await Assert.That(commands.Any(command => command.Options.Any(option => option.SwitchName == "--stack-trace")))
+            .IsFalse();
+
+        var build = (await scraper.Parse(["kustomize", "build"], Fixture("build")))!;
+        var edit = (await scraper.Parse(["kustomize", "edit", "add", "configmap"], Fixture("edit-add-configmap")))!;
+        foreach (var command in new[] { build, edit })
+        {
+            await Assert.That(command.Options.Any(option => option.SwitchName == "--stack-trace")).IsFalse();
+        }
+
+        await Assert.That(build.Options.Any(option => option.SwitchName == "--enable-alpha-plugins" && option.IsFlag)).IsTrue();
+        var environment = build.Options.Single(option => option.SwitchName == "--env");
+        await Assert.That(environment.ShortForm).IsEqualTo("-e");
+        await Assert.That(environment.CSharpType).IsEqualTo("IEnumerable<string>?");
+        await Assert.That(environment.AcceptsMultipleValues).IsTrue();
+        await Assert.That(build.Options.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
+        await Assert.That(build.PositionalArguments.Single().IsRequired).IsFalse();
+        await Assert.That(edit.Options.Single(option => option.SwitchName == "--namespace").CSharpType).IsEqualTo("string?");
+        await Assert.That(edit.Options.Single(option => option.SwitchName == "--from-literal").AcceptsMultipleValues).IsTrue();
+        await Assert.That(edit.PositionalArguments.Single().IsRequired).IsTrue();
+        await Assert.That(build.Options.Any(option => option.SwitchName == "--from-literal")).IsFalse();
+        await Assert.That(edit.Options.Any(option => option.SwitchName == "--enable-alpha-plugins")).IsFalse();
+    }
+
     private static readonly string[] SetLeafCommands =
         ["image", "nameprefix", "namespace", "namesuffix", "replicas"];
 
@@ -197,6 +292,8 @@ public class KustomizeCliScraperTests
     {
         protected override int MaxParallelism => 1;
 
+        public IReadOnlyList<CliOptionDefinition> ParseGlobals(string helpText) => ParseGlobalOptions(helpText);
+
         public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
         {
             var usage = ParseUsageSynopsis(commandPath, helpText);
@@ -204,7 +301,7 @@ public class KustomizeCliScraperTests
         }
     }
 
-    private sealed class KustomizeHelpExecutor(bool includeBogusChild) : ICliCommandExecutor
+    private sealed class KustomizeHelpExecutor(bool includeBogusChild, bool conflictingGlobal = false) : ICliCommandExecutor
     {
         public List<string> Arguments { get; } = [];
 
@@ -229,6 +326,10 @@ public class KustomizeCliScraperTests
                     => LeafHelp(arguments.Split(' ')[2]),
                 _ => throw new InvalidOperationException($"Unexpected arguments: {arguments}"),
             };
+
+            var flagSection = arguments == "--help" ? "Flags" : "Global Flags";
+            var typeHint = arguments != "--help" && conflictingGlobal ? " string" : string.Empty;
+            helpText += $"\n\n{flagSection}:\n      --stack-trace{typeHint}   print a stack-trace on error\n";
 
             return Task.FromResult(new CliCommandResult
             {

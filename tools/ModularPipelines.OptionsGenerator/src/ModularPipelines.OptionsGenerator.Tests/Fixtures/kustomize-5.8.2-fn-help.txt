@@ -1,0 +1,15 @@
+Commands for running functions against configuration
+
+Usage:
+  kustomize fn [command]
+
+Available Commands:
+  run         [Alpha] Reoncile config functions to Resources.
+
+Flags:
+  -h, --help   help for fn
+
+Global Flags:
+      --stack-trace   print a stack-trace on error
+
+Use "kustomize fn [command] --help" for more information about a command.
