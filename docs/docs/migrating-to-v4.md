@@ -1120,6 +1120,8 @@ entry kind matters.
 | `context.Security.Hasher.Sha256(text)` | `context.Security.Hash.Sha256(text)` |
 | `HashType` | `HashEncoding` |
 | `context.Data.Base64.FromBase64String(value, encoding)` | `encoding.GetString(context.Data.Base64.FromBase64String(value))` |
+| `context.Data.Hex.FromHex(value)` (`string`, UTF-8) | `context.Data.Hex.FromHex(value, Encoding.UTF8)` (`string`); the one-argument overload now returns `byte[]` |
+| `context.Data.Hex.ToHex(bytes)` with `IEnumerable<byte>` | `context.Data.Hex.ToHex(bytes.ToArray())` |
 | `context.Files.Zip.ZipFolder(...)` | `context.Files.Zip.CreateFromDirectory(...)` |
 | `context.Files.Zip.UnZipToFolder(...)` | `context.Files.Zip.ExtractToDirectory(...)` |
 
@@ -1127,6 +1129,34 @@ Choose `*File` hashing methods for file contents; a text hash of the path is a d
 V3's `Checksum.Md5` returned uppercase hex; `Md5File` returns lowercase hex, so compare hashes
 case-insensitively. Mocks of `IHasherContext` / `IChecksumContext` move to `IHashContext`.
 Base64 decoding now returns bytes, so select the text encoding explicitly when text is needed.
+
+Hex decoding also changes: V3's one-argument `FromHex` decoded UTF-8 text and returned `string`;
+V4's one-argument overload returns `byte[]`. This affects `var` declarations as well as explicit
+string assignments. Pass `Encoding.UTF8` to preserve V3's text result, or choose the encoding
+that matches the original text. `FromHex(value, encoding)` still returns a string.
+
+```csharp
+// V3
+string decoded = context.Data.Hex.FromHex(value);
+IEnumerable<byte> bytes = new byte[] { 0x48, 0x69 };
+string encoded = context.Data.Hex.ToHex(bytes);
+```
+
+```csharp
+// V4 (using System.Text and System.Linq)
+string decoded = context.Data.Hex.FromHex(value, Encoding.UTF8);
+IEnumerable<byte> bytes = new byte[] { 0x48, 0x69 };
+string encoded = context.Data.Hex.ToHex(bytes.ToArray());
+
+// Use the one-argument overload when the decoded bytes are wanted.
+byte[] raw = context.Data.Hex.FromHex(value);
+```
+
+V4's byte overload of `ToHex` accepts only `byte[]`; materialize other byte sequences with
+`ToArray()`. Existing `byte[]` arguments and the string overloads need no conversion. Hex
+output remains lowercase. V4 rejects hyphen-separated input and odd-length input with
+`FormatException`; V3 removed hyphens and silently ignored a trailing unmatched hex digit.
+Normalize separators deliberately and validate complete byte pairs before decoding legacy input.
 
 The general-purpose `AsTask()` and `AsSkipDecisionIfTrue(reason)` extensions are removed. Use
 `Task.FromResult(value)` and `SkipDecision.When(condition, reason)`. Use the .NET async-LINQ
@@ -1417,6 +1447,8 @@ public class BuildModule : Module<CommandResult>
 | `LogSettings` | `Logging` | Command and HTTP execution options |
 | Framework `File` / `Folder` | `FilePath` / `FolderPath` | Keep `System.IO` symbols intact |
 | `await context.Files.ExistsAsync(path, cancellationToken)` | `context.Files.Exists(path)` | Remove this call's await and token; relative paths use the pipeline working directory |
+| `context.Data.Hex.FromHex(value)` | `context.Data.Hex.FromHex(value, Encoding.UTF8)` for text | One-argument return type changes from `string` to `byte[]`; review inferred types and legacy input validation |
+| `context.Data.Hex.ToHex(bytes)` with `IEnumerable<byte>` | `context.Data.Hex.ToHex(bytes.ToArray())` | Keep existing `byte[]` and string arguments unchanged |
 | `PipelineCancelledException` | `PipelineCanceledException` | Derives from `OperationCanceledException`; V4 spells "canceled" with one L throughout |
 | `IEventHandlerPriority.Priority` | `IEventHandler.Order` | Ascending order; add the trailing `CancellationToken` to handler methods |
 | `PluginRegistry.Register(plugin)` | `builder.AddPlugin(plugin)` | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)` |
@@ -1531,6 +1563,14 @@ transformations:
     new: context.Files.Exists(path)
     scope: IFilesContext existence checks only; also covers calls without an explicit token
     follow_up: Remove this call's await and token; review relative paths and use GetFile/GetFolder for kind-specific checks
+  - old: context.Data.Hex.FromHex(value)
+    new: context.Data.Hex.FromHex(value, Encoding.UTF8)
+    scope: IHex/IHexContext one-argument calls that expect decoded text
+    follow_up: V3 defaults to UTF-8; choose the original encoding, or retain the one-argument call for bytes; review var declarations and stricter input validation
+  - old: context.Data.Hex.ToHex(bytes)
+    new: context.Data.Hex.ToHex(bytes.ToArray())
+    scope: IHex/IHexContext calls with IEnumerable<byte> arguments that are not already byte arrays
+    follow_up: Keep byte[] and string arguments unchanged; ToArray requires System.Linq
   - old: summary.GetModuleResultsAsync()
     new: summary.Results
     follow_up: Remove the await for this access only
@@ -1633,6 +1673,7 @@ rg -n '\.SubModule\(|\.DotNet\(\)|\.Git\(\)|ExecuteCommandLineTool|LogSettings|t
 rg -n 'ModuleResultType|IsSuccess|IsFailure|IsSkipped|GetModuleResultsAsync|GetFailedModuleResults|PipelineTerminated' --glob '*.cs'
 rg -n 'ModularPipelines\.FileSystem\.(File|Folder)|WorkingDirectory\s*=|SkipDecision\.Of' --glob '*.cs'
 rg -n 'Files\.ExistsAsync\(' --glob '*.cs'
+rg -n '\b(FromHex|ToHex)\s*\(' --glob '*.cs'
 rg -n 'IEventHandlerPriority|PluginRegistry|PluginTestHelper|RequestRetry|SkipDependentModules|FailPipeline|ISecretObfuscator' --glob '*.cs'
 rg -n 'RunIfAll|MandatoryRunConditionAttribute|IConditionAttribute|BuildSystem\.Is[A-Z]|ArgumentPlacement|CliArgument\([^)]*Name' --glob '*.cs'
 rg -n '\b(IsRunningInCI|IsRunningLocally|IsRunningIn)\s*\(' --glob '*.cs'
