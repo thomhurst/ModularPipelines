@@ -262,6 +262,25 @@ jobs:
             --results-directory "$RUNNER_TEMP/options-generator-test-results" \
             --report-trx \
             --report-trx-filename test-results.trx
+      - name: Build and test changed Python integration
+        if: steps.generated_integration.outputs.is_generated_integration != 'true'
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:BASE_SHA) -or $env:BASE_SHA -match '^0+$') {
+            $env:BASE_SHA = git rev-parse "$($env:HEAD_SHA)^"
+            if ($LASTEXITCODE -ne 0) { throw 'Unable to determine Python comparison base.' }
+          }
+          $changedPaths = @(git diff --name-only $env:BASE_SHA $env:HEAD_SHA -- src/ModularPipelines.Python test/ModularPipelines.Python.UnitTests)
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to determine changed Python paths.' }
+          if ($changedPaths.Count -eq 0) { exit 0 }
+          dotnet build src/ModularPipelines.Python/ModularPipelines.Python.slnx -c Release /m:1 -p:UseSharedCompilation=false
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project test/ModularPipelines.Python.UnitTests/ModularPipelines.Python.UnitTests.csproj --framework net11.0 -c Release --no-build
+          exit $LASTEXITCODE
+
       - name: Verify generator formatting
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         timeout-minutes: 12
