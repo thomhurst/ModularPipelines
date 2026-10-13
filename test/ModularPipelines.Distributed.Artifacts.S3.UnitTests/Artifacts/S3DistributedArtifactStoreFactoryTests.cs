@@ -15,6 +15,24 @@ public class S3DistributedArtifactStoreFactoryTests
     private readonly Mock<ILogger<S3DistributedArtifactStoreFactory>> _logger = new();
 
     [Test]
+    public async Task Run_Cleanup_Fallback_Uses_The_Factory_Logger()
+    {
+        _logger.Setup(logger => logger.IsEnabled(LogLevel.Information)).Returns(true);
+        _s3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new AmazonS3Exception("Access Denied") { StatusCode = HttpStatusCode.Forbidden });
+        _s3.Setup(s => s.ListObjectsV2Async(It.IsAny<ListObjectsV2Request>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ListObjectsV2Response { S3Objects = [], IsTruncated = false });
+        using var store = (S3DistributedArtifactStore) await CreateStoreAsync(new S3StorageOptions { BucketName = "bucket" });
+
+        await store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "run", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(_logger.Invocations.Count(call =>
+            call.Method.Name == nameof(ILogger.Log) && call.Arguments[0] is LogLevel.Information)).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Lifecycle_Rule_Is_Not_Touched_By_Default()
     {
         await CreateStoreAsync(new S3StorageOptions { BucketName = "bucket" });

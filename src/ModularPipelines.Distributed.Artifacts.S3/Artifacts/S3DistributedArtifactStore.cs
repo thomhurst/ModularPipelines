@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Json;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
@@ -17,18 +18,22 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
     private readonly string _bucketName;
     private readonly string _runPrefix;
     private readonly int _partSizeBytes;
+    private readonly ILogger _logger;
 
     public S3DistributedArtifactStore(
         IAmazonS3 s3,
         S3StorageOptions options,
-        string runId)
+        string runId,
+        ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(s3);
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(logger);
         _s3 = s3;
         _bucketName = options.BucketName;
         _runPrefix = $"{GetArtifactPrefix(options)}{runId}";
         _partSizeBytes = options.MultipartPartSizeBytes;
+        _logger = logger;
     }
 
     /// <summary>
@@ -157,7 +162,8 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
     /// <summary>
     /// Deletes every object stored for the run, including artifacts uploaded by other processes. In a
-    /// versioned bucket every version and delete marker is deleted, so no data stays recoverable.
+    /// versioned bucket every version and delete marker is deleted when version listing is available.
+    /// Otherwise cleanup deletes only current objects, leaving old versions and delete markers behind.
     /// </summary>
     public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
     {
@@ -165,15 +171,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
         // The trailing separator keeps a run from matching another run whose identifier it prefixes.
         var prefix = $"{_runPrefix}/";
-        try
-        {
-            await DeleteVersionsAsync(prefix, cancellationToken).ConfigureAwait(false);
-        }
-        catch (AmazonS3Exception exception) when (exception.StatusCode == HttpStatusCode.NotImplemented)
-        {
-            // Some S3-compatible providers, such as Cloudflare R2, have no versioning API.
-            await DeleteObjectsAsync(prefix, cancellationToken).ConfigureAwait(false);
-        }
+        await DeleteVersionsAsync(prefix, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task DeleteVersionsAsync(string prefix, CancellationToken cancellationToken)
@@ -187,7 +185,29 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
         ListVersionsResponse response;
         do
         {
-            response = await _s3.ListVersionsAsync(request, cancellationToken).ConfigureAwait(false);
+            try
+            {
+                response = await _s3.ListVersionsAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+            catch (AmazonS3Exception exception) when (exception.StatusCode is
+                HttpStatusCode.BadRequest or HttpStatusCode.Forbidden or
+                HttpStatusCode.MethodNotAllowed or HttpStatusCode.NotImplemented)
+            {
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation(
+                        "S3 version listing for {Prefix} in bucket {BucketName} returned HTTP {StatusCode}; " +
+                        "falling back to current-object cleanup. In a versioned bucket, old versions and delete markers remain, " +
+                        "and deleting current objects only adds delete markers.",
+                        prefix,
+                        _bucketName,
+                        (int) exception.StatusCode);
+                }
+
+                await DeleteObjectsAsync(prefix, cancellationToken).ConfigureAwait(false);
+                return;
+            }
+
             await DeleteBatchAsync(
                     [.. (response.Versions ?? []).Select(static version => new KeyVersion
                     {

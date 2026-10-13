@@ -118,8 +118,16 @@ need these permissions in addition to the ones used for uploads and downloads:
 | `s3:DeleteObject` | Deleting objects in an unversioned bucket. |
 | `s3:DeleteObjectVersion` | Deleting specific versions and delete markers in a versioned bucket. |
 
-Providers without a versioning API fall back to listing objects, which needs `s3:ListBucket`. If a permission is
-missing, cleanup logs a warning and the run's artifacts stay until the lifecycle rule expires them. Set
+If `ListObjectVersions` returns HTTP `400 Bad Request`, `403 Forbidden`, `405 Method Not Allowed`, or
+`501 Not Implemented`, cleanup falls back to listing current objects with `ListObjectsV2`, which needs
+`s3:ListBucket`. This supports providers without a versioning API and credentials that can list objects but lack
+`s3:ListBucketVersions`. The fallback logs an information message. In a versioned bucket, it leaves old versions
+and existing delete markers behind; deleting current objects only adds delete markers, so artifact data remains
+recoverable. Use version-listing and version-deletion permissions or a lifecycle rule that expires noncurrent
+versions when that data must be removed.
+
+Other listing errors and deletion failures do not trigger the fallback. Cleanup logs a warning when it fails;
+remaining artifacts stay until a suitable lifecycle rule expires them. Set
 `DistributedOptions.RunCleanup` to `Never` to skip cleanup when the master's credentials cannot delete.
 
 A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the

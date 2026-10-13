@@ -50,7 +50,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
                 await EnsureLifecycleRuleAsync(s3, cancellationToken).ConfigureAwait(false);
             }
 
-            return new S3DistributedArtifactStore(s3, _options, _distributedOptions.RunId);
+            return new S3DistributedArtifactStore(s3, _options, _distributedOptions.RunId, _logger);
         }
         catch
         {
