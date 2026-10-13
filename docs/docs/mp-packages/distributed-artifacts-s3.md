@@ -115,12 +115,14 @@ need these permissions in addition to the ones used for uploads and downloads:
 | Permission | Used for |
 |------------|----------|
 | `s3:ListBucketVersions` | Listing the run's object versions and delete markers. |
-| `s3:DeleteObject` | Deleting objects in an unversioned bucket. |
+| `s3:ListBucket` | Listing current objects during fallback cleanup. |
+| `s3:DeleteObject` | Deleting objects in an unversioned bucket or deleting current objects during fallback cleanup in a versioned bucket. |
 | `s3:DeleteObjectVersion` | Deleting specific versions and delete markers in a versioned bucket. |
 
 If `ListObjectVersions` returns HTTP `400 Bad Request`, `403 Forbidden`, `405 Method Not Allowed`, or
-`501 Not Implemented`, cleanup falls back to listing current objects with `ListObjectsV2`, which needs
-`s3:ListBucket`. This supports providers without a versioning API and credentials that can list objects but lack
+`501 Not Implemented`, cleanup falls back to listing current objects with `ListObjectsV2` and deleting them
+without version IDs. This requires `s3:ListBucket` and `s3:DeleteObject` in both unversioned and versioned buckets.
+This supports providers without a versioning API and credentials that can list objects but lack
 `s3:ListBucketVersions`. The fallback logs an information message. In a versioned bucket, it leaves old versions
 and existing delete markers behind; deleting current objects only adds delete markers, so artifact data remains
 recoverable. Use version-listing and version-deletion permissions or a lifecycle rule that expires noncurrent
