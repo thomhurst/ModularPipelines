@@ -31,7 +31,7 @@ public abstract record PodmanOptions : CommandLineToolOptions
     public virtual IEnumerable<string>? CdiSpecDir { get; set; }
 
     /// <summary>
-    /// Cgroup manager to use ("cgroupfs"|"systemd") (default "cgroupfs")
+    /// Cgroup manager to use ("cgroupfs"|"systemd")
     /// </summary>
     [CliOption("--cgroup-manager", Format = OptionFormat.EqualsSeparated)]
     public virtual string? CgroupManager { get; set; }
@@ -55,7 +55,7 @@ public abstract record PodmanOptions : CommandLineToolOptions
     public virtual string? Connection { get; set; }
 
     /// <summary>
-    /// Events backend to use ("file"|"journald"|"none") (default "file")
+    /// Events backend to use ("file"|"journald"|"none")
     /// </summary>
     [CliOption("--events-backend", Format = OptionFormat.EqualsSeparated)]
     public virtual string? EventsBackend { get; set; }
@@ -121,7 +121,7 @@ public abstract record PodmanOptions : CommandLineToolOptions
     public virtual string? Runroot { get; set; }
 
     /// <summary>
-    /// Path to the OCI-compatible binary used to run containers. (default "crun")
+    /// Path to the OCI-compatible binary used to run containers.
     /// </summary>
     [CliOption("--runtime", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Runtime { get; set; }
@@ -181,7 +181,7 @@ public abstract record PodmanOptions : CommandLineToolOptions
     public virtual string? TlsKey { get; set; }
 
     /// <summary>
-    /// Path to the tmp directory for libpod state content. Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'. (default "/tmp/storage-run-1000/libpod/tmp")
+    /// Path to the tmp directory for libpod state content. Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'.
     /// </summary>
     [CliOption("--tmpdir", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Tmpdir { get; set; }
@@ -193,7 +193,7 @@ public abstract record PodmanOptions : CommandLineToolOptions
     public virtual CliOptionValue? TransientStore { get; set; }
 
     /// <summary>
-    /// URL to access Podman service (CONTAINER_HOST) (default "unix:///tmp/storage-run-1000/podman/podman.sock")
+    /// URL to access Podman service (CONTAINER_HOST)
     /// </summary>
     [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Url { get; set; }

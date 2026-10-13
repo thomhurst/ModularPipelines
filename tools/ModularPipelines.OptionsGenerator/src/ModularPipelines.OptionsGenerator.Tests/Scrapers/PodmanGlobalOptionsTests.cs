@@ -51,6 +51,9 @@ public class PodmanGlobalOptionsTests
         await Assert.That(options.Single(option => option.SwitchName == "--connection").ShortForm).IsEqualTo("-c");
         await Assert.That(options.Single(option => option.SwitchName == "--remote").ShortForm).IsEqualTo("-r");
         await Assert.That(options.Single(option => option.SwitchName == "--tmpdir").Description).Contains("TMPDIR");
+        await Assert.That(options.Single(option => option.SwitchName == "--tmpdir").Description).DoesNotContain("storage-run-1000");
+        await Assert.That(options.Single(option => option.SwitchName == "--url").Description).DoesNotContain("storage-run-1000");
+        await Assert.That(options.Single(option => option.SwitchName == "--log-level").Description).Contains("(default \"warn\")");
     }
 
     private static string ExpectedType(string switchName) => switchName switch
@@ -60,6 +63,30 @@ public class PodmanGlobalOptionsTests
         "--log-level" => "PodmanLogLevel?",
         _ => "string?",
     };
+
+    [Test]
+    [Arguments("--volume", "Mounts (default [/Users/alice:/data])", "Mounts")]
+    [Arguments("--volume", "Mounts (default [C:\\Users\\alice:/data])", "Mounts")]
+    [Arguments("--volume", "Mounts (default [~/.config:/data])", "Mounts")]
+    [Arguments("--url", "Service (default \"unix:///run/user/2000/podman.sock\")", "Service")]
+    [Arguments("--socket-path", "Socket (default '/run/user/{uid}/podman.sock')", "Socket (default '/run/user/{uid}/podman.sock')")]
+    [Arguments("--cpus", "Number of CPUs (default 64)", "Number of CPUs")]
+    [Arguments("--log-driver", "Logging driver (default \"journald\")", "Logging driver")]
+    [Arguments("--pids-limit", "PID limit (default 4096)", "PID limit")]
+    [Arguments("--tls-verify", "Verify TLS (default true)", "Verify TLS (default true)")]
+    [Arguments("--memory", "Memory (default 2048)", "Memory (default 2048)")]
+    [Arguments("--volume", null, null)]
+    public async Task Description_Defaults_Keep_Stable_Values(string switchName, string? description, string? expected)
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = switchName,
+            PropertyName = "Setting",
+            CSharpType = "string?",
+            Description = description,
+        };
+        await Assert.That(new TestScraper().Fix(option).Description).IsEqualTo(expected);
+    }
 
     [Test]
     public async Task Full_Traversal_Preserves_Local_Identity_And_Compose_Provider_Scope()
@@ -79,6 +106,13 @@ public class PodmanGlobalOptionsTests
         await Assert.That(compose.Options.Select(option => option.SwitchName)).Contains("--project-name");
         await Assert.That(compose.Options.Select(option => option.SwitchName)).Contains("--file");
         await Assert.That(tool.GlobalOptions.Any(option => option.SwitchName == "--project-name")).IsFalse();
+        var machine = tool.Commands.Single(command => command.FullCommand == "podman machine init");
+        await Assert.That(machine.Options.Single(option => option.SwitchName == "--cpus").Description).IsEqualTo("Number of CPUs");
+        await Assert.That(machine.Options.Single(option => option.SwitchName == "--volume").Description).IsEqualTo("Volumes to mount, source:target");
+        await Assert.That(machine.Options.Single(option => option.SwitchName == "--tls-verify").IsFlag).IsFalse();
+        var run = tool.Commands.Single(command => command.FullCommand == "podman run");
+        await Assert.That(run.Options.Single(option => option.SwitchName == "--log-driver").Description).DoesNotContain("(default");
+        await Assert.That(run.Options.Single(option => option.SwitchName == "--pids-limit").Description).DoesNotContain("(default");
     }
 
     private static string Fixture(string name) => File.ReadAllText(
@@ -91,6 +125,8 @@ public class PodmanGlobalOptionsTests
         protected override string? ComposeProviderPath => "fixture-compose";
 
         public IReadOnlyList<CliOptionDefinition> Globals(string help) => ParseGlobalOptions(help);
+
+        public CliOptionDefinition Fix(CliOptionDefinition option) => ApplyOptionFixes(["machine", "init"], [option])[0];
     }
 
     private sealed class HelpExecutor : ICliCommandExecutor

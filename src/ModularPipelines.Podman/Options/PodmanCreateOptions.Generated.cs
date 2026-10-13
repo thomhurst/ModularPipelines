@@ -491,7 +491,7 @@ public record PodmanCreateOptions : PodmanOptions
     public IEnumerable<string>? LabelFile { get; set; }
 
     /// <summary>
-    /// Logging driver for the container (default "k8s-file")
+    /// Logging driver for the container
     /// </summary>
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }

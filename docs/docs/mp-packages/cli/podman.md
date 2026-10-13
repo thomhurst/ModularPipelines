@@ -37,11 +37,11 @@ Global options are rendered before the selected subcommand.
 | CLI option | Property | Availability | Description |
 | --- | --- | --- | --- |
 | `--cdi-spec-dir` | `CdiSpecDir` | All editions | Set the CDI spec directory path (may be set multiple times) (default [/etc/cdi,/var/run/cdi]) |
-| `--cgroup-manager` | `CgroupManager` | All editions | Cgroup manager to use ("cgroupfs"\|"systemd") (default "cgroupfs") |
+| `--cgroup-manager` | `CgroupManager` | All editions | Cgroup manager to use ("cgroupfs"\|"systemd") |
 | `--config` | `Config` | All editions | Path to directory containing authentication config file |
 | `--conmon` | `Conmon` | All editions | Path of the conmon binary |
 | `--connection` | `Connection` | All editions | Connection to use for remote Podman service (CONTAINER_CONNECTION) |
-| `--events-backend` | `EventsBackend` | All editions | Events backend to use ("file"\|"journald"\|"none") (default "file") |
+| `--events-backend` | `EventsBackend` | All editions | Events backend to use ("file"\|"journald"\|"none") |
 | `--hooks-dir` | `HooksDir` | All editions | Set the OCI hooks directory path (may be set multiple times) (default [/usr/share/containers/oci/hooks.d]) |
 | `--identity` | `Identity` | All editions | path to SSH identity file, (CONTAINER_SSHKEY) |
 | `--imagestore` | `Imagestore` | All editions | Path to the 'image store', different from 'graph root', use this to split storing the image into a separate 'image store', see 'man containers-storage.conf' for details |
@@ -52,7 +52,7 @@ Global options are rendered before the selected subcommand.
 | `--remote` | `Remote` | All editions | Access remote Podman service |
 | `--root` | `Root` | All editions | Path to the graph root directory where images, containers, etc. are stored |
 | `--runroot` | `Runroot` | All editions | Path to the 'run directory' where all state information is stored |
-| `--runtime` | `Runtime` | All editions | Path to the OCI-compatible binary used to run containers. (default "crun") |
+| `--runtime` | `Runtime` | All editions | Path to the OCI-compatible binary used to run containers. |
 | `--runtime-flag` | `RuntimeFlag` | All editions | add global flags for the container runtime |
 | `--ssh` | `Ssh` | All editions | define the ssh mode (default "golang") |
 | `--storage-driver` | `StorageDriver` | All editions | Select which storage driver is used to manage storage of images and containers |
@@ -62,9 +62,9 @@ Global options are rendered before the selected subcommand.
 | `--tls-cert` | `TlsCert` | All editions | path to TLS client certificate PEM file for remote. |
 | `--tls-details` | `TlsDetails` | All editions | Path to a containers-tls-details.yaml(5) file |
 | `--tls-key` | `TlsKey` | All editions | path to TLS client certificate private key PEM file for remote. |
-| `--tmpdir` | `Tmpdir` | All editions | Path to the tmp directory for libpod state content. Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'. (default "/tmp/storage-run-1000/libpod/tmp") |
+| `--tmpdir` | `Tmpdir` | All editions | Path to the tmp directory for libpod state content. Note: use the environment variable 'TMPDIR' to change the temporary storage location for container images, '/var/tmp'. |
 | `--transient-store` | `TransientStore` | All editions | Enable transient container storage |
-| `--url` | `Url` | All editions | URL to access Podman service (CONTAINER_HOST) (default "unix:///tmp/storage-run-1000/podman/podman.sock") |
+| `--url` | `Url` | All editions | URL to access Podman service (CONTAINER_HOST) |
 | `--volumepath` | `Volumepath` | All editions | Path to the volume directory in which volume data is stored |
 
 ## Commands
