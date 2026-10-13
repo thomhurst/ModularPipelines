@@ -5,6 +5,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public partial class NestedArgumentGroupParsingTests
 {
+    private static readonly bool[] FilePresenceValues = [false, true];
+
     [Test]
     [Arguments(false)]
     [Arguments(true)]
@@ -25,7 +27,7 @@ public partial class NestedArgumentGroupParsingTests
         {
             foreach (var value in new bool?[] { null, false, true })
             {
-                foreach (var withFile in new[] { false, true })
+                foreach (var withFile in FilePresenceValues)
                 {
                     var instance = Activator.CreateInstance(type)!;
                     type.GetProperty("Confirm")!.SetValue(instance, value);

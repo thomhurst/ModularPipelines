@@ -660,6 +660,11 @@ public class OptionsClassGenerator : ICodeGenerator
             return $"(object?){propertyName} is not null";
         }
 
+        return GetCollectionPresenceExpression(propertyName, option);
+    }
+
+    private static string GetCollectionPresenceExpression(string propertyName, CliOptionDefinition? option)
+    {
         if (option?.ValueArity == CliOptionValueArity.Optional)
         {
             if (option.UsesValueGroups)

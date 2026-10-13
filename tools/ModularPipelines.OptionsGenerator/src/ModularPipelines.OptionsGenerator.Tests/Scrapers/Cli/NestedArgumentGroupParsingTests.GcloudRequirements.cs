@@ -423,7 +423,7 @@ public partial class NestedArgumentGroupParsingTests
 
         await Assert.That(command.RequiredAlternativeGroups.Where(group => group.IsRequired).SelectMany(group => group.PropertyNames))
             .IsEquivalentTo(["CopySans", "CopySubject"]);
-        await Assert.That(command.RequiredAlternativeGroups.Where(group => group.IsRequired).All(group => group.PropertyNames.Count() == 1)).IsTrue();
+        await Assert.That(command.RequiredAlternativeGroups.Where(group => group.IsRequired).All(group => group.PropertyNames.Count == 1)).IsTrue();
     }
 
     [Test]
