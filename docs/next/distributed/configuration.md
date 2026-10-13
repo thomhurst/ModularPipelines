@@ -347,16 +347,16 @@ The hub rejects registrations for another `RunId`, a second live worker with the
 
 `AddRedisMasterDiscovery` stores the SignalR master's `MasterEndpoint`, its URL and access token, in Redis so workers can find it. Discovery opens its own lazily connected Redis connection; it neither uses nor replaces an `IConnectionMultiplexer` registered by the application.
 
-| Property              | Type                            | Default          | Description                                                                                        |
-| --------------------- | ------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------- |
-| `ConnectionString`    | `string`                        | `localhost:6379` | Redis connection string; required unless `RestUrl` is set.                                         |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`           | Adjusts the parsed connection configuration, for example credentials or TLS.                       |
-| `RestUrl`             | `Uri?`                          | `null`           | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
-| `RestToken`           | `string?`                       | `null`           | Upstash REST token; configure together with `RestUrl`.                                             |
-| `KeyPrefix`           | `string`                        | `modpipe`        | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`.                                  |
-| `TimeToLive`          | `TimeSpan`                      | `01:00:00`       | How long the advertised endpoint is kept.                                                          |
-| `DiscoveryTimeout`    | `TimeSpan`                      | `00:02:00`       | How long workers wait for the endpoint.                                                            |
-| `PollInterval`        | `TimeSpan`                      | `00:00:00.500`   | How often workers check for the endpoint.                                                          |
+| Property              | Type                            | Default        | Description                                                                                                                                                                   |
+| --------------------- | ------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConnectionString`    | `string`                        | Empty          | Explicit Redis connection string; required unless `ConfigureConnection` supplies endpoints or both REST options are set.                                                      |
+| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`         | Adjusts TCP configuration during validation, for example credentials or TLS; must leave at least one endpoint. The configuration is reused when connecting. Ignored for REST. |
+| `RestUrl`             | `Uri?`                          | `null`         | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`.                                                                            |
+| `RestToken`           | `string?`                       | `null`         | Upstash REST token; configure together with `RestUrl`.                                                                                                                        |
+| `KeyPrefix`           | `string`                        | `modpipe`      | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`.                                                                                                             |
+| `TimeToLive`          | `TimeSpan`                      | `01:00:00`     | How long the advertised endpoint is kept.                                                                                                                                     |
+| `DiscoveryTimeout`    | `TimeSpan`                      | `00:02:00`     | How long workers wait for the endpoint.                                                                                                                                       |
+| `PollInterval`        | `TimeSpan`                      | `00:00:00.500` | How often workers check for the endpoint.                                                                                                                                     |
 
 Because the stored endpoint includes the access token, only the run's processes should be able to read the discovery Redis database.
 
