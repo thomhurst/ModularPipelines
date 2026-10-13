@@ -80,6 +80,15 @@ public class MinikubeGlobalOptionsTests
         await Assert.That(output.EnumDefinition!.Values.Select(value => value.CliValue))
             .IsEquivalentTo(["yaml", "json"]);
         await Assert.That(output.ShortForm).IsEqualTo("-o");
+        foreach (var commandName in new[] { "minikube status", "minikube config view" })
+        {
+            var format = commands.Single(command => command.FullCommand == commandName)
+                .Options.Single(option => option.SwitchName == "--format");
+            await Assert.That(format.CSharpType).IsEqualTo("string?");
+            await Assert.That(format.IsFlag).IsFalse();
+            await Assert.That(format.ShortForm).IsEqualTo(commandName == "minikube status" ? "-f" : null);
+            await Assert.That(format.Description!.StartsWith("Go template format string", StringComparison.Ordinal)).IsTrue();
+        }
     }
 
     [Test]
