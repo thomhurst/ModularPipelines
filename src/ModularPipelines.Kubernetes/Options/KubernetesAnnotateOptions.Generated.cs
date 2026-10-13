@@ -24,7 +24,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions
     /// <summary>
     /// Update the annotations on one or more resources.
     /// </summary>
-    /// <param name="Annotations">The KEY_1=VAL_1 operand.</param>
+    /// <param name="Annotations">The KEY=VAL operand.</param>
     public KubernetesAnnotateOptions(
         IEnumerable<string>? Annotations
     )
@@ -146,7 +146,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions
     public string? Template { get; set; }
 
     /// <summary>
-    /// The KEY_1=VAL_1 operand.
+    /// The KEY=VAL operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Annotations { get; private init; }

@@ -150,7 +150,7 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Label_File_With_One_Label_Does_Not_Require_Another_Label()
     {
-        var result = await GetResult(new KubernetesLabelOptions(["environment=test"], null!)
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test"])
         {
             Filename = ["deployment.yaml"],
         });
@@ -162,7 +162,7 @@ public class KubernetesCommandRenderingTests : TestBase
     [Test]
     public async Task Label_List_Does_Not_Require_Labels()
     {
-        var result = await GetResult(new KubernetesLabelOptions(null!, null!)
+        var result = await GetResult(new KubernetesLabelOptions(null!)
         {
             Filename = ["deployment.yaml"],
             List = true,
@@ -185,6 +185,52 @@ public class KubernetesCommandRenderingTests : TestBase
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl taint nodes example=value:NoSchedule --all");
+    }
+
+    [Test]
+    public async Task Label_Renders_All_Labels_In_Order()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test", "team=build"])
+        {
+            Filename = ["deployment.yaml"],
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl label --filename=deployment.yaml environment=test team=build");
+    }
+
+    [Test]
+    public async Task Annotate_Renders_All_Annotations_In_Order()
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=build", "note=example"])
+        {
+            Filename = ["deployment.yaml"],
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl annotate --filename=deployment.yaml owner=build note=example");
+    }
+
+    [Test]
+    public async Task Annotate_List_Does_Not_Require_Annotations()
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(null!)
+        {
+            Filename = ["deployment.yaml"],
+            List = true,
+        });
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl annotate --filename=deployment.yaml --list");
+    }
+
+    [Test]
+    public async Task Taint_Renders_All_Taints_After_Node_Name()
+    {
+        var result = await GetResult(new KubernetesTaintOptions("nodes", "example", ["team=build:NoSchedule", "dedicated-"]));
+
+        await Assert.That(result.CommandInput)
+            .IsEqualTo("kubectl taint nodes example team=build:NoSchedule dedicated-");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
