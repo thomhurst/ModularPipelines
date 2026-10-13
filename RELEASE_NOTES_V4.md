@@ -1,5 +1,22 @@
 # ModularPipelines V4 Release Notes
 
+## Redis packages use Respire
+
+`ModularPipelines.Distributed.Redis` and `ModularPipelines.Distributed.Discovery.Redis` now use the
+[Respire](https://thomhurst.github.io/Respire/) client instead of StackExchange.Redis for the coordinator,
+artifact store, module cache, and master discovery. Keys, Lua scripts, and stored data are unchanged.
+
+- `RedisOptions.ConfigureConnection` and `RedisDiscoveryOptions.ConfigureConnection` are now
+  `Func<RespireOptions, RespireOptions>?`. Replace
+  `connection => { connection.Password = password; connection.Ssl = true; }` with
+  `connection => connection with { Password = password, UseTls = true }`. `AsyncTimeout` becomes
+  `CommandTimeout`; `AbortOnConnectFail` has no equivalent because connections are always opened on first use.
+- Respire parses StackExchange.Redis-style connection strings but rejects options it does not support, such as
+  `abortConnect`, and requires `cluster=true` or `serviceName` when a string lists several endpoints. Invalid
+  connection strings fail with `OptionsValidationException` when the pipeline is built.
+- Unless configured otherwise, connections use Respire's default `RespireRetryPolicy`, which resends commands
+  that were never written, and reads, after a dropped connection.
+
 ## Generated CLI numeric names
 
 Generated identifiers beginning with a digit now use a `Number` prefix. For example,
@@ -776,8 +793,9 @@ Use `[CliArgument]` only for positional values that follow the command chain.
   removed. The hub requires an `AccessToken` whenever it is reachable beyond the machine; one is generated and
   shared through discovery when unset. Workers pull leases instead of receiving pushed work.
 - Redis: `RedisDistributedOptions` is `RedisOptions`, `KeyExpiration` is `TimeToLive`, and
-  `ConfigureConnection` adjusts the parsed connection. The package neither registers nor uses an application
-  `IConnectionMultiplexer`. Module cache keys move to `v2` with a cluster hash tag.
+  `ConfigureConnection` transforms the parsed Respire connection options. The package uses the Respire client
+  and neither registers nor uses an application Redis client. Module cache keys move to `v2` with a cluster
+  hash tag.
 - S3: `S3ArtifactOptions` is `S3StorageOptions`, `KeyPrefix` defaults to `modpipe`, `SetLifecycleRule`
   defaults to `false` and merges with existing rules, and large objects use multipart uploads.
 - Discovery: `Ttl` is `TimeToLive`, `KeyPrefix` defaults to `modpipe`, and the package owns its connection.
@@ -989,8 +1007,8 @@ Replace assignments such as `options => options.RunId = "run"` with
 
 `AddRedisModuleCache` and `AddS3ModuleCache` use transforms for both backend and cache
 options. Configuration-section overloads, named cache isolation, registration order,
-validation, and runtime defaults are preserved. `ConfigureConnection` remains an
-`Action<StackExchange.Redis.ConfigurationOptions>` because that third-party type is mutable.
+validation, and runtime defaults are preserved. `RedisOptions.ConfigureConnection` and
+`RedisDiscoveryOptions.ConfigureConnection` are `Func<RespireOptions, RespireOptions>` transforms.
 
 Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
 CompressionLevel.NoCompression })` to configure local artifact behavior without enabling

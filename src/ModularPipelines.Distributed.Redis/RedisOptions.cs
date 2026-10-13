@@ -1,5 +1,5 @@
 using System.Text;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis;
 
@@ -10,19 +10,21 @@ namespace ModularPipelines.Distributed.Redis;
 public sealed record RedisOptions
 {
     /// <summary>
-    /// Gets the StackExchange.Redis connection string, such as <c>localhost:6379</c>.
-    /// Required unless <see cref="ConfigureConnection"/> supplies the endpoints.
+    /// Gets the Respire connection string: <c>host:port</c>, a <c>redis://</c> or <c>rediss://</c>
+    /// URI, or a StackExchange.Redis-style comma-delimited string such as
+    /// <c>localhost:6379,password=secret,ssl=true</c>. Unknown options, such as <c>abortConnect</c>,
+    /// are rejected. Required unless <see cref="ConfigureConnection"/> supplies the endpoints.
     /// </summary>
     public string ConnectionString { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets a callback that adjusts the parsed <see cref="ConfigurationOptions"/> before
-    /// startup validation. It runs once per materialized options instance, after all configuration
-    /// and post-configuration callbacks. The resulting snapshot must contain at least one endpoint
-    /// and is reused for lazy connections and retries. Use it for passwords containing commas,
-    /// TLS, and retry settings. Later changes to these options do not change that snapshot.
+    /// Gets a function that transforms the parsed <see cref="RespireOptions"/> before startup
+    /// validation. It runs once per materialized options instance, after all configuration and
+    /// post-configuration callbacks. The resulting snapshot must contain at least one endpoint and is
+    /// reused for lazy connections and retries. Use it for passwords containing commas, TLS, and
+    /// timeouts. Later changes to these options do not change that snapshot.
     /// </summary>
-    public Action<ConfigurationOptions>? ConfigureConnection { get; init; }
+    public Func<RespireOptions, RespireOptions>? ConfigureConnection { get; init; }
 
     /// <summary>
     /// Gets the prefix for every Redis key. Run state and artifacts live under
@@ -41,7 +43,7 @@ public sealed record RedisOptions
     /// <summary>
     /// Gets the size of each Redis value used to store artifacts and module cache entries.
     /// Content that fits in one chunk is stored under a single key. Each chunk is one command, so it
-    /// must transfer within the connection's <see cref="ConfigurationOptions.AsyncTimeout"/> even when
+    /// must transfer within the connection's <see cref="RespireOptions.CommandTimeout"/> even when
     /// several processes share the link. Default: 1 MB.
     /// </summary>
     public int ChunkSizeBytes { get; init; } = 1024 * 1024;

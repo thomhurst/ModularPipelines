@@ -1,5 +1,6 @@
+using System.Net.Sockets;
 using Kevlar;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis;
 
@@ -26,7 +27,7 @@ internal static class RedisTransientRetry
     /// </summary>
     /// <remarks>
     /// A command that keeps timing out surfaces after <see cref="MaxAttempts"/> times the connection's
-    /// <see cref="ConfigurationOptions.AsyncTimeout"/> plus the backoff, about 3.5 seconds with the
+    /// <see cref="RespireOptions.CommandTimeout"/> plus the backoff, about 3.5 seconds with the
     /// default base delay: roughly 63 seconds with a 15-second timeout.
     /// </remarks>
     internal static Shield Create(TimeSpan baseDelay) =>
@@ -34,6 +35,13 @@ internal static class RedisTransientRetry
             .When(IsTransient)
             .Retry(MaxAttempts - 1, Backoff.Exponential(baseDelay, 2, null, Jitter.Equal));
 
-    internal static bool IsTransient(Exception exception) =>
-        exception is RedisTimeoutException or RedisConnectionException;
+    // A standalone client surfaces a refused connection as the underlying SocketException. Rejected
+    // credentials and server errors other than LOADING, BUSY and similar states will not recover.
+    internal static bool IsTransient(Exception exception) => exception switch
+    {
+        RespireAuthenticationException => false,
+        RespireTimeoutException or RespireConnectionException or SocketException => true,
+        RespireServerException server => server.IsTransient,
+        _ => false,
+    };
 }

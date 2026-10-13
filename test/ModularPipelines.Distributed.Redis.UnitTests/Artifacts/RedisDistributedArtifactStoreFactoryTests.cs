@@ -1,6 +1,6 @@
 using ModularPipelines.Distributed.Redis.Artifacts;
 using Moq;
-using StackExchange.Redis;
+using Respire;
 
 namespace ModularPipelines.Distributed.Redis.UnitTests.Artifacts;
 
@@ -9,15 +9,11 @@ public class RedisDistributedArtifactStoreFactoryTests
     [Test]
     public async Task CreateAsync_Retries_A_Transient_Connection_Failure()
     {
-        var connection = new Mock<IConnectionMultiplexer>();
-        connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
-            .Returns(Mock.Of<IDatabase>());
         var attempts = 0;
         var provider = new RedisConnectionProvider(
             () => Interlocked.Increment(ref attempts) == 1
-                ? Task.FromException<IConnectionMultiplexer>(new RedisConnectionException(
-                    ConnectionFailureType.UnableToConnect, CommandFlags.None, "It was not possible to connect", null, CommandStatus.Unknown))
-                : Task.FromResult(connection.Object),
+                ? Task.FromException<IRespireClient>(new RespireConnectionException("It was not possible to connect"))
+                : Task.FromResult(Mock.Of<IRespireClient>()),
             ownsConnection: false);
         var factory = CreateFactory(provider);
 
@@ -28,20 +24,24 @@ public class RedisDistributedArtifactStoreFactoryTests
     }
 
     [Test]
-    public async Task CreateAsync_Does_Not_Retry_A_Configuration_Error()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CreateAsync_Does_Not_Retry_A_Permanent_Error(bool authentication)
     {
         var attempts = 0;
         var provider = new RedisConnectionProvider(
             () =>
             {
                 Interlocked.Increment(ref attempts);
-                return Task.FromException<IConnectionMultiplexer>(new ArgumentException("Invalid connection string."));
+                return Task.FromException<IRespireClient>(authentication
+                    ? new RespireAuthenticationException("WRONGPASS invalid username-password pair")
+                    : new ArgumentException("Invalid connection string."));
             },
             ownsConnection: false);
         var factory = CreateFactory(provider);
 
         await Assert.That(async () => await factory.CreateAsync(CancellationToken.None))
-            .Throws<ArgumentException>();
+            .Throws<Exception>();
         await Assert.That(attempts).IsEqualTo(1);
     }
 

@@ -42,8 +42,8 @@ Named module-cache options remain separate from distributed backend options.
 
 Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
 CompressionLevel.NoCompression })` to configure artifact behavior in local mode. This does
-not enable distributed execution. Redis `ConfigureConnection` callbacks still mutate the
-third-party `StackExchange.Redis.ConfigurationOptions` type.
+not enable distributed execution. Redis `ConfigureConnection` options are
+`Func<RespireOptions, RespireOptions>` transforms over the immutable Respire connection options.
 
 ```csharp
 builder.AddDistributedMode(o => o with
@@ -219,10 +219,10 @@ so size them for the combined load. The module cache has its own options and con
 builder.AddRedisDistributed(o => o with
 {
     ConnectionString = "redis-host:6379",
-    ConfigureConnection = connection =>
+    ConfigureConnection = connection => connection with
     {
-        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
-        connection.Ssl = true;
+        Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD"),
+        UseTls = true,
     },
     KeyPrefix = "modpipe",
     TimeToLive = TimeSpan.FromHours(1),
@@ -231,22 +231,28 @@ builder.AddRedisDistributed(o => o with
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints. |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
+| `ConnectionString` | `string` | `""` | [Respire connection string](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md): `host:port`, a `redis://` or `rediss://` URI, or a StackExchange.Redis-style comma-delimited string (`password`, `ssl`, `asyncTimeout`, etc.). Unknown options such as `abortConnect` fail validation. **Required** unless `ConfigureConnection` supplies the endpoints. |
+| `ConfigureConnection` | `Func<RespireOptions, RespireOptions>?` | `null` | Transforms the parsed `RespireOptions` before connecting, usually with a `with` expression. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, timeouts, and retry settings. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier. |
-| `ChunkSizeBytes` | `int` | 1 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `AsyncTimeout`, so lower it or raise the timeout for slow or shared links. |
+| `ChunkSizeBytes` | `int` | 1 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `CommandTimeout`, so lower it or raise the timeout for slow or shared links. |
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or
-resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not
-adopted and cannot conflict with it.
+resolves an `IRespireClient` from the service collection, so an application's own client is not adopted and
+cannot conflict with it.
+
+Unless the connection string or `ConfigureConnection` sets one, the connection uses Respire's default
+`RespireRetryPolicy`. After a dropped connection, Respire fails the next command while it reconnects; the policy
+resends commands that were never written, and reads, so a brief disconnect does not fail coordination. Set
+`RetryPolicy = null` in `ConfigureConnection` to turn it off.
 
 The options are validated when the pipeline is built. After configuration and post-configuration finish,
 `ConfigureConnection` runs once per materialized options instance. The effective configuration must have
 at least one endpoint: a no-op or TLS-only callback without a connection string fails, as does a callback
-that removes every parsed endpoint. Validation does not connect to Redis. Connections and retries reuse
-copies of the validated snapshot; later option changes or mutations of a retained callback argument do
-not change that snapshot. Named module-cache options have their own snapshots.
+that removes every parsed endpoint. A connection string that Respire cannot parse also fails. Validation does
+not connect to Redis. Connections and retries reuse copies of the validated snapshot; later option changes or
+changes to an endpoint list the callback kept do not change that snapshot. Named module-cache options have
+their own snapshots.
 
 A missing connection, an empty `KeyPrefix`, or a
 non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator
@@ -385,13 +391,13 @@ Detailed hub errors are disabled, and the tunnel URL is logged only at Debug.
 ## Redis Master Discovery
 
 `AddRedisMasterDiscovery` stores the SignalR master's `MasterEndpoint`, its URL and access token, in Redis
-so workers can find it. Discovery opens its own lazily connected Redis connection; it neither uses nor
-replaces an `IConnectionMultiplexer` registered by the application.
+so workers can find it. Discovery opens its own lazily connected [Respire](https://thomhurst.github.io/Respire/)
+connection; it neither uses nor replaces a Redis client registered by the application.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ConnectionString` | `string` | Empty | Explicit Redis connection string; required unless `ConfigureConnection` supplies endpoints or both REST options are set. |
-| `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts TCP configuration during validation, for example credentials or TLS; must leave at least one endpoint. The configuration is reused when connecting. Ignored for REST. |
+| `ConnectionString` | `string` | Empty | Explicit Respire connection string; required unless `ConfigureConnection` supplies endpoints or both REST options are set. Unknown options such as `abortConnect` fail validation. |
+| `ConfigureConnection` | `Func<RespireOptions, RespireOptions>?` | `null` | Transforms the TCP configuration during validation, for example credentials or TLS; must leave at least one endpoint. The configuration is reused when connecting. Defaults to Respire's `RespireRetryPolicy` unless one is set. Ignored for REST. |
 | `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
 | `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
@@ -403,6 +409,9 @@ Because the stored endpoint includes the access token, only the run's processes 
 discovery Redis database.
 
 ## Connection String Examples
+
+The Redis coordinator, artifact store, module cache and master discovery parse connection strings with Respire,
+which accepts StackExchange.Redis-style strings but rejects options it does not support, such as `abortConnect`.
 
 **Local Redis:**
 ```
@@ -416,15 +425,17 @@ redis-host:6379,password=mysecret
 
 **Redis with TLS (e.g., Upstash, Redis Cloud):**
 ```
-redis-host:6380,password=mysecret,ssl=True,abortConnect=False
+redis-host:6380,password=mysecret,ssl=true
 ```
 
 **Multiple endpoints (Redis Cluster):**
 ```
-host1:6379,host2:6379,password=mysecret
+host1:6379,host2:6379,password=mysecret,cluster=true
 ```
 
-See the [StackExchange.Redis configuration docs](https://stackexchange.github.io/StackExchange.Redis/Configuration.html) for all connection string options.
+Respire requires `cluster=true` (or `serviceName` for Sentinel) when a connection string lists more than one
+endpoint. See the [Respire connection docs](https://thomhurst.github.io/Respire/docs/fundamentals/connections.md)
+for all connection string options.
 
 ## V4 endpoint migration
 

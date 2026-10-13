@@ -54,11 +54,11 @@ For callback-only TCP configuration, supply endpoints explicitly:
 ```csharp
 builder.AddRedisMasterDiscovery(options => options with
 {
-    ConfigureConnection = connection =>
+    ConfigureConnection = connection => connection with
     {
-        connection.EndPoints.Add("redis.internal", 6380);
-        connection.Ssl = true;
-        connection.Password = builder.Configuration["RedisPassword"];
+        Endpoints = [new RespireEndpoint("redis.internal", 6380)],
+        UseTls = true,
+        Password = builder.Configuration["RedisPassword"],
     },
 });
 ```

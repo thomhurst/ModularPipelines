@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Respire.Testing" />
     <PackageReference Include="Moq" />
     <PackageReference Include="TUnit" />
   </ItemGroup>

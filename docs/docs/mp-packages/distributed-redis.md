@@ -40,17 +40,18 @@ Set credentials that a connection string cannot carry safely, such as a password
 builder.AddRedisDistributed(redis => redis with
 {
     ConnectionString = "redis.example.com:6380",
-    ConfigureConnection = connection =>
+    ConfigureConnection = connection => connection with
     {
-        connection.Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
-        connection.Ssl = true;
-        connection.AbortOnConnectFail = false;
+        Password = Environment.GetEnvironmentVariable("REDIS_PASSWORD"),
+        UseTls = true,
     },
 });
 ```
 
-Each Redis feature owns its connection and connects asynchronously on first use. The package does not register
-or reuse an `IConnectionMultiplexer` from the service collection.
+The package uses the [Respire](https://thomhurst.github.io/Respire/) client. `ConfigureConnection` transforms the
+immutable `Respire.RespireOptions` parsed from the connection string. Each Redis feature owns its connection and
+connects asynchronously on first use. The package does not register or reuse an `IRespireClient` from the service
+collection.
 
 Set `MODULARPIPELINES_RUN_ID` to the same unique value on the master and every worker participating in one pipeline run. Core distributed configuration resolves `DistributedOptions.RunId` from it automatically.
 
