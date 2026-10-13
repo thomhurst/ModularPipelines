@@ -1093,6 +1093,21 @@ public class AzCliScraperTests
             contentType.Description)).IsFalse();
     }
 
+    [Test]
+    [Arguments("version")]
+    [Arguments("VERSION")]
+    public async Task Version_Command_Is_Retained_Without_Options(string commandName)
+    {
+        var helpText = $"""
+            Command
+                az {commandName} : Display information.
+            """;
+        var command = await new TestAzCliScraper().Parse(["az", commandName], helpText);
+
+        await Assert.That(command).IsNotNull();
+        await Assert.That(command!.Options).IsEmpty();
+    }
+
     private sealed class HelpFetchingAzCliScraper(ICliCommandExecutor executor)
         : AzCliScraper(
             executor,

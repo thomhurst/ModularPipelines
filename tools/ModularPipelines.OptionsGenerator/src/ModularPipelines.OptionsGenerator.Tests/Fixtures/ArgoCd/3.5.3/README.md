@@ -25,5 +25,7 @@ setting. Equivalent enum values can use one shared base enum without losing loca
 option descriptions. Unknown or changed inherited metadata is validated before
 removing duplicate declarations.
 
-The existing version API audit is tracked separately in #5687. This audit preserves
-the current 165-command manifest and does not change the version skip list.
+`version-help.txt` was captured on 2026-10-13 from the same checksum-verified release
+using `argocd version --help`. Version command coverage in #5604 now retains this
+command and its `--client`, `--short`, and `--output` options. Traversal includes
+166 command paths; `commands.txt` remains the original inherited-option audit manifest.

@@ -45,13 +45,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   verify-blob    Verify a signature on the supplied blob
 ///   version        Prints the version
 /// </summary>
-public partial class CosignCliScraper : CobraCliScraper
+public partial class CosignCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<CosignCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public CosignCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<CosignCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "cosign";
 
     public override string NamespacePrefix => "Cosign";
@@ -163,6 +158,6 @@ public partial class CosignCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version", "env"
+        "--help", "-h", "--version", "help", "completion", "env"
     };
 }

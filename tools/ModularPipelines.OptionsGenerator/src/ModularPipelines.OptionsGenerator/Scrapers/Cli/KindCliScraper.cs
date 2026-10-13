@@ -25,13 +25,8 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///   load        Loads images into nodes
 ///   version     Prints the kind CLI version
 /// </summary>
-public partial class KindCliScraper : CobraCliScraper
+public partial class KindCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KindCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
-    public KindCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KindCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
-
     public override string ToolName => "kind";
 
     public override string NamespacePrefix => "Kind";
@@ -60,6 +55,6 @@ public partial class KindCliScraper : CobraCliScraper
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "completion", "version"
+        "--help", "-h", "--version", "help", "completion"
     };
 }

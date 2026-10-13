@@ -94,7 +94,18 @@ public class PodmanGlobalOptionsTests
         var scraper = new TestScraper();
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var tool = InheritedPropertyCollisionResolver.Resolve(scraper.CreateToolDefinition() with { Commands = commands });
-        await Assert.That(commands).Count().IsEqualTo(258);
+        await Assert.That(commands).Count().IsEqualTo(260);
+        var version = tool.Commands.Single(command => command.FullCommand == "podman version");
+        var format = version.Options.Single(option => option.SwitchName == "--format");
+        await Assert.That(format.CSharpType).IsEqualTo("string?");
+        await Assert.That(format.ShortForm).IsEqualTo("-f");
+        var services = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        await Assert.That(services.Select(file => file.Content))
+            .Contains(content => content.Contains($"VersionAsync({version.ClassName}"));
+        var composeVersion = tool.Commands.Single(command => command.FullCommand == "podman compose version");
+        await Assert.That(composeVersion.Options.Single(option => option.SwitchName == "--format").ShortForm)
+            .IsEqualTo("-f");
+        await Assert.That(composeVersion.Options.Single(option => option.SwitchName == "--short").IsFlag).IsTrue();
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsTrue();
         await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         var rootIdentity = tool.GlobalOptions.Single(option => option.SwitchName == "--identity");

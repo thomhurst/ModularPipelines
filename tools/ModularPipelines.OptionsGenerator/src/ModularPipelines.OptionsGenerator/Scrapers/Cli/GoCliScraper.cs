@@ -34,7 +34,7 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 ///         -n          print the commands but do not run them
 ///         ...
 /// </summary>
-public partial class GoCliScraper : CliScraperBase
+public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger) : CliScraperBase(executor, helpCache, logger)
 {
     private const string FlagProbeValue = "__modularpipelines_probe__";
 
@@ -43,11 +43,6 @@ public partial class GoCliScraper : CliScraperBase
 
     private readonly ConcurrentDictionary<string, IReadOnlySet<string>> _unsupportedSharedBuildFlags =
         new(StringComparer.Ordinal);
-
-    public GoCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<GoCliScraper> logger)
-        : base(executor, helpCache, logger)
-    {
-    }
 
     public override string ToolName => "go";
 
@@ -187,8 +182,8 @@ public partial class GoCliScraper : CliScraperBase
         IEnumerable<CliOptionDefinition> sharedOptions,
         bool isDocWithoutDirectFlags) =>
         isDocWithoutDirectFlags
-            ? sharedOptions.Where(option => option.SwitchName == "-C").ToArray()
-            : sharedOptions.ToArray();
+            ? [.. sharedOptions.Where(option => option.SwitchName == "-C")]
+            : [.. sharedOptions];
 
     private async Task<IReadOnlySet<string>> GetSupportedFlagsAsync(
         IReadOnlyList<string> commandPath,
@@ -330,7 +325,7 @@ public partial class GoCliScraper : CliScraperBase
                 sectionEnd = nextSection.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = helpText[sectionStart..sectionEnd];
             var lines = section.Split('\n');
 
             foreach (var line in lines)
@@ -364,14 +359,6 @@ public partial class GoCliScraper : CliScraperBase
 
         return name.All(c => char.IsLower(c) || char.IsDigit(c) || c == '-');
     }
-
-    /// <summary>
-    /// Go exposes version as an ordinary root command even though the shared traversal
-    /// treats that name as a utility node by default.
-    /// </summary>
-    protected override bool IsSkippableSubcommand(string subcommand) =>
-        !subcommand.Equals("version", StringComparison.OrdinalIgnoreCase)
-        && base.IsSkippableSubcommand(subcommand);
 
     /// <summary>
     /// Parses a go command from its help text.
@@ -438,11 +425,10 @@ public partial class GoCliScraper : CliScraperBase
     private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
         IReadOnlyList<string> commandParts,
         IReadOnlyList<CliPositionalArgument> arguments) =>
-        arguments.Select(argument => NormalizePositionalArgument(commandParts, argument) with
+        [.. arguments.Select(argument => NormalizePositionalArgument(commandParts, argument) with
         {
             Phase = CommandLinePhase.Passthrough,
-        })
-            .ToArray();
+        })];
 
     private static IReadOnlyList<CliPositionalArgument> AddOrderedEditOperations(
         IReadOnlyList<string> commandParts,

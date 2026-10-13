@@ -27,7 +27,8 @@ public class PackerCliScraperTests
         await Assert.That(machineReadable.IsSecret).IsFalse();
         await Assert.That(machineReadable.CSharpType).IsEqualTo("bool?");
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsTrue();
-        await Assert.That(commands).Count().IsEqualTo(10);
+        await Assert.That(commands).Count().IsEqualTo(11);
+        await Assert.That(commands.Single(command => command.FullCommand == "packer version").Options).IsEmpty();
         await Assert.That(commands.SelectMany(command => command.Options)
             .Any(option => option.PropertyName == "MachineReadable")).IsFalse();
 

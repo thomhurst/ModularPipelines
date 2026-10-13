@@ -64,7 +64,7 @@ public partial class PackerCliScraper(ICliCommandExecutor executor, IHelpTextCac
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "version"
+        "--help", "-h", "--version", "help"
     };
 
     /// <summary>
