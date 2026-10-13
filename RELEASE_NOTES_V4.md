@@ -957,3 +957,12 @@ the separator in relative paths. Its default follows the host. Providers using W
 separators on Unix must override it so artifact extraction validates traversal with the
 same separator semantics as the backing store; slash-based providers retain literal
 backslashes in filenames.
+
+## Go working-directory options
+
+All generated Go commands now inherit `GoOptions.WorkingDirectory`, rendered as
+`-C` before the command path. Replace command-specific `C` or `UpperC` directory
+properties with `WorkingDirectory`; reflection must include inherited properties.
+Lowercase `-c` remains a command-local flag, and `GoTestOptions.Args` still passes
+its values after package operands. Shared build flags remain limited to commands
+that support them. See the [Go migration guidance](docs/docs/mp-packages/go.md#migration).
