@@ -48,13 +48,54 @@ public partial class GitCliScraperTests
         await Assert.That(executor.CommandListCalls).IsEqualTo(2);
     }
 
+    [Test]
+    [Arguments(1, "", false, false, false)]
+    [Arguments(128, "fatal: command discovery failed", false, false, false)]
+    [Arguments(0, "", false, false, false)]
+    [Arguments(0, " ", false, false, false)]
+    [Arguments(0, "partial command list", true, false, false)]
+    [Arguments(0, "partial command list", false, true, false)]
+    [Arguments(0, "partial command list", false, false, true)]
+    public async Task Invalid_Root_Discovery_Is_Not_Cached_And_Next_Lookup_Can_Recover(
+        int exitCode, string output, bool executionFailed, bool timedOut, bool circuitOpen)
+    {
+        var executor = new RecoveringRootHelpExecutor(
+            Result("usage: git [-C <path>] <command>", exitCode: 129),
+            new CliCommandResult
+            {
+                StandardOutput = output,
+                StandardError = string.Empty,
+                ExitCode = exitCode,
+                ExecutionFailed = executionFailed,
+                TimedOut = timedOut,
+                CircuitOpen = circuitOpen,
+            });
+        var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        using var scraper = new RootHelpProbe(executor, cache);
+
+        await Assert.That(await scraper.Fetch()).IsNull();
+        await Assert.That(cache.TryGet("git", out _)).IsFalse();
+        await Assert.That(scraper.UnavailableHelpPaths).IsEquivalentTo(["git"]);
+
+        var recovered = await scraper.Fetch();
+        await Assert.That(recovered).Contains("usage: git");
+        await Assert.That(recovered).Contains("Main Porcelain Commands");
+        await Assert.That(cache.TryGet("git", out var cached)).IsTrue();
+        await Assert.That(cached).IsEqualTo(recovered);
+        await Assert.That(scraper.UnavailableHelpPaths).IsEmpty();
+        await Assert.That(await scraper.Fetch()).IsEqualTo(recovered);
+        await Assert.That(executor.CommandListCalls).IsEqualTo(2);
+        await Assert.That(executor.RootUsageCalls).IsEqualTo(2);
+    }
+
     private sealed class RootHelpProbe(ICliCommandExecutor executor, IHelpTextCache cache)
         : GitCliScraper(executor, cache, NullLogger<GitCliScraper>.Instance)
     {
         public Task<string?> Fetch() => GetHelpTextAsync(["git"], CancellationToken.None);
     }
 
-    private sealed class RecoveringRootHelpExecutor(CliCommandResult initialUsage) : ICliCommandExecutor
+    private sealed class RecoveringRootHelpExecutor(
+        CliCommandResult initialUsage, CliCommandResult? initialDiscovery = null) : ICliCommandExecutor
     {
         public int RootUsageCalls { get; private set; }
 
@@ -68,7 +109,8 @@ public partial class GitCliScraperTests
             if (arguments == "help -a")
             {
                 CommandListCalls++;
-                return Task.FromResult(Result("Main Porcelain Commands\n   branch                  List branches"));
+                return Task.FromResult(CommandListCalls == 1 && initialDiscovery is not null
+                    ? initialDiscovery : Result("Main Porcelain Commands\n   branch                  List branches"));
             }
 
             if (arguments == "-h")
@@ -91,30 +133,40 @@ public partial class GitCliScraperTests
     }
 
     [Test]
-    public async Task Diagnostics_Preserve_Root_Usage_Separately_From_Command_Discovery()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Diagnostics_Preserve_Root_Usage_Separately_From_Command_Discovery(bool discoveryFails)
     {
         var outputDirectory = Path.Combine(Path.GetTempPath(), $"git-root-provenance-{Guid.NewGuid():N}");
         try
         {
             using var scraper = new RootHelpProbe(
-                new RecoveringRootHelpExecutor(Result("wrapper failed", exitCode: 1)),
+                new RecoveringRootHelpExecutor(
+                    discoveryFails ? Result("usage: git <command>", exitCode: 129) : Result("wrapper failed", exitCode: 1),
+                    discoveryFails ? Result("discovery failed", exitCode: 128) : null),
                 new StubHelpTextCache());
             await Assert.That(await scraper.Fetch()).IsNull();
             var coverage = CommandCoverageGuard.Evaluate(
-                scraper.CreateToolDefinition(), outputDirectory, approveShrinkage: false);
+                scraper.CreateToolDefinition(), outputDirectory, approveShrinkage: false,
+                unavailableHelpPaths: scraper.UnavailableHelpPaths);
             var path = await scraper.WriteCoverageFailureDiagnosticsAsync(
                 outputDirectory, coverage, CancellationToken.None);
             using var diagnostics = JsonDocument.Parse(await File.ReadAllTextAsync(path!));
             var invocations = diagnostics.RootElement.GetProperty("helpInvocations").EnumerateArray().ToArray();
 
             await Assert.That(invocations.Length).IsEqualTo(2);
-            var help = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Help");
+            var help = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Discovery");
             var usage = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Usage");
             await Assert.That(help.GetProperty("arguments").GetString()).IsEqualTo("help -a");
-            await Assert.That(help.GetProperty("rawHelp").GetString()).Contains("Main Porcelain Commands");
+            await Assert.That(help.GetProperty("rawHelp").GetString())
+                .Contains(discoveryFails ? "discovery failed" : "Main Porcelain Commands");
+            await Assert.That(help.GetProperty("exitCode").GetInt32()).IsEqualTo(discoveryFails ? 128 : 0);
+            await Assert.That(diagnostics.RootElement.GetProperty("unavailableHelpPaths").EnumerateArray()
+                .Select(value => value.GetString()!)).IsEquivalentTo(["git"]);
             await Assert.That(usage.GetProperty("arguments").GetString()).IsEqualTo("-h");
-            await Assert.That(usage.GetProperty("rawHelp").GetString()).IsEqualTo("wrapper failed");
-            await Assert.That(usage.GetProperty("exitCode").GetInt32()).IsEqualTo(1);
+            await Assert.That(usage.GetProperty("rawHelp").GetString())
+                .IsEqualTo(discoveryFails ? "usage: git <command>" : "wrapper failed");
+            await Assert.That(usage.GetProperty("exitCode").GetInt32()).IsEqualTo(discoveryFails ? 129 : 1);
         }
         finally
         {
