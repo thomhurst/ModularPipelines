@@ -3,6 +3,15 @@ namespace ModularPipelines.Testing.UnitTests;
 public class ArtifactOverwriteTests
 {
     [Test]
+    public async Task Repeated_File_Download_Replaces_Existing_InMemory_File()
+    {
+        var run = await ModuleTester.For<RepeatedFileArtifactModule, string>().ExecuteAsync();
+
+        await Assert.That(run.Exception).IsNull();
+        await Assert.That(run.Value).IsEqualTo("artifact content");
+    }
+
+    [Test]
     [UnixOnly]
     public async Task Directory_Download_Preserves_Literal_Backslash_InMemory_File_Name()
     {
@@ -37,6 +46,21 @@ public class ArtifactOverwriteTests
             var destination = context.Files.GetFolder("literal-destination");
             await context.Artifacts.DownloadAsync<LiteralBackslashArtifactModule>("literal", destination, cancellationToken);
             return await destination.GetFile(@"payload\data.txt").ReadAsync(cancellationToken);
+        }
+    }
+
+    private sealed class RepeatedFileArtifactModule : Module<string>
+    {
+        protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var source = context.Files.GetFile("file-source.txt");
+            await source.WriteAsync("artifact content", cancellationToken);
+            await context.Artifacts.PublishFileAsync("file", source, cancellationToken);
+            var destination = context.Files.GetFile("file-destination.txt");
+            await context.Artifacts.DownloadAsync<RepeatedFileArtifactModule>("file", destination, cancellationToken);
+            await destination.WriteAsync("old", cancellationToken);
+            await context.Artifacts.DownloadAsync<RepeatedFileArtifactModule>("file", destination, cancellationToken);
+            return await destination.ReadAsync(cancellationToken);
         }
     }
 

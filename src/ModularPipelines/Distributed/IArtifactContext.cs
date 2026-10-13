@@ -95,6 +95,7 @@ public interface IArtifactContext
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>The supplied destination path after the download completes.</returns>
     /// <exception cref="InvalidOperationException">The artifact kind does not match the destination path type.</exception>
+    /// <exception cref="NotSupportedException">The provider cannot atomically replace an existing destination file.</exception>
     Task<FilePath> DownloadAsync(
         ModuleId producerModuleId,
         string artifactName,
@@ -126,6 +127,7 @@ public interface IArtifactContext
     /// <param name="cancellationToken">A token that cancels the operation.</param>
     /// <returns>The supplied destination path after the download completes.</returns>
     /// <exception cref="InvalidOperationException">The artifact kind does not match the destination path type.</exception>
+    /// <exception cref="NotSupportedException">The provider cannot atomically replace an existing destination file.</exception>
     Task<FilePath> DownloadAsync<TProducerModule>(
         string artifactName,
         FilePath destinationPath,

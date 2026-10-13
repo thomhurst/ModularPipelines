@@ -75,7 +75,8 @@ A provider using backslash separators on Unix must override it. Artifact ZIPs no
 that separator before extraction containment checks; slash-based Unix providers keep
 literal backslashes in filenames. Typed paths still require host-compatible absolute roots.
 
-Replacing existing directory entries requires the provider's atomic overwrite-move
+Typed file downloads and directory extraction write temporary sibling files before
+replacement, so interrupted copies preserve existing content. Replacing existing files requires the provider's atomic overwrite-move
 operation. The system and in-memory providers support it. Other custom providers
 that cannot replace files atomically report `NotSupportedException`, preserving the
 existing destination instead of deleting it before a replacement is ready.

@@ -211,9 +211,34 @@ internal class ArtifactContextImpl(
             provider.CreateDirectory(destinationDirectory);
         }
 
-        var fileStream = provider.Create(destinationPath);
-        await using var fileStreamLifetime = fileStream.ConfigureAwait(false);
-        await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
+        if (directory is null)
+        {
+            var fileStream = provider.Create(destinationPath);
+            await using var fileStreamLifetime = fileStream.ConfigureAwait(false);
+            await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
+            return destinationPath;
+        }
+
+        var temporaryName = $".modularpipelines-download-{Guid.NewGuid():N}.tmp";
+        var temporaryPath = string.IsNullOrEmpty(destinationDirectory)
+            ? temporaryName
+            : AppendProviderPath(provider, destinationDirectory, temporaryName);
+        var destinationStream = provider.Open(temporaryPath, FileMode.CreateNew, FileAccess.Write);
+        try
+        {
+            await using (destinationStream.ConfigureAwait(false))
+            {
+                await stream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            provider.MoveFile(temporaryPath, destinationPath, overwrite: true);
+        }
+        finally
+        {
+            DeleteTemporaryFile(provider, temporaryPath);
+        }
+
         return destinationPath;
     }
 
@@ -392,7 +417,19 @@ internal class ArtifactContextImpl(
         }
         finally
         {
-            provider.DeleteFile(temporaryPath);
+            DeleteTemporaryFile(provider, temporaryPath);
+        }
+    }
+
+    private static void DeleteTemporaryFile(IFileSystemProvider provider, string path)
+    {
+        try
+        {
+            provider.DeleteFile(path);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            // Best-effort cleanup must not replace the download or extraction outcome.
         }
     }
 

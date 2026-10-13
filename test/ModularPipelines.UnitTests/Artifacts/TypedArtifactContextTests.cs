@@ -137,9 +137,18 @@ public class TypedArtifactContextTests
         var createdDirectories = new HashSet<string>(StringComparer.Ordinal);
         provider.Setup(p => p.CreateDirectory(It.IsAny<string>())).Callback((string value) => createdDirectories.Add(value));
         using var downloaded = new MemoryStream();
-        provider.Setup(p => p.Create(path)).Returns(() => createdDirectories.Contains(parent)
+        provider.Setup(p => p.Open(
+            It.Is<string>(value => value.StartsWith(parent + separator + ".modularpipelines-download-", StringComparison.Ordinal)),
+            FileMode.CreateNew, FileAccess.Write)).Returns(() => createdDirectories.Contains(parent)
             ? downloaded
             : throw new DirectoryNotFoundException(parent));
+        provider.Setup(p => p.MoveFile(It.IsAny<string>(), path, true)).Callback(() =>
+        {
+            if (downloaded.CanWrite)
+            {
+                throw new IOException("The download stream must close before replacement.");
+            }
+        });
         var source = root + separator + "source.txt";
         provider.Setup(p => p.OpenRead(source)).Returns(() => new MemoryStream("file content"u8.ToArray()));
         var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
@@ -149,6 +158,7 @@ public class TypedArtifactContextTests
         await context.DownloadAsync<ArtifactProducer>("file", new FilePath(path, provider.Object));
 
         provider.Verify(p => p.CreateDirectory(parent), Times.Once);
+        provider.Verify(p => p.MoveFile(It.IsAny<string>(), path, true), Times.Once);
         await Assert.That(System.Text.Encoding.UTF8.GetString(downloaded.ToArray())).IsEqualTo("file content");
     }
 
@@ -291,6 +301,7 @@ public class TypedArtifactContextTests
         var source = new FilePath(Path.Combine("typed-artifacts", "input.txt"), provider);
         var destination = new FilePath(Path.Combine("typed-artifacts", "output.txt"), provider);
         fileSystem.AddFile(source.Path, new MockFileData("payload"));
+        fileSystem.AddFile(destination.Path, new MockFileData("old"));
         var store = new InMemoryDistributedArtifactStore();
         var context = new ArtifactContextImpl(store, new DistributedOptions()).ForModule(typeof(ArtifactProducer));
 
@@ -303,6 +314,7 @@ public class TypedArtifactContextTests
         await Assert.That(reference.Name).IsEqualTo("package");
         await Assert.That(result).IsSameReferenceAs(destination);
         await Assert.That(fileSystem.File.ReadAllText(result.Path)).IsEqualTo("payload");
+        await Assert.That(fileSystem.Directory.GetFiles(destination.Folder!.Path)).IsEquivalentTo([source.Path, destination.Path]);
         await Assert.That(File.Exists(destination.Path)).IsFalse();
     }
 
@@ -465,7 +477,9 @@ public class TypedArtifactContextTests
     }
 
     [Test]
-    public async Task Unsupported_Atomic_Replacement_Preserves_Existing_Content_And_Cleans_Temporary_File()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Unsupported_Atomic_Replacement_Preserves_Existing_Content_And_Cleans_Temporary_File(bool directory)
     {
         var (provider, fileSystem) = CreateProvider();
         var source = new FolderPath(Path.Combine("typed-artifacts", "source"), provider);
@@ -477,12 +491,111 @@ public class TypedArtifactContextTests
             .Throws<NotSupportedException>();
         var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
             .ForModule(typeof(ArtifactProducer));
-        await context.PublishDirectoryAsync("directory", source);
-
-        await Assert.ThrowsAsync<NotSupportedException>(() => context.DownloadAsync<ArtifactProducer>("directory", destination));
+        if (directory)
+        {
+            await context.PublishDirectoryAsync("directory", source);
+            await Assert.ThrowsAsync<NotSupportedException>(() => context.DownloadAsync<ArtifactProducer>("directory", destination));
+        }
+        else
+        {
+            await context.PublishFileAsync("file", new FilePath(Path.Combine(source.Path, "payload.txt"), provider));
+            await Assert.ThrowsAsync<NotSupportedException>(() => context.DownloadAsync<ArtifactProducer>("file", new FilePath(target, provider)));
+        }
 
         await Assert.That(fileSystem.File.ReadAllText(target)).IsEqualTo("old");
         await Assert.That(fileSystem.Directory.GetFiles(destination.Path)).IsEquivalentTo([target]);
+    }
+
+    [Test]
+    [Arguments("failure")]
+    [Arguments("copy-cancellation")]
+    [Arguments("completed-copy-cancellation")]
+    public async Task Interrupted_Typed_File_Download_Preserves_Destination_And_Cleans_Temporary_File(string interruption)
+    {
+        var (provider, fileSystem) = CreateProvider();
+        var destination = new FilePath(Path.Combine("typed-artifacts", "output.txt"), provider);
+        fileSystem.AddFile(destination.Path, new MockFileData("old"));
+        using var cancellation = new CancellationTokenSource();
+        var failure = new IOException("Artifact copy failed.");
+        var reference = new ArtifactReference
+        {
+            ArtifactId = "file",
+            Name = "file",
+            ModuleId = ModuleId.FromType(typeof(ArtifactProducer)),
+            SizeBytes = 7,
+            UploadedAt = DateTimeOffset.UtcNow,
+        };
+        var store = new Mock<IDistributedArtifactStore>(MockBehavior.Strict);
+        store.Setup(s => s.ListArtifactsAsync(reference.ModuleId, cancellation.Token))
+            .ReturnsAsync([reference]);
+        store.Setup(s => s.DownloadAsync(reference, cancellation.Token))
+            .ReturnsAsync(new InterruptedDownloadStream(() =>
+            {
+                if (interruption == "failure")
+                {
+                    throw failure;
+                }
+
+                cancellation.Cancel();
+                if (interruption == "copy-cancellation")
+                {
+                    cancellation.Token.ThrowIfCancellationRequested();
+                }
+            }));
+        IArtifactContext context = new ArtifactContextImpl(store.Object, new DistributedOptions());
+
+        if (interruption == "failure")
+        {
+            var exception = await Assert.ThrowsAsync<IOException>(() =>
+                context.DownloadAsync<ArtifactProducer>("file", destination, cancellation.Token));
+            await Assert.That(exception).IsSameReferenceAs(failure);
+        }
+        else
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(() =>
+                context.DownloadAsync<ArtifactProducer>("file", destination, cancellation.Token));
+        }
+
+        await Assert.That(fileSystem.File.ReadAllText(destination.Path)).IsEqualTo("old");
+        await Assert.That(fileSystem.Directory.GetFiles(destination.Folder!.Path)).IsEquivalentTo([destination.Path]);
+        Mock.Get(provider).Verify(p => p.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Directory_Extraction_Preserves_Original_Failure_When_Cleanup_Fails(bool accessDenied)
+    {
+        var (provider, fileSystem) = CreateProvider();
+        var source = new FolderPath(Path.Combine("typed-artifacts", "source"), provider);
+        var destination = new FolderPath(Path.Combine("typed-artifacts", "destination"), provider);
+        fileSystem.AddFile(Path.Combine(source.Path, "payload.txt"), new MockFileData("new"));
+        var target = Path.Combine(destination.Path, "payload.txt");
+        fileSystem.AddFile(target, new MockFileData("old"));
+        var failure = new InvalidDataException("Artifact metadata failed.");
+        Mock.Get(provider).Setup(p => p.SetLastWriteTimeUtc(It.IsAny<string>(), It.IsAny<DateTime>()))
+            .Throws(failure);
+        Mock.Get(provider).Setup(p => p.DeleteFile(It.IsAny<string>()))
+            .Throws(accessDenied ? new UnauthorizedAccessException("Cleanup denied.") : new IOException("Cleanup failed."));
+        var context = new ArtifactContextImpl(new InMemoryDistributedArtifactStore(), new DistributedOptions())
+            .ForModule(typeof(ArtifactProducer));
+        await context.PublishDirectoryAsync("directory", source);
+
+        var exception = await Assert.ThrowsAsync<InvalidDataException>(() =>
+            context.DownloadAsync<ArtifactProducer>("directory", destination));
+
+        await Assert.That(exception).IsSameReferenceAs(failure);
+        await Assert.That(fileSystem.File.ReadAllText(target)).IsEqualTo("old");
+        Mock.Get(provider).Verify(p => p.DeleteFile(It.IsAny<string>()), Times.Once);
+    }
+
+    private sealed class InterruptedDownloadStream(Action interrupt) : MemoryStream("partial"u8.ToArray())
+    {
+        public override async Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        {
+            await destination.WriteAsync("partial"u8.ToArray(), cancellationToken);
+            interrupt();
+        }
     }
 
     private static (IFileSystemProvider Provider, MockFileSystem FileSystem) CreateProvider()
