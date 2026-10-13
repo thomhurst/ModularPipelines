@@ -626,7 +626,7 @@ public class GitCliScraperTests
     private sealed class StubHelpTextCache : IHelpTextCache
     {
         private readonly Dictionary<string, string> _entries =
-            new(StringComparer.OrdinalIgnoreCase);
+            [with(StringComparer.OrdinalIgnoreCase)];
 
         public bool TryGet(string cacheKey, out string? helpText) =>
             _entries.TryGetValue(cacheKey, out helpText);
