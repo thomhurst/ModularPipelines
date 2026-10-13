@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 
@@ -31,7 +32,16 @@ internal class ArtifactContextImpl(
     public IArtifactContext ForModule(Type moduleType)
         => new ArtifactContextImpl(_store, _options, _acceptedArtifacts, ModuleId.FromType(moduleType));
 
-    public async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
+    public Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, CancellationToken cancellationToken)
+        => PublishFileAsync(artifactName, filePath, SystemFileSystemProvider.Instance, cancellationToken);
+
+    public Task<ArtifactReference> PublishFileAsync(string artifactName, FilePath filePath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(filePath);
+        return PublishFileAsync(artifactName, filePath.Path, filePath.Provider, cancellationToken);
+    }
+
+    private async Task<ArtifactReference> PublishFileAsync(string artifactName, string filePath, IFileSystemProvider provider, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor
@@ -41,12 +51,21 @@ internal class ArtifactContextImpl(
             ContentType = "application/octet-stream",
         };
 
-        var stream = File.OpenRead(filePath);
+        var stream = provider.OpenRead(filePath);
         await using var streamLifetime = stream.ConfigureAwait(false);
         return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
+    public Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, CancellationToken cancellationToken)
+        => PublishDirectoryAsync(artifactName, directoryPath, SystemFileSystemProvider.Instance, cancellationToken);
+
+    public Task<ArtifactReference> PublishDirectoryAsync(string artifactName, FolderPath directoryPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(directoryPath);
+        return PublishDirectoryAsync(artifactName, directoryPath.Path, directoryPath.Provider, cancellationToken);
+    }
+
+    private async Task<ArtifactReference> PublishDirectoryAsync(string artifactName, string directoryPath, IFileSystemProvider provider, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var descriptor = new ArtifactDescriptor
@@ -63,7 +82,8 @@ internal class ArtifactContextImpl(
                 directoryPath,
                 temporaryArchivePath,
                 _options.ArtifactCompressionLevel,
-                cancellationToken).ConfigureAwait(false);
+                cancellationToken,
+                provider).ConfigureAwait(false);
             var stream = File.OpenRead(temporaryArchivePath);
             await using var streamLifetime = stream.ConfigureAwait(false);
             return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
@@ -78,15 +98,17 @@ internal class ArtifactContextImpl(
         string directoryPath,
         string archivePath,
         CompressionLevel compressionLevel,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        IFileSystemProvider? provider = null)
     {
+        provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
-        var sourceDirectory = Path.GetFullPath(directoryPath);
+        var sourceDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(directoryPath) : directoryPath;
         var fullArchivePath = Path.GetFullPath(archivePath);
         File.Delete(fullArchivePath);
 
         var directories = new List<string>();
-        foreach (var directory in Directory.EnumerateDirectories(
+        foreach (var directory in provider.EnumerateDirectories(
                      sourceDirectory,
                      "*",
                      SearchOption.AllDirectories))
@@ -96,7 +118,7 @@ internal class ArtifactContextImpl(
         }
 
         var files = new List<string>();
-        foreach (var file in Directory.EnumerateFiles(
+        foreach (var file in provider.EnumerateFiles(
                      sourceDirectory,
                      "*",
                      SearchOption.AllDirectories))
@@ -109,33 +131,30 @@ internal class ArtifactContextImpl(
         foreach (var directory in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = Path.GetRelativePath(sourceDirectory, directory)
-                .Replace(Path.DirectorySeparatorChar, '/')
-                .TrimEnd('/') + "/";
+            var entryName = GetArchiveEntryName(provider, sourceDirectory, directory).TrimEnd('/') + "/";
             archive.CreateEntry(entryName, compressionLevel);
         }
 
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryName = Path.GetRelativePath(sourceDirectory, file)
-                .Replace(Path.DirectorySeparatorChar, '/');
+            var entryName = GetArchiveEntryName(provider, sourceDirectory, file);
             var entry = archive.CreateEntry(entryName, compressionLevel);
-            entry.LastWriteTime = File.GetLastWriteTime(file);
-            if (!OperatingSystem.IsWindows())
+            entry.LastWriteTime = provider.GetLastWriteTimeUtc(file).ToLocalTime();
+            if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
             {
                 // Keep the regular-file type so mode 000 is distinct from absent Unix metadata.
                 entry.ExternalAttributes = (0x8000 | (int) File.GetUnixFileMode(file)) << 16;
             }
 
-            var sourceStream = new FileStream(
+            var sourceStream = provider is SystemFileSystemProvider ? new FileStream(
                 file,
                 new FileStreamOptions
                 {
                     Access = FileAccess.Read,
                     Mode = FileMode.Open,
                     Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-                });
+                }) : provider.OpenRead(file);
             await using var sourceStreamLifetime = sourceStream.ConfigureAwait(false);
             var entryStream = entry.Open();
             await using var entryStreamLifetime = entryStream.ConfigureAwait(false);
@@ -143,12 +162,22 @@ internal class ArtifactContextImpl(
         }
     }
 
-    internal static StringComparison GetArchivePathComparison() =>
-        OperatingSystem.IsWindows()
+    private static string GetArchiveEntryName(IFileSystemProvider provider, string directory, string path)
+    {
+        var relativePath = provider.GetRelativePath(directory, path);
+        // Only the declared separator separates directories; other characters belong to the file name.
+        return relativePath.Replace(provider.DirectorySeparatorChar, '/');
+    }
+
+    internal static StringComparison GetArchivePathComparison(IFileSystemProvider? provider = null) =>
+        OperatingSystem.IsWindows() && (provider is null or SystemFileSystemProvider)
             ? StringComparison.OrdinalIgnoreCase
             : StringComparison.Ordinal;
 
-    public async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
+    public Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, CancellationToken cancellationToken)
+        => DownloadAsync(producerModuleId, artifactName, destinationPath, SystemFileSystemProvider.Instance, null, cancellationToken);
+
+    private async Task<string> DownloadAsync(ModuleId producerModuleId, string artifactName, string destinationPath, IFileSystemProvider provider, bool? directory, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var artifact = await ArtifactLifecycleManager.ResolveArtifactAsync(
@@ -161,23 +190,28 @@ internal class ArtifactContextImpl(
             ?? throw new InvalidOperationException(
                 $"Artifact '{artifactName}' from module '{producerModuleId}' not found.");
 
+        if (directory.HasValue && directory.Value != (artifact.ContentType == "application/zip"))
+        {
+            throw new InvalidOperationException($"Artifact '{artifactName}' does not match the destination path type.");
+        }
+
         var stream = await _store.DownloadAsync(artifact, cancellationToken).ConfigureAwait(false);
         await using var streamLifetime = stream.ConfigureAwait(false);
 
         if (artifact.ContentType == "application/zip")
         {
             using var archive = new ZipArchive(stream, ZipArchiveMode.Read);
-            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken).ConfigureAwait(false);
+            await ExtractDirectoryArchiveAsync(archive, destinationPath, cancellationToken, provider).ConfigureAwait(false);
             return destinationPath;
         }
 
-        var destinationDirectory = Path.GetDirectoryName(destinationPath);
+        var destinationDirectory = GetProviderParentPath(provider, destinationPath);
         if (!string.IsNullOrEmpty(destinationDirectory))
         {
-            Directory.CreateDirectory(destinationDirectory);
+            provider.CreateDirectory(destinationDirectory);
         }
 
-        var fileStream = File.Create(destinationPath);
+        var fileStream = provider.Create(destinationPath);
         await using var fileStreamLifetime = fileStream.ConfigureAwait(false);
         await stream.CopyToAsync(fileStream, cancellationToken).ConfigureAwait(false);
         return destinationPath;
@@ -186,22 +220,30 @@ internal class ArtifactContextImpl(
     internal static async Task ExtractDirectoryArchiveAsync(
         ZipArchive archive,
         string destinationPath,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        IFileSystemProvider? provider = null)
     {
+        provider ??= SystemFileSystemProvider.Instance;
         cancellationToken.ThrowIfCancellationRequested();
-        var destinationDirectory = Path.GetFullPath(destinationPath);
-        var destinationPrefix = Path.EndsInDirectorySeparator(destinationDirectory)
+        var destinationDirectory = provider is SystemFileSystemProvider ? Path.GetFullPath(destinationPath) : destinationPath;
+        var destinationPrefix = destinationDirectory.EndsWith(provider.DirectorySeparatorChar)
             ? destinationDirectory
-            : destinationDirectory + Path.DirectorySeparatorChar;
-        var pathComparison = GetArchivePathComparison();
-        CreateDirectoryWithoutLinks(destinationDirectory, destinationDirectory);
+            : destinationDirectory + provider.DirectorySeparatorChar;
+        var pathComparison = GetArchivePathComparison(provider);
+        CreateDirectoryWithoutLinks(provider, destinationDirectory, destinationDirectory);
 
         foreach (var entry in archive.Entries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var entryPath = Path.GetFullPath(Path.Combine(destinationDirectory, entry.FullName));
+            // ZIP uses '/', but legacy archives may also use the provider's separator.
+            // Custom-provider segments must never be interpreted using the host's path rules.
+            var entryName = entry.FullName.Replace(provider.DirectorySeparatorChar, '/');
+            var isDirectory = entryName.EndsWith('/');
+            var entryPath = provider is SystemFileSystemProvider
+                ? Path.GetFullPath(Path.Combine(destinationDirectory, entryName))
+                : GetProviderArchivePath(provider, destinationDirectory, entryName);
             // A root directory entry needs no work; every other entry must be below it.
-            if (string.IsNullOrEmpty(entry.Name) && string.Equals(entryPath, destinationDirectory, pathComparison))
+            if (isDirectory && string.Equals(entryPath, destinationDirectory, pathComparison))
             {
                 continue;
             }
@@ -211,103 +253,175 @@ internal class ArtifactContextImpl(
                 throw new IOException($"Extracting '{entry.FullName}' would leave the destination directory.");
             }
 
-            if (string.IsNullOrEmpty(entry.Name))
+            if (isDirectory)
             {
-                CreateDirectoryWithoutLinks(destinationDirectory, entryPath);
+                CreateDirectoryWithoutLinks(provider, destinationDirectory, entryPath);
                 continue;
             }
 
-            var entryDirectory = Path.GetDirectoryName(entryPath);
-            if (!string.IsNullOrEmpty(entryDirectory))
-            {
-                CreateDirectoryWithoutLinks(destinationDirectory, entryDirectory);
-            }
-
-            EnsurePathContainsNoLinks(destinationDirectory, entryPath);
-
-            var fileOptions = new FileStreamOptions
-            {
-                Access = FileAccess.Write,
-                Mode = FileMode.CreateNew,
-                Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
-            };
-            if (!OperatingSystem.IsWindows())
-            {
-                // Apply ordinary permissions at creation so the OS enforces the umask.
-                // Never propagate setuid, setgid, or sticky bits from ZIPs.
-                var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-                if (unixAttributes != 0)
-                {
-                    var permissionBits = unixAttributes & 0x1FF;
-                    fileOptions.UnixCreateMode = (UnixFileMode) permissionBits;
-                }
-            }
-
-            // A new sibling file receives the archive mode through the OS umask even
-            // when replacing an existing destination. Cancellation leaves that file intact.
-            var temporaryPath = Path.GetFullPath(Path.Combine(entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp"));
-            if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
-            {
-                throw new IOException("The archive temporary file would leave the destination directory.");
-            }
-
-            var destinationStream = new FileStream(temporaryPath, fileOptions);
-            try
-            {
-                await using (destinationStream.ConfigureAwait(false))
-                {
-                    var entryStream = entry.Open();
-                    await using (entryStream.ConfigureAwait(false))
-                    {
-                        await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
-                    }
-                }
-
-                cancellationToken.ThrowIfCancellationRequested();
-                File.SetLastWriteTime(temporaryPath, entry.LastWriteTime.DateTime);
-                EnsurePathContainsNoLinks(destinationDirectory, entryPath);
-                File.Move(temporaryPath, entryPath, overwrite: true);
-            }
-            finally
-            {
-                File.Delete(temporaryPath);
-            }
+            await ExtractArchiveFileAsync(
+                entry, provider, destinationDirectory, destinationPrefix, entryPath, pathComparison, cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 
-    private static void CreateDirectoryWithoutLinks(string destinationDirectory, string path)
+    private static string GetProviderArchivePath(IFileSystemProvider provider, string root, string entryName)
     {
-        EnsurePathContainsNoLinks(destinationDirectory, path);
-        Directory.CreateDirectory(path);
-        EnsurePathContainsNoLinks(destinationDirectory, path);
+        if (entryName.StartsWith('/') ||
+            (provider.DirectorySeparatorChar == '\\' && entryName.Length >= 2 && entryName[1] == ':'))
+        {
+            throw new IOException($"Archive entry '{entryName}' must be relative to the destination directory.");
+        }
+
+        var segments = new List<string>();
+        foreach (var segment in entryName.Split('/', StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (segment == ".")
+            {
+                continue;
+            }
+
+            if (segment == "..")
+            {
+                if (segments.Count == 0)
+                {
+                    throw new IOException($"Extracting '{entryName}' would leave the destination directory.");
+                }
+
+                segments.RemoveAt(segments.Count - 1);
+            }
+            else
+            {
+                segments.Add(segment);
+            }
+        }
+
+        return segments.Count == 0 ? root : AppendProviderPath(provider, root, string.Join(provider.DirectorySeparatorChar, segments));
     }
 
-    private static void EnsurePathContainsNoLinks(string destinationDirectory, string path)
+    private static string? GetProviderParentPath(IFileSystemProvider provider, string path)
+    {
+        var separatorIndex = path.LastIndexOf(provider.DirectorySeparatorChar);
+        // Typed paths retain host-compatible absolute roots. Preserve drive/UNC roots,
+        // and use host parsing only when no provider-relative segments are present.
+        if (provider is SystemFileSystemProvider || separatorIndex < (Path.GetPathRoot(path)?.Length ?? 0))
+        {
+            return Path.GetDirectoryName(path);
+        }
+
+        return path[..separatorIndex];
+    }
+
+    private static string AppendProviderPath(IFileSystemProvider provider, string directory, string relativePath) =>
+        directory.EndsWith(provider.DirectorySeparatorChar)
+            ? directory + relativePath
+            : directory + provider.DirectorySeparatorChar + relativePath;
+
+    private static async Task ExtractArchiveFileAsync(
+        ZipArchiveEntry entry,
+        IFileSystemProvider provider,
+        string destinationDirectory,
+        string destinationPrefix,
+        string entryPath,
+        StringComparison pathComparison,
+        CancellationToken cancellationToken)
+    {
+        var entryDirectory = GetProviderParentPath(provider, entryPath);
+        if (!string.IsNullOrEmpty(entryDirectory))
+        {
+            CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);
+        }
+
+        EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+
+        var fileOptions = new FileStreamOptions
+        {
+            Access = FileAccess.Write,
+            Mode = FileMode.CreateNew,
+            Options = FileOptions.Asynchronous | FileOptions.SequentialScan,
+        };
+        if (provider is SystemFileSystemProvider && !OperatingSystem.IsWindows())
+        {
+            // Apply ordinary permissions at creation so the OS enforces the umask.
+            // Never propagate setuid, setgid, or sticky bits from ZIPs.
+            var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+            if (unixAttributes != 0)
+            {
+                var permissionBits = unixAttributes & 0x1FF;
+                fileOptions.UnixCreateMode = (UnixFileMode) permissionBits;
+            }
+        }
+
+        // A new sibling file receives the archive mode through the OS umask even
+        // when replacing an existing destination. Cancellation leaves that file intact.
+        var temporaryPath = AppendProviderPath(provider, entryDirectory!, $".modularpipelines-extract-{Guid.NewGuid():N}.tmp");
+        if (provider is SystemFileSystemProvider)
+        {
+            temporaryPath = Path.GetFullPath(temporaryPath);
+        }
+        if (!temporaryPath.StartsWith(destinationPrefix, pathComparison))
+        {
+            throw new IOException("The archive temporary file would leave the destination directory.");
+        }
+
+        var destinationStream = provider is SystemFileSystemProvider
+            ? new FileStream(temporaryPath, fileOptions)
+            : provider.Open(temporaryPath, FileMode.CreateNew, FileAccess.Write);
+        try
+        {
+            await using (destinationStream.ConfigureAwait(false))
+            {
+                var entryStream = entry.Open();
+                await using (entryStream.ConfigureAwait(false))
+                {
+                    await entryStream.CopyToAsync(destinationStream, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            provider.SetLastWriteTimeUtc(temporaryPath, entry.LastWriteTime.DateTime.ToUniversalTime());
+            EnsurePathContainsNoLinks(provider, destinationDirectory, entryPath);
+            provider.MoveFile(temporaryPath, entryPath, overwrite: true);
+        }
+        finally
+        {
+            provider.DeleteFile(temporaryPath);
+        }
+    }
+
+    private static void CreateDirectoryWithoutLinks(IFileSystemProvider provider, string destinationDirectory, string path)
+    {
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
+        provider.CreateDirectory(path);
+        EnsurePathContainsNoLinks(provider, destinationDirectory, path);
+    }
+
+    private static void EnsurePathContainsNoLinks(IFileSystemProvider provider, string destinationDirectory, string path)
     {
         var currentPath = destinationDirectory;
         try
         {
-            EnsurePathIsNotLink(currentPath);
+            EnsurePathIsNotLink(provider, currentPath);
         }
         catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
         {
             return;
         }
 
-        var relativePath = Path.GetRelativePath(destinationDirectory, path);
-        if (relativePath == ".")
+        var relativePath = provider is SystemFileSystemProvider
+            ? Path.GetRelativePath(destinationDirectory, path)
+            : path[destinationDirectory.Length..].TrimStart(provider.DirectorySeparatorChar);
+        if (relativePath is "" or ".")
         {
             return;
         }
 
-        foreach (var segment in relativePath.Split(
-                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
-                     StringSplitOptions.RemoveEmptyEntries))
+        foreach (var segment in relativePath.Split(provider.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
-            currentPath = Path.Combine(currentPath, segment);
+            currentPath = AppendProviderPath(provider, currentPath, segment);
             try
             {
-                EnsurePathIsNotLink(currentPath);
+                EnsurePathIsNotLink(provider, currentPath);
             }
             catch (Exception exception) when (exception is FileNotFoundException or DirectoryNotFoundException)
             {
@@ -316,9 +430,11 @@ internal class ArtifactContextImpl(
         }
     }
 
-    private static void EnsurePathIsNotLink(string path)
+    private static void EnsurePathIsNotLink(IFileSystemProvider provider, string path)
     {
-        if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
+        // File.GetAttributes throws for missing paths, unlike FileSystemInfo.Attributes.
+        var attributes = provider is SystemFileSystemProvider ? File.GetAttributes(path) : provider.GetAttributes(path);
+        if ((attributes & FileAttributes.ReparsePoint) != 0)
         {
             throw new IOException($"Extracting through linked path '{path}' is not allowed.");
         }
@@ -334,6 +450,28 @@ internal class ArtifactContextImpl(
             artifactName,
             destinationPath,
             cancellationToken);
+
+    public async Task<FilePath> DownloadAsync(ModuleId producerModuleId, string artifactName, FilePath destinationPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(destinationPath);
+        await DownloadAsync(producerModuleId, artifactName, destinationPath.Path, destinationPath.Provider, false, cancellationToken).ConfigureAwait(false);
+        return destinationPath;
+    }
+
+    public Task<FilePath> DownloadAsync<TProducerModule>(string artifactName, FilePath destinationPath, CancellationToken cancellationToken = default)
+        where TProducerModule : IModule
+        => DownloadAsync(ModuleId.FromType(typeof(TProducerModule)), artifactName, destinationPath, cancellationToken);
+
+    public async Task<FolderPath> DownloadAsync(ModuleId producerModuleId, string artifactName, FolderPath destinationPath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(destinationPath);
+        await DownloadAsync(producerModuleId, artifactName, destinationPath.Path, destinationPath.Provider, true, cancellationToken).ConfigureAwait(false);
+        return destinationPath;
+    }
+
+    public Task<FolderPath> DownloadAsync<TProducerModule>(string artifactName, FolderPath destinationPath, CancellationToken cancellationToken = default)
+        where TProducerModule : IModule
+        => DownloadAsync(ModuleId.FromType(typeof(TProducerModule)), artifactName, destinationPath, cancellationToken);
 
     private ModuleId GetCurrentModuleId()
         => _moduleId
