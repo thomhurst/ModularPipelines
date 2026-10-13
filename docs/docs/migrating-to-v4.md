@@ -922,6 +922,24 @@ wrap it in a collection, such as `["0:1000:1"]`. The `build` and `from` commands
 local mapping definitions and share the effective value with the base options. Settings
 render after the selected subcommand. See the [Buildah package guide](./mp-packages/buildah.md#shared-storage-settings-and-local-overrides).
 
+### Helm and kubectl global settings
+
+Helm persistent settings now live on `HelmOptions`, including `Namespace`, `KubeContext`,
+`KubeConfig`, and `KubeToken`. Command initializers can still set these inherited properties.
+Rebuild consumers after upgrading: these properties are no longer declared separately on
+each Helm command record. Reflection code using `BindingFlags.DeclaredOnly` must also inspect
+the base record.
+
+kubectl's inherited settings now live on `KubernetesOptions`. Set `Namespace`, `Context`,
+and `KubeConfig` directly on the chosen command options instead of adding manual arguments.
+Both packages render inherited settings after the subcommand. Local replacements, such as
+`KubernetesConfigSetContextOptions.Namespace`, retain their command-specific metadata and
+render only once, including when initialized through the base type.
+
+`HelmVersionOptions` and `KubernetesVersionOptions` remain available through `VersionAsync`.
+See the generated [Helm reference](./mp-packages/cli/helm.md) and
+[kubectl reference](./mp-packages/cli/kubectl.md) for the complete global option lists.
+
 ### .NET test runner options
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent

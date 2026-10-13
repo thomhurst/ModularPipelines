@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -19,7 +20,189 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("kubectl")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record KubernetesOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
+    /// </summary>
+    [CliOption("--as", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? As { get; set; }
+
+    /// <summary>
+    /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
+    /// </summary>
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? AsGroup { get; set; }
+
+    /// <summary>
+    /// UID to impersonate for the operation.
+    /// </summary>
+    [CliOption("--as-uid", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? AsUid { get; set; }
+
+    /// <summary>
+    /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
+    /// </summary>
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? AsUserExtra { get; set; }
+
+    /// <summary>
+    /// Default cache directory.
+    /// </summary>
+    [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CacheDir { get; set; }
+
+    /// <summary>
+    /// Path to a cert file for the certificate authority
+    /// </summary>
+    [CliOption("--certificate-authority", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CertificateAuthority { get; set; }
+
+    /// <summary>
+    /// Path to a client certificate file for TLS
+    /// </summary>
+    [CliOption("--client-certificate", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ClientCertificate { get; set; }
+
+    /// <summary>
+    /// Path to a client key file for TLS
+    /// </summary>
+    [CliOption("--client-key", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ClientKey { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig cluster to use
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Cluster { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig context to use
+    /// </summary>
+    [CliOption("--context", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Context { get; set; }
+
+    /// <summary>
+    /// If true, opt-out of response compression for all requests to the server
+    /// </summary>
+    [CliFlag("--disable-compression", NegatedName = "--disable-compression=false")]
+    public virtual bool? DisableCompression { get; set; }
+
+    /// <summary>
+    /// If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure
+    /// </summary>
+    [CliFlag("--insecure-skip-tls-verify", NegatedName = "--insecure-skip-tls-verify=false")]
+    public virtual bool? InsecureSkipTlsVerify { get; set; }
+
+    /// <summary>
+    /// Path to the kubeconfig file to use for CLI requests.
+    /// </summary>
+    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? KubeConfig { get; set; }
+
+    /// <summary>
+    /// Path to the kuberc file to use for preferences. This can be disabled by exporting KUBECTL_KUBERC=false feature gate or turning off the feature KUBERC=off.
+    /// </summary>
+    [CliOption("--kuberc", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Kuberc { get; set; }
+
+    /// <summary>
+    /// Maximum number of seconds between log flushes
+    /// </summary>
+    [CliOption("--log-flush-frequency", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? LogFlushFrequency { get; set; }
+
+    /// <summary>
+    /// Require server version to match client version
+    /// </summary>
+    [CliFlag("--match-server-version", NegatedName = "--match-server-version=false")]
+    public virtual bool? MatchServerVersion { get; set; }
+
+    /// <summary>
+    /// If present, the namespace scope for this CLI request
+    /// </summary>
+    [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Namespace { get; set; }
+
+    /// <summary>
+    /// Password for basic authentication to the API server
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Password { get; set; }
+
+    /// <summary>
+    /// Name of profile to capture. One of (none|cpu|heap|goroutine|threadcreate|block|mutex|trace)
+    /// </summary>
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Profile { get; set; }
+
+    /// <summary>
+    /// Name of the file to write the profile to
+    /// </summary>
+    [CliOption("--profile-output", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ProfileOutput { get; set; }
+
+    /// <summary>
+    /// Proxy URL to use for requests to the API server
+    /// </summary>
+    [CliOption("--proxy-url", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ProxyUrl { get; set; }
+
+    /// <summary>
+    /// The length of time to wait before giving up on a single server request. Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h). A value of zero means don't timeout requests.
+    /// </summary>
+    [CliOption("--request-timeout", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RequestTimeout { get; set; }
+
+    /// <summary>
+    /// The address and port of the Kubernetes API server
+    /// </summary>
+    [CliOption("--server", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Server { get; set; }
+
+    /// <summary>
+    /// Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used
+    /// </summary>
+    [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? TlsServerName { get; set; }
+
+    /// <summary>
+    /// Bearer token for authentication to the API server
+    /// </summary>
+    [SecretValue]
+    [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Token { get; set; }
+
+    /// <summary>
+    /// The name of the kubeconfig user to use
+    /// </summary>
+    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? User { get; set; }
+
+    /// <summary>
+    /// Username for basic authentication to the API server
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Username { get; set; }
+
+    /// <summary>
+    /// number for the log level verbosity
+    /// </summary>
+    [CliOption("--v", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
+    public virtual int? V { get; set; }
+
+    /// <summary>
+    /// comma-separated list of pattern=N settings for file-filtered logging (only works for the default text log format)
+    /// </summary>
+    [CliOption("--vmodule", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Vmodule { get; set; }
+
+    /// <summary>
+    /// Treat warnings received from the server as errors and exit with a non-zero exit code
+    /// </summary>
+    [CliFlag("--warnings-as-errors", NegatedName = "--warnings-as-errors=false")]
+    public virtual bool? WarningsAsErrors { get; set; }
+
 }

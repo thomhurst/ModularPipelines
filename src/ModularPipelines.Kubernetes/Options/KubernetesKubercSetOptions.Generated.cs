@@ -43,7 +43,11 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// Path to the kuberc file to use for preferences. This can be disabled by exporting KUBECTL_KUBERC=false feature gate or turning off the feature KUBERC=off.
     /// </summary>
     [CliOption("--kuberc", Format = OptionFormat.EqualsSeparated)]
-    public string? Kuberc { get; set; }
+    public new string? Kuberc
+    {
+        get => base.Kuberc;
+        set => base.Kuberc = value;
+    }
 
     /// <summary>
     /// Alias name (required for --section=aliases)

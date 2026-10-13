@@ -1,5 +1,12 @@
 # kubectl Boolean fixtures
 
+Global option fixtures use the same verified binary: `root.txt` is `kubectl --help`,
+`options.txt` is `kubectl options`, and `version.txt` is `kubectl version --help`.
+`annotate.txt` is a copy of the captured `annotate-windows.txt` command help.
+The `options` heading explicitly identifies settings accepted by every command.
+Command `Options` sections contain local settings and replacements; they must not
+be removed merely because the same switch exists globally.
+
 Captured on Windows from the official kubectl v1.37.1 Windows amd64 binary:
 https://dl.k8s.io/release/v1.37.1/bin/windows/amd64/kubectl.exe
 

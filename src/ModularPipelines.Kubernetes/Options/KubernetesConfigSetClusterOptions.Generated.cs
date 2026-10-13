@@ -41,7 +41,11 @@ public record KubernetesConfigSetClusterOptions : KubernetesOptions
     /// Path to certificate-authority file for the cluster entry in kubeconfig
     /// </summary>
     [CliOption("--certificate-authority", Format = OptionFormat.EqualsSeparated)]
-    public string? CertificateAuthority { get; set; }
+    public new string? CertificateAuthority
+    {
+        get => base.CertificateAuthority;
+        set => base.CertificateAuthority = value;
+    }
 
     /// <summary>
     /// embed-certs for the cluster entry in kubeconfig
@@ -53,25 +57,41 @@ public record KubernetesConfigSetClusterOptions : KubernetesOptions
     /// insecure-skip-tls-verify for the cluster entry in kubeconfig
     /// </summary>
     [CliFlag("--insecure-skip-tls-verify", NegatedName = "--insecure-skip-tls-verify=false")]
-    public bool? InsecureSkipTlsVerify { get; set; }
+    public new bool? InsecureSkipTlsVerify
+    {
+        get => base.InsecureSkipTlsVerify;
+        set => base.InsecureSkipTlsVerify = value;
+    }
 
     /// <summary>
     /// proxy-url for the cluster entry in kubeconfig
     /// </summary>
     [CliOption("--proxy-url", Format = OptionFormat.EqualsSeparated)]
-    public string? ProxyUrl { get; set; }
+    public new string? ProxyUrl
+    {
+        get => base.ProxyUrl;
+        set => base.ProxyUrl = value;
+    }
 
     /// <summary>
     /// server for the cluster entry in kubeconfig
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
-    public string? Server { get; set; }
+    public new string? Server
+    {
+        get => base.Server;
+        set => base.Server = value;
+    }
 
     /// <summary>
     /// tls-server-name for the cluster entry in kubeconfig
     /// </summary>
     [CliOption("--tls-server-name", Format = OptionFormat.EqualsSeparated)]
-    public string? TlsServerName { get; set; }
+    public new string? TlsServerName
+    {
+        get => base.TlsServerName;
+        set => base.TlsServerName = value;
+    }
 
     /// <summary>
     /// The NAME operand.

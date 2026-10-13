@@ -10,12 +10,53 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<KubectlCliScraper> logger) : CobraCliScraper(executor, helpCache, logger)
 {
+    private const string GlobalOptionsHeading = "The following options can be passed to any command";
+
+    private static readonly string[] RequiredGlobalSwitches = ["--namespace", "--context", "--kubeconfig"];
+
     public override string ToolName => "kubectl";
     public override string NamespacePrefix => "Kubernetes";
     public override string TargetNamespace => "ModularPipelines.Kubernetes";
     public override string OutputDirectory => "src/ModularPipelines.Kubernetes";
 
     protected override string VersionArguments => "version --client";
+
+    protected override bool GlobalOptionsBeforeSubcommands => false;
+
+    protected override string GetHelpArguments(string[] commandPath) =>
+        commandPath is [_, "options"] ? "options" : base.GetHelpArguments(commandPath);
+
+    protected override bool ShouldAcceptHelpResult(IReadOnlyList<string> commandPath, CliCommandResult result) =>
+        commandPath is [_, "options"]
+            ? !result.Unavailable && result.ExitCode == 0
+            : base.ShouldAcceptHelpResult(commandPath, result);
+
+    protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        var help = await base.GetHelpTextAsync(commandPath, cancellationToken).ConfigureAwait(false);
+        if (commandPath.Length != 1 || help is null)
+        {
+            return help;
+        }
+
+        var globalHelp = await base.GetHelpTextAsync([ToolName, "options"], cancellationToken).ConfigureAwait(false);
+        if (globalHelp is null || !globalHelp.Contains(GlobalOptionsHeading + ":", StringComparison.Ordinal)
+            || RequiredGlobalSwitches.Except(
+                ParseGlobalOptions(globalHelp).Select(option => option.SwitchName), StringComparer.Ordinal).Any())
+        {
+            throw new InvalidOperationException("kubectl global option help is unavailable or incomplete.");
+        }
+
+        return help + "\n" + globalHelp;
+    }
+
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText) =>
+        ApplyOptionFixes([], ParseNamedOptionSection(helpText, GlobalOptionsHeading, []));
+
+    protected override string NormalizeOptionDescription(string description) =>
+        description.StartsWith("Default cache directory", StringComparison.Ordinal)
+            ? "Default cache directory."
+            : description;
 
     protected override IReadOnlyList<CliOptionDefinition> ApplyOptionFixes(
         string[] commandParts,

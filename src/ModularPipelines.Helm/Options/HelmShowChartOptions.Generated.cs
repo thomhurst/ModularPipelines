@@ -52,7 +52,7 @@ public record HelmShowChartOptions : HelmOptions
     public string? KeyFile { get; set; }
 
     /// <summary>
-    /// location of public keys used for verification (default "~/.gnupg/pubring.gpg")
+    /// location of public keys used for verification (default "~\\.gnupg\\pubring.gpg")
     /// </summary>
     [CliOption("--keyring", Format = OptionFormat.EqualsSeparated)]
     public string? Keyring { get; set; }
@@ -99,103 +99,6 @@ public record HelmShowChartOptions : HelmOptions
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
-
-    /// <summary>
-    /// client-side default throttling limit (default 100)
-    /// </summary>
-    [CliOption("--burst-limit", Format = OptionFormat.EqualsSeparated)]
-    public int? BurstLimit { get; set; }
-
-    /// <summary>
-    /// enable verbose output
-    /// </summary>
-    [CliFlag("--debug")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// the address and the port for the Kubernetes API server
-    /// </summary>
-    [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeApiServer { get; set; }
-
-    /// <summary>
-    /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
-    /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? KubeAsGroup { get; set; }
-
-    /// <summary>
-    /// username to impersonate for the operation
-    /// </summary>
-    [CliOption("--kube-as-user", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeAsUser { get; set; }
-
-    /// <summary>
-    /// the certificate authority file for the Kubernetes API server connection
-    /// </summary>
-    [CliOption("--kube-ca-file", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeCaFile { get; set; }
-
-    /// <summary>
-    /// name of the kubeconfig context to use
-    /// </summary>
-    [CliOption("--kube-context", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeContext { get; set; }
-
-    /// <summary>
-    /// if true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure
-    /// </summary>
-    [CliFlag("--kube-insecure-skip-tls-verify")]
-    public bool? KubeInsecureSkipTlsVerify { get; set; }
-
-    /// <summary>
-    /// server name to use for Kubernetes API server certificate validation. If it is not provided, the hostname used to contact the server is used
-    /// </summary>
-    [CliOption("--kube-tls-server-name", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeTlsServerName { get; set; }
-
-    /// <summary>
-    /// bearer token used for authentication
-    /// </summary>
-    [SecretValue]
-    [CliOption("--kube-token", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeToken { get; set; }
-
-    /// <summary>
-    /// path to the kubeconfig file
-    /// </summary>
-    [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeConfig { get; set; }
-
-    /// <summary>
-    /// namespace scope for this request
-    /// </summary>
-    [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Namespace { get; set; }
-
-    /// <summary>
-    /// queries per second used when communicating with the Kubernetes API, not including bursting
-    /// </summary>
-    [CliOption("--qps", Format = OptionFormat.EqualsSeparated)]
-    public double? Qps { get; set; }
-
-    /// <summary>
-    /// path to the registry config file (default "~/.config/helm/registry/config.json")
-    /// </summary>
-    [CliOption("--registry-config", Format = OptionFormat.EqualsSeparated)]
-    public string? RegistryConfig { get; set; }
-
-    /// <summary>
-    /// path to the directory containing cached repository indexes (default "~/.cache/helm/repository")
-    /// </summary>
-    [CliOption("--repository-cache", Format = OptionFormat.EqualsSeparated)]
-    public string? RepositoryCache { get; set; }
-
-    /// <summary>
-    /// path to the file containing repository names and URLs (default "~/.config/helm/repositories.yaml")
-    /// </summary>
-    [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
-    public string? RepositoryConfig { get; set; }
 
     /// <summary>
     /// The CHART operand.

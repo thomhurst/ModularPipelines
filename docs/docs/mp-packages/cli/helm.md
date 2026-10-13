@@ -41,6 +41,29 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--burst-limit` | `BurstLimit` | All editions | client-side default throttling limit (default 100) |
+| `--debug` | `Debug` | All editions | enable verbose output |
+| `--kube-apiserver` | `KubeApiServer` | All editions | the address and the port for the Kubernetes API server |
+| `--kube-as-group` | `KubeAsGroup` | All editions | group to impersonate for the operation, this flag can be repeated to specify multiple groups. |
+| `--kube-as-user` | `KubeAsUser` | All editions | username to impersonate for the operation |
+| `--kube-ca-file` | `KubeCaFile` | All editions | the certificate authority file for the Kubernetes API server connection |
+| `--kube-context` | `KubeContext` | All editions | name of the kubeconfig context to use |
+| `--kube-insecure-skip-tls-verify` | `KubeInsecureSkipTlsVerify` | All editions | if true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure |
+| `--kube-tls-server-name` | `KubeTlsServerName` | All editions | server name to use for Kubernetes API server certificate validation. If it is not provided, the hostname used to contact the server is used |
+| `--kube-token` | `KubeToken` | All editions | bearer token used for authentication |
+| `--kubeconfig` | `KubeConfig` | All editions | path to the kubeconfig file |
+| `--namespace` | `Namespace` | All editions | namespace scope for this request |
+| `--qps` | `Qps` | All editions | queries per second used when communicating with the Kubernetes API, not including bursting |
+| `--registry-config` | `RegistryConfig` | All editions | path to the registry config file |
+| `--repository-cache` | `RepositoryCache` | All editions | path to the directory containing cached repository indexes |
+| `--repository-config` | `RepositoryConfig` | All editions | path to the file containing repository names and URLs |
+
 ## Commands
 
 | CLI command | Options record |

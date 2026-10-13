@@ -55,6 +55,12 @@ public class VersionSubcommandTests
         {
             [helpSwitch] = rootHelp,
             [$"version {helpSwitch}"] = versionHelp,
+            ["options"] = """
+                The following options can be passed to any command:
+                    --namespace='': Namespace
+                    --context='': Context
+                    --kubeconfig='': Configuration
+                """,
         });
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         ICliScraper scraper = toolName switch
@@ -77,7 +83,10 @@ public class VersionSubcommandTests
         await Assert.That(optionFiles.Single().Content).Contains("CliSubCommand(\"version\")");
         await Assert.That(serviceFiles.Select(file => file.Content))
             .Contains(content => content.Contains($"VersionAsync({command.ClassName}"));
-        await Assert.That(executor.Arguments).IsEquivalentTo([helpSwitch, $"version {helpSwitch}"]);
+        string[] expectedArguments = toolName == "kubectl"
+            ? [helpSwitch, "options", $"version {helpSwitch}"]
+            : [helpSwitch, $"version {helpSwitch}"];
+        await Assert.That(executor.Arguments).IsEquivalentTo(expectedArguments);
     }
 
     [Test]

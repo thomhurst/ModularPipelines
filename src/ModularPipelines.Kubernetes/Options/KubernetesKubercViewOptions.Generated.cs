@@ -31,7 +31,11 @@ public record KubernetesKubercViewOptions : KubernetesOptions
     /// Path to the kuberc file to use for preferences. This can be disabled by exporting KUBECTL_KUBERC=false feature gate or turning off the feature KUBERC=off.
     /// </summary>
     [CliOption("--kuberc", Format = OptionFormat.EqualsSeparated)]
-    public string? Kuberc { get; set; }
+    public new string? Kuberc
+    {
+        get => base.Kuberc;
+        set => base.Kuberc = value;
+    }
 
     /// <summary>
     /// Output format. One of: (json, yaml, kyaml, name, go-template, go-template-file, template, templatefile, jsonpath, jsonpath-as-json, jsonpath-file).

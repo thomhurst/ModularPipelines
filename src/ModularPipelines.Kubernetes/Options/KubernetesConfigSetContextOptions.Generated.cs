@@ -24,7 +24,11 @@ public record KubernetesConfigSetContextOptions : KubernetesOptions
     /// cluster for the context entry in kubeconfig
     /// </summary>
     [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
-    public string? Cluster { get; set; }
+    public new string? Cluster
+    {
+        get => base.Cluster;
+        set => base.Cluster = value;
+    }
 
     /// <summary>
     /// Modify the current context
@@ -36,13 +40,21 @@ public record KubernetesConfigSetContextOptions : KubernetesOptions
     /// namespace for the context entry in kubeconfig
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Namespace { get; set; }
+    public new string? Namespace
+    {
+        get => base.Namespace;
+        set => base.Namespace = value;
+    }
 
     /// <summary>
     /// user for the context entry in kubeconfig
     /// </summary>
     [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
+    public new string? User
+    {
+        get => base.User;
+        set => base.User = value;
+    }
 
     /// <summary>
     /// The NAME operand.
