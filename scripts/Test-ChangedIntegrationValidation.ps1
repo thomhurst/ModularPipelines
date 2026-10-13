@@ -30,8 +30,8 @@ function Assert-IntegrationRoute {
             throw "Route '$Name' selected unexpected packages: $packages."
         }
         foreach ($entry in $matrix.include) {
-            $expectedProject = if ($entry.package -eq 'ModularPipelines.DocumentationSnippets') {
-                'test/ModularPipelines.DocumentationSnippets/ModularPipelines.DocumentationSnippets.csproj'
+            $expectedProject = if (Test-Path -LiteralPath (Join-Path $repositoryRoot "test/$($entry.package)/$($entry.package).csproj")) {
+                "test/$($entry.package)/$($entry.package).csproj"
             } else { "src/$($entry.package)/$($entry.package).csproj" }
             $expectedTest = "test/$($entry.package).UnitTests/$($entry.package).UnitTests.csproj"
             if (-not (Test-Path -LiteralPath (Join-Path $repositoryRoot $expectedTest))) { $expectedTest = '' }
@@ -51,7 +51,7 @@ Assert-IntegrationRoute 'manual generated options' @($google) @('ModularPipeline
 Assert-IntegrationRoute 'mixed generator and integration' @($generator, $google) @('ModularPipelines.Google')
 Assert-IntegrationRoute 'test-only change' @('test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'handwritten integration' @('src/ModularPipelines.Ftp/Ftp.cs') @('ModularPipelines.Ftp')
-Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing')
+Assert-IntegrationRoute 'package absent from full test registration' @('src/ModularPipelines.Testing/ModuleTester.cs') @('ModularPipelines.Testing', 'ModularPipelines.Distributed.Redis.UnitTests', 'ModularPipelines.Distributed.SignalR.UnitTests', 'ModularPipelines.Distributed.UnitTests')
 Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.DotNet/Options/Changed.Generated.cs') @('ModularPipelines.Google', 'ModularPipelines.DotNet', 'ModularPipelines.Build', 'ModularPipelines.DocumentationSnippets')
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true
@@ -92,7 +92,8 @@ foreach ($required in @(
     'TEST_PROJECT: ${{ matrix.test_project }}',
     'dotnet build "$BUILD_TARGET"',
     'dotnet build "$TEST_PROJECT"',
-    'dotnet run --project "$TEST_PROJECT"',
+    'global-json-file: global.json',
+    'dotnet run --project "$TEST_PROJECT" -c Release --framework net11.0 --no-build',
     'contents: read',
     'fail-fast: false'
 )) {
