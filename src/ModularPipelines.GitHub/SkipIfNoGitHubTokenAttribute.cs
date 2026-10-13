@@ -2,17 +2,17 @@ using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
-namespace ModularPipelines.GitHub.Attributes;
+namespace ModularPipelines.GitHub;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipIfNoGitHubToken : RunConditionAttribute
+public class SkipIfNoGitHubTokenAttribute : RunConditionAttribute
 {
-    public SkipIfNoGitHubToken()
+    public SkipIfNoGitHubTokenAttribute()
         : base(ConditionIntent.Skip)
     {
     }
 
-    public override string ConditionNames => nameof(SkipIfNoGitHubToken);
+    public override string ConditionNames => nameof(SkipIfNoGitHubTokenAttribute);
 
     public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
     {

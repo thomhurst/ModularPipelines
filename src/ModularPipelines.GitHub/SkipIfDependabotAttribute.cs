@@ -2,7 +2,7 @@ using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 
-namespace ModularPipelines.GitHub.Attributes;
+namespace ModularPipelines.GitHub;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 public class SkipIfDependabotAttribute : RunConditionAttribute

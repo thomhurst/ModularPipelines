@@ -2,9 +2,7 @@ namespace ModularPipelines.Azure.Pipelines;
 
 public interface IAzurePipeline
 {
-    public bool IsRunningOnAzurePipelines { get; }
-
-    public AzurePipelineVariables Variables { get; }
+    public AzurePipelineVariables EnvironmentVariables { get; }
 
     /// <summary>
     /// Writes a message to the console output.

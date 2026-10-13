@@ -2,7 +2,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
@@ -12,13 +12,13 @@ internal abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWrite
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
         {
-            Name = options.Name,
+            options.Name,
             On = options.TriggerCondition,
             Jobs = new
             {
                 Pipeline = new
                 {
-                    Environment = options.Environment,
+                    options.Environment,
                     RunsOn = options.Runner,
 
                     Steps = new object?[]

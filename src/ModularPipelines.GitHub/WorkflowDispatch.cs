@@ -1,4 +1,4 @@
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 public record WorkflowDispatch
 {

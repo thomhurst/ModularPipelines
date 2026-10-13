@@ -1,6 +1,6 @@
 using ModularPipelines.FileSystem;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 /// <summary>
 /// Options for a generated distributed GitHub Actions workflow.

@@ -1,4 +1,4 @@
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 /// <summary>
 /// The coordination backend used by a generated distributed workflow.

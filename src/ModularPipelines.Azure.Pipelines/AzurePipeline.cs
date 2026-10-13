@@ -4,28 +4,15 @@ using ModularPipelines.Engine;
 
 namespace ModularPipelines.Azure.Pipelines;
 
-internal class AzurePipeline : IAzurePipeline
+internal class AzurePipeline(
+    AzurePipelineVariables variables,
+    IConsoleCoordinator consoleCoordinator,
+    IBuildSystemFormatterProvider formatterProvider) : IAzurePipeline
 {
-    private readonly IEnvironmentContext _environment;
-    private readonly IModuleOutputBuffer _buffer;
-    private readonly IBuildSystemFormatter _formatter;
+    private readonly IModuleOutputBuffer _buffer = consoleCoordinator.GetUnattributedBuffer();
+    private readonly IBuildSystemFormatter _formatter = formatterProvider.GetFormatter();
 
-    public AzurePipeline(
-        AzurePipelineVariables variables,
-        IEnvironmentContext environment,
-        IConsoleCoordinator consoleCoordinator,
-        IBuildSystemFormatterProvider formatterProvider)
-    {
-        _environment = environment;
-        Variables = variables;
-        _buffer = consoleCoordinator.GetUnattributedBuffer();
-        _formatter = formatterProvider.GetFormatter();
-    }
-
-    public bool IsRunningOnAzurePipelines
-        => !string.IsNullOrWhiteSpace(_environment.Variables.Get("TF_BUILD"));
-
-    public AzurePipelineVariables Variables { get; }
+    public AzurePipelineVariables EnvironmentVariables { get; } = variables;
 
     public void WriteLine(string message)
     {

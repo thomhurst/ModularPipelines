@@ -1,8 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.GitHub.Extensions;
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.FileSystem;
 
@@ -23,7 +22,7 @@ public class DistributedPipelineWriterTests : TestBase
             .AddModule<WindowsModule>()
             .AddModule<MacOrWindowsModule>()
             .AddModule<CustomCapabilityModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 PipelineProjectPath = new FilePath("src/MyPipeline"),
@@ -85,7 +84,7 @@ public class DistributedPipelineWriterTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<WindowsConditionModule>()
             .AddModule<MacConditionModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -111,7 +110,7 @@ public class DistributedPipelineWriterTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<UnixConditionModule>()
             .AddModule<FreeBsdOrDockerModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -137,7 +136,7 @@ public class DistributedPipelineWriterTests : TestBase
         await TestPipelineBuilder.Create()
             .AddModule<WindowsWithConditionalLinuxModule>()
             .AddModule<LinuxWithMacOrDockerModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -160,7 +159,7 @@ public class DistributedPipelineWriterTests : TestBase
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<FreeBsdConditionModule>()
-                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                .AddDistributedWorkflow(new DistributedWorkflowOptions
                 {
                     OutputPath = FilePath.GetNewTemporaryFilePath(),
                     ExtraWorkers = 0,
@@ -177,7 +176,7 @@ public class DistributedPipelineWriterTests : TestBase
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<FreeBsdOrCiModule>()
-                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                .AddDistributedWorkflow(new DistributedWorkflowOptions
                 {
                     OutputPath = FilePath.GetNewTemporaryFilePath(),
                     ExtraWorkers = 0,
@@ -194,7 +193,7 @@ public class DistributedPipelineWriterTests : TestBase
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<FreeBsdIntersectionModule>()
-                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                .AddDistributedWorkflow(new DistributedWorkflowOptions
                 {
                     OutputPath = FilePath.GetNewTemporaryFilePath(),
                     ExtraWorkers = 0,
@@ -215,7 +214,7 @@ public class DistributedPipelineWriterTests : TestBase
 
         await TestPipelineBuilder.Create()
             .AddModule<ManyConditionalWindowsRoutesModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -232,7 +231,7 @@ public class DistributedPipelineWriterTests : TestBase
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
             TestPipelineBuilder.Create()
                 .AddModule<ManyConditionalFreeBsdRoutesModule>()
-                .WriteDistributedWorkflow(new DistributedWorkflowOptions
+                .AddDistributedWorkflow(new DistributedWorkflowOptions
                 {
                     OutputPath = FilePath.GetNewTemporaryFilePath(),
                     ExtraWorkers = 0,
@@ -253,7 +252,7 @@ public class DistributedPipelineWriterTests : TestBase
 
         await TestPipelineBuilder.Create()
             .AddModule<CorrelatedConflictingRoutesModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -273,7 +272,7 @@ public class DistributedPipelineWriterTests : TestBase
 
         await TestPipelineBuilder.Create()
             .AddModule<LargeAlternativeGroupModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -293,7 +292,7 @@ public class DistributedPipelineWriterTests : TestBase
 
         await TestPipelineBuilder.Create()
             .AddModule<FreeBsdOrWorkerOnlyModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 ExtraWorkers = 0,
@@ -312,7 +311,7 @@ public class DistributedPipelineWriterTests : TestBase
 
         await TestPipelineBuilder.Create()
             .AddModule<LinuxModule>()
-            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            .AddDistributedWorkflow(new DistributedWorkflowOptions
             {
                 OutputPath = outputPath,
                 PipelineProjectPath = new FilePath(@"src\My Pipeline's\Pipeline.csproj"),

@@ -6,7 +6,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ModularPipelines.GitHub.PipelineWriters;
+namespace ModularPipelines.GitHub;
 
 internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
 {
@@ -41,7 +41,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         ArgumentNullException.ThrowIfNull(modules);
 
         _options = options;
-        _modules = modules.ToArray();
+        _modules = [.. modules];
     }
 
     public async Task WriteAsync(IPipelineContext pipelineHookContext)
@@ -54,14 +54,14 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             StringComparer.Ordinal)
         {
             ["MODULARPIPELINES_INSTANCE_INDEX"] = "${{ matrix.instance }}",
-            ["MODULARPIPELINES_TOTAL_INSTANCES"] = matrix.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            ["MODULARPIPELINES_TOTAL_INSTANCES"] = matrix.Length.ToString(System.Globalization.CultureInfo.InvariantCulture),
             ["REDIS_URL"] = $"${{{{ secrets.{_options.RedisSecretName} }}}}",
             ["MODULARPIPELINES_RUN_ID"] = "${{ needs.initialize.outputs.run-identifier }}",
         };
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
         {
-            Name = _options.Name,
+            _options.Name,
             On = _options.TriggerCondition,
             Jobs = new
             {
@@ -149,7 +149,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
         await _options.OutputPath.WriteAsync(yaml).ConfigureAwait(false);
     }
 
-    private IReadOnlyList<MatrixEntry> BuildMatrix()
+    private MatrixEntry[] BuildMatrix()
     {
         var requiredOperatingSystems = _modules
             .SelectMany(module => GetRequiredOperatingSystems(module.GetType()))
@@ -160,10 +160,9 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             .Select(static runner => runner.Runner)
             .Concat(Enumerable.Repeat(_options.DefaultRunner, _options.ExtraWorkers));
 
-        return new[] { _options.DefaultRunner }
+        return [.. new[] { _options.DefaultRunner }
             .Concat(runners)
-            .Select((runner, index) => new MatrixEntry(index, runner))
-            .ToArray();
+            .Select((runner, index) => new MatrixEntry(index, runner))];
     }
 
     private static IEnumerable<Capability> GetRequiredOperatingSystems(Type moduleType)

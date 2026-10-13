@@ -1,7 +1,7 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Secrets;
 
-namespace ModularPipelines.GitHub.Options;
+namespace ModularPipelines.GitHub;
 
 public record GitHubOptions
 {
