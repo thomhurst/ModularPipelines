@@ -36,7 +36,7 @@ public class SyftCliScraperTests
     {
         var tool = await Scrape();
         await Assert.That(tool.Commands.Select(command => command.FullCommand)).IsEquivalentTo(
-            ["syft attest", "syft cataloger", "syft cataloger list", "syft config", "syft config locations", "syft convert", "syft login", "syft scan"]);
+            ["syft attest", "syft cataloger", "syft cataloger list", "syft config", "syft config locations", "syft convert", "syft login", "syft scan", "syft version"]);
         foreach (var command in tool.Commands)
         {
             await Assert.That(command.Options.Any(option => tool.GlobalOptions.Any(global => global.SwitchName == option.SwitchName))).IsFalse();
@@ -45,6 +45,8 @@ public class SyftCliScraperTests
         var scan = tool.Commands.Single(command => command.FullCommand == "syft scan");
         await Assert.That(scan.Options.Any(option => option.SwitchName == "--output")).IsTrue();
         await Assert.That(scan.Options.Any(option => option.SwitchName == "--scope")).IsTrue();
+        var version = tool.Commands.Single(command => command.FullCommand == "syft version");
+        await Assert.That(version.Options.Single(option => option.SwitchName == "--output").CSharpType).IsEqualTo("string?");
         var login = tool.Commands.Single(command => command.FullCommand == "syft login");
         await Assert.That(login.Options.Single(option => option.SwitchName == "--password").IsSecret).IsTrue();
         await Assert.That(tool.Commands.Single(command => command.FullCommand == "syft config").Options.Any(option => option.SwitchName == "--load")).IsTrue();
@@ -73,7 +75,7 @@ public class SyftCliScraperTests
     }
 
     [Test]
-    public async Task Version_Metadata_Remains_Available_Without_A_Version_Command()
+    public async Task Version_Metadata_Remains_Available_Alongside_Version_Command()
     {
         using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
         var scraper = new SyftCliScraper(new FixtureExecutor(), cache, NullLogger<SyftCliScraper>.Instance);
@@ -101,7 +103,7 @@ public class SyftCliScraperTests
             var parts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var path = parts.Where(part => part is not "--help" and not "-h").ToArray();
             var name = path.Length == 0 ? "root" : string.Join('-', path);
-            var file = name is "version" or "--version" ? "version.txt" : name + "-help.txt";
+            var file = arguments is "version" or "--version" ? "version.txt" : name + "-help.txt";
             var text = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Syft", "1.54.0", file), cancellationToken);
             if (name == "login" && mutateLoginHelp is not null)
             {
