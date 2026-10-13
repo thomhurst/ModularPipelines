@@ -81,12 +81,10 @@ internal class GitInformation : IGitInformation
         var scope = _serviceScopeFactory.CreateAsyncScope();
         await using var scopeLifetime = scope.ConfigureAwait(false);
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
-        var command = scope.ServiceProvider.GetRequiredService<ICommandContext>();
 
         await foreach (var commit in GitCommitPager
                            .EnumerateAsync(
                                gitCommandRunner,
-                               command,
                                _gitCommitMapper,
                                branch,
                                options,

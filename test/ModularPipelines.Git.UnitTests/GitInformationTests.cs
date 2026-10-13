@@ -264,6 +264,84 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task CommitsAsync_With_Options_Uses_Custom_Runner_On_Every_Page(
+        bool useHistoryCommands, bool specifyBranch)
+    {
+        var runner = new PagingGitCommandRunner();
+        var command = new Mock<ICommandContext>(MockBehavior.Strict);
+        var services = await GetService<IGit>(collection =>
+        {
+            collection.AddSingleton<IGitCommandRunner>(runner);
+            collection.AddSingleton(command.Object);
+        });
+        using var cancellation = new CancellationTokenSource();
+        var options = new GitOptions
+        {
+            ChangeDirectories = ["parent directory", "child directory"],
+            Configuration = [("custom.value", "first value"), ("custom.value", "second value")],
+            GitDirectory = "repository directory",
+            NoPager = true,
+        };
+        var commits = (useHistoryCommands, specifyBranch) switch
+        {
+            (true, true) => services.T.Commands.History.CommitsAsync("main", options, cancellation.Token),
+            (true, false) => services.T.Commands.History.CommitsAsync(options, cancellation.Token),
+            (false, true) => services.T.Information.CommitsAsync("main", options, cancellation.Token),
+            (false, false) => services.T.Information.CommitsAsync(options, cancellation.Token),
+        };
+        var count = 0;
+        await foreach (var _ in commits)
+        {
+            count++;
+        }
+
+        await Assert.That(count).IsEqualTo(51);
+        await Assert.That(runner.Pages).Count().IsEqualTo(2);
+        for (var page = 0; page < runner.Pages.Count; page++)
+        {
+            var (execution, token, arguments) = runner.Pages[page];
+            await Assert.That(arguments.Take(11).SequenceEqual([
+                "-C", "parent directory", "-C", "child directory",
+                "-c", "custom.value=first value", "-c", "custom.value=second value",
+                "--no-pager", "--git-dir=repository directory", "log",
+            ])).IsTrue();
+            await Assert.That(arguments.Contains("main")).IsEqualTo(specifyBranch);
+            await Assert.That(arguments).Contains($"--skip={page * 50}");
+            await Assert.That(execution?.MaxCapturedOutputLength).IsEqualTo(0);
+            await Assert.That(token).IsEqualTo(cancellation.Token);
+        }
+
+        command.VerifyNoOtherCalls();
+        await Assert.That(options.CommandParts).IsNull();
+        await Assert.That(options.Arguments).IsNull();
+        await services.Pipeline.DisposeAsync();
+    }
+
+    private sealed class PagingGitCommandRunner : IGitCommandRunner
+    {
+        public List<(CommandExecutionOptions? Execution, CancellationToken Token, string?[] Arguments)> Pages { get; } = [];
+
+        public Task<string> RunCommands(CommandExecutionOptions? executionOptions, params string?[] commands) =>
+            throw new NotSupportedException();
+
+        public Task<string?> RunCommandsOrNull(CommandExecutionOptions? executionOptions, params string?[] commands) =>
+            RunCommandsOrNull(executionOptions, CancellationToken.None, commands);
+
+        public Task<string?> RunCommandsOrNull(
+            CommandExecutionOptions? executionOptions, CancellationToken cancellationToken, params string?[] commands)
+        {
+            Pages.Add((executionOptions, cancellationToken, commands));
+            var count = Pages.Count == 1 ? 50 : 1;
+            return Task.FromResult<string?>(string.Concat(Enumerable.Repeat(
+                $"{CreateCommitOutput("custom runner", '1')}\0", count)));
+        }
+    }
+
+    [Test]
     [Arguments(false)]
     [Arguments(true)]
     public async Task CommitsAsync_Preserves_Global_Options_On_Every_Page(bool useHistoryCommands)

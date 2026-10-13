@@ -511,7 +511,6 @@ public class GitCommands(ICommandContext command, IGitCommandRunner gitCommandRu
     public virtual IAsyncEnumerable<GitCommit> CommitsAsync(string? branch, GitOptions? options = null, CancellationToken cancellationToken = default) =>
         GitCommitPager.EnumerateAsync(
             _gitCommandRunner,
-            _command,
             _gitCommitMapper,
             branch,
             options,

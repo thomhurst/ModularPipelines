@@ -1,3 +1,4 @@
+using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -54,5 +55,35 @@ public interface IGitCommandRunner
     {
         cancellationToken.ThrowIfCancellationRequested();
         return RunCommandsOrNull(commandEnvironmentOptions, commands);
+    }
+
+    /// <summary>
+    /// Executes a Git command with shared root settings, returning null on command failure.
+    /// </summary>
+    /// <param name="options">The root settings, command parts, and command arguments.</param>
+    /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
+    /// <param name="cancellationToken">The token used to cancel command execution.</param>
+    /// <returns>The command output, or null if the command failed.</returns>
+    /// <remarks>
+    /// The default implementation renders the shared settings before command parts and delegates
+    /// to the configured low-level runner. Runners may override this method for typed execution.
+    /// </remarks>
+    async Task<string?> RunCommandsOrNull(
+        GitOptions options,
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        try
+        {
+            return await RunCommandsOrNull(
+                GitCommandArguments.WithSecrets(options, commandEnvironmentOptions),
+                cancellationToken,
+                GitCommandArguments.Build(options)).ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
+        {
+            return null;
+        }
     }
 }

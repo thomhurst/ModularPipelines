@@ -1,3 +1,4 @@
+using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git.UnitTests;
@@ -5,7 +6,9 @@ namespace ModularPipelines.Git.UnitTests;
 public class GitCommandsTests
 {
     [Test]
-    public async Task Commits_Uses_Unquoted_Pretty_Format()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Commits_Uses_Unquoted_Pretty_Format(bool withOptions)
     {
         var runner = new RecordingGitCommandRunner(string.Join(
             "%\n%",
@@ -21,7 +24,7 @@ public class GitCommandsTests
             string.Empty));
         var commands = new GitCommands(null!, runner, new GitCommitMapper());
 
-        await foreach (var _ in commands.CommitsAsync())
+        await foreach (var _ in commands.CommitsAsync(withOptions ? new GitOptions { NoPager = true } : null))
         {
             break;
         }
