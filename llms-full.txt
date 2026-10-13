@@ -38968,6 +38968,16 @@ Resolve the service in a module, then select a command from the table below. A r
 var eksctl = context.Tools.Eksctl;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option   | Property   | Availability | Description                                                                                             |
+| ------------ | ---------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+| `--color`    | `Color`    | All editions | toggle colorized logs (valid options: true, false, fabulous) (default "true")                           |
+| `--dumpLogs` | `Dumplogs` | All editions | dump logs to disk on failure if set to true                                                             |
+| `--verbose`  | `Verbose`  | All editions | set log level, use 0 to silence, 4 for debugging and 5 for debugging with AWS debug logging (default 3) |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                          | Options record                                        |
@@ -51197,7 +51207,7 @@ var result = await context.Tools.Eksctl.Create.ClusterAsync(
 This renders the equivalent of:
 
 ```
-eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --zones=eu-west-2b --nodes=3 --managed
+eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --zones=eu-west-2b --nodes=3 --managed=true
 ```
 
 ## Update cluster logging[​](#update-cluster-logging "Direct link to Update cluster logging")
@@ -51233,6 +51243,32 @@ var result = await context.Tools.Eksctl.Utils.UpdateClusterLoggingAsync(
 ```
 
 Eksctl obtains AWS credentials from the standard AWS credential chain. The generated API does not expose access-key, secret-key, session-token, or password command-line options.
+
+## Inherited settings and V4 migration[​](#inherited-settings-and-v4-migration "Direct link to Inherited settings and V4 migration")
+
+All command options inherit `Color`, `Dumplogs`, and `Verbose` from `EksctlOptions`. These correspond to eksctl's persistent `--color` (`-C`), `--dumpLogs` (`-d`), and `--verbose` (`-v`) flags. For example:
+
+```
+var options = new EksctlGetClusterOptions
+
+{
+
+    Color = "false",
+
+    Dumplogs = true,
+
+    Verbose = 0,
+
+    Region = "eu-west-2",
+
+    Profile = "production",
+
+};
+```
+
+The inherited settings render before `get cluster`; Region and Profile remain command-local and render after it. Color is a string, including the CLI's `true`, `false`, and `fabulous` values. Verbose accepts zero. Dumplogs emits a presence flag when true; false and null leave the CLI's false default unchanged.
+
+Existing command initializers keep the same property names and types. Code that inspects only properties declared directly on each command should now inspect inherited properties too. Region, Profile, output formatting, and resource-specific options are not universally inherited and remain on their applicable commands.
 
 
 ---

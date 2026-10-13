@@ -24,6 +24,16 @@ Resolve the service in a module, then select a command from the table below. A r
 var eksctl = context.Tools.Eksctl;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option   | Property   | Availability | Description                                                                                             |
+| ------------ | ---------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+| `--color`    | `Color`    | All editions | toggle colorized logs (valid options: true, false, fabulous) (default "true")                           |
+| `--dumpLogs` | `Dumplogs` | All editions | dump logs to disk on failure if set to true                                                             |
+| `--verbose`  | `Verbose`  | All editions | set log level, use 0 to silence, 4 for debugging and 5 for debugging with AWS debug logging (default 3) |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                          | Options record                                        |
