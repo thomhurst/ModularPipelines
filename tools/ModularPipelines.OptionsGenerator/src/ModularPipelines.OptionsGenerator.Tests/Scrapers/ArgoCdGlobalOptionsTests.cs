@@ -47,7 +47,11 @@ public class ArgoCdGlobalOptionsTests
         var scraper = new TestScraper();
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var tool = scraper.CreateToolDefinition();
-        await Assert.That(commands).Count().IsEqualTo(165);
+        await Assert.That(commands).Count().IsEqualTo(166);
+        var version = commands.Single(command => command.FullCommand == "argocd version");
+        await Assert.That(version.Options.Single(option => option.SwitchName == "--client").IsFlag).IsTrue();
+        await Assert.That(version.Options.Single(option => option.SwitchName == "--short").IsFlag).IsTrue();
+        await Assert.That(version.Options.Single(option => option.SwitchName == "--output").ShortForm).IsEqualTo("-o");
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
         await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         var app = commands.Single(command => command.FullCommand == "argocd app get");

@@ -10,8 +10,16 @@ public class GcloudDispatchTests
 {
     // Captured from SDK 585.0.0 in generation run 35058181945's coverage
     // diagnostics. The two leaf dispatch pages were captured from the same SDK locally.
-    private static readonly Dictionary<string, string> CapturedHelp = JsonSerializer.Deserialize<Dictionary<string, string>>(
-        File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0", "dispatch-help.json")))!;
+    private static readonly Dictionary<string, string> CapturedHelp = LoadCapturedHelp();
+
+    private static Dictionary<string, string> LoadCapturedHelp()
+    {
+        var directory = Path.Combine(AppContext.BaseDirectory, "Fixtures", "Gcloud", "585.0.0");
+        var help = JsonSerializer.Deserialize<Dictionary<string, string>>(
+            File.ReadAllText(Path.Combine(directory, "dispatch-help.json")))!;
+        help.Add("gcloud version", File.ReadAllText(Path.Combine(directory, "gcloud-version.txt")));
+        return help;
+    }
 
     public static IEnumerable<string> DispatchCommandPaths() => CapturedHelp.Keys.Where(path => path != "gcloud");
 
@@ -36,6 +44,7 @@ public class GcloudDispatchTests
 
         await Assert.That(missing).IsEmpty();
         await Assert.That(commands.Any(command => command.FullCommand == "gcloud network-security ull-mirroring-collectors rules")).IsTrue();
+        await Assert.That(commands.Single(command => command.FullCommand == "gcloud version").Options).IsEmpty();
     }
 
     [Test]

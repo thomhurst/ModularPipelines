@@ -6,6 +6,8 @@ The executable SHA-256 matches the published checksum:
 `9fe59be0eca1271873ce019061335eb1ac419b7059202e797828467ddabe33be`.
 
 `root.txt` contains `cosign --help`; `version.txt` contains `cosign version`.
+`version-help.txt` contains `cosign version --help`, captured on 2026-10-13
+from the same checksum-verified release. It retains the command-local `--json` flag.
 Other files contain `cosign <command> --help` for all 29 commands in the existing
 coverage manifest and the 11 hardware-token commands exposed by this Windows binary.
 The hardware-token fixtures also verify that group-local `--no-input` is not promoted
@@ -15,7 +17,7 @@ is otherwise retained. No signing, registry, login, or key-generation operation 
 The tagged root parser registers `--output-file`, `--timeout` / `-t`, and
 `--verbose` / `-d` through `PersistentFlags`. Root help uses the alternate
 Cobra declaration layout; leaf and group help list the same three inherited flags.
-Help and version are control operations. Signing keys, identity tokens, registry
+Help is a control operation; version is a generated command. Signing keys, identity tokens, registry
 credentials, and verification policies remain command-local.
 
 Sources:
