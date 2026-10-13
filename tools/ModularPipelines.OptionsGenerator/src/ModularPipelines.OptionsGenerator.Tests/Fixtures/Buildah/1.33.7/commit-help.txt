@@ -1,0 +1,36 @@
+
+  Writes a new image using the container's read-write layer and, if it is based
+  on an image, the layers of that image.
+
+Usage:
+  buildah commit [flags]
+
+Examples:
+  buildah commit containerID
+  buildah commit containerID newImageName
+  buildah commit containerID docker://localhost:5000/imageId
+
+Flags:
+      --authfile string               path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string               use certificates at the specified path to access the registry
+  -c, --change instruction            apply containerfile instructions to the committed image
+      --config file                   apply configuration JSON file to the committed image
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+      --cw options                    confidential workload options
+  -D, --disable-compression           don't compress layers (default true)
+      --encrypt-layer ints            layers to encrypt, 0-indexed layer indices with support for negative indexing (e.g. 0 is the first layer, -1 is the last layer). If not defined, will encrypt all layers if encryption-key flag is specified
+      --encryption-key strings        key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
+  -f, --format format                 format of the image manifest and metadata (default "oci")
+  -h, --help                          help for commit
+      --identity-label                add default builder label (default true) (default true)
+      --iidfile string                write the image ID to the file
+      --manifest string               adds created image to the specified manifest list. Creates manifest list if it does not exist
+      --omit-history                  omit build history information from the built image (default false)
+  -q, --quiet                         don't output progress information when writing images
+      --rm                            remove the container and its content after committing it to an image. Default leaves the container and its content in place.
+      --sign-by FINGERPRINT           sign the image using a GPG key with the specified FINGERPRINT
+      --squash                        produce an image with only one layer
+      --timestamp int                 set created timestamp to epoch seconds to allow for deterministic builds, defaults to current time
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+      --unsetenv strings              unset env from final image
+

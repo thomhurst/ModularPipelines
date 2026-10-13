@@ -1,0 +1,12 @@
+
+  Remove one or more manifest lists from local storage.
+
+Usage:
+  buildah manifest rm [flags]
+
+Examples:
+  buildah manifest rm mylist:v1.11
+
+Flags:
+  -h, --help   help for rm
+

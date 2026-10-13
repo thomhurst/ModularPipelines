@@ -1,0 +1,26 @@
+
+  Lists containers which appear to be buildah working containers, their
+  names and IDs, and the names and IDs of the images from which they were
+  initialized.
+
+Usage:
+  buildah containers [flags]
+
+Aliases:
+  containers, list, ls, ps
+
+Examples:
+  buildah containers
+  buildah containers --format "{{.ContainerID}} {{.ContainerName}}"
+  buildah containers -q --noheading --notruncate
+
+Flags:
+  -a, --all             also list non-buildah containers
+  -f, --filter string   filter output based on conditions provided
+      --format string   pretty-print containers using a Go template
+  -h, --help            help for containers
+      --json            output in JSON format
+  -n, --noheading       do not print column headings
+      --notruncate      do not truncate output
+  -q, --quiet           display only container IDs
+

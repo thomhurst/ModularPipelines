@@ -1,0 +1,52 @@
+A tool that facilitates building OCI images
+
+Usage:
+  buildah [flags]
+  buildah [command]
+
+Available Commands:
+  add         Add content to the container
+  build       Build an image using instructions in a Containerfile
+  commit      Create an image from a working container
+  config      Update image configuration settings
+  containers  List working containers and their base images
+  copy        Copy content into the container
+  from        Create a working container based on an image
+  help        Help about any command
+  images      List images in local storage
+  info        Display Buildah system information
+  inspect     Inspect the configuration of a container or image
+  login       Login to a container registry
+  logout      Logout of a container registry
+  manifest    Manipulate manifest lists and image indexes
+  mkcw        Convert a conventional image to a confidential workload image
+  mount       Mount a working container's root filesystem
+  prune       Cleanup intermediate images as well as build and mount cache
+  pull        Pull an image from the specified location
+  push        Push an image to a specified destination
+  rename      Rename a container
+  rm          Remove one or more working containers
+  rmi         Remove one or more images from local storage
+  run         Run a command inside of the container
+  source      Manage source containers
+  tag         Add an additional name to a local image
+  umount      Unmount the root file system of the specified working containers
+  unshare     Run a command in a modified user namespace
+  version     Display the Buildah version information
+
+Flags:
+      --cgroup-manager string                cgroup manager (default "cgroupfs")
+  -h, --help                                 help for buildah
+      --log-level string                     the log level to be used, one of "trace", "debug", "info", "warn", "error", "fatal", or "panic" (default "warn")
+      --registries-conf string               path to registries.conf file (not usually used)
+      --registries-conf-dir string           path to registries.conf.d directory (not usually used)
+      --root string                          storage root dir (default "/var/lib/containers/storage")
+      --runroot string                       storage state dir (default "/run/containers/storage")
+      --short-name-alias-conf string         path to short name alias cache file (not usually used)
+      --storage-driver string                storage-driver
+      --storage-opt strings                  storage driver option
+      --userns-gid-map ctrID:hostID:length   default ctrID:hostID:length GID mapping to use
+      --userns-uid-map ctrID:hostID:length   default ctrID:hostID:length UID mapping to use
+  -v, --version                              version for buildah
+
+Use "buildah [command] --help" for more information about a command.

@@ -913,6 +913,15 @@ For handwritten command options, see [Custom Commands](./how-to/custom-commands.
 commands or incorrect models, fix or report the scraper/generator rather than working around it
 in the generated source.
 
+### Buildah inherited settings
+
+Buildah commands now share storage, logging, registry configuration, and default UID/GID
+mapping settings through `BuildahOptions`. `StorageOpt`, `UsernsUidMap`, and `UsernsGidMap`
+accept collections and repeat their switch for each value. When migrating a mapping string,
+wrap it in a collection, such as `["0:1000:1"]`. The `build` and `from` commands retain their
+local mapping definitions and share the effective value with the base options. Settings
+render after the selected subcommand. See the [Buildah package guide](./mp-packages/buildah.md#shared-storage-settings-and-local-overrides).
+
 ### .NET test runner options
 
 `DotNetTestOptions` now follows the selected SDK's default VSTest help, independent

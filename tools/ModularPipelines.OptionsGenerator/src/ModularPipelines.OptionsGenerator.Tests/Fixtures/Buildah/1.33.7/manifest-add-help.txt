@@ -1,0 +1,25 @@
+
+  Adds an image to a manifest list or image index.
+
+Usage:
+  buildah manifest add [flags]
+
+Examples:
+  buildah manifest add mylist:v1.11 image:v1.11-amd64
+  buildah manifest add mylist:v1.11 transport:imageName
+
+Flags:
+      --all                           add all of the list's images if the image is a list
+      --annotation annotation         set an annotation for the specified image
+      --arch architecture             override the architecture of the specified image
+      --authfile string               path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string               use certificates at the specified path to access the registry
+      --creds [username[:password]]   use [username[:password]] for accessing the registry
+      --features features             override the features of the specified image
+  -h, --help                          help for add
+      --os OS                         override the OS of the specified image
+      --os-features features          override the OS features of the specified image
+      --os-version version            override the OS version of the specified image
+      --tls-verify                    require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+      --variant variant               override the variant of the specified image
+

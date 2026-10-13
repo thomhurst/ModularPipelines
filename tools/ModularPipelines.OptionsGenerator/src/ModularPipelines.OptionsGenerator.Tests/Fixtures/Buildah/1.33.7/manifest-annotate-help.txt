@@ -1,0 +1,19 @@
+
+  Adds or updates information about an entry in a manifest list or image index.
+
+Usage:
+  buildah manifest annotate [flags]
+
+Examples:
+  buildah manifest annotate --annotation left=right mylist:v1.11 image:v1.11-amd64
+
+Flags:
+      --annotation annotation   set an annotation for the specified image
+      --arch Architecture       override the Architecture of the specified image
+      --features features       override the features of the specified image
+  -h, --help                    help for annotate
+      --os OS                   override the OS of the specified image
+      --os-features features    override the os features of the specified image
+      --os-version version      override the os version of the specified image
+      --variant Variant         override the Variant of the specified image
+

@@ -1,0 +1,20 @@
+Login to a container registry on a specified server.
+
+Usage:
+  buildah login [flags]
+
+Examples:
+  buildah login quay.io
+
+Flags:
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --cert-dir string           use certificates at the specified path to access the registry
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+      --get-login                 return the current login user for the registry (default true)
+  -h, --help                      help for login
+  -p, --password string           Password for registry
+      --password-stdin            Take the password from stdin
+      --tls-verify                require HTTPS and verify certificates when accessing the registry. TLS verification cannot be used when talking to an insecure registry. (default true)
+  -u, --username string           Username for registry
+  -v, --verbose                   Write more detailed information to stdout
+

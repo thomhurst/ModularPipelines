@@ -1,0 +1,14 @@
+Remove the cached username and password for the registry.
+
+Usage:
+  buildah logout [flags]
+
+Examples:
+  buildah logout quay.io
+
+Flags:
+  -a, --all                       Remove the cached credentials for all registries in the auth file
+      --authfile string           path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --compat-auth-file string   path of a Docker-compatible config file to update instead
+  -h, --help                      help for logout
+

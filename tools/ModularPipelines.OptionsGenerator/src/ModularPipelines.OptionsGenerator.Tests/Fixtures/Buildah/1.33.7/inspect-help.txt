@@ -1,0 +1,16 @@
+
+  Inspects a build container's or built image's configuration.
+
+Usage:
+  buildah inspect [flags]
+
+Examples:
+  buildah inspect containerID
+  buildah inspect --type image imageID
+  buildah inspect --format '{{.OCIv1.Config.Env}}' alpine
+
+Flags:
+  -f, --format format   use format as a Go template to format the output
+  -h, --help            help for inspect
+  -t, --type type       look at the item of the specified type (container or image) and name (default "container")
+
