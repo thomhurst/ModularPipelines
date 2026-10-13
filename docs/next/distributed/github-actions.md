@@ -23,12 +23,10 @@ The master uploads `pipeline-report-0-ubuntu-latest-<run_attempt>`, containing `
 
 ## Generate the Workflow[​](#generate-the-workflow "Direct link to Generate the Workflow")
 
-The `ModularPipelines.GitHub` package can generate the matrix from the operating-system capabilities declared by registered modules. Call `WriteDistributedWorkflow` after registering the modules so regeneration reflects capability changes:
+The `ModularPipelines.GitHub` package can generate the matrix from the operating-system capabilities declared by registered modules. Call `AddDistributedWorkflow` after registering the modules so regeneration reflects capability changes:
 
 ```
-using ModularPipelines.GitHub.Extensions;
-
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 
 
 
@@ -44,7 +42,7 @@ builder.AddModule<AggregateResultsModule>();
 
 
 
-builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
+builder.AddDistributedWorkflow(new DistributedWorkflowOptions
 
 {
 

@@ -2752,12 +2752,10 @@ The master uploads `pipeline-report-0-ubuntu-latest-<run_attempt>`, containing `
 
 ## Generate the Workflow[​](#generate-the-workflow "Direct link to Generate the Workflow")
 
-The `ModularPipelines.GitHub` package can generate the matrix from the operating-system capabilities declared by registered modules. Call `WriteDistributedWorkflow` after registering the modules so regeneration reflects capability changes:
+The `ModularPipelines.GitHub` package can generate the matrix from the operating-system capabilities declared by registered modules. Call `AddDistributedWorkflow` after registering the modules so regeneration reflects capability changes:
 
 ```
-using ModularPipelines.GitHub.Extensions;
-
-using ModularPipelines.GitHub.PipelineWriters;
+using ModularPipelines.GitHub;
 
 
 
@@ -2773,7 +2771,7 @@ builder.AddModule<AggregateResultsModule>();
 
 
 
-builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
+builder.AddDistributedWorkflow(new DistributedWorkflowOptions
 
 {
 
@@ -12603,6 +12601,20 @@ public class UseAzurePipelineModule : SyncModule<None>
     }
 
 }
+```
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+`AzurePipelineExtensions` now uses the `ModularPipelines.Azure.Pipelines` namespace. Replace imports of `.Extensions` with that package root namespace. The public `RegisterAzurePipelineContext` method remains available for generated registration and is hidden from IntelliSense.
+
+Read Azure environment values through `context.Tools.AzurePipeline.EnvironmentVariables` instead of `Variables`, matching the TeamCity and GitHub context member name. Use the shared build-system context instead of the removed `IsRunningOnAzurePipelines` property:
+
+```
+using ModularPipelines;
+
+
+
+var isAzurePipelines = context.Environment.BuildSystem.Is(BuildSystem.AzurePipelines);
 ```
 
 
@@ -51683,6 +51695,12 @@ Once configured, Modular Pipelines will handle authentication and authorization 
 
 **Important Note:** This is just an example; **do not store any confidential data in appsettings.json, .env files, and similar.** Use secret storage, key-vault services, etc., for storing sensitive data, and then use the described configuration practices as shown in the example above.
 
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+Handwritten GitHub options, condition attributes, extension methods, and workflow models now use `ModularPipelines.GitHub`. Replace imports of `.Attributes`, `.PipelineWriters`, and the handwritten `.Extensions`/`.Options` types with the package root namespace. The generated `gh` CLI options and services retain their generated namespaces.
+
+Use `AddDistributedWorkflow(...)` instead of `WriteDistributedWorkflow(...)` to register a workflow writer on the builder. `SkipIfNoGitHubToken` is now `SkipIfNoGitHubTokenAttribute`; attribute syntax `[SkipIfNoGitHubToken]` remains valid. The public `RegisterGitHubContext` method is hidden from IntelliSense and remains available for generated registration. Module code uses `context.Tools.GitHub`.
+
 
 ---
 
@@ -53385,6 +53403,10 @@ public class UseTeamCityModule : SyncModule<None>
 
 }
 ```
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+`TeamCityExtensions` now uses the `ModularPipelines.TeamCity` namespace. Replace imports of `ModularPipelines.TeamCity.Extensions` with the package root namespace. `RegisterTeamCityContext` remains public for generated registration but is hidden from IntelliSense. Module code uses `context.Tools.TeamCity`; environment values remain available through `EnvironmentVariables`.
 
 
 ---

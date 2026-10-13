@@ -45,3 +45,7 @@ public class UseTeamCityModule : SyncModule<None>
 
 }
 ```
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+`TeamCityExtensions` now uses the `ModularPipelines.TeamCity` namespace. Replace imports of `ModularPipelines.TeamCity.Extensions` with the package root namespace. `RegisterTeamCityContext` remains public for generated registration but is hidden from IntelliSense. Module code uses `context.Tools.TeamCity`; environment values remain available through `EnvironmentVariables`.
