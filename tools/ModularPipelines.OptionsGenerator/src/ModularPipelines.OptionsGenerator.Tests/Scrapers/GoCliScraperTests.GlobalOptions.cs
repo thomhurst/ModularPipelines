@@ -9,6 +9,9 @@ public partial class GoCliScraperTests
     [Arguments("")]
     [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -race\n        enable race detection")]
     [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -C\n        Change directory.")]
+    [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -C\n        Change directory.\n    -C dir\n        Change directory before running.")]
+    [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -C dir\n        Change directory before running.\n    -C\n        Change directory.")]
+    [Arguments("usage: go build [packages]\n\nThe build flags are:\n    -C dir\n        Change directory.\n    -C directory\n        Change directory before running.")]
     public async Task Missing_Directory_Declaration_Rejects_Root_Help(string buildHelp)
     {
         var scraper = CreateScraper(new Dictionary<string, string>

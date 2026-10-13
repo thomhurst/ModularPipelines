@@ -88,6 +88,16 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         if (commandPath.Length == 1)
         {
             var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+            var directoryDeclarations = GoOptionLinePattern().Matches((buildHelp ?? string.Empty).ReplaceLineEndings("\n"))
+                .Where(match => match.Groups["flag"].Value == "-C")
+                .ToArray();
+            if (directoryDeclarations.Length != 1
+                || string.IsNullOrEmpty(ParseOptionLineRemainder(directoryDeclarations[0].Groups["remainder"].Value).ValueHint))
+            {
+                throw new InvalidOperationException(
+                    "go help build did not declare exactly one value-taking -C directory option. Refusing to generate incomplete Go global options.");
+            }
+
             _globalOptions = [.. ParseOptions(["build"], buildHelp ?? string.Empty, usageSynopsis: null)
                 .Where(option => option.SwitchName == "-C" && !option.IsFlag)
                 .Select(option => option with
