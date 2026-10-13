@@ -35,7 +35,7 @@ internal sealed class DistributedRunCleanupExecutor(
                 return;
             }
 
-            var backends = ResolveBackends();
+            var backends = await ResolveBackendsAsync(distributedOptions.RunCleanupTimeout).ConfigureAwait(false);
             if (backends.Count == 0)
             {
                 return;
@@ -64,7 +64,7 @@ internal sealed class DistributedRunCleanupExecutor(
             _ => false,
         };
 
-    private List<IDistributedRunCleanup> ResolveBackends()
+    private async Task<List<IDistributedRunCleanup>> ResolveBackendsAsync(TimeSpan timeout)
     {
         var candidates = serviceProvider.GetServices<IDistributedRunCleanup>()
             .Concat<object?>(
@@ -77,7 +77,11 @@ internal sealed class DistributedRunCleanupExecutor(
         var backends = new List<IDistributedRunCleanup>();
         foreach (var candidate in candidates)
         {
-            if (candidate is IDistributedRunCleanup backend
+            // A deferred wrapper and its backend can both be registered, so compare the backends themselves.
+            var resolved = candidate is IDeferredDistributedBackend deferred
+                ? await GetDeferredBackendAsync(deferred, timeout).ConfigureAwait(false)
+                : candidate;
+            if (resolved is IDistributedRunCleanup backend
                 && !backends.Any(existing => ReferenceEquals(existing, backend)))
             {
                 backends.Add(backend);
@@ -85,6 +89,27 @@ internal sealed class DistributedRunCleanupExecutor(
         }
 
         return backends;
+    }
+
+    // Workers can upload artifacts this process never touched, so the backend is created to clean up.
+    private async Task<object?> GetDeferredBackendAsync(IDeferredDistributedBackend deferred, TimeSpan timeout)
+    {
+        using var timeoutSource = new CancellationTokenSource(timeout);
+        try
+        {
+            return await deferred.GetBackendAsync(timeoutSource.Token)
+                .AsTask()
+                .WaitAsync(timeoutSource.Token)
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(
+                exception,
+                "Could not create the distributed backend behind {Wrapper} to clean up run data",
+                deferred.GetType().FullName);
+            return null;
+        }
     }
 
     private async Task CleanupBackendAsync(

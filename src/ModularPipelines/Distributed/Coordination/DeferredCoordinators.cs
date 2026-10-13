@@ -4,7 +4,8 @@ namespace ModularPipelines.Distributed.Coordination;
 /// Creates a coordinator through <see cref="IDistributedCoordinatorFactory"/> on first use, so building
 /// the service provider never blocks on connections or master discovery, and disposes it with the host.
 /// </summary>
-internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken, Task<TCoordinator>> create) : IAsyncDisposable, IDisposable
+internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken, Task<TCoordinator>> create)
+    : IDeferredDistributedBackend, IAsyncDisposable, IDisposable
     where TCoordinator : class
 {
     private readonly SemaphoreSlim _lock = new(1, 1);
@@ -31,6 +32,9 @@ internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken
             _lock.Release();
         }
     }
+
+    public async ValueTask<object> GetBackendAsync(CancellationToken cancellationToken) =>
+        await GetAsync(cancellationToken).ConfigureAwait(false);
 
     public async ValueTask DisposeAsync()
     {
@@ -67,16 +71,8 @@ internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken
 /// Defers <see cref="IDistributedCoordinatorFactory.CreateMasterAsync"/> to first use.
 /// </summary>
 internal sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory factory)
-    : DeferredCoordinator<IDistributedMasterCoordinator>(factory.CreateMasterAsync), IDistributedMasterCoordinator, IDistributedRunCleanup
+    : DeferredCoordinator<IDistributedMasterCoordinator>(factory.CreateMasterAsync), IDistributedMasterCoordinator
 {
-    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
-    {
-        if (await GetAsync(cancellationToken).ConfigureAwait(false) is IDistributedRunCleanup cleanup)
-        {
-            await cleanup.CleanupRunAsync(context, cancellationToken).ConfigureAwait(false);
-        }
-    }
-
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);

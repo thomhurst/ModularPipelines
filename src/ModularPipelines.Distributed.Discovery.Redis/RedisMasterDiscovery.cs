@@ -29,8 +29,9 @@ internal sealed class RedisMasterDiscovery(
     {
         ArgumentNullException.ThrowIfNull(endpoint);
         var value = JsonSerializer.Serialize(new StoredEndpoint(endpoint.Url.AbsoluteUri, endpoint.AccessToken));
-        await _store.SetAsync(_masterEndpointKey, value, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
+        // Set first: a write that fails ambiguously may still have stored the token, and deleting is idempotent.
         _advertised = true;
+        await _store.SetAsync(_masterEndpointKey, value, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
         _logger.LogInformation(
             "Advertised the master endpoint in Redis (time to live: {TimeToLive})",
             _options.TimeToLive);

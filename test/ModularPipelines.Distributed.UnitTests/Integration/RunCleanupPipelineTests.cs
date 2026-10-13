@@ -160,16 +160,25 @@ public class RunCleanupPipelineTests
     }
 
     [Test]
-    public async Task Deferred_Coordinator_Forwards_Cleanup_To_The_Created_Coordinator()
+    [Timeout(30_000)]
+    public async Task Factory_Created_Coordinator_Also_Registered_Directly_Is_Cleaned_Up_Once(
+        CancellationToken cancellationToken)
     {
-        var inner = new CleanableCoordinator();
-        await using var deferred = new DeferredMasterCoordinator(new CoordinatorFactory(inner));
+        var builder = CreateDistributedBuilder(options => options);
+        builder.Services.AddSingleton<CleanableCoordinator>();
+        builder.AddDistributedCoordinatorFactory<CoordinatorFactory>();
 
-        await deferred.CleanupRunAsync(
-            new DistributedRunCleanupContext { RunId = "run", PipelineSucceeded = true },
-            CancellationToken.None);
+        // The deferred wrapper and the coordinator it creates are both candidates.
+        builder.Services.AddSingleton<IDistributedRunCleanup>(serviceProvider =>
+            serviceProvider.GetRequiredService<CleanableCoordinator>());
+        builder.AddModule<SucceedingModule>();
 
-        await Assert.That(inner.CleanupCount).IsEqualTo(1);
+        await using var pipeline = await builder.BuildAsync();
+        await pipeline.RunAsync(cancellationToken);
+
+        await Assert.That(pipeline.Services.GetRequiredService<IDistributedMasterCoordinator>())
+            .IsTypeOf<DeferredMasterCoordinator>();
+        await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
     }
 
     private static PipelineBuilder CreateDistributedBuilder(Func<DistributedOptions, DistributedOptions> configure)
@@ -229,10 +238,10 @@ public class RunCleanupPipelineTests
         }
     }
 
-    private sealed class CoordinatorFactory(IDistributedMasterCoordinator coordinator) : IDistributedCoordinatorFactory
+    private sealed class CoordinatorFactory(CleanableCoordinator coordinator) : IDistributedCoordinatorFactory
     {
         public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
-            Task.FromResult(coordinator);
+            Task.FromResult<IDistributedMasterCoordinator>(coordinator);
 
         public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
             Task.FromResult<IDistributedWorkerCoordinator>(coordinator);

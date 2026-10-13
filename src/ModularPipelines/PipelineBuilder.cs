@@ -761,7 +761,7 @@ public sealed class PipelineBuilder
     /// </summary>
     private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) :
         IDistributedArtifactStore,
-        IDistributedRunCleanup,
+        IDeferredDistributedBackend,
         IDisposable,
         IAsyncDisposable
     {
@@ -777,14 +777,7 @@ public sealed class PipelineBuilder
 
         public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DeleteAsync(r, ct).ConfigureAwait(false);
 
-        // Workers can upload artifacts this process never touched, so the store is created to clean up.
-        public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken ct)
-        {
-            if (await GetAsync(ct).ConfigureAwait(false) is IDistributedRunCleanup cleanup)
-            {
-                await cleanup.CleanupRunAsync(context, ct).ConfigureAwait(false);
-            }
-        }
+        public async ValueTask<object> GetBackendAsync(CancellationToken ct) => await GetAsync(ct).ConfigureAwait(false);
 
         public void Dispose()
         {
