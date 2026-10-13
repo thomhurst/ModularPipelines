@@ -3497,9 +3497,9 @@ ModularPipelines.Distributed.DistributedRunCleanupContext.PipelineSucceeded.init
 ModularPipelines.Distributed.DistributedRunCleanupContext.RunId.get -> string!
 ModularPipelines.Distributed.DistributedRunCleanupContext.RunId.init -> void
 ModularPipelines.Distributed.DistributedRunCleanupPolicy
-ModularPipelines.Distributed.DistributedRunCleanupPolicy.Always = 1 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedRunCleanupPolicy.Always = 0 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
 ModularPipelines.Distributed.DistributedRunCleanupPolicy.Never = 2 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
-ModularPipelines.Distributed.DistributedRunCleanupPolicy.OnSuccess = 0 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedRunCleanupPolicy.OnSuccess = 1 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
 ModularPipelines.Distributed.IDistributedRunCleanup
 ModularPipelines.Distributed.IDistributedRunCleanup.CleanupRunAsync(ModularPipelines.Distributed.DistributedRunCleanupContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 override ModularPipelines.Distributed.DistributedRunCleanupContext.Equals(object? obj) -> bool

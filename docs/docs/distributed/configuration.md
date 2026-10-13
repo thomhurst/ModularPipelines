@@ -78,7 +78,7 @@ builder.AddDistributedMode(o => o with
 | `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely. |
-| `RunCleanup` | `DistributedRunCleanupPolicy` | `OnSuccess` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
+| `RunCleanup` | `DistributedRunCleanupPolicy` | `Always` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
 | `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long each backend may take to delete the run's data before the pipeline stops waiting for it. |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`,
@@ -174,14 +174,14 @@ status first, so workers have stopped using the run's data.
 
 | Value | Behavior |
 |-------|----------|
-| `OnSuccess` (default) | Deletes the run's data when the pipeline succeeded. A failed or canceled run keeps its data for investigation until each backend's own expiry removes it. |
-| `Always` | Deletes the run's data whatever the outcome. |
+| `Always` (default) | Deletes the run's data whatever the outcome. |
+| `OnSuccess` | Deletes the run's data when the pipeline succeeded. A failed or canceled run keeps its data for investigation until each backend's own expiry removes it. |
 | `Never` | Keeps the run's data; only each backend's own expiry removes it. |
 
 ```csharp
 builder.AddDistributedMode(o => o with
 {
-    RunCleanup = DistributedRunCleanupPolicy.Always,
+    RunCleanup = DistributedRunCleanupPolicy.OnSuccess,
     RunCleanupTimeout = TimeSpan.FromMinutes(5),
 });
 ```

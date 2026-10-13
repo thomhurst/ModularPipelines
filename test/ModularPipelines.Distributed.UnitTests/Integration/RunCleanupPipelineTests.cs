@@ -53,10 +53,10 @@ public class RunCleanupPipelineTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task Failed_Run_Keeps_Its_Data_By_Default(CancellationToken cancellationToken)
+    public async Task OnSuccess_Policy_Keeps_A_Failed_Run_Data(CancellationToken cancellationToken)
     {
         var cleanup = new RecordingCleanup();
-        var builder = CreateDistributedBuilder(options => options);
+        var builder = CreateDistributedBuilder(options => options with { RunCleanup = DistributedRunCleanupPolicy.OnSuccess });
         builder.Services.AddSingleton<IDistributedRunCleanup>(cleanup);
         builder.AddModule<FailingModule>();
 
@@ -68,10 +68,10 @@ public class RunCleanupPipelineTests
 
     [Test]
     [Timeout(30_000)]
-    public async Task Always_Policy_Cleans_Up_A_Failed_Run(CancellationToken cancellationToken)
+    public async Task Failed_Run_Is_Cleaned_Up_By_Default(CancellationToken cancellationToken)
     {
         var cleanup = new RecordingCleanup();
-        var builder = CreateDistributedBuilder(options => options with { RunCleanup = DistributedRunCleanupPolicy.Always });
+        var builder = CreateDistributedBuilder(options => options);
         builder.Services.AddSingleton<IDistributedRunCleanup>(cleanup);
         builder.AddModule<FailingModule>();
 

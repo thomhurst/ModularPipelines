@@ -116,10 +116,10 @@ public sealed record DistributedOptions
     /// <summary>
     /// Gets which pipeline outcomes make <see cref="IDistributedRunCleanup"/> backends delete the data they
     /// stored for this run. Only the master cleans up, and only in distributed mode. Defaults to
-    /// <see cref="DistributedRunCleanupPolicy.OnSuccess"/>, so a failed run's data stays available for
-    /// investigation.
+    /// <see cref="DistributedRunCleanupPolicy.Always"/>; use <see cref="DistributedRunCleanupPolicy.OnSuccess"/>
+    /// to keep a failed run's data for investigation.
     /// </summary>
-    public DistributedRunCleanupPolicy RunCleanup { get; init; } = DistributedRunCleanupPolicy.OnSuccess;
+    public DistributedRunCleanupPolicy RunCleanup { get; init; } = DistributedRunCleanupPolicy.Always;
 
     /// <summary>
     /// Gets how long each <see cref="IDistributedRunCleanup"/> backend may take to delete a run's data

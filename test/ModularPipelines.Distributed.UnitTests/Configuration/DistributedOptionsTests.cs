@@ -38,13 +38,13 @@ public class DistributedOptionsTests
     }
 
     [Test]
-    public async Task Run_Cleanup_Defaults_To_Successful_Runs_With_A_Two_Minute_Timeout()
+    public async Task Run_Cleanup_Defaults_To_Always_With_A_Two_Minute_Timeout()
     {
         var options = new DistributedOptions();
 
         using (Assert.Multiple())
         {
-            await Assert.That(options.RunCleanup).IsEqualTo(DistributedRunCleanupPolicy.OnSuccess);
+            await Assert.That(options.RunCleanup).IsEqualTo(DistributedRunCleanupPolicy.Always);
             await Assert.That(options.RunCleanupTimeout).IsEqualTo(TimeSpan.FromMinutes(2));
         }
     }
