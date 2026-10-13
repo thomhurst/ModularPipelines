@@ -47,7 +47,8 @@ public interface IDistributedMasterCoordinator : IDistributedWorkerCoordinator
 
     /// <summary>
     /// Signals that no more module assignments will be produced. Pending and later dequeues return
-    /// <see langword="null"/>.
+    /// <see langword="null"/>. Atomically closes registration to new worker sessions; existing sessions
+    /// may still reconnect through <see cref="IDistributedWorkerCoordinator.RegisterWorkerAsync"/>.
     /// </summary>
     Task SignalCompletionAsync(CancellationToken cancellationToken);
 

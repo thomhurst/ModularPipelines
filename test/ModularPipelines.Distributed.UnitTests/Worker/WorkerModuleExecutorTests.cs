@@ -17,6 +17,20 @@ namespace ModularPipelines.Distributed.UnitTests.Worker;
 public class WorkerModuleExecutorTests
 {
     [Test]
+    public async Task Completed_Run_Does_Not_Start_Worker_Background_Operations()
+    {
+        var coordinator = new Mock<IDistributedWorkerCoordinator>(MockBehavior.Strict);
+        coordinator.Setup(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new DistributedRunCompletedException());
+
+        var results = await ExecuteAsync(coordinator.Object, CancellationToken.None);
+
+        await Assert.That(results).IsEmpty();
+        coordinator.Verify(instance => instance.RegisterWorkerAsync(It.IsAny<WorkerRegistration>(), It.IsAny<CancellationToken>()), Times.Once);
+        coordinator.VerifyNoOtherCalls();
+    }
+
+    [Test]
     [Timeout(30_000)]
     public async Task Cancellation_Observer_Retries_After_Transient_Failure(
         CancellationToken testCancellation)

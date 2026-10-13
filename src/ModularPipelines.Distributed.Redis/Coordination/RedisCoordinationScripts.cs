@@ -256,7 +256,12 @@ internal static class RedisCoordinationScripts
         if existing then
             local registration = cjson.decode(existing)
             same_session = registration['RegisteredAt'] == ARGV[4]
-            if not same_session and redis.call('HEXISTS', KEYS[7], ARGV[2]) == 1 then
+        end
+        if not same_session then
+            if redis.call('EXISTS', KEYS[9]) == 1 then
+                return 'completed'
+            end
+            if existing and redis.call('HEXISTS', KEYS[7], ARGV[2]) == 1 then
                 return 'duplicate'
             end
         end

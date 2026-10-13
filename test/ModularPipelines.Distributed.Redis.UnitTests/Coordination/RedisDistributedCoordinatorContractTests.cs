@@ -31,6 +31,10 @@ public class RedisDistributedCoordinatorContractTests
         RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
 
     [Test]
+    public Task Completion_Closes_Registration() =>
+        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CompletionClosesRegistrationAsync(coordinator));
+
+    [Test]
     public Task Canceled_Dequeue_Throws() =>
         RunContractAsync((coordinator, _) => DistributedCoordinatorContract.CanceledDequeueThrowsAsync(coordinator));
 
@@ -247,6 +251,15 @@ public class RedisDistributedCoordinatorContractTests
                 await redis.CleanupRunAsync(
                     new DistributedRunCleanupContext { RunId = "contract", PipelineSucceeded = true },
                     CancellationToken.None);
+
+                // Cleanup keeps registration closed, even after deleting the worker records.
+                await Assert.That(async () => await coordinator.RegisterWorkerAsync(new WorkerRegistration
+                {
+                    WorkerId = new WorkerId("late-worker"),
+                    RegisteredAt = DateTimeOffset.UtcNow,
+                    Capabilities = [],
+                }, CancellationToken.None))
+                    .Throws<DistributedRunCompletedException>();
 
                 // A heartbeat sent after cleanup would recreate the master keys.
                 await Task.Delay(200);

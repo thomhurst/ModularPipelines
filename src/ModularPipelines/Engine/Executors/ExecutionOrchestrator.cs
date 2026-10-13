@@ -3,6 +3,7 @@ using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -28,58 +29,42 @@ namespace ModularPipelines.Engine.Executors;
 /// pattern for the <c>_hasRun</c> flag.
 /// </para>
 /// </remarks>
-internal class ExecutionOrchestrator : IExecutionOrchestrator
+internal class ExecutionOrchestrator(
+    IPipelineInitializer pipelineInitializer,
+    IModuleDisposeExecutor moduleDisposeExecutor,
+    IPipelineExecutor pipelineExecutor,
+    IPipelineOutputCoordinator outputCoordinator,
+    IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar,
+    IModuleResultRegistry resultRegistry,
+    IPipelineSummaryFactory pipelineSummaryFactory,
+    EngineCancellationToken engineCancellationToken,
+    IThreadPoolConfigurator threadPoolConfigurator,
+    IExceptionRethrowService exceptionRethrowService,
+    IOptions<PipelineOptions> options,
+    ILogger<ExecutionOrchestrator> logger,
+    IRunReportService runReportService,
+    DistributedRunCleanupExecutor? runCleanupExecutor = null,
+    IExecutionBackend? executionBackend = null) : IExecutionOrchestrator
 {
-    private readonly IPipelineInitializer _pipelineInitializer;
-    private readonly IModuleDisposeExecutor _moduleDisposeExecutor;
-    private readonly IPipelineExecutor _pipelineExecutor;
-    private readonly IPipelineOutputCoordinator _outputCoordinator;
-    private readonly IIgnoredModuleResultRegistrar _ignoredModuleResultRegistrar;
-    private readonly IModuleResultRegistry _resultRegistry;
-    private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
-    private readonly EngineCancellationToken _engineCancellationToken;
-    private readonly IThreadPoolConfigurator _threadPoolConfigurator;
-    private readonly IExceptionRethrowService _exceptionRethrowService;
-    private readonly IOptions<PipelineOptions> _options;
-    private readonly ILogger<ExecutionOrchestrator> _logger;
-    private readonly IRunReportService _runReportService;
-    private readonly DistributedRunCleanupExecutor? _runCleanupExecutor;
+    private readonly IPipelineInitializer _pipelineInitializer = pipelineInitializer;
+    private readonly IModuleDisposeExecutor _moduleDisposeExecutor = moduleDisposeExecutor;
+    private readonly IPipelineExecutor _pipelineExecutor = pipelineExecutor;
+    private readonly IPipelineOutputCoordinator _outputCoordinator = outputCoordinator;
+    private readonly IIgnoredModuleResultRegistrar _ignoredModuleResultRegistrar = ignoredModuleResultRegistrar;
+    private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IPipelineSummaryFactory _pipelineSummaryFactory = pipelineSummaryFactory;
+    private readonly EngineCancellationToken _engineCancellationToken = engineCancellationToken;
+    private readonly IThreadPoolConfigurator _threadPoolConfigurator = threadPoolConfigurator;
+    private readonly IExceptionRethrowService _exceptionRethrowService = exceptionRethrowService;
+    private readonly IOptions<PipelineOptions> _options = options;
+    private readonly ILogger<ExecutionOrchestrator> _logger = logger;
+    private readonly IRunReportService _runReportService = runReportService;
+    private readonly DistributedRunCleanupExecutor? _runCleanupExecutor = runCleanupExecutor;
+    private readonly IExecutionBackend? _executionBackend = executionBackend;
 
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
 
     private bool _hasRun;
-
-    public ExecutionOrchestrator(
-        IPipelineInitializer pipelineInitializer,
-        IModuleDisposeExecutor moduleDisposeExecutor,
-        IPipelineExecutor pipelineExecutor,
-        IPipelineOutputCoordinator outputCoordinator,
-        IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar,
-        IModuleResultRegistry resultRegistry,
-        IPipelineSummaryFactory pipelineSummaryFactory,
-        EngineCancellationToken engineCancellationToken,
-        IThreadPoolConfigurator threadPoolConfigurator,
-        IExceptionRethrowService exceptionRethrowService,
-        IOptions<PipelineOptions> options,
-        ILogger<ExecutionOrchestrator> logger,
-        IRunReportService runReportService,
-        DistributedRunCleanupExecutor? runCleanupExecutor = null)
-    {
-        _pipelineInitializer = pipelineInitializer;
-        _moduleDisposeExecutor = moduleDisposeExecutor;
-        _pipelineExecutor = pipelineExecutor;
-        _outputCoordinator = outputCoordinator;
-        _ignoredModuleResultRegistrar = ignoredModuleResultRegistrar;
-        _resultRegistry = resultRegistry;
-        _pipelineSummaryFactory = pipelineSummaryFactory;
-        _engineCancellationToken = engineCancellationToken;
-        _threadPoolConfigurator = threadPoolConfigurator;
-        _exceptionRethrowService = exceptionRethrowService;
-        _options = options;
-        _logger = logger;
-        _runReportService = runReportService;
-        _runCleanupExecutor = runCleanupExecutor;
-    }
 
     public async Task<PipelineSummary> ExecuteAsync(CancellationToken cancellationToken = default)
     {
@@ -125,25 +110,50 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         try
         {
             allModules = _pipelineInitializer.RegisteredModules ?? [];
-            _threadPoolConfigurator.Configure();
+            if (_executionBackend is WorkerModuleExecutor worker
+                && await worker.RegisterAsync(_engineCancellationToken.Token).ConfigureAwait(false) is null)
+            {
+                // A rejected session owns no shared data. Skip handlers and final metrics publication.
+                var completedSummary = new PipelineSummary([], [], stopWatch.Elapsed, start, DateTimeOffset.UtcNow);
+                _outputCoordinator.PrintResults(completedSummary);
+                return completedSummary;
+            }
 
-            var organizedModules = await _pipelineInitializer
-                .Initialize(_engineCancellationToken.Token)
-                .ConfigureAwait(false);
-            allModules = organizedModules.AllModules;
+            using var initializationCts = CancellationTokenSource.CreateLinkedTokenSource(_engineCancellationToken.Token);
+            var initializationHeartbeat = _executionBackend is WorkerModuleExecutor registeredWorker
+                ? registeredWorker.SendInitializationHeartbeatsAsync(initializationCts.Token)
+                : Task.CompletedTask;
+            OrganizedModules organizedModules;
+            List<IModule> runnableModules;
+            try
+            {
+                _threadPoolConfigurator.Configure();
 
-            // Resolve ignored modules against history before cascading required dependencies.
-            organizedModules = await _ignoredModuleResultRegistrar
-                .RegisterIgnoredModuleResultsAsync(organizedModules)
-                .ConfigureAwait(false);
-            allModules = organizedModules.AllModules;
+                organizedModules = await _pipelineInitializer
+                    .Initialize(_engineCancellationToken.Token)
+                    .ConfigureAwait(false);
+                allModules = organizedModules.AllModules;
 
-            var runnableModules = organizedModules.RunnableModules
-                .Select(x => (IModule) x.Module)
-                .Concat(organizedModules.IgnoredModules
-                    .Select(ignoredModule => ignoredModule.Module)
-                    .Where(module => _resultRegistry.GetResult(module.GetType())?.Status == ModuleStatus.RestoredFromHistory))
-                .ToList();
+                // Resolve ignored modules against history before cascading required dependencies.
+                organizedModules = await _ignoredModuleResultRegistrar
+                    .RegisterIgnoredModuleResultsAsync(organizedModules)
+                    .ConfigureAwait(false);
+                allModules = organizedModules.AllModules;
+
+                runnableModules =
+                [
+                    .. organizedModules.RunnableModules
+                                        .Select(x => (IModule) x.Module),
+                    .. organizedModules.IgnoredModules
+                            .Select(ignoredModule => ignoredModule.Module)
+                            .Where(module => _resultRegistry.GetResult(module.GetType())?.Status == ModuleStatus.RestoredFromHistory),
+                ];
+            }
+            finally
+            {
+                await initializationCts.CancelAsync().ConfigureAwait(false);
+                await initializationHeartbeat.ConfigureAwait(false);
+            }
 
             summary = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
         }
@@ -234,15 +244,18 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _outputCoordinator.FlushExceptions();
 
         // Log cancellation/failure info (informational only)
-        if (_engineCancellationToken.OriginalException != null)
+        if (_logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation("Pipeline Failed: {ExceptionType}",
-                _engineCancellationToken.OriginalException.GetType().Name);
-        }
-        else if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
-        {
-            _logger.LogInformation("Cancellation: {Reason}",
-                _engineCancellationToken.Reason);
+            if (_engineCancellationToken.OriginalException != null)
+            {
+                _logger.LogInformation("Pipeline Failed: {ExceptionType}",
+                    _engineCancellationToken.OriginalException.GetType().Name);
+            }
+            else if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
+            {
+                _logger.LogInformation("Cancellation: {Reason}",
+                    _engineCancellationToken.Reason);
+            }
         }
 
         return summary;

@@ -258,6 +258,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 ],
                 cancellationToken)
             .ConfigureAwait(false);
+        if (result == "completed")
+        {
+            throw new DistributedRunCompletedException();
+        }
+
         if (result == "duplicate")
         {
             throw new InvalidOperationException(

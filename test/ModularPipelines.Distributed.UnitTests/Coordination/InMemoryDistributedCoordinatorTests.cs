@@ -30,6 +30,10 @@ public class InMemoryDistributedCoordinatorTests
         DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(Create());
 
     [Test]
+    public Task Completion_Closes_Registration() =>
+        DistributedCoordinatorContract.CompletionClosesRegistrationAsync(Create());
+
+    [Test]
     public Task Canceled_Dequeue_Throws() =>
         DistributedCoordinatorContract.CanceledDequeueThrowsAsync(Create());
 
