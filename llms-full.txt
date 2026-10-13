@@ -1676,6 +1676,40 @@ builder.AddDistributedCoordinatorFactory<MyCoordinatorFactory>();
 
 `SignalCompletionAsync` is different from cancellation. The master calls it in a `finally` block after distributed execution ends, and coordinators then return `null` from pending and later `DequeueModuleAsync` calls, so workers exit even when they missed a notification. If the runnable set is empty, the master returns before sending the signal, so external workers remain blocked until their local cancellation tokens are canceled.
 
+## Run Data Cleanup[​](#run-data-cleanup "Direct link to Run Data Cleanup")
+
+A coordinator, artifact store or `IMasterDiscovery` implementation opts into deleting its run data by also implementing `IDistributedRunCleanup`:
+
+```
+public sealed class MyArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
+
+{
+
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+
+    {
+
+        // Delete everything stored under context.RunId, including uploads from other processes.
+
+    }
+
+
+
+    // IDistributedArtifactStore members...
+
+}
+```
+
+The contract:
+
+* Only the master of a distributed run calls `CleanupRunAsync`; workers and pipelines without distributed mode never do. It runs once, after the pipeline end handlers and the run report, and only after every worker registered for the run has published its final status. When a worker does not publish one within `RunCleanupTimeout`, cleanup is skipped.
+* Each process has its own store instance. The master's instance must delete data that workers uploaded, so find the run's data from shared state, such as a prefix listing or an index, not from local bookkeeping.
+* Delete only data that belongs to `context.RunId`. Leave data shared across runs, such as module caches, in place.
+* A coordinator should keep, or let expire, whatever a late worker needs to see that the master completed. It should stop background writers, such as heartbeats, before it deletes the keys they renew.
+* The token is canceled when `DistributedOptions.RunCleanupTimeout` elapses. Failures are logged as warnings and never change the pipeline result.
+
+`DistributedOptions.RunCleanup` decides whether cleanup runs for the pipeline's outcome; see [Configuration](/ModularPipelines/docs/distributed/configuration.md#run-data-cleanup).
+
 
 ---
 
@@ -2003,21 +2037,23 @@ builder.AddDistributedMode(o => o with
 });
 ```
 
-| Property                    | Type                        | Default                                                 | Description                                                                                                                                                                                                                                                                                                                                                                      |
-| --------------------------- | --------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Role`                      | `DistributedRole`           | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                                                                                                                                |
-| `InstanceIndex`             | `int`                       | `0`                                                     | This instance's unique index, less than `TotalInstances`. With `Role == Auto`, `0` selects master and values above `0` select worker. Each process's `WorkerId` is `instance-{InstanceIndex}`.                                                                                                                                                                                   |
-| `TotalInstances`            | `int`                       | `1`                                                     | Total number of instances (master + workers). Values above `1` require a shared coordinator backend.                                                                                                                                                                                                                                                                             |
-| `MaxParallelism`            | `int?`                      | `null`                                                  | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. Workers advertise it when they register.                                                                                                                                                                                                          |
-| `Capabilities`              | `IReadOnlyList<Capability>` | `[]`                                                    | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; create custom values with `new Capability("name")`.                                                                                                                                 |
-| `RunId`                     | `string`                    | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run: 1-128 ASCII letters, digits, `.`, `_` or `-`, because backends embed it in keys and URLs. Multi-instance runs fail fast when neither source is configured.                                                                                                                                                              |
-| `RequireExplicitRunId`      | `bool`                      | `false`                                                 | Reject generated single-instance IDs. The Redis and SignalR coordinators and Redis discovery enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`.                                                                     |
-| `WorkerRegistrationTimeout` | `TimeSpan`                  | `TimeSpan.FromMinutes(5)`                               | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error.                                                                                                                                                                              |
-| `WorkerHeartbeatInterval`   | `TimeSpan`                  | `TimeSpan.FromSeconds(5)`                               | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules.                                                                                                                                                                                                                                                            |
-| `WorkerTimeout`             | `TimeSpan`                  | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`.                                                                                                                                                                                                   |
-| `MasterTimeout`             | `TimeSpan`                  | `TimeSpan.FromMinutes(1)`                               | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
-| `MinimumWorkerCount`        | `int`                       | `0`                                                     | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch.                                                                                                                                                                                                                                             |
-| `ModuleResultTimeout`       | `TimeSpan`                  | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                      |
+| Property                    | Type                          | Default                                                 | Description                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------------------- | ----------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Role`                      | `DistributedRole`             | `Auto`                                                  | Explicit `Master` or `Worker` role. `Auto` derives the role from `InstanceIndex`.                                                                                                                                                                                                                                                                                                |
+| `InstanceIndex`             | `int`                         | `0`                                                     | This instance's unique index, less than `TotalInstances`. With `Role == Auto`, `0` selects master and values above `0` select worker. Each process's `WorkerId` is `instance-{InstanceIndex}`.                                                                                                                                                                                   |
+| `TotalInstances`            | `int`                         | `1`                                                     | Total number of instances (master + workers). Values above `1` require a shared coordinator backend.                                                                                                                                                                                                                                                                             |
+| `MaxParallelism`            | `int?`                        | `null`                                                  | Optional per-node concurrency limit. It can lower, but cannot raise, the pipeline's global `Concurrency.MaxParallelism` limit. Workers advertise it when they register.                                                                                                                                                                                                          |
+| `Capabilities`              | `IReadOnlyList<Capability>`   | `[]`                                                    | Capabilities this instance advertises in addition to those detected by registered `ICapabilityProvider` services, including the current OS. Built-in values are available from `Capability`; create custom values with `new Capability("name")`.                                                                                                                                 |
+| `RunId`                     | `string`                      | `MODULARPIPELINES_RUN_ID` or generated for one instance | Identifier shared by every process in this pipeline run: 1-128 ASCII letters, digits, `.`, `_` or `-`, because backends embed it in keys and URLs. Multi-instance runs fail fast when neither source is configured.                                                                                                                                                              |
+| `RequireExplicitRunId`      | `bool`                        | `false`                                                 | Reject generated single-instance IDs. The Redis and SignalR coordinators and Redis discovery enable this automatically. S3 artifact-store registrations also require an explicit shared `RunId`, including for single-instance configurations. Custom backends opt in with `builder.RequireExplicitRunId()`.                                                                     |
+| `WorkerRegistrationTimeout` | `TimeSpan`                    | `TimeSpan.FromMinutes(5)`                               | How long the master waits for workers to register: for `MinimumWorkerCount` before dispatch starts, and for a capable worker before an assignment the master cannot run fails with a routing error.                                                                                                                                                                              |
+| `WorkerHeartbeatInterval`   | `TimeSpan`                    | `TimeSpan.FromSeconds(5)`                               | How often workers, and the master's own worker loop, report liveness and renew the leases on their in-flight modules.                                                                                                                                                                                                                                                            |
+| `WorkerTimeout`             | `TimeSpan`                    | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`.                                                                                                                                                                                                   |
+| `MasterTimeout`             | `TimeSpan`                    | `TimeSpan.FromMinutes(1)`                               | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
+| `MinimumWorkerCount`        | `int`                         | `0`                                                     | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch.                                                                                                                                                                                                                                             |
+| `ModuleResultTimeout`       | `TimeSpan`                    | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                      |
+| `RunCleanup`                | `DistributedRunCleanupPolicy` | `Always`                                                | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup).                                                                                                                                                                                                                                                                  |
+| `RunCleanupTimeout`         | `TimeSpan`                    | `TimeSpan.FromMinutes(2)`                               | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time.                                                                                                                                                                                         |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`, are reported by pipeline validation and stop the distributed backend from starting.
 
@@ -2099,6 +2135,43 @@ builder.AddDistributedMode(o => o with { ArtifactCompressionLevel = CompressionL
 
 Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options (`RedisOptions`, `S3StorageOptions`).
 
+## Run data cleanup[​](#run-data-cleanup "Direct link to Run data cleanup")
+
+When a distributed pipeline ends, backends that implement `IDistributedRunCleanup` delete the data they stored for the run. Only the master cleans up. Workers never do, and neither do pipelines that do not call `AddDistributedMode`, because separate local runs can share a run identifier and its artifacts. Cleanup starts after the pipeline end handlers and the run report have finished, and only once every worker registered for the run has published its final status. Workers publish it after their own pipeline end handlers, so none still uses the run's data. If a worker does not publish one within `RunCleanupTimeout`, for example because it crashed, cleanup is skipped with a warning and each backend's own expiry removes the data.
+
+`DistributedOptions.RunCleanup` selects when cleanup runs:
+
+| Value              | Behavior                                                                                                                                                  |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Always` (default) | Deletes the run's data whatever the outcome.                                                                                                              |
+| `OnSuccess`        | Deletes the run's data when the pipeline succeeded. A failed or canceled run keeps its data for investigation until each backend's own expiry removes it. |
+| `Never`            | Keeps the run's data; only each backend's own expiry removes it.                                                                                          |
+
+```
+builder.AddDistributedMode(o => o with
+
+{
+
+    RunCleanup = DistributedRunCleanupPolicy.OnSuccess,
+
+    RunCleanupTimeout = TimeSpan.FromMinutes(5),
+
+});
+```
+
+Cleanup is best effort. A backend that fails, or does not finish within `RunCleanupTimeout`, is logged as a warning and never changes the pipeline result. Backend expiry, such as `RedisOptions.TimeToLive` or the S3 lifecycle rule, still removes data from runs that crashed or kept their data. Module caches are shared across runs, so cleanup never deletes them.
+
+The built-in backends clean up as follows:
+
+| Backend                | Deletes                                                                                                                                                                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Redis coordinator      | Every run coordination key except the completion flag, which expires with `TimeToLive` so a worker that starts late sees a completed master and exits.                                                                                                         |
+| Redis artifact store   | Every artifact uploaded in the run, by any process, and the indexes that list them.                                                                                                                                                                            |
+| S3 artifact store      | Every object under `{KeyPrefix}/artifacts/{RunId}/`. In a versioned bucket it deletes every version and delete marker, so no artifact stays recoverable. Providers without a versioning API, such as Cloudflare R2, fall back to deleting the current objects. |
+| Redis master discovery | The endpoint and access token this master advertised.                                                                                                                                                                                                          |
+
+To make a custom coordinator, artifact store or discovery service clean up, implement `IDistributedRunCleanup` on it. Any other service can take part by registering itself as `IDistributedRunCleanup`. Each backend is called once, even when it is registered more than once. See the [architecture guide](/ModularPipelines/docs/distributed/architecture.md#run-data-cleanup) for the contract.
+
 ## RedisOptions[​](#redisoptions "Direct link to RedisOptions")
 
 Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact store share one `RedisOptions` instance but open separate connections, so large artifact transfers do not queue ahead of coordinator heartbeats on the client. Both connections still share the network link and the Redis server, so size them for the combined load. The module cache has its own options and connection, so it can use a different Redis server.
@@ -2132,7 +2205,7 @@ builder.AddRedisDistributed(o => o with
 | `ConnectionString`    | `string`                        | `""`                    | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints.                                                                              |
 | `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null`                  | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings.                                                                             |
 | `KeyPrefix`           | `string`                        | `"modpipe"`             | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance.                                                                                                                                                          |
-| `TimeToLive`          | `TimeSpan`                      | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration.                                                                                                                                   |
+| `TimeToLive`          | `TimeSpan`                      | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier.                                                  |
 | `ChunkSizeBytes`      | `int`                           | 1 MB                    | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `AsyncTimeout`, so lower it or raise the timeout for slow or shared links. |
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or resolves an `IConnectionMultiplexer` from the service collection, so an application's own multiplexer is not adopted and cannot conflict with it.
@@ -2240,10 +2313,11 @@ Artifacts are stored under the same run namespace:
 | `modpipe:{run}:artifacts:data:{id}`           | String     | Content of an artifact that fits in one chunk (including empty artifacts) |
 | `modpipe:{run}:artifacts:data:{id}:chunk:{n}` | String     | Chunks of a larger artifact                                               |
 | `modpipe:{run}:artifacts:index:{ModuleId}`    | Set        | Artifact ids uploaded by a module                                         |
+| `modpipe:{run}:artifacts:modules`             | Set        | Modules that uploaded artifacts in the run, used by run data cleanup      |
 
 The braces around the run identifier form a Redis Cluster hash tag, so every key of a run maps to one slot. Module cache entries are not run-scoped; they use `{KeyPrefix}:module-cache:v2:{fingerprint}:...`, where the braced fingerprint is the hash tag that keeps an entry's metadata and chunks in one slot.
 
-All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
+All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes. [Run data cleanup](#run-data-cleanup) deletes a finished run's keys before the TTL expires.
 
 ## SignalR Coordinator[​](#signalr-coordinator "Direct link to SignalR Coordinator")
 
@@ -2291,7 +2365,7 @@ The hub rejects registrations for another `RunId`, a second live worker with the
 | `RestUrl`             | `Uri?`                          | `null`         | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`.                                                                            |
 | `RestToken`           | `string?`                       | `null`         | Upstash REST token; configure together with `RestUrl`.                                                                                                                        |
 | `KeyPrefix`           | `string`                        | `modpipe`      | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`.                                                                                                             |
-| `TimeToLive`          | `TimeSpan`                      | `01:00:00`     | How long the advertised endpoint is kept.                                                                                                                                     |
+| `TimeToLive`          | `TimeSpan`                      | `01:00:00`     | How long the advertised endpoint is kept. [Run data cleanup](#run-data-cleanup) deletes it earlier.                                                                           |
 | `DiscoveryTimeout`    | `TimeSpan`                      | `00:02:00`     | How long workers wait for the endpoint.                                                                                                                                       |
 | `PollInterval`        | `TimeSpan`                      | `00:00:00.500` | How often workers check for the endpoint.                                                                                                                                     |
 
@@ -52963,19 +53037,29 @@ Credentials use the AWS SDK credential chain unless `AccessKey` and `SecretKey` 
 
 ### S3StorageOptions[​](#s3storageoptions "Direct link to S3StorageOptions")
 
-| Property                  | Type       | Default       | Description                                                                                                                                  |
-| ------------------------- | ---------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `BucketName`              | `string`   | `""`          | Bucket to store objects in. **Required.**                                                                                                    |
-| `ServiceUrl`              | `Uri?`     | `null`        | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3.                                                                       |
-| `AccessKey` / `SecretKey` | `string?`  | `null`        | Explicit credentials; set both or neither.                                                                                                   |
-| `Region`                  | `string`   | `"us-east-1"` | AWS region.                                                                                                                                  |
-| `ForcePathStyle`          | `bool`     | `false`       | Path-style addressing, required by MinIO and some providers.                                                                                 |
-| `KeyPrefix`               | `string`   | `"modpipe"`   | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`.      |
-| `MultipartPartSizeBytes`  | `int`      | 16 MB         | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB.         |
-| `SetLifecycleRule`        | `bool`     | `false`       | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day. |
-| `TimeToLive`              | `TimeSpan` | 1 day         | Artifact lifetime used by the lifecycle rule, rounded up to whole days.                                                                      |
+| Property                  | Type       | Default       | Description                                                                                                                                                                                                  |
+| ------------------------- | ---------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `BucketName`              | `string`   | `""`          | Bucket to store objects in. **Required.**                                                                                                                                                                    |
+| `ServiceUrl`              | `Uri?`     | `null`        | Endpoint for S3-compatible providers (R2, B2, MinIO). Omit for AWS S3.                                                                                                                                       |
+| `AccessKey` / `SecretKey` | `string?`  | `null`        | Explicit credentials; set both or neither.                                                                                                                                                                   |
+| `Region`                  | `string`   | `"us-east-1"` | AWS region.                                                                                                                                                                                                  |
+| `ForcePathStyle`          | `bool`     | `false`       | Path-style addressing, required by MinIO and some providers.                                                                                                                                                 |
+| `KeyPrefix`               | `string`   | `"modpipe"`   | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`.                                                                      |
+| `MultipartPartSizeBytes`  | `int`      | 16 MB         | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB.                                                                         |
+| `SetLifecycleRule`        | `bool`     | `false`       | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day.                                                                 |
+| `TimeToLive`              | `TimeSpan` | 1 day         | Artifact lifetime used by the lifecycle rule, rounded up to whole days. [Run data cleanup](/ModularPipelines/docs/distributed/configuration.md#run-data-cleanup) deletes a finished run's artifacts earlier. |
 
 `SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix, into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` and `s3:PutLifecycleConfiguration` permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+
+[Run data cleanup](/ModularPipelines/docs/distributed/configuration.md#run-data-cleanup) runs on the master when a distributed run ends. It lists every object version under `{KeyPrefix}/artifacts/{RunId}/` and deletes each one, so the master's credentials need these permissions in addition to the ones used for uploads and downloads:
+
+| Permission               | Used for                                                             |
+| ------------------------ | -------------------------------------------------------------------- |
+| `s3:ListBucketVersions`  | Listing the run's object versions and delete markers.                |
+| `s3:DeleteObject`        | Deleting objects in an unversioned bucket.                           |
+| `s3:DeleteObjectVersion` | Deleting specific versions and delete markers in a versioned bucket. |
+
+Providers without a versioning API fall back to listing objects, which needs `s3:ListBucket`. If a permission is missing, cleanup logs a warning and the run's artifacts stay until the lifecycle rule expires them. Set `DistributedOptions.RunCleanup` to `Never` to skip cleanup when the master's credentials cannot delete.
 
 A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that action in any rule you configure yourself, including one covering `{KeyPrefix}/module-cache/`.
 
