@@ -1,0 +1,14 @@
+shows all locations and the order in which syft will look for a configuration file
+
+Usage:
+  syft config locations [flags]
+
+Flags:
+      --all    include every file extension supported
+  -h, --help   help for locations
+
+Global Flags:
+  -c, --config stringArray    syft configuration file(s) to use
+      --profile stringArray   configuration profiles to use
+  -q, --quiet                 suppress all logging output
+  -v, --verbose count         increase verbosity (-v = info, -vv = debug)
