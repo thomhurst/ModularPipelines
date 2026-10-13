@@ -18,7 +18,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.Services
+builder
 
     .AddModule<BuildModule>()
 
@@ -28,8 +28,10 @@ builder.Services
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
+
+Passing `args` also enables the [built-in pipeline command line](/ModularPipelines/docs/how-to/command-line.md) for listing, selecting, skipping, and validating modules.
 
 ## Configuration[​](#configuration "Direct link to Configuration")
 
@@ -59,7 +61,7 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 
 ## Registering Modules[​](#registering-modules "Direct link to Registering Modules")
 
-Modules can be registered directly on the `Services` collection:
+Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
@@ -68,7 +70,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
 
-builder.Services
+builder
 
     .AddModule<Module1>()
 
@@ -80,7 +82,7 @@ builder.Services
 
 // Or register multiple at once
 
-builder.AddModules<Module1, Module2, Module3>();
+builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 ```
 
 ### Conditional Registration[​](#conditional-registration "Direct link to Conditional Registration")
@@ -102,7 +104,7 @@ if (builder.Environment.IsDevelopment())
 
 {
 
-    builder.Services.AddModule<DevOnlyModule>();
+    builder.AddModule<DevOnlyModule>();
 
 }
 
@@ -114,13 +116,13 @@ if (builder.Configuration.GetValue<bool>("EnableExtraModules"))
 
 {
 
-    builder.Services.AddModule<OptionalModule>();
+    builder.AddModule<OptionalModule>();
 
 }
 
 
 
-builder.Services.AddModule<AlwaysRunModule>();
+builder.AddModule<AlwaysRunModule>();
 ```
 
 ## Pipeline Options[​](#pipeline-options "Direct link to Pipeline Options")
@@ -132,39 +134,61 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Execution mode
-
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
-
-
-
-// Category filtering
-
-builder.Options.RunOnlyCategories = ["Build", "Test"];
-
-builder.Options.IgnoreCategories = ["Experimental"];
-
-
-
-// Display options
-
-builder.Options.ShowProgressInConsole = true;
-
-builder.Options.PrintResults = true;
-
-builder.Options.PrintLogo = true;
-
-
-
-// Concurrency settings
-
-builder.Options.Concurrency = new ConcurrencyOptions
+builder.ConfigureOptions(options => options with
 
 {
 
-    MaxParallelModules = 4
+    // Failure mode
 
-};
+    FailureMode = FailureMode.FailFast,
+
+
+
+    // Category filtering
+
+    RunOnlyCategories = ["Build", "Test"],
+
+    IgnoreCategories = ["Experimental"],
+
+
+
+    // Display options
+
+    Console = options.Console with
+
+    {
+
+        ShowProgress = true,
+
+        PrintResults = true,
+
+        PrintLogo = true,
+
+    },
+
+
+
+    // Concurrency settings
+
+    Concurrency = new ConcurrencyOptions
+
+    {
+
+        MaxParallelism = 4,
+
+    },
+
+});
+```
+
+To change a single option group, use the matching shortcut. `ConfigureConsole`, `ConfigureConcurrency`, `ConfigureCommands`, `ConfigureHttp`, and `ConfigureSecrets` each replace one group and leave the rest of the options unchanged:
+
+```
+builder
+
+    .ConfigureConsole(console => console with { PrintLogo = false })
+
+    .ConfigureConcurrency(concurrency => concurrency with { MaxParallelism = 4 });
 ```
 
 ## Building and Running[​](#building-and-running "Direct link to Building and Running")
@@ -174,17 +198,23 @@ The pipeline follows a two-step build-then-run pattern:
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+builder.ConfigureOptions(options => options with
 
-builder.Options.ThrowOnPipelineFailure = false;
+{
 
-builder.Services.AddModule<MyModule>();
+    FailureMode = FailureMode.ContinueOnFailure,
+
+    ThrowOnPipelineFailure = false,
+
+});
+
+builder.AddModule<MyModule>();
 
 
 
-// Step 1: Build the pipeline
+// Step 1: Build and validate the pipeline
 
-var pipeline = builder.Build();
+await using var pipeline = await builder.BuildAsync();
 
 
 
@@ -196,23 +226,37 @@ var summary = await pipeline.RunAsync();
 
 // Check results
 
-if (summary.Status == ModularPipelines.Enums.Status.Failed)
+if (!summary.Succeeded)
 
 {
+
+    foreach (var failure in summary.Failures)
+
+    {
+
+        Console.Error.WriteLine($"{failure.Name} failed: {failure.ExceptionOrDefault?.Message}");
+
+    }
+
+
 
     Environment.Exit(1);
 
 }
 ```
 
-### With Validation[​](#with-validation "Direct link to With Validation")
+Use `ContinueOnFailure` with `ThrowOnPipelineFailure = false` when you need to inspect the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
-Use `BuildAsync()` to validate the pipeline configuration before running:
+`summary.Succeeded` is true when the pipeline completes without unignored failures. Skipped, cached, restored, and ignored-failure results permit success; incomplete and canceled runs do not. The sealed summary exposes `StartTime`, `EndTime`, and `Duration` for timing.
+
+`summary.Failures` contains the results that failed the pipeline. Results whose failures were ignored, for example through `WithIgnoreFailuresWhen`, are in `summary.IgnoredFailures` instead.
+
+`BuildAsync()` always validates the pipeline configuration before returning:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 
 
@@ -222,7 +266,7 @@ try
 
     // BuildAsync validates and throws PipelineValidationException on errors
 
-    var pipeline = await builder.BuildAsync();
+    await using var pipeline = await builder.BuildAsync();
 
     await pipeline.RunAsync();
 
@@ -250,7 +294,7 @@ catch (PipelineValidationException ex)
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
 
 
@@ -274,7 +318,7 @@ if (validation.HasErrors)
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
 
 ## Complete Example[​](#complete-example "Direct link to Complete Example")
@@ -310,9 +354,15 @@ builder.Configuration
 
 // Options
 
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+builder.ConfigureOptions(options => options with
 
-builder.Options.IgnoreCategories = ["Experimental"];
+{
+
+    FailureMode = FailureMode.FailFast,
+
+    IgnoreCategories = ["Experimental"],
+
+});
 
 
 
@@ -330,7 +380,7 @@ if (builder.Environment.IsDevelopment())
 
 {
 
-    builder.Services
+    builder
 
         .AddModule<LocalBuildModule>()
 
@@ -342,7 +392,7 @@ else
 
 {
 
-    builder.Services
+    builder
 
         .AddModule<CIBuildModule>()
 
@@ -356,7 +406,7 @@ else
 
 // Always-registered modules
 
-builder.Services
+builder
 
     .AddModule<CleanupModule>()
 
@@ -366,27 +416,27 @@ builder.Services
 
 // Run
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
 
-## Hooks and Requirements[​](#hooks-and-requirements "Direct link to Hooks and Requirements")
+## Event Handlers and Requirements[​](#event-handlers-and-requirements "Direct link to Event Handlers and Requirements")
 
-Register global hooks and pipeline requirements:
+Register event handlers and pipeline requirements:
 
 ```
 var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Global hooks (run before/after all modules)
+// Pipeline event handlers (run before/after all modules)
 
-builder.AddPipelineGlobalHooks<MyGlobalHooks>();
+builder.AddPipelineEventHandler<MyPipelineEventHandler>();
 
 
 
-// Module hooks (run before/after each module)
+// Module event handlers (observe every module)
 
-builder.AddPipelineModuleHooks<MyModuleHooks>();
+builder.AddModuleEventHandler<MyModuleEventHandler>();
 
 
 
@@ -396,6 +446,46 @@ builder.AddRequirement<DotNetSdkRequirement>();
 
 builder.AddRequirement<GitRequirement>();
 ```
+
+## Plugins[​](#plugins "Direct link to Plugins")
+
+A plugin packages reusable configuration (services, modules, handlers, requirements, options) behind `IModularPipelinesPlugin`. Add plugins explicitly; they are not discovered from loaded assemblies:
+
+```
+public sealed class CompanyDefaultsPlugin : IModularPipelinesPlugin
+
+{
+
+    public string Name => "CompanyDefaults";
+
+
+
+    public void Configure(PipelineBuilder builder)
+
+    {
+
+        builder.AddModuleEventHandler<AuditHandler>();
+
+        builder.ConfigureOptions(options => options with { FailureMode = FailureMode.ContinueOnFailure });
+
+    }
+
+}
+
+
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddPlugin<CompanyDefaultsPlugin>();
+
+
+
+// Configuration after AddPlugin takes precedence over the plugin's.
+
+builder.ConfigureOptions(options => options with { FailureMode = FailureMode.FailFast });
+```
+
+`Configure` runs immediately when the plugin is added, so plugins apply in the order they are added and later builder configuration overrides them. Each plugin name can be added once per builder.
 
 ## Extension Methods[​](#extension-methods "Direct link to Extension Methods")
 
@@ -408,23 +498,17 @@ var builder = Pipeline.CreateBuilder(args);
 
 await builder
 
-    .ConfigureServices(services =>
+    .AddModule<Module1>()
+
+    .AddModule<Module2>()
+
+    .ConfigureOptions(options => options with
 
     {
 
-        services.AddModule<Module1>();
-
-        services.AddModule<Module2>();
+        FailureMode = FailureMode.FailFast,
 
     })
 
-    .ConfigurePipelineOptions(options =>
-
-    {
-
-        options.ExecutionMode = ExecutionMode.StopOnFirstException;
-
-    })
-
-    .ExecutePipelineAsync();
+    .RunAsync();
 ```

@@ -12,22 +12,24 @@ Required command-line tool: `brew`. It must be installed and available on `PATH`
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Homebrew.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Brew()`
+* `context.Tools.Brew`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Homebrew.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Homebrew.Options;
 
 
 
-public class UseBrewModule : SyncModule
+public class UseBrewModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,11 @@ public class UseBrewModule : SyncModule
 
     {
 
-        var brew = context.Brew();
+        return await context.Tools.Brew.ListAsync(
 
+            new BrewListOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Brew integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 
@@ -49,3 +49,17 @@ public class UseBrewModule : SyncModule
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared command options[​](#shared-command-options "Direct link to Shared command options")
+
+`Debug`, `Quiet`, and `Verbose` are inherited from `BrewOptions`. Homebrew selects its command first, so these flags follow the command path:
+
+```
+var options = new BrewListOptions { Verbose = true };
+
+// brew list --verbose
+```
+
+Existing initializers keep the same property names. Reflection code that inspects only properties declared directly on a command record should include inherited properties. Cask settings such as `Appdir` remain on the applicable command records; they are not general Homebrew settings. When a command changes a shared option's aliases or value shape, its generated member replaces the inherited member so the switch is rendered only once with that command's semantics.
+
+Generation reads `Homebrew::CLI::Parser.global_options` from the installed CLI, separately from its cask-option table. See the [official global options](https://docs.brew.sh/Manpage#global-options) and [global cask options](https://docs.brew.sh/Manpage#global-cask-options).

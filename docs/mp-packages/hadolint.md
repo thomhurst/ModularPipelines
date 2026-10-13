@@ -15,13 +15,11 @@ The `hadolint` executable must be installed and available on `PATH` when the pip
 ```
 using ModularPipelines.Hadolint.Enums;
 
-using ModularPipelines.Hadolint.Extensions;
-
 using ModularPipelines.Hadolint.Options;
 
 
 
-var result = await context.Hadolint().Execute(
+var result = await context.Tools.Hadolint.ExecuteAsync(
 
     new HadolintExecuteOptions
 

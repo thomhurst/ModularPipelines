@@ -13,15 +13,13 @@ public class OptionalModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailures()
-
-        .Build();
+        .WithIgnoreFailures();
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -41,15 +39,13 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
-
-        .Build();
+        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException);
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -69,9 +65,9 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithIgnoreFailuresWhen(async (ctx, exception) =>
+        .WithIgnoreFailuresWhen(async (ctx, exception, cancellationToken) =>
 
         {
 
@@ -81,7 +77,7 @@ public class MyModule : Module<CommandResult>
 
                 // Check if the service is in maintenance mode
 
-                var isMaintenanceMode = await CheckMaintenanceModeAsync();
+                var isMaintenanceMode = await CheckMaintenanceModeAsync(cancellationToken);
 
                 return isMaintenanceMode;
 
@@ -89,9 +85,7 @@ public class MyModule : Module<CommandResult>
 
             return false;
 
-        })
-
-        .Build();
+        });
 
 }
 ```
@@ -105,15 +99,13 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithRetryCount(3)  // Try 3 times first
+        .WithRetry(3)  // Try 3 times first
 
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
 
-        .WithAlwaysRun()  // Run even if dependencies failed
-
-        .Build();
+        .WithAlwaysRun(); // Run even if dependencies failed
 
 }
 ```
@@ -133,7 +125,7 @@ if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
 
     // Handle the expected failure case
 
-    return null;
+    return None.Value;
 
 }
 

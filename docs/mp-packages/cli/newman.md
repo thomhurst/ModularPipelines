@@ -8,24 +8,20 @@ This package does not install the `newman` executable. Install it separately and
 
 Follow the executable's official documentation for installation instructions.
 
-## Installation[​](#installation "Direct link to Installation")
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Newman
 ```
 
-Import `ModularPipelines.Newman.Extensions`, then resolve the service with `context.Newman()`.
+Resolve the service with `context.Tools.Newman`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Newman.Services.INewman>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 Resolve the service in a module, then select a command from the table below. Unsafe or destructive commands do not receive runnable examples:
 
 ```
-using ModularPipelines.Newman.Extensions;
-
-
-
-var newman = context.Newman();
+var newman = context.Tools.Newman;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")

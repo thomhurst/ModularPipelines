@@ -15,13 +15,11 @@ The `snyk` executable must be installed and available on `PATH` when the pipelin
 ```
 using ModularPipelines.Snyk.Enums;
 
-using ModularPipelines.Snyk.Extensions;
-
 using ModularPipelines.Snyk.Options;
 
 
 
-var result = await context.Snyk().ContainerTest(
+var result = await context.Tools.Snyk.ContainerTestAsync(
 
     new SnykContainerTestOptions("alpine:3.20")
 

@@ -2,24 +2,26 @@
 
 `ModularPipelines.Rust` provides strongly typed access to the `cargo` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `cargo` executable. Install it separately and ensure `cargo` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Rust
 ```
 
-Import `ModularPipelines.Rust.Extensions`, then resolve the service with `context.Cargo()`.
+Resolve the service with `context.Tools.Cargo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Rust.Services.ICargo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
+using ModularPipelines;
 
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Rust.Extensions;
+using ModularPipelines.Rust.Enums;
 
 using ModularPipelines.Rust.Options;
 
@@ -29,7 +31,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +39,15 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Cargo().Build(
+        return await context.Tools.Cargo.CheckAsync(
 
-            new CargoBuildOptions(),
+            new CargoCheckOptions()
+
+            {
+
+                Quiet = true,
+
+            },
 
             cancellationToken: cancellationToken);
 
@@ -47,6 +55,20 @@ public class RunCommandModule : Module<CommandResult>
 
 }
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                                           |
+| ----------- | --------- | ------------ | ----------------------------------------------------- |
+| `--color`   | `Color`   | All editions | Coloring                                              |
+| `--config`  | `Config`  | All editions | Override a configuration value                        |
+| `--frozen`  | `Frozen`  | All editions | Equivalent to specifying both --locked and --offline  |
+| `--locked`  | `Locked`  | All editions | Assert that `Cargo.lock` will remain unchanged        |
+| `--offline` | `Offline` | All editions | Run without accessing the network                     |
+| `--quiet`   | `Quiet`   | All editions | Do not print cargo log messages                       |
+| `--verbose` | `Verbose` | All editions | Use verbose output (-vv very verbose/build.rs output) |
 
 ## Commands[​](#commands "Direct link to Commands")
 

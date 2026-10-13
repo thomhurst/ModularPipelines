@@ -13,13 +13,11 @@ The `sonar-scanner` executable must be installed and available on `PATH` when th
 ## Run analysis[​](#run-analysis "Direct link to Run analysis")
 
 ```
-using ModularPipelines.SonarScanner.Extensions;
-
 using ModularPipelines.SonarScanner.Options;
 
 
 
-var result = await context.SonarScanner().Execute(
+var result = await context.Tools.SonarScanner.ExecuteAsync(
 
     new SonarScannerExecuteOptions
 

@@ -16,15 +16,17 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 
 {
 
-    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<UserAssignedIdentityResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
+        var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentityAsync(
 
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
 
-            new UserAssignedIdentityData(AzureLocation.UKSouth)
+            new UserAssignedIdentityData(AzureLocation.UKSouth),
+
+            cancellationToken
 
         );
 
@@ -44,15 +46,17 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 
 {
 
-    protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<StorageAccountResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
+        var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccountAsync(
 
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
 
-            new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
+            new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth),
+
+            cancellationToken
 
         );
 
@@ -74,7 +78,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 
 {
 
-    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BlobContainerResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -82,13 +86,15 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 
 
 
-        var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
+        var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainerAsync(
 
-            blobStorageAccount.ValueOrDefault!.Id,
+            blobStorageAccount.Value.Id,
 
             "MyContainer",
 
-            new BlobContainerData()
+            new BlobContainerData(),
+
+            cancellationToken
 
         );
 
@@ -112,7 +118,7 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
 {
 
-    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<RoleAssignmentResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -124,11 +130,13 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
 
 
-        var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
+        var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignmentAsync(
 
-            storageAccount.ValueOrDefault!.Id,
+            storageAccount.Value.Id,
 
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value),
+
+            cancellationToken
 
         );
 
@@ -154,7 +162,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
 {
 
-    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -168,7 +176,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
 
 
-        var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
+        var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSiteAsync(
 
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
 
@@ -180,7 +188,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
                 {
 
-                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } }
+                    UserAssignedIdentities = { { userAssignedIdentity.Value.Id, new UserAssignedIdentity() } }
 
                 },
 
@@ -198,7 +206,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
                             Name = "BlobStorageConnectionString",
 
-                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                            Value = storageAccount.Value.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
 
                         },
 
@@ -208,7 +216,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
                             Name = "BlobContainerName",
 
-                            Value = blobContainer.ValueOrDefault!.Data.Name
+                            Value = blobContainer.Value.Data.Name
 
                         }
 
@@ -218,7 +226,9 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
 
                 // ... Other properties
 
-            }
+            },
+
+            cancellationToken
 
         );
 

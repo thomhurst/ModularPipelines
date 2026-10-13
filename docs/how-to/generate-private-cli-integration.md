@@ -14,7 +14,7 @@ dotnet tool install ModularPipelines.OptionsGenerator --version <version>
 
 Commit `.config/dotnet-tools.json`. Update the pinned package version deliberately, review the generated diff, and regenerate before merging the update.
 
-The NuGet package follows the ModularPipelines semantic version. The input format is versioned independently by `schemaVersion`. This release supports schema version `1` and rejects unknown versions rather than interpreting them differently.
+The NuGet package follows the ModularPipelines semantic version. The input format is versioned independently by `schemaVersion`. This release supports schema version `2`. It rejects version `1` and unknown versions rather than interpreting them differently.
 
 ## Define the private tool[​](#define-the-private-tool "Direct link to Define the private tool")
 
@@ -23,7 +23,7 @@ Create `tools/private-widget.json`:
 ```
 {
 
-  "schemaVersion": 1,
+  "schemaVersion": 2,
 
   "tool": {
 
@@ -133,7 +133,7 @@ For CI, restore the manifest and run the same command, then fail when `git diff 
 
   with:
 
-    dotnet-version: 10.0.x
+    dotnet-version: 11.0.x
 
 - run: dotnet tool restore
 
@@ -149,3 +149,73 @@ For CI, restore the manifest and run the same command, then fail when `git diff 
 ```
 
 Use `--change-manifest <path>` when automation needs the exact generated and deleted paths. The existing `--tools` mode remains reserved for first-party scrapers; it cannot be combined with `--input`.
+
+## Migrate custom integration registration for v4[​](#migrate-custom-integration-registration-for-v4 "Direct link to Migrate custom integration registration for v4")
+
+Version 4 replaces the process-wide `ModularPipelinesContextRegistry` and integration module initializers with generated assembly metadata. Output from the current options generator already uses the new mechanism.
+
+For a hand-written integration, mark its service-registration method:
+
+```
+using System.ComponentModel;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using ModularPipelines.Attributes;
+
+
+
+public static class PrivateWidgetExtensions
+
+{
+
+    [ModularPipelinesIntegration]
+
+    public static IServiceCollection RegisterPrivateWidget(
+
+        this IServiceCollection services)
+
+    {
+
+        services.AddScoped<IPrivateWidget, PrivateWidget>();
+
+        return services;
+
+    }
+
+}
+```
+
+The method must be accessible from its assembly, static, non-generic, declared on a non-generic accessible type, and accept one `IServiceCollection` parameter. It can return either `void` or `IServiceCollection`.
+
+To expose the integration through the discoverable `context.Tools.PrivateWidget` API, keep its public `IPipelineContext` extension accessor in the same static class as the attributed registration method:
+
+```
+[EditorBrowsable(EditorBrowsableState.Never)]
+
+[Obsolete("Use context.Tools.Get<global::YourCompany.Pipelines.PrivateWidget.IPrivateWidget>().")]
+
+public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
+
+    context.Services.GetRequiredService<IPrivateWidget>();
+```
+
+The generator uses that shared declaring type to associate the accessor with its registration. Accessor names must be unique across all referenced integration packages. They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get` or `GetType`, because instance-member lookup would hide the generated property. `context.Tools.*` is the preferred discoverable API. The original extension method can remain as an obsolete, IntelliSense-hidden compatibility fallback. Generated tool properties use C# 14 extension members. On older language versions, registration metadata still generates and `MPG0008` explains why the optional `Tools` property was skipped; use `context.Tools.Get<YourCompany.Pipelines.PrivateWidget.IPrivateWidget>()` instead. Replace `YourCompany.Pipelines.PrivateWidget` with the namespace containing your interface.
+
+Referencing the `ModularPipelines` package includes the source generator as an analyzer. The generator emits immutable assembly registration metadata, which each pipeline consumes independently. Remove the old parameterless module initializer and any call to `ModularPipelinesContextRegistry.RegisterContext`.
+
+If the integration DLL is copied beside the application without a compile-time reference, opt in to filename-based assembly discovery before building the pipeline:
+
+```
+var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings
+
+{
+
+    Args = args,
+
+    LoadModularPipelinesAssemblies = true,
+
+});
+```
+
+The option is disabled by default to avoid scanning and loading every matching assembly at pipeline startup. Integrations already loaded through normal application use and explicitly registered services do not need it.

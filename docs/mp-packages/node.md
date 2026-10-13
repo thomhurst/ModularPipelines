@@ -8,27 +8,30 @@ Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
 dotnet add package ModularPipelines.Node
 ```
 
-Required command-line tools: `node`, `pnpm`. They must be installed and available on `PATH` when the pipeline runs.
+Required command-line tools: `node`, `npm`, `npx`, `nvm`, and `pnpm`. Install the tools used by your pipeline and make them available on `PATH`.
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Node.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Node()`
-* `context.Pnpm()`
+* `context.Tools.Node`
+* `context.Tools.Node.Npm`
+* `context.Tools.Node.Npx`
+* `context.Tools.Node.Nvm`
+* `context.Tools.Pnpm`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Node.Extensions;
+using ModularPipelines;
 
 
 
-public class UseNodeModule : SyncModule
+public class UseNodeModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -36,13 +39,7 @@ public class UseNodeModule : SyncModule
 
     {
 
-        var node = context.Node();
-
-
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Node integration is ready");
+        return await context.Tools.Node.VersionAsync(cancellationToken);
 
     }
 

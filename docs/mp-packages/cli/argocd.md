@@ -2,56 +2,66 @@
 
 `ModularPipelines.ArgoCd` provides strongly typed access to the `argocd` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `argocd` executable. Install it separately and ensure `argocd` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.ArgoCd
 ```
 
-Import `ModularPipelines.ArgoCd.Extensions`, then resolve the service with `context.ArgoCd()`.
+Resolve the service with `context.Tools.ArgoCd`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.ArgoCd.Services.IArgoCd>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.ArgoCd.Extensions;
-
-using ModularPipelines.ArgoCd.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.ArgoCd().Configure(
-
-            new ArgoCdConfigureOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var argoCd = context.Tools.ArgoCd;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                 | Property               | Availability | Description                                                                                                                                                                                                                                                                |
+| -------------------------- | ---------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--argocd-context`         | `ArgocdContext`        | All editions | The name of the Argo-CD server context to use                                                                                                                                                                                                                              |
+| `--auth-token`             | `AuthToken`            | All editions | Authentication token; set this or the ARGOCD\_AUTH\_TOKEN environment variable                                                                                                                                                                                             |
+| `--client-crt`             | `ClientCrt`            | All editions | Client certificate file                                                                                                                                                                                                                                                    |
+| `--client-crt-key`         | `ClientCrtKey`         | All editions | Client certificate key file                                                                                                                                                                                                                                                |
+| `--config`                 | `Config`               | All editions | Path to Argo CD config (default "\<home>/.config/argocd/config")                                                                                                                                                                                                           |
+| `--controller-name`        | `ControllerName`       | All editions | Name of the Argo CD Application controller; set this or the ARGOCD\_APPLICATION\_CONTROLLER\_NAME environment variable when the controller's name label differs from the default, for example when installing via the Helm chart (default "argocd-application-controller") |
+| `--core`                   | `Core`                 | All editions | If set to true then CLI talks directly to Kubernetes instead of talking to Argo CD API server                                                                                                                                                                              |
+| `--grpc-web`               | `GrpcWeb`              | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2.                                                                                                                                                                          |
+| `--grpc-web-root-path`     | `GrpcWebRootPath`      | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2. Set web root.                                                                                                                                                            |
+| `--header`                 | `Header`               | All editions | Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)                                                                                                                |
+| `--http-retry-max`         | `HttpRetryMax`         | All editions | Maximum number of retries to establish http connection to Argo CD server                                                                                                                                                                                                   |
+| `--insecure`               | `Insecure`             | All editions | Skip server certificate and domain verification                                                                                                                                                                                                                            |
+| `--kube-context`           | `KubeContext`          | All editions | Directs the command to the given kube-context                                                                                                                                                                                                                              |
+| `--logformat`              | `Logformat`            | All editions | Set the logging format. One of: json\|text (default "json")                                                                                                                                                                                                                |
+| `--loglevel`               | `Loglevel`             | All editions | Set the logging level. One of: debug\|info\|warn\|error (default "info")                                                                                                                                                                                                   |
+| `--plaintext`              | `Plaintext`            | All editions | Disable TLS                                                                                                                                                                                                                                                                |
+| `--port-forward`           | `PortForward`          | All editions | Connect to a random argocd-server port using port forwarding                                                                                                                                                                                                               |
+| `--port-forward-namespace` | `PortForwardNamespace` | All editions | Namespace name which should be used for port forwarding                                                                                                                                                                                                                    |
+| `--prompts-enabled`        | `PromptsEnabled`       | All editions | Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default.                                                                                     |
+| `--redis-compress`         | `RedisCompress`        | All editions | Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")                                                                                                                                     |
+| `--redis-haproxy-name`     | `RedisHaproxyName`     | All editions | Name of the Redis HA Proxy; set this or the ARGOCD\_REDIS\_HAPROXY\_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")                                  |
+| `--redis-name`             | `RedisName`            | All editions | Name of the Redis deployment; set this or the ARGOCD\_REDIS\_NAME environment variable when the Redis's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis")                                                       |
+| `--repo-server-name`       | `RepoServerName`       | All editions | Name of the Argo CD Repo server; set this or the ARGOCD\_REPO\_SERVER\_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-repo-server")                                      |
+| `--server`                 | `Server`               | All editions | Argo CD server address                                                                                                                                                                                                                                                     |
+| `--server-crt`             | `ServerCrt`            | All editions | Server certificate file                                                                                                                                                                                                                                                    |
+| `--server-name`            | `ServerName`           | All editions | Name of the Argo CD API server; set this or the ARGOCD\_SERVER\_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-server")                                                  |
 
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                                                        | Options record                                                     |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `argocd account`                                                   | `ArgoCdAccountOptions`                                             |
 | `argocd account bcrypt`                                            | `ArgoCdAccountBcryptOptions`                                       |
 | `argocd account can-i`                                             | `ArgoCdAccountCanIOptions`                                         |
 | `argocd account delete-token`                                      | `ArgoCdAccountDeleteTokenOptions`                                  |
@@ -61,13 +71,14 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd account list`                                              | `ArgoCdAccountListOptions`                                         |
 | `argocd account session-token`                                     | `ArgoCdAccountSessionTokenOptions`                                 |
 | `argocd account update-password`                                   | `ArgoCdAccountUpdatePasswordOptions`                               |
+| `argocd admin`                                                     | `ArgoCdAdminOptions`                                               |
 | `argocd admin app`                                                 | `ArgoCdAdminAppOptions`                                            |
 | `argocd admin app diff-reconcile-results`                          | `ArgoCdAdminAppDiffReconcileResultsOptions`                        |
 | `argocd admin app generate-spec`                                   | `ArgoCdAdminAppGenerateSpecOptions`                                |
 | `argocd admin app get-reconcile-results`                           | `ArgoCdAdminAppGetReconcileResultsOptions`                         |
 | `argocd admin cluster`                                             | `ArgoCdAdminClusterOptions`                                        |
 | `argocd admin cluster generate-spec`                               | `ArgoCdAdminClusterGenerateSpecOptions`                            |
-| `argocd admin cluster kubeconfig`                                  | `ArgoCdAdminClusterKubeconfigOptions`                              |
+| `argocd admin cluster kubeconfig`                                  | `ArgoCdAdminClusterKubeConfigOptions`                              |
 | `argocd admin cluster namespaces`                                  | `ArgoCdAdminClusterNamespacesOptions`                              |
 | `argocd admin cluster namespaces disable-namespaced-mode`          | `ArgoCdAdminClusterNamespacesDisableNamespacedModeOptions`         |
 | `argocd admin cluster namespaces enable-namespaced-mode`           | `ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions`          |
@@ -102,6 +113,7 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd admin settings resource-overrides list-actions`            | `ArgoCdAdminSettingsResourceOverridesListActionsOptions`           |
 | `argocd admin settings resource-overrides run-action`              | `ArgoCdAdminSettingsResourceOverridesRunActionOptions`             |
 | `argocd admin settings validate`                                   | `ArgoCdAdminSettingsValidateOptions`                               |
+| `argocd app`                                                       | `ArgoCdAppOptions`                                                 |
 | `argocd app actions`                                               | `ArgoCdAppActionsOptions`                                          |
 | `argocd app actions list`                                          | `ArgoCdAppActionsListOptions`                                      |
 | `argocd app actions run`                                           | `ArgoCdAppActionsRunOptions`                                       |
@@ -128,15 +140,18 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd app terminate-op`                                          | `ArgoCdAppTerminateOpOptions`                                      |
 | `argocd app unset`                                                 | `ArgoCdAppUnsetOptions`                                            |
 | `argocd app wait`                                                  | `ArgoCdAppWaitOptions`                                             |
+| `argocd appset`                                                    | `ArgoCdApplicationSetOptions`                                      |
 | `argocd appset create`                                             | `ArgoCdApplicationSetCreateOptions`                                |
 | `argocd appset delete`                                             | `ArgoCdApplicationSetDeleteOptions`                                |
 | `argocd appset generate`                                           | `ArgoCdApplicationSetGenerateOptions`                              |
 | `argocd appset get`                                                | `ArgoCdApplicationSetGetOptions`                                   |
 | `argocd appset list`                                               | `ArgoCdApplicationSetListOptions`                                  |
+| `argocd cert`                                                      | `ArgoCdCertOptions`                                                |
 | `argocd cert add-ssh`                                              | `ArgoCdCertAddSshOptions`                                          |
 | `argocd cert add-tls`                                              | `ArgoCdCertAddTlsOptions`                                          |
 | `argocd cert list`                                                 | `ArgoCdCertListOptions`                                            |
 | `argocd cert rm`                                                   | `ArgoCdCertRmOptions`                                              |
+| `argocd cluster`                                                   | `ArgoCdClusterOptions`                                             |
 | `argocd cluster add`                                               | `ArgoCdClusterAddOptions`                                          |
 | `argocd cluster get`                                               | `ArgoCdClusterGetOptions`                                          |
 | `argocd cluster list`                                              | `ArgoCdClusterListOptions`                                         |
@@ -145,16 +160,17 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd cluster set`                                               | `ArgoCdClusterSetOptions`                                          |
 | `argocd configure`                                                 | `ArgoCdConfigureOptions`                                           |
 | `argocd context`                                                   | `ArgoCdContextOptions`                                             |
+| `argocd gpg`                                                       | `ArgoCdGpgOptions`                                                 |
 | `argocd gpg add`                                                   | `ArgoCdGpgAddOptions`                                              |
 | `argocd gpg get`                                                   | `ArgoCdGpgGetOptions`                                              |
 | `argocd gpg list`                                                  | `ArgoCdGpgListOptions`                                             |
 | `argocd gpg rm`                                                    | `ArgoCdGpgRmOptions`                                               |
 | `argocd login`                                                     | `ArgoCdLoginOptions`                                               |
 | `argocd logout`                                                    | `ArgoCdLogoutOptions`                                              |
+| `argocd proj`                                                      | `ArgoCdProjOptions`                                                |
 | `argocd proj add-destination`                                      | `ArgoCdProjAddDestinationOptions`                                  |
 | `argocd proj add-destination-service-account`                      | `ArgoCdProjAddDestinationServiceAccountOptions`                    |
 | `argocd proj add-orphaned-ignore`                                  | `ArgoCdProjAddOrphanedIgnoreOptions`                               |
-| `argocd proj add-signature-key`                                    | `ArgoCdProjAddSignatureKeyOptions`                                 |
 | `argocd proj add-source`                                           | `ArgoCdProjAddSourceOptions`                                       |
 | `argocd proj add-source-namespace`                                 | `ArgoCdProjAddSourceNamespaceOptions`                              |
 | `argocd proj allow-cluster-resource`                               | `ArgoCdProjAllowClusterResourceOptions`                            |
@@ -169,7 +185,6 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd proj remove-destination`                                   | `ArgoCdProjRemoveDestinationOptions`                               |
 | `argocd proj remove-destination-service-account`                   | `ArgoCdProjRemoveDestinationServiceAccountOptions`                 |
 | `argocd proj remove-orphaned-ignore`                               | `ArgoCdProjRemoveOrphanedIgnoreOptions`                            |
-| `argocd proj remove-signature-key`                                 | `ArgoCdProjRemoveSignatureKeyOptions`                              |
 | `argocd proj remove-source`                                        | `ArgoCdProjRemoveSourceOptions`                                    |
 | `argocd proj remove-source-namespace`                              | `ArgoCdProjRemoveSourceNamespaceOptions`                           |
 | `argocd proj role`                                                 | `ArgoCdProjRoleOptions`                                            |
@@ -185,18 +200,29 @@ public class RunCommandModule : Module<CommandResult>
 | `argocd proj role remove-group`                                    | `ArgoCdProjRoleRemoveGroupOptions`                                 |
 | `argocd proj role remove-policy`                                   | `ArgoCdProjRoleRemovePolicyOptions`                                |
 | `argocd proj set`                                                  | `ArgoCdProjSetOptions`                                             |
+| `argocd proj source-integrity`                                     | `ArgoCdProjSourceIntegrityOptions`                                 |
+| `argocd proj source-integrity git`                                 | `ArgoCdProjSourceIntegrityGitOptions`                              |
+| `argocd proj source-integrity git policies`                        | `ArgoCdProjSourceIntegrityGitPoliciesOptions`                      |
+| `argocd proj source-integrity git policies add`                    | `ArgoCdProjSourceIntegrityGitPoliciesAddOptions`                   |
+| `argocd proj source-integrity git policies delete`                 | `ArgoCdProjSourceIntegrityGitPoliciesDeleteOptions`                |
+| `argocd proj source-integrity git policies list`                   | `ArgoCdProjSourceIntegrityGitPoliciesListOptions`                  |
+| `argocd proj source-integrity git policies update`                 | `ArgoCdProjSourceIntegrityGitPoliciesUpdateOptions`                |
 | `argocd proj windows`                                              | `ArgoCdProjWindowsOptions`                                         |
 | `argocd proj windows add`                                          | `ArgoCdProjWindowsAddOptions`                                      |
 | `argocd proj windows delete`                                       | `ArgoCdProjWindowsDeleteOptions`                                   |
 | `argocd proj windows disable-manual-sync`                          | `ArgoCdProjWindowsDisableManualSyncOptions`                        |
+| `argocd proj windows disable-sync-overrun`                         | `ArgoCdProjWindowsDisableSyncOverrunOptions`                       |
 | `argocd proj windows enable-manual-sync`                           | `ArgoCdProjWindowsEnableManualSyncOptions`                         |
+| `argocd proj windows enable-sync-overrun`                          | `ArgoCdProjWindowsEnableSyncOverrunOptions`                        |
 | `argocd proj windows list`                                         | `ArgoCdProjWindowsListOptions`                                     |
 | `argocd proj windows update`                                       | `ArgoCdProjWindowsUpdateOptions`                                   |
 | `argocd relogin`                                                   | `ArgoCdReloginOptions`                                             |
+| `argocd repo`                                                      | `ArgoCdRepoOptions`                                                |
 | `argocd repo add`                                                  | `ArgoCdRepoAddOptions`                                             |
 | `argocd repo get`                                                  | `ArgoCdRepoGetOptions`                                             |
 | `argocd repo list`                                                 | `ArgoCdRepoListOptions`                                            |
 | `argocd repo rm`                                                   | `ArgoCdRepoRmOptions`                                              |
+| `argocd repocreds`                                                 | `ArgoCdRepocredsOptions`                                           |
 | `argocd repocreds add`                                             | `ArgoCdRepocredsAddOptions`                                        |
 | `argocd repocreds list`                                            | `ArgoCdRepocredsListOptions`                                       |
 | `argocd repocreds rm`                                              | `ArgoCdRepocredsRmOptions`                                         |

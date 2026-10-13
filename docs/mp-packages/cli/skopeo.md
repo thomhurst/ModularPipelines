@@ -2,50 +2,26 @@
 
 `ModularPipelines.Skopeo` provides strongly typed access to the `skopeo` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `skopeo` executable. Install it separately and ensure `skopeo` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Skopeo
 ```
 
-Import `ModularPipelines.Skopeo.Extensions`, then resolve the service with `context.Skopeo()`.
+Resolve the service with `context.Tools.Skopeo`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Skopeo.Services.ISkopeo>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Skopeo.Extensions;
-
-using ModularPipelines.Skopeo.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Skopeo().GenerateSigstoreKey(
-
-            new SkopeoGenerateSigstoreKeyOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var skopeo = context.Tools.Skopeo;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")

@@ -2,50 +2,26 @@
 
 `ModularPipelines.Syft` provides strongly typed access to the `syft` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `syft` executable. Install it separately and ensure `syft` is available on `PATH`.
+
+See the [syft installation guide](https://oss.anchore.com/docs/installation/syft/).
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Syft
 ```
 
-Import `ModularPipelines.Syft.Extensions`, then resolve the service with `context.Syft()`.
+Resolve the service with `context.Tools.Syft`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Syft.Services.ISyft>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Syft.Extensions;
-
-using ModularPipelines.Syft.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Syft().Attest(
-
-            new SyftAttestOptions("value"),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var syft = context.Tools.Syft;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")
@@ -53,7 +29,9 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command             | Options record               |
 | ----------------------- | ---------------------------- |
 | `syft attest`           | `SyftAttestOptions`          |
+| `syft cataloger`        | `SyftCatalogerOptions`       |
 | `syft cataloger list`   | `SyftCatalogerListOptions`   |
+| `syft config`           | `SyftConfigOptions`          |
 | `syft config locations` | `SyftConfigLocationsOptions` |
 | `syft convert`          | `SyftConvertOptions`         |
 | `syft login`            | `SyftLoginOptions`           |

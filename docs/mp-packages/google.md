@@ -12,22 +12,24 @@ Required command-line tool: `gcloud`. It must be installed and available on `PAT
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Google.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Gcloud()`
+* `context.Tools.Gcloud`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Google.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Google.Options;
 
 
 
-public class UseGcloudModule : SyncModule
+public class UseGcloudModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,17 @@ public class UseGcloudModule : SyncModule
 
     {
 
-        var gcloud = context.Gcloud();
+        return await context.Tools.Gcloud.InfoAsync(
 
+            new GcloudInfoOptions
 
+            {
 
-        // Call the integration's strongly typed operations here.
+                Anonymize = true,
 
-        context.Logger.LogInformation("Gcloud integration is ready");
+            },
+
+            cancellationToken: cancellationToken);
 
     }
 

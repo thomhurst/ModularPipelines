@@ -2,24 +2,24 @@
 
 `ModularPipelines.Helm` provides strongly typed access to the `helm` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `helm` executable. Install it separately and ensure `helm` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Helm
 ```
 
-Import `ModularPipelines.Helm.Extensions`, then resolve the service with `context.Helm()`.
+Resolve the service with `context.Tools.Helm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Helm.Services.IHelm>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Helm.Extensions;
+using ModularPipelines;
 
 using ModularPipelines.Helm.Options;
 
@@ -29,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,7 +37,7 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Helm().Env(
+        return await context.Tools.Helm.EnvAsync(
 
             new HelmEnvOptions(),
 
@@ -53,10 +53,12 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command              | Options record                |
 | ------------------------ | ----------------------------- |
 | `helm create`            | `HelmCreateOptions`           |
+| `helm dependency`        | `HelmDependencyOptions`       |
 | `helm dependency build`  | `HelmDependencyBuildOptions`  |
 | `helm dependency list`   | `HelmDependencyListOptions`   |
 | `helm dependency update` | `HelmDependencyUpdateOptions` |
 | `helm env`               | `HelmEnvOptions`              |
+| `helm get`               | `HelmGetOptions`              |
 | `helm get all`           | `HelmGetAllOptions`           |
 | `helm get hooks`         | `HelmGetHooksOptions`         |
 | `helm get manifest`      | `HelmGetManifestOptions`      |
@@ -68,22 +70,27 @@ public class RunCommandModule : Module<CommandResult>
 | `helm lint`              | `HelmLintOptions`             |
 | `helm list`              | `HelmListOptions`             |
 | `helm package`           | `HelmPackageOptions`          |
+| `helm plugin`            | `HelmPluginOptions`           |
 | `helm plugin install`    | `HelmPluginInstallOptions`    |
 | `helm plugin list`       | `HelmPluginListOptions`       |
 | `helm plugin uninstall`  | `HelmPluginUninstallOptions`  |
 | `helm plugin update`     | `HelmPluginUpdateOptions`     |
 | `helm pull`              | `HelmPullOptions`             |
 | `helm push`              | `HelmPushOptions`             |
+| `helm registry`          | `HelmRegistryOptions`         |
 | `helm registry login`    | `HelmRegistryLoginOptions`    |
 | `helm registry logout`   | `HelmRegistryLogoutOptions`   |
+| `helm repo`              | `HelmRepoOptions`             |
 | `helm repo add`          | `HelmRepoAddOptions`          |
 | `helm repo index`        | `HelmRepoIndexOptions`        |
 | `helm repo list`         | `HelmRepoListOptions`         |
 | `helm repo remove`       | `HelmRepoRemoveOptions`       |
 | `helm repo update`       | `HelmRepoUpdateOptions`       |
 | `helm rollback`          | `HelmRollbackOptions`         |
+| `helm search`            | `HelmSearchOptions`           |
 | `helm search hub`        | `HelmSearchHubOptions`        |
 | `helm search repo`       | `HelmSearchRepoOptions`       |
+| `helm show`              | `HelmShowOptions`             |
 | `helm show all`          | `HelmShowAllOptions`          |
 | `helm show chart`        | `HelmShowChartOptions`        |
 | `helm show crds`         | `HelmShowCrdsOptions`         |

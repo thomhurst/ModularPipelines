@@ -12,22 +12,20 @@ Required command-line tool: `cmd`. It must be installed and available on `PATH` 
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Cmd.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Cmd()`
+* `context.Tools.Cmd`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Cmd.Extensions;
 
 
-
-public class UseCmdModule : SyncModule
+public class UseCmdModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,17 +33,31 @@ public class UseCmdModule : SyncModule
 
     {
 
-        var cmd = context.Cmd();
-
-
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Cmd integration is ready");
+        return context.Tools.Cmd.RunAsync("echo ModularPipelines", cancellationToken: cancellationToken);
 
     }
 
 }
 ```
 
-The package exposes generated options records for its supported CLI commands.
+The integration implements `ICmdContext`. Inline scripts use `RunAsync`; batch files use `RunFileAsync`. Both accept `CommandExecutionOptions`:
+
+```
+await context.Tools.Cmd.RunAsync(
+
+    new CmdScriptOptions("echo ModularPipelines"),
+
+    new CommandExecutionOptions { ThrowOnNonZeroExitCode = true },
+
+    cancellationToken);
+
+
+
+await context.Tools.Cmd.RunFileAsync(
+
+    new CmdFileOptions("scripts/build.cmd"),
+
+    cancellationToken: cancellationToken);
+```
+
+The option records use the same `ModularPipelines.Options` namespace as the Bash and PowerShell shell options.

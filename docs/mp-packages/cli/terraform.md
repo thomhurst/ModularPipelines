@@ -2,24 +2,24 @@
 
 `ModularPipelines.Terraform` provides strongly typed access to the `terraform` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `terraform` executable. Install it separately and ensure `terraform` is available on `PATH`.
+
+See the [terraform installation guide](https://developer.hashicorp.com/terraform/install).
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Terraform
 ```
 
-Import `ModularPipelines.Terraform.Extensions`, then resolve the service with `context.Terraform()`.
+Resolve the service with `context.Tools.Terraform`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Terraform.Services.ITerraform>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Terraform.Extensions;
+using ModularPipelines;
 
 using ModularPipelines.Terraform.Options;
 
@@ -29,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +37,9 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Terraform().Apply(
+        return await context.Tools.Terraform.ValidateAsync(
 
-            new TerraformApplyOptions(),
+            new TerraformValidateOptions(),
 
             cancellationToken: cancellationToken);
 
@@ -47,6 +47,14 @@ public class RunCommandModule : Module<CommandResult>
 
 }
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description                                                                    |
+| ---------- | -------- | ------------ | ------------------------------------------------------------------------------ |
+| `-chdir`   | `Chdir`  | All editions | Switch to a different working directory before executing the given subcommand. |
 
 ## Commands[​](#commands "Direct link to Commands")
 
@@ -61,15 +69,20 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform graph`                                     | `TerraformGraphOptions`                                |
 | `terraform import`                                    | `TerraformImportOptions`                               |
 | `terraform init`                                      | `TerraformInitOptions`                                 |
+| `terraform login`                                     | `TerraformLoginOptions`                                |
+| `terraform logout`                                    | `TerraformLogoutOptions`                               |
+| `terraform metadata`                                  | `TerraformMetadataOptions`                             |
 | `terraform modules`                                   | `TerraformModulesOptions`                              |
 | `terraform output`                                    | `TerraformOutputOptions`                               |
 | `terraform plan`                                      | `TerraformPlanOptions`                                 |
+| `terraform providers`                                 | `TerraformProvidersOptions`                            |
 | `terraform providers lock`                            | `TerraformProvidersLockOptions`                        |
 | `terraform providers mirror`                          | `TerraformProvidersMirrorOptions`                      |
 | `terraform providers schema`                          | `TerraformProvidersSchemaOptions`                      |
 | `terraform query`                                     | `TerraformQueryOptions`                                |
 | `terraform refresh`                                   | `TerraformRefreshOptions`                              |
 | `terraform show`                                      | `TerraformShowOptions`                                 |
+| `terraform stacks`                                    | `TerraformStacksOptions`                               |
 | `terraform stacks configuration`                      | `TerraformStacksConfigurationOptions`                  |
 | `terraform stacks configuration fetch`                | `TerraformStacksConfigurationFetchOptions`             |
 | `terraform stacks configuration list`                 | `TerraformStacksConfigurationListOptions`              |
@@ -89,11 +102,16 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform stacks deployment-run list`                | `TerraformStacksDeploymentRunListOptions`              |
 | `terraform stacks deployment-run show`                | `TerraformStacksDeploymentRunShowOptions`              |
 | `terraform stacks deployment-run watch`               | `TerraformStacksDeploymentRunWatchOptions`             |
+| `terraform stacks deployment-step`                    | `TerraformStacksDeploymentStepOptions`                 |
+| `terraform stacks deployment-step artifacts`          | `TerraformStacksDeploymentStepArtifactsOptions`        |
+| `terraform stacks deployment-step show`               | `TerraformStacksDeploymentStepShowOptions`             |
+| `terraform stacks diagnostics`                        | `TerraformStacksDiagnosticsOptions`                    |
 | `terraform stacks fmt`                                | `TerraformStacksFmtOptions`                            |
 | `terraform stacks init`                               | `TerraformStacksInitOptions`                           |
 | `terraform stacks list`                               | `TerraformStacksListOptions`                           |
 | `terraform stacks providers-lock`                     | `TerraformStacksProvidersLockOptions`                  |
 | `terraform stacks validate`                           | `TerraformStacksValidateOptions`                       |
+| `terraform state`                                     | `TerraformStateOptions`                                |
 | `terraform state identities`                          | `TerraformStateIdentitiesOptions`                      |
 | `terraform state list`                                | `TerraformStateListOptions`                            |
 | `terraform state mv`                                  | `TerraformStateMvOptions`                              |
@@ -107,5 +125,6 @@ public class RunCommandModule : Module<CommandResult>
 | `terraform untaint`                                   | `TerraformUntaintOptions`                              |
 | `terraform validate`                                  | `TerraformValidateOptions`                             |
 | `terraform workspace delete`                          | `TerraformWorkspaceDeleteOptions`                      |
+| `terraform workspace list`                            | `TerraformWorkspaceListOptions`                        |
 | `terraform workspace new`                             | `TerraformWorkspaceNewOptions`                         |
 | `terraform workspace select`                          | `TerraformWorkspaceSelectOptions`                      |

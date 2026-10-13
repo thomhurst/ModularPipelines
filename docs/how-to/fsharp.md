@@ -2,6 +2,8 @@
 
 ModularPipelines modules can be authored and executed from an F# project. Inherit from `Module<'T>`, override `ExecuteAsync`, and open `ModularPipelines.Extensions` for pipeline-builder extension methods.
 
+F# pipelines currently require a JIT-compiled application. Trimming and Native AOT are not supported because the metadata generators run only for C# compilations. The package emits `MPAOT001` if an F# project enables `PublishTrimmed` or `PublishAot`.
+
 ```
 open System.Threading
 
@@ -10,6 +12,8 @@ open System.Threading.Tasks
 open ModularPipelines
 
 open ModularPipelines.Attributes
+
+open ModularPipelines.Configuration
 
 open ModularPipelines.Context
 
@@ -71,7 +75,7 @@ builder
 
     .AddModule<TestModule>()
 
-    .ExecutePipelineAsync()
+    .RunAsync()
 
     .GetAwaiter()
 
@@ -82,10 +86,10 @@ builder
 
 F# does not support applying generic attribute types, so declare static module dependencies with `[<DependsOn(typeof<DependencyModule>)>]`. This overload is a supported API and has the same auto-registration, validation, optional-dependency, and cascade-skip behavior as C#'s `[DependsOn<DependencyModule>]`.
 
-For dynamic dependencies, override `DeclareDependencies` and use its generic methods:
+For runtime-selected dependencies, override `Configure` and use the fluent configuration builder:
 
 ```
-override _.DeclareDependencies(dependencies) =
+override _.Configure(moduleConfiguration: ModuleConfigurationBuilder) =
 
-    dependencies.DependsOn<BuildModule>() |> ignore
+    moduleConfiguration.DependsOn<BuildModule>() |> ignore
 ```

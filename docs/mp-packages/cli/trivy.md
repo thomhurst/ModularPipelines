@@ -2,51 +2,42 @@
 
 `ModularPipelines.Trivy` provides strongly typed access to the `trivy` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `trivy` executable. Install it separately and ensure `trivy` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Trivy
 ```
 
-Import `ModularPipelines.Trivy.Extensions`, then resolve the service with `context.Trivy()`.
+Resolve the service with `context.Tools.Trivy`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Trivy.Services.ITrivy>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Trivy.Extensions;
-
-using ModularPipelines.Trivy.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Trivy().Clean(
-
-            new TrivyCleanOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var trivy = context.Tools.Trivy;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                  | Property                | Availability | Description                                                        |
+| --------------------------- | ----------------------- | ------------ | ------------------------------------------------------------------ |
+| `--cacert`                  | `Cacert`                | All editions | Path to PEM-encoded CA certificate file                            |
+| `--cache-dir`               | `CacheDir`              | All editions | cache directory (default "\<cache>/trivy")                         |
+| `--config`                  | `Config`                | All editions | config path (empty string disables loading) (default "trivy.yaml") |
+| `--debug`                   | `Debug`                 | All editions | debug mode                                                         |
+| `--generate-default-config` | `GenerateDefaultConfig` | All editions | write the default config to trivy-default.yaml                     |
+| `--insecure`                | `Insecure`              | All editions | allow insecure server connections                                  |
+| `--quiet`                   | `Quiet`                 | All editions | suppress progress bar and log output                               |
+| `--timeout`                 | `Timeout`               | All editions | timeout (default 5m0s)                                             |
 
 ## Commands[​](#commands "Direct link to Commands")
 
@@ -58,8 +49,10 @@ public class RunCommandModule : Module<CommandResult>
 | `trivy filesystem`        | `TrivyFilesystemOptions`      |
 | `trivy image`             | `TrivyImageOptions`           |
 | `trivy kubernetes`        | `TrivyKubernetesOptions`      |
+| `trivy module`            | `TrivyModuleOptions`          |
 | `trivy module install`    | `TrivyModuleInstallOptions`   |
 | `trivy module uninstall`  | `TrivyModuleUninstallOptions` |
+| `trivy plugin`            | `TrivyPluginOptions`          |
 | `trivy plugin info`       | `TrivyPluginInfoOptions`      |
 | `trivy plugin install`    | `TrivyPluginInstallOptions`   |
 | `trivy plugin list`       | `TrivyPluginListOptions`      |
@@ -68,12 +61,14 @@ public class RunCommandModule : Module<CommandResult>
 | `trivy plugin uninstall`  | `TrivyPluginUninstallOptions` |
 | `trivy plugin update`     | `TrivyPluginUpdateOptions`    |
 | `trivy plugin upgrade`    | `TrivyPluginUpgradeOptions`   |
+| `trivy registry`          | `TrivyRegistryOptions`        |
 | `trivy registry login`    | `TrivyRegistryLoginOptions`   |
 | `trivy registry logout`   | `TrivyRegistryLogoutOptions`  |
 | `trivy repository`        | `TrivyRepositoryOptions`      |
 | `trivy rootfs`            | `TrivyRootfsOptions`          |
 | `trivy sbom`              | `TrivySbomOptions`            |
 | `trivy server`            | `TrivyServerOptions`          |
+| `trivy vex`               | `TrivyVexOptions`             |
 | `trivy vex repo`          | `TrivyVexRepoOptions`         |
 | `trivy vex repo download` | `TrivyVexRepoDownloadOptions` |
 | `trivy vex repo init`     | `TrivyVexRepoInitOptions`     |

@@ -10,22 +10,20 @@ dotnet add package ModularPipelines.TeamCity
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.TeamCity.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.TeamCity()`
+* `context.Tools.TeamCity`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.TeamCity.Extensions;
 
 
-
-public class UseTeamCityModule : SyncModule
+public class UseTeamCityModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -33,7 +31,7 @@ public class UseTeamCityModule : SyncModule
 
     {
 
-        var teamCity = context.TeamCity();
+        var teamCity = context.Tools.TeamCity;
 
 
 
@@ -41,7 +39,13 @@ public class UseTeamCityModule : SyncModule
 
         context.Logger.LogInformation("TeamCity integration is ready");
 
+        return None.Value;
+
     }
 
 }
 ```
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+`TeamCityExtensions` now uses the `ModularPipelines.TeamCity` namespace. Replace imports of `ModularPipelines.TeamCity.Extensions` with the package root namespace. `RegisterTeamCityContext` remains public for generated registration but is hidden from IntelliSense. Module code uses `context.Tools.TeamCity`; environment values remain available through `EnvironmentVariables`.

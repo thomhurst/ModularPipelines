@@ -4,11 +4,6 @@
 
 [**Modular Pipelines**](/ModularPipelines/)[Documentation](/ModularPipelines/docs/.md)
 
-[3.x](/ModularPipelines/docs/.md)
-
-* [Next](/ModularPipelines/docs/next/.md)
-* [3.x](/ModularPipelines/docs/.md)
-
 [NuGet](https://www.nuget.org/packages/ModularPipelines)[GitHub](https://github.com/thomhurst/ModularPipelines)[Sponsor](https://github.com/sponsors/thomhurst)
 
 Search
@@ -17,7 +12,7 @@ Search
 
 Documentation
 
-* [Getting started](/ModularPipelines/docs/next/getting-started.md)
+* [Getting started](/ModularPipelines/docs/getting-started.md)
 * [Core concepts](/ModularPipelines/docs/fundamentals.md)
 
 Community

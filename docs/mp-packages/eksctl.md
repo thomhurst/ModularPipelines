@@ -13,13 +13,11 @@ The `eksctl` executable must be installed and available on `PATH` when the pipel
 ## Create a cluster[​](#create-a-cluster "Direct link to Create a cluster")
 
 ```
-using ModularPipelines.Eksctl.Extensions;
-
 using ModularPipelines.Eksctl.Options;
 
 
 
-var result = await context.Eksctl().Create.Cluster(
+var result = await context.Tools.Eksctl.Create.ClusterAsync(
 
     new EksctlCreateClusterOptions
 
@@ -43,7 +41,7 @@ var result = await context.Eksctl().Create.Cluster(
 This renders the equivalent of:
 
 ```
-eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --zones=eu-west-2b --nodes=3 --managed
+eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --zones=eu-west-2b --nodes=3 --managed=true
 ```
 
 ## Update cluster logging[​](#update-cluster-logging "Direct link to Update cluster logging")
@@ -53,7 +51,7 @@ using ModularPipelines.Eksctl.Enums;
 
 
 
-var result = await context.Eksctl().Utils.UpdateClusterLogging(
+var result = await context.Tools.Eksctl.Utils.UpdateClusterLoggingAsync(
 
     new EksctlUtilsUpdateClusterLoggingOptions
 
@@ -79,3 +77,29 @@ var result = await context.Eksctl().Utils.UpdateClusterLogging(
 ```
 
 Eksctl obtains AWS credentials from the standard AWS credential chain. The generated API does not expose access-key, secret-key, session-token, or password command-line options.
+
+## Inherited settings and V4 migration[​](#inherited-settings-and-v4-migration "Direct link to Inherited settings and V4 migration")
+
+All command options inherit `Color`, `Dumplogs`, and `Verbose` from `EksctlOptions`. These correspond to eksctl's persistent `--color` (`-C`), `--dumpLogs` (`-d`), and `--verbose` (`-v`) flags. For example:
+
+```
+var options = new EksctlGetClusterOptions
+
+{
+
+    Color = "false",
+
+    Dumplogs = true,
+
+    Verbose = 0,
+
+    Region = "eu-west-2",
+
+    Profile = "production",
+
+};
+```
+
+The inherited settings render before `get cluster`; Region and Profile remain command-local and render after it. Color is a string, including the CLI's `true`, `false`, and `fabulous` values. Verbose accepts zero. Dumplogs emits a presence flag when true; false and null leave the CLI's false default unchanged.
+
+Existing command initializers keep the same property names and types. Code that inspects only properties declared directly on each command should now inspect inherited properties too. Region, Profile, output formatting, and resource-specific options are not universally inherited and remain on their applicable commands.

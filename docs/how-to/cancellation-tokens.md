@@ -2,16 +2,16 @@
 
 When you override a Module's `ExecuteAsync` method, you are provided a `CancellationToken` by the framework.
 
-It is recommended to use this token, and pass it in everywhere applicable. This token will be cancelled if the pipeline fails for any reason, and it'll help cancel any pending operations that haven't yet completed.
+It is recommended to use this token, and pass it in everywhere applicable. This token will be canceled if the pipeline fails for any reason, and it'll help cancel any pending operations that haven't yet completed.
 
 ## Example[​](#example "Direct link to Example")
 
 ```
-public class MyModule : Module<File>
+public class MyModule : Module<FilePath>
 
 {
 
-    protected override async Task<File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<FilePath> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 

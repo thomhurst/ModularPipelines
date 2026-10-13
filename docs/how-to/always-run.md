@@ -13,15 +13,13 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithAlwaysRun()
-
-        .Build();
+        .WithAlwaysRun();
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -45,19 +43,17 @@ public class CleanupModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithAlwaysRun()
 
         .WithIgnoreFailures()  // Don't fail the pipeline if cleanup fails
 
-        .WithTimeout(TimeSpan.FromMinutes(5))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromMinutes(5));
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 

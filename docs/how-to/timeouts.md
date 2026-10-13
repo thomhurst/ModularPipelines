@@ -5,16 +5,42 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 ```
 var builder = Pipeline.CreateBuilder();
 
-builder.Options.DefaultModuleTimeout = TimeSpan.FromHours(2);
+builder.ConfigureOptions(options => options with
+
+{
+
+    DefaultModuleTimeout = TimeSpan.FromHours(2),
+
+});
 
 
 
 // Disable the default. Per-module timeouts still apply.
 
-builder.Options.DefaultModuleTimeout = TimeSpan.Zero;
+builder.ConfigureOptions(options => options with
+
+{
+
+    DefaultModuleTimeout = TimeSpan.Zero,
+
+});
 ```
 
-You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+You can override the pipeline default for one module using `Configure(ModuleConfigurationBuilder)`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+
+`AlwaysRun` teardown has a separate 30-second scheduler-progress watchdog. This prevents a constraint-deferred `AlwaysRun` module from waiting indefinitely for a hung active module, even when ordinary module timeouts are disabled. Configure it independently when needed:
+
+```
+builder.ConfigureOptions(options => options with
+
+{
+
+    AlwaysRunProgressTimeout = TimeSpan.FromMinutes(1),
+
+});
+```
+
+Set `AlwaysRunProgressTimeout` to `TimeSpan.Zero` only when an unlimited teardown wait is intentional. The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
@@ -23,24 +49,24 @@ public class MyModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-        .WithTimeout(TimeSpan.FromSeconds(120))
-
-        .Build();
+        .WithTimeout(TimeSpan.FromSeconds(120));
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        // Do something - will be cancelled after 120 seconds
+        // Do something - will be canceled after 120 seconds
 
     }
 
 }
 ```
+
+The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and negative values throw `ArgumentOutOfRangeException`.
 
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 
@@ -51,19 +77,17 @@ public class ResilientModule : Module<CommandResult>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
-        .WithRetryCount(3)  // Retry if timeout or other failure occurs
+        .WithRetry(3)  // Retry if timeout or other failure occurs
 
-        .WithIgnoreFailures()  // Don't fail the pipeline if module times out
-
-        .Build();
+        .WithIgnoreFailures(); // Don't fail the pipeline if module times out
 
 
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -76,9 +100,11 @@ public class ResilientModule : Module<CommandResult>
 
 ## Timeout Behavior[​](#timeout-behavior "Direct link to Timeout Behavior")
 
+Timeouts apply to each execution attempt. With retries enabled, every attempt receives the full timeout and retry backoff delays do not consume it. A module configured with a five-minute timeout and three retries can therefore spend up to five minutes in each of its four attempts, plus retry delays.
+
 When a timeout occurs:
 
-* The `CancellationToken` passed to `ExecuteAsync` will be cancelled
+* The `CancellationToken` passed to `ExecuteAsync` will be canceled
 * The module will fail with a `ModuleTimeoutException`
-* If retry policies are configured, the module may be retried
+* If retry policies are configured and the attempt stops within the cancellation grace period, the module may be retried. An attempt that remains active after the grace period is never retried, preventing concurrent executions of the same module instance.
 * If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout

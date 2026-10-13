@@ -7,8 +7,6 @@ Install the package and access Liquibase through the pipeline context:
 ```
 using ModularPipelines.Liquibase.Enums;
 
-using ModularPipelines.Liquibase.Extensions;
-
 using ModularPipelines.Liquibase.Options;
 
 using ModularPipelines.Models;
@@ -19,7 +17,7 @@ public class UpdateDatabaseModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -27,7 +25,7 @@ public class UpdateDatabaseModule : Module<CommandResult>
 
     {
 
-        return await context.Liquibase().Update(
+        return await context.Tools.Liquibase.UpdateAsync(
 
             new LiquibaseUpdateOptions
 

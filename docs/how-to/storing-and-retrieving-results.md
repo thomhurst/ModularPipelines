@@ -17,7 +17,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.Services
+builder
 
     .AddModule<Module1>()
 
@@ -31,8 +31,12 @@ builder.AddResultsRepository<MyModuleRepository>();
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
+
+Result history resolves type-erased module results at runtime and is not supported for trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the corresponding trim and dynamic-code warnings.
+
+The example below keys each result by commit SHA, so it requires a Git checkout. Outside one, `GetRequiredInfoAsync` throws, so the example neither stores nor restores history there. To keep history outside Git, call `GetInfoAsync` instead and choose a fallback key when it returns `null`.
 
 ```
 public class MyModuleRepository : IModuleResultRepository
@@ -51,29 +55,57 @@ public class MyModuleRepository : IModuleResultRepository
 
     }
 
+    
 
+    public async Task SaveResultAsync<T>(
 
-    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
+        Module<T> module,
+
+        ModuleResult<T> moduleResult,
+
+        IPipelineContext pipelineContext,
+
+        CancellationToken cancellationToken = default)
 
     {
 
-        var commit = pipelineContext.Git().Information.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
 
-        await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
+        var commit = repositoryInfo.LastCommitSha;
+
+        await _blobContainerClient.UploadBlobAsync(
+
+            module.GetType().FullName + commit,
+
+            new BinaryData(JsonSerializer.Serialize(moduleResult)),
+
+            cancellationToken);
 
     }
 
 
 
-    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineContext pipelineContext)
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(
+
+        Module<T> module,
+
+        IPipelineContext pipelineContext,
+
+        CancellationToken cancellationToken = default)
 
     {
 
-        var commit = pipelineContext.Git().Information.LastCommitSha;
+        var repositoryInfo = await pipelineContext.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+
+        var commit = repositoryInfo.LastCommitSha;
 
 
 
-        var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();
+        var blobContent = await _blobContainerClient
+
+            .GetBlobClient(module.GetType().FullName + commit)
+
+            .DownloadContentAsync(cancellationToken);
 
 
 
@@ -83,3 +115,10 @@ public class MyModuleRepository : IModuleResultRepository
 
 }
 ```
+
+## Behavior[​](#behavior "Direct link to Behavior")
+
+* Restored results have the `RestoredFromHistory` status, so dependent modules can read them.
+* Repository failures are best-effort: exceptions from `SaveResultAsync` and `GetResultAsync` are logged, and the module runs (or is skipped) as if no result was stored.
+* `IsEnabled` defaults to `true`; return `false` to switch the repository off without removing it.
+* Result history is separate from [module caching](/ModularPipelines/docs/how-to/module-caching.md), which restores results by input fingerprint, and from the [time estimator](/ModularPipelines/docs/how-to/time-estimator.md), which stores durations.

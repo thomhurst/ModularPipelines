@@ -12,22 +12,24 @@ Required command-line tool: `go`. It must be installed and available on `PATH` w
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Go.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Go()`
+* `context.Tools.Go`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Go.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Go.Options;
 
 
 
-public class UseGoModule : SyncModule
+public class UseGoModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,11 @@ public class UseGoModule : SyncModule
 
     {
 
-        var go = context.Go();
+        return await context.Tools.Go.VetAsync(
 
+            new GoVetOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Go integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 

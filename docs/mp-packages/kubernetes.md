@@ -12,23 +12,25 @@ Required command-line tools: `kubectl`, `kustomize`. They must be installed and 
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Kubernetes()`
-* `context.Kustomize()`
+* `context.Tools.Kubernetes`
+* `context.Tools.Kustomize`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Kubernetes.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Kubernetes.Options;
 
 
 
-public class UseKubernetesModule : SyncModule
+public class UseKubernetesModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -36,13 +38,11 @@ public class UseKubernetesModule : SyncModule
 
     {
 
-        var kubernetes = context.Kubernetes();
+        return await context.Tools.Kubernetes.Config.ViewAsync(
 
+            new KubernetesConfigViewOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Kubernetes integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 

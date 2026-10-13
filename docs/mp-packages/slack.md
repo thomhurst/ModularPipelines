@@ -1,6 +1,6 @@
 # Slack Package
 
-Slack notification helpers.
+Send webhook messages through `context.Tools.Slack`.
 
 ## Installation[​](#installation "Direct link to Installation")
 
@@ -8,40 +8,30 @@ Slack notification helpers.
 dotnet add package ModularPipelines.Slack
 ```
 
-## Context entry points[​](#context-entry-points "Direct link to Context entry points")
+## Send a message[​](#send-a-message "Direct link to Send a message")
 
-Import `ModularPipelines.Slack.Extensions`, then use this service from a module:
-
-* `context.Slack()`
-
-## Module example[​](#module-example "Direct link to Module example")
+Import `ModularPipelines.Slack` for the integration and its options. Inside an asynchronous module, pass the module cancellation token:
 
 ```
-using ModularPipelines.Slack.Extensions;
+using ModularPipelines.Slack;
+
+using Slack.Webhooks;
 
 
 
-public class UseSlackModule : SyncModule
+await context.Tools.Slack.PostMessageAsync(
 
-{
+    new SlackWebHookOptions(
 
-    protected override void ExecuteModule(
+        new SlackMessage { Text = "Build passed" },
 
-        IModuleContext context,
+        webhookUri),
 
-        CancellationToken cancellationToken)
-
-    {
-
-        var slack = context.Slack();
-
-
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Slack integration is ready");
-
-    }
-
-}
+    cancellationToken);
 ```
+
+`webhookUri` is the webhook `Uri` obtained from your configuration. Treat it as a secret. Cancellation stops the pending HTTP request. An unsuccessful HTTP response throws `PipelineHttpResponseException`; the helper disposes the request and response.
+
+## V4 migration[​](#v4-migration "Direct link to V4 migration")
+
+Replace `PostWebHookMessage` with `PostMessageAsync`. Replace imports of `ModularPipelines.Slack.Options` and `ModularPipelines.Slack.Extensions` with `ModularPipelines.Slack`. There are no forwarding methods for the old API. `RegisterSlackContext` remains public for integration registration, but is hidden from IntelliSense with `EditorBrowsable(Never)`.

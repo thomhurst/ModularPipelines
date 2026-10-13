@@ -2,64 +2,73 @@
 
 `ModularPipelines.Flux` provides strongly typed access to the `flux` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `flux` executable. Install it separately and ensure `flux` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Flux
 ```
 
-Import `ModularPipelines.Flux.Extensions`, then resolve the service with `context.Flux()`.
+Resolve the service with `context.Tools.Flux`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Flux.Services.IFlux>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Flux.Extensions;
-
-using ModularPipelines.Flux.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Flux().Check(
-
-            new FluxCheckOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var flux = context.Tools.Flux;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                   | Property                | Availability | Description                                                                                                                                              |
+| ---------------------------- | ----------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--as`                       | `As`                    | All editions | Username to impersonate for the operation. User could be a regular user or a service account in a namespace.                                             |
+| `--as-group`                 | `AsGroup`               | All editions | Group to impersonate for the operation, this flag can be repeated to specify multiple groups.                                                            |
+| `--as-uid`                   | `AsUid`                 | All editions | UID to impersonate for the operation.                                                                                                                    |
+| `--as-user-extra`            | `AsUserExtra`           | All editions | User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.                                     |
+| `--cache-dir`                | `CacheDir`              | All editions | Default cache directory.                                                                                                                                 |
+| `--certificate-authority`    | `CertificateAuthority`  | All editions | Path to a cert file for the certificate authority to authenticate the Kubernetes API server                                                              |
+| `--client-certificate`       | `ClientCertificate`     | All editions | Path to a client certificate file for TLS authentication to the Kubernetes API server                                                                    |
+| `--client-key`               | `ClientKey`             | All editions | Path to a client key file for TLS authentication to the Kubernetes API server                                                                            |
+| `--cluster`                  | `Cluster`               | All editions | The name of the kubeconfig cluster to use                                                                                                                |
+| `--context`                  | `Context`               | All editions | The name of the kubeconfig context to use                                                                                                                |
+| `--disable-compression`      | `DisableCompression`    | All editions | If true, opt-out of response compression for all requests to the server                                                                                  |
+| `--insecure-skip-tls-verify` | `InsecureSkipTlsVerify` | All editions | If true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure                        |
+| `--kube-api-burst`           | `KubeApiBurst`          | All editions | The maximum burst queries-per-second of requests sent to the Kubernetes API. (default 300)                                                               |
+| `--kube-api-qps`             | `KubeApiQps`            | All editions | The maximum queries-per-second of requests sent to the Kubernetes API. (default 50)                                                                      |
+| `--kubeconfig`               | `KubeConfig`            | All editions | Path to the kubeconfig file to use for CLI requests.                                                                                                     |
+| `--namespace`                | `Namespace`             | All editions | If present, the namespace scope for this CLI request (default "flux-system")                                                                             |
+| `--ns-follows-kube-context`  | `NsFollowsKubeContext`  | All editions | use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX\_NS\_FOLLOWS\_KUBE\_CONTEXT env var |
+| `--server`                   | `Server`                | All editions | The address and port of the Kubernetes API server                                                                                                        |
+| `--timeout`                  | `Timeout`               | All editions | timeout for this operation (default 5m0s)                                                                                                                |
+| `--tls-server-name`          | `TlsServerName`         | All editions | Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used                             |
+| `--token`                    | `Token`                 | All editions | Bearer token for authentication to the API server                                                                                                        |
+| `--user`                     | `User`                  | All editions | The name of the kubeconfig user to use                                                                                                                   |
+| `--verbose`                  | `Verbose`               | All editions | print generated objects                                                                                                                                  |
 
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                       | Options record                        |
 | --------------------------------- | ------------------------------------- |
+| `flux bootstrap`                  | `FluxBootstrapOptions`                |
 | `flux bootstrap bitbucket-server` | `FluxBootstrapBitbucketServerOptions` |
 | `flux bootstrap git`              | `FluxBootstrapGitOptions`             |
 | `flux bootstrap gitea`            | `FluxBootstrapGiteaOptions`           |
 | `flux bootstrap github`           | `FluxBootstrapGithubOptions`          |
 | `flux bootstrap gitlab`           | `FluxBootstrapGitlabOptions`          |
+| `flux build`                      | `FluxBuildOptions`                    |
 | `flux build artifact`             | `FluxBuildArtifactOptions`            |
 | `flux build kustomization`        | `FluxBuildKustomizationOptions`       |
 | `flux check`                      | `FluxCheckOptions`                    |
+| `flux create`                     | `FluxCreateOptions`                   |
 | `flux create alert`               | `FluxCreateAlertOptions`              |
 | `flux create alert-provider`      | `FluxCreateAlertProviderOptions`      |
 | `flux create helmrelease`         | `FluxCreateHelmreleaseOptions`        |
@@ -85,8 +94,10 @@ public class RunCommandModule : Module<CommandResult>
 | `flux create source helm`         | `FluxCreateSourceHelmOptions`         |
 | `flux create source oci`          | `FluxCreateSourceOciOptions`          |
 | `flux create tenant`              | `FluxCreateTenantOptions`             |
+| `flux debug`                      | `FluxDebugOptions`                    |
 | `flux debug helmrelease`          | `FluxDebugHelmreleaseOptions`         |
 | `flux debug kustomization`        | `FluxDebugKustomizationOptions`       |
+| `flux delete`                     | `FluxDeleteOptions`                   |
 | `flux delete alert`               | `FluxDeleteAlertOptions`              |
 | `flux delete alert-provider`      | `FluxDeleteAlertProviderOptions`      |
 | `flux delete helmrelease`         | `FluxDeleteHelmreleaseOptions`        |
@@ -102,10 +113,12 @@ public class RunCommandModule : Module<CommandResult>
 | `flux delete source git`          | `FluxDeleteSourceGitOptions`          |
 | `flux delete source helm`         | `FluxDeleteSourceHelmOptions`         |
 | `flux delete source oci`          | `FluxDeleteSourceOciOptions`          |
+| `flux diff`                       | `FluxDiffOptions`                     |
 | `flux diff artifact`              | `FluxDiffArtifactOptions`             |
 | `flux diff kustomization`         | `FluxDiffKustomizationOptions`        |
 | `flux envsubst`                   | `FluxEnvsubstOptions`                 |
 | `flux events`                     | `FluxEventsOptions`                   |
+| `flux export`                     | `FluxExportOptions`                   |
 | `flux export alert`               | `FluxExportAlertOptions`              |
 | `flux export alert-provider`      | `FluxExportAlertProviderOptions`      |
 | `flux export artifact`            | `FluxExportArtifactOptions`           |
@@ -124,6 +137,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux export source git`          | `FluxExportSourceGitOptions`          |
 | `flux export source helm`         | `FluxExportSourceHelmOptions`         |
 | `flux export source oci`          | `FluxExportSourceOciOptions`          |
+| `flux get`                        | `FluxGetOptions`                      |
 | `flux get alert-providers`        | `FluxGetAlertProvidersOptions`        |
 | `flux get alerts`                 | `FluxGetAlertsOptions`                |
 | `flux get all`                    | `FluxGetAllOptions`                   |
@@ -146,16 +160,21 @@ public class RunCommandModule : Module<CommandResult>
 | `flux get sources helm`           | `FluxGetSourcesHelmOptions`           |
 | `flux get sources oci`            | `FluxGetSourcesOciOptions`            |
 | `flux install`                    | `FluxInstallOptions`                  |
+| `flux list`                       | `FluxListOptions`                     |
 | `flux list artifacts`             | `FluxListArtifactsOptions`            |
 | `flux logs`                       | `FluxLogsOptions`                     |
 | `flux migrate`                    | `FluxMigrateOptions`                  |
+| `flux plugin`                     | `FluxPluginOptions`                   |
 | `flux plugin install`             | `FluxPluginInstallOptions`            |
 | `flux plugin list`                | `FluxPluginListOptions`               |
 | `flux plugin search`              | `FluxPluginSearchOptions`             |
 | `flux plugin uninstall`           | `FluxPluginUninstallOptions`          |
 | `flux plugin update`              | `FluxPluginUpdateOptions`             |
+| `flux pull`                       | `FluxPullOptions`                     |
 | `flux pull artifact`              | `FluxPullArtifactOptions`             |
+| `flux push`                       | `FluxPushOptions`                     |
 | `flux push artifact`              | `FluxPushArtifactOptions`             |
+| `flux reconcile`                  | `FluxReconcileOptions`                |
 | `flux reconcile helmrelease`      | `FluxReconcileHelmreleaseOptions`     |
 | `flux reconcile image`            | `FluxReconcileImageOptions`           |
 | `flux reconcile image policy`     | `FluxReconcileImagePolicyOptions`     |
@@ -169,6 +188,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux reconcile source git`       | `FluxReconcileSourceGitOptions`       |
 | `flux reconcile source helm`      | `FluxReconcileSourceHelmOptions`      |
 | `flux reconcile source oci`       | `FluxReconcileSourceOciOptions`       |
+| `flux resume`                     | `FluxResumeOptions`                   |
 | `flux resume alert`               | `FluxResumeAlertOptions`              |
 | `flux resume alert-provider`      | `FluxResumeAlertProviderOptions`      |
 | `flux resume helmrelease`         | `FluxResumeHelmreleaseOptions`        |
@@ -185,6 +205,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux resume source helm`         | `FluxResumeSourceHelmOptions`         |
 | `flux resume source oci`          | `FluxResumeSourceOciOptions`          |
 | `flux stats`                      | `FluxStatsOptions`                    |
+| `flux suspend`                    | `FluxSuspendOptions`                  |
 | `flux suspend alert`              | `FluxSuspendAlertOptions`             |
 | `flux suspend alert-provider`     | `FluxSuspendAlertProviderOptions`     |
 | `flux suspend helmrelease`        | `FluxSuspendHelmreleaseOptions`       |
@@ -200,10 +221,13 @@ public class RunCommandModule : Module<CommandResult>
 | `flux suspend source git`         | `FluxSuspendSourceGitOptions`         |
 | `flux suspend source helm`        | `FluxSuspendSourceHelmOptions`        |
 | `flux suspend source oci`         | `FluxSuspendSourceOciOptions`         |
+| `flux tag`                        | `FluxTagOptions`                      |
 | `flux tag artifact`               | `FluxTagArtifactOptions`              |
 | `flux trace`                      | `FluxTraceOptions`                    |
+| `flux tree`                       | `FluxTreeOptions`                     |
 | `flux tree artifact`              | `FluxTreeArtifactOptions`             |
 | `flux tree artifact generator`    | `FluxTreeArtifactGeneratorOptions`    |
 | `flux tree kustomization`         | `FluxTreeKustomizationOptions`        |
+| `flux trigger`                    | `FluxTriggerOptions`                  |
 | `flux trigger receiver`           | `FluxTriggerReceiverOptions`          |
 | `flux uninstall`                  | `FluxUninstallOptions`                |

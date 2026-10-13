@@ -2,50 +2,26 @@
 
 `ModularPipelines.Java` provides strongly typed access to the `mvn` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `mvn` executable. Install it separately and ensure `mvn` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Java
 ```
 
-Import `ModularPipelines.Java.Extensions`, then resolve the service with `context.Maven()`.
+Resolve the service with `context.Tools.Maven`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Java.Services.IMaven>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Java.Extensions;
-
-using ModularPipelines.Java.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Maven().Execute(
-
-            new MavenExecuteOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var maven = context.Tools.Maven;
 ```
 
 ## Commands[​](#commands "Direct link to Commands")

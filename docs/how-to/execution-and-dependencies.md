@@ -37,7 +37,7 @@ public class Module2 : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -52,6 +52,50 @@ public class Module2 : Module<string>
 }
 ```
 
+## Exporting the Dependency Graph[​](#exporting-the-dependency-graph "Direct link to Exporting the Dependency Graph")
+
+Export the resolved graph without executing modules from the command line:
+
+```
+dotnet run -- --graph mermaid dependency-graph.mmd
+
+dotnet run -- --graph dot dependency-graph.dot
+
+dotnet run -- --graph json dependency-graph.json
+```
+
+The path is optional. The defaults are `dependency-graph.mmd`, `dependency-graph.dot`, and `dependency-graph.json`. Graph nodes include the module category, estimated duration, and skip status. Conditions that require runtime results or asynchronous work are shown as unresolved. Edges point from each dependency to the module that depends on it.
+
+Paths containing a directory separator can include `=` directly. For an ambiguous filename containing `=`, use the explicit path option so it is not treated as host configuration:
+
+```
+dotnet run -- --graph json --graph-path branch=main.json
+```
+
+You can also export programmatically:
+
+```
+using ModularPipelines;
+
+using ModularPipelines.Reporting;
+
+
+
+var builder = Pipeline.CreateBuilder(args);
+
+builder.AddModule<Module2>();
+
+
+
+await builder.ExportDependencyGraphAsync(
+
+    DependencyGraphFormat.Mermaid,
+
+    "dependency-graph.mmd");
+```
+
+When the `ModularPipelines.GitHub` integration writes `GITHUB_STEP_SUMMARY`, it includes the Mermaid dependency flowchart alongside the run Gantt and result table.
+
 ### Auto-Registration[​](#auto-registration "Direct link to Auto-Registration")
 
 When you declare a required dependency, you don't need to explicitly register it:
@@ -63,7 +107,7 @@ builder.AddModule<Module2>(); // Module1 is auto-registered because Module2 depe
 
 
 
-await builder.ExecutePipelineAsync();
+await builder.RunAsync();
 ```
 
 This simplifies pipeline configuration and ensures all required dependencies are always present. Auto-registration also handles transitive dependencies - if Module1 depends on Module0, both will be auto-registered.
@@ -81,7 +125,7 @@ public class Module2 : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -129,7 +173,7 @@ public class TestModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -151,7 +195,7 @@ public class TestModule : Module<string>
 
         var result = await compile;
 
-        return result.IsSkipped
+        return result.SkipDecisionOrDefault is not null
 
             ? "Compile was skipped"
 
@@ -188,26 +232,43 @@ if (module != null)
 }
 ```
 
-## Programmatic Dependencies[​](#programmatic-dependencies "Direct link to Programmatic Dependencies")
+## Fluent Dependencies[​](#fluent-dependencies "Direct link to Fluent Dependencies")
 
-You can also declare dependencies programmatically by overriding `DeclareDependencies`:
+Declare runtime-selected dependencies through the module's `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class Module2 : Module<string>
 
 {
 
-    protected override void DeclareDependencies(IDependencyDeclaration deps)
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    {
+        .DependsOn<Module1>()                    // Required
 
-        deps.DependsOn<Module1>();                    // Required
+        .DependsOnOptional<Module3>()            // Optional
 
-        deps.DependsOnOptional<Module3>();            // Optional
+        .DependsOnIf<Module4>(someCondition);    // Required when true
 
-        deps.DependsOnIf<Module4>(someCondition);     // Conditional
+}
+```
 
-    }
+## Selector Dependencies[​](#selector-dependencies "Direct link to Selector Dependencies")
+
+Selector attributes derive from `DependsOnBaseAttribute` and choose dependencies from the registered modules when the pipeline starts:
+
+* `[DependsOnAllModulesInheritingFrom<TBase>]` depends on every registered module that is, derives from, or implements `TBase` (use `typeof(Base<>)` with the non-generic form for open generic bases);
+* `[DependsOnModulesWithTag("database")]`, `[DependsOnModulesInCategory("infrastructure")]`, and `[DependsOnModulesWithAttribute<TAttribute>]` select by module metadata.
+
+Like `[DependsOn<T>]`, selectors can be placed on a module class or on an interface the module implements. The built-in `DependsOn` and selector attributes are sealed. For custom selection, derive from `DependsOnBaseAttribute` and override `ShouldDependOn`. Also implement `IPlanningSafe` when the selector is deterministic and free of side effects, so dependency-graph export and dry-run planning can evaluate it:
+
+```
+public sealed class DependsOnDeployTargetsAttribute : DependsOnBaseAttribute, IPlanningSafe
+
+{
+
+    public override bool ShouldDependOn(Type candidateModule, IDependencyContext context) =>
+
+        context.GetTags(candidateModule).Contains("deploy-target");
 
 }
 ```

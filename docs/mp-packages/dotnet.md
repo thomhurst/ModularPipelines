@@ -12,23 +12,25 @@ Required command-line tool: `dotnet`. It must be installed and available on `PAT
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.DotNet.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.DotNet()`
-* `context.Trx()`
+* `context.Tools.DotNet`
+* `context.Tools.Trx`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.DotNet.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.DotNet.Options;
 
 
 
-public class UseDotNetModule : SyncModule
+public class UseDotNetModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -36,13 +38,11 @@ public class UseDotNetModule : SyncModule
 
     {
 
-        var dotNet = context.DotNet();
+        return await context.Tools.DotNet.Workload.ListAsync(
 
+            new DotNetWorkloadListOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("DotNet integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 
@@ -50,3 +50,13 @@ public class UseDotNetModule : SyncModule
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## SDK diagnostics[​](#sdk-diagnostics "Direct link to SDK diagnostics")
+
+All generated SDK command records inherit `Diagnostics` from `DotNetOptions`. Set it to `true` to emit `--diagnostics` before the complete command path, for example `dotnet --diagnostics tool list --global`. `false` and `null` omit it.
+
+```
+new DotNetToolListOptions { Diagnostics = true, Global = true };
+```
+
+This is the SDK's diagnostic switch, distinct from command-specific verbosity or diagnostic-file options. Verbosity is not supported by every command and stays on the applicable command records. Runtime-host settings such as `--fx-version`, `--roll-forward`, and `--runtimeconfig`, and root information actions such as `--info` and `--version`, are not inherited SDK execution options. See the [dotnet command reference](https://learn.microsoft.com/dotnet/core/tools/dotnet).

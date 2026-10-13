@@ -12,22 +12,24 @@ Required command-line tool: `helm`. It must be installed and available on `PATH`
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Helm()`
+* `context.Tools.Helm`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Helm.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Helm.Options;
 
 
 
-public class UseHelmModule : SyncModule
+public class UseHelmModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,11 @@ public class UseHelmModule : SyncModule
 
     {
 
-        var helm = context.Helm();
+        return await context.Tools.Helm.EnvAsync(
 
+            new HelmEnvOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Helm integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 

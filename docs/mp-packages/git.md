@@ -12,22 +12,24 @@ Required command-line tool: `git`. It must be installed and available on `PATH` 
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Git.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Git()`
+* `context.Tools.Git`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Git.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Git.Options;
 
 
 
-public class UseGitModule : SyncModule
+public class UseGitModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,17 @@ public class UseGitModule : SyncModule
 
     {
 
-        var git = context.Git();
+        return await context.Tools.Git.Commands.WorkingTree.StatusAsync(
 
+            new GitStatusOptions
 
+            {
 
-        // Call the integration's strongly typed operations here.
+                Short = true,
 
-        context.Logger.LogInformation("Git integration is ready");
+            },
+
+            cancellationToken: cancellationToken);
 
     }
 
@@ -49,3 +55,65 @@ public class UseGitModule : SyncModule
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Repository information[​](#repository-information "Direct link to Repository information")
+
+When the pipeline always runs inside a repository, use `GetRequiredInfoAsync`. It throws an `InvalidOperationException` when Git information is unavailable, for example outside a repository or when `git` is not installed:
+
+```
+var repository = await context.Tools.Git.Information.GetRequiredInfoAsync(cancellationToken);
+
+var branch = repository.BranchName;
+
+var commit = repository.LastCommitSha;
+```
+
+Properties such as `BranchName` and `LastCommitSha` remain nullable, for example on a detached HEAD or in a repository without commits. Use `GetInfoAsync` when the pipeline must handle running outside a repository; it returns `null` instead of throwing.
+
+## Run only when paths change[​](#run-only-when-paths-change "Direct link to Run only when paths change")
+
+Use `RunIfChangedAttribute` to run a module when at least one repository-relative glob matches a path changed since the merge base with `origin/main`:
+
+```
+using ModularPipelines.Git.Attributes;
+
+
+
+[RunIfChanged("src/MyService/**", "test/MyService.Tests/**")]
+
+public class TestMyServiceModule : Module<CommandResult>
+
+{
+
+    // ...
+
+}
+```
+
+Set another base revision with the named `Base` property:
+
+```
+[RunIfChanged("src/**", Base = "origin/release")]
+```
+
+For imperative checks, use the same cached changed-path set through the Git context:
+
+```
+var shouldBuild = await context.Tools.Git.Changes.HasChangesAsync(
+
+    ["src/MyService/**", "Directory.Packages.props"],
+
+    cancellationToken: cancellationToken);
+```
+
+Each base revision is resolved with `git merge-base`, and its `git diff --name-only` result is combined with untracked, non-ignored files once per pipeline run. The comparison therefore includes committed, staged, unstaged, and new files. A pattern without `*` or `?` matches both that exact path and paths beneath it, so `src/MyService` can be used instead of `src/MyService/**`. If the base revision is unavailable (for example, in a shallow checkout without `origin/main`), the condition logs a warning and conservatively runs the module.
+
+### Custom command runners[​](#custom-command-runners "Direct link to Custom command runners")
+
+If you replace `IGitCommandRunner` and use changed-path checks, implement `IRawGitCommandRunner` on the same class. `GitChanges` uses its untrimmed output to preserve NUL-delimited Git paths exactly, including leading or trailing whitespace.
+
+```
+builder.Services.AddSingleton<IGitCommandRunner, CustomGitCommandRunner>();
+```
+
+`CustomGitCommandRunner` must implement both interfaces on the same class.

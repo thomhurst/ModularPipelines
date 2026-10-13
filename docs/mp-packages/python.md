@@ -12,22 +12,24 @@ Required command-line tool: `pip`. It must be installed and available on `PATH` 
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Python.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Pip()`
+* `context.Tools.Pip`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Python.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Python.Options;
 
 
 
-public class UsePipModule : SyncModule
+public class UsePipModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,11 @@ public class UsePipModule : SyncModule
 
     {
 
-        var pip = context.Pip();
+        return await context.Tools.Pip.FreezeAsync(
 
+            new PipFreezeOptions(),
 
-
-        // Call the integration's strongly typed operations here.
-
-        context.Logger.LogInformation("Pip integration is ready");
+            cancellationToken: cancellationToken);
 
     }
 

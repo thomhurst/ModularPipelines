@@ -2,24 +2,24 @@
 
 `ModularPipelines.Buildah` provides strongly typed access to the `buildah` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `buildah` executable. Install it separately and ensure `buildah` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Buildah
 ```
 
-Import `ModularPipelines.Buildah.Extensions`, then resolve the service with `context.Buildah()`.
+Resolve the service with `context.Tools.Buildah`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Buildah.Services.IBuildah>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Buildah.Extensions;
+using ModularPipelines;
 
 using ModularPipelines.Buildah.Options;
 
@@ -29,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +37,9 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Buildah().Add(
+        return await context.Tools.Buildah.ContainersAsync(
 
-            new BuildahAddOptions(),
+            new BuildahContainersOptions(),
 
             cancellationToken: cancellationToken);
 
@@ -63,6 +63,7 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah inspect`           | `BuildahInspectOptions`          |
 | `buildah login`             | `BuildahLoginOptions`            |
 | `buildah logout`            | `BuildahLogoutOptions`           |
+| `buildah manifest`          | `BuildahManifestOptions`         |
 | `buildah manifest add`      | `BuildahManifestAddOptions`      |
 | `buildah manifest annotate` | `BuildahManifestAnnotateOptions` |
 | `buildah manifest create`   | `BuildahManifestCreateOptions`   |
@@ -80,6 +81,7 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah rm`                | `BuildahRmOptions`               |
 | `buildah rmi`               | `BuildahRmiOptions`              |
 | `buildah run`               | `BuildahRunOptions`              |
+| `buildah source`            | `BuildahSourceOptions`           |
 | `buildah source add`        | `BuildahSourceAddOptions`        |
 | `buildah source create`     | `BuildahSourceCreateOptions`     |
 | `buildah source pull`       | `BuildahSourcePullOptions`       |

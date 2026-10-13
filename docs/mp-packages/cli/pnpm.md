@@ -2,24 +2,26 @@
 
 `ModularPipelines.Node` provides strongly typed access to the `pnpm` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `pnpm` executable. Install it separately and ensure `pnpm` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Node
 ```
 
-Import `ModularPipelines.Node.Extensions`, then resolve the service with `context.Pnpm()`.
+Resolve the service with `context.Tools.Pnpm`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Node.Services.IPnpm>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
+using ModularPipelines;
 
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Node.Extensions;
+using ModularPipelines.Node.Enums;
 
 using ModularPipelines.Node.Options;
 
@@ -29,7 +31,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +39,15 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Pnpm().Unlink(
+        return await context.Tools.Pnpm.AuditAsync(
 
-            new PnpmUnlinkOptions(),
+            new PnpmAuditOptions()
+
+            {
+
+                AuditLevel = PnpmAuditAuditLevel.High,
+
+            },
 
             cancellationToken: cancellationToken);
 
@@ -48,17 +56,126 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Intentionally excluded commands[​](#intentionally-excluded-commands "Direct link to Intentionally excluded commands")
+
+| CLI command             | Reason                                                                                                                                                                                 |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm audit signatures` | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage approve`    | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage download`   | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage list`       | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage publish`    | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage reject`     | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+| `pnpm stage view`       | pnpm 12.4.1 no longer lists this path in a Commands section or exposes a distinct child synopsis. The parent command documents \[PARAMS]... instead; use its generated Params operand. |
+
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command    | Options record       |
-| -------------- | -------------------- |
-| `pnpm add`     | `PnpmAddOptions`     |
-| `pnpm audit`   | `PnpmAuditOptions`   |
-| `pnpm create`  | `PnpmCreateOptions`  |
-| `pnpm dlx`     | `PnpmDlxOptions`     |
-| `pnpm init`    | `PnpmInitOptions`    |
-| `pnpm publish` | `PnpmPublishOptions` |
-| `pnpm run`     | `PnpmRunOptions`     |
-| `pnpm stage`   | `PnpmStageOptions`   |
-| `pnpm unlink`  | `PnpmUnlinkOptions`  |
-| `pnpm why`     | `PnpmWhyOptions`     |
+| CLI command                  | Options record                   |
+| ---------------------------- | -------------------------------- |
+| `pnpm access`                | `PnpmAccessOptions`              |
+| `pnpm add`                   | `PnpmAddOptions`                 |
+| `pnpm approve-builds`        | `PnpmApproveBuildsOptions`       |
+| `pnpm audit`                 | `PnpmAuditOptions`               |
+| `pnpm bugs`                  | `PnpmBugsOptions`                |
+| `pnpm cache`                 | `PnpmCacheOptions`               |
+| `pnpm cache delete`          | `PnpmCacheDeleteOptions`         |
+| `pnpm cache list`            | `PnpmCacheListOptions`           |
+| `pnpm cache list-registries` | `PnpmCacheListRegistriesOptions` |
+| `pnpm cache path`            | `PnpmCachePathOptions`           |
+| `pnpm cache prune`           | `PnpmCachePruneOptions`          |
+| `pnpm cache view`            | `PnpmCacheViewOptions`           |
+| `pnpm cat-file`              | `PnpmCatFileOptions`             |
+| `pnpm cat-index`             | `PnpmCatIndexOptions`            |
+| `pnpm change`                | `PnpmChangeOptions`              |
+| `pnpm ci`                    | `PnpmCiOptions`                  |
+| `pnpm clean`                 | `PnpmCleanOptions`               |
+| `pnpm config`                | `PnpmConfigOptions`              |
+| `pnpm config delete`         | `PnpmConfigDeleteOptions`        |
+| `pnpm config get`            | `PnpmConfigGetOptions`           |
+| `pnpm config list`           | `PnpmConfigListOptions`          |
+| `pnpm config set`            | `PnpmConfigSetOptions`           |
+| `pnpm create`                | `PnpmCreateOptions`              |
+| `pnpm dedupe`                | `PnpmDedupeOptions`              |
+| `pnpm deploy`                | `PnpmDeployOptions`              |
+| `pnpm deprecate`             | `PnpmDeprecateOptions`           |
+| `pnpm dist-tag`              | `PnpmDistTagOptions`             |
+| `pnpm dlx`                   | `PnpmDlxOptions`                 |
+| `pnpm docs`                  | `PnpmDocsOptions`                |
+| `pnpm doctor`                | `PnpmDoctorOptions`              |
+| `pnpm edit`                  | `PnpmEditOptions`                |
+| `pnpm exec`                  | `PnpmExecOptions`                |
+| `pnpm fetch`                 | `PnpmFetchOptions`               |
+| `pnpm find-hash`             | `PnpmFindHashOptions`            |
+| `pnpm get`                   | `PnpmGetOptions`                 |
+| `pnpm ignored-builds`        | `PnpmIgnoredBuildsOptions`       |
+| `pnpm import`                | `PnpmImportOptions`              |
+| `pnpm init`                  | `PnpmInitOptions`                |
+| `pnpm install`               | `PnpmInstallOptions`             |
+| `pnpm install-test`          | `PnpmInstallTestOptions`         |
+| `pnpm lane`                  | `PnpmLaneOptions`                |
+| `pnpm licenses`              | `PnpmLicensesOptions`            |
+| `pnpm link`                  | `PnpmLinkOptions`                |
+| `pnpm list`                  | `PnpmListOptions`                |
+| `pnpm ll`                    | `PnpmLlOptions`                  |
+| `pnpm login`                 | `PnpmLoginOptions`               |
+| `pnpm logout`                | `PnpmLogoutOptions`              |
+| `pnpm outdated`              | `PnpmOutdatedOptions`            |
+| `pnpm owner`                 | `PnpmOwnerOptions`               |
+| `pnpm pack`                  | `PnpmPackOptions`                |
+| `pnpm pack-app`              | `PnpmPackAppOptions`             |
+| `pnpm patch`                 | `PnpmPatchOptions`               |
+| `pnpm patch-commit`          | `PnpmPatchCommitOptions`         |
+| `pnpm patch-remove`          | `PnpmPatchRemoveOptions`         |
+| `pnpm peers`                 | `PnpmPeersOptions`               |
+| `pnpm ping`                  | `PnpmPingOptions`                |
+| `pnpm pipeline`              | `PnpmPipelineOptions`            |
+| `pnpm pkg`                   | `PnpmPkgOptions`                 |
+| `pnpm pkg delete`            | `PnpmPkgDeleteOptions`           |
+| `pnpm pkg fix`               | `PnpmPkgFixOptions`              |
+| `pnpm pkg get`               | `PnpmPkgGetOptions`              |
+| `pnpm pkg set`               | `PnpmPkgSetOptions`              |
+| `pnpm prefix`                | `PnpmPrefixOptions`              |
+| `pnpm profile`               | `PnpmProfileOptions`             |
+| `pnpm prune`                 | `PnpmPruneOptions`               |
+| `pnpm publish`               | `PnpmPublishOptions`             |
+| `pnpm purge`                 | `PnpmPurgeOptions`               |
+| `pnpm rb`                    | `PnpmRbOptions`                  |
+| `pnpm rebuild`               | `PnpmRebuildOptions`             |
+| `pnpm recursive`             | `PnpmRecursiveOptions`           |
+| `pnpm remove`                | `PnpmRemoveOptions`              |
+| `pnpm repo`                  | `PnpmRepoOptions`                |
+| `pnpm restart`               | `PnpmRestartOptions`             |
+| `pnpm run`                   | `PnpmRunOptions`                 |
+| `pnpm runtime`               | `PnpmRuntimeOptions`             |
+| `pnpm sbom`                  | `PnpmSbomOptions`                |
+| `pnpm search`                | `PnpmSearchOptions`              |
+| `pnpm self-update`           | `PnpmSelfUpdateOptions`          |
+| `pnpm set`                   | `PnpmSetOptions`                 |
+| `pnpm set-script`            | `PnpmSetScriptOptions`           |
+| `pnpm setup`                 | `PnpmSetupOptions`               |
+| `pnpm shim`                  | `PnpmShimOptions`                |
+| `pnpm stage`                 | `PnpmStageOptions`               |
+| `pnpm star`                  | `PnpmStarOptions`                |
+| `pnpm stars`                 | `PnpmStarsOptions`               |
+| `pnpm start`                 | `PnpmStartOptions`               |
+| `pnpm stop`                  | `PnpmStopOptions`                |
+| `pnpm store`                 | `PnpmStoreOptions`               |
+| `pnpm store add`             | `PnpmStoreAddOptions`            |
+| `pnpm store path`            | `PnpmStorePathOptions`           |
+| `pnpm store prune`           | `PnpmStorePruneOptions`          |
+| `pnpm store status`          | `PnpmStoreStatusOptions`         |
+| `pnpm tasks`                 | `PnpmTasksOptions`               |
+| `pnpm tasks status`          | `PnpmTasksStatusOptions`         |
+| `pnpm team`                  | `PnpmTeamOptions`                |
+| `pnpm test`                  | `PnpmTestOptions`                |
+| `pnpm token`                 | `PnpmTokenOptions`               |
+| `pnpm undeprecate`           | `PnpmUndeprecateOptions`         |
+| `pnpm unlink`                | `PnpmUnlinkOptions`              |
+| `pnpm unpublish`             | `PnpmUnpublishOptions`           |
+| `pnpm unstar`                | `PnpmUnstarOptions`              |
+| `pnpm update`                | `PnpmUpdateOptions`              |
+| `pnpm view`                  | `PnpmViewOptions`                |
+| `pnpm whoami`                | `PnpmWhoamiOptions`              |
+| `pnpm why`                   | `PnpmWhyOptions`                 |
+| `pnpm with`                  | `PnpmWithOptions`                |
+| `pnpm xmas`                  | `PnpmXmasOptions`                |

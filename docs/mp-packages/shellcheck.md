@@ -13,8 +13,6 @@ Install the package and invoke ShellCheck through the pipeline context:
 ```
 using ModularPipelines.Shellcheck.Enums;
 
-using ModularPipelines.Shellcheck.Extensions;
-
 using ModularPipelines.Shellcheck.Options;
 
 
@@ -23,7 +21,7 @@ public class CheckShellScriptsModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -31,7 +29,7 @@ public class CheckShellScriptsModule : Module<CommandResult>
 
     {
 
-        return await context.Shellcheck().Execute(
+        return await context.Tools.Shellcheck.ExecuteAsync(
 
             new ShellcheckExecuteOptions
 

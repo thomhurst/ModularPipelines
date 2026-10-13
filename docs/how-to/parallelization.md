@@ -15,11 +15,11 @@ These modules will attempt to run first, before all other modules that can be ru
 ```
 [NotInParallel]
 
-public class MyModule : Module
+public class MyModule : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -37,11 +37,11 @@ Not `NotInParallel` attribute can also take a `ConstraintKey` parameter. If this
 ```
 [NotInParallel(ConstraintKey = "Install")]
 
-public class InstallModule1 : Module
+public class InstallModule1 : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -55,11 +55,11 @@ public class InstallModule1 : Module
 
 [NotInParallel(ConstraintKey = "Install")]
 
-public class InstallModule2 : Module
+public class InstallModule2 : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -73,11 +73,11 @@ public class InstallModule2 : Module
 
 [NotInParallel(ConstraintKey = "Build")]
 
-public class BuildProjectModule : Module
+public class BuildProjectModule : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -123,11 +123,11 @@ namespace MyTestProject;
 
 [ParallelLimiter<MyParallelLimit>]
 
-public class InstallModule1 : Module
+public class InstallModule1 : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -141,11 +141,11 @@ public class InstallModule1 : Module
 
 [ParallelLimiter<MyParallelLimit>]
 
-public class InstallModule2 : Module
+public class InstallModule2 : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 
@@ -159,11 +159,11 @@ public class InstallModule2 : Module
 
 [ParallelLimiter<MyParallelLimit>]
 
-public class BuildProjectModule : Module
+public class BuildProjectModule : Module<IDictionary<string, object>>
 
 {
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 
     {
 

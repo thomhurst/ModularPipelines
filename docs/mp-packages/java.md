@@ -15,15 +15,13 @@ The `mvn` or `gradle` executable must be installed and available on `PATH` when 
 ```
 using ModularPipelines.Java.Enums;
 
-using ModularPipelines.Java.Extensions;
-
 using ModularPipelines.Java.Options;
 
 using ModularPipelines.Models;
 
 
 
-var result = await context.Maven().Execute(
+var result = await context.Tools.Maven.ExecuteAsync(
 
     new MavenExecuteOptions
 
@@ -51,7 +49,7 @@ mvn --batch-mode --color never --define skipTests=true clean verify
 ## Gradle[​](#gradle "Direct link to Gradle")
 
 ```
-var result = await context.Gradle().Execute(
+var result = await context.Tools.Gradle.ExecuteAsync(
 
     new GradleExecuteOptions
 

@@ -6,7 +6,7 @@
 
 This package does not install the `nbgv` executable. Install it separately and ensure `nbgv` is available on `PATH`.
 
-The generation workflow is pinned to `nbgv` version `3.10.91`.
+The generation workflow is pinned to `nbgv` version `3.10.94`.
 
 See the [nbgv installation guide](https://dotnet.github.io/Nerdbank.GitVersioning/docs/nbgv-cli.html).
 
@@ -18,18 +18,12 @@ Install the nbgv .NET tool globally or in a tool path available on PATH.
 dotnet add package ModularPipelines.NerdbankGitVersioning
 ```
 
-Import `ModularPipelines.NerdbankGitVersioning.Extensions`, then resolve the service with `context.Nbgv()`.
+Resolve the service with `context.Tools.Nbgv`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.NerdbankGitVersioning.Services.INbgv>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.NerdbankGitVersioning.Extensions;
+using ModularPipelines;
 
 using ModularPipelines.NerdbankGitVersioning.Options;
 
@@ -39,7 +33,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -47,7 +41,7 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Nbgv().GetVersion(
+        return await context.Tools.Nbgv.GetVersionAsync(
 
             new NbgvGetVersionOptions(),
 

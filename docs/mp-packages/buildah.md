@@ -12,22 +12,20 @@ Required command-line tool: `buildah`. It must be installed and available on `PA
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Buildah.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Buildah()`
+* `context.Tools.Buildah`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Buildah.Extensions;
 
 
-
-public class UseBuildahModule : SyncModule
+public class UseBuildahModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -35,13 +33,15 @@ public class UseBuildahModule : SyncModule
 
     {
 
-        var buildah = context.Buildah();
+        var buildah = context.Tools.Buildah;
 
 
 
         // Call the integration's strongly typed operations here.
 
         context.Logger.LogInformation("Buildah integration is ready");
+
+        return None.Value;
 
     }
 

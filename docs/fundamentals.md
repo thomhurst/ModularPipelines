@@ -7,9 +7,9 @@ Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.
 ```
 var builder = Pipeline.CreateBuilder(args);
 
-builder.Services.AddModule<MyModule>();
+builder.AddModule<MyModule>();
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
 
 ## Modules[​](#modules "Direct link to Modules")
@@ -19,6 +19,22 @@ The building blocks of your pipelines are called Modules. Modules can be as big 
 > a self-contained unit or item, such as an assembly of electronic components and associated wiring or a segment of computer software, which itself performs a defined task and can be linked with other such units to form a larger system
 
 Modules can retrieve other modules and access information from them.
+
+## Tool Integrations[​](#tool-integrations "Direct link to Tool Integrations")
+
+Installed tool integrations are available from the discoverable `context.Tools` surface:
+
+```
+await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions
+
+{
+
+    ProjectSolution = "MyApp.sln"
+
+}, cancellationToken: cancellationToken);
+```
+
+`context.Tools.DotNet` is the canonical API and does not require an integration extension namespace import. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.DotNet.Services.IDotNet>()`. Legacy `context.DotNet()` access was removed in v4.
 
 ## Strong Typing[​](#strong-typing "Direct link to Strong Typing")
 
@@ -31,25 +47,37 @@ var myModule = await context.GetModule<MyFirstModule>();
 
 
 
-// Access the value using pattern matching (recommended)
+// Access a required dependency value directly.
 
-if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var result })
+// This throws with module context if it failed, was skipped, or returned null.
+
+var requiredValue = myModule.Value;
+
+var firstString = requiredValue.MyFirstString;
+
+var secondString = requiredValue.MySecondString;
+
+
+
+// Or use pattern matching when every outcome needs different handling
+
+if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var successfulValue })
 
 {
 
-    var string1 = result.MyFirstString;
+    Console.WriteLine(successfulValue.MyFirstString);
 
-    var string2 = result.MySecondString;
+    Console.WriteLine(successfulValue.MySecondString);
 
 }
 
 
 
-// Or use ValueOrDefault for simpler access
+// ValueOrDefault remains available when missing data is expected
 
-var string1 = myModule.ValueOrDefault?.MyFirstString;
+var optionalFirstString = myModule.ValueOrDefault?.MyFirstString;
 
-var string2 = myModule.ValueOrDefault?.MySecondString;
+var optionalSecondString = myModule.ValueOrDefault?.MySecondString;
 ```
 
 ## Custom Types[​](#custom-types "Direct link to Custom Types")
@@ -67,7 +95,7 @@ public class PingApiModule : Module<HttpResponseMessage>
 You'll then be instructed by the compiler to make sure the return type of your main `ExecuteAsync` method matches the `Type` you've set up:
 
 ```
-protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+protected override async Task<MyCustomClass> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ```
 
 ## Optional Data[​](#optional-data "Direct link to Optional Data")
@@ -79,7 +107,7 @@ public class MyModule : Module<IDictionary<string, object>>
 
 {
 
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -100,18 +128,44 @@ public class MyModule : Module<IDictionary<string, object>>
 }
 ```
 
-Returning an object isn't mandatory either. You can return `null`:
+When a module has no meaningful result, use `None`:
 
 ```
-protected override async Task<MyResult?> ExecuteAsync(
-
-    IModuleContext context, CancellationToken cancellationToken)
+public class PublishModule : Module<None>
 
 {
 
-    await DoSomethingAsync();
+    protected override async Task<None> ExecuteAsync(
 
-    return null;
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        await PublishAsync(cancellationToken);
+
+        return None.Value;
+
+    }
+
+}
+```
+
+If `null` is meaningful data, make that explicit in both the module and method types:
+
+```
+public class OptionalLookupModule : Module<MyResult?>
+
+{
+
+    protected override async Task<MyResult?> ExecuteAsync(
+
+        IModuleContext context, CancellationToken cancellationToken)
+
+    {
+
+        return await TryFindResultAsync(cancellationToken);
+
+    }
 
 }
 ```
@@ -129,7 +183,7 @@ public class MyModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -163,11 +217,11 @@ return myModule switch
 
         => await ProcessResult(result),
 
-    ModuleResult.Skipped { Decision: var skip }
+    ModuleResult<MyOptionalResult>.Skipped { Decision: var skip }
 
         => null,  // Module was skipped
 
-    ModuleResult.Failure { Exception: var ex }
+    ModuleResult<MyOptionalResult>.Failure { Exception: var ex }
 
         => throw new Exception("Dependency failed", ex),
 
@@ -176,24 +230,24 @@ return myModule switch
 };
 ```
 
-Or use the convenience properties for simpler checks:
+Or use the safe accessors for simpler checks:
 
 ```
 var myModule = await context.GetModule<MyOptionalModule>();
 
 
 
-if (myModule.IsSkipped)
+if (myModule.SkipDecisionOrDefault is not null)
 
 {
 
-    return null;
+    return None.Value;
 
 }
 
 
 
-if (myModule.IsFailure)
+if (myModule.ExceptionOrDefault is not null)
 
 {
 
@@ -203,7 +257,7 @@ if (myModule.IsFailure)
 
     {
 
-        return null;
+        return None.Value;
 
     }
 
@@ -215,7 +269,7 @@ if (myModule.IsFailure)
 
 // Success case
 
-return await DoSomethingAsync(myModule.ValueOrDefault);
+return await DoSomethingAsync(myModule.Value);
 ```
 
 You can also use the `Match` helper for exhaustive handling:

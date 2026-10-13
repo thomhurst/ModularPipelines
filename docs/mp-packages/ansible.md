@@ -13,13 +13,11 @@ The `ansible` executable must be installed and available on `PATH` when the pipe
 ## Run an ad-hoc command[​](#run-an-ad-hoc-command "Direct link to Run an ad-hoc command")
 
 ```
-using ModularPipelines.Ansible.Extensions;
-
 using ModularPipelines.Ansible.Options;
 
 
 
-var result = await context.Ansible().Execute(
+var result = await context.Tools.Ansible.ExecuteAsync(
 
     new AnsibleExecuteOptions("webservers")
 

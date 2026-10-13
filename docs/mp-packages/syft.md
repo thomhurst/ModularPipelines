@@ -12,22 +12,20 @@ Required command-line tool: `syft`. It must be installed and available on `PATH`
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Syft.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Syft()`
+* `context.Tools.Syft`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Syft.Extensions;
 
 
-
-public class UseSyftModule : SyncModule
+public class UseSyftModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -35,13 +33,15 @@ public class UseSyftModule : SyncModule
 
     {
 
-        var syft = context.Syft();
+        var syft = context.Tools.Syft;
 
 
 
         // Call the integration's strongly typed operations here.
 
         context.Logger.LogInformation("Syft integration is ready");
+
+        return None.Value;
 
     }
 

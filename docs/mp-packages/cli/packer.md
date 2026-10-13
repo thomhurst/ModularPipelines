@@ -2,62 +2,47 @@
 
 `ModularPipelines.Packer` provides strongly typed access to the `packer` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `packer` executable. Install it separately and ensure `packer` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Packer
 ```
 
-Import `ModularPipelines.Packer.Extensions`, then resolve the service with `context.Packer()`.
+Resolve the service with `context.Tools.Packer`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Packer.Services.IPacker>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Packer.Extensions;
-
-using ModularPipelines.Packer.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Packer().Console(
-
-            new PackerConsoleOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var packer = context.Tools.Packer;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                                                                                          | Property          | Availability | Description                                                            |
+| --------------------------------------------------------------------------------------------------- | ----------------- | ------------ | ---------------------------------------------------------------------- |
+| [`-machine-readable`](https://developer.hashicorp.com/packer/docs/commands#machine-readable-output) | `MachineReadable` | All editions | Produce machine-readable output. Do not combine with build debug mode. |
 
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command           | Options record             |
-| --------------------- | -------------------------- |
-| `packer build`        | `PackerBuildOptions`       |
-| `packer console`      | `PackerConsoleOptions`     |
-| `packer fix`          | `PackerFixOptions`         |
-| `packer fmt`          | `PackerFmtOptions`         |
-| `packer hcl2_upgrade` | `PackerHcl2UpgradeOptions` |
-| `packer init`         | `PackerInitOptions`        |
-| `packer inspect`      | `PackerInspectOptions`     |
-| `packer plugins`      | `PackerPluginsOptions`     |
-| `packer validate`     | `PackerValidateOptions`    |
+| CLI command                 | Options record                   |
+| --------------------------- | -------------------------------- |
+| `packer build`              | `PackerBuildOptions`             |
+| `packer console`            | `PackerConsoleOptions`           |
+| `packer fix`                | `PackerFixOptions`               |
+| `packer fmt`                | `PackerFmtOptions`               |
+| `packer hcl2_upgrade`       | `PackerHcl2UpgradeOptions`       |
+| `packer init`               | `PackerInitOptions`              |
+| `packer inspect`            | `PackerInspectOptions`           |
+| `packer plugins`            | `PackerPluginsOptions`           |
+| `packer validate`           | `PackerValidateOptions`          |
+| `packer verify-attestation` | `PackerVerifyAttestationOptions` |

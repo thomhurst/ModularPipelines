@@ -12,22 +12,20 @@ Required command-line tool: `yq`. It must be installed and available on `PATH` w
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Yq.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Yq()`
+* `context.Tools.Yq`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Yq.Extensions;
 
 
-
-public class UseYqModule : SyncModule
+public class UseYqModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -35,7 +33,7 @@ public class UseYqModule : SyncModule
 
     {
 
-        var yq = context.Yq();
+        var yq = context.Tools.Yq;
 
 
 
@@ -43,9 +41,43 @@ public class UseYqModule : SyncModule
 
         context.Logger.LogInformation("Yq integration is ready");
 
+        return None.Value;
+
     }
 
 }
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared settings[​](#shared-settings "Direct link to Shared settings")
+
+`YqOptions` declares the [persistent settings](/ModularPipelines/docs/mp-packages/cli/yq.md#global-options) shared by `YqEvalOptions` and `YqEvalAllOptions`. Existing property names remain available through inheritance. Settings render before the subcommand; expression and file operands render afterward.
+
+```
+var options = new YqEvalOptions
+
+{
+
+    InputFormat = "yaml",
+
+    OutputFormat = "json",
+
+    Indent = 2,
+
+    UnwrapScalar = false,
+
+    ExpressionArgument = ".items[]",
+
+    YamlFile1 = ["input.yaml"],
+
+};
+```
+
+`Expression` sets the explicit `--expression` option. `ExpressionArgument` remains the positional expression. Default-true Boolean settings support explicit `false`. Short aliases are case-sensitive: `-C` selects colors, while `-c` selects compact sequence indentation. No persistent setting is a repeated collection or credential. The root-only `--version` action is not inherited by processing commands.
+
+This scope follows [yq 4.54.1's persistent flag registrations](https://github.com/mikefarah/yq/blob/v4.54.1/cmd/root.go). The command coverage remains `eval` and `eval-all`; utility help and completion commands do not add generated command groups.
+
+## Migration[​](#migration "Direct link to Migration")
+
+Existing command option initializers keep the same property names and types; no initializer changes are needed. Shared settings now belong to `YqOptions` and are inherited by both processing records. Reflection code using `DeclaredOnly` must include inherited properties or inspect `YqOptions` when discovering those settings.

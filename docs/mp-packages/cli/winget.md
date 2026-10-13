@@ -2,71 +2,85 @@
 
 `ModularPipelines.WinGet` provides strongly typed access to the `winget` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `winget` executable. Install it separately and ensure `winget` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.WinGet
 ```
 
-Import `ModularPipelines.WinGet.Extensions`, then resolve the service with `context.Winget()`.
+Resolve the service with `context.Tools.Winget`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.WinGet.Services.IWinget>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.WinGet.Extensions;
-
-using ModularPipelines.WinGet.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Winget().Install(
-
-            new WingetInstallOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var winget = context.Tools.Winget;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                | Property               | Availability | Description                                      |
+| ------------------------- | ---------------------- | ------------ | ------------------------------------------------ |
+| `--disable-interactivity` | `DisableInteractivity` | All editions | Disable interactive prompts                      |
+| `--logs`                  | `Logs`                 | All editions | Open the default logs location                   |
+| `--no-proxy`              | `NoProxy`              | All editions | Disable the use of proxy for this execution      |
+| `--nowarn`                | `Nowarn`               | All editions | Suppresses warning outputs                       |
+| `--proxy`                 | `Proxy`                | All editions | Set a proxy to use for this execution            |
+| `--verbose`               | `Verbose`              | All editions | Enables verbose logging for winget               |
+| `--wait`                  | `Wait`                 | All editions | Prompts the user to press any key before exiting |
 
 ## Commands[​](#commands "Direct link to Commands")
 
-| CLI command        | Options record           |
-| ------------------ | ------------------------ |
-| `winget configure` | `WingetConfigureOptions` |
-| `winget download`  | `WingetDownloadOptions`  |
-| `winget dscv3`     | `WingetDscv3Options`     |
-| `winget export`    | `WingetExportOptions`    |
-| `winget features`  | `WingetFeaturesOptions`  |
-| `winget hash`      | `WingetHashOptions`      |
-| `winget import`    | `WingetImportOptions`    |
-| `winget install`   | `WingetInstallOptions`   |
-| `winget list`      | `WingetListOptions`      |
-| `winget pin`       | `WingetPinOptions`       |
-| `winget repair`    | `WingetRepairOptions`    |
-| `winget search`    | `WingetSearchOptions`    |
-| `winget settings`  | `WingetSettingsOptions`  |
-| `winget show`      | `WingetShowOptions`      |
-| `winget source`    | `WingetSourceOptions`    |
-| `winget uninstall` | `WingetUninstallOptions` |
-| `winget upgrade`   | `WingetUpgradeOptions`   |
-| `winget validate`  | `WingetValidateOptions`  |
+| CLI command                       | Options record                       |
+| --------------------------------- | ------------------------------------ |
+| `winget configure`                | `WingetConfigureOptions`             |
+| `winget configure export`         | `WingetConfigureExportOptions`       |
+| `winget configure list`           | `WingetConfigureListOptions`         |
+| `winget configure show`           | `WingetConfigureShowOptions`         |
+| `winget configure test`           | `WingetConfigureTestOptions`         |
+| `winget configure validate`       | `WingetConfigureValidateOptions`     |
+| `winget download`                 | `WingetDownloadOptions`              |
+| `winget dscv3`                    | `WingetDscv3Options`                 |
+| `winget dscv3 admin-settings`     | `WingetDscv3AdminSettingsOptions`    |
+| `winget dscv3 package`            | `WingetDscv3PackageOptions`          |
+| `winget dscv3 source`             | `WingetDscv3SourceOptions`           |
+| `winget dscv3 user-settings-file` | `WingetDscv3UserSettingsFileOptions` |
+| `winget export`                   | `WingetExportOptions`                |
+| `winget features`                 | `WingetFeaturesOptions`              |
+| `winget hash`                     | `WingetHashOptions`                  |
+| `winget import`                   | `WingetImportOptions`                |
+| `winget install`                  | `WingetInstallOptions`               |
+| `winget list`                     | `WingetListOptions`                  |
+| `winget mcp`                      | `WingetMcpOptions`                   |
+| `winget pin`                      | `WingetPinOptions`                   |
+| `winget pin add`                  | `WingetPinAddOptions`                |
+| `winget pin list`                 | `WingetPinListOptions`               |
+| `winget pin remove`               | `WingetPinRemoveOptions`             |
+| `winget pin reset`                | `WingetPinResetOptions`              |
+| `winget repair`                   | `WingetRepairOptions`                |
+| `winget search`                   | `WingetSearchOptions`                |
+| `winget settings`                 | `WingetSettingsOptions`              |
+| `winget settings export`          | `WingetSettingsExportOptions`        |
+| `winget settings reset`           | `WingetSettingsResetOptions`         |
+| `winget settings set`             | `WingetSettingsSetOptions`           |
+| `winget show`                     | `WingetShowOptions`                  |
+| `winget source`                   | `WingetSourceOptions`                |
+| `winget source add`               | `WingetSourceAddOptions`             |
+| `winget source edit`              | `WingetSourceEditOptions`            |
+| `winget source export`            | `WingetSourceExportOptions`          |
+| `winget source list`              | `WingetSourceListOptions`            |
+| `winget source remove`            | `WingetSourceRemoveOptions`          |
+| `winget source reset`             | `WingetSourceResetOptions`           |
+| `winget source update`            | `WingetSourceUpdateOptions`          |
+| `winget uninstall`                | `WingetUninstallOptions`             |
+| `winget upgrade`                  | `WingetUpgradeOptions`               |
+| `winget validate`                 | `WingetValidateOptions`              |

@@ -29,9 +29,9 @@ This brings in `ModularPipelines.Distributed` (core distributed abstractions) an
 In your `Program.cs`, enable distributed mode and register the Redis coordinator:
 
 ```
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
 
 
 
@@ -39,29 +39,9 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-// Parse instance info from arguments or environment
+// Enable distributed mode from the standard MODULARPIPELINES_* environment variables
 
-var instanceIndex = int.Parse(
-
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-var totalInstances = int.Parse(
-
-    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-
-
-// Enable distributed mode
-
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = instanceIndex;
-
-    o.TotalInstances = totalInstances;
-
-});
+builder.AddDistributedMode();
 
 
 
@@ -81,15 +61,15 @@ builder.AddRedisDistributedCoordinator(o =>
 
 // Register your modules as normal
 
-builder.Services.AddModule<BuildModule>();
+builder.AddModule<BuildModule>();
 
-builder.Services.AddModule<TestModule>();
+builder.AddModule<TestModule>();
 
-builder.Services.AddModule<PublishModule>();
+builder.AddModule<PublishModule>();
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
 
 That's it. When `InstanceIndex` is `0`, the process runs as the master. All other instances run as workers.
@@ -98,16 +78,22 @@ That's it. When `InstanceIndex` is `0`, the process runs as the master. All othe
 
 Test with two terminal windows:
 
+Generate one identifier for this invocation and copy the value:
+
+```
+uuidgen
+```
+
 **Terminal 1 (Master):**
 
 ```
-INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=0 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 **Terminal 2 (Worker):**
 
 ```
-INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+MODULARPIPELINES_RUN_ID="paste-same-generated-uuid-here" MODULARPIPELINES_INSTANCE_INDEX=1 MODULARPIPELINES_TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
@@ -118,24 +104,24 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 
 ## How Run Isolation Works[​](#how-run-isolation-works "Direct link to How Run Isolation Works")
 
-Every Redis key is prefixed with a run identifier so concurrent pipeline runs on the same Redis instance don't collide. By default, the run identifier is auto-detected from CI environment variables:
+Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
-1. `GITHUB_SHA` (GitHub Actions)
-2. `BUILD_SOURCEVERSION` (Azure DevOps)
-3. `CI_COMMIT_SHA` (GitLab CI)
-4. `git rev-parse HEAD` (local git)
-5. A random GUID as fallback
+1. Explicit `DistributedOptions.RunId` configuration
+2. The `MODULARPIPELINES_RUN_ID` environment variable
+3. A generated GUID when neither is configured and `TotalInstances` is `1`
 
-You can override this with an explicit value:
+Commit hashes are not safe because repeated executions of the same commit would reuse stale keys. Multi-process runs fail fast when no shared identifier is configured. For local or CI runs, export one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every process:
 
 ```
+builder.AddDistributedMode();
+
+
+
 builder.AddRedisDistributedCoordinator(o =>
 
 {
 
     o.ConnectionString = "your-redis-url";
-
-    o.RunIdentifier = "my-custom-run-id";
 
 });
 ```
@@ -151,9 +137,11 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
+
+using ModularPipelines.Extensions;
 
 using ModularPipelines.Modules;
 
@@ -165,23 +153,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-var instanceIndex = int.Parse(
-
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-
-
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = instanceIndex;
-
-    o.TotalInstances = int.Parse(
-
-        Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-});
+builder.AddDistributedMode();
 
 
 
@@ -197,15 +169,15 @@ builder.AddRedisDistributedCoordinator(o =>
 
 
 
-builder.Services.AddModule<RestoreModule>();
+builder.AddModule<RestoreModule>();
 
-builder.Services.AddModule<BuildModule>();
+builder.AddModule<BuildModule>();
 
-builder.Services.AddModule<TestModule>();
+builder.AddModule<TestModule>();
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 
 
 
@@ -213,13 +185,13 @@ public class RestoreModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Restore(new());
+        await context.Tools.DotNet.RestoreAsync(new());
 
         return "restored";
 
@@ -235,13 +207,13 @@ public class BuildModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Build(new());
+        await context.Tools.DotNet.BuildAsync(new());
 
         return "built";
 
@@ -257,13 +229,13 @@ public class TestModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Test(new());
+        await context.Tools.DotNet.TestAsync(new());
 
         return "tested";
 

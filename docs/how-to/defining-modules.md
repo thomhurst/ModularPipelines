@@ -11,7 +11,7 @@ public class FindAFileModule : Module<FileInfo>
 
 {
 
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -30,14 +30,14 @@ public class FindAFileModule : Module<FileInfo>
 
 ### Modules Without Return Values[​](#modules-without-return-values "Direct link to Modules Without Return Values")
 
-For modules that perform actions without returning meaningful data, use the non-generic `Module` base class:
+For modules that perform actions without returning meaningful data, use the non-generic `Module`:
 
 ```
 public class CleanupModule : Module
 
 {
 
-    protected override async Task ExecuteModuleAsync(
+    protected override Task ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -47,21 +47,21 @@ public class CleanupModule : Module
 
         folder.Delete();
 
-        // No return statement needed
+        return Task.CompletedTask;
 
     }
 
 }
 ```
 
-For synchronous operations, use `SyncModule`:
+For synchronous operations, `SyncModule<None>` remains available:
 
 ```
-public class LoggingModule : SyncModule
+public class LoggingModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -69,35 +69,35 @@ public class LoggingModule : SyncModule
 
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
 
-        // No return statement needed
+        return None.Value;
 
     }
 
 }
 ```
 
-These classes internally use the `None` struct to represent the absence of a value. `None` is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
+The pipeline represents a non-generic module's successful result internally with `None.Value`. You only need to return that sentinel yourself when using `SyncModule<None>`.
 
 ## Configuring Module Behavior[​](#configuring-module-behavior "Direct link to Configuring Module Behavior")
 
-Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure(ModuleConfigurationBuilder)` method:
 
 ```
 public class MyModule : Module<FileInfo>
 
 {
 
-    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
-        .WithRetryCount(3)
+        .WithRetry(3)
 
-        .WithSkipWhen(() => !File.Exists("important.json"))
+        .WithSkipWhen(_ => !File.Exists("important.json"), "important.json does not exist")
 
         .WithPriority(ModulePriority.High)
 
-        .WithExecutionHint(ExecutionType.IoIntensive)
+        .WithExecutionHint(ExecutionHint.IoBound)
 
         .WithTags("build", "critical")
 
@@ -107,13 +107,11 @@ public class MyModule : Module<FileInfo>
 
         .WithIgnoreFailures()
 
-        .WithAlwaysRun()
-
-        .Build();
+        .WithAlwaysRun();
 
 
 
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -128,24 +126,24 @@ public class MyModule : Module<FileInfo>
 
 ### Available Configuration Options[​](#available-configuration-options "Direct link to Available Configuration Options")
 
-| Method                              | Description                                                         |
-| ----------------------------------- | ------------------------------------------------------------------- |
-| `.WithTimeout(TimeSpan)`            | Maximum execution time before module is cancelled                   |
-| `.WithRetryCount(int)`              | Number of retry attempts on failure                                 |
-| `.WithRetryPolicy(IAsyncPolicy)`    | Custom Polly retry policy                                           |
-| `.WithSkipWhen(...)`                | Condition to skip the module                                        |
-| `.WithIgnoreFailures()`             | Don't fail the pipeline if this module fails                        |
-| `.WithIgnoreFailuresWhen(...)`      | Conditionally ignore failures                                       |
-| `.WithAlwaysRun()`                  | Run even if the pipeline has failed                                 |
-| `.WithBeforeExecute(...)`           | Hook to run before execution                                        |
-| `.WithAfterExecute(...)`            | Hook to run after execution                                         |
-| `.WithNotInParallel(...)`           | Prevent parallel execution globally or for matching constraint keys |
-| `.WithPriority(ModulePriority)`     | Set scheduler priority                                              |
-| `.WithExecutionHint(ExecutionType)` | Select CPU, I/O, or default concurrency limits                      |
-| `.WithTags(...)`                    | Add tags used by metadata-based dependencies                        |
-| `.WithCategory(string)`             | Set the module category                                             |
-| `.DependsOn<TModule>()`             | Add a required dependency                                           |
-| `.DependsOnOptional<TModule>()`     | Add an optional dependency                                          |
+| Method                                               | Description                                                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `.WithTimeout(TimeSpan)`                             | Maximum execution time per attempt; must be positive, or `Timeout.InfiniteTimeSpan` to disable the default timeout |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter                                                 |
+| `.WithShield(Shield)`                                | Custom Kevlar resilience shield for advanced scenarios                                                             |
+| `.WithSkipWhen(...)`                                 | Condition to skip the module                                                                                       |
+| `.WithRunIf<T>()` / `.WithRunIf(IRunCondition)`      | Run only when an `IRunCondition` is satisfied                                                                      |
+| `.WithSkipIf<T>()` / `.WithSkipIf(IRunCondition)`    | Skip when an `IRunCondition` is satisfied                                                                          |
+| `.WithIgnoreFailures()`                              | Don't fail the pipeline if this module fails                                                                       |
+| `.WithIgnoreFailuresWhen(...)`                       | Conditionally ignore failures                                                                                      |
+| `.WithAlwaysRun()`                                   | Run even if the pipeline has failed                                                                                |
+| `.WithNotInParallel(...)`                            | Prevent parallel execution globally or for matching constraint keys                                                |
+| `.WithPriority(ModulePriority)`                      | Set scheduler priority                                                                                             |
+| `.WithExecutionHint(ExecutionHint)`                  | Select CPU-bound, I/O-bound, or default concurrency limits                                                         |
+| `.WithTags(...)`                                     | Add tags used by metadata-based dependencies                                                                       |
+| `.WithCategory(string)`                              | Set the module category                                                                                            |
+| `.DependsOn<TModule>()`                              | Add a required dependency                                                                                          |
+| `.DependsOnOptional<TModule>()`                      | Add an optional dependency                                                                                         |
 
 The fluent configuration is the canonical runtime model. Existing attributes such as `[Priority]`, `[ExecutionHint]`, `[NotInParallel]`, `[ModuleTag]`, `[ModuleCategory]`, and `[DependsOn<T>]` remain supported as declarative sugar and are merged into the same model.
 
@@ -182,7 +180,7 @@ public class MyModule : Module<string>
 
     {
 
-        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+        context.Logger.LogInformation("Module completed with status: {Status}", result.Status);
 
         return Task.FromResult<ModuleResult<string>?>(null);
 
@@ -226,7 +224,7 @@ public class MyModule : Module<string>
 
 
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -254,7 +252,7 @@ public class BuildModule : Module<BuildOutput>
 
 {
 
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -274,13 +272,15 @@ public class BuildModule : Module<BuildOutput>
 
 {
 
-    public override string? Category => "Build";
+    protected override void Configure(ModuleConfigurationBuilder module) => module
 
-    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+        .WithCategory("Build")
+
+        .WithTags("critical", "fast");
 
 
 
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 

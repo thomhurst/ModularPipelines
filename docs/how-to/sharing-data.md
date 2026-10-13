@@ -13,7 +13,7 @@ public class DeployModule : Module<DeployResult>
 
 {
 
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -25,9 +25,11 @@ public class DeployModule : Module<DeployResult>
 
 
 
-        // Access the value safely
+        // Access the required dependency value. This throws with module context
 
-        var artifact = buildResult.ValueOrDefault?.ArtifactPath;
+        // if the module failed, was skipped, or returned null.
+
+        var artifact = buildResult.Value.ArtifactPath;
 
 
 
@@ -57,11 +59,11 @@ return result switch
 
         => await ProcessValue(value),
 
-    ModuleResult.Failure { Exception: var ex }
+    ModuleResult<MyResult>.Failure { Exception: var ex }
 
         => HandleFailure(ex),
 
-    ModuleResult.Skipped { Decision: var skip }
+    ModuleResult<MyResult>.Skipped { Decision: var skip }
 
         => HandleSkipped(skip.Reason),
 
@@ -90,22 +92,30 @@ return result.Match(
 );
 ```
 
-## Convenience Properties[​](#convenience-properties "Direct link to Convenience Properties")
+## Accessing Required Values[​](#accessing-required-values "Direct link to Accessing Required Values")
 
-For simpler checks, use the convenience properties:
+Use `Value` when the dependency must have produced a non-null value. It returns `T` without a null-forgiveness operator. If the module failed, was skipped, or returned `null`, it throws an `InvalidOperationException` that identifies the module and outcome:
+
+```
+var result = await context.GetModule<MyModule>();
+
+var value = result.Value;
+```
+
+## Safe Accessors[​](#safe-accessors "Direct link to Safe Accessors")
+
+When an absent value is expected, inspect the union through its non-throwing accessors:
 
 ```
 var result = await context.GetModule<MyModule>();
 
 
 
-// Quick status checks
-
-if (result.IsSuccess)
+if (result is ModuleResult<MyResult>.Success success)
 
 {
 
-    var value = result.ValueOrDefault;
+    var value = success.Value;
 
     // Process value
 
@@ -113,11 +123,9 @@ if (result.IsSuccess)
 
 
 
-if (result.IsFailure)
+if (result.ExceptionOrDefault is { } exception)
 
 {
-
-    var exception = result.ExceptionOrDefault;
 
     // Handle error
 
@@ -125,11 +133,9 @@ if (result.IsFailure)
 
 
 
-if (result.IsSkipped)
+if (result.SkipDecisionOrDefault is { } skipDecision)
 
 {
-
-    var skipDecision = result.SkipDecisionOrDefault;
 
     // Handle skip
 
@@ -149,7 +155,7 @@ public class DeployModule : Module<DeployResult>
 
 {
 
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 

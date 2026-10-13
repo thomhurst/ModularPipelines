@@ -12,22 +12,24 @@ Required command-line tool: `cargo`. It must be installed and available on `PATH
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Cargo()`
+* `context.Tools.Cargo`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Rust.Extensions;
+using ModularPipelines;
+
+using ModularPipelines.Rust.Options;
 
 
 
-public class UseCargoModule : SyncModule
+public class UseCargoModule : Module<CommandResult>
 
 {
 
-    protected override void ExecuteModule(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -35,13 +37,17 @@ public class UseCargoModule : SyncModule
 
     {
 
-        var cargo = context.Cargo();
+        return await context.Tools.Cargo.CheckAsync(
 
+            new CargoCheckOptions
 
+            {
 
-        // Call the integration's strongly typed operations here.
+                Quiet = true,
 
-        context.Logger.LogInformation("Cargo integration is ready");
+            },
+
+            cancellationToken: cancellationToken);
 
     }
 
@@ -49,3 +55,29 @@ public class UseCargoModule : SyncModule
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Common Cargo settings[​](#common-cargo-settings "Direct link to Common Cargo settings")
+
+All command records inherit `Verbose`, `Quiet`, `Color`, `Config`, `Locked`, `Offline`, and `Frozen` from `CargoOptions`. These settings render before the command name. `Verbose = 2` emits `--verbose --verbose`; `Config` emits a separate `--config` argument for each TOML override or configuration-file path. Configuration values are treated as secrets because overrides can contain registry credentials.
+
+```
+new CargoBuildOptions
+
+{
+
+    Verbose = 2,
+
+    Config = ["build.jobs=2", "local configuration.toml"],
+
+    Offline = true,
+
+    Release = true,
+
+};
+```
+
+This renders the common settings before `build` and the command-specific `--release` after it. Each configuration entry remains one argument, including paths with spaces. Boolean settings set to `false` or `null` are omitted.
+
+`ManifestPath`, package selection, compilation settings, and nightly `Z` switches remain command-specific. Cargo's nightly-only `-C` and rustup's `+toolchain` selector are not unconditional global properties. Use `WorkingDirectory` for process directory selection; select a toolchain through the executable or rustup environment. See the [Cargo command reference](https://doc.rust-lang.org/cargo/commands/cargo.html) for nightly prerequisites and configuration semantics.
+
+When upgrading, replace command-specific color enum names, such as `CargoBuildColor`, with the shared `CargoColor` enum.

@@ -2,51 +2,35 @@
 
 `ModularPipelines.Snyk` provides strongly typed access to the `snyk` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `snyk` executable. Install it separately and ensure `snyk` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Snyk
 ```
 
-Import `ModularPipelines.Snyk.Extensions`, then resolve the service with `context.Snyk()`.
+Resolve the service with `context.Tools.Snyk`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Snyk.Services.ISnyk>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Snyk.Extensions;
-
-using ModularPipelines.Snyk.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Snyk().Auth(
-
-            new SnykAuthOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var snyk = context.Tools.Snyk;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option | Property | Availability | Description        |
+| ---------- | -------- | ------------ | ------------------ |
+| `-d`       | `Debug`  | All editions | Output debug logs. |
 
 ## Commands[​](#commands "Direct link to Commands")
 

@@ -2,6 +2,65 @@
 
 This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 
+## This repository's CI[​](#this-repositorys-ci "Direct link to This repository's CI")
+
+The [.NET workflow](https://github.com/thomhurst/ModularPipelines/blob/main/.github/workflows/dotnet.yml) runs the actual `ModularPipelines.Build` pipeline using the Redis coordinator and Redis artifact store. It selects distributed execution only when both `REDIS_ENDPOINT` and `REDIS_KEY` secrets are available and the event is trusted. Fork and Dependabot pull requests use a standalone Linux pipeline, with separate Windows and macOS compilation jobs. Manual dispatch can also select `distributed: false` to exercise this fallback without removing secrets.
+
+The distributed matrix uses these indices:
+
+| Index | Runner  | Responsibility                                                 |
+| ----- | ------- | -------------------------------------------------------------- |
+| 0     | Ubuntu  | Master, Linux build, packaging, publishing, and eligible tests |
+| 1     | Ubuntu  | Linux test worker                                              |
+| 2     | Windows | Windows compilation of every solution in `BuildSolutions.txt`  |
+| 3     | macOS   | macOS compilation of every solution in `BuildSolutions.txt`    |
+
+Every runner downloads the same framework-dependent pipeline host. Keeping this host outside the checkout allows Windows to rebuild the build project without locking its output, and keeps module and serialization schema identities identical across runners. Each runner restores its own dependencies. The master publishes the registered test projects' Linux build output through Redis. A compressed TAR stores duplicate dependency contents once; workers materialize independent files so coverage instrumentation cannot modify another test project's assemblies. Linux tests restore that output once per process. Publishing and repository mutations require the master's `ci-master` capability, and publishing credentials are supplied only to instance 0. The master job alone has repository-write and identity-token permissions; worker jobs have read-only repository access. Both jobs reuse the same execution steps.
+
+`MODULARPIPELINES_RUN_ID` combines `GITHUB_RUN_ID` and `GITHUB_RUN_ATTEMPT`. Use **Re-run all jobs** for a distributed retry: partial retries are rejected because they cannot recreate the cooperating matrix. Worker capability discovery is bounded to 10 minutes, platform compilation to 75 minutes, the default module result wait to 80 minutes, and each runner job to 90 minutes. Redis coordination keys and artifacts expire after two hours. A failed or lost worker fails the run within these limits; it does not silently rerun publishing or test work on another runner.
+
+The master uploads `pipeline-report-0-ubuntu-latest-<run_attempt>`, containing `artifacts/run-report.json`. All workflow uploads include the attempt number, so full retries preserve earlier evidence without upload conflicts. Downloads use artifact names published by their prerequisite jobs; standalone partial retries can therefore reuse artifacts from successful prerequisites. Its job summary reports pipeline wall-clock duration, per-worker busy/idle time and utilization, and total/maximum queue wait. The JSON also retains module-level timings and artifact overhead. For a before/after comparison, run the same commit with `distributed: true` and `false`, with package publishing disabled. Record total workflow and individual job durations from GitHub as well: the pipeline report excludes restore and host preparation, and the standalone report also excludes its native prebuild. CI acceptance requires successful trusted PR, main, and secretless runs; configuration tests alone do not establish those results.
+
+## Generate the Workflow[​](#generate-the-workflow "Direct link to Generate the Workflow")
+
+The `ModularPipelines.GitHub` package can generate the matrix from the operating-system capabilities declared by registered modules. Call `AddDistributedWorkflow` after registering the modules so regeneration reflects capability changes:
+
+```
+using ModularPipelines.GitHub;
+
+
+
+builder.AddModule<RestoreModule>();
+
+builder.AddModule<LinuxBuildModule>();
+
+builder.AddModule<WindowsBuildModule>();
+
+builder.AddModule<MacBuildModule>();
+
+builder.AddModule<AggregateResultsModule>();
+
+
+
+builder.AddDistributedWorkflow(new DistributedWorkflowOptions
+
+{
+
+    Backend = DistributedBackend.Redis,
+
+    ExtraWorkers = 1,
+
+    PipelineProjectPath = new("src/MyPipeline"),
+
+});
+```
+
+The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or `macos` capability used by a registered module or its operating-system run conditions, and the requested additional workers. It wires `MODULARPIPELINES_INSTANCE_INDEX`, `MODULARPIPELINES_TOTAL_INSTANCES`, `REDIS_URL`, and a unique `MODULARPIPELINES_RUN_ID` automatically. Set the repository secret named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at `.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or capability requirements change.
+
+The default trigger runs on pushes to `main` and manual dispatches. Pull requests are omitted because workflows from forks cannot access the Redis repository secret. Trusted repositories can opt in by setting `TriggerCondition.PullRequest`; repositories accepting fork contributions should keep secret-dependent distributed jobs disabled for those events.
+
+The following hand-written workflow is equivalent and can be customized directly.
+
 ## Workflow File[​](#workflow-file "Direct link to Workflow File")
 
 ```
@@ -15,13 +74,35 @@ on:
 
     branches: [main]
 
-  pull_request:
+  workflow_dispatch:
 
 
 
 jobs:
 
+  initialize:
+
+    runs-on: ubuntu-latest
+
+    outputs:
+
+      run-identifier: ${{ steps.identifier.outputs.value }}
+
+    steps:
+
+      - name: Initialize coordination
+
+        id: identifier
+
+        shell: bash
+
+        run: echo "value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
+
+
   pipeline:
+
+    needs: initialize
 
     strategy:
 
@@ -57,15 +138,31 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Validate retry scope
+
+        shell: bash
+
+        run: |
+
+          if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
+
+            echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
+
+            exit 1
+
+          fi
 
 
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7.0.1
+
+
+
+      - uses: actions/setup-dotnet@v6.0.0
 
         with:
 
-          dotnet-version: "10.0.x"
+          dotnet-version: "11.0.x"
 
 
 
@@ -73,13 +170,15 @@ jobs:
 
         env:
 
-          INSTANCE_INDEX: ${{ matrix.instance }}
+          MODULARPIPELINES_INSTANCE_INDEX: ${{ matrix.instance }}
 
-          TOTAL_INSTANCES: 4
+          MODULARPIPELINES_TOTAL_INSTANCES: 4
 
           REDIS_URL: ${{ secrets.REDIS_URL }}
 
-        run: dotnet run --project src/MyPipeline -c Release
+          MODULARPIPELINES_RUN_ID: ${{ needs.initialize.outputs.run-identifier }}
+
+        run: dotnet run --project 'src/MyPipeline' -c Release
 ```
 
 ## Redis Setup for CI[​](#redis-setup-for-ci "Direct link to Redis Setup for CI")
@@ -111,9 +210,11 @@ using ModularPipelines.Attributes;
 
 using ModularPipelines.Context;
 
-using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed;
 
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Redis;
+
+using ModularPipelines.Extensions;
 
 using ModularPipelines.Modules;
 
@@ -125,25 +226,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-var instanceIndex = int.Parse(
-
-    Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
-
-var totalInstances = int.Parse(
-
-    Environment.GetEnvironmentVariable("TOTAL_INSTANCES") ?? "1");
-
-
-
-builder.AddDistributedMode(o =>
-
-{
-
-    o.InstanceIndex = instanceIndex;
-
-    o.TotalInstances = totalInstances;
-
-});
+builder.AddDistributedMode();
 
 
 
@@ -153,25 +236,23 @@ builder.AddRedisDistributedCoordinator(o =>
 
     o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
 
-    // RunIdentifier auto-detected from GITHUB_SHA
-
 });
 
 
 
-builder.Services.AddModule<RestoreModule>();
+builder.AddModule<RestoreModule>();
 
-builder.Services.AddModule<LinuxBuildModule>();
+builder.AddModule<LinuxBuildModule>();
 
-builder.Services.AddModule<WindowsBuildModule>();
+builder.AddModule<WindowsBuildModule>();
 
-builder.Services.AddModule<MacBuildModule>();
+builder.AddModule<MacBuildModule>();
 
-builder.Services.AddModule<AggregateResultsModule>();
+builder.AddModule<AggregateResultsModule>();
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 
 
 
@@ -179,13 +260,13 @@ public class RestoreModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Restore(new());
+        await context.Tools.DotNet.RestoreAsync(new());
 
         return "restored";
 
@@ -195,7 +276,7 @@ public class RestoreModule : Module<string>
 
 
 
-[RequiresCapability("linux")]
+[RequiresCapability(Capability.Names.Linux)]
 
 [DependsOn<RestoreModule>]
 
@@ -203,15 +284,15 @@ public class LinuxBuildModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Build(new());
+        await context.Tools.DotNet.BuildAsync(new());
 
-        await context.DotNet().Test(new());
+        await context.Tools.DotNet.TestAsync(new());
 
         return "linux-ok";
 
@@ -221,7 +302,7 @@ public class LinuxBuildModule : Module<string>
 
 
 
-[RequiresCapability("windows")]
+[RequiresCapability(Capability.Names.Windows)]
 
 [DependsOn<RestoreModule>]
 
@@ -229,15 +310,15 @@ public class WindowsBuildModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Build(new());
+        await context.Tools.DotNet.BuildAsync(new());
 
-        await context.DotNet().Test(new());
+        await context.Tools.DotNet.TestAsync(new());
 
         return "windows-ok";
 
@@ -247,7 +328,7 @@ public class WindowsBuildModule : Module<string>
 
 
 
-[RequiresCapability("macos")]
+[RequiresCapability(Capability.Names.MacOS)]
 
 [DependsOn<RestoreModule>]
 
@@ -255,15 +336,15 @@ public class MacBuildModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        await context.DotNet().Build(new());
+        await context.Tools.DotNet.BuildAsync(new());
 
-        await context.DotNet().Test(new());
+        await context.Tools.DotNet.TestAsync(new());
 
         return "macos-ok";
 
@@ -283,7 +364,7 @@ public class AggregateResultsModule : Module<string>
 
 {
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -297,9 +378,9 @@ public class AggregateResultsModule : Module<string>
 
 
 
-        return $"All platforms passed: {linux.ValueOrDefault}, "
+        return $"All platforms passed: {linux.Value}, "
 
-             + $"{windows.ValueOrDefault}, {mac.ValueOrDefault}";
+             + $"{windows.Value}, {mac.Value}";
 
     }
 
@@ -320,41 +401,48 @@ public class AggregateResultsModule : Module<string>
 ## Important Notes[​](#important-notes "Direct link to Important Notes")
 
 * **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
-* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
+* **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `RedisOptions.TimeToLive` accordingly if you have very long pipelines; it must exceed `DistributedOptions.ModuleResultTimeout`.
 * **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
+* **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 * **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
 
 ## Azure DevOps[​](#azure-devops "Direct link to Azure DevOps")
 
-The same pattern works in Azure DevOps with a matrix strategy. The run identifier auto-detects from `BUILD_SOURCEVERSION`:
+The same pattern works in Azure DevOps with a matrix strategy. Export one shared identifier explicitly; combining the build and stage attempt keeps full stage retries isolated:
 
 ```
+variables:
+
+  MODULARPIPELINES_RUN_ID: "$(Build.BuildId)-$(System.StageAttempt)"
+
+
+
 strategy:
 
   matrix:
 
     master:
 
-      INSTANCE_INDEX: 0
+      MODULARPIPELINES_INSTANCE_INDEX: 0
 
       vmImage: "ubuntu-latest"
 
     worker-linux:
 
-      INSTANCE_INDEX: 1
+      MODULARPIPELINES_INSTANCE_INDEX: 1
 
       vmImage: "ubuntu-latest"
 
     worker-windows:
 
-      INSTANCE_INDEX: 2
+      MODULARPIPELINES_INSTANCE_INDEX: 2
 
       vmImage: "windows-latest"
 ```
 
 ## GitLab CI[​](#gitlab-ci "Direct link to GitLab CI")
 
-For GitLab CI, the run identifier auto-detects from `CI_COMMIT_SHA`. Use parallel jobs or a matrix to spawn instances:
+For GitLab CI, export `CI_PIPELINE_ID` explicitly as the shared identifier. Start a new pipeline rather than retrying only part of the matrix when coordination state must be discarded:
 
 ```
 pipeline:
@@ -363,7 +451,7 @@ pipeline:
 
     matrix:
 
-      - INSTANCE_INDEX: [0, 1, 2]
+      - MODULARPIPELINES_INSTANCE_INDEX: [0, 1, 2]
 
   script:
 
@@ -371,7 +459,9 @@ pipeline:
 
   variables:
 
-    TOTAL_INSTANCES: 3
+    MODULARPIPELINES_TOTAL_INSTANCES: 3
 
     REDIS_URL: $REDIS_URL
+
+    MODULARPIPELINES_RUN_ID: $CI_PIPELINE_ID
 ```

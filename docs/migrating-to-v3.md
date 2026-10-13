@@ -2,6 +2,8 @@
 
 ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 
+> **Using V4?** This historical guide shows the V3 API. V4 registers modules directly on `PipelineBuilder`, removes synchronous `Build()`, and validates before execution. See the [V3-to-V4 migration guide](/ModularPipelines/docs/migrating-to-v4.md).
+
 > **TL;DR - The 6 biggest changes:**
 >
 > 1. `PipelineHostBuilder.Create()` → `Pipeline.CreateBuilder(args)`
@@ -324,9 +326,9 @@ public class MyModule : Module<string>
 
         .WithTimeout(TimeSpan.FromMinutes(5))
 
-        .WithRetryCount(3)
+        .WithRetry(3)
 
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
 
             ? SkipDecision.Skip("Only runs on main branch")
 
@@ -335,10 +337,6 @@ public class MyModule : Module<string>
         .WithIgnoreFailures()
 
         .WithAlwaysRun()
-
-        .WithBeforeExecute(ctx => LogStartAsync(ctx))
-
-        .WithAfterExecute(ctx => LogEndAsync(ctx))
 
         .Build();
 
@@ -361,15 +359,15 @@ public class MyModule : Module<string>
 
 ### Migration Mapping[​](#migration-mapping "Direct link to Migration Mapping")
 
-| V2 Override                                 | V3 Configure() Method                                      |
-| ------------------------------------------- | ---------------------------------------------------------- |
-| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                   |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetryCount(int)` or `.WithRetryPolicy(IAsyncPolicy)` |
-| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                       |
-| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)`  |
-| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                         |
-| `Task OnBeforeExecute()` method             | `.WithBeforeExecute(...)`                                  |
-| `Task OnAfterExecute()` method              | `.WithAfterExecute(...)`                                   |
+| V2 Override                                 | V3 Configure() Method                                     |
+| ------------------------------------------- | --------------------------------------------------------- |
+| `TimeSpan Timeout` property                 | `.WithTimeout(TimeSpan)`                                  |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.WithShield(Shield)`           |
+| `Task<SkipDecision> ShouldSkip()` method    | `.WithSkipWhen(...)`                                      |
+| `Task<bool> ShouldIgnoreFailures()` method  | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
+| `ModuleRunType.AlwaysRun`                   | `.WithAlwaysRun()`                                        |
+| `Task OnBeforeExecute()` method             | `OnBeforeExecuteAsync(...)`                               |
+| `Task OnAfterExecute()` method              | `OnAfterExecuteAsync(...)`                                |
 
 ### Alternative: Lifecycle Hook Overrides[​](#alternative-lifecycle-hook-overrides "Direct link to Alternative: Lifecycle Hook Overrides")
 
@@ -520,7 +518,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Tool options only contain tool-specific arguments
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 
@@ -599,7 +597,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 ```
 // Rich logging configuration via CommandLoggingOptions
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions { Configuration = "Release" },
 
@@ -850,11 +848,11 @@ public class DeployModule : Module<DeployResult>
 
                 => await Deploy(output.ArtifactPath),
 
-            ModuleResult.Skipped { Decision: var skip }
+            ModuleResult<BuildOutput>.Skipped { Decision: var skip }
 
                 => null,
 
-            ModuleResult.Failure { Exception: var ex }
+            ModuleResult<BuildOutput>.Failure { Exception: var ex }
 
                 => throw new InvalidOperationException("Build failed", ex),
 
@@ -882,9 +880,9 @@ return buildResult switch
 
     ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
 
-    ModuleResult.Skipped => null,
+    ModuleResult<BuildOutput>.Skipped => null,
 
-    ModuleResult.Failure { Exception: var ex } => throw ex,
+    ModuleResult<BuildOutput>.Failure { Exception: var ex } => throw ex,
 
     _ => null
 
@@ -916,9 +914,9 @@ return await Deploy(artifact);
 
 
 
-// Option 4: Quick status checks
+// Option 4: Safe accessors and the Success union case
 
-if (buildResult.IsSuccess)
+if (buildResult is ModuleResult<BuildOutput>.Success)
 
 {
 
@@ -926,41 +924,39 @@ if (buildResult.IsSuccess)
 
 }
 
-if (buildResult.IsFailure)
+if (buildResult.ExceptionOrDefault is { } ex)
 
 {
-
-    var ex = buildResult.ExceptionOrDefault;
 
 }
 
-if (buildResult.IsSkipped)
+if (buildResult.SkipDecisionOrDefault is { } skip)
 
 {
 
-    var reason = buildResult.SkipDecisionOrDefault?.Reason;
+    var reason = skip.Reason;
 
 }
 ```
 
 ### Key Change Summary[​](#key-change-summary "Direct link to Key Change Summary")
 
-| V2                                              | V3                                                         |
-| ----------------------------------------------- | ---------------------------------------------------------- |
-| `await GetModule<T>()` (on module)              | `await context.GetModule<T>()` (on context)                |
-| `result.Value`                                  | `result.ValueOrDefault` or pattern match                   |
-| `result.Exception`                              | `result.ExceptionOrDefault` or pattern match               |
-| `result.ModuleResultType == ModuleResultType.X` | `result.IsSuccess`, `result.IsFailure`, `result.IsSkipped` |
+| V2                                 | V3                                                                      |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| `await GetModule<T>()` (on module) | `await context.GetModule<T>()` (on context)                             |
+| `result.Value`                     | `result.ValueOrDefault` or pattern match                                |
+| `result.Exception`                 | `result.ExceptionOrDefault` or pattern match                            |
+| Legacy result enum check           | Pattern match or inspect `ExceptionOrDefault` / `SkipDecisionOrDefault` |
 
 ### Result Type Quick Reference[​](#result-type-quick-reference "Direct link to Result Type Quick Reference")
 
-| Check         | V2                                                    | V3                                                        |
-| ------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| Is success?   | `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or `result is ModuleResult<T>.Success` |
-| Is failure?   | `result.ModuleResultType == ModuleResultType.Failure` | `result.IsFailure` or `result is ModuleResult.Failure`    |
-| Is skipped?   | `result.ModuleResultType == ModuleResultType.Skipped` | `result.IsSkipped` or `result is ModuleResult.Skipped`    |
-| Get value     | `result.Value`                                        | `result.ValueOrDefault` or pattern match                  |
-| Get exception | `result.Exception`                                    | `result.ExceptionOrDefault` or pattern match              |
+| Check         | V2                       | V3                                           |
+| ------------- | ------------------------ | -------------------------------------------- |
+| Is success?   | Legacy result enum check | `result is ModuleResult<T>.Success`          |
+| Is failure?   | Legacy result enum check | `result.ExceptionOrDefault is not null`      |
+| Is skipped?   | Legacy result enum check | `result.SkipDecisionOrDefault is not null`   |
+| Get value     | `result.Value`           | `result.ValueOrDefault` or pattern match     |
+| Get exception | `result.Exception`       | `result.ExceptionOrDefault` or pattern match |
 
 ## Sub-Module Changes[​](#sub-module-changes "Direct link to Sub-Module Changes")
 
@@ -1035,7 +1031,7 @@ public class PackageModule : Module<PackageResult>
 
             {
 
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.Tools.DotNet.PackAsync(new DotNetPackOptions { ProjectSolution = package });
 
             });
 
@@ -1252,9 +1248,11 @@ The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and asy
 
 
 
-// With context - sync
+// With context - async repository lookup
 
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+.WithSkipWhen(async ctx =>
+
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main")
 
 
 
@@ -1266,7 +1264,9 @@ The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and asy
 
 // Returning SkipDecision
 
-.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+.WithSkipWhen(async ctx =>
+
+    (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
 
     ? SkipDecision.Skip("Not main branch")
 
@@ -1291,32 +1291,32 @@ The same applies to `WithIgnoreFailuresWhen`:
 
 The following have been removed in V3:
 
-| Removed                         | Replacement                                            |
-| ------------------------------- | ------------------------------------------------------ |
-| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`   |
-| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                     |
-| `ModuleBase<T>` class           | `Module<T>`                                            |
-| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                           |
-| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                     |
-| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                          |
-| `Timeout` property              | `Configure().WithTimeout()`                            |
-| `RetryPolicy` property          | `Configure().WithRetryCount()` or `.WithRetryPolicy()` |
-| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                         |
+| Removed                         | Replacement                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| `PipelineHostBuilder` class     | `Pipeline.CreateBuilder()` returns `PipelineBuilder`         |
+| `ModuleBase` class              | `Module<T>` (simplified hierarchy)                           |
+| `ModuleBase<T>` class           | `Module<T>`                                                  |
+| `ShouldSkip()` method           | `Configure().WithSkipWhen()`                                 |
+| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()`                           |
+| `ModuleRunType` property        | `Configure().WithAlwaysRun()`                                |
+| `Timeout` property              | `Configure().WithTimeout()`                                  |
+| `RetryPolicy` property          | `Configure().WithRetry(count, ...)` or `.WithShield(shield)` |
+| `GetModule<T>()` on module      | `context.GetModule<TModule>()`                               |
 
 ## New Features in V3[​](#new-features-in-v3 "Direct link to New Features in V3")
 
-### Non-Generic Module Classes[​](#non-generic-module-classes "Direct link to Non-Generic Module Classes")
+### Modules Without Results[​](#modules-without-results "Direct link to Modules Without Results")
 
-V3 introduces non-generic `Module` and `SyncModule` base classes for modules that perform actions without returning meaningful data. These use the `None` struct internally to represent the absence of a value.
+V3 introduced non-generic convenience bases for modules without results. V4 removes those bases so execution consistently uses `ExecuteAsync` or `Execute`. Current code uses `Module<None>` and `SyncModule<None>` instead.
 
 ```
 // Async module that doesn't return data
 
-public class DeployModule : Module
+public class DeployModule : Module<None>
 
 {
 
-    protected override async Task ExecuteModuleAsync(
+    protected override async Task<None> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -1324,7 +1324,7 @@ public class DeployModule : Module
 
         await context.Shell.Command.ExecuteCommandLineTool(...);
 
-        // No return statement needed
+        return None.Value;
 
     }
 
@@ -1334,11 +1334,11 @@ public class DeployModule : Module
 
 // Sync module that doesn't return data
 
-public class LoggingModule : SyncModule
+public class LoggingModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context, CancellationToken cancellationToken)
 
@@ -1346,7 +1346,7 @@ public class LoggingModule : SyncModule
 
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
 
-        // No return statement needed
+        return None.Value;
 
     }
 
@@ -1427,36 +1427,24 @@ catch (PipelineValidationException ex)
 }
 ```
 
-### Dynamic Dependencies[​](#dynamic-dependencies "Direct link to Dynamic Dependencies")
+### Fluent Dependencies[​](#fluent-dependencies "Direct link to Fluent Dependencies")
 
-Declare dependencies programmatically at runtime:
+Declare dependencies through module configuration:
 
 ```
 public class MyModule : Module<string>
 
 {
 
-    protected override void DeclareDependencies(IDependencyDeclaration deps)
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-    {
+        .DependsOn<RequiredModule>()
 
-        // Always depend on this module
+        .DependsOnOptional<OptionalModule>()
 
-        deps.DependsOn<RequiredModule>();
+        .DependsOnIf<ProductionModule>(Environment.IsProduction)
 
-
-
-        // Optional dependency (won't fail if not registered)
-
-        deps.DependsOnOptional<OptionalModule>();
-
-
-
-        // Conditional dependency
-
-        deps.DependsOnIf<ProductionModule>(Environment.IsProduction);
-
-    }
+        .Build();
 
 
 
@@ -1476,7 +1464,7 @@ public class MyModule : Module<string>
 Two redundant dependency APIs have been removed:
 
 * Replace `DependsOnLazy<TModule>()` with `DependsOnOptional<TModule>()`. The removed API was only an optional-dependency marker; it did not defer module execution.
-* Replace `DependsOnIf<TModule>(Func<bool>)` with `DependsOnIf<TModule>(bool)` by evaluating the predicate before the call, for example `deps.DependsOnIf<HeavyModule>(ShouldRunHeavyProcessing())`.
+* Replace `DependsOnIf<TModule>(Func<bool>)` with `DependsOnIf<TModule>(bool)` by evaluating the predicate before the call, for example `.DependsOnIf<HeavyModule>(ShouldRunHeavyProcessing())`.
 
 The same replacements apply to the overloads that accept a module `Type`.
 
@@ -1511,35 +1499,27 @@ public class ValidationModule : Module<bool> { }
 ```
 // Run only on specific platforms
 
-[RunOnWindows]
+[RunIfAll<OnWindows>]
 
 public class WindowsModule : Module<string> { }
 
 
 
-[RunOnLinux]
+[RunIfAll<OnLinux>]
 
 public class LinuxModule : Module<string> { }
 
 
 
-[RunOnMacOS]
+[RunIfAll<OnMacOS>]
 
 public class MacModule : Module<string> { }
 
 
 
-// Run ONLY on specific platform (skip on others)
-
-[RunOnWindowsOnly]
-
-public class WindowsOnlyModule : Module<string> { }
-
-
-
 // Skip based on custom condition
 
-[SkipIf(typeof(IsNotMainBranchCondition))]
+[SkipIf<IsNotMainBranchCondition>]
 
 public class MainBranchModule : Module<string> { }
 
@@ -1547,13 +1527,13 @@ public class MainBranchModule : Module<string> { }
 
 // Combine conditions
 
-[RunIfAll(typeof(IsCI), typeof(IsMainBranch))]
+[RunIfAll<IsCI, IsMainBranch>]
 
 public class CIMainModule : Module<string> { }
 
 
 
-[RunIfAny(typeof(IsCI), typeof(ForceRun))]
+[RunIfAny<IsCI, ForceRun>]
 
 public class FlexibleModule : Module<string> { }
 ```
@@ -1575,15 +1555,19 @@ public class DeployModule : Module<DeployResult> { }
 
 
 
-// Via property override
+// Via module configuration
 
 public class MyModule : Module<string>
 
 {
 
-    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-    public override string? Category => "Build";
+        .WithTags("critical", "fast")
+
+        .WithCategory("Build")
+
+        .Build();
 
 }
 ```
@@ -1787,7 +1771,7 @@ public class BuildModule : Module<BuildOutput>
 
     {
 
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.Tools.DotNet.BuildAsync(new DotNetBuildOptions());
 
         return new BuildOutput(result.StandardOutput);
 
@@ -1809,7 +1793,7 @@ public class DeployModule : Module<bool>
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
 
-        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+        .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
 
             ? SkipDecision.Skip("Not main branch")
 
@@ -1846,28 +1830,28 @@ public class DeployModule : Module<bool>
 
 ## Breaking API Reference[​](#breaking-api-reference "Direct link to Breaking API Reference")
 
-| V2 API                            | V3 API                                                        | Notes                      |
-| --------------------------------- | ------------------------------------------------------------- | -------------------------- |
-| `PipelineHostBuilder.Create()`    | `Pipeline.CreateBuilder(args)`                                | Pass command-line args     |
-| `.ExecutePipelineAsync()`         | `.Build().RunAsync()`                                         | Two-step, or use extension |
-| `.ConfigureAppConfiguration(...)` | `builder.Configuration`                                       | Direct access              |
-| `.ConfigureServices(...)`         | `builder.Services`                                            | Direct access              |
-| `.ConfigurePipelineOptions(...)`  | `builder.Options`                                             | Direct access              |
-| `IPipelineContext`                | `IModuleContext`                                              | In ExecuteAsync signature  |
-| `GetModule<T>()`                  | `context.GetModule<T>()`                                      | Method moved to context    |
-| `SubModule()`                     | `context.SubModule()`                                         | Method moved to context    |
-| `result.Value`                    | `result.ValueOrDefault`                                       | Or use pattern matching    |
-| `result.ModuleResultType`         | `result.IsSuccess/IsFailure/IsSkipped`                        | Or pattern match           |
-| `ShouldSkip()` override           | `Configure().WithSkipWhen()`                                  | Fluent builder             |
-| `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()`                            | Fluent builder             |
-| `Timeout` property override       | `Configure().WithTimeout()`                                   | Fluent builder             |
-| `RetryPolicy` property override   | `Configure().WithRetryCount()`                                | Fluent builder             |
-| `ModuleRunType` override          | `Configure().WithAlwaysRun()`                                 | Fluent builder             |
-| `OnBeforeExecute()` override      | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach            |
-| `OnAfterExecute()` override       | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()`   | Either approach            |
-| `options.WorkingDirectory`        | `CommandExecutionOptions.WorkingDirectory`                    | Separate parameter         |
-| `options.EnvironmentVariables`    | `CommandExecutionOptions.EnvironmentVariables`                | Separate parameter         |
-| `options.ThrowOnNonZeroExitCode`  | `CommandExecutionOptions.ThrowOnNonZeroExitCode`              | Separate parameter         |
+| V2 API                            | V3 API                                              | Notes                       |
+| --------------------------------- | --------------------------------------------------- | --------------------------- |
+| `PipelineHostBuilder.Create()`    | `Pipeline.CreateBuilder(args)`                      | Pass command-line args      |
+| `.ExecutePipelineAsync()`         | `.Build().RunAsync()`                               | Two-step, or use extension  |
+| `.ConfigureAppConfiguration(...)` | `builder.Configuration`                             | Direct access               |
+| `.ConfigureServices(...)`         | `builder.Services`                                  | Direct access               |
+| `.ConfigurePipelineOptions(...)`  | `builder.Options`                                   | Direct access               |
+| `IPipelineContext`                | `IModuleContext`                                    | In ExecuteAsync signature   |
+| `GetModule<T>()`                  | `context.GetModule<T>()`                            | Method moved to context     |
+| `SubModule()`                     | `context.SubModule()`                               | Method moved to context     |
+| `result.Value`                    | `result.ValueOrDefault`                             | Or use pattern matching     |
+| Legacy result enum                | `ModuleStatus`, safe accessors, or pattern matching | One result model            |
+| `ShouldSkip()` override           | `Configure().WithSkipWhen()`                        | Fluent builder              |
+| `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()`                  | Fluent builder              |
+| `Timeout` property override       | `Configure().WithTimeout()`                         | Fluent builder              |
+| `RetryPolicy` property override   | `Configure().WithRetry(count, ...)`                 | Fluent builder              |
+| `ModuleRunType` override          | `Configure().WithAlwaysRun()`                       | Fluent builder              |
+| `OnBeforeExecute()` override      | `OnBeforeExecuteAsync()`                            | Override the module virtual |
+| `OnAfterExecute()` override       | `OnAfterExecuteAsync()`                             | Override the module virtual |
+| `options.WorkingDirectory`        | `CommandExecutionOptions.WorkingDirectory`          | Separate parameter          |
+| `options.EnvironmentVariables`    | `CommandExecutionOptions.EnvironmentVariables`      | Separate parameter          |
+| `options.ThrowOnNonZeroExitCode`  | `CommandExecutionOptions.ThrowOnNonZeroExitCode`    | Separate parameter          |
 
 ## LLM/AI Migration Reference[​](#llmai-migration-reference "Direct link to LLM/AI Migration Reference")
 
@@ -1970,21 +1954,21 @@ This section provides structured data optimized for AI assistants helping with c
 
 
 
-- old: "result.ModuleResultType == ModuleResultType.Success"
+- old: "legacy success enum check"
 
-  new: "result.IsSuccess"
-
-
-
-- old: "result.ModuleResultType == ModuleResultType.Failure"
-
-  new: "result.IsFailure"
+  new: "result is ModuleResult<T>.Success"
 
 
 
-- old: "result.ModuleResultType == ModuleResultType.Skipped"
+- old: "legacy failure enum check"
 
-  new: "result.IsSkipped"
+  new: "result.ExceptionOrDefault is not null"
+
+
+
+- old: "legacy skipped enum check"
+
+  new: "result.SkipDecisionOrDefault is not null"
 
 
 
@@ -1998,7 +1982,7 @@ This section provides structured data optimized for AI assistants helping with c
 
 - old: "protected override AsyncRetryPolicy<T?> RetryPolicy => ..."
 
-  new: "Configure().WithRetryCount(int)"
+  new: "Configure().WithRetry(int)"
 
 
 
@@ -2022,13 +2006,13 @@ This section provides structured data optimized for AI assistants helping with c
 
 - old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
 
-  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+  new: "OnBeforeExecuteAsync(...)"
 
 
 
 - old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
 
-  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+  new: "OnAfterExecuteAsync(...)"
 
 
 
@@ -2150,21 +2134,21 @@ This section provides structured data optimized for AI assistants helping with c
 
 
 
-# Non-generic modules (V3 addition)
+# Modules without results
 
 - old: "public class MyModule : Module<IDictionary<string, object>>"
 
-  new: "public class MyModule : Module"
+  new: "public class MyModule : Module<None>"
 
-  note: "For modules that don't return data"
+  note: "Use None when the module does not return data"
 
 
 
 - old: "protected override async Task<IDictionary<string, object>?> ExecuteAsync(...)"
 
-  new: "protected override async Task ExecuteModuleAsync(...)"
+  new: "protected override async Task<None> ExecuteAsync(...)"
 
-  note: "No return statement needed"
+  note: "Return None.Value"
 ```
 
 ### Common Compiler Errors and Fixes[​](#common-compiler-errors-and-fixes "Direct link to Common Compiler Errors and Fixes")
@@ -2179,7 +2163,7 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS0117: 'ModuleResult' does not contain 'Exception'`                              | Property renamed     | Change `.Exception` to `.ExceptionOrDefault`                                            |
 | `CS0115: 'ShouldSkip': no suitable method found to override`                       | Method removed       | Use `Configure().WithSkipWhen()` instead                                                |
 | `CS0115: 'Timeout': no suitable method found to override`                          | Property removed     | Use `Configure().WithTimeout()` instead                                                 |
-| `CS0115: 'RetryPolicy': no suitable method found to override`                      | Property removed     | Use `Configure().WithRetryCount()` instead                                              |
+| `CS0115: 'RetryPolicy': no suitable method found to override`                      | Property removed     | Use `Configure().WithRetry()` instead                                                   |
 | `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'`                 | Property moved       | Pass `CommandExecutionOptions` as second parameter                                      |
 | `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'`                         | Property moved       | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions`                  |
 | `CS0246: 'CommandLoggingOptions' could not be found`                               | Missing using        | Add `using ModularPipelines.Options;`                                                   |
@@ -2230,13 +2214,7 @@ s/\.Exception(?![a-zA-Z])/\.ExceptionOrDefault/g
 
 
 
-# Result type checks
-
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Success/\.IsSuccess/g
-
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Failure/\.IsFailure/g
-
-s/\.ModuleResultType\s*==\s*ModuleResultType\.Skipped/\.IsSkipped/g
+# Result checks should be migrated manually to pattern matching or safe accessors.
 ```
 
 ### V3 Module Template[​](#v3-module-template "Direct link to V3 Module Template")
@@ -2276,17 +2254,19 @@ public class MyModule : Module<MyResult>
 
 // Async module WITHOUT return value
 
-public class MyActionModule : Module
+public class MyActionModule : Module<None>
 
 {
 
-    protected override async Task ExecuteModuleAsync(
+    protected override async Task<None> ExecuteAsync(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        // Implementation - no return needed
+        // Implementation
+
+        return None.Value;
 
     }
 
@@ -2296,17 +2276,19 @@ public class MyActionModule : Module
 
 // Sync module WITHOUT return value
 
-public class MySyncModule : SyncModule
+public class MySyncModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context, CancellationToken cancellationToken)
 
     {
 
-        // Implementation - no return needed
+        // Implementation
+
+        return None.Value;
 
     }
 
@@ -2326,9 +2308,9 @@ return result switch
 
     ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
 
-    ModuleResult.Skipped => null,
+    ModuleResult<BuildOutput>.Skipped => null,
 
-    ModuleResult.Failure { Exception: var ex } => throw ex,
+    ModuleResult<BuildOutput>.Failure { Exception: var ex } => throw ex,
 
     _ => null
 
@@ -2356,7 +2338,7 @@ return result.Match(
 
 var result = await context.GetModule<BuildModule>();
 
-if (result.IsSuccess)
+if (result is ModuleResult<BuildOutput>.Success)
 
 {
 
@@ -2370,7 +2352,7 @@ if (result.IsSuccess)
 ```
 // Tool-specific options separate from execution options
 
-await context.DotNet().Build(
+await context.Tools.DotNet.BuildAsync(
 
     new DotNetBuildOptions
 
@@ -2405,7 +2387,7 @@ await context.DotNet().Build(
 
 ### Keywords for Search[​](#keywords-for-search "Direct link to Keywords for Search")
 
-ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetry, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
 
 ## Getting Help[​](#getting-help "Direct link to Getting Help")
 

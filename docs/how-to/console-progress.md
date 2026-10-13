@@ -8,8 +8,30 @@ If you are using an interactive terminal, then a progress dialog will be display
 
 Buffered output from modules that are still running is flushed once per minute by default. This preserves recent diagnostic output if the process is killed before normal pipeline teardown. Incremental sections use an ellipsis (`…`) because the module has not completed.
 
-Configure the interval globally, or set it to zero to keep all output buffered until each module completes:
+Configure the interval globally. Setting it to zero disables time-based flushing, but the entry threshold still protects against unbounded buffering:
 
 ```
-builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(30);
+builder.ConfigureConsole(console => console with
+
+{
+
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
+
+});
 ```
+
+To keep all output buffered until each module completes, disable both triggers:
+
+```
+builder.ConfigureConsole(console => console with
+
+{
+
+    ModuleOutputFlushInterval = TimeSpan.Zero,
+
+    ModuleOutputFlushThreshold = 0,
+
+});
+```
+
+`Console.ModuleOutputFlushThreshold` counts entries, not bytes. Its default is 1,000 entries per module.

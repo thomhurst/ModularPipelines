@@ -8,15 +8,19 @@ Categories are applied to Modules by using the `[ModuleCategory]` attribute.
 
 ## PipelineBuilder[​](#pipelinebuilder "Direct link to PipelineBuilder")
 
-Categories to run or ignore are configured on the `PipelineBuilder` via `Options`.
+Categories to run or ignore are configured by replacing the immutable `PipelineOptions` snapshot with `PipelineBuilder.ConfigureOptions(...)`.
 
-## Run Categories[​](#run-categories "Direct link to Run Categories")
+## Run-Only Categories[​](#run-only-categories "Direct link to Run-Only Categories")
 
-If "Run Categories" have been set with some values, only Modules that have any of those categories will be run. If a module has none of those categories, it will not run.
+If `RunOnlyCategories` has been set with some values, only Modules that have any of those categories will be run. If a module has none of those categories, it will not run.
 
 ## Ignore Categories[​](#ignore-categories "Direct link to Ignore Categories")
 
 If "Ignore Categories" have been set with some values, if a Module has one of those categories, it will not run.
+
+Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.
+
+Assigning `PipelineOptions.RunOnlyCategories` or `PipelineOptions.IgnoreCategories` replaces the previous value, including values supplied through command-line options. Pass the complete filter when configuring either property.
 
 ## Example of Running Specific Categories[​](#example-of-running-specific-categories "Direct link to Example of Running Specific Categories")
 
@@ -25,7 +29,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.Services
+builder
 
     .AddModule<Module1>()
 
@@ -37,11 +41,11 @@ builder.Services
 
 
 
-builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
+builder.ConfigureOptions(options => options with { RunOnlyCategories = ["UnitTest", "IntegrationTest"] });
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```
 
 ## Example of Ignoring Specific Categories[​](#example-of-ignoring-specific-categories "Direct link to Example of Ignoring Specific Categories")
@@ -51,7 +55,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.Services
+builder
 
     .AddModule<Module1>()
 
@@ -63,9 +67,9 @@ builder.Services
 
 
 
-builder.Options.IgnoreCategories = ["Publish", "Deploy"];
+builder.ConfigureOptions(options => options with { IgnoreCategories = ["Publish", "Deploy"] });
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```

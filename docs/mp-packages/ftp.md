@@ -10,22 +10,20 @@ dotnet add package ModularPipelines.Ftp
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Ftp.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Ftp()`
+* `context.Tools.Ftp`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Ftp.Extensions;
 
 
-
-public class UseFtpModule : SyncModule
+public class UseFtpModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -33,13 +31,15 @@ public class UseFtpModule : SyncModule
 
     {
 
-        var ftp = context.Ftp();
+        var ftp = context.Tools.Ftp;
 
 
 
         // Call the integration's strongly typed operations here.
 
         context.Logger.LogInformation("Ftp integration is ready");
+
+        return None.Value;
 
     }
 

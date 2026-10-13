@@ -1,13 +1,13 @@
-# Pipeline Execution Modes
+# Pipeline Failure Modes
 
-A pipeline has two execution modes:
+A pipeline has two failure modes:
 
-* StopOnFirstException
-* WaitForAllModules
+* FailFast
+* ContinueOnFailure
 
-By default, a pipeline will use `StopOnFirstException`. This means as soon as any module throws an exception, the pipeline is considered fail and will terminate. This is for fast feedback.
+By default, a pipeline uses `FailFast`. As soon as any module throws an exception, the pipeline fails and terminates for fast feedback.
 
-If you want to run every module regardless, you can switch to `WaitForAllModules`, and the pipeline won't terminate until all modules have finished executing.
+Use `ContinueOnFailure` to let independent modules finish before the pipeline evaluates failures. Modules whose required dependencies fail still do not run.
 
 ## Example[​](#example "Direct link to Example")
 
@@ -16,7 +16,7 @@ var builder = Pipeline.CreateBuilder(args);
 
 
 
-builder.Services
+builder
 
     .AddModule<Module1>()
 
@@ -26,9 +26,15 @@ builder.Services
 
 
 
-builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+builder.ConfigureOptions(options => options with
+
+{
+
+    FailureMode = FailureMode.ContinueOnFailure,
+
+});
 
 
 
-await builder.Build().RunAsync();
+await builder.RunAsync();
 ```

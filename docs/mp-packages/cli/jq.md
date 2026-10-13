@@ -2,24 +2,24 @@
 
 `ModularPipelines.Jq` provides strongly typed access to the `jq` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `jq` executable. Install it separately and ensure `jq` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Jq
 ```
 
-Import `ModularPipelines.Jq.Extensions`, then resolve the service with `context.Jq()`.
+Resolve the service with `context.Tools.Jq`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Jq.Services.IJq>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Jq.Extensions;
+using ModularPipelines;
 
 using ModularPipelines.Jq.Options;
 
@@ -29,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +37,17 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Jq().Execute(
+        return await context.Tools.Jq.ExecuteAsync(
 
-            new JqExecuteOptions(),
+            new JqExecuteOptions()
+
+            {
+
+                Filter = ".",
+
+                InputFiles = ["input.json"],
+
+            },
 
             cancellationToken: cancellationToken);
 

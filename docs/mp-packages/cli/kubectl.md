@@ -2,24 +2,26 @@
 
 `ModularPipelines.Kubernetes` provides strongly typed access to the `kubectl` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `kubectl` executable. Install it separately and ensure `kubectl` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Import `ModularPipelines.Kubernetes.Extensions`, then resolve the service with `context.Kubernetes()`.
+Resolve the service with `context.Tools.Kubernetes`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Kubernetes.Services.IKubernetes>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Context;
+using ModularPipelines;
 
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Kubernetes.Extensions;
+using ModularPipelines.Kubernetes.Enums;
 
 using ModularPipelines.Kubernetes.Options;
 
@@ -29,7 +31,7 @@ public class RunCommandModule : Module<CommandResult>
 
 {
 
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
 
         IModuleContext context,
 
@@ -37,9 +39,9 @@ public class RunCommandModule : Module<CommandResult>
 
     {
 
-        return await context.Kubernetes().Annotate(
+        return await context.Tools.Kubernetes.Config.ViewAsync(
 
-            new KubernetesAnnotateOptions(),
+            new KubernetesConfigViewOptions(),
 
             cancellationToken: cancellationToken);
 
@@ -69,11 +71,17 @@ public class RunCommandModule : Module<CommandResult>
 | `kubectl cluster-info`            | `KubernetesClusterInfoOptions`          |
 | `kubectl cluster-info dump`       | `KubernetesClusterInfoDumpOptions`      |
 | `kubectl config`                  | `KubernetesConfigOptions`               |
+| `kubectl config delete-cluster`   | `KubernetesConfigDeleteClusterOptions`  |
+| `kubectl config delete-context`   | `KubernetesConfigDeleteContextOptions`  |
+| `kubectl config delete-user`      | `KubernetesConfigDeleteUserOptions`     |
 | `kubectl config get-contexts`     | `KubernetesConfigGetContextsOptions`    |
+| `kubectl config rename-context`   | `KubernetesConfigRenameContextOptions`  |
 | `kubectl config set`              | `KubernetesConfigSetOptions`            |
 | `kubectl config set-cluster`      | `KubernetesConfigSetClusterOptions`     |
 | `kubectl config set-context`      | `KubernetesConfigSetContextOptions`     |
 | `kubectl config set-credentials`  | `KubernetesConfigSetCredentialsOptions` |
+| `kubectl config unset`            | `KubernetesConfigUnsetOptions`          |
+| `kubectl config use-context`      | `KubernetesConfigUseContextOptions`     |
 | `kubectl config view`             | `KubernetesConfigViewOptions`           |
 | `kubectl cordon`                  | `KubernetesCordonOptions`               |
 | `kubectl cp`                      | `KubernetesCpOptions`                   |

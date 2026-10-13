@@ -12,25 +12,34 @@ Some pipelines have modules that must run on different operating systems, requir
 
 Every pipeline instance runs in one of two roles:
 
-| Role       | Determined by        | Responsibility                                                                                                                                                                                                  |
-| ---------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Master** | `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
-| **Worker** | `InstanceIndex > 0`  | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back.                                                                                        |
+| Role       | Determined by                                                | Responsibility                                                                                                                                                                                                  |
+| ---------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Master** | `Role == Master`, or `Role == Auto` and `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
+| **Worker** | `Role == Worker`, or `Role == Auto` and `InstanceIndex > 0`  | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back.                                                                                        |
 
-The role is detected automatically from `DistributedOptions.InstanceIndex`. You can also override it with the `MODULAR_PIPELINES_INSTANCE` environment variable.
+`DistributedOptions.Role` defaults to `Auto`, which derives the role from `InstanceIndex`. Set it to `Master` or `Worker` when the process role must be explicit.
 
 ### Coordinator[​](#coordinator "Direct link to Coordinator")
 
-The coordinator is the shared communication layer between master and workers. It handles work queuing, result publication, worker registration, heartbeats, and cancellation signals. ModularPipelines ships with two coordinator implementations:
+The coordinator is the shared communication layer between master and workers. It handles work queuing, leases, result publication, worker registration, heartbeats, and cancellation signals. Choose one backend:
 
-* **InMemoryDistributedCoordinator** — for single-process testing only.
-* **RedisDistributedCoordinator** — production-ready, uses Redis for cross-process coordination. Provided by the `ModularPipelines.Distributed.Redis` package.
+* **Redis** — `AddRedisDistributedCoordinator` from the `ModularPipelines.Distributed.Redis` package. Every process talks to a shared Redis server.
+* **SignalR** — `AddSignalRDistributedCoordinator` from the `ModularPipelines.Distributed.SignalR` package. The master hosts a SignalR hub and workers connect to it directly, optionally through a cloudflared tunnel and Redis-based discovery.
+* **Custom** — implement `IDistributedMasterCoordinator` and register it with `AddDistributedCoordinator<T>()` or `AddDistributedCoordinatorFactory<T>()`.
+
+Register exactly one backend; building the pipeline fails when several are registered. A run with `TotalInstances` greater than one fails at startup when no backend is registered, instead of leaving workers waiting forever. Single-process runs use a built-in process-local coordinator automatically.
+
+### Leases[​](#leases "Direct link to Leases")
+
+A worker claims each module under a lease tied to its `WorkerId`. Heartbeats list the modules the worker is executing and renew their leases. When a worker crashes or loses its connection for longer than `WorkerTimeout`, its leases expire and the master returns those modules to the queue, so a lost worker costs seconds rather than the module result timeout. The first result published for a module is final.
+
+Workers also watch the master. Once the master finishes, whether it succeeded or failed, nothing collects further results, so each worker cancels any modules it is still running, including AlwaysRun modules. When the master exits or crashes without signalling completion, or a worker cannot reach it for `MasterTimeout`, the worker also fails. SignalR workers notice a lost master when their connection closes for good, and a master that finished waits briefly for its workers to acknowledge completion before it shuts down, so a normal shutdown is never reported as a lost master; Redis workers notice when the master's heartbeat is older than `MasterTimeout` or has expired. Modules that ignore cancellation are abandoned after 30 seconds, so they cannot keep a worker alive.
 
 ### Capabilities[​](#capabilities "Direct link to Capabilities")
 
-Workers advertise what they can do (e.g. `"linux"`, `"docker"`, `"gpu"`). Modules declare what they need via `[RequiresCapability]` attributes. The coordinator only assigns a module to a worker that has all required capabilities.
+Workers advertise what they can do through typed values such as `Capability.Linux`, `Capability.Docker`, and `Capability.Gpu`. Modules declare what they need via `[RequiresCapability]` and `[RequiresAnyCapability]` attributes using compile-time `Capability.Names` constants, or through run conditions such as `[RunIf<OnLinux>]`. The coordinator only assigns a module to a worker that satisfies its `CapabilityRequirement`.
 
-If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system (`"windows"`, `"linux"`, or `"macos"`).
+Every instance automatically advertises its operating system through the matching well-known capability. Register an `ICapabilityProvider` to detect more.
 
 ## Architecture Diagram[​](#architecture-diagram "Direct link to Architecture Diagram")
 
@@ -79,15 +88,18 @@ If `AutoDetectOsCapability` is enabled (the default), workers automatically adve
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
 2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
-4. Workers send periodic **heartbeats** so the master can detect failures.
-5. Either side can broadcast a **cancellation signal** to stop all instances.
+4. Workers send periodic **heartbeats** that renew the leases on their in-flight modules; the master requeues modules whose leases expire.
+5. When a module fails, the master immediately broadcasts a `PipelineFailed` cancellation: workers cancel non-AlwaysRun modules and only claim AlwaysRun work, and the master withdraws queued non-AlwaysRun assignments. A user stop broadcasts `Stopped`, which cancels everything.
 
 ## Packages[​](#packages "Direct link to Packages")
 
-| Package                              | Purpose                                                                                                                                     |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ModularPipelines.Distributed`       | Core distributed abstractions, master/worker executors, capability system. Referenced automatically by the main `ModularPipelines` package. |
-| `ModularPipelines.Distributed.Redis` | Redis-based coordinator implementation. Add this to your pipeline project.                                                                  |
+| Package                                        | Purpose                                                                            |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `ModularPipelines`                             | Core distributed abstractions, master/worker executors, and the capability system. |
+| `ModularPipelines.Distributed.Redis`           | Redis coordinator, artifact store, and module cache.                               |
+| `ModularPipelines.Distributed.SignalR`         | SignalR coordinator: the master hosts the hub that workers connect to.             |
+| `ModularPipelines.Distributed.Discovery.Redis` | Advertises the SignalR master's endpoint and access token through Redis.           |
+| `ModularPipelines.Distributed.Artifacts.S3`    | S3-compatible artifact store.                                                      |
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 

@@ -12,22 +12,20 @@ Required command-line tool: `newman`. It must be installed and available on `PAT
 
 ## Context entry points[​](#context-entry-points "Direct link to Context entry points")
 
-Import `ModularPipelines.Newman.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-* `context.Newman()`
+* `context.Tools.Newman`
 
 ## Module example[​](#module-example "Direct link to Module example")
 
 ```
-using ModularPipelines.Newman.Extensions;
 
 
-
-public class UseNewmanModule : SyncModule
+public class UseNewmanModule : SyncModule<None>
 
 {
 
-    protected override void ExecuteModule(
+    protected override None Execute(
 
         IModuleContext context,
 
@@ -35,13 +33,15 @@ public class UseNewmanModule : SyncModule
 
     {
 
-        var newman = context.Newman();
+        var newman = context.Tools.Newman;
 
 
 
         // Call the integration's strongly typed operations here.
 
         context.Logger.LogInformation("Newman integration is ready");
+
+        return None.Value;
 
     }
 

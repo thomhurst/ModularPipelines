@@ -2,56 +2,44 @@
 
 `ModularPipelines.Grype` provides strongly typed access to the `grype` CLI.
 
-## Installation[​](#installation "Direct link to Installation")
+## Executable prerequisite[​](#executable-prerequisite "Direct link to Executable prerequisite")
+
+This package does not install the `grype` executable. Install it separately and ensure `grype` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation[​](#package-installation "Direct link to Package installation")
 
 ```
 dotnet add package ModularPipelines.Grype
 ```
 
-Import `ModularPipelines.Grype.Extensions`, then resolve the service with `context.Grype()`.
+Resolve the service with `context.Tools.Grype`. Projects using C# 13 or another .NET language can use `context.Tools.Get<ModularPipelines.Grype.Services.IGrype>()` instead.
 
 ## Module example[​](#module-example "Direct link to Module example")
 
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
+
 ```
-using ModularPipelines.Context;
-
-using ModularPipelines.Models;
-
-using ModularPipelines.Modules;
-
-using ModularPipelines.Grype.Extensions;
-
-using ModularPipelines.Grype.Options;
-
-
-
-public class RunCommandModule : Module<CommandResult>
-
-{
-
-    protected override async Task<CommandResult?> ExecuteAsync(
-
-        IModuleContext context,
-
-        CancellationToken cancellationToken)
-
-    {
-
-        return await context.Grype().Explain(
-
-            new GrypeExplainOptions(),
-
-            cancellationToken: cancellationToken);
-
-    }
-
-}
+var grype = context.Tools.Grype;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option  | Property  | Availability | Description                                 |
+| ----------- | --------- | ------------ | ------------------------------------------- |
+| `--config`  | `Config`  | All editions | grype configuration file(s) to use          |
+| `--profile` | `Profile` | All editions | configuration profiles to use               |
+| `--quiet`   | `Quiet`   | All editions | suppress all logging output                 |
+| `--verbose` | `Verbose` | All editions | increase verbosity (-v = info, -vv = debug) |
 
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command            | Options record             |
 | ---------------------- | -------------------------- |
+| `grype db`             | `GrypeDbOptions`           |
 | `grype db check`       | `GrypeDbCheckOptions`      |
 | `grype db delete`      | `GrypeDbDeleteOptions`     |
 | `grype db diff`        | `GrypeDbDiffOptions`       |
