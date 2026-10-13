@@ -1,4 +1,5 @@
 #nullable enable
+ModularPipelines.Testing.InMemoryFileSystemProvider.MoveFile(string! sourcePath, string! destinationPath, bool overwrite) -> void
 *REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
 *REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule, TResult>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<ModularPipelines.Models.CommandResult!>>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!, TResult>!
 *REMOVED*ModularPipelines.Testing.ModuleTestBuilder<TModule>.InterceptCommands(System.Func<ModularPipelines.Context.Domains.Shell.CommandInvocation!, ModularPipelines.Models.CommandResult!>! handler) -> ModularPipelines.Testing.ModuleTestBuilder<TModule!>!

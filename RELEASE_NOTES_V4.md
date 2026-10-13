@@ -1,5 +1,14 @@
 # ModularPipelines V4 Release Notes
 
+## Filesystem provider primitives
+
+`IFileSystemProvider.DirectorySeparatorChar` defaults to the host separator,
+preserving existing provider implementations. Custom providers can override it
+to declare their relative-path separator. `InMemoryFileSystemProvider` now supports
+atomic overwrite moves that preserve source metadata and leave both files intact
+when either file is open. Providers without atomic overwrite support continue to
+throw `NotSupportedException` when replacing an existing destination.
+
 ## Numbered CLI operands
 
 Numbered usage ranges such as `KEY_1=VAL_1 ... KEY_N=VAL_N` now produce one

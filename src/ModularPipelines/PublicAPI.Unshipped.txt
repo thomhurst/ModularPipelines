@@ -1,4 +1,5 @@
 #nullable enable
+ModularPipelines.FileSystem.IFileSystemProvider.DirectorySeparatorChar.get -> char
 *REMOVED*Mediator.AssemblyReference
 *REMOVED*Mediator.Mediator
 *REMOVED*Mediator.Mediator.CreateStream(object! message, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Collections.Generic.IAsyncEnumerable<object?>!
