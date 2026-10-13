@@ -1,41 +1,102 @@
 namespace ModularPipelines.Distributed.Redis.Coordination;
 
 /// <summary>
-/// Lua scripts that make each coordination step atomic. Lease entries are JSON objects with
-/// <c>LeaseId</c>, <c>WorkerId</c>, the queue <c>Member</c> and <c>Score</c> to requeue, and
-/// <c>ExpiresAt</c> in Redis server milliseconds.
+/// Lua scripts that make each coordination step atomic. Every script receives
+/// <see cref="RedisKeyBuilder.ScriptKeys"/> as <c>KEYS</c>:
+/// <list type="number">
+/// <item>work queue: a sorted set whose members all have score zero and sort as
+/// <c>{class}|{order}|{assignment}</c> (see <see cref="RedisQueueMember"/>)</item>
+/// <item>queue classes: class identifier to <c>{RequiredCapabilities, AlwaysRun}</c></item>
+/// <item>queue index: module identifier to its queued members, separated by newlines</item>
+/// <item>leases: module identifier to <c>{LeaseId, WorkerId, Member, ExpiresAt}</c>, with
+/// <c>ExpiresAt</c> in Redis server milliseconds</item>
+/// <item>results</item>
+/// <item>worker registrations</item>
+/// <item>worker heartbeats, whose fields expire after the worker timeout (Redis 7.4+)</item>
+/// <item>worker statuses</item>
+/// <item>completion flag</item>
+/// <item>cancellation flag</item>
+/// <item>master started marker</item>
+/// <item>master heartbeat</item>
+/// </list>
+/// Keys 1 to 11 are the run's coordination keys; scripts that change run state renew their expiry.
 /// </summary>
 internal static class RedisCoordinationScripts
 {
     private const string ServerTimeLua = """
         local server_time = redis.call('TIME')
         local now = (tonumber(server_time[1]) * 1000) + math.floor(tonumber(server_time[2]) / 1000)
+
         """;
 
-    public const string Claim = ServerTimeLua + """
-        if redis.call('EXISTS', KEYS[6]) == 1 then
+    private const string RefreshLua = """
+        local function refresh(ttl)
+            for i = 1, 11 do
+                redis.call('PEXPIRE', KEYS[i], ttl)
+            end
+        end
+
+        """;
+
+    private const string QueueIndexLua = """
+        local function index_add(module_id, member)
+            local current = redis.call('HGET', KEYS[3], module_id)
+            if not current then
+                redis.call('HSET', KEYS[3], module_id, member)
+                return
+            end
+            for existing in string.gmatch(current, '[^\n]+') do
+                if existing == member then
+                    return
+                end
+            end
+            redis.call('HSET', KEYS[3], module_id, current .. '\n' .. member)
+        end
+
+        local function index_remove(module_id, member)
+            local current = redis.call('HGET', KEYS[3], module_id)
+            if not current then
+                return
+            end
+            local kept = {}
+            for existing in string.gmatch(current, '[^\n]+') do
+                if existing ~= member then
+                    table.insert(kept, existing)
+                end
+            end
+            if #kept == 0 then
+                redis.call('HDEL', KEYS[3], module_id)
+            else
+                redis.call('HSET', KEYS[3], module_id, table.concat(kept, '\n'))
+            end
+        end
+
+        """;
+
+    // ARGV: time to live, class identifier, class JSON, queue member, module identifier.
+    public const string Enqueue = RefreshLua + QueueIndexLua + """
+        redis.call('HSETNX', KEYS[2], ARGV[2], ARGV[3])
+        redis.call('ZADD', KEYS[1], 0, ARGV[4])
+        index_add(ARGV[5], ARGV[4])
+        refresh(ARGV[1])
+        return 1
+        """;
+
+    // ARGV: worker capabilities JSON, worker identifier, lease identifier, worker timeout, time to live.
+    // Each class is a contiguous range of the queue whose first member is that class's best item, so a
+    // claim reads one member per class instead of scanning the queue. Returns the claimed assignment JSON,
+    // '__closed__' once the run stops handing out work, or nil when nothing can be claimed.
+    public const string Claim = ServerTimeLua + RefreshLua + QueueIndexLua + """
+        if redis.call('EXISTS', KEYS[9]) == 1 then
             return '__closed__'
         end
-        local reason = redis.call('GET', KEYS[5])
+        local reason = redis.call('GET', KEYS[10])
         if reason == 'Stopped' then
             return '__closed__'
         end
         local always_run_only = reason ~= false
         local caps = cjson.decode(ARGV[1])
-        local worker_timeout = tonumber(ARGV[2])
-        local priority_band = 1000000000000
-
-        local live_workers = {}
-        local worker_entries = redis.call('HGETALL', KEYS[2])
-        for i = 1, #worker_entries, 2 do
-            local name = worker_entries[i]
-            if string.sub(name, 1, 10) ~= 'heartbeat:' then
-                local heartbeat = tonumber(redis.call('HGET', KEYS[2], 'heartbeat:' .. name) or '0')
-                if heartbeat >= now - worker_timeout then
-                    table.insert(live_workers, cjson.decode(worker_entries[i + 1]))
-                end
-            end
-        end
+        local worker_timeout = tonumber(ARGV[4])
 
         local function supports(required, available)
             for _, clause in ipairs(required) do
@@ -58,109 +119,125 @@ internal static class RedisCoordinationScripts
             return true
         end
 
-        local best_item = nil
-        local best_module = nil
-        local best_score = nil
-        local best_priority = -1
-        local best_eligible_workers = nil
-        local best_required_count = -1
-        local best_weight = -1
-        local best_enqueued_at = nil
+        -- Expired heartbeat fields are gone, so the heartbeat hash lists exactly the live workers.
+        local live_workers = {}
+        for _, id in ipairs(redis.call('HKEYS', KEYS[7])) do
+            local registration = redis.call('HGET', KEYS[6], id)
+            if registration then
+                table.insert(live_workers, cjson.decode(registration)['Capabilities'] or {})
+            end
+        end
 
-        local items = redis.call('ZREVRANGE', KEYS[1], 0, -1, 'WITHSCORES')
-        for i = 1, #items, 2 do
-            local item = items[i]
-            local score = tonumber(items[i + 1])
-            local separator = string.find(item, '|', 1, true)
-            local prefix = separator == 33 and string.sub(item, 1, 32) or nil
-            local has_unique_prefix = prefix ~= nil and string.match(prefix, '^[0-9a-fA-F]+$') ~= nil
-            local assignment = cjson.decode(has_unique_prefix and string.sub(item, separator + 1) or item)
-            local module_id = assignment['ModuleId']
-            if redis.call('HEXISTS', KEYS[4], module_id) == 1 or redis.call('HEXISTS', KEYS[3], module_id) == 1 then
-                -- A final result or a live lease already exists; drop the stale copy.
-                redis.call('ZREM', KEYS[1], item)
-            else
-                local required = assignment['RequiredCapabilities'] or {}
-                if (not always_run_only or assignment['AlwaysRun'] == true) and supports(required, caps) then
+        local best = nil
+        local classes = redis.call('HGETALL', KEYS[2])
+        for i = 1, #classes, 2 do
+            local class_id = classes[i]
+            local class = cjson.decode(classes[i + 1])
+            local required = class['RequiredCapabilities'] or {}
+            if (not always_run_only or class['AlwaysRun'] == true) and supports(required, caps) then
+                local head = nil
+                while true do
+                    local items = redis.call('ZRANGE', KEYS[1], '[' .. class_id .. '|', '[' .. class_id .. '|\255', 'BYLEX', 'LIMIT', 0, 1)
+                    if #items == 0 then
+                        break
+                    end
+                    local member = items[1]
+                    local module_id = cjson.decode(string.sub(member, 86))['ModuleId']
+                    if redis.call('HEXISTS', KEYS[5], module_id) == 1 or redis.call('HEXISTS', KEYS[4], module_id) == 1 then
+                        -- A final result or a live lease already exists; drop the stale copy.
+                        redis.call('ZREM', KEYS[1], member)
+                        index_remove(module_id, member)
+                    else
+                        head = { member = member, module_id = module_id }
+                        break
+                    end
+                end
+
+                if head ~= nil then
                     local eligible_workers = 0
-                    for _, worker in ipairs(live_workers) do
-                        if supports(required, worker['Capabilities'] or {}) then
+                    for _, worker_caps in ipairs(live_workers) do
+                        if supports(required, worker_caps) then
                             eligible_workers = eligible_workers + 1
                         end
                     end
 
-                    local priority = math.floor(score / priority_band)
-                    local weight = score - (priority * priority_band)
+                    -- The order starts with the inverted priority, then the inverted critical path weight and
+                    -- the enqueue time. Scarce classes win ties on priority, then classes with more requirements.
+                    local order = string.sub(head.member, 18, 84)
+                    local priority = string.sub(order, 1, 1)
                     local required_count = #required
-                    local enqueued_at = assignment['EnqueuedAt'] or ''
-                    local is_better = priority > best_priority
-                        or (priority == best_priority and (best_eligible_workers == nil or eligible_workers < best_eligible_workers))
-                        or (priority == best_priority and eligible_workers == best_eligible_workers and required_count > best_required_count)
-                        or (priority == best_priority and eligible_workers == best_eligible_workers and required_count == best_required_count and weight > best_weight)
-                        or (priority == best_priority and eligible_workers == best_eligible_workers and required_count == best_required_count and weight == best_weight and (best_enqueued_at == nil or enqueued_at < best_enqueued_at))
-
+                    local is_better = best == nil
+                        or priority < best.priority
+                        or (priority == best.priority and eligible_workers < best.eligible_workers)
+                        or (priority == best.priority and eligible_workers == best.eligible_workers and required_count > best.required_count)
+                        or (priority == best.priority and eligible_workers == best.eligible_workers and required_count == best.required_count and order < best.order)
                     if is_better then
-                        best_item = item
-                        best_module = module_id
-                        best_score = items[i + 1]
-                        best_priority = priority
-                        best_eligible_workers = eligible_workers
-                        best_required_count = required_count
-                        best_weight = weight
-                        best_enqueued_at = enqueued_at
+                        best = {
+                            member = head.member,
+                            module_id = head.module_id,
+                            priority = priority,
+                            eligible_workers = eligible_workers,
+                            required_count = required_count,
+                            order = order,
+                        }
                     end
                 end
             end
         end
 
-        if best_item == nil then
+        if best == nil then
             return false
         end
 
-        redis.call('ZREM', KEYS[1], best_item)
-        redis.call('HSET', KEYS[3], best_module, cjson.encode({
-            LeaseId = ARGV[4],
-            WorkerId = ARGV[3],
-            Member = best_item,
-            Score = best_score,
+        redis.call('ZREM', KEYS[1], best.member)
+        index_remove(best.module_id, best.member)
+        redis.call('HSET', KEYS[4], best.module_id, cjson.encode({
+            LeaseId = ARGV[3],
+            WorkerId = ARGV[2],
+            Member = best.member,
             ExpiresAt = string.format('%d', now + worker_timeout),
         }))
-        return best_item
+        refresh(ARGV[5])
+        return string.sub(best.member, 86)
         """;
 
-    public const string Heartbeat = ServerTimeLua + """
-        redis.call('HSET', KEYS[1], 'heartbeat:' .. ARGV[1], string.format('%d', now))
-        local expires_at = string.format('%d', now + tonumber(ARGV[2]))
-        for i = 3, #ARGV do
-            local raw = redis.call('HGET', KEYS[2], ARGV[i])
+    // ARGV: time to live, worker identifier, worker timeout, status JSON, then in-flight module identifiers.
+    public const string Heartbeat = ServerTimeLua + RefreshLua + """
+        redis.call('HSET', KEYS[8], ARGV[2], ARGV[4])
+        redis.call('HSET', KEYS[7], ARGV[2], string.format('%d', now))
+        redis.call('HPEXPIRE', KEYS[7], ARGV[3], 'FIELDS', 1, ARGV[2])
+        local expires_at = string.format('%d', now + tonumber(ARGV[3]))
+        for i = 5, #ARGV do
+            local raw = redis.call('HGET', KEYS[4], ARGV[i])
             if raw then
                 local lease = cjson.decode(raw)
-                if lease['WorkerId'] == ARGV[1] then
+                if lease['WorkerId'] == ARGV[2] then
                     lease['ExpiresAt'] = expires_at
-                    redis.call('HSET', KEYS[2], ARGV[i], cjson.encode(lease))
+                    redis.call('HSET', KEYS[4], ARGV[i], cjson.encode(lease))
                 end
             end
         end
+        refresh(ARGV[1])
         return 1
         """;
 
-    // KEYS[1] is the heartbeat and KEYS[2] the durable marker that the master started.
+    // ARGV: heartbeat time to live. The heartbeat is KEYS[12] and the durable started marker KEYS[11].
     public const string MasterHeartbeat = ServerTimeLua + """
-        redis.call('SET', KEYS[1], string.format('%d', now), 'PX', ARGV[1])
-        redis.call('SET', KEYS[2], '1', 'PX', ARGV[1])
+        redis.call('SET', KEYS[12], string.format('%d', now), 'PX', ARGV[1])
+        redis.call('SET', KEYS[11], '1', 'PX', ARGV[1])
         return 1
         """;
 
-    // Returns 0 while the master runs, 1 once it signalled completion and 2 once it is lost. A
-    // master that started is lost once its heartbeat is stale or has expired; a master that never
-    // sent a heartbeat has not started yet.
+    // ARGV: master timeout. Returns 0 while the master runs, 1 once it signalled completion and 2 once it
+    // is lost. A master that started is lost once its heartbeat is stale or has expired; a master that
+    // never sent a heartbeat has not started yet.
     public const string GetMasterState = ServerTimeLua + """
-        if redis.call('EXISTS', KEYS[2]) == 1 then
+        if redis.call('EXISTS', KEYS[9]) == 1 then
             return 1
         end
-        local heartbeat = redis.call('GET', KEYS[1])
+        local heartbeat = redis.call('GET', KEYS[12])
         if not heartbeat then
-            if redis.call('EXISTS', KEYS[3]) == 1 then
+            if redis.call('EXISTS', KEYS[11]) == 1 then
                 return 2
             end
             return 0
@@ -171,68 +248,74 @@ internal static class RedisCoordinationScripts
         return 0
         """;
 
-    public const string RegisterWorker = ServerTimeLua + """
-        local existing = redis.call('HGET', KEYS[1], ARGV[1])
+    // ARGV: time to live, worker identifier, registration JSON, registration time, worker timeout,
+    // initial status JSON, run identifier.
+    public const string RegisterWorker = ServerTimeLua + RefreshLua + """
+        local existing = redis.call('HGET', KEYS[6], ARGV[2])
         local same_session = false
         if existing then
             local registration = cjson.decode(existing)
-            same_session = registration['RegisteredAt'] == ARGV[3]
-            if not same_session then
-                local heartbeat = tonumber(redis.call('HGET', KEYS[1], 'heartbeat:' .. ARGV[1]) or '0')
-                if heartbeat >= now - tonumber(ARGV[4]) then
-                    return 'duplicate'
-                end
+            same_session = registration['RegisteredAt'] == ARGV[4]
+            if not same_session and redis.call('HEXISTS', KEYS[7], ARGV[2]) == 1 then
+                return 'duplicate'
             end
         end
 
-        redis.call('HSET', KEYS[1], ARGV[1], ARGV[2])
-        local status = redis.call('HGET', KEYS[2], ARGV[1])
+        redis.call('HSET', KEYS[6], ARGV[2], ARGV[3])
+        local status = redis.call('HGET', KEYS[8], ARGV[2])
         local keep_status = false
         if same_session and status then
             local current = cjson.decode(status)
-            keep_status = (current['RunId'] or '') == ARGV[6]
+            keep_status = (current['RunId'] or '') == ARGV[7]
         end
         if not keep_status then
-            redis.call('HSET', KEYS[2], ARGV[1], ARGV[5])
+            redis.call('HSET', KEYS[8], ARGV[2], ARGV[6])
         end
-        redis.call('HSET', KEYS[1], 'heartbeat:' .. ARGV[1], string.format('%d', now))
+        redis.call('HSET', KEYS[7], ARGV[2], string.format('%d', now))
+        redis.call('HPEXPIRE', KEYS[7], ARGV[5], 'FIELDS', 1, ARGV[2])
+        refresh(ARGV[1])
         return 'ok'
         """;
 
-    public const string PublishResult = """
-        local stored = redis.call('HSETNX', KEYS[1], ARGV[1], ARGV[2])
-        redis.call('HDEL', KEYS[2], ARGV[1])
+    // ARGV: time to live, module identifier, result JSON. HSETNX keeps the first result final; the lease
+    // is released either way.
+    public const string PublishResult = RefreshLua + """
+        local stored = redis.call('HSETNX', KEYS[5], ARGV[2], ARGV[3])
+        redis.call('HDEL', KEYS[4], ARGV[2])
+        refresh(ARGV[1])
         return stored
         """;
 
-    public const string RequeueExpiredLeases = ServerTimeLua + """
+    // ARGV: time to live. Returns the module identifiers whose expired leases were requeued.
+    public const string RequeueExpiredLeases = ServerTimeLua + RefreshLua + QueueIndexLua + """
         local requeued = {}
-        local entries = redis.call('HGETALL', KEYS[1])
+        local entries = redis.call('HGETALL', KEYS[4])
         for i = 1, #entries, 2 do
             local lease = cjson.decode(entries[i + 1])
             if tonumber(lease['ExpiresAt']) < now then
-                redis.call('HDEL', KEYS[1], entries[i])
-                if redis.call('HEXISTS', KEYS[2], entries[i]) == 0 then
-                    redis.call('ZADD', KEYS[3], lease['Score'], lease['Member'])
+                redis.call('HDEL', KEYS[4], entries[i])
+                if redis.call('HEXISTS', KEYS[5], entries[i]) == 0 then
+                    redis.call('ZADD', KEYS[1], 0, lease['Member'])
+                    index_add(entries[i], lease['Member'])
                     table.insert(requeued, entries[i])
                 end
             end
         end
+        refresh(ARGV[1])
         return requeued
         """;
 
+    // ARGV: module identifier. Returns how many queued copies were removed.
     public const string Withdraw = """
-        local removed = 0
-        local items = redis.call('ZRANGE', KEYS[1], 0, -1)
-        for _, item in ipairs(items) do
-            local separator = string.find(item, '|', 1, true)
-            local prefix = separator == 33 and string.sub(item, 1, 32) or nil
-            local has_unique_prefix = prefix ~= nil and string.match(prefix, '^[0-9a-fA-F]+$') ~= nil
-            local assignment = cjson.decode(has_unique_prefix and string.sub(item, separator + 1) or item)
-            if assignment['ModuleId'] == ARGV[1] then
-                removed = removed + redis.call('ZREM', KEYS[1], item)
-            end
+        local members = redis.call('HGET', KEYS[3], ARGV[1])
+        if not members then
+            return 0
         end
+        local removed = 0
+        for member in string.gmatch(members, '[^\n]+') do
+            removed = removed + redis.call('ZREM', KEYS[1], member)
+        end
+        redis.call('HDEL', KEYS[3], ARGV[1])
         return removed
         """;
 }

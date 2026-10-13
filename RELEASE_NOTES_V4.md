@@ -16,6 +16,15 @@ artifact store, module cache, and master discovery. Keys, Lua scripts, and store
   connection strings fail with `OptionsValidationException` when the pipeline is built.
 - Unless configured otherwise, connections use Respire's default `RespireRetryPolicy`, which resends commands
   that were never written, and reads, after a dropped connection.
+- The coordinator now requires **Redis 7.4 or later, or Valkey 9.0 or later**. Worker heartbeats use hash field
+  expiry (`HPEXPIRE`) and notifications use sharded pub/sub. An older server fails with `NotSupportedException`
+  when the coordinator is created.
+- Claims no longer scan the whole queue: queued work is grouped by capability class, and a claim reads one entry
+  per class. Withdrawal uses an index instead of a queue scan. Enqueueing, heartbeats, result publication and
+  lease requeueing each take one round trip. Run data from earlier versions is not compatible; start new runs
+  after upgrading.
+- Artifact and module cache transfers keep up to four chunk commands in flight, read chunks into pooled memory,
+  list artifact metadata with one `MGET`, and delete with `UNLINK`.
 
 ## Generated CLI numeric names
 

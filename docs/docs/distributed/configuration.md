@@ -209,6 +209,10 @@ contract.
 
 ## RedisOptions
 
+The Redis coordinator requires Redis 7.4 or later, or Valkey 9.0 or later. Worker heartbeats use hash field
+expiry (`HPEXPIRE`), and notifications use sharded pub/sub (`SPUBLISH`), which keeps a run's messages on the
+shard that owns its keys in Redis Cluster. An older server fails when the coordinator is created.
+
 Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and
 `AddRedisModuleCache()`. Controls how the Redis features connect and manage keys. The coordinator and artifact
 store share one `RedisOptions` instance but open separate connections, so large artifact transfers do not queue

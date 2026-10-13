@@ -103,6 +103,32 @@ public class RedisDistributedCoordinatorContractTests
             readySignalCount: 2);
 
     [Test]
+    public Task Server_Supports_Hash_Field_Expiry() =>
+        RunAsync((_, client, keys) => RedisDistributedCoordinator.EnsureServerSupportAsync(client, keys, CancellationToken.None));
+
+    [Test]
+    public Task Expired_Worker_Heartbeat_Leaves_Only_Final_Workers_Registered() =>
+        RunAsync(
+            async (coordinator, client, keys, _) =>
+            {
+                var live = new WorkerRegistration { WorkerId = new WorkerId("contract-live"), RunId = "contract", Capabilities = [], RegisteredAt = DateTimeOffset.UtcNow };
+                var finished = new WorkerRegistration { WorkerId = new WorkerId("contract-finished"), RunId = "contract", Capabilities = [], RegisteredAt = DateTimeOffset.UtcNow };
+                await coordinator.RegisterWorkerAsync(live, CancellationToken.None);
+                await coordinator.RegisterWorkerAsync(finished, CancellationToken.None);
+                await coordinator.SendHeartbeatAsync(
+                    new WorkerStatus { WorkerId = finished.WorkerId, RunId = "contract", IsFinal = true },
+                    CancellationToken.None);
+
+                // The heartbeat fields expire with the worker timeout, so neither worker stays live.
+                await WaitUntilAsync(async () => (await client.Hashes.GetAllAsync(keys.WorkerHeartbeats)).Count == 0);
+
+                var registered = await coordinator.GetRegisteredWorkersAsync(CancellationToken.None);
+                await Assert.That(registered.Select(worker => worker.WorkerId)).IsEquivalentTo([finished.WorkerId]);
+            },
+            readySignalCount: 1,
+            workerTimeout: TimeSpan.FromMilliseconds(300));
+
+    [Test]
     public Task Heartbeat_Refreshes_Run_Key_Expiry() =>
         RunAsync(async (coordinator, client, keys) =>
         {

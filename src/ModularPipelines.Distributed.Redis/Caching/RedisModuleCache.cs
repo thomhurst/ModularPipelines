@@ -98,19 +98,19 @@ internal sealed class RedisModuleCache : IModuleCacheStore
             FileOptions.Asynchronous | FileOptions.DeleteOnClose);
         try
         {
-            for (var chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
+            var restored = await RedisChunkTransfer.ReadAsync(
+                    async (chunkIndex, token) => await redis.Strings
+                        .GetLeaseAsync(ChunkKey(fingerprint, generation, chunkIndex), token)
+                        .ConfigureAwait(false),
+                    stream,
+                    chunkCount,
+                    chunkLength => stream.Length > _maximumCacheEntryBytes - chunkLength ? CreateEntryLimitException() : null,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            if (restored < chunkCount)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                var chunkBytes = await redis.GetBytesAsync(ChunkKey(fingerprint, generation, chunkIndex), cancellationToken)
-                    .ConfigureAwait(false)
-                    ?? throw new InvalidDataException(
-                        $"Redis module cache entry '{fingerprint}' is missing chunk {chunkIndex}.");
-                if (stream.Length > _maximumCacheEntryBytes - chunkBytes.Length)
-                {
-                    throw CreateEntryLimitException();
-                }
-
-                await stream.WriteAsync(chunkBytes, cancellationToken).ConfigureAwait(false);
+                throw new InvalidDataException(
+                    $"Redis module cache entry '{fingerprint}' is missing chunk {restored}.");
             }
 
             if (stream.Length != expectedLength)
@@ -136,36 +136,26 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         ArgumentNullException.ThrowIfNull(content);
 
         var redis = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
-        var buffer = new byte[_chunkSize];
         var generation = Guid.NewGuid().ToString("N");
-        var chunkCount = 0;
         var totalLength = 0L;
         var chunkKeys = new List<RespireKey>();
         try
         {
-            while (true)
-            {
-                var length = await ReadFullBufferAsync(content, buffer, cancellationToken).ConfigureAwait(false);
-                if (length == 0)
-                {
-                    break;
-                }
-
-                cancellationToken.ThrowIfCancellationRequested();
-                var chunkKey = ChunkKey(fingerprint, generation, chunkCount);
-                // Respire borrows the buffer until the command completes, even when cancelled, so the
-                // next read cannot overwrite bytes that are still being sent. The RespireValue conversion
-                // stores the raw bytes; the generic overload would serialize the memory as JSON.
-                await redis.SetAsync(
-                        chunkKey,
-                        (RespireValue) new ReadOnlyMemory<byte>(buffer, 0, length),
-                        _provisionalExpiration,
-                        cancellationToken: cancellationToken)
-                    .ConfigureAwait(false);
-                chunkKeys.Add(chunkKey);
-                chunkCount++;
-                totalLength += length;
-            }
+            // Each chunk has its own buffer, which Respire borrows until its write completes, so several writes
+            // can be in flight. The RespireValue conversion stores the raw bytes; the generic overload would
+            // serialize them as JSON. Writes start in order, so the key list is only appended to sequentially.
+            var chunkCount = await RedisChunkTransfer.WriteAsync(
+                    RedisChunkTransfer.ReadChunksAsync(content, _chunkSize, first: null, cancellationToken),
+                    async (chunkIndex, chunk, token) =>
+                    {
+                        var chunkKey = ChunkKey(fingerprint, generation, chunkIndex);
+                        chunkKeys.Add(chunkKey);
+                        await redis.SetAsync(chunkKey, (RespireValue) chunk, _provisionalExpiration, cancellationToken: token)
+                            .ConfigureAwait(false);
+                        Interlocked.Add(ref totalLength, chunk.Length);
+                    },
+                    cancellationToken)
+                .ConfigureAwait(false);
 
             var metadata = string.Create(
                 CultureInfo.InvariantCulture,
@@ -192,7 +182,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         {
             if (chunkKeys.Count > 0)
             {
-                await redis.DeleteAsync([.. chunkKeys], CancellationToken.None).ConfigureAwait(false);
+                await redis.Keys.UnlinkAsync([.. chunkKeys], CancellationToken.None).ConfigureAwait(false);
             }
 
             throw;
@@ -223,7 +213,7 @@ internal sealed class RedisModuleCache : IModuleCacheStore
         }
 
         // Delete the metadata first so readers never observe an entry with missing chunks.
-        await redis.DeleteAsync([metadataKey], cancellationToken).ConfigureAwait(false);
+        await redis.Keys.UnlinkAsync([metadataKey], cancellationToken).ConfigureAwait(false);
         var (generation, chunkCount, _) = ParseMetadata(metadata);
         if (chunkCount > 0)
         {
@@ -232,29 +222,9 @@ internal sealed class RedisModuleCache : IModuleCacheStore
                 .. Enumerable.Range(0, chunkCount)
                     .Select(chunkIndex => (RespireKey) ChunkKey(fingerprint, generation, chunkIndex)),
             ];
-            await redis.DeleteAsync(chunkKeys, cancellationToken)
+            await redis.Keys.UnlinkAsync(chunkKeys, cancellationToken)
                 .ConfigureAwait(false);
         }
-    }
-
-    private static async Task<int> ReadFullBufferAsync(
-        Stream stream,
-        byte[] buffer,
-        CancellationToken cancellationToken)
-    {
-        var totalRead = 0;
-        while (totalRead < buffer.Length)
-        {
-            var read = await stream.ReadAsync(buffer.AsMemory(totalRead), cancellationToken).ConfigureAwait(false);
-            if (read == 0)
-            {
-                break;
-            }
-
-            totalRead += read;
-        }
-
-        return totalRead;
     }
 
     private static (string Generation, int ChunkCount, long Length) ParseMetadata(string metadata)

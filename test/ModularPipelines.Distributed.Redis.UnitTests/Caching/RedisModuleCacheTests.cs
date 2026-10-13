@@ -89,7 +89,7 @@ public class RedisModuleCacheTests
     public async Task FailedWriteDeletesItsChunksAndPublishesNothing()
     {
         await using var content = new FailAfterStream([1, 2, 3, 4]);
-        using var deletes = _redis.Server.InjectFault("DEL", RespireFakeFault.Delay(TimeSpan.Zero), occurrences: null);
+        using var deletes = _redis.Server.InjectFault("UNLINK", RespireFakeFault.Delay(TimeSpan.Zero), occurrences: null);
 
         await Assert.That(async () => await _cache.WriteAsync(Fingerprint, content, CancellationToken.None))
             .Throws<IOException>();
@@ -108,7 +108,7 @@ public class RedisModuleCacheTests
     {
         await StoreEntryAsync($"{Generation}:2:5", [1, 2, 3], [4, 5]);
         var gate = new RespireFakeGate();
-        using var chunkDelete = _redis.InjectFault("DEL", ChunkKey(0), RespireFakeFault.Pause(gate));
+        using var chunkDelete = _redis.InjectFault("UNLINK", ChunkKey(0), RespireFakeFault.Pause(gate));
 
         var delete = _cache.DeleteAsync(Fingerprint, CancellationToken.None);
         bool metadataDeletedFirst;
@@ -142,7 +142,7 @@ public class RedisModuleCacheTests
     [Test]
     public async Task DeleteIgnoresMissingEntryAndExistsChecksMetadata()
     {
-        using var deletes = _redis.Server.InjectFault("DEL", RespireFakeFault.Delay(TimeSpan.Zero), occurrences: null);
+        using var deletes = _redis.Server.InjectFault("UNLINK", RespireFakeFault.Delay(TimeSpan.Zero), occurrences: null);
 
         await _cache.DeleteAsync(Fingerprint, CancellationToken.None);
         await Assert.That(deletes.MatchedCount).IsEqualTo(0);

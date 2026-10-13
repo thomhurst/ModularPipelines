@@ -339,6 +339,7 @@ public class RedisArtifactStoreTests
     [Arguments(5)]
     [Arguments(50)]
     [Arguments(120)]
+    [Arguments(1001)]
     public async Task Upload_Then_Download_RoundTrips(int length)
     {
         var data = Enumerable.Range(0, length).Select(value => (byte) value).ToArray();

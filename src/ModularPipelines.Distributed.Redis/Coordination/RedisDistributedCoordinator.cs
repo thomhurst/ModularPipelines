@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.Redis;
@@ -11,8 +10,11 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// All keys are isolated by run identifier to support concurrent pipeline runs.
 /// </summary>
 /// <remarks>
-/// Claims, lease renewal, lease expiry and result publication run as Lua scripts so each is atomic.
-/// Pub/sub only wakes waiters early: every wait is bounded and re-reads Redis, so a message lost
+/// Enqueueing, claims, heartbeats, lease expiry and result publication run as Lua scripts so each is
+/// atomic and costs one round trip; the scripts that change run state also renew the run keys' expiry.
+/// Claims read one queue member per capability class rather than scanning the queue. Worker heartbeats use
+/// hash field expiry, so the coordinator needs Redis 7.4 or later (or Valkey 9.0 or later).
+/// Sharded pub/sub only wakes waiters early: every wait is bounded and re-reads Redis, so a message lost
 /// while the connection reconnects delays a waiter by at most <see cref="PollInterval"/>.
 /// Cancelling a call abandons its wait; Redis may still run a command already sent, and later
 /// commands are not issued.
@@ -24,11 +26,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 {
     internal static readonly TimeSpan PollInterval = TimeSpan.FromSeconds(2);
 
-    private const char QueueMemberSeparator = '|';
     private const string ClosedSentinel = "__closed__";
-    private const double PriorityScoreBand = 1_000_000_000_000;
-    private const double MaximumCriticalPathScore = PriorityScoreBand - 1;
 
+    private static readonly RespireScript HashFieldExpiryProbeScript = RespireScript.Create(
+        "return redis.call('HPEXPIRE', KEYS[1], 1000, 'FIELDS', 1, '__modularpipelines_probe__')");
+    private static readonly RespireScript EnqueueScript = RespireScript.Create(RedisCoordinationScripts.Enqueue);
     private static readonly RespireScript ClaimScript = RespireScript.Create(RedisCoordinationScripts.Claim);
     private static readonly RespireScript HeartbeatScript = RespireScript.Create(RedisCoordinationScripts.Heartbeat);
     private static readonly RespireScript MasterHeartbeatScript = RespireScript.Create(RedisCoordinationScripts.MasterHeartbeat);
@@ -40,7 +42,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     private readonly IRespireClient _redis;
     private readonly RedisKeyBuilder _keys;
+    private readonly RespireKey[] _scriptKeys;
     private readonly TimeSpan _keyExpiration;
+    private readonly long _keyExpirationMilliseconds;
+    private readonly long _workerTimeoutMilliseconds;
     private readonly TimeSpan _workerTimeout;
     private readonly TimeSpan _masterTimeout;
     private readonly CancellationTokenSource _masterHeartbeatCts = new();
@@ -60,12 +65,42 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         _redis = redis;
         _keys = keys;
+        _scriptKeys = [.. keys.ScriptKeys.Select(static key => (RespireKey) key)];
         _keyExpiration = options.TimeToLive;
+        _keyExpirationMilliseconds = (long) options.TimeToLive.TotalMilliseconds;
         _workerTimeout = distributedOptions?.WorkerTimeout ?? TimeSpan.FromSeconds(30);
+        _workerTimeoutMilliseconds = (long) _workerTimeout.TotalMilliseconds;
         _masterTimeout = distributedOptions?.MasterTimeout ?? TimeSpan.FromMinutes(1);
         _onWaitReady = onWaitReady;
         _logger = logger;
         ValidateKeyExpiration(options, distributedOptions);
+    }
+
+    /// <summary>
+    /// Fails fast when the server lacks hash field expiry, which worker heartbeats need. Without this check
+    /// an older server reports only "Unknown Redis command called from script" when a worker registers.
+    /// </summary>
+    internal static async Task EnsureServerSupportAsync(
+        IRespireClient redis,
+        RedisKeyBuilder keys,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // A field that never exists, so the probe changes nothing.
+            using var result = await redis.Scripts.ExecuteAsync(
+                    HashFieldExpiryProbeScript,
+                    [keys.WorkerHeartbeats],
+                    cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (RespireServerException exception) when (exception.Message.Contains("Unknown Redis command", StringComparison.OrdinalIgnoreCase)
+                                                        || exception.Message.Contains("unknown command", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new NotSupportedException(
+                "The Redis distributed coordinator requires hash field expiry (HPEXPIRE): Redis 7.4 or later, or Valkey 9.0 or later.",
+                exception);
+        }
     }
 
     /// <summary>
@@ -94,11 +129,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var json = JsonSerializer.Serialize(assignment);
-        var queueMember = $"{Guid.NewGuid():N}{QueueMemberSeparator}{json}";
-        await _redis.SortedSets.AddAsync(_keys.WorkQueue, (RespireValue) queueMember, GetQueueScore(assignment), cancellationToken)
+        var classJson = JsonSerializer.Serialize(RedisQueueMember.GetClass(assignment));
+        var classId = RedisQueueMember.GetClassId(classJson);
+        var member = RedisQueueMember.Create(classId, assignment, JsonSerializer.Serialize(assignment));
+        await _redis.Scripts.ExecuteIntegerAsync(
+                EnqueueScript,
+                _scriptKeys,
+                [_keyExpirationMilliseconds, classId, classJson, member, assignment.ModuleId.Value],
+                cancellationToken)
             .ConfigureAwait(false);
-        await RefreshRunKeysAsync(cancellationToken).ConfigureAwait(false);
         await NotifyAsync(_keys.WorkAvailableChannel, cancellationToken).ConfigureAwait(false);
     }
 
@@ -152,12 +191,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         // HSETNX keeps the first result final; the lease is released either way.
         await _redis.Scripts.ExecuteIntegerAsync(
                 PublishResultScript,
-                [_keys.Results, _keys.Leases],
-                [result.ModuleId.Value, json],
+                _scriptKeys,
+                [_keyExpirationMilliseconds, result.ModuleId.Value, json],
                 cancellationToken)
             .ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
-        await RefreshRunKeysAsync(cancellationToken).ConfigureAwait(false);
         await NotifyAsync(_keys.ResultChannel(result.ModuleId), cancellationToken).ConfigureAwait(false);
     }
 
@@ -208,12 +246,13 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         });
         var result = await _redis.Scripts.ExecuteStringAsync(
                 RegisterWorkerScript,
-                [_keys.Workers, _keys.WorkerStatuses],
+                _scriptKeys,
                 [
+                    _keyExpirationMilliseconds,
                     registration.WorkerId.Value,
                     JsonSerializer.Serialize(registration),
                     registeredAt,
-                    (long) _workerTimeout.TotalMilliseconds,
+                    _workerTimeoutMilliseconds,
                     initialStatus,
                     registration.RunId ?? string.Empty,
                 ],
@@ -225,30 +264,23 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
                 $"Worker '{registration.WorkerId}' is already registered by another live process. "
                 + "Give every distributed process a unique instance index.");
         }
-
-        await RefreshRunKeysAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task SendHeartbeatAsync(WorkerStatus status, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        await _redis.Hashes.SetAsync(
-                _keys.WorkerStatuses,
-                status.WorkerId.Value,
-                (RespireValue) JsonSerializer.Serialize(status),
-                cancellationToken)
-            .ConfigureAwait(false);
         await _redis.Scripts.ExecuteIntegerAsync(
                 HeartbeatScript,
-                [_keys.Workers, _keys.Leases],
+                _scriptKeys,
                 [
+                    _keyExpirationMilliseconds,
                     status.WorkerId.Value,
-                    (long) _workerTimeout.TotalMilliseconds,
+                    _workerTimeoutMilliseconds,
+                    JsonSerializer.Serialize(status),
                     .. status.InFlightModules.Select(static moduleId => (RespireValue) moduleId.Value),
                 ],
                 cancellationToken)
             .ConfigureAwait(false);
-        await RefreshRunKeysAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<bool> WithdrawAssignmentAsync(ModuleId moduleId, CancellationToken cancellationToken)
@@ -256,7 +288,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         cancellationToken.ThrowIfCancellationRequested();
         var removed = await _redis.Scripts.ExecuteIntegerAsync(
                 WithdrawScript,
-                [_keys.WorkQueue],
+                _scriptKeys,
                 [moduleId.Value],
                 cancellationToken)
             .ConfigureAwait(false);
@@ -276,15 +308,15 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         ModuleId[] requeued;
         using (var result = await _redis.Scripts.ExecuteAsync(
                        RequeueExpiredLeasesScript,
-                       [_keys.Leases, _keys.Results, _keys.WorkQueue],
-                       cancellationToken: cancellationToken)
+                       _scriptKeys,
+                       [_keyExpirationMilliseconds],
+                       cancellationToken)
                    .ConfigureAwait(false))
         {
             requeued = [.. result.Select(static item => new ModuleId(item.AsString()))];
         }
 
-        // The master calls this periodically, so it also keeps the run's keys alive.
-        await RefreshRunKeysAsync(cancellationToken).ConfigureAwait(false);
+        // The master calls this periodically, so the script also keeps the run's keys alive.
         if (requeued.Length > 0)
         {
             await NotifyAsync(_keys.WorkAvailableChannel, cancellationToken).ConfigureAwait(false);
@@ -295,27 +327,24 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
-        var serverTime = await _redis.Server.TimeAsync(cancellationToken).ConfigureAwait(false);
-        var entries = await _redis.Hashes.GetAllAsync(_keys.Workers, cancellationToken).ConfigureAwait(false);
-        var statuses = (await GetWorkerStatusesAsync(cancellationToken).ConfigureAwait(false))
-            .ToDictionary(static status => status.WorkerId);
-        var oldestLiveHeartbeat = serverTime.ToUnixTimeMilliseconds() - _workerTimeout.TotalMilliseconds;
-        const string HeartbeatPrefix = "heartbeat:";
-        var heartbeats = entries
-            .Where(static entry => entry.Key.StartsWith(HeartbeatPrefix, StringComparison.Ordinal))
-            .ToDictionary(
-                static entry => entry.Key[HeartbeatPrefix.Length..],
-                static entry => long.Parse(entry.Value, NumberStyles.Integer, CultureInfo.InvariantCulture),
-                StringComparer.Ordinal);
-        var workers = new List<WorkerRegistration>(entries.Count);
-        foreach (var entry in entries.Where(static entry =>
-                     !entry.Key.StartsWith(HeartbeatPrefix, StringComparison.Ordinal)))
+        using var batch = _redis.CreateBatch();
+        var registrations = batch.Hashes.GetAll(_keys.Workers);
+        var heartbeats = batch.Hashes.GetAll(_keys.WorkerHeartbeats);
+        var statuses = batch.Hashes.GetAll(_keys.WorkerStatuses);
+        await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+
+        // Heartbeat fields expire after the worker timeout, so only live workers have one.
+        var finalStatuses = statuses.Result.Values
+            .Select(static entry => JsonSerializer.Deserialize<WorkerStatus>(entry)!)
+            .Where(static status => status.IsFinal)
+            .Select(static status => status.WorkerId)
+            .ToHashSet();
+        var workers = new List<WorkerRegistration>(registrations.Result.Count);
+        foreach (var entry in registrations.Result)
         {
             var registration = JsonSerializer.Deserialize<WorkerRegistration>(entry.Value)!;
             // A final status keeps a worker visible after its heartbeat expires.
-            if (statuses.GetValueOrDefault(registration.WorkerId)?.IsFinal == true
-                || (heartbeats.TryGetValue(registration.WorkerId.Value, out var heartbeat)
-                    && heartbeat >= oldestLiveHeartbeat))
+            if (heartbeats.Result.ContainsKey(entry.Key) || finalStatuses.Contains(registration.WorkerId))
             {
                 workers.Add(registration);
             }
@@ -391,7 +420,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         cancellationToken.ThrowIfCancellationRequested();
         var state = await _redis.Scripts.ExecuteIntegerAsync(
                 GetMasterStateScript,
-                [_keys.MasterHeartbeat, _keys.CompletionFlag, _keys.MasterStarted],
+                _scriptKeys,
                 [(long) _masterTimeout.TotalMilliseconds],
                 cancellationToken)
             .ConfigureAwait(false);
@@ -410,8 +439,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         cancellationToken.ThrowIfCancellationRequested();
         await _redis.Scripts.ExecuteIntegerAsync(
                 MasterHeartbeatScript,
-                [_keys.MasterHeartbeat, _keys.MasterStarted],
-                [(long) _keyExpiration.TotalMilliseconds],
+                _scriptKeys,
+                [_keyExpirationMilliseconds],
                 cancellationToken)
             .ConfigureAwait(false);
     }
@@ -430,8 +459,9 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         // Without the completion flag, deleting the started marker would make workers report a missing master
         // as not started yet and wait forever, so write it again in case signalling completion failed.
         await SetCompletionFlagAsync(cancellationToken).ConfigureAwait(false);
+        // UNLINK frees large hashes on a background thread instead of blocking the server.
         RespireKey[] keys = [.. _keys.RunCleanupKeys.Select(static key => (RespireKey) key)];
-        await _redis.DeleteAsync(keys, cancellationToken).ConfigureAwait(false);
+        await _redis.Keys.UnlinkAsync(keys, cancellationToken).ConfigureAwait(false);
     }
 
     public async ValueTask DisposeAsync()
@@ -480,15 +510,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         }
     }
 
-    internal static double GetQueueScore(ModuleAssignment assignment)
-    {
-        var criticalPathScore = Math.Clamp(
-            assignment.CriticalPathWeight.TotalSeconds,
-            0,
-            MaximumCriticalPathScore);
-        return ((int) assignment.Priority * PriorityScoreBand) + criticalPathScore;
-    }
-
     private async Task SetCompletionFlagAsync(CancellationToken cancellationToken) =>
         await _redis.SetAsync(_keys.CompletionFlag, (RespireValue) "1", _keyExpiration, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -522,67 +543,39 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     {
         var leaseId = Guid.NewGuid().ToString("N");
         var capabilities = JsonSerializer.Serialize(workerCapabilities.ToArray());
-        var member = await _redis.Scripts.ExecuteStringAsync(
+        var assignment = await _redis.Scripts.ExecuteStringAsync(
                 ClaimScript,
-                [
-                    _keys.WorkQueue,
-                    _keys.Workers,
-                    _keys.Leases,
-                    _keys.Results,
-                    _keys.CancellationFlag,
-                    _keys.CompletionFlag,
-                ],
-                [capabilities, (long) _workerTimeout.TotalMilliseconds, workerId.Value, leaseId],
+                _scriptKeys,
+                [capabilities, workerId.Value, leaseId, _workerTimeoutMilliseconds, _keyExpirationMilliseconds],
                 cancellationToken)
             .ConfigureAwait(false);
 
-        if (member is null)
+        if (assignment is null)
         {
             return (false, null);
         }
 
-        return member == ClosedSentinel
+        return assignment == ClosedSentinel
             ? (true, null)
             : (false, new ModuleLease
             {
                 LeaseId = leaseId,
                 WorkerId = workerId,
-                Assignment = ParseQueueMember(member),
+                Assignment = JsonSerializer.Deserialize<ModuleAssignment>(assignment)!,
             });
-    }
-
-    private static ModuleAssignment ParseQueueMember(string queueMember)
-    {
-        var separatorIndex = queueMember.IndexOf(QueueMemberSeparator);
-        var hasUniquePrefix = separatorIndex == 32
-            && Guid.TryParseExact(queueMember.AsSpan(0, separatorIndex), "N", out _);
-        var assignmentJson = hasUniquePrefix
-            ? queueMember[(separatorIndex + 1)..]
-            : queueMember;
-        return JsonSerializer.Deserialize<ModuleAssignment>(assignmentJson)!;
     }
 
     private static ModuleLease ToLease(LeaseRecord record) => new()
     {
         LeaseId = record.LeaseId,
         WorkerId = new WorkerId(record.WorkerId),
-        Assignment = ParseQueueMember(record.Member),
+        Assignment = RedisQueueMember.ParseAssignment(record.Member),
     };
 
+    // Every channel carries the run's hash tag, so sharded pub/sub keeps a run's messages on one
+    // Redis Cluster shard instead of broadcasting them to every node.
     private async Task NotifyAsync(string channel, CancellationToken cancellationToken) =>
-        await _redis.PublishAsync(channel, (RespireValue) "1", cancellationToken).ConfigureAwait(false);
-
-    private async Task RefreshRunKeysAsync(CancellationToken cancellationToken)
-    {
-        // Queue every refresh so they share one flush instead of one round trip each.
-        using var batch = _redis.CreateBatch();
-        foreach (var key in _keys.CoordinationKeys)
-        {
-            _ = batch.Expire(key, _keyExpiration);
-        }
-
-        await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-    }
+        await _redis.PublishShardedAsync(channel, (RespireValue) "1", cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Subscribes to every channel and releases <paramref name="signal"/> for each message. A delivery
@@ -593,11 +586,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
         CancellationToken cancellationToken,
         params string[] channels)
     {
-        var subscription = await _redis.SubscribeAsync(channels.AsSpan(), cancellationToken).ConfigureAwait(false);
+        var subscription = await _redis.SubscribeShardedAsync(channels.AsSpan(), cancellationToken).ConfigureAwait(false);
         return new Subscription(subscription, signal);
     }
 
-    private sealed record LeaseRecord(string LeaseId, string WorkerId, string Member, string Score, string ExpiresAt);
+    private sealed record LeaseRecord(string LeaseId, string WorkerId, string Member, string ExpiresAt);
 
     /// <summary>
     /// Pumps one subscription into a wake-up signal until disposed. Disposing the subscription

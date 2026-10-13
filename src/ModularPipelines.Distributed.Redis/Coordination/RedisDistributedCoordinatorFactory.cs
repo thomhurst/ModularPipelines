@@ -39,6 +39,7 @@ internal sealed class RedisDistributedCoordinatorFactory : IDistributedCoordinat
     {
         var connection = await _connections.GetConnectionAsync(cancellationToken).ConfigureAwait(false);
         var keys = new RedisKeyBuilder(_options.KeyPrefix, _distributedOptions.RunId);
+        await RedisDistributedCoordinator.EnsureServerSupportAsync(connection, keys, cancellationToken).ConfigureAwait(false);
         return new RedisDistributedCoordinator(
             connection,
             keys,

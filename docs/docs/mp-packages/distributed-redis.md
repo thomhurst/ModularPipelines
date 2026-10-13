@@ -12,6 +12,10 @@ title: Distributed Redis Package
 dotnet add package ModularPipelines.Distributed.Redis
 ```
 
+The coordinator needs **Redis 7.4 or later, or Valkey 9.0 or later**, because worker heartbeats use hash
+field expiry (`HPEXPIRE`). Creating a coordinator against an older server fails with a `NotSupportedException`
+that names the requirement. The artifact store and module cache work with older servers.
+
 ## Configuration
 
 Use the combined helper when Redis should provide both services:
