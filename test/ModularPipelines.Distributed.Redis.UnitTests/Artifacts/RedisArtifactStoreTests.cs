@@ -54,9 +54,13 @@ public class RedisArtifactStoreTests
             stream,
             CancellationToken.None);
 
-        _mockDb.Verify(db => db.SetAddAsync(
-            (RedisKey) _keys.ArtifactModules,
-            (RedisValue) "Test.Module",
+        _mockDb.Verify(db => db.ScriptEvaluateAsync(
+            It.IsAny<string>(),
+            It.Is<RedisKey[]>(keys => keys.Length == 2
+                                      && keys[0] == (RedisKey) _keys.ArtifactIndex("Test.Module")
+                                      && keys[1] == (RedisKey) _keys.ArtifactModules),
+            It.Is<RedisValue[]>(values => values[1] == (RedisValue) "Test.Module"
+                                          && values[2] == (RedisValue) (long) TimeSpan.FromHours(1).TotalMilliseconds),
             It.IsAny<CommandFlags>()), Times.Once());
     }
 
@@ -71,13 +75,10 @@ public class RedisArtifactStoreTests
                 CancellationToken.None))
             .Throws<IOException>();
 
-        _mockDb.Verify(db => db.SetAddAsync(
-            (RedisKey) _keys.ArtifactIndex("Test.Module"),
-            It.IsAny<RedisValue>(),
-            It.IsAny<CommandFlags>()), Times.Once());
-        _mockDb.Verify(db => db.SetAddAsync(
-            (RedisKey) _keys.ArtifactModules,
-            (RedisValue) "Test.Module",
+        _mockDb.Verify(db => db.ScriptEvaluateAsync(
+            It.IsAny<string>(),
+            It.Is<RedisKey[]>(keys => keys[0] == (RedisKey) _keys.ArtifactIndex("Test.Module")),
+            It.IsAny<RedisValue[]>(),
             It.IsAny<CommandFlags>()), Times.Once());
     }
 

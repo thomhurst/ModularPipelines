@@ -128,6 +128,8 @@ public class RedisStorageIntegrationTests
             .Throws<IOException>();
         var artifactId = (await database.SetMembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single().ToString();
         await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
+        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactIndex("Integration.Partial"))).IsNotNull();
+        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactModules)).IsNotNull();
 
         await store.CleanupRunAsync(
             new DistributedRunCleanupContext { RunId = "partial", PipelineSucceeded = false },

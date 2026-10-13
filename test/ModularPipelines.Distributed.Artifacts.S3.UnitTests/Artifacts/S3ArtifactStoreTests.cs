@@ -434,6 +434,27 @@ public class S3ArtifactStoreTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Fails_When_Objects_Were_Not_Deleted()
+    {
+        _mockS3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ListVersionsResponse
+            {
+                Versions = [new S3ObjectVersion { Key = "modpipe/artifacts/run123/A/output/1", VersionId = "v1" }],
+                IsTruncated = false,
+            });
+        _mockS3.Setup(s => s.DeleteObjectsAsync(It.IsAny<DeleteObjectsRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new DeleteObjectsResponse
+            {
+                DeleteErrors = [new DeleteError { Key = "modpipe/artifacts/run123/A/output/1", Code = "AccessDenied" }],
+            });
+
+        await Assert.That(async () => await _store.CleanupRunAsync(
+                new DistributedRunCleanupContext { RunId = "run123", PipelineSucceeded = true },
+                CancellationToken.None))
+            .Throws<DeleteObjectsException>();
+    }
+
+    [Test]
     public async Task Run_Cleanup_Of_An_Empty_Run_Deletes_Nothing()
     {
         _mockS3.Setup(s => s.ListVersionsAsync(It.IsAny<ListVersionsRequest>(), It.IsAny<CancellationToken>()))

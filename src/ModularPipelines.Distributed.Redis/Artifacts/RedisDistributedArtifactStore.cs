@@ -14,6 +14,16 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// </summary>
 internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
 {
+    // Adds the artifact to its module's index and the module to the run's module set, each with the TTL, in one
+    // step, so no index key can be left without an expiry or outside run cleanup's reach.
+    private const string IndexArtifactScript = """
+        redis.call('SADD', KEYS[1], ARGV[1])
+        redis.call('PEXPIRE', KEYS[1], ARGV[3])
+        redis.call('SADD', KEYS[2], ARGV[2])
+        redis.call('PEXPIRE', KEYS[2], ARGV[3])
+        return 1
+        """;
+
     private readonly IDatabase _database;
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _timeToLive;
@@ -50,17 +60,10 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
 
         // Index before writing content, so run cleanup also finds an upload that fails part way. Listing skips
         // an indexed artifact until its metadata is written.
-        var indexKey = _keys.ArtifactIndex(descriptor.ModuleId);
-        await _database.SetAddAsync(indexKey, artifactId)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyExpireAsync(indexKey, _timeToLive)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.SetAddAsync(_keys.ArtifactModules, descriptor.ModuleId.Value)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
-        await _database.KeyExpireAsync(_keys.ArtifactModules, _timeToLive)
+        await _database.ScriptEvaluateAsync(
+                IndexArtifactScript,
+                [(RedisKey) _keys.ArtifactIndex(descriptor.ModuleId), (RedisKey) _keys.ArtifactModules],
+                [artifactId, descriptor.ModuleId.Value, (long) _timeToLive.TotalMilliseconds])
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 

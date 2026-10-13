@@ -233,7 +233,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
             return;
         }
 
-        await _s3.DeleteObjectsAsync(
+        var response = await _s3.DeleteObjectsAsync(
                 new DeleteObjectsRequest
                 {
                     BucketName = _bucketName,
@@ -242,6 +242,13 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
                 },
                 cancellationToken)
             .ConfigureAwait(false);
+
+        // The AWS client throws this itself; check too, so a client that only reports per-key errors cannot
+        // make cleanup look complete while objects remain.
+        if (response?.DeleteErrors is { Count: > 0 })
+        {
+            throw new DeleteObjectsException(response);
+        }
     }
 
     public void Dispose() => _s3.Dispose();
