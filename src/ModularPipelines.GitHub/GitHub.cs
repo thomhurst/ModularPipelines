@@ -54,7 +54,7 @@ internal class GitHub : IGitHub
     /// Initializes the GitHub client.
     /// </summary>
     /// <returns>An instance of <see cref="IGitHubClient"/>.</returns>
-    private IGitHubClient InitializeClient()
+    private GitHubClient InitializeClient()
     {
         var token = _options.AccessToken
                     ?? EnvironmentVariables.Token
