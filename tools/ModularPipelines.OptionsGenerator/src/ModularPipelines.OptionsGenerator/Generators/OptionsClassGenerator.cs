@@ -825,6 +825,18 @@ public class OptionsClassGenerator : ICodeGenerator
         StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType, snapshotDeclaredValues);
+        var characterCollectionType = snapshotDeclaredValues
+            ? CliOptionDefinition.GetCharacterSnapshotCollectionType(propertyType)
+            : null;
+        if (characterCollectionType == "ListWithDeclaredValues")
+        {
+            GenerateMutableDeclaredSnapshotAdapter(sb, propertyType, typePrefix, "Characters");
+        }
+        else if (characterCollectionType is not null)
+        {
+            GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, "Characters", characterCollectionType, snapshotDeclaredValues: true);
+        }
+
         if (collectionType is null or "HashSet")
         {
             return;
@@ -850,7 +862,7 @@ public class OptionsClassGenerator : ICodeGenerator
             }
             else if (collectionType == "ListWithDeclaredValues")
             {
-                GenerateMutableDeclaredSnapshotAdapter(sb, typePrefix, elementName);
+                GenerateMutableDeclaredSnapshotAdapter(sb, propertyType, typePrefix, elementName);
             }
             else
             {
@@ -862,7 +874,7 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateReadOnlyTypedSnapshotAdapter(
         StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType, bool snapshotDeclaredValues)
     {
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var elementType = GetSnapshotRendererElementType(elementName);
         var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
         var sourceType = propertyType.TrimEnd('?');
         var retainedSource = snapshotDeclaredValues ? "_source" : "source";
@@ -885,6 +897,8 @@ public class OptionsClassGenerator : ICodeGenerator
                 ? $"        private readonly {sourceType} _source = {typePrefix}Set(source);"
                 : $"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
         }
+
+        GenerateCharacterScalarSnapshot(sb, elementName);
 
         if (collectionType != "NonGenericIEnumerable")
         {
@@ -981,39 +995,58 @@ public class OptionsClassGenerator : ICodeGenerator
         }
     }
 
-    private static void GenerateMutableDeclaredSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
+    private static void GenerateMutableDeclaredSnapshotAdapter(StringBuilder sb, string propertyType, string typePrefix, string elementName)
     {
-        var elementType = $"global::ModularPipelines.Models.{elementName}";
+        var elementType = GetSnapshotRendererElementType(elementName);
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
         sb.AppendLine();
         // Keep mutable ordinary values separate from the reusable renderer view.
         sb.AppendLine($$"""
                 private sealed class {{typePrefix}}{{elementName}}(
                     global::System.Collections.IEnumerable source,
                     global::System.Collections.Generic.IEnumerable<{{elementType}}> values)
-                    : global::System.Collections.Generic.List<object>(EnumerateSource(source)),
-                        global::System.Collections.Generic.IEnumerable<object>,
+                    : global::System.Collections.Generic.List<{{declaredElement}}>(EnumerateSource(source)),
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>,
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>
                 {
                     private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
 
-                    private static global::System.Collections.Generic.IEnumerable<object> EnumerateSource(global::System.Collections.IEnumerable source)
+                    private static global::System.Collections.Generic.IEnumerable<{{declaredElement}}> EnumerateSource(global::System.Collections.IEnumerable source)
                     {
                         foreach (var item in source)
                         {
-                            yield return item;
+                            yield return ({{declaredElement}})item;
                         }
                     }
 
                     global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() => base.GetEnumerator();
 
-                    global::System.Collections.Generic.IEnumerator<object>
-                        global::System.Collections.Generic.IEnumerable<object>.GetEnumerator() => base.GetEnumerator();
+                    global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => base.GetEnumerator();
 
                     global::System.Collections.Generic.IEnumerator<{{elementType}}>
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
                             ((global::System.Collections.Generic.IEnumerable<{{elementType}}>)_values).GetEnumerator();
-                }
             """);
+        GenerateCharacterScalarSnapshot(sb, elementName);
+        sb.AppendLine("    }");
+    }
+
+    private static string GetSnapshotRendererElementType(string elementName) =>
+        elementName == "Characters" ? "char" : $"global::ModularPipelines.Models.{elementName}";
+
+    private static void GenerateCharacterScalarSnapshot(StringBuilder sb, string elementName)
+    {
+        if (elementName != "Characters")
+        {
+            return;
+        }
+
+        // The renderer recognizes IEnumerable<char> but obtains its scalar value through ToString.
+        sb.AppendLine();
+        sb.AppendLine("        private readonly string? _scalarValue = source.ToString();");
+        sb.AppendLine();
+        sb.AppendLine("        public override string? ToString() => _scalarValue;");
     }
 
     private static void GenerateTypedSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)

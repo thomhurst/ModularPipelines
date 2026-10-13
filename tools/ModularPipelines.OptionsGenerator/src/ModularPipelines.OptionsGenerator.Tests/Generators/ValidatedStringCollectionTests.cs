@@ -783,6 +783,198 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_Character_Views_Snapshot_Ordinary_Values(
+        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
+            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?",
+            "List<string>?", "IList<string>?", "ICollection<string>?", "List<object>?", "IList<object>?",
+            "ICollection<object>?", "System.Collections.IList?")] string collectionType,
+        [Matrix(null, "", " ", "valid")] string? entry,
+        [Matrix(false, true)] bool joined,
+        [Matrix(0, 1, 2)] int assignment)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: collectionType,
+                collectionSeparator: separator, inherited: assignment != 0))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var views = new CharacterViews(entry);
+        object input = collectionType switch
+        {
+            "IReadOnlySet<string>?" => new CharacterSet(entry, views),
+            "List<object>?" or "IList<object>?" or "ICollection<object>?" or "System.Collections.IList?" =>
+                new CharacterObjectList(entry, views),
+            "List<string>?" or "IList<string>?" or "ICollection<string>?" => new CharacterStringList(entry, views),
+            _ => new CharacterReadOnlyList(entry, views),
+        };
+        var property = (assignment == 2 ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = property.GetValue(instance)!;
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(((System.Collections.IEnumerable) retained).Cast<string>()).IsEquivalentTo(["first", entry]);
+            await Assert.That(((IEnumerable<char>) retained).ToArray()).IsEquivalentTo("scalar".ToCharArray());
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(["--requirement", "scalar"]);
+        }
+
+        await Assert.That(views.StringEnumerationCount).IsEqualTo(1);
+        await Assert.That(views.CharacterEnumerationCount).IsEqualTo(1);
+        if (retained is IReadOnlySet<string> set)
+        {
+            await Assert.That(set.Contains("FIRST")).IsTrue();
+            await Assert.That(set.SetEquals(["FIRST", entry!])).IsTrue();
+        }
+
+        property.SetValue(instance, null);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Character_Snapshots_Preserve_Renderer_Precedence_And_Opt_In(
+        [Matrix(false, true)] bool rejectBlank,
+        [Matrix(false, true)] bool joined,
+        [Matrix(null, "valid")] string? entry)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: "IReadOnlyList<string>?",
+                rejectBlank: rejectBlank, collectionSeparator: separator))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var views = new CharacterViews(entry);
+        var input = new CharacterRendererReadOnlyList(entry, views);
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            if (rejectBlank)
+            {
+                await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                    .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            }
+            else
+            {
+                await Assert.That(property.GetValue(instance)).IsSameReferenceAs(input);
+            }
+
+            string[] expected = joined ? ["--requirement", "scalar"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(views.StringEnumerationCount).IsEqualTo(rejectBlank ? 1 : 0);
+        await Assert.That(views.CharacterEnumerationCount).IsEqualTo(rejectBlank && joined ? 1 : 0);
+    }
+
+    private static readonly string[] InitialCharacterValues = ["initial"];
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Required_Character_Snapshots_Intercept_Alternate_Input_Base_Assignments(
+        [Matrix(false, true)] bool factory,
+        [Matrix(false, true)] bool joined,
+        [Matrix(null, "valid")] string? entry)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(inherited: true, required: true,
+                collectionSeparator: separator)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = factory
+            ? options.GetMethod("FromCliInputJson")!.Invoke(null, ["{}"])!
+            : Activator.CreateInstance(options, [InitialCharacterValues])!;
+        var views = new CharacterViews(entry);
+        options.BaseType!.GetProperty("Values")!.SetValue(instance, new CharacterReadOnlyList(entry, views));
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(["--requirement", "scalar"]);
+        }
+
+        await Assert.That(views.StringEnumerationCount).IsEqualTo(1);
+        await Assert.That(views.CharacterEnumerationCount).IsEqualTo(1);
+    }
+
+    private sealed class CharacterViews(string? entry)
+    {
+        public int StringEnumerationCount { get; private set; }
+        public int CharacterEnumerationCount { get; private set; }
+
+        public IEnumerator<string> Strings()
+        {
+            if (++StringEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("String input can only be enumerated once.");
+            }
+
+            yield return "first";
+            yield return entry!;
+        }
+
+        public IEnumerator<char> Characters()
+        {
+            if (++CharacterEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("Character input can only be enumerated once.");
+            }
+
+            foreach (var character in "scalar")
+            {
+                yield return character;
+            }
+        }
+    }
+
+    private sealed class CharacterStringList(string? entry, CharacterViews views) : List<string>(["first", entry!]),
+        IEnumerable<string>, IEnumerable<char>
+    {
+        IEnumerator<string> IEnumerable<string>.GetEnumerator() => views.Strings();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => views.Strings();
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() => views.Characters();
+        public override string ToString() => "scalar";
+    }
+
+    private class CharacterReadOnlyList(string? entry, CharacterViews views) : IReadOnlyList<string>, IEnumerable<char>
+    {
+        public int Count => 2;
+        public string this[int index] => index == 0 ? "first" : entry!;
+        public IEnumerator<string> GetEnumerator() => views.Strings();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => views.Strings();
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() => views.Characters();
+        public override string ToString() => "scalar";
+    }
+
+    private sealed class CharacterRendererReadOnlyList(string? entry, CharacterViews views) : CharacterReadOnlyList(entry, views),
+        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.CliValuePair>) [new("typed", "value")]).GetEnumerator();
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator() =>
+            ((IEnumerable<ModularPipelines.Models.KeyValue>) [new("typed", "value")]).GetEnumerator();
+    }
+
+    private sealed class CharacterObjectList(string? entry, CharacterViews views) : List<object>(["first", entry!]),
+        IEnumerable<object>, IEnumerable<char>
+    {
+        IEnumerator<object> IEnumerable<object>.GetEnumerator() => views.Strings();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => views.Strings();
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() => views.Characters();
+        public override string ToString() => "scalar";
+    }
+
+    private sealed class CharacterSet(string? entry, CharacterViews views)
+        : HashSet<string>(["first", entry!], StringComparer.OrdinalIgnoreCase), IReadOnlySet<string>, IEnumerable<char>
+    {
+        IEnumerator<string> IEnumerable<string>.GetEnumerator() => views.Strings();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => views.Strings();
+        IEnumerator<char> IEnumerable<char>.GetEnumerator() => views.Characters();
+        public override string ToString() => "scalar";
+    }
+
     private static async Task<string[]> GenerateValidatedStringCollection(
         bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false, bool required = false)
     {

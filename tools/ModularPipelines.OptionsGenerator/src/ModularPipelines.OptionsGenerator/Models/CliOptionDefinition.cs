@@ -143,6 +143,9 @@ public record CliOptionDefinition
     internal static string? GetTypedSnapshotCollectionType(string cSharpType, bool snapshotDeclaredValues = false) =>
         GetCollectionShape(cSharpType, snapshotDeclaredValues).TypedSnapshotCollectionType;
 
+    internal static string? GetCharacterSnapshotCollectionType(string cSharpType) =>
+        GetCollectionShape(cSharpType, snapshotDeclaredValues: true).CharacterSnapshotCollectionType;
+
     internal static string GetSnapshotElementTypeName(string cSharpType) =>
         GetCollectionShape(cSharpType).ElementTypeName
         ?? throw new InvalidOperationException($"Collection element type for '{cSharpType}' is unresolved.");
@@ -235,16 +238,20 @@ public record CliOptionDefinition
             ? GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable)
             : null;
         var typedSnapshotCollectionType = GetTypedSnapshotCollectionType(compilation, propertyType, elementType, isArrayAssignable, snapshotDeclaredValues);
+        var characterSnapshotCollectionType = snapshotDeclaredValues
+            ? GetCharacterSnapshotCollectionType(compilation, propertyType, elementType, typedSnapshotCollectionType)
+            : null;
         return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection,
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
             OptionalSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: false, snapshotDeclaredValues)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, characterSnapshotCollectionType, preserveValuePairs: false, snapshotDeclaredValues)
                 : null,
             OptionalValuePairSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: true, snapshotDeclaredValues)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, characterSnapshotCollectionType, preserveValuePairs: true, snapshotDeclaredValues)
                 : null,
             TypedSnapshotCollectionType: typedSnapshotCollectionType,
+            CharacterSnapshotCollectionType: characterSnapshotCollectionType,
             ElementTypeName: elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             ElementTypeIdentity: GetElementTypeIdentity(elementType),
             OptionalDeclaredSnapshotExpression: isCollection
@@ -296,6 +303,25 @@ public record CliOptionDefinition
             _ => null,
         };
 
+    private static string? GetCharacterSnapshotCollectionType(
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, string? typedSnapshotCollectionType)
+    {
+        if (elementType.SpecialType == SpecialType.System_Char)
+        {
+            return null;
+        }
+
+        if (typedSnapshotCollectionType is not null and not "HashSet" and not "List")
+        {
+            return typedSnapshotCollectionType;
+        }
+
+        var listType = compilation.GetTypeByMetadataName("System.Collections.Generic.List`1")?.Construct(elementType);
+        return listType is not null && compilation.ClassifyConversion(listType, propertyType).IsImplicit
+            ? "ListWithDeclaredValues"
+            : null;
+    }
+
     private static bool IsMutableObjectCollection(CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType)
     {
         if (elementType.SpecialType != SpecialType.System_Object)
@@ -313,7 +339,7 @@ public record CliOptionDefinition
     }
 
     private static string GetOptionalSnapshotExpression(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, bool preserveValuePairs, bool snapshotDeclaredValues)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, string? characterSnapshotCollectionType, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true) ?? "{0}";
         if (typedSnapshotCollectionType == "IReadOnlySet" && snapshotDeclaredValues)
@@ -328,7 +354,9 @@ public record CliOptionDefinition
 
         // Scalar character rendering precedes ordinary collection rendering, while
         // option value pairs take precedence over both in CommandArgumentBuilder.
-        snapshot = $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> ? {{0}} : ({snapshot})";
+        snapshot = characterSnapshotCollectionType is not null
+            ? $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> characters ? new {{1}}Characters({{0}}, characters) : ({snapshot})"
+            : $"(object){{0}} is global::System.Collections.Generic.IEnumerable<char> ? {{0}} : ({snapshot})";
         if (!preserveValuePairs)
         {
             return snapshot;
@@ -530,7 +558,7 @@ public record CliOptionDefinition
         string? SnapshotExpression = null, string? OptionalSnapshotExpression = null,
         string? OptionalValuePairSnapshotExpression = null, string? TypedSnapshotCollectionType = null,
         string? ElementTypeName = null, string? ElementTypeIdentity = null,
-        string? OptionalDeclaredSnapshotExpression = null);
+        string? OptionalDeclaredSnapshotExpression = null, string? CharacterSnapshotCollectionType = null);
 
     /// <summary>
     /// Description for XML documentation.
