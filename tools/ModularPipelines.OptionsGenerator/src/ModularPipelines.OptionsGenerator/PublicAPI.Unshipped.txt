@@ -272,3 +272,4 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.SyftCliScraper.ApplyOpti
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.SyftCliScraper.TreatParseErrorsAsFatal.get -> bool
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.VersionArguments.get -> string!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.TerraformCliScraper.ParseVersionOutput(ModularPipelines.OptionsGenerator.TypeDetection.CliCommandResult! result) -> string?
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.GoCliScraper.SupplementalGlobalOptions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
