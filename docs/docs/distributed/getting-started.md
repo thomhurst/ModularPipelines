@@ -39,10 +39,10 @@ var builder = Pipeline.CreateBuilder(args);
 builder.AddDistributedMode();
 
 // Register the Redis coordinator
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 {
-    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
-        ?? "localhost:6379";
+    ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+        ?? "localhost:6379",
 });
 
 // Register your modules as normal
@@ -96,9 +96,9 @@ one invocation-specific `MODULARPIPELINES_RUN_ID` value before starting every pr
 ```csharp
 builder.AddDistributedMode();
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 {
-    o.ConnectionString = "your-redis-url";
+    ConnectionString = "your-redis-url",
 });
 ```
 
@@ -120,10 +120,10 @@ var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode();
 
-builder.AddRedisDistributedCoordinator(o =>
+builder.AddRedisDistributedCoordinator(o => o with
 {
-    o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
-        ?? "localhost:6379";
+    ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")
+        ?? "localhost:6379",
 });
 
 builder.AddModule<RestoreModule>();

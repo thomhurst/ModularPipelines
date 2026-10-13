@@ -29,37 +29,51 @@
 *REMOVED*ModularPipelines.Distributed.SignalR.Discovery.ISignalRMasterDiscovery.AdvertiseMasterUrlAsync(string! masterUrl, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 *REMOVED*ModularPipelines.Distributed.SignalR.Discovery.ISignalRMasterDiscovery.DiscoverMasterUrlAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
 *REMOVED*ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.<Clone>$() -> ModularPipelines.Distributed.SignalR.SignalRDistributedOptions!
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AccessToken.get -> string?
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AccessToken.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AccessToken.init -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AdvertisedUrl.get -> System.Uri?
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AdvertisedUrl.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.AdvertisedUrl.init -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ConnectionTimeout.init -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.Equals(ModularPipelines.Distributed.SignalR.SignalRDistributedOptions? other) -> bool
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.HubPath.init -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.KeepAliveInterval.init -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.get -> System.Uri!
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ListenUrl.init -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxMessageSizeBytes.get -> long
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxMessageSizeBytes.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxMessageSizeBytes.init -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReconnectAttempts.init -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.PeerTimeout.init -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.Tunnel.get -> ModularPipelines.Distributed.SignalR.SignalRTunnelOptions!
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.Tunnel.set -> void
+ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.Tunnel.init -> void
 ModularPipelines.Distributed.SignalR.SignalRTunnelOptions
+ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.<Clone>$() -> ModularPipelines.Distributed.SignalR.SignalRTunnelOptions!
 ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.CloudflaredPath.get -> string!
-ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.CloudflaredPath.set -> void
+ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.CloudflaredPath.init -> void
 ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.Enabled.get -> bool
-ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.Enabled.set -> void
+ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.Enabled.init -> void
+ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.Equals(ModularPipelines.Distributed.SignalR.SignalRTunnelOptions? other) -> bool
 ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.SignalRTunnelOptions() -> void
 ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.StartupTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.StartupTimeout.set -> void
+ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.StartupTimeout.init -> void
 *REMOVED*static ModularPipelines.Distributed.SignalR.Extensions.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.SignalR.Configuration.SignalRDistributedOptions!>? configure = null) -> ModularPipelines.PipelineBuilder!
 ModularPipelines.Distributed.SignalR.SignalRDistributedExtensions
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ConnectionTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ConnectionTimeout.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.HubPath.get -> string!
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.HubPath.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.KeepAliveInterval.get -> System.TimeSpan
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.KeepAliveInterval.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReconnectAttempts.get -> int
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.MaxReconnectAttempts.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.PeerTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.PeerTimeout.set -> void
 ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.SignalRDistributedOptions() -> void
+override ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.GetHashCode() -> int
+override ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.ToString() -> string!
+override ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.GetHashCode() -> int
+override ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.ToString() -> string!
 static ModularPipelines.Distributed.SignalR.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.SignalR.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.SignalR.SignalRDistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.SignalR.SignalRDistributedExtensions.AddSignalRDistributedCoordinator(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.SignalR.SignalRDistributedOptions!, ModularPipelines.Distributed.SignalR.SignalRDistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.operator !=(ModularPipelines.Distributed.SignalR.SignalRDistributedOptions? left, ModularPipelines.Distributed.SignalR.SignalRDistributedOptions? right) -> bool
+static ModularPipelines.Distributed.SignalR.SignalRDistributedOptions.operator ==(ModularPipelines.Distributed.SignalR.SignalRDistributedOptions? left, ModularPipelines.Distributed.SignalR.SignalRDistributedOptions? right) -> bool
+static ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.operator !=(ModularPipelines.Distributed.SignalR.SignalRTunnelOptions? left, ModularPipelines.Distributed.SignalR.SignalRTunnelOptions? right) -> bool
+static ModularPipelines.Distributed.SignalR.SignalRTunnelOptions.operator ==(ModularPipelines.Distributed.SignalR.SignalRTunnelOptions? left, ModularPipelines.Distributed.SignalR.SignalRTunnelOptions? right) -> bool

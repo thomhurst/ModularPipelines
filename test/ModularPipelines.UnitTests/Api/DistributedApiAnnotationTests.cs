@@ -7,11 +7,11 @@ namespace ModularPipelines.UnitTests.Api;
 public class DistributedApiAnnotationTests
 {
     [Test]
-    public async Task Action_Overload_Warns_Trim_And_Aot_Callers()
+    public async Task Transform_Overload_Warns_Trim_And_Aot_Callers()
     {
         var method = typeof(DistributedPipelineBuilderExtensions).GetMethod(
             nameof(DistributedPipelineBuilderExtensions.AddDistributedMode),
-            [typeof(PipelineBuilder), typeof(Action<DistributedOptions>)]);
+            [typeof(PipelineBuilder), typeof(Func<DistributedOptions, DistributedOptions>)]);
 
         using (Assert.Multiple())
         {

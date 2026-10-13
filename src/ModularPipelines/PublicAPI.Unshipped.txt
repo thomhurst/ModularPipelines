@@ -457,8 +457,22 @@ ModularPipelines.Distributed.DistributedCancellationReason.Stopped = 1 -> Modula
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ExecutionIdentifier.set -> void
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeoutSeconds.get -> int
 *REMOVED*ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeoutSeconds.set -> void
+ModularPipelines.Distributed.DistributedOptions.<Clone>$() -> ModularPipelines.Distributed.DistributedOptions!
+ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.init -> void
+ModularPipelines.Distributed.DistributedOptions.Capabilities.init -> void
+ModularPipelines.Distributed.DistributedOptions.Equals(ModularPipelines.Distributed.DistributedOptions? other) -> bool
+ModularPipelines.Distributed.DistributedOptions.InstanceIndex.init -> void
+ModularPipelines.Distributed.DistributedOptions.MasterTimeout.init -> void
+ModularPipelines.Distributed.DistributedOptions.MaxParallelism.init -> void
+ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.init -> void
+ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.init -> void
+ModularPipelines.Distributed.DistributedOptions.RequireExplicitRunId.init -> void
+ModularPipelines.Distributed.DistributedOptions.Role.init -> void
+ModularPipelines.Distributed.DistributedOptions.RunId.init -> void
+ModularPipelines.Distributed.DistributedOptions.TotalInstances.init -> void
+ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.init -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerRegistrationTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.DistributedOptions.WorkerRegistrationTimeout.set -> void
+ModularPipelines.Distributed.DistributedOptions.WorkerRegistrationTimeout.init -> void
 *REMOVED*ModularPipelines.Distributed.Extensions.ArtifactContextExtensions
 *REMOVED*ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions
 *REMOVED*ModularPipelines.Distributed.IArtifactContext.DownloadAsync(string! producerModuleTypeName, string! artifactName, string! destinationPath, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string!>!
@@ -474,6 +488,7 @@ ModularPipelines.Distributed.DistributedOptions.WorkerRegistrationTimeout.set ->
 *REMOVED*ModularPipelines.Distributed.IDistributedCoordinator.SignalCompletionAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 *REMOVED*ModularPipelines.Distributed.IDistributedCoordinator.WaitForResultAsync(string! moduleTypeName, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.SerializedModuleResult!>!
 *REMOVED*ModularPipelines.Distributed.IDistributedCoordinatorFactory.CreateAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<ModularPipelines.Distributed.IDistributedCoordinator!>!
+ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.init -> void
 ModularPipelines.Distributed.IDistributedMasterCoordinator.BroadcastCancellationAsync(ModularPipelines.Distributed.DistributedCancellationReason reason, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
 ModularPipelines.Distributed.IDistributedMasterCoordinator.GetActiveLeasesAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ModuleLease!>!>!
 ModularPipelines.Distributed.IDistributedMasterCoordinator.RequeueExpiredLeasesAsync(System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<ModularPipelines.Distributed.ModuleId>!>!
@@ -1225,6 +1240,9 @@ ModularPipelines.Reporting.DistributedWorkerRunReport.WorkerId.init -> void
 *REMOVED*override ModularPipelines.Attributes.SkipIfOperatingSystemAttribute.EvaluateAsync(ModularPipelines.Context.IPipelineContext! context) -> System.Threading.Tasks.Task<bool>!
 *REMOVED*override ModularPipelines.Conditions.OnUnix.Conditions.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Conditions.IRunCondition!>!
 *REMOVED*override ModularPipelines.Conditions.OnUnix.Logic.get -> ModularPipelines.Conditions.ConditionLogic
+override ModularPipelines.Distributed.DistributedOptions.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.DistributedOptions.GetHashCode() -> int
+override ModularPipelines.Distributed.DistributedOptions.ToString() -> string!
 override ModularPipelines.Distributed.MasterEndpoint.Equals(object? obj) -> bool
 override ModularPipelines.Distributed.MasterEndpoint.GetHashCode() -> int
 override ModularPipelines.Distributed.MasterEndpoint.ToString() -> string!
@@ -1372,6 +1390,10 @@ static ModularPipelines.Capability.explicit operator ModularPipelines.Capability
 *REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedCoordinatorFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 *REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
 *REMOVED*static ModularPipelines.Distributed.Extensions.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedOptions.operator !=(ModularPipelines.Distributed.DistributedOptions? left, ModularPipelines.Distributed.DistributedOptions? right) -> bool
+static ModularPipelines.Distributed.DistributedOptions.operator ==(ModularPipelines.Distributed.DistributedOptions? left, ModularPipelines.Distributed.DistributedOptions? right) -> bool
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.DistributedOptions!, ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
+static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.ConfigureDistributedOptions(this ModularPipelines.PipelineBuilder! builder, System.Func<ModularPipelines.Distributed.DistributedOptions!, ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.MasterEndpoint.operator !=(ModularPipelines.Distributed.MasterEndpoint? left, ModularPipelines.Distributed.MasterEndpoint? right) -> bool
 static ModularPipelines.Distributed.MasterEndpoint.operator ==(ModularPipelines.Distributed.MasterEndpoint? left, ModularPipelines.Distributed.MasterEndpoint? right) -> bool
 *REMOVED*static ModularPipelines.Distributed.ModuleAssignmentConfig.operator !=(ModularPipelines.Distributed.ModuleAssignmentConfig? left, ModularPipelines.Distributed.ModuleAssignmentConfig? right) -> bool
@@ -1849,23 +1871,14 @@ ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionStarte
 ModularPipelines.Distributed.DistributedModuleExecutionTelemetry.ExecutionStartedAt.init -> void
 ModularPipelines.Distributed.DistributedOptions.Capabilities.get -> System.Collections.Generic.IReadOnlyList<ModularPipelines.Capability>!
 ModularPipelines.Distributed.DistributedOptions.MaxParallelism.get -> int?
-ModularPipelines.Distributed.DistributedOptions.MaxParallelism.set -> void
 ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.get -> int
-ModularPipelines.Distributed.DistributedOptions.MinimumWorkerCount.set -> void
 ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.DistributedOptions.ModuleResultTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.RequireExplicitRunId.get -> bool
-ModularPipelines.Distributed.DistributedOptions.RequireExplicitRunId.set -> void
 ModularPipelines.Distributed.DistributedOptions.Role.get -> ModularPipelines.Distributed.DistributedRole
-ModularPipelines.Distributed.DistributedOptions.Role.set -> void
 ModularPipelines.Distributed.DistributedOptions.RunId.get -> string!
-ModularPipelines.Distributed.DistributedOptions.RunId.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.get -> System.TimeSpan
-ModularPipelines.Distributed.DistributedOptions.WorkerHeartbeatInterval.set -> void
 ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.DistributedOptions.WorkerTimeout.set -> void
 ModularPipelines.Distributed.DistributedOptions.MasterTimeout.get -> System.TimeSpan
-ModularPipelines.Distributed.DistributedOptions.MasterTimeout.set -> void
 ModularPipelines.Distributed.DistributedPipelineBuilderExtensions
 ModularPipelines.Distributed.DistributedRole
 ModularPipelines.Distributed.DistributedRole.Auto = 0 -> ModularPipelines.Distributed.DistributedRole
@@ -3111,7 +3124,6 @@ static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDist
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedCoordinatorFactory<TFactory>(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, Microsoft.Extensions.Configuration.IConfigurationSection! section) -> ModularPipelines.PipelineBuilder!
-static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.AddDistributedMode(this ModularPipelines.PipelineBuilder! builder, System.Action<ModularPipelines.Distributed.DistributedOptions!>! configure) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.DistributedPipelineBuilderExtensions.RequireExplicitRunId(this ModularPipelines.PipelineBuilder! builder) -> ModularPipelines.PipelineBuilder!
 static ModularPipelines.Distributed.ModuleId.FromType(System.Type! moduleType) -> ModularPipelines.Distributed.ModuleId
 static ModularPipelines.Distributed.ModuleId.implicit operator ModularPipelines.Distributed.ModuleId(string! value) -> ModularPipelines.Distributed.ModuleId
@@ -3458,9 +3470,11 @@ ModularPipelines.PipelineSummary.Equals(ModularPipelines.PipelineSummary? other)
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.CompressionLevel.get -> System.IO.Compression.CompressionLevel
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions.CompressionLevel.set -> void
 ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.get -> System.IO.Compression.CompressionLevel
-ModularPipelines.Distributed.DistributedOptions.ArtifactCompressionLevel.set -> void
 *REMOVED*ModularPipelines.Distributed.ArtifactOptions
 ModularPipelines.CommandResult.StandardOutputTruncatedCharacters.get -> long
 ModularPipelines.CommandResult.StandardOutputTruncatedCharacters.init -> void
 ModularPipelines.CommandResult.StandardErrorTruncatedCharacters.get -> long
 ModularPipelines.CommandResult.StandardErrorTruncatedCharacters.init -> void
+*REMOVED*ModularPipelines.Distributed.DistributedOptions.Capabilities.set -> void
+*REMOVED*ModularPipelines.Distributed.DistributedOptions.InstanceIndex.set -> void
+*REMOVED*ModularPipelines.Distributed.DistributedOptions.TotalInstances.set -> void

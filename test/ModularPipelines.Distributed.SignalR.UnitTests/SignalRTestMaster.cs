@@ -27,7 +27,7 @@ internal sealed class SignalRTestMaster : IAsyncDisposable
     public IDistributedMasterCoordinator Master { get; private set; } = null!;
 
     public static async Task<SignalRTestMaster> StartAsync(
-        Action<SignalRDistributedOptions>? configure = null,
+        Func<SignalRDistributedOptions, SignalRDistributedOptions>? configure = null,
         TimeSpan? workerTimeout = null)
     {
         var options = new SignalRDistributedOptions
@@ -36,7 +36,7 @@ internal sealed class SignalRTestMaster : IAsyncDisposable
             MaxReconnectAttempts = 0,
             ConnectionTimeout = TimeSpan.FromSeconds(10),
         };
-        configure?.Invoke(options);
+        options = configure?.Invoke(options) ?? options;
         var discovery = new CapturingDiscovery();
         var factory = new SignalRDistributedCoordinatorFactory(
             MsOptions.Create(options),

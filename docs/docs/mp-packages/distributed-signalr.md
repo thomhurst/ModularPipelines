@@ -22,12 +22,12 @@ using ModularPipelines.Distributed.SignalR;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
-builder.AddSignalRDistributedCoordinator(options =>
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
+builder.AddSignalRDistributedCoordinator(options => options with
 {
-    options.ListenUrl = new Uri("http://0.0.0.0:5099");
-    options.AdvertisedUrl = new Uri("https://pipeline-master.example.com");
-    options.AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN");
+    ListenUrl = new Uri("http://0.0.0.0:5099"),
+    AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
+    AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 });
 ```
 

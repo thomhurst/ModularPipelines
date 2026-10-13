@@ -39,6 +39,17 @@
       <_Parameter1>ModularPipelines.TeamCity</_Parameter1>
     </AssemblyAttribute>
 
+    <!-- Distributed packages share the immutable options pipeline. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.Redis</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.Artifacts.S3</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.Discovery.Redis</_Parameter1>
+    </AssemblyAttribute>
+
     <!-- Test assemblies - verify internal behavior -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.UnitTests</_Parameter1>

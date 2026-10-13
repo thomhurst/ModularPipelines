@@ -730,7 +730,7 @@ Use `[CliArgument]` only for positional values that follow the command chain.
   `RedisDiscoveryOptions.ConnectionString` now defaults to empty. Set it explicitly (including `localhost:6379`
   for local Redis), supply endpoints through `ConfigureConnection`, or configure both `RestUrl` and `RestToken`.
   Missing connection configuration fails during pipeline construction; REST discovery does not require a TCP connection.
-- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Action<TOptions>` and one
+- `RedisModuleCache` and `S3ModuleCache` are internal. Each backend has one `Func<TOptions, TOptions>` and one
   `IConfigurationSection` registration overload; options are validated at startup.
 - `ArtifactOptions` is removed. Configure compression through `DistributedOptions.ArtifactCompressionLevel`;
   `AutoCleanup`, `ChunkSizeBytes`, `MaxSingleUploadBytes` and `TimeToLive` move to backend
@@ -923,3 +923,22 @@ property names. Use inherited `Identity` for the active remote connection; the
 local identity property on `PodmanSystemConnectionAddOptions` configures the new
 connection. Compose provider settings remain on `PodmanComposeOptions`. See the
 [Podman migration guidance](docs/docs/mp-packages/podman.md#v4-migration).
+
+## Immutable distributed configuration
+
+`DistributedOptions`, `RedisOptions`, `SignalRDistributedOptions`, `SignalRTunnelOptions`,
+`S3StorageOptions`, and `RedisDiscoveryOptions` are immutable records with init-only
+properties. Configuration callbacks now return `Func<TOptions, TOptions>` transforms.
+Replace assignments such as `options => options.RunId = "run"` with
+`options => options with { RunId = "run" }`. For nested tunnel settings, use
+`options => options with { Tunnel = options.Tunnel with { Enabled = true } }`.
+
+`AddRedisModuleCache` and `AddS3ModuleCache` use transforms for both backend and cache
+options. Configuration-section overloads, named cache isolation, registration order,
+validation, and runtime defaults are preserved. `ConfigureConnection` remains an
+`Action<StackExchange.Redis.ConfigurationOptions>` because that third-party type is mutable.
+
+Use `builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel =
+CompressionLevel.NoCompression })` to configure local artifact behavior without enabling
+distributed execution. `AddDistributedMode` enables distributed execution and accepts the
+same transform style. See the [distributed configuration guide](docs/docs/distributed/configuration.md).

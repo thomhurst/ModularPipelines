@@ -420,18 +420,16 @@ internal static class DependencyInjectionSetup
     private static void RegisterDistributedServices(IServiceCollection services)
     {
         // Always-on defaults (TryAdd so user/extension can override)
-        services.Configure<DistributedOptions>(_ => { });
-        services.AddOptions<DistributedOptions>()
-            .PostConfigure<IEnumerable<ExplicitRunIdRequirement>>((options, requirements) =>
+        TransformOptionsFactory<DistributedOptions>.PostConfigure(services, provider => options =>
+        {
+            // Backend requirements survive later configuration that disables the option.
+            var requireExplicitRunId = options.RequireExplicitRunId || provider.GetServices<ExplicitRunIdRequirement>().Any();
+            return options with
             {
-                // Backends record the requirement as a service so no later options binding can
-                // switch it off before the run identifier is resolved.
-                options.RequireExplicitRunId |= requirements.Any();
-                options.RunId = RunIdResolver.Resolve(
-                    options.RunId,
-                    options.TotalInstances,
-                    options.RequireExplicitRunId);
-            });
+                RequireExplicitRunId = requireExplicitRunId,
+                RunId = RunIdResolver.Resolve(options.RunId, options.TotalInstances, requireExplicitRunId),
+            };
+        });
         services.TryAddSingleton(serviceProvider =>
             serviceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value);
         services.TryAddSingleton<DefaultInMemoryDistributedCoordinator>();

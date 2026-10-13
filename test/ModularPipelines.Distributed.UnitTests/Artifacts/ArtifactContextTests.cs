@@ -133,7 +133,7 @@ public class ArtifactContextTests
             var builder = TestPipelineBuilder.Create().AddModule<PipelineDirectoryProducerModule>();
             builder.Services.AddSingleton<IDistributedArtifactStore>(store.Object);
             builder.Services.AddSingleton(new DirectoryPublishState(sourceDirectory.FullName));
-            builder.Services.Configure<DistributedOptions>(options => options.ArtifactCompressionLevel = compressionLevel);
+            builder.ConfigureDistributedOptions(options => options with { ArtifactCompressionLevel = compressionLevel });
             await using var pipeline = await builder.BuildAsync();
 
             _ = await pipeline.RunAsync();

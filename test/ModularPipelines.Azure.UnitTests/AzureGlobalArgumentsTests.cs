@@ -1,8 +1,12 @@
+using Azure.Identity;
+using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Options;
+using ModularPipelines.Context;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
-namespace ModularPipelines.UnitTests;
+namespace ModularPipelines.Azure.UnitTests;
 
 public class AzureGlobalArgumentsTests : TestBase
 {
@@ -56,7 +60,7 @@ public class AzureGlobalArgumentsTests : TestBase
     [Test]
     public async Task Globals_Follow_The_Complete_Subcommand_Path()
     {
-        var command = await RenderCommand(new AzAcrTokenListOptions("registry")
+        var command = await RenderAzureCommand(new AzAcrTokenListOptions("registry")
         {
             Subscription = "subscription",
             Output = "json",
@@ -70,7 +74,7 @@ public class AzureGlobalArgumentsTests : TestBase
     {
         await Assert.That(typeof(AzOptions).GetProperty("Subscription")).IsNull();
         await Assert.That(typeof(AzExtensionListOptions).GetProperty("Subscription")).IsNull();
-        await Assert.That(await RenderCommand(new AzExtensionListOptions { Output = "json" }))
+        await Assert.That(await RenderAzureCommand(new AzExtensionListOptions { Output = "json" }))
             .IsEqualTo("az extension list --output json");
     }
 
@@ -81,5 +85,12 @@ public class AzureGlobalArgumentsTests : TestBase
             .IsDefined(typeof(ModularPipelines.Secrets.SecretValueAttribute), inherit: true)).IsFalse();
         await Assert.That(typeof(AzPipelinesVariableCreateOptions).GetProperty("Secret")!
             .IsDefined(typeof(ModularPipelines.Secrets.SecretValueAttribute), inherit: true)).IsFalse();
+    }
+
+    private async Task<string> RenderAzureCommand(CommandLineToolOptions options)
+    {
+        var (builder, _) = await GetService<ICommandLineBuilder>(
+            services => services.AddAzureArmClient(new DefaultAzureCredential()));
+        return builder.Build(options).ToString();
     }
 }

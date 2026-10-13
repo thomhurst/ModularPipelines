@@ -24,11 +24,11 @@ using ModularPipelines.Distributed.SignalR;
 
 var builder = Pipeline.CreateBuilder(args);
 
-builder.AddDistributedMode(options => options.TotalInstances = 2);
-builder.AddSignalRDistributedCoordinator(options => options.Tunnel.Enabled = true);
-builder.AddRedisMasterDiscovery(options =>
+builder.AddDistributedMode(options => options with { TotalInstances = 2 });
+builder.AddSignalRDistributedCoordinator(options => options with { Tunnel = options.Tunnel with { Enabled = true } });
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.ConnectionString = "localhost:6379";
+    ConnectionString = "localhost:6379",
 });
 ```
 
@@ -37,29 +37,29 @@ or supply endpoints through `ConfigureConnection`. Missing connection configurat
 TCP options validation runs `ConfigureConnection` and requires at least one endpoint afterward.
 The resulting configuration is cached per options instance; finish configuring options before building the pipeline.
 Discovery opens its own Redis connection on first use. REST discovery does not invoke the TCP callback.
-`RestUrl` is an absolute HTTPS `Uri` (HTTP is allowed only on loopback), for example `options.RestUrl = new Uri("https://redis.example");`.
+`RestUrl` is an absolute HTTPS `Uri` (HTTP is allowed only on loopback), for example `options => options with { RestUrl = new Uri("https://redis.example") }`.
 It may include a path prefix, but query strings and fragments are rejected because Redis commands are appended to that path.
 For REST-backed Redis services, configure both `RestUrl` and `RestToken`; no TCP connection string is needed:
 
 ```csharp
-builder.AddRedisMasterDiscovery(options =>
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.RestUrl = new Uri(builder.Configuration["RedisRestUrl"]!);
-    options.RestToken = builder.Configuration["RedisRestToken"];
+    RestUrl = new Uri(builder.Configuration["RedisRestUrl"]!),
+    RestToken = builder.Configuration["RedisRestToken"],
 });
 ```
 
 For callback-only TCP configuration, supply endpoints explicitly:
 
 ```csharp
-builder.AddRedisMasterDiscovery(options =>
+builder.AddRedisMasterDiscovery(options => options with
 {
-    options.ConfigureConnection = connection =>
+    ConfigureConnection = connection =>
     {
         connection.EndPoints.Add("redis.internal", 6380);
         connection.Ssl = true;
         connection.Password = builder.Configuration["RedisPassword"];
-    };
+    },
 });
 ```
 

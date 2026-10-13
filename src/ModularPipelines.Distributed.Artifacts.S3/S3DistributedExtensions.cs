@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Extensions;
@@ -31,12 +32,12 @@ public static class S3DistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
-        Action<S3StorageOptions> configure,
+        Func<S3StorageOptions, S3StorageOptions> configure,
         Func<ModuleCacheOptions, ModuleCacheOptions>? configureCache = null)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(ModuleCacheOptionsName, configure);
+        TransformOptionsFactory<S3StorageOptions>.Configure(builder.Services, configure, ModuleCacheOptionsName);
         return AddS3ModuleCacheServices(builder, configureCache);
     }
 
@@ -56,6 +57,7 @@ public static class S3DistributedExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
+        TransformOptionsFactory<S3StorageOptions>.Register(builder.Services);
         builder.Services.Configure<S3StorageOptions>(ModuleCacheOptionsName, section);
         return AddS3ModuleCacheServices(builder, configureCache);
     }
@@ -69,11 +71,11 @@ public static class S3DistributedExtensions
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddS3DistributedArtifactStore(
         this PipelineBuilder builder,
-        Action<S3StorageOptions> configure)
+        Func<S3StorageOptions, S3StorageOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configure);
-        builder.Services.Configure(configure);
+        TransformOptionsFactory<S3StorageOptions>.Configure(builder.Services, configure);
         return AddS3DistributedArtifactStoreServices(builder);
     }
 
@@ -91,6 +93,7 @@ public static class S3DistributedExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(section);
+        TransformOptionsFactory<S3StorageOptions>.Register(builder.Services);
         builder.Services.Configure<S3StorageOptions>(section);
         return AddS3DistributedArtifactStoreServices(builder);
     }

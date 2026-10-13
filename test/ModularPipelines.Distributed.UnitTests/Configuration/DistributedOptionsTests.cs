@@ -28,7 +28,7 @@ public class DistributedOptionsTests
         };
         if (distributed)
         {
-            options.EnableForTest();
+            options = options.EnableForTest();
         }
 
         var failures = DistributedOptionsValidator.Validate(options);
@@ -141,7 +141,7 @@ public class DistributedOptionsTests
     public async Task Registration_Activates_Distributed_Backend_With_One_Instance()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options => options.TotalInstances = 1);
+        builder.AddDistributedMode(options => options with { TotalInstances = 1 });
         builder.AddModule<NoOpModule>();
 
         await using var pipeline = await builder.BuildAsync();
@@ -154,7 +154,7 @@ public class DistributedOptionsTests
     public async Task RequireExplicitRunId_Turns_On_The_Requirement_And_Startup_Validation()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options => options.RunId = "explicit-run");
+        builder.AddDistributedMode(options => options with { RunId = "explicit-run" });
 
         builder.RequireExplicitRunId();
 
@@ -203,11 +203,11 @@ public class DistributedOptionsTests
     public async Task Multiple_Instances_Without_A_Shared_Coordinator_Fail_At_Startup()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.TotalInstances = 2;
-            options.InstanceIndex = 1;
-            options.RunId = "shared-run";
+            TotalInstances = 2,
+            InstanceIndex = 1,
+            RunId = "shared-run",
         });
         builder.AddModule<NoOpModule>();
 
@@ -224,11 +224,11 @@ public class DistributedOptionsTests
     public async Task Instance_Index_Must_Be_Less_Than_Total_Instances()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options =>
+        builder.AddDistributedMode(options => options with
         {
-            options.TotalInstances = 2;
-            options.InstanceIndex = 2;
-            options.RunId = "shared-run";
+            TotalInstances = 2,
+            InstanceIndex = 2,
+            RunId = "shared-run",
         });
         builder.AddModule<NoOpModule>();
 
@@ -267,7 +267,7 @@ public class DistributedOptionsTests
     public async Task Registering_Two_Coordinator_Backends_Fails()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options => options.RunId = "run");
+        builder.AddDistributedMode(options => options with { RunId = "run" });
         builder.AddDistributedCoordinator<ModularPipelines.Distributed.Coordination.InMemoryDistributedCoordinator>();
         builder.AddDistributedCoordinatorFactory<UnusedCoordinatorFactory>();
         builder.AddModule<NoOpModule>();
@@ -283,8 +283,9 @@ public class DistributedOptionsTests
         var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(new RoleSelection(DistributedRole.Worker));
         builder.Services.AddOptions<DistributedOptions>()
-            .PostConfigure<RoleSelection>((options, selection) => options.Role = selection.Role);
-        builder.AddDistributedMode(_ => { });
+            .PostConfigure<RoleSelection>((options, selection) =>
+                typeof(DistributedOptions).GetProperty(nameof(DistributedOptions.Role))!.SetValue(options, selection.Role));
+        builder.AddDistributedMode(_ => _);
         builder.AddModule<NoOpModule>();
 
         await using var pipeline = await builder.BuildAsync();
@@ -297,7 +298,7 @@ public class DistributedOptionsTests
     public async Task Invalid_MaxParallelism_Fails_Pipeline_Validation()
     {
         var builder = TestPipelineBuilder.Create();
-        builder.AddDistributedMode(options => options.MaxParallelism = 0);
+        builder.AddDistributedMode(options => options with { MaxParallelism = 0 });
         builder.AddModule<NoOpModule>();
 
         var result = await builder.ValidateAsync();
@@ -390,7 +391,6 @@ internal static class DistributedOptionsTestExtensions
 {
     public static DistributedOptions EnableForTest(this DistributedOptions options)
     {
-        options.Enabled = true;
-        return options;
+        return options with { Enabled = true };
     }
 }
