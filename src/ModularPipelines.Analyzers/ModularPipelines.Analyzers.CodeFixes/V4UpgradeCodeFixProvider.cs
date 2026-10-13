@@ -29,18 +29,18 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
         var diagnostic = context.Diagnostics.First();
         var node = root.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true);
         var fixes = new List<(Document Document, ExpressionSyntax Replacement)>();
-        foreach (var candidate in GetCandidates(node, model, context.CancellationToken))
+        foreach (var (original, replacement) in GetCandidates(node, model, context.CancellationToken))
         {
-            if (fixes.Any(fix => fix.Replacement.IsEquivalentTo(candidate.Replacement)))
+            if (fixes.Any(fix => fix.Replacement.IsEquivalentTo(replacement)))
             {
                 continue;
             }
 
-            var changed = await BindReplacementAsync(context.Document, root, candidate.Original,
-                candidate.Replacement, context.CancellationToken).ConfigureAwait(false);
+            var changed = await BindReplacementAsync(context.Document, root, original,
+                replacement, context.CancellationToken).ConfigureAwait(false);
             if (changed is not null)
             {
-                fixes.Add((changed, candidate.Replacement));
+                fixes.Add((changed, replacement));
             }
 
             // Different viable replacements, including different Git groups, need a human choice.
@@ -129,7 +129,7 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
         }
     }
 
-    private static ExpressionSyntax? GetStatusReplacement(
+    private static MemberAccessExpressionSyntax? GetStatusReplacement(
         MemberAccessExpressionSyntax member, SemanticModel model, CancellationToken cancellationToken)
     {
         if (model.GetSymbolInfo(member.Expression, cancellationToken).Symbol is not INamedTypeSymbol
@@ -166,9 +166,9 @@ public sealed class V4UpgradeCodeFixProvider : CodeFixProvider
 
         var arguments = RenameCancellationArgument(invocation.ArgumentList);
         var originalName = access.Name.Identifier.ValueText;
-        var methodNames = originalName.EndsWith("Async", StringComparison.Ordinal)
-            ? new[] { originalName }
-            : new[] { originalName, originalName + "Async" };
+        string[] methodNames = originalName.EndsWith("Async", StringComparison.Ordinal)
+            ? [originalName]
+            : [originalName, originalName + "Async"];
         foreach (var name in methodNames)
         {
             var renamedAccess = access.WithName(Rename(access.Name, name));

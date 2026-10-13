@@ -82,7 +82,7 @@ public class V4UpgradeCodeFixTests
             """;
         var (result, changes, errors) = await ApplyFixesAsync(source);
         Assert.IsGreaterThan(0, changes, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
-        Assert.HasCount(0, errors, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
+        Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
         var expression = result.DescendantNodes().OfType<MethodDeclarationSyntax>().Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
         Assert.AreEqual(expected, expression.ToString());
     }
@@ -98,7 +98,7 @@ public class V4UpgradeCodeFixTests
             class Example { object Run({{contextType}} context) => context.Service(); }
             """);
         Assert.AreEqual(1, changes);
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.Contains("context.Tools.Service", root.ToString());
     }
 
@@ -115,7 +115,7 @@ public class V4UpgradeCodeFixTests
     {
         var (root, changes, errors) = await ApplyFixesAsync($"using Status = ModularPipelines.ModuleStatus; class Example {{ Status Value => Status.{original}; }}");
         Assert.AreEqual(1, changes);
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.Contains($"Status.{expected}", root.ToString());
     }
 
@@ -145,7 +145,7 @@ public class V4UpgradeCodeFixTests
             class Example { object Run(IModuleContext context) => {{expression}}; }
             """);
         Assert.AreEqual(1, changes);
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         Assert.Contains("/* keep this */", root.ToFullString());
     }
 
@@ -176,7 +176,7 @@ public class V4UpgradeCodeFixTests
             }
             """);
         Assert.AreEqual(1, changes);
-        Assert.HasCount(0, errors);
+        Assert.IsEmpty(errors);
         var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
             .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
         Assert.AreEqual("GetService()?.PingAsync(cancellationToken: default)", expression.ToString());
@@ -202,9 +202,9 @@ public class V4UpgradeCodeFixTests
         Assert.IsNotNull(action);
         var operations = await action.GetOperationsAsync(CancellationToken.None);
         var changed = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution.GetDocument(document.Id)!;
-        var compilation = (await changed.Project.GetCompilationAsync())!;
-        Assert.IsFalse(compilation.GetDiagnostics().Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
-        var text = (await changed.GetTextAsync()).ToString();
+        var compilation = (await changed.Project.GetCompilationAsync(TestContext.CancellationToken))!;
+        Assert.IsFalse(compilation.GetDiagnostics(TestContext.CancellationToken).Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
+        var text = (await changed.GetTextAsync(TestContext.CancellationToken)).ToString();
         Assert.Contains("ModuleStatus.Succeeded", text);
         Assert.Contains("ModuleStatus.Running", text);
     }
@@ -276,4 +276,6 @@ public class V4UpgradeCodeFixTests
         Assert.Fail("Migration did not converge within ten code fixes.");
         throw new InvalidOperationException();
     }
+
+    public TestContext TestContext { get; set; } = null!;
 }
