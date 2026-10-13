@@ -133,19 +133,31 @@ public partial class GitCliScraperTests
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Diagnostics_Preserve_Root_Usage_Separately_From_Command_Discovery(bool discoveryFails)
+    [Arguments(0, 1)]
+    [Arguments(128, 129)]
+    [Arguments(0, 129)]
+    [Arguments(0, 0)]
+    public async Task Diagnostics_Preserve_Root_Usage_Separately_From_Command_Discovery(int discoveryExitCode, int usageExitCode)
     {
+        var discoveryFails = discoveryExitCode != 0;
+        var usageFails = usageExitCode is not (0 or 129);
         var outputDirectory = Path.Combine(Path.GetTempPath(), $"git-root-provenance-{Guid.NewGuid():N}");
         try
         {
             using var scraper = new RootHelpProbe(
                 new RecoveringRootHelpExecutor(
-                    discoveryFails ? Result("usage: git <command>", exitCode: 129) : Result("wrapper failed", exitCode: 1),
-                    discoveryFails ? Result("discovery failed", exitCode: 128) : null),
+                    Result(usageFails ? "wrapper failed" : "usage: git <command>", exitCode: usageExitCode),
+                    discoveryFails ? Result("discovery failed", exitCode: discoveryExitCode) : null),
                 new StubHelpTextCache());
-            await Assert.That(await scraper.Fetch()).IsNull();
+            var rootHelp = await scraper.Fetch();
+            if (discoveryFails || usageFails)
+            {
+                await Assert.That(rootHelp).IsNull();
+            }
+            else
+            {
+                await Assert.That(rootHelp).IsNotNull();
+            }
             var coverage = CommandCoverageGuard.Evaluate(
                 scraper.CreateToolDefinition(), outputDirectory, approveShrinkage: false,
                 unavailableHelpPaths: scraper.UnavailableHelpPaths);
@@ -155,18 +167,21 @@ public partial class GitCliScraperTests
             var invocations = diagnostics.RootElement.GetProperty("helpInvocations").EnumerateArray().ToArray();
 
             await Assert.That(invocations.Length).IsEqualTo(2);
+            await Assert.That(diagnostics.RootElement.GetProperty("missingHelpPaths").EnumerateArray()
+                .Select(value => value.GetString()!)).DoesNotContain("git");
             var help = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Discovery");
             var usage = invocations.Single(invocation => invocation.GetProperty("helpKind").GetString() == "Usage");
             await Assert.That(help.GetProperty("arguments").GetString()).IsEqualTo("help -a");
             await Assert.That(help.GetProperty("rawHelp").GetString())
                 .Contains(discoveryFails ? "discovery failed" : "Main Porcelain Commands");
-            await Assert.That(help.GetProperty("exitCode").GetInt32()).IsEqualTo(discoveryFails ? 128 : 0);
+            await Assert.That(help.GetProperty("exitCode").GetInt32()).IsEqualTo(discoveryExitCode);
+            string[] expectedUnavailablePaths = discoveryFails || usageFails ? ["git"] : [];
             await Assert.That(diagnostics.RootElement.GetProperty("unavailableHelpPaths").EnumerateArray()
-                .Select(value => value.GetString()!)).IsEquivalentTo(["git"]);
+                .Select(value => value.GetString()!)).IsEquivalentTo(expectedUnavailablePaths);
             await Assert.That(usage.GetProperty("arguments").GetString()).IsEqualTo("-h");
             await Assert.That(usage.GetProperty("rawHelp").GetString())
-                .IsEqualTo(discoveryFails ? "usage: git <command>" : "wrapper failed");
-            await Assert.That(usage.GetProperty("exitCode").GetInt32()).IsEqualTo(discoveryFails ? 129 : 1);
+                .IsEqualTo(usageFails ? "wrapper failed" : "usage: git <command>");
+            await Assert.That(usage.GetProperty("exitCode").GetInt32()).IsEqualTo(usageExitCode);
         }
         finally
         {
