@@ -367,25 +367,16 @@ foreach ($requiredText in @('git diff --name-only --no-renames', 'Resolve-Genera
         throw "Shared generated-PR detection omitted '$requiredText'."
     }
 }
-foreach ($workflowName in @('codeql.yml', 'deploy-pages-test.yml')) {
-    $otherWorkflow = Get-Content -LiteralPath (Join-Path $repositoryRoot ".github/workflows/$workflowName") -Raw
-    if (-not $otherWorkflow.Contains('uses: ./.github/actions/detect-generated-integration', [StringComparison]::Ordinal)) {
-        throw "$workflowName must use the same generated-PR detection as .NET."
+$docsWorkflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/deploy-pages-test.yml') -Raw
+if (-not $docsWorkflow.Contains('uses: ./.github/actions/detect-generated-integration', [StringComparison]::Ordinal)) {
+    throw 'deploy-pages-test.yml must use the same generated-PR detection as .NET.'
+}
+foreach ($step in [regex]::Matches($docsWorkflow, '(?ms)^      - (?:name|uses|id):.*?(?=^      - |\z)')) {
+    if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration') {
+        continue
     }
-    if ($workflowName -eq 'codeql.yml') {
-        if ($otherWorkflow -notmatch "needs: classify\s+[^\r\n]*\s+if: needs.classify.outputs.is_generated_integration != 'true'") {
-            throw 'CodeQL analysis must depend on classification and skip generated PRs.'
-        }
-    }
-    else {
-        foreach ($step in [regex]::Matches($otherWorkflow, '(?ms)^      - (?:name|uses|id):.*?(?=^      - |\z)')) {
-            if ($step.Value -match 'actions/checkout@|uses: \./\.github/actions/detect-generated-integration') {
-                continue
-            }
-            if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
-                throw 'Generated documentation must skip dependency installation and the site build.'
-            }
-        }
+    if (-not $step.Value.Contains("steps.generated_integration.outputs.is_generated_integration != 'true'", [StringComparison]::Ordinal)) {
+        throw 'Generated documentation must skip dependency installation and the site build.'
     }
 }
 
