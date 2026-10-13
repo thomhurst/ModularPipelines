@@ -256,6 +256,98 @@ public partial class RequiredConstructorValidationTests
 
     [Test]
     [MatrixDataSource]
+    public async Task Validated_Required_Alternate_Input_Base_Assignments_Snapshot_Ordinary_Values(
+        [Matrix(" ", "valid")] string entry,
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool factory)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionSeparator: separator,
+                inherited: true, required: true))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        string[] initial = ["initial"];
+        var instance = factory
+            ? options.GetMethod("FromCliInputJson")!.Invoke(null, ["{}"])!
+            : Activator.CreateInstance(options, [initial])!;
+        var enumerationCount = 0;
+        IEnumerable<string> Values()
+        {
+            if (++enumerationCount > 1)
+            {
+                throw new InvalidOperationException("Input was enumerated twice.");
+            }
+
+            yield return "first";
+            yield return entry;
+        }
+
+        var property = options.BaseType!.GetProperty("Values")!;
+        property.SetValue(instance, Values());
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            string[] expected = joined ? ["--requirement", $"first,{entry}"] : ["--requirement", "first", "--requirement", entry];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(enumerationCount).IsEqualTo(1);
+        property.SetValue(instance, null);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_Required_Alternate_Input_Base_Assignments_Snapshot_Values(
+        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
+            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
+        [Matrix(false, true)] bool joined,
+        [Matrix(" ", "valid")] string entry,
+        [Matrix(false, true)] bool factory)
+    {
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: collectionType,
+                collectionSeparator: separator, inherited: true, required: true))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        object initial = collectionType == "IReadOnlySet<string>?" ? new HashSet<string> { "initial" } : new[] { "initial" };
+        var instance = factory
+            ? options.GetMethod("FromCliInputJson")!.Invoke(null, ["{}"])!
+            : Activator.CreateInstance(options, [initial])!;
+        var baseProperty = options.BaseType!.GetProperty("Values")!;
+        var property = options.GetProperty("Values")!;
+        await Assert.That(property.SetMethod!.IsPrivate).IsTrue();
+        await Assert.That(new System.Reflection.NullabilityInfoContext().Create(property).ReadState)
+            .IsEqualTo(System.Reflection.NullabilityState.Nullable);
+        var input = new SingleUseStringRendererViews(entry);
+        baseProperty.SetValue(instance, input);
+        var retained = property.GetValue(instance);
+        await Assert.That(baseProperty.GetValue(instance)).IsSameReferenceAs(retained);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
+            await Assert.That(errors.Length).IsEqualTo(string.IsNullOrWhiteSpace(entry) ? 1 : 0);
+            if (errors.Length > 0)
+            {
+                await Assert.That(errors[0].MemberNames).IsEquivalentTo(["Values"]);
+            }
+
+            await Assert.That(((System.Collections.IEnumerable) retained!).Cast<string>()).IsEquivalentTo(["first", entry]);
+            string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.StringEnumerationCount).IsEqualTo(1);
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+        baseProperty.SetValue(instance, null);
+        await Assert.That(property.GetValue(instance)).IsNull();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [MatrixDataSource]
     public async Task Validated_ReadOnly_Sets_Snapshot_Ordinary_SingleUse_Values(
         [Matrix("local", "command", "base")] string assignment,
         [Matrix(false, true)] bool joined,
@@ -530,7 +622,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     private static async Task<string[]> GenerateValidatedStringCollection(
-        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false)
+        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false, bool required = false)
     {
         var option = new CliOptionDefinition
         {
@@ -539,6 +631,7 @@ public partial class RequiredConstructorValidationTests
             CSharpType = collectionType,
             AcceptsMultipleValues = true,
             RejectBlankCollectionValues = rejectBlank,
+            IsRequired = required,
             CollectionSeparator = collectionSeparator,
         };
         var tool = new CliToolDefinition
@@ -548,11 +641,13 @@ public partial class RequiredConstructorValidationTests
             TargetNamespace = "ModularPipelines.Tool",
             OutputDirectory = "src/ModularPipelines.Tool",
             GlobalOptionsBeforeSubcommands = !inherited,
-            GlobalOptions = inherited ? [option with { RejectBlankCollectionValues = false, ShortForm = "-g" }] : [],
+            GlobalOptions = inherited ? [option with { RejectBlankCollectionValues = false, IsRequired = false, ShortForm = "-g" }] : [],
             Commands = [new()
             {
                 FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions",
-                ToolNamespacePrefix = "Tool", Options = [option],
+                ToolNamespacePrefix = "Tool", Options = required
+                    ? [option, new() { SwitchName = "--cli-input-json", PropertyName = "CliInputJson", CSharpType = "string?" }]
+                    : [option],
                 RequiredAlternativeGroups = alternative
                     ? [new() { Members = [new() { PropertyName = "Values", OptionSwitch = "--requirement" }] }]
                     : [],

@@ -756,13 +756,13 @@ public class OptionsClassGenerator : ICodeGenerator
         var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
         var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType;
-        // Required collections are already materialized by their constructor. Optional
-        // validated inputs must retain the same values for validation and rendering.
-        if (!isRequired && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
+        // Constructors materialize required collections, but forwarding properties can
+        // receive later base assignments. Retain those values for validation and rendering.
+        if ((!isRequired || forwardsToGlobal) && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
             && (!forwardsToGlobal || option?.RejectBlankCollectionValues == true)
             && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
         {
-            GenerateOptionalCollectionProperty(sb, declaration, propertyType, propertyName, option, forwardsToGlobal);
+            GenerateCollectionSnapshotProperty(sb, declaration, propertyType, propertyName, isRequired, option, forwardsToGlobal);
             return;
         }
 
@@ -780,8 +780,8 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
-    private static void GenerateOptionalCollectionProperty(
-        StringBuilder sb, string declaration, string propertyType, string propertyName, CliOptionDefinition? option, bool forwardsToGlobal)
+    private static void GenerateCollectionSnapshotProperty(
+        StringBuilder sb, string declaration, string propertyType, string propertyName, bool isRequired, CliOptionDefinition? option, bool forwardsToGlobal)
     {
         var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
         var preserveValuePairs = option is not null && option.CollectionSeparator is null;
@@ -802,7 +802,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    {");
         sb.AppendLine(forwardsToGlobal ? $"        get => {storage};" : "        get;");
         sb.AppendLine(forwardsToGlobal
-            ? $"        set => {storage} = value;"
+            ? $"        {GetPropertyAccessor(isRequired)} => {storage} = value;"
             : $"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
         sb.AppendLine("    }");
         if (forwardsToGlobal)

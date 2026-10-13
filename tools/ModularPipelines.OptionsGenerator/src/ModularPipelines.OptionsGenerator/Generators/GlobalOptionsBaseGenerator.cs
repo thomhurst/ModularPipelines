@@ -103,7 +103,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         {
             var interceptCollectionAssignments = !tool.GlobalOptionsBeforeSubcommands && tool.Commands
                 .SelectMany(static command => command.Options)
-                .Any(local => local is { IsRequired: false, RejectBlankCollectionValues: true }
+                .Any(local => local.RejectBlankCollectionValues
                     && local.PropertyName == option.PropertyName && local.GlobalOptionPropertyType == option.PropertyType
                     && CliOptionDefinition.IsCollectionType(local.PropertyType, local.IsCollection));
             GenerateProperty(sb, option, interceptCollectionAssignments);
