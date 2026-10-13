@@ -51724,6 +51724,22 @@ Resolve the service in a module, then select a command from the table below. A r
 var skopeo = context.Tools.Skopeo;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option           | Property          | Availability | Description                                                                    |
+| -------------------- | ----------------- | ------------ | ------------------------------------------------------------------------------ |
+| `--command-timeout`  | `CommandTimeout`  | All editions | timeout for the command execution                                              |
+| `--debug`            | `Debug`           | All editions | enable debug output                                                            |
+| `--insecure-policy`  | `InsecurePolicy`  | All editions | run the tool without any policy check                                          |
+| `--override-arch`    | `OverrideArch`    | All editions | use ARCH instead of the architecture of the machine for choosing images        |
+| `--override-os`      | `OverrideOs`      | All editions | use OS instead of the running OS for choosing images                           |
+| `--override-variant` | `OverrideVariant` | All editions | use VARIANT instead of the running architecture variant for choosing images    |
+| `--policy`           | `Policy`          | All editions | Path to a trust policy file                                                    |
+| `--registries.d`     | `RegistriesD`     | All editions | use registry configuration files in DIR (e.g. for container signature storage) |
+| `--tmpdir`           | `Tmpdir`          | All editions | directory used to store temporary files                                        |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                    | Options record                     |
@@ -55387,6 +55403,32 @@ public class UseSkopeoModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Shared settings and command scope[​](#shared-settings-and-command-scope "Direct link to Shared settings and command scope")
+
+All command options inherit nine public persistent settings from `SkopeoOptions`: `CommandTimeout`, `Debug`, `InsecurePolicy`, `OverrideArch`, `OverrideOs`, `OverrideVariant`, `Policy`, `RegistriesD`, and `Tmpdir`. `RegistriesD` preserves the CLI spelling `--registries.d`. Shared settings render before the subcommand; image operands and local settings remain after it.
+
+```
+var options = new SkopeoInspectOptions("docker://registry.example/image:latest")
+
+{
+
+    CommandTimeout = "30s",
+
+    RegistriesD = "./registries.d",
+
+    Debug = "false",
+
+    TlsVerify = "false",
+
+};
+```
+
+This renders as `skopeo --command-timeout=30s --debug=false --registries.d=./registries.d inspect docker://registry.example/image:latest --tls-verify=false` (one command line).
+
+Boolean settings that accept an optional value use `CliOptionValue?`. Use `"true"` or `"false"` for an explicit value, `CliOptionValue.Bare` for an unvalued switch, and `null` to omit it. When migrating existing TLS settings, replace C# boolean assignments with these values. `TlsVerify`, `SrcTlsVerify`, and `DestTlsVerify` remain on commands that support them. The hidden deprecated root `--tls-verify` flag is not promoted to a shared setting.
+
+`Creds`, `SrcCreds`, and `DestCreds` contain credential pairs and are masked in logs. Authentication-file paths remain visible. Login's local `Verbose` switch keeps its `-v` alias; root help and version controls are not shared settings.
 
 
 ---
