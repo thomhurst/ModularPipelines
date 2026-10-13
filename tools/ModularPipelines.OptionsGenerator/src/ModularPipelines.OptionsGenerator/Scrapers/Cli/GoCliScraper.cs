@@ -44,6 +44,8 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private readonly ConcurrentDictionary<string, IReadOnlySet<string>> _unsupportedSharedBuildFlags =
         new(StringComparer.Ordinal);
 
+    private IReadOnlyList<CliOptionDefinition> _globalOptions = [];
+
     public override string ToolName => "go";
 
     public override string NamespacePrefix => "Go";
@@ -53,6 +55,11 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     public override string OutputDirectory => "src/ModularPipelines.Go";
 
     protected override string VersionArguments => "version";
+
+    /// <summary>
+    /// Go documents its tool-wide directory flag in build help, rather than root help.
+    /// </summary>
+    protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions => _globalOptions;
 
     /// <summary>
     /// Skip utility commands.
@@ -67,9 +74,37 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
     {
+        if (commandPath.Length == 1)
+        {
+            _globalOptions = [];
+        }
+
         var helpText = await GetRawHelpTextAsync(commandPath, cancellationToken);
-        if (string.IsNullOrWhiteSpace(helpText)
-            || commandPath.Length != 2)
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            return helpText;
+        }
+
+        if (commandPath.Length == 1)
+        {
+            var buildHelp = await GetRawHelpTextAsync([ToolName, "build"], cancellationToken);
+            _globalOptions = [.. ParseOptions(["build"], buildHelp ?? string.Empty, usageSynopsis: null)
+                .Where(option => option.SwitchName == "-C" && !option.IsFlag)
+                .Select(option => option with
+                {
+                    PropertyName = "WorkingDirectory",
+                    Phase = CommandLinePhase.Normal,
+                })];
+            if (_globalOptions.Count != 1)
+            {
+                throw new InvalidOperationException(
+                    "go help build did not declare the required -C directory option. Refusing to generate incomplete Go global options.");
+            }
+
+            return helpText;
+        }
+
+        if (commandPath.Length != 2)
         {
             return helpText;
         }
@@ -388,6 +423,11 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         if (_unsupportedSharedBuildFlags.TryGetValue(string.Join(" ", commandPath), out var unsupportedFlags))
         {
             options.RemoveAll(option => unsupportedFlags.Contains(option.SwitchName));
+        }
+
+        if (_globalOptions.Count > 0)
+        {
+            options.RemoveAll(option => option.SwitchName == "-C");
         }
 
         var enums = options
@@ -717,7 +757,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         }
     }
 
-    private static IReadOnlySet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
+    private static HashSet<string> GetRepeatableOptions(IEnumerable<string> paragraphs)
     {
         var repeatableOptions = new HashSet<string>(StringComparer.Ordinal);
         foreach (var paragraph in paragraphs)
@@ -739,7 +779,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static void AddDocumentedOptions(
         string[] lines,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         for (var i = 0; i < lines.Length; i++)
         {
@@ -821,7 +861,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static void AddProseOptions(
         IEnumerable<string> paragraphs,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         foreach (var paragraph in paragraphs)
         {
@@ -873,7 +913,7 @@ public partial class GoCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static void AddUsageOptions(
         string helpText,
         List<CliOptionDefinition> options,
-        IReadOnlySet<string> repeatableOptions)
+        HashSet<string> repeatableOptions)
     {
         foreach (Match match in GoUsageOptionPattern().Matches(helpText))
         {
