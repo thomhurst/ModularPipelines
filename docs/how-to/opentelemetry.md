@@ -11,7 +11,7 @@ Register the instrumentation and the OTLP exporter when creating the pipeline:
 ```
 using ModularPipelines;
 
-using ModularPipelines.Extensions;
+using ModularPipelines.OpenTelemetry;
 
 
 
@@ -25,6 +25,12 @@ builder.AddOpenTelemetry(openTelemetry => openTelemetry.AddOtlpExporter());
 The exporter uses the standard `OTEL_EXPORTER_OTLP_*` environment variables. For example, set `OTEL_EXPORTER_OTLP_ENDPOINT` to the collector endpoint.
 
 The trace and metric providers start when the pipeline is built. When the pipeline is disposed, both providers are flushed before their exporters are shut down.
+
+## Migrating to V4[​](#migrating-to-v4 "Direct link to Migrating to V4")
+
+`OpenTelemetryPipelineBuilderExtensions` now lives in `ModularPipelines.OpenTelemetry`. Replace the `ModularPipelines.Extensions` import used for `builder.AddOpenTelemetry(...)` with `ModularPipelines.OpenTelemetry`. Keep other imports if your code uses unrelated extensions from them.
+
+For static calls, change `ModularPipelines.Extensions.OpenTelemetryPipelineBuilderExtensions.AddOpenTelemetry(builder)` to `ModularPipelines.OpenTelemetry.OpenTelemetryPipelineBuilderExtensions.AddOpenTelemetry(builder)`. Rebuild callers against V4. The previous namespace has no forwarding type. Registration, exporter configuration, provider flushing, and telemetry behavior are unchanged by this namespace move.
 
 ## Traces[​](#traces "Direct link to Traces")
 
