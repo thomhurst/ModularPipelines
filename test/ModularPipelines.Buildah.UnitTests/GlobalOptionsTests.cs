@@ -1,6 +1,7 @@
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using TUnit.Assertions;
 using TUnit.Core;
@@ -49,5 +50,22 @@ public class GlobalOptionsTests : TestBase
         {
             await Assert.That(typeof(BuildahOptions).GetProperty(property)).IsNull();
         }
+    }
+
+    [Test]
+    public async Task Persistent_Settings_Preserve_Command_Credential_Masking()
+    {
+        var options = new BuildahBuildOptions
+        {
+            Root = "public-storage-root",
+            Creds = "private-user:private-password",
+        };
+        var arguments = BuildArguments(options);
+        await Assert.That(arguments).Contains("--root=public-storage-root");
+        await Assert.That(arguments).Contains("--creds=private-user:private-password");
+        var obfuscator = await GetService<ISecretObfuscator>();
+        var output = obfuscator.Obfuscate(string.Join(' ', arguments), options);
+        await Assert.That(output).DoesNotContain("private-user:private-password");
+        await Assert.That(output).Contains("public-storage-root");
     }
 }

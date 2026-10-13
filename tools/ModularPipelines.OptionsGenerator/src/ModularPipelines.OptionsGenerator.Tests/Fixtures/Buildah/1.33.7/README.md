@@ -1,10 +1,11 @@
 # Buildah 1.33.7 inherited-option audit
 
-Captured root help and 38 command/group help pages from Ubuntu 24.04 with
+Captured root help and 39 command/group help pages from Ubuntu 24.04 with
 `buildah 1.33.7+ds1-1ubuntu0.24.04.3`, matching the generation workflow's package
 installation. Only help/version commands were executed. The capture container
-was removed. The current generated surface contains 37 commands because `info`
-is excluded; version API changes remain owned by #5687.
+was removed. The generated surface contains 38 commands because `info` is
+excluded. The version help capture was added on 2026-10-13 to use the current
+shared generator's version discovery from #5687, preserving `version --json`.
 
 Authoritative parser sources:
 - https://github.com/containers/buildah/blob/v1.33.7/cmd/buildah/main.go

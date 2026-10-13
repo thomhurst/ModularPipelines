@@ -38,7 +38,9 @@ public class BuildahGlobalOptionsTests
         var scraper = new TestScraper();
         var commands = await scraper.ScrapeAsync().ToListAsync();
         var tool = scraper.CreateToolDefinition() with { Commands = commands };
-        await Assert.That(commands).Count().IsEqualTo(37);
+        await Assert.That(commands).Count().IsEqualTo(38);
+        await Assert.That(commands.Single(command => command.FullCommand == "buildah version").Options
+            .Single(option => option.SwitchName == "--json").IsFlag).IsTrue();
         await Assert.That(tool.GlobalOptionsBeforeSubcommands).IsFalse();
         await Assert.That(tool.GlobalOptions.Select(option => option.SwitchName)).IsEquivalentTo(GlobalSwitches);
         foreach (var verb in new[] { "build", "from" })
@@ -80,6 +82,31 @@ public class BuildahGlobalOptionsTests
             var command = await scraper.Parse(help);
             await Assert.That(command!.Options).IsEmpty();
         }
+    }
+
+    [Test]
+    public async Task Explicit_Inherited_Rows_Do_Not_Remove_Local_Overrides_Or_Group_Settings()
+    {
+        var scraper = new TestScraper();
+        await scraper.ScrapeAsync().ToListAsync();
+        var command = await scraper.Parse("""
+            Usage: buildah images [flags]
+
+            Flags:
+              --userns-uid-map ctrID:hostID:length    Local mapping
+
+            Global Flags:
+              --userns-uid-map ctrID:hostID:length    Default mapping
+              --root string                         Storage root
+              --group-setting string                Group-local setting
+            """);
+
+        await Assert.That(command!.Options.Select(option => option.SwitchName))
+            .IsEquivalentTo(["--userns-uid-map", "--group-setting"]);
+        await Assert.That(command.Options.Single(option => option.SwitchName == "--userns-uid-map").Description)
+            .IsEqualTo("Local mapping");
+        await Assert.That(scraper.CreateToolDefinition().GlobalOptions.Any(option => option.SwitchName == "--group-setting"))
+            .IsFalse();
     }
 
     private static string Fixture(string name) => File.ReadAllText(Path.Combine(

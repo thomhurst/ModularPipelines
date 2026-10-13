@@ -57,14 +57,22 @@ public partial class BuildahCliScraper(ICliCommandExecutor executor, IHelpTextCa
 
         // Current Buildah templates omit inherited help rows. Validate and remove
         // them only when an explicit Global Flags section exposes them in future.
+        var globals = EffectiveGlobalOptions;
         var inherited = ParseNamedOptionSection(helpText, "Global Flags", commandParts)
-            .Where(option => EffectiveGlobalOptions.Any(global => global.SwitchName == option.SwitchName))
+            .Where(option => globals.Any(global => global.SwitchName == option.SwitchName))
             .Select(NormalizeMappingOption).ToArray();
-        CliGlobalOptionMerger.Merge(EffectiveGlobalOptions, inherited);
+        CliGlobalOptionMerger.Merge(globals, inherited);
+        if (inherited.Length == 0)
+        {
+            return command;
+        }
+
+        var localSwitches = ParseNamedOptionSection(helpText, "Flags", commandParts)
+            .Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
         var inheritedSwitches = inherited.Select(option => option.SwitchName).ToHashSet(StringComparer.Ordinal);
         return command with
         {
-            Options = [.. command.Options.Where(option => !inheritedSwitches.Contains(option.SwitchName))],
+            Options = [.. command.Options.Where(option => localSwitches.Contains(option.SwitchName) || !inheritedSwitches.Contains(option.SwitchName))],
         };
     }
 
