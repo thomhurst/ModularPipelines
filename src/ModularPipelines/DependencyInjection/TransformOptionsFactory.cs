@@ -46,6 +46,15 @@ internal sealed class TransformOptionsFactory<[DynamicallyAccessedMembers(Dynami
 
         services.AddOptions();
         services.TryAddTransient<IOptionsFactory<T>, TransformOptionsFactory<T>>();
+        // Validate the factory selected by the completed provider, including registrations added later.
+#pragma warning disable MPG0006
+        services.TryAddSingleton<IOptions<T>>(static provider => new OptionsManager<T>(GetCompatibleFactory(provider)));
+        services.TryAddScoped<IOptionsSnapshot<T>>(static provider => new OptionsManager<T>(GetCompatibleFactory(provider)));
+        services.TryAddSingleton<IOptionsMonitor<T>>(static provider => new OptionsMonitor<T>(
+            GetCompatibleFactory(provider),
+            provider.GetServices<IOptionsChangeTokenSource<T>>(),
+            provider.GetRequiredService<IOptionsMonitorCache<T>>()));
+#pragma warning restore MPG0006
     }
 
     public T Create(string name)
@@ -94,15 +103,27 @@ internal sealed class TransformOptionsFactory<[DynamicallyAccessedMembers(Dynami
     private static T Apply(Func<T, T> transform, T options) =>
         transform(options) ?? throw new InvalidOperationException($"The {typeof(T).Name} configuration returned null.");
 
+    private static IOptionsFactory<T> GetCompatibleFactory(IServiceProvider provider)
+    {
+        var factory = provider.GetRequiredService<IOptionsFactory<T>>();
+        return factory is TransformOptionsFactory<T>
+            ? factory
+            : throw CreateIncompatibleFactoryException();
+    }
+
+    private static InvalidOperationException CreateIncompatibleFactoryException() => new(
+        $"An incompatible IOptionsFactory<{typeof(T).Name}> is registered. " +
+        "Remove that registration before resolving immutable options.");
+
     private sealed record Configuration(string Name, Func<T, T> Transform) : IConfigureNamedOptions<T>
     {
-        public void Configure(T options) => throw new NotSupportedException("Immutable options require TransformOptionsFactory.");
+        public void Configure(T options) => throw CreateIncompatibleFactoryException();
 
         public void Configure(string? name, T options) => Configure(options);
     }
 
     private sealed record PostConfiguration(string Name, Func<T, T> Transform) : IPostConfigureOptions<T>
     {
-        public void PostConfigure(string? name, T options) => throw new NotSupportedException("Immutable options require TransformOptionsFactory.");
+        public void PostConfigure(string? name, T options) => throw CreateIncompatibleFactoryException();
     }
 }

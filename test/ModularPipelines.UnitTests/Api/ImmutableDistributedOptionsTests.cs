@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
@@ -8,6 +9,111 @@ namespace ModularPipelines.UnitTests.Api;
 
 public class ImmutableDistributedOptionsTests
 {
+    [Test]
+    [MatrixDataSource]
+    public async Task Later_Incompatible_Factory_Is_Rejected_By_Options_Accessors(
+        [Matrix("type", "instance", "delegate")] string registration,
+        [Matrix("add", "replace")] string operation,
+        [Matrix("configure", "postconfigure")] string transform,
+        [Matrix("options", "snapshot", "monitor")] string accessor)
+    {
+        IServiceCollection services = new ServiceCollection();
+        var transformed = false;
+        DistributedOptions Transform(DistributedOptions options)
+        {
+            transformed = true;
+            return options with { RunId = "transformed" };
+        }
+
+        if (transform == "configure")
+        {
+            TransformOptionsFactory<DistributedOptions>.Configure(services, Transform);
+        }
+        else
+        {
+            TransformOptionsFactory<DistributedOptions>.PostConfigure(services, _ => Transform);
+        }
+
+        var factory = registration switch
+        {
+            "type" => ServiceDescriptor.Transient<IOptionsFactory<DistributedOptions>, OptionsFactory<DistributedOptions>>(),
+            "instance" => ServiceDescriptor.Singleton<IOptionsFactory<DistributedOptions>>(new OptionsFactory<DistributedOptions>([], [])),
+            "delegate" => ServiceDescriptor.Transient<IOptionsFactory<DistributedOptions>>(_ => new OptionsFactory<DistributedOptions>([], [])),
+            _ => throw new ArgumentOutOfRangeException(nameof(registration)),
+        };
+        if (operation == "add")
+        {
+            services.Add(factory);
+        }
+        else
+        {
+            services.Replace(factory);
+        }
+
+        using var provider = services.BuildServiceProvider();
+        using var scope = provider.CreateScope();
+        Func<DistributedOptions> resolve = accessor switch
+        {
+            "options" => () => scope.ServiceProvider.GetRequiredService<IOptions<DistributedOptions>>().Value,
+            "snapshot" => () => scope.ServiceProvider.GetRequiredService<IOptionsSnapshot<DistributedOptions>>().Get("worker"),
+            "monitor" => () => scope.ServiceProvider.GetRequiredService<IOptionsMonitor<DistributedOptions>>().Get("worker"),
+            _ => throw new ArgumentOutOfRangeException(nameof(accessor)),
+        };
+
+        await Assert.That(resolve).Throws<InvalidOperationException>().WithMessageContaining("IOptionsFactory<DistributedOptions>");
+        await Assert.That(transformed).IsFalse();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Later_Standard_Factory_Is_Rejected_When_Called_Directly(
+        [Matrix("configure", "postconfigure")] string transform,
+        [Matrix("", "worker")] string name)
+    {
+        var services = new ServiceCollection();
+        if (transform == "configure")
+        {
+            TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = "transformed" });
+        }
+        else
+        {
+            TransformOptionsFactory<DistributedOptions>.PostConfigure(services, _ => options => options with { RunId = "transformed" });
+        }
+
+        services.AddTransient<IOptionsFactory<DistributedOptions>, OptionsFactory<DistributedOptions>>();
+        using var provider = services.BuildServiceProvider();
+
+        await Assert.That(() => provider.GetRequiredService<IOptionsFactory<DistributedOptions>>().Create(name))
+            .Throws<InvalidOperationException>().WithMessageContaining("IOptionsFactory<DistributedOptions>");
+    }
+
+    [Test]
+    public async Task Options_Accessors_Preserve_Cache_Lifetimes()
+    {
+        var services = new ServiceCollection();
+        var transformations = 0;
+        TransformOptionsFactory<DistributedOptions>.Configure(services, options =>
+        {
+            transformations++;
+            return options with { RunId = "transformed" };
+        });
+        using var provider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateScopes = true });
+        using var firstScope = provider.CreateScope();
+        using var secondScope = provider.CreateScope();
+        var options = firstScope.ServiceProvider.GetRequiredService<IOptions<DistributedOptions>>();
+        var firstSnapshot = firstScope.ServiceProvider.GetRequiredService<IOptionsSnapshot<DistributedOptions>>();
+        var secondSnapshot = secondScope.ServiceProvider.GetRequiredService<IOptionsSnapshot<DistributedOptions>>();
+        var monitor = firstScope.ServiceProvider.GetRequiredService<IOptionsMonitor<DistributedOptions>>();
+
+        await Assert.That(options).IsSameReferenceAs(secondScope.ServiceProvider.GetRequiredService<IOptions<DistributedOptions>>());
+        await Assert.That(options.Value).IsSameReferenceAs(options.Value);
+        await Assert.That(firstSnapshot.Value).IsSameReferenceAs(firstSnapshot.Value);
+        await Assert.That(firstSnapshot.Value).IsNotSameReferenceAs(secondSnapshot.Value);
+        await Assert.That(monitor).IsSameReferenceAs(secondScope.ServiceProvider.GetRequiredService<IOptionsMonitor<DistributedOptions>>());
+        await Assert.That(monitor.CurrentValue).IsSameReferenceAs(monitor.CurrentValue);
+        await Assert.That(transformations).IsEqualTo(4);
+    }
+
     [Test]
     [Arguments("type", "configure")]
     [Arguments("instance", "configure")]
