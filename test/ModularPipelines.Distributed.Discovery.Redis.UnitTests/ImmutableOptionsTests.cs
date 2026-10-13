@@ -30,6 +30,26 @@ public class ImmutableOptionsTests
         await Assert.That(output).Contains("ConnectionString = <redacted>");
         await Assert.That(output).Contains("RestToken = <redacted>");
         await Assert.That(output).Contains("KeyPrefix = diagnostic-prefix");
+        await Assert.That(output).Contains("RestUrl = <none>");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Endpoint_Urls_Including_Record_Copies(bool copy)
+    {
+        var options = new RedisDiscoveryOptions
+        {
+            RestUrl = new Uri("https://private-user:private-password@redis.example.com/discovery?token=private-query#private-fragment"),
+        };
+        if (copy)
+        {
+            options = options with { PollInterval = TimeSpan.FromSeconds(1) };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain("private-");
+        await Assert.That(output).Contains("RestUrl = <redacted>");
     }
 
     [Test]

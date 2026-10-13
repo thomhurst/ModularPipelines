@@ -80,7 +80,7 @@ public sealed record S3StorageOptions
     private bool PrintMembers(StringBuilder builder)
     {
         builder.Append("BucketName = ").Append(BucketName);
-        builder.Append(", ServiceUrl = ").Append(ServiceUrl);
+        builder.Append(", ServiceUrl = ").Append(ServiceUrl is null ? "<none>" : "<redacted>");
         builder.Append(", AccessKey = ").Append(AccessKey is null ? "<none>" : "<redacted>");
         builder.Append(", SecretKey = ").Append(SecretKey is null ? "<none>" : "<redacted>");
         builder.Append(", Region = ").Append(Region);

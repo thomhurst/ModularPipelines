@@ -28,6 +28,26 @@ public class ImmutableOptionsTests
         await Assert.That(output).Contains("AccessKey = <redacted>");
         await Assert.That(output).Contains("SecretKey = <redacted>");
         await Assert.That(output).Contains("BucketName = diagnostic-bucket");
+        await Assert.That(output).Contains("ServiceUrl = <none>");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Endpoint_Urls_Including_Record_Copies(bool copy)
+    {
+        var options = new S3StorageOptions
+        {
+            ServiceUrl = new Uri("https://private-user:private-password@s3.example.com/bucket?token=private-query#private-fragment"),
+        };
+        if (copy)
+        {
+            options = options with { ForcePathStyle = true };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain("private-");
+        await Assert.That(output).Contains("ServiceUrl = <redacted>");
     }
 
     [Test]

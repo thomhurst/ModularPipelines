@@ -70,7 +70,7 @@ public sealed record RedisDiscoveryOptions
     private bool PrintMembers(StringBuilder builder)
     {
         builder.Append("ConnectionString = <redacted>");
-        builder.Append(", RestUrl = ").Append(RestUrl);
+        builder.Append(", RestUrl = ").Append(RestUrl is null ? "<none>" : "<redacted>");
         builder.Append(", RestToken = ").Append(RestToken is null ? "<none>" : "<redacted>");
         builder.Append(", KeyPrefix = ").Append(KeyPrefix);
         builder.Append(", TimeToLive = ").Append(TimeToLive);

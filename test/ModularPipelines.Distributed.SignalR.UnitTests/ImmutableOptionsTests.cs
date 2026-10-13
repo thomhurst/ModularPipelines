@@ -25,6 +25,29 @@ public class ImmutableOptionsTests
         await Assert.That(output).DoesNotContain(options.AccessToken!);
         await Assert.That(output).Contains("AccessToken = <redacted>");
         await Assert.That(output).Contains("HubPath = /diagnostic-hub");
+        await Assert.That(output).Contains("AdvertisedUrl = <none>");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task String_Output_Redacts_Endpoint_Urls_Including_Record_Copies(bool copy)
+    {
+        var options = new SignalRDistributedOptions
+        {
+            ListenUrl = new Uri("https://private-user:private-password@localhost:5099/listen?token=private-query#private-fragment"),
+            AdvertisedUrl = new Uri("https://advertised-user:advertised-password@master.example.com/hub?token=advertised-query#advertised-fragment"),
+        };
+        if (copy)
+        {
+            options = options with { MaxReconnectAttempts = 2 };
+        }
+
+        var output = $"{options}";
+        await Assert.That(output).DoesNotContain("private-");
+        await Assert.That(output).DoesNotContain("advertised-");
+        await Assert.That(output).Contains("ListenUrl = <redacted>");
+        await Assert.That(output).Contains("AdvertisedUrl = <redacted>");
     }
 
     [Test]

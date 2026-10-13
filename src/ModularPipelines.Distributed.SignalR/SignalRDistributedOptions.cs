@@ -74,8 +74,8 @@ public sealed record SignalRDistributedOptions
 
     private bool PrintMembers(StringBuilder builder)
     {
-        builder.Append("ListenUrl = ").Append(ListenUrl);
-        builder.Append(", AdvertisedUrl = ").Append(AdvertisedUrl);
+        builder.Append("ListenUrl = ").Append(ListenUrl is null ? "<none>" : "<redacted>");
+        builder.Append(", AdvertisedUrl = ").Append(AdvertisedUrl is null ? "<none>" : "<redacted>");
         builder.Append(", HubPath = ").Append(HubPath);
         builder.Append(", AccessToken = ").Append(AccessToken is null ? "<none>" : "<redacted>");
         builder.Append(", ConnectionTimeout = ").Append(ConnectionTimeout);
