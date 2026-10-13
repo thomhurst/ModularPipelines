@@ -197,6 +197,45 @@ public class RedisDistributedCoordinatorContractTests
             workerTimeout: null,
             masterTimeout: TimeSpan.FromMilliseconds(500));
 
+    [Test]
+    public Task Run_Cleanup_Deletes_Run_Keys_And_Keeps_The_Completion_Flag() =>
+        RunAsync(
+            async (coordinator, database, keys, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+                redis.StartMasterHeartbeat(TimeSpan.FromMilliseconds(50));
+                await coordinator.EnqueueModuleAsync(
+                    DistributedCoordinatorContract.CreateAssignment("Contract.Cleanup"),
+                    CancellationToken.None);
+                await coordinator.PublishResultAsync(
+                    DistributedCoordinatorContract.CreateResult("Contract.Cleanup", "done"),
+                    lease: null,
+                    CancellationToken.None);
+                await coordinator.SendHeartbeatAsync(
+                    new WorkerStatus { WorkerId = new WorkerId("contract-worker"), IsFinal = true },
+                    CancellationToken.None);
+                await coordinator.BroadcastCancellationAsync(DistributedCancellationReason.Stopped, CancellationToken.None);
+                await coordinator.SignalCompletionAsync(CancellationToken.None);
+                await WaitUntilAsync(async () => await database.KeyExistsAsync(keys.MasterHeartbeat));
+
+                await redis.CleanupRunAsync(
+                    new DistributedRunCleanupContext { RunId = "contract", PipelineSucceeded = true },
+                    CancellationToken.None);
+
+                // A heartbeat sent after cleanup would recreate the master keys.
+                await Task.Delay(200);
+                foreach (var key in keys.RunCleanupKeys)
+                {
+                    await Assert.That(await database.KeyExistsAsync(key)).IsFalse();
+                }
+
+                await Assert.That(await database.KeyExistsAsync(keys.CompletionFlag)).IsTrue();
+                await Assert.That(await coordinator.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Completed);
+            },
+            readySignalCount: 1,
+            workerTimeout: null);
+
     private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
         WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
 

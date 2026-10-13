@@ -46,6 +46,21 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task Upload_Records_The_Module_For_Run_Cleanup()
+    {
+        using var stream = new MemoryStream([1]);
+        await _store.UploadAsync(
+            new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+            stream,
+            CancellationToken.None);
+
+        _mockDb.Verify(db => db.SetAddAsync(
+            (RedisKey) _keys.ArtifactModules,
+            (RedisValue) "Test.Module",
+            It.IsAny<CommandFlags>()), Times.Once());
+    }
+
+    [Test]
     public async Task Upload_LargeArtifact_ReturnsCorrectSize()
     {
         var descriptor = new ArtifactDescriptor

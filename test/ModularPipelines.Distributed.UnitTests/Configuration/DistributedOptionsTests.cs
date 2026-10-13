@@ -38,6 +38,36 @@ public class DistributedOptionsTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Defaults_To_Successful_Runs_With_A_Two_Minute_Timeout()
+    {
+        var options = new DistributedOptions();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.RunCleanup).IsEqualTo(DistributedRunCleanupPolicy.OnSuccess);
+            await Assert.That(options.RunCleanupTimeout).IsEqualTo(TimeSpan.FromMinutes(2));
+        }
+    }
+
+    [Test]
+    public async Task Invalid_Run_Cleanup_Options_Are_Rejected_In_Distributed_Mode()
+    {
+        var options = new DistributedOptions
+        {
+            RunCleanup = (DistributedRunCleanupPolicy) 99,
+            RunCleanupTimeout = TimeSpan.Zero,
+        }.EnableForTest();
+
+        var failures = DistributedOptionsValidator.Validate(options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(failures).Contains("Distributed.RunCleanup must be a defined DistributedRunCleanupPolicy value.");
+            await Assert.That(failures).Contains("Distributed.RunCleanupTimeout must be positive.");
+        }
+    }
+
+    [Test]
     public async Task ModuleResultTimeout_Defaults_To_Forty_Five_Minutes()
     {
         var options = new DistributedOptions();

@@ -7,9 +7,10 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
 /// Objects are keyed as {prefix}/artifacts/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}.
-/// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO.
+/// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO. Run cleanup deletes every object under
+/// the run's prefix.
 /// </summary>
-internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDisposable
+internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup, IDisposable
 {
     private readonly IAmazonS3 _s3;
     private readonly string _bucketName;
@@ -151,6 +152,44 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
         await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken).ConfigureAwait(false);
         await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes every object stored for the run, including artifacts uploaded by other processes.
+    /// </summary>
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        // The trailing separator keeps a run from matching another run whose identifier it prefixes.
+        var request = new ListObjectsV2Request
+        {
+            BucketName = _bucketName,
+            Prefix = $"{_runPrefix}/",
+        };
+
+        ListObjectsV2Response response;
+        do
+        {
+            response = await _s3.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
+            var objects = response.S3Objects ?? [];
+            if (objects.Count > 0)
+            {
+                // A listing page holds at most 1,000 keys, the DeleteObjects limit.
+                await _s3.DeleteObjectsAsync(
+                        new DeleteObjectsRequest
+                        {
+                            BucketName = _bucketName,
+                            Objects = [.. objects.Select(static s3Object => new KeyVersion { Key = s3Object.Key })],
+                            Quiet = true,
+                        },
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            request.ContinuationToken = response.NextContinuationToken;
+        }
+        while (response.IsTruncated == true);
     }
 
     public void Dispose() => _s3.Dispose();

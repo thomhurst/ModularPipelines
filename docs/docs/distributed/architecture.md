@@ -395,3 +395,36 @@ distributed execution ends, and coordinators then return `null` from pending and
 calls, so workers exit even when they missed a notification. If the runnable set is empty, the master returns
 before sending the signal, so external workers remain blocked until their local cancellation tokens are
 canceled.
+
+## Run Data Cleanup
+
+A coordinator, artifact store or `IMasterDiscovery` implementation opts into deleting its run data by also
+implementing `IDistributedRunCleanup`:
+
+```csharp
+public sealed class MyArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
+{
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        // Delete everything stored under context.RunId, including uploads from other processes.
+    }
+
+    // IDistributedArtifactStore members...
+}
+```
+
+The contract:
+
+- Only the master of a distributed run calls `CleanupRunAsync`; workers and pipelines without distributed
+  mode never do. It runs once, after the pipeline end handlers and the run report. The run report waits for
+  every worker's final status first, so a worker that published one no longer uses the data.
+- Each process has its own store instance. The master's instance must delete data that workers uploaded,
+  so find the run's data from shared state, such as a prefix listing or an index, not from local bookkeeping.
+- Delete only data that belongs to `context.RunId`. Leave data shared across runs, such as module caches, in place.
+- A coordinator should keep, or let expire, whatever a late worker needs to see that the master completed.
+  It should stop background writers, such as heartbeats, before it deletes the keys they renew.
+- The token is canceled when `DistributedOptions.RunCleanupTimeout` elapses. Failures are logged as warnings
+  and never change the pipeline result.
+
+`DistributedOptions.RunCleanup` decides whether cleanup runs for the pipeline's outcome; see
+[Configuration](configuration.md#run-data-cleanup).

@@ -114,6 +114,20 @@ public sealed record DistributedOptions
     public TimeSpan ModuleResultTimeout { get; init; } = TimeSpan.FromMinutes(45);
 
     /// <summary>
+    /// Gets which pipeline outcomes make <see cref="IDistributedRunCleanup"/> backends delete the data they
+    /// stored for this run. Only the master cleans up, and only in distributed mode. Defaults to
+    /// <see cref="DistributedRunCleanupPolicy.OnSuccess"/>, so a failed run's data stays available for
+    /// investigation.
+    /// </summary>
+    public DistributedRunCleanupPolicy RunCleanup { get; init; } = DistributedRunCleanupPolicy.OnSuccess;
+
+    /// <summary>
+    /// Gets how long each <see cref="IDistributedRunCleanup"/> backend may take to delete a run's data
+    /// before the pipeline stops waiting for it. Defaults to 2 minutes.
+    /// </summary>
+    public TimeSpan RunCleanupTimeout { get; init; } = TimeSpan.FromMinutes(2);
+
+    /// <summary>
     /// Gets the identifier this process uses when it registers, claims work and publishes results.
     /// </summary>
     internal WorkerId LocalWorkerId => WorkerId.FromInstanceIndex(InstanceIndex);

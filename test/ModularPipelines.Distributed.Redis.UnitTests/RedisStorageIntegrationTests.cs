@@ -53,6 +53,60 @@ public class RedisStorageIntegrationTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Deletes_Artifacts_Uploaded_By_Every_Store_In_The_Run()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var runId = Guid.NewGuid().ToString("N");
+        var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
+        var database = connection.GetDatabase();
+
+        // Each process has its own store; the master's store cleans up artifacts a worker uploaded.
+        var workerStore = new RedisDistributedArtifactStore(database, keys, options);
+        var masterStore = new RedisDistributedArtifactStore(database, keys, options);
+        var otherRunStore = new RedisDistributedArtifactStore(
+            database,
+            new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N")),
+            options);
+        using var small = new MemoryStream([1, 2, 3]);
+        using var chunked = new MemoryStream(new byte[40]);
+        using var otherRunData = new MemoryStream([4]);
+        var smallReference = await workerStore.UploadAsync(
+            new ArtifactDescriptor { Name = "small", ModuleId = "Integration.Worker" }, small, CancellationToken.None);
+        var chunkedReference = await workerStore.UploadAsync(
+            new ArtifactDescriptor { Name = "chunked", ModuleId = "Integration.Other" }, chunked, CancellationToken.None);
+        await otherRunStore.UploadAsync(
+            new ArtifactDescriptor { Name = "kept", ModuleId = "Integration.Worker" }, otherRunData, CancellationToken.None);
+
+        await masterStore.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = runId, PipelineSucceeded = true },
+            CancellationToken.None);
+
+        RedisKey[] deletedKeys =
+        [
+            keys.ArtifactMeta(smallReference.ArtifactId),
+            keys.ArtifactData(smallReference.ArtifactId),
+            keys.ArtifactMeta(chunkedReference.ArtifactId),
+            keys.ArtifactChunk(chunkedReference.ArtifactId, 0),
+            keys.ArtifactChunk(chunkedReference.ArtifactId, 2),
+            keys.ArtifactIndex("Integration.Worker"),
+            keys.ArtifactIndex("Integration.Other"),
+            keys.ArtifactModules,
+        ];
+        using (Assert.Multiple())
+        {
+            await Assert.That(await database.KeyExistsAsync(deletedKeys)).IsEqualTo(0);
+            await Assert.That(await otherRunStore.ListArtifactsAsync("Integration.Worker", CancellationToken.None))
+                .HasSingleItem();
+        }
+    }
+
+    [Test]
     public async Task ModuleCache_RoundTrips()
     {
         await using var connection = await ConnectAsync();

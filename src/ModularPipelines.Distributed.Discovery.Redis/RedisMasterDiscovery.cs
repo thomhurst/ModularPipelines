@@ -11,23 +11,26 @@ namespace ModularPipelines.Distributed.Discovery.Redis;
 /// <remarks>
 /// The stored endpoint can include the master's access token, so the key must only be readable by
 /// the run's processes. Neither the URL nor the token is logged above Debug, and the token never is.
+/// Run cleanup deletes the endpoint this process advertised, so the token does not outlive the run.
 /// </remarks>
 internal sealed class RedisMasterDiscovery(
     IRedisDiscoveryStore store,
     RedisDiscoveryOptions options,
     DistributedOptions distributedOptions,
-    ILogger<RedisMasterDiscovery> logger) : IMasterDiscovery
+    ILogger<RedisMasterDiscovery> logger) : IMasterDiscovery, IDistributedRunCleanup
 {
     private readonly IRedisDiscoveryStore _store = store;
     private readonly RedisDiscoveryOptions _options = options;
     private readonly ILogger<RedisMasterDiscovery> _logger = logger;
     private readonly string _masterEndpointKey = $"{options.KeyPrefix}:{distributedOptions.RunId}:master-endpoint";
+    private volatile bool _advertised;
 
     public async Task AdvertiseMasterEndpointAsync(MasterEndpoint endpoint, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(endpoint);
         var value = JsonSerializer.Serialize(new StoredEndpoint(endpoint.Url.AbsoluteUri, endpoint.AccessToken));
         await _store.SetAsync(_masterEndpointKey, value, _options.TimeToLive, cancellationToken).ConfigureAwait(false);
+        _advertised = true;
         _logger.LogInformation(
             "Advertised the master endpoint in Redis (time to live: {TimeToLive})",
             _options.TimeToLive);
@@ -67,6 +70,19 @@ internal sealed class RedisMasterDiscovery(
                 $"Redis key: {_masterEndpointKey}",
                 exception);
         }
+    }
+
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        if (!_advertised)
+        {
+            return;
+        }
+
+        await _store.DeleteAsync(_masterEndpointKey, cancellationToken).ConfigureAwait(false);
+        _advertised = false;
+        _logger.LogDebug("Deleted the advertised master endpoint at key {Key}", _masterEndpointKey);
     }
 
     private MasterEndpoint Parse(string value)

@@ -3484,3 +3484,26 @@ ModularPipelines.Distributed.IArtifactContext.DownloadAsync(ModularPipelines.Dis
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync(ModularPipelines.Distributed.ModuleId producerModuleId, string! artifactName, ModularPipelines.FileSystem.FolderPath! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FolderPath!>!
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync<TProducerModule>(string! artifactName, ModularPipelines.FileSystem.FilePath! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FilePath!>!
 ModularPipelines.Distributed.IArtifactContext.DownloadAsync<TProducerModule>(string! artifactName, ModularPipelines.FileSystem.FolderPath! destinationPath, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<ModularPipelines.FileSystem.FolderPath!>!
+ModularPipelines.Distributed.DistributedOptions.RunCleanup.get -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedOptions.RunCleanup.init -> void
+ModularPipelines.Distributed.DistributedOptions.RunCleanupTimeout.get -> System.TimeSpan
+ModularPipelines.Distributed.DistributedOptions.RunCleanupTimeout.init -> void
+ModularPipelines.Distributed.DistributedRunCleanupContext
+ModularPipelines.Distributed.DistributedRunCleanupContext.<Clone>$() -> ModularPipelines.Distributed.DistributedRunCleanupContext!
+ModularPipelines.Distributed.DistributedRunCleanupContext.DistributedRunCleanupContext() -> void
+ModularPipelines.Distributed.DistributedRunCleanupContext.Equals(ModularPipelines.Distributed.DistributedRunCleanupContext? other) -> bool
+ModularPipelines.Distributed.DistributedRunCleanupContext.PipelineSucceeded.get -> bool
+ModularPipelines.Distributed.DistributedRunCleanupContext.PipelineSucceeded.init -> void
+ModularPipelines.Distributed.DistributedRunCleanupContext.RunId.get -> string!
+ModularPipelines.Distributed.DistributedRunCleanupContext.RunId.init -> void
+ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedRunCleanupPolicy.Always = 1 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedRunCleanupPolicy.Never = 2 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.DistributedRunCleanupPolicy.OnSuccess = 0 -> ModularPipelines.Distributed.DistributedRunCleanupPolicy
+ModularPipelines.Distributed.IDistributedRunCleanup
+ModularPipelines.Distributed.IDistributedRunCleanup.CleanupRunAsync(ModularPipelines.Distributed.DistributedRunCleanupContext! context, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+override ModularPipelines.Distributed.DistributedRunCleanupContext.Equals(object? obj) -> bool
+override ModularPipelines.Distributed.DistributedRunCleanupContext.GetHashCode() -> int
+override ModularPipelines.Distributed.DistributedRunCleanupContext.ToString() -> string!
+static ModularPipelines.Distributed.DistributedRunCleanupContext.operator !=(ModularPipelines.Distributed.DistributedRunCleanupContext? left, ModularPipelines.Distributed.DistributedRunCleanupContext? right) -> bool
+static ModularPipelines.Distributed.DistributedRunCleanupContext.operator ==(ModularPipelines.Distributed.DistributedRunCleanupContext? left, ModularPipelines.Distributed.DistributedRunCleanupContext? right) -> bool

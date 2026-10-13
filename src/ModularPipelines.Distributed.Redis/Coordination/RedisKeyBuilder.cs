@@ -58,6 +58,9 @@ internal class RedisKeyBuilder(string prefix, string runId)
 
     public string ArtifactIndex(ModuleId moduleId) => $"{_runPrefix}:artifacts:index:{moduleId}";
 
+    /// <summary>Gets the set of modules that uploaded artifacts in this run.</summary>
+    public string ArtifactModules => $"{_runPrefix}:artifacts:modules";
+
     /// <summary>
     /// Returns the coordination keys whose expiry is refreshed while the run is active.
     /// </summary>
@@ -71,5 +74,21 @@ internal class RedisKeyBuilder(string prefix, string runId)
         CompletionFlag,
         CancellationFlag,
         MasterStarted,
+    ];
+
+    /// <summary>
+    /// Gets the coordination keys deleted when the run ends. The completion flag is kept so workers that
+    /// start late see a completed master.
+    /// </summary>
+    public IReadOnlyList<string> RunCleanupKeys =>
+    [
+        WorkQueue,
+        Leases,
+        Results,
+        Workers,
+        WorkerStatuses,
+        CancellationFlag,
+        MasterStarted,
+        MasterHeartbeat,
     ];
 }

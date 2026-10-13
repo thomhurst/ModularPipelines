@@ -1,0 +1,119 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
+
+namespace ModularPipelines.Distributed;
+
+/// <summary>
+/// Asks every <see cref="IDistributedRunCleanup"/> backend to delete the run's data once the pipeline ends.
+/// </summary>
+/// <remarks>
+/// Backends are resolved only when cleanup runs, so a run that keeps its data constructs nothing.
+/// Cleanup is best effort: no failure escapes, so it cannot replace the pipeline result.
+/// </remarks>
+internal sealed class DistributedRunCleanupExecutor(
+    IServiceProvider serviceProvider,
+    IOptions<DistributedOptions> options,
+    IExecutionLocationContext executionLocationContext,
+    ILogger<DistributedRunCleanupExecutor> logger)
+{
+    public async Task CleanupAsync(bool pipelineSucceeded)
+    {
+        try
+        {
+            // Only a distributed master owns the run's data; workers finish before it. Local pipelines
+            // can reuse a run identifier to share artifacts across separate runs, so they keep their data.
+            var distributedOptions = options.Value;
+            if (!distributedOptions.Enabled || executionLocationContext.IsWorker)
+            {
+                return;
+            }
+
+            if (!ShouldCleanup(distributedOptions.RunCleanup, pipelineSucceeded))
+            {
+                return;
+            }
+
+            var backends = ResolveBackends();
+            if (backends.Count == 0)
+            {
+                return;
+            }
+
+            var context = new DistributedRunCleanupContext
+            {
+                RunId = distributedOptions.RunId,
+                PipelineSucceeded = pipelineSucceeded,
+            };
+            await Task.WhenAll(backends.Select(backend =>
+                    CleanupBackendAsync(backend, context, distributedOptions.RunCleanupTimeout)))
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(exception, "Could not clean up distributed run data");
+        }
+    }
+
+    internal static bool ShouldCleanup(DistributedRunCleanupPolicy policy, bool pipelineSucceeded) =>
+        policy switch
+        {
+            DistributedRunCleanupPolicy.Always => true,
+            DistributedRunCleanupPolicy.OnSuccess => pipelineSucceeded,
+            _ => false,
+        };
+
+    private List<IDistributedRunCleanup> ResolveBackends()
+    {
+        var candidates = serviceProvider.GetServices<IDistributedRunCleanup>()
+            .Concat<object?>(
+            [
+                serviceProvider.GetService<IDistributedMasterCoordinator>(),
+                serviceProvider.GetService<IDistributedArtifactStore>(),
+                serviceProvider.GetService<IMasterDiscovery>(),
+            ]);
+
+        var backends = new List<IDistributedRunCleanup>();
+        foreach (var candidate in candidates)
+        {
+            if (candidate is IDistributedRunCleanup backend
+                && !backends.Any(existing => ReferenceEquals(existing, backend)))
+            {
+                backends.Add(backend);
+            }
+        }
+
+        return backends;
+    }
+
+    private async Task CleanupBackendAsync(
+        IDistributedRunCleanup backend,
+        DistributedRunCleanupContext context,
+        TimeSpan timeout)
+    {
+        var backendName = backend.GetType().FullName;
+        using var timeoutSource = new CancellationTokenSource(timeout);
+        try
+        {
+            await backend.CleanupRunAsync(context, timeoutSource.Token)
+                .WaitAsync(timeoutSource.Token)
+                .ConfigureAwait(false);
+            logger.LogDebug("Cleaned up distributed run data stored by {Backend}", backendName);
+        }
+        catch (OperationCanceledException) when (timeoutSource.IsCancellationRequested)
+        {
+            logger.LogWarning(
+                "Timed out after {Timeout} cleaning up distributed run data stored by {Backend}",
+                timeout,
+                backendName);
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(
+                exception,
+                "Could not clean up distributed run data stored by {Backend}",
+                backendName);
+        }
+    }
+}

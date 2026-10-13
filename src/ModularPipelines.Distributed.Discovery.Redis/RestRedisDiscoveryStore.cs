@@ -51,6 +51,13 @@ internal sealed class RestRedisDiscoveryStore : IRedisDiscoveryStore, IDisposabl
         return result.ValueKind == JsonValueKind.Null ? null : result.GetString();
     }
 
+    public async Task DeleteAsync(string key, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"del/{Encode(key)}");
+        using var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+    }
+
     public void Dispose()
     {
         _httpClient.Dispose();

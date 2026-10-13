@@ -67,8 +67,16 @@ internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken
 /// Defers <see cref="IDistributedCoordinatorFactory.CreateMasterAsync"/> to first use.
 /// </summary>
 internal sealed class DeferredMasterCoordinator(IDistributedCoordinatorFactory factory)
-    : DeferredCoordinator<IDistributedMasterCoordinator>(factory.CreateMasterAsync), IDistributedMasterCoordinator
+    : DeferredCoordinator<IDistributedMasterCoordinator>(factory.CreateMasterAsync), IDistributedMasterCoordinator, IDistributedRunCleanup
 {
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        if (await GetAsync(cancellationToken).ConfigureAwait(false) is IDistributedRunCleanup cleanup)
+        {
+            await cleanup.CleanupRunAsync(context, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
     public async Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken) =>
         await (await GetAsync(cancellationToken).ConfigureAwait(false))
             .EnqueueModuleAsync(assignment, cancellationToken).ConfigureAwait(false);

@@ -8,10 +8,11 @@ namespace ModularPipelines.Distributed.Redis.Artifacts;
 /// <summary>
 /// Redis-based implementation of <see cref="IDistributedArtifactStore"/>.
 /// Artifacts that fit in one chunk are stored under a single key; larger artifacts are chunked.
-/// All keys are isolated by run identifier and expire via TTL. Data and chunk reads and writes are
-/// idempotent, so they are retried after transient timeouts and connection failures.
+/// All keys are isolated by run identifier and expire via TTL, or are deleted when the run is cleaned up.
+/// Data and chunk reads and writes are idempotent, so they are retried after transient timeouts and
+/// connection failures.
 /// </summary>
-internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
+internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup
 {
     private readonly IDatabase _database;
     private readonly RedisKeyBuilder _keys;
@@ -106,6 +107,14 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
+        // Run cleanup finds every module's index through this set.
+        await _database.SetAddAsync(_keys.ArtifactModules, descriptor.ModuleId.Value)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        await _database.KeyExpireAsync(_keys.ArtifactModules, _timeToLive)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+
         return reference;
     }
 
@@ -197,17 +206,56 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     {
         ArgumentNullException.ThrowIfNull(reference);
 
-        await _database.KeyDeleteAsync(_keys.ArtifactMeta(reference.ArtifactId))
+        await DeleteArtifactKeysAsync(reference.ArtifactId, cancellationToken).ConfigureAwait(false);
+        await _database.SetRemoveAsync(_keys.ArtifactIndex(reference.ModuleId), reference.ArtifactId)
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
-        await _database.KeyDeleteAsync(_keys.ArtifactData(reference.ArtifactId))
+    }
+
+    /// <summary>
+    /// Deletes every artifact uploaded in the run, by any process, and the indexes that list them.
+    /// </summary>
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        var moduleIds = await _database.SetMembersAsync(_keys.ArtifactModules)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        foreach (var moduleId in moduleIds)
+        {
+            var indexKey = _keys.ArtifactIndex(new ModuleId(moduleId.ToString()));
+            var artifactIds = await _database.SetMembersAsync(indexKey)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+            foreach (var artifactId in artifactIds)
+            {
+                await DeleteArtifactKeysAsync(artifactId.ToString(), cancellationToken).ConfigureAwait(false);
+            }
+
+            await _database.KeyDeleteAsync(indexKey)
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        await _database.KeyDeleteAsync(_keys.ArtifactModules)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    private async Task DeleteArtifactKeysAsync(string artifactId, CancellationToken cancellationToken)
+    {
+        await _database.KeyDeleteAsync(_keys.ArtifactMeta(artifactId))
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        await _database.KeyDeleteAsync(_keys.ArtifactData(artifactId))
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
         var chunkIndex = 0;
         while (true)
         {
-            var deleted = await _database.KeyDeleteAsync(_keys.ArtifactChunk(reference.ArtifactId, chunkIndex))
+            var deleted = await _database.KeyDeleteAsync(_keys.ArtifactChunk(artifactId, chunkIndex))
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
             if (!deleted)
@@ -217,10 +265,6 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
 
             chunkIndex++;
         }
-
-        await _database.SetRemoveAsync(_keys.ArtifactIndex(reference.ModuleId), reference.ArtifactId)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
     }
 
     private ValueTask<RedisValue> GetValueAsync(RedisKey key, CancellationToken cancellationToken) =>
