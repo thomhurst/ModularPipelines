@@ -24,6 +24,26 @@ Resolve the service in a module, then select a command from the table below. A r
 var pulumi = context.Tools.Pulumi;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                     | Property                   | Availability | Description                                                                                                                         |
+| ------------------------------ | -------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `--color`                      | `Color`                    | All editions | Colorize output. Choices are: always, never, raw, auto (default "auto")                                                             |
+| `--cwd`                        | `Cwd`                      | All editions | Run pulumi as if it had been started in another directory                                                                           |
+| `--disable-integrity-checking` | `DisableIntegrityChecking` | All editions | Disable integrity checking of checkpoint files                                                                                      |
+| `--emoji`                      | `Emoji`                    | All editions | Enable emojis in the output                                                                                                         |
+| `--fully-qualify-stack-names`  | `FullyQualifyStackNames`   | All editions | Show fully-qualified stack names                                                                                                    |
+| `--logflow`                    | `Logflow`                  | All editions | Flow log settings to child processes (like plugins)                                                                                 |
+| `--logtostderr`                | `Logtostderr`              | All editions | Log to stderr instead of to files                                                                                                   |
+| `--memprofilerate`             | `Memprofilerate`           | All editions | Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate                                    |
+| `--non-interactive`            | `NonInteractive`           | All editions | Disable interactive mode for all commands                                                                                           |
+| `--otel-traces`                | `OtelTraces`               | All editions | Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https\:// for remote collectors |
+| `--profiling`                  | `Profiling`                | All editions | Emit CPU and memory profiles and an execution trace to '\[filename].\[pid].{cpu,mem,trace}', respectively                           |
+| `--tracing`                    | `Tracing`                  | All editions | Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file                                  |
+| `--verbose`                    | `Verbose`                  | All editions | Enable verbose logging (e.g., v=3); anything >3 is very verbose                                                                     |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                               | Options record                               |

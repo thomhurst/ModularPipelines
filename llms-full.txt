@@ -49431,6 +49431,26 @@ Resolve the service in a module, then select a command from the table below. A r
 var pulumi = context.Tools.Pulumi;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                     | Property                   | Availability | Description                                                                                                                         |
+| ------------------------------ | -------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `--color`                      | `Color`                    | All editions | Colorize output. Choices are: always, never, raw, auto (default "auto")                                                             |
+| `--cwd`                        | `Cwd`                      | All editions | Run pulumi as if it had been started in another directory                                                                           |
+| `--disable-integrity-checking` | `DisableIntegrityChecking` | All editions | Disable integrity checking of checkpoint files                                                                                      |
+| `--emoji`                      | `Emoji`                    | All editions | Enable emojis in the output                                                                                                         |
+| `--fully-qualify-stack-names`  | `FullyQualifyStackNames`   | All editions | Show fully-qualified stack names                                                                                                    |
+| `--logflow`                    | `Logflow`                  | All editions | Flow log settings to child processes (like plugins)                                                                                 |
+| `--logtostderr`                | `Logtostderr`              | All editions | Log to stderr instead of to files                                                                                                   |
+| `--memprofilerate`             | `Memprofilerate`           | All editions | Enable more precise (and expensive) memory allocation profiles by setting runtime.MemProfileRate                                    |
+| `--non-interactive`            | `NonInteractive`           | All editions | Disable interactive mode for all commands                                                                                           |
+| `--otel-traces`                | `OtelTraces`               | All editions | Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https\:// for remote collectors |
+| `--profiling`                  | `Profiling`                | All editions | Emit CPU and memory profiles and an execution trace to '\[filename].\[pid].{cpu,mem,trace}', respectively                           |
+| `--tracing`                    | `Tracing`                  | All editions | Emit tracing to the specified endpoint. Use the file: scheme to write tracing data to a local file                                  |
+| `--verbose`                    | `Verbose`                  | All editions | Enable verbose logging (e.g., v=3); anything >3 is very verbose                                                                     |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                               | Options record                               |
@@ -52936,6 +52956,38 @@ public class UsePulumiModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Inherited settings and V4 migration[​](#inherited-settings-and-v4-migration "Direct link to Inherited settings and V4 migration")
+
+`PulumiOptions` now declares the thirteen public persistent settings from Pulumi 3.267.0: `Color`, `Cwd`, `DisableIntegrityChecking`, `Emoji`, `FullyQualifyStackNames`, `Logflow`, `Logtostderr`, `Memprofilerate`, `NonInteractive`, `OtelTraces`, `Profiling`, `Tracing`, and `Verbose`. Generated command records inherit these properties, which render before the subcommand path. Initializers for inherited settings retain their property names and types; reflection over command records must include inherited properties.
+
+```
+using ModularPipelines.Pulumi.Options;
+
+
+
+var options = new PulumiStackListOptions
+
+{
+
+    Cwd = "infra",
+
+    Emoji = false,
+
+    NonInteractive = true,
+
+    Verbose = 0,
+
+    Output = "json",
+
+};
+```
+
+This renders `pulumi --cwd=infra --emoji=false --non-interactive --verbose=0 stack list --output=json`. `Emoji = false` now emits an explicit value, allowing callers to disable Pulumi's macOS default. `Emoji = null` leaves the tool default unchanged. Other boolean globals keep their presence-flag behavior: true emits the flag; false/null omit it. Zero integer values remain explicit, and each scalar string keeps its token boundary.
+
+Stack/project selectors and update arguments remain command-local. `Env` belongs only to the environment command group and renders after that command path. Commands that declare their own root-named switches retain separate local properties: `PulumiWhoamiOptions.CliVerbose` and `PulumiApiOptions.CliVerbose` are boolean `--verbose` flags, while `PulumiNeoOptions.CliCwd` and `PulumiNeoResumeOptions.NeoCwd` select the local tool directory without the root `-C` alias. Migrate these commands' former `Verbose`/`Cwd` initializers to the local property when that command-specific behavior is intended. `PulumiEnvRunOptions` keeps its command and arguments after `--`, so forwarded arguments cannot become Pulumi global settings. Help, root version controls, and hidden flags are not added to the public global surface.
+
+The audit uses [version-pinned parser registration](https://github.com/pulumi/pulumi/blob/v3.267.0/pkg/cmd/pulumi/pulumi.go#L451-L477) and captured help. The [generated command reference](/ModularPipelines/docs/next/mp-packages/cli/pulumi.md) lists the current package surface.
 
 
 ---
