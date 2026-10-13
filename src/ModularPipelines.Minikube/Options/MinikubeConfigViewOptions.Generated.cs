@@ -20,4 +20,10 @@ namespace ModularPipelines.Minikube.Options;
 [CliSubCommand("config", "view")]
 public record MinikubeConfigViewOptions : MinikubeOptions
 {
+    /// <summary>
+    /// Go template format string for the config view output.  The format for Go templates can be found here: https://pkg.go.dev/text/template For the list of accessible variables for the template, see the struct values here: https://pkg.go.dev/k8s.io/minikube/cmd/minikube/cmd/config#ConfigViewTemplate
+    /// </summary>
+    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
+    public string? Format { get; set; }
+
 }
