@@ -1,0 +1,53 @@
+Update an existing container
+
+Description:
+  Updates the configuration of an existing container, allowing changes to resource limits and healthchecks
+
+Usage:
+  podman container update [options] CONTAINER
+
+Examples:
+  podman container update --cpus=5 foobar_container
+
+Options:
+      --blkio-weight string                      Block IO weight (relative weight) accepts a weight value between 10 and 1000.
+      --blkio-weight-device DEVICE_NAME:WEIGHT   Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
+      --cpu-period uint                          Limit the CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                            Limit the CPU CFS (Completely Fair Scheduler) quota
+      --cpu-rt-period uint                       Limit the CPU real-time period in microseconds
+      --cpu-rt-runtime int                       Limit the CPU real-time runtime in microseconds
+  -c, --cpu-shares uint                          CPU shares (relative weight)
+      --cpus float                               Number of CPUs. The default is 0.000 which means no limit
+      --cpuset-cpus string                       CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string                       Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
+      --device-read-bps stringArray              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+      --device-read-iops stringArray             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+      --device-write-bps stringArray             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+      --device-write-iops stringArray            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+  -e, --env stringArray                          Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin])
+      --health-cmd string                        set a healthcheck command for the container ('none' disables the existing healthcheck)
+      --health-interval string                   set an interval for the healthcheck. (a value of disable results in no automatic timer setup) Changing this setting resets timer. (default "30s")
+      --health-log-destination string            set the destination of the HealthCheck log. Directory path, local or events_logger (local use container state file) Warning: Changing this setting may cause the loss of previous logs! (default "local")
+      --health-max-log-count uint                set maximum number of attempts in the HealthCheck log file. ('0' value means an infinite number of attempts in the log file) (default 5)
+      --health-max-log-size uint                 set maximum length in characters of stored HealthCheck log. ('0' value means an infinite log length) (default 500)
+      --health-on-failure string                 action to take once the container turns unhealthy (default "none")
+      --health-retries uint                      the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
+      --health-start-period string               the initialization time needed for a container to bootstrap (default "0s")
+      --health-startup-cmd string                Set a startup healthcheck command for the container
+      --health-startup-interval string           Set an interval for the startup healthcheck. Changing this setting resets the timer, depending on the state of the container. (default "30s")
+      --health-startup-retries uint              Set the maximum number of retries before the startup healthcheck will restart the container
+      --health-startup-success uint              Set the number of consecutive successes before the startup healthcheck is marked as successful and the normal healthcheck begins (0 indicates any success will start the regular healthcheck)
+      --health-startup-timeout string            Set the maximum amount of time that the startup healthcheck may take before it is considered failed (default "30s")
+      --health-timeout string                    the maximum time allowed to complete the healthcheck before an interval is considered failed and SIGKILL is sent to the healthcheck process (default "30s")
+  -l, --latest                                   Act on the latest container podman is aware of
+                                                 Not supported with the "--remote" flag
+  -m, --memory <number>[<unit>]                  Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-reservation <number>[<unit>]      Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-swap string                       Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --memory-swappiness int                    Tune container memory swappiness (0 to 100, or -1 for system default) (default -1)
+      --no-healthcheck                           Disable healthchecks on container
+      --pids-limit int                           Tune container pids limit (set -1 for unlimited)
+      --restart string                           Restart policy to apply when a container exits ("always"|"no"|"never"|"on-failure"|"unless-stopped")
+      --ulimit strings                           Ulimit options
+      --unsetenv stringArray                     Unset environment default variables in container
+

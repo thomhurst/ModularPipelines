@@ -1,0 +1,13 @@
+Manage container image trust policy
+
+Description:
+  Manages which registries you trust as a source of container images based on their location.
+  The location is determined by the transport and the registry host of the image.  Using this container image docker://quay.io/podman/stable as an example, docker is the transport and quay.io is the registry host.
+
+Usage:
+  podman image trust [command]
+
+Available Commands:
+  set         Set default trust policy or a new trust policy for a registry
+  show        Display trust policy for the system
+

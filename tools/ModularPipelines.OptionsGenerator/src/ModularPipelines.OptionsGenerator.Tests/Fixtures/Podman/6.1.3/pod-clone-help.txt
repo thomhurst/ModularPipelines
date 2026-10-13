@@ -1,0 +1,50 @@
+Clone an existing pod
+
+Description:
+  Create an exact copy of a pod and the containers within it
+
+Usage:
+  podman pod clone [options] POD NAME
+
+Examples:
+  podman pod clone pod_name new_name
+
+Options:
+      --blkio-weight string                      Block IO weight (relative weight) accepts a weight value between 10 and 1000.
+      --blkio-weight-device DEVICE_NAME:WEIGHT   Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
+      --cgroup-parent string                     Optional parent cgroup for the container
+  -c, --cpu-shares uint                          CPU shares (relative weight)
+      --cpus float                               Number of CPUs. The default is 0.000 which means no limit
+      --cpuset-cpus string                       CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string                       Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
+      --destroy                                  destroy the original pod
+      --device stringArray                       Add a host device to the container
+      --device-read-bps stringArray              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+      --device-write-bps stringArray             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+      --gidmap strings                           GID map to use for the user namespace
+      --gpus strings                             GPU devices to add to the container ('all' to pass all GPUs)
+      --help                                     
+  -h, --hostname string                          Set container hostname
+      --infra-command string                     Overwrite the default ENTRYPOINT of the image
+      --infra-conmon-pidfile string              Path to the file that will receive the PID of conmon
+      --infra-name string                        Assign a name to the container
+  -l, --label stringArray                        Set metadata on container
+      --label-file stringArray                   Read in a line delimited file of labels
+  -m, --memory <number>[<unit>]                  Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-swap string                       Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+  -n, --name string                              name the new pod
+      --pid string                               PID namespace to use
+      --restart string                           Restart policy to apply when a container exits ("always"|"no"|"never"|"on-failure"|"unless-stopped")
+      --security-opt stringArray                 Security Options
+      --shm-size <number>[<unit>]                Size of /dev/shm (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes)) (default "65536k")
+      --shm-size-systemd <number>[<unit>]        Size of systemd specific tmpfs mounts (/run, /run/lock) (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --start                                    start the new pod
+      --subgidname string                        Name of range listed in /etc/subgid for use in user namespace
+      --subuidname string                        Name of range listed in /etc/subuid for use in user namespace
+      --sysctl strings                           Sysctl options
+      --uidmap strings                           UID map to use for the user namespace
+      --userns string                            User namespace to use
+      --uts string                               UTS namespace to use
+  -v, --volume stringArray                       Bind mount a volume into the container
+      --volumes-from stringArray                 Mount volumes from the specified container(s)
+

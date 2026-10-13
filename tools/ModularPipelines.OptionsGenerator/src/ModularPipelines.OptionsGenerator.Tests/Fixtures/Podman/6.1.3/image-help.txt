@@ -1,0 +1,32 @@
+Manage images
+
+Description:
+  Manage images
+
+Usage:
+  podman image [command]
+
+Available Commands:
+  build       Build an image using instructions from Containerfiles
+  diff        Inspect changes to the image's file systems
+  exists      Check if an image exists in local storage
+  history     Show history of a specified image
+  import      Import a tarball to create a filesystem image
+  inspect     Display the configuration of an image
+  list        List images in local storage
+  load        Load image(s) from a tar archive
+  mount       Mount an image's root filesystem
+  prune       Remove unused images
+  pull        Pull an image from a registry
+  push        Push an image to a specified destination
+  rm          Remove one or more images from local storage
+  save        Save image(s) to an archive
+  scp         Securely copy images
+  search      Search registry for image
+  sign        Sign an image
+  tag         Add an additional name to a local image
+  tree        Print layer hierarchy of an image in a tree format
+  trust       Manage container image trust policy
+  unmount     Unmount an image's root filesystem
+  untag       Remove a name from a local image
+

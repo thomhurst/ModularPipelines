@@ -1,0 +1,19 @@
+Deploy a podman container, pod, volume, or Kubernetes yaml to a Kubernetes cluster
+
+Description:
+  Command applies a podman container, pod, volume, or kube yaml to a Kubernetes cluster when a kubeconfig file is given.
+
+Usage:
+  podman kube apply [options] [CONTAINER...|POD...|VOLUME...]
+
+Examples:
+  podman kube apply ctrName volName
+  podman kube apply --namespace project -f fileName
+
+Options:
+      --ca-cert-file string   Path to the CA cert file for the Kubernetes cluster.
+  -f, --file string           Path to the Kubernetes yaml file to deploy.
+  -k, --kubeconfig string     Path to the kubeconfig file for the Kubernetes cluster
+      --ns string             The namespace to deploy the workload to on the Kubernetes cluster
+  -s, --service               Create a service object for the container being deployed.
+

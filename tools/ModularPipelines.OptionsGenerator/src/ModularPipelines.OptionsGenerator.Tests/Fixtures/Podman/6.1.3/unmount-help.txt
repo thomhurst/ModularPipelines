@@ -1,0 +1,27 @@
+Unmount working container's root filesystem
+
+Description:
+  Container storage increments a mount counter each time a container is mounted.
+
+  When a container is unmounted, the mount counter is decremented. The container's root filesystem is physically unmounted only when the mount counter reaches zero indicating no other processes are using the mount.
+
+  An unmount can be forced with the --force flag.
+
+
+Usage:
+  podman unmount [options] CONTAINER [CONTAINER...]
+
+Aliases:
+  unmount, umount
+
+Examples:
+  podman unmount ctrID
+  podman unmount ctrID1 ctrID2 ctrID3
+  podman unmount --all
+
+Options:
+  -a, --all      Unmount all of the currently mounted containers
+  -f, --force    Force the complete unmount of the specified mounted containers
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

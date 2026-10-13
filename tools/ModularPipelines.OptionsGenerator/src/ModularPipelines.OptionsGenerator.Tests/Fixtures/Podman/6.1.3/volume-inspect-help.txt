@@ -1,0 +1,19 @@
+Display detailed information on one or more volumes
+
+Description:
+  Display detailed information on one or more volumes.
+
+  Use a Go template to change the format from JSON.
+
+Usage:
+  podman volume inspect [options] VOLUME [VOLUME...]
+
+Examples:
+  podman volume inspect myvol
+  podman volume inspect --all
+  podman volume inspect --format "{{.Driver}} {{.Scope}}" myvol
+
+Options:
+  -a, --all             Inspect all volumes
+  -f, --format string   Format volume output using Go template (default "json")
+

@@ -1,0 +1,16 @@
+Show podman disk usage
+
+Description:
+  
+	podman system df
+
+	Show podman disk usage
+	
+
+Usage:
+  podman system df [options]
+
+Options:
+      --format string   Pretty-print images using a Go template
+  -v, --verbose         Show detailed information on disk usage
+

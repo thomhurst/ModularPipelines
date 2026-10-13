@@ -1,0 +1,6 @@
+Usage:  docker compose top [SERVICES...]
+
+Display the running processes
+
+Options:
+      --dry-run   Execute command in dry run mode

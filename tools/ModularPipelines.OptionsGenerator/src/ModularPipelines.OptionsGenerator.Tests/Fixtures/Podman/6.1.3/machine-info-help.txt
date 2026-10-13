@@ -1,0 +1,14 @@
+Display machine host info
+
+Description:
+  Display information pertaining to the machine host.
+
+Usage:
+  podman machine info [options]
+
+Examples:
+  podman machine info
+
+Options:
+  -f, --format string   Change the output format to JSON or a Go template
+

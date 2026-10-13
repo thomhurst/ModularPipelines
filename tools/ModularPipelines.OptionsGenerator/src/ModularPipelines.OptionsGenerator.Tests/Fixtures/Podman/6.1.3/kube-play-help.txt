@@ -1,0 +1,43 @@
+Play a pod or volume based on Kubernetes YAML
+
+Description:
+  Reads in a structured file of Kubernetes YAML.
+
+  Creates pods or volumes based on the Kubernetes kind described in the YAML. Supported kinds are Pods, Deployments, DaemonSets, Jobs, and PersistentVolumeClaims.
+
+Usage:
+  podman kube play [options] [KUBEFILE [KUBEFILE...]]|-
+
+Examples:
+  podman kube play nginx.yml
+  cat nginx.yml | podman kube play -
+  podman kube play --creds user:password --seccomp-profile-root /custom/path apache.yml
+  podman kube play https://example.com/nginx.yml
+
+Options:
+      --annotation stringArray        Add Podman-specific annotations to containers and pods created by Podman (key=value)
+      --authfile string               Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --build                         Build all images in a YAML (given Containerfiles exist)
+      --cert-dir Pathname             Pathname of a directory containing TLS certificates and keys
+      --configmap Pathname            Pathname of a YAML file containing a kubernetes configmap
+      --context-dir string            Path to top level of context directory
+      --creds Credentials             Credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+      --force                         Remove volumes as part of --down
+      --ip ipSlice                    Static IP addresses to assign to the pods (default [])
+      --log-driver string             Logging driver for the container (default "k8s-file")
+      --log-opt stringArray           Logging driver options
+      --mac-address strings           Static MAC addresses to assign to the pods
+      --network stringArray           Connect pod to network(s) or network mode
+      --no-hostname                   Do not create /etc/hostname within the container, instead use the version from the image
+      --no-hosts                      Do not create /etc/hosts within the pod's containers, instead use the version from the image
+      --no-pod-prefix                 Do not prefix container name with pod name
+      --publish strings               Publish a container's port, or a range of ports, to the host
+      --publish-all                   Whether to publish all ports defined in the K8S YAML file (containerPort, hostPort), if false only hostPort will be published
+  -q, --quiet                         Suppress output information when pulling images
+      --replace                       Delete and recreate pods defined in the YAML file
+      --seccomp-profile-root string   Directory path for seccomp profiles (default "/var/lib/kubelet/seccomp")
+      --start                         Start the pod after creating it (default true)
+      --tls-verify                    Require HTTPS and verify certificates when contacting registries (default true)
+      --userns string                 User namespace to use
+  -w, --wait                          Clean up all objects created when a SIGTERM is received or pods exit
+

@@ -1,0 +1,19 @@
+Restart one or more pods
+
+Description:
+  The pod ID or name can be used.
+
+  All of the containers within each of the specified pods will be restarted. If a container in a pod is not currently running it will be started.
+
+Usage:
+  podman pod restart [options] POD [POD...]
+
+Examples:
+  podman pod restart podID1 podID2
+  podman pod restart --all
+
+Options:
+  -a, --all      Restart all running pods
+  -l, --latest   Act on the latest container podman is aware of
+                 Not supported with the "--remote" flag
+

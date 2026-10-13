@@ -1,0 +1,9 @@
+Usage:  docker compose export [OPTIONS] SERVICE
+
+Export a service container's filesystem as a tar archive
+
+Options:
+      --dry-run         Execute command in dry run mode
+      --index int       index of the container if service has multiple
+                        replicas.
+  -o, --output string   Write to a file, instead of STDOUT

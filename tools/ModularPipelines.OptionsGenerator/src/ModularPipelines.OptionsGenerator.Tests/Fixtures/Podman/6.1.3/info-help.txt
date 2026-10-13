@@ -1,0 +1,17 @@
+Display podman system information
+
+Description:
+  Display information pertaining to the host, current storage stats, and build of podman.
+
+  Useful for the user and when reporting issues.
+
+
+Usage:
+  podman info [options]
+
+Examples:
+  podman info
+
+Options:
+  -f, --format string   Change the output format to JSON or a Go template
+

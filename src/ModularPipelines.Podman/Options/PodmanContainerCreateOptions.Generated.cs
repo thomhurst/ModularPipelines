@@ -491,7 +491,7 @@ public record PodmanContainerCreateOptions : PodmanOptions
     public IEnumerable<string>? LabelFile { get; set; }
 
     /// <summary>
-    /// Logging driver for the container (default "journald")
+    /// Logging driver for the container
     /// </summary>
     [CliOption("--log-driver", Format = OptionFormat.EqualsSeparated)]
     public string? LogDriver { get; set; }
@@ -617,7 +617,7 @@ public record PodmanContainerCreateOptions : PodmanOptions
     public string? Pidfile { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set -1 for unlimited) (default 2048)
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }

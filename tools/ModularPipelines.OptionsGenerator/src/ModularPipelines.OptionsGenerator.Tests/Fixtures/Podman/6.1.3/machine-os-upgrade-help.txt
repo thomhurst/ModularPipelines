@@ -1,0 +1,16 @@
+Upgrade machine os
+
+Description:
+  Upgrade the machine operating system to a newer version
+
+Usage:
+  podman machine os upgrade [options] [NAME]
+
+Examples:
+  podman machine os upgrade
+
+Options:
+  -n, --dry-run         Only check if an upgrade is available
+  -f, --format string   suppress output except for specified format. Implies -n
+      --restart         Restart VM to upgrade
+

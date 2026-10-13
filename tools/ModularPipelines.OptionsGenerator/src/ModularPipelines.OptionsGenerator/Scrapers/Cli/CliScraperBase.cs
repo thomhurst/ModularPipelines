@@ -1814,12 +1814,14 @@ public abstract partial class CliScraperBase : ICliScraper
     /// Returns the description group for a recognized declaration, including an empty group
     /// for a declaration without prose, or null when the caller grammar does not match.
     /// </param>
+    /// <param name="allowParagraphBreaks">Whether aligned prose may continue after blank lines.</param>
     internal static string AccumulateWrappedDescription(
         IReadOnlyList<string> lines,
         ref int declarationIndex,
         Group? inlineDescription,
         Func<string, bool> looksLikeOptionRow,
-        Func<string, Group?>? captureInlineDescription)
+        Func<string, Group?>? captureInlineDescription,
+        bool allowParagraphBreaks = false)
     {
         var declaration = lines[declarationIndex];
         var declarationIndentation = GetIndentation(declaration);
@@ -1834,13 +1836,19 @@ public abstract partial class CliScraperBase : ICliScraper
 
         while (declarationIndex + 1 < lines.Count)
         {
-            var candidate = lines[declarationIndex + 1];
+            var candidateIndex = FindDescriptionContinuation(lines, declarationIndex, descriptionColumn, allowParagraphBreaks);
+            if (candidateIndex == lines.Count)
+            {
+                break;
+            }
+
+            var candidate = lines[candidateIndex];
             if (!IsContinuationLine(
                     candidate,
                     declarationIndentation,
                     descriptionColumn,
                     looksLikeOptionRow(candidate),
-                    declarationIndex + 2 < lines.Count ? lines[declarationIndex + 2] : null,
+                    candidateIndex + 1 < lines.Count ? lines[candidateIndex + 1] : null,
                     lines[declarationIndex],
                     looksLikeOptionRow,
                     allowSameColumnDescription,
@@ -1849,21 +1857,9 @@ public abstract partial class CliScraperBase : ICliScraper
                 break;
             }
 
-            var continuation = candidate.Trim();
-            // Help formatters can wrap a long option reference at an internal hyphen.
-            // Keep ordinary prose hyphens and standalone option terminators unchanged.
-            if (parts.Count > 0
-                && char.IsAsciiLetterOrDigit(continuation[0])
-                && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
-            {
-                parts[^1] += continuation;
-            }
-            else
-            {
-                parts.Add(continuation);
-            }
+            AppendDescriptionContinuation(parts, candidate.Trim());
 
-            declarationIndex++;
+            declarationIndex = candidateIndex;
 
             // A row whose prose only starts on the next line (picocli, argparse, git) reveals its
             // description column there, so later wrapped lines get the same column-aware rule.
@@ -1871,6 +1867,49 @@ public abstract partial class CliScraperBase : ICliScraper
         }
 
         return string.Join(' ', parts);
+    }
+
+    private static int FindDescriptionContinuation(
+        IReadOnlyList<string> lines,
+        int declarationIndex,
+        int? descriptionColumn,
+        bool allowParagraphBreaks)
+    {
+        var candidateIndex = declarationIndex + 1;
+        if (!allowParagraphBreaks || descriptionColumn is not { } paragraphColumn)
+        {
+            return candidateIndex;
+        }
+
+        while (candidateIndex < lines.Count && string.IsNullOrWhiteSpace(lines[candidateIndex]))
+        {
+            candidateIndex++;
+        }
+
+        if (candidateIndex < lines.Count
+            && candidateIndex > declarationIndex + 1
+            && GetIndentation(lines[candidateIndex]) < paragraphColumn)
+        {
+            return lines.Count;
+        }
+
+        return candidateIndex;
+    }
+
+    private static void AppendDescriptionContinuation(List<string> parts, string continuation)
+    {
+        // Help formatters can wrap a long option reference at an internal hyphen.
+        // Keep ordinary prose hyphens and standalone option terminators unchanged.
+        if (parts.Count > 0
+            && char.IsAsciiLetterOrDigit(continuation[0])
+            && WrappedLongOptionPrefixPattern().IsMatch(parts[^1]))
+        {
+            parts[^1] += continuation;
+        }
+        else
+        {
+            parts.Add(continuation);
+        }
     }
 
     [GeneratedRegex(@"(?<![\w/-])--[A-Za-z0-9][A-Za-z0-9_-]*-$")]

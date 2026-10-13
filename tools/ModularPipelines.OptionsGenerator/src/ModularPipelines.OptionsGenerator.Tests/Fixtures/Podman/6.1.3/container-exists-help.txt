@@ -1,0 +1,15 @@
+Check if a container exists in local storage
+
+Description:
+  If the named container exists in local storage, podman container exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman container exists [options] CONTAINER
+
+Examples:
+  podman container exists --external containerID
+  podman container exists myctr || podman run --name myctr [etc...]
+
+Options:
+      --external   Check external storage containers as well as Podman containers
+

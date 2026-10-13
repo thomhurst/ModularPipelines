@@ -1,0 +1,11 @@
+Rename a volume
+
+Description:
+  Rename an existing volume. The volume must not be in use by any containers.
+
+Usage:
+  podman volume rename VOLUME NEWNAME
+
+Examples:
+  podman volume rename oldName newName
+

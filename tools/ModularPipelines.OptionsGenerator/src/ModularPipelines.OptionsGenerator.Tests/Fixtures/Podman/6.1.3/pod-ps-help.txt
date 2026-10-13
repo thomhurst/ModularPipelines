@@ -1,0 +1,25 @@
+List pods
+
+Description:
+  List all pods on system including their names, ids and current state.
+
+Usage:
+  podman pod ps [options]
+
+Aliases:
+  ps, ls, list
+
+Options:
+      --ctr-ids              Display the container UUIDs. If no-trunc is not set they will be truncated
+      --ctr-names            Display the container names
+      --ctr-status           Display the container status
+  -f, --filter stringArray   Filter output based on conditions given
+      --format string        Pretty-print pods to JSON or using a Go template
+  -l, --latest               Act on the latest container podman is aware of
+                             Not supported with the "--remote" flag
+      --no-trunc             Do not truncate pod and container IDs
+  -n, --noheading            Do not print headers
+      --ns                   Display namespace information of the pod
+  -q, --quiet                Print the numeric IDs of the pods only
+      --sort string          Sort output by created, id, name, or number (default "created")
+

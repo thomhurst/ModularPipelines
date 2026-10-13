@@ -1,0 +1,14 @@
+Remove all stopped pods and their containers
+
+Description:
+  podman pod prune Removes all exited pods
+
+Usage:
+  podman pod prune [options]
+
+Examples:
+  podman pod prune
+
+Options:
+  -f, --force   Do not prompt for confirmation.  The default is false
+

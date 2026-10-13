@@ -1,0 +1,14 @@
+Securely copy contents between the virtual machine
+
+Description:
+  Securely copy files or directories between the virtual machine and your host
+
+Usage:
+  podman machine cp [options] SRC_PATH DEST_PATH
+
+Examples:
+  podman machine cp ~/ca.crt podman-machine-default:/home/linuxbrew/.linuxbrew/etc/containers/certs.d/ca.crt
+
+Options:
+  -q, --quiet   Suppress copy status output
+

@@ -1,0 +1,11 @@
+Check if network exists
+
+Description:
+  If the named network exists, podman network exists exits with 0, otherwise the exit code will be 1.
+
+Usage:
+  podman network exists NETWORK
+
+Examples:
+  podman network exists net1
+

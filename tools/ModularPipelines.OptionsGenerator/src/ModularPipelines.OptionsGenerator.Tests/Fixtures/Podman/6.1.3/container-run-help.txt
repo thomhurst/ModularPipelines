@@ -1,0 +1,166 @@
+Run a command in a new container
+
+Description:
+  Runs a command in a new container from the given image
+
+Usage:
+  podman container run [options] IMAGE [COMMAND [ARG...]]
+
+Examples:
+  podman container run imageID ls -alF /etc
+  podman container run --network=host imageID dnf -y install java
+  podman container run --volume /var/hostdir:/var/ctrdir -i -t fedora /bin/bash
+
+Options:
+      --add-host strings                         Add a custom host-to-IP mapping (host:ip) (default [])
+      --annotation stringArray                   Add annotations to container (key=value)
+      --arch ARCH                                use ARCH instead of the architecture of the machine for choosing images
+  -a, --attach strings                           Attach to STDIN, STDOUT or STDERR
+      --authfile string                          Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
+      --blkio-weight string                      Block IO weight (relative weight) accepts a weight value between 10 and 1000.
+      --blkio-weight-device DEVICE_NAME:WEIGHT   Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)
+      --cap-add strings                          Add capabilities to the container
+      --cap-drop strings                         Drop capabilities from the container
+      --cert-dir Pathname                        Pathname of a directory containing TLS certificates and keys
+      --cgroup-conf strings                      Configure cgroup v2 (key=value)
+      --cgroup-parent string                     Optional parent cgroup for the container
+      --cgroupns string                          cgroup namespace to use
+      --cgroups string                           control container cgroup configuration ("enabled"|"disabled"|"no-conmon"|"split") (default "enabled")
+      --chrootdirs stringArray                   Chroot directories inside the container
+      --cidfile string                           Write the container ID to the file
+      --conmon-pidfile string                    Path to the file that will receive the PID of conmon
+      --cpu-period uint                          Limit the CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                            Limit the CPU CFS (Completely Fair Scheduler) quota
+      --cpu-rt-period uint                       Limit the CPU real-time period in microseconds
+      --cpu-rt-runtime int                       Limit the CPU real-time runtime in microseconds
+  -c, --cpu-shares uint                          CPU shares (relative weight)
+      --cpus float                               Number of CPUs. The default is 0.000 which means no limit
+      --cpuset-cpus string                       CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string                       Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
+      --creds credentials                        credentials (USERNAME:PASSWORD) to use for authenticating to a registry
+      --decryption-key stringArray               Key needed to decrypt the image (e.g. /path/to/key.pem)
+  -d, --detach                                   Run container in background and print container ID
+      --detach-keys [a-Z]                        Override the key sequence for detaching a container. Format is a single character [a-Z] or a comma separated sequence of `ctrl-<value>`, where `<value>` is one of: `a-cf`, `@`, `^`, `[`, `\`, `]`, `^` or `_` (default "ctrl-p,ctrl-q")
+      --device stringArray                       Add a host device to the container
+      --device-cgroup-rule strings               Add a rule to the cgroup allowed devices list
+      --device-read-bps stringArray              Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
+      --device-read-iops stringArray             Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
+      --device-write-bps stringArray             Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
+      --device-write-iops stringArray            Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
+      --disable-content-trust                    This is a Docker specific option and is a NOOP
+      --dns strings                              Set custom DNS servers
+      --dns-option strings                       Set custom DNS options
+      --dns-search strings                       Set custom DNS search domains
+      --entrypoint string                        Overwrite the default ENTRYPOINT of the image
+  -e, --env stringArray                          Set environment variables in container (default [PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin])
+      --env-file stringArray                     Read in a file of environment variables
+      --env-host                                 Use all current host environment variables in container
+      --env-merge stringArray                    Preprocess environment variables from image before injecting them into the container
+      --expose strings                           Expose a port or a range of ports
+      --gidmap strings                           GID map to use for the user namespace
+      --gpus strings                             GPU devices to add to the container ('all' to pass all GPUs)
+      --group-add strings                        Add additional groups to the primary container process. 'keep-groups' allows container processes to use supplementary groups.
+      --group-entry string                       Entry to write to /etc/group
+      --health-cmd string                        set a healthcheck command for the container ('none' disables the existing healthcheck)
+      --health-interval string                   set an interval for the healthcheck. (a value of disable results in no automatic timer setup)  (default "30s")
+      --health-log-destination string            set the destination of the HealthCheck log. Directory path, local or events_logger (local use container state file)  (default "local")
+      --health-max-log-count uint                set maximum number of attempts in the HealthCheck log file. ('0' value means an infinite number of attempts in the log file) (default 5)
+      --health-max-log-size uint                 set maximum length in characters of stored HealthCheck log. ('0' value means an infinite log length) (default 500)
+      --health-on-failure string                 action to take once the container turns unhealthy (default "none")
+      --health-retries uint                      the number of retries allowed before a healthcheck is considered to be unhealthy (default 3)
+      --health-start-period string               the initialization time needed for a container to bootstrap (default "0s")
+      --health-startup-cmd string                Set a startup healthcheck command for the container
+      --health-startup-interval string           Set an interval for the startup healthcheck.  (default "30s")
+      --health-startup-retries uint              Set the maximum number of retries before the startup healthcheck will restart the container
+      --health-startup-success uint              Set the number of consecutive successes before the startup healthcheck is marked as successful and the normal healthcheck begins (0 indicates any success will start the regular healthcheck)
+      --health-startup-timeout string            Set the maximum amount of time that the startup healthcheck may take before it is considered failed (default "30s")
+      --health-timeout string                    the maximum time allowed to complete the healthcheck before an interval is considered failed and SIGKILL is sent to the healthcheck process (default "30s")
+      --help                                     
+  -h, --hostname string                          Set container hostname
+      --hosts-file string                        Base file to create the /etc/hosts file inside the container, or one of the special values. ("image"|"none")
+      --hostuser strings                         Host user account to add to /etc/passwd within container
+      --http-proxy                               Set proxy environment variables in the container based on the host proxy vars (default true)
+      --image-volume string                      Tells podman how to handle the builtin image volumes ("bind"|"tmpfs"|"ignore") (default "anonymous")
+      --init                                     Run an init binary inside the container that forwards signals and reaps processes
+      --init-path string                         Path to the container-init binary
+  -i, --interactive                              Make STDIN available to the contained process
+      --ip string                                Specify a static IPv4 address for the container
+      --ip6 string                               Specify a static IPv6 address for the container
+      --ipc string                               IPC namespace to use
+  -l, --label stringArray                        Set metadata on container
+      --label-file stringArray                   Read in a line delimited file of labels
+      --log-driver string                        Logging driver for the container (default "k8s-file")
+      --log-opt stringArray                      Logging driver options
+      --mac-address string                       Container MAC address (e.g. 92:d0:c6:0a:29:33)
+  -m, --memory <number>[<unit>]                  Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-reservation <number>[<unit>]      Memory soft limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --memory-swap string                       Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --memory-swappiness int                    Tune container memory swappiness (0 to 100, or -1 for system default) (default -1)
+      --mount stringArray                        Attach a filesystem mount to the container
+      --name string                              Assign a name to the container
+      --network stringArray                      Connect a container to a network
+      --network-alias strings                    Add network-scoped alias for the container
+      --no-healthcheck                           Disable healthchecks on container
+      --no-hostname                              Do not create /etc/hostname within the container, instead use the version from the image
+      --no-hosts                                 Do not create /etc/hosts within the container, instead use the version from the image
+      --oom-kill-disable                         Disable OOM Killer
+      --oom-score-adj int                        Tune the host's OOM preferences (-1000 to 1000)
+      --os OS                                    use OS instead of the running OS for choosing images
+      --passwd                                   add entries to /etc/passwd and /etc/group (default true)
+      --passwd-entry string                      Entry to write to /etc/passwd
+      --personality string                       Configure execution domain using personality (e.g., LINUX/LINUX32)
+      --pid string                               PID namespace to use
+      --pidfile string                           Write the container process ID to the file
+      --pids-limit int                           Tune container pids limit (set -1 for unlimited)
+      --platform string                          Specify the platform for selecting the image.  (Conflicts with --arch and --os)
+      --pod string                               Run container in an existing pod
+      --pod-id-file string                       Read the pod ID from the file
+      --preserve-fd uints                        Pass a file descriptor into the container (default [])
+      --preserve-fds uint                        Pass a number of additional file descriptors into the container
+      --privileged                               Give extended privileges to container
+  -p, --publish strings                          Publish a container's port, or a range of ports, to the host (default [])
+  -P, --publish-all                              Publish all exposed ports to random ports on the host interface
+      --pull string                              Pull image policy ("always"|"missing"|"never"|"newer") (default "missing")
+  -q, --quiet                                    Suppress output information when pulling images
+      --rdt-class string                         Class of Service (COS) that the container should be assigned to
+      --read-only                                Make containers root filesystem read-only
+      --read-only-tmpfs                          When running --read-only containers mount read-write tmpfs on /dev, /dev/shm, /run, /tmp and /var/tmp (default true)
+      --replace                                  If a container with the same name exists, replace it
+      --requires strings                         Add one or more requirement containers that must be started before this container will start
+      --restart string                           Restart policy to apply when a container exits ("always"|"no"|"never"|"on-failure"|"unless-stopped")
+      --retry uint                               number of times to retry in case of failure when performing pull (default 3)
+      --retry-delay string                       delay between retries in case of pull failures
+      --rm                                       Remove container and any anonymous unnamed volume associated with the container after exit
+      --rmi                                      Remove image unless used by other containers, implies --rm
+      --rootfs                                   The first argument is not an image but the rootfs to the exploded container
+      --sdnotify string                          control sd-notify behavior ("container"|"conmon"|"healthy"|"ignore") (default "container")
+      --seccomp-policy string                    Policy for selecting a seccomp profile (experimental) (default "default")
+      --secret stringArray                       Add secret to container
+      --security-opt stringArray                 Security Options
+      --shm-size <number>[<unit>]                Size of /dev/shm (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes)) (default "65536k")
+      --shm-size-systemd <number>[<unit>]        Size of systemd specific tmpfs mounts (/run, /run/lock) (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes))
+      --sig-proxy                                Proxy received signals to the process (default true)
+      --stop-signal string                       Signal to stop a container. Default is SIGTERM
+      --stop-timeout uint                        Timeout (in seconds) that containers stopped by user command have to exit. If exceeded, the container will be forcibly stopped via SIGKILL. (default 10)
+      --subgidname string                        Name of range listed in /etc/subgid for use in user namespace
+      --subuidname string                        Name of range listed in /etc/subuid for use in user namespace
+      --sysctl strings                           Sysctl options
+      --systemd string                           Run container in systemd mode ("true"|"false"|"always") (default "true")
+      --timeout uint                             Maximum length of time a container is allowed to run. The container will be killed automatically after the time expires.
+      --tls-verify                               Require HTTPS and verify certificates when contacting registries for pulling images
+      --tmpfs tmpfs                              Mount a temporary filesystem (tmpfs) into a container
+  -t, --tty                                      Allocate a pseudo-TTY for container
+      --tz string                                Set timezone in container
+      --uidmap strings                           UID map to use for the user namespace
+      --ulimit strings                           Ulimit options
+      --umask string                             Set umask in container (default "0022")
+      --unsetenv stringArray                     Unset environment default variables in container
+      --unsetenv-all                             Unset all default environment variables in container
+  -u, --user string                              Username or UID (format: <name|uid>[:<group|gid>])
+      --userns string                            User namespace to use
+      --uts string                               UTS namespace to use
+      --variant VARIANT                          Use VARIANT instead of the running architecture variant for choosing images
+  -v, --volume stringArray                       Bind mount a volume into the container
+      --volumes-from stringArray                 Mount volumes from the specified container(s)
+  -w, --workdir string                           Working directory inside the container
+

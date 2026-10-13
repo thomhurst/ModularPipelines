@@ -1,0 +1,12 @@
+Manage a Podman virtual machine's OS
+
+Description:
+  Manage a Podman virtual machine's operating system
+
+Usage:
+  podman machine os [command]
+
+Available Commands:
+  apply       Apply an OCI image to a Podman Machine's OS
+  upgrade     Upgrade machine os
+

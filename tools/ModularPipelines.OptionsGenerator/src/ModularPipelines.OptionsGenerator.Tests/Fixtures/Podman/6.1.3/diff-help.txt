@@ -1,0 +1,18 @@
+Display the changes to the object's file system
+
+Description:
+  Displays changes on a container or image's filesystem.  The container or image will be compared to its parent layer or the second argument when given.
+
+Usage:
+  podman diff [options] {CONTAINER|IMAGE} [{CONTAINER|IMAGE}]
+
+Examples:
+  podman diff imageID
+  podman diff ctrID
+  podman diff --format json redis:alpine
+
+Options:
+      --format string   Change the output format (json)
+  -l, --latest          Act on the latest container podman is aware of
+                        Not supported with the "--remote" flag
+

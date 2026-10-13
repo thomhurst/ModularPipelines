@@ -1,0 +1,14 @@
+Remove all machines
+
+Description:
+  Remove all machines, configurations, data, and cached images
+
+Usage:
+  podman machine reset [options]
+
+Examples:
+  podman machine reset
+
+Options:
+  -f, --force   Do not prompt before reset
+

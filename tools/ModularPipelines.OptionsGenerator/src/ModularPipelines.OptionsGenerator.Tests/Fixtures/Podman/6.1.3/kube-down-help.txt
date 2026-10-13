@@ -1,0 +1,18 @@
+Remove pods based on Kubernetes YAML
+
+Description:
+  Reads in a structured file of Kubernetes YAML.
+
+  Removes pods that have been based on the Kubernetes kind described in the YAML.
+
+Usage:
+  podman kube down [options] [KUBEFILE [KUBEFILE...]]|-
+
+Examples:
+  podman kube down nginx.yml
+  cat nginx.yml | podman kube down -
+  podman kube down https://example.com/nginx.yml
+
+Options:
+      --force   remove volumes
+

@@ -1,0 +1,7 @@
+Usage:  docker compose wait SERVICE [SERVICE...] [OPTIONS]
+
+Block until containers of all (or specified) services stop.
+
+Options:
+      --down-project   Drops project when the first container stops
+      --dry-run        Execute command in dry run mode

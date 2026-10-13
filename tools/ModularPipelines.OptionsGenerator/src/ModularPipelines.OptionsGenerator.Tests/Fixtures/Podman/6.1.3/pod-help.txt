@@ -1,0 +1,26 @@
+Manage pods
+
+Description:
+  Pods are a group of one or more containers sharing the same network, pid and ipc namespaces.
+
+Usage:
+  podman pod [command]
+
+Available Commands:
+  clone       Clone an existing pod
+  create      Create a new empty pod
+  exists      Check if a pod exists in local storage
+  inspect     Display a pod configuration
+  kill        Send the specified signal or SIGKILL to containers in pod
+  logs        Fetch logs for pod with one or more containers
+  pause       Pause one or more pods
+  prune       Remove all stopped pods and their containers
+  ps          List pods
+  restart     Restart one or more pods
+  rm          Remove one or more pods
+  start       Start one or more pods
+  stats       Display a live stream of resource usage statistics for the containers in one or more pods
+  stop        Stop one or more pods
+  top         Display the running processes of containers in a pod
+  unpause     Unpause one or more pods
+

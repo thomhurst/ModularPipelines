@@ -1,0 +1,16 @@
+Run a command in a modified user namespace
+
+Description:
+  Runs a command in a modified user namespace.
+
+Usage:
+  podman unshare [options] [COMMAND [ARG...]]
+
+Examples:
+  podman unshare id
+  podman unshare cat /proc/self/uid_map
+  podman unshare podman-script.sh
+
+Options:
+      --rootless-netns   Join the rootless network namespace used for netavark networking
+

@@ -259,3 +259,5 @@ override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.GlobalOpt
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.ApplyOptionFixes(string![]! commandParts, System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>! options) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
 override ModularPipelines.OptionsGenerator.Scrapers.Cli.FluxCliScraper.NormalizeOptionDescription(string! description) -> string!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.ParseGlobalOptions(string! helpText) -> System.Collections.Generic.IReadOnlyList<ModularPipelines.OptionsGenerator.Models.CliOptionDefinition!>!
+override ModularPipelines.OptionsGenerator.Scrapers.Cli.PodmanCliScraper.TreatParseErrorsAsFatal.get -> bool

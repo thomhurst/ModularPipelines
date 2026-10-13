@@ -1,0 +1,14 @@
+Export volumes
+
+Description:
+  
+podman volume export
+
+Allow content of volume to be exported into external tar.
+
+Usage:
+  podman volume export [options] VOLUME
+
+Options:
+  -o, --output string   Write to a specified file (default: stdout, which must be redirected)
+

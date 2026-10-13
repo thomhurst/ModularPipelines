@@ -1,0 +1,15 @@
+Manage remote API service destinations
+
+Description:
+  Manage remote API service destination information in podman configuration
+
+Usage:
+  podman system connection [command]
+
+Available Commands:
+  add         Record destination for the Podman service
+  default     Set named destination as default
+  list        List destination for the Podman service(s)
+  remove      Delete named destination
+  rename      Rename "old" to "new"
+

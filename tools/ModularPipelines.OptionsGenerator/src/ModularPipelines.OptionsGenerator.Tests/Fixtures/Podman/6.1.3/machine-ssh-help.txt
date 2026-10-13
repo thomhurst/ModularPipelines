@@ -1,0 +1,15 @@
+SSH into an existing machine
+
+Description:
+  SSH into a managed virtual machine 
+
+Usage:
+  podman machine ssh [options] [NAME] [COMMAND [ARG ...]]
+
+Examples:
+  podman machine ssh podman-machine-default
+  podman machine ssh myvm echo hello
+
+Options:
+      --username string   Username to use when ssh-ing into the VM.
+

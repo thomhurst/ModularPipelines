@@ -1,0 +1,14 @@
+Play containers, pods or volumes from a structured file
+
+Description:
+  Play structured data (e.g., Kubernetes YAML) based on containers, pods or volumes.
+
+Usage:
+  podman kube [command]
+
+Available Commands:
+  apply       Deploy a podman container, pod, volume, or Kubernetes yaml to a Kubernetes cluster
+  down        Remove pods based on Kubernetes YAML
+  generate    Generate Kubernetes YAML from containers, pods or volumes.
+  play        Play a pod or volume based on Kubernetes YAML
+
