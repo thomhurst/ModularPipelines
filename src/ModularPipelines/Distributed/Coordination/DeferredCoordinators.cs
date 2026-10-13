@@ -8,59 +8,17 @@ internal abstract class DeferredCoordinator<TCoordinator>(Func<CancellationToken
     : IDeferredDistributedBackend, IAsyncDisposable, IDisposable
     where TCoordinator : class
 {
-    private readonly SemaphoreSlim _lock = new(1, 1);
-    private readonly Func<CancellationToken, Task<TCoordinator>> _create = create;
-    private volatile TCoordinator? _inner;
-    private int _disposeState;
+    private readonly DeferredBackend<TCoordinator> _coordinator = new(create);
 
-    protected async ValueTask<TCoordinator> GetAsync(CancellationToken cancellationToken)
-    {
-        ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
-        if (_inner is { } inner)
-        {
-            return inner;
-        }
-
-        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
-        try
-        {
-            ObjectDisposedException.ThrowIf(Volatile.Read(ref _disposeState) != 0, this);
-            return _inner ??= await _create(cancellationToken).ConfigureAwait(false);
-        }
-        finally
-        {
-            _lock.Release();
-        }
-    }
+    protected ValueTask<TCoordinator> GetAsync(CancellationToken cancellationToken) =>
+        _coordinator.GetAsync(cancellationToken);
 
     public async ValueTask<object> GetBackendAsync(CancellationToken cancellationToken) =>
         await GetAsync(cancellationToken).ConfigureAwait(false);
 
     public async ValueTask DisposeAsync()
     {
-        if (Interlocked.Exchange(ref _disposeState, 1) != 0)
-        {
-            return;
-        }
-
-        await _lock.WaitAsync().ConfigureAwait(false);
-        try
-        {
-            switch (_inner)
-            {
-                case IAsyncDisposable asyncDisposable:
-                    await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-                    break;
-                case IDisposable disposable:
-                    disposable.Dispose();
-                    break;
-            }
-        }
-        finally
-        {
-            _lock.Release();
-        }
-
+        await _coordinator.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
     }
 

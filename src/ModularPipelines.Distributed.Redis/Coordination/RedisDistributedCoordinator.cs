@@ -405,6 +405,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
 
         // A later heartbeat would recreate the deleted master keys.
         await StopMasterHeartbeatAsync().ConfigureAwait(false);
+
+        // Without the completion flag, deleting the started marker would make workers report a missing master
+        // as not started yet and wait forever, so write it again in case signalling completion failed.
+        await _database.StringSetAsync(_keys.CompletionFlag, "1", _keyExpiration)
+            .WaitAsync(cancellationToken).ConfigureAwait(false);
         RedisKey[] keys = [.. _keys.RunCleanupKeys.Select(static key => (RedisKey) key)];
         await _database.KeyDeleteAsync(keys).WaitAsync(cancellationToken).ConfigureAwait(false);
     }

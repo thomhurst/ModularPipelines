@@ -236,6 +236,26 @@ public class RedisDistributedCoordinatorContractTests
             readySignalCount: 1,
             workerTimeout: null);
 
+    [Test]
+    public Task Run_Cleanup_Reports_A_Completed_Master_When_Signalling_Completion_Failed() =>
+        RunAsync(
+            async (coordinator, database, keys, _) =>
+            {
+                var redis = (RedisDistributedCoordinator) coordinator;
+                await redis.SendMasterHeartbeatAsync(CancellationToken.None);
+
+                // No completion signal: as if SignalCompletionAsync failed before cleanup.
+                await redis.CleanupRunAsync(
+                    new DistributedRunCleanupContext { RunId = "contract", PipelineSucceeded = false },
+                    CancellationToken.None);
+
+                await Assert.That(await database.KeyExistsAsync(keys.MasterStarted)).IsFalse();
+                await Assert.That(await coordinator.GetMasterStateAsync(CancellationToken.None))
+                    .IsEqualTo(DistributedMasterState.Completed);
+            },
+            readySignalCount: 1,
+            workerTimeout: null);
+
     private static Task WaitForMasterStateAsync(RedisDistributedCoordinator redis, DistributedMasterState expected) =>
         WaitUntilAsync(async () => await redis.GetMasterStateAsync(CancellationToken.None) == expected);
 

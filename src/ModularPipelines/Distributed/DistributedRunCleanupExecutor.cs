@@ -66,13 +66,12 @@ internal sealed class DistributedRunCleanupExecutor(
 
     private async Task<List<IDistributedRunCleanup>> ResolveBackendsAsync(TimeSpan timeout)
     {
-        var candidates = serviceProvider.GetServices<IDistributedRunCleanup>()
-            .Concat<object?>(
-            [
-                serviceProvider.GetService<IDistributedMasterCoordinator>(),
-                serviceProvider.GetService<IDistributedArtifactStore>(),
-                serviceProvider.GetService<IMasterDiscovery>(),
-            ]);
+        // Resolve each source separately, so one service that fails to construct leaves the others.
+        var candidates = Resolve(static provider => provider.GetServices<IDistributedRunCleanup>(), nameof(IDistributedRunCleanup))
+            .Concat(Resolve(static provider => [provider.GetService<IDistributedMasterCoordinator>()], nameof(IDistributedMasterCoordinator)))
+            .Concat(Resolve(static provider => [provider.GetService<IDistributedArtifactStore>()], nameof(IDistributedArtifactStore)))
+            .Concat(Resolve(static provider => [provider.GetService<IMasterDiscovery>()], nameof(IMasterDiscovery)))
+            .ToArray();
 
         var backends = new List<IDistributedRunCleanup>();
         foreach (var candidate in candidates)
@@ -89,6 +88,19 @@ internal sealed class DistributedRunCleanupExecutor(
         }
 
         return backends;
+    }
+
+    private IEnumerable<object?> Resolve(Func<IServiceProvider, IEnumerable<object?>> resolve, string serviceName)
+    {
+        try
+        {
+            return [.. resolve(serviceProvider)];
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(exception, "Could not resolve {Service} services to clean up run data", serviceName);
+            return [];
+        }
     }
 
     // Workers can upload artifacts this process never touched, so the backend is created to clean up.

@@ -136,6 +136,24 @@ public class RunCleanupPipelineTests
     }
 
     [Test]
+    [Timeout(30_000)]
+    public async Task Cleanup_Service_That_Fails_To_Construct_Does_Not_Skip_Other_Backends(
+        CancellationToken cancellationToken)
+    {
+        var builder = CreateDistributedBuilder(options => options);
+        builder.AddDistributedCoordinator<CleanableCoordinator>();
+        builder.Services.AddSingleton<IDistributedRunCleanup>(_ =>
+            throw new InvalidOperationException("Simulated construction failure"));
+        builder.AddModule<SucceedingModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync(cancellationToken);
+
+        await Assert.That(summary.Succeeded).IsTrue();
+        await Assert.That(pipeline.Services.GetRequiredService<CleanableCoordinator>().CleanupCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Worker_Never_Cleans_Up()
     {
         var cleanup = new RecordingCleanup();
