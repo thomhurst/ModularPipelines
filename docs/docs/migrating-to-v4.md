@@ -104,6 +104,7 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Attributes.DependsOn*` | `ModularPipelines` |
 | Run-condition types in `Attributes` / `Conditions` | `ModularPipelines` |
 | `ModularPipelines.Enums.ModulePriority` | `ModularPipelines.ModulePriority` |
+| `ModularPipelines.Enums.BuildSystem` | `ModularPipelines.BuildSystem` |
 | `ModularPipelines.Attributes.ModuleCategoryAttribute`, `ModuleTagAttribute` | `ModularPipelines` |
 | Capability interfaces under `Context.Domains` and its subnamespaces | `ModularPipelines.Context` (some renamed; see below) |
 | `Context.Domains.IEnvironmentDomainContext` (`context.Environment`) | `ModularPipelines.Context.IEnvironmentContext` |
@@ -736,10 +737,11 @@ if (context.Environment.BuildSystem.Is(BuildSystem.GitHubActions)) { ... }
 ```
 
 The same pattern applies to `IsAzurePipelines`, `IsTeamCity`, `IsJenkins`, `IsGitLab`,
-`IsBitbucket`, `IsTravisCI`, and `IsAppVeyor`. `BuildSystem` is in `ModularPipelines.Enums`.
+`IsBitbucket`, `IsTravisCI`, and `IsAppVeyor`. `BuildSystem` is in the root `ModularPipelines` namespace.
 The injectable `IBuildSystemDetector` is now internal; use `IBuildSystemContext` instead.
 
-`IsBuildServer` remains, but it is now also `true` when the `CI` environment variable is set to a
+Replace `context.Environment.BuildSystem.IsBuildServer` with `context.Environment.BuildSystem.IsCI`.
+Use `IsLocal` for the inverse check. `IsCI` is also `true` when the `CI` environment variable is set to a
 truthy value, not only on a recognized build agent. `OnCI`, `OnLocal`, and `Require.Ci()` now share
 this one definition, so they always agree. As a result, `CI=0` counts as local, and `CI=false`
 no longer satisfies `Require.Ci()`. When the `CI` variable is the only reason a run counts as CI,
@@ -1231,7 +1233,7 @@ These changes need behavioral checks even after the code compiles:
 | Category matching and selection are validated more strictly | Check configured category/module selectors instead of silently accepting typos |
 | Secrets are masked in more output surfaces and transformed forms | Test redaction; do not parse masked diagnostic command input/environment as raw execution data |
 | `Md5File` returns lowercase hex | Compare hashes case-insensitively |
-| `IsBuildServer`, `OnCI`, and `Require.Ci()` also honor a truthy `CI` variable | Check local runs that set `CI`; the startup log says when `CI` alone decided |
+| `IsBuildServer` becomes `IsCI`; `IsCI`, `OnCI`, and `Require.Ci()` also honor a truthy `CI` variable | Use `IsLocal` for the inverse check; check local runs that set `CI`; the startup log says when `CI` alone decided |
 
 The output capture limit counts characters, not bytes. When a stream exceeds
 `MaxCapturedOutputLength`, its captured string preserves the beginning and end, inserting
@@ -1386,7 +1388,8 @@ public class BuildModule : Module<CommandResult>
 | `PluginRegistry.Register(plugin)` | `builder.AddPlugin(plugin)` | Merge `ConfigureServices` and `ConfigurePipeline` into `Configure(PipelineBuilder)` |
 | `[RunIfAll<...>]` | `[RunIf<...>]` | Same AND semantics |
 | `MandatoryRunConditionAttribute` / `RunConditionAttribute.Condition` | `RunConditionAttribute(ConditionIntent.Run)` / `EvaluateAsync` | Use `GroupKey` for OR-ed alternatives |
-| `BuildSystem.IsGitHubActions`, etc. | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc. | `IsBuildServer` remains but also honors a truthy `CI` variable |
+| `BuildSystem.IsGitHubActions`, etc. | `BuildSystem.Is(BuildSystem.GitHubActions)`, etc. | The enum is in `ModularPipelines` |
+| `context.Environment.BuildSystem.IsBuildServer` | `context.Environment.BuildSystem.IsCI` | Also honors a truthy `CI` variable; `IsLocal` is the inverse |
 | `[CliArgument(Placement = ...)]` | `[CliArgument(Phase = ...)]` | `BeforeOptions` becomes `EarlyOperand`; the default is `Passthrough` |
 | `IPipelineValidator.Validate` | `ValidateAsync(services, cancellationToken)` | Return `Task<ValidationResult>` |
 | `[CliCommand("tool", ...)]` | `[CliTool("tool")]` + `[CliSubCommand(...)]` | Handwritten option types only |
@@ -1497,7 +1500,10 @@ transformations:
     follow_up: Rename Condition(IPipelineHookContext) to EvaluateAsync(IPipelineContext, CancellationToken)
   - old: context.Environment.BuildSystem.IsGitHubActions
     new: context.Environment.BuildSystem.Is(BuildSystem.GitHubActions)
-    scope: Repeat for each per-system flag; IsBuildServer remains but also honors a truthy CI variable
+    scope: Repeat for each per-system flag; the BuildSystem enum is in ModularPipelines
+  - old: context.Environment.BuildSystem.IsBuildServer
+    new: context.Environment.BuildSystem.IsCI
+    follow_up: Also honors a truthy CI variable; use IsLocal for the inverse check
   - old: CliArgument Placement = ArgumentPlacement.BeforeOptions
     new: CliArgument Phase = CommandLinePhase.EarlyOperand
     scope: Handwritten option types only; AfterOptions becomes the default Passthrough
