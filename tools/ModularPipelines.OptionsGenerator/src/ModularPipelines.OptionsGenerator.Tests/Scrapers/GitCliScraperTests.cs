@@ -10,6 +10,76 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class GitCliScraperTests
 {
     [Test]
+    public async Task ScrapeAsync_Preserves_Branch_With_Repeatable_Options()
+    {
+        using var scraper = new GitCliScraper(
+            new BranchHelpExecutor(),
+            new StubHelpTextCache(),
+            NullLogger<GitCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+
+        await foreach (var command in scraper.ScrapeAsync())
+        {
+            commands.Add(command);
+        }
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["git branch"]);
+        var options = commands.Single().Options;
+        foreach (var switchName in new[] { "--delete-merged", "--forked" })
+        {
+            var option = options.Single(option => option.SwitchName == switchName);
+            using (Assert.Multiple())
+            {
+                await Assert.That(option.AcceptsMultipleValues).IsTrue();
+                await Assert.That(option.IsFlag).IsFalse();
+                await Assert.That(option.CSharpType).IsEqualTo("IEnumerable<string>?");
+                await Assert.That(option.Description!).Contains("(repeatable)");
+            }
+        }
+    }
+
+    [Test]
+    public async Task Parses_Repeatability_After_Wrapped_Descriptions_And_Preserves_Element_Types()
+    {
+        const string helpText = """
+            usage: git example [<options>]
+
+                --[no-]include <pattern>
+                              include matching paths
+                              (repeatable)
+                --count <n>   number of entries (repeatable)
+                --name <name> specify a single name
+                -v, --verbose show details (repeatable)
+            """;
+        using var scraper = new TestGitCliScraper();
+        var command = await scraper.Parse(["git", "example"], helpText);
+        var options = command!.Options;
+
+        using (Assert.Multiple())
+        {
+            var include = options.Single(option => option.SwitchName == "--include");
+            await Assert.That(include.AcceptsMultipleValues).IsTrue();
+            await Assert.That(include.CSharpType).IsEqualTo("IEnumerable<string>?");
+            await Assert.That(include.Description).IsEqualTo("include matching paths (repeatable)");
+            var count = options.Single(option => option.SwitchName == "--count");
+            await Assert.That(count.AcceptsMultipleValues).IsTrue();
+            await Assert.That(count.CSharpType).IsEqualTo("IEnumerable<int>?");
+            var noInclude = options.Single(option => option.SwitchName == "--no-include");
+            await Assert.That(noInclude.AcceptsMultipleValues).IsFalse();
+            await Assert.That(noInclude.CSharpType).IsEqualTo("bool?");
+            await Assert.That(noInclude.IsFlag).IsTrue();
+            var name = options.Single(option => option.SwitchName == "--name");
+            await Assert.That(name.AcceptsMultipleValues).IsFalse();
+            await Assert.That(name.CSharpType).IsEqualTo("string?");
+            var verbose = options.Single(option => option.SwitchName == "--verbose");
+            await Assert.That(verbose.AcceptsMultipleValues).IsFalse();
+            await Assert.That(verbose.IsFlag).IsTrue();
+            await Assert.That(verbose.CSharpType).IsEqualTo("bool?");
+        }
+    }
+
+    [Test]
     public async Task Tool_Definition_Preserves_The_Hand_Written_Grouped_Facade()
     {
         var scraper = new GitCliScraper(
@@ -416,6 +486,27 @@ public class GitCliScraperTests
                 helpText,
                 UsageSynopsisParser.Parse(helpText, commandPath),
                 CancellationToken.None);
+    }
+
+    private sealed class BranchHelpExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null) =>
+            Task.FromResult(arguments switch
+            {
+                "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
+                "branch -h" => Result(File.ReadAllText(Path.Combine(
+                    AppContext.BaseDirectory, "Fixtures", "Git", "2.56.0", "branch-help.txt")), exitCode: 129),
+                _ => Result(string.Empty, "unexpected invocation", exitCode: 1),
+            });
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class StdoutHelpExecutor : ICliCommandExecutor

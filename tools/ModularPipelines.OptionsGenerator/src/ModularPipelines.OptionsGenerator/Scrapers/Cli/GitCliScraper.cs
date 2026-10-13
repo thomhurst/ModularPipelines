@@ -492,6 +492,17 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
                 option = AddDescription(option, description);
             }
 
+            if (!option.IsFlag
+                && !option.AcceptsMultipleValues
+                && HelpDeclaresRepeatableOption(helpText, option.SwitchName, option.Description ?? string.Empty))
+            {
+                option = option with
+                {
+                    CSharpType = AsCSharpType(option.CSharpType, acceptsMultipleValues: true),
+                    AcceptsMultipleValues = true,
+                };
+            }
+
             options.Add(option);
             if (negatedLongFlag is not null && seenOptions.Add(negatedLongFlag))
             {
@@ -622,6 +633,7 @@ public partial class GitCliScraper : CliScraperBase, IDisposable
             CSharpType = "bool?",
             Description = $"Negates {option.SwitchName}. {option.Description}",
             IsFlag = true,
+            AcceptsMultipleValues = false,
             ValueArity = CliOptionValueArity.Required,
             ValueSeparator = " ",
             IsSecret = GeneratorUtils.IsSecretOption(negatedPropertyName, isFlag: true),
