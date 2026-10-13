@@ -100,13 +100,37 @@ service URL when targeting an S3-compatible provider, for example `options => op
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for every object key. Artifacts use `{KeyPrefix}/artifacts/{RunId}/...` and module cache entries `{KeyPrefix}/module-cache/...`. |
 | `MultipartPartSizeBytes` | `int` | 16 MB | Part size for large uploads (5 MB to 1 GB). Content larger than one part uses a multipart upload, so objects are not capped at 5 GB. |
 | `SetLifecycleRule` | `bool` | `false` | Add or update a bucket lifecycle rule that expires artifacts after `TimeToLive` and aborts their incomplete multipart uploads after one day. |
-| `TimeToLive` | `TimeSpan` | 1 day | Artifact lifetime used by the lifecycle rule, rounded up to whole days. |
+| `TimeToLive` | `TimeSpan` | 1 day | Artifact lifetime used by the lifecycle rule, rounded up to whole days. [Run data cleanup](../distributed/configuration.md#run-data-cleanup) deletes a finished run's artifacts earlier. |
 
 `SetLifecycleRule` reads the bucket's lifecycle configuration and merges one rule, identified by the artifact prefix,
 into it; other rules are preserved. It needs the `s3:GetLifecycleConfiguration` and `s3:PutLifecycleConfiguration`
 permissions. If the provider does not support lifecycle configuration or access is denied, a warning is logged and
 artifacts simply do not expire automatically. Because every process runs this check at startup, prefer configuring
 the rule once in your infrastructure code and leaving `SetLifecycleRule` off.
+
+[Run data cleanup](../distributed/configuration.md#run-data-cleanup) runs on the master when a distributed run ends.
+It lists every object version under `{KeyPrefix}/artifacts/{RunId}/` and deletes each one, so the master's credentials
+need these permissions in addition to the ones used for uploads and downloads:
+
+| Permission | Used for |
+|------------|----------|
+| `s3:ListBucketVersions` | Listing the run's object versions and delete markers. |
+| `s3:ListBucket` | Listing current objects during fallback cleanup. |
+| `s3:DeleteObject` | Deleting objects in an unversioned bucket or deleting current objects during fallback cleanup in a versioned bucket. |
+| `s3:DeleteObjectVersion` | Deleting specific versions and delete markers in a versioned bucket. |
+
+If `ListObjectVersions` returns HTTP `400 Bad Request`, `403 Forbidden`, `405 Method Not Allowed`, or
+`501 Not Implemented`, cleanup falls back to listing current objects with `ListObjectsV2` and deleting them
+without version IDs. This requires `s3:ListBucket` and `s3:DeleteObject` in both unversioned and versioned buckets.
+This supports providers without a versioning API and credentials that can list objects but lack
+`s3:ListBucketVersions`. The fallback logs an information message. In a versioned bucket, it leaves old versions
+and existing delete markers behind; deleting current objects only adds delete markers, so artifact data remains
+recoverable. Use version-listing and version-deletion permissions or a lifecycle rule that expires noncurrent
+versions when that data must be removed.
+
+Other listing errors and deletion failures do not trigger the fallback. Cleanup logs a warning when it fails;
+remaining artifacts stay until a suitable lifecycle rule expires them. Set
+`DistributedOptions.RunCleanup` to `Never` to skip cleanup when the master's credentials cannot delete.
 
 A failed multipart upload is aborted on a best-effort basis. If the abort also fails, the uploaded parts stay in the
 bucket and are billed until a lifecycle rule with an `AbortIncompleteMultipartUpload` action removes them. Include that

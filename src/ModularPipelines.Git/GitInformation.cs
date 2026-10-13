@@ -87,6 +87,7 @@ internal class GitInformation : IGitInformation
                                gitCommandRunner,
                                _gitCommitMapper,
                                branch,
+                               options,
                                _commandExecutionOptions,
                                cancellationToken)
                            .ConfigureAwait(false))

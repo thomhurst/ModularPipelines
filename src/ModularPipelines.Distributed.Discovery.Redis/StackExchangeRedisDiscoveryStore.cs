@@ -52,6 +52,14 @@ internal sealed class StackExchangeRedisDiscoveryStore : IRedisDiscoveryStore, I
         return value.HasValue ? value.ToString() : null;
     }
 
+    public async Task DeleteAsync(string key, CancellationToken cancellationToken)
+    {
+        var connection = await GetConnectionAsync(cancellationToken).ConfigureAwait(false);
+        await connection.GetDatabase().KeyDeleteAsync(key)
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     public async ValueTask DisposeAsync()
     {
         if (_ownsConnection && _connection is not null)

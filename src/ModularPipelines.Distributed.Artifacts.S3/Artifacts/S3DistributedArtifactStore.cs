@@ -1,32 +1,39 @@
+using System.Net;
 using System.Text.Json;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 
 /// <summary>
 /// S3-compatible implementation of <see cref="IDistributedArtifactStore"/>.
 /// Objects are keyed as {prefix}/artifacts/{runId}/{Uri.EscapeDataString(moduleId.Value)}/{artifactName}/{artifactId}.
-/// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO.
+/// Compatible with AWS S3, Cloudflare R2, Backblaze B2, and MinIO. Run cleanup deletes every object under
+/// the run's prefix.
 /// </summary>
-internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDisposable
+internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, IDistributedRunCleanup, IDisposable
 {
     private readonly IAmazonS3 _s3;
     private readonly string _bucketName;
     private readonly string _runPrefix;
     private readonly int _partSizeBytes;
+    private readonly ILogger _logger;
 
     public S3DistributedArtifactStore(
         IAmazonS3 s3,
         S3StorageOptions options,
-        string runId)
+        string runId,
+        ILogger logger)
     {
         ArgumentNullException.ThrowIfNull(s3);
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(logger);
         _s3 = s3;
         _bucketName = options.BucketName;
         _runPrefix = $"{GetArtifactPrefix(options)}{runId}";
         _partSizeBytes = options.MultipartPartSizeBytes;
+        _logger = logger;
     }
 
     /// <summary>
@@ -151,6 +158,117 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore, ID
 
         await _s3.DeleteObjectAsync(_bucketName, objectKey, cancellationToken).ConfigureAwait(false);
         await _s3.DeleteObjectAsync(_bucketName, metaKey, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes every object stored for the run, including artifacts uploaded by other processes. In a
+    /// versioned bucket every version and delete marker is deleted when version listing is available.
+    /// Otherwise cleanup deletes only current objects, leaving old versions and delete markers behind.
+    /// </summary>
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        // The trailing separator keeps a run from matching another run whose identifier it prefixes.
+        var prefix = $"{_runPrefix}/";
+        await DeleteVersionsAsync(prefix, cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task DeleteVersionsAsync(string prefix, CancellationToken cancellationToken)
+    {
+        var request = new ListVersionsRequest
+        {
+            BucketName = _bucketName,
+            Prefix = prefix,
+        };
+
+        ListVersionsResponse response;
+        do
+        {
+            try
+            {
+                response = await _s3.ListVersionsAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+            catch (AmazonS3Exception exception) when (exception.StatusCode is
+                HttpStatusCode.BadRequest or HttpStatusCode.Forbidden or
+                HttpStatusCode.MethodNotAllowed or HttpStatusCode.NotImplemented)
+            {
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation(
+                        "S3 version listing for {Prefix} in bucket {BucketName} returned HTTP {StatusCode}; " +
+                        "falling back to current-object cleanup. In a versioned bucket, old versions and delete markers remain, " +
+                        "and deleting current objects only adds delete markers.",
+                        prefix,
+                        _bucketName,
+                        (int) exception.StatusCode);
+                }
+
+                await DeleteObjectsAsync(prefix, cancellationToken).ConfigureAwait(false);
+                return;
+            }
+
+            await DeleteBatchAsync(
+                    [.. (response.Versions ?? []).Select(static version => new KeyVersion
+                    {
+                        Key = version.Key,
+                        VersionId = version.VersionId,
+                    })],
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            request.KeyMarker = response.NextKeyMarker;
+            request.VersionIdMarker = response.NextVersionIdMarker;
+        }
+        while (response.IsTruncated == true);
+    }
+
+    private async Task DeleteObjectsAsync(string prefix, CancellationToken cancellationToken)
+    {
+        var request = new ListObjectsV2Request
+        {
+            BucketName = _bucketName,
+            Prefix = prefix,
+        };
+
+        ListObjectsV2Response response;
+        do
+        {
+            response = await _s3.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
+            await DeleteBatchAsync(
+                    [.. (response.S3Objects ?? []).Select(static s3Object => new KeyVersion { Key = s3Object.Key })],
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            request.ContinuationToken = response.NextContinuationToken;
+        }
+        while (response.IsTruncated == true);
+    }
+
+    // A listing page holds at most 1,000 entries, the DeleteObjects limit.
+    private async Task DeleteBatchAsync(List<KeyVersion> objects, CancellationToken cancellationToken)
+    {
+        if (objects.Count == 0)
+        {
+            return;
+        }
+
+        var response = await _s3.DeleteObjectsAsync(
+                new DeleteObjectsRequest
+                {
+                    BucketName = _bucketName,
+                    Objects = objects,
+                    Quiet = true,
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        // The AWS client throws this itself; check too, so a client that only reports per-key errors cannot
+        // make cleanup look complete while objects remain.
+        if (response?.DeleteErrors is { Count: > 0 })
+        {
+            throw new DeleteObjectsException(response);
+        }
     }
 
     public void Dispose() => _s3.Dispose();

@@ -62,11 +62,20 @@ internal sealed class CommandLineBuilder(
 
         // 3. Get static or runtime-computed command parts.
         var commandParts = _commandPartsProvider.GetRawCommandParts(options);
+        var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
+        return new CommandLine(tool, BuildArguments(options, commandParts, commandModel, _commandArgumentBuilder));
+    }
 
+    // Share composition with low-level runners that have no pipeline service provider.
+    internal static IReadOnlyList<string> BuildArguments(
+        CommandLineToolOptions options,
+        IReadOnlyList<string> commandParts,
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        ICommandArgumentBuilder commandArgumentBuilder)
+    {
         // 4. Build arguments from properties using the command model. Properties declared
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
-        var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
         var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
         var manualArgs = options.Arguments?.ToList() ?? [];
         var hasManualOptionTerminator = options.ArgumentsContainOptionTerminator;
@@ -82,6 +91,7 @@ internal sealed class CommandLineBuilder(
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
         var emittedOptionTerminator = false;
         var globalArgs = BuildNonTerminalArguments(
+            commandArgumentBuilder,
             globalCommandModel,
             additionalArguments,
             options,
@@ -91,6 +101,7 @@ internal sealed class CommandLineBuilder(
             out _);
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = BuildNonTerminalArguments(
+            commandArgumentBuilder,
             commandSpecificModel,
             additionalArguments,
             options,
@@ -107,7 +118,7 @@ internal sealed class CommandLineBuilder(
         var modelEmittedOptionTerminator = emittedOptionTerminator;
         var terminalArgumentTerminatorState = emittedOptionTerminator
                                               || hasManualOptionTerminator;
-        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
+        var terminalArgumentArgs = commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref terminalArgumentTerminatorState,
@@ -118,7 +129,7 @@ internal sealed class CommandLineBuilder(
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
         var pendingTerminatorState = modelEmittedOptionTerminator
                                      || hasManualOptionTerminator;
-        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
+        var runSettingsArgs = commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
             ref pendingTerminatorState);
@@ -165,7 +176,7 @@ internal sealed class CommandLineBuilder(
             propertyArgs.Count - propertyArgumentCountBeforeManualOptions);
 
         emittedOptionTerminator = pendingTerminatorState;
-        var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
+        var terminalOptionArgs = commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is FlagPart or OptionPart)],
             options,
             ref emittedOptionTerminator);
@@ -193,7 +204,7 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalAdditionalArgs);
         allArgs.AddRange(terminalOptionArgs);
 
-        return new CommandLine(tool, allArgs);
+        return allArgs;
     }
 
     private static ExtractedManualOptions ExtractManualOptionsBeforeTerminator(
@@ -245,7 +256,8 @@ internal sealed class CommandLineBuilder(
         }
     }
 
-    private List<string> BuildNonTerminalArguments(
+    private static List<string> BuildNonTerminalArguments(
+        ICommandArgumentBuilder commandArgumentBuilder,
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
         CommandLineToolOptions options,
@@ -274,7 +286,7 @@ internal sealed class CommandLineBuilder(
             }
 
             result.AddRange(phaseAdditionalArguments);
-            var phaseArguments = _commandArgumentBuilder.BuildArguments(
+            var phaseArguments = commandArgumentBuilder.BuildArguments(
                 phaseModel,
                 options,
                 ref emittedOptionTerminator,

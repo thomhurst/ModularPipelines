@@ -15,7 +15,7 @@ public class GitTests : TestBase
 {
     private class GitVersionModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Tools.Git.Commands.Repository.GitAsync(new GitBaseOptions
             {
@@ -91,6 +91,36 @@ public class GitTests : TestBase
             await Assert.That(commits.Current.Message?.Subject).IsEqualTo("first commit");
             await Assert.That(await commits.MoveNextAsync()).IsFalse();
         }
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task CommitsAsync_Uses_Requested_Repository(bool useHistoryCommands, bool specifyBranch)
+    {
+        using var repository = await TemporaryGitRepository.CreateAsync();
+        var git = await GetService<IGit>();
+        var options = new GitOptions
+        {
+            ChangeDirectories = [Path.GetDirectoryName(repository.WorkingDirectory)!, "repository"],
+            Configuration = [("log.showSignature", "false")],
+        };
+        var commits = (useHistoryCommands, specifyBranch) switch
+        {
+            (true, true) => git.Commands.History.CommitsAsync("main", options),
+            (true, false) => git.Commands.History.CommitsAsync(options),
+            (false, true) => git.Information.CommitsAsync("main", options),
+            (false, false) => git.Information.CommitsAsync(options),
+        };
+        var subjects = new List<string?>();
+        await foreach (var commit in commits)
+        {
+            subjects.Add(commit.Message?.Subject);
+        }
+
+        await Assert.That(subjects.SequenceEqual(["second commit", "first commit"])).IsTrue();
     }
 
     [Test]

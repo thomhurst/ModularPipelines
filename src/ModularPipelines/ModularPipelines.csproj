@@ -28,6 +28,10 @@
     - DynamicProxyGenAssembly2: Required by Moq/Castle.Core for creating proxies of internal types
   -->
   <ItemGroup>
+    <!-- Git custom runners use the shared command model and argument renderer. -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Git</_Parameter1>
+    </AssemblyAttribute>
     <!-- Build system integrations - access internal formatting/masking interfaces -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.GitHub</_Parameter1>
@@ -80,6 +84,9 @@
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.Flux.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Git.UnitTests</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.GitHub.UnitTests</_Parameter1>

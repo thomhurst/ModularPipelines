@@ -1033,3 +1033,15 @@ properties with `WorkingDirectory`; reflection must include inherited properties
 Lowercase `-c` remains a command-local flag, and `GoTestOptions.Args` still passes
 its values after package operands. Shared build flags remain limited to commands
 that support them. See the [Go migration guidance](docs/docs/mp-packages/go.md#migration).
+
+## Git root execution settings
+
+Git command options now inherit root execution settings, including repeated `-C` directory
+changes and ordered `-c` configuration overrides. Configuration values are masked in logs
+but remain visible in process arguments. Use `ConfigEnv` for credential-bearing values
+that must not appear in process arguments.
+Root settings render before subcommands; command-local switches keep their existing meaning.
+On `GitBaseOptions`, rename `GitDir` to `GitDirectory` and `Bare` to `BareRepository` to
+distinguish repository selection from command-local reporting or clone options. Other shared
+properties retain their names through inheritance. Version and path-reporting actions remain
+on `GitBaseOptions`, and the grouped command facade remains unchanged.

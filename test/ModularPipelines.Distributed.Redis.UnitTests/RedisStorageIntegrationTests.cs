@@ -53,6 +53,129 @@ public class RedisStorageIntegrationTests
     }
 
     [Test]
+    public async Task Run_Cleanup_Deletes_Artifacts_Uploaded_By_Every_Store_In_The_Run()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var runId = Guid.NewGuid().ToString("N");
+        var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
+        var database = connection.GetDatabase();
+
+        // Each process has its own store; the master's store cleans up artifacts a worker uploaded.
+        var workerStore = new RedisDistributedArtifactStore(database, keys, options);
+        var masterStore = new RedisDistributedArtifactStore(database, keys, options);
+        var otherRunStore = new RedisDistributedArtifactStore(
+            database,
+            new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N")),
+            options);
+        using var small = new MemoryStream([1, 2, 3]);
+        using var chunked = new MemoryStream(new byte[40]);
+        using var otherRunData = new MemoryStream([4]);
+        var smallReference = await workerStore.UploadAsync(
+            new ArtifactDescriptor { Name = "small", ModuleId = "Integration.Worker" }, small, CancellationToken.None);
+        var chunkedReference = await workerStore.UploadAsync(
+            new ArtifactDescriptor { Name = "chunked", ModuleId = "Integration.Other" }, chunked, CancellationToken.None);
+        await otherRunStore.UploadAsync(
+            new ArtifactDescriptor { Name = "kept", ModuleId = "Integration.Worker" }, otherRunData, CancellationToken.None);
+
+        await masterStore.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = runId, PipelineSucceeded = true },
+            CancellationToken.None);
+
+        RedisKey[] deletedKeys =
+        [
+            keys.ArtifactMeta(smallReference.ArtifactId),
+            keys.ArtifactData(smallReference.ArtifactId),
+            keys.ArtifactMeta(chunkedReference.ArtifactId),
+            keys.ArtifactChunk(chunkedReference.ArtifactId, 0),
+            keys.ArtifactChunk(chunkedReference.ArtifactId, 2),
+            keys.ArtifactIndex("Integration.Worker"),
+            keys.ArtifactIndex("Integration.Other"),
+            keys.ArtifactModules,
+        ];
+        using (Assert.Multiple())
+        {
+            await Assert.That(await database.KeyExistsAsync(deletedKeys)).IsEqualTo(0);
+            await Assert.That(await otherRunStore.ListArtifactsAsync("Integration.Worker", CancellationToken.None))
+                .HasSingleItem();
+        }
+    }
+
+    [Test]
+    public async Task Run_Cleanup_Deletes_The_Chunks_Of_A_Failed_Upload()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
+        var database = connection.GetDatabase();
+        var store = new RedisDistributedArtifactStore(database, keys, options, retryBaseDelay: TimeSpan.Zero);
+
+        await using var source = new FailAfterStream(new byte[16]);
+        await Assert.That(async () => await store.UploadAsync(
+                new ArtifactDescriptor { Name = "partial", ModuleId = "Integration.Partial" },
+                source,
+                CancellationToken.None))
+            .Throws<IOException>();
+        var artifactId = (await database.SetMembersAsync(keys.ArtifactIndex("Integration.Partial"))).Single().ToString();
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsTrue();
+        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactIndex("Integration.Partial"))).IsNotNull();
+        await Assert.That(await database.KeyTimeToLiveAsync(keys.ArtifactModules)).IsNotNull();
+
+        await store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "partial", PipelineSucceeded = false },
+            CancellationToken.None);
+
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsFalse();
+    }
+
+    [Test]
+    public async Task Run_Cleanup_Deletes_Every_Chunk_When_Early_Chunks_Were_Evicted()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
+        var database = connection.GetDatabase();
+        var store = new RedisDistributedArtifactStore(database, keys, options);
+
+        // 300 chunks, more than one delete batch.
+        using var source = new MemoryStream(new byte[16 * 300]);
+        var reference = await store.UploadAsync(
+            new ArtifactDescriptor { Name = "large", ModuleId = "Integration.Large" }, source, CancellationToken.None);
+        await database.KeyDeleteAsync(keys.ArtifactChunk(reference.ArtifactId, 0));
+
+        await store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "large", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(reference.ArtifactId, 299))).IsFalse();
+    }
+
+    // Returns its content, then fails, like a source that breaks part way through an upload.
+    private sealed class FailAfterStream(byte[] content) : MemoryStream(content)
+    {
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            var read = await base.ReadAsync(buffer, cancellationToken);
+            return read > 0 ? read : throw new IOException("Simulated read failure");
+        }
+    }
+
+    [Test]
     public async Task ModuleCache_RoundTrips()
     {
         await using var connection = await ConnectAsync();

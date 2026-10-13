@@ -449,6 +449,7 @@ internal static class DependencyInjectionSetup
 
         // Artifact lifecycle manager (handles [ProducesArtifact]/[ConsumesArtifact])
         services.TryAddSingleton<ArtifactLifecycleManager>();
+        services.TryAddSingleton<DistributedRunCleanupExecutor>();
 
         // Role detection
         services.TryAddSingleton<RoleDetector>();
