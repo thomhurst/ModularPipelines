@@ -125,7 +125,7 @@ internal sealed class CliScrapeProvenance
             .SelectMany(path => invocationsByPath[path].OrderBy(static invocation => invocation.HelpKind, StringComparer.Ordinal))
             .ToArray();
         var missingHelpPaths = requestedHelpPaths
-            .Where(path => !_helpInvocations.ContainsKey(GetKey(path)))
+            .Where(path => !invocationsByPath.Contains(path))
             .ToArray();
         var diagnostics = new CliCoverageFailureDiagnostics
         {
