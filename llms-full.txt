@@ -91,7 +91,7 @@
 - [Sub-modules](/docs/how-to/sub-modules.md): What are they?
 - [Testing](/docs/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
 - [Time Estimator](/docs/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
-- [Timeouts](/docs/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
+- [Timeouts](/docs/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use Timeout.InfiniteTimeSpan to disable it:
 - [Migrating from V2 to V3](/docs/migrating-to-v3.md): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 - [Migrating from V3 to V4](/docs/migrating-to-v4.md): ModularPipelines V4 consolidates module configuration, makes pipeline options immutable, and
 - [Amazon Web Services Package](/docs/mp-packages/amazon-web-services.md): Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
@@ -2051,7 +2051,7 @@ builder.AddDistributedMode(o => o with
 | `WorkerTimeout`             | `TimeSpan`                    | `TimeSpan.FromSeconds(30)`                              | How long a registration and its leases stay valid without a heartbeat. When a lease expires the master returns its module to the queue. Must exceed `WorkerHeartbeatInterval`.                                                                                                                                                                                                   |
 | `MasterTimeout`             | `TimeSpan`                    | `TimeSpan.FromMinutes(1)`                               | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount`        | `int`                         | `0`                                                     | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch.                                                                                                                                                                                                                                             |
-| `ModuleResultTimeout`       | `TimeSpan`                    | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely.                                                                                                      |
+| `ModuleResultTimeout`       | `TimeSpan`                    | `TimeSpan.FromMinutes(45)`                              | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `Timeout.InfiniteTimeSpan` to wait indefinitely; zero and other negative values are rejected.                                              |
 | `RunCleanup`                | `DistributedRunCleanupPolicy` | `Always`                                                | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup).                                                                                                                                                                                                                                                                  |
 | `RunCleanupTimeout`         | `TimeSpan`                    | `TimeSpan.FromMinutes(2)`                               | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time.                                                                                                                                                                                         |
 
@@ -2212,7 +2212,7 @@ Each registration owns its connection and connects asynchronously on first use. 
 
 The options are validated when the pipeline is built. After configuration and post-configuration finish, `ConfigureConnection` runs once per materialized options instance. The effective configuration must have at least one endpoint: a no-op or TLS-only callback without a connection string fails, as does a callback that removes every parsed endpoint. Validation does not connect to Redis. Connections and retries reuse copies of the validated snapshot; later option changes or mutations of a retained callback argument do not change that snapshot. Named module-cache options have their own snapshots.
 
-A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires.
+A missing connection, an empty `KeyPrefix`, or a non-positive `TimeToLive` or `ChunkSizeBytes` fails fast with `OptionsValidationException`. For the coordinator and artifact store, `TimeToLive` must also exceed `DistributedOptions.ModuleResultTimeout` so run keys and artifacts cannot expire mid-run, and `DistributedOptions.MasterTimeout` so workers see a stopped master's heartbeat go stale before it expires. An infinite module result timeout does not disable Redis key expiration: keys retain their configured TTL, so choose a TTL that covers the required retention period.
 
 All distributed duration properties use `TimeSpan`. When binding them from `appsettings.json`, use the invariant `TimeSpan` string format:
 
@@ -9796,7 +9796,7 @@ When run history is enabled, `IRunHistoryReader.GetModuleDurationTrendAsync` ret
 
 # Timeouts
 
-Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to disable it:
+Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `Timeout.InfiniteTimeSpan` to disable it:
 
 ```
 var builder = Pipeline.CreateBuilder();
@@ -9817,7 +9817,7 @@ builder.ConfigureOptions(options => options with
 
 {
 
-    DefaultModuleTimeout = TimeSpan.Zero,
+    DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
 
 });
 ```
@@ -9836,7 +9836,7 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-Set `AlwaysRunProgressTimeout` to `TimeSpan.Zero` only when an unlimited teardown wait is intentional. The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
+Set `AlwaysRunProgressTimeout` to `Timeout.InfiniteTimeSpan` only when an unlimited teardown wait is intentional. The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
@@ -9862,7 +9862,9 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and negative values throw `ArgumentOutOfRangeException`.
+The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and other negative values throw `ArgumentOutOfRangeException`.
+
+`ModuleConfiguration.Timeout` is `null` when the module inherits `PipelineOptions.DefaultModuleTimeout`, not when timeouts are disabled. An explicit disabled timeout remains `Timeout.InfiniteTimeSpan` in the built configuration. `DefaultModuleTimeout` and `AlwaysRunProgressTimeout` also require a positive duration or `Timeout.InfiniteTimeSpan`; zero is rejected.
 
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 

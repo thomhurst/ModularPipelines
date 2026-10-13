@@ -1,6 +1,6 @@
 # Timeouts
 
-Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to disable it:
+Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `Timeout.InfiniteTimeSpan` to disable it:
 
 ```
 var builder = Pipeline.CreateBuilder();
@@ -21,7 +21,7 @@ builder.ConfigureOptions(options => options with
 
 {
 
-    DefaultModuleTimeout = TimeSpan.Zero,
+    DefaultModuleTimeout = Timeout.InfiniteTimeSpan,
 
 });
 ```
@@ -40,7 +40,7 @@ builder.ConfigureOptions(options => options with
 });
 ```
 
-Set `AlwaysRunProgressTimeout` to `TimeSpan.Zero` only when an unlimited teardown wait is intentional. The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
+Set `AlwaysRunProgressTimeout` to `Timeout.InfiniteTimeSpan` only when an unlimited teardown wait is intentional. The timeout is one cumulative budget for the entire `AlwaysRun` teardown wait, not a fresh budget for each retry, so increase it for pipelines whose blocking modules can legitimately run longer.
 
 ## Using ModuleConfiguration[​](#using-moduleconfiguration "Direct link to Using ModuleConfiguration")
 
@@ -66,7 +66,9 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and negative values throw `ArgumentOutOfRangeException`.
+The timeout must be positive. Pass `Timeout.InfiniteTimeSpan` to run a module without a timeout even when the pipeline sets a default timeout; zero and other negative values throw `ArgumentOutOfRangeException`.
+
+`ModuleConfiguration.Timeout` is `null` when the module inherits `PipelineOptions.DefaultModuleTimeout`, not when timeouts are disabled. An explicit disabled timeout remains `Timeout.InfiniteTimeSpan` in the built configuration. `DefaultModuleTimeout` and `AlwaysRunProgressTimeout` also require a positive duration or `Timeout.InfiniteTimeSpan`; zero is rejected.
 
 ## Combining with Other Behaviors[​](#combining-with-other-behaviors "Direct link to Combining with Other Behaviors")
 

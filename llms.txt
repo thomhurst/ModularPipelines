@@ -91,7 +91,7 @@
 - [Sub-modules](/docs/how-to/sub-modules.md): What are they?
 - [Testing](/docs/how-to/testing.md): Install ModularPipelines.Testing to execute one module without starting the full
 - [Time Estimator](/docs/how-to/time-estimator.md): The console progress display and the scheduler's critical-path ordering use estimated module
-- [Timeouts](/docs/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use TimeSpan.Zero to disable it:
+- [Timeouts](/docs/how-to/timeouts.md): Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use Timeout.InfiniteTimeSpan to disable it:
 - [Migrating from V2 to V3](/docs/migrating-to-v3.md): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 - [Migrating from V3 to V4](/docs/migrating-to-v4.md): ModularPipelines V4 consolidates module configuration, makes pipeline options immutable, and
 - [Amazon Web Services Package](/docs/mp-packages/amazon-web-services.md): Package reserved for strongly typed AWS CLI commands and AWS SDK helpers.
