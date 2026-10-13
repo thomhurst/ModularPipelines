@@ -50894,6 +50894,38 @@ public class RunCommandModule : Module<CommandResult>
 }
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered before the selected subcommand.
+
+| CLI option                    | Property                 | Availability | Description                                                                                                                                                          |
+| ----------------------------- | ------------------------ | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--cache-dir`                 | `CacheDir`               | All editions | Store the cache data in \<dir>.                                                                                                                                      |
+| `--cert`                      | `Cert`                   | All editions | Path to PEM-encoded CA certificate bundle. If provided, overrides the default. See 'SSL Certificate Verification' in pip documentation for more information.         |
+| `--client-cert`               | `ClientCert`             | All editions | Path to SSL client certificate, a single file containing the private key and the certificate in PEM format.                                                          |
+| `--debug`                     | `Debug`                  | All editions | Let unhandled exceptions propagate outside the main subroutine, instead of logging them to stderr.                                                                   |
+| `--disable-pip-version-check` | `DisablePipVersionCheck` | All editions | Don't periodically check PyPI to determine whether a new version of pip is available for download. Implied with --no-index.                                          |
+| `--exists-action`             | `ExistsAction`           | All editions | Default action when a path already exists: (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.                                                                            |
+| `--isolated`                  | `Isolated`               | All editions | Run pip in an isolated mode, ignoring environment variables and user configuration.                                                                                  |
+| `--keyring-provider`          | `KeyringProvider`        | All editions | Enable the credential lookup via the keyring library if user input is allowed. Specify which mechanism to use \[auto, disabled, import, subprocess]. (default: auto) |
+| `--log`                       | `Log`                    | All editions | Path to a verbose appending log.                                                                                                                                     |
+| `--no-cache-dir`              | `NoCacheDir`             | All editions | Disable the cache.                                                                                                                                                   |
+| `--no-color`                  | `NoColor`                | All editions | Suppress colored output.                                                                                                                                             |
+| `--no-input`                  | `NoInput`                | All editions | Disable prompting for input.                                                                                                                                         |
+| `--no-proxy-env`              | `NoProxyEnv`             | All editions | Do not read proxy configuration from environment variables.                                                                                                          |
+| `--proxy`                     | `Proxy`                  | All editions | Specify a proxy in the form scheme://\[user<!-- -->:passwd<!-- -->@]proxy.server<!-- -->:port<!-- -->.                                                               |
+| `--python`                    | `Python`                 | All editions | Run pip with the specified Python interpreter.                                                                                                                       |
+| `--quiet`                     | `Quiet`                  | All editions | Give less output. Option is additive, and can be used up to 3 times (corresponding to WARNING, ERROR, and CRITICAL logging levels).                                  |
+| `--require-virtualenv`        | `RequireVirtualenv`      | All editions | Allow pip to only run in a virtual environment; exit with an error otherwise.                                                                                        |
+| `--resume-retries`            | `ResumeRetries`          | All editions | Maximum attempts to resume or restart an incomplete download. (default: 5)                                                                                           |
+| `--retries`                   | `Retries`                | All editions | Maximum attempts to establish a new HTTP connection. (default: 5)                                                                                                    |
+| `--timeout`                   | `Timeout`                | All editions | Set the socket timeout (default 15 seconds).                                                                                                                         |
+| `--trusted-host`              | `TrustedHost`            | All editions | Mark this host or host<!-- -->:port<!-- --> pair as trusted, even though it does not have valid or any HTTPS.                                                        |
+| `--use-deprecated`            | `UseDeprecated`          | All editions | Enable deprecated functionality, that will be removed in the future.                                                                                                 |
+| `--use-feature`               | `UseFeature`             | All editions | Enable new functionality, that may be backward incompatible.                                                                                                         |
+| `--verbose`                   | `Verbose`                | All editions | Give more output. Option is additive, and can be used up to 3 times.                                                                                                 |
+| `--version`                   | `Version`                | All editions | Show version and exit.                                                                                                                                               |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command     | Options record        |
@@ -50908,6 +50940,7 @@ public class RunCommandModule : Module<CommandResult>
 | `pip inspect`   | `PipInspectOptions`   |
 | `pip install`   | `PipInstallOptions`   |
 | `pip list`      | `PipListOptions`      |
+| `pip lock`      | `PipLockOptions`      |
 | `pip search`    | `PipSearchOptions`    |
 | `pip show`      | `PipShowOptions`      |
 | `pip uninstall` | `PipUninstallOptions` |
@@ -55272,6 +55305,34 @@ public class UsePipModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## General options[​](#general-options "Direct link to General options")
+
+All command records inherit pip's General Options from `PipOptions`. These render before the subcommand, including `Python`, which selects the interpreter:
+
+```
+new PipInstallOptions
+
+{
+
+    Python = "python3",
+
+    RequireVirtualenv = true,
+
+    TrustedHost = ["packages.example", "mirror.example"],
+
+    RequirementSpecifier = ["example-package"],
+
+};
+```
+
+`TrustedHost`, `ExistsAction`, `UseFeature`, and `UseDeprecated` accept collections and repeat their switch for each value. When migrating a single string initializer, wrap it in a collection expression. `Proxy` URLs are masked in command logs. `Quiet` and `Verbose` are nullable integer counts: `Verbose = 3` renders three `--verbose` flags before the command, while zero or `null` omits the flag. Negative counts are rejected. When migrating Boolean initializers, replace `true` with `1` and `false` with `0` or `null`. Pip documents three useful verbosity or quietness levels; its parser accepts additive counts rather than Boolean values. `NoProxyEnv` disables proxy settings inherited from environment variables. Install options such as `Target` and Package Index Options such as `IndexUrl` remain command-specific and render after `install`. Dependency groups are repeatable on install, download, wheel, and lock commands: `Group = ["development", "testing"]` renders two `--group` switches and can serve as the command's complete input source. Null, empty, and whitespace-only entries are rejected before starting pip, including when mixed with valid group names.
+
+`RequirementsFromScript = ["first.py", "second.py"]` supplies repeatable PEP 723 script inputs on install, download, wheel, and lock commands. Script inputs can satisfy the command's input requirement on their own. `RefreshPackage` also takes a collection: `RefreshPackage = [":none:", "first,second"]` emits each value in order as a separate `--refresh-package` operand, preserving pip's accumulation and reset semantics.
+
+The generated API reflects pip 26.2.1, inherits 25 General Options (excluding help), and includes `LockAsync`. See the [pip CLI reference](/ModularPipelines/docs/mp-packages/cli/pip.md) for the complete command and global-option list.
+
+Command-specific `Editable`, `ExtraIndexUrl`, `FindLinks`, and `Exclude` also take collections because pip appends repeated operands. Wrap existing single-string initializers in collection expressions. These switches render after the subcommand.
 
 
 ---
