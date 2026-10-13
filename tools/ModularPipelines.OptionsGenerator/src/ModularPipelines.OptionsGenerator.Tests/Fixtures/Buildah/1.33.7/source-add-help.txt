@@ -1,0 +1,14 @@
+  Add add a source artifact to a source image.  The artifact will be added as a gzip-compressed tar ball.  Add attempts to auto-tar and auto-compress only if necessary.
+
+  Note that the buildah-source command and all its subcommands are experimental and may be subject to future changes.
+
+Usage:
+  buildah source add [flags]
+
+Examples:
+  buildah source add /tmp/fedora sources.tar.gz
+
+Flags:
+      --annotation stringArray   add an annotation (format: key=value)
+  -h, --help                     help for add
+

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
+using ModularPipelines.Buildah.Enums;
 
 namespace ModularPipelines.Buildah.Options;
 
@@ -19,7 +20,73 @@ namespace ModularPipelines.Buildah.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("buildah")]
-[CliGlobalOptions]
+// Global options intentionally follow subcommands.
 public abstract record BuildahOptions : CommandLineToolOptions
 {
+    /// <summary>
+    /// cgroup manager (default "cgroupfs")
+    /// </summary>
+    [CliOption("--cgroup-manager", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? CgroupManager { get; set; }
+
+    /// <summary>
+    /// the log level to be used, one of "trace", "debug", "info", "warn", "error", "fatal", or "panic" (default "warn")
+    /// </summary>
+    [CliOption("--log-level", Format = OptionFormat.EqualsSeparated)]
+    public virtual BuildahLogLevel? LogLevel { get; set; }
+
+    /// <summary>
+    /// path to registries.conf file (not usually used)
+    /// </summary>
+    [CliOption("--registries-conf", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RegistriesConf { get; set; }
+
+    /// <summary>
+    /// path to registries.conf.d directory (not usually used)
+    /// </summary>
+    [CliOption("--registries-conf-dir", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? RegistriesConfDir { get; set; }
+
+    /// <summary>
+    /// storage root dir (default "/var/lib/containers/storage")
+    /// </summary>
+    [CliOption("--root", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Root { get; set; }
+
+    /// <summary>
+    /// storage state dir (default "/run/containers/storage")
+    /// </summary>
+    [CliOption("--runroot", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? Runroot { get; set; }
+
+    /// <summary>
+    /// path to short name alias cache file (not usually used)
+    /// </summary>
+    [CliOption("--short-name-alias-conf", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? ShortNameAliasConf { get; set; }
+
+    /// <summary>
+    /// storage-driver
+    /// </summary>
+    [CliOption("--storage-driver", Format = OptionFormat.EqualsSeparated)]
+    public virtual string? StorageDriver { get; set; }
+
+    /// <summary>
+    /// storage driver option
+    /// </summary>
+    [CliOption("--storage-opt", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? StorageOpt { get; set; }
+
+    /// <summary>
+    /// default ctrID:hostID:length GID mapping to use
+    /// </summary>
+    [CliOption("--userns-gid-map", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? UsernsGidMap { get; set; }
+
+    /// <summary>
+    /// default ctrID:hostID:length UID mapping to use
+    /// </summary>
+    [CliOption("--userns-uid-map", Format = OptionFormat.EqualsSeparated)]
+    public virtual IEnumerable<string>? UsernsUidMap { get; set; }
+
 }

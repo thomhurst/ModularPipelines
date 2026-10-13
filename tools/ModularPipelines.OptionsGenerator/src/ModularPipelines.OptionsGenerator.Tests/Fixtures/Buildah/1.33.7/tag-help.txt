@@ -1,0 +1,13 @@
+
+  Adds one or more additional names to locally-stored image.
+
+Usage:
+  buildah tag [flags]
+
+Examples:
+  buildah tag imageName firstNewName
+  buildah tag imageName firstNewName SecondNewName
+
+Flags:
+  -h, --help   help for tag
+

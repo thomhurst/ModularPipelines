@@ -258,7 +258,7 @@ public record BuildahFromOptions : BuildahOptions
     public bool? TlsVerify { get; set; }
 
     /// <summary>
-    /// ulimit options
+    /// ulimit options (default [nproc=4194304:4194304])
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ulimit { get; set; }
@@ -273,7 +273,11 @@ public record BuildahFromOptions : BuildahOptions
     /// containerGID:hostGID:length GID mapping to use in user namespace
     /// </summary>
     [CliOption("--userns-gid-map", Format = OptionFormat.EqualsSeparated)]
-    public string? UsernsGidMap { get; set; }
+    public new IEnumerable<string>? UsernsGidMap
+    {
+        get => base.UsernsGidMap;
+        set => base.UsernsGidMap = value;
+    }
 
     /// <summary>
     /// name of entries from /etc/subgid to use to set user namespace GID mapping
@@ -285,7 +289,11 @@ public record BuildahFromOptions : BuildahOptions
     /// containerUID:hostUID:length UID mapping to use in user namespace
     /// </summary>
     [CliOption("--userns-uid-map", Format = OptionFormat.EqualsSeparated)]
-    public string? UsernsUidMap { get; set; }
+    public new IEnumerable<string>? UsernsUidMap
+    {
+        get => base.UsernsUidMap;
+        set => base.UsernsUidMap = value;
+    }
 
     /// <summary>
     /// name of entries from /etc/subuid to use to set user namespace UID mapping

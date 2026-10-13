@@ -1,0 +1,12 @@
+Displays Buildah version information.
+
+Usage:
+  buildah version [flags]
+
+Examples:
+  buildah version
+
+Flags:
+  -h, --help   help for version
+      --json   output in JSON format
+
