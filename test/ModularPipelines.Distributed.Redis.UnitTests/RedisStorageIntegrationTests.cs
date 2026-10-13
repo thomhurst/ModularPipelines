@@ -138,6 +138,33 @@ public class RedisStorageIntegrationTests
         await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(artifactId, 0))).IsFalse();
     }
 
+    [Test]
+    public async Task Run_Cleanup_Deletes_Every_Chunk_When_Early_Chunks_Were_Evicted()
+    {
+        await using var connection = await ConnectAsync();
+        var options = new RedisOptions
+        {
+            KeyPrefix = "modpipe-integration",
+            ChunkSizeBytes = 16,
+            TimeToLive = TimeSpan.FromMinutes(1),
+        };
+        var keys = new RedisKeyBuilder(options.KeyPrefix, Guid.NewGuid().ToString("N"));
+        var database = connection.GetDatabase();
+        var store = new RedisDistributedArtifactStore(database, keys, options);
+
+        // 300 chunks, more than one delete batch.
+        using var source = new MemoryStream(new byte[16 * 300]);
+        var reference = await store.UploadAsync(
+            new ArtifactDescriptor { Name = "large", ModuleId = "Integration.Large" }, source, CancellationToken.None);
+        await database.KeyDeleteAsync(keys.ArtifactChunk(reference.ArtifactId, 0));
+
+        await store.CleanupRunAsync(
+            new DistributedRunCleanupContext { RunId = "large", PipelineSucceeded = true },
+            CancellationToken.None);
+
+        await Assert.That(await database.KeyExistsAsync(keys.ArtifactChunk(reference.ArtifactId, 299))).IsFalse();
+    }
+
     // Returns its content, then fails, like a source that breaks part way through an upload.
     private sealed class FailAfterStream(byte[] content) : MemoryStream(content)
     {

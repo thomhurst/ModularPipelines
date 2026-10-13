@@ -212,7 +212,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
     {
         ArgumentNullException.ThrowIfNull(reference);
 
-        await DeleteArtifactKeysAsync(reference.ArtifactId, cancellationToken).ConfigureAwait(false);
+        await DeleteArtifactKeysAsync(reference.ArtifactId, reference.SizeBytes, cancellationToken).ConfigureAwait(false);
         await _database.SetRemoveAsync(_keys.ArtifactIndex(reference.ModuleId), reference.ArtifactId)
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -236,7 +236,9 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
                 .ConfigureAwait(false);
             foreach (var artifactId in artifactIds)
             {
-                await DeleteArtifactKeysAsync(artifactId.ToString(), cancellationToken).ConfigureAwait(false);
+                var id = artifactId.ToString();
+                var sizeBytes = await GetRecordedSizeAsync(id, cancellationToken).ConfigureAwait(false);
+                await DeleteArtifactKeysAsync(id, sizeBytes, cancellationToken).ConfigureAwait(false);
             }
 
             await _database.KeyDeleteAsync(indexKey)
@@ -249,14 +251,37 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             .ConfigureAwait(false);
     }
 
-    private async Task DeleteArtifactKeysAsync(string artifactId, CancellationToken cancellationToken)
+    // A partial upload has no metadata yet, so its size is unknown.
+    private async Task<long?> GetRecordedSizeAsync(string artifactId, CancellationToken cancellationToken)
+    {
+        var metaJson = await _database.StringGetAsync(_keys.ArtifactMeta(artifactId))
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
+        if (metaJson.IsNullOrEmpty)
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<ArtifactReference>(metaJson.ToString())?.SizeBytes;
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
+    }
+
+    private async Task DeleteArtifactKeysAsync(string artifactId, long? sizeBytes, CancellationToken cancellationToken)
     {
         await _database.KeyDeleteAsync([_keys.ArtifactMeta(artifactId), _keys.ArtifactData(artifactId)])
             .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        // Chunks are written in order from zero and share the run's hash tag, so delete them in batches until a
-        // batch finds fewer keys than it names. One round trip per batch keeps large artifacts within the timeout.
+        // Chunks share the run's hash tag, so delete them in batches: one round trip per batch keeps large
+        // artifacts within the timeout. A recorded size gives the chunk count, so evicted early chunks cannot end
+        // the loop before later ones; without one, chunks written in order from zero end at the first short batch.
+        var recordedChunks = sizeBytes is { } size ? (size + _chunkSize - 1) / _chunkSize : 0;
         for (var firstChunk = 0; ; firstChunk += ChunkDeleteBatchSize)
         {
             RedisKey[] chunkKeys =
@@ -267,7 +292,7 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore,
             var deleted = await _database.KeyDeleteAsync(chunkKeys)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
-            if (deleted < ChunkDeleteBatchSize)
+            if (deleted < ChunkDeleteBatchSize && firstChunk + ChunkDeleteBatchSize >= recordedChunks)
             {
                 break;
             }

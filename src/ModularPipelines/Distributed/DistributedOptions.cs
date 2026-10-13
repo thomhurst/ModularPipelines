@@ -122,8 +122,9 @@ public sealed record DistributedOptions
     public DistributedRunCleanupPolicy RunCleanup { get; init; } = DistributedRunCleanupPolicy.Always;
 
     /// <summary>
-    /// Gets how long each <see cref="IDistributedRunCleanup"/> backend may take to delete a run's data
-    /// before the pipeline stops waiting for it. Defaults to 2 minutes.
+    /// Gets how long run cleanup waits for workers to publish their final status, and how long each
+    /// <see cref="IDistributedRunCleanup"/> backend may take to delete a run's data, before the pipeline stops
+    /// waiting. Cleanup is skipped when a worker does not finish in time. Defaults to 2 minutes.
     /// </summary>
     public TimeSpan RunCleanupTimeout { get; init; } = TimeSpan.FromMinutes(2);
 

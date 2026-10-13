@@ -177,6 +177,67 @@ public class RunCleanupPipelineTests
     }
 
     [Test]
+    public async Task Cleanup_Waits_For_Every_Worker_To_Publish_Its_Final_Status()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await coordinator.RegisterWorkerAsync(Registration("instance-1"), CancellationToken.None);
+        var cleanup = new RecordingCleanup();
+        var executor = CreateMasterExecutor(coordinator, cleanup, TimeSpan.FromSeconds(10));
+
+        var cleanupTask = executor.CleanupAsync(pipelineSucceeded: true);
+        await Task.Delay(300);
+        var calledBeforeFinalStatus = cleanup.Calls.Count;
+        await coordinator.SendHeartbeatAsync(
+            new WorkerStatus { WorkerId = new WorkerId("instance-1"), RunId = "run", IsFinal = true },
+            CancellationToken.None);
+        await cleanupTask;
+
+        await Assert.That(calledBeforeFinalStatus).IsEqualTo(0);
+        await Assert.That(cleanup.Calls).HasSingleItem();
+    }
+
+    [Test]
+    public async Task Cleanup_Keeps_The_Data_When_A_Worker_Never_Publishes_Its_Final_Status()
+    {
+        var coordinator = new InMemoryDistributedCoordinator();
+        await coordinator.RegisterWorkerAsync(Registration("instance-1"), CancellationToken.None);
+        var cleanup = new RecordingCleanup();
+        var executor = CreateMasterExecutor(coordinator, cleanup, TimeSpan.FromMilliseconds(300));
+
+        await executor.CleanupAsync(pipelineSucceeded: true);
+
+        await Assert.That(cleanup.Calls).IsEmpty();
+    }
+
+    private static WorkerRegistration Registration(string workerId) => new()
+    {
+        WorkerId = new WorkerId(workerId),
+        Capabilities = [],
+        RegisteredAt = DateTimeOffset.UtcNow,
+        RunId = "run",
+    };
+
+    private static DistributedRunCleanupExecutor CreateMasterExecutor(
+        IDistributedMasterCoordinator coordinator,
+        IDistributedRunCleanup cleanup,
+        TimeSpan timeout)
+    {
+        var services = new ServiceCollection()
+            .AddSingleton(coordinator)
+            .AddSingleton(cleanup)
+            .BuildServiceProvider();
+        return new DistributedRunCleanupExecutor(
+            services,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions
+            {
+                RunId = "run",
+                RunCleanupTimeout = timeout,
+            }.EnableForTest()),
+            new Mock<IExecutionLocationContext>().Object,
+            NullLogger<DistributedRunCleanupExecutor>.Instance);
+    }
+
+    [Test]
     public async Task Worker_Never_Cleans_Up()
     {
         var cleanup = new RecordingCleanup();

@@ -79,7 +79,7 @@ builder.AddDistributedMode(o => o with
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely. |
 | `RunCleanup` | `DistributedRunCleanupPolicy` | `Always` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
-| `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long each backend may take to delete the run's data before the pipeline stops waiting for it. |
+| `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time. |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`,
 are reported by pipeline validation and stop the distributed backend from starting.
@@ -167,8 +167,10 @@ Storage-specific settings such as expiry, chunk size and multipart part size liv
 When a distributed pipeline ends, backends that implement `IDistributedRunCleanup` delete the data they stored
 for the run. Only the master cleans up. Workers never do, and neither do pipelines that do not call
 `AddDistributedMode`, because separate local runs can share a run identifier and its artifacts. Cleanup starts
-after the pipeline end handlers and the run report have finished. The run report waits for every worker's final
-status first, so workers have stopped using the run's data.
+after the pipeline end handlers and the run report have finished, and only once every worker registered for the
+run has published its final status. Workers publish it after their own pipeline end handlers, so none still uses
+the run's data. If a worker does not publish one within `RunCleanupTimeout`, for example because it crashed,
+cleanup is skipped with a warning and each backend's own expiry removes the data.
 
 `DistributedOptions.RunCleanup` selects when cleanup runs:
 

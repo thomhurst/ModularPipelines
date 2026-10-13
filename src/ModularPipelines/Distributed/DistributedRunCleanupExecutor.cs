@@ -18,6 +18,8 @@ internal sealed class DistributedRunCleanupExecutor(
     IExecutionLocationContext executionLocationContext,
     ILogger<DistributedRunCleanupExecutor> logger)
 {
+    private static readonly TimeSpan WorkerPollInterval = TimeSpan.FromMilliseconds(250);
+
     public async Task CleanupAsync(bool pipelineSucceeded)
     {
         try
@@ -31,6 +33,11 @@ internal sealed class DistributedRunCleanupExecutor(
             }
 
             if (!ShouldCleanup(distributedOptions.RunCleanup, pipelineSucceeded))
+            {
+                return;
+            }
+
+            if (!await WaitForWorkersToFinishAsync(distributedOptions).ConfigureAwait(false))
             {
                 return;
             }
@@ -55,6 +62,61 @@ internal sealed class DistributedRunCleanupExecutor(
             logger.LogWarning(exception, "Could not clean up distributed run data");
         }
     }
+
+    /// <summary>
+    /// Waits until every worker registered for the run has published its final status. A worker stops its
+    /// heartbeat when execution ends but publishes the final status only after its pipeline end handlers, so
+    /// the final status is the only proof that it no longer uses the run's data.
+    /// </summary>
+    /// <returns><see langword="false"/> when a worker did not finish in time, so the run's data is kept.</returns>
+    private async Task<bool> WaitForWorkersToFinishAsync(DistributedOptions distributedOptions)
+    {
+        IReadOnlyCollection<WorkerId> pending = [];
+        using var timeoutSource = new CancellationTokenSource(distributedOptions.RunCleanupTimeout);
+        try
+        {
+            if (serviceProvider.GetService<IDistributedMasterCoordinator>() is not { } coordinator)
+            {
+                return true;
+            }
+
+            var token = timeoutSource.Token;
+            var expected = (await coordinator.GetRegisteredWorkersAsync(token).WaitAsync(token).ConfigureAwait(false))
+                .Where(worker => worker.WorkerId != distributedOptions.LocalWorkerId
+                                 && IsCurrentRun(worker.RunId, distributedOptions.RunId))
+                .Select(static worker => worker.WorkerId)
+                .ToHashSet();
+            while (true)
+            {
+                var finished = (await coordinator.GetWorkerStatusesAsync(token).WaitAsync(token).ConfigureAwait(false))
+                    .Where(status => status.IsFinal && IsCurrentRun(status.RunId, distributedOptions.RunId))
+                    .Select(static status => status.WorkerId);
+                pending = [.. expected.Except(finished)];
+                if (pending.Count == 0)
+                {
+                    return true;
+                }
+
+                await Task.Delay(WorkerPollInterval, token).ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (timeoutSource.IsCancellationRequested)
+        {
+            logger.LogWarning(
+                "Keeping distributed run data because workers {Workers} did not publish a final status within {Timeout}",
+                string.Join(", ", pending),
+                distributedOptions.RunCleanupTimeout);
+            return false;
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(exception, "Keeping distributed run data because worker completion could not be checked");
+            return false;
+        }
+    }
+
+    private static bool IsCurrentRun(string? workerRunId, string runId) =>
+        string.IsNullOrWhiteSpace(workerRunId) || string.Equals(workerRunId, runId, StringComparison.Ordinal);
 
     internal static bool ShouldCleanup(DistributedRunCleanupPolicy policy, bool pipelineSucceeded) =>
         policy switch

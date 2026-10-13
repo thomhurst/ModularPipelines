@@ -11,11 +11,12 @@ namespace ModularPipelines.Distributed;
 /// runs can share a run identifier and its data.
 /// </para>
 /// <para>
-/// The call happens once, after the pipeline end handlers and the run report have finished, so every
-/// worker that published its final status has stopped using the run's data. A worker that never published
-/// one, for example because it crashed, can still be running. <see cref="DistributedOptions.RunCleanup"/>
-/// selects which outcomes trigger cleanup and <see cref="DistributedOptions.RunCleanupTimeout"/> bounds
-/// each call.
+/// The call happens once, after the pipeline end handlers and the run report have finished and every worker
+/// registered for the run has published its final status. A worker publishes it after its own pipeline end
+/// handlers, so no worker still uses the run's data. When a worker does not publish one within
+/// <see cref="DistributedOptions.RunCleanupTimeout"/>, for example because it crashed, cleanup is skipped and the
+/// data stays until each backend's own expiry removes it. <see cref="DistributedOptions.RunCleanup"/> selects
+/// which outcomes trigger cleanup and <see cref="DistributedOptions.RunCleanupTimeout"/> also bounds each call.
 /// </para>
 /// <para>
 /// Cleanup is best effort. A failure or timeout is logged as a warning and never changes the pipeline

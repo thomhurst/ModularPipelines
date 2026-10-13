@@ -416,8 +416,9 @@ public sealed class MyArtifactStore : IDistributedArtifactStore, IDistributedRun
 The contract:
 
 - Only the master of a distributed run calls `CleanupRunAsync`; workers and pipelines without distributed
-  mode never do. It runs once, after the pipeline end handlers and the run report. The run report waits for
-  every worker's final status first, so a worker that published one no longer uses the data.
+  mode never do. It runs once, after the pipeline end handlers and the run report, and only after every worker
+  registered for the run has published its final status. When a worker does not publish one within
+  `RunCleanupTimeout`, cleanup is skipped.
 - Each process has its own store instance. The master's instance must delete data that workers uploaded,
   so find the run's data from shared state, such as a prefix listing or an index, not from local bookkeeping.
 - Delete only data that belongs to `context.RunId`. Leave data shared across runs, such as module caches, in place.
