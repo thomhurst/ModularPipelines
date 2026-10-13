@@ -144,14 +144,17 @@ internal sealed class DistributedRunCleanupExecutor(
                 ResolveAsync(static provider => [provider.GetService<IMasterDiscovery>()], nameof(IMasterDiscovery), timeout))
             .ConfigureAwait(false);
         var candidates = sources.SelectMany(static source => source).ToArray();
+        // Unwrap in parallel so hanging factories share one timeout window.
+        var resolvedCandidates = await Task.WhenAll(candidates.Select(candidate =>
+                candidate is IDeferredDistributedBackend deferred
+                    ? GetDeferredBackendAsync(deferred, timeout)
+                    : Task.FromResult(candidate)))
+            .ConfigureAwait(false);
 
         var backends = new List<IDistributedRunCleanup>();
-        foreach (var candidate in candidates)
+        foreach (var resolved in resolvedCandidates)
         {
             // A deferred wrapper and its backend can both be registered, so compare the backends themselves.
-            var resolved = candidate is IDeferredDistributedBackend deferred
-                ? await GetDeferredBackendAsync(deferred, timeout).ConfigureAwait(false)
-                : candidate;
             if (resolved is IDistributedRunCleanup backend
                 && !backends.Any(existing => ReferenceEquals(existing, backend)))
             {
@@ -214,7 +217,10 @@ internal sealed class DistributedRunCleanupExecutor(
             await backend.CleanupRunAsync(context, timeoutSource.Token)
                 .WaitAsync(timeoutSource.Token)
                 .ConfigureAwait(false);
-            logger.LogDebug("Cleaned up distributed run data stored by {Backend}", backendName);
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Cleaned up distributed run data stored by {Backend}", backendName);
+            }
         }
         catch (OperationCanceledException) when (timeoutSource.IsCancellationRequested)
         {
