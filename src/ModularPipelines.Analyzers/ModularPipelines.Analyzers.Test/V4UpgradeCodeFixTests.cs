@@ -1,0 +1,348 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace ModularPipelines.Analyzers.Test;
+
+[TestClass]
+public class V4UpgradeCodeFixTests
+{
+    private const string Api = """
+        using System.Threading;
+        using System.Threading.Tasks;
+        using ModularPipelines;
+        using ModularPipelines.Context;
+        namespace ModularPipelines.TestTools
+        {
+            public interface IService
+            {
+                Task PingAsync(CancellationToken cancellationToken = default);
+                Task StatusAsync(ModuleStatus status);
+                Task<T> EchoAsync<T>(T value, CancellationToken cancellationToken = default);
+                object Stop(CancellationToken cancellationToken = default);
+            }
+        }
+        namespace ModularPipelines.Git
+        {
+            public interface IGit { IGitCommands Commands { get; } }
+            public interface IGitCommands
+            {
+                IRepository Repository { get; }
+                IHistory History { get; }
+                IRemotes Remotes { get; }
+            }
+            public interface IRepository
+            {
+                Task ConfigAsync(string options, CancellationToken cancellationToken = default);
+                Task SharedAsync();
+            }
+            public interface IHistory { Task SharedAsync(); }
+            public interface IRemotes { Task PushAsync(string options, CancellationToken cancellationToken = default); }
+        }
+        namespace ModularPipelines.Context
+        {
+            public static class ToolExtensions
+            {
+                extension(global::ModularPipelines.Context.IToolsContext tools)
+                {
+                    public global::ModularPipelines.TestTools.IService Service => throw new System.NotImplementedException();
+                    public global::ModularPipelines.Git.IGit Git => throw new System.NotImplementedException();
+                }
+            }
+        }
+        """;
+
+    private const string InheritedGitReceivers = """
+        interface DerivedCommands : ModularPipelines.Git.IGitCommands { }
+        interface DerivedGit : ModularPipelines.Git.IGit { }
+        abstract class CommandImplementation : DerivedCommands
+        {
+            public abstract ModularPipelines.Git.IRepository Repository { get; }
+            public abstract ModularPipelines.Git.IHistory History { get; }
+            public abstract ModularPipelines.Git.IRemotes Remotes { get; }
+        }
+        """;
+
+    [TestMethod]
+    [DataRow("context.Service()", "context.Tools.Service")]
+    [DataRow("context.Tools.Service.Ping()", "context.Tools.Service.PingAsync()")]
+    [DataRow("context.Tools.Service.Status(ModuleStatus.Successful)", "context.Tools.Service.StatusAsync(ModuleStatus.Succeeded)")]
+    [DataRow("context.Tools.Service.Ping(token: ct)", "context.Tools.Service.PingAsync(cancellationToken: ct)")]
+    [DataRow("context.Tools.Service.Stop(token: ct)", "context.Tools.Service.Stop(cancellationToken: ct)")]
+    [DataRow("context.Tools.Service.Echo<string>(\"hello\", token: ct)", "context.Tools.Service.EchoAsync<string>(\"hello\", cancellationToken: ct)")]
+    [DataRow("context.Git().Commands.Config(\"option\", token: ct)", "context.Tools.Git.Commands.Repository.ConfigAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context.Git().Push(\"option\", token: ct)", "context.Tools.Git.Commands.Remotes.PushAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context.Tools.Git.Commands.ConfigAsync(\"option\", cancellationToken: ct)", "context.Tools.Git.Commands.Repository.ConfigAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context?.Service()", "context?.Tools.Service")]
+    [DataRow("context.Tools.Service?.Ping(token: ct)", "context.Tools.Service?.PingAsync(cancellationToken: ct)")]
+    [DataRow("context.Tools.Service?.Stop(token: ct)", "context.Tools.Service?.Stop(cancellationToken: ct)")]
+    [DataRow("context.Tools.Service?.Echo<string>(\"hello\", token: ct)", "context.Tools.Service?.EchoAsync<string>(\"hello\", cancellationToken: ct)")]
+    [DataRow("context.Tools.Git?.Push(\"option\", token: ct)", "context.Tools.Git?.Commands.Remotes.PushAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context.Tools.Git.Commands?.Config(\"option\", token: ct)", "context.Tools.Git.Commands?.Repository.ConfigAsync(\"option\", cancellationToken: ct)")]
+    [DataRow("context?.Service()?.Ping(token: ct)", "context?.Tools.Service?.PingAsync(cancellationToken: ct)")]
+    public async Task Upgrades_Only_When_Replacement_Binds(string original, string expected)
+    {
+        var source = Api + $$"""
+            public class Example
+            {
+                public object Run(IModuleContext context, CancellationToken ct) => {{original}};
+            }
+            """;
+        var (result, changes, errors) = await ApplyFixesAsync(source);
+        Assert.IsGreaterThan(0, changes, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
+        Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
+        var expression = result.DescendantNodes().OfType<MethodDeclarationSyntax>().Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("IPipelineContext")]
+    [DataRow("ModularPipelines.Events.IModuleHookContext")]
+    [DataRow("DerivedContext")]
+    public async Task Upgrades_Pipeline_And_Hook_Context_Tools(string contextType)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync(Api + $$"""
+            interface DerivedContext : IPipelineContext { }
+            class Example { object Run({{contextType}} context) => context.Service(); }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        Assert.Contains("context.Tools.Service", root.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("IPipelineContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("IModuleContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("ModularPipelines.Events.IModuleHookContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("DerivedContext?", "context?.Service()", "context?.Tools.Service")]
+    [DataRow("ModularPipelines.Git.IGit?", "context?.Push(\"option\", token: default)", "context?.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("ModularPipelines.Git.IGitCommands?", "context?.Config(\"option\", token: default)", "context?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    public async Task Upgrades_Nullable_Conditional_Receivers(string receiverType, string original, string expected)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync("#nullable enable\n" + Api + $$"""
+            interface DerivedContext : IPipelineContext { }
+            class Example { object? Run({{receiverType}} context) => {{original}}; }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("Run(DerivedCommands commands)", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedCommands? commands)", "commands?.Config(\"option\", token: default)", "commands?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(CommandImplementation commands)", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGitCommands", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T? commands) where T : class, DerivedCommands", "commands?.Config(\"option\", token: default)", "commands?.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T, U>(T commands) where T : U where U : DerivedCommands", "commands.Config(\"option\", token: default)", "commands.Repository.ConfigAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedGit commands)", "commands.Push(\"option\", token: default)", "commands.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run(DerivedGit? commands)", "commands?.Push(\"option\", token: default)", "commands?.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGit", "commands.Push(\"option\", token: default)", "commands.Commands.Remotes.PushAsync(\"option\", cancellationToken: default)")]
+    public async Task Upgrades_Inherited_Git_Receivers(string signature, string original, string expected)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync("#nullable enable\n" + Api + InheritedGitReceivers + $$"""
+            class Example { object? {{signature}} => {{original}}; }
+            """);
+        Assert.AreEqual(1, changes, string.Join(Environment.NewLine, errors.Select(error => error.ToString())));
+        Assert.IsEmpty(errors);
+        var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual(expected, expression.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("Run(DerivedCommands commands)", "commands.Shared()")]
+    [DataRow("Run(DerivedCommands? commands)", "commands?.Shared()")]
+    [DataRow("Run<T>(T commands) where T : ModularPipelines.Git.IGitCommands", "commands.Shared()")]
+    [DataRow("Run<T>(T commands) where T : DerivedGit", "commands.Shared()")]
+    [DataRow("Run<T, U>(T commands) where T : U where U : T", "commands.Shared()")]
+    public async Task Leaves_Inherited_Ambiguous_And_Invalid_Git_Calls_Unchanged(string signature, string original)
+    {
+        var (_, changes, _) = await ApplyFixesAsync("#nullable enable\n" + Api + InheritedGitReceivers + $$"""
+            class Example { object? {{signature}} => {{original}}; }
+            """);
+        Assert.AreEqual(0, changes);
+    }
+
+    [TestMethod]
+    [DataRow("NotYetStarted", "NotStarted")]
+    [DataRow("Processing", "Running")]
+    [DataRow("Successful", "Succeeded")]
+    [DataRow("UsedHistory", "RestoredFromHistory")]
+    [DataRow("IgnoredFailure", "FailureIgnored")]
+    [DataRow("PipelineTerminated", "Canceled")]
+    [DataRow("Cancelled", "Canceled")]
+    [DataRow("CachedResult", "RestoredFromCache")]
+    public async Task Renames_Legacy_Status(string original, string expected)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync($"using Status = ModularPipelines.ModuleStatus; class Example {{ Status Value => Status.{original}; }}");
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        Assert.Contains($"Status.{expected}", root.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("context.Tools.Git.Commands.Shared()")]
+    [DataRow("context.Tools.Git.Shared()")]
+    [DataRow("context.Tools.Service.Echo(123, 456)")]
+    [DataRow("context.MissingTool()")]
+    [DataRow("context.Tools.Service.PingAsync()")]
+    [DataRow("context.Tools.Git?.Shared()")]
+    [DataRow("context.Tools.Service?.Echo(123, 456)")]
+    [DataRow("context.Tools.Service?.PingAsync()")]
+    public async Task Leaves_Ambiguous_Invalid_And_Current_Calls_Unchanged(string expression)
+    {
+        var (_, changes, _) = await ApplyFixesAsync(Api + $$"""
+            class Example { object Run(IModuleContext context) => {{expression}}; }
+            """);
+        Assert.AreEqual(0, changes);
+    }
+
+    [TestMethod]
+    [DataRow("context.Service(/* keep this */)")]
+    [DataRow("context?.Service(/* keep this */)")]
+    public async Task Preserves_Comments_When_Removing_Invocation_Parentheses(string expression)
+    {
+        var (root, changes, errors) = await ApplyFixesAsync(Api + $$"""
+            class Example { object Run(IModuleContext context) => {{expression}}; }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        Assert.Contains("/* keep this */", root.ToFullString());
+    }
+
+    [TestMethod]
+    public async Task Leaves_Unrelated_Apis_Unchanged()
+    {
+        var (_, changes, _) = await ApplyFixesAsync("""
+            class Service { public void PingAsync(System.Threading.CancellationToken cancellationToken = default) {} }
+            enum ModuleStatus { Succeeded }
+            class Example
+            {
+                void Run(Service service) => service.Ping(token: default);
+                void RunConditional(Service service) => service?.Ping(token: default);
+                ModuleStatus Status => ModuleStatus.Successful;
+            }
+            """);
+        Assert.AreEqual(0, changes);
+    }
+
+    [TestMethod]
+    public async Task Conditional_Receiver_Remains_Evaluated_Once()
+    {
+        var (root, changes, errors) = await ApplyFixesAsync(Api + """
+            class Example
+            {
+                ModularPipelines.TestTools.IService GetService() => null;
+                object Run() => GetService()?.Ping(token: default);
+            }
+            """);
+        Assert.AreEqual(1, changes);
+        Assert.IsEmpty(errors);
+        var expression = root.DescendantNodes().OfType<MethodDeclarationSyntax>()
+            .Single(method => method.Identifier.ValueText == "Run").ExpressionBody!.Expression;
+        Assert.AreEqual("GetService()?.PingAsync(cancellationToken: default)", expression.ToString());
+    }
+
+    [TestMethod]
+    public async Task Fix_All_Upgrades_Independent_Occurrences()
+    {
+        using var workspace = new AdhocWorkspace();
+        var document = CreateDocument(workspace, """
+            using ModularPipelines;
+            class Example
+            {
+                ModuleStatus First => ModuleStatus.Successful;
+                ModuleStatus Second => ModuleStatus.Processing;
+            }
+            """);
+        var provider = new V4UpgradeCodeFixProvider();
+        var context = new FixAllContext(document, provider, FixAllScope.Document,
+            nameof(V4UpgradeCodeFixProvider), provider.FixableDiagnosticIds,
+            new CompilerDiagnosticProvider(), CancellationToken.None);
+        var action = await provider.GetFixAllProvider().GetFixAsync(context);
+        Assert.IsNotNull(action);
+        var operations = await action.GetOperationsAsync(CancellationToken.None);
+        var changed = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution.GetDocument(document.Id)!;
+        var compilation = (await changed.Project.GetCompilationAsync(TestContext.CancellationToken))!;
+        Assert.IsFalse(compilation.GetDiagnostics(TestContext.CancellationToken).Any(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
+        var text = (await changed.GetTextAsync(TestContext.CancellationToken)).ToString();
+        Assert.Contains("ModuleStatus.Succeeded", text);
+        Assert.Contains("ModuleStatus.Running", text);
+    }
+
+    private sealed class CompilerDiagnosticProvider : FixAllContext.DiagnosticProvider
+    {
+        public override async Task<IEnumerable<Diagnostic>> GetDocumentDiagnosticsAsync(Document document, CancellationToken cancellationToken)
+        {
+            var model = (await document.GetSemanticModelAsync(cancellationToken))!;
+            return model.GetDiagnostics(cancellationToken: cancellationToken);
+        }
+
+        public override Task<IEnumerable<Diagnostic>> GetProjectDiagnosticsAsync(Project project, CancellationToken cancellationToken) =>
+            Task.FromResult(Enumerable.Empty<Diagnostic>());
+
+        public override async Task<IEnumerable<Diagnostic>> GetAllDiagnosticsAsync(Project project, CancellationToken cancellationToken) =>
+            (await project.GetCompilationAsync(cancellationToken))!.GetDiagnostics(cancellationToken);
+    }
+
+    private static async Task<(SyntaxNode Root, int Changes, Diagnostic[] Errors)> ApplyFixesAsync(string source)
+    {
+        using var workspace = new AdhocWorkspace();
+        var document = CreateDocument(workspace, source);
+        return await ApplyFixesAsync(document);
+    }
+
+    private static Document CreateDocument(AdhocWorkspace workspace, string source)
+    {
+        var project = workspace.AddProject(ProjectInfo.Create(ProjectId.CreateNewId(), VersionStamp.Create(),
+            "UpgradeTests", "UpgradeTests", LanguageNames.CSharp,
+            parseOptions: new CSharpParseOptions(LanguageVersion.Preview),
+            compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)));
+        var paths = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
+            .Split(Path.PathSeparator).Append(typeof(IModuleContext).Assembly.Location).Distinct(StringComparer.OrdinalIgnoreCase);
+        project = project.AddMetadataReferences(paths.Select(path => MetadataReference.CreateFromFile(path)));
+        return project.AddDocument("Example.cs", source);
+    }
+
+    private static async Task<(SyntaxNode Root, int Changes, Diagnostic[] Errors)> ApplyFixesAsync(Document document)
+    {
+        var provider = new V4UpgradeCodeFixProvider();
+        for (var count = 0; count < 10; count++)
+        {
+            var compilation = (await document.Project.GetCompilationAsync())!;
+            var errors = compilation.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+            CodeAction? fix = null;
+            foreach (var diagnostic in errors.Where(diagnostic => provider.FixableDiagnosticIds.Contains(diagnostic.Id)))
+            {
+                var actions = new List<CodeAction>();
+                await provider.RegisterCodeFixesAsync(new CodeFixContext(document, diagnostic,
+                    (action, _) => actions.Add(action), CancellationToken.None));
+                Assert.IsLessThanOrEqualTo(1, actions.Count);
+                if (actions.Count == 1)
+                {
+                    fix = actions[0];
+                    break;
+                }
+            }
+
+            if (fix is null)
+            {
+                return ((await document.GetSyntaxRootAsync())!, count, errors);
+            }
+
+            var operations = await fix.GetOperationsAsync(CancellationToken.None);
+            document = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution.GetDocument(document.Id)!;
+        }
+
+        Assert.Fail("Migration did not converge within ten code fixes.");
+        throw new InvalidOperationException();
+    }
+
+    public TestContext TestContext { get; set; } = null!;
+}
