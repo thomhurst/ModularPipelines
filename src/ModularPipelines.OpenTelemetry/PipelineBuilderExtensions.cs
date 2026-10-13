@@ -1,12 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ModularPipelines.OpenTelemetry;
 using ModularPipelines.Tracing;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-namespace ModularPipelines.Extensions;
+namespace ModularPipelines.OpenTelemetry;
 
 /// <summary>
 /// Adds OpenTelemetry collection and export to a pipeline.
