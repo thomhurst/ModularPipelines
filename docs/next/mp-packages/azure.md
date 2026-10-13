@@ -20,6 +20,28 @@ For automated DevOps authentication, obtain a PAT from your secret provider and 
 
 `az devops login` itself requires a terminal prompt or a PAT supplied through stdin. The public command execution API exposes neither terminal interaction nor stdin, so this command is excluded from generated coverage. To populate the CLI credential store, run it separately before the pipeline. Environment-variable authentication does not populate that store.
 
+## Global arguments[​](#global-arguments "Direct link to Global arguments")
+
+Azure CLI parser metadata supplies `AzOptions.Output`, `Query`, `Debug`, `Verbose`, and `OnlyShowErrors`. `Subscription` is generated on commands whose parser supports it; commands such as `az extension list` do not expose it. Set these properties directly on the selected command options:
+
+```
+var options = new AzGroupShowOptions("my-resource-group")
+
+{
+
+    Subscription = "my-subscription",
+
+    Output = "json",
+
+    Query = "name",
+
+};
+```
+
+Global arguments follow the complete subcommand path, for example `az group show --name my-resource-group --subscription my-subscription --output json --query name`. The supplemental `AcquirePolicyToken` and `ChangeReference` properties remain available.
+
+When migrating, replace additional arguments for these switches with their typed properties. Reflection code using `DeclaredOnly` must include inherited properties. Command-specific definitions retain their own aliases, requiredness, and value arity. For example, `AzAccountSetOptions` requires `Name` in its constructor and renders the parser's primary `--name` spelling; its `-n`, `--subscription`, and `-s` spellings identify the same parser argument. `AzAccountShowOptions.Name` also renders `--name`. Resource names on other commands retain their own properties. Management-group subscription add, remove, and show commands now require both `Name` and `Subscription` constructor arguments, matching the CLI's required arguments.
+
 ## Azure CLI argument types[​](#azure-cli-argument-types "Direct link to Azure CLI argument types")
 
 Generated option types follow the installed Azure CLI parser. VM SKU values such as `Standard_DS2_v2`, and count-or-percentage values such as `5%`, remain strings. Integer parser arguments remain numeric.
