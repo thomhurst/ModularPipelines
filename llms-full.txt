@@ -12504,6 +12504,40 @@ var result = await context.Tools.ArgoCd.ApplicationSet.CreateAsync(
 
 Set `AuthToken` on an options record or provide `ARGOCD_AUTH_TOKEN` to the process. Generated token, password, private-key, and credential properties are marked as secrets so Modular Pipelines masks their values in command logs.
 
+## Shared connection and logging settings[​](#shared-connection-and-logging-settings "Direct link to Shared connection and logging settings")
+
+Command records inherit 26 persistent settings from `ArgoCdOptions`, including `Server`, `AuthToken`, `Config`, `Header`, logging settings, and port forwarding. They render in the selected command's flag scope, after its command path and operands:
+
+```
+using ModularPipelines.Models;
+
+
+
+var result = await context.Tools.ArgoCd.App.GetAsync(
+
+    new ArgoCdAppGetOptions("guestbook")
+
+    {
+
+        GrpcWeb = CliOptionValue.Bare,
+
+        HttpRetryMax = 0,
+
+        Insecure = "false",
+
+    },
+
+    cancellationToken: cancellationToken);
+```
+
+This renders `argocd app get guestbook --grpc-web --http-retry-max=0 --insecure=false`. Boolean persistent settings use `CliOptionValue`: a string such as `"false"` supplies an explicit value, `CliOptionValue.Bare` supplies the bare flag, and `null` omits it. `Header` accepts repeated values, retains the `-H` alias, and masks each complete header value in command logs. Certificate/key paths remain ordinary path values.
+
+Command and group settings retain their scope. `AppNamespace` stays on application commands. Administrative Kubernetes commands retain their own `Server` declaration; it identifies the Kubernetes API server, not the Argo CD API server. `configure` retains its command-local `PromptsEnabled` setting. Setting a compatible shadow through either the base or command record shares storage and emits the flag once.
+
+### Migration[​](#migration "Direct link to Migration")
+
+Replace manually supplied persistent arguments with inherited properties and avoid supplying both. Code using `BindingFlags.DeclaredOnly` must also inspect `ArgoCdOptions`. Persistent logging/compression enum values now use the shared base enums; select values through the inherited property's enum type. Replace Boolean assignments such as `PromptsEnabled = false` with `PromptsEnabled = "false"`. Existing commands and version APIs are unchanged by this inheritance audit.
+
 
 ---
 
@@ -12889,6 +12923,39 @@ Resolve the service in a module, then select a command from the table below. A r
 ```
 var argoCd = context.Tools.ArgoCd;
 ```
+
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                 | Property               | Availability | Description                                                                                                                                                                                                                                                                |
+| -------------------------- | ---------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--argocd-context`         | `ArgocdContext`        | All editions | The name of the Argo-CD server context to use                                                                                                                                                                                                                              |
+| `--auth-token`             | `AuthToken`            | All editions | Authentication token; set this or the ARGOCD\_AUTH\_TOKEN environment variable                                                                                                                                                                                             |
+| `--client-crt`             | `ClientCrt`            | All editions | Client certificate file                                                                                                                                                                                                                                                    |
+| `--client-crt-key`         | `ClientCrtKey`         | All editions | Client certificate key file                                                                                                                                                                                                                                                |
+| `--config`                 | `Config`               | All editions | Path to Argo CD config (default "\<home>/.config/argocd/config")                                                                                                                                                                                                           |
+| `--controller-name`        | `ControllerName`       | All editions | Name of the Argo CD Application controller; set this or the ARGOCD\_APPLICATION\_CONTROLLER\_NAME environment variable when the controller's name label differs from the default, for example when installing via the Helm chart (default "argocd-application-controller") |
+| `--core`                   | `Core`                 | All editions | If set to true then CLI talks directly to Kubernetes instead of talking to Argo CD API server                                                                                                                                                                              |
+| `--grpc-web`               | `GrpcWeb`              | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2.                                                                                                                                                                          |
+| `--grpc-web-root-path`     | `GrpcWebRootPath`      | All editions | Enables gRPC-web protocol. Useful if Argo CD server is behind proxy which does not support HTTP2. Set web root.                                                                                                                                                            |
+| `--header`                 | `Header`               | All editions | Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)                                                                                                                |
+| `--http-retry-max`         | `HttpRetryMax`         | All editions | Maximum number of retries to establish http connection to Argo CD server                                                                                                                                                                                                   |
+| `--insecure`               | `Insecure`             | All editions | Skip server certificate and domain verification                                                                                                                                                                                                                            |
+| `--kube-context`           | `KubeContext`          | All editions | Directs the command to the given kube-context                                                                                                                                                                                                                              |
+| `--logformat`              | `Logformat`            | All editions | Set the logging format. One of: json\|text (default "json")                                                                                                                                                                                                                |
+| `--loglevel`               | `Loglevel`             | All editions | Set the logging level. One of: debug\|info\|warn\|error (default "info")                                                                                                                                                                                                   |
+| `--plaintext`              | `Plaintext`            | All editions | Disable TLS                                                                                                                                                                                                                                                                |
+| `--port-forward`           | `PortForward`          | All editions | Connect to a random argocd-server port using port forwarding                                                                                                                                                                                                               |
+| `--port-forward-namespace` | `PortForwardNamespace` | All editions | Namespace name which should be used for port forwarding                                                                                                                                                                                                                    |
+| `--prompts-enabled`        | `PromptsEnabled`       | All editions | Force optional interactive prompts to be enabled or disabled, overriding local configuration. If not specified, the local configuration value will be used, which is false by default.                                                                                     |
+| `--redis-compress`         | `RedisCompress`        | All editions | Enable this if the application controller is configured with redis compression enabled. (possible values: gzip, none) (default "gzip")                                                                                                                                     |
+| `--redis-haproxy-name`     | `RedisHaproxyName`     | All editions | Name of the Redis HA Proxy; set this or the ARGOCD\_REDIS\_HAPROXY\_NAME environment variable when the HA Proxy's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis-ha-haproxy")                                  |
+| `--redis-name`             | `RedisName`            | All editions | Name of the Redis deployment; set this or the ARGOCD\_REDIS\_NAME environment variable when the Redis's name label differs from the default, for example when installing via the Helm chart (default "argocd-redis")                                                       |
+| `--repo-server-name`       | `RepoServerName`       | All editions | Name of the Argo CD Repo server; set this or the ARGOCD\_REPO\_SERVER\_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-repo-server")                                      |
+| `--server`                 | `Server`               | All editions | Argo CD server address                                                                                                                                                                                                                                                     |
+| `--server-crt`             | `ServerCrt`            | All editions | Server certificate file                                                                                                                                                                                                                                                    |
+| `--server-name`            | `ServerName`           | All editions | Name of the Argo CD API server; set this or the ARGOCD\_SERVER\_NAME environment variable when the server's name label differs from the default, for example when installing via the Helm chart (default "argocd-server")                                                  |
 
 ## Commands[​](#commands "Direct link to Commands")
 
