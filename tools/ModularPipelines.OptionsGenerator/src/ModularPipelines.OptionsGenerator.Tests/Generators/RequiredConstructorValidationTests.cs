@@ -421,6 +421,8 @@ public partial class RequiredConstructorValidationTests
                     public OptionFormat Format { get; set; }
                 }
                 public sealed class CliSubCommandAttribute(params string[] parts) : System.Attribute;
+                public sealed class CliToolAttribute(string name) : System.Attribute;
+                public sealed class CliGlobalOptionsAttribute : System.Attribute;
                 public sealed class CliArgumentAttribute(int position) : System.Attribute
                 {
                     public CommandLinePhase Phase { get; set; }
@@ -437,13 +439,20 @@ public partial class RequiredConstructorValidationTests
                 public sealed class Token;
                 public readonly record struct ValueToken(int Value);
             }
+            namespace ModularPipelines.Options
+            {
+                public record CommandLineToolOptions;
+            }
             namespace ModularPipelines.Tool.Options
             {
                 public partial record ToolOptions;
             }
             """;
+        var supportSource = generated.Any(static source => source.Contains("public abstract record ToolOptions", StringComparison.Ordinal))
+            ? support.Replace("public partial record ToolOptions;", "", StringComparison.Ordinal)
+            : support;
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),
-            [CSharpSyntaxTree.ParseText(support, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview)), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
+            [CSharpSyntaxTree.ParseText(supportSource, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview)), .. generated.Select(static source => CSharpSyntaxTree.ParseText(source,
                 CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview).WithDocumentationMode(DocumentationMode.Diagnose)))], CompilationReferences,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         using var stream = new MemoryStream();

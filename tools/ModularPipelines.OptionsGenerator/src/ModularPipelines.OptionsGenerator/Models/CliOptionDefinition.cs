@@ -239,10 +239,10 @@ public record CliOptionDefinition
             IsReferenceType: propertyType.IsReferenceType,
             SnapshotExpression: snapshotExpression,
             OptionalSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: false)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: false, snapshotDeclaredValues)
                 : null,
             OptionalValuePairSnapshotExpression: isCollection
-                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: true)
+                ? GetOptionalSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, typedSnapshotCollectionType, preserveValuePairs: true, snapshotDeclaredValues)
                 : null,
             TypedSnapshotCollectionType: typedSnapshotCollectionType,
             ElementTypeName: elementType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
@@ -313,9 +313,14 @@ public record CliOptionDefinition
     }
 
     private static string GetOptionalSnapshotExpression(
-        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, bool preserveValuePairs)
+        CSharpCompilation compilation, ITypeSymbol propertyType, ITypeSymbol elementType, bool isArrayAssignable, string? typedSnapshotCollectionType, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var snapshot = GetSnapshotExpression(compilation, propertyType, elementType, isArrayAssignable, retainUnsupportedCollections: true) ?? "{0}";
+        if (typedSnapshotCollectionType == "IReadOnlySet" && snapshotDeclaredValues)
+        {
+            snapshot = "new {1}DeclaredValues({0})";
+        }
+
         var supportsTypedSnapshot = typedSnapshotCollectionType is not null || (isArrayAssignable && elementType.SpecialType == SpecialType.System_Object);
         snapshot = supportsTypedSnapshot
             ? GetTypedSnapshotExpression(propertyType, elementType, typedSnapshotCollectionType, "KeyValue", "keyValues", snapshot)

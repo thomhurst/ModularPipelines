@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Generators;
@@ -134,9 +135,7 @@ public partial class RequiredConstructorValidationTests
         var separator = joined ? "," : null;
         var generated = await GenerateValidatedStringCollection(collectionType: collectionType,
             collectionSeparator: separator, inherited: inherited);
-        var baseProperty = inherited ? $"public {collectionType} Values {{ get; set; }}" : "";
-        var options = Compile(generated,
-            $"namespace ModularPipelines.Tool.Options {{ public partial record ToolOptions {{ {baseProperty} }} }}")
+        var options = Compile(generated)
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         var input = new SingleUseStringRendererViews(entry);
@@ -180,12 +179,12 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    [Arguments(" ")]
-    [Arguments("valid")]
-    public async Task Validated_Global_Overrides_Snapshot_Ordinary_SingleUse_Values(string entry)
+    [MatrixDataSource]
+    public async Task Validated_Global_Overrides_Snapshot_Ordinary_SingleUse_Values(
+        [Matrix(" ", "valid")] string entry,
+        [Matrix(false, true)] bool baseAssignment)
     {
-        var options = Compile(await GenerateValidatedStringCollection(inherited: true),
-            "namespace ModularPipelines.Tool.Options { public partial record ToolOptions { public IEnumerable<string>? Values { get; set; } } }")
+        var options = Compile(await GenerateValidatedStringCollection(inherited: true))
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         var enumerationCount = 0;
@@ -199,7 +198,8 @@ public partial class RequiredConstructorValidationTests
             yield return entry;
         }
 
-        options.GetProperty("Values")!.SetValue(instance, Values());
+        var property = (baseAssignment ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, Values());
         for (var pass = 0; pass < 2; pass++)
         {
             await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
@@ -208,9 +208,112 @@ public partial class RequiredConstructorValidationTests
         }
 
         await Assert.That(enumerationCount).IsEqualTo(1);
-        options.GetProperty("Values")!.SetValue(instance, null);
+        property.SetValue(instance, null);
         await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
         await Assert.That(options.BaseType!.GetProperty("Values")!.GetValue(instance)).IsNull();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_Base_Assignments_Snapshot_All_Renderer_Views(
+        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?",
+            "System.Collections.IEnumerable?", "IEnumerable<object>?", "IReadOnlyCollection<object>?", "IReadOnlyList<object>?")] string collectionType,
+        [Matrix(false, true)] bool joined,
+        [Matrix(" ", "valid")] string entry)
+    {
+        var separator = joined ? "," : null;
+        var generated = await GenerateValidatedStringCollection(collectionType: collectionType,
+            collectionSeparator: separator, inherited: true);
+        var options = Compile(generated)
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseStringRendererViews(entry);
+        var baseProperty = options.BaseType!.GetProperty("Values")!;
+        var property = options.GetProperty("Values")!;
+        baseProperty.SetValue(instance, input);
+        var retained = property.GetValue(instance);
+        await Assert.That(baseProperty.GetValue(instance)).IsSameReferenceAs(retained);
+        var attribute = Attribute.GetCustomAttributes(property, inherit: true)
+            .Single(attribute => attribute.GetType().Name == "CliOptionAttribute");
+        await Assert.That(attribute.GetType().GetProperty("ShortForm")!.GetValue(attribute)).IsNull();
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(((System.Collections.IEnumerable) retained!).Cast<string>()).IsEquivalentTo(["first", entry]);
+            string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(input.StringEnumerationCount).IsEqualTo(1);
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+        baseProperty.SetValue(instance, null);
+        await Assert.That(property.GetValue(instance)).IsNull();
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Validated_ReadOnly_Sets_Snapshot_Ordinary_SingleUse_Values(
+        [Matrix("local", "command", "base")] string assignment,
+        [Matrix(false, true)] bool joined,
+        [Matrix(" ", "valid")] string entry)
+    {
+        var inherited = assignment != "local";
+        var separator = joined ? "," : null;
+        var options = Compile(await GenerateValidatedStringCollection(collectionType: "IReadOnlySet<string>?",
+                collectionSeparator: separator, inherited: inherited))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseReadOnlySet(entry);
+        var property = (assignment == "base" ? options.BaseType! : options).GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = (IReadOnlySet<string>) property.GetValue(instance)!;
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(retained).IsEquivalentTo(["first", entry]);
+            string[] expected = joined ? ["--requirement", $"first,{entry}"] : ["--requirement", "first", "--requirement", entry];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        await Assert.That(retained.Count).IsEqualTo(2);
+        await Assert.That(retained.Contains("FIRST")).IsTrue();
+        await Assert.That(retained.SetEquals(["FIRST", entry.ToUpperInvariant()])).IsTrue();
+        await Assert.That(input.EnumerationCount).IsEqualTo(1);
+        property.SetValue(instance, null);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+    }
+
+    private sealed class SingleUseReadOnlySet(string entry) : IReadOnlySet<string>
+    {
+        private readonly HashSet<string> _members = new(["first", entry], StringComparer.OrdinalIgnoreCase);
+
+        public int EnumerationCount { get; private set; }
+        public int Count => _members.Count;
+        public bool Contains(string item) => _members.Contains(item);
+        public bool IsProperSubsetOf(IEnumerable<string> other) => _members.IsProperSubsetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<string> other) => _members.IsProperSupersetOf(other);
+        public bool IsSubsetOf(IEnumerable<string> other) => _members.IsSubsetOf(other);
+        public bool IsSupersetOf(IEnumerable<string> other) => _members.IsSupersetOf(other);
+        public bool Overlaps(IEnumerable<string> other) => _members.Overlaps(other);
+        public bool SetEquals(IEnumerable<string> other) => _members.SetEquals(other);
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            if (++EnumerationCount > 1)
+            {
+                throw new InvalidOperationException("Set input can only be enumerated once.");
+            }
+
+            return _members.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>,
@@ -276,9 +379,7 @@ public partial class RequiredConstructorValidationTests
         var separator = joined ? "," : null;
         var generated = await GenerateValidatedStringCollection(collectionType: collectionType,
             collectionSeparator: separator, inherited: inherited);
-        var baseProperty = inherited ? $"public {collectionType} Values {{ get; set; }}" : "";
-        var options = Compile(generated,
-            $"namespace ModularPipelines.Tool.Options {{ public partial record ToolOptions {{ {baseProperty} }} }}")
+        var options = Compile(generated)
             .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(options)!;
         var input = new MutableObjectRendererViews(entry);
@@ -428,9 +529,10 @@ public partial class RequiredConstructorValidationTests
         }
     }
 
-    private static Task<string> GenerateValidatedStringCollection(
-        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false) =>
-        Generate([new CliOptionDefinition
+    private static async Task<string[]> GenerateValidatedStringCollection(
+        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false)
+    {
+        var option = new CliOptionDefinition
         {
             SwitchName = "--requirement",
             PropertyName = "Values",
@@ -438,9 +540,27 @@ public partial class RequiredConstructorValidationTests
             AcceptsMultipleValues = true,
             RejectBlankCollectionValues = rejectBlank,
             CollectionSeparator = collectionSeparator,
-        }], alternativeGroups: alternative
-            ? [new() { Members = [new() { PropertyName = "Values", OptionSwitch = "--requirement" }] }]
-            : [], globalOptions: inherited
-            ? [new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, AcceptsMultipleValues = true }]
-            : null);
+        };
+        var tool = new CliToolDefinition
+        {
+            ToolName = "tool",
+            NamespacePrefix = "Tool",
+            TargetNamespace = "ModularPipelines.Tool",
+            OutputDirectory = "src/ModularPipelines.Tool",
+            GlobalOptionsBeforeSubcommands = !inherited,
+            GlobalOptions = inherited ? [option with { RejectBlankCollectionValues = false, ShortForm = "-g" }] : [],
+            Commands = [new()
+            {
+                FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions",
+                ToolNamespacePrefix = "Tool", Options = [option],
+                RequiredAlternativeGroups = alternative
+                    ? [new() { Members = [new() { PropertyName = "Values", OptionSwitch = "--requirement" }] }]
+                    : [],
+            }],
+        };
+        var command = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
+        return inherited
+            ? [command, (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content]
+            : [command];
+    }
 }

@@ -801,8 +801,19 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine(declaration);
         sb.AppendLine("    {");
         sb.AppendLine(forwardsToGlobal ? $"        get => {storage};" : "        get;");
-        sb.AppendLine($"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
+        sb.AppendLine(forwardsToGlobal
+            ? $"        set => {storage} = value;"
+            : $"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
         sb.AppendLine("    }");
+        if (forwardsToGlobal)
+        {
+            // Keep a separate metadata slot while intercepting assignments through the base setter.
+            sb.AppendLine();
+            sb.AppendLine("    /// <inheritdoc />");
+            sb.AppendLine($"    protected override {propertyType} {GetGlobalCollectionSnapshotMethodName(propertyName)}({propertyType} value) =>");
+            sb.AppendLine($"        value is {{ }} values ? {snapshot} : default;");
+        }
+
         if (valueArity != CliOptionValueArity.Optional)
         {
             GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs,
@@ -817,6 +828,11 @@ public class OptionsClassGenerator : ICodeGenerator
         if (collectionType is null or "HashSet")
         {
             return;
+        }
+
+        if (collectionType == "IReadOnlySet" && snapshotDeclaredValues)
+        {
+            GenerateReadOnlySetSnapshotAdapter(sb, propertyType, typePrefix);
         }
 
         foreach (var elementName in new[] { "KeyValue", "CliValuePair" })
@@ -900,17 +916,43 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (collectionType == "IReadOnlySet")
         {
-            sb.AppendLine();
-            // Set operations retain the source's equality contract, which need not use the default comparer.
-            sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
-            foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
-            {
-                sb.AppendLine();
-                sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
-            }
+            GenerateDelegatedSetOperations(sb, declaredElement);
         }
 
         sb.AppendLine("    }");
+    }
+
+    private static void GenerateReadOnlySetSnapshotAdapter(StringBuilder sb, string propertyType, string typePrefix)
+    {
+        var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
+        var sourceType = propertyType.TrimEnd('?');
+        sb.AppendLine();
+        sb.AppendLine($$"""
+                private sealed class {{typePrefix}}DeclaredValues({{sourceType}} source) : {{sourceType}}
+                {
+                    private readonly {{declaredElement}}[] _values = global::System.Linq.Enumerable.ToArray(source);
+
+                    public int Count => _values.Length;
+
+                    public global::System.Collections.Generic.IEnumerator<{{declaredElement}}> GetEnumerator() =>
+                        ((global::System.Collections.Generic.IEnumerable<{{declaredElement}}>)_values).GetEnumerator();
+
+                    global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() => _values.GetEnumerator();
+            """);
+        GenerateDelegatedSetOperations(sb, declaredElement);
+        sb.AppendLine("    }");
+    }
+
+    private static void GenerateDelegatedSetOperations(StringBuilder sb, string declaredElement)
+    {
+        sb.AppendLine();
+        // Set operations retain the source's equality contract, which need not use the default comparer.
+        sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
+        foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
+        {
+            sb.AppendLine();
+            sb.AppendLine($"        public bool {method}(global::System.Collections.Generic.IEnumerable<{declaredElement}> other) => source.{method}(other);");
+        }
     }
 
     private static void GenerateMutableDeclaredSnapshotAdapter(StringBuilder sb, string typePrefix, string elementName)
@@ -974,6 +1016,8 @@ public class OptionsClassGenerator : ICodeGenerator
 
     private static string GetPropertyAccessor(bool isRequired) =>
         isRequired ? "private init" : "set";
+
+    internal static string GetGlobalCollectionSnapshotMethodName(string propertyName) => $"__{propertyName}SnapshotValue";
 
     // A new slot keeps command metadata independent of the inherited command attribute.
     private static string GetPropertyModifier(string propertyName, CliOptionDefinition? option) =>
