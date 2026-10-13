@@ -388,7 +388,8 @@ public partial class RequiredConstructorValidationTests
         await Assert.That(options.GetProperty("Path")!.GetValue(instance)).IsEqualTo(supportsAlternateInput ? null : "path");
     }
 
-    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null, IReadOnlyList<CliRequiredAlternativeGroup>? alternativeGroups = null)
+    private static async Task<string> Generate(List<CliOptionDefinition> options, IReadOnlyList<CliPositionalArgument>? positionalArguments = null, IReadOnlyList<CliRequiredAlternativeGroup>? alternativeGroups = null,
+        IReadOnlyList<CliOptionDefinition>? globalOptions = null)
     {
         var tool = new CliToolDefinition
         {
@@ -396,6 +397,8 @@ public partial class RequiredConstructorValidationTests
             NamespacePrefix = "Tool",
             TargetNamespace = "ModularPipelines.Tool",
             OutputDirectory = "src/ModularPipelines.Tool",
+            GlobalOptions = globalOptions ?? [],
+            GlobalOptionsBeforeSubcommands = globalOptions is null,
             Commands = [new() { FullCommand = "tool run", CommandParts = ["run"], ClassName = "ToolRunOptions", ParentClassName = "ToolOptions", ToolNamespacePrefix = "Tool", Options = options, PositionalArguments = positionalArguments ?? [], RequiredAlternativeGroups = alternativeGroups ?? [] }],
         };
         return (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
@@ -435,7 +438,7 @@ public partial class RequiredConstructorValidationTests
             }
             namespace ModularPipelines.Tool.Options
             {
-                public record ToolOptions;
+                public partial record ToolOptions;
             }
             """;
         var compilation = CSharpCompilation.Create(Guid.NewGuid().ToString("N"),

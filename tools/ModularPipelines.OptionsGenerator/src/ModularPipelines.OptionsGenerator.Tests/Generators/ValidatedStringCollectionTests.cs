@@ -123,6 +123,148 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
+    [MatrixDataSource]
+    public async Task Validated_Multiple_Views_Snapshot_SingleUse_String_Entries(
+        [Matrix("IEnumerable<string>?", "IReadOnlyCollection<string>?", "IReadOnlyList<string>?", "IReadOnlySet<string>?")] string collectionType,
+        [Matrix(false, true)] bool joined,
+        [Matrix(false, true)] bool inherited,
+        [Matrix(" ", "valid")] string entry)
+    {
+        var separator = joined ? "," : null;
+        var generated = await GenerateValidatedStringCollection(collectionType: collectionType,
+            collectionSeparator: separator, inherited: inherited);
+        var baseProperty = inherited ? $"public {collectionType} Values {{ get; set; }}" : "";
+        var options = Compile(generated,
+            $"namespace ModularPipelines.Tool.Options {{ public partial record ToolOptions {{ {baseProperty} }} }}")
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var input = new SingleUseStringRendererViews(entry);
+        var property = options.GetProperty("Values")!;
+        property.SetValue(instance, input);
+        var retained = property.GetValue(instance);
+        for (var pass = 0; pass < 2; pass++)
+        {
+            var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
+            await Assert.That(errors.Any()).IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That((IEnumerable<string>) retained!).IsEquivalentTo(["first", entry]);
+            string[] expected = joined ? ["--requirement", "typed=value"] : ["--requirement", "typed", "value"];
+            await Assert.That(RenderAlternativeCollection(instance, positional: false, collectionSeparator: separator))
+                .IsEquivalentTo(expected);
+        }
+
+        if (retained is IReadOnlyCollection<string> collection)
+        {
+            await Assert.That(collection.Count).IsEqualTo(2);
+        }
+
+        if (retained is IReadOnlyList<string> list)
+        {
+            await Assert.That(list[1]).IsEqualTo(entry);
+        }
+
+        if (retained is IReadOnlySet<string> set)
+        {
+            await Assert.That(set.Contains("FIRST")).IsTrue();
+            await Assert.That(set.SetEquals(["FIRST", entry.ToUpperInvariant()])).IsTrue();
+        }
+
+        if (inherited)
+        {
+            await Assert.That(options.BaseType!.GetProperty("Values")!.GetValue(instance)).IsSameReferenceAs(retained);
+        }
+
+        await Assert.That(input.StringEnumerationCount).IsEqualTo(1);
+        await Assert.That(input.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(input.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+    }
+
+    [Test]
+    [Arguments(" ")]
+    [Arguments("valid")]
+    public async Task Validated_Global_Overrides_Snapshot_Ordinary_SingleUse_Values(string entry)
+    {
+        var options = Compile(await GenerateValidatedStringCollection(inherited: true),
+            "namespace ModularPipelines.Tool.Options { public partial record ToolOptions { public IEnumerable<string>? Values { get; set; } } }")
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options)!;
+        var enumerationCount = 0;
+        IEnumerable<string> Values()
+        {
+            if (++enumerationCount > 1)
+            {
+                throw new InvalidOperationException("Input was enumerated twice.");
+            }
+
+            yield return entry;
+        }
+
+        options.GetProperty("Values")!.SetValue(instance, Values());
+        for (var pass = 0; pass < 2; pass++)
+        {
+            await Assert.That(((IValidatableObject) instance).Validate(new(instance)).Any())
+                .IsEqualTo(string.IsNullOrWhiteSpace(entry));
+            await Assert.That(RenderAlternativeCollection(instance, positional: false)).IsEquivalentTo(["--requirement", entry]);
+        }
+
+        await Assert.That(enumerationCount).IsEqualTo(1);
+        options.GetProperty("Values")!.SetValue(instance, null);
+        await Assert.That(((IValidatableObject) instance).Validate(new(instance))).IsEmpty();
+        await Assert.That(options.BaseType!.GetProperty("Values")!.GetValue(instance)).IsNull();
+    }
+
+    private sealed class SingleUseStringRendererViews(string entry) : IReadOnlyList<string>, IReadOnlySet<string>,
+        IEnumerable<ModularPipelines.Models.CliValuePair>, IEnumerable<ModularPipelines.Models.KeyValue>
+    {
+        private readonly HashSet<string> _members = new(["first", entry], StringComparer.OrdinalIgnoreCase);
+
+        public int StringEnumerationCount { get; private set; }
+        public int PairEnumerationCount { get; private set; }
+        public int KeyValueEnumerationCount { get; private set; }
+        public int Count => 2;
+        public string this[int index] => index == 0 ? "first" : entry;
+        public bool Contains(string item) => _members.Contains(item);
+        public bool IsProperSubsetOf(IEnumerable<string> other) => _members.IsProperSubsetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<string> other) => _members.IsProperSupersetOf(other);
+        public bool IsSubsetOf(IEnumerable<string> other) => _members.IsSubsetOf(other);
+        public bool IsSupersetOf(IEnumerable<string> other) => _members.IsSupersetOf(other);
+        public bool Overlaps(IEnumerable<string> other) => _members.Overlaps(other);
+        public bool SetEquals(IEnumerable<string> other) => _members.SetEquals(other);
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            if (++StringEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("String input can only be enumerated once.");
+            }
+
+            yield return "first";
+            yield return entry;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+
+        IEnumerator<ModularPipelines.Models.CliValuePair> IEnumerable<ModularPipelines.Models.CliValuePair>.GetEnumerator()
+        {
+            if (++PairEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("Pair input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+
+        IEnumerator<ModularPipelines.Models.KeyValue> IEnumerable<ModularPipelines.Models.KeyValue>.GetEnumerator()
+        {
+            if (++KeyValueEnumerationCount > 1)
+            {
+                throw new InvalidOperationException("KeyValue input can only be enumerated once.");
+            }
+
+            yield return new("typed", "value");
+        }
+    }
+
+    [Test]
     [Arguments("string[]?")]
     [Arguments("List<string>?")]
     [Arguments("IReadOnlyList<string?>?")]
@@ -149,7 +291,7 @@ public partial class RequiredConstructorValidationTests
     }
 
     private static Task<string> GenerateValidatedStringCollection(
-        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null) =>
+        bool alternative = false, bool rejectBlank = true, string collectionType = "IEnumerable<string>?", string? collectionSeparator = null, bool inherited = false) =>
         Generate([new CliOptionDefinition
         {
             SwitchName = "--requirement",
@@ -160,5 +302,7 @@ public partial class RequiredConstructorValidationTests
             CollectionSeparator = collectionSeparator,
         }], alternativeGroups: alternative
             ? [new() { Members = [new() { PropertyName = "Values", OptionSwitch = "--requirement" }] }]
-            : []);
+            : [], globalOptions: inherited
+            ? [new() { SwitchName = "--requirement", PropertyName = "Values", CSharpType = collectionType, AcceptsMultipleValues = true }]
+            : null);
 }

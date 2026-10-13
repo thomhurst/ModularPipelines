@@ -748,7 +748,18 @@ public class OptionsClassGenerator : ICodeGenerator
     {
         var modifier = GetPropertyModifier(propertyName, option);
         var declaration = $"    public {modifier}{propertyType} {propertyName}";
-        if (option?.GlobalOptionPropertyType == propertyType)
+        var forwardsToGlobal = option?.GlobalOptionPropertyType == propertyType;
+        // Required collections are already materialized by their constructor. Optional
+        // validated inputs must retain the same values for validation and rendering.
+        if (!isRequired && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
+            && (!forwardsToGlobal || option?.RejectBlankCollectionValues == true)
+            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
+        {
+            GenerateOptionalCollectionProperty(sb, declaration, propertyType, propertyName, option, forwardsToGlobal);
+            return;
+        }
+
+        if (forwardsToGlobal)
         {
             // Keep command-specific metadata separate while base-typed callers use the same value.
             sb.AppendLine(declaration);
@@ -759,41 +770,40 @@ public class OptionsClassGenerator : ICodeGenerator
             return;
         }
 
-        // Required collections are already materialized by their constructor. Optional
-        // validated inputs must retain the same values for validation and rendering.
-        if (!isRequired && (participatesInAlternative || option?.RejectBlankCollectionValues == true)
-            && CliOptionDefinition.IsCollectionType(propertyType, collectionOverride))
-        {
-            var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
-            var preserveValuePairs = option is not null && option.CollectionSeparator is null;
-            var typedSnapshotPrefix = $"__{propertyName}Snapshot";
-            var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
-                propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
-            if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
-                && option.ValueSeparator != " ")
-            {
-                // The renderer checks pair format before joining the selected values.
-                // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
-                snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
-            }
-
-            sb.AppendLine(declaration);
-            sb.AppendLine("    {");
-            sb.AppendLine("        get;");
-            sb.AppendLine($"        set => field = value is {{ }} values ? {snapshot} : default;");
-            sb.AppendLine("    }");
-            if (valueArity != CliOptionValueArity.Optional)
-            {
-                GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs);
-            }
-
-            return;
-        }
-
         sb.AppendLine($"{declaration} {{ get; {GetPropertyAccessor(isRequired)}; }}");
     }
 
-    private static void GenerateTypedSnapshotAdapters(StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs)
+    private static void GenerateOptionalCollectionProperty(
+        StringBuilder sb, string declaration, string propertyType, string propertyName, CliOptionDefinition? option, bool forwardsToGlobal)
+    {
+        var valueArity = option?.ValueArity ?? CliOptionValueArity.Required;
+        var preserveValuePairs = option is not null && option.CollectionSeparator is null;
+        var typedSnapshotPrefix = $"__{propertyName}Snapshot";
+        var snapshot = CliOptionDefinition.GetCollectionSnapshotExpression(
+            propertyType, "values", retainUnsupportedCollections: true, typedSnapshotPrefix, preserveValuePairs, valueArity);
+        if (option is { CollectionSeparator: not null, ValueArity: not CliOptionValueArity.Optional }
+            && option.ValueSeparator != " ")
+        {
+            // The renderer checks pair format before joining the selected values.
+            // Keep invalid pair inputs recognizable so snapshotting cannot hide that error.
+            snapshot = $"(object)values is global::System.Collections.Generic.IEnumerable<global::ModularPipelines.Models.CliValuePair> ? values : ({snapshot})";
+        }
+
+        var storage = forwardsToGlobal ? $"base.{propertyName}" : "field";
+        sb.AppendLine(declaration);
+        sb.AppendLine("    {");
+        sb.AppendLine(forwardsToGlobal ? $"        get => {storage};" : "        get;");
+        sb.AppendLine($"        set => {storage} = value is {{ }} values ? {snapshot} : default;");
+        sb.AppendLine("    }");
+        if (valueArity != CliOptionValueArity.Optional)
+        {
+            GenerateTypedSnapshotAdapters(sb, propertyType, typedSnapshotPrefix, preserveValuePairs,
+                snapshotDeclaredValues: option?.RejectBlankCollectionValues == true);
+        }
+    }
+
+    private static void GenerateTypedSnapshotAdapters(
+        StringBuilder sb, string propertyType, string typePrefix, bool preserveValuePairs, bool snapshotDeclaredValues)
     {
         var collectionType = CliOptionDefinition.GetTypedSnapshotCollectionType(propertyType);
         if (collectionType is null or "HashSet")
@@ -815,17 +825,21 @@ public class OptionsClassGenerator : ICodeGenerator
             }
             else
             {
-                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType);
+                GenerateReadOnlyTypedSnapshotAdapter(sb, propertyType, typePrefix, elementName, collectionType, snapshotDeclaredValues);
             }
         }
     }
 
     private static void GenerateReadOnlyTypedSnapshotAdapter(
-        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType)
+        StringBuilder sb, string propertyType, string typePrefix, string elementName, string collectionType, bool snapshotDeclaredValues)
     {
         var elementType = $"global::ModularPipelines.Models.{elementName}";
         var declaredElement = CliOptionDefinition.GetSnapshotElementTypeName(propertyType);
         var sourceType = propertyType.TrimEnd('?');
+        var retainedSource = snapshotDeclaredValues ? "_source" : "source";
+        var enumerableSource = snapshotDeclaredValues
+            ? $"((global::System.Collections.Generic.IEnumerable<{declaredElement}>)_source)"
+            : "source";
         sb.AppendLine();
         sb.AppendLine($$"""
                 private sealed class {{typePrefix}}{{elementName}}(
@@ -834,12 +848,20 @@ public class OptionsClassGenerator : ICodeGenerator
                     : {{sourceType}}, global::System.Collections.Generic.IEnumerable<{{elementType}}>
                 {
                     private readonly {{elementType}}[] _values = global::System.Linq.Enumerable.ToArray(values);
+            """);
+        if (snapshotDeclaredValues)
+        {
+            // Validation reads the declared view, independently of the renderer view.
+            sb.AppendLine($"        private readonly {declaredElement}[] _source = global::System.Linq.Enumerable.ToArray(global::System.Linq.Enumerable.Cast<{declaredElement}>((global::System.Collections.IEnumerable)source));");
+        }
+
+        sb.AppendLine($$"""
 
                     global::System.Collections.Generic.IEnumerator<{{declaredElement}}>
-                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => source.GetEnumerator();
+                        global::System.Collections.Generic.IEnumerable<{{declaredElement}}>.GetEnumerator() => {{enumerableSource}}.GetEnumerator();
 
                     global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator() =>
-                        ((global::System.Collections.IEnumerable)source).GetEnumerator();
+                        ((global::System.Collections.IEnumerable){{retainedSource}}).GetEnumerator();
 
                     global::System.Collections.Generic.IEnumerator<{{elementType}}>
                         global::System.Collections.Generic.IEnumerable<{{elementType}}>.GetEnumerator() =>
@@ -848,18 +870,20 @@ public class OptionsClassGenerator : ICodeGenerator
         if (collectionType is "IReadOnlyCollection" or "IReadOnlyList" or "IReadOnlySet")
         {
             sb.AppendLine();
-            sb.AppendLine("        public int Count => source.Count;");
+            var count = snapshotDeclaredValues ? "_source.Length" : "source.Count";
+            sb.AppendLine($"        public int Count => {count};");
         }
 
         if (collectionType == "IReadOnlyList")
         {
             sb.AppendLine();
-            sb.AppendLine($"        public {declaredElement} this[int index] => source[index];");
+            sb.AppendLine($"        public {declaredElement} this[int index] => {retainedSource}[index];");
         }
 
         if (collectionType == "IReadOnlySet")
         {
             sb.AppendLine();
+            // Set operations retain the source's equality contract, which need not use the default comparer.
             sb.AppendLine($"        public bool Contains({declaredElement} item) => source.Contains(item);");
             foreach (var method in new[] { "IsProperSubsetOf", "IsProperSupersetOf", "IsSubsetOf", "IsSupersetOf", "Overlaps", "SetEquals" })
             {
