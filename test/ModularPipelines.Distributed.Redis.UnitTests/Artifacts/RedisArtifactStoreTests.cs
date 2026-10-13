@@ -46,6 +46,49 @@ public class RedisArtifactStoreTests
     }
 
     [Test]
+    public async Task Upload_Indexes_The_Artifact_Before_And_After_Writing_It()
+    {
+        using var stream = new MemoryStream([1]);
+        await _store.UploadAsync(
+            new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+            stream,
+            CancellationToken.None);
+
+        _mockDb.Verify(db => db.ScriptEvaluateAsync(
+            It.IsAny<string>(),
+            It.Is<RedisKey[]>(keys => keys.Length == 2
+                                      && keys[0] == (RedisKey) _keys.ArtifactIndex("Test.Module")
+                                      && keys[1] == (RedisKey) _keys.ArtifactModules),
+            It.Is<RedisValue[]>(values => values[1] == (RedisValue) "Test.Module"
+                                          && values[2] == (RedisValue) (long) TimeSpan.FromHours(1).TotalMilliseconds),
+            It.IsAny<CommandFlags>()), Times.Exactly(2));
+    }
+
+    [Test]
+    public async Task Upload_Indexes_The_Artifact_Before_A_Failed_Content_Read()
+    {
+        await using var stream = new FailingStream();
+
+        await Assert.That(async () => await _store.UploadAsync(
+                new ArtifactDescriptor { Name = "test-art", ModuleId = "Test.Module" },
+                stream,
+                CancellationToken.None))
+            .Throws<IOException>();
+
+        _mockDb.Verify(db => db.ScriptEvaluateAsync(
+            It.IsAny<string>(),
+            It.Is<RedisKey[]>(keys => keys[0] == (RedisKey) _keys.ArtifactIndex("Test.Module")),
+            It.IsAny<RedisValue[]>(),
+            It.IsAny<CommandFlags>()), Times.Once());
+    }
+
+    private sealed class FailingStream : MemoryStream
+    {
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+            ValueTask.FromException<int>(new IOException("Simulated read failure"));
+    }
+
+    [Test]
     public async Task Upload_LargeArtifact_ReturnsCorrectSize()
     {
         var descriptor = new ArtifactDescriptor
@@ -341,14 +384,16 @@ public class RedisArtifactStoreTests
 
         await _store.DeleteAsync(reference, CancellationToken.None);
 
-        // Verify meta key deleted
+        // Verify meta and data keys deleted together
         _mockDb.Verify(db => db.KeyDeleteAsync(
-            It.Is<RedisKey>(k => k.ToString().Contains("artifacts:meta:art1")),
+            It.Is<RedisKey[]>(keys => keys.Length == 2
+                                      && keys[0] == (RedisKey) _keys.ArtifactMeta("art1")
+                                      && keys[1] == (RedisKey) _keys.ArtifactData("art1")),
             It.IsAny<CommandFlags>()), Times.Once);
 
-        // Verify data key deleted
+        // Verify chunks deleted in one batch, which found no chunks
         _mockDb.Verify(db => db.KeyDeleteAsync(
-            It.Is<RedisKey>(k => k.ToString() == _keys.ArtifactData("art1")),
+            It.Is<RedisKey[]>(keys => keys.Length == 256 && keys[0] == (RedisKey) _keys.ArtifactChunk("art1", 0)),
             It.IsAny<CommandFlags>()), Times.Once);
 
         // Verify index updated

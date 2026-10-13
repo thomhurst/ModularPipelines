@@ -76,5 +76,15 @@ internal static class DistributedOptionsValidator
         {
             failures.Add("Distributed.ModuleResultTimeout cannot be negative.");
         }
+
+        if (!Enum.IsDefined(options.RunCleanup))
+        {
+            failures.Add("Distributed.RunCleanup must be a defined DistributedRunCleanupPolicy value.");
+        }
+
+        if (options.RunCleanupTimeout <= TimeSpan.Zero)
+        {
+            failures.Add("Distributed.RunCleanupTimeout must be positive.");
+        }
     }
 }

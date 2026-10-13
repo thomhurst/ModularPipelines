@@ -78,6 +78,8 @@ builder.AddDistributedMode(o => o with
 | `MasterTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(1)` | How long workers keep running after the master stops sending heartbeats without having signalled completion, or while they cannot reach the coordinator to check. Workers then cancel their in-flight modules, including AlwaysRun modules, and fail. SignalR workers detect a lost master when their connection closes for good instead. Must exceed `WorkerHeartbeatInterval`. |
 | `MinimumWorkerCount` | `int` | `0` | Number of external workers required before dispatch starts, between zero and `TotalInstances - 1`. Keep zero for immediate dispatch. |
 | `ModuleResultTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(45)` | The master's backstop for a claimed module. The deadline starts when a worker claims the module and allows every configured attempt at the module's timeout plus this period; the worker enforces the per-attempt timeout itself. Use `TimeSpan.Zero` to wait indefinitely. |
+| `RunCleanup` | `DistributedRunCleanupPolicy` | `Always` | Which pipeline outcomes delete the data backends stored for the run. See [Run data cleanup](#run-data-cleanup). |
+| `RunCleanupTimeout` | `TimeSpan` | `TimeSpan.FromMinutes(2)` | How long cleanup waits for workers to publish their final status, and how long each backend may take to delete the run's data. Cleanup is skipped when a worker does not finish in time. |
 
 Invalid combinations, such as `InstanceIndex >= TotalInstances`, `WorkerTimeout <= WorkerHeartbeatInterval` or `MasterTimeout <= WorkerHeartbeatInterval`,
 are reported by pipeline validation and stop the distributed backend from starting.
@@ -160,6 +162,51 @@ builder.AddDistributedMode(o => o with { ArtifactCompressionLevel = CompressionL
 Storage-specific settings such as expiry, chunk size and multipart part size live on the backend's options
 (`RedisOptions`, `S3StorageOptions`).
 
+## Run data cleanup
+
+When a distributed pipeline ends, backends that implement `IDistributedRunCleanup` delete the data they stored
+for the run. Only the master cleans up. Workers never do, and neither do pipelines that do not call
+`AddDistributedMode`, because separate local runs can share a run identifier and its artifacts. Cleanup starts
+after the pipeline end handlers and the run report have finished, and only once every worker registered for the
+run has published its final status. Workers publish it after their own pipeline end handlers, so none still uses
+the run's data. If a worker does not publish one within `RunCleanupTimeout`, for example because it crashed,
+cleanup is skipped with a warning and each backend's own expiry removes the data.
+
+`DistributedOptions.RunCleanup` selects when cleanup runs:
+
+| Value | Behavior |
+|-------|----------|
+| `Always` (default) | Deletes the run's data whatever the outcome. |
+| `OnSuccess` | Deletes the run's data when the pipeline succeeded. A failed or canceled run keeps its data for investigation until each backend's own expiry removes it. |
+| `Never` | Keeps the run's data; only each backend's own expiry removes it. |
+
+```csharp
+builder.AddDistributedMode(o => o with
+{
+    RunCleanup = DistributedRunCleanupPolicy.OnSuccess,
+    RunCleanupTimeout = TimeSpan.FromMinutes(5),
+});
+```
+
+Cleanup is best effort. A backend that fails, or does not finish within `RunCleanupTimeout`, is logged as a
+warning and never changes the pipeline result. Backend expiry, such as `RedisOptions.TimeToLive` or the S3
+lifecycle rule, still removes data from runs that crashed or kept their data. Module caches are shared across
+runs, so cleanup never deletes them.
+
+The built-in backends clean up as follows:
+
+| Backend | Deletes |
+|---------|---------|
+| Redis coordinator | Every run coordination key except the completion flag, which expires with `TimeToLive` so a worker that starts late sees a completed master and exits. |
+| Redis artifact store | Every artifact uploaded in the run, by any process, and the indexes that list them. |
+| S3 artifact store | Every object under `{KeyPrefix}/artifacts/{RunId}/`. In a versioned bucket it deletes every version and delete marker, so no artifact stays recoverable. Providers without a versioning API, such as Cloudflare R2, fall back to deleting the current objects. |
+| Redis master discovery | The endpoint and access token this master advertised. |
+
+To make a custom coordinator, artifact store or discovery service clean up, implement `IDistributedRunCleanup` on it.
+Any other service can take part by registering itself as `IDistributedRunCleanup`. Each backend is called once,
+even when it is registered more than once. See the [architecture guide](architecture.md#run-data-cleanup) for the
+contract.
+
 ## RedisOptions
 
 Passed to `AddRedisDistributedCoordinator()`, `AddRedisDistributedArtifactStore()`, `AddRedisDistributed()` and
@@ -187,7 +234,7 @@ builder.AddRedisDistributed(o => o with
 | `ConnectionString` | `string` | `""` | StackExchange.Redis connection string. Supports all standard options (`password`, `ssl`, `abortConnect`, etc.). **Required** unless `ConfigureConnection` supplies the endpoints. |
 | `ConfigureConnection` | `Action<ConfigurationOptions>?` | `null` | Adjusts the parsed `ConfigurationOptions` before connecting. Use it for passwords containing commas or other characters a connection string cannot carry, TLS, and retry settings. |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
-| `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration. |
+| `TimeToLive` | `TimeSpan` | `TimeSpan.FromHours(1)` | TTL for all Redis keys, including artifacts and module cache entries. Keys are automatically cleaned up after this duration, and [run data cleanup](#run-data-cleanup) deletes a finished run's keys earlier. |
 | `ChunkSizeBytes` | `int` | 1 MB | Size of each Redis value used for artifacts and module cache entries. Content that fits in one chunk is stored under a single key. Each chunk must transfer within the connection's `AsyncTimeout`, so lower it or raise the timeout for slow or shared links. |
 
 Each registration owns its connection and connects asynchronously on first use. The package never registers or
@@ -292,12 +339,14 @@ Artifacts are stored under the same run namespace:
 | `modpipe:{run}:artifacts:data:{id}` | String | Content of an artifact that fits in one chunk (including empty artifacts) |
 | `modpipe:{run}:artifacts:data:{id}:chunk:{n}` | String | Chunks of a larger artifact |
 | `modpipe:{run}:artifacts:index:{ModuleId}` | Set | Artifact ids uploaded by a module |
+| `modpipe:{run}:artifacts:modules` | Set | Modules that uploaded artifacts in the run, used by run data cleanup |
 
 The braces around the run identifier form a Redis Cluster hash tag, so every key of a run maps to one slot.
 Module cache entries are not run-scoped; they use `{KeyPrefix}:module-cache:v2:{fingerprint}:...`, where the
 braced fingerprint is the hash tag that keeps an entry's metadata and chunks in one slot.
 
 All storage keys have the configured TTL applied, so they are automatically cleaned up even if the pipeline crashes.
+[Run data cleanup](#run-data-cleanup) deletes a finished run's keys before the TTL expires.
 
 ## SignalR Coordinator
 
@@ -346,7 +395,7 @@ replaces an `IConnectionMultiplexer` registered by the application.
 | `RestUrl` | `Uri?` | `null` | Absolute HTTPS Upstash REST endpoint (HTTP only on loopback); configure together with `RestToken`. |
 | `RestToken` | `string?` | `null` | Upstash REST token; configure together with `RestUrl`. |
 | `KeyPrefix` | `string` | `modpipe` | Prefix of the endpoint key `{KeyPrefix}:{RunId}:master-endpoint`. |
-| `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. |
+| `TimeToLive` | `TimeSpan` | `01:00:00` | How long the advertised endpoint is kept. [Run data cleanup](#run-data-cleanup) deletes it earlier. |
 | `DiscoveryTimeout` | `TimeSpan` | `00:02:00` | How long workers wait for the endpoint. |
 | `PollInterval` | `TimeSpan` | `00:00:00.500` | How often workers check for the endpoint. |
 

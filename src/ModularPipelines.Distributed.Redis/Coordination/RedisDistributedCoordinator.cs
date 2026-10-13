@@ -16,9 +16,10 @@ namespace ModularPipelines.Distributed.Redis.Coordination;
 /// Redis cannot cancel a command already sent, so each call is bounded with
 /// <see cref="Task.WaitAsync(CancellationToken)"/> and later commands are not issued.
 /// The master's coordinator records a heartbeat every <see cref="DistributedOptions.WorkerHeartbeatInterval"/>
-/// until it is disposed, so workers detect a master that stopped without signalling completion.
+/// until it is disposed or cleans up the run, so workers detect a master that stopped without signalling
+/// completion.
 /// </remarks>
-internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinator, IAsyncDisposable
+internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinator, IDistributedRunCleanup, IAsyncDisposable
 {
     internal static readonly TimeSpan PollInterval = TimeSpan.FromSeconds(2);
 
@@ -33,7 +34,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     private readonly TimeSpan _keyExpiration;
     private readonly TimeSpan _workerTimeout;
     private readonly TimeSpan _masterTimeout;
-    private readonly CancellationTokenSource _disposeCts = new();
+    private readonly CancellationTokenSource _masterHeartbeatCts = new();
+    private int _disposed;
     private Task _masterHeartbeatTask = Task.CompletedTask;
     // Lets real-backend contract tests synchronize after the race-closing reads complete.
     private readonly Action? _onWaitReady;
@@ -381,7 +383,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
     /// coordinator is disposed.
     /// </summary>
     internal void StartMasterHeartbeat(TimeSpan interval) =>
-        _masterHeartbeatTask = SendMasterHeartbeatsAsync(interval, _disposeCts.Token);
+        _masterHeartbeatTask = SendMasterHeartbeatsAsync(interval, _masterHeartbeatCts.Token);
 
     internal async Task SendMasterHeartbeatAsync(CancellationToken cancellationToken)
     {
@@ -393,16 +395,40 @@ internal sealed class RedisDistributedCoordinator : IDistributedMasterCoordinato
             .WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Deletes the run's coordination keys. The completion flag stays until it expires, so a worker that
+    /// starts after cleanup sees a completed master and exits instead of waiting for one to start.
+    /// </summary>
+    public async Task CleanupRunAsync(DistributedRunCleanupContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+
+        // A later heartbeat would recreate the deleted master keys.
+        await StopMasterHeartbeatAsync().ConfigureAwait(false);
+
+        // Without the completion flag, deleting the started marker would make workers report a missing master
+        // as not started yet and wait forever, so write it again in case signalling completion failed.
+        await _database.StringSetAsync(_keys.CompletionFlag, "1", _keyExpiration)
+            .WaitAsync(cancellationToken).ConfigureAwait(false);
+        RedisKey[] keys = [.. _keys.RunCleanupKeys.Select(static key => (RedisKey) key)];
+        await _database.KeyDeleteAsync(keys).WaitAsync(cancellationToken).ConfigureAwait(false);
+    }
+
     public async ValueTask DisposeAsync()
     {
-        if (_disposeCts.IsCancellationRequested)
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
         {
             return;
         }
 
-        await _disposeCts.CancelAsync().ConfigureAwait(false);
+        await StopMasterHeartbeatAsync().ConfigureAwait(false);
+        _masterHeartbeatCts.Dispose();
+    }
+
+    private async Task StopMasterHeartbeatAsync()
+    {
+        await _masterHeartbeatCts.CancelAsync().ConfigureAwait(false);
         await _masterHeartbeatTask.ConfigureAwait(false);
-        _disposeCts.Dispose();
     }
 
     private async Task SendMasterHeartbeatsAsync(TimeSpan interval, CancellationToken cancellationToken)

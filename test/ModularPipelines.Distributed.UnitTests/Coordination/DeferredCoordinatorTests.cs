@@ -32,13 +32,74 @@ public class DeferredCoordinatorTests
         await Assert.That(inner.Disposed).IsTrue();
     }
 
+    [Test]
+    [Timeout(30_000)]
+    public async Task Disposal_Stops_Waiting_For_A_Creation_That_Ignores_Cancellation(CancellationToken cancellationToken)
+    {
+        var inner = new DisposableCoordinator();
+        var creation = new TaskCompletionSource<IDistributedMasterCoordinator>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var deferred = new DeferredMasterCoordinator(new HangingFactory(creation.Task));
+        using var shortWait = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+
+        await Assert.That(async () => await deferred.GetActiveLeasesAsync(shortWait.Token))
+            .Throws<OperationCanceledException>();
+        // Disposal gives the creation a grace period, then stops waiting.
+        await deferred.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(15), cancellationToken);
+
+        // The backend a late creation produces is disposed once it exists.
+        creation.SetResult(inner);
+        while (!inner.Disposed)
+        {
+            await Task.Delay(10, cancellationToken);
+        }
+    }
+
+    [Test]
+    public async Task Failed_Creation_Is_Retried_By_The_Next_Caller()
+    {
+        var inner = new DisposableCoordinator();
+        var deferred = new DeferredMasterCoordinator(new FailOnceFactory(inner));
+
+        await Assert.That(async () => await deferred.GetActiveLeasesAsync(CancellationToken.None))
+            .Throws<InvalidOperationException>();
+        var leases = await deferred.GetActiveLeasesAsync(CancellationToken.None);
+        await deferred.DisposeAsync();
+
+        await Assert.That(leases).IsEmpty();
+        await Assert.That(inner.Disposed).IsTrue();
+    }
+
+    private sealed class HangingFactory(Task<IDistributedMasterCoordinator> creation) : IDistributedCoordinatorFactory
+    {
+        // Ignores cancellation, like a factory blocked on a connection without a timeout.
+        public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) => creation;
+
+        public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+    }
+
+    private sealed class FailOnceFactory(DisposableCoordinator coordinator) : IDistributedCoordinatorFactory
+    {
+        private int _calls;
+
+        public Task<IDistributedMasterCoordinator> CreateMasterAsync(CancellationToken cancellationToken) =>
+            Interlocked.Increment(ref _calls) == 1
+                ? Task.FromException<IDistributedMasterCoordinator>(new InvalidOperationException("Simulated connection failure"))
+                : Task.FromResult<IDistributedMasterCoordinator>(coordinator);
+
+        public Task<IDistributedWorkerCoordinator> CreateWorkerAsync(CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+    }
+
     private sealed class DisposableCoordinator() : InMemoryDistributedCoordinator, IAsyncDisposable
     {
-        public bool Disposed { get; private set; }
+        private volatile bool _disposed;
+
+        public bool Disposed => _disposed;
 
         public ValueTask DisposeAsync()
         {
-            Disposed = true;
+            _disposed = true;
             return ValueTask.CompletedTask;
         }
     }

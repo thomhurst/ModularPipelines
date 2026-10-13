@@ -37,6 +37,21 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
+    public async Task RunCleanupKeys_Keep_Only_The_Completion_Flag()
+    {
+        var builder = new RedisKeyBuilder("modpipe", "abc123");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.RunCleanupKeys).DoesNotContain(builder.CompletionFlag);
+            await Assert.That(builder.RunCleanupKeys).Contains(builder.MasterHeartbeat);
+            await Assert.That(builder.RunCleanupKeys)
+                .IsEquivalentTo(builder.CoordinationKeys.Where(key => key != builder.CompletionFlag).Append(builder.MasterHeartbeat));
+            await Assert.That(builder.ArtifactModules).IsEqualTo("modpipe:{abc123}:artifacts:modules");
+        }
+    }
+
+    [Test]
     public async Task ScriptKeys_ShareRunHashTag()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
