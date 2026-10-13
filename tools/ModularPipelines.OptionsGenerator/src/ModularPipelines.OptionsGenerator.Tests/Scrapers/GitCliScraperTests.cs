@@ -499,6 +499,7 @@ public partial class GitCliScraperTests
             string? workingDirectory = null) =>
             Task.FromResult(arguments switch
             {
+                "-h" => Result("usage: git [-C <path>] [-c <name>=<value>] <command>"),
                 "help -a" => Result("Main Porcelain Commands\n   branch                  List branches"),
                 "branch -h" => Result(File.ReadAllText(Path.Combine(
                     AppContext.BaseDirectory, "Fixtures", "Git", "2.56.0", "branch-help.txt")), exitCode: 129),
