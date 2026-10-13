@@ -39097,6 +39097,36 @@ Resolve the service in a module, then select a command from the table below. A r
 var flux = context.Tools.Flux;
 ```
 
+## Global options[​](#global-options "Direct link to Global options")
+
+Global options are rendered after the selected subcommand.
+
+| CLI option                   | Property                | Availability | Description                                                                                                                                              |
+| ---------------------------- | ----------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--as`                       | `As`                    | All editions | Username to impersonate for the operation. User could be a regular user or a service account in a namespace.                                             |
+| `--as-group`                 | `AsGroup`               | All editions | Group to impersonate for the operation, this flag can be repeated to specify multiple groups.                                                            |
+| `--as-uid`                   | `AsUid`                 | All editions | UID to impersonate for the operation.                                                                                                                    |
+| `--as-user-extra`            | `AsUserExtra`           | All editions | User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.                                     |
+| `--cache-dir`                | `CacheDir`              | All editions | Default cache directory.                                                                                                                                 |
+| `--certificate-authority`    | `CertificateAuthority`  | All editions | Path to a cert file for the certificate authority to authenticate the Kubernetes API server                                                              |
+| `--client-certificate`       | `ClientCertificate`     | All editions | Path to a client certificate file for TLS authentication to the Kubernetes API server                                                                    |
+| `--client-key`               | `ClientKey`             | All editions | Path to a client key file for TLS authentication to the Kubernetes API server                                                                            |
+| `--cluster`                  | `Cluster`               | All editions | The name of the kubeconfig cluster to use                                                                                                                |
+| `--context`                  | `Context`               | All editions | The name of the kubeconfig context to use                                                                                                                |
+| `--disable-compression`      | `DisableCompression`    | All editions | If true, opt-out of response compression for all requests to the server                                                                                  |
+| `--insecure-skip-tls-verify` | `InsecureSkipTlsVerify` | All editions | If true, the Kubernetes API server's certificate will not be checked for validity. This will make your HTTPS connections insecure                        |
+| `--kube-api-burst`           | `KubeApiBurst`          | All editions | The maximum burst queries-per-second of requests sent to the Kubernetes API. (default 300)                                                               |
+| `--kube-api-qps`             | `KubeApiQps`            | All editions | The maximum queries-per-second of requests sent to the Kubernetes API. (default 50)                                                                      |
+| `--kubeconfig`               | `KubeConfig`            | All editions | Path to the kubeconfig file to use for CLI requests.                                                                                                     |
+| `--namespace`                | `Namespace`             | All editions | If present, the namespace scope for this CLI request (default "flux-system")                                                                             |
+| `--ns-follows-kube-context`  | `NsFollowsKubeContext`  | All editions | use the namespace from the kubeconfig context instead of the default flux-system namespace, can also be set via FLUX\_NS\_FOLLOWS\_KUBE\_CONTEXT env var |
+| `--server`                   | `Server`                | All editions | The address and port of the Kubernetes API server                                                                                                        |
+| `--timeout`                  | `Timeout`               | All editions | timeout for this operation (default 5m0s)                                                                                                                |
+| `--tls-server-name`          | `TlsServerName`         | All editions | Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used                             |
+| `--token`                    | `Token`                 | All editions | Bearer token for authentication to the API server                                                                                                        |
+| `--user`                     | `User`                  | All editions | The name of the kubeconfig user to use                                                                                                                   |
+| `--verbose`                  | `Verbose`               | All editions | print generated objects                                                                                                                                  |
+
 ## Commands[​](#commands "Direct link to Commands")
 
 | CLI command                       | Options record                        |
@@ -51431,6 +51461,50 @@ public class UseFluxModule : SyncModule<None>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Persistent settings[​](#persistent-settings "Direct link to Persistent settings")
+
+`FluxOptions` exposes the 23 persistent settings verified against Flux 2.9.6: Kubernetes identity and impersonation, kubeconfig/context/namespace, API server and TLS, client rate limits, timeout, and verbosity. They are inherited by generated command records. Settings continue to render after the command path, preserving Flux's existing argument ordering.
+
+```
+using ModularPipelines.Flux.Options;
+
+
+
+var options = new FluxGetSourcesGitOptions
+
+{
+
+    Context = "production",
+
+    Namespace = "flux-system",
+
+    AsGroup = ["developers", "readers"],
+
+    AsUserExtra = ["team=platform", "team=delivery"],
+
+    KubeApiQps = 12.5,
+
+    Timeout = "2m",
+
+    AllNamespaces = true,
+
+};
+```
+
+`AsGroup` and `AsUserExtra` emit a separate switch for each value. `Namespace` also supports Flux's `-n` alias. Nullable presence flags omit `null` and `false`, while explicit numeric zero values are preserved. `Token` is marked as a secret.
+
+The `get` group's selectors, watch/header controls, and all-namespaces switch remain local rather than becoming root settings. Bootstrap's branch, repository credentials, and installation settings likewise remain on the relevant command records.
+
+### Receiver tokens[​](#receiver-tokens "Direct link to Receiver tokens")
+
+`FluxCreateSecretReceiverOptions.Token` and `FluxTriggerReceiverOptions.Token` represent the command's webhook token, which replaces Flux's root API bearer-token flag for those commands. Their command-specific descriptions and secret masking are retained. Setting `Token` through a `FluxOptions` reference accesses the same value and emits the local switch once. Use kubeconfig credentials when these receiver commands also need Kubernetes authentication.
+
+## Migration[​](#migration "Direct link to Migration")
+
+Existing initializer names remain available. Persistent properties now live on `FluxOptions`, so reflection code must include inherited properties instead of using `DeclaredOnly`. The two receiver token replacements remain declared on their command records. No root help/version controls or group-only settings are promoted. Existing utility-command exclusions are unchanged.
+
+See the [generated Flux reference](/ModularPipelines/docs/next/mp-packages/cli/flux.md) for the complete persistent-setting list and command-local options. Scope evidence and captured help live in the generator's [Flux fixtures](https://github.com/thomhurst/ModularPipelines/tree/main/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/Fixtures/Flux/2.9.6).
 
 
 ---
