@@ -26,6 +26,7 @@ Projects using C# 13 or another .NET language can use `context.Tools.Get<Modular
 
 ```csharp
 using ModularPipelines;
+using ModularPipelines.Buildah.Enums;
 using ModularPipelines.Buildah.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -40,6 +41,24 @@ public class RunCommandModule : Module<CommandResult>
     }
 }
 ```
+
+## Global options
+
+Global options are rendered after the selected subcommand.
+
+| CLI option | Property | Availability | Description |
+| --- | --- | --- | --- |
+| `--cgroup-manager` | `CgroupManager` | All editions | cgroup manager (default "cgroupfs") |
+| `--log-level` | `LogLevel` | All editions | the log level to be used, one of "trace", "debug", "info", "warn", "error", "fatal", or "panic" (default "warn") |
+| `--registries-conf` | `RegistriesConf` | All editions | path to registries.conf file (not usually used) |
+| `--registries-conf-dir` | `RegistriesConfDir` | All editions | path to registries.conf.d directory (not usually used) |
+| `--root` | `Root` | All editions | storage root dir (default "/var/lib/containers/storage") |
+| `--runroot` | `Runroot` | All editions | storage state dir (default "/run/containers/storage") |
+| `--short-name-alias-conf` | `ShortNameAliasConf` | All editions | path to short name alias cache file (not usually used) |
+| `--storage-driver` | `StorageDriver` | All editions | storage-driver |
+| `--storage-opt` | `StorageOpt` | All editions | storage driver option |
+| `--userns-gid-map` | `UsernsGidMap` | All editions | default ctrID:hostID:length GID mapping to use |
+| `--userns-uid-map` | `UsernsUidMap` | All editions | default ctrID:hostID:length UID mapping to use |
 
 ## Commands
 
@@ -82,3 +101,4 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah tag` | `BuildahTagOptions` |
 | `buildah umount` | `BuildahUmountOptions` |
 | `buildah unshare` | `BuildahUnshareOptions` |
+| `buildah version` | `BuildahVersionOptions` |

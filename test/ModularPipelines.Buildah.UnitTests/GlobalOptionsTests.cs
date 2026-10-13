@@ -68,4 +68,11 @@ public class GlobalOptionsTests : TestBase
         await Assert.That(output).DoesNotContain("private-user:private-password");
         await Assert.That(output).Contains("public-storage-root");
     }
+
+    [Test]
+    public async Task Version_Command_Preserves_Json_Output_And_Inherited_Settings()
+    {
+        var options = new BuildahVersionOptions { Json = true, Root = "storage-root" };
+        await Assert.That(await RenderCommand(options)).IsEqualTo("buildah version --json --root=storage-root");
+    }
 }
