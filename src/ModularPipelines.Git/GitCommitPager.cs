@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Git.Models;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
@@ -13,6 +14,7 @@ internal static class GitCommitPager
         IGitCommandRunner gitCommandRunner,
         IGitCommitMapper gitCommitMapper,
         string? branch,
+        GitOptions? options,
         CommandExecutionOptions? commandExecutionOptions,
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
@@ -21,10 +23,11 @@ internal static class GitCommitPager
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var output = await gitCommandRunner.RunCommandsOrNull(
+            var output = await GetPageOutputAsync(
+                gitCommandRunner,
+                options,
                 completeOutputOptions,
                 cancellationToken,
-                "log",
                 branch,
                 $"--skip={skip}",
                 $"--max-count={PageSize}",
@@ -54,6 +57,28 @@ internal static class GitCommitPager
 
             skip += records.Length;
         }
+    }
+
+    private static async Task<string?> GetPageOutputAsync(
+        IGitCommandRunner gitCommandRunner,
+        GitOptions? options,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken,
+        params string?[] arguments)
+    {
+        if (options is null)
+        {
+            return await gitCommandRunner.RunCommandsOrNull(
+                executionOptions, cancellationToken, ["log", .. arguments]).ConfigureAwait(false);
+        }
+
+        var pageOptions = options with
+        {
+            CommandParts = ["log"],
+            Arguments = [.. arguments.OfType<string>()],
+        };
+        return await gitCommandRunner.RunCommandsOrNull(
+            pageOptions, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     internal static CommandExecutionOptions GetCompleteOutputOptions(
