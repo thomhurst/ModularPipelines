@@ -35,6 +35,15 @@ internal sealed class TransformOptionsFactory<[DynamicallyAccessedMembers(Dynami
 
     public static void Register(IServiceCollection services)
     {
+        if (services.Any(descriptor => !descriptor.IsKeyedService
+            && descriptor.ServiceType == typeof(IOptionsFactory<T>)
+            && descriptor.ImplementationType != typeof(TransformOptionsFactory<T>)))
+        {
+            throw new InvalidOperationException(
+                $"An incompatible IOptionsFactory<{typeof(T).Name}> is already registered. " +
+                "Remove that registration before configuring immutable options.");
+        }
+
         services.AddOptions();
         services.TryAddTransient<IOptionsFactory<T>, TransformOptionsFactory<T>>();
     }

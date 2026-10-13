@@ -9,6 +9,59 @@ namespace ModularPipelines.UnitTests.Api;
 public class ImmutableDistributedOptionsTests
 {
     [Test]
+    [Arguments("type", "configure")]
+    [Arguments("instance", "configure")]
+    [Arguments("delegate", "configure")]
+    [Arguments("type", "postconfigure")]
+    [Arguments("instance", "postconfigure")]
+    [Arguments("delegate", "postconfigure")]
+    [Arguments("type", "register")]
+    [Arguments("instance", "register")]
+    [Arguments("delegate", "register")]
+    public async Task Incompatible_Closed_Factory_Is_Rejected_Before_Registering_Transforms(string registration, string operation)
+    {
+        IServiceCollection services = new ServiceCollection();
+        services.AddOptions();
+        services.Add(registration switch
+        {
+            "type" => ServiceDescriptor.Transient<IOptionsFactory<DistributedOptions>, OptionsFactory<DistributedOptions>>(),
+            "instance" => ServiceDescriptor.Singleton<IOptionsFactory<DistributedOptions>>(new OptionsFactory<DistributedOptions>([], [])),
+            "delegate" => ServiceDescriptor.Transient<IOptionsFactory<DistributedOptions>>(_ => new OptionsFactory<DistributedOptions>([], [])),
+            _ => throw new ArgumentOutOfRangeException(nameof(registration)),
+        });
+        var originalCount = services.Count;
+        Action registerTransform = operation switch
+        {
+            "configure" => () => TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = "transformed" }),
+            "postconfigure" => () => TransformOptionsFactory<DistributedOptions>.PostConfigure(services, _ => options => options with { RunId = "transformed" }),
+            "register" => () => TransformOptionsFactory<DistributedOptions>.Register(services),
+            _ => throw new ArgumentOutOfRangeException(nameof(operation)),
+        };
+
+        await Assert.That(registerTransform).Throws<InvalidOperationException>().WithMessageContaining("IOptionsFactory<DistributedOptions>");
+        await Assert.That(services.Count).IsEqualTo(originalCount);
+        using var provider = services.BuildServiceProvider();
+        await Assert.That(provider.GetRequiredService<IOptions<DistributedOptions>>().Value.RunId).IsEqualTo(string.Empty);
+    }
+
+    [Test]
+    public async Task Keyed_Factory_Does_Not_Conflict_With_Repeat_Transform_Registrations()
+    {
+        var services = new ServiceCollection();
+        services.AddKeyedTransient<IOptionsFactory<DistributedOptions>, OptionsFactory<DistributedOptions>>("custom");
+        TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = "first" });
+        TransformOptionsFactory<DistributedOptions>.Configure(services, options => options with { RunId = options.RunId + "-last" });
+        TransformOptionsFactory<DistributedOptions>.PostConfigure(services, _ => options => options with { TotalInstances = 3 });
+        using var provider = services.BuildServiceProvider();
+        var options = provider.GetRequiredService<IOptions<DistributedOptions>>().Value;
+
+        await Assert.That(options.RunId).IsEqualTo("first-last");
+        await Assert.That(options.TotalInstances).IsEqualTo(3);
+        await Assert.That(services.Count(descriptor => descriptor.ServiceType == typeof(IOptionsFactory<DistributedOptions>) && !descriptor.IsKeyedService)).IsEqualTo(1);
+        await Assert.That(provider.GetRequiredKeyedService<IOptionsFactory<DistributedOptions>>("custom")).IsTypeOf<OptionsFactory<DistributedOptions>>();
+    }
+
+    [Test]
     public async Task Binding_And_Transforms_Apply_In_Registration_Order()
     {
         var builder = Pipeline.CreateBuilder();
