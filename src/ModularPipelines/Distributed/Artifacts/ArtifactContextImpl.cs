@@ -327,6 +327,13 @@ internal class ArtifactContextImpl(
         CancellationToken cancellationToken)
     {
         var entryDirectory = GetProviderParentPath(provider, entryPath);
+        // A direct child's parent omits the final separator. Keep the supplied custom root
+        // intact so link checks and temporary files stay within that root.
+        if (provider is not SystemFileSystemProvider && entryDirectory?.Length < destinationDirectory.Length)
+        {
+            entryDirectory = destinationDirectory;
+        }
+
         if (!string.IsNullOrEmpty(entryDirectory))
         {
             CreateDirectoryWithoutLinks(provider, destinationDirectory, entryDirectory);

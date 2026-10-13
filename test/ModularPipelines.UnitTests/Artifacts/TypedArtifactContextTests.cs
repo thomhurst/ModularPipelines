@@ -153,6 +153,70 @@ public class TypedArtifactContextTests
     }
 
     [Test]
+    [Arguments('/', 1, false)]
+    [Arguments('/', 2, false)]
+    [Arguments('\\', 1, false)]
+    [Arguments('\\', 2, false)]
+    [Arguments('|', 1, false)]
+    [Arguments('|', 2, false)]
+    [Arguments('/', 1, true)]
+    [Arguments('\\', 1, true)]
+    [Arguments('|', 1, true)]
+    public async Task Typed_Directory_Download_Preserves_Trailing_Provider_Separators(
+        char separator, int trailingSeparators, bool linked)
+    {
+        var provider = new Mock<IFileSystemProvider>();
+        provider.SetupGet(p => p.DirectorySeparatorChar).Returns(separator);
+        var destination = new FolderPath(
+            Path.Combine(Path.GetTempPath(), "typed-trailing-separator") + new string(separator, trailingSeparators),
+            provider.Object);
+        var destinationPrefix = destination.Path.EndsWith(separator) ? destination.Path : destination.Path + separator;
+        var target = destinationPrefix + "payload.txt";
+        provider.Setup(p => p.GetAttributes(It.IsAny<string>())).Returns(FileAttributes.Normal);
+        if (linked)
+        {
+            provider.Setup(p => p.GetAttributes(target)).Returns(FileAttributes.ReparsePoint);
+        }
+
+        using var written = new MemoryStream();
+        provider.Setup(p => p.Open(It.IsAny<string>(), FileMode.CreateNew, FileAccess.Write)).Returns(written);
+        using var data = new MemoryStream();
+        using (var archive = new ZipArchive(data, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            using var writer = new StreamWriter(archive.CreateEntry("payload.txt").Open());
+            writer.Write("content");
+        }
+
+        data.Position = 0;
+        var store = new InMemoryDistributedArtifactStore();
+        await store.UploadAsync(new ArtifactDescriptor
+        {
+            Name = "directory",
+            ModuleId = ModuleId.FromType(typeof(ArtifactProducer)),
+            ContentType = "application/zip",
+        }, data, CancellationToken.None);
+        IArtifactContext context = new ArtifactContextImpl(store, new DistributedOptions());
+
+        if (linked)
+        {
+            await Assert.ThrowsAsync<IOException>(() => context.DownloadAsync<ArtifactProducer>("directory", destination));
+            provider.Verify(p => p.Open(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>()), Times.Never);
+            provider.Verify(p => p.MoveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+            return;
+        }
+
+        var result = await context.DownloadAsync<ArtifactProducer>("directory", destination);
+
+        await Assert.That(result).IsSameReferenceAs(destination);
+        await Assert.That(Encoding.UTF8.GetString(written.ToArray())).IsEqualTo("content");
+        provider.Verify(p => p.CreateDirectory(destination.Path), Times.AtLeastOnce);
+        provider.Verify(p => p.CreateDirectory(It.Is<string>(path => path != destination.Path)), Times.Never);
+        provider.Verify(p => p.MoveFile(
+            It.Is<string>(path => path.StartsWith(destinationPrefix + ".modularpipelines-extract-", StringComparison.Ordinal)),
+            target, true), Times.Once);
+    }
+
+    [Test]
     [Arguments(@"..\outside.txt")]
     [Arguments(@"nested\..\..\outside.txt")]
     [Arguments(@"..\outside\")]
