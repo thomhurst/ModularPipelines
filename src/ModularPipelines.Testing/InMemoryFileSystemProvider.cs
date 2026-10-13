@@ -352,6 +352,21 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     /// <inheritdoc />
     public void MoveFile(string sourcePath, string destinationPath)
+        => MoveFile(sourcePath, destinationPath, overwrite: false);
+
+    /// <summary>
+    /// Moves a file, optionally replacing an existing destination while preserving source metadata.
+    /// </summary>
+    /// <param name="sourcePath">The file to move.</param>
+    /// <param name="destinationPath">The destination file.</param>
+    /// <param name="overwrite">Whether an existing destination file is replaced.</param>
+    /// <exception cref="IOException">Either file is open, or the destination exists and overwrite is disabled.</exception>
+    /// <remarks>
+    /// Validation and replacement occur under the provider lock. Open-file failures preserve both
+    /// files and their metadata. With overwrite enabled, moving a closed file to the same normalized
+    /// path does nothing.
+    /// </remarks>
+    public void MoveFile(string sourcePath, string destinationPath, bool overwrite)
     {
         lock (_sync)
         {
@@ -363,12 +378,22 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                     $"The in-memory file '{source}' is already open.");
             }
 
-            if (_files.ContainsKey(destination))
+            if (!overwrite && _files.ContainsKey(destination))
             {
                 throw new IOException($"The in-memory file '{destination}' already exists.");
             }
 
             ValidateFileDestination(destination);
+            if (IsOpen(destination))
+            {
+                throw new IOException(
+                    $"The in-memory file '{destination}' is already open.");
+            }
+
+            if (_pathComparer.Equals(source, destination) && _files.ContainsKey(source))
+            {
+                return;
+            }
 
             if (!_files.TryRemove(source, out var contents))
             {

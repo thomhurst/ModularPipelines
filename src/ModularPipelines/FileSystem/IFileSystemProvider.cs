@@ -22,6 +22,17 @@ namespace ModularPipelines.FileSystem;
 public interface IFileSystemProvider
 {
     /// <summary>
+    /// Gets the provider's directory separator for relative paths.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to the host separator, so existing implementations need not declare this member.
+    /// Providers using Windows-style separators on a Unix host must return '\\'; providers
+    /// using '/' preserve literal backslashes in file names. Typed paths still require
+    /// host-compatible absolute roots.
+    /// </remarks>
+    char DirectorySeparatorChar => Path.DirectorySeparatorChar;
+
+    /// <summary>
     /// Reads a file as text, detecting the encoding from a byte order mark and defaulting to UTF-8.
     /// </summary>
     /// <param name="path">The file path.</param>
@@ -209,6 +220,11 @@ public interface IFileSystemProvider
     /// <exception cref="NotSupportedException">
     /// The default implementation cannot replace an existing destination atomically.
     /// </exception>
+    /// <remarks>
+    /// The default implementation delegates to the two-argument overload when the destination
+    /// does not exist or overwrite is disabled. Providers supporting overwrite must replace the
+    /// destination atomically; deleting the destination before moving the source is not a safe fallback.
+    /// </remarks>
     void MoveFile(string sourcePath, string destinationPath, bool overwrite)
     {
         if (overwrite && FileExists(destinationPath))
