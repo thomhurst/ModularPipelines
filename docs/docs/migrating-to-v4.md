@@ -9,6 +9,10 @@ ModularPipelines V4 consolidates module configuration, makes pipeline options im
 standardizes the public API. This guide lists what changed from V3 and how to migrate, with
 a reference for automated migrations at the end.
 
+The comparison baseline is released **V3.2.8**. V4 is still under development; this guide
+describes the current V4 source. If you used an intermediate development build, also check
+the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/RELEASE_NOTES_V4.md).
+
 > **TL;DR - The 6 biggest changes:**
 > 1. Register modules on `builder`, then use `await builder.RunAsync()` or `await builder.BuildAsync()`.
 > 2. Replace mutable `builder.Options` assignments with `builder.ConfigureOptions(options => options with { ... })`.
@@ -20,7 +24,7 @@ a reference for automated migrations at the end.
 ## Quick Migration Checklist
 
 - [ ] Upgrade all used ModularPipelines packages together, including custom integration projects and test helpers.
-- [ ] Use a .NET 10 SDK/runtime for the pipeline project and CI runner. Use C# 14 or later for generated `context.Tools.<Tool>` properties.
+- [ ] Use a .NET 11 SDK/runtime for the pipeline project and CI runner. Use C# 14 or later for generated `context.Tools.<Tool>` properties.
 - [ ] Update namespaces for modules, contexts, results, dependencies, events, secrets, and reporting services.
 - [ ] Move framework registrations from `builder.Services` to `builder`; keep ordinary DI registrations on `builder.Services`.
 - [ ] Replace `Build()` / `ExecutePipelineAsync()` with `BuildAsync()` / `RunAsync()` and dispose explicitly built pipelines.
@@ -83,8 +87,8 @@ exist in released V3. The next sections describe the changes from that release.
 
 ## Namespaces and Package Setup
 
-The pipeline targets .NET 10, as V3 did; upgrading
-does not mean that the applications your pipeline builds must target .NET 10.
+V4 pipeline projects target .NET 11; released V3.2.8 projects target .NET 10. Upgrade the
+pipeline SDK/runtime, but the applications your pipeline builds can keep their own target frameworks.
 Keep the core framework, integrations, and projects containing shared module or command types
 on compatible V4 versions. Recompile those projects to refresh source-generated metadata.
 
@@ -95,6 +99,7 @@ Most module-authoring types now live directly in `ModularPipelines`:
 | `ModularPipelines.Modules.Module<T>`, `Module`, `SyncModule<T>`, `SyncModule` | `ModularPipelines` |
 | `ModularPipelines.Context.IModuleContext`, `IPipelineContext` | `ModularPipelines` |
 | `ModularPipelines.Models.ModuleResult<T>`, `ModuleResult`, `CommandResult`, `None`, `SkipDecision` | `ModularPipelines` |
+| `ModularPipelines.Models.PipelineSummary`, `IModuleResult` | `ModularPipelines` |
 | `ModularPipelines.Configuration.ModuleConfigurationBuilder` | `ModularPipelines.ModuleConfigurationBuilder` |
 | `ModularPipelines.Attributes.DependsOn*` | `ModularPipelines` |
 | Run-condition types in `Attributes` / `Conditions` | `ModularPipelines` |
@@ -116,7 +121,7 @@ and tool option namespaces.
 Do not replace whole namespaces blindly. Some types did not move:
 
 - CLI attributes such as `CliOptionAttribute` stay in `ModularPipelines.Attributes`.
-- `PipelineSummary`, `IModuleResult`, and `RequirementDecision` stay in `ModularPipelines.Models`.
+- `RequirementDecision` stays in `ModularPipelines.Models`.
 - Generated `context.Tools.<Tool>` properties need `using ModularPipelines.Context;`.
 
 The V4 package adds a `buildTransitive` global `using ModularPipelines;` to C# consumers. If your
@@ -1234,8 +1239,10 @@ The output capture limit counts characters, not bytes. When a stream exceeds
 capture limit. `CommandResult.StandardOutputTruncatedCharacters` and
 `CommandResult.StandardErrorTruncatedCharacters` report the omitted character count for each
 stream; zero means no characters were omitted. These counts are also available on
-`CommandException.Result`. A warning names `MaxCapturedOutputLength` and reports both counts
-when output is truncated. Do not parse capped output as complete JSON, XML, or another
+`CommandException.Result`. At `CommandLogVerbosity.Normal` or higher, a warning names
+`MaxCapturedOutputLength` and reports both counts when output is truncated. `Silent` and
+`InputOnly` suppress this warning; check the result counts at those levels. Do not parse capped
+output as complete JSON, XML, or another
 machine-readable document: raise the limit or set `MaxCapturedOutputLength = 0` when complete
 capture is required and its memory cost is acceptable.
 
