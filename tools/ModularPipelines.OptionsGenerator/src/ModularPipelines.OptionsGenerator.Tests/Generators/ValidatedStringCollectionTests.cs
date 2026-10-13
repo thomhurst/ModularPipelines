@@ -657,13 +657,13 @@ public partial class RequiredConstructorValidationTests
             await Assert.That(options.BaseType!.GetProperty("Values")!.GetValue(instance)).IsSameReferenceAs(retained);
         }
 
-        var counts = input is MutableStringRendererViews strings
+        var (ordinaryEnumerationCount, pairEnumerationCount, keyValueEnumerationCount) = input is MutableStringRendererViews strings
             ? (strings.OrdinaryEnumerationCount, strings.PairEnumerationCount, strings.KeyValueEnumerationCount)
             : (((MutableObjectRendererViews) input).OrdinaryEnumerationCount,
                 ((MutableObjectRendererViews) input).PairEnumerationCount, ((MutableObjectRendererViews) input).KeyValueEnumerationCount);
-        await Assert.That(counts.OrdinaryEnumerationCount).IsEqualTo(1);
-        await Assert.That(counts.PairEnumerationCount).IsEqualTo(joined ? 0 : 1);
-        await Assert.That(counts.KeyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
+        await Assert.That(ordinaryEnumerationCount).IsEqualTo(1);
+        await Assert.That(pairEnumerationCount).IsEqualTo(joined ? 0 : 1);
+        await Assert.That(keyValueEnumerationCount).IsEqualTo(joined ? 1 : 0);
     }
 
     private sealed class MutableStringRendererViews(string? entry) : List<string>(["first", entry!]),
@@ -676,7 +676,7 @@ public partial class RequiredConstructorValidationTests
         IEnumerator<string> IEnumerable<string>.GetEnumerator() => OrdinaryValues();
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => OrdinaryValues();
 
-        private IEnumerator<string> OrdinaryValues()
+        private List<string>.Enumerator OrdinaryValues()
         {
             if (++OrdinaryEnumerationCount > 1)
             {
