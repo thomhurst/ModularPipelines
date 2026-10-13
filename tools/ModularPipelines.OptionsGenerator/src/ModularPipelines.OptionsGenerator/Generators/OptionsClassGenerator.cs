@@ -88,14 +88,14 @@ public class OptionsClassGenerator : ICodeGenerator
             GenerateAlternateInputFactories(sb, command);
         }
 
-        GenerateProperties(
+        var emittedOptions = GenerateProperties(
             sb,
             command,
             positionalArguments,
             existingPropertyNames,
             usesExplicitRequiredConstructor,
             requiredPropertiesAreNonNullable: usesExplicitRequiredConstructor && !supportsAlternateInputModes);
-        GenerateValidation(sb, command, positionalArguments);
+        GenerateValidation(sb, command, positionalArguments, emittedOptions);
         sb.AppendLine("}");
 
         return sb.ToString();
@@ -152,7 +152,7 @@ public class OptionsClassGenerator : ICodeGenerator
         }
     }
 
-    private static void GenerateProperties(
+    private static List<CliOptionDefinition> GenerateProperties(
         StringBuilder sb,
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
@@ -160,6 +160,8 @@ public class OptionsClassGenerator : ICodeGenerator
         bool includeRequiredProperties,
         bool requiredPropertiesAreNonNullable)
     {
+        // Primary-constructor options already have properties; explicit constructors do not.
+        List<CliOptionDefinition> emittedOptions = includeRequiredProperties ? [] : [.. command.RequiredOptions];
         // Required definitions own colliding names, including with explicit constructors.
         var alternativeProperties = command.RequiredAlternativeGroups
             .SelectMany(static group => group.PropertyNames).ToHashSet(StringComparer.Ordinal);
@@ -173,6 +175,7 @@ public class OptionsClassGenerator : ICodeGenerator
             }
             GenerateProperty(sb, option, requiredPropertiesAreNonNullable,
                 alternativeProperties.Contains(option.PropertyName));
+            emittedOptions.Add(option);
             sb.AppendLine();
         }
 
@@ -189,6 +192,8 @@ public class OptionsClassGenerator : ICodeGenerator
             existingPropertyNames.Add(positional.PropertyName);
             sb.AppendLine();
         }
+
+        return emittedOptions;
     }
 
     private static void GenerateFileHeader(StringBuilder sb, string? documentationUrl)
@@ -431,7 +436,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static void GenerateValidation(
         StringBuilder sb,
         CliCommandDefinition command,
-        IReadOnlyList<CliPositionalArgument> positionalArguments)
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        IReadOnlyList<CliOptionDefinition> emittedOptions)
     {
         var supportsAlternateInputModes = SupportsAlternateInputModes(command, positionalArguments);
         if (!RequiresCommandValidation(command))
@@ -442,10 +448,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <inheritdoc />");
         sb.AppendLine("    IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)");
         sb.AppendLine("    {");
-        // Match property emission: required options own names, and case-only duplicates are skipped.
-        foreach (var option in command.Options
-                     .OrderByDescending(static option => option.IsRequired)
-                     .DistinctBy(static option => option.PropertyName, StringComparer.OrdinalIgnoreCase)
+        foreach (var option in emittedOptions
                      .Where(static option => option.RejectBlankCollectionValues))
         {
             sb.AppendLine($"        if ({option.PropertyName} is not null && global::System.Linq.Enumerable.Any(global::System.Linq.Enumerable.Cast<string>((global::System.Collections.IEnumerable){option.PropertyName}), static item => string.IsNullOrWhiteSpace(item)))");

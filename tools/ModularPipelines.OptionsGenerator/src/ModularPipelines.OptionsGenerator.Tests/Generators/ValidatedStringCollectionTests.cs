@@ -368,6 +368,41 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
+    [Arguments("Values", "values")]
+    [Arguments("values", "Values")]
+    public async Task Validated_Collections_Skip_Properties_Owned_By_Primary_Constructor(string optionName, string positionalName)
+    {
+        var options = Compile(await Generate([
+            new() { SwitchName = "--values", PropertyName = optionName, CSharpType = "IEnumerable<string>?", RejectBlankCollectionValues = true },
+            new() { SwitchName = "--tags", PropertyName = "Tags", CSharpType = "IEnumerable<string>?", RejectBlankCollectionValues = true },
+        ], positionalArguments: [new() { PropertyName = positionalName, CSharpType = "int", IsRequired = true }]))
+            .GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(options, [42])!;
+        await Assert.That(options.GetProperty(optionName)).IsNull();
+        await Assert.That(options.GetProperty(positionalName)!.GetValue(instance)).IsEqualTo(42);
+        string[] tags = [" "];
+        options.GetProperty("Tags")!.SetValue(instance, tags);
+        var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
+        await Assert.That(errors.Length).IsEqualTo(1);
+        await Assert.That(errors[0].MemberNames).IsEquivalentTo(["Tags"]);
+    }
+
+    [Test]
+    public async Task Validated_Required_Collections_Retain_Blank_Entry_Validation()
+    {
+        var options = Compile(await Generate([
+            new() { SwitchName = "--values", PropertyName = "Values", CSharpType = "IEnumerable<string>?", IsRequired = true, RejectBlankCollectionValues = true },
+            new() { SwitchName = "--duplicate", PropertyName = "values", CSharpType = "int?" },
+        ])).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        string[] values = ["valid", " "];
+        var instance = Activator.CreateInstance(options, [values])!;
+        var errors = ((IValidatableObject) instance).Validate(new(instance)).ToArray();
+        await Assert.That(errors.Length).IsEqualTo(1);
+        await Assert.That(errors[0].MemberNames).IsEquivalentTo(["Values"]);
+        await Assert.That(options.GetProperty("values")).IsNull();
+    }
+
+    [Test]
     [Arguments("string[]?")]
     [Arguments("List<string>?")]
     [Arguments("IReadOnlyList<string?>?")]
