@@ -12,6 +12,69 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public partial class GitCliScraperTests
 {
     [Test]
+    [Timeout(30_000)]
+    public async Task Queued_Root_Lookup_Reuses_Cached_Help_Without_Changing_Provenance(CancellationToken cancellationToken)
+    {
+        var executor = new BlockingRootHelpExecutor();
+        using var cache = new HelpTextCache(NullLogger<HelpTextCache>.Instance);
+        using var scraper = new RootHelpProbe(executor, cache);
+        var first = scraper.Fetch(cancellationToken);
+        try
+        {
+            await executor.DiscoveryStarted.Task.WaitAsync(cancellationToken);
+            // Fetch runs through the empty-cache check and queues before discovery is released.
+            var second = scraper.Fetch(cancellationToken);
+            executor.ReleaseDiscovery.TrySetResult();
+
+            var help = await Task.WhenAll(first, second);
+            await Assert.That(help[0]).Contains("usage: git");
+            await Assert.That(help[1]).IsEqualTo(help[0]);
+            await Assert.That(executor.CommandListCalls).IsEqualTo(1);
+            await Assert.That(executor.RootUsageCalls).IsEqualTo(1);
+            await Assert.That(scraper.UnavailableHelpPaths).IsEmpty();
+        }
+        finally
+        {
+            executor.ReleaseDiscovery.TrySetResult();
+            await first;
+        }
+    }
+
+    private sealed class BlockingRootHelpExecutor : ICliCommandExecutor
+    {
+        public TaskCompletionSource DiscoveryStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public TaskCompletionSource ReleaseDiscovery { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public int CommandListCalls { get; private set; }
+        public int RootUsageCalls { get; private set; }
+
+        public async Task<CliCommandResult> ExecuteAsync(string command, string arguments,
+            CancellationToken cancellationToken = default, string? workingDirectory = null)
+        {
+            if (arguments == "help -a")
+            {
+                if (++CommandListCalls > 1)
+                {
+                    return Result("discovery failed", exitCode: 128);
+                }
+
+                DiscoveryStarted.TrySetResult();
+                await ReleaseDiscovery.Task.WaitAsync(cancellationToken);
+                return Result("Main Porcelain Commands\n   branch                  List branches");
+            }
+
+            if (arguments == "-h")
+            {
+                RootUsageCalls++;
+                return Result("usage: git [-C <path>] <command>", exitCode: 129);
+            }
+
+            throw new InvalidOperationException($"Unexpected help command: {arguments}");
+        }
+
+        public Task<bool> IsAvailableAsync(string command, CancellationToken cancellationToken = default) => Task.FromResult(true);
+    }
+
+    [Test]
     [Arguments(1, "wrapper failed", false, false, false)]
     [Arguments(128, "fatal: failed to execute", false, false, false)]
     [Arguments(0, "", false, false, false)]
@@ -91,7 +154,7 @@ public partial class GitCliScraperTests
     private sealed class RootHelpProbe(ICliCommandExecutor executor, IHelpTextCache cache)
         : GitCliScraper(executor, cache, NullLogger<GitCliScraper>.Instance)
     {
-        public Task<string?> Fetch() => GetHelpTextAsync(["git"], CancellationToken.None);
+        public Task<string?> Fetch(CancellationToken cancellationToken = default) => GetHelpTextAsync(["git"], cancellationToken);
     }
 
     private sealed class RecoveringRootHelpExecutor(

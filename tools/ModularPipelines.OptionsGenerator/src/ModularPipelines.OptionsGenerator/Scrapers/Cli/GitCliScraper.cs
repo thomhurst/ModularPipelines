@@ -60,6 +60,11 @@ public partial class GitCliScraper(
         try
         {
             ThrowIfDisposed();
+            if (HelpCache.TryGet(cacheKey, out cached))
+            {
+                return cached;
+            }
+
             var helpText = commandPath.Length == 1
                 ? await GetRootHelpTextAsync(commandPath, cancellationToken)
                 : await GetCommandHelpTextAsync(commandPath, cancellationToken);
