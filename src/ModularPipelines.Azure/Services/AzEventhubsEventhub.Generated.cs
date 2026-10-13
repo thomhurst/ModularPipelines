@@ -22,6 +22,7 @@ public class AzEventhubsEventhub
     private readonly ICommandContext _command;
     private AzEventhubsEventhubAuthorizationRule? _authorizationRule;
     private AzEventhubsEventhubConsumerGroup? _consumerGroup;
+    private AzEventhubsEventhubFabricShortcut? _fabricShortcut;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsEventhub"/> class.
@@ -42,6 +43,11 @@ public class AzEventhubsEventhub
     /// az consumer-group sub-commands.
     /// </summary>
     public AzEventhubsEventhubConsumerGroup ConsumerGroup => _consumerGroup ??= new AzEventhubsEventhubConsumerGroup(_command);
+
+    /// <summary>
+    /// az fabric-shortcut sub-commands.
+    /// </summary>
+    public AzEventhubsEventhubFabricShortcut FabricShortcut => _fabricShortcut ??= new AzEventhubsEventhubFabricShortcut(_command);
 
     #endregion
 

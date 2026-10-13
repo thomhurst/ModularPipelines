@@ -98,6 +98,12 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     public string? EdgeZone { get; set; }
 
     /// <summary>
+    /// The resource ID of the first party service tag associated with the IP tag. Requires exactly one value in `--ip-tags`.
+    /// </summary>
+    [CliOption("--first-party-service-tag-id")]
+    public string? FirstPartyServiceTagId { get; set; }
+
+    /// <summary>
     /// Idle timeout in minutes.  Default: 4.
     /// </summary>
     [CliOption("--idle-timeout")]
@@ -140,7 +146,7 @@ public record AzNetworkPublicIpCreateOptions : AzOptions
     public string? Sku { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

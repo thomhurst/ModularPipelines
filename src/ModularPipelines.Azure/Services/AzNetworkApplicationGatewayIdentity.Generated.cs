@@ -32,7 +32,7 @@ public class AzNetworkApplicationGatewayIdentity
     #region Commands
 
     /// <summary>
-    /// Assign a managed service identity to an
+    /// Assign the user or system managed identities.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AzNetworkApplicationGatewayIdentity
     }
 
     /// <summary>
-    /// Show the managed service identity of an
+    /// Show the details of managed identities.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

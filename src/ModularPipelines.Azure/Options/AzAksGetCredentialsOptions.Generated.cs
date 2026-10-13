@@ -67,7 +67,7 @@ public record AzAksGetCredentialsOptions : AzOptions
     public string? Context { get; set; }
 
     /// <summary>
-    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~\.kube\config.
+    /// Kubernetes configuration file to update. Use "-" to print YAML to stdout instead.  Default: ~/.kube/config.
     /// </summary>
     [CliOption("--file", ShortForm = "-f")]
     public string? File { get; set; }

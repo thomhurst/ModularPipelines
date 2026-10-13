@@ -278,6 +278,7 @@ Global options are rendered after the selected subcommand.
 | `az aks identity-binding list` | `AzAksIdentityBindingListOptions` |
 | `az aks identity-binding show` | `AzAksIdentityBindingShowOptions` |
 | `az aks install-cli` | `AzAksInstallCliOptions` |
+| `az aks install-desktop` | `AzAksInstallDesktopOptions` |
 | `az aks list` | `AzAksListOptions` |
 | `az aks machine list` | `AzAksMachineListOptions` |
 | `az aks machine show` | `AzAksMachineShowOptions` |
@@ -632,6 +633,7 @@ Global options are rendered after the selected subcommand.
 | `az backup item list` | `AzBackupItemListOptions` |
 | `az backup item set-policy` | `AzBackupItemSetPolicyOptions` |
 | `az backup item show` | `AzBackupItemShowOptions` |
+| `az backup item source-scan-configuration set` | `AzBackupItemSourceScanConfigurationSetOptions` |
 | `az backup job list` | `AzBackupJobListOptions` |
 | `az backup job show` | `AzBackupJobShowOptions` |
 | `az backup job stop` | `AzBackupJobStopOptions` |
@@ -795,6 +797,7 @@ Global options are rendered after the selected subcommand.
 | `az bicep run` | `AzBicepRunOptions` |
 | `az bicep snapshot` | `AzBicepSnapshotOptions` |
 | `az bicep uninstall` | `AzBicepUninstallOptions` |
+| `az bicep version` | `AzBicepVersionOptions` |
 | `az billing enrollment-account billing-permission list` | `AzBillingEnrollmentAccountBillingPermissionListOptions` |
 | `az billing enrollment-account list` | `AzBillingEnrollmentAccountListOptions` |
 | `az billing enrollment-account show` | `AzBillingEnrollmentAccountShowOptions` |
@@ -1555,6 +1558,7 @@ Global options are rendered after the selected subcommand.
 | `az devops security permission show` | `AzDevopsSecurityPermissionShowOptions` |
 | `az devops security permission update` | `AzDevopsSecurityPermissionUpdateOptions` |
 | `az devops service-endpoint azurerm create` | `AzDevopsServiceEndpointAzurermCreateOptions` |
+| `az devops service-endpoint convert` | `AzDevopsServiceEndpointConvertOptions` |
 | `az devops service-endpoint create` | `AzDevopsServiceEndpointCreateOptions` |
 | `az devops service-endpoint delete` | `AzDevopsServiceEndpointDeleteOptions` |
 | `az devops service-endpoint github create` | `AzDevopsServiceEndpointGithubCreateOptions` |
@@ -1724,8 +1728,14 @@ Global options are rendered after the selected subcommand.
 | `az eventhubs cluster delete` | `AzEventhubsClusterDeleteOptions` |
 | `az eventhubs cluster list` | `AzEventhubsClusterListOptions` |
 | `az eventhubs cluster namespace list` | `AzEventhubsClusterNamespaceListOptions` |
+| `az eventhubs cluster quota-configuration show` | `AzEventhubsClusterQuotaConfigurationShowOptions` |
+| `az eventhubs cluster quota-configuration update` | `AzEventhubsClusterQuotaConfigurationUpdateOptions` |
 | `az eventhubs cluster show` | `AzEventhubsClusterShowOptions` |
 | `az eventhubs cluster update` | `AzEventhubsClusterUpdateOptions` |
+| `az eventhubs cluster upgrade-preference create` | `AzEventhubsClusterUpgradePreferenceCreateOptions` |
+| `az eventhubs cluster upgrade-preference show` | `AzEventhubsClusterUpgradePreferenceShowOptions` |
+| `az eventhubs cluster upgrade-preference update` | `AzEventhubsClusterUpgradePreferenceUpdateOptions` |
+| `az eventhubs cluster upgrade-preference upgrade-now` | `AzEventhubsClusterUpgradePreferenceUpgradeNowOptions` |
 | `az eventhubs cluster wait` | `AzEventhubsClusterWaitOptions` |
 | `az eventhubs eventhub authorization-rule create` | `AzEventhubsEventhubAuthorizationRuleCreateOptions` |
 | `az eventhubs eventhub authorization-rule delete` | `AzEventhubsEventhubAuthorizationRuleDeleteOptions` |
@@ -1741,6 +1751,13 @@ Global options are rendered after the selected subcommand.
 | `az eventhubs eventhub consumer-group update` | `AzEventhubsEventhubConsumerGroupUpdateOptions` |
 | `az eventhubs eventhub create` | `AzEventhubsEventhubCreateOptions` |
 | `az eventhubs eventhub delete` | `AzEventhubsEventhubDeleteOptions` |
+| `az eventhubs eventhub fabric-shortcut approve` | `AzEventhubsEventhubFabricShortcutApproveOptions` |
+| `az eventhubs eventhub fabric-shortcut create` | `AzEventhubsEventhubFabricShortcutCreateOptions` |
+| `az eventhubs eventhub fabric-shortcut delete` | `AzEventhubsEventhubFabricShortcutDeleteOptions` |
+| `az eventhubs eventhub fabric-shortcut list` | `AzEventhubsEventhubFabricShortcutListOptions` |
+| `az eventhubs eventhub fabric-shortcut reject` | `AzEventhubsEventhubFabricShortcutRejectOptions` |
+| `az eventhubs eventhub fabric-shortcut show` | `AzEventhubsEventhubFabricShortcutShowOptions` |
+| `az eventhubs eventhub fabric-shortcut update` | `AzEventhubsEventhubFabricShortcutUpdateOptions` |
 | `az eventhubs eventhub list` | `AzEventhubsEventhubListOptions` |
 | `az eventhubs eventhub show` | `AzEventhubsEventhubShowOptions` |
 | `az eventhubs eventhub update` | `AzEventhubsEventhubUpdateOptions` |
@@ -2193,6 +2210,12 @@ Global options are rendered after the selected subcommand.
 | `az keyvault create` | `AzKeyvaultCreateOptions` |
 | `az keyvault delete` | `AzKeyvaultDeleteOptions` |
 | `az keyvault delete-policy` | `AzKeyvaultDeletePolicyOptions` |
+| `az keyvault ekm-connection certificate show` | `AzKeyvaultEkmConnectionCertificateShowOptions` |
+| `az keyvault ekm-connection check` | `AzKeyvaultEkmConnectionCheckOptions` |
+| `az keyvault ekm-connection create` | `AzKeyvaultEkmConnectionCreateOptions` |
+| `az keyvault ekm-connection delete` | `AzKeyvaultEkmConnectionDeleteOptions` |
+| `az keyvault ekm-connection show` | `AzKeyvaultEkmConnectionShowOptions` |
+| `az keyvault ekm-connection update` | `AzKeyvaultEkmConnectionUpdateOptions` |
 | `az keyvault key backup` | `AzKeyvaultKeyBackupOptions` |
 | `az keyvault key create` | `AzKeyvaultKeyCreateOptions` |
 | `az keyvault key delete` | `AzKeyvaultKeyDeleteOptions` |
@@ -2923,6 +2946,9 @@ Global options are rendered after the selected subcommand.
 | `az network application-gateway url-path-map list` | `AzNetworkApplicationGatewayUrlPathMapListOptions` |
 | `az network application-gateway url-path-map rule create` | `AzNetworkApplicationGatewayUrlPathMapRuleCreateOptions` |
 | `az network application-gateway url-path-map rule delete` | `AzNetworkApplicationGatewayUrlPathMapRuleDeleteOptions` |
+| `az network application-gateway url-path-map rule list` | `AzNetworkApplicationGatewayUrlPathMapRuleListOptions` |
+| `az network application-gateway url-path-map rule show` | `AzNetworkApplicationGatewayUrlPathMapRuleShowOptions` |
+| `az network application-gateway url-path-map rule update` | `AzNetworkApplicationGatewayUrlPathMapRuleUpdateOptions` |
 | `az network application-gateway url-path-map rule wait` | `AzNetworkApplicationGatewayUrlPathMapRuleWaitOptions` |
 | `az network application-gateway url-path-map show` | `AzNetworkApplicationGatewayUrlPathMapShowOptions` |
 | `az network application-gateway url-path-map update` | `AzNetworkApplicationGatewayUrlPathMapUpdateOptions` |
@@ -3158,6 +3184,7 @@ Global options are rendered after the selected subcommand.
 | `az network express-route stop-link-failover-test` | `AzNetworkExpressRouteStopLinkFailoverTestOptions` |
 | `az network express-route update` | `AzNetworkExpressRouteUpdateOptions` |
 | `az network express-route wait` | `AzNetworkExpressRouteWaitOptions` |
+| `az network first-party-service-tag wait` | `AzNetworkFirstPartyServiceTagWaitOptions` |
 | `az network lb address-pool address add` | `AzNetworkLbAddressPoolAddressAddOptions` |
 | `az network lb address-pool address list` | `AzNetworkLbAddressPoolAddressListOptions` |
 | `az network lb address-pool address remove` | `AzNetworkLbAddressPoolAddressRemoveOptions` |
@@ -3663,6 +3690,11 @@ Global options are rendered after the selected subcommand.
 | `az policy definition list` | `AzPolicyDefinitionListOptions` |
 | `az policy definition show` | `AzPolicyDefinitionShowOptions` |
 | `az policy definition update` | `AzPolicyDefinitionUpdateOptions` |
+| `az policy definition version create` | `AzPolicyDefinitionVersionCreateOptions` |
+| `az policy definition version delete` | `AzPolicyDefinitionVersionDeleteOptions` |
+| `az policy definition version list` | `AzPolicyDefinitionVersionListOptions` |
+| `az policy definition version show` | `AzPolicyDefinitionVersionShowOptions` |
+| `az policy definition version update` | `AzPolicyDefinitionVersionUpdateOptions` |
 | `az policy enrollment create` | `AzPolicyEnrollmentCreateOptions` |
 | `az policy enrollment delete` | `AzPolicyEnrollmentDeleteOptions` |
 | `az policy enrollment list` | `AzPolicyEnrollmentListOptions` |
@@ -3687,6 +3719,11 @@ Global options are rendered after the selected subcommand.
 | `az policy set-definition list` | `AzPolicySetDefinitionListOptions` |
 | `az policy set-definition show` | `AzPolicySetDefinitionShowOptions` |
 | `az policy set-definition update` | `AzPolicySetDefinitionUpdateOptions` |
+| `az policy set-definition version create` | `AzPolicySetDefinitionVersionCreateOptions` |
+| `az policy set-definition version delete` | `AzPolicySetDefinitionVersionDeleteOptions` |
+| `az policy set-definition version list` | `AzPolicySetDefinitionVersionListOptions` |
+| `az policy set-definition version show` | `AzPolicySetDefinitionVersionShowOptions` |
+| `az policy set-definition version update` | `AzPolicySetDefinitionVersionUpdateOptions` |
 | `az policy state list` | `AzPolicyStateListOptions` |
 | `az policy state summarize` | `AzPolicyStateSummarizeOptions` |
 | `az policy state trigger-scan` | `AzPolicyStateTriggerScanOptions` |
@@ -4194,6 +4231,10 @@ Global options are rendered after the selected subcommand.
 | `az sf application-type delete` | `AzSfApplicationTypeDeleteOptions` |
 | `az sf application-type list` | `AzSfApplicationTypeListOptions` |
 | `az sf application-type show` | `AzSfApplicationTypeShowOptions` |
+| `az sf application-type version create` | `AzSfApplicationTypeVersionCreateOptions` |
+| `az sf application-type version delete` | `AzSfApplicationTypeVersionDeleteOptions` |
+| `az sf application-type version list` | `AzSfApplicationTypeVersionListOptions` |
+| `az sf application-type version show` | `AzSfApplicationTypeVersionShowOptions` |
 | `az sf cluster client-certificate add` | `AzSfClusterClientCertificateAddOptions` |
 | `az sf cluster client-certificate remove` | `AzSfClusterClientCertificateRemoveOptions` |
 | `az sf cluster create` | `AzSfClusterCreateOptions` |
@@ -4216,6 +4257,11 @@ Global options are rendered after the selected subcommand.
 | `az sf managed-application-type list` | `AzSfManagedApplicationTypeListOptions` |
 | `az sf managed-application-type show` | `AzSfManagedApplicationTypeShowOptions` |
 | `az sf managed-application-type update` | `AzSfManagedApplicationTypeUpdateOptions` |
+| `az sf managed-application-type version create` | `AzSfManagedApplicationTypeVersionCreateOptions` |
+| `az sf managed-application-type version delete` | `AzSfManagedApplicationTypeVersionDeleteOptions` |
+| `az sf managed-application-type version list` | `AzSfManagedApplicationTypeVersionListOptions` |
+| `az sf managed-application-type version show` | `AzSfManagedApplicationTypeVersionShowOptions` |
+| `az sf managed-application-type version update` | `AzSfManagedApplicationTypeVersionUpdateOptions` |
 | `az sf managed-cluster client-certificate add` | `AzSfManagedClusterClientCertificateAddOptions` |
 | `az sf managed-cluster client-certificate delete` | `AzSfManagedClusterClientCertificateDeleteOptions` |
 | `az sf managed-cluster create` | `AzSfManagedClusterCreateOptions` |
@@ -4261,6 +4307,12 @@ Global options are rendered after the selected subcommand.
 | `az sig gallery-application list` | `AzSigGalleryApplicationListOptions` |
 | `az sig gallery-application show` | `AzSigGalleryApplicationShowOptions` |
 | `az sig gallery-application update` | `AzSigGalleryApplicationUpdateOptions` |
+| `az sig gallery-application version create` | `AzSigGalleryApplicationVersionCreateOptions` |
+| `az sig gallery-application version delete` | `AzSigGalleryApplicationVersionDeleteOptions` |
+| `az sig gallery-application version list` | `AzSigGalleryApplicationVersionListOptions` |
+| `az sig gallery-application version show` | `AzSigGalleryApplicationVersionShowOptions` |
+| `az sig gallery-application version update` | `AzSigGalleryApplicationVersionUpdateOptions` |
+| `az sig gallery-application version wait` | `AzSigGalleryApplicationVersionWaitOptions` |
 | `az sig gallery-application wait` | `AzSigGalleryApplicationWaitOptions` |
 | `az sig identity assign` | `AzSigIdentityAssignOptions` |
 | `az sig identity remove` | `AzSigIdentityRemoveOptions` |
@@ -4281,9 +4333,11 @@ Global options are rendered after the selected subcommand.
 | `az sig image-version list` | `AzSigImageVersionListOptions` |
 | `az sig image-version list-community` | `AzSigImageVersionListCommunityOptions` |
 | `az sig image-version list-shared` | `AzSigImageVersionListSharedOptions` |
+| `az sig image-version list-soft-deleted` | `AzSigImageVersionListSoftDeletedOptions` |
 | `az sig image-version show` | `AzSigImageVersionShowOptions` |
 | `az sig image-version show-community` | `AzSigImageVersionShowCommunityOptions` |
 | `az sig image-version show-shared` | `AzSigImageVersionShowSharedOptions` |
+| `az sig image-version undelete` | `AzSigImageVersionUndeleteOptions` |
 | `az sig image-version update` | `AzSigImageVersionUpdateOptions` |
 | `az sig image-version wait` | `AzSigImageVersionWaitOptions` |
 | `az sig in-vm-access-control-profile create` | `AzSigInVmAccessControlProfileCreateOptions` |
@@ -4513,7 +4567,13 @@ Global options are rendered after the selected subcommand.
 | `az sql midb log-replay start` | `AzSqlMidbLogReplayStartOptions` |
 | `az sql midb log-replay stop` | `AzSqlMidbLogReplayStopOptions` |
 | `az sql midb log-replay wait` | `AzSqlMidbLogReplayWaitOptions` |
+| `az sql midb ltr-backup delete` | `AzSqlMidbLtrBackupDeleteOptions` |
+| `az sql midb ltr-backup list` | `AzSqlMidbLtrBackupListOptions` |
+| `az sql midb ltr-backup restore` | `AzSqlMidbLtrBackupRestoreOptions` |
+| `az sql midb ltr-backup show` | `AzSqlMidbLtrBackupShowOptions` |
 | `az sql midb ltr-backup wait` | `AzSqlMidbLtrBackupWaitOptions` |
+| `az sql midb ltr-policy set` | `AzSqlMidbLtrPolicySetOptions` |
+| `az sql midb ltr-policy show` | `AzSqlMidbLtrPolicyShowOptions` |
 | `az sql midb move cancel` | `AzSqlMidbMoveCancelOptions` |
 | `az sql midb move complete` | `AzSqlMidbMoveCompleteOptions` |
 | `az sql midb move list` | `AzSqlMidbMoveListOptions` |
@@ -5113,6 +5173,7 @@ Global options are rendered after the selected subcommand.
 | `az ts list` | `AzTsListOptions` |
 | `az ts show` | `AzTsShowOptions` |
 | `az ts update` | `AzTsUpdateOptions` |
+| `az version` | `AzVersionOptions` |
 | `az vm application list` | `AzVmApplicationListOptions` |
 | `az vm application set` | `AzVmApplicationSetOptions` |
 | `az vm assess-patches` | `AzVmAssessPatchesOptions` |

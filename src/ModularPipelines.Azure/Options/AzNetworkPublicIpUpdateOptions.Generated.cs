@@ -52,6 +52,12 @@ public record AzNetworkPublicIpUpdateOptions : AzOptions
     public string? DnsNameScope { get; set; }
 
     /// <summary>
+    /// The resource ID of the first party service tag associated with the IP tag.
+    /// </summary>
+    [CliOption("--first-party-service-tag-id")]
+    public string? FirstPartyServiceTagId { get; set; }
+
+    /// <summary>
     /// Idle timeout in minutes.
     /// </summary>
     [CliOption("--idle-timeout")]

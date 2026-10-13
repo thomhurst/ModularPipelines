@@ -14,7 +14,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Azure.Options;
 
 /// <summary>
-/// Create a Flex Consumption app with the same settings as
+/// Migrate a Linux Consumption function app to Flex
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,37 +22,26 @@ namespace ModularPipelines.Azure.Options;
 public record AzFunctionappFlexMigrationStartOptions : AzOptions
 {
     /// <summary>
-    /// Create a Flex Consumption app with the same settings as
+    /// Migrate a Linux Consumption function app to Flex
     /// </summary>
-    /// <param name="ResourceGroup">The resource group of the target function app to migrate to.</param>
     /// <param name="SourceName">The name of the source function app to migrate from.</param>
     /// <param name="SourceResourceGroup">The resource group of the source function app to migrate from.</param>
     public AzFunctionappFlexMigrationStartOptions(
-        string ResourceGroup,
         string SourceName,
         string SourceResourceGroup
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(ResourceGroup);
-        this.ResourceGroup = ResourceGroup;
         global::System.ArgumentNullException.ThrowIfNull(SourceName);
         this.SourceName = SourceName;
         global::System.ArgumentNullException.ThrowIfNull(SourceResourceGroup);
         this.SourceResourceGroup = SourceResourceGroup;
     }
 
-    public void Deconstruct(out string ResourceGroup, out string SourceName, out string SourceResourceGroup)
+    public void Deconstruct(out string SourceName, out string SourceResourceGroup)
     {
-        ResourceGroup = this.ResourceGroup;
         SourceName = this.SourceName;
         SourceResourceGroup = this.SourceResourceGroup;
     }
-
-    /// <summary>
-    /// The resource group of the target function app to migrate to.
-    /// </summary>
-    [CliOption("--resource-group")]
-    public string ResourceGroup { get; private init; }
 
     /// <summary>
     /// The name of the source function app to migrate from.
@@ -67,10 +56,58 @@ public record AzFunctionappFlexMigrationStartOptions : AzOptions
     public string SourceResourceGroup { get; private init; }
 
     /// <summary>
+    /// Space-separated configuration for the number of pre-allocated instances in the format `&lt;name&gt;=&lt;value&gt;`.
+    /// </summary>
+    [CliOption("--always-ready-instances", GroupValues = true)]
+    public IEnumerable<string>? AlwaysReadyInstances { get; set; }
+
+    /// <summary>
+    /// The deployment storage account authentication type. Allowed values: StorageAccountConnectionString, SystemAssignedIdentity, UserAssignedIdentity.
+    /// </summary>
+    [CliOption("--deployment-storage-auth-type")]
+    public string? DeploymentStorageAuthType { get; set; }
+
+    /// <summary>
+    /// The deployment storage account authentication value. For the user-assigned managed identity authentication type, this should be the user assigned identity resource id. For the storage account connection string authentication type, this should be the name of the app setting that will contain the storage account connection string. For the system assigned managed-identity authentication type, this parameter is not applicable and should be left empty.
+    /// </summary>
+    [CliOption("--deployment-storage-auth-value")]
+    public string? DeploymentStorageAuthValue { get; set; }
+
+    /// <summary>
+    /// The deployment storage account container name.
+    /// </summary>
+    [CliOption("--deployment-storage-container-name")]
+    public string? DeploymentStorageContainerName { get; set; }
+
+    /// <summary>
+    /// The deployment storage account name.
+    /// </summary>
+    [CliOption("--deployment-storage-name")]
+    public string? DeploymentStorageName { get; set; }
+
+    /// <summary>
+    /// Upgrade the source app to Flex Consumption in place (same app, same name, same hostname). Cannot be used with --name or --resource-group.  Allowed values: false, true. WARNING: Argument '--in-place' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+    /// </summary>
+    [CliOption("--in-place", ShortForm = "-i", ValueArity = CliOptionValueArity.Optional)]
+    public CliOptionValue? InPlace { get; set; }
+
+    /// <summary>
+    /// The instance memory size in MB. See https://aka.ms/flex-instance-sizes for more information on the supported values.
+    /// </summary>
+    [CliOption("--instance-memory")]
+    public int? InstanceMemory { get; set; }
+
+    /// <summary>
     /// The maximum number of instances.
     /// </summary>
     [CliOption("--maximum-instance-count")]
     public int? MaximumInstanceCount { get; set; }
+
+    /// <summary>
+    /// The resource group of the target function app to migrate to. Not applicable with --in-place.
+    /// </summary>
+    [CliOption("--resource-group")]
+    public string? ResourceGroup { get; set; }
 
     /// <summary>
     /// Skip migrating access restrictions.  Allowed values: false, true.
@@ -115,7 +152,7 @@ public record AzFunctionappFlexMigrationStartOptions : AzOptions
     public IEnumerable<string>? Ids { get; set; }
 
     /// <summary>
-    /// The name of the target function app to migrate to.
+    /// The name of the target function app to migrate to. Not applicable with --in-place.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
     public string? Name { get; set; }

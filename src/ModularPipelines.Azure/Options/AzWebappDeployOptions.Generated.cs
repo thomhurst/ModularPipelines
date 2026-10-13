@@ -34,6 +34,12 @@ public record AzWebappDeployOptions : AzOptions
     public CliOptionValue? Clean { get; set; }
 
     /// <summary>
+    /// Linux only. A friendly name used to identify the deployment.
+    /// </summary>
+    [CliOption("--deploymentTag")]
+    public string? DeploymentTag { get; set; }
+
+    /// <summary>
     /// If true, kudu will be warmed up before performing deployment for a linux webapp.  Allowed values: false, true.  Default: True.
     /// </summary>
     [CliOption("--enable-kudu-warmup", ValueArity = CliOptionValueArity.Optional)]
@@ -58,6 +64,12 @@ public record AzWebappDeployOptions : AzOptions
     public CliOptionValue? Restart { get; set; }
 
     /// <summary>
+    /// Show a Secure Build summary and full-report link after a local deployment, including when --async true is used. For URL deployments, show the command to run after deployment completes. Supported only for Linux web apps. Secure Build analysis can add several minutes to a local deployment.
+    /// </summary>
+    [CliFlag("--show-secure-build")]
+    public bool? ShowSecureBuild { get; set; }
+
+    /// <summary>
     /// The name of the slot. Default to the productions slot if not specified.
     /// </summary>
     [CliOption("--slot", ShortForm = "-s")]
@@ -76,7 +88,7 @@ public record AzWebappDeployOptions : AzOptions
     public string? SrcUrl { get; set; }
 
     /// <summary>
-    /// Linux only. A friendly name used to identify the deployment.
+    /// Linux only. A friendly name used to identify the deployment. WARNING: Option '--tag' has been deprecated and will be removed in a future release. Use '-- deploymentTag' instead.
     /// </summary>
     [CliOption("--tag")]
     public string? Tag { get; set; }

@@ -67,6 +67,12 @@ public record AzNetworkApplicationGatewaySslProfileUpdateOptions : AzOptions
     public string ResourceGroup { get; private init; }
 
     /// <summary>
+    /// Client authentication configuration of the application gateway resource.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// </summary>
+    [CliOption("--auth-configuration", GroupValues = true)]
+    public IEnumerable<string>? AuthConfiguration { get; set; }
+
+    /// <summary>
     /// Client authentication configuration of the application gateway resource.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliOption("--client-auth-config", ValueArity = CliOptionValueArity.Optional)]

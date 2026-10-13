@@ -85,6 +85,12 @@ public record AzAppConfigSnapshotCreateOptions : AzOptions
     public string? ConnectionString { get; set; }
 
     /// <summary>
+    /// Description of the App Configuration snapshot.
+    /// </summary>
+    [CliOption("--description")]
+    public string? Description { get; set; }
+
+    /// <summary>
     /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
     [CliOption("--endpoint")]

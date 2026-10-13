@@ -97,7 +97,7 @@ public record AzAcrCreateOptions : AzOptions
     public string? Location { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -127,7 +127,7 @@ public record AzAcrCreateOptions : AzOptions
     public string? Identity { get; set; }
 
     /// <summary>
-    /// Key vault key uri. To enable automated rotation, provide a version-less key uri. For manual rotation, provide a versioned key uri.
+    /// Azure Key Vault or Managed HSM key URI. To enable automated rotation, provide a versionless key URI. For manual rotation, provide a versioned key URI.
     /// </summary>
     [CliOption("--key-encryption-key")]
     public string? KeyEncryptionKey { get; set; }
