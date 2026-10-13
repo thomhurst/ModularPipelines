@@ -4,7 +4,7 @@ namespace ModularPipelines.Ftp;
 
 internal class Ftp : IAsyncDisposable, IFtp
 {
-    private readonly List<AsyncFtpClient> _clients = new();
+    private readonly List<AsyncFtpClient> _clients = [];
 
     public async Task<AsyncFtpClient> GetFtpClientAsync(FtpOptions options, CancellationToken cancellationToken = default)
     {
