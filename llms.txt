@@ -101,7 +101,7 @@
 - [Azure Pipelines Package](/docs/mp-packages/azure-pipelines.md): Azure Pipelines environment and build integration helpers.
 - [Buildah Package](/docs/mp-packages/buildah.md): Strongly typed Buildah commands for building OCI container images.
 - [Chocolatey Package](/docs/mp-packages/chocolatey.md): Strongly typed Chocolatey package-management commands.
-- [Global options in specialist CLI packages](/docs/mp-packages/cli-global-options.md): Some tools have subcommands with inherited settings. Others accept one invocation with
+- [Global options in specialist CLI packages](/docs/mp-packages/cli-global-options.md): For Git, Terraform, dotnet, Go, nbgv, Cargo, Packer, and Vault, see the
 - [ansible CLI reference](/docs/mp-packages/cli/ansible.md): ModularPipelines.Ansible provides strongly typed access to the ansible CLI.
 - [argocd CLI reference](/docs/mp-packages/cli/argocd.md): ModularPipelines.ArgoCd provides strongly typed access to the argocd CLI.
 - [aws CLI reference](/docs/mp-packages/cli/aws.md): ModularPipelines.AmazonWebServices provides strongly typed access to the aws CLI.
@@ -150,6 +150,7 @@
 - [yq CLI reference](/docs/mp-packages/cli/yq.md): ModularPipelines.Yq provides strongly typed access to the yq CLI.
 - [Command Prompt Package](/docs/mp-packages/cmd.md): Helpers for executing Windows Command Prompt commands.
 - [Cosign Package](/docs/mp-packages/cosign.md): ModularPipelines.Cosign provides strongly typed access to the Sigstore Cosign CLI for
+- [Global options in developer and infrastructure CLIs](/docs/mp-packages/developer-cli-global-options.md): This audit covers Git, Terraform, the .NET SDK, Go, the .NET nbgv tool, Cargo,
 - [Distributed S3 Artifacts Package](/docs/mp-packages/distributed-artifacts-s3.md): ModularPipelines.Distributed.Artifacts.S3 stores distributed pipeline artifacts in AWS S3 or an S3-compatible service such as Cloudflare R2, Backblaze B2, or MinIO.
 - [Distributed Redis Discovery Package](/docs/mp-packages/distributed-discovery-redis.md): ModularPipelines.Distributed.Discovery.Redis advertises and discovers a distributed master's endpoint
 - [Distributed Redis Package](/docs/mp-packages/distributed-redis.md): ModularPipelines.Distributed.Redis provides Redis-backed coordination and artifact storage for distributed pipelines.

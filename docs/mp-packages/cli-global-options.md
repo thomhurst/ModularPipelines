@@ -1,5 +1,7 @@
 # Global options in specialist CLI packages
 
+For Git, Terraform, dotnet, Go, nbgv, Cargo, Packer, and Vault, see the [developer and infrastructure CLI audit](/ModularPipelines/docs/mp-packages/developer-cli-global-options.md).
+
 Some tools have subcommands with inherited settings. Others accept one invocation with files, goals, tasks, or a filter. An empty abstract base class does not mean options are missing when the executable has one generated `Execute` command.
 
 The following audit covers the specialist tools tracked in issue #5711. Versions identify the checked-in generation manifests at the start of the audit; official references were checked on 4 October 2026. Snyk and Flyway also have captured help fixtures in the generator tests, from Snyk 1.1302.0 and the hosted Flyway 10.20.1 installation.
