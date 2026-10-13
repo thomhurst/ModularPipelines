@@ -38,6 +38,21 @@ public class AzSecurityTopology
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecurityTopologyListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityTopologyListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Shows the network topology in your subscription.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
         AzSecurityTopologyShowOptions options,
         CommandExecutionOptions? executionOptions = null,

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -92,11 +93,12 @@ public record AzApimNvCreateOptions : AzOptions
     /// <summary>
     /// Determines whether the value is a secret and should be encrypted or not. Default value is false.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--secret", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? Secret { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

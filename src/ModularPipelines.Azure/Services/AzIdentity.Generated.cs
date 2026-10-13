@@ -72,6 +72,21 @@ public class AzIdentity : IAzIdentity
     }
 
     /// <summary>
+    /// List available operations for the Managed Identity provider.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListOperationsAsync(
+        AzIdentityListOperationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzIdentityListOperationsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// List all the userAssignedIdentities available under the subscription or
     /// </summary>
     /// <param name="options">The command options.</param>

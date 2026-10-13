@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -58,6 +59,7 @@ public record AzContainerappIngressCorsEnableOptions : AzOptions
     /// <summary>
     /// Whether the credential is allowed for the container app. Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--allow-credentials", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? AllowCredentials { get; set; }
 

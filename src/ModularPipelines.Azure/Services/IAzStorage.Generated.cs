@@ -87,6 +87,11 @@ public interface IAzStorage
     AzStorageShareRm ShareRm => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az sku sub-commands.
+    /// </summary>
+    AzStorageSku Sku => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az table sub-commands.
     /// </summary>
     AzStorageTable Table => throw new System.NotSupportedException();

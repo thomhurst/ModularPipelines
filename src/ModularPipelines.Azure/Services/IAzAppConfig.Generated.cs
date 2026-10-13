@@ -77,6 +77,16 @@ public interface IAzAppConfig
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// List all deleted, but not yet purged App Configuration stores.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListDeletedAsync(AzAppConfigListDeletedOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// Lists all App Configuration stores under the current subscription.
     /// </summary>
     /// <param name="options">The command options.</param>

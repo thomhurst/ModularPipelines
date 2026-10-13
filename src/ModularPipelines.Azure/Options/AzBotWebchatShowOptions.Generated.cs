@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -58,6 +59,7 @@ public record AzBotWebchatShowOptions : AzOptions
     /// <summary>
     /// Show secrets in response for the channel.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--with-secrets", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? WithSecrets { get; set; }
 

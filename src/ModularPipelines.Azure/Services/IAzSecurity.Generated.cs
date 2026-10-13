@@ -167,6 +167,11 @@ public interface IAzSecurity
     AzSecurityRegulatoryComplianceStandards RegulatoryComplianceStandards => throw new System.NotSupportedException();
 
     /// <summary>
+    /// az secure-score-control-definitions sub-commands.
+    /// </summary>
+    AzSecuritySecureScoreControlDefinitions SecureScoreControlDefinitions => throw new System.NotSupportedException();
+
+    /// <summary>
     /// az secure-score-controls sub-commands.
     /// </summary>
     AzSecuritySecureScoreControls SecureScoreControls => throw new System.NotSupportedException();
@@ -175,6 +180,16 @@ public interface IAzSecurity
     /// az secure-scores sub-commands.
     /// </summary>
     AzSecuritySecureScores SecureScores => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az security-solutions sub-commands.
+    /// </summary>
+    AzSecuritySecuritySolutions SecuritySolutions => throw new System.NotSupportedException();
+
+    /// <summary>
+    /// az security-solutions-reference-data sub-commands.
+    /// </summary>
+    AzSecuritySecuritySolutionsReferenceData SecuritySolutionsReferenceData => throw new System.NotSupportedException();
 
     /// <summary>
     /// az setting sub-commands.

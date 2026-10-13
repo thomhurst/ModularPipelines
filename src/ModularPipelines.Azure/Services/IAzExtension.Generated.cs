@@ -42,6 +42,16 @@ public interface IAzExtension
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// List the installed extensions.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListAsync(AzExtensionListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List available versions for an extension.
     /// </summary>
     /// <param name="options">The command options.</param>

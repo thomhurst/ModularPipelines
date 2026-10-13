@@ -61,6 +61,7 @@ public record AzWebappAuthUpdateOptions : AzOptions
     /// <summary>
     /// Use App Service Token Store.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--token-store", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? TokenStore { get; set; }
 

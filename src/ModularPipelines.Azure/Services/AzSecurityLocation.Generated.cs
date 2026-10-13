@@ -38,6 +38,21 @@ public class AzSecurityLocation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecurityLocationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityLocationListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Shows the Microsoft Defender for Cloud Home region location.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
         AzSecurityLocationShowOptions options,
         CommandExecutionOptions? executionOptions = null,

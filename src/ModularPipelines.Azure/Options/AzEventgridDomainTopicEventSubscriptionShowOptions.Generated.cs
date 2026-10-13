@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -86,6 +87,7 @@ public record AzEventgridDomainTopicEventSubscriptionShowOptions : AzOptions
     /// <summary>
     /// Indicate whether any static delivery attribute secrets should be returned. True if flag present.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--include-attrib-secret", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? IncludeAttribSecret { get; set; }
 

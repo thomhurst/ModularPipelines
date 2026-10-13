@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -54,6 +55,7 @@ public record AzAdSpCreateForRbacOptions : AzOptions
     /// <summary>
     /// Create a password credential (secret) on the the application. This is the default behavior. Set this argument to false to disable creating password credential. Allowed values: false, true.  Default: True.
     /// </summary>
+    [SecretValue]
     [CliOption("--create-password", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? CreatePassword { get; set; }
 

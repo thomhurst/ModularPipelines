@@ -25,7 +25,11 @@ public record AzAccountGetAccessTokenOptions : AzOptions
     /// Name or ID of subscription.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string? Name { get; set; }
+    public new string? Subscription
+    {
+        get => base.Subscription;
+        set => base.Subscription = value;
+    }
 
     /// <summary>
     /// Azure resource endpoints in Microsoft Entra v1.0.

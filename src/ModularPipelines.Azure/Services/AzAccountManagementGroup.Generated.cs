@@ -20,8 +20,10 @@ namespace ModularPipelines.Azure.Services;
 public class AzAccountManagementGroup
 {
     private readonly ICommandContext _command;
+    private AzAccountManagementGroupEntities? _entities;
     private AzAccountManagementGroupHierarchySettings? _hierarchySettings;
     private AzAccountManagementGroupSubscription? _subscription;
+    private AzAccountManagementGroupTenantBackfill? _tenantBackfill;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccountManagementGroup"/> class.
@@ -34,6 +36,11 @@ public class AzAccountManagementGroup
     #region Sub-command Groups
 
     /// <summary>
+    /// az entities sub-commands.
+    /// </summary>
+    public AzAccountManagementGroupEntities Entities => _entities ??= new AzAccountManagementGroupEntities(_command);
+
+    /// <summary>
     /// az hierarchy-settings sub-commands.
     /// </summary>
     public AzAccountManagementGroupHierarchySettings HierarchySettings => _hierarchySettings ??= new AzAccountManagementGroupHierarchySettings(_command);
@@ -42,6 +49,11 @@ public class AzAccountManagementGroup
     /// az subscription sub-commands.
     /// </summary>
     public AzAccountManagementGroupSubscription Subscription => _subscription ??= new AzAccountManagementGroupSubscription(_command);
+
+    /// <summary>
+    /// az tenant-backfill sub-commands.
+    /// </summary>
+    public AzAccountManagementGroupTenantBackfill TenantBackfill => _tenantBackfill ??= new AzAccountManagementGroupTenantBackfill(_command);
 
     #endregion
 

@@ -68,6 +68,21 @@ public class AzMonitorDiagnosticSettingsSubscription
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzMonitorDiagnosticSettingsSubscriptionListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzMonitorDiagnosticSettingsSubscriptionListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets the active subscription diagnostic
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowAsync(
         AzMonitorDiagnosticSettingsSubscriptionShowOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

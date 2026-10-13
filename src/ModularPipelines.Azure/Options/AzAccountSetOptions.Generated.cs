@@ -23,24 +23,24 @@ public record AzAccountSetOptions : AzOptions
     /// <summary>
     /// Set a subscription to be the current active subscription.
     /// </summary>
-    /// <param name="Name">Name or ID of subscription.</param>
+    /// <param name="Subscription">Name or ID of subscription.</param>
     public AzAccountSetOptions(
-        string Name
+        string Subscription
     )
     {
-        global::System.ArgumentNullException.ThrowIfNull(Name);
-        this.Name = Name;
+        global::System.ArgumentNullException.ThrowIfNull(Subscription);
+        this.Subscription = Subscription;
     }
 
-    public void Deconstruct(out string Name)
+    public void Deconstruct(out string Subscription)
     {
-        Name = this.Name;
+        Subscription = this.Subscription;
     }
 
     /// <summary>
     /// Name or ID of subscription.
     /// </summary>
     [CliOption("--name", ShortForm = "-n")]
-    public string Name { get; private init; }
+    public new string Subscription { get; private init; }
 
 }

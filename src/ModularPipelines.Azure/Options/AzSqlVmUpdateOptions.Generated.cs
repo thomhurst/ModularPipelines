@@ -35,7 +35,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     public string? SqlMgmtType { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }
@@ -242,6 +242,7 @@ public record AzSqlVmUpdateOptions : AzOptions
     /// <summary>
     /// Enable or disable key vault credential setting. If any key vault settings provided, parameter automatically sets to true.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--enable-key-vault-credential", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableKeyVaultCredential { get; set; }
 

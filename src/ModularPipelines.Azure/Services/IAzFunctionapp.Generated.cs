@@ -117,6 +117,16 @@ public interface IAzFunctionapp
         => throw new System.NotSupportedException();
 
     /// <summary>
+    /// List available locations for running function apps.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public Task<CommandResult> ListConsumptionLocationsAsync(AzFunctionappListConsumptionLocationsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
+        => throw new System.NotSupportedException();
+
+    /// <summary>
     /// List available locations for running function
     /// </summary>
     /// <param name="options">The command options.</param>

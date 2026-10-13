@@ -34,4 +34,40 @@ public abstract record AzOptions : CommandLineToolOptions
     [CliOption("--change-reference")]
     public virtual string? ChangeReference { get; set; }
 
+    /// <summary>
+    /// Increase logging verbosity to show all debug logs.
+    /// </summary>
+    [CliFlag("--debug")]
+    public virtual bool? Debug { get; set; }
+
+    /// <summary>
+    /// Only show errors, suppressing warnings.
+    /// </summary>
+    [CliFlag("--only-show-errors")]
+    public virtual bool? OnlyShowErrors { get; set; }
+
+    /// <summary>
+    /// Output format. Allowed values: json, jsonc, yaml, yamlc, table, tsv, none.
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public virtual string? Output { get; set; }
+
+    /// <summary>
+    /// JMESPath query string. See http://jmespath.org/ for more information and examples.
+    /// </summary>
+    [CliOption("--query")]
+    public virtual string? Query { get; set; }
+
+    /// <summary>
+    /// Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
+    /// </summary>
+    [CliOption("--subscription")]
+    public virtual string? Subscription { get; set; }
+
+    /// <summary>
+    /// Increase logging verbosity. Use --debug for full debug logs.
+    /// </summary>
+    [CliFlag("--verbose")]
+    public virtual bool? Verbose { get; set; }
+
 }

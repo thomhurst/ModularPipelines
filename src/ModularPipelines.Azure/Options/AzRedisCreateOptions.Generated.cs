@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -91,6 +92,7 @@ public record AzRedisCreateOptions : AzOptions
     /// <summary>
     /// Authentication to Redis through access keys is disabled when set as true.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--disable-access-keys", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? DisableAccessKeys { get; set; }
 
@@ -155,7 +157,7 @@ public record AzRedisCreateOptions : AzOptions
     public string? SubnetId { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using ModularPipelines.Secrets;
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
@@ -167,12 +168,14 @@ public record AzAdAppUpdateOptions : AzOptions
     /// <summary>
     /// Specifies whether this web application can request an access token using the OAuth 2.0 implicit flow.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--enable-access-token-issuance", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableAccessTokenIssuance { get; set; }
 
     /// <summary>
     /// Specifies whether this web application can request an ID token using the OAuth 2.0 implicit flow.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--enable-id-token-issuance", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? EnableIdTokenIssuance { get; set; }
 

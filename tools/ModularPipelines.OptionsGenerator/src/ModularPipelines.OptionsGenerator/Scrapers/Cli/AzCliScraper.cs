@@ -123,6 +123,12 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// </summary>
     protected override bool GlobalOptionsBeforeSubcommands => false;
 
+    protected override IReadOnlyList<CliOptionDefinition> ParseGlobalOptions(string helpText)
+    {
+        var argumentShapes = ExtractArgumentShapes(ref helpText);
+        return ParseOptions(helpText, argumentShapes, globalOnly: true);
+    }
+
     protected override IReadOnlyList<CliOptionDefinition> SupplementalGlobalOptions =>
     [
         new()
@@ -253,8 +259,11 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         // Parse options from the help text
         var options = ParseOptions(helpText, argumentShapes);
 
-        // If no options, skip generating this command
-        if (options.Count == 0)
+        var globalOptions = EffectiveGlobalOptions;
+        options.RemoveAll(option => globalOptions.Any(global => CliGlobalOptionMerger.HasSameShape(global, option)));
+        // Leaf commands can expose inherited globals without having local arguments.
+        if (options.Count == 0 && (globalOptions.Count == 0
+                                  || helpText.Contains("Subgroups:") || helpText.Contains("Commands:")))
         {
             return Task.FromResult<CliCommandDefinition?>(null);
         }
@@ -332,7 +341,10 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     /// Parses options from Azure CLI help text.
     /// Azure CLI uses: --option VALUE, --flag, -s (short forms)
     /// </summary>
-    private static List<CliOptionDefinition> ParseOptions(string helpText, IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes)
+    private static List<CliOptionDefinition> ParseOptions(
+        string helpText,
+        IReadOnlyDictionary<string, AzArgumentMetadata>? argumentShapes,
+        bool globalOnly = false)
     {
         var options = new List<CliOptionDefinition>();
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -342,7 +354,9 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         foreach (Match sectionMatch in SectionHeaderPattern().Matches(helpText))
         {
             var sectionName = sectionMatch.Groups["name"].Value.TrimEnd(':').Trim();
-            if (!IsCommandArgumentsSection(sectionName))
+            if (globalOnly
+                ? !sectionName.Equals("Global Arguments", StringComparison.OrdinalIgnoreCase)
+                : !IsCommandArgumentsSection(sectionName))
             {
                 continue;
             }
@@ -389,7 +403,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
         var longFlag = match.Groups["long"].Value.Trim();
         if (string.IsNullOrEmpty(longFlag)
             || !seenOptions.Add(longFlag)
-            || IsGlobalOption(longFlag))
+            || longFlag.Equals("help", StringComparison.OrdinalIgnoreCase))
         {
             return null;
         }
@@ -432,6 +446,8 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             HasVerifiedValueShape = shape is not null,
             SwitchName = $"--{longFlag}",
             ShortForm = string.IsNullOrEmpty(alias) ? null : alias,
+            Aliases = [.. match.Groups["alias"].Captures.Select(capture => capture.Value)
+                .Where(value => value != alias)],
             PropertyName = propertyName,
             CSharpType = csharpType,
             Description = description,
@@ -444,7 +460,7 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
             ValueSeparator = " ",
             ValueArity = GetValueArity(isFlag, description, shape),
             EnumDefinition = null,
-            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag),
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag, description),
         };
     }
 
@@ -658,19 +674,6 @@ public partial class AzCliScraper(ICliCommandExecutor executor, IHelpTextCache h
     private static bool HelpDeclaresOrderedParameterValues(string description) =>
         description.Contains("parameters are evaluated in order", StringComparison.OrdinalIgnoreCase)
         && description.Contains("key=value", StringComparison.OrdinalIgnoreCase);
-
-    /// <summary>
-    /// Checks if an option is a global option that should be on the base class.
-    /// </summary>
-    private static bool IsGlobalOption(string optionName)
-    {
-        var globalOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "debug", "help", "only-show-errors", "output", "query", "subscription", "verbose"
-        };
-
-        return globalOptions.Contains(optionName);
-    }
 
     private static bool IsOptionRow(string line) => AzOptionPattern().IsMatch(line);
 

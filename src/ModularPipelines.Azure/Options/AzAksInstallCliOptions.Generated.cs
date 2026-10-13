@@ -41,7 +41,7 @@ public record AzAksInstallCliOptions : AzOptions
     public string? GhToken { get; set; }
 
     /// <summary>
-    /// Path at which to install kubectl. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubectl.
+    /// Path at which to install kubectl. Note: the path should contain the binary filename.  Default: ~\.azure- kubectl\kubectl.exe.
     /// </summary>
     [CliOption("--install-location")]
     public string? InstallLocation { get; set; }
@@ -53,7 +53,7 @@ public record AzAksInstallCliOptions : AzOptions
     public string? KubeloginBaseSrcUrl { get; set; }
 
     /// <summary>
-    /// Path at which to install kubelogin. Note: the path should contain the binary filename.  Default: /usr/local/bin/kubelogin.
+    /// Path at which to install kubelogin. Note: the path should contain the binary filename.  Default: ~\.azure- kubelogin\kubelogin.exe.
     /// </summary>
     [CliOption("--kubelogin-install-location")]
     public string? KubeloginInstallLocation { get; set; }

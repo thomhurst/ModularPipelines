@@ -46,5 +46,20 @@ public class AzFunctionappDeploymentUser
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Gets publishing user.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ShowAsync(
+        AzFunctionappDeploymentUserShowOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzFunctionappDeploymentUserShowOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }

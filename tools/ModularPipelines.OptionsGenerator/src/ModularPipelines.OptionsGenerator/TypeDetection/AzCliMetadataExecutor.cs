@@ -14,7 +14,7 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
     // Invoking --help loads the selected command's argparse actions without executing it.
     // Keep help on stdout so the normal cache and provenance capture both help and metadata.
     private const string Script = """
-        import argparse, json, sys
+        import argparse, contextlib, io, json, sys
         from azure.cli.core import get_default_cli
         cli = get_default_cli()
         try:
@@ -26,13 +26,38 @@ internal sealed partial class AzCliMetadataExecutor(ICliCommandExecutor inner) :
         parser = cli.invocation.parser
         command = ' '.join(sys.argv[1:-1])
         selected = parser.subparser_map.get(command, parser)
+        actions = list(selected._actions)
+        if sys.argv[1:] == ['--help']:
+            # Root help hides globals. Read the root parser and the subscription action
+            # registered on resource commands, using the same installed CLI.
+            resource_cli = get_default_cli()
+            with contextlib.redirect_stdout(io.StringIO()):
+                try:
+                    resource_code = resource_cli.invoke(['group', 'show', '--help'])
+                except SystemExit as exit:
+                    resource_code = exit.code
+            if resource_code not in (None, 0):
+                sys.exit(resource_code)
+            resource_parser = resource_cli.invocation.parser.subparser_map['group show']
+            actions.append(next(action for action in resource_parser._actions
+                                if '--subscription' in action.option_strings))
+            print('\nGlobal Arguments')
+            for action in actions:
+                long_options = [option for option in action.option_strings if option.startswith('--')]
+                if not long_options or '--help' in long_options or action.help == argparse.SUPPRESS:
+                    continue
+                aliases = long_options + [option for option in action.option_strings if not option.startswith('--')]
+                description = ' '.join(str(action.help or '').split())
+                if action.choices:
+                    description += '. Allowed values: ' + ', '.join(map(str, action.choices)) + '.'
+                print('    ' + ' '.join(aliases) + ' : ' + description)
         shapes = {
             option: {
                 'Nargs': str(action.nargs) if action.nargs is not None else '1',
                 'IsInteger': action.type is int,
                 'IsRepeated': isinstance(action, argparse._AppendAction)
             }
-            for action in selected._actions for option in action.option_strings
+            for action in actions for option in action.option_strings
         }
         print('\n__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:' + json.dumps(shapes, sort_keys=True))
         """;

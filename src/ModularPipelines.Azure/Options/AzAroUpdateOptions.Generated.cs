@@ -84,6 +84,7 @@ public record AzAroUpdateOptions : AzOptions
     /// <summary>
     /// Refresh cluster application credentials.  Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--refresh-credentials", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? RefreshCredentials { get; set; }
 

@@ -192,7 +192,7 @@ public record AzSigImageVersionCreateOptions : AzOptions
     public string? StorageAccountType { get; set; }
 
     /// <summary>
-    /// Space- separated tags: key[=value] [key[=value] ...]. Use '' to clear existing tags.
+    /// Space- separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.
     /// </summary>
     [CliOption("--tags", ValueArity = CliOptionValueArity.Optional, GroupValues = true)]
     public IEnumerable<CliOptionValue>? Tags { get; set; }

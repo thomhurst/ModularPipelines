@@ -1,0 +1,9 @@
+Global Arguments
+    --verbose : Increase logging verbosity. Use --debug for full debug logs.
+    --debug : Increase logging verbosity to show all debug logs.
+    --only-show-errors : Only show errors, suppressing warnings.
+    --output -o : Output format. Allowed values: json, jsonc, yaml, yamlc, table, tsv, none.
+    --query : JMESPath query string. See http://jmespath.org/ for more information and examples.
+    --subscription : Name or ID of subscription. You can configure the default subscription using `az account set -s NAME_OR_ID`
+
+__MODULAR_PIPELINES_AZ_ARGUMENT_SHAPES__:{"--debug": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--help": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--only-show-errors": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "--output": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--query": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--subscription": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}, "--verbose": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-h": {"IsInteger": false, "IsRepeated": false, "Nargs": "0"}, "-o": {"IsInteger": false, "IsRepeated": false, "Nargs": "1"}}

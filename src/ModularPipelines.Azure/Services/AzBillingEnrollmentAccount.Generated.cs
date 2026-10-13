@@ -42,6 +42,21 @@ public class AzBillingEnrollmentAccount
     #region Commands
 
     /// <summary>
+    /// Lists the enrollment accounts the caller has access to.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzBillingEnrollmentAccountListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBillingEnrollmentAccountListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Gets a enrollment account by name.
     /// </summary>
     /// <param name="options">The command options.</param>

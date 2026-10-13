@@ -29,6 +29,9 @@ public record CliOptionDefinition
     /// <summary>The inherited property type, used to share storage for compatible replacements.</summary>
     internal string? GlobalOptionPropertyType { get; init; }
 
+    /// <summary>Additional parser aliases used to match inherited options and usage operands.</summary>
+    internal IReadOnlyList<string> Aliases { get; init; } = [];
+
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
     private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
@@ -168,6 +171,11 @@ public record CliOptionDefinition
         if (NegatedSwitchName is not null)
         {
             yield return NegatedSwitchName;
+        }
+
+        foreach (var alias in Aliases)
+        {
+            yield return alias;
         }
     }
 

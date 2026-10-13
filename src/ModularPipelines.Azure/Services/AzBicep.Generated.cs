@@ -152,6 +152,21 @@ public class AzBicep : IAzBicep
     }
 
     /// <summary>
+    /// List out all available versions of Bicep CLI.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListVersionsAsync(
+        AzBicepListVersionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBicepListVersionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Publish a bicep file to a remote module registry.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -209,6 +224,21 @@ public class AzBicep : IAzBicep
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Uninstall Bicep CLI.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UninstallAsync(
+        AzBicepUninstallOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzBicepUninstallOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

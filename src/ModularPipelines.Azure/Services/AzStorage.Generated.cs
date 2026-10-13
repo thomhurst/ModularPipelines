@@ -33,6 +33,7 @@ public class AzStorage : IAzStorage
     private AzStorageMetrics? _metrics;
     private AzStorageShare? _share;
     private AzStorageShareRm? _shareRm;
+    private AzStorageSku? _sku;
     private AzStorageTable? _table;
 
     /// <summary>
@@ -109,6 +110,11 @@ public class AzStorage : IAzStorage
     /// az share-rm sub-commands.
     /// </summary>
     public AzStorageShareRm ShareRm => _shareRm ??= new AzStorageShareRm(_command);
+
+    /// <summary>
+    /// az sku sub-commands.
+    /// </summary>
+    public AzStorageSku Sku => _sku ??= new AzStorageSku(_command);
 
     /// <summary>
     /// az table sub-commands.

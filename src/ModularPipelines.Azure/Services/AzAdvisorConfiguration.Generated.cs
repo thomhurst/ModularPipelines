@@ -32,6 +32,21 @@ public class AzAdvisorConfiguration
     #region Commands
 
     /// <summary>
+    /// List Azure Advisor configuration for the entire subscription.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzAdvisorConfigurationListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdvisorConfigurationListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Show Azure Advisor configuration for the given subscription or
     /// </summary>
     /// <param name="options">The command options.</param>

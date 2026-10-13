@@ -60,6 +60,7 @@ public record AzAdUserUpdateOptions : AzOptions
     /// <summary>
     /// If the user must change her password on the next login. Allowed values: false, true.
     /// </summary>
+    [SecretValue]
     [CliOption("--force-change-password-next-sign-in", ValueArity = CliOptionValueArity.Optional)]
     public CliOptionValue? ForceChangePasswordNextSignIn { get; set; }
 

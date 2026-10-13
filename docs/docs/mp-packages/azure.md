@@ -30,6 +30,34 @@ The public command execution API exposes neither terminal interaction nor stdin,
 command is excluded from generated coverage. To populate the CLI credential store, run it
 separately before the pipeline. Environment-variable authentication does not populate that store.
 
+## Global arguments
+
+Azure CLI parser metadata supplies `AzOptions.Subscription`, `Output`, `Query`, `Debug`,
+`Verbose`, and `OnlyShowErrors`. Set them directly on the selected command options:
+
+```csharp
+var options = new AzGroupShowOptions("my-resource-group")
+{
+    Subscription = "my-subscription",
+    Output = "json",
+    Query = "name",
+};
+```
+
+Global arguments follow the complete subcommand path, for example
+`az group show --name my-resource-group --output json --query name --subscription my-subscription`.
+The supplemental `AcquirePolicyToken` and `ChangeReference` properties remain available.
+
+When migrating, replace additional arguments for these switches with their typed properties.
+Reflection code using `DeclaredOnly` must include inherited properties. A command-specific
+definition replaces the inherited property when its aliases, requiredness, or value arity
+differ. For example, `AzAccountSetOptions` requires `Subscription` in its constructor and
+renders the parser's primary `--name` spelling; its `-n`, `--subscription`, and `-s` spellings
+identify the same parser argument. `AzAccountShowOptions.Subscription` replaces its former
+`Name` property. Resource names on other commands retain their own properties.
+Management-group subscription add, remove, and show commands now require both `Name`
+and `Subscription` constructor arguments, matching the CLI's required arguments.
+
 ## Azure CLI argument types
 
 Generated option types follow the installed Azure CLI parser. VM SKU values such as

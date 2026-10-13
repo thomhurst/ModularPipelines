@@ -26,4 +26,9 @@ public interface IAzMaps
     /// </summary>
     AzMapsAccount Account => throw new System.NotSupportedException();
 
+    /// <summary>
+    /// az map sub-commands.
+    /// </summary>
+    AzMapsMap Map => throw new System.NotSupportedException();
+
 }

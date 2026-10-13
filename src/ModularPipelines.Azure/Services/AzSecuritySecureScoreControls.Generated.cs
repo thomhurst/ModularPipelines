@@ -46,5 +46,20 @@ public class AzSecuritySecureScoreControls
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// List supported of secure score controls details and
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAsync(
+        AzSecuritySecureScoreControlsListOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecuritySecureScoreControlsListOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }
