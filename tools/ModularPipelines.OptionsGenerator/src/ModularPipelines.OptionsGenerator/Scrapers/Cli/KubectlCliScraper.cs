@@ -46,6 +46,51 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
         };
     }
 
+    protected override IReadOnlyList<UsageRequiredAlternativeGroup> NormalizeRequiredAlternativeGroups(
+        CliCommandDefinition command, IReadOnlyList<UsageRequiredAlternativeGroup> groups) =>
+        [.. groups.Select(group => NormalizeResourceInputs(group, command.Options,
+            command.CommandParts is ["annotate" or "label"]))];
+
+    // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
+    // A bare TYPE still needs a name or selector; a combined TYPE/NAME supplies both.
+    private static UsageRequiredAlternativeGroup NormalizeResourceInputs(
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options, bool requireSelection)
+    {
+        var members = group.Members;
+        var groups = group.Groups.Select(child => NormalizeResourceInputs(child, options, requireSelection)).ToList();
+        if (!group.IsChoice
+            && members.FirstOrDefault(member => member.PositionalPropertyName == "Type") is { } type)
+        {
+            var name = members.FirstOrDefault(member => member.PositionalPropertyName == "Name");
+            members = [.. members.Where(member => member.PositionalPropertyName != "Name")];
+            if (requireSelection && name is not null)
+            {
+                groups.Add(new UsageRequiredAlternativeGroup
+                {
+                    Members =
+                    [
+                        name,
+                        type with { ValuePattern = @"\A[^/\s]+/[^/\s]+\z" },
+                        .. options.Where(option => option.SwitchName is "--all" or "--selector" or "--field-selector")
+                            .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName }),
+                    ],
+                });
+            }
+        }
+
+        if (group.IsChoice && members.Any(member => member.OptionSwitch is "-f" or "--filename")
+            && options.Any(option => option.SwitchName == "--kustomize"))
+        {
+            members = [.. members, new UsageRequiredAlternativeMember { OptionSwitch = "--kustomize" }];
+        }
+
+        return group with
+        {
+            Members = members,
+            Groups = groups,
+        };
+    }
+
     /// <summary>
     /// kubectl has some additional skip patterns for plugin and completion commands.
     /// </summary>

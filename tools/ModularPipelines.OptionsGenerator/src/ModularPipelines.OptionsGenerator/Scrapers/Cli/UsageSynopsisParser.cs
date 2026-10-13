@@ -1578,8 +1578,31 @@ public static partial class UsageSynopsisParser
     private static List<string>? GetBundledOperandBranch(IReadOnlyList<string> alternatives)
     {
         var operandBranches = alternatives.Select(TokenizeNestedGroup)
-            .Where(branch => !ContainsOnlyInlineOptions(branch)).ToArray();
+            .Where(HasUnboundOperand).ToArray();
         return operandBranches is [var branch] && branch.Count > 1 ? branch : null;
+    }
+
+    private static bool HasUnboundOperand(List<string> tokens)
+    {
+        var consumesOptionValue = false;
+        foreach (var token in tokens)
+        {
+            if (GetOptionSwitches(token).Count > 0)
+            {
+                consumesOptionValue = !HasInlineOptionValue(token) && !IsWrapped(token);
+                continue;
+            }
+            if (consumesOptionValue)
+            {
+                consumesOptionValue = false;
+                continue;
+            }
+            if (!IsNonOperandSyntax(token))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     internal static string DeferDocumentedOptionGroups(string synopsis, IReadOnlyList<CliArgumentGroup> groups)
@@ -2607,6 +2630,9 @@ public sealed record UsageRequiredAlternativeGroup
 /// </summary>
 public sealed record UsageRequiredAlternativeMember
 {
+    // Distinguishes a combined operand from a bare value in a usage alternative.
+    internal string? ValuePattern { get; init; }
+
     /// <summary>Whether this member is mandatory when its bundle is supplied.</summary>
     public bool IsRequired { get; init; } = true;
 

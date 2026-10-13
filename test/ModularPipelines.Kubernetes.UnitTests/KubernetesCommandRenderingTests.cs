@@ -1,6 +1,8 @@
 using System.Text.Json;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Kubernetes.Options;
+using ModularPipelines.Kubernetes.Services;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
@@ -32,17 +34,18 @@ public class KubernetesCommandRenderingTests : TestBase
     [Arguments("--recursive=0")]
     [Arguments("-R=t")]
     [Arguments("-R=f")]
-    public async Task Annotate_Manual_Boolean_Preserves_Following_File_And_Operand(string flag)
+    public async Task Annotate_Manual_Boolean_Preserves_Following_Option_And_Operand(string flag)
     {
         var result = await GetResult(new KubernetesAnnotateOptions(null)
         {
-            Arguments = [flag, "owner=team", "--filename", "manifest.yaml", "--", "another=value"],
+            Filename = ["manifest.yaml"],
+            Arguments = [flag, "owner=team", "--output", "yaml", "--", "another=value"],
             ArgumentsContainToolOptions = true,
             ArgumentsContainOptionTerminator = true,
         });
 
         await Assert.That(result.CommandInput)
-            .IsEqualTo($"kubectl annotate {flag} --filename manifest.yaml owner=team -- another=value");
+            .IsEqualTo($"kubectl annotate --filename=manifest.yaml {flag} --output yaml owner=team -- another=value");
     }
 
     [Test]
@@ -188,6 +191,183 @@ public class KubernetesCommandRenderingTests : TestBase
     }
 
     [Test]
+    public async Task Label_Renders_Resource_Before_All_Labels()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test", "team=build"])
+        {
+            Type = "pods",
+            Name = "example",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl label pods example environment=test team=build");
+    }
+
+    [Test]
+    public async Task Annotate_Renders_Resource_Before_All_Annotations()
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=build", "note=example"])
+        {
+            Type = "pods",
+            Name = "example",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl annotate pods example owner=build note=example");
+    }
+
+    [Test]
+    public async Task Label_All_Does_Not_Require_A_Name()
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["environment=test"])
+        {
+            Type = "pods",
+            All = true,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl label --all pods environment=test");
+    }
+
+    [Test]
+    public async Task Patch_Distinguishes_Patch_Type_From_Resource_Type()
+    {
+        var result = await GetResult(new KubernetesPatchOptions
+        {
+            Type = "merge",
+            TypeArgument = "pods",
+            Name = "example",
+            PatchFile = "patch.json",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl patch pods example --patch-file=patch.json --type=merge");
+    }
+
+    [Test]
+    public async Task Scale_Renders_Resource_Operands()
+    {
+        var result = await GetResult(new KubernetesScaleOptions
+        {
+            Type = "deployments",
+            Name = "example",
+            Replicas = 3,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo("kubectl scale --replicas=3 deployments example");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Label_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesLabelOptions(["app=test"])
+        {
+            Type = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl label --kustomize=overlay app=test"
+            : "kubectl label pod/example app=test");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Annotate_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesAnnotateOptions(["owner=test"])
+        {
+            Type = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl annotate --kustomize=overlay owner=test"
+            : "kubectl annotate pod/example owner=test");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Patch_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesPatchOptions
+        {
+            TypeArgument = kustomize ? null : "pod/example",
+            Kustomize = kustomize ? "overlay" : null,
+            PatchFile = "patch.json",
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl patch --kustomize=overlay --patch-file=patch.json"
+            : "kubectl patch pod/example --patch-file=patch.json");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Scale_Accepts_Combined_Resource_Or_Kustomize(bool kustomize)
+    {
+        var result = await GetResult(new KubernetesScaleOptions
+        {
+            Type = kustomize ? null : "deployment/example",
+            Kustomize = kustomize ? "overlay" : null,
+            Replicas = 2,
+        });
+        await Assert.That(result.CommandInput).IsEqualTo(kustomize
+            ? "kubectl scale --kustomize=overlay --replicas=2"
+            : "kubectl scale --replicas=2 deployment/example");
+    }
+
+    [Test]
+    [Arguments("label")]
+    [Arguments("annotate")]
+    [Arguments("patch")]
+    [Arguments("scale")]
+    public async Task Name_Without_A_Resource_Source_Is_Rejected(string command)
+    {
+        CommandLineToolOptions options = command switch
+        {
+            "label" => new KubernetesLabelOptions(["app=test"]) { Name = "example" },
+            "annotate" => new KubernetesAnnotateOptions(["owner=test"]) { Name = "example" },
+            "patch" => new KubernetesPatchOptions { Name = "example", PatchFile = "patch.json" },
+            "scale" => new KubernetesScaleOptions { Name = "example", Replicas = 2 },
+            _ => throw new ArgumentOutOfRangeException(nameof(command)),
+        };
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
+    }
+
+    [Test]
+    [Arguments("label", null)]
+    [Arguments("label", false)]
+    [Arguments("annotate", null)]
+    [Arguments("annotate", false)]
+    public async Task Bare_Type_Without_A_Selection_Is_Rejected(string command, bool? all)
+    {
+        CommandLineToolOptions options = command == "label"
+            ? new KubernetesLabelOptions(["app=test"]) { Type = "pods", All = all, Selector = " " }
+            : new KubernetesAnnotateOptions(["owner=test"]) { Type = "pods", All = all, Selector = " " };
+
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
+    }
+
+    [Test]
+    [Arguments("label", false)]
+    [Arguments("label", true)]
+    [Arguments("annotate", false)]
+    [Arguments("annotate", true)]
+    public async Task Resource_Selectors_Do_Not_Require_A_Name(string command, bool fieldSelector)
+    {
+        CommandLineToolOptions options = command == "label"
+            ? new KubernetesLabelOptions(["owner=test"])
+            {
+                Type = "pods",
+                Selector = fieldSelector ? null : "app=web",
+                FieldSelector = fieldSelector ? "metadata.name=web" : null,
+            }
+            : new KubernetesAnnotateOptions(["owner=test"])
+            {
+                Type = "pods",
+                Selector = fieldSelector ? null : "app=web",
+                FieldSelector = fieldSelector ? "metadata.name=web" : null,
+            };
+        var result = await GetResult(options);
+        var selection = fieldSelector ? "--field-selector=metadata.name=web" : "--selector=app=web";
+        await Assert.That(result.CommandInput).IsEqualTo($"kubectl {command} {selection} pods owner=test");
+    }
+
+    [Test]
     public async Task Label_Renders_All_Labels_In_Order()
     {
         var result = await GetResult(new KubernetesLabelOptions(["environment=test", "team=build"])
@@ -231,6 +411,49 @@ public class KubernetesCommandRenderingTests : TestBase
 
         await Assert.That(result.CommandInput)
             .IsEqualTo("kubectl taint nodes example team=build:NoSchedule dedicated-");
+    }
+
+    [Test]
+    [Arguments("label", "pods/")]
+    [Arguments("label", "/web")]
+    [Arguments("annotate", "pods/")]
+    [Arguments("annotate", "/web")]
+    public async Task Incomplete_Combined_Resource_Is_Rejected(string command, string resource)
+    {
+        CommandLineToolOptions options = command == "label"
+            ? new KubernetesLabelOptions(["app=test"]) { Type = resource }
+            : new KubernetesAnnotateOptions(["owner=test"]) { Type = resource };
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
+    }
+
+    [Test]
+    [Arguments("label")]
+    [Arguments("annotate")]
+    [Arguments("patch")]
+    [Arguments("scale")]
+    public async Task Manual_Arguments_Do_Not_Satisfy_Required_Resource_Validation(string command)
+    {
+        CommandLineToolOptions options = command switch
+        {
+            "label" => new KubernetesLabelOptions(["app=test"]),
+            "annotate" => new KubernetesAnnotateOptions(["owner=test"]),
+            "patch" => new KubernetesPatchOptions { PatchFile = "patch.json" },
+            "scale" => new KubernetesScaleOptions { Replicas = 2 },
+            _ => throw new ArgumentOutOfRangeException(nameof(command)),
+        };
+        options = options with { Arguments = ["pods", "example"] };
+        await Assert.ThrowsAsync<CommandOptionsValidationException>(() => GetResult(options));
+    }
+
+    [Test]
+    [Arguments("PatchAsync")]
+    [Arguments("ScaleAsync")]
+    public async Task Resource_Service_Method_Requires_Nonnull_Options(string methodName)
+    {
+        var parameter = typeof(IKubernetes).GetMethod(methodName)!.GetParameters()[0];
+        await Assert.That(parameter.IsOptional).IsFalse();
+        await Assert.That(new System.Reflection.NullabilityInfoContext().Create(parameter).ReadState)
+            .IsEqualTo(System.Reflection.NullabilityState.NotNull);
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
