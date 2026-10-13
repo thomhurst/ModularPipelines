@@ -83,5 +83,14 @@ internal partial class Syft : ISyft
         return await _command.ExecuteCommandLineToolAsync(options ?? new SyftScanOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <inheritdoc />
+    public virtual async Task<CommandResult> VersionAsync(
+        SyftVersionOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new SyftVersionOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
     #endregion
 }
